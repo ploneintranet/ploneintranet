@@ -1,0 +1,195 @@
+
+body {
+}
+
+.topbar .container {
+    width:100%;
+}
+
+.topbar .brand {
+    padding: 5px;
+    margin:0;
+}
+
+.topbar .nav a {
+    padding: 8px;
+}
+
+.topbar .dropdown-menu {
+    top:35px;
+}
+
+#header {
+    width:1000px;
+    margin:50px auto 0;
+}
+
+#main {
+    width:1000px;
+    margin: 10px auto 0 auto;
+}
+
+.hero-unit {
+    background-image: url('../img/mapbg.png');
+    color:#fff;
+}
+
+.hero-unit h1 {
+    color:#fff;
+    font-size: 20pt;
+}
+
+#hero-img {
+    position:relative;
+    float:right;
+    top: -90px;
+    left:50px;
+    height:300px;
+    margin-bottom:-100px;
+}
+
+#companycode {
+    text-align:right;
+}
+
+label {
+    float:none;
+}
+
+dl.actionMenu {
+    margin-bottom:0px;
+}
+
+#edit-bar ul {
+    margin:0px;
+}
+
+.footer {
+    background-color: #EEEEEE;
+    border-top: 1px solid #E5E5E5;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.024) inset;
+    min-width: 940px;
+    padding: 30px 0;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.portlet-footer {
+    font-size:small;
+    margin-bottom:20px;
+    border-top:1px solid #eee;
+    padding-right:20px;
+    text-align:right;
+}
+
+
+#content-core ul {
+  font-size:15px;
+}
+
+#content-core p {
+  font-size:15px;
+}
+
+#content-core dl {
+   font-size:13px;
+}
+
+#portletBelowContentManager {
+    margin-top:20px;
+}
+
+#content-columns {
+    display:table;
+}
+
+#left-column {
+    display:table-cell;
+    width:165px;
+    padding:0 10px;
+    border-right:1px solid #eee;
+}
+
+#center-column {
+    display:table-cell;
+    width:auto;
+    padding:0 5px;
+    border-bottom:1px solid #eee;
+}
+
+#right-column .portlet-header, #left-column .portlet-header {
+    border-bottom:1px solid #ddd;
+    margin-bottom:10px;
+    line-height:27px;
+}
+
+#right-column {
+    display:table-cell;
+    width: 165px;
+    padding:0 10px;
+    border-left:1px solid #eee;
+}
+
+.table-row {
+    display:table-row;
+}
+
+.ploneCalendar td, .ploneCalendar th {
+    padding:2px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.navTree {
+    list-style:none;
+    margin:0px;
+    font-size: 14px;
+}
+
+.navTree .navTree {
+    margin-left: 10px;
+}
+
+.navTree li {
+}
+
+.navTree  a {
+    display:block;
+    padding:5px;
+}
+
+
+.navTreeCurrentItem {
+    border-left: #88cee3 3px solid;
+}
+
+.navTree li {
+    display:block;
+}
+
+.navTree .navTreeItem a {
+    display: block;
+    line-height: inherit;
+    background:none;
+    padding: 5px !important;
+}
+
+.navTree .navTreeItem a:hover {
+    text-decoration:none;
+    background-color: #eee;
+}
+
+#center-column.twocolumns {
+    width: 670px;
+}
+
+#center-column.threecolumns {
+    width: 835px;
+}
+
+#center-column.nocolumns {
+    width: 1000px;
+}
+
+.portletCalendar {
+    text-align:center;
+}
