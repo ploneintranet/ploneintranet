@@ -12,10 +12,16 @@
             </xsl:attribute>
             <h4><xsl:copy-of select="dl/dt/node()"/></h4>
             <div>
-                <xsl:copy-of select="dl/dd[1]/node()"/>
+                <xsl:for-each css:select="dd.portletItem">
+                    <div><xsl:attribute name="class">
+                        <xsl:value-of select="@class"/>
+                        </xsl:attribute>
+                        <xsl:copy-of select="node()"/>
+                    </div>
+                </xsl:for-each>
             </div>
             <div class="portlet-footer">
-                <xsl:copy-of select="dl/dd[2]/node()"/>
+                <xsl:copy-of css:select="dd.portletFooter"/>
             </div>
         </div>
     </xsl:if>
