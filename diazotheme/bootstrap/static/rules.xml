@@ -16,6 +16,15 @@
     <theme href="base.html"/>
     <notheme if-content="html/head/link[@href='/manage_page_style.css']"/>
 
+    <append css:theme="#header">
+        <xsl:if css:test=".AbovePortletManager1">
+            <div id="portletHeader">
+                <xsl:for-each css:select=".AbovePortletManager1 .portletWrapper">
+                    <xi:include href="portlet-rules.xml"/>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+    </append>
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
@@ -28,6 +37,14 @@
                     nocolumns
                 </xsl:if>
             </xsl:attribute>
+            <xsl:if css:test=".AbovePortletManager2">
+                <div id="portletAboveContent">
+                    <xsl:for-each css:select=".AbovePortletManager2 .portletWrapper">
+                        <xi:include href="portlet-rules.xml"/>
+                    </xsl:for-each>
+                </div>
+            </xsl:if>
+            <xsl:copy-of css:select=".managePortletsAboveLink"/>
             <article>
                 <xsl:copy-of css:select="#edit-bar"/>
                 <xsl:copy-of css:select="#kssPortalMessage"/>
