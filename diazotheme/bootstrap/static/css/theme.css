@@ -204,3 +204,11 @@ dl.actionMenu {
 input[type="submit"], input[type="button"], button {
     margin:2px;
 }
+
+.mceToolbar, .mceStatusbar {
+    background: #ddd !important;
+}
+
+.mceToolbar {
+    border-radius: 5px 5px 0 0 !important;
+}
