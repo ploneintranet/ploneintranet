@@ -1,0 +1,13 @@
+
+#portletAboveContent, #portletBelowContentManager, 
+.managePortletsAboveLink, .managePortletsBelowLink {
+    display:none;
+}
+
+#center-column, #header, #content-columns, #main {
+    width:100% !important;
+}
+
+#main, #container {
+    margin:0;
+}

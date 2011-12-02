@@ -4,6 +4,12 @@ body {
 
 .topbar .container {
     width:100%;
+
+}
+
+#container {
+    padding-left: 10px;
+    padding-right:10px;
 }
 
 .topbar .brand {
@@ -107,6 +113,7 @@ dl.actionMenu {
     width:165px;
     padding:0 10px;
     border-right:1px solid #eee;
+    background:#fff;
 }
 
 #center-column {
@@ -192,4 +199,8 @@ dl.actionMenu {
 
 .portletCalendar {
     text-align:center;
+}
+
+input[type="submit"], input[type="button"], button {
+    margin:2px;
 }
