@@ -70,13 +70,20 @@
 
     <append css:theme="#portletBelowContentManager" css:content=".managePortletsBelowLink"/>
 
-
+    <append css:theme="#left-column"
+        css:content="#portletmanager-plone-leftcolumn"/>
+    <append css:theme="#left-column"
+             css:content="#portal-column-one .managePortletsLink"/>
     <replace css:theme-children="#left-column">
         <xsl:for-each css:select="#portal-column-one .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
     </replace>
 
+    <append css:theme="#right-column"
+        css:content="#portletmanager-plone-rightcolumn"/>
+    <append css:theme="#right-column"
+             css:content="#portal-column-two .managePortletsLink"/>
     <replace css:theme-children="#right-column">
         <xsl:for-each css:select="#portal-column-two .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
