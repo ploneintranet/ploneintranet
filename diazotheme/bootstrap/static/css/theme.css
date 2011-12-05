@@ -212,3 +212,31 @@ input[type="submit"], input[type="button"], button {
 .mceToolbar {
     border-radius: 5px 5px 0 0 !important;
 }
+
+#content pre {
+    font-size:12px;
+}
+
+li {
+    color: #595959;
+}
+
+.dropdown-toggle .arrowDownAlternative {
+    display:none;
+}
+
+#action-bar > .tabs > li > a {
+    padding: 0 5px;
+    font-size:12px;
+    line-height:20px;
+}
+
+#action-bar .tabs a.menu:after, 
+#action-bar .tabs .dropdown-toggle:after {
+    margin-top:8px;
+}
+
+#action-bar ul.dropdown-menu {
+    min-width:150px;
+    margin-top:-12px;
+}

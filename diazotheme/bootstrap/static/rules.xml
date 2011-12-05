@@ -12,7 +12,7 @@
     <prepend theme="/html/head" 
         content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
     <append theme="/html/head"
-        css:if-content="body.template-folder_contents">
+        css:if-content="body.template-folder_tabular_view">
         <script src="/++theme++diazotheme.bootstrap/js/fullwidth.js"></script>
     </append>
     <append theme="/html/head"
@@ -22,11 +22,13 @@
     </append>
 
 
-    <theme href="base.html"/>
+    <theme href="base.html" css:if-content="#visual-portal-wrapper"/>
+    <!--    
     <notheme if-content="html/head/link[@href='/manage_page_style.css']"/>
     <notheme css:if-content="#content.dialog-wrapper"/>
     <notheme css:if-content="body.popup"/>
-    <drop css:theme="#right-column" css:if-content="body.template-folder_contents"/>
+    -->
+    <drop css:theme="#right-column" css:if-content="body.template-folder_tabular_view"/>
     <drop css:theme="#right-column" css:if-content="body.template-atct_edit"/>
     <drop css:theme="#left-column" css:if-content="body.template-atct_edit"/>
 
@@ -60,7 +62,27 @@
             </xsl:if>
             <xsl:copy-of css:select=".managePortletsAboveLink"/>
             <article>
-                <xsl:copy-of css:select="#edit-bar"/>
+                <div id="action-bar">
+                    <ul class="tabs">
+                    <xsl:for-each css:select="#content-views > li">
+                        <xi:include href="navigation-rules.xml"/>
+                    </xsl:for-each>
+                    <xsl:for-each css:select="#contentActionMenus > li">
+                        <li class="dropdown" data-dropdown="dropdown" style="float:right">
+                            <a class="dropdown-toggle" href="#"><xsl:attribute name="href">
+                                    <xsl:value-of select="dl/dt/a/@href"/>
+                                </xsl:attribute>
+                                <xsl:copy-of select="dl/dt/a/span"/>
+                            </a>
+                            <ul class="dropdown-menu" style="min-width:150px;margin-top:-12px;">
+                                <xsl:for-each css:select=".actionMenuContent > ul > li">
+                                    <xsl:copy-of select="current()"/>
+                                </xsl:for-each>
+                            </ul>
+                        </li>
+                    </xsl:for-each>
+                    </ul>
+                </div>
                 <xsl:copy-of css:select="#kssPortalMessage"/>
                 <xsl:copy-of css:select="#content"/>
             </article>
@@ -88,9 +110,6 @@
 
     <copy css:theme=".brand" css:content="#portal-logo" attributes="href"/>
 
-    <before css:theme="#content" css:content="#edit-bar"/>
-    <before css:theme="#content" css:content="#kssPortalMessage"/>
-
     <replace css:theme-children=".breadcrumb">
         <xsl:for-each css:select="#portal-breadcrumbs > span">
             <li>
@@ -103,22 +122,24 @@
 
     <append css:theme="#left-column"
         css:content="#portletmanager-plone-leftcolumn"/>
-    <append css:theme="#left-column"
-             css:content="#portal-column-one .managePortletsLink"/>
     <replace css:theme-children="#left-column">
-        <xsl:for-each css:select="#portal-column-one .portletWrapper">
-            <xi:include href="portlet-rules.xml"/>
-        </xsl:for-each>
+        <div>
+            <xsl:for-each css:select="#portal-column-one .portletWrapper">
+                <xi:include href="portlet-rules.xml"/>
+            </xsl:for-each>
+            <xsl:copy-of css:select="#portal-column-one .managePortletsLink"/>
+        </div>
     </replace>
 
     <append css:theme="#right-column"
         css:content="#portletmanager-plone-rightcolumn"/>
-    <append css:theme="#right-column"
-             css:content="#portal-column-two .managePortletsLink"/>
     <replace css:theme-children="#right-column">
-        <xsl:for-each css:select="#portal-column-two .portletWrapper">
-            <xi:include href="portlet-rules.xml"/>
-        </xsl:for-each>
+        <div>
+            <xsl:for-each css:select="#portal-column-two .portletWrapper">
+                <xi:include href="portlet-rules.xml"/>
+            </xsl:for-each>
+            <xsl:copy-of css:select="#portal-column-two .managePortletsLink"/>
+        </div>
     </replace>
 
     <replace css:theme-children="#portletBelowContentA">

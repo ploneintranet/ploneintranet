@@ -13,29 +13,23 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
-    var leftcolumnorig = $('#left-column').offset().top;
+    var container = $('#left-column > div').first();
+    var leftcolumnorig = container.offset().top;
     var fixedleftcol = function () {
         if ($(window).scrollTop() > (leftcolumnorig - 34)) {
-            $('#left-column').css({
+            container.css({
                 'position':'fixed',
                 'top':'34px',
-                'padding-right':'10px',
                 'width':'162px'
             });
-            $('#center-column').css({
-                'padding-left':'188px'
-            })
+            $('#left-column').css({'width':'167px'});
         }else {
-            $('#left-column').css({
+            container.css({
                 'position':'',
                 'top':'',
-                'padding-right':'',
                 'width':''
             });
-            $('#center-column').css({
-                'padding-left':''
-            })
-
+            $('#left-column').css({'width':''});
         }
     }
     $(window).bind('resize scroll', fixedleftcol);
