@@ -32,6 +32,8 @@
     <drop css:theme="#right-column" css:if-content="body.template-atct_edit"/>
     <drop css:theme="#left-column" css:if-content="body.template-atct_edit"/>
 
+
+
     <append css:theme="#header">
         <xsl:if css:test=".AbovePortletManager1">
             <div id="portletHeader">
@@ -67,7 +69,11 @@
                     <xsl:if test="not(contains(@id,'kssPortalMessage'))">
                     <div><xsl:attribute name="class">
                             alert-message <xsl:value-of select="@class"/>
-                        </xsl:attribute>
+                            </xsl:attribute><xsl:attribute name="id">
+                            <xsl:value-of select="@id"/>
+                            </xsl:attribute><xsl:attribute name="style">
+                            <xsl:value-of select="@style"/>
+                            </xsl:attribute>
                         <xsl:copy-of select="dd/node()"/>
                     </div>
                     </xsl:if>
@@ -98,6 +104,7 @@
             </article>
         </div>
     </replace>
+    <drop css:content="#enable_cookies_message"/>
     <drop css:theme=".hero-unit" css:if-not-content=".section-front-page"/>
     <drop css:theme="#left-column" css:if-not-content="#portal-column-one"/>
     <drop css:theme="#right-column" css:if-not-content="#portal-column-two"/>
