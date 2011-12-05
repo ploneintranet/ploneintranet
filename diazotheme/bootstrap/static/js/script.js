@@ -3,7 +3,7 @@
 */
 
 $(document).ready(function () {
-    $('#content-core .portalMessage').remove();
+    $('#content .portalMessage').remove();
 })
 
 
