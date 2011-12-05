@@ -62,6 +62,16 @@
             </xsl:if>
             <xsl:copy-of css:select=".managePortletsAboveLink"/>
             <article>
+                <xsl:copy-of css:select="#kssPortalMessage"/>
+                <xsl:for-each css:select=".portalMessage">
+                    <xsl:if test="not(contains(@id,'kssPortalMessage'))">
+                    <div><xsl:attribute name="class">
+                            alert-message <xsl:value-of select="@class"/>
+                        </xsl:attribute>
+                        <xsl:copy-of select="dd/node()"/>
+                    </div>
+                    </xsl:if>
+                </xsl:for-each>
                 <div id="action-bar">
                     <ul class="tabs">
                     <xsl:for-each css:select="#content-views > li">
@@ -83,7 +93,7 @@
                     </xsl:for-each>
                     </ul>
                 </div>
-                <xsl:copy-of css:select="#kssPortalMessage"/>
+
                 <xsl:copy-of css:select="#content"/>
             </article>
         </div>
