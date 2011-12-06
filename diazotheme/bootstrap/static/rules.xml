@@ -7,7 +7,7 @@
     >
     <replace theme="/html/head/title" content="/html/head/title" />
 
-    <prepend theme="/html/head" content="/html/head/base"/>
+
 
     <theme href="base.html" css:if-content="#visual-portal-wrapper"/>
     <theme href="html5slides/template/index.html" css:if-content=".presentation"/>
@@ -31,7 +31,9 @@
     <notheme css:if-content="body.popup"/>
     -->
     <rules css:if-content="#visual-portal-wrapper">
-    
+   
+   
+    <prepend theme="/html/head" content="/html/head/base"/>   
     <replace theme="//*[@id='logo']/h1" content="//*[@id='content']/h1"/>
 
     <prepend theme="/html/head" 
