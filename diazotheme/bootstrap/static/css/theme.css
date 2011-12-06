@@ -21,6 +21,10 @@ h1, h2, h3, h4, h5 {
     margin:0;
 }
 
+.topbar h3 {
+    margin:0;
+}
+
 .topbar .nav a {
     padding: 8px;
 }
