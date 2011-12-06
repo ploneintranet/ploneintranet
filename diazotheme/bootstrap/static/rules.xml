@@ -33,8 +33,11 @@
     <rules css:if-content="#visual-portal-wrapper">
    
    
-    <prepend theme="/html/head" content="/html/head/base"/>   
+    <prepend theme="/html/head" content="/html/head/base"/>
+
     <replace theme="//*[@id='logo']/h1" content="//*[@id='content']/h1"/>
+
+
 
     <prepend theme="/html/head" 
         content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
@@ -59,6 +62,9 @@
             </div>
         </xsl:if>
     </append>
+
+    <copy css:theme="#topsearchbox" css:content="#portal-searchbox form" attributes="action"/>
+    
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
