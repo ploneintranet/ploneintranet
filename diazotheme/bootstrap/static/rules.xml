@@ -85,6 +85,7 @@
                 </div>
             </xsl:if>
             <xsl:copy-of css:select=".managePortletsAboveLink"/>
+            <xsl:copy-of css:select="#viewlet-above-content"/>
             <article>
                 <xsl:copy-of css:select="#kssPortalMessage"/>
                 <xsl:for-each css:select=".portalMessage">
@@ -124,6 +125,7 @@
 
                 <xsl:copy-of css:select="#content"/>
             </article>
+            <xsl:copy-of css:select="#viewlet-below-content"/>
         </div>
     </replace>
     <drop css:content="#enable_cookies_message"/>
