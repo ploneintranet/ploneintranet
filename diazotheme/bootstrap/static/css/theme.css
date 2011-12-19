@@ -309,3 +309,18 @@ input[type="submit"]:focus{outline:1px dotted #666;}
 #portal-breadcrumbs {
     display:none;
 }
+
+
+#commenting legend {
+    padding:0;
+}
+
+#commenting textarea {
+    width:90%;
+}
+
+#commenting {
+    border-top: 1px solid #ccc;
+    margin-top:50px;
+    padding-top:20px;
+}
