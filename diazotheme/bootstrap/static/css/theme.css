@@ -305,3 +305,7 @@ input[type="submit"]:focus{outline:1px dotted #666;}
 .UserRatings label {
     width:auto;
 }
+
+#portal-breadcrumbs {
+    display:none;
+}
