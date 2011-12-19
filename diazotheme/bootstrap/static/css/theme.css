@@ -114,6 +114,7 @@ dl.actionMenu {
 
 #content-columns {
     display:table;
+    vertical-align:top;
 }
 
 #left-column {
@@ -122,6 +123,7 @@ dl.actionMenu {
     padding:0 10px;
     border-right:1px solid #eee;
     background:#fff;
+    vertical-align:top;
 }
 
 #center-column {
@@ -129,6 +131,7 @@ dl.actionMenu {
     width:auto;
     padding:0 5px;
     border-bottom:1px solid #eee;
+    vertical-align:top;
 }
 
 #right-column .portlet-header, #left-column .portlet-header {
@@ -142,6 +145,7 @@ dl.actionMenu {
     width: 165px;
     padding:0 10px;
     border-left:1px solid #eee;
+    vertical-align:top;
 }
 
 .table-row {

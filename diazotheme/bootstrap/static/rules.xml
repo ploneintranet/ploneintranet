@@ -68,10 +68,10 @@
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
-                    threecolumns
+                    twocolumns
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-1:2")'>
-                    twocolumns
+                    threecolumns
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-full")'>
                     nocolumns
