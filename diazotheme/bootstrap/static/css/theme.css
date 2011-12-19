@@ -294,7 +294,7 @@ input[type="submit"]{cursor:pointer;display:inline-block;background-color:#e6e6e
 input[type="submit"]:focus{outline:1px dotted #666;}
 
 
-.RatingViewlet {
+.UserRatings {
     padding-top:10px;
     padding-right:5px;
     padding-left:5px;
@@ -302,6 +302,6 @@ input[type="submit"]:focus{outline:1px dotted #666;}
     border:1px solid #aaa;
 }
 
-.RatingViewlet label {
+.UserRatings label {
     width:auto;
 }
