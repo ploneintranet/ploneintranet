@@ -6,6 +6,9 @@ $(document).ready(function () {
         $('#__ac_identity_url').wrap(inputarea);
         $('#fieldset-openid-login form').attr('id', 'openid_form');
         var base = $('base').attr('href');
+        if (base[base.length-1] != '/') {
+            base = base + '/';
+        }
         openid.img_path = base + '++theme++diazotheme.bootstrap/openid-selector/images/';
         openid.init('__ac_identity_url');
         $('#fieldset-openid-login .formControls').hide();
