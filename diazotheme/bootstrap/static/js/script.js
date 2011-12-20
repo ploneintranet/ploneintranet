@@ -4,15 +4,4 @@
 
 $(document).ready(function () {
     $('#content .portalMessage').remove();
-    if ($('#__ac_identity_url')) {
-        $('#__ac_identity_url').before('<div id="openid_btns"></div><div id="openid_input_area"></div>');
-        $('#fieldset-openid-login form').attr('id', 'openid_form');
-        var base = $('base').attr('href');
-        openid.img_path = base + '++theme++diazotheme.bootstrap/openid-selector/images/';
-        openid.init('__ac_identity_url');
-        $('#__ac_identity_url').hide();
-        $('#fieldset-openid-login .formControls').hide();
-        $('#openid_form h3').text('Please select your OpenID Account Provider:');
-        $('#openid_form label[for="__ac_identity_url"]').hide();
-    }
 })

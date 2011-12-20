@@ -324,3 +324,8 @@ input[type="submit"]:focus{outline:1px dotted #666;}
     margin-top:50px;
     padding-top:20px;
 }
+
+#login-form form {
+    width:800px;
+}
+
