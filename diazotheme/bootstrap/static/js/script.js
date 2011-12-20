@@ -5,7 +5,7 @@
 $(document).ready(function () {
     $('#content .portalMessage').remove();
     if ($('#__ac_identity_url')) {
-        $('#__ac_identity_url').before('<div id="openid_btns"></div>');
+        $('#__ac_identity_url').before('<div id="openid_btns"></div><div id="openid_input_area"></div>');
         $('#fieldset-openid-login form').attr('id', 'openid_form');
         var base = $('base').attr('href');
         openid.img_path = base + '++theme++diazotheme.bootstrap/openid-selector/images/';
