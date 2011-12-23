@@ -343,6 +343,11 @@ div.row {
 
 #action-bar .dropdown-menu li a {
     display:block !important;
-    padding:0 !important;
+    padding:0 0 0 20px !important;
     line-height:2em;
+}
+
+#action-bar .dropdown-menu li a img {
+    margin-left: -20px !important;
+    margin-right: 3px !important;
 }
