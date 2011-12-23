@@ -340,3 +340,9 @@ div.row {
 .row .field {
     margin-left:20px;
 }
+
+#action-bar .dropdown-menu li a {
+    display:block !important;
+    padding:0 !important;
+    line-height:2em;
+}
