@@ -336,3 +336,7 @@ input[type="button"]:focus{outline:1px dotted #666;}
 div.row {
     float:none;
 }
+
+.row .field {
+    margin-left:20px;
+}
