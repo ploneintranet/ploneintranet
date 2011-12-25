@@ -41,17 +41,6 @@
 
     <prepend theme="/html/head" 
         content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
-    <append theme="/html/head"
-        css:if-content="body.template-atct_edit">
-        <link rel="stylesheet" 
-            href="++theme++diazotheme.bootstrap/css/editview.css"/>
-    </append>
-
-
-    <drop css:theme="#right-column" css:if-content="body.template-atct_edit"/>
-    <drop css:theme="#left-column" css:if-content="body.template-atct_edit"/>
-
-
 
     <append css:theme="#header">
         <xsl:if css:test=".AbovePortletManager1">
@@ -133,7 +122,7 @@
                     </ul>
                 </div>
 
-                <xsl:copy-of css:select="#content"/>
+                <xsl:apply-templates css:select="#content"/>
             </article>
             <div class="visualClear"/>
             <div id="#viewlet-below-content">
