@@ -64,7 +64,6 @@
     </append>
 
     <copy css:theme="#topsearchbox" css:content="#portal-searchbox form" attributes="action"/>
-    
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
@@ -84,8 +83,19 @@
                     </xsl:for-each>
                 </div>
             </xsl:if>
-            <xsl:copy-of css:select=".managePortletsAboveLink"/>
-            <xsl:copy-of css:select="#viewlet-above-content"/>
+            <div id="#viewlet-above-content">
+                <xsl:for-each css:select="#viewlet-above-content > *">
+                    <xsl:if test="@id">
+                    <xsl:if test="@id!='portlets-above' and
+                                  @id!='portal-breadcrumbs'">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="not(@id)">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
             <article>
                 <xsl:copy-of css:select="#kssPortalMessage"/>
                 <xsl:for-each css:select=".portalMessage">
@@ -125,7 +135,19 @@
 
                 <xsl:copy-of css:select="#content"/>
             </article>
-            <xsl:copy-of css:select="#viewlet-below-content"/>
+            <div class="visualClear"/>
+            <div id="#viewlet-below-content">
+                <xsl:for-each css:select="#viewlet-below-content > *">
+                    <xsl:if test="@id">
+                    <xsl:if test="@id!='portlets-below'">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="not(@id)">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
         </div>
     </replace>
     <drop css:content="#enable_cookies_message"/>
@@ -158,8 +180,6 @@
             </li>
         </xsl:for-each>
     </replace>
-
-    <append css:theme="#portletBelowContentManager" css:content=".managePortletsBelowLink"/>
 
     <append css:theme="#left-column"
         css:content="#portletmanager-plone-leftcolumn"/>
