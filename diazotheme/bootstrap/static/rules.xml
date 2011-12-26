@@ -170,6 +170,10 @@
         </xsl:for-each>
     </replace>
 
+    <append css:theme=".footer .container" css:content-children="#portal-footer"/>
+    <append css:theme=".footer .container" css:content="#portal-colophon"/>
+    <append css:theme=".footer .container" css:content="div#visual-portal-wrapper > div.row > script"/>
+
     <append css:theme="#left-column"
         css:content="#portletmanager-plone-leftcolumn"/>
     <replace css:theme-children="#left-column">
