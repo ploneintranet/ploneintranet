@@ -347,3 +347,27 @@ div.row {
     margin-left: -20px !important;
     margin-right: 3px !important;
 }
+
+#content a.btn:link, dl.portlet a.btn:link {
+    border-bottom: none;
+    color: #333;
+}
+
+a.btn:link, a.btn:visited {
+    color: #333;
+}
+
+#content .btn-primary, 
+#content .btn-primary:hover, 
+#content .btn-warning, 
+#content .btn-warning:hover, 
+#content .btn-danger, 
+#content .btn-danger:hover, 
+#content .btn-success, 
+#content .btn-success:hover, 
+#content .btn-info, 
+#content .btn-info:hover, 
+#content .btn-inverse, 
+#content .btn-inverse:hover {
+    color: #FFFFFF !important;
+}
