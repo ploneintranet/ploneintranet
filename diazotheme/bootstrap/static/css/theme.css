@@ -371,3 +371,21 @@ a.btn:link, a.btn:visited {
 #content .btn-inverse:hover {
     color: #FFFFFF !important;
 }
+
+#content .nav li {
+    display:block;
+    margin-bottom:0;
+}
+
+#content .navbar a:link, #content .navbar a:visited, #content .navbar a:hover {
+
+    color:#fff;
+}
+
+#content .nav a:link, #content .nav a:visited, #content .nav a:hover {
+    border-bottom:none;
+}
+
+#content .navbar {
+    margin-left:20px;
+}
