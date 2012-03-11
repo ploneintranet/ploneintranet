@@ -116,21 +116,23 @@ dl.actionMenu {
     display:table;
     vertical-align:top;
 }
-
 #left-column {
-    display:table-cell;
-    width:165px;
     padding:0 10px;
     border-right:1px solid #eee;
-    background:#fff;
     vertical-align:top;
 }
 
 #center-column {
-    display:table-cell;
-    width:auto;
     padding:0 5px;
     border-bottom:1px solid #eee;
+    vertical-align:top;
+}
+
+
+
+#right-column {
+    padding:0 10px;
+    border-left:1px solid #eee;
     vertical-align:top;
 }
 
@@ -138,14 +140,6 @@ dl.actionMenu {
     border-bottom:1px solid #ddd;
     margin-bottom:10px;
     line-height:27px;
-}
-
-#right-column {
-    display:table-cell;
-    width: 165px;
-    padding:0 10px;
-    border-left:1px solid #eee;
-    vertical-align:top;
 }
 
 .table-row {
@@ -195,14 +189,6 @@ dl.actionMenu {
 .navTree .navTreeItem a:hover {
     text-decoration:none;
     background-color: #eee;
-}
-
-#center-column.twocolumns {
-    width: 835px;
-}
-
-#center-column.threecolumns {
-    width: 670px;
 }
 
 #center-column.nocolumns {

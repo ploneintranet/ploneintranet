@@ -56,13 +56,13 @@
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
-                    twocolumns
+                    twocolumns span11
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-1:2")'>
-                    threecolumns
+                    threecolumns span8
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-full")'>
-                    nocolumns
+                    nocolumns span14
                 </xsl:if>
             </xsl:attribute>
             <xsl:if css:test=".AbovePortletManager2">
