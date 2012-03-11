@@ -6,7 +6,7 @@ h1, h2, h3, h4, h5 {
     margin-bottom:5px;
 }
 
-.topbar .container {
+.navbar-fixed-top .container {
     width:100%;
 
 }
@@ -34,12 +34,12 @@ h1, h2, h3, h4, h5 {
 }
 
 #header {
-    width:1000px;
+    width:1170px;
     margin:50px auto 0;
 }
 
 #main {
-    width:1000px;
+    width:1170px;
     margin: 10px auto 0 auto;
 }
 
@@ -206,7 +206,7 @@ dl.actionMenu {
 }
 
 #center-column.nocolumns {
-    width: 1000px;
+    width: 1170px;
 }
 
 .portletCalendar {
@@ -237,20 +237,31 @@ li {
     display:none;
 }
 
-#action-bar > .tabs > li > a {
+#action-bar > .nav-tabs > li > a {
     padding: 0 5px;
     font-size:12px;
     line-height:20px;
 }
 
-#action-bar .tabs a.menu:after, 
-#action-bar .tabs .dropdown-toggle:after {
+#action-bar > .nav-tabs {
+    margin-left:0;
+}
+
+#main label {
+    display:inline;
+}
+
+.footer > .container {
+    width:1170px;
+}
+
+#action-bar .nav-tabs a.menu:after, 
+#action-bar .nav-tabs .dropdown-toggle:after {
     margin-top:8px;
 }
 
 #action-bar ul.dropdown-menu {
     min-width:150px;
-    margin-top:-12px;
 }
 
 div.listingBar {

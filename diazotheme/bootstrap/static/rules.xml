@@ -101,7 +101,7 @@
                     </xsl:if>
                 </xsl:for-each>
                 <div id="action-bar">
-                    <ul class="tabs">
+                    <ul class="nav-tabs">
                     <xsl:for-each css:select="#content-views > li">
                         <xi:include href="navigation-rules.xml"/>
                     </xsl:for-each>
@@ -111,8 +111,9 @@
                                     <xsl:value-of select="dl/dt/a/@href"/>
                                 </xsl:attribute>
                                 <xsl:copy-of select="dl/dt/a/span"/>
+                                <b class="caret"></b>
                             </a>
-                            <ul class="dropdown-menu" style="min-width:150px;margin-top:-12px;">
+                            <ul class="dropdown-menu" style="min-width:150px;">
                                 <xsl:for-each css:select=".actionMenuContent > ul > li">
                                     <xsl:copy-of select="current()"/>
                                 </xsl:for-each>

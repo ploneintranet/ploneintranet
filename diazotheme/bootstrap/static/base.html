@@ -26,7 +26,8 @@
       <!-- CSS concatenated and minified via ant build script-->
       <link rel="stylesheet" href="css/reset.css"/>
       <link rel="stylesheet" href="css/style.css"/>
-      <link rel="stylesheet" href="css/bootstrap.min.css"/>
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+
       <link rel="stylesheet" href="openid-selector/css/openid.css"/>
       <link rel="stylesheet" href="css/theme.css"/>
       <link rel="stylesheet" href="jqueryui/css/eggplant/jquery-ui-1.8.5.custom.css"/>
@@ -43,12 +44,10 @@
 
       <body>
 
-         <div class="topbar">
-            <div class="fill">
+         <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
                <div class="container">
-                  <h3>
-                     <a class="brand" href="/dashboard"><img src="img/home.png"/></a>
-                  </h3>
+                  <a class="brand" href="/dashboard"><img src="img/home.png"/></a>
 
                   <ul id="nav" class="nav">
                      <li><a href="#about">About</a></li>
@@ -61,18 +60,19 @@
                      <li><a href="#contact">Contact</a></li>
                   </ul>
 
-                  <ul id="secondary-nav" class="nav secondary-nav">
+                  <ul id="secondary-nav" class="nav pull-right">
                      <li class="dropdown" data-dropdown="dropdown">
-                     <a class="dropdown-toggle" href="#"
-                        id="personaltool-menuheader">User</a>
+                     <a class="dropdown-toggle" href="#">
+                        <span id="personaltool-menuheader">User</span>
+                        <b class="caret"></b></a>
                      <ul class="dropdown-menu" id="personaltool-menu">
                         <li><a href="#">Dashboard</a></li>
                         <li><a href="#">Logout</a></li>
                      </ul>
                      </li>
                   </ul>
-                  <form id="topsearchbox" class="pull-right">
-                     <input name="SearchableText" placeholder="Search"/>
+                  <form id="topsearchbox" class="navbar-search pull-right">
+                     <input class="search-query" name="SearchableText" placeholder="Search"/>
                   </form>
                </div>
             </div>
@@ -212,12 +212,12 @@
                   </div>
                </div>
                <div id="portletBelowContentManager" class="row">
-                  <div id="portletBelowContentA" class="span5">
+                  <div id="portletBelowContentA" class="span4">
                      <p id="companycode">
                      <img src="img/inigologo.png"/><br/>
                      (846624A)</p>
                   </div>
-                  <div id="portletBelowContentB" class="span5 offset1">
+                  <div id="portletBelowContentB" class="span4 offset1">
                      <h2>Who are we?</h2>
                      <p>Inigo Consulting is a Malaysian based fully employee owned
                      company that
@@ -225,7 +225,7 @@
                      companies to help them deliver their goals in a cost effective manner.
                      </p>
                   </div>
-                  <div id="portletBelowContentC" class="span5 offset1">
+                  <div id="portletBelowContentC" class="span4 offset1">
 
                      <h2>Contact Us</h2>
                      <p>Inigo Consulting Sdn Bhd <br/>
@@ -243,27 +243,27 @@
             <div class="footer">
                <div class="container">
                <div id="portletFooterManager" class="row">
-                  <div id="portletFooterA" class="span3">
+                  <div id="portletFooterA" class="offset1 span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
                   </div>
-                  <div id="portletFooterB" class="span3">
+                  <div id="portletFooterB" class="span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
                   </div>
-                  <div id="portletFooterC" class="span3">
+                  <div id="portletFooterC" class="span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
                   </div>
-                  <div id="portletFooterD" class="span3">
+                  <div id="portletFooterD" class="span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
                   </div>
-                  <div id="portletFooterE" class="span3">
+                  <div id="portletFooterE" class="span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
@@ -290,12 +290,24 @@
 
 
             <!-- scripts concatenated and minified via ant build script-->
+            <script>
+               var jQuery14 = jQuery;
+            </script>
+            <script src="jquery-1.7.1.min.js"></script>
+            <script src="bootstrap/js/bootstrap.js"></script>
+            <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+            <script>
+               var jQuery17 = jQuery;
+               $ = jQuery14;
+               jQuery = jQuery14;
+               jQuery17('.dropdown-toggle').dropdown()
+            </script>
             <script defer src="js/plugins.js"></script>
             <script defer src="openid-selector/js/openid-jquery.js"></script>
             <script defer src="js/openid-providers.js"></script>
             <script defer src="js/openid-wrapper.js"></script>
             <script defer src="js/script.js"></script>
-            <script defer src="js/bootstrap-dropdown.js"></script>
+
 
             <!-- end scripts-->
 
