@@ -90,7 +90,7 @@
                 <xsl:for-each css:select=".portalMessage">
                     <xsl:if test="not(contains(@id,'kssPortalMessage'))">
                     <div><xsl:attribute name="class">
-                            alert-message <xsl:value-of select="@class"/>
+                            alert alert-<xsl:value-of select="@class"/>
                             </xsl:attribute><xsl:attribute name="id">
                             <xsl:value-of select="@id"/>
                             </xsl:attribute><xsl:attribute name="style">
