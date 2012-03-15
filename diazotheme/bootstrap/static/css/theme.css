@@ -377,9 +377,12 @@ a.btn:link, a.btn:visited {
     margin-bottom:0;
 }
 
-#content .navbar a:link, #content .navbar a:visited, #content .navbar a:hover {
-
+#content .navbar a:link, #content .navbar a:visited {
     color:#fff;
+}
+
+#content .navbar a:hover {
+    color:#fff !important;
 }
 
 #content .nav a:link, #content .nav a:visited, #content .nav a:hover {
@@ -388,4 +391,8 @@ a.btn:link, a.btn:visited {
 
 #content .navbar {
     margin-left:20px;
+}
+
+#content .navbar .dropdown-menu a {
+    color: #555;
 }
