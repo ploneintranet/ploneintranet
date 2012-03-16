@@ -389,9 +389,6 @@ a.btn:link, a.btn:visited {
     border-bottom:none;
 }
 
-#content .navbar {
-    margin-left:20px;
-}
 
 #content .navbar .dropdown-menu a {
     color: #555;
