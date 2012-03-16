@@ -475,18 +475,16 @@ dl.portlet {
 
 }
 
-#content a:link,
 dl.portlet a:link {
     color: #205c90;
     border-bottom: 0.1em solid #ccc;
 }
 
-#content a:visited,
 dl.portlet a:visited {
     color: #427597;
     border-bottom: 0.1em solid #ccc;
 }
-#content a:hover,
+
 dl.portlet a:hover {
     color: #75ad0a !important; /* This one gets an !important because it should always activate in the content area, even when state coloring is active */
 }
@@ -520,11 +518,6 @@ dl.portlet a:hover {
 }
 #category .separator {
     display: none;
-}
-
-#content ul {
-    list-style-type: disc;
-    margin-left: 2em;
 }
 
 #content ol,
@@ -2028,8 +2021,6 @@ a.historyComparePrevious span {
 .icons-on #plone-contentmenu-factories .contenttype-file,
 .icons-on #plone-contentmenu-factories .contenttype-image {
     line-height: 2em;
-    display: inline-block;
-    *display: block;
     padding-left: 20px !important;
 }
 
