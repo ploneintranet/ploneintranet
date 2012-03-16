@@ -393,3 +393,7 @@ a.btn:link, a.btn:visited {
 #content .navbar .dropdown-menu a {
     color: #555;
 }
+
+#content ul.thumbnails {
+    list-style-type:none;
+}
