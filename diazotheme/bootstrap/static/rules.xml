@@ -212,7 +212,11 @@
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
     </replace>
-
+    <replace css:theme-children="#portletBelowContentD">
+        <xsl:for-each css:select=".BelowPortletManager4 .portletWrapper">
+            <xi:include href="portlet-rules.xml"/>
+        </xsl:for-each>
+    </replace>
     <replace css:theme-children="#portletFooterA">
         <xsl:for-each css:select=".FooterPortletManager1 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
