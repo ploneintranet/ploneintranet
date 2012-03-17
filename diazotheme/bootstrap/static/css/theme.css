@@ -350,3 +350,7 @@ a.btn:link, a.btn:visited {
 #action-bar .subMenuTitle {
     padding-left:5px;
 }
+
+.row-fluid .container {
+    width:100%;
+}
