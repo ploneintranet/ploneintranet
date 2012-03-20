@@ -56,13 +56,13 @@
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
-                    twocolumns span11
+                    twocolumns span9
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-1:2")'>
-                    threecolumns span8
+                    threecolumns span6
                 </xsl:if>
                 <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-full")'>
-                    nocolumns span14
+                    nocolumns span12
                 </xsl:if>
             </xsl:attribute>
             <xsl:if css:test=".AbovePortletManager2">
@@ -171,13 +171,13 @@
         </xsl:for-each>
     </replace>
 
-    <append css:theme=".footer .container" css:content-children="#portal-footer"/>
-    <append css:theme=".footer .container" css:content="#portal-colophon"/>
-    <append css:theme=".footer .container" css:content="div#visual-portal-wrapper > div.row > script"/>
+    <append css:theme=".footer" css:content-children="#portal-footer"/>
+    <append css:theme=".footer" css:content="#portal-colophon"/>
+    <append css:theme=".footer" css:content="div#visual-portal-wrapper > div.row > script"/>
 
-    <append css:theme="#left-column"
+    <append css:theme="#left-column-content"
         css:content="#portletmanager-plone-leftcolumn"/>
-    <replace css:theme-children="#left-column">
+    <replace css:theme-children="#left-column-content">
         <div>
             <xsl:for-each css:select="#portal-column-one .portletWrapper">
                 <xi:include href="portlet-rules.xml"/>
@@ -186,9 +186,9 @@
         </div>
     </replace>
 
-    <append css:theme="#right-column"
+    <append css:theme="#right-column-content"
         css:content="#portletmanager-plone-rightcolumn"/>
-    <replace css:theme-children="#right-column">
+    <replace css:theme-children="#right-column-content">
         <div>
             <xsl:for-each css:select="#portal-column-two .portletWrapper">
                 <xi:include href="portlet-rules.xml"/>

@@ -33,13 +33,15 @@ h1, h2, h3, h4, h5 {
     top:35px;
 }
 
-#header {
+.span14 {
     width:1170px;
+}
+
+#header {
     margin:50px auto 0;
 }
 
 #main {
-    width:1170px;
     margin: 10px auto 0 auto;
 }
 
@@ -82,7 +84,6 @@ dl.actionMenu {
     background-color: #EEEEEE;
     border-top: 1px solid #E5E5E5;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.024) inset;
-    min-width: 940px;
     padding: 30px 0;
     text-shadow: 0 1px 0 #FFFFFF;
 }
@@ -116,13 +117,13 @@ dl.actionMenu {
     display:table;
     vertical-align:top;
 }
-#left-column {
+#left-column-content {
     padding:0 10px;
     border-right:1px solid #eee;
     vertical-align:top;
 }
 
-#center-column {
+#center-column-content {
     padding:0 5px;
     border-bottom:1px solid #eee;
     vertical-align:top;
@@ -130,7 +131,7 @@ dl.actionMenu {
 
 
 
-#right-column {
+#right-column-content {
     padding:0 10px;
     border-left:1px solid #eee;
     vertical-align:top;
@@ -192,7 +193,6 @@ dl.actionMenu {
 }
 
 #center-column.nocolumns {
-    width: 1170px;
 }
 
 .portletCalendar {
@@ -238,7 +238,6 @@ li {
 }
 
 .footer > .container {
-    width:1170px;
 }
 
 #action-bar .nav-tabs a.menu:after, 

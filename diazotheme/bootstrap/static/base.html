@@ -28,6 +28,7 @@
       <link rel="stylesheet" href="css/reset.css"/>
       <link rel="stylesheet" href="css/style.css"/>
       <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+      <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css"/>
 
       <link rel="stylesheet" href="openid-selector/css/openid.css"/>
       <link rel="stylesheet" href="css/theme.css"/>
@@ -48,8 +49,15 @@
          <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                <div class="container">
-                  <a class="brand" href="/dashboard"><img src="img/home.png"/></a>
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </a>
+               <a class="brand" href="/dashboard"><img src="img/home.png"/></a>
 
+
+               <div class="nav-collapse in">
                   <ul id="nav" class="nav">
                      <li><a href="#about">About</a></li>
                      <li class="dropdown" data-dropdown='dropdown'>
@@ -60,7 +68,6 @@
                      </li>
                      <li><a href="#contact">Contact</a></li>
                   </ul>
-
                   <ul id="secondary-nav" class="nav pull-right">
                      <li class="dropdown" data-dropdown="dropdown">
                      <a class="dropdown-toggle" href="#">
@@ -76,11 +83,12 @@
                      <input class="search-query" name="SearchableText" placeholder="Search"/>
                   </form>
                </div>
+               </div>
             </div>
 
          </div>
 
-         <div id="container">
+         <div id="container" class="container">
             <div id="header">
                <img id="logo" src="img/logo.png"/>
             </div>
@@ -95,6 +103,7 @@
                <div id="content-columns">
                   <div class="row">
                      <div id="left-column" class="span3">
+                        <div id="left-column-content">
                         <section>
                            <h4 class="portlet-header">Navigation</h4>
                            <div>
@@ -136,8 +145,10 @@
                               </ul>
                            </div>
                         </section>
+                        </div>
                      </div>
                      <div id="center-column">
+                        <div id="center-column-content">
                         <article>
                            <div id="content">
                               <!-- Example row of columns -->
@@ -172,8 +183,10 @@
                               eleifend lectus ornare. </p>
                            </div>
                         </article>
+                        </div>
                      </div>
                      <div id="right-column" class="span3">
+                        <div id="right-column-content">
                         <section>
                            <h4 class="portlet-header">Calendar</h4>
                            <div>
@@ -209,6 +222,7 @@
                               </table>
                            </div>
                         </section>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -218,7 +232,7 @@
                      <img src="img/inigologo.png"/><br/>
                      (846624A)</p>
                   </div>
-                  <div id="portletBelowContentB" class="span4 offset1">
+                  <div id="portletBelowContentB" class="span4">
                      <h2>Who are we?</h2>
                      <p>Inigo Consulting is a Malaysian based fully employee owned
                      company that
@@ -226,7 +240,7 @@
                      companies to help them deliver their goals in a cost effective manner.
                      </p>
                   </div>
-                  <div id="portletBelowContentC" class="span4 offset1">
+                  <div id="portletBelowContentC" class="span4">
 
                      <h2>Contact Us</h2>
                      <p>Inigo Consulting Sdn Bhd <br/>
@@ -237,7 +251,7 @@
                   </div>
                </div>
                <div class="row">
-                  <div id="portletBelowContentD" class="offset1 span12">
+                  <div id="portletBelowContentD" class="offset1 span10">
                   </div>
                </div>
             <div style="clear:both">&nbsp;</div>
@@ -245,10 +259,9 @@
             </div>
 
             <div style="clear:both">&nbsp;</div>
-            <div class="footer">
-               <div class="container">
+            <div class="footer container">
                <div id="portletFooterManager" class="row">
-                  <div id="portletFooterA" class="offset1 span2">
+                  <div id="portletFooterA" class="span2">
                      Inigo Consulting is a Malaysian based fully employee owned
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
@@ -278,8 +291,6 @@
                      company that provides consultancy services for non-profits, government agencies and
                      companies to help them deliver their goals in a cost effective manner.
                   </div>
-
-               </div>
                </div>
             </div>
          </div> <!--! end of #container -->
@@ -300,8 +311,6 @@
             </script>
             <script src="jquery-1.7.1.min.js"></script>
             <script src="bootstrap/js/bootstrap.js"></script>
-            <script src="bootstrap/js/bootstrap-dropdown.js"></script>
-            <script src="bootstrap/js/bootstrap-tab.js"></script>
             <script>
                var jQuery17 = jQuery;
                $ = jQuery14;
