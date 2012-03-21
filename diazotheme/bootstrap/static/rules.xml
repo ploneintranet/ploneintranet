@@ -161,8 +161,7 @@
         <li><xsl:copy-of css:select="#personaltools-login"/></li>
     </replace>
 
-    <copy css:theme=".brand" css:content="#personaltools-login" attributes="href"/>
-    <copy css:theme=".brand" css:content="#personaltools-dashboard > a" attributes="href"/>
+    <copy css:theme=".navbar-fixed-top .brand" css:content="#portal-logo" attributes="href"/>
     <replace css:theme-children=".breadcrumb">
         <xsl:for-each css:select="#portal-breadcrumbs > span">
             <li>

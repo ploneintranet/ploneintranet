@@ -16,9 +16,8 @@ h1, h2, h3, h4, h5 {
     padding-right:10px;
 }
 
-.topbar .brand {
-    padding: 5px;
-    margin:0;
+.navbar-fixed-top .brand {
+    margin-left: 0;
 }
 
 .topbar h3 {
