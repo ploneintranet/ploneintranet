@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.microblog">
+
+    <!-- Comments viewlet -->
+    <browser:viewlet
+        name="plonesocial.comments"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        layer="plone.app.discussion.interfaces.IDiscussionLayer"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        view="plone.app.layout.globals.interfaces.IViewView"
+        class="plone.app.discussion.browser.comments.CommentsViewlet"
+        permission="zope2.View"
+        />
+
+    <!-- Conversation view -->
+    <browser:page
+        name="conversation_view"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        layer="plone.app.discussion.interfaces.IDiscussionLayer"
+        class=".conversation.ConversationView"
+        permission="zope2.View"
+        />
+
+</configure>

@@ -7,6 +7,9 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package=".browser" />
+
+
   <genericsetup:registerProfile
       name="default"
       title="plonesocial.microblog"
