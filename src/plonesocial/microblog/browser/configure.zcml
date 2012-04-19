@@ -4,18 +4,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.microblog">
 
-    <!-- Comments viewlet -->
-    <browser:viewlet
-        name="plonesocial.comments"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        layer="plone.app.discussion.interfaces.IDiscussionLayer"
-        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-        view="plone.app.layout.globals.interfaces.IViewView"
-        class="plone.app.discussion.browser.comments.CommentsViewlet"
-        permission="zope2.View"
-        />
-
-    <!-- Conversation view -->
+    <!-- Enable p.a.discussion on SiteRoot -->
     <browser:page
         name="conversation_view"
         for="Products.CMFCore.interfaces.ISiteRoot"

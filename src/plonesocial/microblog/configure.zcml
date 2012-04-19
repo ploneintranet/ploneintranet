@@ -8,6 +8,7 @@
   <five:registerPackage package="." initialize=".initialize" />
 
   <include package=".browser" />
+  <include package=".portlets" />
 
 
   <genericsetup:registerProfile

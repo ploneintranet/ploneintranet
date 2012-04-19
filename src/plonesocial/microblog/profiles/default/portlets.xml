@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<portlets>
+ <portlet
+   addview="plonesocial.microblog.portlet"
+   title="Microblog"
+   description=""
+   />
+</portlets>
