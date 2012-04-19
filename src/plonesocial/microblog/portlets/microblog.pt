@@ -14,7 +14,7 @@
     <dd class="portletFooter">
         <span class="portletBotomLeft"></span>
         <span>
-           Footer
+          <!-- Footer -->
         </span>
         <span class="portletBottomRight"></span>
     </dd>

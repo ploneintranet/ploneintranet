@@ -11,18 +11,6 @@
            tal:condition="python:isDiscussionAllowed or has_replies"
            i18n:domain="plone">
 
-    <div class="reply"
-         tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
-        <form tal:attributes="action view/login_action">
-            <input class="standalone"
-                   style="margin-bottom: 1.25em;"
-                   type="submit"
-                   value="Log in to add comments"
-                   i18n:attributes="value label_login_to_add_comments;"
-                   />
-        </form>
-    </div>
-
     <div class="discussion"
          tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
          tal:condition="has_replies">
@@ -118,41 +106,22 @@
 
 
                 </div>
-                <button class="context reply-to-comment-button hide allowMultiSubmit"
-                        tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
-                        i18n:translate="label_reply">
-                    Reply
-                </button>
             </div>
 
         </tal:getreplies>
         
-        <div tal:condition="python: has_replies and not isDiscussionAllowed"
-             class="discreet"
-             i18n:domain="plone.app.discussion"
-             i18n:translate="label_commenting_disabled">
-            Commenting has been disabled.
-        </div>
-    
     </div>
 
-    <div class="reply"
-         tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
-        <form tal:attributes="action view/login_action">
-            <input class="standalone"
-                   style="margin-bottom: 1.25em;"
-                   type="submit"
-                   value="Log in to add comments"
-                   i18n:attributes="value label_login_to_add_comments;"
-                   />
-        </form>
-    </div>
+    <!-- todo: refactor out the update form -->
     
-    <div id="commenting" class="reply" tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)">
+    <div id="commenting" class="reply" 
+         tal:define="userHasReplyPermission view/can_reply;
+                     isDiscussionAllowed view/is_discussion_allowed;"
+         tal:condition="python:isDiscussionAllowed and userHasReplyPermission">
 
         <fieldset>
 
-            <legend i18n:translate="label_add_comment">Add comment</legend>
+            <legend i18n:translate="label_add_status">Add status update</legend>
             <p tal:content="view/comment_transform_message">
                 You can add a comment by filling out the form below. Plain text
                 formatting.

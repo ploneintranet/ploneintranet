@@ -7,7 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 #from Products.CMFCore.utils import getToolByName
 
-from plone.app.discussion.browser.comments import CommentsViewlet
+from comments import Form, Comments
 
 
 class IMicroblogPortlet(IPortletDataProvider):
@@ -15,8 +15,9 @@ class IMicroblogPortlet(IPortletDataProvider):
     """
 
     title = schema.TextLine(title=_(u"Title"),
-                             description=_(u"A title for this portlet"),
-                             required=True)
+                            description=_(u"A title for this portlet"),
+                            required=True,
+                            default=u"Microblog")
 
     count = schema.Int(
         title=_(u"Number of updates to display"),
@@ -39,7 +40,7 @@ class Renderer(base.Renderer):
 
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)
-        self._comments = CommentsViewlet(context, request, view, manager)
+        self._comments = Comments(context, request, view, manager)
 
     @property
     def available(self):
