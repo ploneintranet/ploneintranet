@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plonesocial.microblog">
+
+  <!-- Ensure Plone's portlets ZCML has already been processed;
+       without this, we may get a permission lookup error -->
+  <include package="plone.app.portlets" />
+
+   <plone:portlet
+        name="plonesocial.activitystream.portlets.activitystream"
+        interface=".activitystream.IActivitystreamPortlet"
+        assignment=".activitystream.Assignment"
+        renderer=".activitystream.Renderer"
+        addview=".activitystream.AddForm"
+        editview=".activitystream.EditForm"
+        />
+
+</configure>

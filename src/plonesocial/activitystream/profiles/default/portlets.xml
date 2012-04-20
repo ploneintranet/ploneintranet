@@ -4,12 +4,12 @@
     name="plonesocial.activitystream.portlets"
     type="plonesocial.activitystream.browser.interfaces.IPlonesocialActivitystreamPortlets"
  />
-<!--
+
  <portlet
-   addview="destadsregioextranet.leftimageportlet"
-   title="Linker afbeelding portlet"
-   description=""
+   addview="plonesocial.activitystream.portlets.activitystream"
+   title="Activity Stream"
+   description="A unified activity stream"
    />
--->
+
 
 </portlets>
