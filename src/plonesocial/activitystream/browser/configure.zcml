@@ -39,5 +39,10 @@
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />        
 
+  <browser:resourceDirectory
+      name="plonesocial.activitystream.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
 
 </configure>

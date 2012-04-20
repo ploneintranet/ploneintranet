@@ -12,9 +12,6 @@
         >
       <div tal:attributes="class string:activity ${item/render_type}"
            tal:repeat="item view/items">
-        <span tal:content="item/portal_type">type</span>
-        <span tal:content="item/render_type">type</span>
-        <span tal:content="item/getURL">url</span>
 
 
                 <div class="commentImage" tal:condition="showCommenterImage">
@@ -66,6 +63,9 @@
                          8/23/2001 12:40:44 PM
                     </div>
 
+                </div>
+
+                <div class="noCommentBody visualClear" tal:condition="not:item/getText">
                 </div>
 
                 <div class="commentBody"

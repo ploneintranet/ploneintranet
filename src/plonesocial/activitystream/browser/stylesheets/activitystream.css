@@ -1,0 +1,14 @@
+/* in case of missing .commentBody */
+.noContentBody {
+    clear: both;
+    margin: 1em 0;
+}
+div.commentDate {
+    display: inline-block;
+    float: right;
+}
+
+
+div.plonesocial dl.portlet {
+    font-size: 100%;
+}
