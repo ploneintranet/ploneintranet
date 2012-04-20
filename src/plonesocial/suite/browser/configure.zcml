@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.suite">
+
+  <include package="plone.app.contentmenu" />
+
+  <browser:page
+        name="plonesocial_view"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".views.PlonesocialView"
+        permission="zope2.View"
+        layer=".interfaces.IPlonesocialSuiteLayer"
+        />
+  
+  <browser:menuItem
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      menu="plone_displayviews"
+      action="@@plonesocial_view"
+      title="Plonesocial view"
+      description="Social activity stream"
+      layer=".interfaces.IPlonesocialSuiteLayer"
+      />
+  
+
+</configure>
