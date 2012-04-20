@@ -8,7 +8,7 @@
     <browser:page
         name="conversation_view"
         for="Products.CMFCore.interfaces.ISiteRoot"
-        layer="plone.app.discussion.interfaces.IDiscussionLayer"
+        layer=".interfaces.IPlonesocialMicroblogLayer"
         class=".conversation.ConversationView"
         permission="zope2.View"
         />
