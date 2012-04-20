@@ -1,0 +1,56 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.microblog">
+
+  <include package="plone.app.contentmenu" />
+
+  <!-- Ensure Plone's portlets ZCML has already been processed;
+       without this, we may get a permission lookup error -->
+  <include package="plone.app.portlets" />
+
+    <browser:page
+        name="activitystream_view"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".views.StreamView"
+        permission="zope2.View"
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+    <browser:menuItem
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        menu="plone_displayviews"
+        action="@@activitystream_view"
+        title="Activitystream view"
+        description="Social activity stream"
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+    <browser:page
+        for="plone.portlets.interfaces.ILocalPortletAssignable"
+        class="plone.app.portlets.browser.manage.ManageContextualPortlets"
+        name="manage-activitystreamportlets"
+        template="templates/manageportlets.pt"
+        permission="plone.app.portlets.ManagePortlets" 
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+
+    <browser:viewletManager
+        name="plonesocial.activitystream.viewlets"
+        provides=".interfaces.IPlonesocialActivitystreamViewlets"
+        class="plone.app.viewletmanager.manager.OrderedViewletManager"
+        permission="zope2.View"
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+    <browser:viewlet
+        name="plonesocial.activitystream.stream"
+        manager=".interfaces.IPlonesocialActivitystreamViewlets"
+        class=".viewlets.Stream"
+        permission="zope2.View"
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />        
+
+</configure>
