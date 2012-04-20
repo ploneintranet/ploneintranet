@@ -4,7 +4,6 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.microblog">
 
-    <!-- Enable p.a.discussion on SiteRoot -->
     <browser:page
         name="conversation_view"
         for="Products.CMFCore.interfaces.ISiteRoot"
