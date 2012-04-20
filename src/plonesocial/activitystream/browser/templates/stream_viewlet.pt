@@ -1,1 +1,11 @@
-<div>yay this is the viewlet</div>
+<div class="plonesocial activitystream viewlet">
+  <tal:block replace="structure provider:plonesocial.activitystream.portlets" />
+
+  <div class="managePortletsLink custom"
+       tal:define="portal_state context/@@plone_portal_state;
+                   portal_url portal_state/portal_url;
+                   checkPermission nocall: context/portal_membership/checkPermission"
+       tal:condition="python:checkPermission('Portlets: Manage portlets', context)">
+    <a tal:attributes="href string:${portal_url}/@@manage-activitystreamportlets" title="View portlet management screen">Manage activity stream portlets</a>
+  </div>
+</div>

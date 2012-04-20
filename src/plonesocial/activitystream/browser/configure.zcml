@@ -46,11 +46,21 @@
         />
 
     <browser:viewlet
-        name="plonesocial.activitystream.stream"
+        name="plonesocial.activitystream.viewlet"
         manager=".interfaces.IPlonesocialActivitystreamViewlets"
         class=".viewlets.Stream"
         permission="zope2.View"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />        
+
+    <browser:viewlet
+        name="plonesocial.activitystream.viewlet"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        class=".viewlets.Stream"
+        permission="zope2.View"
+        layer=".interfaces.IPlonesocialActivitystreamLayer"
+        />        
+
 
 </configure>

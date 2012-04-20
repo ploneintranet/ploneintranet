@@ -15,9 +15,7 @@
                                   templateId template/getId">
 
         <div class="plonesocial activitystream">
-          Killroy
           <tal:block replace="structure provider:plonesocial.activitystream.viewlets" />
-          <tal:block replace="structure provider:plonesocial.activitystream.portlets" />
         </div>
 
         <div class="managePortletsLink"
