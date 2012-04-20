@@ -23,18 +23,18 @@
         />
 
     <browser:viewlet
-        name="plonesocial.activitystream.viewlet"
+        name="plonesocial.activitystream.viewlets.portletmanager"
         manager=".interfaces.IPlonesocialActivitystreamViewlets"
-        class=".viewlets.Stream"
+        class=".viewlets.PortletManagerViewlet"
         permission="zope2.View"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />        
 
     <browser:viewlet
-        name="plonesocial.activitystream.viewlet"
+        name="plonesocial.activitystream.viewlets.portletmanager"
         for="Products.CMFCore.interfaces.ISiteRoot"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-        class=".viewlets.Stream"
+        class=".viewlets.PortletManagerViewlet"
         permission="zope2.View"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />        

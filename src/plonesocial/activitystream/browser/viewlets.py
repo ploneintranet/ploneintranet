@@ -5,8 +5,11 @@ from Products.Five.browser.pagetemplatefile import \
     ViewPageTemplateFile
 
 
-class Stream(BrowserView):
-    """Integrated activity stream"""
+class PortletManagerViewlet(BrowserView):
+    """Viewlet that acts as a portlet manager.
+    Deletates actual activity stream rendering to a portlet,
+    so that content managers can easily set preferences.
+    """
     implements(IViewlet)
 
     def __init__(self, context, request, view, manager):
@@ -18,4 +21,4 @@ class Stream(BrowserView):
     def update(self):
         pass
 
-    render = ViewPageTemplateFile("templates/stream_viewlet.pt")
+    render = ViewPageTemplateFile("templates/portletmanager_viewlet.pt")
