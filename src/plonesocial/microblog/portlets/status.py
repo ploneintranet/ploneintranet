@@ -45,8 +45,9 @@ class StatusViewlet(CommentsViewlet):
 
     comment_transform_message = "What's on your mind?"
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, compact, *args, **kwargs):
         CommentsViewlet.__init__(self, *args, **kwargs)
+        self.compact = compact
         # force microblog context to SiteRoot singleton
         for obj in aq_chain(self.context):
             if IPloneSiteRoot.providedBy(obj):

@@ -16,7 +16,7 @@
                      isDiscussionAllowed view/is_discussion_allowed;"
          tal:condition="python:isDiscussionAllowed and userHasReplyPermission and not isAnon">
 
-        <fieldset>
+        <fieldset tal:condition="not:view/compact">
 
             <legend i18n:translate="label_add_status">Add status update</legend>
             <p tal:content="view/comment_transform_message">
@@ -27,6 +27,11 @@
             <div tal:replace="structure view/form/render" />
 
         </fieldset>
+
+
+        <div tal:condition="view/compact" 
+             tal:replace="structure view/form/render" />
+
     </div>
 
 </tal:block>

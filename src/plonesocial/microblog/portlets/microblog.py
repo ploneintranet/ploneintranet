@@ -19,25 +19,35 @@ class IMicroblogPortlet(IPortletDataProvider):
                             required=True,
                             default=u"Microblog")
 
+    compact = schema.Bool(title=_(u"Compact rendering"),
+                          description=_(u"Hide portlet header and footer"),
+                          default=True)
+
 
 class Assignment(base.Assignment):
     implements(IMicroblogPortlet)
 
     title = u""  # overrides readonly property method from base class
 
-    def __init__(self, title):
+    def __init__(self, title, compact):
         self.title = title
+        self.compact = compact
 
 
 class Renderer(base.Renderer):
 
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)
-        self._statusviewlet = StatusViewlet(context, request, view, manager)
+        self._statusviewlet = StatusViewlet(data.compact,
+                                            context, request, view, manager)
 
     @property
     def available(self):
         return True
+
+    @property
+    def compact(self):
+        return self.data.compact
 
     def update(self):
         self._statusviewlet.update()

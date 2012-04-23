@@ -1,5 +1,7 @@
-<dl class="portlet portletProjects">
-  <dt class="portletHeader">
+<dl class="portlet portletMicroblog"
+    tal:define="renderclass python:view.compact and 'compact' or 'full'"
+    tal:attributes="class string:portlet portletMicroblog ${renderclass}">
+  <dt class="portletHeader" tal:condition="not: view/compact">
         <span class="portletTopLeft"></span>
         <span tal:content="view/data/title">
            Header
@@ -11,7 +13,7 @@
       <div tal:replace="structure view/statusform"></div>
     </dd>
     
-    <dd class="portletFooter">
+    <dd class="portletFooter" tal:condition="not:view/compact">
         <span class="portletBottomLeft"></span>
         <span>
           <!-- Footer -->
