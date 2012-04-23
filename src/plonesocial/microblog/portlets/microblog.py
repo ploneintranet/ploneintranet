@@ -7,7 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 #from Products.CMFCore.utils import getToolByName
 
-from comments import Form, Comments
+from comments import Comments
 
 
 class IMicroblogPortlet(IPortletDataProvider):
