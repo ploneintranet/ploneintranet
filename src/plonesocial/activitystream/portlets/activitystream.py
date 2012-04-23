@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from zope.interface import implements
 from zope import schema
 from zope.component import queryUtility
@@ -12,6 +13,7 @@ from zope.component import getMultiAdapter
 from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import IDiscussionSettings
 from AccessControl import getSecurityManager
+from zope.app.component.hooks import getSite
 
 
 class IActivitystreamPortlet(IPortletDataProvider):
@@ -71,21 +73,26 @@ class Renderer(base.Renderer):
     def update(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         results = []
-        brains = catalog.searchResults(sort_on='modified',
+        brains = catalog.searchResults(sort_on='created',
                                        sort_order='reverse',
                                        sort_limit=self.data.count,
                                        )[:self.data.count]
         for brain in brains:
             obj = brain.getObject()
+            title = obj.Title()
             if obj.portal_type == 'Discussion Item':
                 userid = obj.author_username
                 text = obj.getText()
-                if obj.absolute_url().split('/+')[0] == self.portal_url:
+                # obj: DiscussionItem
+                # parent: Conversation
+                # grandparent: content object
+                if obj.__parent__.__parent__ == getSite():
                     # plonesocial.microblog update on siteroot
                     render_type = 'status'
                 else:
                     # normal discussion reply
                     render_type = 'discussion'
+                    title = obj.__parent__.__parent__.Title()
             else:
                 userid = obj.getOwnerTuple()[1]
                 render_type = 'content'
@@ -97,7 +104,7 @@ class Renderer(base.Renderer):
 
             results.append(dict(
                     getURL=brain.getURL(),
-                    Title=obj.Title(),
+                    Title=title,
                     portal_type=obj.portal_type,
                     render_type=render_type,
                     is_status=is_status,
@@ -108,7 +115,7 @@ class Renderer(base.Renderer):
                     has_author_link=self.get_user_home_url(userid) is not None,
                     author_home_url=self.get_user_home_url(userid),
                     portrait_url=self.get_user_portrait(userid),
-                    date=self.format_time(obj.modification_date),
+                    date=self.format_time(obj.creation_date),
                     getText=text,
                     ))
 
@@ -145,8 +152,21 @@ class Renderer(base.Renderer):
         return portal_membership.isAnonymousUser()
 
     def format_time(self, time):
+        # We have to transform Python datetime into Zope DateTime
+        # before we can call toLocalizedTime.
+        if hasattr(time, 'isoformat'):
+            zope_time = DateTime(time.isoformat())
+        else:
+            # already a Zope DateTime
+            zope_time = time
+        if DateTime().Date() == zope_time.Date():
+            time_only = True
+        else:
+            time_only = False
         util = getToolByName(self.context, 'translation_service')
-        return util.toLocalizedTime(time, long_format=True)
+        return util.toLocalizedTime(zope_time,
+                                    long_format=True,
+                                    time_only=time_only)
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.

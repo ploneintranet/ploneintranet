@@ -39,6 +39,7 @@
                 </div>
 
                 <div class="documentByLine" i18n:domain="plone.app.discussion">
+
                     <tal:name>
                         <a href=""
                            tal:condition="item/has_author_link"
@@ -55,11 +56,12 @@
                                 i18n:translate="label_says">says:</tal:posted>
 
                     <tal:posted tal:condition="item/is_discussion">
+                      <span i18n:translate="label_commented_on">commented on</span>
                       <a tal:attributes="href item/getURL"
-                         i18n:translate="label_says">says:</a></tal:posted>
+                         tal:content="item/Title">a content item</a></tal:posted>
 
                     <tal:posted tal:condition="item/is_content">
-                      modified
+                      created
                       <a tal:attributes="href item/getURL"
                          tal:content="item/Title">item title</a></tal:posted>
 
