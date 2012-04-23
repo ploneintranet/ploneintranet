@@ -29,15 +29,20 @@ class IActivitystreamPortlet(IPortletDataProvider):
         required=True,
         default=5)
 
+    compact = schema.Bool(title=_(u"Compact rendering"),
+                          description=_(u"Hide portlet header and footer"),
+                          default=True)
+
 
 class Assignment(base.Assignment):
     implements(IActivitystreamPortlet)
 
     title = u""  # overrides readonly property method from base class
 
-    def __init__(self, title, count):
+    def __init__(self, title, count, compact):
         self.title = title
         self.count = count
+        self.compact = compact
 
 
 class Renderer(base.Renderer):
@@ -51,6 +56,10 @@ class Renderer(base.Renderer):
     @property
     def available(self):
         return True
+
+    @property
+    def compact(self):
+        return self.data.compact
 
     @property
     def portal_url(self):

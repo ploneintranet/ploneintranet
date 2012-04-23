@@ -1,5 +1,10 @@
-<dl class="portlet portletActivitystream">
-  <dt class="portletHeader">
+<dl class="portlet portletActivitystream"
+    tal:define="renderclass python:view.compact and 'compact' or 'full'"
+    tal:attributes="class string:portlet portletActivitystream ${renderclass}">
+
+  <dt class="portletHeader"
+      tal:condition="not:view/compact">
+
         <span class="portletTopLeft"></span>
         <span tal:content="view/data/title">
            Header
@@ -116,7 +121,8 @@
       </div>
     </dd>
     
-    <dd class="portletFooter">
+    <dd class="portletFooter"
+        tal:condition="not:view/compact">
         <span class="portletBottomLeft"></span>
         <span>
           <!-- Footer -->
