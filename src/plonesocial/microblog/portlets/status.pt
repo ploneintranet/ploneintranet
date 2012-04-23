@@ -1,0 +1,32 @@
+<tal:block tal:define="userHasReplyPermission view/can_reply;
+                       isDiscussionAllowed view/is_discussion_allowed;
+                       isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
+                       isAnon view/is_anonymous;
+                       canReview view/can_review;
+                       replies python:view.get_replies(canReview);
+                       has_replies python:view.has_replies(canReview);
+                       showCommenterImage view/show_commenter_image;
+                       errors options/state/getErrors|nothing;
+                       wtool context/@@plone_tools/workflow;"
+           tal:condition="python:isDiscussionAllowed or has_replies"
+           i18n:domain="plone">
+
+    <div id="microblog" class="plonesocial" 
+         tal:define="userHasReplyPermission view/can_reply;
+                     isDiscussionAllowed view/is_discussion_allowed;"
+         tal:condition="python:isDiscussionAllowed and userHasReplyPermission and not isAnon">
+
+        <fieldset>
+
+            <legend i18n:translate="label_add_status">Add status update</legend>
+            <p tal:content="view/comment_transform_message">
+                You can add a comment by filling out the form below. Plain text
+                formatting.
+            </p>
+
+            <div tal:replace="structure view/form/render" />
+
+        </fieldset>
+    </div>
+
+</tal:block>

@@ -7,7 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 #from Products.CMFCore.utils import getToolByName
 
-from comments import Comments
+from status import StatusViewlet
 
 
 class IMicroblogPortlet(IPortletDataProvider):
@@ -19,40 +19,33 @@ class IMicroblogPortlet(IPortletDataProvider):
                             required=True,
                             default=u"Microblog")
 
-    count = schema.Int(
-        title=_(u"Number of updates to display"),
-        description=_(u"Maximum number of status updates to show"),
-        required=True,
-        default=5)
-
 
 class Assignment(base.Assignment):
     implements(IMicroblogPortlet)
 
     title = u""  # overrides readonly property method from base class
 
-    def __init__(self, title, count):
+    def __init__(self, title):
         self.title = title
-        self.count = count
 
 
 class Renderer(base.Renderer):
 
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)
-        self._comments = Comments(context, request, view, manager)
+        self._statusviewlet = StatusViewlet(context, request, view, manager)
 
     @property
     def available(self):
         return True
 
     def update(self):
-        self._comments.update()
+        self._statusviewlet.update()
 
     render = ViewPageTemplateFile('microblog.pt')
 
-    def comments(self):
-        return self._comments.render()
+    def statusform(self):
+        return self._statusviewlet.render()
 
 
 class AddForm(base.AddForm):

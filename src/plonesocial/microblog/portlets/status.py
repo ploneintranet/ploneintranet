@@ -36,12 +36,12 @@ class StatusForm(CommentForm):
         pass  # pragma: no cover
 
 
-class Comments(CommentsViewlet):
+class StatusViewlet(CommentsViewlet):
     """Subclass the p.a.discussion comments viewlet
     and change it's behaviour to suit our purposes."""
 
     form = StatusForm
-    index = ViewPageTemplateFile('comments.pt')
+    index = ViewPageTemplateFile('status.pt')
 
     comment_transform_message = "What's on your mind?"
 
