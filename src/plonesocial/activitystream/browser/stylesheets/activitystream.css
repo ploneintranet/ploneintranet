@@ -1,13 +1,49 @@
-/* in case of missing .commentBody */
-.noContentBody {
+#content div.plonesocial dl.portlet {
+    font-size: 100%;
+}
+
+div.activityItem {
+    margin-left: 70px;
+}
+div.activityAvatar {
+    float: left;
+    margin-left: -50px;
+    padding-top: 0.5em;
+}
+div.activityBody {
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    box-shadow: 0 0 0.5em 0 #888888;
+    margin: 0.5em 0;
+    padding: 0.5em 1em;
+}
+div.activityByLine {
+    color: #666666;
+    display: block;
+    font-size: 85%;
+    line-height: 1.25em;
+}
+#content div.activityByLine a,
+div.activityByLine a {
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+}
+#content div.activityByLine a.creator,
+div.activityByLine a.creator {
+    color: black;
+}
+div.activityNoText {
     clear: both;
     margin: 1em 0;
 }
-div.commentDate {
-    display: inline-block;
+div.activityText {
+    line-height: 1.25em;
+    margin: 0.5em 0;
+    font-size: 92%;
+    color: #444;
 }
-
-
-div.plonesocial dl.portlet {
-    font-size: 100%;
+div.activityDate {
+    display: inline-block;
+    color: #76797C;
+    font-size: 85%;
 }

@@ -15,33 +15,34 @@
     <dd class="portletItem odd"
         tal:define="showCommenterImage view/show_commenter_image"
         >
-      <div tal:attributes="class string:activity ${item/render_type}"
+      <div tal:attributes="class string:activityItem ${item/render_type}"
            tal:repeat="item view/items">
 
+        <div class="activityAvatar" tal:condition="showCommenterImage">
+          <a href="" tal:condition="item/has_author_link"
+             tal:attributes="href item/author_home_url">
+            <img src="defaultUser.gif"
+                 alt=""
+                 border="0"
+                 height="37"
+                 tal:attributes="src item/portrait_url;
+                                 alt item/Creator" />
+          </a>
+          <img src="defaultUser.gif"
+               alt=""
+               border="0"
+               height="37"
+               tal:condition="not: item/has_author_link"
+               tal:attributes="src item/portrait_url;
+                               alt item/Creator" />
+        </div>
 
-                <div class="commentImage" tal:condition="showCommenterImage">
-                    <a href="" tal:condition="item/has_author_link"
-                               tal:attributes="href item/author_home_url">
-                         <img src="defaultUser.gif"
-                              alt=""
-                              border="0"
-                              height="32"
-                              tal:attributes="src item/portrait_url;
-                                              alt item/Creator" />
-                    </a>
-                    <img src="defaultUser.gif"
-                         alt=""
-                         border="0"
-                         height="32"
-                         tal:condition="not: item/has_author_link"
-                         tal:attributes="src item/portrait_url;
-                                         alt item/Creator" />
-                </div>
+        <div class="activityBody">
 
-                <div class="documentByLine" i18n:domain="plone.app.discussion">
+                <div class="activityByLine" i18n:domain="plone.app.discussion">
 
                     <tal:name>
-                        <a href=""
+                        <a href="" class="creator"
                            tal:condition="item/has_author_link"
                            tal:content="item/Creator"
                            tal:attributes="href item/author_home_url">
@@ -65,23 +66,22 @@
                       <a tal:attributes="href item/getURL"
                          tal:content="item/Title">item title</a></tal:posted>
 
-                    <div class="commentDate"
+                    <div class="activityDate"
                          tal:content="item/date">
                          8/23/2001 12:40:44 PM
                     </div>
 
                 </div>
 
-                <div class="noCommentBody visualClear" tal:condition="not:item/getText">
+                <div class="activityNoText visualClear"
+                     tal:condition="not:item/getText">
                 </div>
 
-                <div class="commentBody"
+                <div class="activityText"
                      tal:define="is_content item/is_content;
                                  canReview python:view.can_review() and not is_content"
                      tal:condition="item/getText">
-
                     <span tal:replace="structure item/getText" />
-
                     <div class="commentActions">
                         <form name="delete"
                               action=""
@@ -96,7 +96,6 @@
                                    i18n:attributes="value label_delete;"
                                    />
                         </form>
-
                         <!-- Workflow actions (e.g. 'publish') -->
                         <form name=""
                               action=""
@@ -115,9 +114,8 @@
                                    />
                         </form>
                     </div>
-
-
                 </div>
+        </div><!-- / activityBody -->
 
 
       </div>
