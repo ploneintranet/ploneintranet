@@ -22,7 +22,7 @@
         for="Products.CMFCore.interfaces.ISiteRoot"
         menu="plone_displayviews"
         action="@@activitystream_view"
-        title="Activitystream view"
+        title="Activity Stream"
         description="Social activity stream"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />
@@ -36,7 +36,7 @@
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />
 
-
+    <!-- custom viewletmanager, only used in activitystream view -->
     <browser:viewletManager
         name="plonesocial.activitystream.viewlets"
         provides=".interfaces.IPlonesocialActivitystreamViewlets"
@@ -45,18 +45,14 @@
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />
 
+    <!-- 
+         if you want to re-use this viewlet elsewhere,
+         then register it on a different manager
+         e.g. plone.app.layout.viewlets.interfaces.IAboveContentTitle
+    -->
     <browser:viewlet
         name="plonesocial.activitystream.viewlets.portletmanager"
         manager=".interfaces.IPlonesocialActivitystreamViewlets"
-        class=".viewlets.PortletManagerViewlet"
-        permission="zope2.View"
-        layer=".interfaces.IPlonesocialActivitystreamLayer"
-        />        
-
-    <browser:viewlet
-        name="plonesocial.activitystream.viewlets.portletmanager"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         class=".viewlets.PortletManagerViewlet"
         permission="zope2.View"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
