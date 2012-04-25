@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<object>
- <hidden manager="plone.abovecontenttitle" skinname="Sunburst Theme">
-  <viewlet name="plonesocial.activitystream.abovecontenttitle.streamviewlet"/>
- </hidden>
-</object>
