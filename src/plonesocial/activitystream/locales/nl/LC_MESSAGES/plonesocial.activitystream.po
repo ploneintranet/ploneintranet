@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-04-26 10:38+0000\n"
+"POT-Creation-Date: 2012-04-26 11:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,11 +39,6 @@ msgstr "reageerde op"
 #: ./../portlets/activitystream.pt:66
 msgid "label_created"
 msgstr "maakte"
-
-#. Default: "Delete"
-#: ./../portlets/activitystream.pt:93
-msgid "label_delete"
-msgstr "verwijder"
 
 #. Default: "says:"
 #: ./../portlets/activitystream.pt:57

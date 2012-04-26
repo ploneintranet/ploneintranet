@@ -83,7 +83,8 @@
                                  canReview python:view.can_review() and not is_content"
                      tal:condition="item/getText">
 
-                    <div class="commentActions">
+                    <div class="commentActions"
+                         i18n:domain="plone.app.discussion">
                         <form name="delete"
                               action=""
                               method="post"
