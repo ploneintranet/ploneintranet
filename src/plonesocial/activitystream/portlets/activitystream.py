@@ -73,10 +73,11 @@ class Renderer(base.Renderer):
     def update(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         results = []
-        brains = catalog.searchResults(sort_on='created',
+        brains = catalog.searchResults(sort_on='effective',
                                        sort_order='reverse',
                                        sort_limit=self.data.count,
                                        )[:self.data.count]
+
         for brain in brains:
             obj = brain.getObject()
             title = obj.Title()
@@ -160,14 +161,15 @@ class Renderer(base.Renderer):
         else:
             # already a Zope DateTime
             zope_time = time
-        if DateTime().Date() == zope_time.Date():
-            time_only = True
-        else:
-            time_only = False
         util = getToolByName(self.context, 'translation_service')
-        return util.toLocalizedTime(zope_time,
-                                    long_format=True,
-                                    time_only=time_only)
+        if DateTime().Date() == zope_time.Date():
+            return util.toLocalizedTime(zope_time,
+                                        long_format=True,
+                                        time_only=True)
+        else:
+            # time_only=False still returns time only
+            return util.toLocalizedTime(zope_time,
+                                        long_format=True)
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.

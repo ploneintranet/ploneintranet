@@ -12,3 +12,7 @@ class StreamView(BrowserView):
 
     def __call__(self):
         return self.render()
+
+    def update(self):
+        """Mute plone.app.z3cform.kss.validation AttributeError"""
+        pass

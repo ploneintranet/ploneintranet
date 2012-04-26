@@ -81,7 +81,7 @@
                      tal:define="is_content item/is_content;
                                  canReview python:view.can_review() and not is_content"
                      tal:condition="item/getText">
-                    <span tal:replace="structure item/getText" />
+
                     <div class="commentActions">
                         <form name="delete"
                               action=""
@@ -114,7 +114,9 @@
                                    />
                         </form>
                     </div>
-                </div>
+
+                    <span tal:replace="structure item/getText" />
+                </div><!-- /activityText -->
         </div><!-- / activityBody -->
 
 
