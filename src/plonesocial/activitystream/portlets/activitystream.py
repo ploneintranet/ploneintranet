@@ -8,7 +8,7 @@ from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
 from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -86,13 +86,14 @@ class Renderer(base.Renderer):
                 # obj: DiscussionItem
                 # parent: Conversation
                 # grandparent: content object
-                if obj.__parent__.__parent__ == getSite():
+                _contentparent = aq_parent(aq_parent(aq_inner(obj)))
+                if _contentparent == getSite():
                     # plonesocial.microblog update on siteroot
                     render_type = 'status'
                 else:
                     # normal discussion reply
                     render_type = 'discussion'
-                    title = obj.__parent__.__parent__.Title()
+                    title = _contentparent.Title()
             else:
                 userid = obj.getOwnerTuple()[1]
                 render_type = 'content'
