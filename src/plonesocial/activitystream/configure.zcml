@@ -6,6 +6,7 @@
     i18n_domain="plonesocial.activitystream">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
   <include package=".portlets" />

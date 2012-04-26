@@ -6,7 +6,7 @@ from zope.formlib import form
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as _
+from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFCore.utils import getToolByName
 from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
@@ -15,13 +15,16 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from AccessControl import getSecurityManager
 from zope.app.component.hooks import getSite
 
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('plonesocial.activitystream')
+
 
 class IActivitystreamPortlet(IPortletDataProvider):
     """A portlet to render the activitystream.
     """
 
-    title = schema.TextLine(title=_(u"Title"),
-                            description=_(u"A title for this portlet"),
+    title = schema.TextLine(title=PMF(u"Title"),
+                            description=PMF(u"A title for this portlet"),
                             required=True,
                             default=u"Activity Stream")
 

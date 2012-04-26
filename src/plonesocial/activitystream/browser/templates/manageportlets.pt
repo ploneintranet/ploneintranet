@@ -3,11 +3,12 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="plonesocial.activitystream">
 
 <body>
     <div metal:fill-slot="main">
-        <h1 class="documentFirstHeading">Manage Activitystream Portlets</h1>
+        <h1 class="documentFirstHeading"
+            i18n:translate="manage_activitystream_portlets">Manage Activitystream Portlets</h1>
         <span tal:replace="structure provider:plonesocial.activitystream.portlets" />
     </div>
 </body>

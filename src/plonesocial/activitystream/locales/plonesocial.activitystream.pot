@@ -1,0 +1,60 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-04-26 10:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plonesocial.activitystream\n"
+
+#: ./../portlets/activitystream.py:37
+msgid "Compact rendering"
+msgstr ""
+
+#: ./../portlets/activitystream.py:38
+msgid "Hide portlet header and footer"
+msgstr ""
+
+#: ./../portlets/activitystream.py:33
+msgid "Maximum number of status updates to show"
+msgstr ""
+
+#: ./../portlets/activitystream.py:32
+msgid "Number of updates to display"
+msgstr ""
+
+#. Default: "commented on"
+#: ./../portlets/activitystream.pt:61
+msgid "label_commented_on"
+msgstr ""
+
+#. Default: "created"
+#: ./../portlets/activitystream.pt:66
+msgid "label_created"
+msgstr ""
+
+#. Default: "Delete"
+#: ./../portlets/activitystream.pt:93
+msgid "label_delete"
+msgstr ""
+
+#. Default: "says:"
+#: ./../portlets/activitystream.pt:57
+msgid "label_says"
+msgstr ""
+
+#. Default: "Manage Activitystream Portlets"
+#: ./../browser/templates/manageportlets.pt:10
+msgid "manage_activitystream_portlets"
+msgstr ""
+

@@ -1,4 +1,5 @@
 <dl class="portlet portletActivitystream"
+    i18n:domain="plonesocial.activitystream"
     tal:define="renderclass python:view.compact and 'compact' or 'full'"
     tal:attributes="class string:portlet portletActivitystream ${renderclass}">
 
@@ -39,7 +40,7 @@
 
         <div class="activityBody">
 
-                <div class="activityByLine" i18n:domain="plone.app.discussion">
+                <div class="activityByLine">
 
                     <tal:name>
                         <a href="" class="creator"
@@ -62,7 +63,7 @@
                          tal:content="item/Title">a content item</a></tal:posted>
 
                     <tal:posted tal:condition="item/is_content">
-                      created
+                      <span i18n:translate="label_created">created</span>
                       <a tal:attributes="href item/getURL"
                          tal:content="item/Title">item title</a></tal:posted>
 
