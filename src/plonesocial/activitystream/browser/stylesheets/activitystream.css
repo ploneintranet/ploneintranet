@@ -14,7 +14,7 @@ dl.portlet.compact {
 }
 
 div.activityItem {
-    margin-left: 70px;
+    margin-left: 50px;
 }
 div.activityAvatar {
     float: left;
@@ -24,7 +24,7 @@ div.activityAvatar {
 div.activityBody {
     border-radius: 0.5em 0.5em 0.5em 0.5em;
     box-shadow: 0 0 0.5em 0 #888888;
-    margin: 0.5em 0;
+    margin: 0.5em 0.5em 0.5em 0;
     padding: 0.5em 1em;
 }
 div.activityByLine {
