@@ -10,6 +10,8 @@
   <include package=".browser" />
   <include package=".portlets" />
 
+  <adapter factory=".conversation.statusConversationAdapterFactory" />
+  <adapter factory=".conversation.StatusConversationReplies" />
 
   <genericsetup:registerProfile
       name="default"
