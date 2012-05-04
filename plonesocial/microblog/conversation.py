@@ -3,6 +3,13 @@ from zope.component import adapts, adapter
 from zope.component import getUtility
 from zope.annotation.interfaces import IAnnotations
 from Acquisition import aq_base
+from Products.CMFPlone.Portal import PloneSite
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion import conversation as pad_conversation
+import transaction
+
+from persistent import Persistent
 
 try:
     from plone.app.async.interfaces import IAsyncService
@@ -10,17 +17,28 @@ try:
 except ImportError:
     have_async = False
 
-from Products.CMFPlone.Portal import PloneSite
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion import conversation as pad_conversation
+
+ANNOTATION_KEY = pad_conversation.ANNOTATION_KEY
+
+class Debug(Persistent):
+    pass
 
 
 def addStatus(context, comment):
+
+#    annotations = IAnnotations(context)
+#    annotations['debug'] = Debug()
+#    annotations['debug'].someattr = 'somevalue'
+#    return
+
     # resolve siteroot context to conversation
-    conversation = IConversation(context)
+    conversation = IConversation(context)  # StatusConversation
     # we're already in the async worker, don't loop
     conversation.addComment(comment, do_async=False)
+
+
+def dummy(context):
+    pass
 
 
 class StatusConversation(pad_conversation.Conversation):
@@ -31,19 +49,22 @@ class StatusConversation(pad_conversation.Conversation):
         """Wrap the p.a.d.conversation.Conversation.addComment
         in a way that allows async dispatch.
         """
-        import pdb; pdb.set_trace()
         if do_async:
             async = getUtility(IAsyncService)
-            # use SiteRoot as async context
+            # use PloneSite context to avoid ++conversation++ traversal error
             async.queueJob(addStatus, self.__parent__, comment)
             # deferred insertion, we can't return the actual id
-            return ''
+            # that will be used as a url fragment by p.a.d.
+            return '?async=1'
         else:
-            return pad_conversation.Conversation.addComment(self, comment)
+#            import pdb; pdb.set_trace()
+            id = pad_conversation.Conversation.addComment(self, comment)
+#            transaction.commit()
+            return id
 
 
 @implementer(IConversation)
-@adapter(PloneSite)
+@adapter(PloneSite)  # override p.a.d. IAnnotatable adapter
 def statusConversationAdapterFactory(content):
     """
     Adapter factory to fetch the default conversation from annotations.
@@ -55,11 +76,17 @@ def statusConversationAdapterFactory(content):
     than an adapter registered for an interface (IAnnotatable)
     """
     annotions = IAnnotations(content)
-    if not pad_conversation.ANNOTATION_KEY in annotions:
+    if not ANNOTATION_KEY in annotions:
+        # first-time setup
         conversation = StatusConversation()
         conversation.__parent__ = aq_base(content)
+
+        # pre-empt p.a.d. Conversation registration
+        # at pad_conversation.Conversation.addcomment
+        annotions[ANNOTATION_KEY] = aq_base(conversation)
+
     else:
-        conversation = annotions[pad_conversation.ANNOTATION_KEY]
+        conversation = annotions[ANNOTATION_KEY]
     return conversation.__of__(content)
 
 
@@ -67,14 +94,10 @@ class StatusConversationReplies(pad_conversation.ConversationReplies):
     """An IReplies adapter for status conversations.
 
     This makes it easy to work with top-level comments.
-
-    An adapter registered for an interface implemented by a
-    given class is more specific than an adapter registered
-    for an interface implemented by a base class
     """
     implements(IReplies)
-    # upstream adapts class not interface
+    # p.a.d. adapts class not interface, do the same
     adapts(StatusConversation)
 
 
-# no need to also subclass CommentReplies - use upstream is ok
+# no need to also subclass CommentReplies - p.a.d. adapter is ok
