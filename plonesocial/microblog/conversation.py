@@ -50,6 +50,9 @@ class StatusConversation(pad_conversation.Conversation):
         in a way that allows async dispatch.
         """
         if do_async:
+#            addStatus(self.__parent__, comment)
+#            return
+
             async = getUtility(IAsyncService)
             # use PloneSite context to avoid ++conversation++ traversal error
             async.queueJob(addStatus, self.__parent__, comment)

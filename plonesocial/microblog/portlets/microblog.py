@@ -29,7 +29,9 @@ class Assignment(base.Assignment):
 
     title = u""  # overrides readonly property method from base class
 
-    def __init__(self, title, compact):
+    def __init__(self,
+                 title="Microblog",
+                 compact=True):
         self.title = title
         self.compact = compact
 
