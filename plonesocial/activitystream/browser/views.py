@@ -2,10 +2,10 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
-class StreamView(BrowserView):
+class PortalView(BrowserView):
     """Home page view containing activity stream viewlets."""
 
-    index = ViewPageTemplateFile("templates/stream_view.pt")
+    index = ViewPageTemplateFile("templates/portal_view.pt")
 
     def render(self):
         return self.index()

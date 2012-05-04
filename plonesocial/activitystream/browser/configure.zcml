@@ -11,9 +11,9 @@
   <include package="plone.app.portlets" />
 
     <browser:page
-        name="activitystream_view"
+        name="activitystream_portal"
         for="Products.CMFCore.interfaces.ISiteRoot"
-        class=".views.StreamView"
+        class=".views.PortalView"
         permission="zope2.View"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />
@@ -21,9 +21,9 @@
     <browser:menuItem
         for="Products.CMFCore.interfaces.ISiteRoot"
         menu="plone_displayviews"
-        action="@@activitystream_view"
-        title="Activity Stream"
-        description="Social activity stream"
+        action="@@activitystream_portal"
+        title="Activity Portal"
+        description="Social activity stream portal view with manageable portlets"
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />
 
