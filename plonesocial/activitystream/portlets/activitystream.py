@@ -84,46 +84,95 @@ class Renderer(base.Renderer):
                                        sort_limit=self.data.count,
                                        )[:self.data.count]
 
-        for brain in brains:
-            obj = brain.getObject()
-            title = obj.Title()
-            if obj.portal_type == 'Discussion Item':
-                userid = obj.author_username
-                text = obj.getText()
-                # obj: DiscussionItem
-                # parent: Conversation
-                # grandparent: content object
-                _contentparent = aq_parent(aq_parent(aq_inner(obj)))
-                if _contentparent == getSite():
-                    # plonesocial.microblog update on siteroot
-                    render_type = 'status'
-                else:
-                    # normal discussion reply
-                    render_type = 'discussion'
-                    title = _contentparent.Title()
+        # Combine these brains with activities.
+        from plonesocial.activitystream.activity import IActivityContainer
+        from plonesocial.activitystream.activity import IActivity
+        container = IActivityContainer(self.context)
+        if False:
+            # Fake a new activity with some random text, just to get a
+            # bit of content.
+            import random
+            import string
+            text = ''.join(random.sample(string.printable,
+                                          random.randint(8, 20)))
+            # pick between zero and two tags:
+            possible_tags = ['random', 'fuzzy', 'beer']
+            tags = random.sample(possible_tags, random.randint(0, 2))
+            container.add(text, tags=tags)
+            self.mauritsitems = list(container.values()[-self.data.count:])
+            self.mauritsitems.reverse()
+
+        min_date = brains[-1].effective
+        activities = container.values(min=min_date)[-self.data.count:]
+        # Make it a list and reverse it.
+        #activities = list(activities)
+        #activities = activities.reverse()
+        import itertools
+        data = itertools.chain(brains, activities)
+
+        def date_key(item):
+            if hasattr(item, 'effective'):
+                # catalog brain
+                return item.effective
+            # Activity
+            return item.date
+
+        data = sorted(data, key=date_key, reverse=True)
+        data = data[:self.data.count]
+
+        for item in data:
+            if IActivity.providedBy(item):
+                text = item.text
+                title = ''
+                url = ''
+                portal_type = ''  # 'Activity'
+                render_type = 'status'
+                userid = creator = item.creator
             else:
-                userid = obj.getOwnerTuple()[1]
-                render_type = 'content'
-                text = obj.Description()
+                # It is a catalog brain.
+                obj = item.getObject()
+                title = obj.Title()
+                url = item.getURL()
+                portal_type = obj.portal_type
+                creator = obj.Creator()
+                raw_date = obj.creation_date
+                if obj.portal_type == 'Discussion Item':
+                    userid = obj.author_username
+                    text = obj.getText()
+                    # obj: DiscussionItem
+                    # parent: Conversation
+                    # grandparent: content object
+                    _contentparent = aq_parent(aq_parent(aq_inner(obj)))
+                    if _contentparent == getSite():
+                        # plonesocial.microblog update on siteroot
+                        render_type = 'status'
+                    else:
+                        # normal discussion reply
+                        render_type = 'discussion'
+                        title = _contentparent.Title()
+                else:
+                    userid = obj.getOwnerTuple()[1]
+                    render_type = 'content'
+                    text = obj.Description()
 
             is_status = render_type == 'status'
             is_discussion = render_type == 'discussion'
             is_content = render_type == 'content'
 
             results.append(dict(
-                    getURL=brain.getURL(),
+                    getURL=url,
                     Title=title,
-                    portal_type=obj.portal_type,
+                    portal_type=portal_type,
                     render_type=render_type,
                     is_status=is_status,
                     is_discussion=is_discussion,
                     is_content=is_content,
                     userid=userid,
-                    Creator=obj.Creator(),
+                    Creator=creator,
                     has_author_link=self.get_user_home_url(userid) is not None,
                     author_home_url=self.get_user_home_url(userid),
                     portrait_url=self.get_user_portrait(userid),
-                    date=self.format_time(obj.creation_date),
+                    date=self.format_time(raw_date),
                     getText=text,
                     ))
 

@@ -18,6 +18,13 @@
       description="Installs the plonesocial.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <adapter
+      for="zope.interface.Interface"
+      provides=".activity.IActivityContainer"
+      factory=".activity.ActivityContainer"
+      />
+
   <!-- -*- extra stuff goes here -*- -->
   
 </configure>
