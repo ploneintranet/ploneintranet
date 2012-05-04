@@ -44,7 +44,10 @@ class Assignment(base.Assignment):
 
     title = u""  # overrides readonly property method from base class
 
-    def __init__(self, title, count, compact):
+    def __init__(self,
+                 title='Activity Stream',
+                 count=5,
+                 compact=True):
         self.title = title
         self.count = count
         self.compact = compact
