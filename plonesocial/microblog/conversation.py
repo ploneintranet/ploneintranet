@@ -78,18 +78,18 @@ def statusConversationAdapterFactory(content):
     An adapter registered for a class (PloneSite) is more specific
     than an adapter registered for an interface (IAnnotatable)
     """
-    annotions = IAnnotations(content)
-    if not ANNOTATION_KEY in annotions:
+    annotations = IAnnotations(content)
+    if not ANNOTATION_KEY in annotations:
         # first-time setup
         conversation = StatusConversation()
         conversation.__parent__ = aq_base(content)
 
         # pre-empt p.a.d. Conversation registration
         # at pad_conversation.Conversation.addcomment
-        annotions[ANNOTATION_KEY] = aq_base(conversation)
+        annotations[ANNOTATION_KEY] = aq_base(conversation)
 
     else:
-        conversation = annotions[ANNOTATION_KEY]
+        conversation = annotations[ANNOTATION_KEY]
     return conversation.__of__(content)
 
 
