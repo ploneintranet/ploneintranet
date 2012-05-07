@@ -15,6 +15,9 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from AccessControl import getSecurityManager
 from zope.app.component.hooks import getSite
 
+from plonesocial.microblog.interfaces import IStatusContainer
+from plonesocial.microblog.interfaces import IStatusUpdate
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
 
@@ -85,9 +88,7 @@ class Renderer(base.Renderer):
                                        )[:self.data.count]
 
         # Combine these brains with activities.
-        from plonesocial.activitystream.activity import IActivityContainer
-        from plonesocial.activitystream.activity import IActivity
-        container = IActivityContainer(self.context)
+        container = IStatusContainer(self.context)
         if True:
             # Fake a new activity with some random text, just to get a
             # bit of content.
@@ -121,7 +122,7 @@ class Renderer(base.Renderer):
         data = data[:self.data.count]
 
         for item in data:
-            if IActivity.providedBy(item):
+            if IStatusUpdate.providedBy(item):
                 text = item.text
                 title = ''
                 url = ''
