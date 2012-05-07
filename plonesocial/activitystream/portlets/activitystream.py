@@ -88,7 +88,7 @@ class Renderer(base.Renderer):
         from plonesocial.activitystream.activity import IActivityContainer
         from plonesocial.activitystream.activity import IActivity
         container = IActivityContainer(self.context)
-        if False:
+        if True:
             # Fake a new activity with some random text, just to get a
             # bit of content.
             import random
@@ -128,6 +128,7 @@ class Renderer(base.Renderer):
                 portal_type = ''  # 'Activity'
                 render_type = 'status'
                 userid = creator = item.creator
+                raw_date = item.date
             else:
                 # It is a catalog brain.
                 obj = item.getObject()
