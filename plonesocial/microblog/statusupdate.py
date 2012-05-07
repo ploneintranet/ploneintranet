@@ -22,7 +22,8 @@ class StatusUpdate(Persistent):
         self.text = text
         sm = getSecurityManager()
         user = sm.getUser()
-        self.creator = user.getId() or '(anonymous)'
+        self.userid = user.getId() or '(anonymous)'
+        self.creator = 'todo creator'
         self.date = DateTime()
         if tags is None:
             self.tags = PersistentList()

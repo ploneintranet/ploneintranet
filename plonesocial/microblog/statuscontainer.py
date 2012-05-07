@@ -11,7 +11,6 @@ from zope.interface import implements
 
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
-from statusupdate import StatusUpdate
 
 logger = logging.getLogger('plonesocial.microblog')
 
@@ -33,10 +32,9 @@ class StatusContainer(Persistent):
         if not IStatusUpdate.providedBy(value):
             raise ValueError("IStatusUpdate interface not provided.")
 
-    def add(self, text, tags=None):
-        value = StatusUpdate(text, tags=tags)
+    def add(self, status):
         key = DateTime()
-        self.insert(key, value)
+        self.insert(key, status)
 
     def clear(self):
         return self.__mapping.clear()

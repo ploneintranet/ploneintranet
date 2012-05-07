@@ -42,9 +42,11 @@ from plone.app.discussion.browser.validator import CaptchaValidator
 
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
-
-
 from plone.z3cform.interfaces import IWrappedForm
+
+from plonesocial.microblog.interfaces import IStatusContainer
+from plonesocial.microblog.interfaces import IStatusUpdate
+from plonesocial.microblog.statusupdate import StatusUpdate
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",
@@ -73,65 +75,34 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     ignoreContext = True  # don't use context to get widget data
     id = None
     label = _(u"Add a comment")
-    fields = field.Fields(IComment).omit('portal_type',
-                                         '__parent__',
-                                         '__name__',
-                                         'comment_id',
-                                         'mime_type',
-                                         'creator',
-                                         'creation_date',
-                                         'modification_date',
-                                         'author_username',
-                                         'title')
+    fields = field.Fields(IStatusUpdate).omit('portal_type',
+                                              '__parent__',
+                                              '__name__',
+                                              'comment_id',
+                                              'mime_type',
+                                              'creator',
+                                              'userid',
+                                              'creation_date')
 
     def updateFields(self):
         super(CommentForm, self).updateFields()
-        self.fields['user_notification'].widgetFactory = \
-            SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
-
-        # Widgets
-        self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
-        self.widgets['text'].addClass("autoresize")
-        self.widgets['user_notification'].label = _(u"")
-
-        # Anonymous / Logged-in
-        mtool = getToolByName(self.context, 'portal_membership')
-        if not mtool.isAnonymousUser():
-            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
-            self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-
-        # Todo: Since we are not using the author_email field in the
-        # current state, we hide it by default. But we keep the field for
-        # integrators or later use.
-        self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-        member = mtool.getAuthenticatedMember()
-        member_email = member.getProperty('email')
-
-        # Hide the user_notification checkbox if user notification is disabled
-        # or the user is not logged in. Also check if the user has a valid
-        # email address
-        if member_email == '' or \
-           not settings.user_notification_enabled or \
-           mtool.isAnonymousUser():
-                self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
     def updateActions(self):
         super(CommentForm, self).updateActions()
         self.actions['cancel'].addClass("standalone")
         self.actions['cancel'].addClass("hide")
-        self.actions['comment'].addClass("context")
+        self.actions['statusupdate'].addClass("context")
 
-    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"),
-                             name='comment')
+    @button.buttonAndHandler(_(u"add_statusupdate_button",
+                               default=u"What are you doing?"),
+                             name='statusupdate')
     def handleComment(self, action):
         context = aq_inner(self.context)
 
+## FIXME
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
             '@@conversation_view').enabled():
@@ -143,52 +114,19 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if errors:
             return
 
-        # Validate Captcha
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        if settings.captcha != 'disabled' and \
-        settings.anonymous_comments and \
-        portal_membership.isAnonymousUser():
-            if not 'captcha' in data:
-                data['captcha'] = u""
-            captcha = CaptchaValidator(self.context,
-                                       self.request,
-                                       None,
-                                       ICaptcha['captcha'],
-                                       None)
-            captcha.validate(data['captcha'])
-
-        # some attributes are not always set
-        author_name = u""
-        author_email = u""
-        user_notification = None
 
         # Create comment
         comment = createObject('plone.Comment')
         # Set comment attributes (including extended comment form attributes)
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])
-        # Make sure author_name is properly encoded
-        if 'author_name' in data:
-            author_name = data['author_name']
-            if isinstance(author_name, str):
-                author_name = unicode(author_name, 'utf-8')
 
         # Set comment author properties for anonymous users or members
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        if portal_membership.isAnonymousUser() and \
-           settings.anonymous_comments:
-            # Anonymous Users
-            comment.creator = author_name
-            comment.author_name = author_name
-            comment.author_email = author_email
-            comment.user_notification = user_notification
-            comment.creation_date = datetime.utcnow()
-            comment.modification_date = datetime.utcnow()
-        elif not portal_membership.isAnonymousUser() and can_reply:
+        if not portal_membership.isAnonymousUser() and can_reply:
             # Member
             member = portal_membership.getAuthenticatedMember()
             username = member.getUserName()
@@ -205,43 +143,34 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_username = username
             comment.author_name = fullname
             comment.author_email = email
-            comment.user_notification = user_notification
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         else:  # pragma: no cover
-            raise Unauthorized("Anonymous user tries to post a comment, but "
-                "anonymous commenting is disabled. Or user does not have the "
+            raise Unauthorized("Anonymous user tries to post a status update, "
+                "or user does not have the "
                 "'reply to item' permission.")
 
-        # Add comment to conversation
-        conversation = IConversation(self.__parent__)
-        if data['in_reply_to']:
-            # Add a reply to an existing comment
-            conversation_to_reply_to = conversation.get(data['in_reply_to'])
-            replies = IReplies(conversation_to_reply_to)
-            comment_id = replies.addComment(comment)
-        else:
-            # Add a comment to the conversation
-            comment_id = conversation.addComment(comment)
+        container = IStatusContainer(self.__parent__)  # make this getSite
+        # Fake a new activity with some random text, just to get a
+        # bit of content.
+        import random
+        import string
+        text = ''.join(random.sample(string.printable,
+                                      random.randint(8, 20)))
+        # pick between zero and two tags:
+        possible_tags = ['random', 'fuzzy', 'beer']
+        tags = random.sample(possible_tags, random.randint(0, 2))
+        text = data['text']
+        status = StatusUpdate(text, tags)
 
-        # Redirect after form submit:
-        # If a user posts a comment and moderation is enabled, a message is
-        # shown to the user that his/her comment awaits moderation. If the user
-        # has 'review comments' permission, he/she is redirected directly
-        # to the comment.
-        can_review = getSecurityManager().checkPermission('Review comments',
-                                                          context)
-        workflowTool = getToolByName(context, 'portal_workflow')
-        comment_review_state = workflowTool.getInfoFor(comment, 'review_state')
-        if comment_review_state == 'pending' and not can_review:
-            # Show info message when comment moderation is enabled
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Your comment awaits moderator approval."),
-                type="info")
-            self.request.response.redirect(self.action)
-        else:
-            # Redirect to comment (inside a content object page)
-            self.request.response.redirect(self.action + '#' + str(comment_id))
+        # debugging only
+        container.clear()
+
+        # save the status update
+        container.add(status)
+
+        # Redirect to portal home
+        self.request.response.redirect(self.action)
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
