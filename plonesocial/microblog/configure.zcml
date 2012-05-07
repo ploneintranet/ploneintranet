@@ -10,6 +10,12 @@
   <include package=".browser" />
   <include package=".portlets" />
 
+  <adapter
+      for="zope.interface.Interface"
+      provides=".interfaces.IStatusContainer"
+      factory=".statuscontainer.StatusContainer"
+      />
+
   <adapter factory=".conversation.statusConversationAdapterFactory" />
   <adapter factory=".conversation.StatusConversationReplies" />
 
