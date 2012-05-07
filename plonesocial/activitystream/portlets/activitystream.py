@@ -89,19 +89,6 @@ class Renderer(base.Renderer):
 
         # Combine these brains with activities.
         container = IStatusContainer(self.context)
-        if True:
-            # Fake a new activity with some random text, just to get a
-            # bit of content.
-            import random
-            import string
-            text = ''.join(random.sample(string.printable,
-                                          random.randint(8, 20)))
-            # pick between zero and two tags:
-            possible_tags = ['random', 'fuzzy', 'beer']
-            tags = random.sample(possible_tags, random.randint(0, 2))
-            container.add(text, tags=tags)
-            self.mauritsitems = list(container.values()[-self.data.count:])
-            self.mauritsitems.reverse()
 
         min_date = brains[-1].effective
         activities = container.values(min=min_date)[-self.data.count:]
@@ -126,9 +113,10 @@ class Renderer(base.Renderer):
                 text = item.text
                 title = ''
                 url = ''
-                portal_type = ''  # 'Activity'
+                portal_type = 'StatusUpdate'
                 render_type = 'status'
-                userid = creator = item.creator
+                creator = item.creator
+                userid = item.userid
                 raw_date = item.date
             else:
                 # It is a catalog brain.
