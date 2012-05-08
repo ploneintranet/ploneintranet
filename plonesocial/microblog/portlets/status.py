@@ -1,5 +1,6 @@
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_chain
+from zope.app.component.hooks import getSite
 
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
@@ -31,7 +32,6 @@ from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
@@ -47,6 +47,9 @@ from plone.z3cform.interfaces import IWrappedForm
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.statusupdate import StatusUpdate
+
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('plonesocial.microblog')
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",
@@ -78,7 +81,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     fields = field.Fields(IStatusUpdate).omit('portal_type',
                                               '__parent__',
                                               '__name__',
-                                              'comment_id',
+                                              'id',
                                               'mime_type',
                                               'creator',
                                               'userid',
@@ -100,71 +103,17 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                default=u"What are you doing?"),
                              name='statusupdate')
     def handleComment(self, action):
-        context = aq_inner(self.context)
-
-## FIXME
-        # Check if conversation is enabled on this content object
-        if not self.__parent__.restrictedTraverse(
-            '@@conversation_view').enabled():
-            raise Unauthorized("Discussion is not enabled for this content "
-                               "object.")
 
         # Validation form
         data, errors = self.extractData()
         if errors:
             return
 
-        portal_membership = getToolByName(self.context, 'portal_membership')
-
-        # Create comment
-        comment = createObject('plone.Comment')
-        # Set comment attributes (including extended comment form attributes)
-        for attribute in self.fields.keys():
-            setattr(comment, attribute, data[attribute])
-
-        # Set comment author properties for anonymous users or members
-        can_reply = getSecurityManager().checkPermission('Reply to item',
-                                                         context)
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        if not portal_membership.isAnonymousUser() and can_reply:
-            # Member
-            member = portal_membership.getAuthenticatedMember()
-            username = member.getUserName()
-            email = member.getProperty('email')
-            fullname = member.getProperty('fullname')
-            if not fullname or fullname == '':
-                fullname = member.getUserName()
-            # memberdata is stored as utf-8 encoded strings
-            elif isinstance(fullname, str):
-                fullname = unicode(fullname, 'utf-8')
-            if email and isinstance(email, str):
-                email = unicode(email, 'utf-8')
-            comment.creator = fullname
-            comment.author_username = username
-            comment.author_name = fullname
-            comment.author_email = email
-            comment.creation_date = datetime.utcnow()
-            comment.modification_date = datetime.utcnow()
-        else:  # pragma: no cover
-            raise Unauthorized("Anonymous user tries to post a status update, "
-                "or user does not have the "
-                "'reply to item' permission.")
-
-        container = IStatusContainer(self.__parent__)  # make this getSite
-        # Fake a new activity with some random text, just to get a
-        # bit of content.
-        import random
-        import string
-        text = ''.join(random.sample(string.printable,
-                                      random.randint(8, 20)))
-        # pick between zero and two tags:
-        possible_tags = ['random', 'fuzzy', 'beer']
-        tags = random.sample(possible_tags, random.randint(0, 2))
-        text = data['text']
-        status = StatusUpdate(text, tags)
+        container = IStatusContainer(getSite())  # local site will fail!
+        status = StatusUpdate(data['text'])
 
         # debugging only
-        container.clear()
+#        container.clear()
 
         # save the status update
         container.add(status)

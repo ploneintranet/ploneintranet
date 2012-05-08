@@ -11,13 +11,10 @@
   <include package=".portlets" />
 
   <adapter
-      for="zope.interface.Interface"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides=".interfaces.IStatusContainer"
-      factory=".statuscontainer.StatusContainer"
+      factory=".statuscontainer.statusContainerAdapterFactory"
       />
-
-  <adapter factory=".conversation.statusConversationAdapterFactory" />
-  <adapter factory=".conversation.StatusConversationReplies" />
 
   <genericsetup:registerProfile
       name="default"

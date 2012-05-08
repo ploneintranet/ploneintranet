@@ -1,10 +1,12 @@
 import logging
+import re
 
 from AccessControl import getSecurityManager
+from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from persistent import Persistent
-from persistent.list import PersistentList
 from zope.interface import implements
+from zope.app.component.hooks import getSite
 
 from interfaces import IStatusUpdate
 
@@ -15,20 +17,20 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, tags=None):
-        logger.info("Initializing status update with text %r and tags %r.",
-                    text, tags)
+    def __init__(self, text):
         self.__parent__ = self.__name__ = None
+        self.id = None  # will be set on insertion by IStatusContainer
         self.text = text
-        sm = getSecurityManager()
-        user = sm.getUser()
-        self.userid = user.getId() or '(anonymous)'
-        self.creator = 'todo creator'
         self.date = DateTime()
-        if tags is None:
-            self.tags = PersistentList()
-        else:
-            self.tags = PersistentList(tags)
+
+        self.userid = getSecurityManager().getUser().getId()
+        portal_membership = getToolByName(getSite(), 'portal_membership')
+        member = portal_membership.getAuthenticatedMember()
+        self.creator = member.getUserName()
+
+    @property
+    def tags(self):
+        return re.findall('\s(#\S*)\s', self.text)
 
     # Act a bit more like a catalog brain:
 
