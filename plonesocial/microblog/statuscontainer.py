@@ -11,7 +11,6 @@ from Acquisition import Explicit
 
 from zope.annotation.interfaces import IAnnotations
 from zope.app.container.contained import ObjectAddedEvent
-from zope.app.container.contained import ObjectRemovedEvent
 from zope.event import notify
 from zope.interface import implements
 
@@ -72,11 +71,7 @@ class StatusContainer(Persistent, Explicit):
             self.__tag_mapping[tag].insert(status.id)
 
     def insert(self, key, status):
-        """Low-level BTree compatibility method.
-        Don't use this, it will destroy index consistency.
-        Use .add() instead.
-        """
-        raise AttributeError("Unsupported method")
+        raise NotImplementedError("Can't allow that to happen.")
 
     def clear(self):
         self.__user_mapping.clear()
@@ -102,20 +97,13 @@ class StatusContainer(Persistent, Explicit):
         return self.__status_mapping.keys(min=min, max=max)
 
     def pop(self, k, d=None):
-        _marker = object()
-        result = self.__status_mapping.pop(k, d=_marker)
-        if result is _marker:
-            return d
-        event = ObjectRemovedEvent(result, oldParent=self.context,
-                                   oldName=k)
-        notify(event)
-        return result
+        raise NotImplementedError("Can't allow that to happen.")
 
     def setdefault(self, k, d):
-        return self.__status_mapping.setdefault(k, d)
+        raise NotImplementedError("Can't allow that to happen.")
 
     def update(self, collection):
-        return self.__status_mapping.update(collection)
+        raise NotImplementedError("Can't allow that to happen.")
 
     def values(self, min=None, max=None):
         return self.__status_mapping.values(min=min, max=max)
