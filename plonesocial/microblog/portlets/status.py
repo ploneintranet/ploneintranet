@@ -73,7 +73,7 @@ COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     default=u"Comments are moderated.")
 
 
-class CommentForm(extensible.ExtensibleForm, form.Form):
+class StatusForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True  # don't use context to get widget data
     id = None
@@ -88,13 +88,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                               'creation_date')
 
     def updateFields(self):
-        super(CommentForm, self).updateFields()
+        super(StatusForm, self).updateFields()
 
     def updateWidgets(self):
-        super(CommentForm, self).updateWidgets()
+        super(StatusForm, self).updateWidgets()
 
     def updateActions(self):
-        super(CommentForm, self).updateActions()
+        super(StatusForm, self).updateActions()
         self.actions['cancel'].addClass("standalone")
         self.actions['cancel'].addClass("hide")
         self.actions['statusupdate'].addClass("context")
@@ -128,37 +128,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         pass  # pragma: no cover
 
 
-class StatusForm(CommentForm):
-    """
-    re-add the button and handler on a different name
-    so we don't get double form processing
-    and double comment creation
-    """
-    form.extends(CommentForm, ignoreButtons=True, ignoreHandlers=True)
-
-    def updateActions(self):
-        super(CommentForm, self).updateActions()
-        self.actions['cancel'].addClass("standalone")
-        self.actions['cancel'].addClass("hide")
-        self.actions['status'].addClass("context")
-
-    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"),
-                             name='status')
-    def handleStatus(self, action):
-        # unwrap CommentForm.handleComment from it's decorator
-        # depends on z3c.form.button.Handler implementation detail
-        CommentForm.handleComment.func(self, action)
-
-    @button.buttonAndHandler(_(u"Cancel"))
-    def handleCancel(self, action):
-        # This method should never be called, it's only there to show
-        # a cancel button that is handled by a jQuery method.
-        pass  # pragma: no cover
-
 
 class CommentsViewlet(ViewletBase):
 
-    form = CommentForm
+    form = StatusForm
     index = ViewPageTemplateFile('status.pt')
 
     def update(self):
