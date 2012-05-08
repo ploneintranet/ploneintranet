@@ -1,20 +1,9 @@
-<tal:block tal:define="userHasReplyPermission view/can_reply;
-                       isDiscussionAllowed view/is_discussion_allowed;
-                       isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
-                       isAnon view/is_anonymous;
-                       canReview view/can_review;
-                       replies python:view.get_replies(canReview);
-                       has_replies python:view.has_replies(canReview);
-                       showCommenterImage view/show_commenter_image;
-                       errors options/state/getErrors|nothing;
-                       wtool context/@@plone_tools/workflow;"
-           tal:condition="python:isDiscussionAllowed or has_replies"
+<tal:block tal:define="isAnon view/is_anonymous;
+                       errors options/state/getErrors|nothing;"
+           tal:condition="not:isAnon"
            i18n:domain="plone">
 
-    <div id="microblog" class="plonesocial" 
-         tal:define="userHasReplyPermission view/can_reply;
-                     isDiscussionAllowed view/is_discussion_allowed;"
-         tal:condition="python:isDiscussionAllowed and userHasReplyPermission and not isAnon">
+    <div id="microblog" class="plonesocial">
 
         <fieldset tal:condition="not:view/compact">
 
