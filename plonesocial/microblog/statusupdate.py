@@ -30,7 +30,7 @@ class StatusUpdate(Persistent):
 
     @property
     def tags(self):
-        return re.findall('\s(#\S*)\s', self.text)
+        return re.findall('#\S*', self.text)
 
     # Act a bit more like a catalog brain:
 
