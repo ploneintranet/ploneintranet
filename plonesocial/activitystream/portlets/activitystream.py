@@ -1,3 +1,4 @@
+import itertools
 from DateTime import DateTime
 from zope.interface import implements
 from zope import schema
@@ -91,11 +92,12 @@ class Renderer(base.Renderer):
         container = IStatusContainer(self.context)
 
         min_date = brains[-1].effective
-        activities = container.values(min=min_date)[-self.data.count:]
+        min_time = long(min_date.time)
+        activities = container.values(min=min_time)[-self.data.count:]
         # Make it a list and reverse it.
         #activities = list(activities)
         #activities = activities.reverse()
-        import itertools
+
         data = itertools.chain(brains, activities)
 
         def date_key(item):
