@@ -13,13 +13,11 @@
         <span class="portletTopRight"></span>
     </dt>
 
-    <dd class="portletItem odd"
-        tal:define="showCommenterImage view/show_commenter_image"
-        >
+    <dd class="portletItem odd">
       <div tal:attributes="class string:activityItem ${item/render_type}"
            tal:repeat="item view/items">
 
-        <div class="activityAvatar" tal:condition="showCommenterImage">
+        <div class="activityAvatar">
           <a href="" tal:condition="item/has_author_link"
              tal:attributes="href item/author_home_url">
             <img src="defaultUser.gif"
@@ -84,6 +82,7 @@
                      tal:condition="item/getText">
 
                     <div class="commentActions"
+                         tal:condition="item/is_discussion"
                          i18n:domain="plone.app.discussion">
                         <form name="delete"
                               action=""

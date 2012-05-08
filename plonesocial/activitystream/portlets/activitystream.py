@@ -2,7 +2,6 @@ import itertools
 from DateTime import DateTime
 from zope.interface import implements
 from zope import schema
-from zope.component import queryUtility
 from zope.formlib import form
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
@@ -11,10 +10,7 @@ from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFCore.utils import getToolByName
 from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
-from plone.registry.interfaces import IRegistry
-from plone.app.discussion.interfaces import IDiscussionSettings
 from AccessControl import getSecurityManager
-from zope.app.component.hooks import getSite
 
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
@@ -129,19 +125,14 @@ class Renderer(base.Renderer):
                 creator = obj.Creator()
                 raw_date = obj.creation_date
                 if obj.portal_type == 'Discussion Item':
+                    render_type = 'discussion'
                     userid = obj.author_username
                     text = obj.getText()
                     # obj: DiscussionItem
                     # parent: Conversation
                     # grandparent: content object
                     _contentparent = aq_parent(aq_parent(aq_inner(obj)))
-                    if _contentparent == getSite():
-                        # plonesocial.microblog update on siteroot
-                        render_type = 'status'
-                    else:
-                        # normal discussion reply
-                        render_type = 'discussion'
-                        title = _contentparent.Title()
+                    title = _contentparent.Title()
                 else:
                     userid = obj.getOwnerTuple()[1]
                     render_type = 'content'
@@ -187,12 +178,6 @@ class Renderer(base.Renderer):
                                               None)
             return portal_membership.getPersonalPortrait(username)\
                    .absolute_url()
-
-    def show_commenter_image(self):
-        # Check if showing commenter image is enabled in the registry
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-        return settings.show_commenter_image
 
     def is_anonymous(self):
         portal_membership = getToolByName(self.context,

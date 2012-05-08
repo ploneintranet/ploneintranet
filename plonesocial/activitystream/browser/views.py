@@ -1,8 +1,6 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.activitystream.activity import Activity
-
 
 class PortalView(BrowserView):
     """Home page view containing activity stream viewlets."""
