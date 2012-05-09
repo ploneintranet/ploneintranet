@@ -1,11 +1,7 @@
 import time
 import unittest2 as unittest
 
-#from zope.component import createObject
-#from Acquisition import aq_base, aq_parent
-#from Products.CMFCore.utils import getToolByName
 from plone.app.testing import TEST_USER_ID, setRoles
-
 from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
 
@@ -14,7 +10,7 @@ from plonesocial.microblog.statuscontainer import StatusContainer
 from plonesocial.microblog.statusupdate import StatusUpdate
 
 
-class TestStatusContainer(unittest.TestCase):
+class TestStatusContainer_Primary(unittest.TestCase):
 
     layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
 
@@ -50,12 +46,6 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su)
         self.assertEqual(1, len(container.items()))
 
-    def test_add_user_idx(self):
-        pass
-
-    def test_add_tag_idx(self):
-        pass
-
     def test_key_corresponds_to_id(self):
         container = IStatusContainer(self.portal)
         su = StatusUpdate('test')
@@ -71,6 +61,8 @@ class TestStatusContainer(unittest.TestCase):
         self.assertEqual(1, len(container.items()))
         container.clear()
         self.assertEqual(0, len(container.items()))
+
+    ## primary accessors
 
     def test_get(self):
         container = IStatusContainer(self.portal)
@@ -239,3 +231,4 @@ class TestStatusContainer(unittest.TestCase):
         self.assertEqual([sa, sb], values)
         values = [x for x in container.values(min=tc, max=tc)]
         self.assertEqual([sc], values)
+

@@ -22,8 +22,15 @@ class StatusUpdate(Persistent):
         self.id = None  # will be set on insertion by IStatusContainer
         self.text = text
         self.date = DateTime()
+        self._init_userid()
+        self._init_creator()
 
+    # for unittest subclassing
+    def _init_userid(self):
         self.userid = getSecurityManager().getUser().getId()
+
+    # for unittest subclassing
+    def _init_creator(self):
         portal_membership = getToolByName(getSite(), 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
         self.creator = member.getUserName()

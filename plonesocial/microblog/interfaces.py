@@ -45,10 +45,22 @@ class IStatusContainer(Interface):
     def clear(self):
         """Empty the status storage and all indexes."""
 
+    ## primary accessors
+
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
     def items(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def keys(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def values(min=None, max=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         """
@@ -68,14 +80,19 @@ class IStatusContainer(Interface):
         min and max are longint IStatusUpdate.id keys.
         """
 
-    def keys(min=None, max=None):
-        """BTree compatible accessor.
+    ## user accessors
+
+    def user_items(users, min=None, max=None):
+        """Filter (key, IStatusUpdate) items by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         """
 
-    def values(min=None, max=None):
-        """BTree compatible accessor.
+    def user_keys(users, min=None, max=None):
+        """Filter IStatusUpdate keys by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         """
 
-
+    def user_values(users, min=None, max=None):
+        """Filter IStatusUpdate values by iterable of userids.
+        min and max are longint IStatusUpdate.id keys.
+        """
