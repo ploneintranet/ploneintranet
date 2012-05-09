@@ -6,13 +6,6 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
 
 
-class IStatusContainer(Interface):
-    """Manages read/write access to, and storage of,
-    IStatusUpdate instances."""
-
-    pass
-
-
 class IStatusUpdate(Interface):
     """A single 'tweet'."""
 
@@ -23,3 +16,66 @@ class IStatusUpdate(Interface):
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))
     tags = Attribute("Tags/keywords")
+
+
+class IStatusContainer(Interface):
+    """Manages read/write access to, and storage of,
+    IStatusUpdate instances.
+
+    IStatusContainer provides a subset of a ZODB IBTree interface.
+
+    Some IBTree methods are blocked because they would destroy
+    consistency of the internal data structures.
+
+    IStatusContainer manages a more complex data structure than
+    just a BTree: it also provides for user and tag indexes.
+    These are covered in additional methods.
+    """
+
+    def add(status):
+        """Add a IStatusUpdate.
+
+        Actual storage may be queued for later insertion by
+        the implementation.
+
+        Returns 1 on completion of synchronous insertion.
+        Returns 0 when the actual insertion is queued for later processing.
+        """
+
+    def clear(self):
+        """Empty the status storage and all indexes."""
+
+    def get(key):
+        """Fetch an IStatusUpdate by IStatusUpdate.id key."""
+
+    def items(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def iteritems(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def iterkeys(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def itervalues(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def keys(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+    def values(min=None, max=None):
+        """BTree compatible accessor.
+        min and max are longint IStatusUpdate.id keys.
+        """
+
+

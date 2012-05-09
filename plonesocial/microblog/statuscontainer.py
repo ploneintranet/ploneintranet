@@ -19,7 +19,7 @@ from interfaces import IStatusUpdate
 
 logger = logging.getLogger('plonesocial.microblog')
 
-ANNOTATION_KEY = 'plonesocial.microblog'
+ANNOTATION_KEY = 'plonesocial.microblog:statuscontainer'
 
 
 class StatusContainer(Persistent, Explicit):
@@ -70,7 +70,7 @@ class StatusContainer(Persistent, Explicit):
             # add status id to tag treeset
             self.__tag_mapping[tag].insert(status.id)
 
-    def insert(self, key, status):
+    def insert(self, key, value):
         raise NotImplementedError("Can't allow that to happen.")
 
     def clear(self):
