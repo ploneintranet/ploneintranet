@@ -8,6 +8,7 @@ from plone.app.testing import TEST_USER_ID, setRoles
 from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
 
+from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.statusupdate import StatusUpdate
 
 
@@ -20,21 +21,24 @@ class TestStatusUpdate(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
+    def test_implements(self):
+        self.assertTrue(IStatusUpdate.implementedBy(StatusUpdate))
+
     def test_text(self):
-        s = StatusUpdate('foo bar')
-        self.assertEquals(s.text, 'foo bar')
+        su = StatusUpdate('foo bar')
+        self.assertEquals(su.text, 'foo bar')
 
     def test_tags(self):
-        s = StatusUpdate('#foo bar #fuzzy #beer')
-        tags = list(s.tags)
+        su = StatusUpdate('#foo bar #fuzzy #beer')
+        tags = list(su.tags)
         tags.sort()
         self.assertEquals(tags, ['#beer', '#foo', '#fuzzy'])
 
     def no_test_userid(self):
         """Doesn't work in test context"""
-        s = StatusUpdate('foo bar')
-        self.assertEquals(s.id, TEST_USER_ID)
+        su = StatusUpdate('foo bar')
+        self.assertEquals(su.id, TEST_USER_ID)
 
     def test_creator(self):
-        s = StatusUpdate('foo bar')
-        self.assertEquals(s.creator, 'test-user')
+        su = StatusUpdate('foo bar')
+        self.assertEquals(su.creator, 'test-user')

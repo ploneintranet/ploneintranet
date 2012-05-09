@@ -78,8 +78,8 @@ class StatusContainer(Persistent, Explicit):
         self.__tag_mapping.clear()
         return self.__status_mapping.clear()
 
-    def get(self, key, default=None):
-        return self.__status_mapping.get(key, default=default)
+    def get(self, key):
+        return self.__status_mapping.get(key)
 
     def items(self, min=None, max=None):
         return self.__status_mapping.items(min=min, max=max)
