@@ -43,13 +43,13 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_add_items(self):
         container = IStatusContainer(self.portal)
         su = StatusUpdate('test')
-        container.add(su)
+        container.store(su)
         self.assertEqual(1, len(container.items()))
 
     def test_key_corresponds_to_id(self):
         container = IStatusContainer(self.portal)
         su = StatusUpdate('test')
-        container.add(su)
+        container.store(su)
         (key, value) = container.items()[0]
         self.assertEqual(key, value.id)
         self.assertEqual(su, value)
@@ -57,7 +57,7 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_clear_items(self):
         container = IStatusContainer(self.portal)
         su = StatusUpdate('test')
-        container.add(su)
+        container.store(su)
         self.assertEqual(1, len(container.items()))
         container.clear()
         self.assertEqual(0, len(container.items()))
@@ -67,23 +67,23 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_get(self):
         container = IStatusContainer(self.portal)
         su = StatusUpdate('test')
-        container.add(su)
+        container.store(su)
         self.assertEqual(su, container.get(su.id))
 
     def test_items_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         values = [x[1] for x in container.items(max=ta)]
@@ -100,17 +100,17 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_iteritems_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         values = [x[1] for x in container.iteritems(max=ta)]
@@ -127,17 +127,17 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_iterkeys_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         keys = [x for x in container.iterkeys(max=ta)]
@@ -154,17 +154,17 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_itervalues_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         values = [x for x in container.itervalues(max=ta)]
@@ -181,17 +181,17 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_keys_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         keys = [x for x in container.keys(max=ta)]
@@ -208,17 +208,17 @@ class TestStatusContainer_Primary(unittest.TestCase):
     def test_values_min_max(self):
         container = IStatusContainer(self.portal)
         sa = StatusUpdate('test a')
-        container.add(sa)
+        container.store(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.add(sb)
+        container.store(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.add(sc)
+        container.store(sc)
         tc = sc.id
 
         values = [x for x in container.values(max=ta)]

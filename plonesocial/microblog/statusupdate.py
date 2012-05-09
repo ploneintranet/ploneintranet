@@ -1,5 +1,6 @@
 import logging
 import re
+import time
 
 from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
@@ -19,7 +20,7 @@ class StatusUpdate(Persistent):
 
     def __init__(self, text):
         self.__parent__ = self.__name__ = None
-        self.id = None  # will be set on insertion by IStatusContainer
+        self.id = long(time.time() * 1e6)  # modified by IStatusContainer
         self.text = text
         self.date = DateTime()
         self._init_userid()
