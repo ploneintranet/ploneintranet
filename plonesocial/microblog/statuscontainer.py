@@ -221,17 +221,17 @@ class QueuedStatusContainer(BaseStatusContainer):
     def add(self, status):
         self._check_status(status)
         if MAX_QUEUE_AGE > 0:
-            self.queue(status)
+            self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)
             self._schedule_flush()
             # immediate sync on low traffic (old ._mtime)
             # postpones sync on high traffic (next .add())
-            return self.autoflush()
+            return self._autoflush()
         else:
             self._store(status)
             return 1  # immediate write
 
-    def queue(self, status):
+    def _queue(self, status):
         STATUSQUEUE.put((status.id, status))
 
     def _schedule_flush(self):
@@ -261,16 +261,16 @@ class QueuedStatusContainer(BaseStatusContainer):
     def _scheduled_autoflush(self):
         """This method is run from the timer, outside a normal request scope.
         This requires an explicit commit on db write"""
-        if self.autoflush():  # returns 1 on actual write
+        if self._autoflush():  # returns 1 on actual write
             transaction.commit()
 
-    def autoflush(self):
+    def _autoflush(self):
         #logger.info("autoflush")
         if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
-            return self.flush_queue()  # 1 on write, 0 on noop
+            return self._flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
-    def flush_queue(self):
+    def _flush_queue(self):
         #logger.info("flush_queue")
 
         with LOCK:

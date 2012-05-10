@@ -1,6 +1,7 @@
 import time
 import unittest2 as unittest
 from zope.interface import implements
+from zope.interface.verify import verifyClass
 
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
@@ -30,12 +31,8 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
 class TestBaseStatusContainer(unittest.TestCase):
 
-    def test_implements(self):
-        self.assertTrue(IStatusContainer.implementedBy(BaseStatusContainer))
-
-    def test_adaptation(self):
-        container = BaseStatusContainer()
-        self.assertTrue(IStatusContainer.providedBy(container))
+    def test_verify_interface(self):
+        self.assertTrue(verifyClass(IStatusContainer, BaseStatusContainer))
 
     def test_empty(self):
         container = BaseStatusContainer()

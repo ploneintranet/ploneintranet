@@ -2,7 +2,9 @@ import time
 import Queue
 import unittest2 as unittest
 from zope.interface import implements
+from zope.interface.verify import verifyClass
 
+from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.statuscontainer import QueuedStatusContainer
 from plonesocial.microblog import statusupdate
@@ -54,6 +56,9 @@ class TestQueueStatusContainer(unittest.TestCase):
                 STATUSQUEUE.get(block=False)
             except Queue.Empty:
                 break
+
+    def test_verify_interface(self):
+        self.assertTrue(verifyClass(IStatusContainer, QueuedStatusContainer))
 
     def test_add_queued(self):
         """Test the queueing"""

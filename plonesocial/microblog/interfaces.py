@@ -42,14 +42,7 @@ class IStatusContainer(Interface):
         Returns 0 when the actual insertion is queued for later processing.
         """
 
-    def store(status):
-        """Add a IStatusUpdate, forcing immediate disk commit.
-
-        Don't use this unless you know what you're doing,
-        it will limit capacity to a handful of messages per second.
-        """
-
-    def clear(self):
+    def clear():
         """Empty the status storage and all indexes."""
 
     ## primary accessors
