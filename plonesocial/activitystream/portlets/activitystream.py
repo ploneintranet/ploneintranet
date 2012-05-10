@@ -1,8 +1,13 @@
 import itertools
-from DateTime import DateTime
+
 from zope.interface import implements
+from zope.component import queryUtility
+
+from DateTime import DateTime
+
 from zope import schema
 from zope.formlib import form
+
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -12,7 +17,7 @@ from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
 from AccessControl import getSecurityManager
 
-from plonesocial.microblog.interfaces import IStatusContainer
+from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.interfaces import IStatusUpdate
 
 from zope.i18nmessageid import MessageFactory
@@ -85,7 +90,7 @@ class Renderer(base.Renderer):
                                        )[:self.data.count]
 
         # Combine these brains with activities.
-        container = IStatusContainer(self.context)
+        container = queryUtility(IMicroblogTool)
 
         min_date = brains[-1].effective
         min_time = long(min_date.time)
