@@ -4,8 +4,9 @@ from zope.formlib import form
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as _
-#from Products.CMFCore.utils import getToolByName
+
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('plonesocial.microblog')
 
 from status import StatusViewlet
 

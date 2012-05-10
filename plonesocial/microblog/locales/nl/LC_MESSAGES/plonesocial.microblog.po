@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-05-10 10:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./../interfaces.py:12
+msgid "A longint unique status id"
+msgstr "Status id als long integer"
+
+#: ./../portlets/microblog.py:18
+msgid "A title for this portlet"
+msgstr "Een titel voor deze portlet"
+
+#: ./../portlets/status.py:29
+msgid "Add a comment"
+msgstr "Verzend een status update"
+
+#: ./../interfaces.py:15
+msgid "Author name (for display)"
+msgstr "Naam (voor weergave)"
+
+#: ./../portlets/status.py:73
+msgid "Cancel"
+msgstr "Annuleer"
+
+#: ./../portlets/microblog.py:22
+msgid "Compact rendering"
+msgstr "Compacte weergave"
+
+#: ./../interfaces.py:17
+msgid "Creation date"
+msgstr "Aanmaak datum"
+
+#: ./../portlets/microblog.py:23
+msgid "Hide portlet header and footer"
+msgstr "Verberg portlet kopregel en voetregel"
+
+#: ./../portlets/microblog.py:17
+msgid "Title"
+msgstr "Titel"
+
+#: ./../interfaces.py:16
+msgid "Userid"
+msgstr "Userid"
+
+#. Default: "What are you doing?"
+#: ./../portlets/status.py:51
+msgid "add_statusupdate_button"
+msgstr "Verzend status update"
+
+#. Default: "Status Update"
+#: ./../interfaces.py:13
+msgid "label_statusupdate"
+msgstr "Wat houdt je bezig?"
+
