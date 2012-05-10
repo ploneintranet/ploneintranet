@@ -3,9 +3,8 @@ import Queue
 import unittest2 as unittest
 from zope.interface import implements
 
-from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
-from plonesocial.microblog import statuscontainer
+from plonesocial.microblog.statuscontainer import QueuedStatusContainer
 from plonesocial.microblog import statusupdate
 
 from plonesocial.microblog.statuscontainer import STATUSQUEUE
@@ -33,25 +32,11 @@ class StatusUpdate(statusupdate.StatusUpdate):
         pass
 
 
-class StatusContainer(statuscontainer.StatusContainer):
-    """Override implementation for unittest isolation"""
-
-    implements(IStatusContainer)
-
-    def __init__(self, context=None):
-        """A contextless statuscontainer for fast unittesting"""
-        statuscontainer.StatusContainer.__init__(self, context)
-
-    def _notify(self, status):
-        """This was the only actual context dependency."""
-        pass
-
-
-class TestStatusContainer_Queue(unittest.TestCase):
+class TestQueueStatusContainer(unittest.TestCase):
 
     def setUp(self):
         # needed for thread teardown
-        self.container = StatusContainer()
+        self.container = QueuedStatusContainer()
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
 

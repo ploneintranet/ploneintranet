@@ -32,11 +32,12 @@ STATUSQUEUE = Queue.PriorityQueue()
 MAX_QUEUE_AGE = 1000
 
 
-class StatusContainer(Persistent, Explicit):
+class BaseStatusContainer(Persistent, Explicit):
 
-    implements(IStatusContainer)
+    """This implements IStatusUpdate storage, indexing and query logic.
 
-    """This implements all of the storage logic.
+    This is just a base class, the actual IStorageContainer used
+    in the implementation is the QueuedStatusContainer defined below.
 
     StatusUpdates are stored in the private __status_mapping BTree.
     A subset of BTree accessors are exposed, see interfaces.py.
@@ -48,31 +49,12 @@ class StatusContainer(Persistent, Explicit):
     Special user_* prefixed accessors take an extra argument 'users',
     an interable of userids, and return IStatusUpdate keys, instances or items
     filtered by userids, in addition to the normal min/max statusid filters.
-
-    Batching
-    --------
-
-    For performance reasons, an in-memory STATUSQUEUE is used.
-    StatusContainer.add() puts StatusUpdates into the queue.
-
-    .add() calls .autoflush(), which flushes the queue when
-    .mtime is longer than MAX_QUEUE_AGE ago.
-
-    So each .add() checks the queue. In a low-traffic site this will
-    result in immediate disk writes (msg frequency < timeout).
-    In a high-traffic site this will result on one write per timeout.
-
-    Additionally, a non-interactive queue flush is set up via
-    _schedule_flush() which uses a volatile _v_timer to set
-    up a non-interactive queue flush. This ensures that the "last
-    Tweet of the day" also gets committed to disk.
-
-    To disable batch queuing, set MAX_QUEUE_AGE = 0
     """
 
-    def __init__(self, context):
+    implements(IStatusContainer)
+
+    def __init__(self, context=None):
         self._mtime = 0
-        self.context = context
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
@@ -82,80 +64,9 @@ class StatusContainer(Persistent, Explicit):
 
     def add(self, status):
         self._check_status(status)
-        if MAX_QUEUE_AGE > 0:
-            self.queue(status)
-            # fallback sync in case of NO traffic (kernel timer)
-            self._schedule_flush()
-            # immediate sync on low traffic (old ._mtime)
-            # postpones sync on high traffic (next .add())
-            return self.autoflush()
-        else:
-            self.store(status)
-            return 1  # immediate write
+        self._store(status)
 
-    def queue(self, status):
-        STATUSQUEUE.put((status.id, status))
-
-    def _schedule_flush(self):
-        """A fallback queue flusher that runs without user interactions"""
-        if not MAX_QUEUE_AGE > 0:
-            return
-
-        try:
-            # non-persisted, absent on first request
-            self._v_timer
-        except AttributeError:
-            # initialize on first request
-            self._v_timer = None
-
-        if self._v_timer is not None:
-            # timer already running
-            return
-
-        # only a one-second granularity, round upwards
-        timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
-        with LOCK:
-            #logger.info("Setting timer")
-            self._v_timer = threading.Timer(timeout,
-                                            self._scheduled_autoflush)
-            self._v_timer.start()
-
-    def _scheduled_autoflush(self):
-        """This method is run from the timer, outside a normal request scope.
-        This requires an explicit commit on db write"""
-        if self.autoflush():  # returns 1 on actual write
-            transaction.commit()
-
-    def autoflush(self):
-        #logger.info("autoflush")
-        if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
-            return self.flush_queue()  # 1 on write, 0 on noop
-        return 0  # no write
-
-    def flush_queue(self):
-        #logger.info("flush_queue")
-
-        with LOCK:
-            # block autoflush
-            self._mtime = int(time.time() * 1000)
-            # cancel scheduled flush
-            if self._v_timer is not None:
-                #logger.info("Cancelling timer")
-                self._v_timer.cancel()
-                self._v_timer = None
-
-        if STATUSQUEUE.empty():
-            return 0  # no write
-
-        while True:
-            try:
-                (id, status) = STATUSQUEUE.get(block=False)
-                self.store(status)
-            except Queue.Empty:
-                break
-        return 1  # confirmed write
-
-    def store(self, status):
+    def _store(self, status):
         # see ZODB/Btree/Interfaces.py
         # If the key was already in the collection, there is no change
         while not self._status_mapping.insert(status.id, status):
@@ -170,7 +81,8 @@ class StatusContainer(Persistent, Explicit):
 
     def _notify(self, status):
         event = ObjectAddedEvent(status,
-                                 newParent=self.context, newName=status.id)
+                                 newParent=self,
+                                 newName=status.id)
         notify(event)
 #        logger.info("Added StatusUpdate %s (%s: %s)",
 #                    status.id, status.userid, status.text)
@@ -268,13 +180,127 @@ class StatusContainer(Persistent, Explicit):
     user_itervalues = user_values
 
 
+class QueuedStatusContainer(BaseStatusContainer):
+
+    """A write performance optimized IStatusContainer.
+
+    This separates the queuing logic from the base class to make
+    the code more readable (and testable).
+
+    For performance reasons, an in-memory STATUSQUEUE is used.
+    StatusContainer.add() puts StatusUpdates into the queue.
+
+    MAX_QUEUE_AGE is the commit window in milliseconds.
+    To disable batch queuing, set MAX_QUEUE_AGE = 0
+
+    .add() calls .autoflush(), which flushes the queue when
+    ._mtime is longer than MAX_QUEUE_AGE ago.
+
+    So each .add() checks the queue. In a low-traffic site this will
+    result in immediate disk writes (msg frequency < timeout).
+    In a high-traffic site this will result on one write per timeout,
+    which makes it possible to attain > 100 status update inserts
+    per second.
+
+    Note that the algorithm is structured in such a way, that the
+    system automatically adapts to low/high traffic conditions.
+
+    Additionally, a non-interactive queue flush is set up via
+    _schedule_flush() which uses a volatile thread timer _v_timer
+    to set up a non-interactive queue flush. This ensures that
+    the "last Tweet of the day" also gets committed to disk.
+
+    An attempt is made to make self._mtime and self._v_timer
+    thread-safe. These function as a kind of ad-hoc locking
+    mechanism so that only one thread at a time is flushing the
+    memory queue into persistent storage.
+    """
+
+    implements(IStatusContainer)
+
+    def add(self, status):
+        self._check_status(status)
+        if MAX_QUEUE_AGE > 0:
+            self.queue(status)
+            # fallback sync in case of NO traffic (kernel timer)
+            self._schedule_flush()
+            # immediate sync on low traffic (old ._mtime)
+            # postpones sync on high traffic (next .add())
+            return self.autoflush()
+        else:
+            self._store(status)
+            return 1  # immediate write
+
+    def queue(self, status):
+        STATUSQUEUE.put((status.id, status))
+
+    def _schedule_flush(self):
+        """A fallback queue flusher that runs without user interactions"""
+        if not MAX_QUEUE_AGE > 0:
+            return
+
+        try:
+            # non-persisted, absent on first request
+            self._v_timer
+        except AttributeError:
+            # initialize on first request
+            self._v_timer = None
+
+        if self._v_timer is not None:
+            # timer already running
+            return
+
+        # only a one-second granularity, round upwards
+        timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        with LOCK:
+            #logger.info("Setting timer")
+            self._v_timer = threading.Timer(timeout,
+                                            self._scheduled_autoflush)
+            self._v_timer.start()
+
+    def _scheduled_autoflush(self):
+        """This method is run from the timer, outside a normal request scope.
+        This requires an explicit commit on db write"""
+        if self.autoflush():  # returns 1 on actual write
+            transaction.commit()
+
+    def autoflush(self):
+        #logger.info("autoflush")
+        if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
+            return self.flush_queue()  # 1 on write, 0 on noop
+        return 0  # no write
+
+    def flush_queue(self):
+        #logger.info("flush_queue")
+
+        with LOCK:
+            # block autoflush
+            self._mtime = int(time.time() * 1000)
+            # cancel scheduled flush
+            if self._v_timer is not None:
+                #logger.info("Cancelling timer")
+                self._v_timer.cancel()
+                self._v_timer = None
+
+        if STATUSQUEUE.empty():
+            return 0  # no write
+
+        while True:
+            try:
+                (id, status) = STATUSQUEUE.get(block=False)
+                self._store(status)
+            except Queue.Empty:
+                break
+        return 1  # confirmed write
+
+
 def statusContainerAdapterFactory(context):
     """
     Adapter factory to store and fetch the status container from annotations.
     """
     annotions = IAnnotations(context)
     if not ANNOTATION_KEY in annotions:
-        statuscontainer = StatusContainer(context)
+        statuscontainer = QueuedStatusContainer(context)
         statuscontainer.__parent__ = aq_base(context)
         annotions[ANNOTATION_KEY] = aq_base(statuscontainer)
     else:

@@ -1,37 +1,48 @@
 import time
 import unittest2 as unittest
-
-from plone.app.testing import TEST_USER_ID, setRoles
-from plonesocial.microblog.testing import\
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+from zope.interface import implements
 
 from plonesocial.microblog.interfaces import IStatusContainer
-from plonesocial.microblog.statuscontainer import StatusContainer
-from plonesocial.microblog.statusupdate import StatusUpdate
+from plonesocial.microblog.interfaces import IStatusUpdate
+from plonesocial.microblog.statuscontainer import BaseStatusContainer
+from plonesocial.microblog import statusupdate
 
 
-class TestStatusContainer_Primary(unittest.TestCase):
+class StatusUpdate(statusupdate.StatusUpdate):
+    """Override actual implementation with unittest features"""
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    implements(IStatusUpdate)
 
-    def setUp(self):
-        self.app = self.layer['app']
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+    def __init__(self, text, userid='dude', creator=None):
+        statusupdate.StatusUpdate.__init__(self, text)
+        self.userid = userid
+        if creator:
+            self.creator = creator
+        else:
+            self.creator = userid
+
+    def _init_userid(self):
+        pass
+
+    def _init_creator(self):
+        pass
+
+
+class TestBaseStatusContainer(unittest.TestCase):
 
     def test_implements(self):
-        self.assertTrue(IStatusContainer.implementedBy(StatusContainer))
+        self.assertTrue(IStatusContainer.implementedBy(BaseStatusContainer))
 
     def test_adaptation(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         self.assertTrue(IStatusContainer.providedBy(container))
 
     def test_empty(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         self.assertEqual(0, len(container.items()))
 
     def test_check_status(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
 
         class Dummy():
             pass
@@ -41,23 +52,23 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual(0, len(container.items()))
 
     def test_add_items(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         su = StatusUpdate('test')
-        container.store(su)
+        container.add(su)
         self.assertEqual(1, len(container.items()))
 
     def test_key_corresponds_to_id(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         su = StatusUpdate('test')
-        container.store(su)
+        container.add(su)
         (key, value) = container.items()[0]
         self.assertEqual(key, value.id)
         self.assertEqual(su, value)
 
     def test_clear_items(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         su = StatusUpdate('test')
-        container.store(su)
+        container.add(su)
         self.assertEqual(1, len(container.items()))
         container.clear()
         self.assertEqual(0, len(container.items()))
@@ -65,25 +76,25 @@ class TestStatusContainer_Primary(unittest.TestCase):
     ## primary accessors
 
     def test_get(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         su = StatusUpdate('test')
-        container.store(su)
+        container.add(su)
         self.assertEqual(su, container.get(su.id))
 
     def test_items_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         values = [x[1] for x in container.items(max=ta)]
@@ -98,19 +109,19 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_iteritems_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         values = [x[1] for x in container.iteritems(max=ta)]
@@ -125,19 +136,19 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_iterkeys_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         keys = [x for x in container.iterkeys(max=ta)]
@@ -152,19 +163,19 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sc.id], keys)
 
     def test_itervalues_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         values = [x for x in container.itervalues(max=ta)]
@@ -179,19 +190,19 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_keys_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         keys = [x for x in container.keys(max=ta)]
@@ -206,19 +217,19 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sc.id], keys)
 
     def test_values_min_max(self):
-        container = IStatusContainer(self.portal)
+        container = BaseStatusContainer()
         sa = StatusUpdate('test a')
-        container.store(sa)
+        container.add(sa)
         ta = sa.id  # reset by container
 
         time.sleep(0.1)
         sb = StatusUpdate('test b')
-        container.store(sb)
+        container.add(sb)
         tb = sb.id
 
         time.sleep(0.1)
         sc = StatusUpdate('test c')
-        container.store(sc)
+        container.add(sc)
         tc = sc.id
 
         values = [x for x in container.values(max=ta)]
@@ -231,4 +242,3 @@ class TestStatusContainer_Primary(unittest.TestCase):
         self.assertEqual([sa, sb], values)
         values = [x for x in container.values(min=tc, max=tc)]
         self.assertEqual([sc], values)
-
