@@ -29,7 +29,7 @@ class IActivitystreamPortlet(IPortletDataProvider):
     """
 
     title = schema.TextLine(title=PMF(u"Title"),
-                            description=PMF(u"A title for this portlet"),
+                            description=_(u"A title for this portlet"),
                             required=True,
                             default=u"Activity Stream")
 

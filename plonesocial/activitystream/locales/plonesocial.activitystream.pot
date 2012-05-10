@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-04-26 11:07+0000\n"
+"POT-Creation-Date: 2012-05-10 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,38 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plonesocial.activitystream\n"
 
-#: ./../portlets/activitystream.py:37
+#: ./../portlets/activitystream.py:32
+msgid "A title for this portlet"
+msgstr ""
+
+#: ./../portlets/activitystream.py:42
 msgid "Compact rendering"
 msgstr ""
 
-#: ./../portlets/activitystream.py:38
+#: ./../portlets/activitystream.py:43
 msgid "Hide portlet header and footer"
 msgstr ""
 
-#: ./../portlets/activitystream.py:33
+#: ./../portlets/activitystream.py:38
 msgid "Maximum number of status updates to show"
 msgstr ""
 
-#: ./../portlets/activitystream.py:32
+#: ./../portlets/activitystream.py:37
 msgid "Number of updates to display"
 msgstr ""
 
 #. Default: "commented on"
-#: ./../portlets/activitystream.pt:61
+#: ./../portlets/activitystream.pt:59
 msgid "label_commented_on"
 msgstr ""
 
 #. Default: "created"
-#: ./../portlets/activitystream.pt:66
+#: ./../portlets/activitystream.pt:64
 msgid "label_created"
 msgstr ""
 
 #. Default: "says:"
-#: ./../portlets/activitystream.pt:57
+#: ./../portlets/activitystream.pt:55
 msgid "label_says"
 msgstr ""
 

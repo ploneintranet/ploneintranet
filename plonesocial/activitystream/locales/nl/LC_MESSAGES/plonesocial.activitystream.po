@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-04-26 11:07+0000\n"
+"POT-Creation-Date: 2012-05-10 10:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,39 +14,43 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./../portlets/activitystream.py:37
+#: ./../portlets/activitystream.py:32
+msgid "A title for this portlet"
+msgstr "Een titel voor deze portlet"
+
+#: ./../portlets/activitystream.py:42
 msgid "Compact rendering"
 msgstr "Compacte weergave"
 
-#: ./../portlets/activitystream.py:38
+#: ./../portlets/activitystream.py:43
 msgid "Hide portlet header and footer"
 msgstr "Verberg portlet kopregel en voetregel"
 
-#: ./../portlets/activitystream.py:33
+#: ./../portlets/activitystream.py:38
 msgid "Maximum number of status updates to show"
 msgstr "Maximum aantal weer te geven statusberichten"
 
-#: ./../portlets/activitystream.py:32
+#: ./../portlets/activitystream.py:37
 msgid "Number of updates to display"
 msgstr "Aantal weer te geven statusberichten"
 
 #. Default: "commented on"
-#: ./../portlets/activitystream.pt:61
+#: ./../portlets/activitystream.pt:59
 msgid "label_commented_on"
 msgstr "reageerde op"
 
 #. Default: "created"
-#: ./../portlets/activitystream.pt:66
+#: ./../portlets/activitystream.pt:64
 msgid "label_created"
 msgstr "maakte"
 
 #. Default: "says:"
-#: ./../portlets/activitystream.pt:57
+#: ./../portlets/activitystream.pt:55
 msgid "label_says"
 msgstr "zegt:"
 
 #. Default: "Manage Activitystream Portlets"
 #: ./../browser/templates/manageportlets.pt:10
 msgid "manage_activitystream_portlets"
-msgstr "beheer activiteiten stroom portlets"
+msgstr "Activiteiten stroom portlets beheren"
 
