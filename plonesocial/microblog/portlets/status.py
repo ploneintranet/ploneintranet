@@ -1,8 +1,9 @@
 from zope.interface import alsoProvides
+from zope.component import queryUtility
+
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_inner
 from Acquisition import aq_chain
-from zope.app.component.hooks import getSite
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
@@ -13,7 +14,7 @@ from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 
-from plonesocial.microblog.interfaces import IStatusContainer
+from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.statusupdate import StatusUpdate
 
@@ -57,7 +58,7 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
         if errors:
             return
 
-        container = IStatusContainer(getSite())  # local site will fail!
+        container = queryUtility(IMicroblogTool)
         status = StatusUpdate(data['text'])
 
         # debugging only

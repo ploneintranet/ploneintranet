@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <utilities>
+  <utility
+      interface="plonesocial.microblog.interfaces.IMicroblogTool"
+      object="plonesocial_microblog"
+      />
+ </utilities>
+</componentregistry>

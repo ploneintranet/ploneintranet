@@ -292,17 +292,3 @@ class QueuedStatusContainer(BaseStatusContainer):
             except Queue.Empty:
                 break
         return 1  # confirmed write
-
-
-def statusContainerAdapterFactory(context):
-    """
-    Adapter factory to store and fetch the status container from annotations.
-    """
-    annotions = IAnnotations(context)
-    if not ANNOTATION_KEY in annotions:
-        statuscontainer = QueuedStatusContainer(context)
-        statuscontainer.__parent__ = aq_base(context)
-        annotions[ANNOTATION_KEY] = aq_base(statuscontainer)
-    else:
-        statuscontainer = annotions[ANNOTATION_KEY]
-    return statuscontainer.__of__(context)

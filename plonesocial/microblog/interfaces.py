@@ -96,3 +96,7 @@ class IStatusContainer(Interface):
         """Filter IStatusUpdate values by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         """
+
+
+class IMicroblogTool(IStatusContainer):
+    """Provide IStatusContainer as a site utility."""

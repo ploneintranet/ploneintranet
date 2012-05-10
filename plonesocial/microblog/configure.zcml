@@ -10,12 +10,6 @@
   <include package=".browser" />
   <include package=".portlets" />
 
-  <adapter
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides=".interfaces.IStatusContainer"
-      factory=".statuscontainer.statusContainerAdapterFactory"
-      />
-
   <genericsetup:registerProfile
       name="default"
       title="plonesocial.microblog"
