@@ -11,6 +11,9 @@
   <include package=".browser" />
   <include package=".portlets" />
 
+  <adapter factory=".adapters.StatusActivity" />
+  <adapter factory=".adapters.BrainActivity" />
+
   <genericsetup:registerProfile
       name="default"
       title="plonesocial.activitystream"

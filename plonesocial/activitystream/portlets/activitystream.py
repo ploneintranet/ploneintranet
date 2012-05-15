@@ -3,22 +3,20 @@ import itertools
 from zope.interface import implements
 from zope.component import queryUtility
 
-from DateTime import DateTime
-
 from zope import schema
 from zope.formlib import form
+from Acquisition import aq_inner
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFCore.utils import getToolByName
-from Acquisition import aq_inner, aq_parent
 from zope.component import getMultiAdapter
 from AccessControl import getSecurityManager
 
 from plonesocial.microblog.interfaces import IMicroblogTool
-from plonesocial.microblog.interfaces import IStatusUpdate
+from plonesocial.activitystream.interfaces import IActivity
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
@@ -133,101 +131,14 @@ class Renderer(base.Renderer):
         data = data[:self.data.count]
 
         for item in data:
-            if IStatusUpdate.providedBy(item):
-                text = item.text
-                title = ''
-                url = ''
-                portal_type = 'StatusUpdate'
-                render_type = 'status'
-                creator = item.creator
-                userid = item.userid
-                raw_date = item.date
-            else:
-                # It is a catalog brain.
-                obj = item.getObject()
-                title = obj.Title()
-                url = item.getURL()
-                portal_type = obj.portal_type
-                creator = obj.Creator()
-                raw_date = obj.creation_date
-                if obj.portal_type == 'Discussion Item':
-                    render_type = 'discussion'
-                    userid = obj.author_username
-                    text = obj.getText()
-                    # obj: DiscussionItem
-                    # parent: Conversation
-                    # grandparent: content object
-                    _contentparent = aq_parent(aq_parent(aq_inner(obj)))
-                    title = _contentparent.Title()
-                else:
-                    userid = obj.getOwnerTuple()[1]
-                    render_type = 'content'
-                    text = obj.Description()
-
-            is_status = render_type == 'status'
-            is_discussion = render_type == 'discussion'
-            is_content = render_type == 'content'
-
-            results.append(dict(
-                    getURL=url,
-                    Title=title,
-                    portal_type=portal_type,
-                    render_type=render_type,
-                    is_status=is_status,
-                    is_discussion=is_discussion,
-                    is_content=is_content,
-                    userid=userid,
-                    Creator=creator,
-                    has_author_link=self.get_user_home_url(userid) is not None,
-                    author_home_url=self.get_user_home_url(userid),
-                    portrait_url=self.get_user_portrait(userid),
-                    date=self.format_time(raw_date),
-                    getText=text,
-                    ))
-
+            results.append(IActivity(item))
         self.items = results
-
-    def get_user_home_url(self, username=None):
-        if username is None:
-            return None
-        else:
-            return "%s/author/%s" % (self.context.portal_url(), username)
-
-    def get_user_portrait(self, username=None):
-
-        if username is None:
-            # return the default user image if no username is given
-            return 'defaultUser.gif'
-        else:
-            portal_membership = getToolByName(self.context,
-                                              'portal_membership',
-                                              None)
-            return portal_membership.getPersonalPortrait(username)\
-                   .absolute_url()
 
     def is_anonymous(self):
         portal_membership = getToolByName(self.context,
                                           'portal_membership',
                                           None)
         return portal_membership.isAnonymousUser()
-
-    def format_time(self, time):
-        # We have to transform Python datetime into Zope DateTime
-        # before we can call toLocalizedTime.
-        if hasattr(time, 'isoformat'):
-            zope_time = DateTime(time.isoformat())
-        else:
-            # already a Zope DateTime
-            zope_time = time
-        util = getToolByName(self.context, 'translation_service')
-        if DateTime().Date() == zope_time.Date():
-            return util.toLocalizedTime(zope_time,
-                                        long_format=True,
-                                        time_only=True)
-        else:
-            # time_only=False still returns time only
-            return util.toLocalizedTime(zope_time,
-                                        long_format=True)
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
