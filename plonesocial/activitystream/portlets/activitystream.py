@@ -102,23 +102,21 @@ class Renderer(base.Renderer):
 
     def update(self):
         catalog = getToolByName(self.context, 'portal_catalog')
-        results = []
-        brains = catalog.searchResults(sort_on='effective',
-                                       sort_order='reverse',
-                                       sort_limit=self.data.count,
-                                       )[:self.data.count]
+        if self.data.show_content or self.data.show_discussion:
+            brains = catalog.searchResults(sort_on='effective',
+                                           sort_order='reverse',
+                                           sort_limit=self.data.count,
+                                           )
+        else:
+            brains = []
 
-        # Combine these brains with activities.
-        container = queryUtility(IMicroblogTool)
+        if self.data.show_microblog:
+            container = queryUtility(IMicroblogTool)
+            statuses = container.values()
+        else:
+            statuses = []
 
-        min_date = brains[-1].effective
-        min_time = long(min_date.time)
-        activities = container.values(min=min_time)[-self.data.count:]
-        # Make it a list and reverse it.
-        #activities = list(activities)
-        #activities = activities.reverse()
-
-        data = itertools.chain(brains, activities)
+        activities = itertools.chain(brains, statuses)
 
         def date_key(item):
             if hasattr(item, 'effective'):
@@ -127,12 +125,21 @@ class Renderer(base.Renderer):
             # Activity
             return item.date
 
-        data = sorted(data, key=date_key, reverse=True)
-        data = data[:self.data.count]
+        activities = sorted(activities, key=date_key, reverse=True)
+        self.items = []
+        for item in activities:
+            if len(self.items) >= self.data.count:
+                break
 
-        for item in data:
-            results.append(IActivity(item))
-        self.items = results
+            activity = IActivity(item)
+            if activity.is_status and not self.data.show_microblog:
+                continue
+            elif activity.is_content and not self.data.show_content:
+                continue
+            elif activity.is_discussion and not self.data.show_discussion:
+                continue
+
+            self.items.append(activity)
 
     def is_anonymous(self):
         portal_membership = getToolByName(self.context,
