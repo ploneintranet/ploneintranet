@@ -35,13 +35,28 @@ class IActivitystreamPortlet(IPortletDataProvider):
 
     count = schema.Int(
         title=_(u"Number of updates to display"),
-        description=_(u"Maximum number of status updates to show"),
+        description=_(u"Maximum number of updates to show"),
         required=True,
         default=5)
 
     compact = schema.Bool(title=_(u"Compact rendering"),
                           description=_(u"Hide portlet header and footer"),
                           default=True)
+
+    show_microblog = schema.Bool(
+        title=_(u"Show microblog"),
+        description=_(u"Show microblog status updates"),
+        default=True)
+
+    show_content = schema.Bool(
+        title=_(u"Show content creation"),
+        description=_(u"Show creation of new content"),
+        default=True)
+
+    show_discussion = schema.Bool(
+        title=_(u"Show discussion"),
+        description=_(u"Show discussion replies"),
+        default=True)
 
 
 class Assignment(base.Assignment):
@@ -52,10 +67,16 @@ class Assignment(base.Assignment):
     def __init__(self,
                  title='Activity Stream',
                  count=5,
-                 compact=True):
+                 compact=True,
+                 show_microblog=True,
+                 show_content=True,
+                 show_discussion=True):
         self.title = title
         self.count = count
         self.compact = compact
+        self.show_microblog = show_microblog
+        self.show_content = show_content
+        self.show_discussion = show_discussion
 
 
 class Renderer(base.Renderer):
