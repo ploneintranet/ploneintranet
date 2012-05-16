@@ -10,10 +10,8 @@ from BTrees import LLBTree
 
 from persistent import Persistent
 import transaction
-from Acquisition import aq_base
 from Acquisition import Explicit
 
-from zope.annotation.interfaces import IAnnotations
 from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
