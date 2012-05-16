@@ -50,51 +50,46 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None):
+    def items(min=None, max=None, limit=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
-    def keys(min=None, max=None):
+    def keys(min=None, max=None, limit=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
-    def values(min=None, max=None):
+    def values(min=None, max=None, limit=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
-    def iteritems(min=None, max=None):
-        """BTree compatible accessor.
-        min and max are longint IStatusUpdate.id keys.
-        """
-
-    def iterkeys(min=None, max=None):
-        """BTree compatible accessor.
-        min and max are longint IStatusUpdate.id keys.
-        """
-
-    def itervalues(min=None, max=None):
-        """BTree compatible accessor.
-        min and max are longint IStatusUpdate.id keys.
-        """
+    iteritems = items
+    iterkeys = keys
+    itervalues = values
 
     ## user accessors
 
-    def user_items(users, min=None, max=None):
+    def user_items(users, min=None, max=None, limit=None):
         """Filter (key, IStatusUpdate) items by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
-    def user_keys(users, min=None, max=None):
+    def user_keys(users, min=None, max=None, limit=None):
         """Filter IStatusUpdate keys by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
-    def user_values(users, min=None, max=None):
+    def user_values(users, min=None, max=None, limit=None):
         """Filter IStatusUpdate values by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
         """
 
 

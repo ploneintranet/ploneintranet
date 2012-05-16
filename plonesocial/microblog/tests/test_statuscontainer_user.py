@@ -41,7 +41,20 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sc)
         values = [x[1] for x in container.user_items(
                 ['arnold', 'bernard', 'cary'])]
-        self.assertEqual([sa, sb, sc], values)
+        self.assertEqual([sc, sb, sa], values)
+
+    def test_user_items_limit(self):
+        container = BaseStatusContainer()
+        sa = StatusUpdate('test a', 'arnold')
+        container.add(sa)
+        sb = StatusUpdate('test b', 'bernard')
+        container.add(sb)
+        sc = StatusUpdate('test c', 'cary')
+        container.add(sc)
+        values = [x[1] for x in container.user_items(
+                ['arnold', 'bernard', 'cary'],
+                limit=2)]
+        self.assertEqual([sc, sb], values)
 
     def test_user_items_some(self):
         container = BaseStatusContainer()
@@ -53,7 +66,7 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sc)
         values = [x[1] for x in container.user_items(
                 ['arnold', 'bernard'])]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
 
     def test_user_items_one(self):
         container = BaseStatusContainer()
@@ -100,11 +113,11 @@ class TestStatusContainer_User(unittest.TestCase):
         values = [x[1] for x in container.user_items(users, max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.user_items(users, min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x[1] for x in container.user_items(users, min=ta, max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.user_items(users, min=ta, max=tb)]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
         values = [x[1] for x in container.user_items(users, min=tc, max=tc)]
         self.assertEqual([sc], values)
 
@@ -129,7 +142,7 @@ class TestStatusContainer_User(unittest.TestCase):
         values = [x[1] for x in container.user_items(users, max=ta)]
         self.assertEqual([], values)
         values = [x[1] for x in container.user_items(users, min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x[1] for x in container.user_items(users, min=ta, max=ta)]
         self.assertEqual([], values)
         values = [x[1] for x in container.user_items(users, min=ta, max=tb)]
@@ -158,7 +171,7 @@ class TestStatusContainer_User(unittest.TestCase):
         values = [x for x in container.user_keys(users, max=ta)]
         self.assertEqual([], values)
         values = [x for x in container.user_keys(users, min=tb)]
-        self.assertEqual([sb.id, sc.id], values)
+        self.assertEqual([sc.id, sb.id], values)
         values = [x for x in container.user_keys(users, min=ta, max=ta)]
         self.assertEqual([], values)
         values = [x for x in container.user_keys(users, min=ta, max=tb)]
@@ -187,7 +200,7 @@ class TestStatusContainer_User(unittest.TestCase):
         values = [x for x in container.user_values(users, max=ta)]
         self.assertEqual([], values)
         values = [x for x in container.user_values(users, min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x for x in container.user_values(users, min=ta, max=ta)]
         self.assertEqual([], values)
         values = [x for x in container.user_values(users, min=ta, max=tb)]

@@ -18,6 +18,7 @@ from zope.interface import implements
 
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
+from utils import longkeysortreverse
 
 logger = logging.getLogger('plonesocial.microblog')
 
@@ -126,52 +127,54 @@ class BaseStatusContainer(Persistent, Explicit):
     def get(self, key):
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None):
-        return self._status_mapping.items(min=min, max=max)
+    def items(self, min=None, max=None, limit=None):
+        return ((key, self.get(key))
+                for key in self.iterkeys(min, max, limit))
 
-    def keys(self, min=None, max=None):
-        return self._status_mapping.keys(min=min, max=max)
+    def keys(self, min=None, max=None, limit=None):
+        return longkeysortreverse(self._status_mapping,
+                                  min, max, limit)
 
-    def values(self, min=None, max=None):
-        return self._status_mapping.values(min=min, max=max)
+    def values(self, min=None, max=None, limit=None):
+        return (self.get(key)
+                for key in self.iterkeys(min, max, limit))
 
-    def iteritems(self, min=None, max=None):
-        return self._status_mapping.iteritems(min=min, max=max)
-
-    def iterkeys(self, min=None, max=None):
-        return self._status_mapping.iterkeys(min=min, max=max)
-
-    def itervalues(self, min=None, max=None):
-        return self._status_mapping.itervalues(min=min, max=max)
+    iteritems = items
+    iterkeys = keys
+    itervalues = values
 
     ## user accessors
 
     # no user_get
 
-    def user_items(self, users, min=None, max=None):
+    def user_items(self, users, min=None, max=None, limit=None):
         return ((key, self.get(key)) for key
-                in self.user_keys(users, min, max))
+                in self.user_keys(users, min, max, limit))
 
-    def user_keys(self, users, min=None, max=None):
+    def user_keys(self, users, min=None, max=None, limit=None):
         if not users:
             return ()
+
         if type(users) == type('string'):
-            users = [users]
+            # single user optimization
+            userid = users
+            mapping = self._user_mapping.get(userid)
+            if not mapping:
+                return ()
+            return longkeysortreverse(mapping,
+                                      min, max, limit)
 
         # collection of user LLTreeSet
-        treesets = (self._user_mapping.get(userid) for userid in users
+        treesets = (self._user_mapping.get(userid)
+                    for userid in users
                     if userid in self._user_mapping.keys())
         merged = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-        # list of longints is cheapest place to slice and sort
-        keys = [x for x in merged.keys()
-                if (not min or min <= x)
-                and (not max or max >= x)]
-        keys.sort()
-        return keys
+        return longkeysortreverse(merged,
+                                  min, max, limit)
 
-    def user_values(self, users, min=None, max=None):
+    def user_values(self, users, min=None, max=None, limit=None):
         return (self.get(key) for key
-                in self.user_keys(users, min, max))
+                in self.user_keys(users, min, max, limit))
 
     user_iteritems = user_items
     user_iterkeys = user_keys
