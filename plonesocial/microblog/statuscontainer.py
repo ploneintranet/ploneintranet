@@ -38,7 +38,7 @@ class BaseStatusContainer(Persistent, Explicit):
     This is just a base class, the actual IStorageContainer used
     in the implementation is the QueuedStatusContainer defined below.
 
-    StatusUpdates are stored in the private __status_mapping BTree.
+    StatusUpdates are stored in the private _status_mapping BTree.
     A subset of BTree accessors are exposed, see interfaces.py.
     StatusUpdates are keyed by longint microsecond ids.
 
