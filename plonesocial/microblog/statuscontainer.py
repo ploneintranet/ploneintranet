@@ -22,8 +22,6 @@ from utils import longkeysortreverse
 
 logger = logging.getLogger('plonesocial.microblog')
 
-ANNOTATION_KEY = 'plonesocial.microblog:statuscontainer'
-
 LOCK = threading.RLock()
 STATUSQUEUE = Queue.PriorityQueue()
 
