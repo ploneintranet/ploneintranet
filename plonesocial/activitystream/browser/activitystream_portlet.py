@@ -80,7 +80,7 @@ class Assignment(base.Assignment):
 
 class Renderer(base.Renderer):
 
-    render = ViewPageTemplateFile('activitystream.pt')
+    render = ViewPageTemplateFile('templates/activitystream_portlet.pt')
 
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)

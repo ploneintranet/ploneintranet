@@ -1,6 +1,6 @@
 <div class="plonesocial activitystream viewlet"
      i18n:domain="plonesocial.activitystream">
-  <tal:block replace="structure provider:plonesocial.activitystream.portlets" />
+  <tal:block replace="structure provider:plonesocial.activitystream.portletmanager" />
 
   <div class="managePortletsLink custom"
        tal:define="portal_state context/@@plone_portal_state;

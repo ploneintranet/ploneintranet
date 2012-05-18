@@ -9,28 +9,11 @@ from Products.CMFCore.utils import getToolByName
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityContentProvider
 from plonesocial.activitystream.interfaces import IActivity
-
-
-class PortalView(BrowserView):
-    """Home page view containing activity stream viewlets."""
-
-    index = ViewPageTemplateFile("templates/portal_view.pt")
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
-
-    def update(self):
-        """Mute plone.app.z3cform.kss.validation AttributeError"""
-        pass
 
 
 class ActivityContentProvider(object):
@@ -63,8 +46,9 @@ class ActivityContentProvider(object):
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
         """
-        return getSecurityManager().checkPermission('Review comments',
-                                                    aq_inner(self.context.context))
+        return getSecurityManager(
+            ).checkPermission('Review comments',
+                              aq_inner(self.context.context))
 
     # IActivityContentProvider
 
@@ -181,4 +165,3 @@ class ActivityContentProvider(object):
     @property
     def Title(self):
         return self.context.title
-

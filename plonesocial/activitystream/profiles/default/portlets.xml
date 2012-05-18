@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <portlets>
  <portletmanager
-    name="plonesocial.activitystream.portlets"
+    name="plonesocial.activitystream.portletmanager"
     type="plonesocial.activitystream.browser.interfaces.IPlonesocialActivitystreamPortlets"
  />
 
  <portlet
-   addview="plonesocial.activitystream.portlets.activitystream"
+   addview="plonesocial.activitystream.portlet"
    title="Activity Stream"
    description="A unified activity stream"
    />

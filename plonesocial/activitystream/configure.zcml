@@ -9,7 +9,7 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
-  <include package=".portlets" />
+  <!-- portlet is included in browser -->
 
   <adapter factory=".adapters.StatusActivity" />
   <adapter factory=".adapters.BrainActivity" />

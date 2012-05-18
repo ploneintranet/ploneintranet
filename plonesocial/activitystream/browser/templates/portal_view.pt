@@ -15,7 +15,7 @@
                                   templateId template/getId">
 
         <div class="plonesocial activitystream">
-          <tal:block replace="structure provider:plonesocial.activitystream.viewlets" />
+          <tal:block replace="structure provider:plonesocial.activitystream.viewletmanager" />
         </div>
 
     </metal:main-macro>
