@@ -36,7 +36,7 @@ class TestBaseStatusContainer(unittest.TestCase):
 
     def test_empty(self):
         container = BaseStatusContainer()
-        self.assertEqual(0, len(container.items()))
+        self.assertEqual(0, len(list(container.items())))
 
     def test_check_status(self):
         container = BaseStatusContainer()
@@ -46,19 +46,19 @@ class TestBaseStatusContainer(unittest.TestCase):
 
         su = Dummy()
         self.assertRaises(ValueError, container.add, su)
-        self.assertEqual(0, len(container.items()))
+        self.assertEqual(0, len(list(container.items())))
 
     def test_add_items(self):
         container = BaseStatusContainer()
         su = StatusUpdate('test')
         container.add(su)
-        self.assertEqual(1, len(container.items()))
+        self.assertEqual(1, len(list(container.items())))
 
     def test_key_corresponds_to_id(self):
         container = BaseStatusContainer()
         su = StatusUpdate('test')
         container.add(su)
-        (key, value) = container.items()[0]
+        (key, value) = list(container.items())[0]
         self.assertEqual(key, value.id)
         self.assertEqual(su, value)
 
@@ -66,9 +66,9 @@ class TestBaseStatusContainer(unittest.TestCase):
         container = BaseStatusContainer()
         su = StatusUpdate('test')
         container.add(su)
-        self.assertEqual(1, len(container.items()))
+        self.assertEqual(1, len(list(container.items())))
         container.clear()
-        self.assertEqual(0, len(container.items()))
+        self.assertEqual(0, len(list(container.items())))
 
     ## primary accessors
 
@@ -97,13 +97,41 @@ class TestBaseStatusContainer(unittest.TestCase):
         values = [x[1] for x in container.items(max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.items(min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x[1] for x in container.items(min=ta, max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.items(min=ta, max=tb)]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
         values = [x[1] for x in container.items(min=tc, max=tc)]
         self.assertEqual([sc], values)
+
+    def test_items_min_max_limit(self):
+        container = BaseStatusContainer()
+        sa = StatusUpdate('test a')
+        container.add(sa)
+        ta = sa.id  # reset by container
+
+        time.sleep(0.1)
+        sb = StatusUpdate('test b')
+        container.add(sb)
+        tb = sb.id
+
+        time.sleep(0.1)
+        sc = StatusUpdate('test c')
+        container.add(sc)
+
+        values = [x[1] for x in container.items(min=tb, limit=2)]
+        self.assertEqual([sc, sb], values)
+        values = [x[1] for x in container.items(min=tb, limit=1)]
+        self.assertEqual([sc], values)
+        values = [x[1] for x in container.items(min=ta, max=tb, limit=2)]
+        self.assertEqual([sb, sa], values)
+        values = [x[1] for x in container.items(min=ta, max=tb, limit=1)]
+        self.assertEqual([sb], values)
+        values = [x[1] for x in container.items(limit=3)]
+        self.assertEqual([sc, sb, sa], values)
+        values = [x[1] for x in container.items(limit=2)]
+        self.assertEqual([sc, sb], values)
 
     def test_iteritems_min_max(self):
         container = BaseStatusContainer()
@@ -124,11 +152,11 @@ class TestBaseStatusContainer(unittest.TestCase):
         values = [x[1] for x in container.iteritems(max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.iteritems(min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x[1] for x in container.iteritems(min=ta, max=ta)]
         self.assertEqual([sa], values)
         values = [x[1] for x in container.iteritems(min=ta, max=tb)]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
         values = [x[1] for x in container.iteritems(min=tc, max=tc)]
         self.assertEqual([sc], values)
 
@@ -151,11 +179,11 @@ class TestBaseStatusContainer(unittest.TestCase):
         keys = [x for x in container.iterkeys(max=ta)]
         self.assertEqual([sa.id], keys)
         keys = [x for x in container.iterkeys(min=tb)]
-        self.assertEqual([sb.id, sc.id], keys)
+        self.assertEqual([sc.id, sb.id], keys)
         keys = [x for x in container.iterkeys(min=ta, max=ta)]
         self.assertEqual([sa.id], keys)
         keys = [x for x in container.iterkeys(min=ta, max=tb)]
-        self.assertEqual([sa.id, sb.id], keys)
+        self.assertEqual([sb.id, sa.id], keys)
         keys = [x for x in container.iterkeys(min=tc, max=tc)]
         self.assertEqual([sc.id], keys)
 
@@ -178,11 +206,11 @@ class TestBaseStatusContainer(unittest.TestCase):
         values = [x for x in container.itervalues(max=ta)]
         self.assertEqual([sa], values)
         values = [x for x in container.itervalues(min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x for x in container.itervalues(min=ta, max=ta)]
         self.assertEqual([sa], values)
         values = [x for x in container.itervalues(min=ta, max=tb)]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
         values = [x for x in container.itervalues(min=tc, max=tc)]
         self.assertEqual([sc], values)
 
@@ -205,11 +233,11 @@ class TestBaseStatusContainer(unittest.TestCase):
         keys = [x for x in container.keys(max=ta)]
         self.assertEqual([sa.id], keys)
         keys = [x for x in container.keys(min=tb)]
-        self.assertEqual([sb.id, sc.id], keys)
+        self.assertEqual([sc.id, sb.id], keys)
         keys = [x for x in container.keys(min=ta, max=ta)]
         self.assertEqual([sa.id], keys)
         keys = [x for x in container.keys(min=ta, max=tb)]
-        self.assertEqual([sa.id, sb.id], keys)
+        self.assertEqual([sb.id, sa.id], keys)
         keys = [x for x in container.keys(min=tc, max=tc)]
         self.assertEqual([sc.id], keys)
 
@@ -232,10 +260,10 @@ class TestBaseStatusContainer(unittest.TestCase):
         values = [x for x in container.values(max=ta)]
         self.assertEqual([sa], values)
         values = [x for x in container.values(min=tb)]
-        self.assertEqual([sb, sc], values)
+        self.assertEqual([sc, sb], values)
         values = [x for x in container.values(min=ta, max=ta)]
         self.assertEqual([sa], values)
         values = [x for x in container.values(min=ta, max=tb)]
-        self.assertEqual([sa, sb], values)
+        self.assertEqual([sb, sa], values)
         values = [x for x in container.values(min=tc, max=tc)]
         self.assertEqual([sc], values)

@@ -80,7 +80,7 @@ class TestQueueStatusContainer(unittest.TestCase):
         self.assertEqual([], values)
         time.sleep(1)  # second resolution only on timer
         values = [x for x in container.values()]
-        self.assertEqual([sa], values)        
+        self.assertEqual([sa], values)
 
     def test_add_scheduled_disabled(self):
         """Test disabling of thread scheduler"""
@@ -105,7 +105,7 @@ class TestQueueStatusContainer(unittest.TestCase):
         self.container._v_timer.cancel()  # cancel scheduler
         sb = StatusUpdate('test b', 'bernard')
         # more than autoflush, less than scheduled flush
-        time.sleep(.2)  
+        time.sleep(.2)
         container.add(sb)
         values = [x for x in container.values()]
-        self.assertEqual([sa, sb], values)  # added by autoflush
+        self.assertEqual([sb, sa], values)  # added by autoflush
