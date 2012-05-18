@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <portlets>
  <assignment name="microblog" category="context" key="/"
-    manager="plonesocial.activitystream.portlets"
+    manager="plonesocial.activitystream.portletmanager"
     type="plonesocial.microblog.portlet" visible="True">
   <property name="compact">True</property>
   <property name="title">Microblog</property>
  </assignment>
  <assignment name="activity-stream" category="context" key="/"
-    manager="plonesocial.activitystream.portlets"
-    type="plonesocial.activitystream.portlets.activitystream" visible="True">
+    manager="plonesocial.activitystream.portletmanager"
+    type="plonesocial.activitystream.portlet" visible="True">
   <property name="count">5</property>
   <property name="compact">True</property>
   <property name="title">Activity Stream</property>
