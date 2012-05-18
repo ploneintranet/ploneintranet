@@ -13,10 +13,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
-from AccessControl import getSecurityManager
 
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.activitystream.interfaces import IActivity
+from plonesocial.activitystream.browser.interfaces \
+    import IActivityContentProvider
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
@@ -103,16 +104,17 @@ class Renderer(base.Renderer):
     def update(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         if self.data.show_content or self.data.show_discussion:
+            # fetch more than we need because of later filtering
             brains = catalog.searchResults(sort_on='effective',
                                            sort_order='reverse',
-                                           sort_limit=self.data.count,
+                                           sort_limit=self.data.count * 10,
                                            )
         else:
             brains = []
 
         if self.data.show_microblog:
             container = queryUtility(IMicroblogTool)
-            statuses = container.values()
+            statuses = container.values(limit=self.data.count)
         else:
             statuses = []
 
@@ -126,6 +128,7 @@ class Renderer(base.Renderer):
             return item.date
 
         activities = sorted(activities, key=date_key, reverse=True)
+
         self.items = []
         for item in activities:
             if len(self.items) >= self.data.count:
@@ -138,20 +141,14 @@ class Renderer(base.Renderer):
                 continue
             elif activity.is_discussion and not self.data.show_discussion:
                 continue
+            else:
+                self.items.append(activity)
 
-            self.items.append(activity)
-
-    def is_anonymous(self):
-        portal_membership = getToolByName(self.context,
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
-
-    def can_review(self):
-        """Returns true if current user has the 'Review comments' permission.
-        """
-        return getSecurityManager().checkPermission('Review comments',
-                                                    aq_inner(self.context))
+    def itemproviders(self):
+        for item in self.items:
+            yield getMultiAdapter((item, self.request, self.view),
+                                  IActivityContentProvider,
+                                  name="activity_contentprovider")
 
 
 class AddForm(base.AddForm):

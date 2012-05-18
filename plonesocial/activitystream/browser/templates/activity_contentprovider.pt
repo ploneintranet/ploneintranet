@@ -1,0 +1,106 @@
+<div tal:attributes="class string:activityItem ${view/render_type}">
+
+  <div class="activityAvatar">
+    <a href="" tal:condition="view/has_author_link"
+       tal:attributes="href view/author_home_url">
+      <img src="defaultUser.gif"
+           alt=""
+           border="0"
+           height="37"
+           tal:attributes="src view/portrait_url;
+                           alt view/Creator" />
+    </a>
+    <img src="defaultUser.gif"
+         alt=""
+         border="0"
+         height="37"
+         tal:condition="not: view/has_author_link"
+         tal:attributes="src view/portrait_url;
+                         alt view/Creator" />
+  </div>
+  
+  <div class="activityBody">
+    
+    <div class="activityByLine">
+      
+      <tal:name>
+        <a href="" class="creator"
+           tal:condition="view/has_author_link"
+           tal:content="view/Creator"
+           tal:attributes="href view/author_home_url">
+          Poster Name
+        </a>
+        <span tal:condition="not: view/has_author_link"
+              tal:replace="view/Creator" />
+        <span tal:condition="not: view/Creator">Anonymous</span>
+      </tal:name>
+      
+      <tal:posted tal:condition="view/is_status"
+                  i18n:translate="label_says">says:</tal:posted>
+      
+      <tal:posted tal:condition="view/is_discussion">
+        <span i18n:translate="label_commented_on">commented on</span>
+        <a tal:attributes="href view/getURL"
+           tal:content="view/Title">a content view</a></tal:posted>
+        
+        <tal:posted tal:condition="view/is_content">
+          <span i18n:translate="label_created">created</span>
+          <a tal:attributes="href view/getURL"
+             tal:content="view/Title">view title</a></tal:posted>
+          
+          <div class="activityDate"
+               tal:content="view/date">
+            8/23/2001 12:40:44 PM
+          </div>
+          
+    </div>
+    
+    <div class="activityNoText visualClear"
+         tal:condition="not:view/getText">
+    </div>
+    
+    <div class="activityText"
+         tal:define="is_content view/is_content;
+                     canReview python:view.can_review() and not is_content"
+         tal:condition="view/getText">
+      
+      <div class="commentActions"
+           tal:condition="view/is_discussion"
+           i18n:domain="plone.app.discussion">
+        <form name="delete"
+              action=""
+              method="post"
+              style="display: inline;"
+              tal:condition="canReview"
+              tal:attributes="action string:${view/getURL}/@@moderate-delete-comment">
+          <input name="form.button.DeleteComment"
+                 class="destructive"
+                 type="submit"
+                 value="Delete"
+                 i18n:attributes="value label_delete;"
+                 />
+        </form>
+        <!-- Workflow actions (e.g. 'publish') -->
+        <form name=""
+              action=""
+              method="get"
+              style="display: inline;"
+              tal:condition="canReview"
+              tal:repeat="action reply_dict/actions|nothing"
+              tal:attributes="action string:${view/getURL}/@@moderate-publish-comment;
+                              name action/id">
+          <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
+          <input name="form.button.PublishComment"
+                 class="context"
+                 type="submit"
+                 tal:attributes="value action/title"
+                 i18n:attributes="value"
+                 />
+        </form>
+      </div>
+      
+      <span tal:replace="structure view/getText" />
+    </div><!-- /activityText -->
+  </div><!-- / activityBody -->
+  
+</div>

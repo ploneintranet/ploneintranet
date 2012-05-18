@@ -58,6 +58,13 @@
         layer=".interfaces.IPlonesocialActivitystreamLayer"
         />        
 
+    <!-- activity helper view, used by activitystream portlet -->
+    <adapter 
+        name="activity_contentprovider"
+        factory=".views.ActivityContentProvider"
+        />
+        
+
   <browser:resourceDirectory
       name="plonesocial.activitystream.stylesheets"
       directory="stylesheets"
