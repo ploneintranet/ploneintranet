@@ -25,7 +25,7 @@ class StatusActivity(object):
         self.render_type = 'status'
         self.Creator = context.creator
         self.userid = context.userid
-        self.created = context.date
+        self.raw_date = context.date
 
 
 class BrainActivity(object):
@@ -41,7 +41,7 @@ class BrainActivity(object):
         self.url = context.getURL()
         self.portal_type = obj.portal_type
         self.Creator = obj.Creator()
-        self.created = obj.creation_date
+        self.raw_date = max(context.created, context.effective)
 
         if obj.portal_type == 'Discussion Item':
             self.render_type = 'discussion'

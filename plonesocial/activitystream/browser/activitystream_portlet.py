@@ -6,6 +6,8 @@ from zope.component import queryUtility
 from zope import schema
 from zope.formlib import form
 from Acquisition import aq_inner
+from AccessControl import Unauthorized
+from AccessControl import getSecurityManager
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
@@ -134,21 +136,39 @@ class Renderer(base.Renderer):
             if len(self.items) >= self.data.count:
                 break
 
-            activity = IActivity(item)
-            if activity.is_status and not self.data.show_microblog:
+            try:
+                activity = IActivity(item)
+            except Unauthorized:
                 continue
-            elif activity.is_content and not self.data.show_content:
-                continue
-            elif activity.is_discussion and not self.data.show_discussion:
-                continue
-            else:
+
+            if activity.is_status and self.data.show_microblog \
+                    or activity.is_content and self.data.show_content \
+                    or activity.is_discussion and self.data.show_discussion:
                 self.items.append(activity)
 
     def itemproviders(self):
         for item in self.items:
+            if not self.can_view(item):
+                # discussion parent inaccessible
+                continue
             yield getMultiAdapter((item, self.request, self.view),
                                   IActivityContentProvider,
                                   name="activity_contentprovider")
+
+    def can_view(self, activity):
+        """Returns true if current user has the 'View' permission.
+        """
+        sm = getSecurityManager()
+        if activity.is_discussion:
+            # check both the activity itself and it's page context
+            return sm.checkPermission(
+                'View', aq_inner(activity.context)) \
+                and sm.checkPermission(
+                    'View',
+                    aq_inner(activity.context).__parent__.__parent__)
+        else:
+            return sm.checkPermission('View',
+                                      aq_inner(activity.context))
 
 
 class AddForm(base.AddForm):

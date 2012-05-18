@@ -9,7 +9,7 @@ class IActivity(Interface):
     userid = Attribute("userid")
     Creator = Attribute("creator")
     getText = Attribute("text")
-    created = Attribute("raw date")
+    raw_date = Attribute("raw date")
 
     portal_type = Attribute("portal_type")
     render_type = Attribute("render_type")

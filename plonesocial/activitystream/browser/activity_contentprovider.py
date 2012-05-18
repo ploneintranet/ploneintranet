@@ -86,7 +86,7 @@ class ActivityContentProvider(object):
 
     @property
     def date(self):
-        return self._format_time(self.created)
+        return self._format_time(self.raw_date)
 
     def _format_time(self, time):
         # We have to transform Python datetime into Zope DateTime
@@ -129,8 +129,8 @@ class ActivityContentProvider(object):
         return self.context.text
 
     @property
-    def created(self):
-        return self.context.created
+    def raw_date(self):
+        return self.context.raw_date
 
     @property
     def portal_type(self):
