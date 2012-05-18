@@ -125,15 +125,15 @@ class BaseStatusContainer(Persistent, Explicit):
     def get(self, key):
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=None):
+    def items(self, min=None, max=None, limit=100):
         return ((key, self.get(key))
                 for key in self.iterkeys(min, max, limit))
 
-    def keys(self, min=None, max=None, limit=None):
+    def keys(self, min=None, max=None, limit=100):
         return longkeysortreverse(self._status_mapping,
                                   min, max, limit)
 
-    def values(self, min=None, max=None, limit=None):
+    def values(self, min=None, max=None, limit=100):
         return (self.get(key)
                 for key in self.iterkeys(min, max, limit))
 
@@ -145,11 +145,11 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # no user_get
 
-    def user_items(self, users, min=None, max=None, limit=None):
+    def user_items(self, users, min=None, max=None, limit=100):
         return ((key, self.get(key)) for key
                 in self.user_keys(users, min, max, limit))
 
-    def user_keys(self, users, min=None, max=None, limit=None):
+    def user_keys(self, users, min=None, max=None, limit=100):
         if not users:
             return ()
 
@@ -170,7 +170,7 @@ class BaseStatusContainer(Persistent, Explicit):
         return longkeysortreverse(merged,
                                   min, max, limit)
 
-    def user_values(self, users, min=None, max=None, limit=None):
+    def user_values(self, users, min=None, max=None, limit=100):
         return (self.get(key) for key
                 in self.user_keys(users, min, max, limit))
 
