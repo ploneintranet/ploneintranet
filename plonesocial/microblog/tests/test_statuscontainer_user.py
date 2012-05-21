@@ -2,9 +2,19 @@ import time
 import unittest2 as unittest
 from zope.interface import implements
 
+from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
-from plonesocial.microblog.statuscontainer import BaseStatusContainer
+from plonesocial.microblog import statuscontainer
 from plonesocial.microblog import statusupdate
+
+
+class StatusContainer(statuscontainer.BaseStatusContainer):
+    """Override actual implementation with unittest features"""
+
+    implements(IStatusContainer)
+
+    def _check_permission(self, perm="read"):
+        pass
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
@@ -32,7 +42,7 @@ class TestStatusContainer_User(unittest.TestCase):
     ## user accessors
 
     def test_user_items_all(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         sb = StatusUpdate('test b', 'bernard')
@@ -44,7 +54,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc, sb, sa], values)
 
     def test_user_items_limit(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         sb = StatusUpdate('test b', 'bernard')
@@ -57,7 +67,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc, sb], values)
 
     def test_user_items_some(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         sb = StatusUpdate('test b', 'bernard')
@@ -69,7 +79,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sb, sa], values)
 
     def test_user_items_one(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         sb = StatusUpdate('test b', 'bernard')
@@ -81,7 +91,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sb], values)
 
     def test_user_items_none(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         sb = StatusUpdate('test b', 'bernard')
@@ -93,7 +103,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([], values)
 
     def test_user_items_min_max_all(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -122,7 +132,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_user_items_min_max_some(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -151,7 +161,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_user_keys_min_max_some(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -180,7 +190,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc.id], values)
 
     def test_user_values_min_max_some(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -209,7 +219,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_user_keys_generator(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -230,7 +240,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([sb], values)
 
     def test_user_keys_generator_empty(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -250,7 +260,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([], values)
 
     def test_user_keys_string(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -273,7 +283,7 @@ class TestStatusContainer_User(unittest.TestCase):
         self.assertEqual([], values)
 
     def test_user_keys_None(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a', 'arnold')
         container.add(sa)
         ta = sa.id  # reset by container
