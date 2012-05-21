@@ -9,7 +9,7 @@
       />
 
   <permission
-      id="plonesocial.microblog.ReadStatusUpdate"
-      title="Plone Social: Read Microblog Status Update"
+      id="plonesocial.microblog.ViewStatusUpdate"
+      title="Plone Social: View Microblog Status Update"
       />
 </configure>

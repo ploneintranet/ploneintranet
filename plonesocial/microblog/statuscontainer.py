@@ -81,7 +81,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def _check_permission(self, perm="read"):
         if perm == "read":
-            permission = "Plone Social: Read Microblog Status Update"
+            permission = "Plone Social: View Microblog Status Update"
         else:
             permission = "Plone Social: Add Microblog Status Update"
         if not getSecurityManager().checkPermission(permission, self):

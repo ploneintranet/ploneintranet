@@ -8,7 +8,7 @@
       <role name="Member" />
     </permission>
     <permission
-        name="Plone Social: Read Microblog Status Update"
+        name="Plone Social: View Microblog Status Update"
         acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
