@@ -116,7 +116,10 @@ class Renderer(base.Renderer):
 
         if self.data.show_microblog:
             container = queryUtility(IMicroblogTool)
-            statuses = container.values(limit=self.data.count)
+            try:
+                statuses = container.values(limit=self.data.count)
+            except Unauthorized:
+                statuses = []
         else:
             statuses = []
 
@@ -159,14 +162,17 @@ class Renderer(base.Renderer):
         """Returns true if current user has the 'View' permission.
         """
         sm = getSecurityManager()
-        if activity.is_discussion:
+        if activity.is_status:
+            permission = "Plone Social: View Microblog Status Update"
+            return sm.checkPermission(permission, self.context)
+        elif activity.is_discussion:
             # check both the activity itself and it's page context
             return sm.checkPermission(
                 'View', aq_inner(activity.context)) \
                 and sm.checkPermission(
                     'View',
                     aq_inner(activity.context).__parent__.__parent__)
-        else:
+        elif activity.is_content:
             return sm.checkPermission('View',
                                       aq_inner(activity.context))
 
