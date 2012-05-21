@@ -46,7 +46,7 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
-        return True
+        return self._statusviewlet.available
 
     @property
     def compact(self):

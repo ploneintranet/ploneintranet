@@ -1,6 +1,7 @@
 from zope.interface import alsoProvides
 from zope.component import queryUtility
 
+from AccessControl import getSecurityManager
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_inner
 from Acquisition import aq_chain
@@ -78,8 +79,6 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
 
 class StatusViewlet(ViewletBase):
-    """Subclass the p.a.discussion comments viewlet
-    and change it's behaviour to suit our purposes."""
 
     form = StatusForm
     index = ViewPageTemplateFile('status.pt')
@@ -97,14 +96,13 @@ class StatusViewlet(ViewletBase):
 
     def update(self):
         super(StatusViewlet, self).update()
-        if not self.is_anonymous():
+        if self.available:
             z2.switch_on(self, request_layer=IFormLayer)
             self.form = self.form(aq_inner(self.context), self.request)
             alsoProvides(self.form, IWrappedForm)
             self.form.update()
 
-    def is_anonymous(self):
-        portal_membership = getToolByName(self.context,
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
+    @property
+    def available(self):
+        permission = "Plone Social: Add Microblog Status Update"
+        return getSecurityManager().checkPermission(permission, self.context)
