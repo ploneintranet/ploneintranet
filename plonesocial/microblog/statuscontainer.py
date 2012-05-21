@@ -11,6 +11,8 @@ from BTrees import LLBTree
 from persistent import Persistent
 import transaction
 from Acquisition import Explicit
+from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 
 from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
@@ -60,6 +62,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._tag_mapping = OOBTree.OOBTree()
 
     def add(self, status):
+        self._check_permission("add")
         self._check_status(status)
         self._store(status)
 
@@ -75,6 +78,14 @@ class BaseStatusContainer(Persistent, Explicit):
     def _check_status(self, status):
         if not IStatusUpdate.providedBy(status):
             raise ValueError("IStatusUpdate interface not provided.")
+
+    def _check_permission(self, perm="read"):
+        if perm == "read":
+            permission = "Plone Social: Read Microblog Status Update"
+        else:
+            permission = "Plone Social: Add Microblog Status Update"
+        if not getSecurityManager().checkPermission(permission, self):
+            raise Unauthorized("You do not have permission <%s>" % permission)
 
     def _notify(self, status):
         event = ObjectAddedEvent(status,
@@ -123,19 +134,21 @@ class BaseStatusContainer(Persistent, Explicit):
     ## primary accessors
 
     def get(self, key):
+        self._check_permission("read")
         return self._status_mapping.get(key)
 
     def items(self, min=None, max=None, limit=100):
         return ((key, self.get(key))
-                for key in self.iterkeys(min, max, limit))
+                for key in self.keys(min, max, limit))
 
     def keys(self, min=None, max=None, limit=100):
+        self._check_permission("read")
         return longkeysortreverse(self._status_mapping,
                                   min, max, limit)
 
     def values(self, min=None, max=None, limit=100):
         return (self.get(key)
-                for key in self.iterkeys(min, max, limit))
+                for key in self.keys(min, max, limit))
 
     iteritems = items
     iterkeys = keys
@@ -218,6 +231,7 @@ class QueuedStatusContainer(BaseStatusContainer):
     implements(IStatusContainer)
 
     def add(self, status):
+        self._check_permission("add")
         self._check_status(status)
         if MAX_QUEUE_AGE > 0:
             self._queue(status)

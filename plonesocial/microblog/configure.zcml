@@ -9,6 +9,7 @@
   <i18n:registerTranslations directory="locales" />
 
   <include package=".portlets" />
+  <include file="permissions.zcml" />
 
   <genericsetup:registerProfile
       name="default"
