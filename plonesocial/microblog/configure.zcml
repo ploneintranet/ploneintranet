@@ -8,7 +8,6 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
-  <include package=".browser" />
   <include package=".portlets" />
 
   <genericsetup:registerProfile
