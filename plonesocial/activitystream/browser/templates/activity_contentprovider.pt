@@ -1,4 +1,5 @@
-<div tal:attributes="class string:activityItem ${view/render_type}">
+<div  i18n:domain="plonesocial.activitystream"
+      tal:attributes="class string:activityItem ${view/render_type}">
 
   <div class="activityAvatar">
     <a href="" tal:condition="view/has_author_link"
