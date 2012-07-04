@@ -16,6 +16,17 @@ h1, h2, h3, h4, h5 {
     padding-right:10px;
 }
 
+.radio-widget {
+    display:inline;
+}
+
+label span.required {
+    background: red;
+    height:7px;
+    width:7px;
+    display:inline-block;
+}
+
 .navbar-fixed-top .brand {
     margin-left: 0;
 }
@@ -351,4 +362,12 @@ a.btn:link, a.btn:visited {
 
 .row-fluid .container {
     width:100%;
+}
+
+.olLayerGooglePoweredBy {
+    display:none !important;
+}
+
+.thumbnail {
+    margin-top:7px;
 }
