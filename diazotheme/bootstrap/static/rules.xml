@@ -32,7 +32,7 @@
     -->
     <rules css:if-content="#visual-portal-wrapper">
    
-    <drop content="/html/head/link[contains(@href, '/public.css')]"/>
+   
     <prepend theme="/html/head" content="/html/head/base"/>
 
     <replace theme="//*[@id='logo']/h1" content="//*[@id='content']/h1"/>
