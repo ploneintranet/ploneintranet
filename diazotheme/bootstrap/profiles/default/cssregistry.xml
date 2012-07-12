@@ -3,7 +3,7 @@
 
  <!-- Set conditions on stylesheets we don't want to pull in -->
  <stylesheet
-     expression="not:request/HTTP_X_THEME_ENABLED | nothing"
+     expression="python: (not request.get('HTTP_X_THEME_ENABLED', None)) or '@@theming-controlpanel' in request.getURL()"
      id="public.css"
      />
 
