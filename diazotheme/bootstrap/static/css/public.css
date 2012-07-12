@@ -3,95 +3,6 @@
     http://localhost:8080/sprites/portal_css/Sunburst%20Theme/public.css
 */
 
-/* @group CSS Reset */
-
-/* Remove implicit browser styles to have a neutral starting point:
-   - No elements should have implicit margin/padding
-   - No underline by default on links (we add it explicitly in the body text)
-   - When we want markers on lists, we will be explicit about it, and they render inline by default
-   - Browsers are inconsistent about hX/pre/code, reset
-   - Linked images should not have borders
-   */
-
-* { margin: 0; padding: 0; }
-* :link,:visited { text-decoration:none }
-* ul,ol { list-style:none; }
-* li { display: inline; }
-* h1,h2,h3,h4,h5,h6,pre,code { font-size:1em; }
-* a img,:link img,:visited img { border:none }
-a { outline: none; }
-table { border-spacing: 0; }
-img { vertical-align: text-bottom; }
-iframe { border-width: 0; border-style:none; }
-
-
-/* @end */
-
-/* @group Basics */
-
-body {
-    font: 100% Arial, FreeSans, sans-serif;
-    background: White;
-    color: Black;
-    /* width: 58em; margin: 1em auto; */
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Helvetica Neue", Arial, FreeSans, sans-serif;
-    font-weight: bold;
-    color: Black;
-    line-height: 1.5em;
-}
-h1, h2 {
-    letter-spacing: -0.05em;
-}
-h1 {
-    font-size: 2em;
-}
-h2 {
-    font-size: 1.75em;
-}
-h3 {
-    font-size: 1.25em;
-}
-h4 {
-    font-size: 1.25em;
-}
-h5 {
-    font-size: 1em;
-}
-h6 {
-    font-size: 0.8em;
-}
-h2, h3, h4, h5, h6 {
-    color: #444;
-}
-h2 a, h3 a, h4 a {
-    border-bottom: none !important;
-}
-
-p {
-}
-
-a:link, a:visited {
-    color: #205c90;
-}
-a:focus img {
-    outline: thin dotted;
-}
-dt {
-    font-weight: bold;
-}
-input {
-    font-family: "Lucida Grande", Arial, FreeSans;
-}
-
-q {
-    quotes: "“" "”" "‘" "’";
-}
-
-/* @end */
-
 /* @group Navigation/search */
 
 #portal-header {
@@ -103,10 +14,16 @@ q {
     display: inline-block;
     margin: 1.375em 0;
 }
+/* removes extra space above logo in IE6 and IE7 */
+/* .ie6 and .ie7 is set on <html> by Modernizr library */
+.ie6 #portal-logo,
+.ie7 #portal-logo {
+    margin-top: 0;
+}
+
 
 #portal-globalnav {
     clear: both;
-    font-size: 80%;
     background: #ddd;
     /* ensure top navigation dont touches portlets, content etc.. #10491 */
     margin: 0 0 1em 0;
@@ -142,7 +59,6 @@ q {
     top: 0;
     right: 0;
     padding: 0.25em 0.5em;
-    font-size: 80%;
     border-bottom-right-radius: 0.5em;
     border-bottom-left-radius: 0.5em;
     -webkit-border-bottom-right-radius: 0.5em;
@@ -152,7 +68,7 @@ q {
 }
 #portal-personaltools #anon-personalbar a {
     float: left;
-    margin-right: 0.5em;
+    margin: 0 0.5em;
 }
 
 #portal-languageselector {
@@ -163,7 +79,6 @@ q {
     right: 1px;
     z-index: 3; /* portal-header has 2 and we need to be above to be clickable */
     padding: 0.25em 0.5em;
-    font-size: 80%;
     border-bottom-right-radius: 0.5em;
     border-bottom-left-radius: 0.5em;
     -webkit-border-bottom-right-radius: 0.5em;
@@ -178,7 +93,6 @@ q {
     text-align: left;
     clear: right;
     margin: 1.2em 0;
-    font-size: 80%;
 }
 
 #portal-searchbox form {
@@ -212,12 +126,12 @@ input.searchField {
 
 .collapsible .collapser.collapsed {
     padding-right: 14px;
-    background: url('../img/plone/arrowRight.png') center right no-repeat;
+    background: url(../img/arrowRight.png) center right no-repeat;
 }
 
 .collapsible .collapser.expanded {
     padding-right: 14px;
-    background: url('../img/plone/arrowDown.png') center right no-repeat;
+    background: url(../img/arrowDown.png) center right no-repeat;
 }
 /* @end */
 
@@ -241,7 +155,6 @@ input.searchField {
 }
 
 #LSResult .LSDescr {
-    font-size: 85%;
     color: #666;
 }
 
@@ -263,13 +176,16 @@ input.searchField {
 /* @group Path indicator (breadcrumbs) */
 
 #portal-breadcrumbs {
-    font-size: 80%;
     margin-bottom: 1em;
     margin-left: 0.25em;
 }
 #portal-breadcrumbs a {
     border-bottom: none;
     display: inline-block;
+}
+
+.breadcrumbSeparator {
+      color: #666666;
 }
 
 /* @end */
@@ -281,7 +197,6 @@ input.searchField {
 /* @group Site actions */
 
 #portal-siteactions {
-    font-size: 85%;
     padding-bottom: 2em;
     text-align: center;
     clear: left;
@@ -323,7 +238,6 @@ dl dt span.summary a {
 
 dl.portlet {
     margin: 0 0 1em;
-    font-size: 80%;
 }
 dl.portletError {
     background-color: #FFA500;
@@ -339,7 +253,6 @@ dl.portlet dt.hiddenStructure {
     padding: 0;
 }
 div.portletAssignments {
-    font-size: 0.8em;
     line-height: 2em;
 }
 
@@ -371,7 +284,6 @@ div.managePortletsLink,
 a.managePortletsFallback {
     text-align: center;
     padding: 0.25em 0.5em;
-    font-size: 80%;
     margin: 0 auto 1em;
     background: #ddd;
     border-radius: 0.5em;
@@ -445,7 +357,6 @@ dl.portlet ul.navTree .navTreeCurrentItem {
 #content {
     line-height: 1.5em;
     clear: both;
-    font-size: 80%;
     margin: 1em 0.25em 2em 0.25em;
 }
 
@@ -475,16 +386,18 @@ dl.portlet {
 
 }
 
+#content a:link,
 dl.portlet a:link {
     color: #205c90;
     border-bottom: 0.1em solid #ccc;
 }
 
+#content a:visited,
 dl.portlet a:visited {
     color: #427597;
     border-bottom: 0.1em solid #ccc;
 }
-
+#content a:hover,
 dl.portlet a:hover {
     color: #75ad0a !important; /* This one gets an !important because it should always activate in the content area, even when state coloring is active */
 }
@@ -492,12 +405,11 @@ dl.portlet a:hover {
     background-color: #ffb;
 }
 #content span.link-external a {
-    background: transparent url('../img/plone/link_icon.png') 0px 1px no-repeat;
+    background: transparent url(../img/link_icon.png) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 
 #category {
-    font-size: 75%;
     margin-bottom: 1em;
     color: #666;
     text-align: right;
@@ -518,6 +430,11 @@ dl.portlet a:hover {
 }
 #category .separator {
     display: none;
+}
+
+#content ul {
+    list-style-type: disc;
+    margin-left: 2em;
 }
 
 #content ol,
@@ -548,7 +465,6 @@ dl.portlet li {
     font-family: Consolas, Inconsolata, Menlo, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
     padding: 1em;
     overflow-x: auto;
-    font-size: 90%;
     margin-bottom: 1em;
     line-height: 1.25em;
 }
@@ -561,7 +477,6 @@ dl.portlet li {
 }
 
 #content div.documentByLine {
-    font-size: 85%;
     display: block;
     color: #666;
 }
@@ -569,7 +484,6 @@ dl.portlet li {
 #content .discreet,
 #sidebar .discreet {
     color: #666;
-    font-size: 85%;
     font-weight: normal;
 }
 
@@ -585,7 +499,6 @@ dl.portlet li {
     width: 35%;
     clear: right;
     color: #444;
-    font-size: 1.6em;
     letter-spacing: -0.08em !important;
 }
 #content .callout {
@@ -606,7 +519,7 @@ dl.portlet li {
 #content #description {
     color: #666;
     margin-left: 0;
-    font: bold 1.25em "Helvetica Neue", Arial, FreeSans, sans-serif;
+    font: bold "Helvetica Neue", Arial, FreeSans, sans-serif;
 }
 
 #content img.tileImage,
@@ -633,7 +546,38 @@ dl.portlet li {
     clear: right;
     margin: 0 0 0.5em 1em;
 }
+/* For event view template, changed headerless table to headings and divs,
+ * for better accessibility.  */
 
+#content .eventDetails {
+    border-color: #CCCCCC;
+    border-style: solid;
+    border-width: 0.08em;
+    width: 22em;
+    margin-top: 1em;
+}
+#content .eventDetails h2 {
+    background-color: #DDDDDD;
+    letter-spacing: 0;
+    padding: 0.5em;
+    padding-left: 1em;
+}
+#content .eventDetails .eventDetail {
+    clear: both;
+}
+#content .eventDetails .eventDetail h3,
+#content .eventDetails .eventDetail div {
+    padding: 2%;
+}
+#content .eventDetails .eventDetail h3 {
+    float: left;
+    text-align: right;
+    width: 37%;
+}
+#content .eventDetails .eventDetail div {
+    float: left;
+    width: 55%;
+} 
 /* @end */
 
 
@@ -704,6 +648,9 @@ table.listing tbody tr.odd td {
 table.listing td {
     border-right: 1px solid #ddd;
 }
+.icons-on table.listing td {
+    line-height: 2em;
+}
 table.listing a {
     border: none;
     display: inline-block;
@@ -742,7 +689,6 @@ table.grid th {
 }
 
 div.listingBar {
-    font-size: 80%;
     margin: 1em 0;
 }
 
@@ -773,7 +719,6 @@ div.listingBar a:hover {
 
 dl.portalMessage {
     margin: 1em 0;
-    font-size: 80%;
     border: 1px solid #996;
     background-color: #ffffe3;
     clear:both;
@@ -824,7 +769,6 @@ dl.error dd {
 
 /* Additional specificity for when status is shown inside #content */
 #content dl.portalMessage {
-    font-size: 100%;
 }
 #content dl.portalMessage dt {
     margin: 0 0.5em 0 0;
@@ -848,7 +792,6 @@ dl.error dd {
 #edit-bar {
     background-color: #75ad0a;
     border: 0.25em solid #75ad0a;
-    font-size: 80%;
     min-height: 2em;
     margin-bottom: 1em;
     padding-top: 0.05em;
@@ -857,13 +800,19 @@ dl.error dd {
     float: left;
     background-color: #75ad0a;
 }
+/* fix shift on content views list under ie6 */
+/* .ie6 is set on <html> by Modernizr library */
+.ie6 ul#content-views{
+    margin: -2px -3px 0px -3px;
+}
 #content-views a {
     color: White;
 }
 
 /* Shared CSS between the two tab types */
 #edit-bar,
-#content ul.formTabs {
+#content ul.formTabs,
+#content-core ul.formTabs {
     display: block;
     border-style: solid solid none solid;
     margin-left: 0;
@@ -874,17 +823,20 @@ dl.error dd {
     -moz-border-radius-topleft: 0.5em;
     -moz-border-radius-topright: 0.5em;
 }
-#content li.formTab {
+#content li.formTab,
+#content-core li.formTab {
     display: inline;
     margin-right:0.25em;
 }
 #content-views a,
-#content li.formTab a {
+#content li.formTab a,
+#content-core li.formTab a {
     /* this isn't supported by all browsers, so we keep it in a separate rule */
     display: inline-block;
 }
 #content-views a,
-#content li.formTab a {
+#content li.formTab a,
+#content-core li.formTab a {
     line-height: 2em;
     padding: 0 0.75em;
     text-decoration: none;
@@ -892,20 +844,18 @@ dl.error dd {
     margin: 0 ;
 }
 #content-views li.selected a,
-#content li.formTab a.selected {
+#content li.formTab a.selected,
+#content-core li.formTab a.selected {
     font-weight: bold;
 }
 #content-views li.selected a,
 #content-views li a:hover,
 #content li.formTab a.selected,
-#content li.formTab a:hover {
+#content li.formTab a:hover,
+#content-core li.formTab a.selected,
+#content-core li.formTab a:hover {
     background: White;
     color: Black;
-}
-#content-views li.selected a,
-#content-views li a:hover,
-#content li.formTab a.selected,
-#content li.formTab a:hover {
     border-top-right-radius: 0.5em;
     border-top-left-radius: 0.5em;
     -webkit-border-top-right-radius: 0.5em;
@@ -913,23 +863,28 @@ dl.error dd {
     -moz-border-radius-topleft: 0.5em;
     -moz-border-radius-topright: 0.5em;
 }
-#content li.formTab a.notify {
+#content li.formTab a.notify,
+#content-core li.formTab a.notify {
     background-color: red;
     color: White;
 }
-#content li.formTab a.required span {
-    background-image: url('../img/plone/required.png');
-    background-position: center right;
-    background-repeat: no-repeat;
-    padding-right: 1em;
+#content li.formTab a.required span:after, 
+#content-core li.formTab a.required span:after, 
+div.field span.required:after {
+    content: "■";
+    color: Red;
+    padding-left: 0.2em;
 }
-#content fieldset.formPanel {
+#content fieldset.formPanel,
+#content-core fieldset.formPanel {
     border: none;
 }
-#content fieldset.formPanel.hidden {
+#content fieldset.formPanel.hidden,
+#content-core fieldset.formPanel.hidden {
     display: none;
 }
-#content div.formControls input.hidden {
+#content div.formControls input.hidden,
+#content-core div.formControls input.hidden {
     display: none;
 }
 
@@ -1030,7 +985,6 @@ dl.actionMenu dt {
     font-weight: normal;
 }
 span.arrowDownAlternative {
-    font-size: 80%;
 }
 dl.actionMenu.deactivated dt {
     margin: 0 0.25em;
@@ -1060,7 +1014,6 @@ dl.actionMenu.activated dd div {
 /* @group Control panel */
 
 #setup-link {
-    font-size: 90%;
 }
 
 #content ul.configlets {
@@ -1115,7 +1068,6 @@ table.controlpanel-listing {
     width:100%;
 }
 table.controlpanel-listing td, table.controlpanel-listing th {
-    font-size:120%;
 }
 table.controlpanel-listing dl {
     margin-top:0;
@@ -1169,7 +1121,6 @@ dl.collapsible dt.collapsibleHeader {
     background: White;
     line-height: 1.2em;
     vertical-align: middle;
-    font-size: 90%;
     position: relative;
     top: -0.6em;
     width: auto;
@@ -1191,7 +1142,7 @@ dl.collapsible dd.collapsibleContent > dl {
 dl.expandedInlineCollapsible dt.collapsibleHeader,
 dl.expandedBlockCollapsible dt.collapsibleHeader {
     padding: 0 0.5em 0 2em;
-    background: White url('../img/plone/treeExpanded.png') no-repeat 0.5em 50%;
+    background: White url(../img/treeExpanded.png) no-repeat 0.5em 50%;
     cursor: pointer;
 }
 
@@ -1208,7 +1159,7 @@ dl.collapsedBlockCollapsible dt.collapsibleHeader {
     padding: 0 0.5em 0 2em;
     line-height: 1.2em;
     cursor: pointer;
-    background: White url('../img/plone/treeCollapsed.png') no-repeat 0.5em 50%;
+    background: White url(../img/treeCollapsed.png) no-repeat 0.5em 50%;
 }
 dl.collapsedInlineCollapsible dd.collapsibleContent,
 dl.collapsedBlockCollapsible dd.collapsibleContent {
@@ -1236,7 +1187,6 @@ dl.collapsedInlineCollapsible dt.collapsibleHeader {
 
 .comment {
     margin-top: 1.5em;
-    font-size: 80%;
 }
 
 .comment .documentByLine {
@@ -1292,14 +1242,12 @@ dl.collapsedInlineCollapsible dt.collapsibleHeader {
     color: Black;
     background-color: #dee7ec;
     font-weight: normal;
-    font-size: 90%;
 }
 
 /* for highlighting of search terms */
 .highlightedSearchTerm {
    background-color: #ffa;
 }
-
 dl.searchResults .highlightedSearchTerm {
     background-color: transparent;
     font-weight: bold;
@@ -1320,12 +1268,96 @@ dl.searchResults .highlightedSearchTerm {
 
 /* @group Search results page */
 
-form.searchPage {
-    text-align:center;
+fieldset#search-field {
+    border: none !important;
+    text-align: center;
 }
-
 input.searchPage {
     font-size:200% !important;
+}
+#rss-subscription {
+	float: left;
+	line-height: 3em;
+}
+#search-results-bar .actionMenuContent {
+    margin-top: 1em;
+    padding: 0;
+}
+#search-filter {
+    background: #ddd;
+    margin: 0;
+    padding: 0;
+}
+#content #search-filter fieldset {
+    border: none !important;
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+#content #search-filter legend {
+    background: transparent;
+    padding: 0.5em 0.9em;
+    font-weight: bold;
+}
+#search-filter .field {
+    background: #eee;
+    padding: 1em 1.5em;
+    margin: 0;
+}
+#search-filter .field label {
+    font-weight: normal;
+}
+#search-filter .formControls {
+    text-align:center
+}
+#search-results-wrapper {
+    margin-top: 1em;
+}
+form.searchPage h1.documentFirstHeading {
+    font-weight:normal; 
+    letter-spacing:0;
+	float: left;
+	margin-right: 0.8em;
+}
+form.searchPage h1.documentFirstHeading .highlightedSearchTerm {
+    background: transparent !important;
+}
+#search-results-bar > * {
+    float: left;
+}
+#searchResultsSort{ 
+	float:right;
+}
+#search-results-bar {
+    position: relative;
+    z-index: 1;
+    float: left;
+    width: 100%;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;    
+    padding: 1em 0;
+}
+#search-results-bar dl.actionMenu {
+    margin-bottom: 0;
+}
+#search-results-bar dd.actionMenuContent {
+    margin-left: 0;
+    padding-left: 0;
+}
+#search-results-bar dt.actionMenuHeader a {
+    border-bottom: none;
+}
+#search-results-bar dt.actionMenuHeader a::after {
+	content: " ▼";
+}
+#search-results {
+    padding: 1em;
+}
+.searchResults {
+    margin-top: 0;
+}
+#ajax-search-res {
+    display: none;
 }
 
 /* @end */
@@ -1356,7 +1388,6 @@ dd.image-caption {
     padding: 0 0 0 3px; /*image padding+border with*/
     margin: 0;
     color: #666;
-    font-size: 85%;
 }
 
 /* @end */
@@ -1373,7 +1404,6 @@ dd.image-caption {
 }
 
 #dashboard {
-    font-size: 125%;
     line-height: 1em;
 }
 
@@ -1427,7 +1457,6 @@ fieldset,
     color: Black;
     letter-spacing: -0.05em;
     margin: inherit -0.05em;
-    font-size: 2em; /* 26px equiv */
     font-weight: bold;
 }
 
@@ -1436,7 +1465,6 @@ fieldset,
 #archetypes-fieldname-description textarea#description {
     font-family: Arial,FreeSans,sans-serif;
     color:#666666;
-    font-size:1.25em;
     font-weight: bold;
 }
 
@@ -1451,7 +1479,7 @@ textarea:focus {
 }
 
 #content textarea {
-    font: 100% Monaco, "Courier New", Courier, monospace;
+    font: Monaco, "Courier New", Courier, monospace;
     width: 100%;
 }
 #content select {
@@ -1463,7 +1491,6 @@ textarea:focus {
 }
 #content legend {
     padding: 0.5em;
-    font-size: 85%;
 }
 label {
     font-weight:bold;
@@ -1515,7 +1542,7 @@ input#title {
 }
 
 .fieldRequired {
-    background: url('../img/plone/required.png') center left no-repeat;
+    background: url(../img/required.png) center left no-repeat;
     padding: 0 0 0 1em;
     color: White;
 }
@@ -1531,6 +1558,8 @@ input#title {
 .formHelp {
     color: #555;
     margin: 0 0 0.2em 0;
+    display: block;
+    font-weight: normal;
 }
 div.field.error {
     background-color: #fdc;
@@ -1590,13 +1619,11 @@ body.template-login_form #content,
 }
 
 #fieldset-openid-login input, #login-form input {
-    font-size: 150%;
 }
 
 
 body.template-register #content input,
 body.template-new-user #content input {
-    font-size: 150%;
     width: inherit;
 
 }
@@ -1624,7 +1651,6 @@ margin-left: 0.25em;
 dl.toc {
     float: right;
     width: 35%;
-    font-size: 100%;
     margin: 1em 0 0.5em 1.5em;
 }
 dl.toc dt {
@@ -1645,7 +1671,6 @@ dl.toc dd ol {
 /* @group Footer */
 
 #portal-footer {
-    font-size: 75%;
     background: #ddd;
     padding: 1em;
     margin: 1em 0;
@@ -1653,7 +1678,6 @@ dl.toc dd ol {
 }
 
 #portal-colophon {
-    font-size: 70%;
     text-align: center;
     margin-bottom: 1em;
 }
@@ -1673,7 +1697,6 @@ dl.toc dd ol {
 #portal-sitemap {
     list-style: none;
     margin-left: 0;
-    font-size: 130%;
     font-weight: bold;
 }
 
@@ -1696,7 +1719,6 @@ dl.toc dd ol {
 
 #portal-sitemap .navTreeLevel2,
 #portal-sitemap .navTreeLevel2 ul {
-    font-size: 85%;
     font-weight: normal;
     margin-bottom: 0;
     padding: 0.25em 0;
@@ -1714,7 +1736,7 @@ dl.toc dd ol {
     margin: 0em;
     padding: 0px 6px 0px 9px;
     text-align: center;
-    background-image: url('../img/plone/polaroid-single.png');
+    background-image: url(../img/polaroid-single.png);
     background-repeat: no-repeat;
 }
 .photoAlbumEntry img {
@@ -1731,13 +1753,12 @@ dl.toc dd ol {
 .photoAlbumEntry a {
     display: block;
     text-decoration: none;
-    font-size: 90%;
     height: 169px;
     width: 130px;
     margin: 16px auto 0px;
 }
 .photoAlbumFolder {
-    background-image: url('../img/plone/polaroid-multi.png');
+    background-image: url(../img/polaroid-multi.png);
     background-repeat: no-repeat;
 }
 .photoAlbumEntryTitle {
@@ -1761,6 +1782,12 @@ dl.toc dd ol {
     padding: 0;
     margin: -0.1em 0 0 -0.1em;
     width: 1px;
+}
+/* ensures hidden elements don't take up space */
+/* .ie6 is set on <html> by Modernizr library */
+.ie6 .hiddenStructure,
+.ie7 .hiddenStructure {
+    position: absolute;
 }
 
 #content .visualNoMarker {
@@ -1792,7 +1819,6 @@ div.overlay {
     display: none;
     /* some padding to layout nested elements nicely  */
     margin: 1em;
-    font-size: 80%;
 }
 
 div.overlay-iframe,
@@ -1809,7 +1835,7 @@ div.overlay-iframe {
 /* default close button positioned on upper-left corner */
 div.overlaybg div.close,
 div.overlay div.close {
-    background-image: url('../img/plone/pb_close.png');
+    background-image: url(../img/pb_close.png);
     position: absolute;
     left: -14px;
     top: -14px;
@@ -1982,33 +2008,36 @@ a.historyComparePrevious span {
 */
 
 .icons-on .contenttype-document {
-    background: no-repeat transparent 0px 4px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px 4px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-event {
-    background: no-repeat transparent 0px -212px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -212px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-folder {
-    background: no-repeat transparent 0px -644px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -644px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-link {
-    background: no-repeat transparent 0px -1076px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -1076px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-news-item {
-    background: no-repeat transparent 0px -1292px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -1292px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-plone-site {
-    background: no-repeat transparent 0px -1508px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -1508px url(../img/contenttypes-sprite.png);
+}
+.icons-on .contenttype-collection {
+    background: no-repeat transparent 0px -1724px url(../img/contenttypes-sprite.png);
 }
 .icons-on .contenttype-topic {
-    background: no-repeat transparent 0px -1724px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -1724px url(../img/contenttypes-sprite.png);
 }
 
 /* These should only appear in the add menu */
 .icons-on #plone-contentmenu-factories .contenttype-file {
-    background: no-repeat transparent 0px -428px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -428px url(../img/contenttypes-sprite.png);
 }
 .icons-on #plone-contentmenu-factories .contenttype-image {
-    background: no-repeat transparent 0px -860px url('../img/plone/contenttypes-sprite.png');
+    background: no-repeat transparent 0px -860px url(../img/contenttypes-sprite.png);
 }
 
 .icons-on .contenttype-document,
@@ -2017,10 +2046,13 @@ a.historyComparePrevious span {
 .icons-on .contenttype-link,
 .icons-on .contenttype-news-item,
 .icons-on .contenttype-plone-site,
+.icons-on .contenttype-collection,
 .icons-on .contenttype-topic,
 .icons-on #plone-contentmenu-factories .contenttype-file,
 .icons-on #plone-contentmenu-factories .contenttype-image {
     line-height: 2em;
+    display: inline-block;
+    *display: block;
     padding-left: 20px !important;
 }
 
@@ -2034,6 +2066,11 @@ a.historyComparePrevious span {
     height: 14em;
     width: 100%;
 }
+/* IE7: fixes super-wide div for JavaScript Tag selector */
+/* .ie7 is set on <html> by Modernizr library */
+.ie7 div.optionsBox {
+    width: 50%;
+}
 .optionsBox LABEL {
     padding: 2px 0 0 0;
     display: block;
@@ -2043,6 +2080,11 @@ a.historyComparePrevious span {
 .optionsBox input{
     vertical-align: middle;
     margin: 1px 4px 4px 6px;
+}
+/* IE7: fixes super-wide div for JavaScript Tag selector */
+/* .ie7 is set on <html> by Modernizr library */
+.ie7 .optionsBox input {
+    margin: 0px;
 }
 .optionsBox LABEL.checked {
     background-color: #EEEEEE;

@@ -101,12 +101,12 @@
                     </xsl:if>
                 </xsl:for-each>
                 <div id="action-bar">
-                    <ul class="nav-tabs">
+                    <ul class="nav nav-tabs">
                     <xsl:for-each css:select="#content-views > li">
                         <xi:include href="navigation-rules.xml"/>
                     </xsl:for-each>
                     <xsl:for-each css:select="#contentActionMenus > li">
-                        <li class="dropdown" data-dropdown="dropdown" style="float:right">
+                        <li class="dropdown pull-right" data-dropdown="dropdown">
                             <a class="dropdown-toggle" href="#"><xsl:attribute name="href">
                                     <xsl:value-of select="dl/dt/a/@href"/>
                                 </xsl:attribute>

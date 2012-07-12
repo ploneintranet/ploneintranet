@@ -2,49 +2,8 @@
 body {
 }
 
-h1, h2, h3, h4, h5 {
-    margin-bottom:5px;
-}
-
-.navbar-fixed-top .container {
-    width:100%;
-
-}
-
-#container {
-    padding-left: 10px;
-    padding-right:10px;
-}
-
 .radio-widget {
     display:inline;
-}
-
-label span.required {
-    background: red;
-    height:7px;
-    width:7px;
-    display:inline-block;
-}
-
-.navbar-fixed-top .brand {
-    margin-left: 0;
-}
-
-.topbar h3 {
-    margin:0;
-}
-
-.topbar .nav a {
-    padding: 8px;
-}
-
-.topbar .dropdown-menu {
-    top:35px;
-}
-
-.span14 {
-    width:1170px;
 }
 
 #header {
@@ -55,35 +14,17 @@ label span.required {
     margin: 10px auto 0 auto;
 }
 
-.hero-unit {
-    background-image: url('../img/mapbg.png');
-    color:#fff;
-}
-
-.hero-unit h1 {
-    color:#fff;
-    font-size: 20pt;
-}
-
-#hero-img {
-    position:relative;
-    float:right;
-    top: -90px;
-    left:50px;
-    height:300px;
-    margin-bottom:-100px;
-}
-
-#companycode {
-    text-align:right;
-}
-
 label {
     float:none;
 }
 
-dl.actionMenu {
-    margin-bottom:0px;
+.field label {
+   display:inline;
+   font-weight:bold;
+}
+
+label .required {
+   font-size:8px;
 }
 
 #edit-bar ul {
@@ -106,18 +47,6 @@ dl.actionMenu {
     text-align:right;
 }
 
-
-#content-core ul {
-  font-size:13px;
-}
-
-#content-core p {
-  font-size:13px;
-}
-
-#content-core dl {
-   font-size:13px;
-}
 
 #portletBelowContentManager {
     margin-top:20px;
@@ -166,7 +95,6 @@ dl.actionMenu {
 .navTree {
     list-style:none;
     margin:0px;
-    font-size: 14px;
 }
 
 .navTree .navTree {
@@ -221,10 +149,6 @@ input[type="submit"], input[type="button"], button {
     border-radius: 5px 5px 0 0 !important;
 }
 
-#content pre {
-    font-size:12px;
-}
-
 li {
     color: #595959;
 }
@@ -235,7 +159,6 @@ li {
 
 #action-bar > .nav-tabs > li > a {
     padding: 0 5px;
-    font-size:12px;
     line-height:20px;
 }
 
@@ -259,9 +182,6 @@ li {
     min-width:150px;
 }
 
-div.listingBar {
-    font-size:12px;
-}
 
 div.listingBar .next,
 div.listingBar .current,
@@ -271,10 +191,6 @@ div.listingBar a {
 
 #content div.listingBar a:hover {
     color:#fff !important;
-}
-
-#content ol {
-    font-size: 13px;
 }
 
 #content p, #content table, #content dl, dl.portlet p, dl.portlet {
