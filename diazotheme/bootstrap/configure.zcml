@@ -7,16 +7,4 @@
 
   <plone:static directory="static" type="theme" />
 
-  <!-- File System Directory Views registration -->
-  <cmf:registerDirectory name="diazotheme_bootstrap"/>
-
-
-  <genericsetup:registerProfile
-      name="default"
-      title="diazotheme.bootstrap"
-      directory="profiles/default"
-      description='Skin overrides for diazotheme.bootstrap'
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
-
 </configure>
