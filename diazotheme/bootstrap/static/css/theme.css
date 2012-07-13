@@ -15,7 +15,8 @@ body {
 }
 
 label {
-    float:none;
+    float:none; 
+    display:inline;
 }
 
 .field label {
@@ -286,4 +287,73 @@ a.btn:link, a.btn:visited {
 
 .thumbnail {
     margin-top:7px;
+}
+
+#content-core fieldset {
+   padding-top:20px;
+}
+
+#main_search legend {
+   display:none;
+}
+
+#main_search fieldset {
+   border:none;
+   padding:0;
+   margin:0;
+}
+
+#main_search input[type="text"] {
+    width:800px;
+    margin:5px 0;
+}
+
+#faceted-edit-addwidget {
+    max-height:400px;
+}
+
+.faceted-widget-edit {
+    max-height:400px;
+}
+
+.ArchetypesCalendarWidget select {
+    width:80px;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+    #main_search input[type="text"] {
+       width: 700px;
+    }
+}
+
+
+@media (max-width: 979px) {
+    #main_search input[type="text"] {
+       width: 590px;
+    }
+}
+
+@media (max-width: 767px) {
+    #main_search input[type="text"] {
+       width: 310px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main_search input[type="text"] {
+       width: 300px;
+    }
+}
+
+
+@media (min-width: 980px) {
+    #main_search input[type="text"] {
+       width: 800px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #main_search input[type="text"] {
+       width: 1030px;
+    }
 }

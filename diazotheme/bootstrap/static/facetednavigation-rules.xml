@@ -1,0 +1,15 @@
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    >
+
+
+   <replace css:content="#faceted-top-column .faceted-widget:first-child">
+        <div class="well" id="main_search">
+             <xsl:copy-of select="current()"/>
+        </div>
+   </replace>
+
+</rules>

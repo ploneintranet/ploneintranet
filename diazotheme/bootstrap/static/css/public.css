@@ -389,13 +389,11 @@ dl.portlet {
 #content a:link,
 dl.portlet a:link {
     color: #205c90;
-    border-bottom: 0.1em solid #ccc;
 }
 
 #content a:visited,
 dl.portlet a:visited {
     color: #427597;
-    border-bottom: 0.1em solid #ccc;
 }
 #content a:hover,
 dl.portlet a:hover {
@@ -1490,7 +1488,6 @@ textarea:focus {
     border-style: solid none none none;
 }
 #content legend {
-    padding: 0.5em;
 }
 label {
     font-weight:bold;

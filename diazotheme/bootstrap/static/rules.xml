@@ -10,6 +10,15 @@
 
 
     <theme href="base.html" css:if-content="#visual-portal-wrapper"/>
+    <theme href="dialog.html" css:if-content="#content.dialog-wrapper"/>
+
+    <rules css:if-content="#content.dialog-wrapper">
+        <prepend theme="/html/head" content="/html/head/base"/>
+        <prepend theme="/html/head" 
+            content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
+        <replace theme="/html/body"
+            content="/html/body"/>
+    </rules>
     <theme href="html5slides/template/index.html" css:if-content=".presentation"/>
     <rules css:if-content=".presentation">
          <replace css:theme-children="section">
@@ -253,6 +262,8 @@
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
     </replace>
+
+    <xi:include href="facetednavigation-rules.xml"/>
 
     </rules>
 </rules>
