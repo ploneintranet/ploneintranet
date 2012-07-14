@@ -168,7 +168,7 @@ li {
 }
 
 #main label {
-    display:inline;
+    display:inline-block;
 }
 
 .footer > .container {
@@ -335,7 +335,7 @@ a.btn:link, a.btn:visited {
 
 @media (max-width: 979px) {
     #main_search input[type="text"] {
-       width: 590px;
+       width: 550px;
     }
 }
 
@@ -354,12 +354,12 @@ a.btn:link, a.btn:visited {
 
 @media (min-width: 980px) {
     #main_search input[type="text"] {
-       width: 800px;
+       width: 750px;
     }
 }
 
 @media (min-width: 1200px) {
     #main_search input[type="text"] {
-       width: 1030px;
+       width: 990px;
     }
 }
