@@ -1476,10 +1476,7 @@ textarea:focus {
 #content select {
     vertical-align: top;
 }
-#content fieldset {
-    border: 0.1em solid #329fd7;
-    border-style: solid none none none;
-}
+
 #content legend {
 }
 label {

@@ -316,6 +316,12 @@ a.btn:link, a.btn:visited {
     max-height:400px;
 }
 
+#content fieldset { 
+   padding-left:20px;
+   padding-right:20px;
+   border:none;
+}
+
 .ArchetypesCalendarWidget select {
     width:80px;
 }
