@@ -441,13 +441,6 @@ dl.portlet ol {
     margin-left: 2em;
 }
 
-#content li,
-dl.portlet li {
-    margin-bottom: 0.25em;
-    line-height: 1.5em;
-    display: list-item;
-}
-
 #content dt {
     font-weight: bold;
     margin-bottom: 0;
