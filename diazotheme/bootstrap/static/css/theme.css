@@ -293,17 +293,22 @@ a.btn:link, a.btn:visited {
    padding-top:20px;
 }
 
-#main_search legend {
+.faceted-top-search legend {
    display:none;
 }
 
-#main_search fieldset {
+.faceted-top-search .faceted-textwidget-place-all,
+.faceted-top-search .faceted-textwidget-place-current {
+    display:inline-block;
+}
+
+#content .faceted-top-search fieldset {
    border:none;
    padding:0;
    margin:0;
 }
 
-#main_search input[type="text"] {
+.faceted-top-search input[type="text"] {
     width:800px;
     margin:5px 0;
 }
@@ -327,39 +332,39 @@ a.btn:link, a.btn:visited {
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 700px;
     }
 }
 
 
 @media (max-width: 979px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 550px;
     }
 }
 
 @media (max-width: 767px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 310px;
     }
 }
 
 @media (max-width: 480px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 300px;
     }
 }
 
 
 @media (min-width: 980px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 750px;
     }
 }
 
 @media (min-width: 1200px) {
-    #main_search input[type="text"] {
+    .faceted-top-search input[type="text"] {
        width: 990px;
     }
 }
