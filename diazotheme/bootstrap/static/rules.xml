@@ -61,6 +61,23 @@
         </xsl:if>
     </append>
 
+    <prepend css:theme="#content-columns">
+        <div class="row-fluid">
+            <div class="span12">
+        <xsl:if css:test=".AbovePortletManager2">
+            <div id="portletHeader">
+                <xsl:for-each css:select=".AbovePortletManager2 .portletWrapper">
+                    <xi:include href="portlet-rules.xml"/>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+            </div>
+        </div>
+    </prepend>
+
+
+
+
     <copy css:theme="#topsearchbox" css:content="#portal-searchbox form" attributes="action"/>
     <replace css:theme="#center-column">
         <div id="center-column"><xsl:attribute name="class">
@@ -74,9 +91,9 @@
                     nocolumns span12
                 </xsl:if>
             </xsl:attribute>
-            <xsl:if css:test=".AbovePortletManager2">
+            <xsl:if css:test=".AbovePortletManager3">
                 <div id="portletAboveContent">
-                    <xsl:for-each css:select=".AbovePortletManager2 .portletWrapper">
+                    <xsl:for-each css:select=".AbovePortletManager3 .portletWrapper">
                         <xi:include href="portlet-rules.xml"/>
                     </xsl:for-each>
                 </div>
@@ -209,16 +226,19 @@
         <xsl:for-each css:select=".BelowPortletManager1 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
     <replace css:theme-children="#portletBelowContentB">
         <xsl:for-each css:select=".BelowPortletManager2 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
     <replace css:theme-children="#portletBelowContentC">
         <xsl:for-each css:select=".BelowPortletManager3 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
     <replace css:theme-children="#portletBelowContentD">
         <xsl:for-each css:select=".BelowPortletManager4 .portletWrapper">
@@ -229,18 +249,21 @@
         <xsl:for-each css:select=".FooterPortletManager1 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
     <replace css:theme-children="#portletFooterB">
         <xsl:for-each css:select=".FooterPortletManager2 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
     <replace css:theme-children="#portletFooterC">
         <xsl:for-each css:select=".FooterPortletManager3 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
 
@@ -248,12 +271,14 @@
         <xsl:for-each css:select=".FooterPortletManager4 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
     <replace css:theme-children="#portletFooterE">
         <xsl:for-each css:select=".FooterPortletManager5 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
 
@@ -261,6 +286,7 @@
         <xsl:for-each css:select=".FooterPortletManager6 .portletWrapper">
             <xi:include href="portlet-rules.xml"/>
         </xsl:for-each>
+        <div style="display:hidden">.</div>
     </replace>
 
     <xi:include href="facetednavigation-rules.xml"/>
