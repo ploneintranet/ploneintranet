@@ -164,6 +164,13 @@
                     </xsl:if>
                 </xsl:for-each>
             </div>
+            <xsl:if css:test=".BelowPortletManager5">
+                <div id="portletBelowContent">
+                    <xsl:for-each css:select=".BelowPortletManager5 .portletWrapper">
+                        <xi:include href="portlet-rules.xml"/>
+                    </xsl:for-each>
+                </div>
+            </xsl:if>
         </div>
     </replace>
     <drop css:content="#enable_cookies_message"/>
