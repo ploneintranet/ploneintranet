@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.2 (unreleased)
-------------------
+0.2 (2012-07-27)
+----------------
 
 - added PortletBelowContentE right below the main content
 - remove styling that cause listitem to be greyish
