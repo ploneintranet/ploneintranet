@@ -1,0 +1,28 @@
+<tal:block define="portletId view/randId">
+<div tal:attributes="id portletId" class="carousel slide">
+   <!-- Carousel items -->
+   <div class="carousel-inner" tal:define="global itemClass string:item active">
+      <tal:block tal:repeat="image view/images">
+      <div class="item" tal:attributes="class itemClass">
+         <tal:def define="scales image/@@images;
+                           height view/data/height;
+                           width view/data/width;
+                           global itemClass string:item;
+                           img python:scales.scale('image', width=width, height=height, direction='down')">
+               <img tal:replace="structure img/tag"/>
+               <tal:block condition="view/data/enable_caption|nothing">
+                <div class="carousel-caption">
+                   <h4 tal:content="image/pretty_title_or_id"></h4>
+                     <p tal:content="image/Description"></p>
+               </div>
+
+               </tal:block>
+         </tal:def>
+      </div>
+      </tal:block>
+   </div>
+   <!-- Carousel nav -->
+   <a class="carousel-control left" tal:attributes="href string:#${portletId}" data-slide="prev">&lsaquo;</a>
+   <a class="carousel-control right" tal:attributes="href string:#${portletId}" data-slide="next">&rsaquo;</a>
+</div>
+</tal:block>

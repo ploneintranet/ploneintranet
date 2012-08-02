@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<portlets>
+
+   <portlet
+     addview="diazotheme.bootstrap.portlet.carousel"
+     title="Carousel portlet"
+     description="A portlet that show images using Bootstrap's carousel"
+   />
+
+</portlets>
+

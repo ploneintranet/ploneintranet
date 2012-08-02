@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+  <include package="plone.app.portlets" />
+
+    <plone:portlet
+        name="diazotheme.bootstrap.portlet.carousel"
+        interface=".carousel.ICarouselPortlet"
+        assignment=".carousel.Assignment"
+        view_permission="zope2.View"
+        edit_permission="cmf.ManagePortal"
+        renderer=".carousel.Renderer"
+        addview=".carousel.AddForm"
+        editview=".carousel.EditForm"
+    />
+
+</configure>
+
