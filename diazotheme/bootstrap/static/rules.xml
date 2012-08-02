@@ -113,19 +113,7 @@
             </div>
             <article>
                 <xsl:copy-of css:select="#kssPortalMessage"/>
-                <xsl:for-each css:select=".portalMessage">
-                    <xsl:if test="not(contains(@id,'kssPortalMessage'))">
-                    <div><xsl:attribute name="class">
-                            alert alert-<xsl:value-of select="@class"/>
-                            </xsl:attribute><xsl:attribute name="id">
-                            <xsl:value-of select="@id"/>
-                            </xsl:attribute><xsl:attribute name="style">
-                            <xsl:value-of select="@style"/>
-                            </xsl:attribute>
-                        <xsl:copy-of select="dd/node()"/>
-                    </div>
-                    </xsl:if>
-                </xsl:for-each>
+                <xsl:copy-of css:select=".portalMessage"/>
                 <div id="action-bar">
                     <ul class="nav nav-tabs">
                     <xsl:for-each css:select="#content-views > li">
