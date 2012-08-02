@@ -303,6 +303,10 @@ div.row {
    margin:0;
 }
 
+#content dl.portalMessage  {
+    display:none;
+}
+
 .faceted-top-search input[type="text"] {
     width:800px;
     margin:5px 0;
@@ -363,3 +367,9 @@ div.row {
        width: 990px;
     }
 }
+
+.dialog-wrapper fieldset {
+    padding:10px !important;
+}
+
+
