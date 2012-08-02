@@ -264,13 +264,6 @@ div.portletAssignments .managedPortletActions a {
     border: none;
 }
 
-dl.portlet dt a:link,
-dl.portlet dt a:visited,
-dl.portlet dt a:hover {
-    color: black;
-    display: block;
-    border: none;
-}
 
 dl.portlet dd.portletItem,
 dl.portlet dd.portletFooter,
@@ -386,10 +379,6 @@ dl.portlet {
 
 }
 
-#content a:link,
-dl.portlet a:link {
-    color: #205c90;
-}
 
 #content a:visited,
 dl.portlet a:visited {

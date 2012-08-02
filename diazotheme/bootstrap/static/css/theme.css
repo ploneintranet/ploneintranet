@@ -262,10 +262,6 @@ div.row {
     margin-left:20px;
 }
 
-a.btn:link, a.btn:visited {
-    color: #FFF;
-}
-
 #action-bar .dropdown-menu li a {
         display: block !important;
         line-height: 2em;
