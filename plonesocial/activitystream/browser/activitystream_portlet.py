@@ -107,7 +107,7 @@ class Renderer(base.Renderer):
         catalog = getToolByName(self.context, 'portal_catalog')
         if self.data.show_content or self.data.show_discussion:
             # fetch more than we need because of later filtering
-            brains = catalog.searchResults(sort_on='effective',
+            brains = catalog.searchResults(sort_on='Date',
                                            sort_order='reverse',
                                            sort_limit=self.data.count * 10,
                                            )
@@ -126,9 +126,9 @@ class Renderer(base.Renderer):
         activities = itertools.chain(brains, statuses)
 
         def date_key(item):
-            if hasattr(item, 'effective'):
+            if hasattr(item, 'Date'):
                 # catalog brain
-                return item.effective
+                return item.Date
             # Activity
             return item.date
 
