@@ -15,7 +15,7 @@
   <!-- This setup has too many layers. However, it works and it's flexible.
 
 
-       +~~ @@activitystream_portal browser view ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
+       +~~ @@stream browser view ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
        |                                                                        |
        |   +~~ plonesocial.activitystream.viewletmanager ~~~~~~~~~~~~~~~~~~~+   |
        |   |                                                                |   |
@@ -50,9 +50,9 @@
 
   <!-- custom browser page which inserts our custom portletmanager_viewlet -->
   <browser:page
-      name="activitystream_portal"
+      name="stream"
       for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".portal_view.PortalView"
+      class=".stream_view.StreamView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
@@ -60,8 +60,8 @@
   <browser:menuItem
       for="Products.CMFCore.interfaces.ISiteRoot"
       menu="plone_displayviews"
-      action="@@activitystream_portal"
-      title="Activity Portal"
+      action="@@stream"
+      title="Activity Stream"
       description="Social activity stream portal view with manageable portlets"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
