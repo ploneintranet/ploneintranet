@@ -4,5 +4,5 @@ def importVarious(context):
         return
 
     site = context.getSite()
-    site.layout = "activitystream_portal"
-    site.default_page = "activitystream_portal"
+    site.layout = "stream"
+    site.default_page = "stream"
