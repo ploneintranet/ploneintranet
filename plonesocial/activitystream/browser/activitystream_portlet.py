@@ -126,9 +126,9 @@ class Renderer(base.Renderer):
         activities = itertools.chain(brains, statuses)
 
         def date_key(item):
-            if hasattr(item, 'Date'):
+            if hasattr(item, 'effective'):
                 # catalog brain
-                return item.Date
+                return max(item.effective, item.created)
             # Activity
             return item.date
 
