@@ -32,7 +32,7 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('#foo bar #fuzzy #beer')
         tags = list(su.tags)
         tags.sort()
-        self.assertEquals(tags, ['#beer', '#foo', '#fuzzy'])
+        self.assertEquals(tags, ['beer', 'foo', 'fuzzy'])
 
     def no_test_userid(self):
         """Doesn't work in test context"""

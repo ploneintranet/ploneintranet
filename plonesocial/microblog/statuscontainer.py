@@ -137,18 +137,26 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_permission("read")
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100):
+    def items(self, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key))
-                for key in self.keys(min, max, limit))
+                for key in self.keys(min, max, limit, tag))
 
-    def keys(self, min=None, max=None, limit=100):
+    def keys(self, min=None, max=None, limit=100, tag=None):
         self._check_permission("read")
-        return longkeysortreverse(self._status_mapping,
+        if tag:
+            if tag not in self._tag_mapping:
+                return ()
+            mapping = LLBTree.intersection(
+                LLBTree.LLTreeSet(self._status_mapping.keys()),
+                self._tag_mapping[tag])
+        else:
+            mapping = self._status_mapping
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    def values(self, min=None, max=None, limit=100):
+    def values(self, min=None, max=None, limit=100, tag=None):
         return (self.get(key)
-                for key in self.keys(min, max, limit))
+                for key in self.keys(min, max, limit, tag))
 
     iteritems = items
     iterkeys = keys
@@ -158,11 +166,11 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # no user_get
 
-    def user_items(self, users, min=None, max=None, limit=100):
+    def user_items(self, users, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key
-                in self.user_keys(users, min, max, limit))
+                in self.user_keys(users, min, max, limit, tag))
 
-    def user_keys(self, users, min=None, max=None, limit=100):
+    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
         if not users:
             return ()
 
@@ -172,20 +180,26 @@ class BaseStatusContainer(Persistent, Explicit):
             mapping = self._user_mapping.get(userid)
             if not mapping:
                 return ()
-            return longkeysortreverse(mapping,
-                                      min, max, limit)
 
-        # collection of user LLTreeSet
-        treesets = (self._user_mapping.get(userid)
-                    for userid in users
-                    if userid in self._user_mapping.keys())
-        merged = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-        return longkeysortreverse(merged,
+        else:
+            # collection of user LLTreeSet
+            treesets = (self._user_mapping.get(userid)
+                        for userid in users
+                        if userid in self._user_mapping.keys())
+            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+
+        if tag:
+            if tag not in self._tag_mapping:
+                return ()
+            mapping = LLBTree.intersection(mapping,
+                                           self._tag_mapping[tag])
+
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    def user_values(self, users, min=None, max=None, limit=100):
+    def user_values(self, users, min=None, max=None, limit=100, tag=None):
         return (self.get(key) for key
-                in self.user_keys(users, min, max, limit))
+                in self.user_keys(users, min, max, limit, tag))
 
     user_iteritems = user_items
     user_iterkeys = user_keys
