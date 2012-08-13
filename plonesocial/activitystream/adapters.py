@@ -46,16 +46,19 @@ class BrainActivity(object):
         if obj.portal_type == 'Discussion Item':
             self.render_type = 'discussion'
             self.userid = obj.author_username
-            self.text = obj.getText()
             # obj: DiscussionItem
             # parent: Conversation
             # grandparent: content object
             _contentparent = aq_parent(aq_parent(aq_inner(obj)))
             self.title = _contentparent.Title()
+            self.text = obj.getText() + self._tags(_contentparent.Subject())
         else:
             self.userid = obj.getOwnerTuple()[1]
             self.render_type = 'content'
-            self.text = obj.Description()
+            self.text = obj.Description() + self._tags(obj.Subject())
+
+    def _tags(self, source):
+        return ' '.join(['#%s' % x for x in source])
 
     @property
     def is_discussion(self):
