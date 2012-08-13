@@ -51,7 +51,7 @@ class BrainActivity(object):
             # grandparent: content object
             _contentparent = aq_parent(aq_parent(aq_inner(obj)))
             self.title = _contentparent.Title()
-            self.text = obj.getText() + self._tags(_contentparent.Subject())
+            self.text = obj.getText()
         else:
             self.userid = obj.getOwnerTuple()[1]
             self.render_type = 'content'

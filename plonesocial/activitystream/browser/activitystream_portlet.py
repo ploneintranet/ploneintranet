@@ -104,20 +104,24 @@ class Renderer(base.Renderer):
         return portal_state.portal_url()
 
     def update(self):
+        tag = self.request.get('tag', None)
         catalog = getToolByName(self.context, 'portal_catalog')
         if self.data.show_content or self.data.show_discussion:
             # fetch more than we need because of later filtering
-            brains = catalog.searchResults(sort_on='Date',
-                                           sort_order='reverse',
-                                           sort_limit=self.data.count * 10,
-                                           )
+            contentfilter = dict(sort_on='Date',
+                                 sort_order='reverse',
+                                 sort_limit=self.data.count * 10)
+            if tag:
+                contentfilter["Subject"] = tag
+            brains = catalog.searchResults(**contentfilter)
         else:
             brains = []
 
         if self.data.show_microblog:
             container = queryUtility(IMicroblogTool)
             try:
-                statuses = container.values(limit=self.data.count)
+                statuses = container.values(limit=self.data.count,
+                                            tag=tag)
             except Unauthorized:
                 statuses = []
         else:

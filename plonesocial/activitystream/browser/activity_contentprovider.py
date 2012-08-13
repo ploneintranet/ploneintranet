@@ -1,3 +1,4 @@
+import re
 from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
@@ -14,6 +15,13 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityContentProvider
 from plonesocial.activitystream.interfaces import IActivity
+
+
+TAGRE = re.compile('(#(\S+))')
+
+
+def link_tags(text):
+    return TAGRE.sub('<a href="?tag=\\2">\\1</a>', text)
 
 
 class ActivityContentProvider(object):
@@ -126,7 +134,7 @@ class ActivityContentProvider(object):
 
     @property
     def text(self):
-        return self.context.text
+        return link_tags(self.context.text)
 
     @property
     def raw_date(self):
@@ -156,12 +164,12 @@ class ActivityContentProvider(object):
 
     @property
     def getText(self):
-        return self.context.text
+        return self.text
 
     @property
     def getURL(self):
-        return self.context.url
+        return self.url
 
     @property
     def Title(self):
-        return self.context.title
+        return self.title
