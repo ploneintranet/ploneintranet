@@ -49,8 +49,8 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sb)
         sc = StatusUpdate('test c', 'cary')
         container.add(sc)
-        values = [x[1] for x in container.user_items(
-                ['arnold', 'bernard', 'cary'])]
+        values = [x[1] for x in
+                  container.user_items(['arnold', 'bernard', 'cary'])]
         self.assertEqual([sc, sb, sa], values)
 
     def test_user_items_limit(self):
@@ -61,9 +61,9 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sb)
         sc = StatusUpdate('test c', 'cary')
         container.add(sc)
-        values = [x[1] for x in container.user_items(
-                ['arnold', 'bernard', 'cary'],
-                limit=2)]
+        values = [x[1] for x in
+                  container.user_items(['arnold', 'bernard', 'cary'],
+                                       limit=2)]
         self.assertEqual([sc, sb], values)
 
     def test_user_items_some(self):
@@ -74,8 +74,8 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sb)
         sc = StatusUpdate('test c', 'cary')
         container.add(sc)
-        values = [x[1] for x in container.user_items(
-                ['arnold', 'bernard'])]
+        values = [x[1] for x in
+                  container.user_items(['arnold', 'bernard'])]
         self.assertEqual([sb, sa], values)
 
     def test_user_items_one(self):
@@ -86,8 +86,8 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sb)
         sc = StatusUpdate('test c', 'cary')
         container.add(sc)
-        values = [x[1] for x in container.user_items(
-                ['bernard'])]
+        values = [x[1] for x in
+                  container.user_items(['bernard'])]
         self.assertEqual([sb], values)
 
     def test_user_items_none(self):
@@ -98,8 +98,8 @@ class TestStatusContainer_User(unittest.TestCase):
         container.add(sb)
         sc = StatusUpdate('test c', 'cary')
         container.add(sc)
-        values = [x for x in container.user_items(
-                ['zacharias'])]
+        values = [x for x in
+                  container.user_items(['zacharias'])]
         self.assertEqual([], values)
 
     def test_user_items_min_max_all(self):

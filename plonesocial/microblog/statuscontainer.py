@@ -166,7 +166,7 @@ class BaseStatusContainer(Persistent, Explicit):
         if not users:
             return ()
 
-        if type(users) == type('string'):
+        if users == str(users):
             # single user optimization
             userid = users
             mapping = self._user_mapping.get(userid)
