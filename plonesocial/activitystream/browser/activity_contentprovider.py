@@ -47,8 +47,8 @@ class ActivityContentProvider(object):
         """Returns true if current user has the 'Review comments' permission.
         """
         return getSecurityManager(
-            ).checkPermission('Review comments',
-                              aq_inner(self.context.context))
+        ).checkPermission('Review comments',
+                          aq_inner(self.context.context))
 
     # IActivityContentProvider
 
@@ -69,8 +69,8 @@ class ActivityContentProvider(object):
             portal_membership = getToolByName(getSite(),
                                               'portal_membership',
                                               None)
-            return portal_membership.getPersonalPortrait(username)\
-                   .absolute_url()
+            return portal_membership.getPersonalPortrait(
+                username).absolute_url()
 
     @property
     def has_author_link(self):
