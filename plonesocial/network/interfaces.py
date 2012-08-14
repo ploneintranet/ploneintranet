@@ -9,6 +9,18 @@ class INetworkGraph(Interface):
     following/unfollowing/blocking eachother.
     """
 
+    def set_follow(actor, other):
+        """User <actor> subscribes to user <other>"""
+
+    def set_unfollow(actor, other):
+        """User <actor> unsubscribes from user <other>"""
+
+    def get_followees(actor):
+        """List all users that <actor> subscribes to"""
+
+    def get_followers(actor):
+        """List all users that subscribe to <actor>"""
+
 
 class INetworkTool(INetworkGraph):
     """Provide INetworkContainer as a site utility."""
