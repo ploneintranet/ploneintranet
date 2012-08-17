@@ -26,6 +26,10 @@ class IActivityProvider(IContentProvider, IActivity):
     # + all the IActivity accessors
 
 
+class IStreamProvider(IContentProvider):
+    """Helper to render activity streams"""
+
+
 class IPlonesocialActivitystreamLayer(Interface):
     """Marker interface to define ZTK browser layer"""
 
