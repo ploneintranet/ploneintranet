@@ -7,7 +7,7 @@
 
 
   <adapter 
-      name="activity_provider"
+      name="plonesocial.activitystream.activity_provider"
       factory=".activity_provider.ActivityProvider"
       />
 

@@ -1,26 +1,14 @@
-import itertools
-
 from zope.interface import implements
-from zope.component import queryUtility
 from zope.component import getMultiAdapter
 from zope.formlib import form
 from Acquisition import aq_inner
-from AccessControl import Unauthorized
-from AccessControl import getSecurityManager
-
-from Products.CMFCore.utils import getToolByName
 
 from plone.app.portlets.portlets import base
 from zope.viewlet.interfaces import IViewlet
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.microblog.interfaces import IMicroblogTool
-from plonesocial.activitystream.interfaces import IActivity
-from plonesocial.activitystream.browser.interfaces \
-    import IActivitystreamPortlet
-from plonesocial.activitystream.browser.interfaces \
-    import IActivityProvider
+from .interfaces import IActivitystreamPortlet
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
@@ -109,81 +97,14 @@ class Renderer(base.Renderer):
         return portal_state.portal_url()
 
     def update(self):
-        tag = self.request.get('tag', None)
-        catalog = getToolByName(self.context, 'portal_catalog')
-        if self.data.show_content or self.data.show_discussion:
-            # fetch more than we need because of later filtering
-            contentfilter = dict(sort_on='Date',
-                                 sort_order='reverse',
-                                 sort_limit=self.data.count * 10)
-            if tag:
-                contentfilter["Subject"] = tag
-            brains = catalog.searchResults(**contentfilter)
-        else:
-            brains = []
+        pass
 
-        if self.data.show_microblog:
-            container = queryUtility(IMicroblogTool)
-            try:
-                statuses = container.values(limit=self.data.count,
-                                            tag=tag)
-            except Unauthorized:
-                statuses = []
-        else:
-            statuses = []
-
-        activities = itertools.chain(brains, statuses)
-
-        def date_key(item):
-            if hasattr(item, 'effective'):
-                # catalog brain
-                return max(item.effective, item.created)
-            # Activity
-            return item.date
-
-        activities = sorted(activities, key=date_key, reverse=True)
-
-        self.items = []
-        for item in activities:
-            if len(self.items) >= self.data.count:
-                break
-
-            try:
-                activity = IActivity(item)
-            except Unauthorized:
-                continue
-
-            if activity.is_status and self.data.show_microblog \
-                    or activity.is_content and self.data.show_content \
-                    or activity.is_discussion and self.data.show_discussion:
-                self.items.append(activity)
-
-    def itemproviders(self):
-        for item in self.items:
-            if not self.can_view(item):
-                # discussion parent inaccessible
-                continue
-            yield getMultiAdapter((item, self.request, self.view),
-                                  IActivityProvider,
-                                  name="activity_provider")
-
-    def can_view(self, activity):
-        """Returns true if current user has the 'View' permission.
-        """
-        sm = getSecurityManager()
-        if activity.is_status:
-            permission = "Plone Social: View Microblog Status Update"
-            return sm.checkPermission(permission, self.context)
-        elif activity.is_discussion:
-            # check both the activity itself and it's page context
-            return sm.checkPermission(
-                'View', aq_inner(activity.context)) \
-                and sm.checkPermission(
-                    'View',
-                    aq_inner(activity.context).__parent__.__parent__)
-        elif activity.is_content:
-            return sm.checkPermission('View',
-                                      aq_inner(activity.context))
+    def stream_provider(self):
+        provider = getMultiAdapter(
+            (self.context, self.request, self.view),
+            name="plonesocial.activitystream.stream_provider")
+        provider.portlet_data = self.data
+        return provider()
 
 
 class AddForm(base.AddForm):

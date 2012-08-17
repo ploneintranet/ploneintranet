@@ -14,11 +14,7 @@
     </dt>
 
     <dd class="portletItem odd">
-      <div tal:repeat="itemprovider view/itemproviders">
-
-        <div tal:replace="structure itemprovider"></div>
-
-      </div>
+      <tal:block replace="structure view/stream_provider" />
     </dd>
     
     <dd class="portletFooter"
