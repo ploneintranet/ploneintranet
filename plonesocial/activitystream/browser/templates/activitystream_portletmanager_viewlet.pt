@@ -7,7 +7,7 @@
                    portal_url portal_state/portal_url;
                    checkPermission nocall: context/portal_membership/checkPermission"
        tal:condition="python:checkPermission('Portlets: Manage portlets', context)">
-    <a tal:attributes="href string:${portal_url}/@@manage-activitystreamportlets"
+    <a tal:attributes="href string:${portal_url}/@@activitystream_portletmanager"
        title="View portlet management screen"
        i18n:translate="manage_activitystream_portlets">
     Manage activity stream portlets</a>

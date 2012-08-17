@@ -1,0 +1,114 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.microblog">
+
+  <include package="plone.app.contentmenu" />
+
+  <!-- Ensure Plone's portlets ZCML has already been processed;
+       without this, we may get a permission lookup error -->
+  <include package="plone.app.portlets" />
+
+
+  <!-- This setup has too many layers. However, it works and it's flexible.
+
+
+       +~~ @@activitystream_portal browser view ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
+       |                                                                        |
+       |   +~~ plonesocial.activitystream.viewletmanager ~~~~~~~~~~~~~~~~~~~+   |
+       |   |                                                                |   |
+       |   |  +~~ portletmanager viewlet = ...portlets ~~~~~~~~~~~~~~~~~~+  |   |
+       |   |  |                                                          |  |   |
+       |   |  |                                                          |  |   |
+       |   |  |   +~~ (microblog portlet from plonesocial.microblog) +   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |  |   |
+       |   |  |                                                          |  |   |
+       |   |  |                                                          |  |   |
+       |   |  |   +~~ activitystream portlet ~~~~~~~~~~~~~~~~~~~~~~- +   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   |     +~~ activity contentprovider ~~~~+           |   |  |   |
+       |   |  |   |     |                                |           |   |  |   |
+       |   |  |   |     +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+           |   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   |     +~~ activity contentprovider ~~~~+           |   |  |   |
+       |   |  |   |     |                                |           |   |  |   |
+       |   |  |   |     +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+           |   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   |                                                  |   |  |   |
+       |   |  |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |  |   |
+       |   |  |                                                          |  |   |
+       |   |  +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |   |
+       |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |
+       |                                                                        |
+       +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
+
+  -->
+
+  <!-- custom browser page which inserts our custom portletmanager_viewlet -->
+  <browser:page
+      name="activitystream_portal"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".activitystream_portal.PortalView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+  <!-- register activitystream_portal view on siteroot -->
+  <browser:menuItem
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      menu="plone_displayviews"
+      action="@@activitystream_portal"
+      title="Activity Portal"
+      description="Social activity stream portal view with manageable portlets"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
+
+  <!-- custom viewletmanager, only used in activitystream_portal view -->
+  <browser:viewletManager
+      name="plonesocial.activitystream.viewletmanager"
+      provides=".interfaces.IPlonesocialActivitystreamViewlets"
+      class="plone.app.viewletmanager.manager.OrderedViewletManager"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
+  <!-- a single portletmanager viewlet in the viewletmanager
+       if you want to re-use this viewlet elsewhere,
+       then register it on a different manager
+       e.g. plone.app.layout.viewlets.interfaces.IAboveContentTitle
+  -->
+  <browser:viewlet
+      name="plonesocial.activitystream.portletmanager"
+      manager=".interfaces.IPlonesocialActivitystreamViewlets"
+      class=".activitystream_portal.PortletManagerViewlet"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />        
+  <!-- helper view to manage the portlets -->
+  <browser:page
+      name="activitystream_portletmanager"
+      for="plone.portlets.interfaces.ILocalPortletAssignable"
+      class="plone.app.portlets.browser.manage.ManageContextualPortlets"
+      template="templates/activitystream_portletmanager_view.pt"
+      permission="plone.app.portlets.ManagePortlets" 
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+  
+  <!-- activitystream portlet
+       (the microblog portlet is implemented elsewhere in plonesocial.microblog)
+  -->
+   <plone:portlet
+        name="plonesocial.activitystream.portlet"
+        interface=".activitystream_portal.IActivitystreamPortlet"
+        assignment=".activitystream_portal.Assignment"
+        renderer=".activitystream_portal.Renderer"
+        addview=".activitystream_portal.AddForm"
+        editview=".activitystream_portal.EditForm"
+        />
+
+
+</configure>

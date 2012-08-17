@@ -2,22 +2,23 @@ import itertools
 
 from zope.interface import implements
 from zope.component import queryUtility
-
-from zope import schema
+from zope.component import getMultiAdapter
 from zope.formlib import form
 from Acquisition import aq_inner
 from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
 
-from plone.portlets.interfaces import IPortletDataProvider
-from plone.app.portlets.portlets import base
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFCore.utils import getToolByName
-from zope.component import getMultiAdapter
+
+from plone.app.portlets.portlets import base
+from zope.viewlet.interfaces import IViewlet
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.activitystream.interfaces import IActivity
+from plonesocial.activitystream.browser.interfaces \
+    import IActivitystreamPortlet
 from plonesocial.activitystream.browser.interfaces \
     import IActivityContentProvider
 
@@ -25,39 +26,43 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
 
 
-class IActivitystreamPortlet(IPortletDataProvider):
-    """A portlet to render the activitystream.
+class PortalView(BrowserView):
+    """Home page view containing activity stream viewlets."""
+
+    index = ViewPageTemplateFile("templates/activitystream_portal.pt")
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        return self.render()
+
+    def update(self):
+        """Mute plone.app.z3cform.kss.validation AttributeError"""
+        pass
+
+
+class PortletManagerViewlet(BrowserView):
+    """Viewlet that acts as a portlet manager.
+    Deletates actual activity stream rendering to a portlet,
+    so that content managers can easily set preferences.
     """
+    implements(IViewlet)
 
-    title = schema.TextLine(title=PMF(u"Title"),
-                            description=_(u"A title for this portlet"),
-                            required=True,
-                            default=u"Activity Stream")
+    def __init__(self, context, request, view, manager):
+        self.context = context
+        self.request = request
+        self.__parent__ = view  # from IContentProvider
+        self.manager = manager  # from IViewlet
 
-    count = schema.Int(
-        title=_(u"Number of updates to display"),
-        description=_(u"Maximum number of updates to show"),
-        required=True,
-        default=5)
+    def update(self):
+        pass
 
-    compact = schema.Bool(title=_(u"Compact rendering"),
-                          description=_(u"Hide portlet header and footer"),
-                          default=True)
+    render = ViewPageTemplateFile(
+        "templates/activitystream_portletmanager_viewlet.pt")
 
-    show_microblog = schema.Bool(
-        title=_(u"Show microblog"),
-        description=_(u"Show microblog status updates"),
-        default=True)
 
-    show_content = schema.Bool(
-        title=_(u"Show content creation"),
-        description=_(u"Show creation of new content"),
-        default=True)
-
-    show_discussion = schema.Bool(
-        title=_(u"Show discussion"),
-        description=_(u"Show discussion replies"),
-        default=True)
+## activitystream_portlet below
 
 
 class Assignment(base.Assignment):

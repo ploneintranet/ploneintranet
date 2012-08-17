@@ -5,123 +5,19 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.microblog">
 
-  <include package="plone.app.contentmenu" />
-
-  <!-- Ensure Plone's portlets ZCML has already been processed;
-       without this, we may get a permission lookup error -->
-  <include package="plone.app.portlets" />
-
-
-  <!-- This setup has too many layers. However, it works and it's flexible.
-
-
-       +~~ @@activitystream_portal browser view ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
-       |                                                                        |
-       |   +~~ plonesocial.activitystream.viewletmanager ~~~~~~~~~~~~~~~~~~~+   |
-       |   |                                                                |   |
-       |   |  +~~ portletmanager viewlet = ...portlets ~~~~~~~~~~~~~~~~~~+  |   |
-       |   |  |                                                          |  |   |
-       |   |  |                                                          |  |   |
-       |   |  |   +~~ (microblog portlet from plonesocial.microblog) +   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |  |   |
-       |   |  |                                                          |  |   |
-       |   |  |                                                          |  |   |
-       |   |  |   +~~ activitystream portlet ~~~~~~~~~~~~~~~~~~~~~~- +   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   |     +~~ activity contentprovider ~~~~+           |   |  |   |
-       |   |  |   |     |                                |           |   |  |   |
-       |   |  |   |     +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+           |   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   |     +~~ activity contentprovider ~~~~+           |   |  |   |
-       |   |  |   |     |                                |           |   |  |   |
-       |   |  |   |     +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+           |   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   |                                                  |   |  |   |
-       |   |  |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |  |   |
-       |   |  |                                                          |  |   |
-       |   |  +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+  |   |
-       |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |
-       |                                                                        |
-       +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
-
-  -->
-
-  <!-- custom browser page which inserts our custom portletmanager_viewlet -->
-  <browser:page
-      name="activitystream_portal"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".portal_view.PortalView"
-      permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
-      />
-  <!-- register activitystream_portal view on siteroot -->
-  <browser:menuItem
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      menu="plone_displayviews"
-      action="@@activitystream_portal"
-      title="Activity Portal"
-      description="Social activity stream portal view with manageable portlets"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
-      />
-
-
-  <!-- custom viewletmanager, only used in activitystream_portal view -->
-  <browser:viewletManager
-      name="plonesocial.activitystream.viewletmanager"
-      provides=".interfaces.IPlonesocialActivitystreamViewlets"
-      class="plone.app.viewletmanager.manager.OrderedViewletManager"
-      permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
-      />
-
-  <!-- a single portletmanager viewlet in the viewletmanager
-       if you want to re-use this viewlet elsewhere,
-       then register it on a different manager
-       e.g. plone.app.layout.viewlets.interfaces.IAboveContentTitle
-  -->
-  <browser:viewlet
-      name="plonesocial.activitystream.portletmanager"
-      manager=".interfaces.IPlonesocialActivitystreamViewlets"
-      class=".portletmanager_viewlet.PortletManagerViewlet"
-      permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
-      />        
-  <!-- helper view to manage the portlets -->
-  <browser:page
-      for="plone.portlets.interfaces.ILocalPortletAssignable"
-      class="plone.app.portlets.browser.manage.ManageContextualPortlets"
-      name="manage-activitystreamportlets"
-      template="templates/manageportlets.pt"
-      permission="plone.app.portlets.ManagePortlets" 
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+  <!-- complex portlet-based view separated out for clear config -->
+  <include file="activitystream_portal.zcml" />
+  
+  <adapter 
+      name="activity_contentprovider"
+      factory=".activity_contentprovider.ActivityContentProvider"
       />
   
-  <!-- activitystream portlet
-       (the microblog portlet is implemented elsewhere in plonesocial.microblog)
-  -->
-   <plone:portlet
-        name="plonesocial.activitystream.portlet"
-        interface=".activitystream_portlet.IActivitystreamPortlet"
-        assignment=".activitystream_portlet.Assignment"
-        renderer=".activitystream_portlet.Renderer"
-        addview=".activitystream_portlet.AddForm"
-        editview=".activitystream_portlet.EditForm"
-        />
-
-   <!-- activity content provider, used by activitystream portlet -->
-   <adapter 
-       name="activity_contentprovider"
-       factory=".activity_contentprovider.ActivityContentProvider"
-       />
-        
-
-
   <browser:resourceDirectory
       name="plonesocial.activitystream.stylesheets"
       directory="stylesheets"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
+  
 
 </configure>
