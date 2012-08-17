@@ -9,8 +9,8 @@
   <include file="activitystream_portal.zcml" />
   
   <adapter 
-      name="activity_contentprovider"
-      factory=".activity_contentprovider.ActivityContentProvider"
+      name="activity_provider"
+      factory=".activity_provider.ActivityProvider"
       />
   
   <browser:resourceDirectory

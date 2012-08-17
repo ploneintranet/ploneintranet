@@ -20,7 +20,7 @@ from plonesocial.activitystream.interfaces import IActivity
 from plonesocial.activitystream.browser.interfaces \
     import IActivitystreamPortlet
 from plonesocial.activitystream.browser.interfaces \
-    import IActivityContentProvider
+    import IActivityProvider
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
@@ -164,8 +164,8 @@ class Renderer(base.Renderer):
                 # discussion parent inaccessible
                 continue
             yield getMultiAdapter((item, self.request, self.view),
-                                  IActivityContentProvider,
-                                  name="activity_contentprovider")
+                                  IActivityProvider,
+                                  name="activity_provider")
 
     def can_view(self, activity):
         """Returns true if current user has the 'View' permission.

@@ -13,7 +13,7 @@ from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPlonesocialActivitystreamLayer
-from .interfaces import IActivityContentProvider
+from .interfaces import IActivityProvider
 from plonesocial.activitystream.interfaces import IActivity
 
 
@@ -24,13 +24,13 @@ def link_tags(text):
     return TAGRE.sub('<a href="?tag=\\2">\\1</a>', text)
 
 
-class ActivityContentProvider(object):
-    """Helper for rendering activitystream portlet
+class ActivityProvider(object):
+    """Helper for rendering IActivity
     """
-    implements(IActivityContentProvider)
+    implements(IActivityProvider)
     adapts(IActivity, IPlonesocialActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/activity_contentprovider.pt")
+    index = ViewPageTemplateFile("templates/activity_provider.pt")
 
     def __init__(self, context, request, view):
         self.context = context
@@ -58,7 +58,7 @@ class ActivityContentProvider(object):
         ).checkPermission('Review comments',
                           aq_inner(self.context.context))
 
-    # IActivityContentProvider
+    # IActivityProvider
 
     def get_user_home_url(self, username=None):
         if username is None:

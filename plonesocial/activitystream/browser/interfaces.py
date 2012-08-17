@@ -15,6 +15,17 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
 
 
+class IActivityProvider(IContentProvider, IActivity):
+    """Helper to render IActivity"""
+
+    has_author_link = Attribute("author home url is not None")
+    author_home_url = Attribute("author home url")
+    portrait_url = Attribute("author portrait url")
+    date = Attribute("formatted datetime")
+
+    # + all the IActivity accessors
+
+
 class IPlonesocialActivitystreamLayer(Interface):
     """Marker interface to define ZTK browser layer"""
 
@@ -62,12 +73,3 @@ class IActivitystreamPortlet(IPortletDataProvider):
         default=True)
 
 
-class IActivityContentProvider(IContentProvider, IActivity):
-    """Helper to render IActivity"""
-
-    has_author_link = Attribute("author home url is not None")
-    author_home_url = Attribute("author home url")
-    portrait_url = Attribute("author portrait url")
-    date = Attribute("formatted datetime")
-
-    # + all the IActivity accessors
