@@ -5,6 +5,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     >
 
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
   <plone:static directory="static" type="theme" />
 
   <genericsetup:registerProfile
