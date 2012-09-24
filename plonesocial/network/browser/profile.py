@@ -6,6 +6,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from plone.memoize import view
+
 
 class ProfileView(BrowserView):
     implements(IPublishTraverse)
@@ -15,7 +17,7 @@ class ProfileView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.id = None
+        self._userid = None
 
     def __call__(self):
         return self.render()
@@ -25,29 +27,34 @@ class ProfileView(BrowserView):
 
     def publishTraverse(self, request, name):
         """ used for traversal via publisher, i.e. when using as a url """
-        self.id = name
+        self._userid = name
         return self
 
     @property
-    def data(self):
-        if self.id:
-            return self.mtool.getMemberInfo(self.id)
-        elif self.mtool.isAnonymousUser():
+    def userid(self):
+        if self._userid:
+            return self._userid
+        elif self.is_anonymous:
             return None
         else:
-            return self.mtool.getMemberInfo()
+            return self.mtool.getAuthenticatedMember().getId()
+
+    @property
+    @view.memoize
+    def data(self):
+        return self.mtool.getMemberInfo(self.userid)
 
     @property
     def portrait(self):
         """Mugshot."""
-        return self.mtool.getPersonalPortrait(self.id)
+        return self.mtool.getPersonalPortrait(self.userid)
 
     @property
-    def isAnon(self):
+    def is_anonymous(self):
         return self.mtool.isAnonymousUser()
 
     @property
-    def isMine(self):
+    def is_mine(self):
         """Is this my own profile, or somebody else's?"""
         return self.id == self.mtool.getAuthenticatedMember().getId()
 

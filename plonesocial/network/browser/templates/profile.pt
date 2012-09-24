@@ -14,8 +14,8 @@
         
         <div tal:condition="not:view/data">
           <h2>Nothing here</h2>
-          <div tal:condition="view/id">
-            No such user <b tal:content="view/id" />.
+          <div tal:condition="view/userid">
+            No such user <b tal:content="view/userid" />.
           </div>
         </div>
         
@@ -29,8 +29,8 @@
           <div class="personal-info">
             
             <h1 tal:content="view/data/fullname">user name</h1>
-            <div class="username"
-               tal:content="string: @${view/data/username}">@who</div>
+            <div class="userid"
+               tal:content="string: @${view/userid}">@who</div>
             <div class="bio"
                tal:content="view/data/description">bio</div>
             <div>
