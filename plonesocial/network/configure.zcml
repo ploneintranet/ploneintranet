@@ -11,7 +11,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="plonesocial.network"
+      title="PloneSocial Network"
       directory="profiles/default"
       description="Installs the plonesocial.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
