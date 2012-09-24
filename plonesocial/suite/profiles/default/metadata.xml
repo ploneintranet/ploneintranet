@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0001</version>
+  <version>1002</version>
   <dependencies>
     <dependency>profile-plonesocial.microblog:default</dependency>
     <dependency>profile-plonesocial.activitystream:default</dependency>
+    <dependency>profile-plonesocial.network:default</dependency>
   </dependencies>
 </metadata>

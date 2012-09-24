@@ -9,7 +9,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plonesocial Suite"
+      title="PloneSocial Suite"
       directory="profiles/default"
       description="Installs the suite of all plonesocial packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
