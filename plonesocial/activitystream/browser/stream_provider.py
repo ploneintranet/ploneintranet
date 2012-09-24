@@ -52,7 +52,10 @@ class StreamProvider(object):
     __call__ = render
 
     def activities(self):
-        tag = self.request.get('tag', None)
+        try:
+            tag = self.view.tag
+        except AttributeError:
+            tag = None
         catalog = getToolByName(self.context, 'portal_catalog')
         if self.show_content or self.show_discussion:
             # fetch more than we need because of later filtering

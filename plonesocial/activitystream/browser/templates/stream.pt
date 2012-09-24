@@ -9,12 +9,16 @@
 <body>
 
     <div metal:fill-slot="main">
-    <metal:main-macro define-macro="main"
-                      tal:define="kssClassesView context/@@kss_field_decorator_view;
-                                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-                                  templateId template/getId">
+    <metal:main-macro define-macro="main">
 
         <div class="plonesocial activitystream">
+          <h1 class="documentFirstHeading"
+              tal:condition="not:view/tag">Activity Stream</h1>
+          <h1 class="documentFirstHeading"
+              tal:condition="view/tag">Activity Tagged 
+          #<span tal:replace="view/tag">sometag</span>
+          </h1>
+          
           <tal:block replace="structure provider:plonesocial.activitystream.stream_provider" />
         </div>
 

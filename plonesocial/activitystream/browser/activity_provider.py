@@ -21,7 +21,7 @@ TAGRE = re.compile('(#(\S+))')
 
 
 def link_tags(text):
-    return TAGRE.sub('<a href="?tag=\\2">\\1</a>', text)
+    return TAGRE.sub('<a href="@@stream/tag/\\2">\\1</a>', text)
 
 
 class ActivityProvider(object):
