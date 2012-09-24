@@ -1,0 +1,5 @@
+<layers>
+  <layer  name="plonesocial.network.browser"
+          interface="plonesocial.network.browser.interfaces.IPlonesocialNetworkLayer"
+          />
+</layers>

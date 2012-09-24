@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.microblog">
+
+
+  <browser:page
+      name="profile"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".profile.ProfileView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialNetworkLayer"
+      />
+
+  <browser:resourceDirectory
+      name="plonesocial.network.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPlonesocialNetworkLayer"
+      />
+
+</configure>
