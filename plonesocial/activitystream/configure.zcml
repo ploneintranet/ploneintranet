@@ -16,7 +16,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="plonesocial.activitystream"
+      title="PloneSocial Activitystream"
       directory="profiles/default"
       description="Installs the plonesocial.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
