@@ -14,18 +14,30 @@ dl.portlet.compact {
 }
 
 div.activityItem {
-    margin-left: 50px;
-}
-div.activityAvatar {
-    float: left;
-    margin-left: -50px;
-    padding-top: 0.5em;
-}
-div.activityBody {
     border-radius: 0.5em 0.5em 0.5em 0.5em;
     box-shadow: 0 0 0.5em 0 #888888;
     margin: 0.5em 0.5em 0.5em 0;
     padding: 0.5em 1em;
+}
+
+div.activityAvatar {
+    float: left;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    padding: 0;
+
+}
+div.activityAvatar img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+div.activityBody {
+    min-height: 50px;
+    margin-left: 60px;
 }
 div.activityByLine {
     color: #666666;

@@ -2,22 +2,10 @@
       tal:attributes="class string:activityItem ${view/render_type}">
 
   <div class="activityAvatar">
-    <a href="" tal:condition="view/has_author_link"
+    <a href=""
        tal:attributes="href view/author_home_url">
-      <img src="defaultUser.gif"
-           alt=""
-           border="0"
-           height="37"
-           tal:attributes="src view/portrait_url;
-                           alt view/Creator" />
+      <img tal:replace="structure view/user_portrait" />
     </a>
-    <img src="defaultUser.gif"
-         alt=""
-         border="0"
-         height="37"
-         tal:condition="not: view/has_author_link"
-         tal:attributes="src view/portrait_url;
-                         alt view/Creator" />
   </div>
   
   <div class="activityBody">
@@ -26,14 +14,15 @@
       
       <tal:name>
         <a href="" class="creator"
-           tal:condition="view/has_author_link"
            tal:content="view/Creator"
            tal:attributes="href view/author_home_url">
           Poster Name
         </a>
-        <span tal:condition="not: view/has_author_link"
-              tal:replace="view/Creator" />
-        <span tal:condition="not: view/Creator">Anonymous</span>
+        <a href="" class="userid"
+           tal:content="view/userid"
+           tal:attributes="href view/author_home_url">
+          Poster Name
+        </a>
       </tal:name>
       
       <tal:posted tal:condition="view/is_status"

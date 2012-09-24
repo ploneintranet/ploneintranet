@@ -12,6 +12,8 @@ from Acquisition import aq_inner
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from plone.memoize import view
+
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
 from plonesocial.activitystream.interfaces import IActivity
@@ -58,39 +60,31 @@ class ActivityProvider(object):
         ).checkPermission('Review comments',
                           aq_inner(self.context.context))
 
+    @property
+    def mtool(self):
+        return getToolByName(getSite(), 'portal_membership')
+
     # IActivityProvider
 
-    def get_user_home_url(self, username=None):
-        if username is None:
+    @property
+    def author_home_url(self):
+        if self.userid is None:
             return None
         else:
             portal_state = getMultiAdapter((self.context, self.request),
                                            name=u'plone_portal_state')
             url = portal_state.portal_url()
-            return "%s/author/%s" % (url, username)
-
-    def get_user_portrait(self, username=None):
-        if username is None:
-            # return the default user image if no username is given
-            return 'defaultUser.gif'
-        else:
-            portal_membership = getToolByName(getSite(),
-                                              'portal_membership',
-                                              None)
-            return portal_membership.getPersonalPortrait(
-                username).absolute_url()
+            return "%s/author/%s" % (url, self.userid)
 
     @property
-    def has_author_link(self):
-        return self.get_user_home_url(self.userid) is not None
+    @view.memoize
+    def user_data(self):
+        return self.mtool.getMemberInfo(self.userid)
 
     @property
-    def author_home_url(self):
-        return self.get_user_home_url(self.userid)
-
-    @property
-    def portrait_url(self):
-        return self.get_user_portrait(self.userid)
+    def user_portrait(self):
+        """Mugshot."""
+        return self.mtool.getPersonalPortrait(self.userid)
 
     @property
     def date(self):
@@ -130,7 +124,7 @@ class ActivityProvider(object):
 
     @property
     def Creator(self):
-        return self.context.Creator
+        return self.user_data['fullname']
 
     @property
     def text(self):

@@ -18,9 +18,9 @@ _ = MessageFactory('plonesocial.activitystream')
 class IActivityProvider(IContentProvider, IActivity):
     """Helper to render IActivity"""
 
-    has_author_link = Attribute("author home url is not None")
     author_home_url = Attribute("author home url")
-    portrait_url = Attribute("author portrait url")
+    user_data = Attribute("author memberinfo dict")
+    user_portrait = Attribute("author portrait url")
     date = Attribute("formatted datetime")
 
     # + all the IActivity accessors
