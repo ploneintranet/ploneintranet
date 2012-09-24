@@ -1,4 +1,4 @@
-# -*- extra stuff goes here -*-
+import monkey
 
 
 def initialize(context):

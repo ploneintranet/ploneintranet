@@ -1,11 +1,11 @@
 # monkey Products.PlonePAS image scales
 # until PLIP 12870 is merged
 
-from Products.PlonePAS import utils
+from Products.PlonePAS import config as plonepas_config
+import logging
+logger = logging.getLogger(__name__)
 
 
-def monkey_scale_image(image_file, max_size=None, default_format=None):
-    import pdb; pdb.set_trace()
-    if not max_size:
-        max_size = (225, 300)
-    return utils._old_scale_image(image_file, max_size, default_format)
+logger.info('Setting PlonePAS portrait scale')
+plonepas_config.MEMBER_IMAGE_SCALE = portrait_scale = (225, 300)
+plonepas_config.IMAGE_SCALE_PARAMS['scale'] = portrait_scale
