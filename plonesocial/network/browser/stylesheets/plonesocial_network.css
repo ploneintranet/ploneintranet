@@ -1,2 +1,53 @@
-.plonesocial.profile {
+body.template-profile,
+body.template-profile #content {
+    background-color: #eee;
+}
+div.plonesocial#profile .portrait {
+    float: left;
+}
+
+div.plonesocial#profile {
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+div.plonesocial#profile .portrait {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}    
+div.plonesocial#profile img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+}
+
+div.plonesocial#profile h1 {
+    letter-spacing: 0;
+    line-height: 1em;
+    margin-top: 0;
+    margin-bottom: 0.25em;
+}
+div.plonesocial#profile .personal-info {
+    margin-left: 170px; 
+    min-height: 150px;
+}
+div.plonesocial#profile .username {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 0.25em;
+}
+
+div.plonesocial#profile .bio {
+    font-style: italic;
+    color: #666;
+    margin: 0.25em 0;
+}
+
+div.plonesocial#profile .location {
+    margin-right: 1em;
+    color: #666;
 }

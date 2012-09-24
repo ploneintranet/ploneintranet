@@ -8,25 +8,49 @@
 
 <body>
 
-    <div metal:fill-slot="content">
+  <div metal:fill-slot="content">
     <metal:main-macro define-macro="content">
-
-      <div tal:condition="not:view/data">
-        <h2>Nothing here</h2>
-        <div tal:condition="view/id">
-          No such user <b tal:content="view/id" />.
+      <div id="content">
+        
+        <div tal:condition="not:view/data">
+          <h2>Nothing here</h2>
+          <div tal:condition="view/id">
+            No such user <b tal:content="view/id" />.
+          </div>
         </div>
-      </div>
+        
+        <div class="plonesocial"
+             id="profile"
+             tal:condition="view/data">
+          
+          <div class="portrait"
+               tal:content="structure view/portrait" />
+          
+          <div class="personal-info">
+            
+            <h1 tal:content="view/data/fullname">user name</h1>
+            <div class="username"
+               tal:content="string: @${view/data/username}">@who</div>
+            <div class="bio"
+               tal:content="view/data/description">bio</div>
+            <div>
+              <span class="location"
+                    tal:condition="view/data/location"
+                    tal:content="view/data/location">location</span>
+              <a class="home_page"
+                 tal:condition="view/data/home_page"
+                 tal:attributes="href view/data/home_page"
+                 tal:content="view/data/home_page">url</a>
+            </div>
+            
+          </div><!-- /info -->
+          
+        </div><!-- /profile -->
 
-      <div class="plonesocial profile"
-           tal:condition="view/data">
-        <div tal:content="view/data" />
-        <div tal:content="structure view/portrait" />
-      </div>
 
-
+      </div><!-- /content -->
     </metal:main-macro>
-    </div>
-
+  </div>
+    
 </body>
 </html>
