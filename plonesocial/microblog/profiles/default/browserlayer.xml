@@ -1,0 +1,5 @@
+<layers>
+  <layer  name="plonesocial.microblog.browser"
+          interface="plonesocial.microblog.browser.interfaces.IPlonesocialMicroblogLayer"
+          />
+</layers>

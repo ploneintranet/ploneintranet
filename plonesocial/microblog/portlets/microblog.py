@@ -8,7 +8,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
 
-from status import StatusViewlet
+from plonesocial.microblog.browser.status import StatusViewlet
 
 
 class IMicroblogPortlet(IPortletDataProvider):
@@ -41,8 +41,8 @@ class Renderer(base.Renderer):
 
     def __init__(self, context, request, view, manager, data):
         base.Renderer.__init__(self, context, request, view, manager, data)
-        self._statusviewlet = StatusViewlet(data.compact,
-                                            context, request, view, manager)
+        self._statusviewlet = StatusViewlet(context, request, view, manager)
+        self._statusviewlet.portlet_data = data
 
     @property
     def available(self):

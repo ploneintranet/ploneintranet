@@ -1,4 +1,7 @@
+from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.interface import implements
+from zope.component import adapts
 from zope.component import queryUtility
 
 from AccessControl import getSecurityManager
@@ -14,9 +17,12 @@ from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 
-from plonesocial.microblog.interfaces import IMicroblogTool
-from plonesocial.microblog.interfaces import IStatusUpdate
+from ..interfaces import IMicroblogTool
+from ..interfaces import IStatusUpdate
 from plonesocial.microblog.statusupdate import StatusUpdate
+
+from .interfaces import IPlonesocialMicroblogLayer
+from .interfaces import IStatusProvider
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
@@ -77,16 +83,21 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
         pass  # pragma: no cover
 
 
-class StatusViewlet(ViewletBase):
+class StatusProvider(object):
+    """Re-usable microblog status form provider"""
+    implements(IStatusProvider)
+    adapts(Interface, IPlonesocialMicroblogLayer, Interface)
 
     form = StatusForm
     index = ViewPageTemplateFile('status.pt')
 
     comment_transform_message = "What's on your mind?"
 
-    def __init__(self, compact, *args, **kwargs):
-        super(StatusViewlet, self).__init__(*args, **kwargs)
-        self.compact = compact
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
+        self.portlet_data = None  # used by microblog portlet
         # force microblog context to SiteRoot singleton
         for obj in aq_chain(self.context):
             if IPloneSiteRoot.providedBy(obj):
@@ -94,12 +105,19 @@ class StatusViewlet(ViewletBase):
                 return
 
     def update(self):
-        super(StatusViewlet, self).update()
+        self._update()
+
+    def _update(self):
         if self.available:
             z2.switch_on(self, request_layer=IFormLayer)
             self.form = self.form(aq_inner(self.context), self.request)
             alsoProvides(self.form, IWrappedForm)
             self.form.update()
+
+    def render(self):
+        return self.index()
+
+    __call__ = render
 
     @property
     def available(self):
@@ -108,3 +126,21 @@ class StatusViewlet(ViewletBase):
             permission, self.context)
         is_installed = queryUtility(IMicroblogTool)
         return have_permission and is_installed
+
+    @property
+    def compact(self):
+        if not self.portlet_data:
+            return True
+        else:
+            return self.portlet_data.compact
+
+
+class StatusViewlet(StatusProvider, ViewletBase):
+
+    def __init__(self, context, request, view, manager):
+        StatusProvider.__init__(self, context, request, view)
+        ViewletBase.__init__(self, context, request, view, manager)
+
+    def update(self):
+        self._update()
+        ViewletBase.update(self)
