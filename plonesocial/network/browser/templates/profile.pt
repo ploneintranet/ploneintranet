@@ -48,6 +48,9 @@
         </div><!-- /profile -->
 
 
+        <div tal:content="structure view/stream_provider" />
+
+
       </div><!-- /content -->
     </metal:main-macro>
   </div>

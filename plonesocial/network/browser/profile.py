@@ -1,4 +1,5 @@
 from zope.interface import implements
+from zope.component import getMultiAdapter, ComponentLookupError
 from zope.publisher.interfaces import IPublishTraverse
 
 from zope.app.component.hooks import getSite
@@ -61,3 +62,15 @@ class ProfileView(BrowserView):
     @property
     def mtool(self):
         return getToolByName(getSite(), 'portal_membership')
+
+    def stream_provider(self):
+        try:
+            # plonesocial.activitystream integration is optional
+            provider = getMultiAdapter(
+                (self.context, self.request, self),
+                name="plonesocial.activitystream.stream_provider")
+            provider.userid = self.userid
+            return provider()
+        except ComponentLookupError:
+            # no plonesocial.activitystream available
+            return ''
