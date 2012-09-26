@@ -6,7 +6,6 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_inner
 from Acquisition import aq_chain
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
 
 from z3c.form import form, field, button
@@ -105,4 +104,7 @@ class StatusViewlet(ViewletBase):
     @property
     def available(self):
         permission = "Plone Social: Add Microblog Status Update"
-        return getSecurityManager().checkPermission(permission, self.context)
+        have_permission = getSecurityManager().checkPermission(
+            permission, self.context)
+        is_installed = queryUtility(IMicroblogTool)
+        return have_permission and is_installed
