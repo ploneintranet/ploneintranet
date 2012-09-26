@@ -61,37 +61,8 @@ class StreamProvider(object):
     __call__ = render
 
     def activities(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        if self.show_content or self.show_discussion:
-            # fetch more than we need because of later filtering
-            contentfilter = dict(sort_on='Date',
-                                 sort_order='reverse',
-                                 sort_limit=self.count * 10)
-            if self.tag:
-                contentfilter["Subject"] = self.tag
-            if self.userid:
-                contentfilter["Creator"] = self.userid
-            brains = catalog.searchResults(**contentfilter)
-        else:
-            brains = []
-
-        if self.show_microblog:
-            container = queryUtility(IMicroblogTool)
-            try:
-                if self.userid:
-                    # support plonesocial.network integration
-                    statuses = container.user_values(self.userid,
-                                                     limit=self.count,
-                                                     tag=self.tag)
-                else:
-                    # default implementation
-                    statuses = container.values(limit=self.count,
-                                                tag=self.tag)
-            except Unauthorized:
-                statuses = []
-        else:
-            statuses = []
-
+        brains = self._activities_brains()
+        statuses = self._activities_statuses()
         items = itertools.chain(brains, statuses)
         # see date_key sorting function above
         items = sorted(items, key=date_key, reverse=True)
@@ -104,12 +75,52 @@ class StreamProvider(object):
                 activity = IActivity(item)
             except Unauthorized:
                 continue
-
-            if activity.is_status and self.show_microblog \
-                    or activity.is_content and self.show_content \
-                    or activity.is_discussion and self.show_discussion:
+            if self._activity_visible(activity):
                 yield activity
                 i += 1
+
+    def _activity_visible(self, activity):
+        if activity.is_status and self.show_microblog:
+            return True
+        if activity.is_content and self.show_content:
+            return True
+        if activity.is_discussion and self.show_discussion:
+            return True
+        return False
+
+    def _activities_brains(self):
+        if not self.show_content and not self.show_discussion:
+            return []
+        catalog = getToolByName(self.context, 'portal_catalog')
+        # fetch more than we need because of later filtering
+        contentfilter = dict(sort_on='Date',
+                             sort_order='reverse',
+                             sort_limit=self.count * 10)
+        if self.tag:
+            contentfilter["Subject"] = self.tag
+        if self.userid:
+            contentfilter["Creator"] = self.userid
+        return catalog.searchResults(**contentfilter)
+
+    def _activities_statuses(self):
+        if not self.show_microblog:
+            return []
+        container = queryUtility(IMicroblogTool)
+        # show_microblog yet no container can happen on microblog uninstall
+        if not container:
+            return []
+        try:
+            if self.userid:
+                # support plonesocial.network integration
+                return container.user_values(self.userid,
+                                             limit=self.count,
+                                             tag=self.tag)
+            else:
+                # default implementation
+                return container.values(limit=self.count,
+                                        tag=self.tag)
+        except Unauthorized:
+            return []
 
     def activity_providers(self):
         for activity in self.activities():
