@@ -31,6 +31,10 @@ def date_key(item):
 
 class StreamProvider(object):
     """Render activitystreams
+
+    This is the core rendering logic that powers
+    @@stream and @@activitystream_portal, and also
+    plonesocial.networking @@profile
     """
     implements(IStreamProvider)
     adapts(Interface, IPlonesocialActivitystreamLayer, Interface)
@@ -41,7 +45,12 @@ class StreamProvider(object):
         self.context = context
         self.request = request
         self.view = self.__parent__ = view
+        # @@activitystream_portal renders this as a portlet
         self.portlet_data = None
+        # @@stream renders this optionally with a tag filter
+        self.tag = None
+        # plonesocial.network @@profile renders this with a userid filter
+        self.userid = None
 
     def update(self):
         pass
@@ -52,18 +61,16 @@ class StreamProvider(object):
     __call__ = render
 
     def activities(self):
-        try:
-            tag = self.view.tag
-        except AttributeError:
-            tag = None
         catalog = getToolByName(self.context, 'portal_catalog')
         if self.show_content or self.show_discussion:
             # fetch more than we need because of later filtering
             contentfilter = dict(sort_on='Date',
                                  sort_order='reverse',
                                  sort_limit=self.count * 10)
-            if tag:
-                contentfilter["Subject"] = tag
+            if self.tag:
+                contentfilter["Subject"] = self.tag
+            if self.userid:
+                contentfilter["Creator"] = self.userid
             brains = catalog.searchResults(**contentfilter)
         else:
             brains = []
@@ -71,8 +78,15 @@ class StreamProvider(object):
         if self.show_microblog:
             container = queryUtility(IMicroblogTool)
             try:
-                statuses = container.values(limit=self.count,
-                                            tag=tag)
+                if self.userid:
+                    # support plonesocial.network integration
+                    statuses = container.user_values(self.userid,
+                                                     limit=self.count,
+                                                     tag=self.tag)
+                else:
+                    # default implementation
+                    statuses = container.values(limit=self.count,
+                                                tag=self.tag)
             except Unauthorized:
                 statuses = []
         else:

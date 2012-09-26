@@ -1,4 +1,5 @@
 from zope.interface import implements
+from zope.component import getMultiAdapter
 from zope.publisher.interfaces import IPublishTraverse
 
 from Products.Five import BrowserView
@@ -44,3 +45,10 @@ class StreamView(BrowserView):
             stack = request.get('TraversalRequestNameStack')
             self.tag = stack.pop()
         return self
+
+    def stream_provider(self):
+        provider = getMultiAdapter(
+            (self.context, self.request, self),
+            name="plonesocial.activitystream.stream_provider")
+        provider.tag = self.tag
+        return provider()

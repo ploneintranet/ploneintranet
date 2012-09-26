@@ -19,7 +19,7 @@
           #<span tal:replace="view/tag">sometag</span>
           </h1>
           
-          <tal:block replace="structure provider:plonesocial.activitystream.stream_provider" />
+          <tal:block replace="structure view/stream_provider" />
         </div>
 
     </metal:main-macro>

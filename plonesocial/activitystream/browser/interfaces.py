@@ -29,6 +29,12 @@ class IActivityProvider(IContentProvider, IActivity):
 class IStreamProvider(IContentProvider):
     """Helper to render activity streams"""
 
+    portlet_data = Attribute(
+        "Optional slot for IActivitystreamPortlet data access")
+
+    tag = Attribute("Optional tag to filter on")
+    userid = Attribute("Optional userid to filter on")
+
 
 class IPlonesocialActivitystreamLayer(Interface):
     """Marker interface to define ZTK browser layer"""
