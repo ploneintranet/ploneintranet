@@ -15,6 +15,10 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
 
 
+class IPlonesocialActivitystreamLayer(Interface):
+    """Marker interface to define ZTK browser layer"""
+
+
 class IActivityProvider(IContentProvider, IActivity):
     """Helper to render IActivity"""
 
@@ -34,10 +38,6 @@ class IStreamProvider(IContentProvider):
 
     tag = Attribute("Optional tag to filter on")
     userid = Attribute("Optional userid to filter on")
-
-
-class IPlonesocialActivitystreamLayer(Interface):
-    """Marker interface to define ZTK browser layer"""
 
 
 class IPlonesocialActivitystreamViewlets(IViewletManager):
@@ -81,5 +81,4 @@ class IActivitystreamPortlet(IPortletDataProvider):
         title=_(u"Show discussion"),
         description=_(u"Show discussion replies"),
         default=True)
-
 

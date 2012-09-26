@@ -37,7 +37,7 @@ class ActivityProvider(object):
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
-        self.__parent__ = view
+        self.view = self.__parent__ = view
 
     def update(self):
         pass

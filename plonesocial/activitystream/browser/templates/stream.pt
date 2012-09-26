@@ -12,12 +12,13 @@
     <metal:main-macro define-macro="main">
 
         <div class="plonesocial activitystream">
-          <h1 class="documentFirstHeading"
-              tal:condition="not:view/tag">Activity Stream</h1>
-          <h1 class="documentFirstHeading"
-              tal:condition="view/tag">Activity Tagged 
+          <h1 class="documentFirstHeading">Activity Stream</h1>
+
+          <tal:block replace="structure view/status_provider" />
+
+          <h2 tal:condition="view/tag">Activity Tagged 
           #<span tal:replace="view/tag">sometag</span>
-          </h1>
+          </h2>
           
           <tal:block replace="structure view/stream_provider" />
         </div>

@@ -46,6 +46,13 @@ class StreamView(BrowserView):
             self.tag = stack.pop()
         return self
 
+    def status_provider(self):
+        provider = getMultiAdapter(
+            (self.context, self.request, self),
+            name="plonesocial.microblog.status_provider")
+        provider.update()
+        return provider()
+
     def stream_provider(self):
         provider = getMultiAdapter(
             (self.context, self.request, self),
