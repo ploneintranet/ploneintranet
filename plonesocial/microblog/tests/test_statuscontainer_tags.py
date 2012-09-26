@@ -1,4 +1,3 @@
-import time
 import unittest2 as unittest
 from zope.interface import implements
 

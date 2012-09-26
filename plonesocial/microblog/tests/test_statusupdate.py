@@ -42,3 +42,11 @@ class TestStatusUpdate(unittest.TestCase):
     def test_creator(self):
         su = StatusUpdate('foo bar')
         self.assertEquals(su.creator, 'test-user')
+
+    def test_tag_comma(self):
+        sa = StatusUpdate('test #foo,')
+        self.assertEquals(sa.tags, ['foo'])
+
+    def test_tag_interpunction(self):
+        sa = StatusUpdate('test #foo,:.;!$')
+        self.assertEquals(sa.tags, ['foo'])
