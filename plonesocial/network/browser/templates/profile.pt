@@ -44,6 +44,15 @@
             </div>
             
           </div><!-- /info -->
+
+          <div class="subunsub" tal:condition="view/show_subunsub">
+            <form method="post">
+              <input type="submit" name="subunsub" value="follow" 
+                     tal:condition="not:view/is_following" />
+              <input type="submit" name="subunsub" value="unfollow" 
+                     tal:condition="view/is_following" />
+            </form>
+          </div>
           
         </div><!-- /profile -->
 

@@ -1,14 +1,8 @@
 import logging
 
-from BTrees import LOBTree
 from BTrees import OOBTree
-from BTrees import LLBTree
-
 from persistent import Persistent
-import transaction
 from Acquisition import Explicit
-from AccessControl import getSecurityManager
-from AccessControl import Unauthorized
 
 from zope.interface import implements
 
@@ -47,15 +41,27 @@ class NetworkGraph(Persistent, Explicit):
         """User <actor> unsubscribes from user <other>"""
         assert(actor == str(actor))
         assert(other == str(other))
-        self._following[actor].remove(other)
-        self._followers[other].remove(actor)
+        try:
+            self._following[actor].remove(other)
+        except KeyError:
+            pass
+        try:
+            self._followers[other].remove(actor)
+        except KeyError:
+            pass
 
     def get_following(self, actor):
         """List all users that <actor> subscribes to"""
         assert(actor == str(actor))
-        return self._following[actor]
+        try:
+            return self._following[actor]
+        except KeyError:
+            return ()
 
     def get_followers(self, actor):
         assert(actor == str(actor))
         """List all users that subscribe to <actor>"""
-        return self._followers[actor]
+        try:
+            return self._followers[actor]
+        except KeyError:
+            return ()

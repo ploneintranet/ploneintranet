@@ -51,3 +51,8 @@ div.plonesocial#profile .location {
     margin-right: 1em;
     color: #666;
 }
+
+div.plonesocial#profile .subunsub input {
+    margin: 0.5em 1em;
+    font-size: 150%;
+}
