@@ -15,7 +15,7 @@ class INetworkGraph(Interface):
     def set_unfollow(actor, other):
         """User <actor> unsubscribes from user <other>"""
 
-    def get_followees(actor):
+    def get_following(actor):
         """List all users that <actor> subscribes to"""
 
     def get_followers(actor):

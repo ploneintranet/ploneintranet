@@ -29,7 +29,7 @@ class NetworkGraph(Persistent, Explicit):
     implements(INetworkGraph)
 
     def __init__(self, context=None):
-        self._followees = OOBTree.OOBTree()
+        self._following = OOBTree.OOBTree()
         self._followers = OOBTree.OOBTree()
 
     def set_follow(self, actor, other):
@@ -37,23 +37,23 @@ class NetworkGraph(Persistent, Explicit):
         assert(actor == str(actor))
         assert(other == str(other))
         # insert user if not exists
-        self._followees.insert(actor, OOBTree.OOTreeSet())
+        self._following.insert(actor, OOBTree.OOTreeSet())
         self._followers.insert(other, OOBTree.OOTreeSet())
         # add follow subscription
-        self._followees[actor].insert(other)
+        self._following[actor].insert(other)
         self._followers[other].insert(actor)
 
     def set_unfollow(self, actor, other):
         """User <actor> unsubscribes from user <other>"""
         assert(actor == str(actor))
         assert(other == str(other))
-        self._followees[actor].remove(other)
+        self._following[actor].remove(other)
         self._followers[other].remove(actor)
 
-    def get_followees(self, actor):
+    def get_following(self, actor):
         """List all users that <actor> subscribes to"""
         assert(actor == str(actor))
-        return self._followees[actor]
+        return self._following[actor]
 
     def get_followers(self, actor):
         assert(actor == str(actor))

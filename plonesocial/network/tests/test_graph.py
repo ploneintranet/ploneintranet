@@ -14,22 +14,22 @@ class TestNetworkGraph(unittest.TestCase):
     def test_follow(self):
         g = NetworkGraph()
         g.set_follow('alex', 'bernard')
-        self.assertEqual(['bernard'], list(g.get_followees('alex')))
+        self.assertEqual(['bernard'], list(g.get_following('alex')))
 
-    def test_follow_followees(self):
+    def test_follow_following(self):
         g = NetworkGraph()
         g.set_follow('alex', 'bernard')
         g.set_follow('alex', 'caroline')
         g.set_follow('alex', 'dick')
         self.assertEqual(['bernard', 'caroline', 'dick'],
-                         sorted(list(g.get_followees('alex'))))
+                         sorted(list(g.get_following('alex'))))
 
-    def test_follow_unfollow_followees(self):
+    def test_follow_unfollow_following(self):
         g = NetworkGraph()
         g.set_follow('alex', 'bernard')
         g.set_follow('alex', 'caroline')
         g.set_unfollow('alex', 'bernard')
-        self.assertEqual(['caroline'], list(g.get_followees('alex')))
+        self.assertEqual(['caroline'], list(g.get_following('alex')))
 
     def test_follow_followers(self):
         g = NetworkGraph()
@@ -54,5 +54,5 @@ class TestNetworkGraph(unittest.TestCase):
         self.assertRaises(AssertionError, g.set_follow, '1', 2)
         self.assertRaises(AssertionError, g.set_unfollow, 1, '2')
         self.assertRaises(AssertionError, g.set_unfollow, '1', 2)
-        self.assertRaises(AssertionError, g.get_followees, 2)
+        self.assertRaises(AssertionError, g.get_following, 2)
         self.assertRaises(AssertionError, g.get_followers, 2)
