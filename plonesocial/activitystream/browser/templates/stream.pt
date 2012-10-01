@@ -8,8 +8,9 @@
 
 <body>
 
-    <div metal:fill-slot="main">
-    <metal:main-macro define-macro="main">
+    <div metal:fill-slot="content">
+    <metal:main-macro define-macro="content">
+      <div id="content">
 
         <div class="plonesocial activitystream">
           <h1 class="documentFirstHeading">Updates</h1>
@@ -23,6 +24,7 @@
           <tal:block replace="structure view/stream_provider" />
         </div>
 
+      </div>
     </metal:main-macro>
     </div>
 
