@@ -88,4 +88,4 @@ def demo(context):
         status.id -= int(offset_time * 1e6)
         status.date = DateTime(time.time() - offset_time)
         microblog.add(status)
-    microblog._flush_queue()
+    microblog.flush_queue()
