@@ -1,8 +1,8 @@
-div.plonesocial#profile .portrait {
+div.plonesocial.profile .portrait {
     float: left;
 }
 
-div.plonesocial#profile {
+div.plonesocial.profile {
     background-color: #fafafa;
     border-radius: 1em;
     padding: 1em;
@@ -11,48 +11,83 @@ div.plonesocial#profile {
     padding: 0.5em 1em;
 }
 
-div.plonesocial#profile .portrait {
+div.plonesocial.profile .portrait {
     position: relative;
-    width: 150px;
-    height: 150px;
     overflow: hidden;
 }    
-div.plonesocial#profile img {
+div.plonesocial.maxiprofile .portrait {
+    width: 150px;
+    height: 150px;
+}
+div.plonesocial.miniprofile .portrait {
+    width: 75px;
+    height: 75px;
+}
+div.plonesocial.profile img {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 0.5em;
 }
 
-div.plonesocial#profile h1 {
+#content div.plonesocial.profile h1,
+div.plonesocial.profile h1 {
     letter-spacing: 0;
     line-height: 1em;
     margin-top: 0;
     margin-bottom: 0.25em;
+    color: #444;
 }
-div.plonesocial#profile .personal-info {
+#content div.plonesocial.profile a,
+div.plonesocial.profile a {
+    border: 0;
+}
+#content div.plonesocial.profile .username a,
+div.plonesocial.profile .username a {
+    color: #444;
+}
+div.plonesocial.miniprofile h3.username {
+    display: inline;
+    margin-right: 0.25em;
+}
+div.plonesocial.miniprofile .userid {
+    display: inline;
+}
+div.plonesocial.maxiprofile .personal-info {
     margin-left: 170px; 
     min-height: 150px;
 }
-div.plonesocial#profile .username {
-    font-weight: bold;
-    color: #666;
-    margin-bottom: 0.25em;
+div.plonesocial.miniprofile .personal-info {
+    margin-left: 90px; 
+    min-height: 75px;
 }
 
-div.plonesocial#profile .bio {
+div.plonesocial.profile .bio {
     font-style: italic;
     color: #666;
     margin: 0.25em 0;
 }
 
-div.plonesocial#profile .location {
+div.plonesocial.profile .location {
     margin-right: 1em;
     color: #666;
 }
 
-div.plonesocial#profile .subunsub input {
-    margin: 0.5em 1em;
+div.plonesocial.maxiprofile .subunsub input {
+    margin: 0.5em 1em 0 0;
     padding: 0.25em;
     font-size: 150%;
+}
+
+div.plonesocial.miniprofile .subunsub input {
+    margin: 0;
+    padding: 0.25em;
+    font-size: 100%;
+}
+div.plonesocial .following {
+    color: #444;
+}
+
+div.plonesocial .description {
+    color: #444;
 }

@@ -19,6 +19,11 @@
       factory=".profile.MaxiProfileProvider"
       />
 
+  <adapter
+      name="plonesocial.network.miniprofile_provider"
+      factory=".profile.MiniProfileProvider"
+      />
+
   <browser:page
       name="following"
       for="Products.CMFCore.interfaces.ISiteRoot"

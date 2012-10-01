@@ -7,7 +7,6 @@ from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.memoize import view
 
 from plonesocial.network.interfaces import INetworkGraph
 from .interfaces import IPlonesocialNetworkLayer
@@ -22,7 +21,6 @@ class AbstractProfile(object):
         return self.mtool.getAuthenticatedMember().getId()
 
     @property
-    @view.memoize
     def data(self):
         return self.mtool.getMemberInfo(self.userid)
 
@@ -56,6 +54,13 @@ class AbstractProfile(object):
     def graph(self):
         return queryUtility(INetworkGraph)
 
+    @property
+    def profile_url(self):
+        portal_state = getMultiAdapter(
+            (self.context, self.request),
+            name=u'plone_portal_state')
+        return portal_state.portal_url() + "/@@profile/" + self.userid
+
 
 class MaxiProfileProvider(AbstractProfile):
 
@@ -63,6 +68,20 @@ class MaxiProfileProvider(AbstractProfile):
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
     __call__ = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
+
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = self.__parent__ = view
+        self.userid = None
+
+
+class MiniProfileProvider(AbstractProfile):
+
+    implements(IProfileProvider)
+    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+
+    __call__ = ViewPageTemplateFile("templates/miniprofile_provider.pt")
 
     def __init__(self, context, request, view):
         self.context = context
@@ -129,5 +148,3 @@ class ProfileView(BrowserView, AbstractProfile):
             name="plonesocial.network.maxiprofile_provider")
         provider.userid = userid
         return provider()
-
-

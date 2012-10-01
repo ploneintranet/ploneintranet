@@ -21,8 +21,8 @@
         </div>
         
 
-	<div tal:content="structure python:view.maxiprofile_provider(view.userid) "/>
-
+	<div tal:content="structure python:view.maxiprofile_provider(view.userid)" />
+ 
         <div tal:content="structure view/stream_provider" />
 
       </div><!-- /content -->

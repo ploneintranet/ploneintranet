@@ -20,30 +20,15 @@
           </div>
         </div>
         
-        <div class="plonesocial"
-             id="graph"
-             tal:condition="view/users">
+	<div tal:content="structure python:view.maxiprofile_provider(view.userid)" />
 
-	  <div class="user"
-	       tal:repeat="user view/users">
-          
-	    <div class="portrait"
-		 tal:content="structure user/portrait" />
-          
-	    <div class="personal-info">
-	      
-	      <h1 tal:content="user/fullname">user name</h1>
-	      <div class="userid"
-		   tal:content="string: @${user/username}">@who</div>
-	      <div class="bio"
-		   tal:content="user/description">bio</div>
-	      
-	    </div><!-- /info -->
-
-	  </div><!-- /user -->
-	    
-        </div><!-- /graph -->
-
+	<div class="plonesocial" id="graph">
+	  <h2 tal:content="view/Title">follow</h2>
+	  <div class="description" tal:content="view/description" />
+	  <tal:users repeat="userid view/users">
+	    <div tal:content="structure python:view.miniprofile_provider(userid)" />
+	  </tal:users>
+	</div>
 
       </div><!-- /content -->
     </metal:main-macro>
