@@ -11,6 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from plone import api
 
 
+from plonesocial.network.interfaces import INetworkGraph
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.statusupdate import StatusUpdate
 
@@ -60,6 +61,13 @@ def demo(context):
         memberdata._setPortrait(portrait, userid)
 
     # setup social network
+    graph = queryUtility(INetworkGraph)
+    graph.clear()
+    for i in xrange(25):
+        followee = random.choice(users)
+        follower = random.choice(users)
+        if followee != follower:
+            graph.set_follow(follower, followee)
 
     # microblog
     microblog = queryUtility(IMicroblogTool)
