@@ -65,3 +65,8 @@ class NetworkGraph(Persistent, Explicit):
             return self._followers[actor]
         except KeyError:
             return ()
+
+    def clear(self):
+        self._following = OOBTree.OOBTree()
+        self._followers = OOBTree.OOBTree()
+
