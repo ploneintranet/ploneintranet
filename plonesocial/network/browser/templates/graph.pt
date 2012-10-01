@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+  <div metal:fill-slot="content">
+    <metal:main-macro define-macro="content">
+      <div id="content">
+
+        
+        <div tal:condition="not:view/users">
+          <h2>Nothing here</h2>
+          <div tal:condition="view/userid">
+            No such user <b tal:content="view/userid" />.
+          </div>
+        </div>
+        
+        <div class="plonesocial"
+             id="graph"
+             tal:condition="view/users">
+
+	  <div class="user"
+	       tal:repeat="user view/users">
+          
+	    <div class="portrait"
+		 tal:content="structure user/portrait" />
+          
+	    <div class="personal-info">
+	      
+	      <h1 tal:content="user/fullname">user name</h1>
+	      <div class="userid"
+		   tal:content="string: @${user/username}">@who</div>
+	      <div class="bio"
+		   tal:content="user/description">bio</div>
+	      
+	    </div><!-- /info -->
+
+	  </div><!-- /user -->
+	    
+        </div><!-- /graph -->
+
+
+      </div><!-- /content -->
+    </metal:main-macro>
+  </div>
+    
+</body>
+</html>

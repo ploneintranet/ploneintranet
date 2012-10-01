@@ -69,4 +69,3 @@ class NetworkGraph(Persistent, Explicit):
     def clear(self):
         self._following = OOBTree.OOBTree()
         self._followers = OOBTree.OOBTree()
-
