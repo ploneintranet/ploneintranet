@@ -294,10 +294,10 @@ class QueuedStatusContainer(BaseStatusContainer):
     def _autoflush(self):
         #logger.info("autoflush")
         if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
-            return self._flush_queue()  # 1 on write, 0 on noop
+            return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
-    def _flush_queue(self):
+    def flush_queue(self):
         #logger.info("flush_queue")
 
         with LOCK:

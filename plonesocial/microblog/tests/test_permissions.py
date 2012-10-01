@@ -50,7 +50,7 @@ class TestPermissions(unittest.TestCase):
         sa = StatusUpdate('test a', 'arnold')
         container = self.mb_tool
         container.add(sa)
-        container._flush_queue()
+        container.flush_queue()
         values = [x for x in container.values()]
         self.assertEqual([sa], values)
         # dangling queue thread
