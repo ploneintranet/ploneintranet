@@ -50,9 +50,8 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
     def updateActions(self):
         super(StatusForm, self).updateActions()
-        self.actions['cancel'].addClass("standalone")
         self.actions['cancel'].addClass("hide")
-        self.actions['statusupdate'].addClass("context")
+        self.actions['statusupdate'].addClass("standalone")
 
     @button.buttonAndHandler(_(u"add_statusupdate_button",
                                default=u"What are you doing?"),

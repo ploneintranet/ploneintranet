@@ -1,11 +1,19 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plonesocial.microblog">
 
   <adapter 
       name="plonesocial.microblog.status_provider"
       factory=".status.StatusProvider"
       />
+  
+  <browser:resourceDirectory
+      name="plonesocial.microblog.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPlonesocialMicroblogLayer"
+      />
+  
 
 </configure>
