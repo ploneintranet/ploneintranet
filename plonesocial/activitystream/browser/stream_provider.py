@@ -9,6 +9,7 @@ from zope.app.component.hooks import getSite
 from Acquisition import aq_inner
 from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
+from zExceptions import NotFound
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -19,6 +20,10 @@ from plonesocial.activitystream.interfaces import IActivity
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def date_key(item):
@@ -74,6 +79,9 @@ class StreamProvider(object):
             try:
                 activity = IActivity(item)
             except Unauthorized:
+                continue
+            except NotFound:
+                logger.exception("NotFound: %s" % item.getURL())
                 continue
             if self._activity_visible(activity):
                 yield activity
