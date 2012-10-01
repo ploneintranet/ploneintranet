@@ -9,21 +9,21 @@
   </div>
   
   <div class="activityBody">
+
+    <a href="" class="creator"
+       tal:condition="view/Creator"
+       tal:content="view/Creator"
+       tal:attributes="href view/author_home_url">
+      Poster Name
+    </a>
     
     <div class="activityByLine">
       
-      <tal:name>
-        <a href="" class="creator"
-           tal:content="view/Creator"
-           tal:attributes="href view/author_home_url">
-          Poster Name
-        </a>
         <a href="" class="userid"
-           tal:content="view/userid"
+           tal:content="string:@${view/userid}"
            tal:attributes="href view/author_home_url">
           Poster Name
         </a>
-      </tal:name>
       
       <tal:posted tal:condition="view/is_status"
                   i18n:translate="label_says">says:</tal:posted>
@@ -37,16 +37,7 @@
           <span i18n:translate="label_created">created</span>
           <a tal:attributes="href view/getURL"
              tal:content="view/Title">view title</a></tal:posted>
-          
-          <div class="activityDate"
-               tal:content="view/date">
-            8/23/2001 12:40:44 PM
-          </div>
-          
-    </div>
-    
-    <div class="activityNoText visualClear"
-         tal:condition="not:view/getText">
+                    
     </div>
     
     <div class="activityText"
@@ -91,6 +82,12 @@
       
       <span tal:replace="structure view/getText" />
     </div><!-- /activityText -->
+
+    <div class="activityDate"
+	 tal:content="view/date">
+      8/23/2001 12:40:44 PM
+    </div>
+
   </div><!-- / activityBody -->
   
 </div>

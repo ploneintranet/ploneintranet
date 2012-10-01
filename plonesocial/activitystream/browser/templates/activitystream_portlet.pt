@@ -16,12 +16,11 @@
     <dd class="portletItem odd">
       <tal:block replace="structure view/stream_provider" />
     </dd>
-    
-    <dd class="portletFooter"
-        tal:condition="not:view/compact">
+
+    <dd class="portletFooter">
         <span class="portletBottomLeft"></span>
         <span>
-          <!-- Footer -->
+      <a tal:attributes="href string:${view/portal_url}/@@stream">More updates...</a>
         </span>
         <span class="portletBottomRight"></span>
     </dd>

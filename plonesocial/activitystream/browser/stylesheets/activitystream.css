@@ -3,9 +3,14 @@
 }
 
 #content dl.portlet.compact dd.portletItem,
-dl.portlet.compact dd.portletItem {
+dl.portlet.compact dd.portletItem,
+#content dl.portlet.compact dd.portletFooter,
+dl.portlet.compact dd.portletFooter {
     padding: 0;
     margin: 0 0 1em 0;
+}
+dl.portletActivitystream dd.portletFooter {
+    text-align: center;
 }
 
 #content dl.portlet.compact,
@@ -16,8 +21,9 @@ dl.portlet.compact {
 div.activityItem {
     border-radius: 0.5em 0.5em 0.5em 0.5em;
     box-shadow: 0 0 0.5em 0 #888888;
-    margin: 0.5em 0.5em 0.5em 0;
+    margin: 0.5em 0.5em 1em 0;
     padding: 0.5em 1em;
+    background-color: #eee;
 }
 
 div.activityAvatar {
@@ -43,7 +49,8 @@ div.activityByLine {
     color: #666666;
     display: block;
     font-size: 85%;
-    line-height: 1.25em;
+    line-height: 1em;
+    margin: 0.1em 0;
 }
 #content div.activityByLine a,
 div.activityByLine a {
@@ -51,22 +58,29 @@ div.activityByLine a {
     border: none;
     font-weight: bold;
 }
-#content div.activityByLine a.creator,
-div.activityByLine a.creator {
+#content div.activityBody a.creator,
+div.activityBody a.creator {
     color: black;
+    font-weight: bold;
+    text-decoration: none;
+    border: 0;
 }
-div.activityNoText {
-    clear: both;
-    margin: 1em 0;
+#content div.activityByLine a,
+div.activityByLine a {
+    font-weight: normal;
 }
 div.activityText {
-    line-height: 1.25em;
-    margin: 0.5em 0;
-    font-size: 92%;
-    color: #444;
+    margin: 0.25em 0;
 }
+#content div.activityText a,
+div.activityText a {
+    border: 0;
+    text-decoration: none;
+}
+
 div.activityDate {
     display: inline-block;
     color: #76797C;
     font-size: 85%;
+    line-height: 1em;
 }

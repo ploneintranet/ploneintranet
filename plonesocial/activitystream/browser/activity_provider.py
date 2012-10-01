@@ -77,7 +77,6 @@ class ActivityProvider(object):
             return "%s/author/%s" % (url, self.userid)
 
     @property
-    @view.memoize
     def user_data(self):
         return self.mtool.getMemberInfo(self.userid)
 
