@@ -1,4 +1,5 @@
-from zope.interface import implements
+from zope.interface import implements, Interface
+from zope.component import adapts
 from zope.component import getMultiAdapter, ComponentLookupError
 from zope.component import queryUtility
 from zope.publisher.interfaces import IPublishTraverse
@@ -9,9 +10,68 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize import view
 
 from plonesocial.network.interfaces import INetworkGraph
+from .interfaces import IPlonesocialNetworkLayer
+from .interfaces import IProfileProvider
 
 
-class ProfileView(BrowserView):
+class AbstractProfile(object):
+
+    @property
+    def viewer_id(self):
+        """The guy looking at the profile"""
+        return self.mtool.getAuthenticatedMember().getId()
+
+    @property
+    @view.memoize
+    def data(self):
+        return self.mtool.getMemberInfo(self.userid)
+
+    @property
+    def portrait(self):
+        """Mugshot."""
+        return self.mtool.getPersonalPortrait(self.userid)
+
+    @property
+    def is_anonymous(self):
+        return self.mtool.isAnonymousUser()
+
+    @property
+    def is_mine(self):
+        """Is this my own profile, or somebody else's?"""
+        return self.userid == self.viewer_id
+
+    @property
+    def is_following(self):
+        return self.userid in self.graph.get_following(self.viewer_id)
+
+    @property
+    def show_subunsub(self):
+        return not(self.is_anonymous or self.is_mine)
+
+    @property
+    def mtool(self):
+        return getToolByName(getSite(), 'portal_membership')
+
+    @property
+    def graph(self):
+        return queryUtility(INetworkGraph)
+
+
+class MaxiProfileProvider(AbstractProfile):
+
+    implements(IProfileProvider)
+    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+
+    __call__ = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
+
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = self.__parent__ = view
+        self.userid = None
+
+
+class ProfileView(BrowserView, AbstractProfile):
     implements(IPublishTraverse)
 
     index = ViewPageTemplateFile("templates/profile.pt")
@@ -51,38 +111,6 @@ class ProfileView(BrowserView):
         else:
             return self.viewer_id
 
-    @property
-    def viewer_id(self):
-        """The guy looking at the profile"""
-        return self.mtool.getAuthenticatedMember().getId()
-
-    @property
-    @view.memoize
-    def data(self):
-        return self.mtool.getMemberInfo(self.userid)
-
-    @property
-    def portrait(self):
-        """Mugshot."""
-        return self.mtool.getPersonalPortrait(self.userid)
-
-    @property
-    def is_anonymous(self):
-        return self.mtool.isAnonymousUser()
-
-    @property
-    def is_mine(self):
-        """Is this my own profile, or somebody else's?"""
-        return self.userid == self.viewer_id
-
-    @property
-    def mtool(self):
-        return getToolByName(getSite(), 'portal_membership')
-
-    @property
-    def graph(self):
-        return queryUtility(INetworkGraph)
-
     def stream_provider(self):
         try:
             # plonesocial.activitystream integration is optional
@@ -95,10 +123,11 @@ class ProfileView(BrowserView):
             # no plonesocial.activitystream available
             return ''
 
-    @property
-    def show_subunsub(self):
-        return not(self.is_anonymous or self.is_mine)
+    def maxiprofile_provider(self, userid):
+        provider = getMultiAdapter(
+            (self.context, self.request, self),
+            name="plonesocial.network.maxiprofile_provider")
+        provider.userid = userid
+        return provider()
 
-    @property
-    def is_following(self):
-        return self.userid in self.graph.get_following(self.viewer_id)
+

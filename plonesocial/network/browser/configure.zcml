@@ -14,6 +14,11 @@
       layer=".interfaces.IPlonesocialNetworkLayer"
       />
 
+  <adapter
+      name="plonesocial.network.maxiprofile_provider"
+      factory=".profile.MaxiProfileProvider"
+      />
+
   <browser:page
       name="following"
       for="Products.CMFCore.interfaces.ISiteRoot"
