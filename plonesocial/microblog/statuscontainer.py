@@ -11,6 +11,8 @@ from BTrees import LLBTree
 from persistent import Persistent
 import transaction
 from Acquisition import Explicit
+from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 
 from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
@@ -60,6 +62,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._tag_mapping = OOBTree.OOBTree()
 
     def add(self, status):
+        self._check_permission("add")
         self._check_status(status)
         self._store(status)
 
@@ -75,6 +78,14 @@ class BaseStatusContainer(Persistent, Explicit):
     def _check_status(self, status):
         if not IStatusUpdate.providedBy(status):
             raise ValueError("IStatusUpdate interface not provided.")
+
+    def _check_permission(self, perm="read"):
+        if perm == "read":
+            permission = "Plone Social: View Microblog Status Update"
+        else:
+            permission = "Plone Social: Add Microblog Status Update"
+        if not getSecurityManager().checkPermission(permission, self):
+            raise Unauthorized("You do not have permission <%s>" % permission)
 
     def _notify(self, status):
         event = ObjectAddedEvent(status,
@@ -123,19 +134,29 @@ class BaseStatusContainer(Persistent, Explicit):
     ## primary accessors
 
     def get(self, key):
+        self._check_permission("read")
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=None):
+    def items(self, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key))
-                for key in self.iterkeys(min, max, limit))
+                for key in self.keys(min, max, limit, tag))
 
-    def keys(self, min=None, max=None, limit=None):
-        return longkeysortreverse(self._status_mapping,
+    def keys(self, min=None, max=None, limit=100, tag=None):
+        self._check_permission("read")
+        if tag:
+            if tag not in self._tag_mapping:
+                return ()
+            mapping = LLBTree.intersection(
+                LLBTree.LLTreeSet(self._status_mapping.keys()),
+                self._tag_mapping[tag])
+        else:
+            mapping = self._status_mapping
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    def values(self, min=None, max=None, limit=None):
+    def values(self, min=None, max=None, limit=100, tag=None):
         return (self.get(key)
-                for key in self.iterkeys(min, max, limit))
+                for key in self.keys(min, max, limit, tag))
 
     iteritems = items
     iterkeys = keys
@@ -145,34 +166,40 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # no user_get
 
-    def user_items(self, users, min=None, max=None, limit=None):
+    def user_items(self, users, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key
-                in self.user_keys(users, min, max, limit))
+                in self.user_keys(users, min, max, limit, tag))
 
-    def user_keys(self, users, min=None, max=None, limit=None):
+    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
         if not users:
             return ()
 
-        if type(users) == type('string'):
+        if users == str(users):
             # single user optimization
             userid = users
             mapping = self._user_mapping.get(userid)
             if not mapping:
                 return ()
-            return longkeysortreverse(mapping,
-                                      min, max, limit)
 
-        # collection of user LLTreeSet
-        treesets = (self._user_mapping.get(userid)
-                    for userid in users
-                    if userid in self._user_mapping.keys())
-        merged = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-        return longkeysortreverse(merged,
+        else:
+            # collection of user LLTreeSet
+            treesets = (self._user_mapping.get(userid)
+                        for userid in users
+                        if userid in self._user_mapping.keys())
+            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+
+        if tag:
+            if tag not in self._tag_mapping:
+                return ()
+            mapping = LLBTree.intersection(mapping,
+                                           self._tag_mapping[tag])
+
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    def user_values(self, users, min=None, max=None, limit=None):
+    def user_values(self, users, min=None, max=None, limit=100, tag=None):
         return (self.get(key) for key
-                in self.user_keys(users, min, max, limit))
+                in self.user_keys(users, min, max, limit, tag))
 
     user_iteritems = user_items
     user_iterkeys = user_keys
@@ -218,6 +245,7 @@ class QueuedStatusContainer(BaseStatusContainer):
     implements(IStatusContainer)
 
     def add(self, status):
+        self._check_permission("add")
         self._check_status(status)
         if MAX_QUEUE_AGE > 0:
             self._queue(status)

@@ -1,15 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="plonesocial.microblog">
 
-    <browser:page
-        name="conversation_view"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        layer=".interfaces.IPlonesocialMicroblogLayer"
-        class=".conversation.ConversationView"
-        permission="zope2.View"
-        />
+  <adapter 
+      name="plonesocial.microblog.status_provider"
+      factory=".status.StatusProvider"
+      />
 
 </configure>

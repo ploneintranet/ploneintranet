@@ -32,7 +32,7 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('#foo bar #fuzzy #beer')
         tags = list(su.tags)
         tags.sort()
-        self.assertEquals(tags, ['#beer', '#foo', '#fuzzy'])
+        self.assertEquals(tags, ['beer', 'foo', 'fuzzy'])
 
     def no_test_userid(self):
         """Doesn't work in test context"""
@@ -42,3 +42,11 @@ class TestStatusUpdate(unittest.TestCase):
     def test_creator(self):
         su = StatusUpdate('foo bar')
         self.assertEquals(su.creator, 'test-user')
+
+    def test_tag_comma(self):
+        sa = StatusUpdate('test #foo,')
+        self.assertEquals(sa.tags, ['foo'])
+
+    def test_tag_interpunction(self):
+        sa = StatusUpdate('test #foo,:.;!$')
+        self.assertEquals(sa.tags, ['foo'])

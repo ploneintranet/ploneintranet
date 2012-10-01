@@ -10,10 +10,11 @@
 
   <include package=".browser" />
   <include package=".portlets" />
+  <include file="permissions.zcml" />
 
   <genericsetup:registerProfile
       name="default"
-      title="plonesocial.microblog"
+      title="PloneSocial Microblog"
       directory="profiles/default"
       description="Installs the plonesocial.microblog package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

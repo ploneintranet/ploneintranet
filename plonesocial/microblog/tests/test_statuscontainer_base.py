@@ -5,8 +5,17 @@ from zope.interface.verify import verifyClass
 
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
-from plonesocial.microblog.statuscontainer import BaseStatusContainer
+from plonesocial.microblog import statuscontainer
 from plonesocial.microblog import statusupdate
+
+
+class StatusContainer(statuscontainer.BaseStatusContainer):
+    """Override actual implementation with unittest features"""
+
+    implements(IStatusContainer)
+
+    def _check_permission(self, perm="read"):
+        pass
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
@@ -29,17 +38,17 @@ class StatusUpdate(statusupdate.StatusUpdate):
         pass
 
 
-class TestBaseStatusContainer(unittest.TestCase):
+class TestStatusContainer(unittest.TestCase):
 
     def test_verify_interface(self):
-        self.assertTrue(verifyClass(IStatusContainer, BaseStatusContainer))
+        self.assertTrue(verifyClass(IStatusContainer, StatusContainer))
 
     def test_empty(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         self.assertEqual(0, len(list(container.items())))
 
     def test_check_status(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
 
         class Dummy():
             pass
@@ -49,13 +58,13 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual(0, len(list(container.items())))
 
     def test_add_items(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         su = StatusUpdate('test')
         container.add(su)
         self.assertEqual(1, len(list(container.items())))
 
     def test_key_corresponds_to_id(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         su = StatusUpdate('test')
         container.add(su)
         (key, value) = list(container.items())[0]
@@ -63,7 +72,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual(su, value)
 
     def test_clear_items(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         su = StatusUpdate('test')
         container.add(su)
         self.assertEqual(1, len(list(container.items())))
@@ -73,13 +82,13 @@ class TestBaseStatusContainer(unittest.TestCase):
     ## primary accessors
 
     def test_get(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         su = StatusUpdate('test')
         container.add(su)
         self.assertEqual(su, container.get(su.id))
 
     def test_items_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -106,7 +115,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_items_min_max_limit(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -134,7 +143,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc, sb], values)
 
     def test_iteritems_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -161,7 +170,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_iterkeys_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -188,7 +197,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc.id], keys)
 
     def test_itervalues_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -215,7 +224,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc], values)
 
     def test_keys_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container
@@ -242,7 +251,7 @@ class TestBaseStatusContainer(unittest.TestCase):
         self.assertEqual([sc.id], keys)
 
     def test_values_min_max(self):
-        container = BaseStatusContainer()
+        container = StatusContainer()
         sa = StatusUpdate('test a')
         container.add(sa)
         ta = sa.id  # reset by container

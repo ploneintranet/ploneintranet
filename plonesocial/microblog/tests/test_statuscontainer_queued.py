@@ -6,12 +6,21 @@ from zope.interface.verify import verifyClass
 
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
-from plonesocial.microblog.statuscontainer import QueuedStatusContainer
+from plonesocial.microblog import statuscontainer
 from plonesocial.microblog import statusupdate
 
 from plonesocial.microblog.statuscontainer import STATUSQUEUE
 import plonesocial.microblog.statuscontainer
 plonesocial.microblog.statuscontainer.MAX_QUEUE_AGE = 50
+
+
+class StatusContainer(statuscontainer.QueuedStatusContainer):
+    """Override actual implementation with unittest features"""
+
+    implements(IStatusContainer)
+
+    def _check_permission(self, perm="read"):
+        pass
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
@@ -38,7 +47,7 @@ class TestQueueStatusContainer(unittest.TestCase):
 
     def setUp(self):
         # needed for thread teardown
-        self.container = QueuedStatusContainer()
+        self.container = StatusContainer()
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
 
@@ -58,7 +67,7 @@ class TestQueueStatusContainer(unittest.TestCase):
                 break
 
     def test_verify_interface(self):
-        self.assertTrue(verifyClass(IStatusContainer, QueuedStatusContainer))
+        self.assertTrue(verifyClass(IStatusContainer, StatusContainer))
 
     def test_add_queued(self):
         """Test the queueing"""
