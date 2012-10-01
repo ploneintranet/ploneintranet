@@ -11,6 +11,7 @@
   <div metal:fill-slot="content">
     <metal:main-macro define-macro="content">
       <div id="content">
+
         
         <div tal:condition="not:view/data">
           <h2>Nothing here</h2>
@@ -49,16 +50,18 @@
             <form method="post">
               <input type="submit" name="subunsub" value="follow" 
                      tal:condition="not:view/is_following" />
-              <input type="submit" name="subunsub" value="unfollow" 
+	      <span tal:condition="view/is_following"
+		    class="following">
+		Following
+	      </span>
+              <input type="submit" name="subunsub" value="unfollow"
                      tal:condition="view/is_following" />
             </form>
           </div>
           
         </div><!-- /profile -->
 
-
         <div tal:content="structure view/stream_provider" />
-
 
       </div><!-- /content -->
     </metal:main-macro>

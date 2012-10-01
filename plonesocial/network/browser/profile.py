@@ -28,6 +28,9 @@ class ProfileView(BrowserView):
                 self.graph.set_follow(self.viewer_id, self.userid)
             elif action == 'unfollow':
                 self.graph.set_unfollow(self.viewer_id, self.userid)
+            # clear post data so users can reload
+            self.request.response.redirect(self.request.URL)
+            return ''
         return self.render()
 
     def render(self):
