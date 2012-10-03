@@ -7,6 +7,7 @@ from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.app.layout.globals.interfaces import IViewView
 
 from plonesocial.network.interfaces import INetworkGraph
 from .interfaces import IPlonesocialNetworkLayer
@@ -120,7 +121,7 @@ class MiniProfileProvider(AbstractProfileProvider):
 
 
 class ProfileView(BrowserView, AbstractProfile):
-    implements(IPublishTraverse)
+    implements(IPublishTraverse, IViewView)
 
     index = ViewPageTemplateFile("templates/profile.pt")
 
@@ -150,7 +151,7 @@ class ProfileView(BrowserView, AbstractProfile):
             provider = getMultiAdapter(
                 (self.context, self.request, self),
                 name="plonesocial.activitystream.stream_provider")
-            provider.userid = self.userid
+            provider.users = self.userid
             return provider()
         except ComponentLookupError:
             # no plonesocial.activitystream available
