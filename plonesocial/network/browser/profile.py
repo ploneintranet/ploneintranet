@@ -54,12 +54,26 @@ class AbstractProfile(object):
     def graph(self):
         return queryUtility(INetworkGraph)
 
-    @property
-    def profile_url(self):
+    def portal_url(self):
         portal_state = getMultiAdapter(
             (self.context, self.request),
             name=u'plone_portal_state')
-        return portal_state.portal_url() + "/@@profile/" + self.userid
+        return portal_state.portal_url()
+
+    def profile_url(self):
+        return self.portal_url() + "/@@profile/" + self.userid
+
+    def following_url(self):
+        return self.portal_url() + "/@@following/" + self.userid
+
+    def followers_url(self):
+        return self.portal_url() + "/@@followers/" + self.userid
+
+    def following_count(self):
+        return len(self.graph.get_following(self.userid))
+
+    def followers_count(self):
+        return len(self.graph.get_followers(self.userid))
 
 
 class MaxiProfileProvider(AbstractProfile):

@@ -23,7 +23,7 @@ class FollowingView(AbstractGraph):
 
     implements(IPublishTraverse)
     index = ViewPageTemplateFile("templates/graph.pt")
-    Title = "Follows"
+    Title = "Following"
 
     @property
     def description(self):
