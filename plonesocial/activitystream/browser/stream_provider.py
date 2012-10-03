@@ -3,7 +3,6 @@ import itertools
 from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
-from zope.component import queryUtility
 from zope.component import getMultiAdapter
 from zope.app.component.hooks import getSite
 from Acquisition import aq_inner
@@ -14,12 +13,13 @@ from zExceptions import NotFound
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.activitystream.interfaces import IActivity
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
+
+from plonesocial.activitystream.integration import PLONESOCIAL
 
 import logging
 
@@ -54,8 +54,9 @@ class StreamProvider(object):
         self.portlet_data = None
         # @@stream renders this optionally with a tag filter
         self.tag = None
-        # plonesocial.network @@profile renders this with a userid filter
-        self.userid = None
+        # @@stream and plonesocial.network:@@profile
+        # render this optionally with a users filter
+        self.users = None
 
     def update(self):
         pass
@@ -106,21 +107,21 @@ class StreamProvider(object):
                              sort_limit=self.count * 10)
         if self.tag:
             contentfilter["Subject"] = self.tag
-        if self.userid:
-            contentfilter["Creator"] = self.userid
+        if self.users:
+            contentfilter["Creator"] = self.users
         return catalog.searchResults(**contentfilter)
 
     def _activities_statuses(self):
         if not self.show_microblog:
             return []
-        container = queryUtility(IMicroblogTool)
+        container = PLONESOCIAL.microblog
         # show_microblog yet no container can happen on microblog uninstall
         if not container:
             return []
         try:
-            if self.userid:
+            if self.users:
                 # support plonesocial.network integration
-                return container.user_values(self.userid,
+                return container.user_values(self.users,
                                              limit=self.count,
                                              tag=self.tag)
             else:
