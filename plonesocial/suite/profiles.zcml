@@ -1,0 +1,38 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plonesocial.suite">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="PloneSocial Suite"
+      directory="profiles/default"
+      description="Installs the suite of all plonesocial packages"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="plonesocial.suite"
+      title="Various setup handling"
+      description=""
+      handler="plonesocial.suite.setuphandlers.importVarious" />
+
+  <genericsetup:registerProfile
+      name="demo"
+      title="PloneSocial Suite (Demo)"
+      directory="profiles/demo"
+      description="Creates fake user profiles and microblog posts"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="plonesocial.demo"
+      title="Setup demo data"
+      description=""
+      handler="plonesocial.suite.setuphandlers.demo" />
+
+  <!-- -*- extra stuff goes here -*- -->
+  
+</configure>

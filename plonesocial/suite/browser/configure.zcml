@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plonesocial.suite">
+
+  <browser:viewlet
+      name="plonesocial.suite.navigation"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".navigation.PloneSocialNavigation"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialSuiteLayer"
+      />        
+
+  <browser:resourceDirectory
+      name="plonesocial.suite.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPlonesocialSuiteLayer"
+      />
+
+</configure>
