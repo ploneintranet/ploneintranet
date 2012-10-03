@@ -22,7 +22,12 @@
         
 
 	<div tal:content="structure python:view.maxiprofile_provider(view.userid)" />
- 
+
+        <h2>Updates</h2>
+        <div class="description">Status updates by
+        <span tal:replace="view/data/fullname">name</span>:
+        </div>
+
         <div tal:content="structure view/stream_provider" />
 
       </div><!-- /content -->

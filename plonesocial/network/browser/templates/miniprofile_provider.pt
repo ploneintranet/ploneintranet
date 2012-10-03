@@ -26,6 +26,8 @@
 
     <div class="subunsub" tal:condition="view/show_subunsub">
       <form method="post">
+        <input type="hidden" name="userid"
+               tal:attributes="value view/userid" />
 	<input type="submit" name="subunsub" value="follow" 
 	       tal:condition="not:view/is_following" />
 	<span tal:condition="view/is_following"

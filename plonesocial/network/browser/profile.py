@@ -15,6 +15,11 @@ from .interfaces import IProfileProvider
 
 class AbstractProfile(object):
 
+    def render(self):
+        return self.index()
+
+    __call__ = render
+
     @property
     def viewer_id(self):
         """The guy looking at the profile"""
@@ -76,32 +81,42 @@ class AbstractProfile(object):
         return len(self.graph.get_followers(self.userid))
 
 
-class MaxiProfileProvider(AbstractProfile):
-
-    implements(IProfileProvider)
-    adapts(Interface, IPlonesocialNetworkLayer, Interface)
-
-    __call__ = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
+class AbstractProfileProvider(AbstractProfile):
 
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
         self.view = self.__parent__ = view
-        self.userid = None
+        self.userid = None  # will be set by calling view
+
+    def __call__(self):
+        if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
+            action = self.request.form.get("subunsub", None)
+            userid = self.request.form.get("userid", '')
+            if action == 'follow' and userid == self.userid:
+                self.graph.set_follow(self.viewer_id, userid)
+            elif action == 'unfollow' and userid == self.userid:
+                self.graph.set_unfollow(self.viewer_id, userid)
+            # clear post data so users can reload
+            self.request.response.redirect(self.request.URL)
+            return ''
+        return self.render()
 
 
-class MiniProfileProvider(AbstractProfile):
+class MaxiProfileProvider(AbstractProfileProvider):
 
     implements(IProfileProvider)
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
-    __call__ = ViewPageTemplateFile("templates/miniprofile_provider.pt")
+    index = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
 
-    def __init__(self, context, request, view):
-        self.context = context
-        self.request = request
-        self.view = self.__parent__ = view
-        self.userid = None
+
+class MiniProfileProvider(AbstractProfileProvider):
+
+    implements(IProfileProvider)
+    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/miniprofile_provider.pt")
 
 
 class ProfileView(BrowserView, AbstractProfile):
@@ -113,21 +128,6 @@ class ProfileView(BrowserView, AbstractProfile):
         self.context = context
         self.request = request
         self._userid = None
-
-    def __call__(self):
-        if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
-            action = self.request.form.get("subunsub")
-            if action == 'follow':
-                self.graph.set_follow(self.viewer_id, self.userid)
-            elif action == 'unfollow':
-                self.graph.set_unfollow(self.viewer_id, self.userid)
-            # clear post data so users can reload
-            self.request.response.redirect(self.request.URL)
-            return ''
-        return self.render()
-
-    def render(self):
-        return self.index()
 
     def publishTraverse(self, request, name):
         """ used for traversal via publisher, i.e. when using as a url """
