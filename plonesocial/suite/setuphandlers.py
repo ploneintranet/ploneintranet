@@ -83,9 +83,10 @@ def demo(context):
         userid = random.choice(users)
         status.userid = userid
         status.creator = " ".join([x.capitalize() for x in userid.split("_")])
-        # distribute over last week
-        offset_time = random.random() * 3600 * 24 * 7
-        status.id -= int(offset_time * 1e6)
-        status.date = DateTime(time.time() - offset_time)
+        # distribute most over last week
+        if i < 90:
+            offset_time = random.random() * 3600 * 24 * 7
+            status.id -= int(offset_time * 1e6)
+            status.date = DateTime(time.time() - offset_time)
         microblog.add(status)
     microblog.flush_queue()
