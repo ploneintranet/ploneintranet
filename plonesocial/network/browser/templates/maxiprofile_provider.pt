@@ -12,10 +12,37 @@
       <a tal:attributes="href view/profile_url"
 	 tal:content="view/data/fullname">user name</a>
     </h1>
+
+    <div class="navigation">
+      <ul>
+        <li>
+          <a tal:attributes="href view/profile_url">
+            <span class="count"> </span>
+            <span class="option">Updates</span>
+          </a>
+        </li>
+        <li>
+          <a tal:attributes="href view/followers_url">
+            <span class="count"
+                  tal:content="view/followers_count">21</span>            
+            <span class="option">Followers</span>
+          </a>
+        </li>
+        <li>
+          <a tal:attributes="href view/following_url">
+            <span class="count"
+                  tal:content="view/following_count">33</span>
+            <span class="option">Following</span>
+          </a>
+        </li>
+      </ul>      
+    </div>
+
     <div class="userid">
       <a tal:attributes="href view/profile_url"
 	 tal:content="string: @${view/userid}">@who</a>
     </div>
+
     <div class="bio"
 	 tal:content="view/data/description">bio</div>
     <div>
@@ -30,6 +57,8 @@
 
     <div class="subunsub" tal:condition="view/show_subunsub">
       <form method="post">
+        <input type="hidden" name="userid"
+               tal:attributes="value view/userid" />
 	<input type="submit" name="subunsub" value="follow" 
 	       tal:condition="not:view/is_following" />
 	<span tal:condition="view/is_following"

@@ -10,17 +10,18 @@
 
   <div metal:fill-slot="content">
     <metal:main-macro define-macro="content">
-      <div id="content">
+      <div id="content"
+           tal:define="maxiprofile python:view.maxiprofile_provider(view.userid)">
 
         
-        <div tal:condition="not:view/users">
+        <div tal:condition="not:maxiprofile">
           <h2>Nothing here</h2>
           <div tal:condition="view/userid">
             No such user <b tal:content="view/userid" />.
           </div>
         </div>
         
-	<div tal:content="structure python:view.maxiprofile_provider(view.userid)" />
+	<div tal:content="structure maxiprofile" />
 
 	<div class="plonesocial" id="graph">
 	  <h2 tal:content="view/Title">follow</h2>

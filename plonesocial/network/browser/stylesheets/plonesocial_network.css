@@ -11,6 +11,40 @@ div.plonesocial.profile {
     padding: 0.5em 1em;
 }
 
+div.plonesocial.profile .navigation {
+    float: right;
+    margin: 0 2em;
+    background-color: #eee;
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+#content div.plonesocial.profile .navigation ul,
+div.plonesocial.profile .navigation ul {
+    list-style-type: none;
+    margin: 0;
+}
+#content div.plonesocial.profile .navigation li a {
+    font-weight: bold;
+    display: inline;
+}
+#content div.plonesocial.profile .navigation li a:link,
+div.plonesocial.profile .navigation li a:link,
+#content div.plonesocial.profile .navigation li a:visited,
+div.plonesocial.profile .navigation li a:visited {
+    color: #444;
+}
+#content div.plonesocial.profile .navigation li a:hover,
+div.plonesocial.profile .navigation li a:hover {
+}
+
+div.plonesocial.profile .navigation .count {
+    width: 4em;
+    display: inline-block;
+    text-align: right;
+    margin-right: 0.25em;
+}
+
 div.plonesocial.profile .portrait {
     position: relative;
     overflow: hidden;

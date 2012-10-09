@@ -1,6 +1,8 @@
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.publisher.interfaces import IPublishTraverse
+from plone.app.layout.globals.interfaces import IViewView
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from profile import ProfileView
@@ -21,9 +23,9 @@ class AbstractGraph(ProfileView):
 
 class FollowingView(AbstractGraph):
 
-    implements(IPublishTraverse)
+    implements(IPublishTraverse, IViewView)
     index = ViewPageTemplateFile("templates/graph.pt")
-    Title = "Follows"
+    Title = "Following"
 
     @property
     def description(self):
@@ -35,7 +37,7 @@ class FollowingView(AbstractGraph):
 
 class FollowersView(AbstractGraph):
 
-    implements(IPublishTraverse)
+    implements(IPublishTraverse, IViewView)
     index = ViewPageTemplateFile("templates/graph.pt")
     Title = "Followers"
 

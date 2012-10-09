@@ -7,6 +7,7 @@ from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.app.layout.globals.interfaces import IViewView
 
 from plonesocial.network.interfaces import INetworkGraph
 from .interfaces import IPlonesocialNetworkLayer
@@ -14,6 +15,11 @@ from .interfaces import IProfileProvider
 
 
 class AbstractProfile(object):
+
+    def render(self):
+        return self.index()
+
+    __call__ = render
 
     @property
     def viewer_id(self):
@@ -54,44 +60,68 @@ class AbstractProfile(object):
     def graph(self):
         return queryUtility(INetworkGraph)
 
-    @property
-    def profile_url(self):
+    def portal_url(self):
         portal_state = getMultiAdapter(
             (self.context, self.request),
             name=u'plone_portal_state')
-        return portal_state.portal_url() + "/@@profile/" + self.userid
+        return portal_state.portal_url()
+
+    def profile_url(self):
+        return self.portal_url() + "/@@profile/" + self.userid
+
+    def following_url(self):
+        return self.portal_url() + "/@@following/" + self.userid
+
+    def followers_url(self):
+        return self.portal_url() + "/@@followers/" + self.userid
+
+    def following_count(self):
+        return len(self.graph.get_following(self.userid))
+
+    def followers_count(self):
+        return len(self.graph.get_followers(self.userid))
 
 
-class MaxiProfileProvider(AbstractProfile):
-
-    implements(IProfileProvider)
-    adapts(Interface, IPlonesocialNetworkLayer, Interface)
-
-    __call__ = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
-
-    def __init__(self, context, request, view):
-        self.context = context
-        self.request = request
-        self.view = self.__parent__ = view
-        self.userid = None
-
-
-class MiniProfileProvider(AbstractProfile):
-
-    implements(IProfileProvider)
-    adapts(Interface, IPlonesocialNetworkLayer, Interface)
-
-    __call__ = ViewPageTemplateFile("templates/miniprofile_provider.pt")
+class AbstractProfileProvider(AbstractProfile):
 
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
         self.view = self.__parent__ = view
-        self.userid = None
+        self.userid = None  # will be set by calling view
+
+    def __call__(self):
+        if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
+            action = self.request.form.get("subunsub", None)
+            userid = self.request.form.get("userid", '')
+            if action == 'follow' and userid == self.userid:
+                self.graph.set_follow(self.viewer_id, userid)
+            elif action == 'unfollow' and userid == self.userid:
+                self.graph.set_unfollow(self.viewer_id, userid)
+            # clear post data so users can reload
+            self.request.response.redirect(self.request.URL)
+            return ''
+        return self.render()
+
+
+class MaxiProfileProvider(AbstractProfileProvider):
+
+    implements(IProfileProvider)
+    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
+
+
+class MiniProfileProvider(AbstractProfileProvider):
+
+    implements(IProfileProvider)
+    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/miniprofile_provider.pt")
 
 
 class ProfileView(BrowserView, AbstractProfile):
-    implements(IPublishTraverse)
+    implements(IPublishTraverse, IViewView)
 
     index = ViewPageTemplateFile("templates/profile.pt")
 
@@ -99,21 +129,6 @@ class ProfileView(BrowserView, AbstractProfile):
         self.context = context
         self.request = request
         self._userid = None
-
-    def __call__(self):
-        if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
-            action = self.request.form.get("subunsub")
-            if action == 'follow':
-                self.graph.set_follow(self.viewer_id, self.userid)
-            elif action == 'unfollow':
-                self.graph.set_unfollow(self.viewer_id, self.userid)
-            # clear post data so users can reload
-            self.request.response.redirect(self.request.URL)
-            return ''
-        return self.render()
-
-    def render(self):
-        return self.index()
 
     def publishTraverse(self, request, name):
         """ used for traversal via publisher, i.e. when using as a url """
@@ -136,7 +151,7 @@ class ProfileView(BrowserView, AbstractProfile):
             provider = getMultiAdapter(
                 (self.context, self.request, self),
                 name="plonesocial.activitystream.stream_provider")
-            provider.userid = self.userid
+            provider.users = self.userid
             return provider()
         except ComponentLookupError:
             # no plonesocial.activitystream available
