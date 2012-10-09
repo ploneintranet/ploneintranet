@@ -1,0 +1,21 @@
+#plonesocialsuite-navigation {
+    float: right;
+    font-size: 80%;
+    background: none repeat scroll #ddd;
+    margin: 0;
+}
+#plonesocialsuite-navigation li {
+    text-align: center;
+}
+#plonesocialsuite-navigation li a {
+    display: inline-block;
+    background-color: #ddd;
+    border-left: solid white 0.1em;
+    min-width: 6em;
+    padding: 0.5em 1em;
+    white-space: normal;
+}
+#plonesocialsuite-navigation li a:hover {
+    color: white;
+    background-color: #205c90;
+}

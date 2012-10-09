@@ -63,7 +63,7 @@ def demo(context):
     # setup social network
     graph = queryUtility(INetworkGraph)
     graph.clear()
-    for i in xrange(25):
+    for i in xrange(100):
         followee = random.choice(users)
         follower = random.choice(users)
         if followee != follower:
