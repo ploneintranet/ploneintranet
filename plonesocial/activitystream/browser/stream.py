@@ -1,9 +1,12 @@
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.publisher.interfaces import IPublishTraverse
-
+from plone.app.layout.globals.interfaces import IViewView
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from plonesocial.activitystream.integration import PLONESOCIAL
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')
@@ -20,7 +23,7 @@ class StreamView(BrowserView):
     @@stream/tag/foobar -> all activities tagged #foobar
     """
 
-    implements(IPublishTraverse)
+    implements(IPublishTraverse, IViewView)
 
     index = ViewPageTemplateFile("templates/stream.pt")
 
@@ -28,6 +31,12 @@ class StreamView(BrowserView):
         self.context = context
         self.request = request
         self.tag = None
+        if not PLONESOCIAL.network:
+            # no network, show all
+            self.explore = True
+        else:
+            # have network, default to filter on following
+            self.explore = False
 
     def render(self):
         return self.index()
@@ -44,9 +53,15 @@ class StreamView(BrowserView):
         if name == 'tag':
             stack = request.get('TraversalRequestNameStack')
             self.tag = stack.pop()
+        elif name == 'explore':
+            # @@stream/explore disables 'following' filter
+            self.explore = True
         return self
 
     def status_provider(self):
+        if not PLONESOCIAL.microblog:
+            return ''
+
         provider = getMultiAdapter(
             (self.context, self.request, self),
             name="plonesocial.microblog.status_provider")
@@ -58,4 +73,19 @@ class StreamView(BrowserView):
             (self.context, self.request, self),
             name="plonesocial.activitystream.stream_provider")
         provider.tag = self.tag
+
+        # explore -> no user filter
+        if self.explore:
+            return provider()
+
+        # no valid user context -> no user filter
+        mtool = getToolByName(self.context, 'portal_membership')
+        viewer_id = mtool.getAuthenticatedMember().getId()
+        if mtool.isAnonymousUser() or not viewer_id:
+            return provider()
+
+        # valid user context -> filter on following
+        following = list(PLONESOCIAL.network.get_following(viewer_id))
+        following.append(viewer_id)  # show own updates in stream
+        provider.users = following
         return provider()
