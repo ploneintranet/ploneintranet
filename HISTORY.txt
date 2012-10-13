@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.3 (unreleased)
+0.3 (2012-10-13)
 ----------------
 
-- Nothing changed yet.
+- Include Plone's site scripts
 
 
 0.2 (2012-07-27)
