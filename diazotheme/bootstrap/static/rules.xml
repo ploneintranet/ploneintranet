@@ -7,14 +7,12 @@
     >
     <replace theme="/html/head/title" content="/html/head/title" />
 
-
-
     <theme href="base.html" css:if-content="#visual-portal-wrapper"/>
     <theme href="dialog.html" css:if-content="#content.dialog-wrapper"/>
-
+    <drop css:content="meta[http-equiv='X-UA-Compatible']"/>
     <rules css:if-content="#content.dialog-wrapper">
         <prepend theme="/html/head" content="/html/head/base"/>
-        <prepend theme="/html/head" 
+        <after css:theme="meta[http-equiv='X-UA-Compatible']" 
             content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
         <replace theme="/html/body"
             content="/html/body"/>
@@ -46,9 +44,7 @@
 
     <replace theme="//*[@id='logo']/h1" content="//*[@id='content']/h1"/>
 
-
-
-    <prepend theme="/html/head" 
+    <after css:theme="meta[http-equiv='X-UA-Compatible']" 
         content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
 
     <append css:theme="#header">
@@ -285,6 +281,6 @@
     </replace>
 
     <xi:include href="facetednavigation-rules.xml"/>
-
+    <append css:theme="#site-scripts" css:content="#portal-footer-wrapper > div > script"/>
     </rules>
 </rules>
