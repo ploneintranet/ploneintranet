@@ -12,8 +12,6 @@ from Acquisition import aq_inner
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone.memoize import view
-
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
 from plonesocial.activitystream.interfaces import IActivity

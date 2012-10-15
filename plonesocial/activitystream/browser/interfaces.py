@@ -81,4 +81,3 @@ class IActivitystreamPortlet(IPortletDataProvider):
         title=_(u"Show discussion"),
         description=_(u"Show discussion replies"),
         default=True)
-
