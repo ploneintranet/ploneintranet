@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -11,8 +12,12 @@
   <include package=".browser" />
   <!-- portlet is included in browser -->
 
-  <adapter factory=".adapters.StatusActivity" />
-  <adapter factory=".adapters.BrainActivity" />
+  <adapter zcml:condition="installed plonesocial.microblog"
+	   factory=".adapters.StatusActivity"
+	   for="plonesocial.microblog.interfaces.IStatusUpdate"
+	   />
+  <adapter factory=".adapters.BrainActivity"
+	   />
 
   <genericsetup:registerProfile
       name="default"

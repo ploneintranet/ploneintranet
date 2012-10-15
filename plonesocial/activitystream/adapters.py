@@ -4,14 +4,13 @@ from zope.component import adapts
 from Products.ZCatalog.interfaces import ICatalogBrain
 from Acquisition import aq_inner, aq_parent
 
-
-from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):
+    ## conditionally configured in zcml
+    # adapts(IStatusUpdate)
     implements(IActivity)
-    adapts(IStatusUpdate)
 
     is_status = True
     is_discussion = is_content = False
@@ -29,8 +28,8 @@ class StatusActivity(object):
 
 
 class BrainActivity(object):
-    implements(IActivity)
     adapts(ICatalogBrain)
+    implements(IActivity)
 
     is_status = False
 
