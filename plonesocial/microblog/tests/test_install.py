@@ -16,7 +16,8 @@ class TestInstall(unittest.TestCase):
         self.qi_tool = getToolByName(self.portal, 'portal_quickinstaller')
 
     def test_product_is_installed(self):
-        """ Validate that our products GS profile has been run and the product            installed
+        """ Validate that our products GS profile has been run and the product
+            installed
         """
         pid = 'plonesocial.microblog'
         installed = [p['id'] for p in self.qi_tool.listInstalledProducts()]
