@@ -42,7 +42,7 @@ class BaseStatusContainer(Persistent, Explicit):
     A subset of BTree accessors are exposed, see interfaces.py.
     StatusUpdates are keyed by longint microsecond ids.
 
-    Additionally, StatusUpdates are indexed by users (and TODO: tags).
+    Additionally, StatusUpdates are indexed by users and tags.
     These indexes use the same longint microsecond IStatusUpdate.id.
 
     Special user_* prefixed accessors take an extra argument 'users',
