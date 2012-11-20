@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-20 00:48+0000\n"
+"POT-Creation-Date: 2012-11-20 22:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,6 +31,11 @@ msgstr "Compacte weergave"
 msgid "Hide portlet header and footer"
 msgstr "Verberg portlet kopregel en voetregel"
 
+#. Default: "Installs the plonesocial.activitystream package"
+#: ./configure.zcml
+msgid "Installs the plonesocial.activitystream package"
+msgstr ""
+
 #: ./browser/interfaces.py:62
 msgid "Maximum number of updates to show"
 msgstr ""
@@ -42,6 +47,11 @@ msgstr ""
 #: ./browser/interfaces.py:61
 msgid "Number of updates to display"
 msgstr "Aantal weer te geven statusberichten"
+
+#. Default: "PloneSocial Activitystream"
+#: ./configure.zcml
+msgid "PloneSocial Activitystream"
+msgstr ""
 
 #: ./browser/interfaces.py:76
 msgid "Show content creation"
@@ -78,6 +88,10 @@ msgstr ""
 
 #: ./browser/templates/stream.pt:21
 msgid "Updates tagged #${tag}"
+msgstr ""
+
+#: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
+msgid "View portlet management screen"
 msgstr ""
 
 #. Default: "commented on"

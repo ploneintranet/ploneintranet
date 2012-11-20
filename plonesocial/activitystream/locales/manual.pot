@@ -28,3 +28,13 @@ msgstr ""
 msgid "Social activity stream portal view with manageable portlets"
 msgstr ""
 
+#. Default: "PloneSocial Activitystream"
+#: ./configure.zcml
+msgid "PloneSocial Activitystream"
+msgstr ""
+
+#. Default: "Installs the plonesocial.activitystream package"
+#: ./configure.zcml
+msgid "Installs the plonesocial.activitystream package"
+msgstr ""
+

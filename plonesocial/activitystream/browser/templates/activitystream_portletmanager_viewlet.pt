@@ -9,6 +9,7 @@
        tal:condition="python:checkPermission('Portlets: Manage portlets', context)">
     <a tal:attributes="href string:${portal_url}/@@activitystream_portletmanager"
        title="View portlet management screen"
+       i18n:attributes="title"
        i18n:translate="manage_activitystream_portlets">
     Manage activity stream portlets</a>
   </div>

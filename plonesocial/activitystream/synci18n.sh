@@ -48,3 +48,14 @@ for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do
     fi
 done
 
+# Synchronise the templates and scripts with the .pot.
+i18ndude rebuild-pot --pot locales/plone.pot \
+    --create plone \
+    configure.zcml \
+    profiles/default/
+    
+# Synchronise the Plone's pot file (Used for the workflows)
+for po in locales/*/LC_MESSAGES/plone.po; do
+    i18ndude sync --pot locales/plone.pot $po
+done
+
