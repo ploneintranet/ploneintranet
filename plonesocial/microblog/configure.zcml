@@ -18,6 +18,7 @@
       directory="profiles/default"
       description="Installs the plonesocial.microblog package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
       />
   <!-- -*- extra stuff goes here -*- -->
   
