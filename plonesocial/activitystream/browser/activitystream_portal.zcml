@@ -3,7 +3,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plonesocial.microblog">
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plonesocial.activitystream">
 
   <include package="plone.app.contentmenu" />
 
@@ -64,6 +65,7 @@
       title="Activity Portal"
       description="Social activity stream portal view with manageable portlets"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
+      i18n:attributes="title; description"
       />
 
 

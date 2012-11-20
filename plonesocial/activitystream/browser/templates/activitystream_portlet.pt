@@ -20,7 +20,7 @@
     <dd class="portletFooter">
         <span class="portletBottomLeft"></span>
         <span>
-      <a tal:attributes="href string:${view/portal_url}/@@stream">More updates...</a>
+      <a tal:attributes="href string:${view/portal_url}/@@stream" i18n:translate="">More updates...</a>
         </span>
         <span class="portletBottomRight"></span>
     </dd>
