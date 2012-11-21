@@ -1,0 +1,55 @@
+# Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: plonesocial.suite\n"
+"POT-Creation-Date: 2012-11-21 04:32+0000\n"
+"PO-Revision-Date: 2012-11-21 00:06-0430\n"
+"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"Language-Team: Leonardo J. Caballero G.\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"Language-Code: es\n"
+"Language-Name: Español\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plonesocial.suite\n"
+"X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
+
+#: ./profiles/default/portlets.xml
+msgid "Activity Stream"
+msgstr "Actividad reciente"
+
+#: ./configure.zcml:
+msgid "Creates fake user profiles and microblog posts"
+msgstr "Crea perfiles falsos de usuarios y los tweet en sus microblogs"
+
+#: ./configure.zcml:
+msgid "Installs the suite of all plonesocial packages"
+msgstr "Instala la suite de todos los paquetes plonesocial"
+
+#: ./profiles/default/portlets.xml
+msgid "Microblog"
+msgstr "Microblog"
+
+#: ./configure.zcml:
+msgid "PloneSocial Suite"
+msgstr "PloneSocial - Suite"
+
+#: ./configure.zcml:
+msgid "PloneSocial Suite (Demo)"
+msgstr "PloneSocial - Suite (Demostración)"
+
+#: ./browser/navigation.pt:4
+msgid "explore"
+msgstr "explorar"
+
+#: ./browser/navigation.pt:6
+msgid "my profile"
+msgstr "mi perfil"
+
+#: ./browser/navigation.pt:2
+msgid "network updates"
+msgstr "actualizaciones de red"
