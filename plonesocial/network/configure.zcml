@@ -7,6 +7,7 @@
     i18n_domain="plonesocial.network">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
 
@@ -16,6 +17,7 @@
       directory="profiles/default"
       description="Installs the plonesocial.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
       />
 
   <!-- skins for overrides -->

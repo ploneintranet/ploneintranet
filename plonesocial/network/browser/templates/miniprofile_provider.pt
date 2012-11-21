@@ -24,16 +24,18 @@
     <div>
     </div>
 
-    <div class="subunsub" tal:condition="view/show_subunsub">
+    <div class="subunsub" tal:condition="view/show_subunsub" i18n:domain="plonesocial.network">
       <form method="post">
         <input type="hidden" name="userid"
                tal:attributes="value view/userid" />
+	<!-- TODO check this string, by extract it for add i18n support -->
 	<input type="submit" name="subunsub" value="follow" 
 	       tal:condition="not:view/is_following" />
 	<span tal:condition="view/is_following"
-	      class="following">
+	      class="following" i18n:translate="">
 	  Following
 	</span>
+	<!-- TODO check this string, by extract it for add i18n support -->
 	<input type="submit" name="subunsub" value="unfollow"
 	       tal:condition="view/is_following" />
       </form>
