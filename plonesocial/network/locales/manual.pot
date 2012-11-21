@@ -17,10 +17,10 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plonesocial.network\n"
 
-#: configure.zcml
+#: ./configure.zcml
 msgid "PloneSocial Network"
 msgstr ""
 
-#: configure.zcml
+#: ./configure.zcml
 msgid "Installs the plonesocial.network package"
 msgstr ""
