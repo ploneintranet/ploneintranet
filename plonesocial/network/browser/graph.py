@@ -6,7 +6,7 @@ from plone.app.layout.globals.interfaces import IViewView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from profile import ProfileView
-
+from plonesocial.network import _
 
 class AbstractGraph(ProfileView):
     implements(IPublishTraverse)
@@ -25,11 +25,12 @@ class FollowingView(AbstractGraph):
 
     implements(IPublishTraverse, IViewView)
     index = ViewPageTemplateFile("templates/graph.pt")
-    Title = "Following"
+    Title = _(u"Following")
 
     @property
     def description(self):
-        return "%s is following:" % self.data['fullname']
+        # TODO check this string, by extract it for add i18n support
+        return _(u"%s is following:") % self.data['fullname']
 
     def users(self):
         return self.graph.get_following(self.userid)
@@ -39,11 +40,12 @@ class FollowersView(AbstractGraph):
 
     implements(IPublishTraverse, IViewView)
     index = ViewPageTemplateFile("templates/graph.pt")
-    Title = "Followers"
+    Title = _(u"Followers")
 
     @property
     def description(self):
-        return "%s is followed by:" % self.data['fullname']
+        # TODO check this string, by extract it for add i18n support
+        return _(u"%s is followed by:") % self.data['fullname']
 
     def users(self):
         return self.graph.get_followers(self.userid)
