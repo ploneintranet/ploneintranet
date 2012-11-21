@@ -8,6 +8,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from profile import ProfileView
 from plonesocial.network import _
 
+
 class AbstractGraph(ProfileView):
     implements(IPublishTraverse)
 

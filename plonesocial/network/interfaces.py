@@ -1,5 +1,6 @@
 from zope.interface import Interface
 
+
 class INetworkGraph(Interface):
     """Stores a social network graph of users
     following/unfollowing/blocking eachother.
