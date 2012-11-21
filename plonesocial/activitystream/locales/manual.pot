@@ -1,0 +1,40 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-11-20 00:20+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plonesocial.activitystream\n"
+
+
+#. Default: "Activity Portal"
+#: ./browser/activitystream_portal.zcml:65
+msgid "Activity Portal"
+msgstr ""
+
+#. Default: "Social activity stream portal view with manageable portlets"
+#: ./browser/activitystream_portal.zcml:66
+msgid "Social activity stream portal view with manageable portlets"
+msgstr ""
+
+#. Default: "PloneSocial Activitystream"
+#: ./configure.zcml
+msgid "PloneSocial Activitystream"
+msgstr ""
+
+#. Default: "Installs the plonesocial.activitystream package"
+#: ./configure.zcml
+msgid "Installs the plonesocial.activitystream package"
+msgstr ""
+

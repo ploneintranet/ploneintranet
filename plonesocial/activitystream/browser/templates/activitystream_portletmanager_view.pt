@@ -8,7 +8,7 @@
 <body>
     <div metal:fill-slot="main">
         <h1 class="documentFirstHeading"
-            i18n:translate="manage_activitystream_portlets">Manage Activitystream Portlets</h1>
+            i18n:translate="manage_activitystream_portlets">Manage activity stream portlets</h1>
         <span tal:replace="structure provider:plonesocial.activitystream.portletmanager" />
     </div>
 </body>

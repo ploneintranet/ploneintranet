@@ -25,6 +25,7 @@
       directory="profiles/default"
       description="Installs the plonesocial.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
       />
 
 
