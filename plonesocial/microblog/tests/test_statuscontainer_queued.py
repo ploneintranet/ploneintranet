@@ -87,7 +87,7 @@ class TestQueueStatusContainer(unittest.TestCase):
         values = [x for x in container.values()]
         # stuff is in queue, not stored
         self.assertEqual([], values)
-        time.sleep(1)  # second resolution only on timer
+        time.sleep(2)  # second resolution only on timer
         values = [x for x in container.values()]
         self.assertEqual([sa], values)
 
