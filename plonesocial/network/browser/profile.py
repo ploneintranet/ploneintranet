@@ -92,11 +92,12 @@ class AbstractProfileProvider(AbstractProfile):
 
     def __call__(self):
         if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
-            action = self.request.form.get("subunsub", None)
+            followaction = self.request.form.get("subunsub_follow", None)
+            unfollowaction = self.request.form.get("subunsub_unfollow", None)
             userid = self.request.form.get("userid", '')
-            if action == 'follow' and userid == self.userid:
+            if followaction and userid == self.userid:
                 self.graph.set_follow(self.viewer_id, userid)
-            elif action == 'unfollow' and userid == self.userid:
+            elif unfollowaction and userid == self.userid:
                 self.graph.set_unfollow(self.viewer_id, userid)
             # clear post data so users can reload
             self.request.response.redirect(self.request.URL)
