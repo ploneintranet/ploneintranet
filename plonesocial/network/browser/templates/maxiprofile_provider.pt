@@ -1,13 +1,13 @@
 <div class="plonesocial profile maxiprofile"
      tal:condition="view/data">
-    
+
   <div class="portrait">
     <a tal:attributes="href view/profile_url"
        tal:content="structure view/portrait" />
   </div>
-  
+
   <div class="personal-info" i18n:domain="plonesocial.network">
-    
+
     <h1 class="username">
       <a tal:attributes="href view/profile_url"
 	 tal:content="view/data/fullname">user name</a>
@@ -24,7 +24,7 @@
         <li>
           <a tal:attributes="href view/followers_url">
             <span class="count"
-                  tal:content="view/followers_count">21</span>            
+                  tal:content="view/followers_count">21</span>
             <span class="option" i18n:translate="">Followers</span>
           </a>
         </li>
@@ -35,7 +35,7 @@
             <span class="option" i18n:translate="">Following</span>
           </a>
         </li>
-      </ul>      
+      </ul>
     </div>
 
     <div class="userid">
@@ -59,22 +59,22 @@
       <form method="post">
         <input type="hidden" name="userid"
                tal:attributes="value view/userid" />
-	<!-- TODO check this string, by extract it for add i18n support -->
-	<input tal:condition="not:view/is_following" 
-	       type="submit" name="subunsub" 
+	<input tal:condition="not:view/is_following"
+	       type="submit" name="subunsub"
+		   i18n:attributes="value"
 	       value="follow" />
 	<span tal:condition="view/is_following"
 	      class="following" i18n:translate="">
 	  Following
 	</span>
-	<!-- TODO check this string, by extract it for add i18n support -->
-	<input tal:condition="view/is_following" 
-	       type="submit" name="subunsub" 
+	<input tal:condition="view/is_following"
+	       type="submit" name="subunsub"
+		   i18n:attributes="value"
 	       value="unfollow" />
       </form>
     </div>
 
-    
+
   </div><!-- /info -->
-  
+
 </div><!-- /profile -->
