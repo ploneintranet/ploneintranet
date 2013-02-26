@@ -19,9 +19,8 @@ msgstr ""
 
 #: profiles/default/portlets.xml
 msgid "A unified activity stream"
-msgstr ""
+msgstr "Ongedefineerde activiteiten stream"
 
 #: profiles/default/portlets.xml
 msgid "Activity Stream"
-msgstr ""
-
+msgstr "Activiteiten Stream"

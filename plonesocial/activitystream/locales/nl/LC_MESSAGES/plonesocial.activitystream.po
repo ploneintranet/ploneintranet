@@ -21,7 +21,7 @@ msgstr "Een titel voor deze portlet"
 #. Default: "Activity Portal"
 #: ./browser/activitystream_portal.zcml:65
 msgid "Activity Portal"
-msgstr ""
+msgstr "Activiteiten Portal"
 
 #: ./browser/interfaces.py:66
 msgid "Compact rendering"
@@ -34,11 +34,11 @@ msgstr "Verberg portlet kopregel en voetregel"
 #. Default: "Installs the plonesocial.activitystream package"
 #: ./configure.zcml
 msgid "Installs the plonesocial.activitystream package"
-msgstr ""
+msgstr "Installeer plonesocial.activitystream"
 
 #: ./browser/interfaces.py:62
 msgid "Maximum number of updates to show"
-msgstr ""
+msgstr "Maximale aantal updates om te tonen"
 
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
@@ -55,27 +55,27 @@ msgstr ""
 
 #: ./browser/interfaces.py:76
 msgid "Show content creation"
-msgstr ""
+msgstr "Toon content aanmaakdatum"
 
 #: ./browser/interfaces.py:77
 msgid "Show creation of new content"
-msgstr ""
+msgstr "Toon nieuwe content"
 
 #: ./browser/interfaces.py:81
 msgid "Show discussion"
-msgstr ""
+msgstr "Toon discussies"
 
 #: ./browser/interfaces.py:82
 msgid "Show discussion replies"
-msgstr ""
+msgstr "Toon discussie replies"
 
 #: ./browser/interfaces.py:71
 msgid "Show microblog"
-msgstr ""
+msgstr "Toon microblog"
 
 #: ./browser/interfaces.py:72
 msgid "Show microblog status updates"
-msgstr ""
+msgstr "Toon microblog status updates"
 
 #. Default: "Social activity stream portal view with manageable portlets"
 #: ./browser/activitystream_portal.zcml:66
@@ -84,7 +84,7 @@ msgstr ""
 
 #: ./browser/templates/stream.pt:16
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: ./browser/templates/stream.pt:21
 msgid "Updates tagged #${tag}"
@@ -115,4 +115,3 @@ msgstr "zegt:"
 #, fuzzy
 msgid "manage_activitystream_portlets"
 msgstr "Activiteiten stroom portlets beheren"
-
