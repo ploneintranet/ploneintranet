@@ -4,12 +4,12 @@ from DateTime import DateTime
 import time
 import loremipsum
 
+from Products.CMFPlone.utils import log
 from zope.component import queryUtility
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from Products.CMFCore.utils import getToolByName
 from plone import api
-
 
 from plonesocial.network.interfaces import INetworkGraph
 from plonesocial.microblog.interfaces import IMicroblogTool
@@ -24,6 +24,17 @@ def importVarious(context):
     site = context.getSite()
     site.layout = "activitystream_portal"
     site.default_page = "activitystream_portal"
+
+
+def uninstallVarious(context):
+
+    if context.readDataFile('plonesocial.suite_uninstall.txt') is None:
+        return
+
+    site = context.getSite()
+    site.layout = "folder_listing"
+    site.default_page = "folder_listing"
+    log("Uninstalled plonesocial.suite")
 
 
 def demo(context):

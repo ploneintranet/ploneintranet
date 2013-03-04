@@ -15,10 +15,25 @@
       />
 
   <genericsetup:importStep
-      name="plonesocial.suite"
+      name="plonesocial.suite.importVarious"
       title="Various setup handling"
       description=""
       handler="plonesocial.suite.setuphandlers.importVarious" />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="PloneSocial Suite: Uninstall"
+      directory="profiles/uninstall"
+      description="Uninstalls plonesocial.suite (but not the other plonesocial.* packages)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:importStep
+      name="plonesocial.suite.uninstallVarious"
+      title="Various uninstall handling"
+      description=""
+      handler="plonesocial.suite.setuphandlers.uninstallVarious" />
 
   <genericsetup:registerProfile
       name="demo"
