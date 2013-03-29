@@ -1,13 +1,13 @@
 <div class="plonesocial profile miniprofile"
      tal:condition="view/data">
-
+  
   <div class="portrait">
     <a tal:attributes="href view/profile_url"
        tal:content="structure view/portrait" />
   </div>
-
+  
   <div class="personal-info">
-
+    
     <h3 class="username">
       <a tal:attributes="href view/profile_url"
 	 tal:content="view/data/fullname">user name</a>
@@ -28,20 +28,20 @@
       <form method="post">
         <input type="hidden" name="userid"
                tal:attributes="value view/userid" />
-	<input type="submit" name="subunsub" value="follow"
-		   i18n:attributes="value"
+	<!-- TODO check this string, by extract it for add i18n support -->
+	<input type="submit" name="subunsub" value="follow" 
 	       tal:condition="not:view/is_following" />
 	<span tal:condition="view/is_following"
 	      class="following" i18n:translate="">
 	  Following
 	</span>
+	<!-- TODO check this string, by extract it for add i18n support -->
 	<input type="submit" name="subunsub" value="unfollow"
-		   i18n:attributes="value"
 	       tal:condition="view/is_following" />
       </form>
     </div>
-
+    
   </div><!-- /info -->
-
-
+  
+  
 </div><!-- /profile -->
