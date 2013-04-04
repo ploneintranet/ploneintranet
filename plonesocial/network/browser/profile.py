@@ -3,7 +3,11 @@ from zope.component import adapts
 from zope.component import getMultiAdapter, ComponentLookupError
 from zope.component import queryUtility
 from zope.publisher.interfaces import IPublishTraverse
-from zope.app.component.hooks import getSite
+try:
+    from zope.component.hooks import getSite
+except ImportError:
+    from zope.app.component.hooks import getSite
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
