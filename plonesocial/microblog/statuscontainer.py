@@ -195,6 +195,34 @@ class BaseStatusContainer(Persistent, Explicit):
     iterkeys = keys
     itervalues = values
 
+    def allowed_status_keys(self):
+        """Return the subset of IStatusUpdate keys
+        that are related to UUIDs of accessible contexts.
+        I.e. blacklist all IStatusUpdate that has a context
+        which we don't have permission to access.
+
+        This method will be overridden in the tool implementation
+        to filter on requesting user permissions.
+        """
+        return self._allowed_status_keys()
+
+    def _allowed_status_keys(self, uuid_blacklist=[]):
+        if not uuid_blacklist:
+            return self._status_mapping.keys()
+        else:
+            # for each uid, expand uid into set of statusids
+            blacklisted_treesets = (self._context_mapping.get(uuid)
+                                    for uuid in uuid_blacklist
+                                    if uuid in self._context_mapping.keys())
+            # merge sets of blacklisted statusids into single blacklist
+            blacklisted_statusids = reduce(LLBTree.union,
+                                           blacklisted_treesets,
+                                           LLBTree.TreeSet())
+            # subtract blacklisted statusids from all statusids
+            all_statusids = LLBTree.LLSet(self._status_mapping.keys())
+            return LLBTree.difference(all_statusids,
+                                      blacklisted_statusids)
+
     ## user accessors
 
     # no user_get

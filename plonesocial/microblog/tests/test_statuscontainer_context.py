@@ -165,3 +165,30 @@ class TestStatusContainer(unittest.TestCase):
         values = [x[1] for x in container.user_items(['arnold'], tag='foo',
                                                       context=mockcontext2)]
         self.assertEqual([su3, su2], values)
+
+
+    def test_allowed_status_keys(self):
+        container = StatusContainer()
+        mockcontext1 = object()
+        mockcontext2 = object()
+
+        su0 = StatusUpdate('test')
+        container.add(su0)
+        su1 = StatusUpdate('test', context=mockcontext1)
+        container.add(su1)
+        su2 = StatusUpdate('test', context=mockcontext2)
+        container.add(su2)
+
+        values = [container.get(id) for id in container.allowed_status_keys()]
+        self.assertEqual([su0, su1, su2], values)
+
+        uid_blacklist = [container._context2uuid(mockcontext1)]
+        values = [container.get(id)
+                  for id in container._allowed_status_keys(uid_blacklist)]
+        self.assertEqual([su0, su2], values)
+
+        uid_blacklist = [container._context2uuid(mockcontext1),
+                         container._context2uuid(mockcontext2)]
+        values = [container.get(id)
+                  for id in container._allowed_status_keys(uid_blacklist)]
+        self.assertEqual([su0], values)
