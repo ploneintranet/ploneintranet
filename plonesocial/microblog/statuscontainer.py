@@ -14,7 +14,11 @@ from Acquisition import Explicit
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 
-from zope.app.container.contained import ObjectAddedEvent
+try:
+    from zope.container.contained import ObjectAddedEvent
+except ImportError:
+    from zope.app.container.contained import ObjectAddedEvent
+
 from zope.event import notify
 from zope.interface import implements
 
