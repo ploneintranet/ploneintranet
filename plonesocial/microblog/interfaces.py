@@ -16,6 +16,7 @@ class IStatusUpdate(Interface):
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))
     tags = Attribute("Tags/keywords")
+    context_UUID = Attribute("UUID of context (e.g. a plonesocial.space)")
 
 
 class IStatusContainer(Interface):
@@ -50,11 +51,12 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None, limit=100, tag=None):
+    def items(min=None, max=None, limit=100, tag=None, context=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
         tag 'foo' filters status text on hashtag '#foo'
+        context 'foo' filters status context UUID
         """
 
     def keys(min=None, max=None, limit=100, tag=None):

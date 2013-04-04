@@ -1,4 +1,5 @@
 import unittest2 as unittest
+from zope.interface.verify import verifyClass
 
 #from zope.component import createObject
 #from Acquisition import aq_base, aq_parent
@@ -23,6 +24,7 @@ class TestStatusUpdate(unittest.TestCase):
 
     def test_implements(self):
         self.assertTrue(IStatusUpdate.implementedBy(StatusUpdate))
+        self.assertTrue(verifyClass(IStatusUpdate, StatusUpdate))
 
     def test_text(self):
         su = StatusUpdate('foo bar')
@@ -50,3 +52,21 @@ class TestStatusUpdate(unittest.TestCase):
     def test_tag_interpunction(self):
         sa = StatusUpdate('test #foo,:.;!$')
         self.assertEquals(sa.tags, ['foo'])
+
+    def test_context_none(self):
+        sa = StatusUpdate('foo')
+        self.assertEquals(None, sa.context_UUID)
+
+    def test_context_UUID(self):
+        class MockContext(object):
+            UUID = 'bar'
+        sa = StatusUpdate('foo', context=MockContext())
+        self.assertEquals('bar', sa.context_UUID)
+
+    def test_context_legacy(self):
+        class OldStatusUpdate(StatusUpdate):
+            def _init_context(self, context):
+                pass
+        sa = OldStatusUpdate('foo')
+        # old data has new code accessors
+        self.assertEquals(None, sa.context_UUID)

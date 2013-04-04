@@ -18,13 +18,14 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text):
+    def __init__(self, text, context=None):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
         self.text = text
         self.date = DateTime()
         self._init_userid()
         self._init_creator()
+        self._init_context(context)
 
     # for unittest subclassing
     def _init_userid(self):
@@ -35,6 +36,22 @@ class StatusUpdate(Persistent):
         portal_membership = getToolByName(getSite(), 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
         self.creator = member.getUserName()
+
+    # for unittest subclassing
+    def _init_context(self, context):
+        if context is None:
+            self._context_UUID = None
+        else:
+            self._context_UUID = context.UUID
+
+    # backward compatibility wrapper
+    @property
+    def context_UUID(self):
+        try:
+            return self._context_UUID
+        except AttributeError:
+            self._context_UUID = None
+            return None
 
     @property
     def tags(self):
