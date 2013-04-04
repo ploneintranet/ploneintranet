@@ -168,23 +168,23 @@ class BaseStatusContainer(Persistent, Explicit):
             if uuid not in self._context_mapping:
                 return ()
 
-        mapping1 = self._keys_tag(tag, self._status_mapping)
-        mapping2 = self._keys_uuid(uuid, mapping1)
-        return longkeysortreverse(mapping2,
+        keyset1 = self._keys_tag(tag, self.allowed_status_keys())
+        keyset2 = self._keys_uuid(uuid, keyset1)
+        return longkeysortreverse(keyset2,
                                   min, max, limit)
 
-    def _keys_tag(self, tag, mapping):
+    def _keys_tag(self, tag, keyset):
         if tag is None:
-            return mapping
+            return keyset
         return LLBTree.intersection(
-            LLBTree.LLTreeSet(mapping.keys()),
+            LLBTree.LLTreeSet(keyset),
             self._tag_mapping[tag])
 
-    def _keys_uuid(self, uuid, mapping):
+    def _keys_uuid(self, uuid, keyset):
         if uuid is None:
-            return mapping
+            return keyset
         return LLBTree.intersection(
-            LLBTree.LLTreeSet(mapping.keys()),
+            LLBTree.LLTreeSet(keyset),
             self._context_mapping[uuid])
 
     def values(self, min=None, max=None, limit=100, tag=None, context=None):
