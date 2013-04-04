@@ -18,6 +18,9 @@ class StatusContainer(statuscontainer.BaseStatusContainer):
     def _check_permission(self, perm="read"):
         pass
 
+    def _context2uuid(self, context):
+        return repr(context)
+
 
 class StatusUpdate(statusupdate.StatusUpdate):
     """Override actual implementation with unittest features"""
@@ -38,27 +41,20 @@ class StatusUpdate(statusupdate.StatusUpdate):
     def _init_creator(self):
         pass
 
-
-class MockContext(object):
-
-    def __init__(self, UUID=None):
-        if UUID:
-            self.UUID = UUID
-        else:
-            self.UUID = str(random.random())
-
+    def _context2uuid(self, context):
+        return repr(context)
 
 class TestStatusContainer(unittest.TestCase):
 
     def test_add_context(self):
         container = StatusContainer()
         su = StatusUpdate('test')
-        container.add(su, MockContext())
+        container.add(su, object())
         self.assertEqual(1, len(list(container.items())))
 
     def test_items_context_nofilter(self):
         container = StatusContainer()
-        mockcontext = MockContext()
+        mockcontext = object()
         su1 = StatusUpdate('test')
         su2 = StatusUpdate('foobar', context=mockcontext)
         container.add(su1)
@@ -67,10 +63,10 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_context(self):
         container = StatusContainer()
-        mockcontext = MockContext()
+        mockcontext = object()
         su1 = StatusUpdate('test')
         su2 = StatusUpdate('foobar', context=mockcontext)
-        su3 = StatusUpdate('boo baz', context=MockContext())
+        su3 = StatusUpdate('boo baz', context=object())
         container.add(su1)
         container.add(su2)
         container.add(su3)
@@ -80,7 +76,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_tag_context(self):
         container = StatusContainer()
-        mockcontext = MockContext()
+        mockcontext = object()
         su1 = StatusUpdate('test #foo')
         su2 = StatusUpdate('test #foo #bar', context=mockcontext)
         su3 = StatusUpdate('test #bar', context=mockcontext)
@@ -98,7 +94,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_values_tag_context(self):
         container = StatusContainer()
-        mockcontext = MockContext()
+        mockcontext = object()
         su1 = StatusUpdate('test #foo')
         su2 = StatusUpdate('test #foo #bar', context=mockcontext)
         su3 = StatusUpdate('test #bar', context=mockcontext)
@@ -116,8 +112,8 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_user_values_tag_context(self):
         container = StatusContainer()
-        mockcontext1 = MockContext()
-        mockcontext2 = MockContext()
+        mockcontext1 = object()
+        mockcontext2 = object()
         su1 = StatusUpdate('test #foo', context=mockcontext1, userid='arnold')
         su2 = StatusUpdate('test #foo', context=mockcontext2, userid='arnold')
         su3 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='arnold')
@@ -144,8 +140,8 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_values_tag_context(self):
         container = StatusContainer()
-        mockcontext1 = MockContext()
-        mockcontext2 = MockContext()
+        mockcontext1 = object()
+        mockcontext2 = object()
         su1 = StatusUpdate('test #foo', context=mockcontext1, userid='arnold')
         su2 = StatusUpdate('test #foo', context=mockcontext2, userid='arnold')
         su3 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='arnold')

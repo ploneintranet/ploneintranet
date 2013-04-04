@@ -8,6 +8,7 @@ from DateTime import DateTime
 from persistent import Persistent
 from zope.interface import implements
 from zope.app.component.hooks import getSite
+from plone.uuid.interfaces import IUUID
 
 from interfaces import IStatusUpdate
 
@@ -40,18 +41,22 @@ class StatusUpdate(Persistent):
     # for unittest subclassing
     def _init_context(self, context):
         if context is None:
-            self._context_UUID = None
+            self._context_uuid = None
         else:
-            self._context_UUID = context.UUID
+            self._context_uuid = self._context2uuid(context)
 
     # backward compatibility wrapper
     @property
-    def context_UUID(self):
+    def context_uuid(self):
         try:
-            return self._context_UUID
+            return self._context_uuid
         except AttributeError:
-            self._context_UUID = None
+            self._context_uuid = None
             return None
+
+    # unittest override point
+    def _context2uuid(self, context):
+        return IUUID(context)
 
     @property
     def tags(self):

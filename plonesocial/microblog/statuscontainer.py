@@ -17,6 +17,7 @@ from AccessControl import Unauthorized
 from zope.app.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
+from plone.uuid.interfaces import IUUID
 
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
@@ -115,12 +116,16 @@ class BaseStatusContainer(Persistent, Explicit):
             self._tag_mapping[tag].insert(status.id)
 
     def _idx_context(self, status):
-        UUID = status.context_UUID
-        if UUID:
+        uuid = status.context_uuid
+        if uuid:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
-            self._context_mapping.insert(UUID, LLBTree.LLTreeSet())
-            self._context_mapping[UUID].insert(status.id)
+            self._context_mapping.insert(uuid, LLBTree.LLTreeSet())
+            self._context_mapping[uuid].insert(status.id)
+
+    # enable unittest override of plone.app.uuid lookup
+    def _context2uuid(self, context):
+        return IUUID(context)
 
     def clear(self):
         self._user_mapping.clear()
@@ -154,14 +159,17 @@ class BaseStatusContainer(Persistent, Explicit):
                 for key in self.keys(min, max, limit, tag, context))
 
     def keys(self, min=None, max=None, limit=100, tag=None, context=None):
+        uuid = None
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
-        elif context and context.UUID not in self._context_mapping:
-            return()
+        elif context:
+            uuid = self._context2uuid(context)
+            if uuid not in self._context_mapping:
+                return ()
 
         mapping1 = self._keys_tag(tag, self._status_mapping)
-        mapping2 = self._keys_context(context, mapping1)
+        mapping2 = self._keys_uuid(uuid, mapping1)
         return longkeysortreverse(mapping2,
                                   min, max, limit)
 
@@ -172,12 +180,12 @@ class BaseStatusContainer(Persistent, Explicit):
             LLBTree.LLTreeSet(mapping.keys()),
             self._tag_mapping[tag])
 
-    def _keys_context(self, context, mapping):
-        if context is None:
+    def _keys_uuid(self, uuid, mapping):
+        if uuid is None:
             return mapping
         return LLBTree.intersection(
             LLBTree.LLTreeSet(mapping.keys()),
-            self._context_mapping[context.UUID])
+            self._context_mapping[uuid])
 
     def values(self, min=None, max=None, limit=100, tag=None, context=None):
         return (self.get(key)
@@ -221,11 +229,13 @@ class BaseStatusContainer(Persistent, Explicit):
             mapping = LLBTree.intersection(mapping,
                                            self._tag_mapping[tag])
 
+        uuid = None
         if context:
-            if context.UUID not in self._context_mapping:
+            uuid = self._context2uuid(context)
+            if uuid not in self._context_mapping:
                 return ()
             mapping = LLBTree.intersection(mapping,
-                                           self._context_mapping[context.UUID])
+                                           self._context_mapping[uuid])
 
         return longkeysortreverse(mapping,
                                   min, max, limit)

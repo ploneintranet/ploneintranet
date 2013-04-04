@@ -10,7 +10,13 @@ from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
 
 from plonesocial.microblog.interfaces import IStatusUpdate
-from plonesocial.microblog.statusupdate import StatusUpdate
+import plonesocial.microblog.statusupdate
+
+
+class StatusUpdate(plonesocial.microblog.statusupdate.StatusUpdate):
+
+    def _context2uuid(self, context):
+        return repr(context)
 
 
 class TestStatusUpdate(unittest.TestCase):
@@ -53,20 +59,16 @@ class TestStatusUpdate(unittest.TestCase):
         sa = StatusUpdate('test #foo,:.;!$')
         self.assertEquals(sa.tags, ['foo'])
 
-    def test_context_none(self):
-        sa = StatusUpdate('foo')
-        self.assertEquals(None, sa.context_UUID)
-
     def test_context_UUID(self):
-        class MockContext(object):
-            UUID = 'bar'
-        sa = StatusUpdate('foo', context=MockContext())
-        self.assertEquals('bar', sa.context_UUID)
+        mockcontext = object()
+        uuid = repr(mockcontext)
+        sa = StatusUpdate('foo', context=mockcontext)
+        self.assertEquals(uuid, sa.context_uuid)
 
-    def test_context_legacy(self):
+    def test_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
             def _init_context(self, context):
                 pass
         sa = OldStatusUpdate('foo')
         # old data has new code accessors
-        self.assertEquals(None, sa.context_UUID)
+        self.assertEquals(None, sa.context_uuid)
