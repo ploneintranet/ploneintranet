@@ -31,7 +31,8 @@ class PlonesocialSuite(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plonesocial.suite:default')
+        # use the demo profile for a populated test site
+        applyProfile(portal, 'plonesocial.suite:demo')
 
 PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
 PLONESOCIAL_SUITE_INTEGRATION_TESTING = \
