@@ -5,6 +5,7 @@ from OFS.SimpleItem import SimpleItem
 from plone.uuid.interfaces import IUUID
 
 from interfaces import IMicroblogTool
+from interfaces import IMicroblogContext
 from statuscontainer import QueuedStatusContainer
 
 
@@ -26,8 +27,13 @@ class MicroblogTool(UniqueObject, SimpleItem, QueuedStatusContainer):
         overriding a noop implementation on BaseStatusContainer.
         """
         catalog = getToolByName(self, 'portal_catalog')
-        results = catalog.searchResults({'portal_type': 'Folder'})
+        marker = IMicroblogContext.__identifier__
+        results = catalog.searchResults(object_provides=marker)
+        # SiteRoot context is NOT whitelisted
         whitelist = [IUUID(x.getObject()) for x in results]
+        # SiteRoot context is not UUID indexed, so not blacklisted
         blacklist = [x for x in self._context_mapping.keys()
                      if x not in whitelist]
+        # return all statuses with no IMicroblogContext (= SiteRoot)
+        # or with a IMicroblogContext that is accessible (= not blacklisted)
         return self._allowed_status_keys(blacklist)

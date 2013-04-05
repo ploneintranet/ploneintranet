@@ -2,6 +2,8 @@ from zope import schema
 from zope.interface import Attribute
 from zope.interface import Interface
 
+from plone.uuid.interfaces import IUUIDAware
+
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
 
@@ -103,3 +105,9 @@ class IStatusContainer(Interface):
 
 class IMicroblogTool(IStatusContainer):
     """Provide IStatusContainer as a site utility."""
+
+
+class IMicroblogContext(IUUIDAware):
+    """Marker interface for non-SiteRoot objects with a local microblog.
+    Such objects should be adaptable to provide a UUID.
+    """
