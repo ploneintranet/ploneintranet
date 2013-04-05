@@ -1,8 +1,10 @@
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
-#from plone.app.testing import FunctionalTesting
+from plone.app.testing import FunctionalTesting
+from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import applyProfile
+from plone.testing import z2
 
 from zope.configuration import xmlconfig
 
@@ -35,6 +37,11 @@ class PlonesocialSuite(PloneSandboxLayer):
         applyProfile(portal, 'plonesocial.suite:demo')
 
 PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
+
 PLONESOCIAL_SUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONESOCIAL_SUITE_FIXTURE, ),
                        name="PlonesocialSuite:Integration")
+
+PLONESOCIAL_ROBOT_TESTING = FunctionalTesting(
+    bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONESOCIAL_SUITE_FIXTURE, z2.ZSERVER),
+    name="PloneSocial:Robot")
