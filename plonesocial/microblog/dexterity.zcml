@@ -1,0 +1,14 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:plone="http://namespaces.plone.org/plone"
+           i18n_domain="addgroup">
+
+  <include package="plone.behavior" file="meta.zcml" />
+
+  <plone:behavior
+      title="Hosts a local microblog"
+      description="The contents is the context of a local microblog, within added posts can be filtered so we only get posts created in this content."
+      provides=".interfaces.IMicroblogContext"
+      />
+
+</configure>
+
