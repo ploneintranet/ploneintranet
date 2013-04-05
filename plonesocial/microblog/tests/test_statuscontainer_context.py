@@ -1,8 +1,5 @@
-import time
-import random
 import unittest2 as unittest
 from zope.interface import implements
-from zope.interface.verify import verifyClass
 
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
@@ -43,6 +40,7 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
     def _context2uuid(self, context):
         return repr(context)
+
 
 class TestStatusContainer(unittest.TestCase):
 
@@ -116,8 +114,10 @@ class TestStatusContainer(unittest.TestCase):
         mockcontext2 = object()
         su1 = StatusUpdate('test #foo', context=mockcontext1, userid='arnold')
         su2 = StatusUpdate('test #foo', context=mockcontext2, userid='arnold')
-        su3 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='arnold')
-        su4 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='bernard')
+        su3 = StatusUpdate('test #foo #bar',
+                           context=mockcontext2, userid='arnold')
+        su4 = StatusUpdate('test #foo #bar',
+                           context=mockcontext2, userid='bernard')
         container.add(su1)
         container.add(su2)
         container.add(su3)
@@ -144,28 +144,34 @@ class TestStatusContainer(unittest.TestCase):
         mockcontext2 = object()
         su1 = StatusUpdate('test #foo', context=mockcontext1, userid='arnold')
         su2 = StatusUpdate('test #foo', context=mockcontext2, userid='arnold')
-        su3 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='arnold')
-        su4 = StatusUpdate('test #foo #bar', context=mockcontext2, userid='bernard')
+        su3 = StatusUpdate('test #foo #bar',
+                           context=mockcontext2, userid='arnold')
+        su4 = StatusUpdate('test #foo #bar',
+                           context=mockcontext2, userid='bernard')
         container.add(su1)
         container.add(su2)
         container.add(su3)
         container.add(su4)
-        values = [x[1] for x in container.user_items(['arnold'], tag='foo',
-                                                      context=mockcontext1)]
+        values = [x[1] for x in
+                  container.user_items(['arnold'], tag='foo',
+                                       context=mockcontext1)]
         self.assertEqual([su1], values)
-        values = [x[1] for x in container.user_items(['arnold'], tag='bar',
-                                                      context=mockcontext1)]
+        values = [x[1] for x in
+                  container.user_items(['arnold'], tag='bar',
+                                       context=mockcontext1)]
         self.assertEqual([], values)
-        values = [x[1] for x in container.user_items(['bernard'], tag='bar',
-                                                      context=mockcontext1)]
+        values = [x[1] for x in
+                  container.user_items(['bernard'], tag='bar',
+                                       context=mockcontext1)]
         self.assertEqual([], values)
-        values = [x[1] for x in container.user_items(['bernard'], tag='bar',
-                                                      context=mockcontext2)]
+        values = [x[1] for x in
+                  container.user_items(['bernard'], tag='bar',
+                                       context=mockcontext2)]
         self.assertEqual([su4], values)
-        values = [x[1] for x in container.user_items(['arnold'], tag='foo',
-                                                      context=mockcontext2)]
+        values = [x[1] for x in
+                  container.user_items(['arnold'], tag='foo',
+                                       context=mockcontext2)]
         self.assertEqual([su3, su2], values)
-
 
     def test_allowed_status_keys(self):
         container = StatusContainer()
