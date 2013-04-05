@@ -6,6 +6,6 @@ from plone.testing import layered
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTests([layered(robotsuite.RobotTestSuite('hello_world.robot'),
+    suite.addTests([layered(robotsuite.RobotTestSuite('robot'),
                             layer=PLONESOCIAL_ROBOT_TESTING), ])
     return suite
