@@ -74,8 +74,8 @@ class StreamView(BrowserView):
             name="plonesocial.activitystream.stream_provider")
         provider.tag = self.tag
 
-        # explore -> no user filter
-        if self.explore:
+        # explore or tag -> no user filter
+        if self.explore or self.tag:
             return provider()
 
         # no valid user context -> no user filter
