@@ -19,7 +19,10 @@ class TestExample(unittest.TestCase):
         """ Validate that our products GS profile has been run and the product
             installed
         """
-        pid = 'plonesocial.suite'
         installed = [p['id'] for p in self.qi_tool.listInstalledProducts()]
-        self.assertTrue(pid in installed,
-                        'package appears not to have been installed')
+        for pid in ('plonesocial.suite',
+                    'plonesocial.microblog',
+                    'plonesocial.activitystream',
+                    'plonesocial.network'):
+            self.assertTrue(pid in installed,
+                            'package appears not to have been installed')

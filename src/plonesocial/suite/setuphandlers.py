@@ -74,13 +74,18 @@ def demo(context):
     # setup social network
     graph = queryUtility(INetworkGraph)
     graph.clear()
+    testusers = ['clare_presler', 'kurt_silvio']
+    graph.set_follow(testusers[1], testusers[0])
     for i in xrange(100):
         followee = random.choice(users)
         follower = random.choice(users)
-        if followee != follower:
+        if followee in testusers or follower in testusers \
+                or followee == follower:
+            continue
+        else:
             graph.set_follow(follower, followee)
 
-    # microblog
+    # microblog random loremipsum
     microblog = queryUtility(IMicroblogTool)
     microblog.clear()  # wipe all
     tags = ("hr", "marketing", "fail", "innovation", "learning", "easy",
@@ -100,4 +105,22 @@ def demo(context):
             status.id -= int(offset_time * 1e6)
             status.date = DateTime(time.time() - offset_time)
         microblog.add(status)
+
+    # microblog deterministic test content most recent
+    t1 = ('The "My Network" section only shows updates '
+          'of people you are following.')
+    s1 = StatusUpdate(t1)
+    s1.userid = testusers[0]  # clare
+    s1.creator = " ".join([x.capitalize() for x in s1.userid.split("_")])
+    microblog.add(s1)
+    t2 = 'The "Explore" section shows all updates of all people.'
+    s2 = StatusUpdate(t2)
+    s2.userid = testusers[1]  # kurt
+    s2.creator = " ".join([x.capitalize() for x in s2.userid.split("_")])
+    microblog.add(s2)
+    t3 = 'The #demo hashtag demonstrates that you can filter on topic'
+    s3 = StatusUpdate(t3)
+    s3.userid = s2.userid
+    s3.creator = s2.creator
+    microblog.add(s3)
     microblog.flush_queue()
