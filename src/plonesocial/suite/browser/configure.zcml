@@ -5,11 +5,14 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.suite">
 
+  <include file="permissions.zcml"
+           package="plonesocial.microblog" />
+
   <browser:viewlet
       name="plonesocial.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".navigation.PloneSocialNavigation"
-      permission="zope2.View"
+      permission="plonesocial.microblog.ViewStatusUpdate"
       layer=".interfaces.IPlonesocialSuiteLayer"
       />        
 
