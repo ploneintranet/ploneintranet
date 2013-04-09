@@ -14,6 +14,13 @@ Home view
     Go to homepage
     Page should contain  Powered by Plon
     Element should not be visible  id=plonesocialsuite-navigation
+    Element should be visible  id=portaltab-f1
+    Element should be visible  css=.activityItem.content
+    Page should contain link  link=Test Document 1
+    Click link   link=Test Document 1
+    Element should be visible  css=div.reply form input.standalone
+    Click button  css=div.reply form input.standalone
+    Page should contain  Forgot your password?
 #    Pause execution
 
       

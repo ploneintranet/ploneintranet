@@ -2,9 +2,13 @@ from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
-from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
+
 from plone.testing import z2
+
+from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 
 from zope.configuration import xmlconfig
 
@@ -35,6 +39,11 @@ class PlonesocialSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # use the demo profile for a populated test site
         applyProfile(portal, 'plonesocial.suite:demo')
+        # test layer does not provide default content
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = portal['f1']
+        f1.invokeFactory('Document', 'd1', title=u"Test Document 1")
 
 PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
 
