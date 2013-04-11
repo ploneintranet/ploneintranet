@@ -9,8 +9,14 @@ Test Teardown  Run keywords  Report test status  Close all browsers
 
 *** Test Cases ***
 
-Homepage
+Home view
     [Tags]  member  home
+    Log in as member
+    Go to  ${PLONE_URL}  
+    Page should contain   The "Explore" section shows all updates of all people. 
+    
+Submit microblog update on homepage
+    [Tags]  member  home submit
     Log in as member
     Go to  ${PLONE_URL}    
     Element should be visible  id=plonesocialsuite-navigation
@@ -20,17 +26,21 @@ Homepage
     Click Button  id=form-buttons-statusupdate
     Element should be visible  xpath=//a[@href="@@stream/tag/demo"]
 
-Tag
+Tag view
     [Tags]  member  tag
     Log in as member
     Go to  ${PLONE_URL}/@@stream/tag/demo
     Element Should Contain  css=h2  Updates tagged #demo
     Page Should Contain  kurt_silvio    
+    Page should not contain   The "Explore" section shows all updates of all people. 
+    
 
 Profile
     [Tags]  member  profile
     Log in as member
     Go to  ${PLONE_URL}/@@profile
+    Page should contain  Followers
+    Page should contain  Following    
     Element Should Contain  css=div.description  Status updates by Clare Presler:
     Page Should Not Contain  kurt_silvio    
 
@@ -45,12 +55,20 @@ Explore
     Log in as member
     Go to  ${PLONE_URL}/@@stream/explore
     Page Should Contain  kurt_silvio        
+    Page should contain   The "Explore" section shows all updates of all people. 
 
 FollowUnfollow
     [Tags]  member  follow
     Log in as member
-    Go to  ${PLONE_URL}/author/kurt_silvio
-    Sleep  3s
+    Go to  ${PLONE_URL}/@@following/kurt_silvio
+    Page should contain  clare_presler
+    Go to  ${PLONE_URL}/@@followers/kurt_silvio
+    Page should not contain  clare_presler
+    Click Button  name=subunsub_follow
+    Page should contain  clare_presler
+    Click Button  name=subunsub_unfollow
+    Page should not contain  clare_presler
+
 
 
 
