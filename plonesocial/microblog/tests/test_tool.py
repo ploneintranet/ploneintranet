@@ -1,3 +1,4 @@
+import time
 import unittest2 as unittest
 from zope.interface import directlyProvides
 from zope.component import queryUtility
@@ -67,6 +68,9 @@ class TestMicroblogToolContextBlacklisting(unittest.TestCase):
         # set up new user
         acl_users = getToolByName(self.portal, 'acl_users')
         acl_users.userFolderAddUser('user1', 'secret', ['Member'], [])
+
+    def tearDown(self):
+        time.sleep(1)  # allow for thread cleanup
 
     def test_allowed_status_user(self):
         """The base implementation does not test access controls.
