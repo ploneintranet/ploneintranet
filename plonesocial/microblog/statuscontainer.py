@@ -66,7 +66,7 @@ class BaseStatusContainer(Persistent, Explicit):
         # index by tag: (string tag) -> (object TreeSet(long statusid))
         self._tag_mapping = OOBTree.OOBTree()
         # index by context (string UUID) -> (object TreeSet(long statusid))
-        self._context_mapping = OOBTree.OOBTree()
+        self._uuid_mapping = OOBTree.OOBTree()
 
     def add(self, status, context=None):
         self._check_permission("add")
@@ -124,8 +124,8 @@ class BaseStatusContainer(Persistent, Explicit):
         if uuid:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
-            self._context_mapping.insert(uuid, LLBTree.LLTreeSet())
-            self._context_mapping[uuid].insert(status.id)
+            self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
+            self._uuid_mapping[uuid].insert(status.id)
 
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
@@ -134,7 +134,7 @@ class BaseStatusContainer(Persistent, Explicit):
     def clear(self):
         self._user_mapping.clear()
         self._tag_mapping.clear()
-        self._context_mapping.clear()
+        self._uuid_mapping.clear()
         return self._status_mapping.clear()
 
     ## blocked IBTree methods to protect index consistency
@@ -158,24 +158,91 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_permission("read")
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100, tag=None, context=None):
+    def items(self, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key))
-                for key in self.keys(min, max, limit, tag, context))
+                for key in self.keys(min, max, limit, tag))
 
-    def keys(self, min=None, max=None, limit=100, tag=None, context=None):
-        uuid = None
+    def values(self, min=None, max=None, limit=100, tag=None):
+        return (self.get(key)
+                for key in self.keys(min, max, limit, tag))
+
+    def keys(self, min=None, max=None, limit=100, tag=None):
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
-        elif context:
-            uuid = self._context2uuid(context)
-            if uuid not in self._context_mapping:
+
+        mapping = self._keys_tag(tag, self.allowed_status_keys())
+        return longkeysortreverse(mapping,
+                                  min, max, limit)
+
+    iteritems = items
+    iterkeys = keys
+    itervalues = values
+
+    ## user_* accessors
+
+    def user_items(self, users, min=None, max=None, limit=100, tag=None):
+        return ((key, self.get(key)) for key
+                in self.user_keys(users, min, max, limit, tag))
+
+    def user_values(self, users, min=None, max=None, limit=100, tag=None):
+        return (self.get(key) for key
+                in self.user_keys(users, min, max, limit, tag))
+
+    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
+        if not users:
+            return ()
+        if tag and tag not in self._tag_mapping:
+            return ()
+
+        if users == str(users):
+            # single user optimization
+            userid = users
+            mapping = self._user_mapping.get(userid)
+            if not mapping:
                 return ()
 
+        else:
+            # collection of user LLTreeSet
+            treesets = (self._user_mapping.get(userid)
+                        for userid in users
+                        if userid in self._user_mapping.keys())
+            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+
+        # returns unchanged mapping if tag is None
+        mapping = self._keys_tag(tag, mapping)
+
+        return longkeysortreverse(mapping,
+                                  min, max, limit)
+
+    ### context_* accessors
+
+    def context_items(self, context,
+                      min=None, max=None, limit=100, tag=None):
+        return ((key, self.get(key)) for key
+                in self.context_keys(context, min, max, limit, tag))
+
+    def context_values(self, context,
+                       min=None, max=None, limit=100, tag=None):
+        return (self.get(key) for key
+                in self.context_keys(context, min, max, limit, tag))
+
+    def context_keys(self, context,
+                     min=None, max=None, limit=100, tag=None):
+        self._check_permission("read")
+        if tag and tag not in self._tag_mapping:
+            return ()
+        uuid = self._context2uuid(context)
+        if uuid not in self._uuid_mapping:
+            return ()
+
+        # tag and uuid filters handle None inputs gracefully
         keyset1 = self._keys_tag(tag, self.allowed_status_keys())
         keyset2 = self._keys_uuid(uuid, keyset1)
         return longkeysortreverse(keyset2,
                                   min, max, limit)
+
+    ### helpers
 
     def _keys_tag(self, tag, keyset):
         if tag is None:
@@ -189,15 +256,7 @@ class BaseStatusContainer(Persistent, Explicit):
             return keyset
         return LLBTree.intersection(
             LLBTree.LLTreeSet(keyset),
-            self._context_mapping[uuid])
-
-    def values(self, min=None, max=None, limit=100, tag=None, context=None):
-        return (self.get(key)
-                for key in self.keys(min, max, limit, tag, context))
-
-    iteritems = items
-    iterkeys = keys
-    itervalues = values
+            self._uuid_mapping[uuid])
 
     def allowed_status_keys(self):
         """Return the subset of IStatusUpdate keys
@@ -215,9 +274,9 @@ class BaseStatusContainer(Persistent, Explicit):
             return self._status_mapping.keys()
         else:
             # for each uid, expand uid into set of statusids
-            blacklisted_treesets = (self._context_mapping.get(uuid)
+            blacklisted_treesets = (self._uuid_mapping.get(uuid)
                                     for uuid in uuid_blacklist
-                                    if uuid in self._context_mapping.keys())
+                                    if uuid in self._uuid_mapping.keys())
             # merge sets of blacklisted statusids into single blacklist
             blacklisted_statusids = reduce(LLBTree.union,
                                            blacklisted_treesets,
@@ -226,60 +285,6 @@ class BaseStatusContainer(Persistent, Explicit):
             all_statusids = LLBTree.LLSet(self._status_mapping.keys())
             return LLBTree.difference(all_statusids,
                                       blacklisted_statusids)
-
-    ## user accessors
-
-    # no user_get
-
-    def user_items(self, users, min=None, max=None, limit=100,
-                   tag=None, context=None):
-        return ((key, self.get(key)) for key
-                in self.user_keys(users, min, max, limit, tag, context))
-
-    def user_keys(self, users, min=None, max=None, limit=100,
-                  tag=None, context=None):
-        if not users:
-            return ()
-
-        if users == str(users):
-            # single user optimization
-            userid = users
-            mapping = self._user_mapping.get(userid)
-            if not mapping:
-                return ()
-
-        else:
-            # collection of user LLTreeSet
-            treesets = (self._user_mapping.get(userid)
-                        for userid in users
-                        if userid in self._user_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-
-        if tag:
-            if tag not in self._tag_mapping:
-                return ()
-            mapping = LLBTree.intersection(mapping,
-                                           self._tag_mapping[tag])
-
-        uuid = None
-        if context:
-            uuid = self._context2uuid(context)
-            if uuid not in self._context_mapping:
-                return ()
-            mapping = LLBTree.intersection(mapping,
-                                           self._context_mapping[uuid])
-
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
-
-    def user_values(self, users, min=None, max=None, limit=100,
-                    tag=None, context=None):
-        return (self.get(key) for key
-                in self.user_keys(users, min, max, limit, tag, context))
-
-    user_iteritems = user_items
-    user_iterkeys = user_keys
-    user_itervalues = user_values
 
 
 class QueuedStatusContainer(BaseStatusContainer):
