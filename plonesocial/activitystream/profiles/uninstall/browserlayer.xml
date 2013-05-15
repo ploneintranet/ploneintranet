@@ -1,0 +1,6 @@
+<layers>
+  <layer  name="plonesocial.activitystream.browser"
+          interface="plonesocial.activitystream.browser.interfaces.IPlonesocialActivitystreamLayer"
+          remove="True"
+          />
+</layers>

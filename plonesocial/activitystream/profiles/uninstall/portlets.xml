@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<portlets xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plone">
+ <portletmanager
+    name="plonesocial.activitystream.portletmanager"
+    type="plonesocial.activitystream.browser.interfaces.IPlonesocialActivitystreamPortlets"
+    remove="True"
+ />
+
+ <portlet
+   addview="plonesocial.activitystream.portlet"
+   title="Activity Stream"
+   description="A unified activity stream"
+   i18n:attributes="title; description"
+   remove="True"
+   />
+
+ <!-- assignment in plonesocial.suite -->
+
+
+</portlets>
