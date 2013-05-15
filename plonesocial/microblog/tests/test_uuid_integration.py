@@ -66,7 +66,7 @@ class TestUUIDIntegration(unittest.TestCase):
         update = StatusUpdate('test')
         self.assertEquals(update._context2uuid(f1), IUUID(f1))
 
-    def test_items_values_tag_context(self):
+    def test_context_api(self):
         """Unittests fake uuids. Integration test with real uuids."""
         container = StatusContainer()
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
@@ -79,29 +79,22 @@ class TestUUIDIntegration(unittest.TestCase):
                            context=mockcontext2, userid='arnold')
         su3 = StatusUpdate('test #foo #bar',
                            context=mockcontext2, userid='arnold')
-        su4 = StatusUpdate('test #foo #bar',
+        su4 = StatusUpdate('test',
                            context=mockcontext2, userid='bernard')
         container.add(su1)
         container.add(su2)
         container.add(su3)
         container.add(su4)
-        values = [x[1] for x in container.user_items(['arnold'],
-                                                     tag='foo',
-                                                     context=mockcontext1)]
+        values = [x[1] for x in container.context_items(mockcontext1,
+                                                        tag='foo')]
         self.assertEqual([su1], values)
-        values = [x[1] for x in container.user_items(['arnold'],
-                                                     tag='bar',
-                                                     context=mockcontext1)]
+        values = [x[1] for x in container.context_items(mockcontext1,
+                                                        tag='bar')]
         self.assertEqual([], values)
-        values = [x[1] for x in container.user_items(['bernard'],
-                                                     tag='bar',
-                                                     context=mockcontext1)]
-        self.assertEqual([], values)
-        values = [x[1] for x in container.user_items(['bernard'],
-                                                     tag='bar',
-                                                     context=mockcontext2)]
-        self.assertEqual([su4], values)
-        values = [x[1] for x in container.user_items(['arnold'],
-                                                     tag='foo',
-                                                     context=mockcontext2)]
+        values = [x[1] for x in container.context_items(mockcontext2,
+                                                        tag='foo')]
         self.assertEqual([su3, su2], values)
+        values = [x[1] for x in container.context_items(mockcontext2)]
+        self.assertEqual([su4, su3, su2], values)
+        values = [x[1] for x in container.items()]
+        self.assertEqual([su4, su3, su2, su1], values)

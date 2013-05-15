@@ -53,12 +53,11 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None, limit=100, tag=None, context=None):
+    def items(min=None, max=None, limit=100, tag=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
         tag 'foo' filters status text on hashtag '#foo'
-        context 'foo' filters status context UUID
         """
 
     def keys(min=None, max=None, limit=100, tag=None):
@@ -79,7 +78,7 @@ class IStatusContainer(Interface):
     iterkeys = keys
     itervalues = values
 
-    ## user accessors
+    ## user_* accessors
 
     def user_items(users, min=None, max=None, limit=100, tag=None):
         """Filter (key, IStatusUpdate) items by iterable of userids.
@@ -100,6 +99,30 @@ class IStatusContainer(Interface):
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
         tag 'foo' filters status text on hashtag '#foo'
+        """
+
+    ## context_* accessors
+
+    def context_items(context, min=None, max=None, limit=100, tag=None):
+        """Filter (key, IStatusUpdate) items by IMicroblogContext object.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        context <object> filters on StatusUpdates keyed to that context's UUID.
+        """
+
+    def context_keys(context, min=None, max=None, limit=100, tag=None):
+        """Filter IStatusUpdate keys by IMicroblogContext object.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        tag 'foo' filters status text on hashtag '#foo'
+        """
+
+    def context_values(context, min=None, max=None, limit=100, tag=None):
+        """Filter IStatusUpdate values by IMicroblogContext object.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        tag 'foo' filters status text on hashtag '#foo'
+
         """
 
 
