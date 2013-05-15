@@ -20,6 +20,7 @@ from plone.z3cform.interfaces import IWrappedForm
 from ..interfaces import IMicroblogTool
 from ..interfaces import IStatusUpdate
 from plonesocial.microblog.statusupdate import StatusUpdate
+from plonesocial.microblog.utils import get_microblog_context
 
 from .interfaces import IPlonesocialMicroblogLayer
 from .interfaces import IStatusProvider
@@ -64,7 +65,8 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
             return
 
         container = queryUtility(IMicroblogTool)
-        status = StatusUpdate(data['text'])
+        microblog_context = get_microblog_context(self.context)
+        status = StatusUpdate(data['text'], context=microblog_context)
 
         # debugging only
 #        container.clear()

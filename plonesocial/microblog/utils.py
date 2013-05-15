@@ -1,6 +1,16 @@
 import time
 from BTrees import LLBTree
 
+from .interfaces import IMicroblogContext
+
+
+def get_microblog_context(obj):
+    for item in obj.aq_chain:
+        if IMicroblogContext.providedBy(item):
+            return item
+    else:
+        return None
+
 
 def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
     """Performance optimized keyspace accessor.
