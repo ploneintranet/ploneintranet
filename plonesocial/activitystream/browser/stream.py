@@ -52,7 +52,11 @@ class StreamView(BrowserView):
         """ used for traversal via publisher, i.e. when using as a url """
         if name == 'tag':
             stack = request.get('TraversalRequestNameStack')
-            self.tag = stack.pop()
+            try:
+                self.tag = stack.pop()
+            except IndexError:
+                # don't traceback on missing tag spec
+                self.tag = None
         elif name == 'explore':
             # @@stream/explore disables 'following' filter
             self.explore = True
