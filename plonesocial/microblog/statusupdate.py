@@ -14,6 +14,7 @@ except ImportError:
     from zope.app.component.hooks import getSite
 
 from interfaces import IStatusUpdate
+from utils import get_microblog_context
 
 logger = logging.getLogger('plonesocial.microblog')
 
@@ -43,10 +44,11 @@ class StatusUpdate(Persistent):
 
     # for unittest subclassing
     def _init_context(self, context):
-        if context is None:
+        m_context = get_microblog_context(context)
+        if m_context is None:
             self._context_uuid = None
         else:
-            self._context_uuid = self._context2uuid(context)
+            self._context_uuid = self._context2uuid(m_context)
 
     # backward compatibility wrapper
     @property

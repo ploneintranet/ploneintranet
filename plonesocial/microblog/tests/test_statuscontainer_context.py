@@ -1,6 +1,8 @@
 import unittest2 as unittest
 from zope.interface import implements
+import Acquisition
 
+from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog.interfaces import IStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog import statuscontainer
@@ -42,6 +44,10 @@ class StatusUpdate(statusupdate.StatusUpdate):
         return repr(context)
 
 
+class MockContext(Acquisition.Implicit):
+    implements(IMicroblogContext)
+
+
 class TestStatusContainer(unittest.TestCase):
 
     def test_add_context(self):
@@ -52,7 +58,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_context_nofilter(self):
         container = StatusContainer()
-        mockcontext = object()
+        mockcontext = MockContext()
         su1 = StatusUpdate('test')
         su2 = StatusUpdate('foobar', context=mockcontext)
         container.add(su1)
@@ -61,10 +67,10 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_context(self):
         container = StatusContainer()
-        mockcontext = object()
+        mockcontext = MockContext()
         su1 = StatusUpdate('test')
         su2 = StatusUpdate('foobar', context=mockcontext)
-        su3 = StatusUpdate('boo baz', context=object())
+        su3 = StatusUpdate('boo baz', context=MockContext())
         container.add(su1)
         container.add(su2)
         container.add(su3)
@@ -74,7 +80,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_items_tag_context(self):
         container = StatusContainer()
-        mockcontext = object()
+        mockcontext = MockContext()
         su1 = StatusUpdate('test #foo')
         su2 = StatusUpdate('test #foo #bar', context=mockcontext)
         su3 = StatusUpdate('test #bar', context=mockcontext)
@@ -92,7 +98,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_values_tag_context(self):
         container = StatusContainer()
-        mockcontext = object()
+        mockcontext = MockContext()
         su1 = StatusUpdate('test #foo')
         su2 = StatusUpdate('test #foo #bar', context=mockcontext)
         su3 = StatusUpdate('test #bar', context=mockcontext)
@@ -110,8 +116,8 @@ class TestStatusContainer(unittest.TestCase):
 
     def test_allowed_status_keys(self):
         container = StatusContainer()
-        mockcontext1 = object()
-        mockcontext2 = object()
+        mockcontext1 = MockContext()
+        mockcontext2 = MockContext()
 
         su0 = StatusUpdate('test')
         container.add(su0)

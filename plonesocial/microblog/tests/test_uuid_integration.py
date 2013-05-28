@@ -1,6 +1,6 @@
 import unittest2 as unittest
 from zope.interface import implements
-
+from zope.interface import directlyProvides
 from plone.uuid.interfaces import IUUID
 
 from plone.app.testing import TEST_USER_ID, setRoles
@@ -10,6 +10,7 @@ from plonesocial.microblog.testing import \
 
 from plonesocial.microblog.statuscontainer import BaseStatusContainer
 from plonesocial.microblog.interfaces import IStatusUpdate
+from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog import statusupdate
 
 
@@ -71,8 +72,10 @@ class TestUUIDIntegration(unittest.TestCase):
         container = StatusContainer()
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         mockcontext1 = self.portal['f1']
+        directlyProvides(mockcontext1, IMicroblogContext)
         self.portal.invokeFactory('Folder', 'f2', title=u"Folder 2")
         mockcontext2 = self.portal['f2']
+        directlyProvides(mockcontext2, IMicroblogContext)
         su1 = StatusUpdate('test #foo',
                            context=mockcontext1, userid='arnold')
         su2 = StatusUpdate('test #foo',

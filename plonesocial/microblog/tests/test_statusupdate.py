@@ -1,5 +1,6 @@
 import unittest2 as unittest
 from zope.interface.verify import verifyClass
+from zope.interface import implements
 
 #from zope.component import createObject
 #from Acquisition import aq_base, aq_parent
@@ -10,6 +11,7 @@ from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
 
 from plonesocial.microblog.interfaces import IStatusUpdate
+from plonesocial.microblog.interfaces import IMicroblogContext
 import plonesocial.microblog.statusupdate
 
 
@@ -59,10 +61,37 @@ class TestStatusUpdate(unittest.TestCase):
         sa = StatusUpdate('test #foo,:.;!$')
         self.assertEquals(sa.tags, ['foo'])
 
-    def test_context_UUID(self):
+    def test_context_is_not_IMicroblogContext(self):
         mockcontext = object()
+        sa = StatusUpdate('foo', context=mockcontext)
+        self.assertEquals(None, sa.context_uuid)
+
+    def test_context_UUID(self):
+        import Acquisition
+
+        class MockContext(Acquisition.Implicit):
+            implements(IMicroblogContext)
+
+        mockcontext = MockContext()
         uuid = repr(mockcontext)
         sa = StatusUpdate('foo', context=mockcontext)
+        self.assertEquals(uuid, sa.context_uuid)
+
+    def test_context_acquisition_UUID(self):
+        import Acquisition
+        import ExtensionClass
+
+        class MockContext(Acquisition.Implicit):
+            pass
+
+        class MockMicroblogContext(ExtensionClass.Base):
+            implements(IMicroblogContext)
+
+        a = MockContext()
+        b = MockMicroblogContext()
+        wrapped = a.__of__(b)
+        uuid = repr(b)
+        sa = StatusUpdate('foo', context=wrapped)
         self.assertEquals(uuid, sa.context_uuid)
 
     def test_context_UUID_legacy(self):
