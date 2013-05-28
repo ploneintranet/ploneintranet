@@ -25,5 +25,16 @@
   <configure zcml:condition="installed plone.app.dexterity">
       <include file="dexterity.zcml" />
   </configure>
+
+  <genericsetup:upgradeStep
+    title="Setup UUID mapping"
+    description="Add UUID mapping to existing tool"
+    source="0001"
+    destination="0002"
+    handler=".migration.setup_uuid_mapping"
+    sortkey="1"
+    profile="plonesocial.microblog:default"
+    />
+
   
 </configure>
