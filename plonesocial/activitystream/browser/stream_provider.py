@@ -136,9 +136,14 @@ class StreamProvider(object):
             else:
                 # default implementation
                 microblog_context = get_microblog_context(self.context)
-                return container.values(limit=self.count,
-                                        tag=self.tag,
-                                        context=microblog_context)
+                if microblog_context:
+                        return container.context_values(microblog_context,
+                                                        limit=self.count,
+                                                        tag=self.tag)
+                else:
+                    return container.values(limit=self.count,
+                                            tag=self.tag,
+                                            )
         except Unauthorized:
             return []
 
