@@ -1,5 +1,22 @@
 import time
 from BTrees import LLBTree
+from interfaces import IMicroblogContext
+
+
+def get_microblog_context(context):
+    if context is None:
+        return None
+    # context is part of context.aq_chain
+    # but unittests do not always wrap acquisition
+    if IMicroblogContext.providedBy(context):
+        return context
+    try:
+        chain = context.aq_chain
+    except AttributeError:
+        return None
+    for item in chain:
+        if IMicroblogContext.providedBy(item):
+            return item
 
 from .interfaces import IMicroblogContext
 
