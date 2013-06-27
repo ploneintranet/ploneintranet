@@ -1,6 +1,6 @@
 import time
 from BTrees import LLBTree
-from interfaces import IMicroblogContext
+from .interfaces import IMicroblogContext
 
 
 def get_microblog_context(context):
@@ -17,16 +17,6 @@ def get_microblog_context(context):
     for item in chain:
         if IMicroblogContext.providedBy(item):
             return item
-
-from .interfaces import IMicroblogContext
-
-
-def get_microblog_context(obj):
-    for item in obj.aq_chain:
-        if IMicroblogContext.providedBy(item):
-            return item
-    else:
-        return None
 
 
 def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
