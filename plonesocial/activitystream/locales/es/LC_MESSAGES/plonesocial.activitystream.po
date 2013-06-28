@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plonesocial.activitystream\n"
-"POT-Creation-Date: 2012-11-20 22:10+0000\n"
+"POT-Creation-Date: 2013-06-27 16:17+0000\n"
 "PO-Revision-Date: 2012-11-20 17:38-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Leonardo J. Caballero G.\n"

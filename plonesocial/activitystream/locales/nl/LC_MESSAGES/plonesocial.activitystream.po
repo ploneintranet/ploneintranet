@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-20 22:10+0000\n"
+"POT-Creation-Date: 2013-06-27 16:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,3 +115,4 @@ msgstr "zegt:"
 #, fuzzy
 msgid "manage_activitystream_portlets"
 msgstr "Activiteiten stroom portlets beheren"
+
