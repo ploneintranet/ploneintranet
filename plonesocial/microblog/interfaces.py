@@ -12,8 +12,8 @@ class IStatusUpdate(Interface):
     """A single 'tweet'."""
 
     id = schema.Int(title=_(u"A longint unique status id"))
-    text = schema.Text(title=_(u"label_statusupdate",
-                               default=u"Status Update"))
+    text = schema.Text(title=_(u"add_statusupdate_button",
+                               default=u"What are you doing?"))
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))

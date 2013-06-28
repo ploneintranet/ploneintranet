@@ -1,9 +1,12 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2013-06-28 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -12,63 +15,63 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Domain: plonesocial.microblog\n"
 
 #: ./interfaces.py:14
 msgid "A longint unique status id"
-msgstr ""
+msgstr "Un identifient numérique unique"
 
 #: ./portlets/microblog.py:19
 msgid "A title for this portlet"
-msgstr ""
+msgstr "Un titre pour la portlet"
 
 #: ./browser/status.py:36
 msgid "Add a comment"
-msgstr "Add a status update"
+msgstr "Ajouter un commentaire"
 
 #: ./interfaces.py:17
 msgid "Author name (for display)"
-msgstr ""
+msgstr "Nom de l'auteur (pour affichage)"
 
 #: ./browser/status.py:80
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ./portlets/microblog.py:23
 msgid "Compact rendering"
-msgstr ""
+msgstr "Rendu compact"
 
 #: ./interfaces.py:19
 msgid "Creation date"
-msgstr ""
+msgstr "Date de création"
 
 #: ./portlets/microblog.py:24
 msgid "Hide portlet header and footer"
-msgstr ""
+msgstr "Masquer l'en-tête et le pied de la portlet"
 
 #: configure.zcml
 msgid "Installs the plonesocial.microblog package"
-msgstr ""
+msgstr "Installe le package plonesocial.microblog"
 
 #: configure.zcml
 msgid "PloneSocial Microblog"
-msgstr ""
+msgstr "PloneSocial Microblog"
 
 #: ./portlets/microblog.py:18
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: ./interfaces.py:18
 msgid "Userid"
-msgstr ""
+msgstr "Identifiant de l'utilisateur"
 
 #. Default: "What are you doing?"
 #: ./interfaces.py:15
 msgid "add_statusupdate_button"
-msgstr ""
+msgstr "Qu'êtes vous en train de faire ?"
 
 #. Default: "Status Update"
 #: ./browser/status.py:57
 msgid "label_statusupdate"
-msgstr ""
+msgstr "Nouveau message"
 

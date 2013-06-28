@@ -19,9 +19,9 @@ msgstr ""
 
 #: profiles/default/portlets.xml
 msgid "A portlet which shows the space for write a simple tweet."
-msgstr ""
+msgstr "Une portlet qui affiche un espace pour saisir un simple tweet."
 
 #: profiles/default/portlets.xml
 msgid "Microblog"
-msgstr ""
+msgstr "Microblog"
 

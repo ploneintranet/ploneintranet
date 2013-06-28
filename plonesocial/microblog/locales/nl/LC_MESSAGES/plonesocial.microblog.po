@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-20 21:24+0000\n"
+"POT-Creation-Date: 2013-06-28 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./interfaces.py:12
+#: ./interfaces.py:14
 msgid "A longint unique status id"
 msgstr "Status id als long integer"
 
@@ -22,15 +22,15 @@ msgstr "Status id als long integer"
 msgid "A title for this portlet"
 msgstr "Een titel voor deze portlet"
 
-#: ./browser/status.py:35
+#: ./browser/status.py:36
 msgid "Add a comment"
 msgstr "Verzend een status update"
 
-#: ./interfaces.py:15
+#: ./interfaces.py:17
 msgid "Author name (for display)"
 msgstr "Naam (voor weergave)"
 
-#: ./browser/status.py:78
+#: ./browser/status.py:80
 msgid "Cancel"
 msgstr "Annuleer"
 
@@ -38,7 +38,7 @@ msgstr "Annuleer"
 msgid "Compact rendering"
 msgstr "Compacte weergave"
 
-#: ./interfaces.py:17
+#: ./interfaces.py:19
 msgid "Creation date"
 msgstr "Aanmaak datum"
 
@@ -58,17 +58,17 @@ msgstr ""
 msgid "Title"
 msgstr "Titel"
 
-#: ./interfaces.py:16
+#: ./interfaces.py:18
 msgid "Userid"
 msgstr "Userid"
 
 #. Default: "What are you doing?"
-#: ./browser/status.py:56
+#: ./interfaces.py:15
 msgid "add_statusupdate_button"
 msgstr "Verzend status update"
 
 #. Default: "Status Update"
-#: ./interfaces.py:13
+#: ./browser/status.py:57
 msgid "label_statusupdate"
 msgstr "Wat houdt je bezig?"
 

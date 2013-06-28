@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-20 21:24+0000\n"
+"POT-Creation-Date: 2013-06-28 09:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plonesocial.microblog\n"
 
-#: ./interfaces.py:12
+#: ./interfaces.py:14
 msgid "A longint unique status id"
 msgstr ""
 
@@ -25,15 +25,15 @@ msgstr ""
 msgid "A title for this portlet"
 msgstr ""
 
-#: ./browser/status.py:35
+#: ./browser/status.py:36
 msgid "Add a comment"
 msgstr ""
 
-#: ./interfaces.py:15
+#: ./interfaces.py:17
 msgid "Author name (for display)"
 msgstr ""
 
-#: ./browser/status.py:78
+#: ./browser/status.py:80
 msgid "Cancel"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Compact rendering"
 msgstr ""
 
-#: ./interfaces.py:17
+#: ./interfaces.py:19
 msgid "Creation date"
 msgstr ""
 
@@ -61,17 +61,17 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: ./interfaces.py:16
+#: ./interfaces.py:18
 msgid "Userid"
 msgstr ""
 
 #. Default: "What are you doing?"
-#: ./browser/status.py:56
+#: ./interfaces.py:15
 msgid "add_statusupdate_button"
 msgstr ""
 
 #. Default: "Status Update"
-#: ./interfaces.py:13
+#: ./browser/status.py:57
 msgid "label_statusupdate"
 msgstr ""
 

@@ -54,8 +54,8 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
         self.actions['cancel'].addClass("hide")
         self.actions['statusupdate'].addClass("standalone")
 
-    @button.buttonAndHandler(_(u"add_statusupdate_button",
-                               default=u"What are you doing?"),
+    @button.buttonAndHandler(_(u"label_statusupdate",
+                               default=u"Status Update"),
                              name='statusupdate')
     def handleComment(self, action):
 
