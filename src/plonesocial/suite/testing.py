@@ -39,7 +39,7 @@ class PlonesocialSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # use the demo profile for a populated test site
         applyProfile(portal, 'plonesocial.suite:demo')
-        # test layer does not provide default content
+        # test layer does also provide default content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = portal['f1']

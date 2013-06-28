@@ -32,6 +32,7 @@ Tag view
     Go to  ${PLONE_URL}/@@stream/tag/demo
     Element Should Contain  css=h2  Updates tagged #demo
     Page Should Contain  kurt_silvio    
+    Page should not contain  clare
     Page should not contain   The "Explore" section shows all updates of all people. 
     
 

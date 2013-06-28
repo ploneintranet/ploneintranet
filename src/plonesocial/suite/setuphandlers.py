@@ -6,12 +6,14 @@ import loremipsum
 
 from Products.CMFPlone.utils import log
 from zope.component import queryUtility
+from zope.interface import directlyProvides
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from Products.CMFCore.utils import getToolByName
 from plone import api
 
 from plonesocial.network.interfaces import INetworkGraph
+from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.statusupdate import StatusUpdate
 
@@ -120,7 +122,21 @@ def demo(context):
     microblog.add(s2)
     t3 = 'The #demo hashtag demonstrates that you can filter on topic'
     s3 = StatusUpdate(t3)
-    s3.userid = s2.userid
+    s3.userid = s2.userid  # kurt
     s3.creator = s2.creator
     microblog.add(s3)
+
+    # create and fill a local microblog_context
+    portal = site
+    portal.invokeFactory('Folder', 'local', title=u"Local Microblog")
+    directlyProvides(portal.local, IMicroblogContext)
+    t4 = ('This update is local to a private folder. '
+          'It does not show on the #demo tag view, '
+          'unless you have the right permissions')
+    s4 = StatusUpdate(t4, context=portal.local)
+    s4.userid = s1.userid  # clare
+    s4.creator = s1.creator
+    microblog.add(s4)
+
+    # commit
     microblog.flush_queue()
