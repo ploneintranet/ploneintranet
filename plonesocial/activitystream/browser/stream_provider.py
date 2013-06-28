@@ -112,7 +112,8 @@ class StreamProvider(object):
                              sort_limit=self.count * 10)
         microblog_context = get_microblog_context(self.context)
         if microblog_context:
-            contentfilter['path'] = '/'.join(microblog_context.getPhysicalPath())
+            contentfilter['path'] = \
+                '/'.join(microblog_context.getPhysicalPath())
 
         if self.tag:
             contentfilter["Subject"] = self.tag
