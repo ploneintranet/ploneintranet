@@ -60,7 +60,10 @@ class StreamView(BrowserView):
 
     @property
     def title(self):
-        if self.explore:
+        m_context = PLONESOCIAL.context(self.context)
+        if m_context:
+            return m_context.Title() + ' updates'
+        elif self.explore:
             return "Explore"
         else:
             return "My network"

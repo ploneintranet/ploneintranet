@@ -89,6 +89,7 @@ class StreamProvider(object):
             except NotFound:
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
+
             if self._activity_visible(activity):
                 yield activity
                 i += 1

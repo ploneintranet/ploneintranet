@@ -25,6 +25,10 @@ class StatusActivity(object):
         self.Creator = context.creator
         self.userid = context.userid
         self.raw_date = context.date
+        m_context = context.context  # IStatusUpdate.IMicroblogContext
+        if m_context:
+            self.title = m_context.Title()
+            self.url = m_context.absolute_url() + '/@@stream'
 
 
 class BrainActivity(object):

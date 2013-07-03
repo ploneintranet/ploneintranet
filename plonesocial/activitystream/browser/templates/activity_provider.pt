@@ -25,18 +25,18 @@
           Poster Name
         </a>
       
-      <tal:posted tal:condition="view/is_status"
-                  i18n:translate="label_says">says:</tal:posted>
+      <span tal:condition="view/is_status"
+            i18n:translate="label_says">says:</span>
       
-      <tal:posted tal:condition="view/is_discussion">
-        <span i18n:translate="label_commented_on">commented on</span>
-        <a tal:attributes="href view/getURL"
-           tal:content="view/Title">a content view</a></tal:posted>
+      <span tal:condition="view/is_discussion"
+            i18n:translate="label_commented_on">commented on</span>
         
-        <tal:posted tal:condition="view/is_content">
-          <span i18n:translate="label_created">created</span>
-          <a tal:attributes="href view/getURL"
-             tal:content="view/Title">view title</a></tal:posted>
+      <span tal:condition="view/is_content"
+            i18n:translate="label_created">created</span>
+
+      <a tal:condition="view/getURL"
+         tal:attributes="href view/getURL"
+         tal:content="view/Title">view title</a>
                     
     </div>
     
