@@ -83,6 +83,10 @@ label .required {
     line-height:27px;
 }
 
+.breadcrumb li {
+    padding-right: 0.25em;
+}
+
 .table-row {
     display:table-row;
 }
