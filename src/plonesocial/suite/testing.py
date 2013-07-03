@@ -41,6 +41,8 @@ class PlonesocialSuite(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
+       # Installs all the Plone stuff. Workflows etc.
+#        applyProfile(portal, 'Products.CMFPlone:plone')
         # use the demo profile for a populated test site
         applyProfile(portal, 'plonesocial.suite:demo')
         # demo profile does also provide default content
@@ -58,3 +60,20 @@ PLONESOCIAL_SUITE_INTEGRATION_TESTING = \
 PLONESOCIAL_ROBOT_TESTING = FunctionalTesting(
     bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONESOCIAL_SUITE_FIXTURE, z2.ZSERVER),
     name="PloneSocial:Robot")
+
+
+from Testing.ZopeTestCase.threadutils import setNumberOfThreads
+from Testing.ZopeTestCase.threadutils import QuietThread, zserverRunner
+import time
+
+
+def startZServer(host='127.0.0.1', number_of_threads=1, log=None):
+    '''Starts an HTTP ZServer thread.'''
+    _Z2HOST = host
+    _Z2PORT = 55555
+    setNumberOfThreads(number_of_threads)
+    t = QuietThread(target=zserverRunner, args=(_Z2HOST, _Z2PORT, log))
+    t.setDaemon(1)
+    t.start()
+    time.sleep(0.1)  # Sandor Palfy
+    return 'http://%s:%s/plone' % (_Z2HOST, _Z2PORT)
