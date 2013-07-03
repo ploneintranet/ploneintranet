@@ -150,8 +150,10 @@
         </xsl:for-each>
     </replace>
 
+<!--
     <append css:theme=".footer" css:content-children="#portal-footer"/>
     <append css:theme=".footer" css:content="#portal-colophon"/>
+-->
     <append css:theme=".footer" css:content="div#visual-portal-wrapper > div.row > script"/>
 
     <append css:theme="#left-column-content"
