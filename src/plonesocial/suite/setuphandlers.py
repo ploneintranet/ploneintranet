@@ -128,15 +128,17 @@ def demo(context):
 
     # create and fill a local microblog_context
     portal = site
-    portal.invokeFactory('Folder', 'local', title=u"Local Microblog")
-    directlyProvides(portal.local, IMicroblogContext)
-    t4 = ('This update is local to a private folder. '
-          'It does not show on the #demo tag view, '
-          'unless you have the right permissions')
-    s4 = StatusUpdate(t4, context=portal.local)
-    s4.userid = s1.userid  # clare
-    s4.creator = s1.creator
-    microblog.add(s4)
+    if 'localmicroblog' not in portal:
+        portal.invokeFactory('Folder', 'localmicroblog',
+                             title=u"Local Microblog")
+        directlyProvides(portal.localmicroblog, IMicroblogContext)
+        t4 = ('This update is local to a private folder. '
+              'It does not show on the #demo tag view, '
+              'unless you have the right permissions')
+        s4 = StatusUpdate(t4, context=portal.localmicroblog)
+        s4.userid = s1.userid  # clare
+        s4.creator = s1.creator
+        microblog.add(s4)
 
     # commit
     microblog.flush_queue()
