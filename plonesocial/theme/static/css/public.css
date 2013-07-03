@@ -1660,8 +1660,9 @@ dl.toc dd ol {
     padding:0 0.75em;
 }
 
+#portal-colophon,
 #portal-colophon a {
-    color: #444;
+    color: #999;
 }
 
 /* @end */
