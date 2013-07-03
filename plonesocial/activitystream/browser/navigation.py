@@ -42,6 +42,7 @@ class PloneSocialNavigation(BrowserView):
                               title='My profile',
                               state='')])
         for item in menu:
-            if self.request.URL.endswith(item['url']):
+            fullurl = "/".join((self.portal_url(), item['url']))
+            if self.request.URL.endswith(fullurl):
                 item['state'] = 'active'
         return menu
