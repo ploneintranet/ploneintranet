@@ -23,8 +23,8 @@ from plonesocial.activitystream.interfaces import IActivity
 TAGRE = re.compile('(#(\S+))')
 
 
-def link_tags(text):
-    return TAGRE.sub('<a href="@@stream/tag/\\2">\\1</a>', text)
+def link_tags(text, url=''):
+    return TAGRE.sub('<a href="%s/@@stream/tag/\\2">\\1</a>' % url, text)
 
 
 class ActivityProvider(object):
@@ -128,7 +128,10 @@ class ActivityProvider(object):
 
     @property
     def text(self):
-        return link_tags(self.context.text)
+        portal_state = getMultiAdapter((self.context, self.request),
+                                       name=u'plone_portal_state')
+        url = portal_state.portal_url()
+        return link_tags(self.context.text, url)
 
     @property
     def raw_date(self):
