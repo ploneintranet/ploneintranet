@@ -5,7 +5,7 @@
   <include package="plone.app.portlets" />
 
     <plone:portlet
-        name="diazotheme.bootstrap.portlet.carousel"
+        name="plonesocial.theme.portlet.carousel"
         interface=".carousel.ICarouselPortlet"
         assignment=".carousel.Assignment"
         view_permission="zope2.View"

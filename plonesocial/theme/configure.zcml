@@ -11,9 +11,9 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="diazotheme.bootstrap"
+      title="plonesocial.theme"
       directory="profiles/default"
-      description='Skin overrides for diazotheme.bootstrap'
+      description='Skin overrides for plonesocial.theme'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

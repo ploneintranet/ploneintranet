@@ -2,7 +2,7 @@
 <portlets>
 
    <portlet
-     addview="diazotheme.bootstrap.portlet.carousel"
+     addview="plonesocial.theme.portlet.carousel"
      title="Carousel portlet"
      description="A portlet that show images using Bootstrap's carousel"
    />
