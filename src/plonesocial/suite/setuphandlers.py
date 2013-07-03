@@ -142,3 +142,5 @@ def demo(context):
 
     # commit
     microblog.flush_queue()
+
+    # testing.py provides additional content

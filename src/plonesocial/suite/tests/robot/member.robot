@@ -19,7 +19,6 @@ Submit microblog update on homepage
     [Tags]  member  home submit
     Log in as member
     Go to  ${PLONE_URL}    
-    Element should be visible  id=plonesocialsuite-navigation
     Element should be visible  id=microblog
     Element should be visible  css=div.activityItem.status
     Input Text  css=textarea  This is a microblog status update. With a #demo hashtag.

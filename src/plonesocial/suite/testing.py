@@ -23,6 +23,7 @@ class PlonesocialSuite(PloneSandboxLayer):
         import plonesocial.microblog
         import plonesocial.activitystream
         import plonesocial.network
+        import plonesocial.theme
         xmlconfig.file('configure.zcml',
                        plonesocial.suite,
                        context=configurationContext)
@@ -35,11 +36,14 @@ class PlonesocialSuite(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        plonesocial.network,
                        context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       plonesocial.theme,
+                       context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # use the demo profile for a populated test site
         applyProfile(portal, 'plonesocial.suite:demo')
-        # test layer does also provide default content
+        # demo profile does also provide default content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = portal['f1']

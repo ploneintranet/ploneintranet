@@ -12,9 +12,8 @@ Test Teardown  Run keywords  Report test status  Close all browsers
 Home view
     [Tags]  anon  home
     Go to homepage
-    Page should contain  Powered by Plon
-    Element should not be visible  id=plonesocialsuite-navigation
-    Element should be visible  id=portaltab-f1
+    Page should contain  Log in
+    Page should not contain  @@stream
     Element should be visible  css=.activityItem.content
     Page should contain link  link=Test Document 1
     Click link   link=Test Document 1
