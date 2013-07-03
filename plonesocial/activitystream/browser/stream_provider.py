@@ -18,7 +18,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plonesocial.activitystream.interfaces import IActivity
-from plonesocial.microblog.utils import get_microblog_context
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
@@ -62,7 +61,7 @@ class StreamProvider(object):
         # @@stream and plonesocial.network:@@profile
         # render this optionally with a users filter
         self.users = None
-        self.microblog_context = get_microblog_context(context)
+        self.microblog_context = PLONESOCIAL.context(context)
 
     def update(self):
         pass
