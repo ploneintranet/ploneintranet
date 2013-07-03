@@ -4,6 +4,8 @@ from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 
+from plonesocial.activitystream.integration import PLONESOCIAL
+
 
 class PloneSocialNavigation(BrowserView):
     """Provide toplevel navigation that spans plonesocial.activitystream
@@ -29,15 +31,20 @@ class PloneSocialNavigation(BrowserView):
         return portal_state.portal_url()
 
     def items(self):
-        menu = (dict(url='@@stream',
-                     title='Network updates',
-                     state=''),
-                dict(url='@@stream/explore',
-                     title='Explore',
-                     state=''),
-                dict(url='@@profile',
-                     title='My profile',
-                     state=''))
+        if PLONESOCIAL.network:
+            menu = (dict(url='@@stream',
+                         title='Network updates',
+                         state=''),
+                    dict(url='@@stream/explore',
+                         title='Explore',
+                         state=''),
+                    dict(url='@@profile',
+                         title='My profile',
+                         state=''))
+        else:
+            menu = (dict(url='@@stream',
+                         title='Explore',
+                         state=''), )
         for item in menu:
             if self.request.URL.endswith(item['url']):
                 item['state'] = 'active'
