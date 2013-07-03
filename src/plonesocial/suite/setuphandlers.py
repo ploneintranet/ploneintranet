@@ -3,6 +3,7 @@ import random
 from DateTime import DateTime
 import time
 import loremipsum
+import transaction
 
 from Products.CMFPlone.utils import log
 from zope.component import queryUtility
@@ -87,18 +88,42 @@ def demo(context):
         else:
             graph.set_follow(follower, followee)
 
+    # create and fill a local IMicroblogContext workspace
+    workspace_users = ['clare_presler',
+                       'dollie_nocera',
+                       'esmeralda_claassen',
+                       'pearlie_whitby']
+    portal = site
+    if 'workspace' not in portal:
+        portal.invokeFactory('Folder', 'workspace',
+                             title=u"Secure Workspace")
+        directlyProvides(portal.workspace, IMicroblogContext)
+        portal.workspace.reindexObject()  # update object_provides index
+        for userid in workspace_users:
+            api.user.grant_roles(username=userid,
+                                 obj=portal.workspace,
+                                 roles=['Contributor', 'Reader', 'Editor'])
+
     # microblog random loremipsum
+    # prepare microblog
     microblog = queryUtility(IMicroblogTool)
     microblog.clear()  # wipe all
     tags = ("hr", "marketing", "fail", "innovation", "learning", "easy",
             "newbiz", "conference", "help", "checkthisout")
     for i in xrange(100):
+        # select random user
+        userid = random.choice(users)
+        # generate text
         text = " ".join(loremipsum.get_sentences(3))
         if random.choice((True, False)):
             text += " #%s" % random.choice(tags)
-        status = StatusUpdate(text)
-        # assign to random user
-        userid = random.choice(users)
+        if userid in workspace_users:
+            # workspace
+            text += ' #girlspace'
+            status = StatusUpdate(text, context=portal.workspace)
+        else:
+            # global
+            status = StatusUpdate(text)
         status.userid = userid
         status.creator = " ".join([x.capitalize() for x in userid.split("_")])
         # distribute most over last week
@@ -109,6 +134,16 @@ def demo(context):
         microblog.add(status)
 
     # microblog deterministic test content most recent
+    # workspace
+    t0 = ('Workspaces can have local microblogs and activitystreams. '
+          'Local activitystreams show only local status updates. '
+          'Microblog updates will show globally only for users who '
+          'have the right permissions')
+    s0 = StatusUpdate(t0, context=portal.workspace)
+    s0.userid = workspace_users[0]  # clare
+    s0.creator = " ".join([x.capitalize() for x in s0.userid.split("_")])
+    microblog.add(s0)
+    # global
     t1 = ('The "My Network" section only shows updates '
           'of people you are following.')
     s1 = StatusUpdate(t1)
@@ -126,21 +161,8 @@ def demo(context):
     s3.creator = s2.creator
     microblog.add(s3)
 
-    # create and fill a local microblog_context
-    portal = site
-    if 'localmicroblog' not in portal:
-        portal.invokeFactory('Folder', 'localmicroblog',
-                             title=u"Local Microblog")
-        directlyProvides(portal.localmicroblog, IMicroblogContext)
-        t4 = ('This update is local to a private folder. '
-              'It does not show on the #demo tag view, '
-              'unless you have the right permissions')
-        s4 = StatusUpdate(t4, context=portal.localmicroblog)
-        s4.userid = s1.userid  # clare
-        s4.creator = s1.creator
-        microblog.add(s4)
-
     # commit
     microblog.flush_queue()
+    transaction.commit()
 
     # testing.py provides additional content
