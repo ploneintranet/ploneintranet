@@ -67,6 +67,14 @@ class TestUUIDIntegration(unittest.TestCase):
         update = StatusUpdate('test')
         self.assertEquals(update._context2uuid(f1), IUUID(f1))
 
+    def test_statusupdate_context_roundtrip(self):
+        """Unittests fake uuids. Integration test with real uuids."""
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        directlyProvides(f1, IMicroblogContext)
+        update = StatusUpdate('test', context=f1)
+        self.assertEquals(update.context, f1)
+
     def test_context_api(self):
         """Unittests fake uuids. Integration test with real uuids."""
         container = StatusContainer()

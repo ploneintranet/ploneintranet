@@ -19,6 +19,8 @@ from plone.z3cform.interfaces import IWrappedForm
 
 from ..interfaces import IMicroblogTool
 from ..interfaces import IStatusUpdate
+from ..interfaces import IMicroblogContext
+
 from plonesocial.microblog.statusupdate import StatusUpdate
 
 from .interfaces import IPlonesocialMicroblogLayer
@@ -64,7 +66,10 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
             return
 
         container = queryUtility(IMicroblogTool)
-        status = StatusUpdate(data['text'])
+        if IMicroblogContext.providedBy(self.context):
+            status = StatusUpdate(data['text'], context=self.context)
+        else:
+            status = StatusUpdate(data['text'])
 
         # debugging only
 #        container.clear()
@@ -97,9 +102,10 @@ class StatusProvider(object):
         self.request = request
         self.view = view
         self.portlet_data = None  # used by microblog portlet
-        # force microblog context to SiteRoot singleton
+        # force microblog context to IMicroblogContext or SiteRoot
         for obj in aq_chain(self.context):
-            if IPloneSiteRoot.providedBy(obj):
+            if IMicroblogContext.providedBy(obj) \
+                    or IPloneSiteRoot.providedBy(obj):
                 self.context = obj
                 return
 
