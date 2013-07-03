@@ -27,3 +27,18 @@ class PloneSocialNavigation(BrowserView):
             (self.context, self.request),
             name=u'plone_portal_state')
         return portal_state.portal_url()
+
+    def items(self):
+        menu = (dict(url='@@stream',
+                     title='Network updates',
+                     state=''),
+                dict(url='@@stream/explore',
+                     title='Explore',
+                     state=''),
+                dict(url='@@profile',
+                     title='My profile',
+                     state=''))
+        for item in menu:
+            if self.request.URL.endswith(item['url']):
+                item['state'] = 'active'
+        return menu
