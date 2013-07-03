@@ -1,0 +1,8 @@
+<ul id="plonesocialsuite-navigation" i18n:domain="plonesocial.suite">
+  <li><a tal:attributes="href string:${view/portal_url}/@@stream" i18n:translate="">
+    network updates</a></li>
+  <li><a tal:attributes="href string:${view/portal_url}/@@stream/explore" i18n:translate="">
+    explore</a></li>
+  <li><a tal:attributes="href string:${view/portal_url}/@@profile" i18n:translate="">
+    my profile</a></li>
+</ul>

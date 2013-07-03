@@ -6,6 +6,19 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="plonesocial.activitystream">
 
+  <include  zcml:condition="installed plonesocial.microblog"
+            file="permissions.zcml"
+            package="plonesocial.microblog"
+            />
+
+  <browser:viewlet
+      zcml:condition="installed plonesocial.microblog"
+      name="plonesocial.suite.navigation"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".navigation.PloneSocialNavigation"
+      permission="plonesocial.microblog.ViewStatusUpdate"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
 
   <adapter 
       name="plonesocial.activitystream.activity_provider"
