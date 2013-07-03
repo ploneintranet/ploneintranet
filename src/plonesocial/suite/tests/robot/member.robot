@@ -47,13 +47,13 @@ Profile
 My Network Empty
     [Tags]  member  mynetwork
     Log in as member
-    Go to  ${PLONE_URL}/@@stream    
+    Go to  ${PLONE_URL}/@@stream/network    
     Page Should Not Contain  kurt_silvio    
 
 Explore
     [Tags]  member  explore
     Log in as member
-    Go to  ${PLONE_URL}/@@stream/explore
+    Go to  ${PLONE_URL}/@@stream
     Page Should Contain  kurt_silvio        
     Page should contain   The "Explore" section shows all updates of all people. 
 
