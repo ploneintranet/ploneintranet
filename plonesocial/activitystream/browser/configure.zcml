@@ -25,6 +25,15 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
+  <browser:page
+      zcml:condition="installed plonesocial.microblog"
+      name="stream"
+      for="plonesocial.microblog.interfaces.IMicroblogContext"
+      class=".stream.StreamView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
   <!-- complex portlet-based view separated out for clear config -->
   <include file="activitystream_portal.zcml" />
   
