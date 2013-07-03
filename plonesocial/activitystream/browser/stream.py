@@ -31,12 +31,8 @@ class StreamView(BrowserView):
         self.context = context
         self.request = request
         self.tag = None
-        if not PLONESOCIAL.network:
-            # no network, show all
-            self.explore = True
-        else:
-            # have network, default to filter on following
-            self.explore = False
+        # default to full stream
+        self.explore = True
 
     def render(self):
         return self.index()
@@ -57,10 +53,17 @@ class StreamView(BrowserView):
             except IndexError:
                 # don't traceback on missing tag spec
                 self.tag = None
-        elif name == 'explore':
-            # @@stream/explore disables 'following' filter
-            self.explore = True
+        elif name == 'network':
+            # @@stream/network enables 'following' filter
+            self.explore = False
         return self
+
+    @property
+    def title(self):
+        if self.explore:
+            return "Explore"
+        else:
+            return "My network"
 
     def status_provider(self):
         if not PLONESOCIAL.microblog:

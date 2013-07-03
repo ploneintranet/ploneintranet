@@ -13,7 +13,8 @@
       <div id="content">
 
         <div class="plonesocial activitystream">
-          <h1 class="documentFirstHeading" i18n:translate="">Updates</h1>
+          <h1 class="documentFirstHeading" i18n:translate=""
+              tal:content="view/title">Updates</h1>
 
           <tal:block replace="structure view/status_provider" />
 
