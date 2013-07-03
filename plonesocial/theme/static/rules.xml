@@ -82,9 +82,6 @@
                     <xsl:for-each css:select="#content-views > li">
                         <xi:include href="navigation-rules.xml"/>
                     </xsl:for-each>
-                    <xsl:for-each css:select="#plonesocialsuite-navigation > li">
-                        <xi:include href="navigation-rules.xml"/>
-                    </xsl:for-each>
                     <xsl:for-each css:select="#contentActionMenus > li">
                         <li class="dropdown pull-right" data-dropdown="dropdown">
                             <a class="dropdown-toggle" href="#"><xsl:attribute name="href">
@@ -127,6 +124,10 @@
 
 
     <replace css:theme="#logo" css:content="#portal-logo"/>
+    <replace css:theme-children=".plonesocialsuite-navigation"
+             css:content-children="#plonesocialsuite-navigation" />
+
+
 
     <replace css:theme-children="#nav">
         <xsl:for-each css:select="#portal-globalnav > li">

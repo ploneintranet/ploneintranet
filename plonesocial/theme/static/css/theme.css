@@ -161,6 +161,10 @@ li {
     display:none;
 }
 
+.plonesocialsuite-navigation {
+    float: right;
+}
+
 #action-bar > .nav-tabs > li > a {
     padding: 0 5px;
     line-height:20px;
