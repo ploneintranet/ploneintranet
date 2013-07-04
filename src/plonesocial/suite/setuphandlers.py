@@ -97,12 +97,20 @@ def demo(context):
     if 'workspace' not in portal:
         portal.invokeFactory('Folder', 'workspace',
                              title=u"Secure Workspace")
+        # enable local microblog
         directlyProvides(portal.workspace, IMicroblogContext)
-        portal.workspace.reindexObject()  # update object_provides index
+        # in testing we don't have the 'normal' default workflow
+        workflowTool = getToolByName(portal, 'portal_workflow')
+        if workflowTool.getInfoFor(portal.workspace,
+                                   'review_state') != 'private':
+            workflowTool.doActionFor(portal.workspace, 'hide')
+        # share workspace with some users
         for userid in workspace_users:
             api.user.grant_roles(username=userid,
                                  obj=portal.workspace,
                                  roles=['Contributor', 'Reader', 'Editor'])
+        # update object_provides + workflow state + sharing indexes
+        portal.workspace.reindexObject()
 
     # microblog random loremipsum
     # prepare microblog
@@ -138,7 +146,7 @@ def demo(context):
     t0 = ('Workspaces can have local microblogs and activitystreams. '
           'Local activitystreams show only local status updates. '
           'Microblog updates will show globally only for users who '
-          'have the right permissions')
+          'have the right permissions. This demo has a #girlspace workspace.')
     s0 = StatusUpdate(t0, context=portal.workspace)
     s0.userid = workspace_users[0]  # clare
     s0.creator = " ".join([x.capitalize() for x in s0.userid.split("_")])

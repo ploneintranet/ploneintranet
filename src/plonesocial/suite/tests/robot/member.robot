@@ -1,7 +1,7 @@
 *** Settings ***
 Resource  plone/app/robotframework/selenium.robot
 Resource  plone/app/robotframework/saucelabs.robot
-Library   Dialogs
+#Library   Dialogs
 Library   Remote  ${PLONE_URL}/RobotRemote
 
 Test Setup     Open SauceLabs test browser
@@ -23,7 +23,7 @@ Submit microblog update on homepage
     Element should be visible  css=div.activityItem.status
     Input Text  css=textarea  This is a microblog status update. With a #demo hashtag.
     Click Button  id=form-buttons-statusupdate
-    Element should be visible  xpath=//a[@href="@@stream/tag/demo"]
+    Page should contain link  \#demo
 
 Tag view
     [Tags]  member  tag
@@ -69,40 +69,11 @@ FollowUnfollow
     Click Button  name=subunsub_unfollow
     Page should not contain  clare_presler
 
-WorkspaceAllowed
-    [Tags]  member  workspace allowed
-    Log in as Clare
-    Go to  ${PLONE_URL}
-    Page should contain  Secure Workspace
-    Go to  ${PLONE_URL}/@@stream
-    Page should contain  local microblogs and activitystreams
-    Go to  ${PLONE_URL}/workspace
-    Page should contain  Secure Workspace updates
-    Go to  ${PLONE_URL}/workspace/@@stream
-    Page should contain  girlspace
-    Go to  ${PLONE_URL}/@@stream/tag/girlspace
-    Page should contain  dollie_nocera
-
-WorkspaceNoaccess
-    [Tags]  member  workspace noaccess
-    Log in as Kurt
-    Go to  ${PLONE_URL}
-#    Page should not contain  Secure Workspace
-#    Go to  ${PLONE_URL}/@@stream
-#    Page should not contain  Secure Workspace
-#    Go to  ${PLONE_URL}/@@stream/tag/girlspace
-#    Page should not contain  Secure Workspace
-
-
 
 *** Keywords ***
 Log in as Clare
     Enable autologin as  Member
     Set autologin username  clare_presler
-
-Log in as Kurt
-    Enable autologin as  Member
-    Set autologin username  kurt_silvio
 
 
 

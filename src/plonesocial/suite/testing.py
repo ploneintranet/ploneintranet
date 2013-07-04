@@ -41,8 +41,8 @@ class PlonesocialSuite(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
-       # Installs all the Plone stuff. Workflows etc.
-#        applyProfile(portal, 'Products.CMFPlone:plone')
+        # Installs all the Plone stuff. Workflows etc.
+        applyProfile(portal, 'Products.CMFPlone:testfixture')
         # use the demo profile for a populated test site
         applyProfile(portal, 'plonesocial.suite:demo')
         # demo profile does also provide default content
@@ -50,6 +50,7 @@ class PlonesocialSuite(PloneSandboxLayer):
         portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = portal['f1']
         f1.invokeFactory('Document', 'd1', title=u"Test Document 1")
+
 
 PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
 
