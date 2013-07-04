@@ -17,6 +17,4 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-   <include package=".portlet"/>
-
 </configure>
