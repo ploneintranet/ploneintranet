@@ -24,10 +24,10 @@ Demo
     Input Text  css=textarea  This is a microblog status update. With a #demo hashtag.
     Add pointer  form-buttons-statusupdate    
     Click Button  id=form-buttons-statusupdate
-    Click Element  xpath=//a[@href="@@stream/tag/demo"]    
+    Click Link  \#demo
+    Go to  ${PLONE_URL}/@@stream        
+    Go to  ${PLONE_URL}/@@stream/network    
     Go to  ${PLONE_URL}/@@profile    
-    Go to  ${PLONE_URL}/@@stream    
-    Go to  ${PLONE_URL}/@@stream/explore
     Sleep  3s
 
 

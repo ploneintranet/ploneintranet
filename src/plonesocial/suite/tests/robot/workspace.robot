@@ -36,14 +36,14 @@ WorkspaceAllowedLocalStream
     Page should contain  local microblogs and activitystreams    
     Go to  ${PLONE_URL}/@@stream/tag/girlspace
     Page should contain  local microblogs and activitystreams    
-    Page should contain  dollie_nocera
+    Page should contain  Dollie Nocera
 
 WorkspaceAllowedTag
     [Tags]  workspace clare tag
     Log in as Clare
     Go to  ${PLONE_URL}/@@stream/tag/girlspace
     Page should contain  local microblogs and activitystreams    
-    Page should contain  dollie_nocera
+    Page should contain  Dollie Nocera
 
 
 ## Kurt has no access
@@ -64,7 +64,7 @@ WorkspaceNoaccessTag
     [Tags]  workspace kurt tag
     Log in as Kurt
     Go to  ${PLONE_URL}/@@stream/tag/girlspace
-    Page should not contain  dollie_nocera    
+    Page should not contain  Dollie Nocera    
     Page should not contain  local microblogs and activitystreams    
     Page should not contain  Secure Workspace
 
