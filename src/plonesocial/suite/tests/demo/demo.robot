@@ -108,6 +108,7 @@ Demo stream network
     Go to  ${PLONE_URL}/@@stream/network
 
 Demo stream tag
+    Go to  ${PLONE_URL}/@@stream            
     Click Link  \#demo
     
 Add styled dot
