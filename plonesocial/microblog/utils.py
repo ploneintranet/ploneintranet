@@ -10,13 +10,17 @@ def get_microblog_context(context):
     # but unittests do not always wrap acquisition
     if IMicroblogContext.providedBy(context):
         return context
+
     try:
-        chain = context.aq_chain
+        chain = context.aq_inner.aq_chain
     except AttributeError:
         return None
+
     for item in chain:
         if IMicroblogContext.providedBy(item):
             return item
+    else:
+        return None
 
 
 def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
