@@ -8,6 +8,7 @@ from DateTime import DateTime
 from persistent import Persistent
 from zope.interface import implements
 from plone.uuid.interfaces import IUUID
+from plone.app.uuid.utils import uuidToObject
 try:
     from zope.component.hooks import getSite
 except ImportError:
@@ -49,6 +50,12 @@ class StatusUpdate(Persistent):
             self._context_uuid = None
         else:
             self._context_uuid = self._context2uuid(m_context)
+
+    @property
+    def context(self):
+        if not self._context_uuid:
+            return None
+        return uuidToObject(self._context_uuid)
 
     # backward compatibility wrapper
     @property
