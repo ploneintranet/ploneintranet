@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plonesocial.microblog\n"
-"POT-Creation-Date: 2013-06-28 09:01+0000\n"
+"POT-Creation-Date: 2013-07-07 18:51+0000\n"
 "PO-Revision-Date: 2012-11-20 16:55-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Leonardo J. Caballero G.\n"
@@ -27,7 +27,7 @@ msgstr "Un id entero de único estatus"
 msgid "A title for this portlet"
 msgstr "Un titulo para este portlet"
 
-#: ./browser/status.py:36
+#: ./browser/status.py:38
 msgid "Add a comment"
 msgstr "Añadir un estatus de actualización"
 
@@ -35,7 +35,7 @@ msgstr "Añadir un estatus de actualización"
 msgid "Author name (for display)"
 msgstr "Nombre de autor (para mostrar)"
 
-#: ./browser/status.py:80
+#: ./browser/status.py:86
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -73,7 +73,7 @@ msgid "add_statusupdate_button"
 msgstr "¿Qué estás haciendo?"
 
 #. Default: "Status Update"
-#: ./browser/status.py:57
+#: ./browser/status.py:59
 msgid "label_statusupdate"
 msgstr "¿Qué tienes en mente?"
 
