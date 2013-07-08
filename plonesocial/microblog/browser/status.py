@@ -69,10 +69,6 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
         container = queryUtility(IMicroblogTool)
         microblog_context = get_microblog_context(self.context)
         status = StatusUpdate(data['text'], context=microblog_context)
-        if microblog_context:
-            status = StatusUpdate(data['text'], context=self.context)
-        else:
-            status = StatusUpdate(data['text'])
 
         # debugging only
 #        container.clear()
