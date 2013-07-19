@@ -1,7 +1,7 @@
-<div  i18n:domain="plonesocial.activitystream">
+<tal:block i18n:domain="plonesocial.activitystream">
 
-      <div tal:repeat="activity_provider view/activity_providers">
+      <tal:loop tal:repeat="activity_provider view/activity_providers">
         <div tal:replace="structure activity_provider"></div>
-      </div>
+      </tal:loop>
 
-</div>
+</tal:block>
