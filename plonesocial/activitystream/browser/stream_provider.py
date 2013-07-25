@@ -18,7 +18,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plonesocial.activitystream.interfaces import IActivity
-from plonesocial.microblog.utils import get_microblog_context
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
@@ -62,6 +61,7 @@ class StreamProvider(object):
         # @@stream and plonesocial.network:@@profile
         # render this optionally with a users filter
         self.users = None
+        self.microblog_context = PLONESOCIAL.context(context)
 
     def update(self):
         pass
@@ -89,6 +89,7 @@ class StreamProvider(object):
             except NotFound:
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
+
             if self._activity_visible(activity):
                 yield activity
                 i += 1
@@ -110,14 +111,15 @@ class StreamProvider(object):
         contentfilter = dict(sort_on='Date',
                              sort_order='reverse',
                              sort_limit=self.count * 10)
-        microblog_context = get_microblog_context(self.context)
-        if microblog_context:
-            contentfilter['path'] = '/'.join(microblog_context.getPhysicalPath())
-
         if self.tag:
             contentfilter["Subject"] = self.tag
+        # filter on users OR context, not both
         if self.users:
             contentfilter["Creator"] = self.users
+        elif self.microblog_context:
+            contentfilter['path'] = \
+                '/'.join(self.microblog_context.getPhysicalPath())
+
         return catalog.searchResults(**contentfilter)
 
     def _activities_statuses(self):
@@ -128,22 +130,21 @@ class StreamProvider(object):
         if not container:
             return []
         try:
+            # filter on users OR context, not both
             if self.users:
                 # support plonesocial.network integration
                 return container.user_values(self.users,
                                              limit=self.count,
                                              tag=self.tag)
+            elif self.microblog_context:
+                # support collective.local integration
+                return container.context_values(self.microblog_context,
+                                                limit=self.count,
+                                                tag=self.tag)
             else:
                 # default implementation
-                microblog_context = get_microblog_context(self.context)
-                if microblog_context:
-                        return container.context_values(microblog_context,
-                                                        limit=self.count,
-                                                        tag=self.tag)
-                else:
-                    return container.values(limit=self.count,
-                                            tag=self.tag,
-                                            )
+                return container.values(limit=self.count,
+                                        tag=self.tag)
         except Unauthorized:
             return []
 
