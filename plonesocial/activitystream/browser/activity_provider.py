@@ -124,7 +124,7 @@ class ActivityProvider(object):
 
     @property
     def Creator(self):
-        return self.user_data['fullname']
+        return self.user_data and self.user_data['fullname'] or self.userid
 
     @property
     def text(self):
