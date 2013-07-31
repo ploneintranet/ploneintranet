@@ -53,7 +53,7 @@ class StatusUpdate(Persistent):
 
     @property
     def context(self):
-        if not self._context_uuid:
+        if not self.context_uuid:
             return None
         return uuidToObject(self._context_uuid)
 
