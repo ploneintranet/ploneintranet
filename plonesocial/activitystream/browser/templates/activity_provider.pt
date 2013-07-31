@@ -1,5 +1,4 @@
 <div  i18n:domain="plonesocial.activitystream"
-      tal:define="typesUseView context/context/portal_properties/site_properties/typesUseViewActionInListings"
       tal:attributes="class string:activityItem ${view/render_type}">
 
   <div class="activityAvatar">
@@ -35,8 +34,7 @@
       <span tal:condition="view/is_content"
             i18n:translate="label_created">created</span>
 
-      <a tal:define="url python:view.portal_type in typesUseView and view.getURL + '/view' or view.getURL"
-         tal:attributes="href url;
+      <a tal:attributes="href view/url;
                          title view/Title"
          tal:content="view/Title">view title</a>
 
