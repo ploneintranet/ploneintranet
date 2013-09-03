@@ -6,8 +6,8 @@ import unittest
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTests([
-        layered(robotsuite.RobotTestSuite("robot_test.txt"),
-                layer=PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING)
-    ])
+#    suite.addTests([
+#        layered(robotsuite.RobotTestSuite("robot_test.txt"),
+#                layer=PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING)
+#    ])
     return suite
