@@ -8,11 +8,15 @@
   <includeDependencies package="." />
 
   <genericsetup:registerProfile
-      name="default"
-      title="plonesocial.messaging"
-      directory="profiles/default"
-      description="Installs the plonesocial.messaging package"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+    name="default"
+    title="plonesocial.messaging"
+    directory="profiles/default"
+    description="Installs the plonesocial.messaging package"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <utility
+    provides="plonesocial.messaging.interfaces.IMessagingLocator"
+    factory=".messaging.MessagingLocator" />
 
 </configure>
