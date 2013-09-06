@@ -67,13 +67,13 @@ class TestInboxs(ApiTestCase):
             username = 'testuser'
 
         inbox = FakeInbox()
-        with self.assertRaises(DoesNotImplement) as cm:
+        with self.assertRaises(DoesNotImplement):
             self.inboxes['testuser'] = inbox
 
     def test_inboxes_dictapi_get_inbox(self):
         self.assertEqual(list(self.inboxes.keys()), [])
-        self._create_inbox('testuser')
-        inbox = self.inboxes['testuser']
+        inbox = self._create_inbox('testuser')
+        self.assertTrue(inbox is self.inboxes['testuser'])
 
     def test_inboxes_dictapi_get_missing_inbox(self):
         self.assertEqual(list(self.inboxes.keys()), [])
@@ -147,7 +147,7 @@ class TestInbox(ApiTestCase):
         inbox = self._create_inbox('testuser')
         conversation = FakeConversation()
 
-        with self.assertRaises(DoesNotImplement) as cm:
+        with self.assertRaises(DoesNotImplement):
             inbox['otheruser'] = conversation
 
     def test_inbox_dictapi_add_conversation_checks_users(self):
@@ -271,7 +271,7 @@ class TestConversation(ApiTestCase):
         conversation = self._create_conversation('inbox_user', 'other_user')
         inbox = conversation.__parent__
         message = Message('inbox_user', 'other_user', 'test', now())
-        
+
         conversation.add_message(message)
         self.assertEqual(inbox.new_messages_count, 1)
 

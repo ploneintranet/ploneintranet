@@ -1,4 +1,3 @@
-from datetime import datetime
 import time
 
 from BTrees.LOBTree import LOBTree
