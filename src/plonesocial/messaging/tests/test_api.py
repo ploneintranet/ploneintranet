@@ -203,22 +203,45 @@ class TestConversation(ApiTestCase):
         messages = conversation.get_messages()
         self.assertEqual(list(messages), [message])
 
-    def test_conersation_add_message_unread_count(self):
+    def test_conversation_add_message_increases_unread_count(self):
         from plonesocial.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         self.assertEqual(conversation.new_messages_count, 0)
 
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
-        self.assertEqual(list(conversation.get_messages())[0].read, False)
+        self.assertEqual(list(conversation.get_messages())[0].new, True)
         self.assertEqual(conversation.new_messages_count, 1)
+
+    def test_conversation_dictapi_delete_message(self):
+        from plonesocial.messaging.messaging import Message
+        conversation = self._create_conversation('inbox_user', 'other_user')
+
+        message = Message('inbox_user', 'other_user', 'test', now())
+        uid = conversation.add_message(message)
+        self.assertEqual(list(conversation.get_messages()), [message])
+
+        del conversation[uid]
+        self.assertEqual(list(conversation.get_messages()), [])
+
+    def test_conversation_delete_message_decreases_unread_count(self):
+        from plonesocial.messaging.messaging import Message
+        conversation = self._create_conversation('inbox_user', 'other_user')
+        self.assertEqual(conversation.new_messages_count, 0)
+
+        message = Message('inbox_user', 'other_user', 'test', now())
+        conversation.add_message(message)
+        self.assertEqual(list(conversation.get_messages())[0].new, True)
+        self.assertEqual(conversation.new_messages_count, 1)
+
 
     def test_conversation_mark_read(self):
         from plonesocial.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
-        self.assertEqual(message.read, False)
+        self.assertEqual(message.new, True)
+
         conversation.mark_read()
         self.assertEqual(conversation.new_messages_count, 0)
-        self.assertEqual(message.read, True)
+        self.assertEqual(message.new, False)

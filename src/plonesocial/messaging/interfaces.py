@@ -19,15 +19,6 @@ class IInboxes(Interface):
         if it does not exist.
         """
 
-    def __setitem__(username, inbox):
-        """
-        Use add_inbox instead create an inbox.
-        
-        Adds an inbox for the user `username`. 
-        Raises `KeyError` if the `username` and the `inbox.username` differ.
-        Raises `ValueError` if the inbox does not provide `IInbox`
-        """
-
     def __delitem__(username):
         """
         Delete an inbox.
@@ -40,6 +31,12 @@ class IInbox(Interface):
     # __parent__ = schema.Object(
     #     title=u"The parent `IInboxes' object"
     #     )
+
+    new_messages_count = schema.Int(
+        title=u'Number of unread messages in the inbox',
+        required=True,
+        default=0,
+        )
 
     def add_conversation(conversation):
         """
@@ -96,6 +93,12 @@ class IConversation(Interface):
     def mark_read():
         """Mark the conversation and all contained messages read"""
 
+    def __getitem__(uid):
+        """Return the message with the uid `uid`"""
+
+    def __delitem__(uid):
+        """Delete the message with the uid `uid`"""
+
 
 class IMessage(Interface):
     """A message"""
@@ -125,7 +128,7 @@ class IMessage(Interface):
         default=None
         )
 
-    read = schema.Bool(
+    new = schema.Bool(
         title=u"Is the message read",
         default=False
         )

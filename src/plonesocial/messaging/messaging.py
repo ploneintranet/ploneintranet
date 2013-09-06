@@ -22,7 +22,7 @@ class Message(Persistent):
     created = None
     deleted = None
     uuid = None
-    read = False
+    new = True
 
     def __init__(self, sender, recipient, text, created):
         if sender == recipient:
@@ -38,7 +38,7 @@ class Message(Persistent):
 
 
 @implementer(IConversation)
-class Conversation(Persistent):
+class Conversation(LOBTree):
 
     __parent__ = None
 
@@ -49,31 +49,64 @@ class Conversation(Persistent):
     def __init__(self, username, created):
         self.username = username
         self.last_updated
-        self._messages = LOBTree()
 
     def to_long(self, dt):
         """Turns a `datetime` object into a long"""
         return long(time.mktime(dt.timetuple()) * 1000000 + dt.microsecond)
 
+    def generate_key(self, message):
+        """Generate a long int key for a message"""
+        key = self.to_long(message.created)
+        while key in self:
+            key = key + 1
+        return key
+
     def add_message(self, message):
-        # FIXME: test collision / good key?
-        timestamp = self.to_long(message.created)
-        while timestamp in self._messages:
-            timestamp = timestamp + 1
-        message.uid = timestamp
+        key = self.generate_key(message)
+        message.uid = key
+        self[key] = message
+        return key
+
+    def __setitem__(self, key, message):
+        if key != message.uid:
+            raise KeyError('key and message.uid differ (%s/%s)' %
+                           (key, message.uid))
         message.__parent__ = self
-        self._messages[timestamp] = message
-        if not message.read:
-            self.new_messages_count = self.new_messages_count + 1
-        return timestamp
+
+        # delete old message if there is one to make sure the
+        # new_messages_count is correct and update the new_messages_count
+        # with the new message
+        if key in self:
+            del self[key]
+        if message.new is True:
+            self.update_new_messages_count(+1)
+
+        super(Conversation, self).__setitem__(key, message)
+
+    def __delitem__(self, uid):
+        message = self[uid]
+        if message.new is True:
+            self.update_new_messages_count(-1)
+        super(Conversation, self).__delitem__(uid)
 
     def get_messages(self):
-        return self._messages.values()
+        return self.values()
 
     def mark_read(self):
         self.new_messages_count = 0
-        for message in self._messages.values():
-            message.read = True
+        for message in self.values():
+            message.new = False
+
+    def update_new_messages_count(self, difference):
+        count = self.new_messages_count
+        count = count + difference
+        if count < 0:
+            # FIXME: Error. Log?
+            count = 0
+        self.new_messages_count = count
+
+        # update the inbox accordingly
+        self.__parent__.update_new_messages_count(difference)
 
 
 @implementer(IInbox)
@@ -101,9 +134,18 @@ class Inbox(OOBTree):
 
         verifyObject(IConversation, conversation)
 
+        if key in self:
+            raise KeyError('Conversation exists already')
+
         super(Inbox, self).__setitem__(conversation.username, conversation)
         conversation.__parent__ = self
+        self.update_new_messages_count(conversation.new_messages_count)
         return conversation
+
+    def __delitem__(self, key):
+        conversation = self[key]
+        self.update_new_messages_count(conversation.new_messages_count * -1)
+        super(Inbox, self).__delitem__(key)
 
     def get_conversations(self):
         return self.values()
@@ -111,6 +153,14 @@ class Inbox(OOBTree):
     def is_blocked(self, username):
         # FIXME: not implemented
         return False
+
+    def update_new_messages_count(self, difference):
+        count = self.new_messages_count
+        count = count + difference
+        if count < 0:
+            # FIXME: Error. Log?
+            count = 0
+        self.new_messages_count = count
 
 
 @implementer(IInboxes)
