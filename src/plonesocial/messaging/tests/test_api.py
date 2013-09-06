@@ -33,26 +33,57 @@ class TestInboxs(ApiTestCase):
     def test_inboxes_add_inbox(self):
         from plonesocial.messaging.messaging import Inbox
         self.assertEqual(list(self.inboxes.keys()), [])
-        self.inboxes.add_inbox('testuser')
+        new_inbox = self.inboxes.add_inbox('testuser')
         self.assertEqual(list(self.inboxes.keys()), ['testuser'])
         self.assertTrue(type(self.inboxes['testuser']) is Inbox)
-
-    def test_inboxes_get_inbox_creates_inbox(self):
-        self.assertEqual(list(self.inboxes.keys()), [])
-        new_inbox = self.inboxes.get_inbox('testuser')
-        self.assertEqual(list(self.inboxes.keys()), ['testuser'])
         self.assertTrue(new_inbox is self.inboxes['testuser'])
 
-    def test_inboxes_get_existing_inbox(self):
-        existing_inbox = self._create_inbox('testuser')
-        self.assertTrue(self.inboxes.get_inbox('testuser') is existing_inbox)
+    def test_inboxes_add_inbox_assigns_parent(self):
+        inbox = self.inboxes.add_inbox('testuser')
+        self.assertTrue(inbox.__parent__ is self.inboxes)
+
+    def test_inboxes_dictapi_add_inbox(self):
+        from plonesocial.messaging.messaging import Inbox
+        inbox = Inbox('testuser')
+        self.inboxes['testuser'] = inbox
+        self.assertTrue(self.inboxes['testuser'] is inbox)
+
+    def test_inboxes_dictapi_add_inbox_assigns_parent(self):
+        from plonesocial.messaging.messaging import Inbox
+        inbox = Inbox('testuser')
+        self.inboxes['testuser'] = inbox
+        self.assertTrue(inbox.__parent__ is self.inboxes)
+
+    def test_inboxes_dictapi_add_inbox_checks_key(self):
+        from plonesocial.messaging.messaging import Inbox
+        inbox = Inbox('testuser')
+        with self.assertRaises(KeyError):
+            self.inboxes['brokenkey'] = inbox
+
+    def test_inboxes_dictapi_add_inbox_checks_interface(self):
+        class FakeInbox(object):
+            pass
+        inbox = FakeInbox()
+        with self.assertRaises(ValueError) as cm:
+            self.inboxes['testuser'] = inbox
+            import pdb; pdb.set_trace()
+
+    def test_inboxes_dictapi_get_inbox(self):
+        self.assertEqual(list(self.inboxes.keys()), [])
+        self._create_inbox('testuser')
+        inbox = self.inboxes['testuser']
+
+    def test_inboxes_dictapi_get_missing_inbox(self):
+        self.assertEqual(list(self.inboxes.keys()), [])
+        with self.assertRaises(KeyError):
+            self.inboxes['nonexisting']
 
 
 class TestInbox(ApiTestCase):
 
     def test_inbox_provides_iinbox(self):
         from plonesocial.messaging.interfaces import IInbox
-        new_inbox = self.inboxes.get_inbox('testuser')
+        new_inbox = self.inboxes.add_inbox('testuser')
         self.assertTrue(IInbox.providedBy(new_inbox))
 
     def test_inbox_get_empty_conversations(self):

@@ -13,15 +13,24 @@ class IInboxes(Interface):
     def add_inbox(username):
         """Add an inbox for the user `username`. Returns the inbox"""
 
-    def get_inbox(username):
+    def __getitem__(username):
         """
         Returns the inbox for the user `username`. Creates the inbox
         if it does not exist.
         """
 
-    def delete_inbox(username):
+    def __setitem__(username, inbox):
         """
-        Deletes the inbox for the user `username`.
+        Use add_inbox instead create an inbox.
+        
+        Adds an inbox for the user `username`. 
+        Raises `KeyError` if the `username` and the `inbox.username` differ.
+        Raises `ValueError` if the inbox does not provide `IInbox`
+        """
+
+    def __delitem__(username):
+        """
+        Delete an inbox.
         """
 
 

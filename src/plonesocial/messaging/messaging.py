@@ -131,20 +131,17 @@ class Inboxes(OOBTree):
 
         inbox = Inbox(username)
         self[username] = inbox
-        inbox.__parent__ = self
         return inbox
 
-    def get_inbox(self, username):
-        # FIXME: autocreate?
-        if username not in self:
-            self.add_inbox(username)
-
-        return self[username]
-
-    def delete_inbox(self, username):
-        if username not in self:
-            raise ValueError('Inbox for user %s does not exist' % username)
-        del self[username]
+    def __setitem__(self, key, inbox):
+        if not IInbox.providedBy(inbox):
+            raise ValueError("Value '%s' does not provide IInbox" %
+                             repr(inbox))
+        if key != inbox.username:
+            raise KeyError("Inbox username and key differ (%s/%s)" %
+                           (inbox.username, key))
+        inbox.__parent__ = self
+        return super(Inboxes, self).__setitem__(key, inbox)
 
 
 @implementer(IMessagingLocator)
