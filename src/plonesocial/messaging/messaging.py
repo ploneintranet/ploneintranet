@@ -93,7 +93,10 @@ class Conversation(LOBTree):
         return self.values()
 
     def mark_read(self):
-        self.new_messages_count = 0
+        # use update function to update inbox too
+        self.update_new_messages_count(self.new_messages_count * -1)
+
+        # update messages
         for message in self.values():
             message.new = False
 

@@ -227,13 +227,33 @@ class TestConversation(ApiTestCase):
     def test_conversation_delete_message_decreases_unread_count(self):
         from plonesocial.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
+        message = Message('inbox_user', 'other_user', 'test', now())
+        uid = conversation.add_message(message)
+        self.assertEqual(conversation.new_messages_count, 1)
+
+        del conversation[uid]
         self.assertEqual(conversation.new_messages_count, 0)
+
+    def test_conversation_add_message_increases_inbox_unread_count(self):
+        from plonesocial.messaging.messaging import Message
+        conversation = self._create_conversation('inbox_user', 'other_user')
+        inbox = conversation.__parent__
+        self.assertEqual(inbox.new_messages_count, 0)
 
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
-        self.assertEqual(list(conversation.get_messages())[0].new, True)
-        self.assertEqual(conversation.new_messages_count, 1)
+        self.assertEqual(inbox.new_messages_count, 1)
 
+    def test_conversation_delete_message_decreases_inbox_unread_count(self):
+        from plonesocial.messaging.messaging import Message
+        conversation = self._create_conversation('inbox_user', 'other_user')
+        inbox = conversation.__parent__
+        message = Message('inbox_user', 'other_user', 'test', now())
+        uid = conversation.add_message(message)
+        self.assertEqual(inbox.new_messages_count, 1)
+
+        del conversation[uid]
+        self.assertEqual(inbox.new_messages_count, 0)
 
     def test_conversation_mark_read(self):
         from plonesocial.messaging.messaging import Message
@@ -245,3 +265,15 @@ class TestConversation(ApiTestCase):
         conversation.mark_read()
         self.assertEqual(conversation.new_messages_count, 0)
         self.assertEqual(message.new, False)
+
+    def test_conversation_mark_read_updates_inbox_new_messages_count(self):
+        from plonesocial.messaging.messaging import Message
+        conversation = self._create_conversation('inbox_user', 'other_user')
+        inbox = conversation.__parent__
+        message = Message('inbox_user', 'other_user', 'test', now())
+        
+        conversation.add_message(message)
+        self.assertEqual(inbox.new_messages_count, 1)
+
+        conversation.mark_read()
+        self.assertEqual(inbox.new_messages_count, 0)
