@@ -61,12 +61,14 @@ class TestInboxs(ApiTestCase):
             self.inboxes['brokenkey'] = inbox
 
     def test_inboxes_dictapi_add_inbox_checks_interface(self):
+        from zope.interface.exceptions import DoesNotImplement
+
         class FakeInbox(object):
-            pass
+            username = 'testuser'
+
         inbox = FakeInbox()
-        with self.assertRaises(ValueError) as cm:
+        with self.assertRaises(DoesNotImplement) as cm:
             self.inboxes['testuser'] = inbox
-            import pdb; pdb.set_trace()
 
     def test_inboxes_dictapi_get_inbox(self):
         self.assertEqual(list(self.inboxes.keys()), [])
@@ -106,8 +108,56 @@ class TestInbox(ApiTestCase):
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox.add_conversation(conversation)
-        conversation = inbox.get_conversation('otheruser')
-        self.assertEqual(type(conversation), Conversation)
+        self.assertTrue(conversation is inbox[conversation.username])
+
+    def test_inbox_add_conversation_adds_parent(self):
+        from plonesocial.messaging.messaging import Conversation
+        inbox = self._create_inbox()
+        conversation = Conversation('otheruser', now())
+        inbox.add_conversation(conversation)
+        self.assertTrue(conversation.__parent__ is inbox)
+
+    def test_inbox_dictapi_add_conversation(self):
+        from plonesocial.messaging.messaging import Conversation
+        inbox = self._create_inbox()
+        conversation = Conversation('otheruser', now())
+        inbox[conversation.username] = conversation
+        self.assertTrue(conversation is inbox[conversation.username])
+
+    def test_inbox_dictapi_add_conversation_adds_parent(self):
+        from plonesocial.messaging.messaging import Conversation
+        inbox = self._create_inbox()
+        conversation = Conversation('otheruser', now())
+        inbox[conversation.username] = conversation
+        self.assertTrue(conversation.__parent__ is inbox)
+
+    def test_inbox_dictapi_add_conversation_checks_key(self):
+        from plonesocial.messaging.messaging import Conversation
+        inbox = self._create_inbox()
+        conversation = Conversation('otheruser', now())
+        with self.assertRaises(KeyError):
+            inbox['brokenkey'] = conversation
+
+    def test_inbox_dictapi_add_conversation_checks_conversation_impl(self):
+        from zope.interface.exceptions import DoesNotImplement
+
+        class FakeConversation(object):
+            username = 'otheruser'
+
+        inbox = self._create_inbox('testuser')
+        conversation = FakeConversation()
+
+        with self.assertRaises(DoesNotImplement) as cm:
+            inbox['otheruser'] = conversation
+
+    def test_inbox_dictapi_add_conversation_checks_users(self):
+        from plonesocial.messaging.messaging import Conversation
+        inbox = self._create_inbox('testuser')
+        conversation = Conversation('testuser', now())
+        with self.assertRaises(ValueError) as cm:
+            inbox['testuser'] = conversation
+
+        self.assertEqual(cm.exception.message, "You can't speak to yourself")
 
     def test_inbox_delete_conversation(self):
         from plonesocial.messaging.messaging import Conversation
@@ -115,7 +165,8 @@ class TestInbox(ApiTestCase):
         inbox.add_conversation(Conversation('otheruser', now()))
         conversations = inbox.get_conversations()
         self.assertEqual(len(conversations), 1)
-        inbox.delete_conversation('otheruser')
+
+        del inbox['otheruser']
         conversations = inbox.get_conversations()
         self.assertEqual(len(conversations), 0)
 

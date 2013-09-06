@@ -5,6 +5,7 @@ from BTrees.LOBTree import LOBTree
 from BTrees.OOBTree import OOBTree
 from Persistence import Persistent
 from zope.interface import implementer
+from zope.interface.verify import verifyObject
 
 from plonesocial.messaging.interfaces import IConversation, IInbox, IInboxes
 from plonesocial.messaging.interfaces import IMessage, IMessagingLocator
@@ -76,44 +77,36 @@ class Conversation(Persistent):
 
 
 @implementer(IInbox)
-class Inbox(Persistent):
+class Inbox(OOBTree):
 
     __parent__ = None
 
-    new_messages_count = 0
     username = None
+    new_messages_count = 0
 
     def __init__(self, username):
         self.username = username
-        self._conversations = OOBTree()
 
     def add_conversation(self, conversation):
+        self[conversation.username] = conversation
+        return conversation
+
+    def __setitem__(self, key, conversation):
+        if key != conversation.username:
+            raise KeyError('conversation.username and key differ (%s, %s)' %
+                           (conversation.username, key))
+
         if conversation.username == self.username:
-            raise ValueError("You can't speak to yourself")  # FIXME: test
-        if conversation.username in self._conversations:
-            raise ValueError(
-                "Conversation for user '%s' already exists" %
-                conversation.username)
-        self._conversations[conversation.username] = conversation
+            raise ValueError("You can't speak to yourself")
+
+        verifyObject(IConversation, conversation)
+
+        super(Inbox, self).__setitem__(conversation.username, conversation)
         conversation.__parent__ = self
         return conversation
 
-    def get_conversation(self, username):
-        # FIXME: autocreate?
-        if username not in self._conversations:
-            conversation = Conversation(username, datetime.now())
-            self.add_conversation(conversation)
-        return self._conversations[username]
-
     def get_conversations(self):
-        return self._conversations.values()
-
-    def delete_conversation(self, username):
-        if username not in self._conversations:
-            raise ValueError('Conversation with user %s does not exist' %
-                             username)
-        # FIXME: delete or mark deleted?
-        del self._conversations[username]
+        return self.values()
 
     def is_blocked(self, username):
         # FIXME: not implemented
@@ -134,9 +127,7 @@ class Inboxes(OOBTree):
         return inbox
 
     def __setitem__(self, key, inbox):
-        if not IInbox.providedBy(inbox):
-            raise ValueError("Value '%s' does not provide IInbox" %
-                             repr(inbox))
+        verifyObject(IInbox, inbox)
         if key != inbox.username:
             raise KeyError("Inbox username and key differ (%s/%s)" %
                            (inbox.username, key))

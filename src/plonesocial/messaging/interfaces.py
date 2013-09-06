@@ -46,16 +46,14 @@ class IInbox(Interface):
         Adds the conversation `conversation` to the inbox.
         """
 
-    def get_conversation(username):
+    def __getitem__(username):
         """
-        Returns the conversation the inbox user has with the user
-        `username`.
+        Get the conversation with the user `username`
         """
 
-    def delete_conversation(username):
+    def __delitem__(username):
         """
         Delete the conversation the inbox user has with the user `username`.
-        FIXME: Mark deleted or remove?
         """
 
     def get_conversations():
@@ -78,7 +76,7 @@ class IConversation(Interface):
         title=u"The username of the other user (not the inbox user)"
         )
 
-    unread_messages_count = schema.Int(
+    new_messages_count = schema.Int(
         title=u'Number of unread messages in the conversation',
         required=True,
         default=0,
