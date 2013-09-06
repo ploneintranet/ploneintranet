@@ -98,9 +98,9 @@ class TestInbox(ApiTestCase):
         inbox.block_user('dontlike')
         self.assertEqual(inbox.is_blocked('dontlike'), True)
 
-    def test_inbox_initial_unread_messages_count(self):
+    def test_inbox_initial_new_messages_count(self):
         inbox = self._create_inbox()
-        self.assertEqual(inbox.unread_messages_count, 0)
+        self.assertEqual(inbox.new_messages_count, 0)
 
 
 class TestConversation(ApiTestCase):
@@ -111,7 +111,7 @@ class TestConversation(ApiTestCase):
 
     def test_conversation_initial_message_count_is_zero(self):
         conversation = self._create_conversation()
-        self.assertEqual(conversation.unread_messages_count, 0)
+        self.assertEqual(conversation.new_messages_count, 0)
 
     def test_conversation_add_message(self):
         from plonesocial.messaging.messaging import Message
@@ -124,12 +124,12 @@ class TestConversation(ApiTestCase):
     def test_conersation_add_message_unread_count(self):
         from plonesocial.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
-        self.assertEqual(conversation.unread_messages_count, 0)
+        self.assertEqual(conversation.new_messages_count, 0)
 
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
         self.assertEqual(list(conversation.get_messages())[0].read, False)
-        self.assertEqual(conversation.unread_messages_count, 1)
+        self.assertEqual(conversation.new_messages_count, 1)
 
     def test_conversation_mark_read(self):
         from plonesocial.messaging.messaging import Message
@@ -138,5 +138,5 @@ class TestConversation(ApiTestCase):
         conversation.add_message(message)
         self.assertEqual(message.read, False)
         conversation.mark_read()
-        self.assertEqual(conversation.unread_messages_count, 0)
+        self.assertEqual(conversation.new_messages_count, 0)
         self.assertEqual(message.read, True)

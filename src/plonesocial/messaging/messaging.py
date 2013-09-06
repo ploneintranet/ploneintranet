@@ -43,7 +43,7 @@ class Conversation(Persistent):
 
     username = None
     last_updated = None
-    unread_messages_count = 0
+    new_messages_count = 0
 
     def __init__(self, username, created):
         self.username = username
@@ -63,14 +63,14 @@ class Conversation(Persistent):
         message.__parent__ = self
         self._messages[timestamp] = message
         if not message.read:
-            self.unread_messages_count = self.unread_messages_count + 1
+            self.new_messages_count = self.new_messages_count + 1
         return timestamp
 
     def get_messages(self):
         return self._messages.values()
 
     def mark_read(self):
-        self.unread_messages_count = 0
+        self.new_messages_count = 0
         for message in self._messages.values():
             message.read = True
 
@@ -80,7 +80,7 @@ class Inbox(Persistent):
 
     __parent__ = None
 
-    unread_messages_count = 0
+    new_messages_count = 0
     username = None
 
     def __init__(self, username):
