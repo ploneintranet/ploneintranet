@@ -1,10 +1,12 @@
 import unittest2 as unittest
-
 from datetime import datetime
-now = datetime.now
+
+from zope.interface.verify import verifyClass
 
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+
+now = datetime.now
 
 
 class ApiTestCase(unittest.TestCase):
@@ -29,6 +31,11 @@ class ApiTestCase(unittest.TestCase):
 
 
 class TestInboxs(ApiTestCase):
+
+    def test_interface(self):
+        from plonesocial.messaging.interfaces import IInboxes
+        from plonesocial.messaging.messaging import Inboxes
+        verifyClass(IInboxes, Inboxes)
 
     def test_inboxes_add_inbox(self):
         from plonesocial.messaging.messaging import Inbox
@@ -82,6 +89,11 @@ class TestInboxs(ApiTestCase):
 
 
 class TestInbox(ApiTestCase):
+
+    def test_interface(self):
+        from plonesocial.messaging.interfaces import IInbox
+        from plonesocial.messaging.messaging import Inbox
+        verifyClass(IInbox, Inbox)
 
     def test_inbox_provides_iinbox(self):
         from plonesocial.messaging.interfaces import IInbox
@@ -187,6 +199,11 @@ class TestInbox(ApiTestCase):
 
 class TestConversation(ApiTestCase):
 
+    def test_interface(self):
+        from plonesocial.messaging.interfaces import IConversation
+        from plonesocial.messaging.messaging import Conversation
+        verifyClass(IConversation, Conversation)
+
     def test_conversation_initially_has_no_message(self):
         conversation = self._create_conversation()
         self.assertEqual(list(conversation.get_messages()), [])
@@ -277,3 +294,12 @@ class TestConversation(ApiTestCase):
 
         conversation.mark_read()
         self.assertEqual(inbox.new_messages_count, 0)
+
+
+class TestMessage(ApiTestCase):
+
+    def test_interface(self):
+        from plonesocial.messaging.interfaces import IMessage
+        from plonesocial.messaging.messaging import Message
+        verifyClass(IMessage, Message)
+
