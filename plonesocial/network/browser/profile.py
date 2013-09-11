@@ -17,6 +17,9 @@ from plonesocial.network.interfaces import INetworkGraph
 from .interfaces import IPlonesocialNetworkLayer
 from .interfaces import IProfileProvider
 
+import logging
+logger = logging.getLogger('plonesocial.network.profile')
+
 
 class AbstractProfile(object):
 
@@ -95,17 +98,29 @@ class AbstractProfileProvider(AbstractProfile):
         self.userid = None  # will be set by calling view
 
     def __call__(self):
-        if self.request.get('REQUEST_METHOD', 'GET').upper() == 'POST':
+        userid = self.request.form.get("userid", None)
+
+        # no form submission - just render
+        if userid is None:
+            return self.render()
+
+        # each inline profileprovider has a different userid
+        # process only the right form out of many
+        if userid is not None and userid == self.userid:
             followaction = self.request.form.get("subunsub_follow", None)
             unfollowaction = self.request.form.get("subunsub_unfollow", None)
-            userid = self.request.form.get("userid", '')
-            if followaction and userid == self.userid:
+            if followaction:
                 self.graph.set_follow(self.viewer_id, userid)
-            elif unfollowaction and userid == self.userid:
+                logger.info('%s follows %s', self.viewer_id, userid)
+            elif unfollowaction:
                 self.graph.set_unfollow(self.viewer_id, userid)
-            # clear post data so users can reload
-            self.request.response.redirect(self.request.URL)
-            return ''
+                logger.info('%s unfollowed %s', self.viewer_id, userid)
+            # clear post data so users can reload - only on processed submit
+            if followaction or unfollowaction:
+                self.request.response.redirect(self.request.URL)
+                return ''
+
+        # the form submission was not ours, just render
         return self.render()
 
 
