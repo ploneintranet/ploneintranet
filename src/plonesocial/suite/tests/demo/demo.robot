@@ -14,7 +14,7 @@ Test Teardown  Run keywords  Report test status  Close all browsers
     
 FullDemo
     [Tags]  demo fulldemo
-    Set Selenium Speed  0.5 seconds            
+    Set Selenium Speed  0.5 seconds
 
     Demo anon home    
     Demo clare login
@@ -25,41 +25,41 @@ FullDemo
     Demo stream explore
 
 DemoAnonHome
-    [Tags]  demo macro    
+    [Tags]  demo macro anonhome
     Demo anon home
 
 DemoClareLogin
-    [Tags]  demo macro    
+    [Tags]  demo macro clarelogin
     Demo clare login
 
 DemoClareHome
-    [Tags]  demo macro    
+    [Tags]  demo macro clarehome
     Login Clare
     Demo clare home
 
 DemoStatusUpdate
-    [Tags]  demo macro    
+    [Tags]  demo macro statusupdate
     Login Clare
-    Go to  ${PLONE_URL}/@@stream    
+    Go to  ${PLONE_URL}/@@stream
     Demo statusupdate
 
 DemoProfile
-    [Tags]  demo macro    
+    [Tags]  demo macro profile
     Login Clare
     Demo profile
 
 DemoStreamExplore
-    [Tags]  demo macro    
+    [Tags]  demo macro streamexplore
     Login Clare
     Demo stream explore
     
 DemoStreamNetwork
-    [Tags]  demo macro    
+    [Tags]  demo macro streamnetwork
     Login Clare
     Demo stream network
 
 DemoStreamTag
-    [Tags]  demo macro    
+    [Tags]  demo macro streamtag
     Login Clare
     Demo stream tag
 
@@ -75,7 +75,7 @@ Demo anon home
     Remove elements  ${note}
 
 Demo clare login
-    Set Selenium Speed  0.1 seconds                
+    Set Selenium Speed  0.1 seconds
     Log in   clare_presler  secret
     ${note} =  Add styled note  content  Now logged in as Clare.  position=top
     Sleep  2 seconds
