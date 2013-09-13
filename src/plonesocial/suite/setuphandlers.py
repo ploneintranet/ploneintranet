@@ -45,7 +45,7 @@ def demo(context):
     if context.readDataFile('plonesocial.suite_demo.txt') is None:
         return
 
-    site = context.getSite()
+    portal = site = context.getSite()
     avatar_path = os.path.join(context._profile_path, 'avatars')
 
     # create users
@@ -88,12 +88,16 @@ def demo(context):
         else:
             graph.set_follow(follower, followee)
 
+    # setup publicly accessible folder and document
+    portal.invokeFactory('Folder', 'public', title=u"Public Folder")
+    public = portal['public']
+    public.invokeFactory('Document', 'd1', title=u"Public Document")
+
     # create and fill a local IMicroblogContext workspace
     workspace_users = ['clare_presler',
                        'dollie_nocera',
                        'esmeralda_claassen',
                        'pearlie_whitby']
-    portal = site
     if 'workspace' not in portal:
         portal.invokeFactory('Folder', 'workspace',
                              title=u"Secure Workspace")

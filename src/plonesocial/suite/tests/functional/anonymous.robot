@@ -15,12 +15,11 @@ Home view
     Page should contain  Log in
     Page should not contain  @@stream
     Element should be visible  css=.activityItem.content
-    Page should contain link  link=Test Document 1
-    Click link   link=Test Document 1
+    Page should contain link  link=Public Document
+    Click link   link=Public Document
     Element should be visible  css=div.reply form input.standalone
     Click button  css=div.reply form input.standalone
     Page should contain  Forgot your password?
-#    Pause execution
 
       
 

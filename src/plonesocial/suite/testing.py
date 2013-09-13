@@ -2,8 +2,6 @@ from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
 
 from plone.testing import z2
@@ -43,13 +41,9 @@ class PlonesocialSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Installs all the Plone stuff. Workflows etc.
         applyProfile(portal, 'Products.CMFPlone:testfixture')
-        # use the demo profile for a populated test site
+
+        # all test setup is done by setuphandlers.demo()
         applyProfile(portal, 'plonesocial.suite:demo')
-        # demo profile does also provide default content
-        setRoles(portal, TEST_USER_ID, ['Manager'])
-        portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
-        f1 = portal['f1']
-        f1.invokeFactory('Document', 'd1', title=u"Test Document 1")
 
 
 PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
