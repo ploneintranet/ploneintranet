@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 
 from BTrees.LOBTree import LOBTree
@@ -185,6 +186,34 @@ class Inboxes(OOBTree):
                            (inbox.username, key))
         inbox.__parent__ = self
         return super(Inboxes, self).__setitem__(key, inbox)
+
+    def send_message(self, sender, recipient, text, created=None):
+        if not sender in self:
+            self.add_inbox(sender)
+        sender_inbox = self[sender]
+        if not recipient in self:
+            self.add_inbox(recipient)
+        recipient_inbox = self[recipient]
+
+        if recipient_inbox.is_blocked('sender'):
+            # FIXME: Own Exception or security exception?
+            raise ValueError('User is not allowed to send a Message to '
+                             'the Recipient')
+
+        if created is None:
+            # FIXME: or utcnow?
+            created = datetime.now()
+
+        for pair in ((sender_inbox, recipient),
+                     (recipient_inbox, sender)):
+            inbox = pair[0]
+            conversation_user = pair[1]
+            if conversation_user not in inbox:
+                inbox.add_conversation(Conversation(conversation_user,
+                                                    created))
+            conversation = inbox[conversation_user]
+            message = Message(sender, recipient, text, created)
+            conversation.add_message(message)
 
 
 @implementer(IMessagingLocator)

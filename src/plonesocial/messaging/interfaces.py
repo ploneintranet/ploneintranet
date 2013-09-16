@@ -13,6 +13,28 @@ class IInboxes(Interface):
     def add_inbox(username):
         """Add an inbox for the user `username`. Returns the inbox"""
 
+    def send_message(sender, recipient, text, created=None):
+        '''
+        Send a message. This will create Inboxes, Conversations and
+        Messages as needed''
+
+        `sender` (:class:`unicode`)
+            The sender's username.
+        `recipient` (:class:`unicode`)
+            The recipient's username.
+        `text` (:class:`unicode`)
+            The Text of the message.
+        `created` (:class:`datetime.datetime`, optional)
+            The creation date. If none is given, the current time will be set.
+
+        Raises:
+            `ValueError`
+                If the user is blocked, sender and recipient are identical
+                or the message has no text.
+
+        Returns: `None`
+        '''
+
     def __getitem__(username):
         """
         Returns the inbox for the user `username`. Creates the inbox

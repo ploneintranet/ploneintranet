@@ -87,6 +87,22 @@ class TestInboxs(ApiTestCase):
         with self.assertRaises(KeyError):
             self.inboxes['nonexisting']
 
+    def test_send_message_does_it_all(self):
+        self.assertEqual(list(self.inboxes.keys()), [])
+        _now = now()
+        self.inboxes.send_message('sendername', 'recipientname', 'text', _now)
+        sender_message = \
+            self.inboxes['sendername']['recipientname'].get_messages()[0]
+        recipient_message = \
+            self.inboxes['recipientname']['sendername'].get_messages()[0]
+
+        # messages are equal...
+        for attr in ('sender', 'recipient', 'text', 'created'):
+            self.assertEqual(getattr(sender_message, attr, object()),
+                             getattr(recipient_message, attr, object()))
+        # ...but not identical
+        self.assertTrue(sender_message is not recipient_message)
+
 
 class TestInbox(ApiTestCase):
 
@@ -303,3 +319,11 @@ class TestMessage(ApiTestCase):
         from plonesocial.messaging.messaging import Message
         verifyClass(IMessage, Message)
 
+    def test_attributes(self):
+        from plonesocial.messaging.messaging import Message
+        _now = now()
+        message = Message('sender', 'recipient', 'text', _now)
+        self.assertEqual(message.sender, 'sender')
+        self.assertEqual(message.recipient, 'recipient')
+        self.assertEqual(message.text, 'text')
+        self.assertEqual(message.created, _now)
