@@ -187,7 +187,10 @@ class Inboxes(OOBTree):
             raise KeyError("Inbox username and key differ (%s/%s)" %
                            (inbox.username, key))
         inbox.__parent__ = self
-        return super(Inboxes, self).__setitem__(key, inbox)
+
+        # outside tests we need to remove the acquisition wrapper
+        unwrapped_self = self.aq_base if hasattr(self, 'aq_base') else self
+        return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
 
     def send_message(self, sender, recipient, text, created=None):
         if not sender in self:
