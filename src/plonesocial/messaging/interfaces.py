@@ -6,6 +6,9 @@ class IMessagingLocator(Interface):
     """A utility used to locate conversations and messages.
     """
 
+    def get_inboxes():
+        '''Return an object providing IInboxes'''
+
 
 class IInboxes(Interface):
     """Container holding inboxes"""
@@ -161,4 +164,4 @@ class IMessage(Interface):
 
 
 class IMessagingTool(Interface):
-    """Marker Interface to provide IInboxes as a tool/utility"""
+    """Tool to store messages in the ZODB"""
