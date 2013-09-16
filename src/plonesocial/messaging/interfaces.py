@@ -136,3 +136,7 @@ class IMessage(Interface):
     uid = schema.Text(
         title=u"UUID unique within a conversation"
         )
+
+
+class IMessagingTool(Interface):
+    """Marker Interface to provide IInboxes as a tool/utility"""
