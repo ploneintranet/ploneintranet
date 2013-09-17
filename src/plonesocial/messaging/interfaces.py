@@ -7,7 +7,7 @@ class IMessagingLocator(Interface):
     """
 
     def get_inboxes():
-        '''Return an object providing IInboxes'''
+        """Return an object providing IInboxes"""
 
 
 class IInboxes(Interface):
@@ -17,9 +17,9 @@ class IInboxes(Interface):
         """Add an inbox for the user `username`. Returns the inbox"""
 
     def send_message(sender, recipient, text, created=None):
-        '''
+        """
         Send a message. This will create Inboxes, Conversations and
-        Messages as needed''
+        Messages as needed.
 
         `sender` (:class:`unicode`)
             The sender's username.
@@ -28,7 +28,7 @@ class IInboxes(Interface):
         `text` (:class:`unicode`)
             The Text of the message.
         `created` (:class:`datetime.datetime`, optional)
-            The creation date. If none is given, the current time will be set.
+            The creation date. If none is given, the current time will be used.
 
         Raises:
             `ValueError`
@@ -36,7 +36,7 @@ class IInboxes(Interface):
                 or the message has no text.
 
         Returns: `None`
-        '''
+        """
 
     def __getitem__(username):
         """
@@ -116,7 +116,7 @@ class IConversation(Interface):
         """Add a message that provides `IMessage`"""
 
     def mark_read():
-        """Mark the conversation and all contained messages read"""
+        """Mark the conversation and all contained messages as read"""
 
     def __getitem__(uid):
         """Return the message with the uid `uid`"""
