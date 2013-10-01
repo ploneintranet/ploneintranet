@@ -1,7 +1,6 @@
 <ul id="plonesocial-navigation" i18n:domain="plonesocial.activitystream">
   <li tal:repeat="item view/items"
       tal:attributes="class item/state"><a tal:attributes="href item/url"
-      tal:attributes="class item/state"><a tal:attributes="href item/url" 
                                       i18n:translate=""
                                       tal:content="item/title">
   network updates</a></li>
