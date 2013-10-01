@@ -79,6 +79,10 @@ def demo(context):
     graph.clear()
     testusers = ['clare_presler', 'kurt_silvio']
     graph.set_follow(testusers[1], testusers[0])
+    # give clare som extra followers
+    for fan in ['christian_stoner', 'guy_hachey', 'jamie_jacko']:
+        graph.set_follow(fan, testusers[0])
+    # fully random followers
     for i in xrange(100):
         followee = random.choice(users)
         follower = random.choice(users)
