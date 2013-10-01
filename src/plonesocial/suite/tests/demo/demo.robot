@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/saucelabs.robot
 Resource  plone/app/robotframework/annotate.robot
 Resource  plone/app/robotframework/speak.robot
 Library   Remote  ${PLONE_URL}/RobotRemote
-Library   Dialogs
+#Library   Dialogs
 
 Test Setup     Open SauceLabs test browser
 Test Teardown  Run keywords  Report test status  Close all browsers
@@ -159,8 +159,7 @@ Demo stream explore
 
 Demo stream network empty
     Click link explicitly  css=.stream a
-    Show note  "My Network" only shows updates from people you're following.
-    Show note  Clare is not following anybody yet, so sees only her own updates.    
+    Show note  "My Network" only shows updates from people you're following. Clare is not following anybody yet, so sees only her own updates.
 
 Demo stream network activated
     Click link explicitly  css=.stream a
@@ -197,7 +196,7 @@ Demo workspace allowed
     Click link explicitly  css=a[href='${PLONE_URL}/workspace/@@sharing']
     Show note  Only some users are allowed here
     Click link explicitly  css=a[href='${PLONE_URL}/workspace/@@stream']
-    Show note  The workspace has it's own protected activity stream
+    Show note  The workspace has its own protected activity stream
     Click Link explicitly  css=.tag-girlspace
     Show note  Workspace updates are integrated into the sitewide activity stream and tag views.
 
