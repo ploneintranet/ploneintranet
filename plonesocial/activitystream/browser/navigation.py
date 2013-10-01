@@ -37,19 +37,19 @@ class PloneSocialNavigation(BrowserView):
             m_base = m_context.absolute_url() + '/'
             menu.extend([dict(url=m_base + '@@stream',
                               title=m_context.Title() + ' updates',
-                              state='')])
+                              state='localstream')])
 
         base = self.portal_url() + '/'
         menu.extend([dict(url=base + '@@stream',
                           title='Explore',
-                          state='')])
+                          state='explore')])
         if PLONESOCIAL.network:
             menu.extend([dict(url=base + '@@stream/network',
                               title='My network',
-                              state=''),
+                              state='stream'),
                          dict(url=base + '@@profile',
                               title='My profile',
-                              state='')])
+                              state='profile')])
         for item in menu:
             if self.request.URL == item['url']:
                 item['state'] = 'active'
