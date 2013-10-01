@@ -113,7 +113,12 @@ class ActivityProvider(object):
 
     @property
     def url(self):
-        return self.context.url
+        site_properties = getToolByName(self.context,
+                                        "portal_properties").site_properties
+        if self.portal_type in site_properties.typesUseViewActionInListings:
+            return self.context.url + '/view'
+        else:
+            return self.context.url
 
     @property
     def title(self):
@@ -125,7 +130,7 @@ class ActivityProvider(object):
 
     @property
     def Creator(self):
-        return self.user_data['fullname']
+        return self.user_data and self.user_data['fullname'] or self.userid
 
     @property
     def text(self):
