@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/saucelabs.robot
 Resource  plone/app/robotframework/annotate.robot
 Resource  plone/app/robotframework/speak.robot
 Library   Remote  ${PLONE_URL}/RobotRemote
-#Library   Dialogs
+Library   Dialogs
 
 Test Setup     Open SauceLabs test browser
 Test Teardown  Run keywords  Report test status  Close all browsers
@@ -41,12 +41,7 @@ FullDemo
 DevDemo
     [Tags]  demo devdemo    
     Set Selenium Speed  0.1 seconds
-    Maximize browser window    
-    Demo clare login
-    Demo workspace allowed
-    Log out and log in as Kurt
-    Demo workspace disallowed
-
+    Go to homepage    
 
 DemoAnonHome
     [Tags]  demo macro anonhome
@@ -141,13 +136,14 @@ Demo clare home
 
 Demo statusupdate
     Set Selenium Speed  0.25 seconds
-    Show dot  microblog
     Show note  Share status updates    
+    Show dot  microblog
+    Set Selenium Speed  1 seconds    
     Input Text  css=textarea  This is a microblog status update. With a #demo hashtag
-    Set Selenium Speed  0.5 seconds            
     Add pointer  form-buttons-statusupdate    
-    Click Button  id=form-buttons-statusupdate
     Set Selenium Speed  0.25 seconds    
+    Click Button  id=form-buttons-statusupdate
+    Sleep  1 seconds
     Show dot  css=.activityItem
     ${note} =  Add styled note  css=.activityItem  The new status update shows up.
     Sleep  2 seconds
@@ -159,7 +155,7 @@ Demo stream explore
 
 Demo stream network empty
     Click link explicitly  css=.stream a
-    Show note  "My Network" only shows updates from people you're following. Clare is not following anybody yet, so sees only her own updates.
+    Show note  Clare is not following anybody yet, so "My Network" shows only her own updates.
 
 Demo stream network activated
     Click link explicitly  css=.stream a
@@ -178,7 +174,6 @@ Demo follow
     Show dot  css=input[name=subunsub_follow]    
     Click Button  name=subunsub_follow
     Sleep  1 seconds    
-
 
 Demo stream tag
     Click link explicitly  css=.explore a    
