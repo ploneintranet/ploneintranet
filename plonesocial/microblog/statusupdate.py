@@ -49,13 +49,24 @@ class StatusUpdate(Persistent):
         if m_context is None:
             self._context_uuid = None
         else:
+            # microblog_context UUID
             self._context_uuid = self._context2uuid(m_context)
+        if m_context is context:
+            self.context_object = None
+        else:
+            # actual object context
+            self.context_object = context
+
+#########################################################################
+## FIXME - this now resolves to IMicroblogContext | should resolve object
 
     @property
     def context(self):
         if not self.context_uuid:
             return None
         return uuidToObject(self._context_uuid)
+
+#########################################################################
 
     # backward compatibility wrapper
     @property
@@ -80,7 +91,12 @@ class StatusUpdate(Persistent):
         return ''
 
     def getObject(self):
-        return self
+        try:
+            c_obj = self.context_object
+        except AttributeError:
+            # backward compatibility
+            c_obj = self.context_object = None
+        return c_obj or self
 
     def Title(self):
         return self.text

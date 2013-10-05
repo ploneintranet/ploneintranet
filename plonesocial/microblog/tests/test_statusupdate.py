@@ -101,3 +101,28 @@ class TestStatusUpdate(unittest.TestCase):
         sa = OldStatusUpdate('foo')
         # old data has new code accessors
         self.assertEquals(None, sa.context_uuid)
+
+    def test_context_object_microblog(self):
+        import ExtensionClass
+
+        class MockMicroblogContext(ExtensionClass.Base):
+            implements(IMicroblogContext)
+
+        sa = StatusUpdate('foo', context=MockMicroblogContext())
+        self.assertEquals(sa, sa.getObject())
+
+    def test_context_object_object(self):
+        import Acquisition
+        import ExtensionClass
+
+        class MockContext(Acquisition.Implicit):
+            pass
+
+        class MockMicroblogContext(ExtensionClass.Base):
+            implements(IMicroblogContext)
+
+        a = MockContext()
+        b = MockMicroblogContext()
+        wrapped = a.__of__(b)
+        sa = StatusUpdate('foo', context=wrapped)
+        self.assertEquals(a, sa.getObject())
