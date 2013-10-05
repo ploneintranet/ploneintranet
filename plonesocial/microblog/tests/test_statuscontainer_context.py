@@ -192,14 +192,14 @@ class TestNestedStatusContainer(unittest.TestCase):
                           IUUID(self.child_context),
                           IUUID(self.grandchild_context)])
 
-    def test_items_nestedcontext_nofilter_child_only(self):
+    def test_items_nestedcontext_child(self):
         su1 = StatusUpdate('test')
         su2 = StatusUpdate('foobar', context=self.child_context)
         self.container.add(su1)
         self.container.add(su2)
         self.assertEqual(2, len(list(self.container.items())))
 
-    def test_items_nestedcontext_nofilter_child_and_parent(self):
+    def test_items_nestedcontext_child_and_parent(self):
         su1 = UUIDStatusUpdate('test', context=self.parent_context)
         su2 = UUIDStatusUpdate('foobar', context=self.child_context)
         self.container.add(su1)
@@ -207,7 +207,7 @@ class TestNestedStatusContainer(unittest.TestCase):
         items = self.container.context_items(self.parent_context, nested=True)
         self.assertEqual(2, len(list(items)))
 
-    def test_items_triplenestedcontext_nofilter_child_and_parent(self):
+    def test_items_nestedcontext_grandchild_and_child_and_parent(self):
         su1 = UUIDStatusUpdate('test', context=self.parent_context)
         su2 = UUIDStatusUpdate('foobar', context=self.child_context)
         su3 = UUIDStatusUpdate('foobar', context=self.grandchild_context)
@@ -216,6 +216,14 @@ class TestNestedStatusContainer(unittest.TestCase):
         self.container.add(su3)
         items = self.container.context_items(self.parent_context, nested=True)
         self.assertEqual(3, len(list(items)))
+
+    def test_items_nestedcontext_grandchild_and_child_no_parent(self):
+        su2 = UUIDStatusUpdate('foobar', context=self.child_context)
+        su3 = UUIDStatusUpdate('foobar', context=self.grandchild_context)
+        self.container.add(su2)
+        self.container.add(su3)
+        items = self.container.context_items(self.parent_context, nested=True)
+        self.assertEqual(2, len(list(items)))
 
     def XXtest_items_nestedcontext_filterparent_child_and_parent(self):
         su1 = StatusUpdate('test', context=self.parent_context)

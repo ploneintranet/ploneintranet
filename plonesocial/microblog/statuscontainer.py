@@ -234,15 +234,19 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
-        uuid = self._context2uuid(context)
-        if uuid not in self._uuid_mapping:
-            return ()
 
         if nested:
             # hits portal_catalog
-            nested_uuids = self.nested_uuids(context)
+            nested_uuids = [uuid for uuid in self.nested_uuids(context)
+                            if uuid in self._uuid_mapping]
+            if not nested_uuids:
+                return ()
+
         else:
             # used in test_statuscontainer_context for non-integration tests
+            uuid = self._context2uuid(context)
+            if uuid not in self._uuid_mapping:
+                return ()
             nested_uuids = [uuid]
 
         # tag and uuid filters handle None inputs gracefully
@@ -250,8 +254,7 @@ class BaseStatusContainer(Persistent, Explicit):
         # calculate the tag+uuid intersection for each uuid context
 
         keyset_uuids = [self._keys_uuid(uuid, keyset_tag)
-                        for uuid in nested_uuids
-                        if uuid in self._uuid_mapping]
+                        for uuid in nested_uuids]
 
         # merge the intersections
         merged_set = LLBTree.multiunion(keyset_uuids)
