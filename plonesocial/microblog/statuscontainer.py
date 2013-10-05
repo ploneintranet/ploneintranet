@@ -13,6 +13,7 @@ import transaction
 from Acquisition import Explicit
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from Products.CMFCore.utils import getToolByName
 
 try:
     from zope.container.contained import ObjectAddedEvent
@@ -25,6 +26,7 @@ from plone.uuid.interfaces import IUUID
 
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
+from interfaces import IMicroblogContext
 from utils import longkeysortreverse
 
 logger = logging.getLogger('plonesocial.microblog')
@@ -218,31 +220,68 @@ class BaseStatusContainer(Persistent, Explicit):
     ### context_* accessors
 
     def context_items(self, context,
-                      min=None, max=None, limit=100, tag=None):
+                      min=None, max=None, limit=100, tag=None, nested=False):
         return ((key, self.get(key)) for key
-                in self.context_keys(context, min, max, limit, tag))
+                in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_values(self, context,
-                       min=None, max=None, limit=100, tag=None):
+                       min=None, max=None, limit=100, tag=None, nested=False):
         return (self.get(key) for key
-                in self.context_keys(context, min, max, limit, tag))
+                in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
-                     min=None, max=None, limit=100, tag=None):
+                     min=None, max=None, limit=100, tag=None, nested=False):
+        if nested:
+            return self.nested_context_keys(context, min, max, limit, tag)
+
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
         uuid = self._context2uuid(context)
         if uuid not in self._uuid_mapping:
             return ()
-
-        # tag and uuid filters handle None inputs gracefully
+         # tag and uuid filters handle None inputs gracefully
         keyset1 = self._keys_tag(tag, self.allowed_status_keys())
         keyset2 = self._keys_uuid(uuid, keyset1)
         return longkeysortreverse(keyset2,
                                   min, max, limit)
 
+    def nested_context_keys(self, context,
+                            min=None, max=None, limit=100, tag=None):
+        self._check_permission("read")
+
+        if tag and tag not in self._tag_mapping:
+            return ()
+        uuid = self._context2uuid(context)
+        if uuid not in self._uuid_mapping:
+            return ()
+
+        nested_uuids = self.nested_uuids(context)
+
+        # tag and uuid filters handle None inputs gracefully
+        keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
+        # calculate the tag+uuid intersection for each uuid context
+
+        keyset_uuids = [self._keys_uuid(uuid, keyset_tag)
+                        for uuid in nested_uuids
+                        if uuid in self._uuid_mapping]
+
+        # merge the intersections
+        merged_set = LLBTree.multiunion(keyset_uuids)
+        return longkeysortreverse(merged_set,
+                                  min, max, limit)
+
     ### helpers
+
+    def _multiunion(self, *lltreesets):
+        return False
+
+    def nested_uuids(self, context):
+        catalog = getToolByName(context, 'portal_catalog')
+        results = catalog(path={'query': '/'.join(context.getPhysicalPath()),
+                                'depth': -1},
+                          object_implements=IMicroblogContext)
+        return([item.UID for item in results])
 
     def _keys_tag(self, tag, keyset):
         if tag is None:
