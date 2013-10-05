@@ -220,43 +220,30 @@ class BaseStatusContainer(Persistent, Explicit):
     ### context_* accessors
 
     def context_items(self, context,
-                      min=None, max=None, limit=100, tag=None, nested=False):
+                      min=None, max=None, limit=100, tag=None, nested=True):
         return ((key, self.get(key)) for key
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_values(self, context,
-                       min=None, max=None, limit=100, tag=None, nested=False):
+                       min=None, max=None, limit=100, tag=None, nested=True):
         return (self.get(key) for key
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
-                     min=None, max=None, limit=100, tag=None, nested=False):
+                     min=None, max=None, limit=100, tag=None, nested=True):
+        self._check_permission("read")
+        if tag and tag not in self._tag_mapping:
+            return ()
+        uuid = self._context2uuid(context)
+        if uuid not in self._uuid_mapping:
+            return ()
+
         if nested:
-            return self.nested_context_keys(context, min, max, limit, tag)
-
-        self._check_permission("read")
-        if tag and tag not in self._tag_mapping:
-            return ()
-        uuid = self._context2uuid(context)
-        if uuid not in self._uuid_mapping:
-            return ()
-         # tag and uuid filters handle None inputs gracefully
-        keyset1 = self._keys_tag(tag, self.allowed_status_keys())
-        keyset2 = self._keys_uuid(uuid, keyset1)
-        return longkeysortreverse(keyset2,
-                                  min, max, limit)
-
-    def nested_context_keys(self, context,
-                            min=None, max=None, limit=100, tag=None):
-        self._check_permission("read")
-
-        if tag and tag not in self._tag_mapping:
-            return ()
-        uuid = self._context2uuid(context)
-        if uuid not in self._uuid_mapping:
-            return ()
-
-        nested_uuids = self.nested_uuids(context)
+            # hits portal_catalog
+            nested_uuids = self.nested_uuids(context)
+        else:
+            # used in test_statuscontainer_context for non-integration tests
+            nested_uuids = [uuid]
 
         # tag and uuid filters handle None inputs gracefully
         keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
@@ -272,9 +259,6 @@ class BaseStatusContainer(Persistent, Explicit):
                                   min, max, limit)
 
     ### helpers
-
-    def _multiunion(self, *lltreesets):
-        return False
 
     def nested_uuids(self, context):
         catalog = getToolByName(context, 'portal_catalog')

@@ -88,7 +88,8 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = [x[1] for x in container.context_items(mockcontext)]
+        values = [x[1] for x in container.context_items(mockcontext,
+                                                        nested=False)]
         self.assertEqual(1, len(values))
         self.assertEqual([su2], values)
 
@@ -101,13 +102,16 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = [x[1] for x in container.context_items(mockcontext)]
+        values = [x[1] for x in container.context_items(mockcontext,
+                                                        nested=False)]
         self.assertEqual([su3, su2], values)
         values = [x[1] for x in container.context_items(mockcontext,
-                                                        tag='bar')]
+                                                        tag='bar',
+                                                        nested=False)]
         self.assertEqual([su3, su2], values)
         values = [x[1] for x in container.context_items(mockcontext,
-                                                        tag='foo')]
+                                                        tag='foo',
+                                                        nested=False)]
         self.assertEqual([su2], values)
 
     def test_values_tag_context(self):
@@ -119,13 +123,16 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = list(container.context_values(mockcontext))
+        values = list(container.context_values(mockcontext,
+                                               nested=False))
         self.assertEqual([su3, su2], values)
         values = list(container.context_values(mockcontext,
-                                               tag='bar'))
+                                               tag='bar',
+                                               nested=False))
         self.assertEqual([su3, su2], values)
         values = list(container.context_values(mockcontext,
-                                               tag='foo'))
+                                               tag='foo',
+                                               nested=False))
         self.assertEqual([su2], values)
 
     def test_allowed_status_keys(self):
@@ -178,11 +185,6 @@ class TestNestedStatusContainer(unittest.TestCase):
         self.grandchild_context = self.child_context[grandchild_id]
         alsoProvides(self.grandchild_context, IMicroblogContext)
         self.grandchild_context.reindexObject()
-
-    def XXtest_multiunion(self):
-        sets = ()
-        self.assertEqual(self.container._multiunion(sets),
-                         True)
 
     def test_nested_uuids(self):
         self.assertEqual(self.container.nested_uuids(self.parent_context),
