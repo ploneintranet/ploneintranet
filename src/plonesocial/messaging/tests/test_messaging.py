@@ -14,7 +14,7 @@ class TestMessagingLocator(unittest.TestCase):
 
     def setUp(self):
         self.site = self.layer['portal']
-        self.tool = getToolByName(site, 'plonesocial_messaging')
+        self.tool = getToolByName(self.site, 'plonesocial_messaging')
 
     def test_messaginglocator_interface(self):
         from plonesocial.messaging.interfaces import IMessagingLocator
