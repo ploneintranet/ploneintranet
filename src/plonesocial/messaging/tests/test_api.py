@@ -31,9 +31,9 @@ class ApiTestCase(unittest.TestCase):
         return inbox.add_conversation(Conversation(other_user, created))
 
 
-class TestInboxs(ApiTestCase):
+class TestInboxes(ApiTestCase):
 
-    def test_interface(self):
+    def test_inboxes_interface(self):
         from plonesocial.messaging.interfaces import IInboxes
         from plonesocial.messaging.messaging import Inboxes
         verifyClass(IInboxes, Inboxes)
@@ -88,7 +88,7 @@ class TestInboxs(ApiTestCase):
         with self.assertRaises(KeyError):
             self.inboxes['nonexisting']
 
-    def test_send_message_does_it_all(self):
+    def test_inboxes_send_message_does_it_all(self):
         self.assertEqual(list(self.inboxes.keys()), [])
         _now = now()
         self.inboxes.send_message('sendername', 'recipientname', 'text', _now)
@@ -107,7 +107,7 @@ class TestInboxs(ApiTestCase):
 
 class TestInbox(ApiTestCase):
 
-    def test_interface(self):
+    def test_inbox_interface(self):
         from plonesocial.messaging.interfaces import IInbox
         from plonesocial.messaging.messaging import Inbox
         verifyClass(IInbox, Inbox)
@@ -216,7 +216,7 @@ class TestInbox(ApiTestCase):
 
 class TestConversation(ApiTestCase):
 
-    def test_interface(self):
+    def test_conversation_interface(self):
         from plonesocial.messaging.interfaces import IConversation
         from plonesocial.messaging.messaging import Conversation
         verifyClass(IConversation, Conversation)
@@ -315,12 +315,12 @@ class TestConversation(ApiTestCase):
 
 class TestMessage(ApiTestCase):
 
-    def test_interface(self):
+    def test_message_interface(self):
         from plonesocial.messaging.interfaces import IMessage
         from plonesocial.messaging.messaging import Message
         verifyClass(IMessage, Message)
 
-    def test_attributes(self):
+    def test_message_attributes(self):
         from plonesocial.messaging.messaging import Message
         _now = now()
         message = Message('sender', 'recipient', 'text', _now)
