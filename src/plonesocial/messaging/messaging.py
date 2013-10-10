@@ -31,8 +31,8 @@ class Message(Persistent):
 
     def __init__(self, sender, recipient, text, created):
         if sender == recipient:
-            raise ValueError('Sender and recipient are identical'
-                             '(%s, %s)' % (sender, recipient))  # FIXME: test
+            msg = 'Sender and recipient are identical ({0}, {1})'
+            raise ValueError(msg.format(sender, recipient))  # FIXME: test
         if not text.strip():
             raise ValueError('Message has no text')  # FIXME: test
 
@@ -74,8 +74,8 @@ class Conversation(LOBTree):
 
     def __setitem__(self, key, message):
         if key != message.uid:
-            raise KeyError('key and message.uid differ (%s/%s)' %
-                           (key, message.uid))
+            msg = 'key and message.uid differ ({0}/{1})'
+            raise KeyError(msg.format(key, message.uid))
         message.__parent__ = self
 
         # delete old message if there is one to make sure the
@@ -134,8 +134,8 @@ class Inbox(OOBTree):
 
     def __setitem__(self, key, conversation):
         if key != conversation.username:
-            raise KeyError('conversation.username and key differ (%s, %s)' %
-                           (conversation.username, key))
+            msg = 'conversation.username and key differ ({0}, {1})'
+            raise KeyError(msg.format(conversation.username, key))
 
         if conversation.username == self.username:
             raise ValueError("You can't speak to yourself")
@@ -178,7 +178,7 @@ class Inboxes(OOBTree):
 
     def add_inbox(self, username):
         if username in self:
-            raise ValueError('Inbox for user %s exists' % username)
+            raise ValueError('Inbox for user {0} exists'.format(username))
 
         inbox = Inbox(username)
         self[username] = inbox
@@ -187,8 +187,8 @@ class Inboxes(OOBTree):
     def __setitem__(self, key, inbox):
         verifyObject(IInbox, inbox)
         if key != inbox.username:
-            raise KeyError('Inbox username and key differ (%s/%s)' %
-                           (inbox.username, key))
+            msg = 'Inbox username and key differ ({0}/{1})'
+            raise KeyError(msg.format(inbox.username, key))
         inbox.__parent__ = self
 
         # outside tests we need to remove the acquisition wrapper
