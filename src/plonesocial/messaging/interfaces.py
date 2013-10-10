@@ -4,22 +4,20 @@ from zope.interface import Interface
 
 
 class IMessagingLocator(Interface):
-    """A utility used to locate conversations and messages.
-    """
+    """A utility used to locate conversations and messages."""
 
     def get_inboxes():
-        """Return an object providing IInboxes"""
+        """Return an object providing IInboxes."""
 
 
 class IInboxes(Interface):
-    """Container holding inboxes"""
+    """Container holding inboxes."""
 
     def add_inbox(username):
-        """Add an inbox for the user `username`. Returns the inbox"""
+        """Add an inbox for the user `username`. Returns the inbox."""
 
     def send_message(sender, recipient, text, created=None):
-        """
-        Send a message. This will create Inboxes, Conversations and
+        """Send a message. This will create Inboxes, Conversations and
         Messages as needed.
 
         `sender` (:class:`unicode`)
@@ -40,19 +38,16 @@ class IInboxes(Interface):
         """
 
     def __getitem__(username):
-        """
-        Returns the inbox for the user `username`. Creates the inbox
+        """Returns the inbox for the user `username`. Creates the inbox
         if it does not exist.
         """
 
     def __delitem__(username):
-        """
-        Delete an inbox.
-        """
+        """Delete an inbox."""
 
 
 class IInbox(Interface):
-    """An inbox for an user and the container for conversations"""
+    """An inbox for an user and the container for conversations."""
 
     # __parent__ = schema.Object(
     #     title=u"The parent `IInboxes' object"
@@ -65,29 +60,22 @@ class IInbox(Interface):
         )
 
     def add_conversation(conversation):
-        """
-        Adds the conversation `conversation` to the inbox.
-        """
+        """Add the conversation `conversation` to the inbox."""
 
     def __getitem__(username):
-        """
-        Get the conversation with the user `username`
-        """
+        """Get the conversation with the user `username`."""
 
     def __delitem__(username):
-        """
-        Delete the conversation the inbox user has with the user `username`.
+        """Delete the conversation the inbox user has with the user
+        `username`.
         """
 
     def get_conversations():
-        """
-        Return all conversations stored in the inbox
-        """
+        """Return all conversations stored in the inbox."""
 
 
 class IConversation(Interface):
-    """
-    A conversation between the inbox user and another user.
+    """A conversation between the inbox user and another user.
     It contains the actual messages.
     """
 
@@ -111,23 +99,23 @@ class IConversation(Interface):
         )
 
     def get_messages():
-        """return all messages"""
+        """Return all messages."""
 
     def add_message(message):
-        """Add a message that provides `IMessage`"""
+        """Add a message that provides `IMessage`."""
 
     def mark_read():
-        """Mark the conversation and all contained messages as read"""
+        """Mark the conversation and all contained messages as read."""
 
     def __getitem__(uid):
-        """Return the message with the uid `uid`"""
+        """Return the message with the uid `uid`."""
 
     def __delitem__(uid):
-        """Delete the message with the uid `uid`"""
+        """Delete the message with the uid `uid`."""
 
 
 class IMessage(Interface):
-    """A message"""
+    """A message."""
 
     # __parent__ = schema.Object(
     #     title=u"The parent `IConversation' object"
@@ -165,4 +153,4 @@ class IMessage(Interface):
 
 
 class IMessagingTool(Interface):
-    """Tool to store messages in the ZODB"""
+    """Tool to store messages in the ZODB."""

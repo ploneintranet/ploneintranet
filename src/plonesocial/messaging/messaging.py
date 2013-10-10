@@ -56,11 +56,11 @@ class Conversation(LOBTree):
         self.last_updated
 
     def to_long(self, dt):
-        """Turns a `datetime` object into a long"""
+        """Turns a `datetime` object into a long."""
         return long(time.mktime(dt.timetuple()) * 1000000 + dt.microsecond)
 
     def generate_key(self, message):
-        """Generate a long int key for a message"""
+        """Generate a long int key for a message."""
         key = self.to_long(message.created)
         while key in self:
             key = key + 1
@@ -226,8 +226,7 @@ class Inboxes(OOBTree):
 
 @implementer(IMessagingLocator)
 class MessagingLocator(object):
-    """A utility used to locate conversations and messages.
-    """
+    """A utility used to locate conversations and messages."""
 
     def get_inboxes(self):
         site = getSite()
