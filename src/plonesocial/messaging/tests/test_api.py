@@ -1,10 +1,11 @@
-import unittest2 as unittest
+# -*- coding: utf-8 -*-
 from datetime import datetime
-
-from zope.interface.verify import verifyClass
-
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+from zope.interface.verify import verifyClass
+
+import unittest2 as unittest
+
 
 now = datetime.now
 

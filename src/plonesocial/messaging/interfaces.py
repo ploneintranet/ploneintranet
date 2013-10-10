@@ -1,5 +1,6 @@
-from zope.interface import Interface
+# -*- coding: utf-8 -*-
 from zope import schema
+from zope.interface import Interface
 
 
 class IMessagingLocator(Interface):

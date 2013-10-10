@@ -1,16 +1,19 @@
-from datetime import datetime
-import time
-
+# -*- coding: utf-8 -*-
 from BTrees.LOBTree import LOBTree
 from BTrees.OOBTree import OOBTree
 from Persistence import Persistent
 from Products.CMFPlone.utils import getToolByName
+from datetime import datetime
+from plonesocial.messaging.interfaces import IConversation
+from plonesocial.messaging.interfaces import IInbox
+from plonesocial.messaging.interfaces import IInboxes
+from plonesocial.messaging.interfaces import IMessage
+from plonesocial.messaging.interfaces import IMessagingLocator
 from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
 
-from plonesocial.messaging.interfaces import IConversation, IInbox, IInboxes
-from plonesocial.messaging.interfaces import IMessage, IMessagingLocator
+import time
 
 
 @implementer(IMessage)

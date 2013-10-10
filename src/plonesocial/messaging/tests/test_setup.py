@@ -1,9 +1,9 @@
-import unittest2 as unittest
-
+# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
-
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+
+import unittest2 as unittest
 
 
 class TestExample(unittest.TestCase):

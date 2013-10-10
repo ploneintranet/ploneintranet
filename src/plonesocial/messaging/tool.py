@@ -1,9 +1,9 @@
-from zope.interface import implementer
-from Products.CMFCore.utils import UniqueObject
+# -*- coding: utf-8 -*-
 from OFS.SimpleItem import SimpleItem
-
+from Products.CMFCore.utils import UniqueObject
 from plonesocial.messaging.interfaces import IMessagingTool
 from plonesocial.messaging.messaging import Inboxes
+from zope.interface import implementer
 
 
 @implementer(IMessagingTool)

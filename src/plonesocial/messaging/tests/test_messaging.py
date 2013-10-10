@@ -1,12 +1,11 @@
 # -*- coding: UTF-8 -*-
-import unittest2 as unittest
-
 from Products.CMFPlone.utils import getToolByName
+from plonesocial.messaging.testing import \
+    PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-from plonesocial.messaging.testing import \
-    PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+import unittest2 as unittest
 
 
 class TestMessagingLocator(unittest.TestCase):
