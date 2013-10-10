@@ -84,7 +84,7 @@ class IConversation(Interface):
     #     )
 
     username = schema.Text(
-        title=u"The username of the other user (not the inbox user)"
+        title=u'The username of the other user (not the inbox user)'
         )
 
     new_messages_count = schema.Int(
@@ -122,33 +122,33 @@ class IMessage(Interface):
     #     )
 
     sender = schema.Text(
-        title=u"Username of the sender"
+        title=u'Username of the sender'
         )
 
     recipient = schema.Text(
-        title=u"Username of the recipient"
+        title=u'Username of the recipient'
         )
 
     sender = schema.Text(
-        title=u"Text of the message"
+        title=u'Text of the message'
         )
 
     created = schema.Datetime(
-        title=u"Time the Message was created"
+        title=u'Time the Message was created'
         )
 
     deleted = schema.Datetime(
-        title=u"Time the Message was deleted",
+        title=u'Time the Message was deleted',
         default=None
         )
 
     new = schema.Bool(
-        title=u"Is the message read",
+        title=u'Is the message read',
         default=False
         )
 
     uid = schema.Text(
-        title=u"UUID unique within a conversation"
+        title=u'UUID unique within a conversation'
         )
 
 
