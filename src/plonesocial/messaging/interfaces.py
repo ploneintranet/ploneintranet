@@ -129,7 +129,7 @@ class IMessage(Interface):
         title=u'Username of the recipient'
         )
 
-    sender = schema.Text(
+    text = schema.Text(
         title=u'Text of the message'
         )
 
