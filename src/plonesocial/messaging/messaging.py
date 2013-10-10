@@ -187,7 +187,7 @@ class Inboxes(OOBTree):
     def __setitem__(self, key, inbox):
         verifyObject(IInbox, inbox)
         if key != inbox.username:
-            raise KeyError("Inbox username and key differ (%s/%s)" %
+            raise KeyError('Inbox username and key differ (%s/%s)' %
                            (inbox.username, key))
         inbox.__parent__ = self
 
