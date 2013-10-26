@@ -137,11 +137,6 @@ class IMessage(Interface):
         title=u'Time the Message was created'
         )
 
-    deleted = schema.Datetime(
-        title=u'Time the Message was deleted',
-        default=None
-        )
-
     new = schema.Bool(
         title=u'Is the message read',
         default=False

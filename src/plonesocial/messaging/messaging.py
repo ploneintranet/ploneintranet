@@ -25,7 +25,6 @@ class Message(Persistent):
     recipient = None
     text = None
     created = None
-    deleted = None
     uuid = None
     new = True
 
