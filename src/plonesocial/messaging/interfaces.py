@@ -93,10 +93,11 @@ class IConversation(Interface):
         default=0,
         )
 
-    last_updated = schema.Datetime(
-        title=u'Date when the Conversation was last updated',
-        missing_value=None,
-        )
+    # probably not needed
+    ## last_updated = schema.Datetime(
+    ##     title=u'Date when the Conversation was last updated',
+    ##     missing_value=None,
+    ##     )
 
     def get_messages():
         """Return all messages."""
