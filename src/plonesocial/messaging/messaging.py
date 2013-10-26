@@ -226,7 +226,6 @@ class Inboxes(BTreeDictBase):
 #        return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
 
     def send_message(self, sender, recipient, text, created=None):
-        # FIXME: print 'send message from %s to %s' % (sender, recipient)
         if not sender in self:
             self.add_inbox(sender)
         sender_inbox = self[sender]

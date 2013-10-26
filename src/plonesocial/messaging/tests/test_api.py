@@ -333,4 +333,4 @@ class TestMessage(ApiTestCase):
         from plonesocial.messaging.messaging import Message
         not_a_date = 'not a date'
         with self.assertRaises(ValueError):
-            message = Message('sender', 'recipient', 'text', not_a_date)
+            Message('sender', 'recipient', 'text', not_a_date)

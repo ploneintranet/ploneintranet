@@ -3,7 +3,6 @@ from datetime import datetime
 import json
 import unittest2 as unittest
 
-from plone.app.testing import login
 import plone.api as api
 from plone.testing.z2 import Browser
 
@@ -27,7 +26,7 @@ class TestJsonView(unittest.TestCase):
     def test_set_contenttype(self):
         from plonesocial.messaging.browser.messaging import JsonView
         view = JsonView(None, self.request)
-        self.assertEqual(self.request.response.headers['content-type'],
+        self.assertEqual(view.request.response.headers['content-type'],
                          'application/json')
 
     def test_json_error(self):
@@ -59,18 +58,16 @@ class TestAjaxViews(unittest.TestCase):
                         password='testuser1')
         api.user.create(username='testuser2', email='what@ev.er',
                         password='testuser2')
-        import transaction
         transaction.commit()
 
     def _create_message(self, from_, to, text, created=now):
         inboxes = self.portal.plonesocial_messaging
         inboxes.send_message(from_, to, text, created=created)
-        import transaction
         transaction.commit()
 
     def _login(self, username, password):
          # Go admin
-        self.browser.open(self.portal_url + "/login_form")
+        self.browser.open(self.portal_url + '/login_form')
         self.browser.getControl(name='__ac_name').value = username
         self.browser.getControl(name='__ac_password').value = password
         self.browser.getControl(name='submit').click()

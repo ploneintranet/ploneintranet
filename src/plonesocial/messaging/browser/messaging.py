@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import json
 
@@ -6,12 +7,15 @@ from Products.Five.browser import BrowserView
 from plone import api
 
 from plone.z3cform.fieldsets import extensible
-from z3c.form import form, field, button
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
 
-from plonesocial.messaging.interfaces import IMessage, IMessagingLocator
+from plonesocial.messaging.interfaces import IMessage
+from plonesocial.messaging.interfaces import IMessagingLocator
 
 _ = MessageFactory('plonesocial.microblog')
 
@@ -20,16 +24,17 @@ class MessageForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True  # don't use context to get widget data
     id = None
-    label = _(u"Add a comment")
+    label = _('Add a comment')
     fields = field.Fields(IMessage).select('recipient', 'text')
 
     def updateActions(self):
         super(MessageForm, self).updateActions()
-        self.actions['send'].addClass("standalone")
+        self.actions['send'].addClass('standalone')
 
-    @button.buttonAndHandler(_(u'label_sendmessage',
-                               default=u"Send Message"),
-                               name='send')
+    @button.buttonAndHandler(_(
+        u'label_sendmessage',
+        default=u'Send Message'),
+        name='send')
     def handleMessage(self, action):
 
         # Validation form
@@ -49,10 +54,6 @@ class MessageForm(extensible.ExtensibleForm, form.Form):
         # Redirect to portal home
         self.request.response.redirect(self.action)
 
-    @button.buttonAndHandler(_(u"Cancel"))
-    def handleCancel(self, action):
-        pass
-
 
 class DateTimeJSONEncoder(json.JSONEncoder):
 
@@ -67,7 +68,7 @@ class JsonView(BrowserView):
 
     def __init__(self, context, request):
         super(JsonView, self).__init__(context, request)
-        self.request.response.setHeader("Content-type", "application/json")
+        self.request.response.setHeader('Content-type', 'application/json')
 
     def dumps(self, obj):
         return json.dumps(obj, indent=4, separators=(',', ': '),
@@ -85,9 +86,12 @@ class JsonView(BrowserView):
 
 class MessagingView(JsonView):
 
-    def messages(self):
+    def inboxes(self):
         locator = getUtility(IMessagingLocator)
-        inboxes = locator.get_inboxes()
+        return locator.get_inboxes()
+
+    def messages(self):
+        inboxes = self.inboxes()
         user = api.user.get_current()
         if user is None:
             return self.error(401, 'You need to log in to access the inbox')
@@ -96,12 +100,13 @@ class MessagingView(JsonView):
         if conversation_user_id is None:
             return self.error(500, 'You need to provide a parameter "user"')
 
-        if (user.id not in inboxes or
-            conversation_user_id not in inboxes[user.id]):
-            return self.success([])
+        if ((user.id not in inboxes or
+             conversation_user_id not in inboxes[user.id])):
+            messages = []
+        else:
+            conversation = inboxes[user.id][conversation_user_id]
+            messages = [message.to_dict() for message in
+                        conversation.get_messages()]
 
-        conversation = inboxes[user.id][conversation_user_id]
-        messages = [message.to_dict() for message in
-                    conversation.get_messages()]
         result = {'messages': messages}
         return self.success(result)
