@@ -122,11 +122,11 @@ class IMessage(Interface):
     #     title=u"The parent `IConversation' object"
     #     )
 
-    sender = schema.Text(
+    sender = schema.TextLine(
         title=u'Username of the sender'
         )
 
-    recipient = schema.Text(
+    recipient = schema.TextLine(
         title=u'Username of the recipient'
         )
 

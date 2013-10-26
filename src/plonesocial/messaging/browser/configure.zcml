@@ -1,0 +1,23 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="jungzeelandia.contenttypes">
+
+
+    <browser:page
+      for="*"
+      name="messaging-send"
+      class=".messaging.MessageForm"
+      template="send-message.pt"
+      permission="zope2.View"
+      />
+
+    <browser:page
+      for="*"
+      name="messaging-messages"
+      class=".messaging.MessagingView"
+      attribute="messages"
+      permission="zope.Public"
+      />
+
+</configure>

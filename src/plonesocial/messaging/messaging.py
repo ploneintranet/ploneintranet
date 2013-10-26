@@ -67,6 +67,13 @@ class Message(Persistent):
         self.text = text
         self.created = created
 
+    def to_dict(self):
+        return dict(sender=self.sender,
+                    recipient=self.recipient,
+                    text=self.text,
+                    created=self.created,
+                    new=self.new)
+
 
 @implementer(IConversation)
 class Conversation(BTreeDictBase):
