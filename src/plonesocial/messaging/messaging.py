@@ -16,6 +16,32 @@ from zope.interface.verify import verifyObject
 import time
 
 
+class BTreeDictBase(Persistent):
+    '''Pass through the dict api to a BTree saved in self.data
+    This is required cause attributes on **BTree subclasses
+    seem to not be persistent. It also takes care to set a __parent__
+    pointer
+    '''
+
+    __parent__ = None
+
+    def __setitem__(self, key, value):
+        value.__parent__ = self
+        return self.data.__setitem__(key, value)
+
+    def __getitem__(self, key):
+        return self.data.__getitem__(key)
+
+    def __contains__(self, key):
+        return self.data.__contains__(key)
+
+    def __delitem__(self, key):
+        return self.data.__delitem__(key)
+
+    def keys(self):
+        return self.data.keys()
+
+
 @implementer(IMessage)
 class Message(Persistent):
 
@@ -34,7 +60,8 @@ class Message(Persistent):
             raise ValueError(msg.format(sender, recipient))  # FIXME: test
         if not text.strip():
             raise ValueError('Message has no text')  # FIXME: test
-
+        if not isinstance(created, datetime):
+            raise ValueError('created has to be a datetime object')
         self.sender = sender
         self.recipient = recipient
         self.text = text
@@ -42,17 +69,16 @@ class Message(Persistent):
 
 
 @implementer(IConversation)
-class Conversation(LOBTree):
-
-    __parent__ = None
+class Conversation(BTreeDictBase):
 
     username = None
-    last_updated = None
     new_messages_count = 0
+    created = None
 
     def __init__(self, username, created):
+        self.data = LOBTree()
         self.username = username
-        self.last_updated
+        self.created = created
 
     def to_long(self, dt):
         """Turns a `datetime` object into a long."""
@@ -61,7 +87,7 @@ class Conversation(LOBTree):
     def generate_key(self, message):
         """Generate a long int key for a message."""
         key = self.to_long(message.created)
-        while key in self:
+        while key in self.data:
             key = key + 1
         return key
 
@@ -75,7 +101,6 @@ class Conversation(LOBTree):
         if key != message.uid:
             msg = 'key and message.uid differ ({0}/{1})'
             raise KeyError(msg.format(key, message.uid))
-        message.__parent__ = self
 
         # delete old message if there is one to make sure the
         # new_messages_count is correct and update the new_messages_count
@@ -94,14 +119,14 @@ class Conversation(LOBTree):
         super(Conversation, self).__delitem__(uid)
 
     def get_messages(self):
-        return self.values()
+        return self.data.values()
 
     def mark_read(self):
         # use update function to update inbox too
         self.update_new_messages_count(self.new_messages_count * -1)
 
         # update messages
-        for message in self.values():
+        for message in self.data.values():
             message.new = False
 
     def update_new_messages_count(self, difference):
@@ -117,14 +142,13 @@ class Conversation(LOBTree):
 
 
 @implementer(IInbox)
-class Inbox(OOBTree):
-
-    __parent__ = None
+class Inbox(BTreeDictBase):
 
     username = None
     new_messages_count = 0
 
     def __init__(self, username):
+        self.data = OOBTree()
         self.username = username
 
     def add_conversation(self, conversation):
@@ -145,7 +169,6 @@ class Inbox(OOBTree):
             raise KeyError('Conversation exists already')
 
         super(Inbox, self).__setitem__(conversation.username, conversation)
-        conversation.__parent__ = self
         self.update_new_messages_count(conversation.new_messages_count)
         return conversation
 
@@ -155,7 +178,7 @@ class Inbox(OOBTree):
         super(Inbox, self).__delitem__(key)
 
     def get_conversations(self):
-        return self.values()
+        return self.data.values()
 
     def is_blocked(self, username):
         # FIXME: not implemented
@@ -171,9 +194,10 @@ class Inbox(OOBTree):
 
 
 @implementer(IInboxes)
-class Inboxes(OOBTree):
+class Inboxes(BTreeDictBase):
 
-    __parent__ = None
+    def __init__(self):
+        self.data = OOBTree()
 
     def add_inbox(self, username):
         if username in self:
@@ -188,13 +212,14 @@ class Inboxes(OOBTree):
         if key != inbox.username:
             msg = 'Inbox username and key differ ({0}/{1})'
             raise KeyError(msg.format(inbox.username, key))
-        inbox.__parent__ = self
 
         # outside tests we need to remove the acquisition wrapper
-        unwrapped_self = self.aq_base if hasattr(self, 'aq_base') else self
-        return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
+        #unwrapped_self = self.aq_base if hasattr(self, 'aq_base') else self
+        return BTreeDictBase.__setitem__(self, key, inbox)
+#        return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
 
     def send_message(self, sender, recipient, text, created=None):
+        # FIXME: print 'send message from %s to %s' % (sender, recipient)
         if not sender in self:
             self.add_inbox(sender)
         sender_inbox = self[sender]

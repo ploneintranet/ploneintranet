@@ -328,3 +328,9 @@ class TestMessage(ApiTestCase):
         self.assertEqual(message.recipient, 'recipient')
         self.assertEqual(message.text, 'text')
         self.assertEqual(message.created, _now)
+
+    def test_message_asserts_created(self):
+        from plonesocial.messaging.messaging import Message
+        not_a_date = 'not a date'
+        with self.assertRaises(ValueError):
+            message = Message('sender', 'recipient', 'text', not_a_date)
