@@ -54,7 +54,7 @@ class Message(Persistent):
     recipient = None
     text = None
     created = None
-    uuid = None
+    uid = None
     new = True
 
     def __init__(self, sender, recipient, text, created):
