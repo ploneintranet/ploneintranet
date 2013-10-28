@@ -101,4 +101,4 @@ class TestAjaxViews(unittest.TestCase):
         self.assertEqual(content['conversations'][0]['username'],
                          'testuser2')
         self.assertEqual(content['conversations'][0]['fullname'],
-                        'Test User 2')
+                         'Test User 2')
