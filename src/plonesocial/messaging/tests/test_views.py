@@ -55,9 +55,11 @@ class TestAjaxViews(unittest.TestCase):
         self.request = self.layer['request']
         self.browser = Browser(self.app)
         api.user.create(username='testuser1', email='what@ev.er',
-                        password='testuser1')
+                        password='testuser1',
+                        properties={'fullname': 'Test User 1'})
         api.user.create(username='testuser2', email='what@ev.er',
-                        password='testuser2')
+                        password='testuser2',
+                        properties={'fullname': 'Test User 2'})
         transaction.commit()
 
     def _create_message(self, from_, to, text, created=now):
@@ -86,3 +88,17 @@ class TestAjaxViews(unittest.TestCase):
                          1)
         self.assertEqual(content['messages'][0]['text'],
                          'Message Text')
+
+    def test_list_conversations(self):
+        self._create_message('testuser1', 'testuser2', 'Message Text',
+                             created=now)
+        self._login('testuser1', 'testuser1')
+        self.browser.open(self.portal_url +
+                          '/@@messaging-conversations')
+        content = json.loads(self.browser.contents)
+        self.assertEqual(len(content['conversations']),
+                         1)
+        self.assertEqual(content['conversations'][0]['username'],
+                         'testuser2')
+        self.assertEqual(content['conversations'][0]['fullname'],
+                        'Test User 2')

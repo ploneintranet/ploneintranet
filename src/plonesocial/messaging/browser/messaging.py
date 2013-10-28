@@ -110,3 +110,18 @@ class MessagingView(JsonView):
 
         result = {'messages': messages}
         return self.success(result)
+
+    def conversations(self):
+        inboxes = self.inboxes()
+        user = api.user.get_current()
+        if user is None:
+            return self.error(401, 'You need to log in to access the inbox')
+
+        if user.id not in inboxes:
+            conversations = []
+        else:
+            conversations = [conversation.to_dict() for conversation in
+                             inboxes[user.id].get_conversations()]
+
+            result = {'conversations': conversations}
+        return self.success(result)

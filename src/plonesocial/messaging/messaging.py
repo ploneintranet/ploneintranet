@@ -4,6 +4,7 @@ from BTrees.OOBTree import OOBTree
 from Persistence import Persistent
 from Products.CMFPlone.utils import getToolByName
 from datetime import datetime
+from plone import api
 from plonesocial.messaging.interfaces import IConversation
 from plonesocial.messaging.interfaces import IInbox
 from plonesocial.messaging.interfaces import IInboxes
@@ -146,6 +147,12 @@ class Conversation(BTreeDictBase):
 
         # update the inbox accordingly
         self.__parent__.update_new_messages_count(difference)
+
+    def to_dict(self):
+        member = api.user.get(self.username)
+        return {'username': self.username,
+                'fullname': member.getProperty('fullname'),
+                'new_messages_count': self.new_messages_count}
 
 
 @implementer(IInbox)

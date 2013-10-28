@@ -20,4 +20,12 @@
       permission="zope.Public"
       />
 
+    <browser:page
+      for="*"
+      name="messaging-conversations"
+      class=".messaging.MessagingView"
+      attribute="conversations"
+      permission="zope.Public"
+      />
+
 </configure>
