@@ -111,6 +111,40 @@ class MessagingView(JsonView):
         result = {'messages': messages}
         return self.success(result)
 
+    def delete_message(self):
+        inboxes = self.inboxes()
+        user = api.user.get_current()
+        if user is None:
+            return self.error(401, 'You need to log in to access the inbox')
+
+        conversation_user_id = self.request.form.get('user')
+        if conversation_user_id is None:
+            return self.error(500, 'You need to provide a parameter "user"')
+
+        message_id = self.request.form.get('message')
+        if message_id is None:
+            return self.error(500, 'You need to provide a parameter "message"')
+        try:
+            message_id = int(message_id)
+        except ValueError:
+            return self.error(500, 'message has to be an integer')
+        result = False
+        if user.id not in inboxes:
+            msg = 'Inbox does not exist'
+        elif conversation_user_id not in inboxes[user.id]:
+            msg = 'Conversation does not exist'
+        else:
+            conversation = inboxes[user.id][conversation_user_id]
+            if message_id not in conversation:
+                msg = 'Message with id {id} does not exit'.format(
+                    id=message_id)
+            else:
+                del conversation[message_id]
+                result = True
+                msg = 'Message {id} deleted'.format(id=message_id)
+        return self.success({'result': result,
+                             'message': msg})
+
     def conversations(self):
         inboxes = self.inboxes()
         user = api.user.get_current()
@@ -125,3 +159,22 @@ class MessagingView(JsonView):
 
             result = {'conversations': conversations}
         return self.success(result)
+
+    def delete_conversation(self):
+        inboxes = self.inboxes()
+        user = api.user.get_current()
+        if user is None:
+            return self.error(401, 'You need to log in to access the inbox')
+
+        conversation_user_id = self.request.form.get('user')
+        if conversation_user_id is None:
+            return self.error(500, 'You need to provide a parameter "user"')
+
+        if user.id not in inboxes:
+            result = False
+        elif conversation_user_id not in inboxes[user.id]:
+            result = False
+        else:
+            del inboxes[user.id][conversation_user_id]
+            result = True
+        return self.success({'result': result})

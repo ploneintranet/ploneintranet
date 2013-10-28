@@ -54,6 +54,7 @@ class TestAjaxViews(unittest.TestCase):
         self.portal_url = self.portal.absolute_url()
         self.request = self.layer['request']
         self.browser = Browser(self.app)
+        self.browser.handleErrors = False
         api.user.create(username='testuser1', email='what@ev.er',
                         password='testuser1',
                         properties={'fullname': 'Test User 1'})
@@ -66,6 +67,10 @@ class TestAjaxViews(unittest.TestCase):
         inboxes = self.portal.plonesocial_messaging
         inboxes.send_message(from_, to, text, created=created)
         transaction.commit()
+
+    def _conversations(self, username):
+        inboxes = self.portal.plonesocial_messaging
+        return [c for c in inboxes[username].get_conversations()]
 
     def _login(self, username, password):
          # Go admin
@@ -89,6 +94,20 @@ class TestAjaxViews(unittest.TestCase):
         self.assertEqual(content['messages'][0]['text'],
                          'Message Text')
 
+    def test_delete_message(self):
+        self._create_message('testuser1', 'testuser2', 'Message Text',
+                             created=now)
+        inbox = self.portal.plonesocial_messaging['testuser1']
+        message_id = inbox['testuser2'].keys()[0]
+        self._login('testuser1', 'testuser1')
+        self.browser.open(self.portal_url +
+                          '/@@delete-message?user=testuser2&message=' +
+                          str(message_id))
+        content = json.loads(self.browser.contents)
+        self.assertEqual(content['result'], True)
+        self.assertTrue(str(message_id) in content['message'])
+        self.assertTrue(message_id not in inbox['testuser2'])
+
     def test_list_conversations(self):
         self._create_message('testuser1', 'testuser2', 'Message Text',
                              created=now)
@@ -102,3 +121,14 @@ class TestAjaxViews(unittest.TestCase):
                          'testuser2')
         self.assertEqual(content['conversations'][0]['fullname'],
                          'Test User 2')
+
+    def test_delete_conversation(self):
+        self._create_message('testuser1', 'testuser2', 'Message Text',
+                             created=now)
+        self.assertEqual(len(self._conversations('testuser1')), 1)
+        self._login('testuser1', 'testuser1')
+        self.browser.open(self.portal_url +
+                          '/@@delete-conversation?user=testuser2')
+        content = json.loads(self.browser.contents)
+        self.assertEqual(content, {u'result': True})
+        self.assertEqual(len(self._conversations('testuser1')), 0)

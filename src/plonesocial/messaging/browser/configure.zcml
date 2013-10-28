@@ -22,9 +22,25 @@
 
     <browser:page
       for="*"
+      name="delete-message"
+      class=".messaging.MessagingView"
+      attribute="delete_message"
+      permission="zope.Public"
+      />
+
+    <browser:page
+      for="*"
       name="messaging-conversations"
       class=".messaging.MessagingView"
       attribute="conversations"
+      permission="zope.Public"
+      />
+
+    <browser:page
+      for="*"
+      name="delete-conversation"
+      class=".messaging.MessagingView"
+      attribute="delete_conversation"
       permission="zope.Public"
       />
 
