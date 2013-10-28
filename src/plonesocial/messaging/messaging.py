@@ -5,12 +5,14 @@ from Persistence import Persistent
 from Products.CMFPlone.utils import getToolByName
 from datetime import datetime
 from plone import api
+from plonesocial.messaging.events import MessageSendEvent
 from plonesocial.messaging.interfaces import IConversation
 from plonesocial.messaging.interfaces import IInbox
 from plonesocial.messaging.interfaces import IInboxes
 from plonesocial.messaging.interfaces import IMessage
 from plonesocial.messaging.interfaces import IMessagingLocator
 from zope.component.hooks import getSite
+from zope.event import notify
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
 
@@ -249,8 +251,8 @@ class Inboxes(BTreeDictBase):
             # FIXME: or utcnow?
             created = datetime.now()
 
-        for pair in ((sender_inbox, recipient),
-                     (recipient_inbox, sender)):
+        for pair in ((sender_inbox, recipient, False),
+                     (recipient_inbox, sender, True)):
             inbox = pair[0]
             conversation_user = pair[1]
             if conversation_user not in inbox:
@@ -259,6 +261,10 @@ class Inboxes(BTreeDictBase):
             conversation = inbox[conversation_user]
             message = Message(sender, recipient, text, created)
             conversation.add_message(message)
+            send_event = pair[2]
+            if send_event:
+                event = MessageSendEvent(message)
+                notify(event)
 
 
 @implementer(IMessagingLocator)

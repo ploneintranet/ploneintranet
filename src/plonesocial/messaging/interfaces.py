@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope import schema
+from zope.interface import Attribute
 from zope.interface import Interface
 
 
@@ -150,3 +151,8 @@ class IMessage(Interface):
 
 class IMessagingTool(Interface):
     """Tool to store messages in the ZODB."""
+
+
+class IMessageSendEvent(Interface):
+
+    message = Attribute('The message Object')

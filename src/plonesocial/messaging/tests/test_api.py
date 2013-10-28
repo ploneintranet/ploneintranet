@@ -104,6 +104,23 @@ class TestInboxes(ApiTestCase):
         # ...but not identical
         self.assertTrue(sender_message is not recipient_message)
 
+    def test_send_message_fires_event(self):
+        from plonesocial.messaging.events import IMessageSendEvent
+        from zope.component import getGlobalSiteManager
+
+        send_events = []
+
+        def test_handler(event):
+            send_events.append(event)
+
+        handler_spec = (test_handler, (IMessageSendEvent,))
+        gsm = getGlobalSiteManager()
+        gsm.registerHandler(*handler_spec)
+        self.inboxes.send_message('sender', 'recipient', 'text', now())
+        self.assertEqual(len(send_events), 1)
+        self.assertTrue(IMessageSendEvent.providedBy(send_events[0]))
+        gsm.unregisterHandler(*handler_spec)
+
 
 class TestInbox(ApiTestCase):
 
