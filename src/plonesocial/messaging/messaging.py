@@ -75,7 +75,8 @@ class Message(Persistent):
                     recipient=self.recipient,
                     text=self.text,
                     created=self.created,
-                    new=self.new)
+                    new=self.new,
+                    uid=self.uid)
 
 
 @implementer(IConversation)

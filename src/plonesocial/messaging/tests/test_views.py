@@ -91,8 +91,13 @@ class TestAjaxViews(unittest.TestCase):
         content = json.loads(self.browser.contents)
         self.assertEqual(len(content['messages']),
                          1)
-        self.assertEqual(content['messages'][0]['text'],
-                         'Message Text')
+        message = content['messages'][0]
+        self.assertEqual(message['text'], 'Message Text')
+        self.assertEqual(message['sender'], 'testuser1')
+        self.assertEqual(message['recipient'], 'testuser2')
+        self.assertEqual(message['text'], 'Message Text')
+        self.assertEqual(message['created'], now.isoformat())
+        self.assertTrue(isinstance(message['uid'], int))
 
     def test_delete_message(self):
         self._create_message('testuser1', 'testuser2', 'Message Text',
