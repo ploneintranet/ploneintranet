@@ -16,7 +16,7 @@ Home view
     Page should contain   The "Explore" section shows all updates of all people. 
     
 Submit microblog update on homepage
-    [Tags]  member  home submit
+    [Tags]  member  home submit memberhomesubmit
     Log in as Clare
     Go to  ${PLONE_URL}    
     Element should be visible  id=microblog

@@ -40,8 +40,18 @@ FullDemo
 
 DevDemo
     [Tags]  demo devdemo    
-    Set Selenium Speed  0.1 seconds
-    Go to homepage    
+    Login Clare
+    Go to  ${PLONE_URL}/@@profile
+#    Show note  Clare checks out her followers
+    Click link  css=.followers a    
+#    Click link explicitly  css=.followers a
+#    Show h2 note  Follow some of these fans back        
+#    Show dot  css=input[name=subunsub_follow]
+    Click Button  name=subunsub_follow
+#    Show dot  css=input[name=subunsub_follow]    
+#    Click Button  name=subunsub_follow
+#    Sleep  1 seconds    
+    
 
 DemoAnonHome
     [Tags]  demo macro anonhome
@@ -71,11 +81,11 @@ DemoStreamNetworkEmpty
     [Tags]  demo macro streamnetworkempty
     Login Clare
     Demo stream network empty
-
+    
 DemoStreamNetworkActivated
     [Tags]  demo macro streamnetworkactivated
     Login Clare
-    Go to  ${PLONE_URL}/@@profile    
+    Go to  ${PLONE_URL}/@@profile        
     Demo follow
     Demo stream network activated
 
