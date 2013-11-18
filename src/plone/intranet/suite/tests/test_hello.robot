@@ -2,11 +2,25 @@
 
 Resource  plone/app/robotframework/selenium.robot
 
+Library  Remote  ${PLONE_URL}/RobotRemote
+
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Plone is installed
+Site Administrator can access sharing tab
+    Given I'm logged in as a 'Site Administrator'
+     Then I see the Sharing tab -link
+
+*** Keywords ***
+
+I'm logged in as a '${ROLE}'
+    Enable autologin as  ${ROLE}
     Go to  ${PLONE_URL}
-    Page should contain  Powered by Plone
+
+I open the personal menu
+    Click link  css=#user-name
+
+I see the Sharing tab -link
+    Element should be visible  css=li#contentview-local_roles a
