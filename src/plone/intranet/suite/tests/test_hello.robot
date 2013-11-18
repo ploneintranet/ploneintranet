@@ -11,7 +11,7 @@ Test Teardown  Close all browsers
 
 Site Administrator can access sharing tab
     Given I'm logged in as a 'Site Administrator'
-     Then I see the Sharing tab -link
+     Then I see the Sharing tab
 
 *** Keywords ***
 
@@ -22,5 +22,5 @@ I'm logged in as a '${ROLE}'
 I open the personal menu
     Click link  css=#user-name
 
-I see the Sharing tab -link
-    Element should be visible  css=li#contentview-local_roles a
+I see the Sharing tab
+    Element should be visible  css=li#contentview-local_roles a[href*='@@sharing']
