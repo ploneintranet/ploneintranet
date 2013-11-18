@@ -1,0 +1,6 @@
+language: python
+python: 2.7
+install: make travis
+script: make test
+notifications:
+  email: plone.intranet@netsight.co.uk
