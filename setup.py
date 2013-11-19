@@ -41,6 +41,7 @@ setup(name='ploneintranet.suite',
           'setuptools',
           # -*- Extra requirements: -*-
           'Plone',
+          'collective.workspace',
       ],
       extras_require={
           'test': [
