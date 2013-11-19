@@ -13,7 +13,7 @@ long_description = (
     open('CHANGES.txt').read()
     + '\n')
 
-setup(name='plone.intranet.suite',
+setup(name='ploneintranet.suite',
       version=version,
       description="Pre-integrated Intranet suite for Plone",
       long_description=long_description,

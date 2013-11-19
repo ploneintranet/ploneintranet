@@ -4,25 +4,25 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneWithPackageLayer
 from plone.testing import z2
 
-import plone.intranet.suite
+import ploneintranet.suite
 
 
-PLONE_INTRANET_SUITE = PloneWithPackageLayer(
-    zcml_package=plone.intranet.suite,
+PLONEINTRANET_SUITE = PloneWithPackageLayer(
+    zcml_package=ploneintranet.suite,
     zcml_filename='testing.zcml',
-    gs_profile_id='plone.intranet.suite:testing',
-    name="PLONE_INTRANET_SUITE")
+    gs_profile_id='ploneintranet.suite:testing',
+    name="PLONEINTRANET_SUITE")
 
-PLONE_INTRANET_SUITE_INTEGRATION = IntegrationTesting(
-    bases=(PLONE_INTRANET_SUITE, ),
-    name="PLONE_INTRANET_SUITE_INTEGRATION")
+PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
+    bases=(PLONEINTRANET_SUITE, ),
+    name="PLONEINTRANET_SUITE_INTEGRATION")
 
-PLONE_INTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
-    bases=(PLONE_INTRANET_SUITE, ),
-    name="PLONE_INTRANET_SUITE_FUNCTIONAL")
+PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
+    bases=(PLONEINTRANET_SUITE, ),
+    name="PLONEINTRANET_SUITE_FUNCTIONAL")
 
-PLONE_INTRANET_SUITE_ROBOT = FunctionalTesting(
-    bases=(PLONE_INTRANET_SUITE,
+PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
+    bases=(PLONEINTRANET_SUITE,
            AUTOLOGIN_LIBRARY_FIXTURE,
            z2.ZSERVER_FIXTURE),
-    name="PLONE_INTRANET_SUITE_ROBOT")
+    name="PLONEINTRANET_SUITE_ROBOT")

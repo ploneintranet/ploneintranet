@@ -2,6 +2,6 @@
 <metadata>
   <version>0001</version>
   <dependencies>
-    <dependency>profile-plone.intranet.suite:default</dependency>
+    <dependency>profile-ploneintranet.suite:default</dependency>
   </dependencies>
 </metadata>

@@ -9,9 +9,9 @@
 
   <genericsetup:registerProfile
       name="testing"
-      title="plone.intranet.suite tests"
+      title="ploneintranet.suite tests"
       directory="profiles/testing"
-      description="Steps to ease tests of plone.intranet.suite"
+      description="Steps to ease tests of ploneintranet.suite"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

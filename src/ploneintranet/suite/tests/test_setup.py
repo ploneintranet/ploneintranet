@@ -2,13 +2,13 @@ import unittest2 as unittest
 
 from Products.CMFCore.utils import getToolByName
 
-from plone.intranet.suite.testing import\
-    PLONE_INTRANET_SUITE_INTEGRATION
+from ploneintranet.suite.testing import\
+    PLONEINTRANET_SUITE_INTEGRATION
 
 
 class TestExample(unittest.TestCase):
 
-    layer = PLONE_INTRANET_SUITE_INTEGRATION
+    layer = PLONEINTRANET_SUITE_INTEGRATION
 
     def setUp(self):
         self.app = self.layer['app']
@@ -19,7 +19,7 @@ class TestExample(unittest.TestCase):
         """ Validate that our products GS profile has been run and the product
             installed
         """
-        pid = 'plone.intranet.suite'
+        pid = 'ploneintranet.suite'
         installed = [p['id'] for p in self.qi_tool.listInstalledProducts()]
         self.assertTrue(pid in installed,
                         'package appears not to have been installed')
