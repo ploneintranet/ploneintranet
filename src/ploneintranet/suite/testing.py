@@ -1,17 +1,41 @@
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import PloneWithPackageLayer
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import PLONE_FIXTURE
 from plone.testing import z2
 
-import ploneintranet.suite
+
+class PloneIntranetSuite(PloneSandboxLayer):
+
+    defaultBases = (PLONE_FIXTURE,)
+
+    def setUpZope(self, app, configurationContext):
+        # Load ZCML
+        import ploneintranet.suite
+        self.loadZCML(package=ploneintranet.suite)
+        # Install product and call its initialize() function
+        z2.installProduct(app, 'ploneintranet.suite')
+
+        # dependencies
+        import ploneintranet.workspace
+        self.loadZCML(package=ploneintranet.workspace)
+        z2.installProduct(app, 'ploneintranet.workspace')
+
+        import collective.workspace
+        self.loadZCML(package=collective.workspace)
+        z2.installProduct(app, 'collective.workspace')
+
+    def setUpPloneSite(self, portal):
+        # Install into Plone site using portal_setup
+        self.applyProfile(portal, 'ploneintranet.suite:default')
+
+    def tearDownZope(self, app):
+        # Uninstall product
+        z2.uninstallProduct(app, 'ploneintranet.suite')
 
 
-PLONEINTRANET_SUITE = PloneWithPackageLayer(
-    zcml_package=ploneintranet.suite,
-    zcml_filename='testing.zcml',
-    gs_profile_id='ploneintranet.suite:testing',
-    name="PLONEINTRANET_SUITE")
+PLONEINTRANET_SUITE = PloneIntranetSuite()
 
 PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
     bases=(PLONEINTRANET_SUITE, ),
