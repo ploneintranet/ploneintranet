@@ -42,6 +42,9 @@ setup(name='ploneintranet.suite',
           # -*- Extra requirements: -*-
           'Plone',
           'ploneintranet.workspace',
+          'plonesocial.microblog',
+          'plonesocial.activitystream',
+          'plonesocial.network',
       ],
       extras_require={
           'test': [
