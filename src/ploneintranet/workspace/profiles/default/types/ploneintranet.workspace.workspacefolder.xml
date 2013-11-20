@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<object name="ploneintranet.workspace.workspace"
+<object name="ploneintranet.workspace.workspacefolder"
    meta_type="Dexterity FTI"
    i18n:domain="ploneintranet.workspace" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
@@ -8,15 +8,15 @@
   <property name="description"
     i18n:translate="">A Workspace users can collaborate in</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
-  <property name="factory">ploneintranet.workspace.workspace</property>
+  <property name="factory">ploneintranet.workspace.workspacefolder</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">ploneintranet.workspace.workspace.IWorkspace</property>
-  <property name="klass">ploneintranet.workspace.workspace.Workspace</property>
+  <property name="schema">ploneintranet.workspace.workspacefolder.IWorkspaceFolder</property>
+  <property name="klass">ploneintranet.workspace.workspacefolder.WorkspaceFolder</property>
 
   <property name="behaviors">
      <element value="plone.app.content.interfaces.INameFromTitle" />

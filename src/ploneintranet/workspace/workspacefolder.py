@@ -19,9 +19,9 @@ from ploneintranet.workspace import MessageFactory as _
 
 # Interface class; used to define content-type schema.
 
-class IWorkspace(form.Schema, IImageScaleTraversable):
+class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
-    A Workspace users can collaborate in
+    A WorkspaceFolder users can collaborate in
     """
 
     # If you want a schema-defined interface, delete the model.load
@@ -29,7 +29,7 @@ class IWorkspace(form.Schema, IImageScaleTraversable):
     # If you want a model-based interface, edit
     # models/workspace.xml to define the content type.
 
-    form.model("models/workspace.xml")
+    form.model("models/workspacefolder.xml")
 
 
 # Custom content-type class; objects created for this content type will
@@ -37,8 +37,8 @@ class IWorkspace(form.Schema, IImageScaleTraversable):
 # methods and properties. Put methods that are mainly useful for rendering
 # in separate view classes.
 
-class Workspace(Container):
-    grok.implements(IWorkspace)
+class WorkspaceFolder(Container):
+    grok.implements(IWorkspaceFolder)
 
     # Add your class methods and properties here
 
@@ -56,7 +56,7 @@ class Workspace(Container):
 class SampleView(grok.View):
     """ sample view class """
 
-    grok.context(IWorkspace)
+    grok.context(IWorkspaceFolder)
     grok.require('zope2.View')
 
     # grok.name('view')
