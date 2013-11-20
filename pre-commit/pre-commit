@@ -1,0 +1,3 @@
+#!/bin/sh
+
+{PWD}/bin/python {PWD}/pre-commit/pre-commit.py
