@@ -1,5 +1,5 @@
 from ploneintranet.workspace.testing import \
-    PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+    PLONEINTRANET_WORKSPACE_ROBOT_TESTING
 from plone.testing import layered
 import robotsuite
 import unittest
@@ -8,7 +8,7 @@ import unittest
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTests([
-        #layered(robotsuite.RobotTestSuite("robot_test.txt"),
-        #        layer=PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING)
+        layered(robotsuite.RobotTestSuite("workspace.robot"),
+                layer=PLONEINTRANET_WORKSPACE_ROBOT_TESTING)
     ])
     return suite

@@ -1,3 +1,4 @@
+from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.testing import PLONE_FIXTURE
@@ -48,3 +49,8 @@ PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEINTRANET_WORKSPACE_FIXTURE, z2.ZSERVER_FIXTURE),
     name="PloneintranetworkspaceLayer:Functional"
 )
+PLONEINTRANET_WORKSPACE_ROBOT_TESTING = FunctionalTesting(
+    bases=(PLONEINTRANET_WORKSPACE_FIXTURE,
+           AUTOLOGIN_LIBRARY_FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PLONEINTRANET_WORKSPACE_ROBOT")
