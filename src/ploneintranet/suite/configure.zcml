@@ -9,9 +9,9 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="ploneintranet.suite"
+      title="Plone Intranet: Suite"
       directory="profiles/default"
-      description="Installs the ploneintranet.suite package"
+      description="Installs the full suite of PloneIntranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
   <!-- -*- extra stuff goes here -*- -->
