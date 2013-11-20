@@ -21,6 +21,7 @@
   <property name="behaviors">
      <element value="plone.app.content.interfaces.INameFromTitle" />
      <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
+     <element value="collective.workspace.interfaces.IWorkspace"/>
    </property>
 
   <!-- View information -->
