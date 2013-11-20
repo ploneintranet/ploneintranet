@@ -26,6 +26,16 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=collective.workspace)
         z2.installProduct(app, 'collective.workspace')
 
+        # plone social dependancies
+        import plonesocial.microblog
+        self.loadZCML(package=plonesocial.microblog)
+
+        import plonesocial.activitystream
+        self.loadZCML(package=plonesocial.activitystream)
+
+        import plonesocial.network
+        self.loadZCML(package=plonesocial.network)
+
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:default')
