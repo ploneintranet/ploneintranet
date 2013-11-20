@@ -1,21 +1,37 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
-  <five:registerPackage package="." initialize=".initialize" />
-
+  <!-- Include configuration for dependencies listed in setup.py -->
   <includeDependencies package="." />
 
+  <!-- Grok the package to initialize schema interfaces and content classes -->
+  <grok:grok package="." />
+
+  <!-- Register a resource directory from which we can deploy static
+   resource files. -->
+  <browser:resourceDirectory
+    name="ploneintranet.workspace"
+    directory="resources" />
+
+  <i18n:registerTranslations directory="locales" />
+
+  <!-- Register an extension profile to make the product installable
+       in Plone -->
   <genericsetup:registerProfile
       name="default"
-      title="ploneintranet.workspace"
+      title="A Workspace implementation for ploneintranet"
       directory="profiles/default"
-      description="Installs the ploneintranet.workspace package"
+      description="Extension profile for A Workspace implementation for ploneintranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>
