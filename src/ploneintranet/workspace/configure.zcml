@@ -26,9 +26,9 @@
        in Plone -->
   <genericsetup:registerProfile
       name="default"
-      title="A Workspace implementation for ploneintranet"
+      title="Plone Intranet: Workspace"
       directory="profiles/default"
-      description="Extension profile for A Workspace implementation for ploneintranet"
+      description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
