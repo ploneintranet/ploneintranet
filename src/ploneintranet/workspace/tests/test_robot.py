@@ -1,4 +1,5 @@
-from  ploneintranet.workspace.testing import PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+from ploneintranet.workspace.testing import \
+    PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
 from plone.testing import layered
 import robotsuite
 import unittest
