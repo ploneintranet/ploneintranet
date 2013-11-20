@@ -1,6 +1,8 @@
 *** Settings ***
 
 Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/keywords.robot
+Resource  keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -10,18 +12,33 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Site Administrator can create Workspace
-    Given I'm logged in as a 'Site Administrator'
-    Create workspace 'Example Workspace'
+#Site Administrator can create example user
+#    Log in as site owner
+#    Add content User 'Example User'
+
+
+Site Administrator can create workspace
+    Log in as site owner
+    Go to homepage
+    Add dexterity content  Workspace  Example Workspace
+
+
+#Site Administrator can add example user as member of workspace
+#    Log in as site owner
+#    Navigate to  'Example Workspace'
+#    Click  'Roster'  in edit bar
+#    Click link  '+ Add person to roster'
+#    Input text  form.widgets.user.widgets.query  'Example User'
+
+
+#Example User can access workspace
+#    Log in as test user
+#	Navigate to 'Example Workspace'
+#    Page should contain element css=#contentview-view
 
 
 *** Keywords ***
 
-I'm logged in as a '${ROLE}'
-    Enable autologin as  ${ROLE}
-    Go to  ${PLONE_URL}
-
-
-Create workspace '${TITLE}'
-    Go to  ${PLONE_URL}
-    
+Navigate to '$title'
+    Click 'contents' In Edit Bar
+    Click link $title
