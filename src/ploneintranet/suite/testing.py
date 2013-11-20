@@ -20,7 +20,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # dependencies
         import ploneintranet.workspace
         self.loadZCML(package=ploneintranet.workspace)
-        z2.installProduct(app, 'ploneintranet.workspace')
 
         import collective.workspace
         self.loadZCML(package=collective.workspace)
