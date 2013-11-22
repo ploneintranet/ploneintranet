@@ -20,8 +20,7 @@ Test Teardown  Close all browsers
 Site Administrator can create workspace
     Log in as site owner
     Go to homepage
-    Add dexterity content  Workspace  Example Workspace
-
+    Add content item  Workspace  Example Workspace
 
 #Site Administrator can add example user as member of workspace
 #    Log in as site owner
