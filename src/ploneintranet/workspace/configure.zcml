@@ -8,10 +8,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
-  <!-- Include configuration for dependencies listed in setup.py -->
-  <includeDependencies package="." />
-
   <!-- Grok the package to initialize schema interfaces and content classes -->
+  <include package="five.grok" />
   <grok:grok package="." />
 
   <!-- Register a resource directory from which we can deploy static
