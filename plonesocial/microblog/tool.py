@@ -30,7 +30,7 @@ class MicroblogTool(UniqueObject, SimpleItem, QueuedStatusContainer):
         marker = IMicroblogContext.__identifier__
         results = catalog.searchResults(object_provides=marker)
         # SiteRoot context is NOT whitelisted
-        whitelist = [IUUID(x.getObject()) for x in results]
+        whitelist = [x.UID for x in results]
         # SiteRoot context is not UUID indexed, so not blacklisted
         blacklist = [x for x in self._uuid_mapping.keys()
                      if x not in whitelist]
