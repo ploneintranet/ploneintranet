@@ -29,6 +29,7 @@ class StatusUpdate(Persistent):
         self._init_userid()
         self._init_creator()
         self._init_context(context)
+        self._init_thread()
 
     # for unittest subclassing
     def _init_userid(self):
@@ -39,6 +40,10 @@ class StatusUpdate(Persistent):
         portal_membership = getToolByName(getSite(), 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
         self.creator = member.getUserName()
+
+    # for unittest subclassing
+    def _init_thread(self):
+        self.thread = None
 
     # for unittest subclassing
     def _init_context(self, context):
