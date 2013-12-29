@@ -81,8 +81,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_user(status)
         self._idx_tag(status)
         self._idx_context(status)
-        self._notify(status)
         self._idx_threaded(status)
+        self._notify(status)
 
     def _check_status(self, status):
         if not IStatusUpdate.providedBy(status):
