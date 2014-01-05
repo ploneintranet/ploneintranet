@@ -20,6 +20,29 @@ div#microblog .formControls {
 div#microblog .formControls input.standalone {
     padding: 0.25em;
 }
+div#microblog input.hide,
+div#microblog .formControls input.reply,
 div#microblog .formControls input.hide {
+    /* display: none; */
+}
+
+.activityItem div#microblog {
+    border: 0;
+    box-shadow: 0 0 0 0;
+    margin: 0;
+    padding: 0;
+}
+.activityItem div#microblog label {
     display: none;
+}
+.activityItem div#microblog textarea {
+    width: 30%;
+    height: 18px;
+    float: left;
+}
+.activityItem div#microblog .formControls input {
+    display: none;
+}
+.activityItem div#microblog .formControls input.reply {
+    display: block;
 }
