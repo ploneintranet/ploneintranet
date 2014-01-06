@@ -129,9 +129,9 @@ class BaseStatusContainer(Persistent, Explicit):
             self._uuid_mapping[uuid].insert(status.id)
 
     def _idx_threaded(self, status):
-        if not getattr(status, 'thread', False):
+        if not getattr(status, 'thread_id', False):
             return
-        tread_id = status.thread
+        tread_id = status.thread_id
         if tread_id:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
