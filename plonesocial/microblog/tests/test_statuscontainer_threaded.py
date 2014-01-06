@@ -21,7 +21,7 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, userid, creator=None, thread=None):
+    def __init__(self, text, userid, creator=None, thread_id=None):
         statusupdate.StatusUpdate.__init__(self, text)
         self.userid = userid
         if creator:
@@ -29,8 +29,8 @@ class StatusUpdate(statusupdate.StatusUpdate):
         else:
             self.creator = userid
 
-        if thread:
-            self.thread = thread
+        if thread_id:
+            self.thread_id = thread_id
 
     def _init_userid(self):
         pass
@@ -55,11 +55,11 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.assertEqual(key, value.id)
         self.assertEqual(status, value)
         # add reply to status.id
-        sa = StatusUpdate('test reply a', 'arnold', thread=status.id)
+        sa = StatusUpdate('test reply a', 'arnold', thread_id=status.id)
         container.add(sa)
-        sb = StatusUpdate('test reply b', 'bernard', thread=status.id)
+        sb = StatusUpdate('test reply b', 'bernard', thread_id=status.id)
         container.add(sb)
-        sc = StatusUpdate('test reply c', 'cary', thread=status.id)
+        sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
         keys = [x for x in container.thread_keys(thread=status.id)]
@@ -74,11 +74,11 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.assertEqual(key, value.id)
         self.assertEqual(status, value)
         # add reply to status.id
-        sa = StatusUpdate('test reply a', 'arnold', thread=status.id)
+        sa = StatusUpdate('test reply a', 'arnold', thread_id=status.id)
         container.add(sa)
-        sb = StatusUpdate('test reply b', 'bernard', thread=status.id)
+        sb = StatusUpdate('test reply b', 'bernard', thread_id=status.id)
         container.add(sb)
-        sc = StatusUpdate('test reply c', 'cary', thread=status.id)
+        sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
         values = [x for x in container.thread_values(thread=status.id)]
@@ -93,11 +93,11 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.assertEqual(key, value.id)
         self.assertEqual(status, value)
         # add reply to status.id
-        sa = StatusUpdate('test reply a', 'arnold', thread=status.id)
+        sa = StatusUpdate('test reply a', 'arnold', thread_id=status.id)
         container.add(sa)
-        sb = StatusUpdate('test reply b', 'bernard', thread=status.id)
+        sb = StatusUpdate('test reply b', 'bernard', thread_id=status.id)
         container.add(sb)
-        sc = StatusUpdate('test reply c', 'cary', thread=status.id)
+        sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
         values = [x[1] for x in container.thread_items(thread=status.id)]
@@ -112,11 +112,11 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.assertEqual(key, value.id)
         self.assertEqual(status, value)
         # add reply to status.id
-        sa = StatusUpdate('test reply a', 'arnold', thread=status.id)
+        sa = StatusUpdate('test reply a', 'arnold', thread_id=status.id)
         container.add(sa)
-        sb = StatusUpdate('test reply b', 'bernard', thread=status.id)
+        sb = StatusUpdate('test reply b', 'bernard', thread_id=status.id)
         container.add(sb)
-        sc = StatusUpdate('test reply c', 'cary', thread=status.id)
+        sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from thread item sa.id
         si = container.get(sa.id)
@@ -133,11 +133,11 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.assertEqual(key, value.id)
         self.assertEqual(status, value)
         # add reply to status.id
-        sa = StatusUpdate('test reply a', 'arnold', thread=status.id)
+        sa = StatusUpdate('test reply a', 'arnold', thread_id=status.id)
         container.add(sa)
-        sb = StatusUpdate('test reply b', 'bernard', thread=status.id)
+        sb = StatusUpdate('test reply b', 'bernard', thread_id=status.id)
         container.add(sb)
-        sc = StatusUpdate('test reply c', 'cary', thread=status.id)
+        sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # test by giving none
         values = [x[1] for x in container.thread_items(thread=None)]

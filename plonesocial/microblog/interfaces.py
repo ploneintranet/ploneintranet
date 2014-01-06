@@ -23,7 +23,7 @@ class IStatusUpdate(Interface):
     context_UUID = Attribute("UUID of IMicroblogContext (e.g. a workspace)")
     # actual object context
     context_object = Attribute("UUID of context object (e.g. a Page)")
-    thread = Attribute("status.id from parent")
+    thread_id = Attribute("status.id from parent")
 
 
 class IStatusContainer(Interface):

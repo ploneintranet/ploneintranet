@@ -21,7 +21,7 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, context=None, thread=None):
+    def __init__(self, text, context=None, thread_id=None):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
         self.text = text
@@ -29,7 +29,7 @@ class StatusUpdate(Persistent):
         self._init_userid()
         self._init_creator()
         self._init_context(context)
-        self._init_thread()
+        self._init_thread(thread_id)
 
     # for unittest subclassing
     def _init_userid(self):
@@ -42,8 +42,10 @@ class StatusUpdate(Persistent):
         self.creator = member.getUserName()
 
     # for unittest subclassing
-    def _init_thread(self):
-        self.thread = None
+    def _init_thread(self, thread_id):
+        self.thread_id = None
+        if thread_id:
+            self.thread_id = thread_id
 
     # for unittest subclassing
     def _init_context(self, context):

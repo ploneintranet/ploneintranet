@@ -39,50 +39,23 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
     fields = field.Fields(IStatusUpdate).omit('portal_type',
                                               '__parent__',
                                               '__name__',
+                                              'id',
                                               'mime_type',
                                               'creator',
                                               'userid',
-                                              'creation_date')
+                                              'creation_date',
+                                              'thread_id')
 
     def updateFields(self):
         super(StatusForm, self).updateFields()
 
     def updateWidgets(self):
         super(StatusForm, self).updateWidgets()
-        self.widgets['thread'].addClass("hide")
 
     def updateActions(self):
         super(StatusForm, self).updateActions()
         self.actions['cancel'].addClass("hide")
         self.actions['statusupdate'].addClass("standalone")
-        self.actions['statusreply'].addClass("standalone")
-        self.actions['statusreply'].addClass("reply")
-
-    @button.buttonAndHandler(_(u"label_statusreply",
-                               default=u"Reply"),
-                             name='statusreply')
-    def handleReply(self, action):
-
-        # Validation form
-        data, errors = self.extractData()
-        if errors:
-            return
-
-        container = queryUtility(IMicroblogTool)
-        microblog_context = get_microblog_context(self.context)
-        thread = data.get('thread', None)
-        status = StatusUpdate(data['text'],
-                              context=microblog_context,
-                              thread=thread)
-
-        # debugging only
-#        container.clear()
-
-        # save the status update
-        container.add(status)
-
-        # Redirect to portal home
-        self.request.response.redirect(self.action)
 
     @button.buttonAndHandler(_(u"label_statusupdate",
                                default=u"Status Update"),
@@ -96,10 +69,10 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         container = queryUtility(IMicroblogTool)
         microblog_context = get_microblog_context(self.context)
-        thread = data.get('thread', None)
+        thread_id = self.request.form.get('thread_id', None)
         status = StatusUpdate(data['text'],
                               context=microblog_context,
-                              thread=thread)
+                              thread_id=thread_id)
 
         # debugging only
 #        container.clear()
@@ -132,7 +105,7 @@ class StatusProvider(object):
         self.request = request
         self.view = view
         # optional give thread to provider
-        self.thread = None
+        self.thread_id = None
         self.portlet_data = None  # used by microblog portlet
         # force microblog context to IMicroblogContext or SiteRoot
         for obj in aq_chain(self.context):
@@ -147,7 +120,7 @@ class StatusProvider(object):
     def _update(self):
         if self.available:
             z2.switch_on(self, request_layer=IFormLayer)
-            self.form = self.form(self, self.request)
+            self.form = self.form(aq_inner(self.context), self.request)
             alsoProvides(self.form, IWrappedForm)
             self.form.update()
 
