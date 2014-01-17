@@ -71,7 +71,7 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         container = queryUtility(IMicroblogTool)
         microblog_context = get_microblog_context(self.context)
-        thread_id = self.request.form.get('thread_id', None)
+        thread_id = self.context.thread_id or self.context.id
         status = StatusUpdate(data['text'],
                               context=microblog_context,
                               thread_id=thread_id)
@@ -145,6 +145,25 @@ class StatusProvider(object):
             return True
         else:
             return self.portlet_data.compact
+
+
+class StatusReplyProvider(StatusProvider):
+    """status form provider to be used on a statusupdate"""
+    implements(IStatusProvider)
+    adapts(IStatusUpdate, IPlonesocialMicroblogLayer, Interface)
+
+    form = StatusForm
+    index = ViewPageTemplateFile('status.pt')
+    available = True  # fixme security check
+
+    comment_transform_message = "Reply..."
+
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
+        self.thread_id = context.thread_id or context.id  # catch first
+        self.portlet_data = None  # used by microblog portlet
 
 
 class StatusViewlet(StatusProvider, ViewletBase):
