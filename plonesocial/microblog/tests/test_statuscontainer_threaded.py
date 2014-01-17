@@ -41,6 +41,17 @@ class TestStatusContainer_Tags(unittest.TestCase):
 
     ## user/tag accessors
 
+    def XXtest_keys_self(self):
+        container = StatusContainer()
+        # add normal status update
+        status = StatusUpdate('test', 'arnold')
+        container.add(status)
+        (key, value) = list(container.items())[0]
+        self.assertEqual(key, value.id)
+        self.assertEqual(status, value)
+        keys = [x for x in container.thread_keys(thread_id=status.id)]
+        self.assertEqual([status.id], keys)
+
     def test_keys(self):
         container = StatusContainer()
         # add normal status update
