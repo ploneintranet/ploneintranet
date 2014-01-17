@@ -1,7 +1,7 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:attributes="class string:activityItem ${view/render_type}">
 
-I am a brain activity provider
+I am a discussion activity provider
 
   <div class="activityAvatar">
     <a href=""
@@ -85,7 +85,7 @@ I am a brain activity provider
       <span tal:replace="structure view/getText" />
     </div><!-- /activityText -->
 
-    <div class="activityDate"
+    <div class="activityDate
 	 tal:content="view/date">
       8/23/2001 12:40:44 PM
     </div>

@@ -25,7 +25,11 @@
       />
 
   <adapter 
-      factory=".activity_provider.BrainActivityProvider"
+      factory=".activity_provider.ContentActivityProvider"
+      />
+
+  <adapter 
+      factory=".activity_provider.DiscussionActivityProvider"
       />
 
   <adapter 

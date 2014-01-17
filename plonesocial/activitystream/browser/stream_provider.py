@@ -80,6 +80,8 @@ class StreamProvider(object):
             if i >= self.count:
                 break
             try:
+                if hasattr(item, 'getObject'):
+                    item = item.getObject()
                 activity = IActivity(item)
             except Unauthorized:
                 continue

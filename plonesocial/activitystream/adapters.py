@@ -1,11 +1,13 @@
 from zope.interface import implements
 from zope.component import adapts
 
-from Products.ZCatalog.interfaces import ICatalogBrain
+from plone.app.discussion.interfaces import IComment
+from Products.CMFCore.interfaces import IContentish
 from Acquisition import aq_inner, aq_parent
 
 from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.activitystream.interfaces import IBrainActivity
+from plonesocial.activitystream.interfaces import IContentActivity
+from plonesocial.activitystream.interfaces import IDiscussionActivity
 
 
 class StatusActivity(object):
@@ -32,20 +34,18 @@ class StatusActivity(object):
             self.url = m_context.absolute_url() + '/@@stream'
 
 
-class BrainActivity(object):
-    adapts(ICatalogBrain)
-    implements(IBrainActivity)
+class AbstractContentActivity(object):
 
     is_status = False
 
     def __init__(self, context):
         self.context = context
-        obj = context.getObject()
+        obj = self.context
         self.title = obj.Title()
-        self.url = context.getURL()
+        self.url = context.absolute_url()
         self.portal_type = obj.portal_type
         self.Creator = obj.Creator()
-        self.raw_date = max(context.created, context.effective)
+        self.raw_date = max(context.created(), context.effective())
 
         if obj.portal_type == 'Discussion Item':
             self.render_type = 'discussion'
@@ -71,3 +71,13 @@ class BrainActivity(object):
     @property
     def is_content(self):
         return self.render_type == 'content'
+
+
+class ContentActivity(AbstractContentActivity):
+    adapts(IContentish)
+    implements(IContentActivity)
+
+
+class DiscussionActivity(AbstractContentActivity):
+    adapts(IComment)
+    implements(IDiscussionActivity)

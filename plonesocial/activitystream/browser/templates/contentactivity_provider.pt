@@ -1,7 +1,7 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:attributes="class string:activityItem ${view/render_type}">
 
-I am a statusactivity provider
+I am a content activity provider
 
   <div class="activityAvatar">
     <a href=""
@@ -46,6 +46,41 @@ I am a statusactivity provider
          tal:define="is_content view/is_content;
                      canReview python:view.can_review() and not is_content"
          tal:condition="view/getText">
+
+      <div class="commentActions"
+           tal:condition="view/is_discussion"
+           i18n:domain="plone.app.discussion">
+        <form name="delete"
+              action=""
+              method="post"
+              style="display: inline;"
+              tal:condition="canReview"
+              tal:attributes="action string:${view/getURL}/@@moderate-delete-comment">
+          <input name="form.button.DeleteComment"
+                 class="destructive"
+                 type="submit"
+                 value="Delete"
+                 i18n:attributes="value label_delete;"
+                 />
+        </form>
+        <!-- Workflow actions (e.g. 'publish') -->
+        <form name=""
+              action=""
+              method="get"
+              style="display: inline;"
+              tal:condition="canReview"
+              tal:repeat="action reply_dict/actions|nothing"
+              tal:attributes="action string:${view/getURL}/@@moderate-publish-comment;
+                              name action/id">
+          <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
+          <input name="form.button.PublishComment"
+                 class="context"
+                 type="submit"
+                 tal:attributes="value action/title"
+                 i18n:attributes="value"
+                 />
+        </form>
+      </div>
 
       <span tal:replace="structure view/getText" />
     </div><!-- /activityText -->

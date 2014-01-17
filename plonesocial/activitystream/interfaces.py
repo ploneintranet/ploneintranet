@@ -22,5 +22,9 @@ class IStatusActivity(IActivity):
     """IActivity for an IStatusUpdate"""
 
 
-class IBrainActivity(IActivity):
-    """IActivity for an IBrain"""
+class IContentActivity(IActivity):
+    """IActivity for a content object"""
+
+
+class IDiscussionActivity(IActivity):
+    """IActivity for a discussion comment"""

@@ -15,7 +15,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
 from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.activitystream.interfaces import IBrainActivity
+from plonesocial.activitystream.interfaces import IContentActivity
+from plonesocial.activitystream.interfaces import IDiscussionActivity
 
 
 TAGRE = re.compile('(#(\S+))')
@@ -181,10 +182,19 @@ class StatusActivityProvider(AbstractActivityProvider):
     index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
 
 
-class BrainActivityProvider(AbstractActivityProvider):
+class ContentActivityProvider(AbstractActivityProvider):
     """Render an IBrainActivity"""
 
     implements(IActivityProvider)
-    adapts(IBrainActivity, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IContentActivity, IPlonesocialActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/brainactivity_provider.pt")
+    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
+
+
+class DiscussionActivityProvider(AbstractActivityProvider):
+    """Render an IDicussionCommentActivity"""
+
+    implements(IActivityProvider)
+    adapts(IDiscussionActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")

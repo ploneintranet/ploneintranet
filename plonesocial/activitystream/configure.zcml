@@ -16,7 +16,9 @@
 	   factory=".adapters.StatusActivity"
 	   for="plonesocial.microblog.interfaces.IStatusUpdate"
 	   />
-  <adapter factory=".adapters.BrainActivity"
+  <adapter factory=".adapters.ContentActivity"
+	   />
+  <adapter factory=".adapters.DiscussionActivity"
 	   />
 
   <genericsetup:registerProfile
