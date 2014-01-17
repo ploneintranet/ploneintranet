@@ -17,13 +17,10 @@ div#microblog textarea {
 div#microblog .formControls {
     margin: 0.25em 0 0 0;
 }
-div#microblog .formControls input.standalone {
-    padding: 0.25em;
-}
 div#microblog input.hide,
 div#microblog .formControls input.reply,
 div#microblog .formControls input.hide {
-    /* display: none; */
+    display: none;
 }
 
 .activityItem div#microblog {
@@ -45,4 +42,17 @@ div#microblog .formControls input.hide {
 }
 .activityItem div#microblog .formControls input.reply {
     display: block;
+}
+
+.conversation .highlight-True div.activityItem,
+.conversation .highlight-True #microblog {
+    border: 0;
+    margin: 0;
+    box-shadow: 0 0 0 0;
+}
+.conversation .highlight-True {
+    border: 1px solid #ddd;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    box-shadow: 0 0 0.5em 0 #888888;
+    margin: 0.5em 0.5em 1em 0;
 }
