@@ -169,6 +169,9 @@ class StatusActivityProvider(AbstractActivityProvider):
 
     index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
 
+    def status_id(self):
+        return self.context.context.id
+
 
 class ContentActivityProvider(AbstractActivityProvider):
     """Render an IBrainActivity"""

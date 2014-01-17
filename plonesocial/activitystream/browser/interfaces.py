@@ -40,6 +40,10 @@ class IStreamProvider(IContentProvider):
     userid = Attribute("Optional userid to filter on")
 
 
+class IStatusConversationProvider(IContentProvider):
+    """Helper to render status conversations"""
+
+
 class IPlonesocialActivitystreamViewlets(IViewletManager):
     """A viewlet manager for the activity stream view."""
 

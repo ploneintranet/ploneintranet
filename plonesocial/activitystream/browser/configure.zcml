@@ -37,10 +37,23 @@
       factory=".stream_provider.StreamProvider"
       />
 
+  <adapter 
+      name="plonesocial.activitystream.statusconversation_provider"
+      factory=".statusconversation_provider.StatusConversationProvider"
+      />
+
   <browser:page
       name="stream"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".stream.StreamView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
+  <browser:page
+      name="status"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".statusconversation.StatusConversationView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />

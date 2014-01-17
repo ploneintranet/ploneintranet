@@ -48,4 +48,10 @@ I am a statusactivity provider
     </div>
 
   </div>
+
+  <div><a tal:attributes="href string:@@status/${view/status_id}"
+          >conversation</a>
+  </div>
+    
+
 </div>
