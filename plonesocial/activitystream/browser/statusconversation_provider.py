@@ -63,16 +63,6 @@ class StatusConversationProvider(object):
                 (activity, self.request, self.view),
                 IActivityProvider)
 
-    def status_provider(self):
-        if not PLONESOCIAL.microblog:
-            return ''
-
-        provider = getMultiAdapter(
-            (self.context, self.request, self),
-            name="plonesocial.microblog.status_provider")
-        provider.update()
-        return provider()
-
     def can_view(self, activity):
         """Returns true if current user has the 'View' permission.
         """
