@@ -193,20 +193,21 @@ class BaseStatusContainer(Persistent, Explicit):
 
     ## threaded accessors
 
-    def thread_items(self, thread, min=None, max=None, limit=100, tag=None):
+    def thread_items(self, thread_id, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key
-                in self.thread_keys(thread, min, max, limit, tag))
+                in self.thread_keys(thread_id, min, max, limit, tag))
 
-    def thread_values(self, thread, min=None, max=None, limit=100, tag=None):
+    def thread_values(self, thread_id, min=None, max=None,
+                      limit=100, tag=None):
         return (self.get(key) for key
-                in self.thread_keys(thread, min, max, limit, tag))
+                in self.thread_keys(thread_id, min, max, limit, tag))
 
-    def thread_keys(self, thread, min=None, max=None, limit=100, tag=None):
-        if not thread:
+    def thread_keys(self, thread_id, min=None, max=None, limit=100, tag=None):
+        if not thread_id:
             return ()
         if tag and tag not in self._tag_mapping:
             return ()
-        mapping = self._threaded_mapping.get(thread)
+        mapping = self._threaded_mapping.get(thread_id)
         # returns unchanged mapping if tag is None
         mapping = self._keys_tag(tag, mapping)
 

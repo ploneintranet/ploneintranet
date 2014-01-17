@@ -24,21 +24,16 @@ class StatusUpdate(statusupdate.StatusUpdate):
     def __init__(self, text, userid, creator=None, thread_id=None):
         statusupdate.StatusUpdate.__init__(self, text)
         self.userid = userid
+        self.thread_id = thread_id
         if creator:
             self.creator = creator
         else:
             self.creator = userid
 
-        if thread_id:
-            self.thread_id = thread_id
-
     def _init_userid(self):
         pass
 
     def _init_creator(self):
-        pass
-
-    def _init_thread(self):
         pass
 
 
@@ -62,7 +57,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
-        keys = [x for x in container.thread_keys(thread=status.id)]
+        keys = [x for x in container.thread_keys(thread_id=status.id)]
         self.assertEqual([sc.id, sb.id, sa.id], keys)
 
     def test_values(self):
@@ -81,7 +76,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
-        values = [x for x in container.thread_values(thread=status.id)]
+        values = [x for x in container.thread_values(thread_id=status.id)]
         self.assertEqual([sc, sb, sa], values)
 
     def test_items(self):
@@ -100,7 +95,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # get all thread items from parent status.id
-        values = [x[1] for x in container.thread_items(thread=status.id)]
+        values = [x[1] for x in container.thread_items(thread_id=status.id)]
         self.assertEqual([sc, sb, sa], values)
 
     def test_get_thread_by_thread_item(self):
@@ -120,8 +115,9 @@ class TestStatusContainer_Tags(unittest.TestCase):
         container.add(sc)
         # get all thread items from thread item sa.id
         si = container.get(sa.id)
-        if getattr(si, 'thread'):
-            values = [x[1] for x in container.thread_items(thread=si.thread)]
+        if getattr(si, 'thread_id'):
+            values = [x[1] for x in
+                      container.thread_items(thread_id=si.thread_id)]
             self.assertEqual([sc, sb, sa], values)
 
     def test_get_nothing_by_none_thread_item(self):
@@ -140,7 +136,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         sc = StatusUpdate('test reply c', 'cary', thread_id=status.id)
         container.add(sc)
         # test by giving none
-        values = [x[1] for x in container.thread_items(thread=None)]
+        values = [x[1] for x in container.thread_items(thread_id=None)]
         self.assertEqual([], values)
 
     #def test_user_keys_match(self):
