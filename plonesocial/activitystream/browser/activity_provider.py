@@ -169,8 +169,21 @@ class StatusActivityProvider(AbstractActivityProvider):
 
     index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
 
+    def __init__(self, context, request, view):
+        self.context = context  # IStatusActivity
+        self.status = context.context  # IStatusUpdate
+        self.request = request
+        self.view = self.__parent__ = view
+
     def status_id(self):
-        return self.context.context.id
+        return self.status.id
+
+    def statusreply_provider(self):
+        provider = getMultiAdapter(
+            (self.status, self.request, self),
+            name="plonesocial.microblog.statusreply_provider")
+        provider.update()
+        return provider()
 
 
 class ContentActivityProvider(AbstractActivityProvider):

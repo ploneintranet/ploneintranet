@@ -32,7 +32,7 @@ class StatusConversationProvider(object):
     implements(IStatusConversationProvider)
     adapts(IStatusUpdate, IPlonesocialActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/stream_provider.pt")
+    index = ViewPageTemplateFile("templates/statusconversation_provider.pt")
 
     def __init__(self, context, request, view):
         self.context = context

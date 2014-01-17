@@ -1,0 +1,8 @@
+<tal:block i18n:domain="plonesocial.activitystream">
+
+      <tal:loop tal:repeat="activity_provider view/activity_providers">
+        <div tal:replace="structure activity_provider"></div>
+        <tal:block replace="structure activity_provider/statusreply_provider" />
+      </tal:loop>
+
+</tal:block>
