@@ -36,11 +36,10 @@ class AbstractContentActivity(object):
 
     def __init__(self, context):
         self.context = context
-        obj = self.context
-        self.title = obj.Title()
+        self.title = context.Title()
         self.url = context.absolute_url()
-        self.portal_type = obj.portal_type
-        self.Creator = obj.Creator()
+        self.portal_type = context.portal_type
+        self.Creator = context.Creator()
         self.raw_date = max(context.created(), context.effective())
 
 
