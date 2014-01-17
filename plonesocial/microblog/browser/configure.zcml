@@ -8,6 +8,10 @@
       name="plonesocial.microblog.status_provider"
       factory=".status.StatusProvider"
       />
+  <adapter 
+      name="plonesocial.microblog.statusreply_provider"
+      factory=".status.StatusReplyProvider"
+      />
   
   <browser:resourceDirectory
       name="plonesocial.microblog.stylesheets"
