@@ -21,6 +21,11 @@
   <adapter factory=".adapters.DiscussionActivity"
 	   />
 
+  <adapter factory=".adapters.brainActivityFactory"
+    for="Products.ZCatalog.interfaces.ICatalogBrain"
+    provides="plonesocial.activitystream.interfaces.IActivity"
+       />
+
   <genericsetup:registerProfile
       name="default"
       title="PloneSocial Activitystream"
@@ -41,5 +46,5 @@
 
 
   <!-- -*- extra stuff goes here -*- -->
-  
+
 </configure>

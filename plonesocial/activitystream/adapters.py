@@ -8,6 +8,7 @@ from Acquisition import aq_inner, aq_parent
 from plonesocial.activitystream.interfaces import IStatusActivity
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
+from plonesocial.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):
@@ -81,3 +82,7 @@ class ContentActivity(AbstractContentActivity):
 class DiscussionActivity(AbstractContentActivity):
     adapts(IComment)
     implements(IDiscussionActivity)
+
+
+def brainActivityFactory(context):
+    return IActivity(context.getObject())
