@@ -205,7 +205,10 @@ class BaseStatusContainer(Persistent, Explicit):
         if not thread_id:
             return ()
         mapping = self._threadid_mapping.get(thread_id)
-
+        if not mapping:
+            return [thread_id]
+        else:
+            mapping.insert(thread_id)
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
