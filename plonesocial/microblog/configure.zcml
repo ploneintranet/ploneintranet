@@ -36,5 +36,15 @@
     profile="plonesocial.microblog:default"
     />
 
+  <genericsetup:upgradeStep
+    title="Setup threadids"
+    description="Add thead_id mapping and attribute"
+    source="0002"
+    destination="0003"
+    handler=".migration.setup_threadids"
+    sortkey="1"
+    profile="plonesocial.microblog:default"
+    />
+
   
 </configure>
