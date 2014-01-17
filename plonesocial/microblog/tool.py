@@ -2,7 +2,6 @@ from zope.interface import implements
 from Products.CMFCore.utils import UniqueObject
 from Products.CMFCore.utils import getToolByName
 from OFS.SimpleItem import SimpleItem
-from plone.uuid.interfaces import IUUID
 
 from interfaces import IMicroblogTool
 from interfaces import IMicroblogContext
