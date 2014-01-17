@@ -69,7 +69,12 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         container = queryUtility(IMicroblogTool)
         microblog_context = get_microblog_context(self.context)
-        thread_id = self.context.thread_id or self.context.id
+        if hasattr(self.context, 'thread_id') and self.context.thread_id:
+            thread_id = self.context.thread_id  # threaded
+        elif self.context.__class__.__name__ == 'StatusUpdate':
+            thread_id = self.context.id  # first reply
+        else:
+            thread_id = None  # new
         status = StatusUpdate(data['text'],
                               context=microblog_context,
                               thread_id=thread_id)
