@@ -2,6 +2,7 @@
       tal:attributes="class string:activityItem ${view/render_type}">
 
 I am a statusactivity provider
+<span tal:content="view/status_id" />
 
   <div class="activityAvatar">
     <a href=""
@@ -52,6 +53,6 @@ I am a statusactivity provider
   <div><a tal:attributes="href string:@@status/${view/status_id}"
           >conversation</a>
   </div>
-    
+
 
 </div>

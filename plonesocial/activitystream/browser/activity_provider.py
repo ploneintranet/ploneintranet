@@ -178,7 +178,13 @@ class StatusActivityProvider(AbstractActivityProvider):
     def status_id(self):
         return self.status.id
 
+    def highlight(self):
+        if self.view.status_id == self.status_id():
+            return True
+
     def statusreply_provider(self):
+        if not self.highlight():
+            return
         provider = getMultiAdapter(
             (self.status, self.request, self),
             name="plonesocial.microblog.statusreply_provider")
