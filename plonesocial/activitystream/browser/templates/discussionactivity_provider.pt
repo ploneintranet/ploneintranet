@@ -41,7 +41,6 @@ I am a discussion activity provider
          tal:condition="view/getText">
 
       <div class="commentActions"
-           tal:condition="view/is_discussion"
            i18n:domain="plone.app.discussion">
         <form name="delete"
               action=""

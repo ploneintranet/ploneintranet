@@ -16,9 +16,6 @@ class StatusActivity(object):
     # adapts(IStatusUpdate)
     implements(IStatusActivity)
 
-    is_status = True
-    is_discussion = is_content = False
-
     def __init__(self, context):
         self.context = context
         self.text = context.text
@@ -36,8 +33,6 @@ class StatusActivity(object):
 
 
 class AbstractContentActivity(object):
-
-    is_status = False
 
     def __init__(self, context):
         self.context = context
@@ -64,14 +59,6 @@ class AbstractContentActivity(object):
 
     def _tags(self, source):
         return ' '.join(['#%s' % x for x in source])
-
-    @property
-    def is_discussion(self):
-        return self.render_type == 'discussion'
-
-    @property
-    def is_content(self):
-        return self.render_type == 'content'
 
 
 class ContentActivity(AbstractContentActivity):

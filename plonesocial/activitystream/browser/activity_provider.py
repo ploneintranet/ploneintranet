@@ -146,18 +146,6 @@ class AbstractActivityProvider(object):
     def render_type(self):
         return self.context.render_type
 
-    @property
-    def is_status(self):
-        return self.context.is_status
-
-    @property
-    def is_discussion(self):
-        return self.context.is_discussion
-
-    @property
-    def is_content(self):
-        return self.context.is_content
-
     # extra
 
     @property
