@@ -43,32 +43,35 @@ class AbstractContentActivity(object):
         self.Creator = obj.Creator()
         self.raw_date = max(context.created(), context.effective())
 
-        if obj.portal_type == 'Discussion Item':
-            self.render_type = 'discussion'
-            self.userid = obj.author_username
-            # obj: DiscussionItem
-            # parent: Conversation
-            # grandparent: content object
-            _contentparent = aq_parent(aq_parent(aq_inner(obj)))
-            self.title = _contentparent.Title()
-            self.text = obj.getText()
-        else:
-            self.userid = obj.getOwnerTuple()[1]
-            self.render_type = 'content'
-            self.text = obj.Description() + self._tags(obj.Subject())
-
-    def _tags(self, source):
-        return ' '.join(['#%s' % x for x in source])
-
 
 class ContentActivity(AbstractContentActivity):
     adapts(IContentish)
     implements(IContentActivity)
 
+    def __init__(self, context):
+        super(ContentActivity, self).__init__(context)
+        self.userid = context.getOwnerTuple()[1]
+        self.render_type = 'content'
+        self.text = context.Description() + self._tags(context.Subject())
+
+    def _tags(self, source):
+        return ' '.join(['#%s' % x for x in source])
+
 
 class DiscussionActivity(AbstractContentActivity):
     adapts(IComment)
     implements(IDiscussionActivity)
+
+    def __init__(self, context):
+        super(DiscussionActivity, self).__init__(context)
+        self.render_type = 'discussion'
+        self.userid = context.author_username
+        # context: DiscussionItem
+        # parent: Conversation
+        # grandparent: content object
+        _contentparent = aq_parent(aq_parent(aq_inner(context)))
+        self.title = _contentparent.Title()
+        self.text = context.getText()
 
 
 def brainActivityFactory(context):
