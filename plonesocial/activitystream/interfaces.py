@@ -16,3 +16,11 @@ class IActivity(Interface):
     is_status = Attribute("is_status")
     is_discussion = Attribute("is_discussion")
     is_content = Attribute("is_content")
+
+
+class IStatusActivity(IActivity):
+    """IActivity for an IStatusUpdate"""
+
+
+class IBrainActivity(IActivity):
+    """IActivity for an IBrain"""

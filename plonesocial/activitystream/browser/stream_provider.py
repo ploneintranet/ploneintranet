@@ -152,8 +152,7 @@ class StreamProvider(object):
                 continue
             yield getMultiAdapter(
                 (activity, self.request, self.view),
-                IActivityProvider,
-                name="plonesocial.activitystream.activity_provider")
+                IActivityProvider)
 
     def can_view(self, activity):
         """Returns true if current user has the 'View' permission.

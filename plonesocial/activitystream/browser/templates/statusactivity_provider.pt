@@ -1,6 +1,8 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:attributes="class string:activityItem ${view/render_type}">
 
+I am a statusactivity provider
+
   <div class="activityAvatar">
     <a href=""
        tal:attributes="href view/author_home_url">

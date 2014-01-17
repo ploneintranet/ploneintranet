@@ -14,7 +14,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
-from plonesocial.activitystream.interfaces import IActivity
+from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IBrainActivity
 
 
 TAGRE = re.compile('(#(\S+))')
@@ -25,13 +26,9 @@ def link_tags(text, url=''):
     return TAGRE.sub(tmpl % url, text)
 
 
-class ActivityProvider(object):
+class AbstractActivityProvider(object):
     """Helper for rendering IActivity
     """
-    implements(IActivityProvider)
-    adapts(IActivity, IPlonesocialActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/activity_provider.pt")
 
     def __init__(self, context, request, view):
         self.context = context
@@ -173,3 +170,21 @@ class ActivityProvider(object):
     @property
     def Title(self):
         return self.title
+
+
+class StatusActivityProvider(AbstractActivityProvider):
+    """Render an IStatusActivity"""
+
+    implements(IActivityProvider)
+    adapts(IStatusActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
+
+
+class BrainActivityProvider(AbstractActivityProvider):
+    """Render an IBrainActivity"""
+
+    implements(IActivityProvider)
+    adapts(IBrainActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/brainactivity_provider.pt")

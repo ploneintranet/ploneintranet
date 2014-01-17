@@ -21,8 +21,11 @@
       />
 
   <adapter 
-      name="plonesocial.activitystream.activity_provider"
-      factory=".activity_provider.ActivityProvider"
+      factory=".activity_provider.StatusActivityProvider"
+      />
+
+  <adapter 
+      factory=".activity_provider.BrainActivityProvider"
       />
 
   <adapter 
