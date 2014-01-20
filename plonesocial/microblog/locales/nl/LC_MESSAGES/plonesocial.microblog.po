@@ -24,7 +24,7 @@ msgstr "Een titel voor deze portlet"
 
 #: ./browser/status.py:38
 msgid "Add a comment"
-msgstr "Verzend een status update"
+msgstr "Wat houdt je bezig?"
 
 #: ./interfaces.py:17
 msgid "Author name (for display)"
@@ -65,10 +65,9 @@ msgstr "Userid"
 #. Default: "What are you doing?"
 #: ./interfaces.py:15
 msgid "add_statusupdate_button"
-msgstr "Verzend status update"
+msgstr "Wat houdt je bezig?"
 
 #. Default: "Status Update"
 #: ./browser/status.py:59
 msgid "label_statusupdate"
-msgstr "Wat houdt je bezig?"
-
+msgstr "Verzend een status update"
