@@ -116,3 +116,5 @@ msgstr "zegt:"
 msgid "manage_activitystream_portlets"
 msgstr "Activiteiten stroom portlets beheren"
 
+msgid "Conversation"
+msgstr "Reacties"
