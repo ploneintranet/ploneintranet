@@ -11,8 +11,7 @@
             package="plonesocial.microblog"
             />
 
-  <browser:viewlet
-      zcml:condition="installed plonesocial.microblog"
+  <browser:viewlet zcml:condition="installed plonesocial.microblog"
       name="plonesocial.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".navigation.PloneSocialNavigation"
@@ -20,7 +19,7 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
-  <adapter 
+  <adapter zcml:condition="installed plonesocial.microblog"
       factory=".activity_provider.StatusActivityProvider"
       />
 
@@ -37,7 +36,7 @@
       factory=".stream_provider.StreamProvider"
       />
 
-  <adapter 
+  <adapter zcml:condition="installed plonesocial.microblog"
       name="plonesocial.activitystream.statusconversation_provider"
       factory=".statusconversation_provider.StatusConversationProvider"
       />
@@ -50,7 +49,7 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
-  <browser:page
+  <browser:page zcml:condition="installed plonesocial.microblog"
       name="status"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".statusconversation.StatusConversationView"
@@ -58,8 +57,7 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
-  <browser:page
-      zcml:condition="installed plonesocial.microblog"
+  <browser:page zcml:condition="installed plonesocial.microblog"
       name="stream"
       for="plonesocial.microblog.interfaces.IMicroblogContext"
       class=".stream.StreamView"
