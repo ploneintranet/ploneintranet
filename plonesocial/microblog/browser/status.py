@@ -158,6 +158,7 @@ class StatusReplyProvider(StatusProvider):
     adapts(IStatusUpdate, IPlonesocialMicroblogLayer, Interface)
 
     form = StatusForm
+    label = _(u"Add a reply")
     index = ViewPageTemplateFile('status.pt')
     available = True  # fixme security check
 
