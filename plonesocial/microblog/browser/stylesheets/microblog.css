@@ -44,6 +44,7 @@ div#microblog .formControls input.hide {
     display: block;
 }
 
+.conversation .highlight-None div.activityItem,
 .conversation .highlight-True div.activityItem,
 .conversation .highlight-True #microblog {
     border: 0;
