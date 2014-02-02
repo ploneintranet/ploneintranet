@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plonesocial.microblog\n"
-"POT-Creation-Date: 2013-07-07 18:51+0000\n"
+"POT-Creation-Date: 2014-02-02 10:53+0000\n"
 "PO-Revision-Date: 2012-11-20 16:40-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Leonardo J. Caballero G.\n"
