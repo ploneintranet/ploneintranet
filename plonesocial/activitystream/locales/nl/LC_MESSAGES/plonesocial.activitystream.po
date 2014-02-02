@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-06-27 16:17+0000\n"
+"POT-Creation-Date: 2014-02-02 10:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./browser/interfaces.py:56
+#: ./browser/interfaces.py:60
 msgid "A title for this portlet"
 msgstr "Een titel voor deze portlet"
 
@@ -23,11 +23,19 @@ msgstr "Een titel voor deze portlet"
 msgid "Activity Portal"
 msgstr "Activiteiten Portal"
 
-#: ./browser/interfaces.py:66
+#: ./browser/interfaces.py:70
 msgid "Compact rendering"
 msgstr "Compacte weergave"
 
-#: ./browser/interfaces.py:67
+#: ./browser/statusconversation.py:45
+msgid "Conversation"
+msgstr "Conversatie"
+
+#: ./browser/stream.py:67
+msgid "Explore"
+msgstr "Ontdek"
+
+#: ./browser/interfaces.py:71
 msgid "Hide portlet header and footer"
 msgstr "Verberg portlet kopregel en voetregel"
 
@@ -36,15 +44,19 @@ msgstr "Verberg portlet kopregel en voetregel"
 msgid "Installs the plonesocial.activitystream package"
 msgstr "Installeer plonesocial.activitystream"
 
-#: ./browser/interfaces.py:62
+#: ./browser/interfaces.py:66
 msgid "Maximum number of updates to show"
 msgstr "Maximale aantal updates om te tonen"
 
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
-msgstr ""
+msgstr "Meer updates..."
 
-#: ./browser/interfaces.py:61
+#: ./browser/stream.py:69
+msgid "My network"
+msgstr "Mijn netwerk"
+
+#: ./browser/interfaces.py:65
 msgid "Number of updates to display"
 msgstr "Aantal weer te geven statusberichten"
 
@@ -53,27 +65,31 @@ msgstr "Aantal weer te geven statusberichten"
 msgid "PloneSocial Activitystream"
 msgstr ""
 
-#: ./browser/interfaces.py:76
+#: ./browser/templates/statusactivity_provider.pt:51
+msgid "Reply"
+msgstr "Reageer"
+
+#: ./browser/interfaces.py:80
 msgid "Show content creation"
 msgstr "Toon content aanmaakdatum"
 
-#: ./browser/interfaces.py:77
+#: ./browser/interfaces.py:81
 msgid "Show creation of new content"
 msgstr "Toon nieuwe content"
 
-#: ./browser/interfaces.py:81
+#: ./browser/interfaces.py:85
 msgid "Show discussion"
 msgstr "Toon discussies"
 
-#: ./browser/interfaces.py:82
+#: ./browser/interfaces.py:86
 msgid "Show discussion replies"
 msgstr "Toon discussie replies"
 
-#: ./browser/interfaces.py:71
+#: ./browser/interfaces.py:75
 msgid "Show microblog"
 msgstr "Toon microblog"
 
-#: ./browser/interfaces.py:72
+#: ./browser/interfaces.py:76
 msgid "Show microblog status updates"
 msgstr "Toon microblog status updates"
 
@@ -82,11 +98,7 @@ msgstr "Toon microblog status updates"
 msgid "Social activity stream portal view with manageable portlets"
 msgstr ""
 
-#: ./browser/templates/stream.pt:16
-msgid "Updates"
-msgstr "Updates"
-
-#: ./browser/templates/stream.pt:21
+#: ./browser/templates/stream.pt:22
 msgid "Updates tagged #${tag}"
 msgstr ""
 
@@ -95,26 +107,22 @@ msgid "View portlet management screen"
 msgstr ""
 
 #. Default: "commented on"
-#: ./browser/templates/activity_provider.pt:32
+#: ./browser/templates/discussionactivity_provider.pt:28
 msgid "label_commented_on"
 msgstr "reageerde op"
 
 #. Default: "created"
-#: ./browser/templates/activity_provider.pt:37
+#: ./browser/templates/contentactivity_provider.pt:28
 msgid "label_created"
 msgstr "maakte"
 
 #. Default: "says:"
-#: ./browser/templates/activity_provider.pt:28
+#: ./browser/templates/statusactivity_provider.pt:28
 msgid "label_says"
 msgstr "zegt:"
 
 #. Default: "Manage activity stream portlets"
 #: ./browser/templates/activitystream_portletmanager_view.pt:10
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
-#, fuzzy
 msgid "manage_activitystream_portlets"
 msgstr "Activiteiten stroom portlets beheren"
-
-msgid "Conversation"
-msgstr "Reacties"

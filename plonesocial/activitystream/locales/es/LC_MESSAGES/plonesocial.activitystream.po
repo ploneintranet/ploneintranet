@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Virtaal 0.7.1\n"
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
-#: ./browser/interfaces.py:56
+#: ./browser/interfaces.py:60
 msgid "A title for this portlet"
 msgstr "Un título para este portlet"
 
@@ -27,7 +27,7 @@ msgstr "Un título para este portlet"
 msgid "Activity Portal"
 msgstr "Actividad del portal"
 
-#: ./browser/interfaces.py:66
+#: ./browser/interfaces.py:70
 msgid "Compact rendering"
 msgstr "Visualización compacta"
 
@@ -35,7 +35,15 @@ msgstr "Visualización compacta"
 msgid "Explore"
 msgstr "Explorar"
 
-#: ./browser/interfaces.py:67
+#: ./browser/statusconversation.py:45
+msgid "Conversation"
+msgstr ""
+
+#: ./browser/stream.py:67
+msgid "Explore"
+msgstr ""
+
+#: ./browser/interfaces.py:71
 msgid "Hide portlet header and footer"
 msgstr "Ocultar encabezado y pie de pagina del portlet"
 
@@ -44,7 +52,7 @@ msgstr "Ocultar encabezado y pie de pagina del portlet"
 msgid "Installs the plonesocial.activitystream package"
 msgstr "Instala el paquete plonesocial.activitystream"
 
-#: ./browser/interfaces.py:62
+#: ./browser/interfaces.py:66
 msgid "Maximum number of updates to show"
 msgstr "Número máximo de actualizaciones a mostrar"
 
@@ -61,7 +69,11 @@ msgstr "Mi perfil"
 msgid "My network"
 msgstr "Mi red"
 
-#: ./browser/interfaces.py:61
+#: ./browser/stream.py:69
+msgid "My network"
+msgstr ""
+
+#: ./browser/interfaces.py:65
 msgid "Number of updates to display"
 msgstr "Número de actualizaciones a mostrar"
 
@@ -70,27 +82,31 @@ msgstr "Número de actualizaciones a mostrar"
 msgid "PloneSocial Activitystream"
 msgstr "PloneSocial - Actividades recientes"
 
-#: ./browser/interfaces.py:76
+#: ./browser/templates/statusactivity_provider.pt:51
+msgid "Reply"
+msgstr ""
+
+#: ./browser/interfaces.py:80
 msgid "Show content creation"
 msgstr "Mostrar creación de contenido"
 
-#: ./browser/interfaces.py:77
+#: ./browser/interfaces.py:81
 msgid "Show creation of new content"
 msgstr "Mostrar creación de nuevo contenido"
 
-#: ./browser/interfaces.py:81
+#: ./browser/interfaces.py:85
 msgid "Show discussion"
 msgstr "Mostrar discusión"
 
-#: ./browser/interfaces.py:82
+#: ./browser/interfaces.py:86
 msgid "Show discussion replies"
 msgstr "Mostrar respuestas de discusión"
 
-#: ./browser/interfaces.py:71
+#: ./browser/interfaces.py:75
 msgid "Show microblog"
 msgstr "Mostrar microblog"
 
-#: ./browser/interfaces.py:72
+#: ./browser/interfaces.py:76
 msgid "Show microblog status updates"
 msgstr "Mostrar actualizaciones de estado de microblog "
 
@@ -99,11 +115,7 @@ msgstr "Mostrar actualizaciones de estado de microblog "
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Vista de la actividad social del portal con portlets administrables"
 
-#: ./browser/templates/stream.pt:16
-msgid "Updates"
-msgstr "Actualizaciones"
-
-#: ./browser/templates/stream.pt:21
+#: ./browser/templates/stream.pt:22
 msgid "Updates tagged #${tag}"
 msgstr "Actualizaciones etiquetadas con #${tag}"
 
@@ -112,17 +124,17 @@ msgid "View portlet management screen"
 msgstr "Ver pantalla de administración de portlets"
 
 #. Default: "commented on"
-#: ./browser/templates/activity_provider.pt:32
+#: ./browser/templates/discussionactivity_provider.pt:28
 msgid "label_commented_on"
 msgstr "comentado en"
 
 #. Default: "created"
-#: ./browser/templates/activity_provider.pt:37
+#: ./browser/templates/contentactivity_provider.pt:28
 msgid "label_created"
 msgstr "creado"
 
 #. Default: "says:"
-#: ./browser/templates/activity_provider.pt:28
+#: ./browser/templates/statusactivity_provider.pt:28
 msgid "label_says"
 msgstr "dice:"
 

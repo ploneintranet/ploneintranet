@@ -42,7 +42,7 @@ class StatusConversationView(BrowserView):
 
     @property
     def title(self):
-        return "Conversation"
+        return _("Conversation")
 
     def statusconversation_provider(self):
         container = PLONESOCIAL.microblog
