@@ -157,6 +157,7 @@ class StatusReplyProvider(StatusProvider):
 
     form = StatusForm
     label = _(u"Add a reply")
+
     index = ViewPageTemplateFile('status.pt')
     available = True  # fixme security check
 
@@ -169,6 +170,7 @@ class StatusReplyProvider(StatusProvider):
         self.thread_id = context.thread_id or context.id  # catch first
         self.portlet_data = None  # used by microblog portlet
 
+        self.form.fields['text'].field.title = self.label
 
 class StatusViewlet(StatusProvider, ViewletBase):
 
