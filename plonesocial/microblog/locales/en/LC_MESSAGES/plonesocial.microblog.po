@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-07 18:51+0000\n"
+"POT-Creation-Date: 2014-02-02 10:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,11 +26,15 @@ msgstr ""
 msgid "Add a comment"
 msgstr "Add a status update"
 
+#: ./browser/status.py:159
+msgid "Add a reply"
+msgstr ""
+
 #: ./interfaces.py:17
 msgid "Author name (for display)"
 msgstr ""
 
-#: ./browser/status.py:86
+#: ./browser/status.py:91
 msgid "Cancel"
 msgstr ""
 
@@ -68,7 +72,7 @@ msgid "add_statusupdate_button"
 msgstr ""
 
 #. Default: "Status Update"
-#: ./browser/status.py:59
+#: ./browser/status.py:60
 msgid "label_statusupdate"
 msgstr ""
 
