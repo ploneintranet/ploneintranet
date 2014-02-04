@@ -172,6 +172,7 @@ class StatusReplyProvider(StatusProvider):
 
         self.form.fields['text'].field.title = self.label
 
+
 class StatusViewlet(StatusProvider, ViewletBase):
 
     def __init__(self, context, request, view, manager):
