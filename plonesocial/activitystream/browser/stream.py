@@ -64,9 +64,9 @@ class StreamView(BrowserView):
         if m_context:
             return m_context.Title() + ' updates'
         elif self.explore:
-            return "Explore"
+            return _(u'Explore')
         else:
-            return "My network"
+            return _(u'My network')
 
     def status_provider(self):
         if not PLONESOCIAL.microblog:

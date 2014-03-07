@@ -38,3 +38,8 @@ msgstr ""
 msgid "Installs the plonesocial.activitystream package"
 msgstr ""
 
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
+msgstr ""
+

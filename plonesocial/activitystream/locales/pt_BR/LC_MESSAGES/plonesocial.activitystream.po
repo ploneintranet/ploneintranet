@@ -1,8 +1,8 @@
 # Héctor Velarde <hector.velarde@gmail.com>, 2014.
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2013-06-27 16:17+0000\n"
-"PO-Revision-Date: 2014-03-07 15:12-0300\n"
+"POT-Creation-Date: 2014-03-07 21:30+0000\n"
+"PO-Revision-Date: 2014-03-07 18:40-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,6 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"Project-Id-Version: \n"
 
 #: ./browser/interfaces.py:56
 msgid "A title for this portlet"
@@ -27,6 +26,10 @@ msgstr "Portal de atividade"
 #: ./browser/interfaces.py:66
 msgid "Compact rendering"
 msgstr "Visualização compacta"
+
+#: ./browser/stream.py:67
+msgid "Explore"
+msgstr "Explorar"
 
 #: ./browser/interfaces.py:67
 msgid "Hide portlet header and footer"
@@ -44,6 +47,15 @@ msgstr "Número máximo de atualizações para mostrar"
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
 msgstr "Mais atualizações..."
+
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
+msgstr "Meu perfil"
+
+#: ./browser/stream.py:69
+msgid "My network"
+msgstr "Minha rede"
 
 #: ./browser/interfaces.py:61
 msgid "Number of updates to display"

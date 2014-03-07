@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-06-27 16:17+0000\n"
+"POT-Creation-Date: 2014-03-07 21:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,6 +30,10 @@ msgstr ""
 msgid "Compact rendering"
 msgstr ""
 
+#: ./browser/stream.py:67
+msgid "Explore"
+msgstr ""
+
 #: ./browser/interfaces.py:67
 msgid "Hide portlet header and footer"
 msgstr ""
@@ -45,6 +49,15 @@ msgstr ""
 
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
+msgstr ""
+
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
+msgstr ""
+
+#: ./browser/stream.py:69
+msgid "My network"
 msgstr ""
 
 #: ./browser/interfaces.py:61
