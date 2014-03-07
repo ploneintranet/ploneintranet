@@ -1,0 +1,73 @@
+# Héctor Velarde <hector.velarde@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2014-03-07 20:09+0000\n"
+"PO-Revision-Date: 2014-03-07 17:14-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./plonesocial/network/browser/graph.py:49
+msgid "%s is followed by:"
+msgstr "%s é seguido por:"
+
+#: ./plonesocial/network/browser/graph.py:34
+msgid "%s is following:"
+msgstr "%s está seguindo:"
+
+#: ./plonesocial/network/browser/graph.py:44
+#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:28
+msgid "Followers"
+msgstr "Seguidores"
+
+#: ./plonesocial/network/browser/graph.py:29
+#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:35
+#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:34
+msgid "Following"
+msgstr "Seguindo"
+
+#: ./configure.zcml
+msgid "Installs the plonesocial.network package"
+msgstr "Instala o pacote plonesocial.network"
+
+#: ./plonesocial/network/browser/templates/graph.pt:20
+#: ./plonesocial/network/browser/templates/profile.pt:20
+msgid "No such user ${userid}."
+msgstr "No existe o usuário ${userid}."
+
+#: ./plonesocial/network/browser/templates/graph.pt:18
+#: ./plonesocial/network/browser/templates/profile.pt:18
+msgid "Nothing here"
+msgstr ""
+
+#: ./configure.zcml
+msgid "PloneSocial Network"
+msgstr "PloneSocial Network"
+
+#: ./plonesocial/network/browser/templates/profile.pt:29
+msgid "Status updates by ${fullname}:"
+msgstr "Atualizações de estado do ${fullname}:"
+
+#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:21
+#: ./plonesocial/network/browser/templates/profile.pt:27
+msgid "Updates"
+msgstr "Actualizações"
+
+#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:64
+#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:30
+msgid "follow"
+msgstr "seguir"
+
+#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:72
+#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:38
+msgid "unfollow"
+msgstr "deixar de seguir"
+
