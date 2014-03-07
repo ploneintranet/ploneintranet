@@ -2,10 +2,9 @@
 # Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: plonesocial.activitystream\n"
-"POT-Creation-Date: 2013-06-27 16:17+0000\n"
-"PO-Revision-Date: 2012-11-20 17:38-0430\n"
-"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"POT-Creation-Date: 2014-03-07 21:30+0000\n"
+"PO-Revision-Date: 2014-03-07 18:40-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Leonardo J. Caballero G.\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -21,7 +20,7 @@ msgstr ""
 
 #: ./browser/interfaces.py:56
 msgid "A title for this portlet"
-msgstr "Un titulo para este portlet"
+msgstr "Un título para este portlet"
 
 #. Default: "Activity Portal"
 #: ./browser/activitystream_portal.zcml:65
@@ -30,11 +29,15 @@ msgstr "Actividad del portal"
 
 #: ./browser/interfaces.py:66
 msgid "Compact rendering"
-msgstr "Visualizar compacto"
+msgstr "Visualización compacta"
+
+#: ./browser/stream.py:67
+msgid "Explore"
+msgstr "Explorar"
 
 #: ./browser/interfaces.py:67
 msgid "Hide portlet header and footer"
-msgstr "Ocultar el encabezado y pie de pagina del portlet"
+msgstr "Ocultar encabezado y pie de pagina del portlet"
 
 #. Default: "Installs the plonesocial.activitystream package"
 #: ./configure.zcml
@@ -47,7 +50,16 @@ msgstr "Número máximo de actualizaciones a mostrar"
 
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
-msgstr "Mas actualizaciones..."
+msgstr "Más actualizaciones..."
+
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
+msgstr "Mi perfil"
+
+#: ./browser/stream.py:69
+msgid "My network"
+msgstr "Mi red"
 
 #: ./browser/interfaces.py:61
 msgid "Number of updates to display"
@@ -80,12 +92,12 @@ msgstr "Mostrar microblog"
 
 #: ./browser/interfaces.py:72
 msgid "Show microblog status updates"
-msgstr "Mostrar actualizaciones de estatus de microblog "
+msgstr "Mostrar actualizaciones de estado de microblog "
 
 #. Default: "Social activity stream portal view with manageable portlets"
 #: ./browser/activitystream_portal.zcml:66
 msgid "Social activity stream portal view with manageable portlets"
-msgstr "Vista del la actividad social del portal con portlets manejables"
+msgstr "Vista de la actividad social del portal con portlets administrables"
 
 #: ./browser/templates/stream.pt:16
 msgid "Updates"
@@ -97,7 +109,7 @@ msgstr "Actualizaciones etiquetadas con #${tag}"
 
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "View portlet management screen"
-msgstr "Ver pantalla de administración de portlet"
+msgstr "Ver pantalla de administración de portlets"
 
 #. Default: "commented on"
 #: ./browser/templates/activity_provider.pt:32
@@ -118,5 +130,5 @@ msgstr "dice:"
 #: ./browser/templates/activitystream_portletmanager_view.pt:10
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
-msgstr "Administrar portlets actividad de usuario"
+msgstr "Administrar portlets de actividad de usuario"
 
