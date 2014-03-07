@@ -1,0 +1,118 @@
+# Héctor Velarde <hector.velarde@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2013-06-27 16:17+0000\n"
+"PO-Revision-Date: 2014-03-07 15:12-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+"Project-Id-Version: \n"
+
+#: ./browser/interfaces.py:56
+msgid "A title for this portlet"
+msgstr "Um título para este portlet"
+
+#. Default: "Activity Portal"
+#: ./browser/activitystream_portal.zcml:65
+msgid "Activity Portal"
+msgstr "Portal de atividade"
+
+#: ./browser/interfaces.py:66
+msgid "Compact rendering"
+msgstr "Visualização compacta"
+
+#: ./browser/interfaces.py:67
+msgid "Hide portlet header and footer"
+msgstr "Ocultar cabeçalho e rodapé do portlet"
+
+#. Default: "Installs the plonesocial.activitystream package"
+#: ./configure.zcml
+msgid "Installs the plonesocial.activitystream package"
+msgstr "Instalar o pacote plonesocial.activitystream"
+
+#: ./browser/interfaces.py:62
+msgid "Maximum number of updates to show"
+msgstr "Número máximo de atualizações para mostrar"
+
+#: ./browser/templates/activitystream_portlet.pt:23
+msgid "More updates..."
+msgstr "Mais atualizações..."
+
+#: ./browser/interfaces.py:61
+msgid "Number of updates to display"
+msgstr "Número de atualizações para mostrar"
+
+#. Default: "PloneSocial Activitystream"
+#: ./configure.zcml
+msgid "PloneSocial Activitystream"
+msgstr "Fluxo de atividade do PloneSocial"
+
+#: ./browser/interfaces.py:76
+msgid "Show content creation"
+msgstr "Exibir criação de conteúdo"
+
+#: ./browser/interfaces.py:77
+msgid "Show creation of new content"
+msgstr "Exibir criação de conteúdo novo"
+
+#: ./browser/interfaces.py:81
+msgid "Show discussion"
+msgstr "Exibir as discussoẽs"
+
+#: ./browser/interfaces.py:82
+msgid "Show discussion replies"
+msgstr "Exibir as respostas às discussoẽs"
+
+#: ./browser/interfaces.py:71
+msgid "Show microblog"
+msgstr "Exibir o microblog"
+
+#: ./browser/interfaces.py:72
+msgid "Show microblog status updates"
+msgstr "Exibir as atualizações do microblog"
+
+#. Default: "Social activity stream portal view with manageable portlets"
+#: ./browser/activitystream_portal.zcml:66
+msgid "Social activity stream portal view with manageable portlets"
+msgstr "Vista do fluxo de atividade social com portlets gerenciáveis"
+
+#: ./browser/templates/stream.pt:16
+msgid "Updates"
+msgstr "Atualizações"
+
+#: ./browser/templates/stream.pt:21
+msgid "Updates tagged #${tag}"
+msgstr "Atualizações marcadas #${tag}"
+
+#: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
+msgid "View portlet management screen"
+msgstr "Ver a tela de gerenciamento de portlet"
+
+#. Default: "commented on"
+#: ./browser/templates/activity_provider.pt:32
+msgid "label_commented_on"
+msgstr "comentado no"
+
+#. Default: "created"
+#: ./browser/templates/activity_provider.pt:37
+msgid "label_created"
+msgstr "criado"
+
+#. Default: "says:"
+#: ./browser/templates/activity_provider.pt:28
+msgid "label_says"
+msgstr "diz:"
+
+#. Default: "Manage activity stream portlets"
+#: ./browser/templates/activitystream_portletmanager_view.pt:10
+#: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
+msgid "manage_activitystream_portlets"
+msgstr "Gerenciar portlets de fluxo de atividade"
+
