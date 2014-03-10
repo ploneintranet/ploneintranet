@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2014-03-07 21:30+0000\n"
-"PO-Revision-Date: 2014-03-07 18:40-0300\n"
+"PO-Revision-Date: 2014-03-10 15:32-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,7 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+"Project-Id-Version: \n"
 
 #: ./browser/interfaces.py:56
 msgid "A title for this portlet"
@@ -42,7 +43,7 @@ msgstr "Instalar o pacote plonesocial.activitystream"
 
 #: ./browser/interfaces.py:62
 msgid "Maximum number of updates to show"
-msgstr "Número máximo de atualizações para mostrar"
+msgstr "Número máximo de atualizações para exibir"
 
 #: ./browser/templates/activitystream_portlet.pt:23
 msgid "More updates..."
@@ -59,7 +60,7 @@ msgstr "Minha rede"
 
 #: ./browser/interfaces.py:61
 msgid "Number of updates to display"
-msgstr "Número de atualizações para mostrar"
+msgstr "Número de atualizações para exibir"
 
 #. Default: "PloneSocial Activitystream"
 #: ./configure.zcml
@@ -76,11 +77,11 @@ msgstr "Exibir criação de conteúdo novo"
 
 #: ./browser/interfaces.py:81
 msgid "Show discussion"
-msgstr "Exibir as discussoẽs"
+msgstr "Exibir as discussões"
 
 #: ./browser/interfaces.py:82
 msgid "Show discussion replies"
-msgstr "Exibir as respostas às discussoẽs"
+msgstr "Exibir as respostas às discussões"
 
 #: ./browser/interfaces.py:71
 msgid "Show microblog"
@@ -93,7 +94,7 @@ msgstr "Exibir as atualizações do microblog"
 #. Default: "Social activity stream portal view with manageable portlets"
 #: ./browser/activitystream_portal.zcml:66
 msgid "Social activity stream portal view with manageable portlets"
-msgstr "Vista do fluxo de atividade social com portlets gerenciáveis"
+msgstr "Visão do fluxo de atividade social com portlets gerenciáveis"
 
 #: ./browser/templates/stream.pt:16
 msgid "Updates"
@@ -105,7 +106,7 @@ msgstr "Atualizações marcadas #${tag}"
 
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "View portlet management screen"
-msgstr "Ver a tela de gerenciamento de portlet"
+msgstr "Ver tela de gerenciamento de portlet"
 
 #. Default: "commented on"
 #: ./browser/templates/activity_provider.pt:32
