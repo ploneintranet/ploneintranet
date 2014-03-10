@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2013-07-07 18:51+0000\n"
-"PO-Revision-Date: 2014-03-07 15:30-0300\n"
+"PO-Revision-Date: 2014-03-10 15:33-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: profiles/default/portlets.xml
 msgid "A portlet which shows the space for write a simple tweet."
-msgstr "Um portlet que exibe um espaço para escrever um simple tweet."
+msgstr "Um portlet que exibe um espaço para escrever uma mensagem."
 
 #: profiles/default/portlets.xml
 msgid "Microblog"

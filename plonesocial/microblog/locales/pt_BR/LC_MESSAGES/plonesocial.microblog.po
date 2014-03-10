@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2013-07-07 18:51+0000\n"
-"PO-Revision-Date: 2014-03-07 15:33-0300\n"
+"PO-Revision-Date: 2014-03-10 15:34-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Adicionar um comentário"
 
 #: ./interfaces.py:17
 msgid "Author name (for display)"
-msgstr "Nome do author (para exibição)"
+msgstr "Nome do autor (para exibição)"
 
 #: ./browser/status.py:86
 msgid "Cancel"
