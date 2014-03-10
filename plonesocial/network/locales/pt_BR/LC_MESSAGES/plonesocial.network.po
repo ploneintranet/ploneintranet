@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2014-03-07 20:09+0000\n"
-"PO-Revision-Date: 2014-03-07 17:14-0300\n"
+"PO-Revision-Date: 2014-03-10 15:36-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Atualizações de estado do ${fullname}:"
 #: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:21
 #: ./plonesocial/network/browser/templates/profile.pt:27
 msgid "Updates"
-msgstr "Actualizações"
+msgstr "Atualizações"
 
 #: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:64
 #: ./plonesocial/network/browser/templates/miniprofile_provider.pt:30
