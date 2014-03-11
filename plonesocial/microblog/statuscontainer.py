@@ -15,11 +15,7 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Products.CMFCore.utils import getToolByName
 
-try:
-    from zope.container.contained import ObjectAddedEvent
-except ImportError:
-    from zope.app.container.contained import ObjectAddedEvent
-
+from zope.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
 from plone.uuid.interfaces import IUUID

@@ -9,10 +9,7 @@ from persistent import Persistent
 from zope.interface import implements
 from plone.uuid.interfaces import IUUID
 from plone.app.uuid.utils import uuidToObject
-try:
-    from zope.component.hooks import getSite
-except ImportError:
-    from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 
 from interfaces import IStatusUpdate
 from utils import get_microblog_context
