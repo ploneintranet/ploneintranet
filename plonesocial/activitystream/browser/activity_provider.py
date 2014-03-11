@@ -3,10 +3,7 @@ from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
 from zope.component import getMultiAdapter
-try:
-    from zope.component.hooks import getSite
-except ImportError:
-    from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
