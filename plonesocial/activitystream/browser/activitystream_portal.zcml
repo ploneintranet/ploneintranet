@@ -68,6 +68,26 @@
       i18n:attributes="title; description"
       />
 
+  <!-- register portal view for IMicroblogContext as well -->
+  <browser:page
+      zcml:condition="installed plonesocial.microblog"
+      name="activitystream_portal"
+      for="plonesocial.microblog.interfaces.IMicroblogContext"
+      class=".activitystream_portal.PortalView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+  <browser:menuItem
+      zcml:condition="installed plonesocial.microblog"
+      for="plonesocial.microblog.interfaces.IMicroblogContext"
+      menu="plone_displayviews"
+      action="@@activitystream_portal"
+      title="Activity Portal"
+      description="Social activity stream portal view with manageable portlets"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      i18n:attributes="title; description"
+      />
+
 
   <!-- custom viewletmanager, only used in activitystream_portal view -->
   <browser:viewletManager
