@@ -32,7 +32,7 @@
 
   <browser:page
       name="stream"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".stream.StreamView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"

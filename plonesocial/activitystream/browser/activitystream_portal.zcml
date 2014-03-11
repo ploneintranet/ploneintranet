@@ -52,14 +52,14 @@
   <!-- custom browser page which inserts our custom portletmanager_viewlet -->
   <browser:page
       name="activitystream_portal"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".activitystream_portal.PortalView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
   <!-- register activitystream_portal view on siteroot -->
   <browser:menuItem
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       menu="plone_displayviews"
       action="@@activitystream_portal"
       title="Activity Portal"
