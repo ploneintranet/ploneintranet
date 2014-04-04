@@ -50,7 +50,7 @@ class PortletManagerViewlet(BrowserView):
         "templates/activitystream_portletmanager_viewlet.pt")
 
 
-## activitystream_portlet below
+# activitystream_portlet below
 
 
 class Assignment(base.Assignment):

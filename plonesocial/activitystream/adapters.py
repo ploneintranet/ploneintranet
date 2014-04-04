@@ -8,7 +8,7 @@ from plonesocial.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):
-    ## conditionally configured in zcml
+    # conditionally configured in zcml
     # adapts(IStatusUpdate)
     implements(IActivity)
 

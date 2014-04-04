@@ -7,7 +7,7 @@ from plone.browserlayer.utils import registered_layers
 import unittest2 as unittest
 
 PROJECTNAME = 'plonesocial.activitystream'
-CSS_ID = '++resource++plonesocial.activitystream.stylesheets/activitystream.css'
+CSS_ID = '++resource++plonesocial.activitystream.stylesheets/activitystream.css'  # noqa
 
 
 class InstallTestCase(unittest.TestCase):
