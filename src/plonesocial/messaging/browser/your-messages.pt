@@ -1,2 +1,4 @@
-#
+<div id="your-messages">
+    <tal:block tal:content="view/unread_messages" />
+</div>
 
