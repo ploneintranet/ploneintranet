@@ -195,5 +195,9 @@ class YourMessagesView(BrowserView):
 
         locator = getUtility(IMessagingLocator)
         inboxes = locator.get_inboxes()
+
+        if user.id not in inboxes:
+            return None
+
         messages = inboxes[user.id]
         return messages.new_messages_count
