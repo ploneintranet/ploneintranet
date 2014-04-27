@@ -33,10 +33,19 @@ function show_convos(data, replaceid) {
 
 
 function show_messages(data, replaceid) {
+    var msg = $('<div class="conv-msg"></div>');
     var messages = data['messages'];
     for (var m = 0; m < messages.length; ++ m) {
-
+        var keys = (Object.keys(messages[m]));
+        for (key in keys) {
+            var k = $('<div class="key"></div>');
+            var ms = $('<div class="msg"></div>');
+            $(msg).append(k.text(keys[key]));
+            $(msg).append(ms.text(messages[m][keys[key]]));
+        }
     }
+    $(msg).append('<div class="reply-message">Reply</div>');
+    $(msg).insertAfter('#'+replaceid);
 }
 
 

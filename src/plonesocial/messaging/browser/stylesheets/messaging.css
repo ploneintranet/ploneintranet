@@ -24,7 +24,6 @@
 }
 
 #your-messages{
-    width: 300px;
     padding: 0px;
     display: none;
 }
@@ -75,4 +74,16 @@
 
 #your-messages .message:last-child {
     border-bottom: 0px solid #000;
+}
+
+#your-messages .key,
+#your-messages .msg {
+    padding: 4px;
+}
+
+#your-messages .key {
+    float: left;
+    width: 100px;
+    font-weight: bold;
+    text-transform: capitalize;
 }
