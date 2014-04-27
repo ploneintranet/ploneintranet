@@ -137,3 +137,30 @@ class TestAjaxViews(unittest.TestCase):
         content = json.loads(self.browser.contents)
         self.assertEqual(content, {u'result': True})
         self.assertEqual(len(self._conversations('testuser1')), 0)
+
+
+class TestYourMessagesView(unittest.TestCase):
+
+    layer = PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.portal_url = self.portal.absolute_url()
+        self.request = self.layer['request']
+        self.browser = Browser(self.app)
+        self.browser.handleErrors = False
+        api.user.create(username='testuser1', email='what@ev.er',
+                        password='testuser1',
+                        properties={'fullname': 'Test User 1'})
+        api.user.create(username='testuser2', email='what@ev.er',
+                        password='testuser2',
+                        properties={'fullname': 'Test User 2'})
+        transaction.commit()
+
+    def _create_message(self, from_, to, text, created=now):
+        inboxes = self.portal.plonesocial_messaging
+        inboxes.send_message(from_, to, text, created=created)
+        transaction.commit()
+
+        
