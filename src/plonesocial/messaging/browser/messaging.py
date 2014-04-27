@@ -185,9 +185,15 @@ class YourMessagesView(BrowserView):
     def unread_messages(self):
         # count to show unread messages
         user = api.user.get_current()
-        if user and user.name == 'Anonymous User':
+
+        if user is None:
+            # something has gone wrong
             return None
+        if user.id == 'acl_users':
+            # is anon
+            return None
+
         locator = getUtility(IMessagingLocator)
         inboxes = locator.get_inboxes()
-        messages = inboxes[user]
+        messages = inboxes[user.id]
         return messages.new_messages_count
