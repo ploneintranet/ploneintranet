@@ -167,5 +167,7 @@ class TestYourMessagesView(unittest.TestCase):
         # lets return a count to see if there are any unread messages
         self.browser.open(self.portal_url +
                           '/@@your-messages')
-        import pdb; pdb.set_trace();
+        # lets checked when not logged in
+        self.assertFalse('id="your-messages"' in self.browser.contents)
+
 
