@@ -73,7 +73,7 @@ class TestAjaxViews(unittest.TestCase):
         return [c for c in inboxes[username].get_conversations()]
 
     def _login(self, username, password):
-         # Go admin
+        # Go admin
         self.browser.open(self.portal_url + '/login_form')
         self.browser.getControl(name='__ac_name').value = username
         self.browser.getControl(name='__ac_password').value = password
@@ -163,11 +163,23 @@ class TestYourMessagesView(unittest.TestCase):
         inboxes.send_message(from_, to, text, created=created)
         transaction.commit()
 
+    def _login(self, username, password):
+        # Go admin
+        self.browser.open(self.portal_url + '/login_form')
+        self.browser.getControl(name='__ac_name').value = username
+        self.browser.getControl(name='__ac_password').value = password
+        self.browser.getControl(name='submit').click()
+
     def test_unread_messages(self):
         # lets return a count to see if there are any unread messages
         self.browser.open(self.portal_url +
                           '/@@your-messages')
         # lets checked when not logged in
         self.assertFalse('id="your-messages"' in self.browser.contents)
-
-
+        # lets login and create a message
+        self._login('testuser1', 'testuser1')
+        self._create_message('testuser1', 'testuser2', 'Message Text',
+                             created=now)
+        self.browser.open(self.portal_url +
+                          '/@@your-messages')
+        self.assertTrue('id="your-messages"' in self.browser.contents)
