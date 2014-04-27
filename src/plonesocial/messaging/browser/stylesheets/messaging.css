@@ -1,1 +1,5 @@
-#
+#number-of-messages {
+    background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
+    width: 30px;
+    height: 20px;
+}
