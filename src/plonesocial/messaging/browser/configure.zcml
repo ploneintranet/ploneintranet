@@ -58,11 +58,6 @@
     />
 
     <browser:resource
-      name="plonesocial.messaging.messages.png"
-      file="images/messages.png"
-    />
-
-    <browser:resource
       name="plonesocial.messaging.messaging.js"
       file="javascript/messaging.js"
     />
