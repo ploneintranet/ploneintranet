@@ -44,4 +44,13 @@
       permission="zope.Public"
       />
 
+    <browser:page
+      for="*"
+      name="your-messages"
+      class=".messaging.YourMessages"
+      template="your-messages.pt"
+      permission="zope2.View"
+      />
+
+
 </configure>
