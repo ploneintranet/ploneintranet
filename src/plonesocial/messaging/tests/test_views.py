@@ -165,4 +165,7 @@ class TestYourMessagesView(unittest.TestCase):
 
     def test_unread_messages(self):
         # lets return a count to see if there are any unread messages
+        self.browser.open(self.portal_url +
+                          '/@@your-messages')
+        import pdb; pdb.set_trace();
 
