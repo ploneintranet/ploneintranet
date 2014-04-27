@@ -4,12 +4,10 @@
         <div id="your-messages-icon">
             <div id="number-of-messages"
                 tal:condition="messages"
-                tal:content="messages/unread" />
-        </div>
-        <div id="your-messages" tal:condition="messages/messages>
-            <div class="message"
-                tal:repeat="message messages/messages>
+                tal:content="messages/unread">
             </div>
+        </div>
+        <div id="your-messages">
         </div>
     </tal:def>
 </tal:c>

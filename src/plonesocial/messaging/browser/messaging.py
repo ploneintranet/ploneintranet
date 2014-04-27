@@ -202,5 +202,5 @@ class YourMessagesView(BrowserView):
         messages = inboxes[user.id]
         if not messages:
             return None
-        return {'unread': messages.new_messages_count,
-                'messages': messages.get_conversations()}
+
+        return {'unread': messages.new_messages_count}
