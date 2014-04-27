@@ -1,4 +1,6 @@
 <div id="your-messages" tal:condition="view/unread_messages">
-    <div id="number-of-messages" tal:content="view/unread_messages" />
+    <div id="number-of-messages"
+        tal:condition="view/unread_messages/unread"
+        tal:content="view/unread_messages/unread" />
 </div>
 
