@@ -1,7 +1,7 @@
 #your-messages-icon {
     background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
     width: 20px;
-    padding: 5px;
+    padding: 5px 5px 0px 5px;
     line-height: 1;
     cursor: pointer;
 }
@@ -21,4 +21,58 @@
     font-size:9px;
     font-weight:bold;
     margin: 2px 0px 0px 10px;
+}
+
+#your-messages{
+    width: 300px;
+    padding: 0px;
+    display: none;
+}
+
+#your-messages .messages {
+    border-radius: 0px 0px 4px 4px;
+    border: 1px solid #eee;
+}
+
+#your-messages .new-message-name {
+    display:block;
+    width:10px;
+    height:10px;
+    line-height:10px;
+    border: 2px solid #eee;
+    border-radius: 50%;
+    color:#000;
+    text-align:center;
+    text-decoration:none;
+    background: #eee;
+    box-shadow: 0 0 3px #eee;
+    font-size:10px;
+    font-weight:bold;
+    margin: 2px 10px 0px 10px;
+    float: right;
+}
+
+#your-messages .arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #ccc;
+	margin-left: 3px;
+}
+
+#your-messages .message {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    line-height: 1.6;
+    background: #eceff5;
+}
+
+#your-messages .message:hover {
+    background: #b1dbff;
+    cursor: pointer;
+}
+
+#your-messages .message:last-child {
+    border-bottom: 0px solid #000;
 }

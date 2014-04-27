@@ -33,7 +33,9 @@ function show_convos(data, replaceid) {
 
 function message_click() {
     $('#your-messages-icon').click(function(){
-        messaging_ajax('@@messaging-conversations', '#your-messages', 'json');
+        $('#your-messages .messages').empty();
+        messaging_ajax('@@messaging-conversations', '#your-messages .messages', 'json');
+        $('#your-messages').toggle();
     });
 }
 
