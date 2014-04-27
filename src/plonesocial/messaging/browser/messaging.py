@@ -182,7 +182,7 @@ class MessagingView(JsonView):
 
 class YourMessagesView(BrowserView):
 
-    def unread_messages(self):
+    def your_messages(self):
         # count to show unread messages
         user = api.user.get_current()
 
@@ -202,6 +202,5 @@ class YourMessagesView(BrowserView):
         messages = inboxes[user.id]
         if not messages:
             return None
-
         return {'unread': messages.new_messages_count,
-                'messages': messages.get_conservations}
+                'messages': messages.get_conversations()}
