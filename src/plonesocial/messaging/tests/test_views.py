@@ -163,4 +163,6 @@ class TestYourMessagesView(unittest.TestCase):
         inboxes.send_message(from_, to, text, created=created)
         transaction.commit()
 
-        
+    def test_unread_messages(self):
+        # lets return a count to see if there are any unread messages
+
