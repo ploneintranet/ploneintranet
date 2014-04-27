@@ -1,5 +1,23 @@
-#number-of-messages {
+#your-messages {
     background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
     width: 20px;
-    height: 20px;
+    padding: 5px;
+    line-height: 1;
+}
+
+#number-of-messages {
+    display:block;
+    width:9px;
+    height:9px;
+    line-height:9px;
+    border: 2px solid red;
+    border-radius: 50%;
+    color:#f5f5f5;
+    text-align:center;
+    text-decoration:none;
+    background: red;
+    box-shadow: 0 0 3px red;
+    font-size:9px;
+    font-weight:bold;
+    margin: 2px 0px 0px 10px;
 }
