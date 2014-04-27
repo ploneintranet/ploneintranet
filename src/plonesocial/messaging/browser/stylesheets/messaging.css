@@ -3,6 +3,7 @@
     width: 20px;
     padding: 5px;
     line-height: 1;
+    cursor: pointer;
 }
 
 #number-of-messages {
