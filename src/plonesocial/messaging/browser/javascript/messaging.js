@@ -25,7 +25,7 @@ function show_convos(data, replaceid) {
             new_message_count = '<span class="new-message-name"> ' + conversations[c].new_messages_count + '</span>';
         }
         $(replaceid).append('<div id="conversation'+ conversations[c].username + '" class="message"><input type="hidden" class="username" value="'+conversations[c].username+'"/>'
-                               + new_message_count + ' ' +
+                               + new_message_count + 'Conversation with:  ' +
                                conversations[c].fullname +'</div>');
     }
     convo_click();
@@ -45,6 +45,7 @@ function show_messages(data, replaceid) {
         }
     }
     $(msg).append('<div class="reply-message">Reply</div>');
+    $(msg).append('<div class="clearall"></div>');
     $(msg).insertAfter('#'+replaceid);
 }
 
