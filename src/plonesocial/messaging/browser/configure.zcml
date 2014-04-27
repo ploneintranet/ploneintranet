@@ -47,7 +47,7 @@
     <browser:page
       for="*"
       name="your-messages"
-      class=".messaging.YourMessages"
+      class=".messaging.YourMessagesView"
       template="your-messages.pt"
       permission="zope2.View"
       />
