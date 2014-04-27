@@ -183,3 +183,5 @@ class TestYourMessagesView(unittest.TestCase):
         self.browser.open(self.portal_url +
                           '/@@your-messages')
         self.assertTrue('id="your-messages"' in self.browser.contents)
+        self.assertTrue('1' in self.browser.contents)
+
