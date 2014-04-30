@@ -30,6 +30,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <genericsetup:importStep
+      name="ploneintranet.workspace.setuphandlers"
+      title="Post-install setup for ploneintranet.workspace"
+      description=""
+      handler=".setuphandlers.post_install"
+      i18n:translate="title description"
+      />
 
 </configure>
