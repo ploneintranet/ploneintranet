@@ -26,9 +26,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             username='testuser1',
             obj=workspace_folder,
         )
-        self.assertIn('View', permissions,
-                      'Non-member cannot view private workspace')
-        self.assertNotIn('Access contents information', permissions,
+        self.assertTrue(permissions['View'],
+                        'Non-member cannot view private workspace')
+        self.assertFalse(permissions['Access contents information'],
                          'Non-member can access contents of private workspace')
 
         IWorkspace(workspace_folder).add_to_team(
@@ -40,11 +40,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             obj=workspace_folder,
         )
         # Normal users can view
-        self.assertIn('View', member_permissions,
-                      'Non-member cannot view private workspace')
+        self.assertTrue(member_permissions['View'],
+                        'Member cannot view private workspace')
         # ... and get access to
-        self.assertIn('Access contents information', member_permissions,
-                      'Non-member cannot access contents of private workspace')
+        self.assertTrue(member_permissions['Access contents information'],
+                        'Member cannot access contents of private workspace')
 
     def test_secret_workspace(self):
         """
@@ -66,9 +66,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             username='testuser1',
             obj=workspace_folder,
         )
-        self.assertNotIn('View', permissions,
+        self.assertFalse(permissions['View'],
                          'Non-member can view secret workspace')
-        self.assertNotIn('Access contents information', permissions,
+        self.assertFalse(permissions['Access contents information'],
                          'Non-member can access contents of secret workspace')
 
         IWorkspace(workspace_folder).add_to_team(
@@ -80,11 +80,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             obj=workspace_folder,
         )
         # Normal users can view
-        self.assertIn('View', member_permissions,
-                      'Non-member cannot view secret workspace')
+        self.assertTrue(member_permissions['View'],
+                        'Member cannot view secret workspace')
         # ... and get access to
-        self.assertIn('Access contents information', member_permissions,
-                      'Non-member cannot access contents of secret workspace')
+        self.assertTrue(member_permissions['Access contents information'],
+                        'Member cannot access contents of secret workspace')
 
     def test_open_workspace(self):
         """
@@ -106,10 +106,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             username='testuser1',
             obj=workspace_folder,
         )
-        self.assertIn('View', permissions,
-                      'Non-member cannot view open workspace')
-        self.assertIn('Access contents information', permissions,
-                      'Non-member cannot access contents of open workspace')
+        self.assertTrue(permissions['View'],
+                        'Non-member cannot view open workspace')
+        self.assertTrue(permissions['Access contents information'],
+                        'Non-member cannot access contents of open workspace')
 
         IWorkspace(workspace_folder).add_to_team(
             user=api.user.get('testuser1')
@@ -120,8 +120,8 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             obj=workspace_folder,
         )
         # Normal users can view
-        self.assertIn('View', member_permissions,
-                      'Member cannot view open workspace')
+        self.assertTrue(member_permissions['View'],
+                        'Member cannot view open workspace')
         # ... and get access to
-        self.assertIn('Access contents information', member_permissions,
-                      'Member cannot access contents of open workspace')
+        self.assertTrue(member_permissions['Access contents information'],
+                        'Member cannot access contents of open workspace')
