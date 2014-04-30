@@ -73,7 +73,7 @@ class TestAjaxViews(unittest.TestCase):
         return [c for c in inboxes[username].get_conversations()]
 
     def _login(self, username, password):
-         # Go admin
+        # Go admin
         self.browser.open(self.portal_url + '/login_form')
         self.browser.getControl(name='__ac_name').value = username
         self.browser.getControl(name='__ac_password').value = password
@@ -137,3 +137,61 @@ class TestAjaxViews(unittest.TestCase):
         content = json.loads(self.browser.contents)
         self.assertEqual(content, {u'result': True})
         self.assertEqual(len(self._conversations('testuser1')), 0)
+
+
+class TestYourMessagesView(unittest.TestCase):
+
+    layer = PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.portal_url = self.portal.absolute_url()
+        self.request = self.layer['request']
+        self.browser = Browser(self.app)
+        self.browser.handleErrors = False
+        api.user.create(username='testuser1', email='what@ev.er',
+                        password='testuser1',
+                        properties={'fullname': 'Test User 1'})
+        api.user.create(username='testuser2', email='what@ev.er',
+                        password='testuser2',
+                        properties={'fullname': 'Test User 2'})
+        transaction.commit()
+
+    def _create_message(self, from_, to, text, created=now):
+        inboxes = self.portal.plonesocial_messaging
+        inboxes.send_message(from_, to, text, created=created)
+        transaction.commit()
+
+    def _login(self, username, password):
+        # Go admin
+        self.browser.open(self.portal_url + '/login_form')
+        self.browser.getControl(name='__ac_name').value = username
+        self.browser.getControl(name='__ac_password').value = password
+        self.browser.getControl(name='submit').click()
+
+    def _logout(self):
+        self.browser.open(self.portal_url + '/logout')
+
+    def test_unread_messages(self):
+        # lets return a count to see if there are any unread messages
+        self.browser.open(self.portal_url +
+                          '/@@your-messages')
+        # lets checked when not logged in
+        self.assertFalse('id="your-messages"' in self.browser.contents)
+        # lets login and create a message
+        self._login('testuser1', 'testuser1')
+        self._create_message('testuser2', 'testuser1', 'Message Text',
+                             created=now)
+        self.browser.open(self.portal_url +
+                          '/@@your-messages')
+        self.assertTrue('id="your-messages"' in self.browser.contents)
+        self.assertTrue('1' in self.browser.contents)
+        self._logout()
+        #self._login('testuser2', 'testuser2')
+        #self.browser.open(self.portal_url +
+        #                  '/@@your-messages')
+        #self.assertFalse('id="your-messages"' in self.browser.contents)
+        #self.assertFalse('1' in self.browser.contents)
+
+

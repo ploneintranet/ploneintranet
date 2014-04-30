@@ -178,3 +178,29 @@ class MessagingView(JsonView):
             del inboxes[user.id][conversation_user_id]
             result = True
         return self.success({'result': result})
+
+
+class YourMessagesView(BrowserView):
+
+    def your_messages(self):
+        # count to show unread messages
+        user = api.user.get_current()
+
+        if user is None:
+            # something has gone wrong
+            return None
+        if user.id == 'acl_users':
+            # is anon
+            return None
+
+        locator = getUtility(IMessagingLocator)
+        inboxes = locator.get_inboxes()
+
+        if user.id not in inboxes:
+            return None
+
+        messages = inboxes[user.id]
+        if not messages:
+            return None
+
+        return {'unread': messages.new_messages_count}
