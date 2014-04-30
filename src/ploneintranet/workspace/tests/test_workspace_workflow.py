@@ -21,9 +21,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertEqual(api.content.get_state(workspace_folder),
                          'private')
 
-        api.user.create(username='testuser1', email="test@test.com")
+        # add non-member
+        api.user.create(username='nonmember', email="test@test.com")
         permissions = api.user.get_permissions(
-            username='testuser1',
+            username='nonmember',
             obj=workspace_folder,
         )
         self.assertTrue(permissions['View'],
@@ -31,12 +32,13 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertFalse(permissions['Access contents information'],
                          'Non-member can access contents of private workspace')
 
+        # add member
+        api.user.create(username='workspacemember', email="test@test.com")
         IWorkspace(workspace_folder).add_to_team(
-            user=api.user.get('testuser1')
+            user='workspacemember',
         )
-
         member_permissions = api.user.get_permissions(
-            username='testuser1',
+            username='workspacemember',
             obj=workspace_folder,
         )
         # Normal users can view
