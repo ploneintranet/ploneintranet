@@ -63,9 +63,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         api.content.transition(workspace_folder,
                                'make_secret')
 
-        api.user.create(username='testuser1', email="test@test.com")
+        api.user.create(username='nonmember', email="test@test.com")
         permissions = api.user.get_permissions(
-            username='testuser1',
+            username='nonmember',
             obj=workspace_folder,
         )
         self.assertFalse(permissions['View'],
@@ -73,12 +73,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertFalse(permissions['Access contents information'],
                          'Non-member can access contents of secret workspace')
 
+        api.user.create(username='workspacemember', email="test@test.com")
         IWorkspace(workspace_folder).add_to_team(
-            user=api.user.get('testuser1')
+            user='workspacemember',
         )
-
         member_permissions = api.user.get_permissions(
-            username='testuser1',
+            username='workspacemember',
             obj=workspace_folder,
         )
         # Normal users can view
@@ -103,9 +103,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         api.content.transition(workspace_folder,
                                'make_open')
 
-        api.user.create(username='testuser1', email="test@test.com")
+        api.user.create(username='nonmember', email="test@test.com")
         permissions = api.user.get_permissions(
-            username='testuser1',
+            username='nonmember',
             obj=workspace_folder,
         )
         self.assertTrue(permissions['View'],
@@ -113,12 +113,13 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertTrue(permissions['Access contents information'],
                         'Non-member cannot access contents of open workspace')
 
+        api.user.create(username='workspacemember', email="test@test.com")
         IWorkspace(workspace_folder).add_to_team(
-            user=api.user.get('testuser1')
+            user='workspacemember',
         )
 
         member_permissions = api.user.get_permissions(
-            username='testuser1',
+            username='workspacemember',
             obj=workspace_folder,
         )
         # Normal users can view
