@@ -10,6 +10,9 @@ class TestSetupHandlers(BaseTestCase):
     def test_groups_setup(self):
         """ Check that the dynamic group to hold all intranet users
             is set up correctly """
+        group = api.group.get(groupname=INTRANET_USERS_GROUP_ID)
+        self.assertIsNotNone(group, "Group not created properly")
+
         api.user.create(username='testuser',
                         email='testuser@plone.com')
 
