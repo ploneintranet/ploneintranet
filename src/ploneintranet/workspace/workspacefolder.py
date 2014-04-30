@@ -21,6 +21,10 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
 class WorkspaceFolder(Container):
     grok.implements(IWorkspaceFolder)
 
+    # Block local role acquisition so that users
+    # must be given explicit access to the workspace
+    __ac_local_roles_block__ = 1
+
 
 class SampleView(grok.View):
     """ sample view class """
