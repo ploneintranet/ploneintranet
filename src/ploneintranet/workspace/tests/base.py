@@ -16,6 +16,7 @@ class BaseTestCase(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.qi_tool = getToolByName(self.portal, 'portal_quickinstaller')
+        self.request = self.portal.REQUEST
 
     def login(self, username):
         login(self.portal, username)
