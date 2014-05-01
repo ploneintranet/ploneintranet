@@ -28,11 +28,13 @@ class TestWorkflow(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace')
-        IWorkspace(workspace_folder).add_to_team(
-            user='wsadmin',
-            groups=set(['Admins']),
-        )
-        IAnnotations(self.request)[('workspaces', 'workspaceadmin')] = None
+        self.assertEqual(api.content.get_state(workspace_folder),
+                         'secret',
+                         'workspace is in incorrect state')
+        self.add_user_to_workspace(
+            'wsadmin',
+            workspace_folder,
+            set(['Admins']))
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
             obj=workspace_folder,
@@ -52,3 +54,22 @@ class TestWorkflow(BaseTestCase):
         )
         self.assertFalse(permissions['View'],
                          'Non-member can view draft content')
+
+    def test_pending_state(self):
+        """
+        team managers should be able to view pending items
+        """
+        self.login_as_portal_owner()
+        api.user.create(username='wsmember', email="member@test.com")
+        api.user.create(username='wsadmin', email="admin@test.com")
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace')
+        IWorkspace(workspace_folder).add_to_team(
+            user='wsadmin',
+            groups=set(['Admins']),
+        )
+        IAnnotations(self.request)[('workspaces', 'wsadmin')] = None
+        IWorkspace(workspace_folder).add_to_team(user='wsmember')
+        IAnnotations(self.request)[('workspaces', 'wsmember')] = None
