@@ -31,3 +31,24 @@ class TestSetupHandlers(BaseTestCase):
         user_roles = api.user.get_roles(username='testuser',
                                         obj=self.portal)
         self.assertIn('Reader', user_roles)
+
+    def test_workspace_groups_hidden(self):
+        """ collective.workspace groups should be hidden when enumerating """
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='Welcome to my workspace')
+        groupname = 'Members:%s' % workspace_folder.UID()
+        self.assertIsNotNone(
+            api.group.get(groupname=groupname)
+        )
+        # Use pas search to mimic the control panel groups views
+        pas_search = api.content.get_view('pas_search',
+                                          self.portal, self.request)
+        group_info = pas_search.searchGroups()
+        self.assertNotIn(
+            groupname,
+            [x['id'] for x in group_info],
+        )

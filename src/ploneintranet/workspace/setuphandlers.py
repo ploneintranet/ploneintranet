@@ -40,3 +40,7 @@ def post_install(context):
         )
         # activate the plugin (all interfaces)
         activatePluginInterfaces(portal, DYNAMIC_GROUPS_PLUGIN_ID)
+
+    # deactivate the enumerate groups interface for collective.workspace
+    activatePluginInterfaces(portal, 'workspace_groups',
+                             disable=['IGroupEnumerationPlugin'])
