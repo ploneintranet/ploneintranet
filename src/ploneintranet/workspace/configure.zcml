@@ -19,6 +19,12 @@
     <role name="TeamManager" />
   </permission>
 
+  <subscriber
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.workspace_added"
+     />
+
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />
