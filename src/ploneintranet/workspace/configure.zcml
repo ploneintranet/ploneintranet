@@ -8,20 +8,15 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
-  <!-- Grok the package to initialize schema interfaces and content classes -->
   <include package="five.grok" />
   <grok:grok package="." />
 
-  <!-- Register a resource directory from which we can deploy static
-   resource files. -->
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />
 
   <i18n:registerTranslations directory="locales" />
 
-  <!-- Register an extension profile to make the product installable
-       in Plone -->
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: Workspace"
