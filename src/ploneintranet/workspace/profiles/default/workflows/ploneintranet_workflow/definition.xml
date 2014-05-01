@@ -13,6 +13,7 @@
 
   <state state_id="draft"
          title="Draft">
+    <exit-transition transition_id="submit"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -45,6 +46,8 @@
 
   <state state_id="pending"
          title="Pending">
+    <exit-transition transition_id="publish"/>
+    <exit-transition transition_id="send_back"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -73,6 +76,7 @@
 
   <state state_id="published"
          title="Published">
+    <exit-transition transition_id="retract"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -101,5 +105,53 @@
       <permission-role>Reader</permission-role>
     </permission-map>
   </state>
+  
+  <transition transition_id="submit"
+              title="Admin submits content"
+              new_state="pending"
+              trigger="USER" before_script="" after_script="">
+    <description>Submitting the item sends it for review.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=submit"
+            category="workflow" icon="">Submit</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="publish"
+              title="Publishes content"
+              new_state="published"
+              trigger="USER" before_script="" after_script="">
+    <description>Publishes the item for members.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=publish"
+            category="workflow" icon="">Publish</action>
+    <guard>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="send_back"
+              title="Sends content back to draft"
+              new_state="draft"
+              trigger="USER" before_script="" after_script="">
+    <description>Sends content back to draft.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=send_back"
+            category="workflow" icon="">Send back</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="retract"
+              title="Retracts content to draft"
+              new_state="draft"
+              trigger="USER" before_script="" after_script="">
+    <description>Retracts content back draft.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=retract"
+            category="workflow" icon="">Retract</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
 
 </dc-workflow>
