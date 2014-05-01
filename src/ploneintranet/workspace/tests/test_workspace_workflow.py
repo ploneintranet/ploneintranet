@@ -18,9 +18,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             'example-workspace',
             title='Welcome to my workspace')
 
-        # default state is private
-        self.assertEqual(api.content.get_state(workspace_folder),
-                         'private')
+        # Private means guests can View but not access...
+        api.content.transition(workspace_folder,
+                               'make_private')
 
         # add non-member
         api.user.create(username='nonmember', email="test@test.com")
@@ -61,9 +61,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             'example-workspace',
             title='A secret workspace')
 
-        # Ssssh...
-        api.content.transition(workspace_folder,
-                               'make_secret')
+        # default state is secret
+        self.assertEqual(api.content.get_state(workspace_folder),
+                         'secret')
 
         api.user.create(username='nonmember', email="test@test.com")
         permissions = api.user.get_permissions(
