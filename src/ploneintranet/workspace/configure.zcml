@@ -11,6 +11,14 @@
   <include package="five.grok" />
   <grok:grok package="." />
 
+  <permission
+      id="ploneintranet.workspace.ManageWorkspace"
+      title="ploneintranet.workspace: Manage workspace">
+    <role name="Manager" />
+    <role name="Site Administrator" />
+    <role name="TeamManager" />
+  </permission>
+
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />

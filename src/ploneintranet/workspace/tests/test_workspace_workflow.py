@@ -189,3 +189,57 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         )
         self.assertFalse(editor_permissions['Modify portal content'],
                          'Editor can modify workspace')
+
+    def test_manage_workspace(self):
+        """
+        A Workspace Admin should have the manage workspace permission
+        """
+
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='A workspace')
+
+        # A normal user cannot manage the workspace
+        api.user.create(username='nonmember', email='test@test.com')
+        permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=workspace_folder,
+        )
+        self.assertFalse(
+            permissions['ploneintranet.workspace: Manage workspace'],
+            'Non-Member can manage workspace'
+        )
+
+        # A workspace member cannot manage the workspace
+        api.user.create(username='workspacemember', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspacemember',
+        )
+        IAnnotations(self.request)[('workspaces', 'workspacemember')] = None
+        member_permissions = api.user.get_permissions(
+            username='workspacemember',
+            obj=workspace_folder,
+        )
+        self.assertFalse(
+            member_permissions['ploneintranet.workspace: Manage workspace'],
+            'Member can manage workspace'
+        )
+
+        # A workspace admin can manage the workspace
+        api.user.create(username='workspaceadmin', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspaceadmin',
+            groups=set(['Admins']),
+        )
+        IAnnotations(self.request)[('workspaces', 'workspaceadmin')] = None
+        admin_permissions = api.user.get_permissions(
+            username='workspaceadmin',
+            obj=workspace_folder,
+        )
+        self.assertTrue(
+            admin_permissions['ploneintranet.workspace: Manage workspace'],
+            'Admin cannot manage workspace'
+        )
