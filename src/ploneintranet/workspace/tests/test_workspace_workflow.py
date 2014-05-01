@@ -1,3 +1,4 @@
+from zope.annotation.interfaces import IAnnotations
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from collective.workspace.interfaces import IWorkspace
@@ -37,6 +38,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         IWorkspace(workspace_folder).add_to_team(
             user='workspacemember',
         )
+        IAnnotations(self.request)[('workspaces', 'workspacemember')] = None
         member_permissions = api.user.get_permissions(
             username='workspacemember',
             obj=workspace_folder,
@@ -77,6 +79,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         IWorkspace(workspace_folder).add_to_team(
             user='workspacemember',
         )
+        IAnnotations(self.request)[('workspaces', 'workspacemember')] = None
         member_permissions = api.user.get_permissions(
             username='workspacemember',
             obj=workspace_folder,
