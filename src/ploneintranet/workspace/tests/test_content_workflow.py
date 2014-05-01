@@ -9,3 +9,5 @@ class TestWorkflow(BaseTestCase):
         wftool = api.portal.get_tool('portal_workflow')
         self.assertIn('ploneintranet_workflow',
                       wftool.listWorkflows())
+        self.assertIn('ploneintranet_workflow',
+                      wftool.getDefaultChain())

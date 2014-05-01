@@ -2,6 +2,9 @@
 <object name="portal_workflow" meta_type="Plone Workflow Tool">
   <object name="ploneintranet_workflow" meta_type="Workflow" />
   <bindings>
+    <default>
+      <bound-workflow workflow_id="ploneintranet_workflow" />
+    </default>
     <type type_id="ploneintranet.workspace.workspacefolder">
       <bound-workflow workflow_id="ploneintranet_workflow" />
     </type>
