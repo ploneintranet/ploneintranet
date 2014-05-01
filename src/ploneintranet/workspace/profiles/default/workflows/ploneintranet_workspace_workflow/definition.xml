@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="ploneintranet_workspace_workflow"
+	     title="Plone Intranet Workspace Workflow"
+	     description=" - Workspace Workflow."
+	     state_variable="review_state" initial_state="secret" manager_bypass="False">
+
+  <permission>Access contents information</permission>
+  <permission>View</permission>
+  <permission>Modify portal content</permission>
+
+  <state state_id="secret" title="Secret">
+    <description>Secret Workspaces cannot be seen or accessed by Guests.</description>
+    <exit-transition transition_id="make_private"/>
+    <exit-transition transition_id="make_open"/>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="private" title="Private">
+    <description>
+      Private Workspaces can be seen, but not be accessed by Guests.
+    </description>
+    <exit-transition transition_id="make_secret"/>
+    <exit-transition transition_id="make_open"/>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="open" title="Open">
+    <description>Open Workspaces can be seen and accessed by Guests. However Guests can only see, not respond to content in the Workspace.</description>
+    <exit-transition transition_id="make_secret"/>
+    <exit-transition transition_id="make_private"/>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <transition transition_id="make_secret" title="Make secret" new_state="secret" trigger="USER" before_script="" after_script="">
+    <description>Making this secret means that it cannot be seen or accessed by Guests.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make secret</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+  <transition transition_id="make_private" title="Make private" new_state="private" trigger="USER" before_script="" after_script="">
+    <description>Making this private means that it can be seen but not accessed by Guests.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make private</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+  <transition transition_id="make_open" title="Make open" new_state="open" trigger="USER" before_script="" after_script="">
+    <description>Making this open means that it can be seen and accessed by Guests.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make open</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+  <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
+    <description>Previous transition</description>
+    <default>
+      <expression>transition/getId|nothing</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+  <variable variable_id="actor" for_catalog="False" for_status="True" update_always="True">
+    <description>The ID of the user who performed the previous transition</description>
+    <default>
+      <expression>user/getId</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+  <variable variable_id="comments" for_catalog="False" for_status="True" update_always="True">
+    <description>Comment about the last transition</description>
+    <default>
+      <expression>python:state_change.kwargs.get('comment', '')</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+  <variable variable_id="review_history" for_catalog="False" for_status="False" update_always="False">
+    <description>Provides access to workflow history</description>
+    <default>
+      <expression>state_change/getHistory</expression>
+    </default>
+    <guard>
+      <guard-permission>Request review</guard-permission>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </variable>
+  <variable variable_id="time" for_catalog="False" for_status="True" update_always="True">
+    <description>When the previous transition was performed</description>
+    <default>
+      <expression>state_change/getDateTime</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+</dc-workflow>

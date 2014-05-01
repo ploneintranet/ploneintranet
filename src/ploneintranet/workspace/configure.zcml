@@ -8,20 +8,29 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
-  <!-- Grok the package to initialize schema interfaces and content classes -->
   <include package="five.grok" />
   <grok:grok package="." />
 
-  <!-- Register a resource directory from which we can deploy static
-   resource files. -->
+  <permission
+      id="ploneintranet.workspace.ManageWorkspace"
+      title="ploneintranet.workspace: Manage workspace">
+    <role name="Manager" />
+    <role name="Site Administrator" />
+    <role name="TeamManager" />
+  </permission>
+
+  <subscriber
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.workspace_added"
+     />
+
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />
 
   <i18n:registerTranslations directory="locales" />
 
-  <!-- Register an extension profile to make the product installable
-       in Plone -->
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: Workspace"
@@ -30,6 +39,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <genericsetup:importStep
+      name="ploneintranet.workspace.setuphandlers"
+      title="Post-install setup for ploneintranet.workspace"
+      description=""
+      handler=".setuphandlers.post_install"
+      i18n:translate="title description"
+      />
 
 </configure>

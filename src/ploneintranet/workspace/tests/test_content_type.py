@@ -59,9 +59,9 @@ class TestContentTypes(BaseTestCase):
         self.login_as_portal_owner()
         ws = self.create_workspace()
         user = self.create_user()
-        ws.add_to_team(user=user)
-        self.assertEqual(len(ws.members), 1)
-        self.assertEqual(list(ws.members)[0].getUserName(), 'testuser')
+        ws.add_to_team(user=user.getId())
+        self.assertIn(user.getId(),
+                      [x for x in list(ws.members)])
 
     def test_add_admin_to_workspace(self):
         """ check that site admin can add team admin to the workspace """
@@ -75,10 +75,10 @@ class TestContentTypes(BaseTestCase):
             group_name,
             group_names)
         workspace = IWorkspace(ws)
-        workspace.add_to_team(user=user, groups=set([u"Admins"]))
+        workspace.add_to_team(user=user.getId(), groups=set([u"Admins"]))
 
         portal = api.portal.get()
         pgroups = portal.portal_groups.getGroupById(group_name)
-        members = pgroups.getGroup().getMemberIds()
-        self.assertEqual(len(members), 1)
-        self.assertEqual(members[0].getId(), user.getId())
+        member_ids = pgroups.getGroup().getMemberIds()
+        self.assertIn(user.getId(),
+                      member_ids)
