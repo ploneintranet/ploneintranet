@@ -131,3 +131,61 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # ... and get access to
         self.assertTrue(member_permissions['Access contents information'],
                         'Member cannot access contents of open workspace')
+
+    def test_modify_workspace(self):
+        """
+        Only a Workspace Admin should be able to edit the workspace.
+        A user with the Editor role should not be able to edit the workspace.
+        """
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='A workspace')
+
+        # A Workspace Member
+        api.user.create(username='workspacemember', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspacemember',
+        )
+        member_permissions = api.user.get_permissions(
+            username='workspacemember',
+            obj=workspace_folder,
+        )
+        self.assertFalse(member_permissions['Modify portal content'],
+                         'Member can modify workspace')
+
+        # A Workspace Admin
+        api.user.create(username='workspaceadmin', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspaceadmin',
+            groups=set(['Admins']),
+        )
+        IAnnotations(self.request)[('workspaces', 'workspaceadmin')] = None
+        admin_permissions = api.user.get_permissions(
+            username='workspaceadmin',
+            obj=workspace_folder,
+        )
+        self.assertTrue(admin_permissions['Modify portal content'],
+                        'Admin cannot modify workspace')
+
+        # A workspace editor
+        api.user.create(username='workspaceeditor', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspaceeditor',
+        )
+        IAnnotations(self.request)[('workspaces', 'workspaceeditor')] = None
+        # Grant them the Editor role on the workspace
+        api.user.grant_roles(
+            username='workspaceeditor',
+            obj=workspace_folder,
+            roles=['Editor'],
+        )
+
+        editor_permissions = api.user.get_permissions(
+            username='workspaceeditor',
+            obj=workspace_folder,
+        )
+        self.assertFalse(editor_permissions['Modify portal content'],
+                         'Editor can modify workspace')
