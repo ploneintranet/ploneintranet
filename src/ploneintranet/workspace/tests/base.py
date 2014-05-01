@@ -23,3 +23,12 @@ class BaseTestCase(unittest.TestCase):
 
     def login_as_portal_owner(self):
         z2.login(self.app['acl_users'], SITE_OWNER_NAME)
+
+    def login_as(self, username):
+        """
+        helper method to login as specific user
+        """
+        z2.login(self.portal['acl_users'], username)
+
+    def logout(self):
+        z2.logout()
