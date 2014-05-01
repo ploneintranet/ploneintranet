@@ -1,6 +1,7 @@
 from zope.annotation.interfaces import IAnnotations
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
+from plone.app.testing import login
 from collective.workspace.interfaces import IWorkspace
 
 
@@ -243,3 +244,51 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             admin_permissions['ploneintranet.workspace: Manage workspace'],
             'Admin cannot manage workspace'
         )
+
+    def test_workspace_transitions(self):
+        """
+        A Workspace Admin should be able to change the state of a workspace
+        """
+
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='A workspace')
+
+        api.user.create(username='workspaceadmin', email='test@test.com')
+        IWorkspace(workspace_folder).add_to_team(
+            user='workspaceadmin',
+            groups=set(['Admins']),
+        )
+        IAnnotations(self.request)[('workspaces', 'workspaceadmin')] = None
+
+        # The Admin should have the manage workspace permission
+        permissions = api.user.get_permissions(
+            username='workspaceadmin',
+            obj=workspace_folder,
+        )
+        self.assertTrue(
+            permissions['ploneintranet.workspace: Manage workspace'],
+            'Admin cannot manage workspace'
+        )
+
+        # The Admin should be able to transition the workspace
+        # through each state
+        login(self.portal, 'workspaceadmin')
+
+        api.content.transition(workspace_folder,
+                               'make_private')
+        self.assertEqual(api.content.get_state(workspace_folder),
+                         'private')
+
+        api.content.transition(workspace_folder,
+                               'make_open')
+        self.assertEqual(api.content.get_state(workspace_folder),
+                         'open')
+
+        api.content.transition(workspace_folder,
+                               'make_secret')
+        self.assertEqual(api.content.get_state(workspace_folder),
+                         'secret')

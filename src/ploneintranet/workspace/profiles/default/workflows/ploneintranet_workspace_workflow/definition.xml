@@ -70,21 +70,21 @@
   <description>Making this secret means that it cannot be seen or accessed by Guests.</description>
   <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make secret</action>
   <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
   </guard>
  </transition>
  <transition transition_id="make_private" title="Make private" new_state="private" trigger="USER" before_script="" after_script="">
   <description>Making this private means that it can be seen but not accessed by Guests.</description>
   <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make private</action>
   <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
   </guard>
  </transition>
  <transition transition_id="make_open" title="Make open" new_state="open" trigger="USER" before_script="" after_script="">
   <description>Making this open means that it can be seen and accessed by Guests.</description>
   <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make open</action>
   <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
   </guard>
  </transition>
  <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
