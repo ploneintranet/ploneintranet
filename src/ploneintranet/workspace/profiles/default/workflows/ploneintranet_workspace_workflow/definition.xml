@@ -7,9 +7,13 @@
   <exit-transition transition_id="make_private"/>
   <exit-transition transition_id="make_open"/>
   <permission-map name="Access contents information" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
   </permission-map>
  </state>
@@ -18,9 +22,13 @@
   <exit-transition transition_id="make_secret"/>
   <exit-transition transition_id="make_open"/>
   <permission-map name="Access contents information" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
     <permission-role>Authenticated</permission-role>
   </permission-map>
@@ -30,10 +38,14 @@
   <exit-transition transition_id="make_secret"/>
   <exit-transition transition_id="make_private"/>
   <permission-map name="Access contents information" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
     <permission-role>Authenticated</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
+    <permission-role>Manager</permission-role>
+    <permission-role>Site Administrator</permission-role>
     <permission-role>Reader</permission-role>
     <permission-role>Authenticated</permission-role>
   </permission-map>
