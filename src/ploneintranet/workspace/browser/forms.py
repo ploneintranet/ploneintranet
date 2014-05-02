@@ -1,11 +1,10 @@
-from five import grok
 from plone.directives import form
 from z3c.form import button
 from zope import schema
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 from ploneintranet.workspace import MessageFactory as _
-from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
+
 
 visibility_vocab = SimpleVocabulary([
     SimpleTerm(value=u'open', title=_(u'Open')),
@@ -47,9 +46,6 @@ class IPolicyForm(form.Schema):
 
 
 class PolicyForm(form.SchemaForm):
-    grok.name("policies")
-    grok.require("cmf.ModifyPortalContent")
-    grok.context(IWorkspaceFolder)
 
     schema = IPolicyForm
     ignoreContext = True

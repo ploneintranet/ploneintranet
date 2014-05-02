@@ -9,6 +9,8 @@
     i18n_domain="ploneintranet.workspace">
 
   <include package="Products.CMFCore" file="permissions.zcml" />
+  <include package=".browser" />
+
   <include package="five.grok" />
   <grok:grok package="." />
 
