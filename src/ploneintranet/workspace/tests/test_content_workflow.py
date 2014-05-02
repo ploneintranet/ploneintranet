@@ -57,7 +57,8 @@ class TestWorkflow(BaseTestCase):
 
     def test_pending_state(self):
         """
-        team managers should be able to view pending items
+        team managers should be able to view pending items,
+        team members should not
         """
         self.login_as_portal_owner()
         api.user.create(username='wsmember', email="member@test.com")
@@ -66,10 +67,76 @@ class TestWorkflow(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace')
-        IWorkspace(workspace_folder).add_to_team(
-            user='wsadmin',
-            groups=set(['Admins']),
+        self.add_user_to_workspace(
+            'wsadmin',
+            workspace_folder,
+            set(['Admins']))
+        self.add_user_to_workspace(
+            'wsmember',
+            workspace_folder)
+
+        document = api.content.create(
+            workspace_folder,
+            'Document',
+            'document1')
+        api.content.transition(document, 'submit')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=document,
         )
-        IAnnotations(self.request)[('workspaces', 'wsadmin')] = None
-        IWorkspace(workspace_folder).add_to_team(user='wsmember')
-        IAnnotations(self.request)[('workspaces', 'wsmember')] = None
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view pending content')
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=document,
+        )
+        self.assertFalse(member_permissions['View'],
+                         'member can view pending content')
+
+    def test_published_state(self):
+        """
+        all team members should be able to see published content,
+        regualar plone user should not
+        """
+        self.login_as_portal_owner()
+        api.user.create(username='nonmember', email="user@test.com")
+        api.user.create(username='wsmember', email="member@test.com")
+        api.user.create(username='wsadmin', email="admin@test.com")
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace')
+        self.add_user_to_workspace(
+            'wsadmin',
+            workspace_folder,
+            set(['Admins']))
+        self.add_user_to_workspace(
+            'wsmember',
+            workspace_folder)
+
+        document = api.content.create(
+            workspace_folder,
+            'Document',
+            'document1')
+        api.content.transition(document, 'submit')
+        api.content.transition(document, 'publish')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=document,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view published content')
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=document,
+        )
+        self.assertTrue(member_permissions['View'],
+                        'member cannot view published content')
+        user_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=document,
+        )
+        self.assertFalse(user_permissions['View'],
+                         'user can view workspace content')
