@@ -65,12 +65,7 @@ class PolicyForm(form.SchemaForm):
         ws.participant_policy = data.get("participant_policy", "consumers")
 
         self.updateWidgets()
-        # Do something with valid data here
-
-        # Set status on this form page
-        # (this status message is not bind to the session and
-        # does not go thru redirects)
-        self.status = "Thank you very much!"
+        self.status = "Policy updated."
 
     @button.buttonAndHandler(u"Cancel")
     def handleCancel(self, action):
