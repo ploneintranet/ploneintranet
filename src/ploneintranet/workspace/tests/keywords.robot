@@ -18,3 +18,10 @@ Add content item
 Fill text field
     [arguments]  ${field_label}   ${text}
     Input Text  xpath=//form//div/input[preceding-sibling::label[contains(text(), '${field_label}')]]  ${text}
+
+
+Navigate to
+    [arguments]  ${title}
+    Go to homepage
+    Click Contents In edit bar
+    Click link  ${title}
