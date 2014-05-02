@@ -35,13 +35,24 @@ class TestPolicyForm(BaseTestCase):
                        provides=Interface,
                        factory=PolicyForm,
                        name="policies")
+
+        request = make_request(form={
+            'form.buttons.ok': 'OK',
+        })
+        policyform = api.content.get_view('policies',
+                                          context=workspace,
+                                          request=request)
+        policyform.update()
+        data, errors = policyform.extractData()
+        self.assertEqual(len(errors), 3)
+
+        # Now give it some data
         request = make_request(form={
             'form.widgets.external_visibility': 'private',
             'form.widgets.join_policy': 'team',
             'form.widgets.participant_policy': 'moderators',
             'form.buttons.ok': 'OK',
         })
-
         policyform = api.content.get_view('policies',
                                           context=workspace,
                                           request=request)
