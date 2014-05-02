@@ -8,6 +8,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
+  <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="five.grok" />
   <grok:grok package="." />
 
