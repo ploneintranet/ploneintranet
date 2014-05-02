@@ -34,7 +34,7 @@ class BaseTestCase(unittest.TestCase):
     def logout(self):
         z2.logout()
 
-    def add_user_to_workspace(self, username, workspace, groups=[]):
+    def add_user_to_workspace(self, username, workspace, groups=None):
         """
         helper method which adds a user to team and then clears the cache
 
@@ -43,10 +43,13 @@ class BaseTestCase(unittest.TestCase):
         :param workspace: the workspace to add this user
         :type workspace: ploneintranet.workspace.workspacefolder
         :param groups: the groups to which this user should be added
-        :type groups: iterable
+        :type groups: set
         :rtype: None
 
         """
+        if groups is None:
+            groups = []
+
         IWorkspace(workspace).add_to_team(
             user=username,
             groups=groups,
