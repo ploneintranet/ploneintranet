@@ -57,12 +57,3 @@ class WorkspaceFolder(Container):
     @participant_policy.setter
     def participant_policy(self, value):
         self._participant_policy = value
-
-
-class SampleView(grok.View):
-    """ sample view class """
-
-    grok.context(IWorkspaceFolder)
-    grok.require('zope2.View')
-
-    # grok.name('view')
