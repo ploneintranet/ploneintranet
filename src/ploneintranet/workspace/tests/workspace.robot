@@ -12,11 +12,6 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-#Site Administrator can create example user
-#    Log in as site owner
-#    Add content User 'Example User'
-
-
 Site Administrator can create workspace
     Log in as site owner
     Go to homepage
