@@ -66,3 +66,27 @@ class TestPolicy(BaseTestCase):
             permissions['ploneintranet.workspace: Manage workspace'],
             'Creator cannot manage workspace'
         )
+
+    def test_workspace_policy_setting(self):
+        """
+        Check that we are able to set permission on a workspace
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            "ploneintranet.workspace.workspacefolder",
+            "example-workspace",
+            title="A workspace")
+        # check that accessing setting for the first time doesn't fail
+        self.assertEqual(workspace.external_visibility, "private")
+        self.assertEqual(workspace.join_policy, "admin")
+        self.assertEqual(workspace.participant_policy, "consumers")
+
+        workspace.external_visibility = "secret"
+        self.assertEqual(workspace.external_visibility, "secret")
+
+        workspace.join_policy = "team"
+        self.assertEqual(workspace.join_policy, "team")
+
+        workspace.participant_policy = "producers"
+        self.assertEqual(workspace.participant_policy, "producers")
