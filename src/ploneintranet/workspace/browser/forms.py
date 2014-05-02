@@ -63,6 +63,12 @@ class PolicyForm(form.SchemaForm):
             self.status = self.formErrorsMessage
             return
 
+        ws = self.context
+        ws.external_visibility = data.get("external_visibility", "private")
+        ws.join_policy = data.get("join_policy", "admin")
+        ws.participant_policy = data.get("participant_policy", "consumers")
+
+        self.updateWidgets()
         # Do something with valid data here
 
         # Set status on this form page
@@ -74,3 +80,10 @@ class PolicyForm(form.SchemaForm):
     def handleCancel(self, action):
         """User cancelled. Redirect back to the front page.
         """
+
+    def updateWidgets(self):
+        super(PolicyForm, self).updateWidgets()
+        ws = self.context
+        self.widgets["external_visibility"].value = ws.external_visibility
+        self.widgets["join_policy"].value = ws.join_policy
+        self.widgets["participant_policy"].value = ws.participant_policy

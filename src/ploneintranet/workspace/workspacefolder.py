@@ -25,6 +25,39 @@ class WorkspaceFolder(Container):
     # must be given explicit access to the workspace
     __ac_local_roles_block__ = 1
 
+    @property
+    def external_visibility(self):
+        try:
+            return self._ext_visibility
+        except AttributeError:
+            return "private"
+
+    @external_visibility.setter
+    def external_visibility(self, value):
+        self._ext_visibility = value
+
+    @property
+    def join_policy(self):
+        try:
+            return self._join_policy
+        except AttributeError:
+            return "admin"
+
+    @join_policy.setter
+    def join_policy(self, value):
+        self._join_policy = value
+
+    @property
+    def participant_policy(self):
+        try:
+            return self._participant_policy
+        except AttributeError:
+            return "consumers"
+
+    @participant_policy.setter
+    def participant_policy(self, value):
+        self._participant_policy = value
+
 
 class SampleView(grok.View):
     """ sample view class """
