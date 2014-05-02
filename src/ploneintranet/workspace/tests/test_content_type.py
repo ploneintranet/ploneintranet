@@ -24,6 +24,14 @@ class TestContentTypes(BaseTestCase):
         return workspace_folder
 
     def create_user(self, name="testuser", password="secret"):
+        """
+        helper method for creating a test user
+        :param name: username
+        :param password: password for the user
+        :returns: user object
+        :rtype: MemberData
+
+        """
         user = api.user.create(
             email="test@user.com",
             username=name,
