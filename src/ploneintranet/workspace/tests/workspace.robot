@@ -36,7 +36,6 @@ Site Administrator can modify policies
     Go to homepage
     Add content item  Workspace  Example Workspace
     Navigate to  Example Workspace
-    Pause
     Click Policies In edit bar
     #Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  private
     #Submit Form  xpath=//#form
