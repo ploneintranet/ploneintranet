@@ -7,7 +7,7 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
-    A WorkspaceFolder users can collaborate in
+    Interface for WorkspaceFolder
     """
 
     # If you want a schema-defined interface, delete the model.load
@@ -19,6 +19,9 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
 
 
 class WorkspaceFolder(Container):
+    """
+    A WorkspaceFolder users can collaborate in
+    """
     grok.implements(IWorkspaceFolder)
 
     # Block local role acquisition so that users
