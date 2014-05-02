@@ -26,6 +26,12 @@
      handler=".subscribers.workspace_added"
      />
 
+  <adapter
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     provides="collective.workspace.interfaces.IWorkspace"
+     factory=".adapters.PloneIntranetWorkspace"
+     />
+
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />
