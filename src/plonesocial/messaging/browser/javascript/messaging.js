@@ -85,13 +85,11 @@ function message_click() {
 }
 
 function add_inbox_count(data) {
-    $('#personaltools-plone_social_menu a').append(" ("+ $(data).text() + ")");
+    $('#personaltools-plone_social_menu a').append(" ("+ $(data).text().trim() + ")");
 }
 
 $(document).ready(function(){
-    $('#portal-personaltools a').click(function(){
-        messaging_ajax('@@your-messages', '#personaltools-plone_social_menu', 'html');
-    });
+    messaging_ajax('@@your-messages', '#personaltools-plone_social_menu', 'html');
 
     if ($('#show-your-messages').length > 0) {
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');
