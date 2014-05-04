@@ -179,6 +179,9 @@ class TestYourMessagesView(unittest.TestCase):
         # It should appear once logged in.
         self.browser.open(self.portal_url)
         self.assertFalse('personaltools-plone_social_menu' in self.browser.contents)
+        self._login('testuser1', 'testuser1')
+        self.browser.open(self.portal_url)
+        self.assertTrue('personaltools-plone_social_menu' in self.browser.contents)
 
 
     '''#def test_unread_messages(self):
