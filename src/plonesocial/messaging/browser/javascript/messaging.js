@@ -78,7 +78,7 @@ function convo_click() {
 function message_click() {
     $('#your-messages-icon').click(function(){
         $('#your-messages .messages').empty();
-        messaging_ajax('@@messaging-conversations', '#your-messages .messages', 'json');
+        messaging_ajax('@@social-inbox', '#your-messages .messages', 'html');
         $('#your-messages').toggle();
     });
 }

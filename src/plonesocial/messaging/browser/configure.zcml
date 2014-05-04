@@ -40,7 +40,7 @@
       for="*"
       name="social-inbox"
       class=".messaging.YourMessagesView"
-      template="your-inbox"
+      template="your-inbox.pt"
       permission="zope.Public"
       />
 

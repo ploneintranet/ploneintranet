@@ -187,7 +187,7 @@ class YourMessagesView(BrowserView):
         user = api.user.get_current()
 
         msgs = {'unread': '',
-                'msgs' : [],
+                'conversations' : [],
                 'request': ''}
 
         if user is None:
@@ -214,6 +214,22 @@ class YourMessagesView(BrowserView):
         if self.request.get('count'):
             msgs['request'] = True
             return msgs
+
+        conversations = [conversation.to_dict() for conversation in
+                         messages.get_conversations()]
+
+        if conversations:
+            for con in conversations:
+                con['last-updated'] = ''
+                conversation = inboxes[user.id][con['username']]
+                messages = [message.to_dict() for message in
+                            conversation.get_messages()]
+                if messages:
+                    con['last-updated'] = messages[len(messages) - 1]['created']
+
+                con['messages'] = messages
+
+        msgs['conversations'] = conversations
 
         return msgs
 
