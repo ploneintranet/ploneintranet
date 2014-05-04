@@ -118,7 +118,7 @@ class TestAjaxViews(unittest.TestCase):
                              created=now)
         self._login('testuser1', 'testuser1')
         self.browser.open(self.portal_url +
-                          '/@@conversations')
+                          '/@@messaging-conversations')
         content = json.loads(self.browser.contents)
         self.assertEqual(len(content['conversations']),
                          1)
