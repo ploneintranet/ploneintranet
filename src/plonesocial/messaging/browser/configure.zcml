@@ -38,6 +38,14 @@
 
     <browser:page
       for="*"
+      name="social-inbox"
+      class=".messaging.YourMessagesView"
+      template="your-inbox"
+      permission="zope.Public"
+      />
+
+    <browser:page
+      for="*"
       name="delete-conversation"
       class=".messaging.MessagingView"
       attribute="delete_conversation"
