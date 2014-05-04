@@ -85,7 +85,8 @@ function message_click() {
 }
 
 function add_inbox_count(data) {
-    $('#personaltools-plone_social_menu a').append(" ("+ $(data).text().trim() + ")");
+    var msg_count = data.trim();
+    $('#personaltools-plone_social_menu a').append(" (" + msg_count + ")");
 }
 
 $(document).ready(function(){

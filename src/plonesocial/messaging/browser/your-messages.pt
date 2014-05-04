@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div id="your-messages">
-                <div class="arrow-up"></div>
+
                 <div class="messages"></div>
             </div>
         </tal:c>
