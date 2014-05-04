@@ -30,9 +30,10 @@
 
     <browser:page
       for="*"
-      name="messaging-conversations"
+      name="conversations"
       class=".messaging.MessagingView"
       attribute="conversations"
+      template="your-conversations.pt"
       permission="zope.Public"
       />
 

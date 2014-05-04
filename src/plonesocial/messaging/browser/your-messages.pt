@@ -8,10 +8,6 @@
                     tal:content="messages/unread">
                 </div>
             </div>
-            <div id="your-messages">
-
-                <div class="messages"></div>
-            </div>
         </tal:c>
         <tal:c tal:condition="messages/request">
             <tal:block
@@ -19,5 +15,4 @@
                 tal:content="messages/unread" />
         </tal:c>
     </tal:def>
-
 </tal:c>

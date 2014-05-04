@@ -59,7 +59,6 @@ function show_messages(data, replaceid) {
 function json_handler(data, url, replaceid) {
     if (url == '@@messaging-conversations') {
         show_convos(data, replaceid);
-        add_inbox_count(data);
     }
 
     if (url.indexOf('@@messaging-messages') > -1) {
