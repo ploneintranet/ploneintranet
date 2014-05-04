@@ -89,7 +89,7 @@ function add_inbox_count(data) {
 }
 
 $(document).ready(function(){
-    messaging_ajax('@@your-messages', '#personaltools-plone_social_menu', 'html');
+    messaging_ajax('@@your-messages?count=true', '#personaltools-plone_social_menu', 'html');
 
     if ($('#show-your-messages').length > 0) {
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');

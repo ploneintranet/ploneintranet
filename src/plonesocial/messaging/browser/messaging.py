@@ -186,6 +186,10 @@ class YourMessagesView(BrowserView):
         # count to show unread messages
         user = api.user.get_current()
 
+        msgs = {'unread': '',
+                'msgs' : [],
+                'request': ''}
+
         if user is None:
             # something has gone wrong
             return None
@@ -203,4 +207,13 @@ class YourMessagesView(BrowserView):
         if not messages:
             return None
 
-        return {'unread': messages.new_messages_count}
+        msg_ct = messages.new_messages_count
+
+        msgs['unread'] = msg_ct
+
+        if self.request.get('count'):
+            msgs['request'] = True
+            return msgs
+
+        return msgs
+
