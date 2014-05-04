@@ -5,9 +5,15 @@ function messaging_ajax (url, replaceid, datatype) {
        dataType: datatype,
        url: url,
        success: function(data) {
+           console.log(data);
            if (datatype == 'html') {
-               $(replaceid).replaceWith(data);
-               message_click();
+               if (replaceid == '#personaltools-plone_social_menu') {
+                   add_inbox_count(data);
+               }
+               else {
+                   $(replaceid).replaceWith(data);
+                   message_click();
+               }
            }
            if (datatype == 'json') {
                json_handler(data, url, replaceid);
@@ -53,6 +59,7 @@ function show_messages(data, replaceid) {
 function json_handler(data, url, replaceid) {
     if (url == '@@messaging-conversations') {
         show_convos(data, replaceid);
+        add_inbox_count(data);
     }
 
     if (url.indexOf('@@messaging-messages') > -1) {
@@ -61,12 +68,8 @@ function json_handler(data, url, replaceid) {
 }
 
 
-
-
 function convo_click() {
-    console.log('here');
     $('.messages .message').click(function(){
-        console.log('here1');
         var user = $(this).find('.username').val();
         messaging_ajax('@@messaging-messages?user='+user, $(this).attr("id"), 'json');
     });
@@ -81,7 +84,15 @@ function message_click() {
     });
 }
 
+function add_inbox_count(data) {
+    $('#personaltools-plone_social_menu a').append(" ("+ $(data).text() + ")");
+}
+
 $(document).ready(function(){
+    $('#portal-personaltools a').click(function(){
+        messaging_ajax('@@your-messages', '#personaltools-plone_social_menu', 'html');
+    });
+
     if ($('#show-your-messages').length > 0) {
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');
         message_click();
