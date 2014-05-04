@@ -5,7 +5,7 @@
   <object name="plone_social_menu" meta_type="CMF Action" i18n:domain="plone" insert-after="preferences">
    <property name="title" i18n:translate="">Inbox</property>
    <property name="description" i18n:translate="">Plone social messaging inbox</property>
-   <property name="url_expr">string:${portal_url}/@@social-inbox</property>
+   <property name="url_expr">string:${portal_url}/@@conversations</property>
    <property name="icon_expr"></property>
    <property name="available_expr">python:member is not None</property>
    <property name="permissions">
