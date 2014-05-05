@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.utils import getToolByName
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+from Products.CMFPlone.utils import getToolByName
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-import unittest2 as unittest
+import unittest
 
 
 class TestMessagingLocator(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestMessagingLocator(unittest.TestCase):
 
     def test_tool_installed(self):
         from plonesocial.messaging.tool import MessagingTool
-        self.assertTrue('plonesocial_messaging' in self.site)
+        self.assertIn('plonesocial_messaging', self.site)
 
         self.assertTrue(isinstance(self.tool, MessagingTool))
 

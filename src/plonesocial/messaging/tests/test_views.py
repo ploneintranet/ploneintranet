@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import json
-import unittest2 as unittest
-
-import plone.api as api
 from plone.testing.z2 import Browser
-
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
 
+import json
+import plone.api as api
 import transaction
+import unittest
 
 now = datetime.now()
 
@@ -26,8 +24,8 @@ class TestJsonView(unittest.TestCase):
     def test_set_contenttype(self):
         from plonesocial.messaging.browser.messaging import JsonView
         view = JsonView(None, self.request)
-        self.assertEqual(view.request.response.headers['content-type'],
-                         'application/json')
+        self.assertEqual(
+            view.request.response.headers['content-type'], 'application/json')
 
     def test_json_error(self):
         from plonesocial.messaging.browser.messaging import JsonView
@@ -83,14 +81,13 @@ class TestAjaxViews(unittest.TestCase):
         self.browser.open(self.portal_url + '/logout')
 
     def test_list_send_messages(self):
-        self._create_message('testuser1', 'testuser2', 'Message Text',
-                             created=now)
+        self._create_message(
+            'testuser1', 'testuser2', 'Message Text', created=now)
         self._login('testuser1', 'testuser1')
-        self.browser.open(self.portal_url +
-                          '/@@messaging-messages?user=testuser2')
+        self.browser.open(
+            self.portal_url + '/@@messaging-messages?user=testuser2')
         content = json.loads(self.browser.contents)
-        self.assertEqual(len(content['messages']),
-                         1)
+        self.assertEqual(len(content['messages']), 1)
         message = content['messages'][0]
         self.assertEqual(message['text'], 'Message Text')
         self.assertEqual(message['sender'], 'testuser1')
@@ -100,8 +97,8 @@ class TestAjaxViews(unittest.TestCase):
         self.assertTrue(isinstance(message['uid'], int))
 
     def test_delete_message(self):
-        self._create_message('testuser1', 'testuser2', 'Message Text',
-                             created=now)
+        self._create_message(
+            'testuser1', 'testuser2', 'Message Text', created=now)
         inbox = self.portal.plonesocial_messaging['testuser1']
         message_id = inbox['testuser2'].keys()[0]
         self._login('testuser1', 'testuser1')
@@ -110,30 +107,27 @@ class TestAjaxViews(unittest.TestCase):
                           str(message_id))
         content = json.loads(self.browser.contents)
         self.assertEqual(content['result'], True)
-        self.assertTrue(str(message_id) in content['message'])
-        self.assertTrue(message_id not in inbox['testuser2'])
+        self.assertIn(str(message_id), content['message'])
+        self.assertNotIn(message_id, inbox['testuser2'])
 
     def test_list_conversations(self):
         self._create_message('testuser1', 'testuser2', 'Message Text',
                              created=now)
         self._login('testuser1', 'testuser1')
-        self.browser.open(self.portal_url +
-                          '/@@messaging-conversations')
+        self.browser.open(self.portal_url + '/@@messaging-conversations')
         content = json.loads(self.browser.contents)
-        self.assertEqual(len(content['conversations']),
-                         1)
-        self.assertEqual(content['conversations'][0]['username'],
-                         'testuser2')
-        self.assertEqual(content['conversations'][0]['fullname'],
-                         'Test User 2')
+        self.assertEqual(len(content['conversations']), 1)
+        self.assertEqual(content['conversations'][0]['username'], 'testuser2')
+        self.assertEqual(
+            content['conversations'][0]['fullname'], 'Test User 2')
 
     def test_delete_conversation(self):
-        self._create_message('testuser1', 'testuser2', 'Message Text',
-                             created=now)
+        self._create_message(
+            'testuser1', 'testuser2', 'Message Text', created=now)
         self.assertEqual(len(self._conversations('testuser1')), 1)
         self._login('testuser1', 'testuser1')
-        self.browser.open(self.portal_url +
-                          '/@@delete-conversation?user=testuser2')
+        self.browser.open(
+            self.portal_url + '/@@delete-conversation?user=testuser2')
         content = json.loads(self.browser.contents)
         self.assertEqual(content, {u'result': True})
         self.assertEqual(len(self._conversations('testuser1')), 0)
