@@ -1,10 +1,9 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  xmlns:browser="http://namespaces.zope.org/browser"
-  i18n_domain="jungzeelandia.contenttypes">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="jungzeelandia.contenttypes">
 
-
-    <browser:page
+  <browser:page
       for="*"
       name="messaging-send"
       class=".messaging.MessageForm"
@@ -20,7 +19,7 @@
       permission="zope.Public"
       />
 
-    <browser:page
+  <browser:page
       for="*"
       name="delete-message"
       class=".messaging.MessagingView"
@@ -28,7 +27,7 @@
       permission="zope.Public"
       />
 
-    <browser:page
+  <browser:page
       for="*"
       name="messaging-conversations"
       class=".messaging.MessagingView"
@@ -36,7 +35,7 @@
       permission="zope.Public"
       />
 
-    <browser:page
+  <browser:page
       for="*"
       name="social-inbox"
       class=".messaging.YourMessagesView"
@@ -52,7 +51,7 @@
       permission="zope.Public"
       />
 
-    <browser:page
+  <browser:page
       for="*"
       name="your-messages"
       class=".messaging.YourMessagesView"
@@ -60,19 +59,19 @@
       permission="zope2.View"
       />
 
-    <browser:resource
+  <browser:resource
       name="plonesocial.messaging.messages.png"
       file="images/messages.png"
-    />
+      />
 
-    <browser:resource
+  <browser:resource
       name="plonesocial.messaging.messaging.js"
       file="javascript/messaging.js"
-    />
+      />
 
-    <browser:resource
+  <browser:resource
       name="plonesocial.messaging.messaging.css"
       file="stylesheets/messaging.css"
-    />
+      />
 
 </configure>

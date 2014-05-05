@@ -4,7 +4,7 @@ from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 from zope.interface.verify import verifyClass
 
-import unittest2 as unittest
+import unittest
 
 
 now = datetime.now
@@ -43,24 +43,24 @@ class TestInboxes(ApiTestCase):
         self.assertEqual(list(self.inboxes.keys()), [])
         new_inbox = self.inboxes.add_inbox('testuser')
         self.assertEqual(list(self.inboxes.keys()), ['testuser'])
-        self.assertTrue(type(self.inboxes['testuser']) is Inbox)
-        self.assertTrue(new_inbox is self.inboxes['testuser'])
+        self.assertIs(type(self.inboxes['testuser']), Inbox)
+        self.assertIs(new_inbox, self.inboxes['testuser'])
 
     def test_inboxes_add_inbox_assigns_parent(self):
         inbox = self.inboxes.add_inbox('testuser')
-        self.assertTrue(inbox.__parent__ is self.inboxes)
+        self.assertIs(inbox.__parent__, self.inboxes)
 
     def test_inboxes_dictapi_add_inbox(self):
         from plonesocial.messaging.messaging import Inbox
         inbox = Inbox('testuser')
         self.inboxes['testuser'] = inbox
-        self.assertTrue(self.inboxes['testuser'] is inbox)
+        self.assertIs(self.inboxes['testuser'], inbox)
 
     def test_inboxes_dictapi_add_inbox_assigns_parent(self):
         from plonesocial.messaging.messaging import Inbox
         inbox = Inbox('testuser')
         self.inboxes['testuser'] = inbox
-        self.assertTrue(inbox.__parent__ is self.inboxes)
+        self.assertIs(inbox.__parent__, self.inboxes)
 
     def test_inboxes_dictapi_add_inbox_checks_key(self):
         from plonesocial.messaging.messaging import Inbox
@@ -81,7 +81,7 @@ class TestInboxes(ApiTestCase):
     def test_inboxes_dictapi_get_inbox(self):
         self.assertEqual(list(self.inboxes.keys()), [])
         inbox = self._create_inbox('testuser')
-        self.assertTrue(inbox is self.inboxes['testuser'])
+        self.assertIs(inbox, self.inboxes['testuser'])
 
     def test_inboxes_dictapi_get_missing_inbox(self):
         self.assertEqual(list(self.inboxes.keys()), [])
@@ -102,7 +102,7 @@ class TestInboxes(ApiTestCase):
             self.assertEqual(getattr(sender_message, attr, object()),
                              getattr(recipient_message, attr, object()))
         # ...but not identical
-        self.assertTrue(sender_message is not recipient_message)
+        self.assertIsNot(sender_message, recipient_message)
 
     def test_send_message_fires_event(self):
         from plonesocial.messaging.events import IMessageSendEvent
@@ -147,35 +147,35 @@ class TestInbox(ApiTestCase):
         self.assertEqual(len(conversations), 2)
         self.assertEqual(type(conversations[0]), Conversation)
         self.assertEqual(type(conversations[1]), Conversation)
-        self.assertTrue(conversations[0] != conversations[1])
+        self.assertNotEqual(conversations[0], conversations[1])
 
     def test_inbox_add_conversation(self):
         from plonesocial.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox.add_conversation(conversation)
-        self.assertTrue(conversation is inbox[conversation.username])
+        self.assertIs(conversation, inbox[conversation.username])
 
     def test_inbox_add_conversation_adds_parent(self):
         from plonesocial.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox.add_conversation(conversation)
-        self.assertTrue(conversation.__parent__ is inbox)
+        self.assertIs(conversation.__parent__, inbox)
 
     def test_inbox_dictapi_add_conversation(self):
         from plonesocial.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox[conversation.username] = conversation
-        self.assertTrue(conversation is inbox[conversation.username])
+        self.assertIs(conversation, inbox[conversation.username])
 
     def test_inbox_dictapi_add_conversation_adds_parent(self):
         from plonesocial.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox[conversation.username] = conversation
-        self.assertTrue(conversation.__parent__ is inbox)
+        self.assertIs(conversation.__parent__, inbox)
 
     def test_inbox_dictapi_add_conversation_checks_key(self):
         from plonesocial.messaging.messaging import Conversation
