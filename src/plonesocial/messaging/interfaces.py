@@ -58,7 +58,7 @@ class IInbox(Interface):
         title=u'Number of unread messages in the inbox',
         required=True,
         default=0,
-        )
+    )
 
     def add_conversation(conversation):
         """Add the conversation `conversation` to the inbox."""
@@ -86,19 +86,19 @@ class IConversation(Interface):
 
     username = schema.Text(
         title=u'The username of the other user (not the inbox user)'
-        )
+    )
 
     new_messages_count = schema.Int(
         title=u'Number of unread messages in the conversation',
         required=True,
         default=0,
-        )
+    )
 
     # probably not needed
-    ## last_updated = schema.Datetime(
-    ##     title=u'Date when the Conversation was last updated',
-    ##     missing_value=None,
-    ##     )
+    # last_updated = schema.Datetime(
+    #     title=u'Date when the Conversation was last updated',
+    #     missing_value=None,
+    # )
 
     def get_messages():
         """Return all messages."""
@@ -121,32 +121,32 @@ class IMessage(Interface):
 
     # __parent__ = schema.Object(
     #     title=u"The parent `IConversation' object"
-    #     )
+    # )
 
     sender = schema.TextLine(
         title=u'Username of the sender'
-        )
+    )
 
     recipient = schema.TextLine(
         title=u'Username of the recipient'
-        )
+    )
 
     text = schema.Text(
         title=u'Text of the message'
-        )
+    )
 
     created = schema.Datetime(
         title=u'Time the Message was created'
-        )
+    )
 
     new = schema.Bool(
         title=u'Is the message read',
         default=False
-        )
+    )
 
     uid = schema.Text(
         title=u'UUID unique within a conversation'
-        )
+    )
 
 
 class IMessagingTool(Interface):

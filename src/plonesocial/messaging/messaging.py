@@ -231,15 +231,15 @@ class Inboxes(BTreeDictBase):
             raise KeyError(msg.format(inbox.username, key))
 
         # outside tests we need to remove the acquisition wrapper
-        #unwrapped_self = self.aq_base if hasattr(self, 'aq_base') else self
+        # unwrapped_self = self.aq_base if hasattr(self, 'aq_base') else self
         return BTreeDictBase.__setitem__(self, key, inbox)
-#        return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
+        # return super(Inboxes, unwrapped_self).__setitem__(key, inbox)
 
     def send_message(self, sender, recipient, text, created=None):
-        if not sender in self:
+        if sender not in self:
             self.add_inbox(sender)
         sender_inbox = self[sender]
-        if not recipient in self:
+        if recipient not in self:
             self.add_inbox(recipient)
         recipient_inbox = self[recipient]
 

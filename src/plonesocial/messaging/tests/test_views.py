@@ -173,35 +173,32 @@ class TestYourMessagesView(unittest.TestCase):
     def _logout(self):
         self.browser.open(self.portal_url + '/logout')
 
-
     def test_inbox_in_actions(self):
         # we've added an inbox link to the actions.xml,
         # It should appear once logged in.
         self.browser.open(self.portal_url)
-        self.assertFalse('personaltools-plone_social_menu' in self.browser.contents)
+        self.assertNotIn(
+            'personaltools-plone_social_menu', self.browser.contents)
         self._login('testuser1', 'testuser1')
         self.browser.open(self.portal_url)
-        self.assertTrue('personaltools-plone_social_menu' in self.browser.contents)
+        self.assertIn(
+            'personaltools-plone_social_menu', self.browser.contents)
 
-
-    '''#def test_unread_messages(self):
+    @unittest.expectedFailure
+    def test_unread_messages(self):
         # lets return a count to see if there are any unread messages
-        # self.browser.open(self.portal_url +
-        #                  '/@@your-messages')
+        self.browser.open(self.portal_url + '/@@your-messages')
         # lets checked when not logged in
-        #self.assertFalse('id="your-messages"' in self.browser.contents)
+        self.assertNotIn('id="your-messages"', self.browser.contents)
         # lets login and create a message
-        #self._login('testuser1', 'testuser1')
-        #self._create_message('testuser2', 'testuser1', 'Message Text',
-        #                     created=now)
-        #self.browser.open(self.portal_url +
-        #                  '/@@your-messages')
-        #self.assertTrue('id="your-messages"' in self.browser.contents)
-        #self.assertTrue('1' in self.browser.contents)
-        #self._logout()
-        #self._login('testuser2', 'testuser2')
-        #self.browser.open(self.portal_url +
-        #                  '/@@your-messages')
-        #self.assertFalse('id="your-messages"' in self.browser.contents)
-        #self.assertFalse('1' in self.browser.contents)'''
-
+        self._login('testuser1', 'testuser1')
+        self._create_message(
+            'testuser2', 'testuser1', 'Message Text', created=now)
+        self.browser.open(self.portal_url + '/@@your-messages')
+        self.assertIn('id="your-messages"', self.browser.contents)
+        self.assertIn('1', self.browser.contents)
+        self._logout()
+        self._login('testuser2', 'testuser2')
+        self.browser.open(self.portal_url + '/@@your-messages')
+        self.assertNotIn('id="your-messages"', self.browser.contents)
+        self.assertNotIn('1', self.browser.contents)
