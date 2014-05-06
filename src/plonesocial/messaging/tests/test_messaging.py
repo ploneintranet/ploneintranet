@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plonesocial.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
-from Products.CMFPlone.utils import getToolByName
+from plone import api
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
@@ -13,8 +13,8 @@ class TestMessagingLocator(unittest.TestCase):
     layer = PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 
     def setUp(self):
-        self.site = self.layer['portal']
-        self.tool = getToolByName(self.site, 'plonesocial_messaging')
+        self.portal = self.layer['portal']
+        self.tool = api.portal.get_tool('plonesocial_messaging')
 
     def test_messaginglocator_interface(self):
         from plonesocial.messaging.interfaces import IMessagingLocator

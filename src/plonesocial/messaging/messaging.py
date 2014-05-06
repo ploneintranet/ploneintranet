@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from BTrees.LOBTree import LOBTree
 from BTrees.OOBTree import OOBTree
-from Persistence import Persistent
-from Products.CMFPlone.utils import getToolByName
 from datetime import datetime
+from Persistence import Persistent
 from plone import api
 from plonesocial.messaging.events import MessageSendEvent
 from plonesocial.messaging.interfaces import IConversation
@@ -11,7 +10,6 @@ from plonesocial.messaging.interfaces import IInbox
 from plonesocial.messaging.interfaces import IInboxes
 from plonesocial.messaging.interfaces import IMessage
 from plonesocial.messaging.interfaces import IMessagingLocator
-from zope.component.hooks import getSite
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
@@ -273,5 +271,4 @@ class MessagingLocator(object):
     """A utility used to locate conversations and messages."""
 
     def get_inboxes(self):
-        site = getSite()
-        return getToolByName(site, 'plonesocial_messaging')
+        return api.portal.get_tool('plonesocial_messaging')
