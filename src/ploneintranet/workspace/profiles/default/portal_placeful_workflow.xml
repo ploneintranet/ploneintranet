@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<object name="portal_placeful_workflow" meta_type="Placeful Workflow Tool">
+ <object name="ploneintranet_policy" meta_type="WorkflowPolicy"/>
+</object>
