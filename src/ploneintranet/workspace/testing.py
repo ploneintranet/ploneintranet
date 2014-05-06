@@ -30,12 +30,21 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        import Products.CMFPlacefulWorkflow
+        xmlconfig.file(
+            'configure.zcml',
+            Products.CMFPlacefulWorkflow,
+            context=configurationContext
+        )
+
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
+        z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
 
     def tearDownZope(self, app):
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
+        z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
