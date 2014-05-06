@@ -12,7 +12,6 @@
   <include package=".browser" />
 
   <include package="five.grok" />
-  <grok:grok package="." />
 
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
