@@ -23,9 +23,15 @@ class TestMessagingLocator(unittest.TestCase):
 
     def test_tool_installed(self):
         from plonesocial.messaging.tool import MessagingTool
-        self.assertIn('plonesocial_messaging', self.site)
-
+        self.assertIn('plonesocial_messaging', self.portal)
         self.assertTrue(isinstance(self.tool, MessagingTool))
+
+    def test_tool_removed(self):
+        self.qi = self.portal['portal_quickinstaller']
+        PROJECTNAME = 'plonesocial.messaging'
+        with api.env.adopt_roles(['Manager']):
+            self.qi.uninstallProducts(products=[PROJECTNAME])
+        self.assertNotIn('plonesocial_messaging', self.portal)
 
     def test_tool_provides_inboxes(self):
         from plonesocial.messaging.interfaces import IInboxes
