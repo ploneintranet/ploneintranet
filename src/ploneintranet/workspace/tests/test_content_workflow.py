@@ -6,13 +6,43 @@ class TestWorkflow(BaseTestCase):
 
     def test_default_workflow(self):
         """
-        the ploneintranet workflow should be set as the default workflow
+        the ploneintranet workflow should be listed as a workflow
         """
         wftool = api.portal.get_tool('portal_workflow')
         self.assertIn('ploneintranet_workflow',
                       wftool.listWorkflows())
-        self.assertIn('ploneintranet_workflow',
-                      wftool.getDefaultChain())
+        # But no default workflow should be set
+        self.assertFalse(wftool.getDefaultChain())
+
+    def test_placeful_workflow(self):
+        """
+        The ploneintranet workflowshould be applied automatically to content
+        in the workspace
+        """
+        self.login_as_portal_owner()
+        wftool = api.portal.get_tool('portal_workflow')
+
+        # Check that a document has the default workflow
+        document = api.content.create(
+            self.portal,
+            'Document',
+            'document-portal'
+        )
+        self.assertFalse(wftool.getWorkflowsFor(document))
+
+        # A document in the workspace should have the workspace workflow
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace')
+
+        document_workspace = api.content.create(
+            workspace_folder,
+            'Document',
+            'document-workspace'
+        )
+        self.assertEqual('ploneintranet_workflow',
+                         wftool.getWorkflowsFor(document_workspace)[0].id)
 
     def test_draft_state(self):
         """

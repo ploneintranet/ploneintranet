@@ -1,4 +1,6 @@
 from collective.workspace.interfaces import IWorkspace
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
+    import WorkflowPolicyConfig_id
 
 
 def workspace_added(ob, event):
@@ -8,3 +10,12 @@ def workspace_added(ob, event):
         user=creator,
         groups=set(['Admins']),
     )
+
+    # Configure our placeful workflow
+    cmfpw = 'CMFPlacefulWorkflow'
+    ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+
+    # Set the policy for the config
+    pc = getattr(ob, WorkflowPolicyConfig_id)
+    pc.setPolicyIn('')
+    pc.setPolicyBelow('ploneintranet_policy')
