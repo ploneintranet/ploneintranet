@@ -1,7 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="jungzeelandia.contenttypes">
+    i18n_domain="plonesocial.messaging">
 
   <browser:page
       for="*"
@@ -11,7 +11,7 @@
       permission="zope2.View"
       />
 
-    <browser:page
+  <browser:page
       for="*"
       name="messaging-messages"
       class=".messaging.MessagingView"
@@ -72,6 +72,13 @@
   <browser:resource
       name="plonesocial.messaging.messaging.css"
       file="stylesheets/messaging.css"
+      />
+
+  <browser:viewlet
+      name="plonesocial.messaging.notifications"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlet.NotificationsViewlet"
+      permission="zope.Public"
       />
 
 </configure>
