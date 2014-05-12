@@ -3,5 +3,6 @@
   <version>0001</version>
   <dependencies>
   	<dependency>profile-collective.workspace:default</dependency>
+    <dependency>profile-Products.CMFPlacefulWorkflow:base</dependency>
   </dependencies>
 </metadata>
