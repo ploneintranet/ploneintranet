@@ -7,12 +7,13 @@
                 Inbox
                 <div id="inbox-new-message">New Message</div>
             </div>
-            <div tal:repeat="convo inbox/conversations">
-                <div id="social-message-name">
-                    <div id="social-message-created">
+            <div id="conversations"
+                tal:repeat="convo inbox/conversations">
+                <div class="social-message-name">
+                    <div class="social-message-created">
                         <tal:block tal:content="python: context.toLocalizedTime(convo['last-updated'], long_format=1)" />
                     </div>
-                    <div id="message-status"
+                    <div class="message-status"
                         tal:condition="convo/new_messages_count">
                         <tal:block tal:content="convo/new_messages_count" />
                     </div>
