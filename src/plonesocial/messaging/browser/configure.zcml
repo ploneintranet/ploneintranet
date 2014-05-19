@@ -77,7 +77,7 @@
   <browser:viewlet
       name="plonesocial.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-      class=".viewlet.NotificationsViewlet"
+      class=".viewlets.NotificationsViewlet"
       permission="zope.Public"
       />
 
