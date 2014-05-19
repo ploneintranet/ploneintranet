@@ -5,7 +5,7 @@
             tal:condition="inbox">
             <div id="message-title">
                 Inbox
-                <div id="inbox-new-message">New Message</div>
+                <div id="inbox-new-message"><a href="@@messaging-send">New Message</a></div>
             </div>
             <div id="conversations"
                 tal:repeat="convo inbox/conversations">

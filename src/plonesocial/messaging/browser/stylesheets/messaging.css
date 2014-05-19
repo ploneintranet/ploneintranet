@@ -112,5 +112,8 @@
 #inbox-messages {
     width: 300px;
     border-radius: 2px 2px 2px 2px;
+}
 
+#inbox-new-message {
+    cursor: pointer;
 }

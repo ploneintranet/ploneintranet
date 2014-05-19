@@ -24,6 +24,7 @@ function message_click() {
         $('#your-messages .messages').empty();
         messaging_ajax('@@social-inbox', '#your-messages .messages', 'html');
         $('#your-messages').toggle();
+        send_new_message();
     });
 }
 
@@ -33,10 +34,19 @@ function add_inbox_count(data) {
     $('#personaltools-plone_social_menu a').append(" (" + msg_count + ")");
 }
 
+function send_new_message(){
+    console.log('here');
+    $('#inbox-new-message a').prepOverlay({
+        subtype: 'ajax',
+        filter: '#content>',
+        closeselector: '[name=form.button.submit]'
+    });
+}
+
 
 $(document).ready(function(){
     messaging_ajax('@@your-messages?count=true', '#personaltools-plone_social_menu', 'html');
-
+    send_new_message();
     if ($('#show-your-messages').length > 0) {
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');
     }
