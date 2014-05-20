@@ -26,29 +26,7 @@
 #your-messages{
     padding: 0px;
     display: none;
-}
-
-#your-messages .messages {
-    border-radius: 0px 0px 4px 4px;
-    border: 1px solid #337CA1;
-}
-
-#your-messages .new-message-name {
-    display:block;
-    width:10px;
-    height:10px;
-    line-height:10px;
-    border: 2px solid #eee;
-    border-radius: 50%;
-    color:#000;
-    text-align:center;
-    text-decoration:none;
-    background: #eee;
-    box-shadow: 0 0 3px #eee;
-    font-size:10px;
-    font-weight:bold;
-    margin: 2px 10px 0px 10px;
-    float: right;
+    position: relative;
 }
 
 #your-messages .arrow-up {
@@ -58,36 +36,6 @@
     border-right: 5px solid transparent;
     border-bottom: 5px solid #337CA1;
     margin-left: 3px;
-}
-
-#your-messages .message {
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-    line-height: 1.6;
-    background-color: #337CA1;
-    background-image: -webkit-linear-gradient(top, #5ba5cb, #3d94c0);
-    color: #fff;
-}
-
-#your-messages .message:hover {
-    background: #5ba5cb;
-    cursor: pointer;
-}
-
-#your-messages .message:last-child {
-    border-bottom: 0px solid #000;
-}
-
-#your-messages .key,
-#your-messages .msg {
-    padding: 4px;
-}
-
-#your-messages .key {
-    float: left;
-    width: 100px;
-    font-weight: bold;
-    text-transform: capitalize;
 }
 
 #your-messages .reply-message {
@@ -110,8 +58,13 @@
 }
 
 #inbox-messages {
-    width: 300px;
+    width: 400px;
     border-radius: 2px 2px 2px 2px;
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    background: #fff;
 }
 
 #inbox-new-message {
