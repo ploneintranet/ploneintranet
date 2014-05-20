@@ -8,6 +8,6 @@
 
   <includeDependencies package="." />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <utility factory=".token_utility.TokenUtility" />
 
 </configure>
