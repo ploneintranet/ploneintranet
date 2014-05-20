@@ -51,7 +51,9 @@ setup(name='ploneintranet.suite',
               'plone.app.testing',
               'plone.app.robotframework',
           ],
-          'develop': [],
+          'develop': [
+              'Sphinx',
+          ],
       },
       entry_points="""
       # -*- Entry points: -*-
