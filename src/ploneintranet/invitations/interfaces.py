@@ -5,10 +5,17 @@ class ITokenUtility(Interface):
     """ Interface for the TokenUtility
     """
     def get_new_token(self):
-        pass
+    def generate_new_token(self):
+        """
+        Get a new unique token
+        """
 
-    def get_uses(self, token):
-        pass
+    def remaining_uses(self, token):
+        """
+        Get uses remaining of the given token
+        """
 
-    def get_expiry(self, token):
-        pass
+    def time_to_live(self, token):
+        """
+        Get the datetime of expiry of the given token
+        """
