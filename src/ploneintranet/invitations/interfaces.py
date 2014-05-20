@@ -1,4 +1,4 @@
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
 
 
 class ITokenUtility(Interface):
@@ -18,3 +18,11 @@ class ITokenUtility(Interface):
         """
         Get the datetime of expiry of the given token
         """
+
+
+class IToken(Interface):
+    """ Interface for Token class
+    """
+    token_id = Attribute('The UUID of this token')
+    uses = Attribute('The number of uses for this token before it expires')
+    expiry = Attribute('The datetime this token expires')
