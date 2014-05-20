@@ -1,5 +1,5 @@
 from zope.interface import implements
-from .interfaces import ITokenUtility
+from ploneintranet.invitations.interfaces import ITokenUtility
 
 
 class TokenUtility(object):
@@ -8,7 +8,7 @@ class TokenUtility(object):
     """
     implements(ITokenUtility)
 
-    def get_new_token(self, uses=1, expiry=300):
+    def generate_new_token(self, uses=1, expiry=300):
         """
         Get a new unique token
 
@@ -17,54 +17,53 @@ class TokenUtility(object):
         :type uses: int
         :param expiry: The number of seconds before this token expires
         :type expiry: int
-        :return: A token hash
+        :return: A token id
         :rtype: str
         """
         pass
 
-    def get_uses(self, hash_str):
+    def remaining_uses(self, token_id):
         """
         Get the number of uses remaining for a given token
 
-        :param hash_str: The token hash
-        :type hash_str: str
+        :param token_id: The token id
+        :type token_id: str
         :return: The number of uses remaining or None if this token no longer
                  exists
         :rtype: int
         """
-        token = self._get_token(hash_str)
+        token = self._get_token(token_id)
         pass
 
-    def get_expiry(self, hash_str):
+    def time_to_live(self, token_id):
         """
         Get the datetime of the expiry of a given token
 
-        :param hash_str: The token hash
+        :param token_id: The token id
         :return: The datetime of expiry
         :rtype: datetime
         """
-        token = self._get_token(hash_str)
+        token = self._get_token(token_id)
         pass
 
-    def _consume_token(self, hash_str):
+    def _consume_token(self, token_id):
         """
         Consume the given token and fire the event
 
-        :param hash_str: The token hash
-        :type hash_str: str
+        :param token_id: The token id
+        :type token_id: str
         :return: Whether consumption succeeded or not. It will fail if the
                  token has expired
         :rtype: bool
         """
-        token = self._get_token(hash_str)
+        token = self._get_token(token_id)
         pass
 
-    def _get_token(self, hash_str):
+    def _get_token(self, token_id):
         """
-        Fetch token from storage
-
-        :param hash_str: A token hash
-        :type hash_str: str
+5
+        :param token_id: A token id
+        :type token_id: str
         :return: Token object
         """
         pass

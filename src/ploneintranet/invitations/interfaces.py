@@ -1,14 +1,28 @@
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
 
 
 class ITokenUtility(Interface):
     """ Interface for the TokenUtility
     """
-    def get_new_token(self):
-        pass
+    def generate_new_token(self):
+        """
+        Get a new unique token
+        """
 
-    def get_uses(self, token):
-        pass
+    def remaining_uses(self, token):
+        """
+        Get uses remaining of the given token
+        """
 
-    def get_expiry(self, token):
-        pass
+    def time_to_live(self, token):
+        """
+        Get the datetime of expiry of the given token
+        """
+
+
+class IToken(Interface):
+    """ Interface for Token class
+    """
+    token_id = Attribute('The UUID of this token')
+    uses = Attribute('The number of uses for this token before it expires')
+    expiry = Attribute('The datetime this token expires')
