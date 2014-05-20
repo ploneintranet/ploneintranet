@@ -6,7 +6,7 @@ from ploneintranet.invitations.testing import \
     PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
 
 
-class TestExample(unittest.TestCase):
+class TestTokenUtility(unittest.TestCase):
 
     layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
 
