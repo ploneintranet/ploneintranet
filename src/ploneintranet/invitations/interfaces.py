@@ -4,7 +4,6 @@ from zope.interface import Interface
 class ITokenUtility(Interface):
     """ Interface for the TokenUtility
     """
-    def get_new_token(self):
     def generate_new_token(self):
         """
         Get a new unique token
