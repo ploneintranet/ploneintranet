@@ -1,5 +1,4 @@
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
@@ -22,13 +21,8 @@ class PloneintranetinvitationsLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
-        # Install products that use an old-style initialize() function
-        #z2.installProduct(app, 'Products.PloneFormGen')
-
-#    def tearDownZope(self, app):
-#        # Uninstall products installed above
-#        z2.uninstallProduct(app, 'Products.PloneFormGen')
-
+    def tearDownZope(self, app):
+        pass
 
 PLONEINTRANET_INVITATIONS_FIXTURE = PloneintranetinvitationsLayer()
 PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING = IntegrationTesting(
