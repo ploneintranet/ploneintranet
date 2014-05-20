@@ -1,3 +1,4 @@
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone.app.testing import login
@@ -80,7 +81,7 @@ class TestPolicy(BaseTestCase):
         # check that accessing setting for the first time doesn't fail
         self.assertEqual(workspace.external_visibility, "private")
         self.assertEqual(workspace.join_policy, "admin")
-        self.assertEqual(workspace.participant_policy, "consumers")
+        self.assertEqual(workspace.participant_policy, "Consumers")
 
         workspace.external_visibility = "secret"
         self.assertEqual(workspace.external_visibility, "secret")
@@ -88,5 +89,26 @@ class TestPolicy(BaseTestCase):
         workspace.join_policy = "team"
         self.assertEqual(workspace.join_policy, "team")
 
-        workspace.participant_policy = "producers"
-        self.assertEqual(workspace.participant_policy, "producers")
+        workspace.participant_policy = "Producers"
+        self.assertEqual(workspace.participant_policy, "Producers")
+
+    def test_members_are_correctly_added_to_group_by_policy(self):
+        """
+        Check that members are correctly assigned to groups
+        according to workspace policy settings.
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace')
+        # default participant policy state should be "consumers"
+        self.assertEqual(workspace.participant_policy, "Consumers")
+
+        # create a member and add to workspace
+        api.user.create(username='member', email="test@test.com")
+        IWorkspace(workspace).add_to_team(user="member")
+
+        group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
+        self.assertIn(api.user.get(username="member"),
+                      group.getAllGroupMembers())

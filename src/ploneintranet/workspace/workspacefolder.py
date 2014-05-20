@@ -1,5 +1,6 @@
 from five import grok
 
+from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
@@ -30,14 +31,11 @@ class WorkspaceFolder(Container):
 
     @property
     def external_visibility(self):
-        try:
-            return self._ext_visibility
-        except AttributeError:
-            return "private"
+        return api.content.get_state(self)
 
     @external_visibility.setter
     def external_visibility(self, value):
-        self._ext_visibility = value
+        api.content.transition(obj=self, to_state=value)
 
     @property
     def join_policy(self):
@@ -55,7 +53,7 @@ class WorkspaceFolder(Container):
         try:
             return self._participant_policy
         except AttributeError:
-            return "consumers"
+            return "Consumers"
 
     @participant_policy.setter
     def participant_policy(self, value):
