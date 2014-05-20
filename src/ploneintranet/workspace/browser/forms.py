@@ -19,10 +19,10 @@ join_vocab = SimpleVocabulary([
     ])
 
 particip_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'moderators', title=_(u'Moderators')),
-    SimpleTerm(value=u'publishers', title=_(u'Publishers')),
-    SimpleTerm(value=u'producers', title=_(u'Producers')),
-    SimpleTerm(value=u'consumers', title=_(u'Consumers'))
+    SimpleTerm(value=u'Moderators', title=_(u'Moderators')),
+    SimpleTerm(value=u'Publishers', title=_(u'Publishers')),
+    SimpleTerm(value=u'Producers', title=_(u'Producers')),
+    SimpleTerm(value=u'Consumers', title=_(u'Consumers'))
     ])
 
 

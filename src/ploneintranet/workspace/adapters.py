@@ -15,4 +15,18 @@ class PloneIntranetWorkspace(Workspace):
         u'Members': ('Reader', 'TeamMember'),
         u'Admins': ('Contributor', 'Editor', 'Reviewer',
                     'Reader', 'TeamManager',),
+        u'Consumers': ('Reader',),
+        u'Producers': ('Reader', 'Contributor',),
+        u'Publishers': ('Reader', 'Contributor', 'SelfPublisher',),
+        u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
     }
+
+    def add_to_team(self, **kw):
+        group = self.context.participant_policy
+        data = kw.copy()
+        if "groups" in data:
+            data["groups"].add(group)
+        else:
+            data["groups"] = set([group])
+
+        super(PloneIntranetWorkspace, self).add_to_team(**data)
