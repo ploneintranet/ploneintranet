@@ -12,24 +12,24 @@ class TestTokenUtility(unittest.TestCase):
 
     def setUp(self):
         self.util = getUtility(ITokenUtility)
-        self.token1 = self.util.get_new_token()
+        self.token1 = self.util.generate_new_token()
 
-    def test_get_new_token(self):
+    def test_generate_new_token(self):
         self.assertIsInstance(self.token1, basestring)
 
-    def test_get_uses(self):
-        self.assertEqual(self.util.get_uses(self.token1), 1)
+    def test_remaining_uses(self):
+        self.assertEqual(self.util.remaining_uses(self.token1), 1)
         self.util._consume_token(self.token1)
-        self.assertIsNone(self.util.get_uses(self.token1))
-        token2 = self.util.get_new_token(uses=2)
-        self.assertEqual(self.util.get_uses(token2), 2)
+        self.assertIsNone(self.util.remaining_uses(self.token1))
+        token2 = self.util.generate_new_token(uses=2)
+        self.assertEqual(self.util.remaining_uses(token2), 2)
 
-    def test_get_expiry(self):
-        self.assertEqual(self.util.get_expiry(self.token1), 300)
+    def test_time_to_live(self):
+        self.assertEqual(self.util.time_to_live(self.token1), None)
         self.util._consume_token(self.token1)
-        self.assertIsNone(self.util.get_expiry(self.token1))
-        token2 = self.util.get_new_token(expiry=20)
-        self.assertEqual(self.util.get_expiry(token2), 20)
+        self.assertIsNone(self.util.time_to_live(self.token1))
+        token2 = self.util.generate_new_token(expire_seconds=20)
+        self.assertEqual(self.util.time_to_live(token2), 20)
 
     def test__consume_token(self):
         self.assertTrue(self.util._consume_token(self.token1))
