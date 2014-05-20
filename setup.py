@@ -50,7 +50,8 @@ setup(name='ploneintranet.suite',
           'test': [
               'plone.app.testing',
               'plone.app.robotframework',
-          ]
+          ],
+          'develop': [],
       },
       entry_points="""
       # -*- Entry points: -*-
