@@ -11,7 +11,7 @@
                 tal:repeat="convo inbox/conversations">
                 <div class="social-message-name">
                     <div class="social-message-created">
-                        <tal:block tal:content="python: context.toLocalizedTime(convo['last-updated'], long_format=1)" />
+                        <tal:block tal:content="python: context.toLocalizedTime(convo['last-updated'], long_format=0)" />
                     </div>
                     <div class="message-status"
                         tal:condition="convo/new_messages_count">

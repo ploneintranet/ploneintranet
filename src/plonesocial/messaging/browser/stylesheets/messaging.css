@@ -69,4 +69,18 @@
 
 #inbox-new-message {
     cursor: pointer;
+    float: right;
+    margin: 0px 5px 5px 5px;
+}
+
+#message-title {
+    background: #eee;
+    padding: 8px 4px;
+}
+
+#inbox-messages .social-message-created {
+    font-size: 95%;
+    color: #ccc;
+    float: right;
+    margin-right: 5px;
 }
