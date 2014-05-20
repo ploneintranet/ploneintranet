@@ -11,8 +11,9 @@ function messaging_ajax (url, replaceid, datatype) {
                }
                else {
                    $(replaceid).replaceWith(data);
-                   message_click();
                    send_new_message();
+                   message_click();
+
                }
            }
        }
@@ -21,7 +22,7 @@ function messaging_ajax (url, replaceid, datatype) {
 
 
 function message_click() {
-    $('#your-messages-icon').click(function(){
+    $('#your-messages-icon').one('click', function(){
         $('#your-messages .messages').empty();
         messaging_ajax('@@social-inbox', '#your-messages .messages', 'html');
         $('#your-messages').toggle();
@@ -44,7 +45,9 @@ function send_new_message(){
 
 
 $(document).ready(function(){
-    messaging_ajax('@@your-messages?count=true', '#personaltools-plone_social_menu', 'html');
+    if ($('#personaltools-plone_social_menu').length > 0) {
+        messaging_ajax('@@your-messages?count=true', '#personaltools-plone_social_menu', 'html');
+    }
     if ($('#show-your-messages').length > 0) {
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');
     }
