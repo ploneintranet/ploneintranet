@@ -57,7 +57,7 @@
     clear: both;
 }
 
-#inbox-messages {
+#inbox-messages.small {
     width: 400px;
     border-radius: 2px 2px 2px 2px;
     border: 1px solid #ccc;
@@ -89,10 +89,14 @@
     font-weight: bold;
 }
 
-#your-messages-inbox {
+.small #your-messages-inbox {
     padding: 10px;
     text-align: center;
     border-top: 1px solid #ccc;
+}
+
+.full #your-messages-inbox {
+    display: none;
 }
 
 #your-messages .conversations {

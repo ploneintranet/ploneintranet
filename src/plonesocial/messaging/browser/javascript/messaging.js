@@ -26,7 +26,7 @@ function messaging_ajax (url, replaceid, datatype) {
 function message_click() {
     $('#your-messages-icon').one('click', function(){
         $('#your-messages .messages').empty();
-        messaging_ajax('@@social-inbox', '#your-messages .messages', 'html');
+        messaging_ajax('@@social-inbox?view=small', '#your-messages .messages', 'html');
         $('#your-messages').toggle();
         send_new_message();
     });

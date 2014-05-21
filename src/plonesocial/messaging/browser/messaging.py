@@ -188,7 +188,11 @@ class YourMessagesView(BrowserView):
 
         msgs = {'unread': '',
                 'conversations' : [],
-                'request': ''}
+                'request': '',
+                'view': 'full'}
+
+        if self.request.get('view'):
+            msgs['view'] = self.request.get('view')
 
         if user is None:
             # something has gone wrong
