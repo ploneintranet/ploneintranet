@@ -41,8 +41,8 @@
                     </tal:rep>
                     <div id="your-messages-inbox"><a tal:attributes="href string: ${context/portal_url}/@@social-inbox">Your Inbox</a></div>
                 </div>
-    </tal:def>
-</tal:c>
+            </tal:def>
+        </tal:c>
 
     <!-- end main -->
     </div>

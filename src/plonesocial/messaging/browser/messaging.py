@@ -201,11 +201,11 @@ class YourMessagesView(BrowserView):
         inboxes = locator.get_inboxes()
 
         if user.id not in inboxes:
-            return None
+            return msgs
 
         messages = inboxes[user.id]
         if not messages:
-            return None
+            return msgs
 
         msg_ct = messages.new_messages_count
 
