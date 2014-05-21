@@ -9,9 +9,10 @@
     i18n_domain="ploneintranet.workspace">
 
   <include package="Products.CMFCore" file="permissions.zcml" />
-  <include package=".browser" />
-
+  <include package="Products.CMFPlacefulWorkflow" />
   <include package="five.grok" />
+
+  <include package=".browser" />
 
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
