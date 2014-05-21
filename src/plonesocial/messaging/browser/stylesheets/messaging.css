@@ -38,7 +38,7 @@
     margin-left: 3px;
 }
 
-#your-messages .reply-message {
+#inbox-messages .reply-message {
     text-align: center;
     float: right;
     width: 38px;
@@ -53,7 +53,7 @@
     margin: 10px;
 }
 
-#your-messages .clearall {
+#inbox-messages .clearall {
     clear: both;
 }
 
@@ -99,11 +99,11 @@
     display: none;
 }
 
-#your-messages .conversations {
+#inbox-messages .conversations {
     padding: 5px 10px 5px 10px;
     background: #eee;
 }
 
-#your-messages .convo-count0 {
+#inbox-messages .convo-count0 {
     background: #fff;
 }

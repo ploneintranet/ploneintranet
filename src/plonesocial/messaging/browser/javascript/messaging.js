@@ -9,7 +9,7 @@ function messaging_ajax (url, replaceid, datatype) {
                if (replaceid == '#personaltools-plone_social_menu') {
                    add_inbox_count(data);
                }
-               if (replaceid == '#your-messages .messages') {
+               else if (replaceid == '#your-messages .messages') {
                    $(replaceid).replaceWith($(data).find('#content').html());
                }
                else {
