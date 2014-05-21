@@ -1,4 +1,3 @@
-from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone.app.testing import login
@@ -106,9 +105,13 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.participant_policy, "Consumers")
 
         # create a member and add to workspace
-        api.user.create(username='member', email="test@test.com")
-        IWorkspace(workspace).add_to_team(user="member")
+        username = "member_username"
+        api.user.create(username=username, email="test@test.com")
+        self.add_user_to_workspace(username, workspace)
 
         group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
-        self.assertIn(api.user.get(username="member"),
+        self.assertIn(api.user.get(username=username),
                       group.getAllGroupMembers())
+        self.login(username)
+        self.assertIn("Reader",
+                      api.user.get_roles(username=username, obj=workspace))
