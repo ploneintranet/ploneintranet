@@ -24,19 +24,11 @@ class TestTokenUtility(unittest.TestCase):
         self.assertIsInstance(infinite_token, basestring)
         self.assertIsInstance(short_lived_token, basestring)
 
-    def test_remaining_uses(self):
-        self.assertEqual(self.util.remaining_uses(self.token1), 1)
-        self.util._consume_token(self.token1)
-        self.assertIsNone(self.util.remaining_uses(self.token1))
-        token2 = self.util.generate_new_token(uses=2)
-        self.assertEqual(self.util.remaining_uses(token2), 2)
-
-    def test_time_to_live(self):
-        self.assertEqual(self.util.time_to_live(self.token1), None)
-        self.util._consume_token(self.token1)
-        self.assertIsNone(self.util.time_to_live(self.token1))
-        token2 = self.util.generate_new_token(expire_seconds=20)
-        self.assertEqual(self.util.time_to_live(token2), 20)
+    def test_valid(self):
+        self.assertFalse(self.util.valid('abc123'))
+        self.assertTrue(self.util.valid(self.one_time_token))
+        self.util._consume_token(self.one_time_token)
+        self.assertFalse(self.util.valid(self.one_time_token))
 
     def test__consume_token(self):
         self.assertTrue(self.util._consume_token(self.token1))
