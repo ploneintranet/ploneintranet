@@ -12,10 +12,17 @@ class TestTokenUtility(unittest.TestCase):
 
     def setUp(self):
         self.util = getUtility(ITokenUtility)
-        self.token1 = self.util.generate_new_token()
+        self.one_time_token = self.util.generate_new_token(
+            usage_limit=1
+        )
 
     def test_generate_new_token(self):
-        self.assertIsInstance(self.token1, basestring)
+        infinite_token = self.util.generate_new_token()
+        short_lived_token = self.util.generate_new_token(
+            expire_seconds=10
+        )
+        self.assertIsInstance(infinite_token, basestring)
+        self.assertIsInstance(short_lived_token, basestring)
 
     def test_remaining_uses(self):
         self.assertEqual(self.util.remaining_uses(self.token1), 1)
