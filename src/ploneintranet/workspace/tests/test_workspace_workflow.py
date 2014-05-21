@@ -2,6 +2,7 @@ from zope.annotation.interfaces import IAnnotations
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.app.testing import login
+from plone.app.testing import logout
 from collective.workspace.interfaces import IWorkspace
 
 
@@ -50,6 +51,16 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # ... and get access to
         self.assertTrue(member_permissions['Access contents information'],
                         'Member cannot access contents of private workspace')
+
+        # An anonymous user should not be able to view or access the workspace
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=workspace_folder,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view private workspace')
+        self.assertFalse(anon_permissions['Access contents information'],
+                         'Anonymous can access contents of private workspace')
 
     def test_secret_workspace(self):
         """
