@@ -79,8 +79,8 @@
 }
 
 #inbox-messages .social-message-created {
-    font-size: 95%;
-    color: #ccc;
+    font-size: 90%;
+    color: #3e3e3e;
     float: right;
     margin-right: 5px;
 }
@@ -101,7 +101,7 @@
 
 #inbox-messages .conversations {
     padding: 5px 10px 5px 10px;
-    background: #eee;
+    background: #d7eff5;
 }
 
 #inbox-messages .convo-count0 {
