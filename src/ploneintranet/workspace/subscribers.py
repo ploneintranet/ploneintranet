@@ -4,6 +4,11 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
 
 
 def workspace_added(ob, event):
+    """
+    when a workspace is created, we add the creator to
+    the admin group. We then setup our placeful workflow
+
+    """
     # Whoever creates the workspace should be added as an Admin
     creator = ob.Creator()
     IWorkspace(ob).add_to_team(
