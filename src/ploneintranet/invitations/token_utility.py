@@ -24,8 +24,8 @@ class TokenUtility(object):
         """
         Get a new unique token
 
-        :param usage_limit: The number of times this token is allowed to be consumed
-                     before expiring
+        :param usage_limit: The number of times this token is allowed to be
+                            consumed before expiring
         :type usage_limit: int
         :param expire_seconds: The number of seconds before this token expires
         :type expire_seconds: int
@@ -50,7 +50,8 @@ class TokenUtility(object):
         token = self._fetch_token(token_id)
         if token is None:
             return False
-        usage_allowed = token.uses_remaining is None or token.uses_remaining > 0
+        usage_allowed = (token.uses_remaining is None
+                         or token.uses_remaining > 0)
         in_date = token.expiry > datetime.now()
         return usage_allowed and in_date
 
