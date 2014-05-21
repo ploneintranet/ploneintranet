@@ -22,6 +22,10 @@ class PloneIntranetWorkspace(Workspace):
     }
 
     def add_to_team(self, **kw):
+        """
+        We override this method to add our additional participation
+        policy groups, as detailed in available_groups above
+        """
         group = self.context.participant_policy
         data = kw.copy()
         if "groups" in data:
