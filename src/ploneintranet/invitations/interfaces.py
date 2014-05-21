@@ -9,14 +9,9 @@ class ITokenUtility(Interface):
         Get a new unique token
         """
 
-    def remaining_uses(self, token):
+    def valid(self, token_id):
         """
-        Get uses remaining of the given token
-        """
-
-    def time_to_live(self, token):
-        """
-        Get the datetime of expiry of the given token
+        Is the token for given id still valid
         """
 
 

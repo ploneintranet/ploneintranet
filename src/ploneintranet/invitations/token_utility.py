@@ -1,5 +1,7 @@
+from zope.event import notify
 from zope.interface import implements
 from zope.component import getUtility
+from ploneintranet.invitations.events import TokenConsumed
 from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.invitations.token import Token
 from datetime import datetime
@@ -18,13 +20,13 @@ class TokenUtility(object):
     """
     implements(ITokenUtility)
 
-    def generate_new_token(self, uses=None, expire_seconds=None):
+    def generate_new_token(self, usage_limit=None, expire_seconds=None):
         """
         Get a new unique token
 
-        :param uses: The number of times this token is allowed to be consumed
+        :param usage_limit: The number of times this token is allowed to be consumed
                      before expiring
-        :type uses: int
+        :type usage_limit: int
         :param expire_seconds: The number of seconds before this token expires
         :type expire_seconds: int
         :return: A token id
@@ -33,39 +35,24 @@ class TokenUtility(object):
         if expire_seconds is not None:
             expiry = datetime.now() + timedelta(seconds=expire_seconds)
         else:
-            expiry = None
-        token = Token(uses=uses, expiry=expiry)
+            expiry = datetime.max
+        token = Token(usage_limit=usage_limit, expiry=expiry)
         self._store_token(token)
         return token.id
 
-    def remaining_uses(self, token_id):
+    def valid(self, token_id):
         """
-        Get the number of uses remaining for a given token
+        Has the token with the given id expired?
 
-        :param token_id: The token id
-        :type token_id: str
-        :return: The number of uses remaining or None if this token no longer
-                 exists
-        :rtype: int
+        :return: Whether or not the token has expired
+        :rtype: bool
         """
         token = self._fetch_token(token_id)
-        return token.uses
-
-    def time_to_live(self, token_id):
-        """
-        Get the datetime of the expiry of a given token
-
-        :param token_id: The token id
-        :return: The seconds until token expires
-        :rtype: int
-        """
-        token = self._fetch_token(token_id)
-        ttl = token.expiry - datetime.now()
-        if ttl < 0:
-            return 0
-        else:
-            return ttl.total_seconds()
-        pass
+        if token is None:
+            return False
+        usage_allowed = token.uses_remaining is None or token.uses_remaining > 0
+        in_date = token.expiry > datetime.now()
+        return usage_allowed and in_date
 
     def _consume_token(self, token_id):
         """
@@ -77,8 +64,13 @@ class TokenUtility(object):
                  token has expired
         :rtype: bool
         """
+        if not self.valid(token_id):
+            return False
         token = self._fetch_token(token_id)
-        pass
+        if token.uses_remaining is not None:
+            token.uses_remaining -= 1
+        notify(TokenConsumed(token))
+        return True
 
     def _fetch_token(self, token_id):
         """
