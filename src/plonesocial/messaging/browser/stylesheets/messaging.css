@@ -75,7 +75,7 @@
 
 #message-title {
     background: #eee;
-    padding: 8px 4px;
+    padding: 10px;
 }
 
 #inbox-messages .social-message-created {
@@ -83,4 +83,23 @@
     color: #ccc;
     float: right;
     margin-right: 5px;
+}
+
+#inbox-messages .social-message-name {
+    font-weight: bold;
+}
+
+#your-messages-inbox {
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+#your-messages .conversations {
+    padding: 5px 10px 5px 10px;
+    background: #eee;
+}
+
+#your-messages .convo-count0 {
+    background: #fff;
 }
