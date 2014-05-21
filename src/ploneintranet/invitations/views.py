@@ -21,6 +21,8 @@ class Invitation(BrowserView):
 
     def __call__(self):
         if self.token_id is None:
-            raise KeyError("No token id given in sub-path. Use .../@@invitations/tokenid")
+            raise KeyError(
+                "No token id given in sub-path."
+                "Use .../@@invitations/tokenid")
         util = getUtility(ITokenUtility)
         util._consume_token(self.token_id)
