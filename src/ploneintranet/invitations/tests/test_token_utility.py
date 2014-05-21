@@ -35,14 +35,16 @@ class TestTokenUtility(unittest.TestCase):
     def test__consume_token(self):
         # Also test the event
         eventtesting.setUp()
+        eventtesting.clearEvents()
+
         self.assertTrue(self.util._consume_token(self.one_time_token))
         self.assertFalse(self.util._consume_token(self.one_time_token))
         events = eventtesting.getEvents()
         # Ensure only one event was fired
         self.assertEqual(len(events), 1)
-        event_obj = events[0].object
+        token_id = events[0].token_id
         # The object for the event should be our one_time_token
-        self.assertEqual(event_obj.id, self.one_time_token)
+        self.assertEqual(token_id, self.one_time_token)
 
     def test__fetch_token(self):
         self.assertEqual(
