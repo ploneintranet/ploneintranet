@@ -47,7 +47,7 @@ class BaseTestCase(unittest.TestCase):
 
         """
         if groups is None:
-            groups = []
+            groups = set([])
 
         IWorkspace(workspace).add_to_team(
             user=username,
