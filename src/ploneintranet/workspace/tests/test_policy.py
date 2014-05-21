@@ -94,7 +94,7 @@ class TestPolicy(BaseTestCase):
     def test_members_are_correctly_added_to_group_by_policy(self):
         """
         Check that members are correctly assigned to groups
-        according to workspace policy settings.
+        according to workspace policy settings and have correct roles
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
@@ -115,3 +115,25 @@ class TestPolicy(BaseTestCase):
         self.login(username)
         self.assertIn("Reader",
                       api.user.get_roles(username=username, obj=workspace))
+
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            "ploneintranet.workspace.workspacefolder",
+            "other-workspace")
+        self.assertEqual(workspace.participant_policy, "Consumers")
+        workspace.participant_policy = "Producers"
+        self.assertEqual(workspace.participant_policy, "Producers")
+        username = "Vladislav"
+        api.user.create(username=username, email="test1@test.com")
+        self.add_user_to_workspace(username, workspace)
+        group = api.group.get("Producers:" + api.content.get_uuid(workspace))
+        self.assertIn(api.user.get(username=username),
+                      group.getAllGroupMembers())
+        self.login(username)
+        self.assertIn("Contributor",
+                      api.user.get_roles(username=username, obj=workspace))
+        self.assertIn("Reader",
+                      api.user.get_roles(username=username, obj=workspace))
+        self.assertNotIn("Reviewer",
+                         api.user.get_roles(username=username, obj=workspace))
