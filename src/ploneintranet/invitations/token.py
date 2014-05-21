@@ -6,7 +6,7 @@ class Token(Persistent):
     """
     Definition of a token object
     """
-    def __init__(self, uses, expiry):
-        self.uses = uses
+    def __init__(self, usage_limit, expiry):
+        self.uses_remaining = usage_limit
         self.expiry = expiry
         self.id = uuid4().hex
