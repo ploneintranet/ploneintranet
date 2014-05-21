@@ -38,10 +38,7 @@
     margin-left: 3px;
 }
 
-#inbox-messages .reply-message {
-    text-align: center;
-    float: right;
-    width: 38px;
+#social-messages .btn {
     border: 1px solid #337ca1;
     box-shadow: inset 0 1px 2px #6eb0d1;
     background-color: #337CA1;
@@ -50,21 +47,41 @@
     padding: 2px 5px;
     display: block;
     border-radius: 2px 2px 2px 2px;
-    margin: 10px;
+    text-align: center;
+    width: 38px;
+    margin: 0px;
+}
+
+#inbox-new-message-full  {
+    float: right;
+    width: 95px;
+}
+
+#inbox-new-message-full  a {
+    color: #fff;
 }
 
 #inbox-messages .clearall {
     clear: both;
 }
 
+#inbox-messages.full,
 #inbox-messages.small {
     width: 400px;
     border-radius: 2px 2px 2px 2px;
     border: 1px solid #ccc;
+    background: #fff;
+}
+
+#inbox-messages.full  {
+    float: left;
+    margin: 0px 10px 10px 0px;
+}
+
+#inbox-messages.small {
     position: absolute;
     top: 5px;
     left: 0px;
-    background: #fff;
 }
 
 #inbox-new-message {
@@ -106,4 +123,8 @@
 
 #inbox-messages .convo-count0 {
     background: #fff;
+}
+
+#conversation-messages {
+    float: left;
 }
