@@ -51,7 +51,7 @@
                     </tal:rep>
                     <div id="your-messages-inbox"><a tal:attributes="href string: ${context/portal_url}/@@social-inbox">Your Inbox</a></div>
                 </div>
-                <div id="conversation-messages"
+                <div id="conversation-content"
                     tal:condition="python: inbox['view'] != 'small'">
                     Messages
                 </div>

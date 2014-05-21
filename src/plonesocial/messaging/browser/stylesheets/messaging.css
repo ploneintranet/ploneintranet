@@ -52,13 +52,26 @@
     margin: 0px;
 }
 
-#inbox-new-message-full  {
+#social-messages .btn:hover {
+    border: 1px solid #ccc;
+    background-color: #337CA1;
+    background-image: -webkit-linear-gradient(top, #337CA1, #3d94c0);
+}
+
+#social-messages #inbox-new-message-full  {
     float: right;
     width: 95px;
 }
 
-#inbox-new-message-full  a {
+#social-messages #inbox-new-message-full a {
     color: #fff;
+    text-decoration: none;
+    border: 0px;
+}
+
+#social-messages #inbox-new-message-full a:hover {
+    color: #fff;
+    text-decoration: none;
 }
 
 #inbox-messages .clearall {
@@ -125,6 +138,6 @@
     background: #fff;
 }
 
-#conversation-messages {
+#conversation-content {
     float: left;
 }
