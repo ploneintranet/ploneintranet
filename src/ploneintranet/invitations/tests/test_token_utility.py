@@ -5,6 +5,7 @@ from ploneintranet.invitations.interfaces import ITokenUtility
 
 from ploneintranet.invitations.testing import \
     PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+from ploneintranet.invitations.token import Token
 
 
 class TestTokenUtility(unittest.TestCase):
@@ -42,3 +43,27 @@ class TestTokenUtility(unittest.TestCase):
         event_obj = events[0].object
         # The object for the event should be our one_time_token
         self.assertEqual(event_obj.id, self.one_time_token)
+
+    def test__fetch_token(self):
+        self.assertEqual(
+            self.util._fetch_token(self.one_time_token).id,
+            self.one_time_token
+        )
+        self.assertIsNone(self.util._fetch_token('abc123'))
+
+    def test__store_token(self):
+        token = Token(None, None)
+        self.assertIsNone(self.util._store_token(token))
+
+    def test__get_storage(self):
+        storage = self.util._get_storage()
+        key = 'foo'
+        value = 'bar'
+        storage[key] = value
+        self.assertEqual(
+            self.util._get_storage().get(key),
+            value
+        )
+        self.assertIsNone(
+            self.util._get_storage(clear=True).get(key)
+        )
