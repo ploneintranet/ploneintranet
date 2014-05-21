@@ -32,8 +32,8 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         )
         self.assertTrue(permissions['View'],
                         'Non-member cannot view private workspace')
-        self.assertFalse(permissions['Access contents information'],
-                         'Non-member can access contents of private workspace')
+        self.assertTrue(permissions['Access contents information'],
+                        'Non-member cannot access private workspace')
 
         # add member
         api.user.create(username='workspacemember', email="test@test.com")
