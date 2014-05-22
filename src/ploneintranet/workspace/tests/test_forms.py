@@ -83,7 +83,7 @@ class TestPolicyForm(BaseTestCase):
         self.assertEqual(workspace.join_policy,
                          'team')
         self.assertEqual(workspace.participant_policy,
-                         'moderators')
+                         'Moderators')
 
         # Now give it some data
         request = self.make_request(visibility="open")
