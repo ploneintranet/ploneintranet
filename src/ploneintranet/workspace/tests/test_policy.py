@@ -82,7 +82,7 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.join_policy, "admin")
         self.assertEqual(workspace.participant_policy, "Consumers")
 
-        workspace.external_visibility = "open"
+        workspace.set_external_visibility("open")
         self.assertEqual(workspace.external_visibility, "open")
 
         workspace.join_policy = "team"

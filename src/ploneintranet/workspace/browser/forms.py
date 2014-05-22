@@ -60,7 +60,7 @@ class PolicyForm(form.SchemaForm):
             return
 
         ws = self.context
-        ws.external_visibility = data.get("external_visibility", "private")
+        ws.set_external_visibility(data.get("external_visibility", "private"))
         ws.join_policy = data.get("join_policy", "admin")
         ws.participant_policy = data.get("participant_policy", "consumers")
 

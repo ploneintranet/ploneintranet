@@ -33,8 +33,7 @@ class WorkspaceFolder(Container):
     def external_visibility(self):
         return api.content.get_state(self)
 
-    @external_visibility.setter
-    def external_visibility(self, value):
+    def set_external_visibility(self, value):
         api.content.transition(obj=self, to_state=value)
 
     @property
