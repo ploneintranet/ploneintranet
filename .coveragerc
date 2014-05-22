@@ -8,3 +8,4 @@ omit =
     eggs/*
     parts/*
     src/collective.workspace/*
+    src/plone.api/*
