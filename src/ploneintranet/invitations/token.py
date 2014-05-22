@@ -7,10 +7,11 @@ class Token(Persistent):
     """
     Definition of a token object
     """
-    def __init__(self, usage_limit, expiry):
+    def __init__(self, usage_limit, expiry, redirect_path=None):
         self.uses_remaining = usage_limit
         self.expiry = expiry
         self.id = uuid4().hex
+        self.redirect_path = redirect_path
 
     @property
     def invite_url(self):
