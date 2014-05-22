@@ -145,6 +145,25 @@ class TestPolicy(BaseTestCase):
         are an owner
         """
         self.login_as_portal_owner()
+        # first check that the role adapter doesn't add any roles
+        # if a workspace cannot be acquired
+        api.user.create(
+            username='mrmanager',
+            email="manager@test.com",
+            roles=("Member", "Manager"),
+        )
+        self.login('mrmanager')
+        folder = api.content.create(
+            self.portal,
+            'Folder',
+            'folder',
+        )
+        local_roles = api.user.get_roles(
+            obj=folder,
+        )
+        self.assertIn('Owner', local_roles)
+
+        self.login_as_portal_owner()
         workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
