@@ -27,10 +27,13 @@ class InviteUser(BrowserView):
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token()
         _store_invite(token_id, email)
+        message = """You've been invited!
+%s
+""" % token_url
         api.portal.send_email(
             recipient=email,
             subject='Please join my Plone site',
-            body=token_url
+            body=message
         )
         return token_id, token_url
 
