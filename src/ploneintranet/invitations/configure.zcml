@@ -13,8 +13,8 @@
 
   <browser:page
      for="Products.CMFCore.interfaces.ISiteRoot"
-     name="invitations"
-     class=".views.Invitation"
+     name="accept-token"
+     class=".views.AcceptToken"
      permission="zope2.View"
      />
 

@@ -6,11 +6,11 @@ from ploneintranet.invitations.interfaces import ITokenUtility
 from plone import api
 
 
-class Invitation(BrowserView):
+class AcceptToken(BrowserView):
     """
-    View that will be called to consume a token
+    View that will be called to accept/activate a token
 
-    Usage: /@@invitations/<token_id>
+    Usage: /@@accept-token/<token_id>
     """
     implements(IPublishTraverse)
 
@@ -25,7 +25,7 @@ class Invitation(BrowserView):
         if self.token_id is None:
             raise KeyError(
                 "No token id given in sub-path."
-                "Use .../@@invitations/tokenid")
+                "Use .../@@accept-token/tokenid")
         util = getUtility(ITokenUtility)
         if util._consume_token(self.token_id):
             api.portal.show_message('Invitation accepted',
