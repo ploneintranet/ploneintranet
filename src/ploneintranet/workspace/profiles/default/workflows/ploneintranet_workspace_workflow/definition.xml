@@ -87,14 +87,14 @@
   </transition>
   <transition transition_id="make_private" title="Make private" new_state="private" trigger="USER" before_script="" after_script="">
     <description>Making this private means that it can be seen but not accessed by Guests.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make private</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=make_private" category="workflow" icon="">Make private</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
   </transition>
   <transition transition_id="make_open" title="Make open" new_state="open" trigger="USER" before_script="" after_script="">
     <description>Making this open means that it can be seen and accessed by Guests.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=make_secret" category="workflow" icon="">Make open</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=make_open" category="workflow" icon="">Make open</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
