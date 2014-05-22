@@ -20,7 +20,8 @@ class TokenUtility(object):
     """
     implements(ITokenUtility)
 
-    def generate_new_token(self, usage_limit=None, expire_seconds=None):
+    def generate_new_token(self, usage_limit=None, expire_seconds=None,
+                           redirect_path=None):
         """
         Get a new unique token
 
@@ -29,6 +30,9 @@ class TokenUtility(object):
         :type usage_limit: int
         :param expire_seconds: The number of seconds before this token expires
         :type expire_seconds: int
+        :param redirect_path: The optional path to redirect to, relative to the
+                              Plone site, after token is accepted
+        :type redirect_path: str
         :return: A tuple containing the id of the generated token
                  and a url that can be used to accept the token
         :rtype: (token_id, token_url)
@@ -37,7 +41,11 @@ class TokenUtility(object):
             expiry = datetime.now() + timedelta(seconds=expire_seconds)
         else:
             expiry = datetime.max
-        token = Token(usage_limit=usage_limit, expiry=expiry)
+        token = Token(
+            usage_limit=usage_limit,
+            expiry=expiry,
+            redirect_path=redirect_path
+        )
         self._store_token(token)
         return token.id, token.invite_url
 
