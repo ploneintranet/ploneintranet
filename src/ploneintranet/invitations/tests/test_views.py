@@ -25,3 +25,6 @@ class TestViews(unittest.TestCase):
                                name=u'accept-token')
         view.publishTraverse(self.request, token_id)()
         self.assertFalse(self.util.valid(token_id))
+        events = eventtesting.getEvents(ITokenAccepted)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0].token_id, token_id)

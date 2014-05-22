@@ -28,7 +28,7 @@
      />
 
   <subscriber
-     for="ploneintranet.invitations.events.ITokenConsumed"
+     for="ploneintranet.invitations.events.ITokenAccepted"
      handler=".invitations.accept_invitation" />
 
 </configure>

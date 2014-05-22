@@ -3,16 +3,16 @@ from zope.interface import Interface
 from zope.interface import implements
 
 
-class ITokenConsumed(Interface):
+class ITokenAccepted(Interface):
 
     token_id = Attribute("The id of the Token that was consumed")
 
 
-class TokenConsumed(object):
+class TokenAccepted(object):
     """
     Event to be fired whenever a token is consumed
     """
-    implements(ITokenConsumed)
+    implements(ITokenAccepted)
 
     def __init__(self, token_id):
         self.token_id = token_id

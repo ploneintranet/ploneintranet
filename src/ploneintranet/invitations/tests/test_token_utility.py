@@ -1,9 +1,8 @@
 import unittest
-from zope.component import getUtility
-from zope.component import eventtesting
-from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.invitations.events import ITokenConsumed
 
+from zope.component import getUtility
+
+from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.invitations.testing import \
     PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
 from ploneintranet.invitations.token import Token
@@ -14,7 +13,6 @@ class TestTokenUtility(unittest.TestCase):
     layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
 
     def setUp(self):
-        eventtesting.setUp()
         self.util = getUtility(ITokenUtility)
         self.one_time_token_id, _ = self.util.generate_new_token(
             usage_limit=1
@@ -39,12 +37,6 @@ class TestTokenUtility(unittest.TestCase):
     def test__consume_token(self):
         self.assertTrue(self.util._consume_token(self.one_time_token_id))
         self.assertFalse(self.util._consume_token(self.one_time_token_id))
-        events = eventtesting.getEvents(ITokenConsumed)
-        # Ensure only one event was fired
-        self.assertEqual(len(events), 1)
-        token_id = events[0].token_id
-        # The object for the event should be our one_time_token
-        self.assertEqual(token_id, self.one_time_token_id)
 
     def test__fetch_token(self):
         self.assertEqual(

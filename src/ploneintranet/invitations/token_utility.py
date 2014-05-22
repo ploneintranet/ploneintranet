@@ -71,7 +71,6 @@ class TokenUtility(object):
         token = self._fetch_token(token_id)
         if token.uses_remaining is not None:
             token.uses_remaining -= 1
-        notify(TokenConsumed(token_id))
         return True
 
     def _fetch_token(self, token_id):
