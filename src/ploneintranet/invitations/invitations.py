@@ -9,9 +9,9 @@ class InviteUser(BrowserView):
 
     def invite_user(self, email_address):
         token_util = getUtility(ITokenUtility)
-        token_id = token_util.generate_new_token()
+        token_id, token_url = token_util.generate_new_token()
         # TODO - send an email
-        return token_id
+        return token_id, token_url
 
 
 def accept_invitation(event):

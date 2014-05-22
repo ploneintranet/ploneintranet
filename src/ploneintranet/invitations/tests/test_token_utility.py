@@ -16,13 +16,13 @@ class TestTokenUtility(unittest.TestCase):
     def setUp(self):
         eventtesting.setUp()
         self.util = getUtility(ITokenUtility)
-        self.one_time_token = self.util.generate_new_token(
+        self.one_time_token_id, _ = self.util.generate_new_token(
             usage_limit=1
         )
 
     def test_generate_new_token(self):
-        infinite_token = self.util.generate_new_token()
-        short_lived_token = self.util.generate_new_token(
+        infinite_token, infinite_token_url = self.util.generate_new_token()
+        short_lived_token, short_lived_token_url = self.util.generate_new_token(
             expire_seconds=10
         )
         self.assertIsInstance(infinite_token, basestring)
@@ -30,24 +30,24 @@ class TestTokenUtility(unittest.TestCase):
 
     def test_valid(self):
         self.assertFalse(self.util.valid('abc123'))
-        self.assertTrue(self.util.valid(self.one_time_token))
-        self.util._consume_token(self.one_time_token)
-        self.assertFalse(self.util.valid(self.one_time_token))
+        self.assertTrue(self.util.valid(self.one_time_token_id))
+        self.util._consume_token(self.one_time_token_id)
+        self.assertFalse(self.util.valid(self.one_time_token_id))
 
     def test__consume_token(self):
-        self.assertTrue(self.util._consume_token(self.one_time_token))
-        self.assertFalse(self.util._consume_token(self.one_time_token))
+        self.assertTrue(self.util._consume_token(self.one_time_token_id))
+        self.assertFalse(self.util._consume_token(self.one_time_token_id))
         events = eventtesting.getEvents(ITokenConsumed)
         # Ensure only one event was fired
         self.assertEqual(len(events), 1)
         token_id = events[0].token_id
         # The object for the event should be our one_time_token
-        self.assertEqual(token_id, self.one_time_token)
+        self.assertEqual(token_id, self.one_time_token_id)
 
     def test__fetch_token(self):
         self.assertEqual(
-            self.util._fetch_token(self.one_time_token).id,
-            self.one_time_token
+            self.util._fetch_token(self.one_time_token_id).id,
+            self.one_time_token_id
         )
         self.assertIsNone(self.util._fetch_token('abc123'))
 

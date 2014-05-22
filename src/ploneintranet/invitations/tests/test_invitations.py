@@ -17,16 +17,13 @@ class TestInviteUser(unittest.TestCase):
     def test_invite_user(self):
         view = getMultiAdapter((self.portal, self.request),
                                name=u'invite-user')
-        token_id = view.invite_user('bob@test.com')
+        token_id, token_url = view.invite_user('bob@test.com')
         # Commit so that the test browser sees these changes
         import transaction
         transaction.commit()
 
         browser = Browser(self.app)
-        browser.open('%s/@@accept-token/%s' % (
-            self.portal.absolute_url(),
-            token_id,
-        ))
+        browser.open(token_url)
 
         # We should now be authenticated
         self.assertIn('userrole-authenticated', browser.contents)

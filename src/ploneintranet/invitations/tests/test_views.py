@@ -18,7 +18,7 @@ class TestViews(unittest.TestCase):
         self.util = getUtility(ITokenUtility)
 
     def test_accept_token_view(self):
-        token_id = self.util.generate_new_token(usage_limit=1)
+        token_id, token_url = self.util.generate_new_token(usage_limit=1)
         self.assertTrue(self.util.valid(token_id))
 
         view = getMultiAdapter((self.portal, self.request),

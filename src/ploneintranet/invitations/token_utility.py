@@ -29,8 +29,9 @@ class TokenUtility(object):
         :type usage_limit: int
         :param expire_seconds: The number of seconds before this token expires
         :type expire_seconds: int
-        :return: A token id
-        :rtype: str
+        :return: A tuple containing the id of the generated token
+                 and a url that can be used to accept the token
+        :rtype: (token_id, token_url)
         """
         if expire_seconds is not None:
             expiry = datetime.now() + timedelta(seconds=expire_seconds)
@@ -38,7 +39,7 @@ class TokenUtility(object):
             expiry = datetime.max
         token = Token(usage_limit=usage_limit, expiry=expiry)
         self._store_token(token)
-        return token.id
+        return token.id, token.invite_url
 
     def valid(self, token_id):
         """
