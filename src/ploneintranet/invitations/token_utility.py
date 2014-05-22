@@ -1,17 +1,17 @@
-from zope.event import notify
-from zope.interface import implements
-from zope.component import getUtility
-from ploneintranet.invitations.events import TokenAccepted
-from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.invitations.token import Token
 from datetime import datetime
 from datetime import timedelta
+
+from zope.interface import implements
+from zope.component import getUtility
 from zope.annotation.interfaces import IAnnotations
 from BTrees.OOBTree import OOBTree
-
 from Products.CMFCore.interfaces import ISiteRoot
 
-ANNOTATION_KEY = "ploneintranet.invitations.token_storage"
+from ploneintranet.invitations.interfaces import ITokenUtility
+from ploneintranet.invitations.token import Token
+
+
+ANNOTATION_KEY = 'ploneintranet.invitations.token_storage'
 
 
 class TokenUtility(object):
