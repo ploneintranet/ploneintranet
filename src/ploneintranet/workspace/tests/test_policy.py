@@ -78,12 +78,12 @@ class TestPolicy(BaseTestCase):
             "example-workspace",
             title="A workspace")
         # check that accessing setting for the first time doesn't fail
-        self.assertEqual(workspace.external_visibility, "private")
+        self.assertEqual(workspace.external_visibility, "secret")
         self.assertEqual(workspace.join_policy, "admin")
         self.assertEqual(workspace.participant_policy, "Consumers")
 
-        workspace.external_visibility = "secret"
-        self.assertEqual(workspace.external_visibility, "secret")
+        workspace.external_visibility = "open"
+        self.assertEqual(workspace.external_visibility, "open")
 
         workspace.join_policy = "team"
         self.assertEqual(workspace.join_policy, "team")
