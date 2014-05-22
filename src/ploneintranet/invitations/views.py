@@ -1,7 +1,9 @@
 from zope.component import getUtility
+from zope.event import notify
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces import IPublishTraverse
+from ploneintranet.invitations.events import TokenAccepted
 from ploneintranet.invitations.interfaces import ITokenUtility
 from plone import api
 
@@ -25,13 +27,23 @@ class AcceptToken(BrowserView):
         if self.token_id is None:
             raise KeyError(
                 "No token id given in sub-path."
-                "Use .../@@accept-token/tokenid")
+                "Use .../@@accept-token/tokenid"
+            )
         util = getUtility(ITokenUtility)
-        if util._consume_token(self.token_id):
-            api.portal.show_message('Token accepted',
-                                    self.request, type='info')
-        else:
-            api.portal.show_message('Token no longer valid',
-                                    self.request, type='error')
         portal = api.portal.get()
-        self.request.response.redirect(portal.absolute_url())
+        if util.valid(self.token_id):
+            notify(TokenAccepted(self.token_id))
+            util._consume_token(self.token_id)
+            token = util._fetch_token(self.token_id)
+            if token.redirect_path is not None:
+                return self.request.response.redirect('%s/%s' % (
+                    portal.absolute_url(),
+                    token.redirect_path
+                ))
+        else:
+            api.portal.show_message(
+                'Token no longer valid',
+                self.request,
+                type='error'
+            )
+        return self.request.response.redirect(portal.absolute_url())
