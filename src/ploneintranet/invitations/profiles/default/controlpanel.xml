@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<object
+    name="portal_controlpanel"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="netsight.quicklook"
+    purge="False">
+
+    <configlet
+        title="Invitations"
+        action_id="ploneintranet.invitations"
+        appId="ploneintranet.invitations"
+        category="Products"
+        condition_expr=""
+        url_expr="string:${portal_url}/@@ploneintranet-invitations-invite-user"
+        visible="True"
+        i18n:attributes="title">
+        <permission>Manage portal</permission>
+    </configlet>
+
+</object>

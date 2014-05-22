@@ -7,6 +7,7 @@ from zope.component import getMultiAdapter
 from ploneintranet.invitations.testing import \
     PLONEINTRANET_INVITATIONS_FUNCTIONAL_TESTING
 from plone.testing.z2 import Browser
+from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
 
 
 class TestInviteUser(unittest.TestCase):
@@ -34,8 +35,10 @@ class TestInviteUser(unittest.TestCase):
 
     def test_invite_user(self):
         email = 'test@test.com'
-        view = getMultiAdapter((self.portal, self.request),
-                               name=u'invite-user')
+        view = getMultiAdapter(
+            (self.portal, self.request),
+            name=u'ploneintranet-invitations-invite-user',
+        )
         token_id, token_url = view.invite_user(email)
 
         self.assertEqual(len(self.mailhost.messages), 1)
@@ -67,3 +70,18 @@ class TestInviteUser(unittest.TestCase):
         ))
         self.assertNotIn('userrole-authenticated', browser.contents,
                          'Invalid token should not allow access')
+
+    def test_invite_user_form(self):
+        email = 'test@test.com'
+        browser = Browser(self.app)
+        browser.handleErrors = False
+
+        browser.open(self.portal.absolute_url() + '/login_form')
+        browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+        browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
+        browser.getControl(name='submit').click()
+
+        browser.open('%s/@@ploneintranet-invitations-invite-user' %
+                     self.portal.absolute_url())
+        browser.getControl(name='email').value = email
+        browser.getControl(name='send').click()

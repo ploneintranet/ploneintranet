@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/prefs_main_template/macros/master"
+    i18n:domain="plone">
+
+<body>
+
+<metal:main fill-slot="prefs_configlet_content">
+
+        <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+          Portal status message
+        </div>
+
+        <div id="content">
+
+            <h1>Invitations</h1>
+
+            <p>Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address, allowing the user to create </p>
+
+            <form action="" method="post">
+
+              <label for="email">
+                Send email invite to:
+              </label>
+              <br />
+              <input type="text" name="email" />
+
+              <input tal:replace="structure context/@@authenticator/authenticator"/>
+
+              <p>
+                <input class="context"
+                       type="submit"
+                       name="send"
+                       value="Send invite"
+                       />
+              </p>
+
+            </form>
+
+    </div>
+
+</metal:main>
+
+</body>
+</html>
+

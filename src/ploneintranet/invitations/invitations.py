@@ -5,6 +5,7 @@ from Products.Five import BrowserView
 from zope.globalrequest import getRequest
 from plone import api
 from BTrees.OOBTree import OOBTree
+from plone.protect import CheckAuthenticator, PostOnly
 
 from ploneintranet.invitations.interfaces import ITokenUtility
 
@@ -14,26 +15,45 @@ ANNOTATION_KEY = 'ploneintranet.invitations.invitation_storage'
 
 class InviteUser(BrowserView):
     """
-    View for sending invitation emails to potential new users of the Plone site
+    Control panel view for sending invitation emails to potential new users of the Plone site
     """
+    def __call__(self):
+        email = self.request.form.get('email')
+        if email is not None:
+            CheckAuthenticator(self.request)
+            PostOnly(self.request)
+            self.invite_user(email)
+
+        return self.index()
+
     def invite_user(self, email):
         """
         Get new token, build email and send it to the given email address
 
         :param email: Email address to send invitation to, and for new user
         :type email: str
-        :return:
+        :return: Tuple of token id and token url
         """
+        # TODO - check that this email address is not already registered
+        portal = api.portal.get()
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token()
         _store_invite(token_id, email)
-        message = """You've been invited!
+        message = """You've been invited to join %s
+
+The following is a unique URL that you can use to log in to the site:
+
 %s
-""" % token_url
+""" % (portal.Title(), token_url)
         api.portal.send_email(
             recipient=email,
             subject='Please join my Plone site',
             body=message
+        )
+
+        api.portal.show_message(
+            'Invitation sent to %s' % email,
+            self.request,
         )
         return token_id, token_url
 
