@@ -112,6 +112,7 @@ class TestPolicy(BaseTestCase):
         group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
         self.assertIn(api.user.get(username=username),
                       group.getAllGroupMembers())
+
         self.login(username)
         self.assertIn("Reader",
                       api.user.get_roles(username=username, obj=workspace))
@@ -137,3 +138,33 @@ class TestPolicy(BaseTestCase):
                       api.user.get_roles(username=username, obj=workspace))
         self.assertNotIn("Reviewer",
                          api.user.get_roles(username=username, obj=workspace))
+
+    def test_role_adapter(self):
+        """
+        test that the self publishers are also given reviewers if they
+        are an owner
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace')
+        workspace.participant_policy = "Publishers"
+        username = "testuser"
+        api.user.create(username=username, email="test@test.com")
+        self.add_user_to_workspace(username, workspace)
+
+        self.login(username)
+        doc = api.content.create(
+            container=workspace,
+            type='Document',
+            id='my-doc',
+        )
+        local_roles = api.user.get_roles(
+            username=username,
+            obj=doc,
+        )
+        self.assertIn('Owner', local_roles)
+        self.assertIn('Contributor', local_roles)
+        self.assertIn('SelfPublisher', local_roles)
+        self.assertIn('Reviewer', local_roles)

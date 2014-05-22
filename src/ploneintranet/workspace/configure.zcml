@@ -42,6 +42,10 @@
      factory=".adapters.PloneIntranetWorkspace"
      />
 
+  <adapter
+     factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
+     />
+
   <browser:resourceDirectory
     name="ploneintranet.workspace"
     directory="resources" />

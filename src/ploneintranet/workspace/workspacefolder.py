@@ -11,13 +11,6 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     Interface for WorkspaceFolder
     """
 
-    # If you want a schema-defined interface, delete the model.load
-    # line below and delete the matching file in the models sub-directory.
-    # If you want a model-based interface, edit
-    # models/workspace.xml to define the content type.
-
-    form.model("models/workspacefolder.xml")
-
 
 class WorkspaceFolder(Container):
     """
@@ -28,6 +21,13 @@ class WorkspaceFolder(Container):
     # Block local role acquisition so that users
     # must be given explicit access to the workspace
     __ac_local_roles_block__ = 1
+
+    def acquire_workspace(self):
+        """
+        helper method to acquire the workspace
+        :rtype: ploneintranet.workspace.workspace
+        """
+        return self
 
     @property
     def external_visibility(self):
