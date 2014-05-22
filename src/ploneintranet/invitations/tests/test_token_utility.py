@@ -13,6 +13,7 @@ class TestTokenUtility(unittest.TestCase):
     layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
 
     def setUp(self):
+        self.portal = self.layer['portal']
         self.util = getUtility(ITokenUtility)
         self.one_time_token_id, _ = self.util.generate_new_token(
             usage_limit=1
@@ -27,6 +28,20 @@ class TestTokenUtility(unittest.TestCase):
             )
         self.assertIsInstance(infinite_token, basestring)
         self.assertIsInstance(short_lived_token, basestring)
+        self.assertEqual(
+            infinite_token_url,
+            '%s/@@accept-token/%s' % (
+                self.portal.absolute_url(),
+                infinite_token
+            )
+        )
+        self.assertEqual(
+            short_lived_token_url,
+            '%s/@@accept-token/%s' % (
+                self.portal.absolute_url(),
+                short_lived_token
+            )
+        )
 
     def test_valid(self):
         self.assertFalse(self.util.valid('abc123'))
