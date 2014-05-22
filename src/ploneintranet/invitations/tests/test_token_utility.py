@@ -21,10 +21,12 @@ class TestTokenUtility(unittest.TestCase):
         )
 
     def test_generate_new_token(self):
-        infinite_token, infinite_token_url = self.util.generate_new_token()
-        short_lived_token, short_lived_token_url = self.util.generate_new_token(
-            expire_seconds=10
-        )
+        infinite_token, infinite_token_url = \
+            self.util.generate_new_token()
+        short_lived_token, short_lived_token_url = \
+            self.util.generate_new_token(
+                expire_seconds=10
+            )
         self.assertIsInstance(infinite_token, basestring)
         self.assertIsInstance(short_lived_token, basestring)
 
