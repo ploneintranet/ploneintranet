@@ -6,6 +6,7 @@
     i18n_domain="ploneintranet.invitations">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <include package="Products.CMFCore" file="permissions.zcml" />
 
   <includeDependencies package="." />
 
@@ -17,5 +18,17 @@
      class=".views.AcceptToken"
      permission="zope2.View"
      />
+
+  <browser:page
+     for="Products.CMFCore.interfaces.ISiteRoot"
+     name="invite-user"
+     class=".invitations.InviteUser"
+     attribute="invite_user"
+     permission="cmf.ManagePortal"
+     />
+
+  <subscriber
+     for="ploneintranet.invitations.events.ITokenConsumed"
+     handler=".invitations.accept_invitation" />
 
 </configure>

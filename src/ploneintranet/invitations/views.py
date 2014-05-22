@@ -28,10 +28,10 @@ class AcceptToken(BrowserView):
                 "Use .../@@accept-token/tokenid")
         util = getUtility(ITokenUtility)
         if util._consume_token(self.token_id):
-            api.portal.show_message('Invitation accepted',
+            api.portal.show_message('Token accepted',
                                     self.request, type='info')
         else:
-            api.portal.show_message('Invalid code no longer valid',
+            api.portal.show_message('Token no longer valid',
                                     self.request, type='error')
         portal = api.portal.get()
         self.request.response.redirect(portal.absolute_url())
