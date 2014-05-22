@@ -290,11 +290,9 @@ class TestWorkflow(BaseTestCase):
         api.content.transition(document,
                                'publish')
 
-        # Attempt to make the document public
-        try:
+        # It shouldn't be possible to transition the document to public
+        with self.assertRaises(api.exc.InvalidParameterError):
             api.content.transition(document, 'publish_public')
-        except api.exc.InvalidParameterError:
-            pass
 
         self.assertEqual(api.content.get_state(document),
                          'published')
