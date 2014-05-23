@@ -15,4 +15,11 @@
      permission="cmf.ModifyPortalContent"
      />
 
+   <browser:page
+     name="transfer"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".forms.TransferMembershipForm"
+     permission="cmf.ModifyPortalContent"
+     />
+
 </configure>
