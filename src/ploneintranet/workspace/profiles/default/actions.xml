@@ -23,6 +23,9 @@
     <property name="title" i18n:translate="ws_transfer_membership_tab">Transfer Members</property>
     <property name="url_expr">string:${context/absolute_url}/transfer</property>
     <property name="available_expr">python:context.portal_type == "ploneintranet.workspace.workspacefolder"</property>
+    <property name="permissions">
+      <element value="ploneintranet.workspace: Manage workspace"/>
+    </property>
   </object>
  </object>
 </object>
