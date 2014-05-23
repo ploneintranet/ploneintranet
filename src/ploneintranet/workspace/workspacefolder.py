@@ -56,4 +56,5 @@ class WorkspaceFolder(Container):
 
     @participant_policy.setter
     def participant_policy(self, value):
+        # TODO - change the policy needs to update all users
         self._participant_policy = value

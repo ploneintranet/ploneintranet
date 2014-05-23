@@ -13,6 +13,9 @@
     <property name="title" i18n:translate="ws_policies_tab">Policies</property>
     <property name="url_expr">string:${context/absolute_url}/policies</property>
     <property name="available_expr">python:context.portal_type == "ploneintranet.workspace.workspacefolder"</property>
+    <property name="permissions">
+      <element value="ploneintranet.workspace: Manage workspace"/>
+    </property>
   </object>
 
  </object>
