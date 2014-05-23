@@ -18,23 +18,27 @@
 
             <h1>Invitations</h1>
 
-            <p>Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address, allowing the user to create </p>
+            <p>Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address.
+              <br />
+              <em>When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Subsequent uses of the URL will log the user in automatically.</em></p>
 
             <form action="" method="post">
 
-              <label for="email">
-                Send email invite to:
-              </label>
-              <br />
-              <input type="text" name="email" />
+              <p>
+                <label for="email">
+                  Send email invite to:
+                </label>
+                <br />
+                <input type="text" name="email" />
 
-              <input tal:replace="structure context/@@authenticator/authenticator"/>
+                <input tal:replace="structure context/@@authenticator/authenticator"/>
+              </p>
 
               <p>
                 <input class="context"
                        type="submit"
                        name="send"
-                       value="Send invite"
+                       value="Send"
                        />
               </p>
 

@@ -40,15 +40,23 @@ class InviteUser(BrowserView):
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token()
         _store_invite(token_id, email)
-        message = """You've been invited to join %s
+        message = """You've been invited to join %s.
 
-The following is a unique URL that you can use to log in to the site:
+The following is a unique URL tied to your email address (%s).
+Clicking the link will create you an account and log in you automatically.
 
 %s
-""" % (portal.Title(), token_url)
+
+You can use this URL at any time to re-login to the site.
+
+If you would like to setup a password to access the site, you can generate
+one here:
+
+%s/mail_password_form?userid=%s
+""" % (portal.Title(), email, token_url, portal.absolute_url(), email)
         api.portal.send_email(
             recipient=email,
-            subject='Please join my Plone site',
+            subject='Your invitation to %s' % portal.Title(),
             body=message
         )
 
