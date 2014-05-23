@@ -15,7 +15,8 @@ ANNOTATION_KEY = 'ploneintranet.invitations.invitation_storage'
 
 class InviteUser(BrowserView):
     """
-    Control panel view for sending invitation emails to potential new users of the Plone site
+    Control panel view for sending invitation emails to
+    potential new users of the Plone site
     """
     def __call__(self):
         email = self.request.form.get('email')
