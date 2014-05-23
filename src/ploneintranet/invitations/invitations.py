@@ -49,8 +49,8 @@ Clicking the link will create you an account and log in you automatically.
 
 You can use this URL at any time to re-login to the site.
 
-If you would like to setup a password to access the site, you can generate
-one here:
+Once your account has been created, you can also set up a password
+to access the site here:
 
 %s/mail_password_form?userid=%s
 """ % (portal.Title(), email, token_url, portal.absolute_url(), email)
