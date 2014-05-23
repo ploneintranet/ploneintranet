@@ -122,10 +122,7 @@ class TransferMembershipForm(form.SchemaForm):
 
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
+        data = self.extractData()[0]
 
         ws = IWorkspace(self.context)
         other_ws_id = data.get("workspace")
