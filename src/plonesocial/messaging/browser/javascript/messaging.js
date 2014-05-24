@@ -17,6 +17,8 @@ function messaging_ajax (url, replaceid, datatype, contentid) {
                    $(replaceid).replaceWith(data);
                }
            }
+           send_new_message();
+
        }
     });
 }
