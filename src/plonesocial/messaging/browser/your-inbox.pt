@@ -17,7 +17,6 @@
                     <div id="inbox-new-message-full" class="btn"><a href="@@messaging-send">New Message</a></div>
                     <h1>Inbox</h1>
                 </div>
-
                 <div id="inbox-messages"
                     tal:attributes="class inbox/view"
                     tal:condition="inbox">
@@ -48,6 +47,9 @@
                             </tal:c>
                         </div>
                     </tal:rep>
+                    <tal:c tal:condition="not:inbox/conversations">
+                        <p class="no-conversations">No conversations</p>
+                    </tal:c>
                     <div id="your-messages-inbox"><a tal:attributes="href string: ${context/portal_url}/@@social-inbox">Your Inbox</a></div>
                 </div>
                 <div id="conversation-content"
@@ -66,7 +68,6 @@
                 </div>
             </tal:def>
         </tal:c>
-
     <!-- end main -->
     </div>
   </body>

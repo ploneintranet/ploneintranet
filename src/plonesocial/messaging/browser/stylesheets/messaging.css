@@ -1,7 +1,7 @@
 #your-messages-icon {
     background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
-    width: 20px;
-    padding: 5px 5px 0px 5px;
+    width: 25px;
+    height: 25px;
     line-height: 1;
     cursor: pointer;
 }
@@ -159,4 +159,8 @@ a.social-message {
     display: block;
     text-decoration: none;
     border-bottom: 0px;
+}
+
+.no-conversations {
+    padding: 5px 10px;
 }

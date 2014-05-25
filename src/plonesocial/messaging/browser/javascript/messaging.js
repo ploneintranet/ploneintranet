@@ -35,7 +35,9 @@ function message_click() {
 function add_inbox_count(data) {
     // simple inbox number look up
     var msg_count = data.trim();
-    $('#personaltools-plone_social_menu a').append(" (" + msg_count + ")");
+    if (msg_count) {
+        $('#personaltools-plone_social_menu a').append(" (" + msg_count + ")");
+    }
 }
 
 

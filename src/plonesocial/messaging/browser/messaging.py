@@ -237,6 +237,7 @@ class YourMessagesView(BrowserView):
         # count to show unread messages
         user = api.user.get_current()
         display_message = []
+        show_inbox_count = False
 
         msgs = {'unread': '',
                 'conversations': [],
@@ -257,16 +258,24 @@ class YourMessagesView(BrowserView):
         locator = getUtility(IMessagingLocator)
         inboxes = locator.get_inboxes()
 
+        if self.request.get('count'):
+            show_inbox_count = True
+
         if user.id not in inboxes:
+            if show_inbox_count:
+                msgs['request'] = True
             return msgs
 
         messages = inboxes[user.id]
+
         if not messages:
+            if show_inbox_count:
+                msgs['request'] = True
             return msgs
 
         msgs['unread'] = messages.new_messages_count
 
-        if self.request.get('count'):
+        if show_inbox_count:
             # return just the number of messages (unread)
             msgs['request'] = True
             return msgs

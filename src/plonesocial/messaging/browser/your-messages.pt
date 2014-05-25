@@ -4,7 +4,7 @@
         <tal:c tal:condition="not:messages/request">
             <div id="your-messages-icon">
                 <div id="number-of-messages"
-                    tal:condition="messages"
+                    tal:condition="messages/unread"
                     tal:content="messages/unread">
                 </div>
             </div>
@@ -14,7 +14,7 @@
         </tal:c>
         <tal:c tal:condition="messages/request">
             <tal:block
-                tal:condition="messages"
+                tal:condition="messages/unread"
                 tal:content="messages/unread" />
         </tal:c>
     </tal:def>
