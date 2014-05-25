@@ -39,11 +39,12 @@
                                 <tal:block tal:content="convo/fullname" />
                             </div>
                             <tal:c tal:condition="convo/messages">
-                                <div class="social-message"
-                                    tal:repeat="msg convo/messages">
+                                <a class="social-message"
+                                    tal:repeat="msg convo/messages"
+                                    tal:attributes="href string:${context/portal_url}/@@social-inbox?user=${convo/username}">
                                     <tal:block tal:replace="structure msg/sender_img" />
                                     <tal:block tal:content="msg/text" />
-                                </div>
+                                </a>
                             </tal:c>
                         </div>
                     </tal:rep>
