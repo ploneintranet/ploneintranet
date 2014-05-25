@@ -198,10 +198,11 @@ def format_conversations(conversations, inboxes, user, requested_user):
         messages = [message.to_dict() for message in
                     conversation.get_messages()]
 
-        if requested_user & requested_user == con['username']:
-            # if a user has been passed then, show all messages
-            # to this user
-            display_messages = messages
+        if requested_user:
+            if requested_user == con['username']:
+                # if a user has been passed then, show all messages
+                # to this user
+                display_messages = messages
 
         if messages:
             con['last-updated'] = messages[len(messages) - 1]['created']
