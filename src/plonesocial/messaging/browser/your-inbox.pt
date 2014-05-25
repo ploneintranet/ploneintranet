@@ -41,6 +41,7 @@
                             <tal:c tal:condition="convo/messages">
                                 <div class="social-message"
                                     tal:repeat="msg convo/messages">
+                                    <tal:block tal:replace="structure msg/sender_img" />
                                     <tal:block tal:content="msg/text" />
                                 </div>
                             </tal:c>
@@ -56,7 +57,9 @@
                             <div class="social-message-created">
                                 <tal:block tal:content="python: context.toLocalizedTime(msg['created'], long_format=0)" />
                             </div>
+                            <tal:block tal:replace="structure msg/sender_img" />
                             <tal:block tal:content="msg/text" />
+                            <div class="clearall"></div>
                         </div>
                     </tal:rep>
                 </div>

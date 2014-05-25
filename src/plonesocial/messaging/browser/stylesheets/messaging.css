@@ -74,6 +74,7 @@
     text-decoration: none;
 }
 
+.social-message .clearall,
 #inbox-messages .clearall {
     clear: both;
 }
@@ -146,4 +147,11 @@
 
 .social-message {
     border-bottom: 1px solid #ccc;
+    padding: 10px 0px;
+}
+
+.social-message img {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }

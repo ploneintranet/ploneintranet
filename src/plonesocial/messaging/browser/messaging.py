@@ -3,6 +3,7 @@ import datetime
 import json
 
 from Products.Five.browser import BrowserView
+from Products.CMFCore.utils import getToolByName
 
 from plone import api
 
@@ -180,9 +181,9 @@ class MessagingView(JsonView):
         return self.success({'result': result})
 
 
-def get_user_details(userid):
+def get_user_img(mtool, userid):
     # user image return
-    return api.user.get(username=userid)
+    return mtool.getPersonalPortrait(id=userid)
 
 def all_conversations(messages):
     # grab all conversations for this users
@@ -190,7 +191,7 @@ def all_conversations(messages):
                      messages.get_conversations()]
     return conversations
 
-def format_conversations(conversations, inboxes, user, requested_user):
+def format_conversations(conversations, inboxes, user, requested_user, mtool):
     # format conversations with messages in one multi-d array
     # we will return all conversations with a message view
 
@@ -204,8 +205,8 @@ def format_conversations(conversations, inboxes, user, requested_user):
                     conversation.get_messages()]
 
         for message in messages:
-            message['sender_details'] = get_user_details(message['sender'])
-            message['recipient_details'] = get_user_details(message['recipient'])
+            message['sender_img'] = get_user_img(mtool, message['sender'])
+            message['recipient_img'] = get_user_img(mtool, message['recipient'])
 
         if requested_user:
             if requested_user == con['username']:
@@ -274,9 +275,11 @@ class YourMessagesView(BrowserView):
 
         requested_user = self.request.form.get('user')
 
+        mtool = getToolByName(self.context, 'portal_membership')
+
         if conversations:
             format_con = format_conversations(conversations, inboxes,
-                                              user, requested_user)
+                                              user, requested_user, mtool)
             conversations = format_con['conversations']
             display_message = format_con['display_messages']
 
