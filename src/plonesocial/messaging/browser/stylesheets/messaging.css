@@ -140,4 +140,9 @@
 
 #conversation-content {
     float: left;
+    width: 65%;
+}
+
+.social-message {
+    border-bottom: 1px solid #ccc;
 }

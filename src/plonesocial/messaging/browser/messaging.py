@@ -191,6 +191,7 @@ def format_conversations(conversations, inboxes, user, requested_user):
     # we will return all conversations with a message view
 
     display_messages = ''
+    messages = []
 
     for con in conversations:
         con['last-updated'] = ''
@@ -206,8 +207,16 @@ def format_conversations(conversations, inboxes, user, requested_user):
 
         if messages:
             con['last-updated'] = messages[len(messages) - 1]['created']
+            con['messages'] = [messages[len(messages) - 1]]
+        else:
+            con['messages'] = []
 
-        con['messages'] = messages
+        con['full-messages'] = messages
+
+    if conversations:
+        if not display_messages:
+            # if the page is loaded with now requested user then show the last messages
+            display_messages = conversations[len(conversations) - 1]['full-messages']
 
     return {'conversations': conversations,
             'display_messages': display_messages}

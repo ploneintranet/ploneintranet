@@ -38,26 +38,22 @@
                                 </div> -->
                                 <tal:block tal:content="convo/fullname" />
                             </div>
-                            <div class="social-messages"
-                                tal:condition="convo/messages">
+                            <tal:c tal:condition="convo/messages">
                                 <div class="social-message"
                                     tal:repeat="msg convo/messages">
-                                    <div class="social-message">
-                                        <tal:block tal:content="msg/text" />
-                                    </div>
+                                    <tal:block tal:content="msg/text" />
                                 </div>
-                            </div>
+                            </tal:c>
                         </div>
                     </tal:rep>
                     <div id="your-messages-inbox"><a tal:attributes="href string: ${context/portal_url}/@@social-inbox">Your Inbox</a></div>
                 </div>
                 <div id="conversation-content"
                     tal:condition="python: inbox['view'] != 'small'">
+                    <h2>Messages With</h2>
                     <tal:rep tal:repeat="msg inbox/display_message">
                         <div class="social-message">
-                            <div class="social-message">
-                                <tal:block tal:content="msg/text" />
-                            </div>
+                            <tal:block tal:content="msg/text" />
                         </div>
                     </tal:rep>
                 </div>
