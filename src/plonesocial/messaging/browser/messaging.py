@@ -186,8 +186,11 @@ def all_conversations(messages):
                  messages.get_conversations()]
     return conversations
 
-def format_conversations(conversations, inboxes, user):
+def format_conversations(conversations, inboxes, user, requested_user):
     # format conversations with messages in one multi-d array
+    # we will return all conversations with a message view
+
+    display_messages = ''
 
     for con in conversations:
         con['last-updated'] = ''
@@ -195,12 +198,18 @@ def format_conversations(conversations, inboxes, user):
         messages = [message.to_dict() for message in
                     conversation.get_messages()]
 
+        if requested_user & requested_user == con['username']:
+            # if a user has been passed then, show all messages
+            # to this user
+            display_messages = messages
+
         if messages:
             con['last-updated'] = messages[len(messages) - 1]['created']
 
         con['messages'] = messages
-        con['display_messages'] = ''
-    return conversations
+
+    return {'conversations': conversations,
+            'display_messages': display_messages}
 
 
 class YourMessagesView(BrowserView):
@@ -208,11 +217,12 @@ class YourMessagesView(BrowserView):
     def your_messages(self):
         # count to show unread messages
         user = api.user.get_current()
-        display_messages = []
+        display_message = []
 
         msgs = {'unread': '',
-                'conversations' : [],
+                'conversations': [],
                 'request': '',
+                'display_message': [],
                 'view': 'full'}
 
         if self.request.get('view'):
@@ -247,9 +257,13 @@ class YourMessagesView(BrowserView):
         requested_user = self.request.form.get('user')
 
         if conversations:
-            conversations = format_conversations(conversations, inboxes, user)
+            format_con = format_conversations(conversations, inboxes,
+                                              user, requested_user)
+            conversations = format_con['conversations']
+            display_message = format_con['display_messages']
 
         msgs['conversations'] = conversations
+        msgs['display_message'] = display_message
 
         return msgs
 
