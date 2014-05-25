@@ -180,11 +180,35 @@ class MessagingView(JsonView):
         return self.success({'result': result})
 
 
+def all_conversations(messages):
+    # grab all conversations for this users
+    conversations = [conversation.to_dict() for conversation in
+                 messages.get_conversations()]
+    return conversations
+
+def format_conversations(conversations, inboxes, user):
+    # format conversations with messages in one multi-d array
+
+    for con in conversations:
+        con['last-updated'] = ''
+        conversation = inboxes[user.id][con['username']]
+        messages = [message.to_dict() for message in
+                    conversation.get_messages()]
+
+        if messages:
+            con['last-updated'] = messages[len(messages) - 1]['created']
+
+        con['messages'] = messages
+        con['display_messages'] = ''
+    return conversations
+
+
 class YourMessagesView(BrowserView):
 
     def your_messages(self):
         # count to show unread messages
         user = api.user.get_current()
+        display_messages = []
 
         msgs = {'unread': '',
                 'conversations' : [],
@@ -211,27 +235,19 @@ class YourMessagesView(BrowserView):
         if not messages:
             return msgs
 
-        msg_ct = messages.new_messages_count
-
-        msgs['unread'] = msg_ct
+        msgs['unread'] = messages.new_messages_count
 
         if self.request.get('count'):
+            # return just the number of messages (unread)
             msgs['request'] = True
             return msgs
 
-        conversations = [conversation.to_dict() for conversation in
-                         messages.get_conversations()]
+        conversations = all_conversations(messages)
+
+        requested_user = self.request.form.get('user')
 
         if conversations:
-            for con in conversations:
-                con['last-updated'] = ''
-                conversation = inboxes[user.id][con['username']]
-                messages = [message.to_dict() for message in
-                            conversation.get_messages()]
-                if messages:
-                    con['last-updated'] = messages[len(messages) - 1]['created']
-
-                con['messages'] = messages
+            conversations = format_conversations(conversations, inboxes, user)
 
         msgs['conversations'] = conversations
 
