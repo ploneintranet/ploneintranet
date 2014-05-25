@@ -108,6 +108,7 @@
     padding: 10px;
 }
 
+#conversation-content .social-message-created,
 #inbox-messages .social-message-created {
     font-size: 90%;
     color: #3e3e3e;

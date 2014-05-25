@@ -180,10 +180,14 @@ class MessagingView(JsonView):
         return self.success({'result': result})
 
 
+def get_user_details(userid):
+    # user image return
+    return api.user.get(username=userid)
+
 def all_conversations(messages):
     # grab all conversations for this users
     conversations = [conversation.to_dict() for conversation in
-                 messages.get_conversations()]
+                     messages.get_conversations()]
     return conversations
 
 def format_conversations(conversations, inboxes, user, requested_user):
@@ -198,6 +202,10 @@ def format_conversations(conversations, inboxes, user, requested_user):
         conversation = inboxes[user.id][con['username']]
         messages = [message.to_dict() for message in
                     conversation.get_messages()]
+
+        for message in messages:
+            message['sender_details'] = get_user_details(message['sender'])
+            message['recipient_details'] = get_user_details(message['recipient'])
 
         if requested_user:
             if requested_user == con['username']:

@@ -53,6 +53,9 @@
                     <h2>Messages With</h2>
                     <tal:rep tal:repeat="msg inbox/display_message">
                         <div class="social-message">
+                            <div class="social-message-created">
+                                <tal:block tal:content="python: context.toLocalizedTime(msg['created'], long_format=0)" />
+                            </div>
                             <tal:block tal:content="msg/text" />
                         </div>
                     </tal:rep>
