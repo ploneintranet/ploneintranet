@@ -54,7 +54,6 @@
                 </div>
                 <div id="conversation-content"
                     tal:condition="python: inbox['view'] != 'small'">
-                    <h2>Messages With</h2>
                     <tal:rep tal:repeat="msg inbox/display_message">
                         <div class="social-message">
                             <div class="social-message-created">
