@@ -2,6 +2,8 @@ from collective.workspace.interfaces import IHasWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 
+from ploneintranet.workspace.browser.roster import merge_search_results
+
 
 class TestRoster(BaseTestCase):
     """
@@ -33,3 +35,31 @@ class TestRoster(BaseTestCase):
 
         self.assertIn('wsmember', html)
         self.assertIn('wsmember2', html)
+
+
+class TestEditRoster(BaseTestCase):
+    """
+    tests of the roster edit view
+    """
+
+    def test_merge_search_results(self):
+        """
+        Simple test to make sure search results are merging by key
+        """
+        search = [
+            {'id': 1, 'title': 'A'},
+            {'id': 1, 'title': 'B'},
+            {'id': 2, 'title': 'B'}
+        ]
+
+        res = merge_search_results(search, 'id')
+        self.assertEqual(
+            res,
+            [search[0], search[2]]
+        )
+
+        res = merge_search_results(search, 'title')
+        self.assertEqual(
+            res,
+            [search[0], search[1]]
+        )
