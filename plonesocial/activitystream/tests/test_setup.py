@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-
-from ..browser.interfaces import IPlonesocialActivitystreamLayer
 from ..testing import PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING
+from plone import api
 from plone.browserlayer.utils import registered_layers
 
 import unittest2 as unittest
 
 PROJECTNAME = 'plonesocial.activitystream'
-CSS_ID = '++resource++plonesocial.activitystream.stylesheets/activitystream.css'  # noqa
+CSS = (
+    '++resource++plonesocial.activitystream.stylesheets/activitystream.css',
+)
 
 
 class InstallTestCase(unittest.TestCase):
@@ -16,23 +17,25 @@ class InstallTestCase(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.qi = self.portal['portal_quickinstaller']
-        self.types = self.portal['portal_types']
 
     def test_product_is_installed(self):
-        installed = [p['id'] for p in self.qi.listInstalledProducts()]
-        self.assertTrue(PROJECTNAME in installed,
-                        'package appears not to have been installed')
+        qi = self.portal['portal_quickinstaller']
+        self.assertTrue(qi.isProductInstalled(PROJECTNAME))
 
-    def test_browser_layer_installed(self):
-        self.assertIn(IPlonesocialActivitystreamLayer, registered_layers())
+    def test_addon_layer(self):
+        layers = [l.getName() for l in registered_layers()]
+        self.assertIn('IPlonesocialActivitystreamLayer', layers)
 
     def test_cssregistry(self):
         resource_ids = self.portal.portal_css.getResourceIds()
-        self.assertIn(CSS_ID, resource_ids)
+        for id in CSS:
+            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
 
     def test_activitystream_portal_view_registered(self):
-        folder_views = self.types['Folder'].view_methods
+        types = self.portal['portal_types']
+        site_views = types['Plone Site'].view_methods
+        folder_views = types['Folder'].view_methods
+        self.assertIn('activitystream_portal', site_views)
         self.assertIn('activitystream_portal', folder_views)
 
 
@@ -43,19 +46,24 @@ class UninstallTestCase(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.qi = self.portal['portal_quickinstaller']
-        self.types = self.portal['portal_types']
-        self.qi.uninstallProducts(products=[PROJECTNAME])
+        with api.env.adopt_roles(['Manager']):
+            self.qi.uninstallProducts(products=[PROJECTNAME])
 
     def test_uninstalled(self):
         self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
 
-    def test_browser_layer_removed_uninstalled(self):
-        self.assertNotIn(IPlonesocialActivitystreamLayer, registered_layers())
+    def test_addon_layer_removed(self):
+        layers = [l.getName() for l in registered_layers()]
+        self.assertNotIn('IPlonesocialActivitystreamLayer', layers)
 
     def test_cssregistry_removed(self):
         resource_ids = self.portal.portal_css.getResourceIds()
-        self.assertNotIn(CSS_ID, resource_ids)
+        for id in CSS:
+            self.assertNotIn(id, resource_ids, '{0} not removed'.format(id))
 
     def test_activitystream_portal_view_removed(self):
-        folder_views = self.types['Folder'].view_methods
+        types = self.portal['portal_types']
+        site_views = types['Plone Site'].view_methods
+        folder_views = types['Folder'].view_methods
+        self.assertNotIn('activitystream_portal', site_views)
         self.assertNotIn('activitystream_portal', folder_views)
