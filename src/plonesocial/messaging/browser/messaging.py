@@ -185,11 +185,13 @@ def get_user_img(mtool, userid):
     # user image return
     return mtool.getPersonalPortrait(id=userid)
 
+
 def all_conversations(messages):
     # grab all conversations for this users
     conversations = [conversation.to_dict() for conversation in
                      messages.get_conversations()]
     return conversations
+
 
 def format_conversations(conversations, inboxes, user, requested_user, mtool):
     # format conversations with messages in one multi-d array
@@ -233,7 +235,7 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
 
 class YourMessagesView(BrowserView):
 
-    def your_messages(self):
+    def your_messages(self):  # noqa; avoid C901: is too complex (12)
         # count to show unread messages
         user = api.user.get_current()
         display_message = []
@@ -296,4 +298,3 @@ class YourMessagesView(BrowserView):
         msgs['display_message'] = display_message
 
         return msgs
-
