@@ -21,3 +21,10 @@ class TestNetworkTool(unittest.TestCase):
     def test_tool_available(self):
         tool = queryUtility(INetworkTool)
         self.assertTrue(INetworkGraph.providedBy(tool))
+
+    def test_tool_uninstalled(self):
+        qi = self.portal['portal_quickinstaller']
+        qi.uninstallProducts(products=['plonesocial.network'])
+        self.assertNotIn('plonesocial_network', self.portal)
+        tool = queryUtility(INetworkTool, None)
+        self.assertIsNone(tool)
