@@ -36,35 +36,35 @@ class TestStatusUpdate(unittest.TestCase):
 
     def test_text(self):
         su = StatusUpdate('foo bar')
-        self.assertEquals(su.text, 'foo bar')
+        self.assertEqual(su.text, 'foo bar')
 
     def test_tags(self):
         su = StatusUpdate('#foo bar #fuzzy #beer')
         tags = list(su.tags)
         tags.sort()
-        self.assertEquals(tags, ['beer', 'foo', 'fuzzy'])
+        self.assertEqual(tags, ['beer', 'foo', 'fuzzy'])
 
     def no_test_userid(self):
         """Doesn't work in test context"""
         su = StatusUpdate('foo bar')
-        self.assertEquals(su.id, TEST_USER_ID)
+        self.assertEqual(su.id, TEST_USER_ID)
 
     def test_creator(self):
         su = StatusUpdate('foo bar')
-        self.assertEquals(su.creator, 'test-user')
+        self.assertEqual(su.creator, 'test-user')
 
     def test_tag_comma(self):
         sa = StatusUpdate('test #foo,')
-        self.assertEquals(sa.tags, ['foo'])
+        self.assertEqual(sa.tags, ['foo'])
 
     def test_tag_interpunction(self):
         sa = StatusUpdate('test #foo,:.;!$')
-        self.assertEquals(sa.tags, ['foo'])
+        self.assertEqual(sa.tags, ['foo'])
 
     def test_context_is_not_IMicroblogContext(self):
         mockcontext = object()
         sa = StatusUpdate('foo', context=mockcontext)
-        self.assertEquals(None, sa.context_uuid)
+        self.assertIsNone(sa.context_uuid)
 
     def test_context_UUID(self):
         import Acquisition
@@ -75,7 +75,7 @@ class TestStatusUpdate(unittest.TestCase):
         mockcontext = MockContext()
         uuid = repr(mockcontext)
         sa = StatusUpdate('foo', context=mockcontext)
-        self.assertEquals(uuid, sa.context_uuid)
+        self.assertEqual(uuid, sa.context_uuid)
 
     def test_context_acquisition_UUID(self):
         import Acquisition
@@ -92,7 +92,7 @@ class TestStatusUpdate(unittest.TestCase):
         wrapped = a.__of__(b)
         uuid = repr(b)
         sa = StatusUpdate('foo', context=wrapped)
-        self.assertEquals(uuid, sa.context_uuid)
+        self.assertEqual(uuid, sa.context_uuid)
 
     def test_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
@@ -100,7 +100,7 @@ class TestStatusUpdate(unittest.TestCase):
                 pass
         sa = OldStatusUpdate('foo')
         # old data has new code accessors
-        self.assertEquals(None, sa.context_uuid)
+        self.assertIsNone(sa.context_uuid)
 
     def test_context_object_microblog(self):
         import ExtensionClass
@@ -109,7 +109,7 @@ class TestStatusUpdate(unittest.TestCase):
             implements(IMicroblogContext)
 
         sa = StatusUpdate('foo', context=MockMicroblogContext())
-        self.assertEquals(sa, sa.getObject())
+        self.assertEqual(sa, sa.getObject())
 
     def test_context_object_object(self):
         import Acquisition
@@ -125,4 +125,4 @@ class TestStatusUpdate(unittest.TestCase):
         b = MockMicroblogContext()
         wrapped = a.__of__(b)
         sa = StatusUpdate('foo', context=wrapped)
-        self.assertEquals(a, sa.getObject())
+        self.assertEqual(a, sa.getObject())
