@@ -11,7 +11,7 @@ class NotificationsViewlet(ViewletBase):
     index = ViewPageTemplateFile('notifications.pt')
 
     def available(self):
-        """Return True if the viewlet is available."""
+        """Return True if the user has new messages on her inbox."""
         locator = getUtility(IMessagingLocator)
         inboxes = locator.get_inboxes()
         username = api.user.get_current().getUserName()
