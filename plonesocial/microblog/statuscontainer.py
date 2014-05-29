@@ -135,8 +135,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._uuid_mapping.clear()
         return self._status_mapping.clear()
 
-    ## blocked IBTree methods to protect index consistency
-    ## (also not sensible for our use case)
+    # blocked IBTree methods to protect index consistency
+    # (also not sensible for our use case)
 
     def insert(self, key, value):
         raise NotImplementedError("Can't allow that to happen.")
@@ -150,7 +150,7 @@ class BaseStatusContainer(Persistent, Explicit):
     def update(self, collection):
         raise NotImplementedError("Can't allow that to happen.")
 
-    ## primary accessors
+    # primary accessors
 
     def get(self, key):
         self._check_permission("read")
@@ -177,7 +177,7 @@ class BaseStatusContainer(Persistent, Explicit):
     iterkeys = keys
     itervalues = values
 
-    ## user_* accessors
+    # user_* accessors
 
     def user_items(self, users, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key
@@ -213,7 +213,7 @@ class BaseStatusContainer(Persistent, Explicit):
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    ### context_* accessors
+    # context_* accessors
 
     def context_items(self, context,
                       min=None, max=None, limit=100, tag=None, nested=True):
@@ -257,7 +257,7 @@ class BaseStatusContainer(Persistent, Explicit):
         return longkeysortreverse(merged_set,
                                   min, max, limit)
 
-    ### helpers
+    # helpers
 
     def nested_uuids(self, context):
         catalog = getToolByName(context, 'portal_catalog')
@@ -383,7 +383,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         # only a one-second granularity, round upwards
         timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
         with LOCK:
-            #logger.info("Setting timer")
+            # logger.info("Setting timer")
             self._v_timer = threading.Timer(timeout,
                                             self._scheduled_autoflush)
             self._v_timer.start()
@@ -395,20 +395,20 @@ class QueuedStatusContainer(BaseStatusContainer):
             transaction.commit()
 
     def _autoflush(self):
-        #logger.info("autoflush")
+        # logger.info("autoflush")
         if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
     def flush_queue(self):
-        #logger.info("flush_queue")
+        # logger.info("flush_queue")
 
         with LOCK:
             # block autoflush
             self._mtime = int(time.time() * 1000)
             # cancel scheduled flush
             if self._v_timer is not None:
-                #logger.info("Cancelling timer")
+                # logger.info("Cancelling timer")
                 self._v_timer.cancel()
                 self._v_timer = None
 

@@ -51,7 +51,7 @@ class IStatusContainer(Interface):
     def clear():
         """Empty the status storage and all indexes."""
 
-    ## primary accessors
+    # primary accessors
 
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
@@ -81,7 +81,7 @@ class IStatusContainer(Interface):
     iterkeys = keys
     itervalues = values
 
-    ## user_* accessors
+    # user_* accessors
 
     def user_items(users, min=None, max=None, limit=100, tag=None):
         """Filter (key, IStatusUpdate) items by iterable of userids.
@@ -104,7 +104,7 @@ class IStatusContainer(Interface):
         tag 'foo' filters status text on hashtag '#foo'
         """
 
-    ## context_* accessors
+    # context_* accessors
 
     def context_items(context, min=None, max=None, limit=100, tag=None):
         """Filter (key, IStatusUpdate) items by IMicroblogContext object.

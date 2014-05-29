@@ -2,9 +2,6 @@ import unittest2 as unittest
 from zope.interface.verify import verifyClass
 from zope.interface import implements
 
-#from zope.component import createObject
-#from Acquisition import aq_base, aq_parent
-#from Products.CMFCore.utils import getToolByName
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from plonesocial.microblog.testing import\

@@ -55,7 +55,7 @@ class StatusUpdate(Persistent):
             self.context_object = context
 
 #########################################################################
-## FIXME - this now resolves to IMicroblogContext | should resolve object
+# FIXME - this now resolves to IMicroblogContext | should resolve object
 
     @property
     def context(self):

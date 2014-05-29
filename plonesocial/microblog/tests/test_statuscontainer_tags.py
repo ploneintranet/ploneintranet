@@ -38,7 +38,7 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
 class TestStatusContainer_Tags(unittest.TestCase):
 
-    ## user/tag accessors
+    # user/tag accessors
 
     def test_keys(self):
         container = StatusContainer()

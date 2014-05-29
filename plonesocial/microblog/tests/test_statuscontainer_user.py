@@ -39,7 +39,7 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
 class TestStatusContainer_User(unittest.TestCase):
 
-    ## user accessors
+    # user accessors
 
     def test_user_items_all(self):
         container = StatusContainer()
