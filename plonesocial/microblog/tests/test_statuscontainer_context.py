@@ -1,6 +1,8 @@
 import unittest2 as unittest
 from zope.interface import implements
+from zope.interface import alsoProvides
 import Acquisition
+from plone.uuid.interfaces import IUUID
 
 from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog.interfaces import IStatusContainer
@@ -8,8 +10,13 @@ from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog import statuscontainer
 from plonesocial.microblog import statusupdate
 
+from plone.app.testing import TEST_USER_ID, setRoles
 
-class StatusContainer(statuscontainer.BaseStatusContainer):
+from plonesocial.microblog.testing import \
+    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+
+
+class UUIDStatusContainer(statuscontainer.BaseStatusContainer):
     """Override actual implementation with unittest features"""
 
     implements(IStatusContainer)
@@ -17,11 +24,15 @@ class StatusContainer(statuscontainer.BaseStatusContainer):
     def _check_permission(self, perm="read"):
         pass
 
+
+class StatusContainer(UUIDStatusContainer):
+
     def _context2uuid(self, context):
         return repr(context)
 
 
-class StatusUpdate(statusupdate.StatusUpdate):
+class UUIDStatusUpdate(statusupdate.StatusUpdate):
+
     """Override actual implementation with unittest features"""
 
     implements(IStatusUpdate)
@@ -39,6 +50,9 @@ class StatusUpdate(statusupdate.StatusUpdate):
 
     def _init_creator(self):
         pass
+
+
+class StatusUpdate(UUIDStatusUpdate):
 
     def _context2uuid(self, context):
         return repr(context)
@@ -74,7 +88,8 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = [x[1] for x in container.context_items(mockcontext)]
+        values = [x[1] for x in container.context_items(mockcontext,
+                                                        nested=False)]
         self.assertEqual(1, len(values))
         self.assertEqual([su2], values)
 
@@ -87,13 +102,16 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = [x[1] for x in container.context_items(mockcontext)]
+        values = [x[1] for x in container.context_items(mockcontext,
+                                                        nested=False)]
         self.assertEqual([su3, su2], values)
         values = [x[1] for x in container.context_items(mockcontext,
-                                                        tag='bar')]
+                                                        tag='bar',
+                                                        nested=False)]
         self.assertEqual([su3, su2], values)
         values = [x[1] for x in container.context_items(mockcontext,
-                                                        tag='foo')]
+                                                        tag='foo',
+                                                        nested=False)]
         self.assertEqual([su2], values)
 
     def test_values_tag_context(self):
@@ -105,13 +123,16 @@ class TestStatusContainer(unittest.TestCase):
         container.add(su1)
         container.add(su2)
         container.add(su3)
-        values = list(container.context_values(mockcontext))
+        values = list(container.context_values(mockcontext,
+                                               nested=False))
         self.assertEqual([su3, su2], values)
         values = list(container.context_values(mockcontext,
-                                               tag='bar'))
+                                               tag='bar',
+                                               nested=False))
         self.assertEqual([su3, su2], values)
         values = list(container.context_values(mockcontext,
-                                               tag='foo'))
+                                               tag='foo',
+                                               nested=False))
         self.assertEqual([su2], values)
 
     def test_allowed_status_keys(self):
@@ -139,3 +160,75 @@ class TestStatusContainer(unittest.TestCase):
         values = [container.get(id)
                   for id in container._allowed_status_keys(uid_blacklist)]
         self.assertEqual([su0], values)
+
+
+class TestNestedStatusContainer(unittest.TestCase):
+
+    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.container = UUIDStatusContainer()
+        parent_id = self.portal.invokeFactory('Folder', 'parent')
+        self.parent_context = self.portal[parent_id]
+        alsoProvides(self.parent_context, IMicroblogContext)
+        self.parent_context.reindexObject()
+
+        child_id = self.parent_context.invokeFactory('Folder', 'child')
+        self.child_context = self.parent_context[child_id]
+        alsoProvides(self.child_context, IMicroblogContext)
+        self.child_context.reindexObject()
+
+        grandchild_id = self.child_context.invokeFactory('Folder',
+                                                         'grandchild')
+        self.grandchild_context = self.child_context[grandchild_id]
+        alsoProvides(self.grandchild_context, IMicroblogContext)
+        self.grandchild_context.reindexObject()
+
+    def test_nested_uuids(self):
+        self.assertEqual(self.container.nested_uuids(self.parent_context),
+                         [IUUID(self.parent_context),
+                          IUUID(self.child_context),
+                          IUUID(self.grandchild_context)])
+
+    def test_items_nestedcontext_child(self):
+        su1 = StatusUpdate('test')
+        su2 = StatusUpdate('foobar', context=self.child_context)
+        self.container.add(su1)
+        self.container.add(su2)
+        self.assertEqual(2, len(list(self.container.items())))
+
+    def test_items_nestedcontext_child_and_parent(self):
+        su1 = UUIDStatusUpdate('test', context=self.parent_context)
+        su2 = UUIDStatusUpdate('foobar', context=self.child_context)
+        self.container.add(su1)
+        self.container.add(su2)
+        items = self.container.context_items(self.parent_context, nested=True)
+        self.assertEqual(2, len(list(items)))
+
+    def test_items_nestedcontext_grandchild_and_child_and_parent(self):
+        su1 = UUIDStatusUpdate('test', context=self.parent_context)
+        su2 = UUIDStatusUpdate('foobar', context=self.child_context)
+        su3 = UUIDStatusUpdate('foobar', context=self.grandchild_context)
+        self.container.add(su1)
+        self.container.add(su2)
+        self.container.add(su3)
+        items = self.container.context_items(self.parent_context, nested=True)
+        self.assertEqual(3, len(list(items)))
+
+    def test_items_nestedcontext_grandchild_and_child_no_parent(self):
+        su2 = UUIDStatusUpdate('foobar', context=self.child_context)
+        su3 = UUIDStatusUpdate('foobar', context=self.grandchild_context)
+        self.container.add(su2)
+        self.container.add(su3)
+        items = self.container.context_items(self.parent_context, nested=True)
+        self.assertEqual(2, len(list(items)))
+
+    def XXtest_items_nestedcontext_filterparent_child_and_parent(self):
+        su1 = StatusUpdate('test', context=self.parent_context)
+        su2 = StatusUpdate('foobar', context=self.child_context)
+        self.container.add(su1)
+        self.container.add(su2)
+        items = self.container.context_items(self.parent_context)
+        self.assertEqual(2, len(list(items)))

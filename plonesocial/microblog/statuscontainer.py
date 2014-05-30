@@ -13,18 +13,16 @@ import transaction
 from Acquisition import Explicit
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from Products.CMFCore.utils import getToolByName
 
-try:
-    from zope.container.contained import ObjectAddedEvent
-except ImportError:
-    from zope.app.container.contained import ObjectAddedEvent
-
+from zope.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
 from plone.uuid.interfaces import IUUID
 
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
+from interfaces import IMicroblogContext
 from utils import longkeysortreverse
 
 logger = logging.getLogger('plonesocial.microblog')
@@ -137,8 +135,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._uuid_mapping.clear()
         return self._status_mapping.clear()
 
-    ## blocked IBTree methods to protect index consistency
-    ## (also not sensible for our use case)
+    # blocked IBTree methods to protect index consistency
+    # (also not sensible for our use case)
 
     def insert(self, key, value):
         raise NotImplementedError("Can't allow that to happen.")
@@ -152,7 +150,7 @@ class BaseStatusContainer(Persistent, Explicit):
     def update(self, collection):
         raise NotImplementedError("Can't allow that to happen.")
 
-    ## primary accessors
+    # primary accessors
 
     def get(self, key):
         self._check_permission("read")
@@ -179,7 +177,7 @@ class BaseStatusContainer(Persistent, Explicit):
     iterkeys = keys
     itervalues = values
 
-    ## user_* accessors
+    # user_* accessors
 
     def user_items(self, users, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key
@@ -215,34 +213,58 @@ class BaseStatusContainer(Persistent, Explicit):
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    ### context_* accessors
+    # context_* accessors
 
     def context_items(self, context,
-                      min=None, max=None, limit=100, tag=None):
+                      min=None, max=None, limit=100, tag=None, nested=True):
         return ((key, self.get(key)) for key
-                in self.context_keys(context, min, max, limit, tag))
+                in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_values(self, context,
-                       min=None, max=None, limit=100, tag=None):
+                       min=None, max=None, limit=100, tag=None, nested=True):
         return (self.get(key) for key
-                in self.context_keys(context, min, max, limit, tag))
+                in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
-                     min=None, max=None, limit=100, tag=None):
+                     min=None, max=None, limit=100, tag=None, nested=True):
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
-        uuid = self._context2uuid(context)
-        if uuid not in self._uuid_mapping:
-            return ()
+
+        if nested:
+            # hits portal_catalog
+            nested_uuids = [uuid for uuid in self.nested_uuids(context)
+                            if uuid in self._uuid_mapping]
+            if not nested_uuids:
+                return ()
+
+        else:
+            # used in test_statuscontainer_context for non-integration tests
+            uuid = self._context2uuid(context)
+            if uuid not in self._uuid_mapping:
+                return ()
+            nested_uuids = [uuid]
 
         # tag and uuid filters handle None inputs gracefully
-        keyset1 = self._keys_tag(tag, self.allowed_status_keys())
-        keyset2 = self._keys_uuid(uuid, keyset1)
-        return longkeysortreverse(keyset2,
+        keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
+        # calculate the tag+uuid intersection for each uuid context
+
+        keyset_uuids = [self._keys_uuid(uuid, keyset_tag)
+                        for uuid in nested_uuids]
+
+        # merge the intersections
+        merged_set = LLBTree.multiunion(keyset_uuids)
+        return longkeysortreverse(merged_set,
                                   min, max, limit)
 
-    ### helpers
+    # helpers
+
+    def nested_uuids(self, context):
+        catalog = getToolByName(context, 'portal_catalog')
+        results = catalog(path={'query': '/'.join(context.getPhysicalPath()),
+                                'depth': -1},
+                          object_implements=IMicroblogContext)
+        return([item.UID for item in results])
 
     def _keys_tag(self, tag, keyset):
         if tag is None:
@@ -361,7 +383,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         # only a one-second granularity, round upwards
         timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
         with LOCK:
-            #logger.info("Setting timer")
+            # logger.info("Setting timer")
             self._v_timer = threading.Timer(timeout,
                                             self._scheduled_autoflush)
             self._v_timer.start()
@@ -373,20 +395,20 @@ class QueuedStatusContainer(BaseStatusContainer):
             transaction.commit()
 
     def _autoflush(self):
-        #logger.info("autoflush")
+        # logger.info("autoflush")
         if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
     def flush_queue(self):
-        #logger.info("flush_queue")
+        # logger.info("flush_queue")
 
         with LOCK:
             # block autoflush
             self._mtime = int(time.time() * 1000)
             # cancel scheduled flush
             if self._v_timer is not None:
-                #logger.info("Cancelling timer")
+                # logger.info("Cancelling timer")
                 self._v_timer.cancel()
                 self._v_timer = None
 

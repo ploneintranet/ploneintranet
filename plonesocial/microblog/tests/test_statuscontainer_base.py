@@ -79,7 +79,7 @@ class TestStatusContainer(unittest.TestCase):
         container.clear()
         self.assertEqual(0, len(list(container.items())))
 
-    ## primary accessors
+    # primary accessors
 
     def test_get(self):
         container = StatusContainer()

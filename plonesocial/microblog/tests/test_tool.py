@@ -7,6 +7,7 @@ from AccessControl import getSecurityManager
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 
+from plone import api
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone.app.testing import login, logout
 
@@ -25,11 +26,18 @@ class TestMicroblogTool(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_tool_available(self):
         tool = queryUtility(IMicroblogTool)
         self.assertTrue(IStatusContainer.providedBy(tool))
+
+    def test_tool_uninstalled(self):
+        qi = self.portal['portal_quickinstaller']
+        with api.env.adopt_roles(['Manager']):
+            qi.uninstallProducts(products=['plonesocial.microblog'])
+        self.assertNotIn('plonesocial_microblog', self.portal)
+        tool = queryUtility(IMicroblogTool, None)
+        self.assertIsNone(tool)
 
 
 class TestMicroblogToolContextBlacklisting(unittest.TestCase):
@@ -42,20 +50,16 @@ class TestMicroblogToolContextBlacklisting(unittest.TestCase):
         workflowTool = getToolByName(self.portal, 'portal_workflow')
         workflowTool.setDefaultChain('simple_publication_workflow')
         workflowTool.updateRoleMappings()
-        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
-        f1 = self.portal['f1']
+        f1 = api.content.create(self.portal, 'Folder', 'f1', title=u'Folder 1')
         directlyProvides(f1, IMicroblogContext)
         f1.reindexObject()
-        self.portal.invokeFactory('Folder', 'f2', title=u"Folder 2")
-        f2 = self.portal['f2']
+        f2 = api.content.create(self.portal, 'Folder', 'f2', title=u'Folder 2')
         directlyProvides(f2, IMicroblogContext)
         f2.reindexObject()
 
-        workflowTool.doActionFor(f2, 'publish')
-        self.assertEqual(workflowTool.getInfoFor(f1, 'review_state'),
-                         'private')
-        self.assertEqual(workflowTool.getInfoFor(f2, 'review_state'),
-                         'published')
+        api.content.transition(f2, 'publish')
+        self.assertEqual(api.content.get_state(f1), 'private')
+        self.assertEqual(api.content.get_state(f2), 'published')
 
         tool = queryUtility(IMicroblogTool)
         self.su1 = su1 = StatusUpdate('test #foo', f1)
@@ -66,8 +70,7 @@ class TestMicroblogToolContextBlacklisting(unittest.TestCase):
         tool.flush_queue()
 
         # set up new user
-        acl_users = getToolByName(self.portal, 'acl_users')
-        acl_users.userFolderAddUser('user1', 'secret', ['Member'], [])
+        api.user.create('user1@foo.bar', username='user1', password='secret')
 
     def tearDown(self):
         time.sleep(1)  # allow for thread cleanup
@@ -80,7 +83,7 @@ class TestMicroblogToolContextBlacklisting(unittest.TestCase):
         logout()
         login(self.portal, 'user1')
         sm = getSecurityManager()
-        user = getSecurityManager().getUser()
+        user = api.user.get_current()
         self.assertEqual(user.getId(), 'user1')
         self.assertFalse(sm.checkPermission(View, self.portal['f1']))
         self.assertTrue(sm.checkPermission(View, self.portal['f2']))

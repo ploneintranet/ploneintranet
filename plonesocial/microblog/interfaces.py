@@ -18,7 +18,10 @@ class IStatusUpdate(Interface):
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))
     tags = Attribute("Tags/keywords")
-    context_UUID = Attribute("UUID of context (e.g. a plonesocial.space)")
+    # the UUID of the IMicroblogContext
+    context_UUID = Attribute("UUID of IMicroblogContext (e.g. a workspace)")
+    # actual object context
+    context_object = Attribute("UUID of context object (e.g. a Page)")
 
 
 class IStatusContainer(Interface):
@@ -48,7 +51,7 @@ class IStatusContainer(Interface):
     def clear():
         """Empty the status storage and all indexes."""
 
-    ## primary accessors
+    # primary accessors
 
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
@@ -78,7 +81,7 @@ class IStatusContainer(Interface):
     iterkeys = keys
     itervalues = values
 
-    ## user_* accessors
+    # user_* accessors
 
     def user_items(users, min=None, max=None, limit=100, tag=None):
         """Filter (key, IStatusUpdate) items by iterable of userids.
@@ -101,7 +104,7 @@ class IStatusContainer(Interface):
         tag 'foo' filters status text on hashtag '#foo'
         """
 
-    ## context_* accessors
+    # context_* accessors
 
     def context_items(context, min=None, max=None, limit=100, tag=None):
         """Filter (key, IStatusUpdate) items by IMicroblogContext object.
