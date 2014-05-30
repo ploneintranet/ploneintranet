@@ -2,7 +2,6 @@ from zope.interface import implements
 from Products.CMFCore.utils import UniqueObject
 from Products.CMFCore.utils import getToolByName
 from OFS.SimpleItem import SimpleItem
-from plone.uuid.interfaces import IUUID
 
 from interfaces import IMicroblogTool
 from interfaces import IMicroblogContext
@@ -30,7 +29,7 @@ class MicroblogTool(UniqueObject, SimpleItem, QueuedStatusContainer):
         marker = IMicroblogContext.__identifier__
         results = catalog.searchResults(object_provides=marker)
         # SiteRoot context is NOT whitelisted
-        whitelist = [IUUID(x.getObject()) for x in results]
+        whitelist = [x.UID for x in results]
         # SiteRoot context is not UUID indexed, so not blacklisted
         blacklist = [x for x in self._uuid_mapping.keys()
                      if x not in whitelist]
