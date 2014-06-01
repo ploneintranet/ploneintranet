@@ -43,6 +43,7 @@
                                     tal:attributes="href string:${context/portal_url}/@@social-inbox?user=${convo/username}">
                                     <tal:block tal:replace="structure msg/sender_img" />
                                     <tal:block tal:content="msg/text" />
+                                    <div class="clearall"></div>
                                 </a>
                             </tal:c>
                         </div>

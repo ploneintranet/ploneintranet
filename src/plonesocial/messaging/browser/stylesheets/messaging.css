@@ -176,3 +176,7 @@ a.social-message {
 #form-buttons-send.btn {
     width: 110px;
 }
+
+#inbox-messages a.social-message:last-child {
+    border-bottom: 0px;
+}
