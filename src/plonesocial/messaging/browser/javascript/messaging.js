@@ -1,4 +1,20 @@
 
+var recipient = ''
+
+
+function messaging_ajax_post (url, data) {
+    // default ajax query
+    $.ajax({
+       type: "POST",
+       url: url,
+       data: data,
+       success: function(data) {
+
+       }
+    });
+}
+
+
 function messaging_ajax (url, replaceid, datatype, contentid) {
     // default ajax query
     $.ajax({
@@ -11,18 +27,42 @@ function messaging_ajax (url, replaceid, datatype, contentid) {
                    add_inbox_count(data);
                }
                else if (contentid) {
-                   $(replaceid).append($(data).find('#content').html());
+                   $(replaceid).replaceWith($(data).find('#content').html());
                }
                else {
                    $(replaceid).replaceWith(data);
                }
            }
            send_new_message();
+           format_send_form()
 
        }
     });
 }
 
+function format_send_form() {
+    // format send message form when reply button has been activated
+    if (('#form-widgets-recipient').length > 0) {
+        $('#conversation-content h1').remove();
+        $('#form-widgets-recipient').val(recipient);
+        $('#formfield-form-widgets-recipient label').hide();
+        var recipient_input = $('#form-widgets-recipient').clone();
+        $(recipient_input).attr('type','hidden');
+        $('#form-widgets-recipient').remove();
+        $('#formfield-form-widgets-recipient').append(recipient_input);
+        $('#formfield-form-widgets-recipient').parent().submit(function(event){
+            event.preventDefault();
+            reload_messages();
+        });
+    }
+}
+
+function reload_messages() {
+    // show full view of the inbox
+    $('#content').empty();
+    messaging_ajax('@@social-inbox?view=full', '#content', 'html', true);
+    $('#your-messages').toggle();
+}
 
 function message_click() {
     // show mini view of the inbox
@@ -50,8 +90,8 @@ function send_new_message(){
 }
 
 
-function messages_full() {
-    // show all messages
+function send_message_full() {
+    // apply send message screen to main content
     $('#conversation-content').empty();
     messaging_ajax('@@messaging-send', '#conversation-content', 'html', true);
     return false;
@@ -60,7 +100,7 @@ function messages_full() {
 
 $(document).ready(function(){
 
-    $('#inbox-new-message-full').live('click', messages_full);
+    $('#inbox-new-message-full').live('click', send_message_full);
 
     if ($('#personaltools-plone_social_menu').length > 0) {
         // if there is a social menu link, then add number of unread messages
@@ -71,5 +111,11 @@ $(document).ready(function(){
         // if there is a inbox icon, then load the messages inbox details
         messaging_ajax('@@your-messages', '#show-your-messages', 'html');
         $('#your-messages-icon').live('click', message_click);
+    }
+
+    if ($('#inbox-reply-message-full').length > 0) {
+        // if there is a reply button, replace it with the message form
+        recipient = $('#social-reply-to').text();
+        messaging_ajax($('#inbox-reply-message-full a').attr('href'), '#inbox-reply-message-full', 'html', true);
     }
 });

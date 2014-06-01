@@ -2,6 +2,7 @@
     background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
     width: 25px;
     height: 25px;
+    padding: 4px;
     line-height: 1;
     cursor: pointer;
 }
@@ -58,22 +59,28 @@
     background-image: -webkit-linear-gradient(top, #337CA1, #3d94c0);
 }
 
+#social-messages #inbox-reply-message-full,
 #social-messages #inbox-new-message-full  {
     float: right;
     width: 95px;
 }
 
+#social-messages #inbox-reply-message-full a,
 #social-messages #inbox-new-message-full a {
     color: #fff;
     text-decoration: none;
     border: 0px;
 }
 
+#social-messages #inbox-reply-message-full a:hover,
 #social-messages #inbox-new-message-full a:hover {
     color: #fff;
     text-decoration: none;
 }
 
+#social-messages #inbox-reply-message-full{
+    margin: 10px 0px;
+}
 .social-message .clearall,
 #inbox-messages .clearall {
     clear: both;
@@ -140,6 +147,7 @@
     background: #fff;
 }
 
+#social-messages #content-core,
 #conversation-content {
     float: left;
     width: 60%;

@@ -64,6 +64,11 @@
                             <div class="clearall"></div>
                         </div>
                     </tal:rep>
+                    <div id="inbox-reply-message-full" class="btn">
+                        <a href="@@messaging-send">Reply to
+                            <span id="social-reply-to" tal:content="inbox/conv_with" />
+                        </a>
+                    </div>
                 </div>
             </tal:def>
         </tal:c>

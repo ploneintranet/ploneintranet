@@ -199,6 +199,7 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
 
     display_messages = ''
     messages = []
+    conv_with_user = ''
 
     for con in conversations:
         con['last-updated'] = ''
@@ -215,6 +216,7 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
                 # if a user has been passed then, show all messages
                 # to this user
                 display_messages = messages
+                conv_with_user = con['username']
 
         if messages:
             con['last-updated'] = messages[len(messages) - 1]['created']
@@ -230,7 +232,8 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
             display_messages = conversations[len(conversations) - 1]['full-messages']
 
     return {'conversations': conversations,
-            'display_messages': display_messages}
+            'display_messages': display_messages,
+            'conv_with': conv_with_user}
 
 
 class YourMessagesView(BrowserView):
@@ -240,6 +243,7 @@ class YourMessagesView(BrowserView):
         user = api.user.get_current()
         display_message = []
         show_inbox_count = False
+        conversation_with = ''
 
         msgs = {'unread': '',
                 'conversations': [],
@@ -293,8 +297,11 @@ class YourMessagesView(BrowserView):
                                               user, requested_user, mtool)
             conversations = format_con['conversations']
             display_message = format_con['display_messages']
+            conversation_with = format_con['conv_with']
 
         msgs['conversations'] = conversations
         msgs['display_message'] = display_message
+        msgs['conv_with'] = conversation_with
+
 
         return msgs
