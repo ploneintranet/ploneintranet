@@ -180,3 +180,22 @@ a.social-message {
 #inbox-messages a.social-message:last-child {
     border-bottom: 0px;
 }
+
+@media screen and (max-width:1040px) {
+
+    #social-messages #inbox-messages,
+    #social-messages #content-core,
+    #conversation-content {
+        width: 48%;
+    }
+}
+
+
+@media screen and (max-width:560px) {
+
+    #social-messages #inbox-messages,
+    #social-messages #content-core,
+    #conversation-content {
+        width: 100%;
+    }
+}
