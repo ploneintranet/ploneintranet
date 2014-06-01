@@ -230,6 +230,7 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
         if not display_messages:
             # if the page is loaded with now requested user then show the last messages
             display_messages = conversations[len(conversations) - 1]['full-messages']
+            conv_with_user = conversations[len(conversations) - 1]['username']
 
     return {'conversations': conversations,
             'display_messages': display_messages,

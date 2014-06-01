@@ -9,6 +9,7 @@ function messaging_ajax_post (url, data) {
        url: url,
        data: data,
        success: function(data) {
+          console.log(data);
 
        }
     });
@@ -35,7 +36,6 @@ function messaging_ajax (url, replaceid, datatype, contentid) {
            }
            send_new_message();
            format_send_form()
-
        }
     });
 }
@@ -50,10 +50,7 @@ function format_send_form() {
         $(recipient_input).attr('type','hidden');
         $('#form-widgets-recipient').remove();
         $('#formfield-form-widgets-recipient').append(recipient_input);
-        $('#formfield-form-widgets-recipient').parent().submit(function(event){
-            event.preventDefault();
-            reload_messages();
-        });
+        reply_message();
     }
 }
 
@@ -61,7 +58,10 @@ function reload_messages() {
     // show full view of the inbox
     $('#content').empty();
     messaging_ajax('@@social-inbox?view=full', '#content', 'html', true);
-    $('#your-messages').toggle();
+    //$('#your-messages').toggle();
+    messaging_ajax($('#inbox-reply-message-full a').attr('href'), '#inbox-reply-message-full', 'html', true);
+    console.log('##### HERE ###### ');
+    return false;
 }
 
 function message_click() {
@@ -87,6 +87,18 @@ function send_new_message(){
         subtype: 'ajax',
         filter: '#content > *',
     });
+}
+
+
+function reply_message(){
+    // reply message handler, calls ajax post script
+    $("#conversation-content form").on("submit", function(event) {
+        var data = $(this).serialize()
+        data = data + '&form.buttons.send=Send Message';
+        var url = $(this).attr('action');
+        event.preventDefault();
+        messaging_ajax_post(url, data);
+    })
 }
 
 
