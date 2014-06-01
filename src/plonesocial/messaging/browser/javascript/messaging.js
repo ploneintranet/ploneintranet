@@ -35,7 +35,8 @@ function messaging_ajax (url, replaceid, datatype, contentid) {
                }
            }
            send_new_message();
-           format_send_form()
+           format_send_form();
+           add_btn_class();
        }
     });
 }
@@ -110,9 +111,17 @@ function send_message_full() {
 }
 
 
+function add_btn_class() {
+    // add class btn to input
+    $('.submit-widget').addClass('btn');
+}
+
+
 $(document).ready(function(){
 
     $('#inbox-new-message-full').live('click', send_message_full);
+
+    add_btn_class();
 
     if ($('#personaltools-plone_social_menu').length > 0) {
         // if there is a social menu link, then add number of unread messages

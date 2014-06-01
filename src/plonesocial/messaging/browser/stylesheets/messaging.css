@@ -172,3 +172,7 @@ a.social-message {
 .no-conversations {
     padding: 5px 10px;
 }
+
+#form-buttons-send.btn {
+    width: 110px;
+}
