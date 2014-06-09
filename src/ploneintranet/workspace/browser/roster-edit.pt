@@ -47,7 +47,7 @@
         <div id="edit-roster-container">
         <table metal:define-macro="edit-roster" id="edit-roster"
                class="listing"
-               summary="Current sharing permissions"
+               summary="Current users"
                tal:define="users view/users;"
                i18n:attributes="summary rostered-users;">
 
