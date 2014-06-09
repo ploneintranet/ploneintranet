@@ -130,8 +130,10 @@ class TransferMembershipForm(form.SchemaForm):
         move = data.get("move", False)
         removable = []
         for member in ws.members:
-            user_id = api.user.get(username=member).getId()
-            other_ws.add_to_team(user=user_id)
+            user = api.user.get(username=member)
+            if user is not None:
+                user_id = user.getId()
+                other_ws.add_to_team(user=user_id)
             removable.append(member)
 
         if move:
