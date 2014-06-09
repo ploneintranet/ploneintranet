@@ -10,6 +10,7 @@ src/ploneintranet.simplesharing.egg-info/not-zip-safe
 src/ploneintranet.simplesharing.egg-info/requires.txt
 src/ploneintranet.simplesharing.egg-info/top_level.txt
 src/ploneintranet/simplesharing/__init__.py
+src/ploneintranet/simplesharing/behaviors.py
 src/ploneintranet/simplesharing/testing.py
 src/ploneintranet/simplesharing/tests/__init__.py
 src/ploneintranet/simplesharing/tests/test_example.py
