@@ -18,4 +18,10 @@
     factory=".behaviors.Tags"
     />
 
+  <utility
+    name="ploneintranet.simplesharing.workflow_states_vocab"
+    component=".vocabularies.workflow_states_vocab"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>
