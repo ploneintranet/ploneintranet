@@ -22,6 +22,11 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.workspace,
             context=configurationContext
         )
+        xmlconfig.includeOverrides(
+            configurationContext,
+            'overrides.zcml',
+            package=ploneintranet.workspace,
+        )
 
         import collective.workspace
         xmlconfig.file(
