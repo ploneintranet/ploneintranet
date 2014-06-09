@@ -4,6 +4,9 @@ from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
+from zope.event import notify
+
+from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 
 
 class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
@@ -56,5 +59,10 @@ class WorkspaceFolder(Container):
 
     @participant_policy.setter
     def participant_policy(self, value):
-        # TODO - change the policy needs to update all users
-        self._participant_policy = value
+        """ Changing participation policy fires a
+        "ParticipationPolicyChanged" event
+        """
+        old_policy = self.participant_policy
+        new_policy = value
+        self._participant_policy = new_policy
+        notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))

@@ -36,6 +36,14 @@
      handler=".subscribers.workspace_added"
      />
 
+  <!-- Subscribe to ParticipationPolicyChangedEvent in order to
+       update existing users-->
+  <subscriber
+     for=".workspacefolder.IWorkspaceFolder
+          .interfaces.IParticipationPolicyChangedEvent"
+     handler=".subscribers.participation_policy_changed"
+     />
+
   <adapter
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      provides="collective.workspace.interfaces.IWorkspace"

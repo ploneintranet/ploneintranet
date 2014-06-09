@@ -91,6 +91,37 @@ class TestPolicy(BaseTestCase):
         workspace.participant_policy = "Producers"
         self.assertEqual(workspace.participant_policy, "Producers")
 
+    def test_workspace_policy_change_updates_existing_members(self):
+        """
+        Test that changing workspace policy updates all existing members
+        with a new group.
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            "ploneintranet.workspace.workspacefolder",
+            "example-workspace",
+            title="A workspace")
+        # check that accessing setting for the first time doesn't fail
+        workspace.participant_policy = "Producers"
+        self.assertEqual(workspace.participant_policy, "Producers")
+
+        username = "member_username"
+        api.user.create(username=username, email="test@test.com")
+        self.add_user_to_workspace(username, workspace)
+        group = api.group.get("Producers:" + api.content.get_uuid(workspace))
+        self.assertIn(api.user.get(username=username),
+                      group.getAllGroupMembers())
+        workspace.participant_policy = "Consumers"
+        self.assertNotIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers())
+
+        group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers())
+
     def test_members_are_correctly_added_to_group_by_policy(self):
         """
         Check that members are correctly assigned to groups
