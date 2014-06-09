@@ -1,0 +1,40 @@
+Metadata-Version: 1.1
+Name: ploneintranet.simplesharing
+Version: 0.1
+Summary: In-line sharing/collaboration controls whilst editing content
+Home-page: http://svn.plone.org/svn/collective/
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: gpl
+Description: .. contents::
+        
+        Introduction
+        ============
+        
+        
+        Contributors
+        ============
+        
+        Note:  place names and roles of the people who contribute to this package
+               in this file, one to a line, like so:
+        
+        - Joe Schmoe, Original Author
+        - Bob Slob, contributed monkey patches
+        - Jane Main, wrote flibberty module
+        
+        Changelog
+        =========
+        
+        0.1-dev (unreleased)
+        --------------------
+        
+        - Package created using templer
+          []
+        
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

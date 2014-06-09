@@ -1,0 +1,16 @@
+README.txt
+setup.py
+src/ploneintranet/__init__.py
+src/ploneintranet.simplesharing.egg-info/PKG-INFO
+src/ploneintranet.simplesharing.egg-info/SOURCES.txt
+src/ploneintranet.simplesharing.egg-info/dependency_links.txt
+src/ploneintranet.simplesharing.egg-info/entry_points.txt
+src/ploneintranet.simplesharing.egg-info/namespace_packages.txt
+src/ploneintranet.simplesharing.egg-info/not-zip-safe
+src/ploneintranet.simplesharing.egg-info/requires.txt
+src/ploneintranet.simplesharing.egg-info/top_level.txt
+src/ploneintranet/simplesharing/__init__.py
+src/ploneintranet/simplesharing/testing.py
+src/ploneintranet/simplesharing/tests/__init__.py
+src/ploneintranet/simplesharing/tests/test_example.py
+src/ploneintranet/simplesharing/tests/test_robot.py
