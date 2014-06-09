@@ -1,24 +1,21 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet.simplesharing">
 
   <five:registerPackage package="." initialize=".initialize"/>
 
   <include package="plone.behavior" file="meta.zcml"/>
-
   <include package="plone.directives.form" file="meta.zcml"/>
-
   <include package="plone.directives.form"/>
 
   <plone:behavior
-      title="GTags"
-      description="Use the Dublin Core Subject (keywords) field for Google Code like tags."
-      provides=".behaviors.ITags"
-      factory=".behaviors.Tags"
-      />
-
-  <includeDependencies package="."/>
+    title="SimpleSharing"
+    description=""
+    provides=".behaviors.ITags"
+    factory=".behaviors.Tags"
+    />
 
 </configure>

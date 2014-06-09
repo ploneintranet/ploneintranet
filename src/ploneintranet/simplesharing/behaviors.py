@@ -1,13 +1,15 @@
-from rwproperty import getproperty, setproperty
-
-from zope.interface import implements, alsoProvides
-from zope.component import adapts
-
 from plone.directives import form
-from collective.gtags.field  import Tags
+from zope.interface import alsoProvides
+from zope import schema
 
-from Products.CMFCore.interfaces import IDublinCore
-
-from collective.gtags import MessageFactory as _
 
 class ISimpleSharing(form.Schema):
+
+    visibility = schema.Choice(
+        title=u"Visibility",
+        description=u"Who should see this document?",
+        vocabulary=workflow_states,
+    )
+
+
+alsoProvides(ISimpleSharing, form.IFormFieldProvider)
