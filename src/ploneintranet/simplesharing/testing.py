@@ -22,13 +22,6 @@ class PloneintranetsimplesharingLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
-        # Install products that use an old-style initialize() function
-        #z2.installProduct(app, 'Products.PloneFormGen')
-
-#    def tearDownZope(self, app):
-#        # Uninstall products installed above
-#        z2.uninstallProduct(app, 'Products.PloneFormGen')
-
 
 PLONEINTRANET_SIMPLESHARING_FIXTURE = PloneintranetsimplesharingLayer()
 PLONEINTRANET_SIMPLESHARING_INTEGRATION_TESTING = IntegrationTesting(
