@@ -1,13 +1,18 @@
+import re
+
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.directives import form
 from z3c.form import button
 from zope import schema
+from zope.component import getUtility
 from zope.interface import directlyProvides
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
+from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.workspace.utils import get_storage, send_email
 
 
 visibility_vocab = SimpleVocabulary([
@@ -144,3 +149,92 @@ class TransferMembershipForm(form.SchemaForm):
 
         self.updateWidgets()
         self.status = "Members transfered."
+
+
+class IInviteForm(form.Schema):
+    email = schema.TextLine(
+        title=_(u"Enter email address"),
+        required=True,
+        )
+
+
+class InviteForm(form.SchemaForm):
+    schema = IInviteForm
+    ignoreContext = True
+
+    label = u"Invitations"
+
+    @button.buttonAndHandler(u"Ok")
+    def handleApply(self, action):
+        data = self.extractData()[0]
+        given_email = data.get("email", "")
+        # simple regex to check if email has a @ and "." and doesn't
+        # have a whitespace
+        if not re.match(r"[^\s@]+@[\S]+\.[\S]+", given_email):
+            api.portal.show_message(
+                'Doesn\'t appear to be a valid email, try again?',
+                self.request,
+                type="error",
+            )
+            return
+        ws = IWorkspace(self.context)
+        for name in ws.members:
+            member = api.user.get(username=name)
+            if member is None:
+                continue
+            if member.getProperty("email") == given_email:
+                api.portal.show_message(
+                    "User already a member of this workspace",
+                    self.request,
+                    type="warn",
+                )
+                return
+
+        mtool = api.portal.get_tool(name="portal_membership")
+        existing_member = None
+        for member in mtool.listMembers():
+            if member is None:
+                continue
+            email = member.getProperty("email")
+            if given_email == email:
+                existing_member = member.getUserName()
+                break
+        else:
+            # given email is not existing user on the site
+            # so far we have no story about this, therefore
+            # do nothing in this case
+            api.portal.show_message(
+                "This email doesn't belong to any user of this site",
+                self.request,
+                type="warn",
+            )
+            return
+
+        token_util = getUtility(ITokenUtility)
+        token_id, token_url = token_util.generate_new_token(
+            redirect_path="resolveuid/%s" % (ws.context.UID(),))
+        storage = get_storage()
+        storage[token_id] = (ws.context.UID(), existing_member)
+        message = """Congratulations! You've been invited to join %s
+
+The following is a unique URL tied to your email address (%s).
+Clicking the link will make you a member of a %s workspace automatically.
+
+%s
+
+Good luck,
+Yours
+
+***** Email confidentiality notice *****
+This message is private and confidential. If you have received this
+message in error, please notify us and UNREAD it.
+""" % (self.context.title, given_email, self.context.title, token_url)
+
+        subject = 'You are invited to "%s"' % self.context.title
+
+        send_email(given_email, subject, message)
+        api.portal.show_message(
+            'Invitation sent to %s' % given_email,
+            self.request,
+        )
+        return

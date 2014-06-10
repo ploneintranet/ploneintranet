@@ -2,6 +2,9 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
+from zope.globalrequest import getRequest
+
+from ploneintranet.workspace.utils import get_storage
 
 
 def workspace_added(ob, event):
@@ -36,3 +39,37 @@ def participation_policy_changed(ob, event):
         groups = workspace.get(member.getId()).groups
         groups -= set([event.old_policy])
         groups.add(event.new_policy)
+
+
+def invitation_accepted(event):
+    request = getRequest()
+    storage = get_storage()
+    ws_uid, username = storage[event.token_id]
+    storage[event.token_id]
+    acl_users = api.portal.get_tool('acl_users')
+    acl_users.updateCredentials(
+        request,
+        request.response,
+        username,
+        None
+    )
+    catalog = api.portal.get_tool(name="portal_catalog")
+    brain = catalog.unrestrictedSearchResults(UID=ws_uid)[0]
+    with api.env.adopt_roles(["Manager"]):
+        ws = IWorkspace(brain.getObject())
+        for name in ws.members:
+            member = api.user.get(username=name)
+            if member is None:
+                continue
+            if member.getUserName() == username:
+                api.portal.show_message(
+                    'Oh boy, oh boy, you are already a member',
+                    request,
+                )
+                break
+        else:
+            ws.add_to_team(user=username)
+            api.portal.show_message(
+                'Welcome to our family, Stranger',
+                request,
+            )

@@ -44,6 +44,11 @@
      handler=".subscribers.participation_policy_changed"
      />
 
+  <subscriber
+    for="ploneintranet.invitations.events.ITokenAccepted"
+    handler=".subscribers.invitation_accepted"
+    />
+
   <adapter
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      provides="collective.workspace.interfaces.IWorkspace"

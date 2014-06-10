@@ -27,5 +27,15 @@
       <element value="ploneintranet.workspace: Manage workspace"/>
     </property>
   </object>
+
+  <!-- Add invitations tab on our workspace-->
+  <object name="ws_invitations" meta_type="CMF Action" i18n:domain="plone">
+    <property name="title" i18n:translate="ws_invitations_tab">Invitations</property>
+    <property name="url_expr">string:${context/absolute_url}/invite</property>
+    <property name="available_expr">python:context.portal_type == "ploneintranet.workspace.workspacefolder"</property>
+    <property name="permissions">
+      <element value="ploneintranet.workspace: Manage workspace"/>
+    </property>
+  </object>
  </object>
 </object>
