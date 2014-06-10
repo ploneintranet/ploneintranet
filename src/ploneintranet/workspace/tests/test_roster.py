@@ -3,8 +3,6 @@ from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
 
-from ploneintranet.workspace.browser.roster import merge_search_results
-
 
 class TestRoster(BaseTestCase):
     """
@@ -62,28 +60,6 @@ class TestEditRoster(BaseTestCase):
             workspace_folder)
         self.workspace = workspace_folder
 
-    def test_merge_search_results(self):
-        """
-        Simple test to make sure search results are merging by key
-        """
-        search = [
-            {'id': 1, 'title': 'A'},
-            {'id': 1, 'title': 'B'},
-            {'id': 2, 'title': 'B'}
-        ]
-
-        res = merge_search_results(search, 'id')
-        self.assertEqual(
-            res,
-            [search[0], search[2]]
-        )
-
-        res = merge_search_results(search, 'title')
-        self.assertEqual(
-            res,
-            [search[0], search[1]]
-        )
-
     def test_index(self):
         view = getMultiAdapter(
             (self.workspace, self.request),
@@ -95,38 +71,6 @@ class TestEditRoster(BaseTestCase):
             html
         )
 
-    def test_redirect(self):
-        """ Form should redirect to team-roster on cancel """
-        view = getMultiAdapter(
-            (self.workspace, self.request),
-            name='edit-roster'
-        )
-        self.request.form['form.button.Cancel'] = True
-        view.__call__()
-        self.assertEqual(
-            self.request.response.status,
-            302
-        )
-        self.assertEqual(
-            self.request.response.headers['location'],
-            'http://nohost/plone/example-workspace/team-roster'
-        )
-
-    def test_handle_form_postback(self):
-        view = getMultiAdapter(
-            (self.workspace, self.request),
-            name='edit-roster'
-        )
-        self.assertTrue(view.handle_form())
-
-    def test_handle_form_cancel(self):
-        view = getMultiAdapter(
-            (self.workspace, self.request),
-            name='edit-roster'
-        )
-        self.request.form['form.button.Cancel'] = True
-        self.assertFalse(view.handle_form())
-
     def test_existing_users(self):
         view = getMultiAdapter(
             (self.workspace, self.request),
@@ -134,9 +78,9 @@ class TestEditRoster(BaseTestCase):
         )
         users = view.existing_users()
         wsadmin = {
-            'disabled': True,
             'id': 'wsadmin',
             'member': True,
+            'admin': True,
             'title': 'wsadmin',
         }
         self.assertIn(
@@ -145,9 +89,9 @@ class TestEditRoster(BaseTestCase):
         )
 
         wsmember = {
-            'disabled': False,
             'id': 'wsmember',
             'member': True,
+            'admin': False,
             'title': 'wsmember'
         }
         self.assertIn(
@@ -159,28 +103,20 @@ class TestEditRoster(BaseTestCase):
             'wsmember2' not in [user['id'] for user in users]
         )
 
-    def test_user_search_results(self):
+    def test_users(self):
         self.request.form['search_term'] = 'wsmember2'
         view = getMultiAdapter(
             (self.workspace, self.request),
             name='edit-roster'
         )
-        results = view.user_search_results()
+        results = view.users()
         self.assertTrue(len(results))
-        self.assertTrue(results[0]['id'] == 'wsmember2')
-
-    def test_user_search_results_existing(self):
-        self.request.form['search_term'] = 'wsadmin'
-        view = getMultiAdapter(
-            (self.workspace, self.request),
-            name='edit-roster'
-        )
-        results = view.user_search_results()
-        self.assertFalse(len(results))
+        result_ids = [x['id'] for x in results]
+        self.assertIn('wsmember2', result_ids)
 
     def test_update_users_remove_admin(self):
         """
-        It shouldn't be possible to remove an admin
+        Remove admin role from workspace
         """
         view = getMultiAdapter(
             (self.workspace, self.request),
@@ -189,7 +125,8 @@ class TestEditRoster(BaseTestCase):
         settings = [
             {
                 'id': 'wsadmin',
-                'member': False,
+                'member': True,
+                'admin': False,
             },
             {
                 'id': 'wsmember',
@@ -203,6 +140,10 @@ class TestEditRoster(BaseTestCase):
         self.assertIn(
             'wsadmin',
             members
+        )
+        self.assertNotIn(
+            'Admins',
+            IWorkspace(self.workspace).get('wsadmin').groups,
         )
 
     def test_update_users_remove_member(self):
