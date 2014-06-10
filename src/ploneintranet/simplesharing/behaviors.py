@@ -1,3 +1,4 @@
+from collective.workspace.vocabs import UsersSource
 from plone.dexterity.interfaces import IDexterityContent
 from plone.directives import form
 from zope.component import adapts
@@ -11,6 +12,12 @@ class ISimpleSharing(form.Schema):
         title=u"Visibility",
         description=u"Who should see this document?",
         vocabulary='ploneintranet.simplesharing.workflow_states_vocab',
+    )
+
+    share_with = schema.Choice(
+        title=u"Share with",
+        description=u"The users with whom you'd like to share this content",
+        source=UsersSource,
     )
 
 
