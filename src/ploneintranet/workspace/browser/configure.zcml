@@ -22,12 +22,4 @@
      permission="cmf.ModifyPortalContent"
      />
 
-  <!-- We are also overriding collective.workspace.interfaces.IHasWorkspace -->
-  <browser:page
-      name="edit-roster"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class=".roster.EditRoster"
-      permission="cmf.ModifyPortalContent"
-      />
-
 </configure>

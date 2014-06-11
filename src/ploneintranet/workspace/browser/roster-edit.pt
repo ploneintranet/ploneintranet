@@ -32,13 +32,14 @@
                        title="Search for a user"
                        placeholder="Search for a user"
                        i18n:attributes="title; placeholder"
+                       tal:attributes="value request/search_term|nothing"
                        class="searchField"
                        value=""
                        />
                 <input type="submit"
                        id="edit-roster-search-button"
-                       name="form.button.Search"
-                       value="Search"
+                       name="form.button.SearchUsers"
+                       value="Search users"
                        class="searchButton allowMultiSubmit"
                        i18n:attributes="value label_search"
                        />
@@ -54,31 +55,49 @@
               <thead metal:define-macro="edit-roster-head" id="edit-roster-head">
                   <tr>
                       <th i18n:translate="label_name">Name</th>
-                      <th class="nosort">Member</th>
+                      <th class="nosort">Participant</th>
+                      <th class="nosort">Workspace Admin</th>
                   </tr>
               </thead>
 
             <tbody metal:define-macro="edit-roster-settings" id="edit-roster-settings">
                 <tal:entries repeat="user users">
                     <tr tal:define="oddrow repeat/user/odd;
-                                    disabled user/disabled | python:False;
-                                    member user/member | python:False;"
+                                    is_admin user/admin | nothing;
+                                    is_member user/member | nothing"
                         tal:attributes="class python:oddrow and 'odd' or 'even'">
                         <td>
-                              <span tal:replace="user/title" />
+                            <span tal:replace="user/title" />
                             <input
                                 type="hidden"
                                 name="entries.id:records"
                                 tal:attributes="value user/id"
+                                />
+                            <input
+                                type="hidden"
+                                name="entries.type:records"
+                                value="user"
                                 />
                         </td>
                         <td class="listingCheckbox">
                           <input class="noborder"
                                  type="checkbox"
                                  value="1"
-                                 name="entries.update:records"
-                                 tal:attributes="disabled python: disabled or None;
-                                                 checked python: member and 'checked' or None"
+                                 name="entries.member:records"
+                                 tal:attributes="checked is_member;
+                                                 disabled is_admin"
+                                 />
+                          <input type="hidden"
+                                 name="entries.member:records"
+                                 value="1"
+                                 tal:condition="is_admin" />
+                        </td>
+                        <td class="listingCheckbox">
+                          <input class="noborder"
+                                 type="checkbox"
+                                 value="1"
+                                 name="entries.admin:records"
+                                 tal:attributes="checked is_admin;"
                                  />
                         </td>
                     </tr>
@@ -88,8 +107,6 @@
         </div>
 
             <input id="edit-roster-save-button" class="context allowMultiSubmit" type="submit" name="form.button.Save" value="Save" i18n:attributes="value label_save" />
-            <input class="standalone" type="submit" name="form.button.Cancel" value="Cancel" i18n:attributes="value label_cancel"/>
-
             <input tal:replace="structure context/@@authenticator/authenticator" />
 
         </form>

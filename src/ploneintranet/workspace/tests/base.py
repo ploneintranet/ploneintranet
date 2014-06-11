@@ -1,11 +1,15 @@
 from collective.workspace.interfaces import IWorkspace
 import unittest2 as unittest
 from plone.testing import z2
+from plone.testing.z2 import Browser
 from plone.app.testing.interfaces import SITE_OWNER_NAME
+from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.app.testing import login
 from Products.CMFCore.utils import getToolByName
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
+from ploneintranet.workspace.testing import \
+    PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
 from zope.annotation.interfaces import IAnnotations
 
 
@@ -54,3 +58,20 @@ class BaseTestCase(unittest.TestCase):
             groups=groups,
         )
         IAnnotations(self.request)[('workspaces', username)] = None
+
+
+class FunctionalBaseTestCase(BaseTestCase):
+
+    layer = PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        super(FunctionalBaseTestCase, self).setUp()
+        self.browser = Browser(self.app)
+        self.browser.handleErrors = False
+
+    def browser_login_as_site_administrator(self):
+        self.browser.open(self.portal.absolute_url() + '/login_form')
+        self.browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+        self.browser.getControl(name='__ac_password').value = \
+            SITE_OWNER_PASSWORD
+        self.browser.getControl(name='submit').click()

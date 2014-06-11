@@ -50,4 +50,9 @@
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
+  <action title="Roster" action_id="edit-roster" 
+          category="object" condition_expr=""
+    url_expr="string:${object_url}/@@edit-roster" visible="True">
+    <permission value="collective.workspace: Manage roster" />
+  </action>
 </object>

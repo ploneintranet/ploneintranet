@@ -18,9 +18,8 @@ Site Administrator can add example user as member of workspace
     Add content item  Workspace  Example Workspace
     Navigate to  Example Workspace
     Click Roster In edit bar
-    Click link  + Add person to roster
-    Input text  edit-roster-user-search  'Example User'
-    Click button  Save
+    Input text  edit-roster-user-search  Example User
+    Click button  Search users
 
 Site Administrator can modify policies
     Log in as site owner
@@ -28,8 +27,16 @@ Site Administrator can modify policies
     Add content item  Workspace  Example Workspace
     Navigate to  Example Workspace
     Click Policies In edit bar
-    #Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  private
-    #Submit Form  xpath=//#form
-    #Click link  + Add person to roster
-    #Input text  form.widgets.user.widgets.query  'Example User'
+    Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  private
+    Click button  Ok
+
+Site Administrator can edit roster
+    Log in as site owner
+    Go to homepage
+    Add content item  Workspace  Example Workspace
+    Navigate to  Example Workspace
+    Click Roster In edit bar
+    Input text  edit-roster-user-search  test
+    Click button  Search users
+    Click button  Save
 
