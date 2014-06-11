@@ -20,6 +20,16 @@ class PloneintranetsimplesharingLayer(PloneSandboxLayer):
             ploneintranet.simplesharing,
             context=configurationContext
         )
+        import plone.app.contenttypes
+        xmlconfig.file(
+            'configure.zcml',
+            plone.app.contenttypes,
+            context=configurationContext
+        )
+
+    def setUpPloneSite(self, portal):
+        self.applyProfile(portal, 'ploneintranet.simplesharing:testing')
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
 
 
 PLONEINTRANET_SIMPLESHARING_FIXTURE = PloneintranetsimplesharingLayer()
