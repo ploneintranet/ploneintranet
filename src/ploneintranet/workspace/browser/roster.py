@@ -1,20 +1,12 @@
-from itertools import chain
 from plone import api
 from plone.memoize.instance import memoize, clearafter
-from zope.i18n import translate
 from zope.component import getMultiAdapter
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
-from plone.app.workflow.browser.sharing import SharingView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from plone.protect import CheckAuthenticator, PostOnly
 from Products.Five import BrowserView
 
-from zExceptions import Forbidden
-
 from collective.workspace.interfaces import IWorkspace
-from ploneintranet.workspace import MessageFactory as _
 
 
 class EditRoster(BrowserView):
