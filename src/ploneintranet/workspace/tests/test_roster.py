@@ -1,7 +1,10 @@
 from collective.workspace.interfaces import IHasWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 from zope.component import getMultiAdapter
+from zExceptions import Forbidden
+from collective.workspace.interfaces import IWorkspace
 
 
 class TestRoster(BaseTestCase):
@@ -71,6 +74,20 @@ class TestEditRoster(BaseTestCase):
             html
         )
 
+    def test_handle_form(self):
+        self.request.form['form.submitted'] = True
+        self.request.form['form.button.Save'] = True
+        view = getMultiAdapter(
+            (self.workspace, self.request),
+            name='edit-roster'
+        )
+        # This will give forbidden - see browser test
+        # for further tests of this
+        self.assertRaises(
+            Forbidden,
+            view.handle_form,
+        )
+
     def test_existing_users(self):
         view = getMultiAdapter(
             (self.workspace, self.request),
@@ -135,7 +152,6 @@ class TestEditRoster(BaseTestCase):
         ]
 
         view.update_users(settings)
-        from collective.workspace.interfaces import IWorkspace
         members = IWorkspace(self.workspace).members
         self.assertIn(
             'wsadmin',
@@ -159,7 +175,6 @@ class TestEditRoster(BaseTestCase):
         ]
 
         view.update_users(settings)
-        from collective.workspace.interfaces import IWorkspace
         members = IWorkspace(self.workspace).members
         self.assertNotIn(
             'wsmember',
@@ -179,9 +194,39 @@ class TestEditRoster(BaseTestCase):
         ]
 
         view.update_users(settings)
-        from collective.workspace.interfaces import IWorkspace
         members = IWorkspace(self.workspace).members
         self.assertIn(
             'wsmember2',
             members
         )
+
+
+class TestEditRosterForm(FunctionalBaseTestCase):
+
+    def setUp(self):
+        super(TestEditRosterForm, self).setUp()
+        self.login_as_portal_owner()
+        api.user.create(username='wsmember', email="member@test.com")
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace')
+        self.workspace = workspace_folder
+
+        # Commit so the testbrowser can see the workspace
+        import transaction
+        transaction.commit()
+
+    def test_edit_roster_form(self):
+        self.browser_login_as_site_administrator()
+        self.browser.open('%s/@@edit-roster' % self.workspace.absolute_url())
+        self.browser.getControl(name='search_term').value = 'wsmember'
+        self.browser.getControl(name='form.button.SearchUsers').click()
+        # make sure both admin checkboxes are selected
+        self.browser.getControl(name='entries.admin:records').value = \
+            ['1', '1']
+        self.browser.getControl(name='form.button.Save').click()
+
+        # wsmember should now be an admin
+        self.assertIn('Admins',
+                      IWorkspace(self.workspace).get('wsmember').groups)
