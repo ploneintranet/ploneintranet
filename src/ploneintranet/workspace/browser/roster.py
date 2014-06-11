@@ -5,7 +5,8 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.protect import CheckAuthenticator, PostOnly
 from Products.Five import BrowserView
-
+from plone import api
+from ploneintranet.workspace import MessageFactory as _
 from collective.workspace.interfaces import IWorkspace
 
 
@@ -32,6 +33,8 @@ class EditRoster(BrowserView):
             PostOnly(self.request)
             entries = form.get('entries', [])
             self.update_users(entries)
+            api.portal.show_message(message=_(u'Roster updated.'),
+                                    request=self.request)
 
     @clearafter
     def update_users(self, entries):
