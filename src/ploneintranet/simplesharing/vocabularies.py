@@ -1,4 +1,7 @@
+from zope.interface import classProvides, implements
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from plone import api
 
 
 WORKFLOW_MAPPING = {
@@ -9,10 +12,19 @@ WORKFLOW_MAPPING = {
 }
 
 
-def workflow_states_vocab(context):
-    return SimpleVocabulary([
-        SimpleTerm(u'private', u'private', u'Only visible to me'),
-        SimpleTerm(u'limited', u'limited', u'Share with selected users'),
-        SimpleTerm(u'published', u'published', u'Shared with my team'),
-        SimpleTerm(u'public', u'public', u'Shared with all Intranet users')
-    ])
+class WorkflowStatesSource(object):
+    """
+    A source that provides a list of workflow states for the current context
+    """
+    classProvides(IContextSourceBinder)
+    implements(IContextSourceBinder)
+
+    def __call__(self, context):
+        workflow = api.portal.get_tool('portal_workflow')
+        wf = workflow.getWorkflowsFor(context)
+        states = wf[0].states.objectValues()
+        return SimpleVocabulary([
+            SimpleTerm(value=x.id,
+                       token=x.id,
+                       title=x.description) for x in states
+        ])

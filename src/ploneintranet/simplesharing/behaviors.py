@@ -8,7 +8,8 @@ from zope import schema
 
 from collective.workspace.vocabs import UsersSource
 from plone.api.exc import InvalidParameterError
-from ploneintranet.simplesharing.vocabularies import WORKFLOW_MAPPING
+from ploneintranet.simplesharing.vocabularies import WORKFLOW_MAPPING, \
+    WorkflowStatesSource
 
 
 class ISimpleSharing(form.Schema):
@@ -16,8 +17,8 @@ class ISimpleSharing(form.Schema):
     visibility = schema.Choice(
         title=u"Visibility",
         description=u"Who should see this document?",
-        vocabulary='ploneintranet.simplesharing.workflow_states_vocab',
-        default='private',
+        source=WorkflowStatesSource(),
+        #default='private',
         required=False
     )
 
