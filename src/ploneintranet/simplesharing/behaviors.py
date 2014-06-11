@@ -18,7 +18,6 @@ class ISimpleSharing(form.Schema):
         title=u"Visibility",
         description=u"Who should see this document?",
         source=WorkflowStatesSource(),
-        #default='private',
         required=False
     )
 
