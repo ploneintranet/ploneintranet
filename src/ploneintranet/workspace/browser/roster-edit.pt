@@ -39,7 +39,7 @@
                 <input type="submit"
                        id="edit-roster-search-button"
                        name="form.button.Search"
-                       value="Search"
+                       value="Search users"
                        class="searchButton allowMultiSubmit"
                        i18n:attributes="value label_search"
                        />
