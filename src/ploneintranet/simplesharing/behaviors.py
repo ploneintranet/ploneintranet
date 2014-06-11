@@ -43,7 +43,12 @@ class SimpleSharing(object):
 
     @property
     def visibility(self):
-        return self._visibility
+        """Get the workflow state for this object
+
+        :returns: workflow state id
+        :rtype: str
+        """
+        return api.content.get_state(obj=self.context)
 
     @visibility.setter
     def visibility(self, value):
@@ -54,21 +59,27 @@ class SimpleSharing(object):
         try:
             api.content.transition(obj=self.context, to_state=end_state)
         except InvalidParameterError:
-            api.portal.show_message(u'Unable to share your %s' % self.context.portal_type,
-                                    self.context.REQUEST,
-                                    type='error')
-        else:
-            self._visibility = value
+            api.portal.show_message(
+                u'Unable to share your %s' % self.context.portal_type,
+                self.context.REQUEST,
+                type='error',
+            )
 
     @property
     def share_with(self):
-        return self._share_with
+        """Get the users with the local role of Reader
+
+        :returns: userids
+        :rtype: list
+        """
+        return self.context.users_with_local_role('Reader')
 
     @share_with.setter
     def share_with(self, values):
         for userid in values:
             user = api.user.get(username=userid)
-            api.user.grant_roles(user=user,
-                                 obj=self.context,
-                                 roles=['Reader',])
-        self._share_with = values
+            api.user.grant_roles(
+                user=user,
+                obj=self.context,
+                roles=['Reader'],
+            )
