@@ -1,5 +1,6 @@
 import unittest
-from ploneintranet.simplesharing.testing import PLONEINTRANET_SIMPLESHARING_INTEGRATION_TESTING
+from ploneintranet.simplesharing.testing import \
+    PLONEINTRANET_SIMPLESHARING_INTEGRATION_TESTING
 
 
 class BaseTestCase(unittest.TestCase):
