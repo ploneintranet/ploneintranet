@@ -43,7 +43,7 @@ class SimpleSharing(object):
 
     @property
     def visibility(self):
-        return self.context.visibility
+        return self._visibility
 
     @visibility.setter
     def visibility(self, value):
@@ -57,3 +57,18 @@ class SimpleSharing(object):
             api.portal.show_message(u'Unable to share your %s' % self.context.portal_type,
                                     self.context.REQUEST,
                                     type='error')
+        else:
+            self._visibility = value
+
+    @property
+    def share_with(self):
+        return self._share_with
+
+    @share_with.setter
+    def share_with(self, values):
+        for userid in values:
+            user = api.user.get(username=userid)
+            api.user.grant_roles(user=user,
+                                 obj=self.context,
+                                 roles=['Reader',])
+        self._share_with = values

@@ -23,7 +23,6 @@
     title="SimpleSharing"
     description="In-line sharing/collaboration controls whilst editing content"
     provides=".behaviors.ISimpleSharing"
-    factory=".behaviors.SimpleSharing"
     />
 
   <genericsetup:registerProfile
