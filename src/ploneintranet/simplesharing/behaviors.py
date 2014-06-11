@@ -8,8 +8,7 @@ from zope import schema
 
 from collective.workspace.vocabs import UsersSource
 from plone.api.exc import InvalidParameterError
-from ploneintranet.simplesharing.vocabularies import WORKFLOW_MAPPING, \
-    WorkflowStatesSource
+from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
 
 
 class ISimpleSharing(form.Schema):
@@ -52,12 +51,8 @@ class SimpleSharing(object):
 
     @visibility.setter
     def visibility(self, value):
-        if value == 'private':
-            # Don't try and set the state to the default state
-            return
-        end_state = WORKFLOW_MAPPING[value]
         try:
-            api.content.transition(obj=self.context, to_state=end_state)
+            api.content.transition(obj=self.context, to_state=value)
         except InvalidParameterError:
             api.portal.show_message(
                 u'Unable to share your %s' % self.context.portal_type,
@@ -76,9 +71,17 @@ class SimpleSharing(object):
 
     @share_with.setter
     def share_with(self, values):
-        for userid in values:
+        currently_shared_with = self.share_with
+        for userid in [x for x in values if x not in currently_shared_with]:
             user = api.user.get(username=userid)
             api.user.grant_roles(
+                user=user,
+                obj=self.context,
+                roles=['Reader'],
+            )
+        for userid in [x for x in currently_shared_with if x not in values]:
+            user = api.user.get(username=userid)
+            api.user.revoke_roles(
                 user=user,
                 obj=self.context,
                 roles=['Reader'],
