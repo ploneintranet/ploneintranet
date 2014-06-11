@@ -13,6 +13,7 @@
 
   <state state_id="draft"
          title="Draft">
+    <description>Only visible to me.</description>
     <exit-transition transition_id="submit"/>
     <permission-map name="Access contents information"
                     acquired="False">
@@ -46,6 +47,7 @@
 
   <state state_id="pending"
          title="Pending">
+    <description>Visible to reviewers.</description>
     <exit-transition transition_id="publish"/>
     <exit-transition transition_id="send_back"/>
     <permission-map name="Access contents information"
@@ -76,6 +78,7 @@
 
   <state state_id="published"
          title="Published">
+    <description>Shared with my team.</description>
     <exit-transition transition_id="retract"/>
     <exit-transition transition_id="publish_public"/>
     <permission-map name="Access contents information"
@@ -109,6 +112,7 @@
 
   <state state_id="public"
          title="Public">
+    <description>Shared with all Intranet users.</description>
     <exit-transition transition_id="restrict"/>
     <permission-map name="Access contents information"
                     acquired="False">
