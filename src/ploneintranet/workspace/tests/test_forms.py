@@ -1,15 +1,20 @@
+from Products.CMFPlone.tests.utils import MockMailHost
+from Products.MailHost.interfaces import IMailHost
 from collective.workspace.interfaces import IWorkspace
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.component import provideAdapter
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.browser.forms import InviteForm
 from ploneintranet.workspace.browser.forms import PolicyForm
 from ploneintranet.workspace.browser.forms import TransferMembershipForm
 from z3c.form.interfaces import IFormLayer
 from zope.publisher.browser import TestRequest
 from zope.interface import alsoProvides
 from zope.annotation.interfaces import IAttributeAnnotatable
+from ploneintranet.workspace.testing import \
+    PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
 
 
 class TestPolicyForm(BaseTestCase):
@@ -255,3 +260,207 @@ class TestTransferForm(BaseTestCase):
 
         self.assertEqual(0, len(list(IWorkspace(other_ws).members)))
         self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
+
+
+class TestInvitationFormValidation(BaseTestCase):
+
+    def setUp(self):
+        super(TestInvitationFormValidation, self).setUp()
+        self.login_as_portal_owner()
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=InviteForm,
+                       name="invite")
+
+        self.ws = api.content.create(
+            self.portal,
+            "ploneintranet.workspace.workspacefolder",
+            "alejandro-workspace",
+            title="Alejandro workspace")
+
+    def create_user(self, name="auser", email="em@exa.org", password="secret"):
+        """ Creates a request
+        :param str name: username, default="testuser"
+        :param str password: password, default="secret"
+        :return: user object
+        """
+        if not email:
+            email = name + "@example.org"
+
+        user = api.user.create(
+            email=email,
+            username=name,
+            password=password,
+            )
+        return user
+
+    # Form setup gubbins stolen from:
+    # http://plone-testing-documentation.readthedocs.org/en/latest/z3c.form.html  # noqa
+    def make_request(self, empty=False, email="random@example.org"):
+        """ Creates a request
+        :param bool empty: if true, request will be empty, any other given \
+                      parameters will be ignored
+        :param str email: email to submit
+        :return: ready to submit request.
+        """
+
+        if empty:
+            form = {'form.buttons.ok': 'OK'}
+        else:
+            form = {
+                'form.widgets.email': email,
+                'form.buttons.ok': 'OK',
+            }
+
+        request = TestRequest()
+        request.form.update(form)
+        alsoProvides(request, IFormLayer)
+        alsoProvides(request, IAttributeAnnotatable)
+        return request
+
+    def test_empty_form_shows_an_error(self):
+        request = self.make_request(empty=True)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        form.update()
+        data, errors = form.extractData()
+        self.assertEqual(len(errors), 1)
+
+    def test_form_doesnt_allow_non_emails(self):
+        request = self.make_request(email="non-email")
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        form.update()
+        data, errors = form.extractData()
+        self.assertEqual(len(errors), 1)
+
+    def test_form_doesnt_accept_a_ws_member_email(self):
+        email = "vlad@example.org"
+        self.create_user(name="vladislav", email=email)
+        self.add_user_to_workspace("vladislav", self.ws)
+        # there should be one user minus admin
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+
+        request = self.make_request(email=email)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        form.update()
+        data, errors = form.extractData()
+        error_msg = "User is already a member of this workspace"
+        self.assertEqual(
+            error_msg,
+            form.widgets['email'].error.message
+            )
+
+    def test_form_doesnt_accept_non_existing_on_site_user_email(self):
+        email = "vlad@example.org"
+        request = self.make_request(email=email)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        form.update()
+        data, errors = form.extractData()
+        error_msg = "This email doesn't belong to any user of this site"
+        self.assertEqual(error_msg, form.widgets['email'].error.message)
+
+
+import unittest2 as unittest
+
+#class TestInvitationFormEmailing(BaseTestCase):
+class TestInvitationFormEmailing(unittest.TestCase):
+
+    layer = PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+
+    #def setUp(self):
+    #    super(TestInvitationFormEmailing, self).setUp()
+    #    self.login_as_portal_owner()
+    #    provideAdapter(adapts=(Interface, IBrowserRequest),
+    #                   provides=Interface,
+    #                   factory=InviteForm,
+    #                   name="invite")
+
+    #    # create a workspace
+    #    self.ws = api.content.create(
+    #        self.portal,
+    #        "ploneintranet.workspace.workspacefolder",
+    #        "alejandro-workspace",
+    #        title="Alejandro workspace")
+
+    #    self.app = self.layer['app']
+    #    self.portal = self.layer['portal']
+    #    self.request = self.layer['request']
+    #    # Mock the mail host so we can test sending the email
+    #    mockmailhost = MockMailHost('MailHost')
+
+    #    if not hasattr(mockmailhost, 'smtp_host'):
+    #        mockmailhost.smtp_host = 'localhost'
+
+    #    self.portal.MailHost = mockmailhost
+    #    sm = self.portal.getSiteManager()
+    #    sm.registerUtility(component=mockmailhost, provided=IMailHost)
+
+    #    self.mailhost = api.portal.get_tool('MailHost')
+
+    #    self.portal._updateProperty('email_from_name', 'Portal Owner')
+    #    self.portal._updateProperty('email_from_address', 'sender@example.org')
+
+    #def make_request(self, empty=False, email="random@example.org"):
+    #    """ Creates a request
+    #    :param bool empty: if true, request will be empty, any other given \
+    #                  parameters will be ignored
+    #    :param str email: email to submit
+    #    :return: ready to submit request.
+    #    """
+
+    #    if empty:
+    #        form = {'form.buttons.ok': 'OK'}
+    #    else:
+    #        form = {
+    #            'form.widgets.email': email,
+    #            'form.buttons.ok': 'OK',
+    #        }
+
+    #    request = TestRequest()
+    #    request.form.update(form)
+    #    alsoProvides(request, IFormLayer)
+    #    alsoProvides(request, IAttributeAnnotatable)
+    #    return request
+
+    def test_invitation_send_if_all_above_conditions_met(self):
+        pass
+    #    import pdb; pdb.set_trace()
+    #    email = "vlad@example.org"
+    #    api.user.create(
+    #        email=email,
+    #        username="vladislav",
+    #        password='whatever',
+    #        )
+    #    # there shouldn't be any minus admin user in workspace
+    #    self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
+
+    #    request = self.make_request(email=email)
+    #    form = api.content.get_view(
+    #        'invite',
+    #        context=self.ws,
+    #        request=request,
+    #        )
+
+    #    form.update()
+    #    data, errors = form.extractData()
+    #    self.assertEqual(len(errors), 0)
+    #    self.assertEqual(form.widgets['email'].error.message, '')
