@@ -70,7 +70,7 @@ class PolicyForm(form.SchemaForm):
     schema = IPolicyForm
     ignoreContext = True
 
-    label = u"Whats your name"
+    label = u"Workspace Policies"
 
     @button.buttonAndHandler(u'Ok')
     def handleApply(self, action):
