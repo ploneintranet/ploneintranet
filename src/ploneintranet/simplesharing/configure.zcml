@@ -15,7 +15,7 @@
 
   <browser:page
       name="simple-sharing"
-      for="*"
+      for="Products.CMFCore.interfaces.IContentish"
       permission="zope2.View"
       class=".forms.SimpleSharing"
       />
