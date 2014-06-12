@@ -1,15 +1,12 @@
+from collective.workspace.vocabs import UsersSource
 from plone import api
+from plone.api.exc import InvalidParameterError
 from plone.directives import form
 from plone.formwidget.autocomplete import AutocompleteMultiFieldWidget
-from plone.api.exc import InvalidParameterError
-from z3c.form import button
-import z3c.form
-from zope.interface import alsoProvides
-from zope import schema
-
-from collective.workspace.vocabs import UsersSource
-
 from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
+from z3c.form import button
+from zope import schema
+from zope.interface import alsoProvides
 
 
 class ISimpleSharing(form.Schema):
