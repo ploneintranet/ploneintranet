@@ -88,6 +88,8 @@ class SimpleSharing(form.SchemaForm):
 
     @share_with.setter
     def share_with(self, values):
+        if values is None:
+            values = []
         currently_shared_with = self.share_with
         for userid in [x for x in values if x not in currently_shared_with]:
             user = api.user.get(username=userid)
