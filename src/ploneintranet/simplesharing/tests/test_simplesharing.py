@@ -13,8 +13,6 @@ class TestBehaviors(BaseTestCase):
 
     @classmethod
     def setUpClass(cls):
-
-
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=SimpleSharing,
