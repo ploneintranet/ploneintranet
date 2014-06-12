@@ -22,4 +22,11 @@
      permission="cmf.ModifyPortalContent"
      />
 
+   <browser:page
+     name="invite"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".forms.InviteForm"
+     permission="cmf.ModifyPortalContent"
+     />
+
 </configure>

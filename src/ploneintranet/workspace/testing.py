@@ -35,6 +35,13 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        import ploneintranet.invitations
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.invitations,
+            context=configurationContext
+        )
+
         import Products.CMFPlacefulWorkflow
         xmlconfig.file(
             'configure.zcml',
