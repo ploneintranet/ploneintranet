@@ -145,7 +145,7 @@ class TestPolicy(BaseTestCase):
                       group.getAllGroupMembers())
 
         self.login(username)
-        self.assertIn("Reader",
+        self.assertIn("TeamMember",
                       api.user.get_roles(username=username, obj=workspace))
 
         self.login_as_portal_owner()
@@ -165,7 +165,7 @@ class TestPolicy(BaseTestCase):
         self.login(username)
         self.assertIn("Contributor",
                       api.user.get_roles(username=username, obj=workspace))
-        self.assertIn("Reader",
+        self.assertIn("TeamMember",
                       api.user.get_roles(username=username, obj=workspace))
         self.assertNotIn("Reviewer",
                          api.user.get_roles(username=username, obj=workspace))
