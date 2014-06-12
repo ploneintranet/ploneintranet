@@ -36,7 +36,6 @@ class SimpleSharing(form.SchemaForm):
 
     schema = ISimpleSharing
     ignoreContext = True
-
     label = u"Simple Sharing"
     description = u"Who do you want to share this with"
 
@@ -55,8 +54,10 @@ class SimpleSharing(form.SchemaForm):
         self.visibility = data.get('visibility')
         self.share_with = data.get('share_with')
 
-        return self.request.response.redirect(
-            self.context.absolute_url())
+        api.portal.show_message(
+            message=u"Your content has been shared.",
+            request=self.context.REQUEST,
+        )
 
     @property
     def visibility(self):
