@@ -65,7 +65,7 @@ class TestBehaviors(BaseTestCase):
         self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
     def test_share_with(self):
-        user1 = api.user.create(
+        api.user.create(
             email='test@user.co',
             username='user1',
             password='12345'
