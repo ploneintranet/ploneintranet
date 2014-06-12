@@ -1,5 +1,6 @@
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from plone.api.exc import InvalidParameterError
 from AccessControl import Unauthorized
 
 
@@ -55,3 +56,81 @@ class TestPermissions(BaseTestCase):
             self.traverse_to_item(doc_private)
         # Published doc is OK
         self.traverse_to_item(doc_published)
+
+    def test_producers_can_add(self):
+        """
+        Producers can add content to the workspace, and
+        submit it for review
+        """
+        self.login_as_portal_owner()
+        self.workspace.participant_policy = "Producers"
+
+        self.login('user1')
+        doc = api.content.create(
+            self.workspace,
+            'Document',
+            'my-test-page',
+        )
+        api.content.transition(doc, transition='submit')
+        # We cannot publish our own content
+        with self.assertRaises(InvalidParameterError):
+            api.content.transition(doc, transition='publish')
+
+        # But an admin can
+        self.login('wsadmin')
+        api.content.transition(doc, transition='publish')
+
+    def test_publishers_can_publish(self):
+        """
+        Publishers can add and publish their own content
+        """
+        self.login_as_portal_owner()
+        admin_doc = api.content.create(
+            self.workspace,
+            'Document',
+            'my-admin-page',
+        )
+        self.workspace.participant_policy = "Publishers"
+
+        self.login('user1')
+        doc = api.content.create(
+            self.workspace,
+            'Document',
+            'my-test-page',
+        )
+        # Can publish my own content
+        api.content.transition(doc, transition='submit')
+        api.content.transition(doc, transition='publish')
+
+        # We cannot view or publish someone else's content
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(admin_doc)
+        with self.assertRaises(InvalidParameterError):
+            api.content.transition(admin_doc, transition='submit')
+
+    def test_moderators_can_publish_all(self):
+        """
+        Moderators can add and publish any content
+        """
+        self.login_as_portal_owner()
+        admin_doc = api.content.create(
+            self.workspace,
+            'Document',
+            'my-admin-page',
+        )
+        self.workspace.participant_policy = "Moderators"
+
+        self.login('user1')
+        doc = api.content.create(
+            self.workspace,
+            'Document',
+            'my-test-page',
+        )
+        # Can publish my own content
+        api.content.transition(doc, transition='submit')
+        api.content.transition(doc, transition='publish')
+
+        # We can also view and publish someone else's document
+        self.traverse_to_item(admin_doc)
+        api.content.transition(admin_doc, transition='submit')
+        api.content.transition(admin_doc, transition='publish')
