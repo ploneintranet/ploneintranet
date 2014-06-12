@@ -1,10 +1,12 @@
-import unittest
-import transaction
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.testing import z2
-from ploneintranet.simplesharing.testing import \
-    PLONEINTRANET_SIMPLESHARING_FUNCTIONAL_TESTING
+from z3c.form.interfaces import IFormLayer
+from zope.annotation import IAttributeAnnotatable
+from zope.component import provideAdapter
+from zope.interface import alsoProvides, Interface
+from zope.publisher.browser import TestRequest
+from plone import api
+from zope.publisher.interfaces.browser import IBrowserRequest
+from ploneintranet.simplesharing.forms import SimpleSharing
+from ploneintranet.simplesharing.tests.base import BaseTestCase
 
 
 class TestBehaviors(unittest.TestCase):
