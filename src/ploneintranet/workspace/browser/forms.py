@@ -17,22 +17,22 @@ from ploneintranet.workspace.utils import get_storage, send_email
 
 
 visibility_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'open', title=_(u'Open')),
-    SimpleTerm(value=u'private', title=_(u'Private')),
     SimpleTerm(value=u'secret', title=_(u'Secret'))
+    SimpleTerm(value=u'private', title=_(u'Private')),
+    SimpleTerm(value=u'open', title=_(u'Open')),
     ])
 
 join_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'self', title=_(u'Self-Managed')),
-    SimpleTerm(value=u'team', title=_(u'Team-Managed')),
     SimpleTerm(value=u'admin', title=_(u'Admin-Managed'))
+    SimpleTerm(value=u'team', title=_(u'Team-Managed')),
+    SimpleTerm(value=u'self', title=_(u'Self-Managed')),
     ])
 
 particip_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'Moderators', title=_(u'Moderators')),
-    SimpleTerm(value=u'Publishers', title=_(u'Publishers')),
-    SimpleTerm(value=u'Producers', title=_(u'Producers')),
     SimpleTerm(value=u'Consumers', title=_(u'Consumers'))
+    SimpleTerm(value=u'Producers', title=_(u'Producers')),
+    SimpleTerm(value=u'Publishers', title=_(u'Publishers')),
+    SimpleTerm(value=u'Moderators', title=_(u'Moderators')),
     ])
 
 
