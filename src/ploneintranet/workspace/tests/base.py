@@ -5,6 +5,7 @@ from plone.testing.z2 import Browser
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.app.testing import login
+from plone.app.testing import logout
 from Products.CMFCore.utils import getToolByName
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
@@ -34,7 +35,16 @@ class BaseTestCase(unittest.TestCase):
         """
         login(self.portal, username)
 
+    def logout(self):
+        """
+        helper method to avoid importing the p.a.testing logout method
+        """
+        logout()
+
     def login_as_portal_owner(self):
+        """
+        helper method to login as site admin
+        """
         z2.login(self.app['acl_users'], SITE_OWNER_NAME)
 
     def add_user_to_workspace(self, username, workspace, groups=None):
