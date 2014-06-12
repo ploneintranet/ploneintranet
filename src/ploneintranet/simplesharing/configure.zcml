@@ -14,18 +14,27 @@
   <include package="plone.directives.form"/>
 
   <plone:behavior
-    title="SimpleSharing"
-    description="In-line sharing/collaboration controls whilst editing content"
-    provides=".behaviors.ISimpleSharing"
-    factory=".behaviors.SimpleSharing"
-    />
+      title="SimpleSharing"
+      description="In-line sharing/collaboration controls whilst editing content"
+      provides=".behaviors.ISimpleSharing"
+      factory=".behaviors.SimpleSharing"
+      />
 
   <genericsetup:registerProfile
-    name="default"
-    title="ploneintranet.simplesharing"
-    directory="profiles/default"
-    description="Installs the ploneintranet.simplesharing package"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
+      name="default"
+      title="ploneintranet.simplesharing"
+      directory="profiles/default"
+      description="Installs the ploneintranet.simplesharing package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="Dexterity Content Types"
+      description="Adds Dexterity-based Folder and Document types for testing."
+      directory="profiles/testing"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
+      />
 
 </configure>
