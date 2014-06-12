@@ -4,9 +4,10 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.directives import form
 from z3c.form import button
+from z3c.form.interfaces import WidgetActionExecutionError
 from zope import schema
 from zope.component import getUtility
-from zope.interface import directlyProvides
+from zope.interface import directlyProvides, Invalid
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
@@ -33,6 +34,18 @@ particip_vocab = SimpleVocabulary([
     SimpleTerm(value=u'Producers', title=_(u'Producers')),
     SimpleTerm(value=u'Consumers', title=_(u'Consumers'))
     ])
+
+
+def valid_email_value(value):
+    if not value:
+        raise Invalid("Email is required")
+    # simple regex to check if email has a @ and "." and doesn't
+    # have a whitespace
+    if not re.match(r"[^\s@]+@[\S]+\.[\S]+", value):
+        msg = "Doesn't look like a valid email, want to try again?"
+        raise Invalid(msg)
+
+    return True
 
 
 class IPolicyForm(form.Schema):
@@ -155,6 +168,7 @@ class IInviteForm(form.Schema):
     email = schema.TextLine(
         title=_(u"Enter email address"),
         required=True,
+        constraint=valid_email_value,
         )
 
 
@@ -167,28 +181,19 @@ class InviteForm(form.SchemaForm):
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):
         data = self.extractData()[0]
-        given_email = data.get("email", "")
-        # simple regex to check if email has a @ and "." and doesn't
-        # have a whitespace
-        if not re.match(r"[^\s@]+@[\S]+\.[\S]+", given_email):
-            api.portal.show_message(
-                'Doesn\'t appear to be a valid email, try again?',
-                self.request,
-                type="error",
-            )
+        given_email = data.get("email", "").strip()
+        if not given_email:
             return
+
         ws = IWorkspace(self.context)
         for name in ws.members:
             member = api.user.get(username=name)
             if member is None:
                 continue
             if member.getProperty("email") == given_email:
-                api.portal.show_message(
-                    "User already a member of this workspace",
-                    self.request,
-                    type="warn",
-                )
-                return
+                raise WidgetActionExecutionError(
+                    'email',
+                    Invalid("User is already a member of this workspace"))
 
         mtool = api.portal.get_tool(name="portal_membership")
         existing_member = None
@@ -203,12 +208,9 @@ class InviteForm(form.SchemaForm):
             # given email is not existing user on the site
             # so far we have no story about this, therefore
             # do nothing in this case
-            api.portal.show_message(
-                "This email doesn't belong to any user of this site",
-                self.request,
-                type="warn",
-            )
-            return
+            raise WidgetActionExecutionError(
+                'email',
+                Invalid("This email doesn't belong to any user of this site"))
 
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token(
