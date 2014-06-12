@@ -37,8 +37,6 @@ particip_vocab = SimpleVocabulary([
 
 
 def valid_email_value(value):
-    if not value:
-        raise Invalid("Email is required")
     # simple regex to check if email has a @ and "." and doesn't
     # have a whitespace
     if not re.match(r"[^\s@]+@[\S]+\.[\S]+", value):
@@ -188,22 +186,20 @@ class InviteForm(form.SchemaForm):
         ws = IWorkspace(self.context)
         for name in ws.members:
             member = api.user.get(username=name)
-            if member is None:
-                continue
-            if member.getProperty("email") == given_email:
-                raise WidgetActionExecutionError(
-                    'email',
-                    Invalid("User is already a member of this workspace"))
+            if member is not None:
+                if member.getProperty("email") == given_email:
+                    raise WidgetActionExecutionError(
+                        'email',
+                        Invalid("User is already a member of this workspace"))
 
         mtool = api.portal.get_tool(name="portal_membership")
         existing_member = None
         for member in mtool.listMembers():
-            if member is None:
-                continue
-            email = member.getProperty("email")
-            if given_email == email:
-                existing_member = member.getUserName()
-                break
+            if member is not None:
+                email = member.getProperty("email")
+                if given_email == email:
+                    existing_member = member.getUserName()
+                    break
         else:
             # given email is not existing user on the site
             # so far we have no story about this, therefore

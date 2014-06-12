@@ -59,14 +59,13 @@ def invitation_accepted(event):
         ws = IWorkspace(brain.getObject())
         for name in ws.members:
             member = api.user.get(username=name)
-            if member is None:
-                continue
-            if member.getUserName() == username:
-                api.portal.show_message(
-                    'Oh boy, oh boy, you are already a member',
-                    request,
-                )
-                break
+            if member is not None:
+                if member.getUserName() == username:
+                    api.portal.show_message(
+                        'Oh boy, oh boy, you are already a member',
+                        request,
+                    )
+                    break
         else:
             ws.add_to_team(user=username)
             api.portal.show_message(
