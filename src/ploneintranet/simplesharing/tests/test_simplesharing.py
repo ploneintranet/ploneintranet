@@ -1,39 +1,45 @@
 import unittest
-from Products.CMFDefault.Document import Document
-from plone.behavior.interfaces import IBehaviorAssignable, IBehavior
-from zope.component import adapts, queryUtility, getUtility
-from zope.interface import implements
-
-from ploneintranet.simplesharing.behaviors import ISimpleSharing
-from ploneintranet.simplesharing.tests.base import BaseTestCase
-
-
-class TestingAssignable(object):
-    implements(IBehaviorAssignable)
-    adapts(Document)
-
-    enabled = [ISimpleSharing]
-
-    def __init__(self, context):
-        self.context = context
-
-    def supports(self, behavior_interface):
-        return behavior_interface in self.enabled
-
-    def enumerate_behaviors(self):
-        for e in self.enabled:
-            yield queryUtility(IBehavior, name=e.__identifier__)
+import transaction
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
+from plone.testing import z2
+from ploneintranet.simplesharing.testing import \
+    PLONEINTRANET_SIMPLESHARING_FUNCTIONAL_TESTING
 
 
-class TestBehaviors(BaseTestCase):
+class TestBehaviors(unittest.TestCase):
 
-    @unittest.skip("skipping visibility test")
-    def test_visibility(self):
-        behavior = getUtility(
-            IBehavior,
-            name='ploneintranet.simplesharing.behaviors.ISimpleSharing',
+    layer = PLONEINTRANET_SIMPLESHARING_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+
+        # add our behavior to Page
+        behaviors = ('ploneintranet.simplesharing.behaviors.ISimpleSharing', )
+        self.portal.portal_types.Document.behaviors = behaviors
+        # set the default plone workflow
+        wftool = self.portal.portal_workflow
+        wftool.setChainForPortalTypes(
+            ['Document'],
+            ['plone_workflow'],
         )
-        self.assertEqual(behavior.interface, ISimpleSharing)
-        doc = Document('doc')
-        sharing_adapter = ISimpleSharing(doc)
-        self.assertIsNotNone(sharing_adapter)
+        transaction.commit()
+
+        # prepare browser
+        self.browser = z2.Browser(self.app)
+        self.browser.handleErrors = False
+        self.browser.addHeader(
+            'Authorization',
+            'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD,)
+        )
+        self.browser.open('http://nohost/plone')
+
+    def test_visibility(self):
+        # create a new document
+        page_link = self.browser.getLink('Page')
+        page_link.click()
+        visibility_control = self.browser.getControl('Visibility')
+        self.assertGreater(len(visibility_control.options), 1)
+        self.browser.getControl('Save').click()
