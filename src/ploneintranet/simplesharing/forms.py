@@ -1,13 +1,14 @@
-from plone.dexterity.interfaces import IDexterityContent
-from plone.directives import form
 from plone import api
+from plone.directives import form
 from plone.formwidget.autocomplete import AutocompleteMultiFieldWidget
-from zope.component import adapts
-from zope.interface import alsoProvides, implements
+from plone.api.exc import InvalidParameterError
+from z3c.form import button
+import z3c.form
+from zope.interface import alsoProvides
 from zope import schema
 
 from collective.workspace.vocabs import UsersSource
-from plone.api.exc import InvalidParameterError
+
 from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
 
 
@@ -32,13 +33,28 @@ class ISimpleSharing(form.Schema):
 alsoProvides(ISimpleSharing, form.IFormFieldProvider)
 
 
-class SimpleSharing(object):
+class SimpleSharing(form.SchemaForm):
 
-    implements(ISimpleSharing)
-    adapts(IDexterityContent)
+    schema = ISimpleSharing
+    ignoreContext = True
 
-    def __init__(self, context):
-        self.context = context
+    label = u"Simple Sharing"
+    description = u"Who do you want to share this with"
+
+    def updateWidgets(self):
+        super(SimpleSharing, self).updateWidgets()
+
+        self.widgets['share_with'].value = self.share_with
+        self.widgets['visibility'].value = self.visibility
+
+    @button.buttonAndHandler(u"Share")
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        self.visibility = data.get('visibility')
+        self.share_with = data.get('share_with')
 
     @property
     def visibility(self):

@@ -22,6 +22,8 @@ class WorkflowStatesSource(object):
     def __call__(self, context):
         workflow = api.portal.get_tool('portal_workflow')
         wf = workflow.getWorkflowsFor(context)
+        if not wf:
+            return SimpleVocabulary([])
         states = wf[0].states.objectValues()
         return SimpleVocabulary([
             SimpleTerm(value=x.id,

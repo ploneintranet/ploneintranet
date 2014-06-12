@@ -13,11 +13,11 @@
   <include package="plone.directives.form" file="meta.zcml"/>
   <include package="plone.directives.form"/>
 
-  <plone:behavior
-      title="SimpleSharing"
-      description="In-line sharing/collaboration controls whilst editing content"
-      provides=".behaviors.ISimpleSharing"
-      factory=".behaviors.SimpleSharing"
+  <browser:page
+      name="simple-sharing"
+      for="*"
+      permission="zope2.View"
+      class=".forms.SimpleSharing"
       />
 
   <genericsetup:registerProfile
