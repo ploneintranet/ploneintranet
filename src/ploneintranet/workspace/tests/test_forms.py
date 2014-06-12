@@ -3,11 +3,13 @@ import re
 from Products.MailHost.interfaces import IMailHost
 from collective.workspace.interfaces import IWorkspace
 from email import message_from_string
+from zope.event import notify
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.component import provideAdapter
 from plone import api
 from plone.testing.z2 import Browser
+from ploneintranet.invitations.events import TokenAccepted
 from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.browser.forms import InviteForm
 from ploneintranet.workspace.browser.forms import PolicyForm
@@ -377,6 +379,11 @@ class TestInvitationFormValidation(BaseTestCase):
         data, errors = form.extractData()
         error_msg = "This email doesn't belong to any user of this site"
         self.assertEqual(error_msg, form.widgets['email'].error.message)
+
+    def test_our_event_handler_doesnt_handle_not_our_events(self):
+        # shouldn't happen anything, especially there shouldn't be
+        # a key error
+        notify(TokenAccepted("randomness"))
 
 
 class TestInvitationFormEmailing(BaseTestCase):

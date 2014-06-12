@@ -44,6 +44,9 @@ def participation_policy_changed(ob, event):
 def invitation_accepted(event):
     request = getRequest()
     storage = get_storage()
+    if event.token_id not in storage:
+        return
+
     ws_uid, username = storage[event.token_id]
     storage[event.token_id]
     acl_users = api.portal.get_tool('acl_users')
