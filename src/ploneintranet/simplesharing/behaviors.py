@@ -51,6 +51,8 @@ class SimpleSharing(object):
 
     @visibility.setter
     def visibility(self, value):
+        if not value:
+            return
         try:
             api.content.transition(obj=self.context, to_state=value)
         except InvalidParameterError:
