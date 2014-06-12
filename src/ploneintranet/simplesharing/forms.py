@@ -55,6 +55,9 @@ class SimpleSharing(form.SchemaForm):
         self.visibility = data.get('visibility')
         self.share_with = data.get('share_with')
 
+        return self.request.response.redirect(
+            self.context.absolute_url())
+
     @property
     def visibility(self):
         """Get the workflow state for this object
