@@ -19,13 +19,14 @@ class PloneIntranetWorkspace(Workspace):
     # A list of groups to which team members can be assigned.
     # Maps group name -> roles
     available_groups = {
-        u'Members': ('Reader', 'TeamMember'),
         u'Admins': ('Contributor', 'Editor', 'Reviewer',
                     'Reader', 'TeamManager',),
-        u'Consumers': ('Reader',),
-        u'Producers': ('Reader', 'Contributor',),
-        u'Publishers': ('Reader', 'Contributor', 'SelfPublisher',),
-        u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
+        u'Members': ('TeamMember', ),
+        # These are the 'participation policy' groups
+        u'Consumers': (),
+        u'Producers': ('Contributor',),
+        u'Publishers': ('Contributor', 'SelfPublisher',),
+        u'Moderators': ('Contributor', 'Reviewer', 'Editor',),
     }
 
     def add_to_team(self, **kw):
