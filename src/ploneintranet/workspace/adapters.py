@@ -26,7 +26,7 @@ class PloneIntranetWorkspace(Workspace):
         u'Consumers': (),
         u'Producers': ('Contributor',),
         u'Publishers': ('Contributor', 'SelfPublisher',),
-        u'Moderators': ('Contributor', 'Reviewer', 'Editor',),
+        u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
     }
 
     def add_to_team(self, **kw):
