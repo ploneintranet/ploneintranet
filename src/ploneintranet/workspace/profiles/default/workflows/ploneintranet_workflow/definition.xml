@@ -21,6 +21,7 @@
       <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Reader</permission-role>
     </permission-map>
     <permission-map name="List folder contents"
                     acquired="False">
@@ -28,6 +29,7 @@
       <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
     </permission-map>
     <permission-map name="Modify portal content"
                     acquired="False">
@@ -35,6 +37,7 @@
       <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
@@ -42,6 +45,7 @@
       <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Reader</permission-role>
     </permission-map>
   </state>
 
@@ -65,6 +69,14 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>Reviewer</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
@@ -99,6 +111,14 @@
       <permission-role>TeamMember</permission-role>
       <permission-role>Reader</permission-role>
     </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
     <permission-map name="View"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -132,6 +152,14 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
       <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
