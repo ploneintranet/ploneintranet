@@ -42,7 +42,7 @@ class TestBehaviors(BaseTestCase):
             'form.buttons.share': 'Share',
         }
 
-        request = TestRequest()
+        request = TestRequest(environ=self.request)
         request.form.update(form)
         alsoProvides(request, IFormLayer)
         alsoProvides(request, IAttributeAnnotatable)
