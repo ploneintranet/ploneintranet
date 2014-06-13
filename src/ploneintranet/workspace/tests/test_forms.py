@@ -298,7 +298,7 @@ class TestInvitationFormValidation(BaseTestCase):
 
     # Form setup gubbins stolen from:
     # http://plone-testing-documentation.readthedocs.org/en/latest/z3c.form.html  # noqa
-    def make_request(self, empty=False, email="random@example.org"):
+    def make_request(self, username=None, empty=False):
         """ Creates a request
         :param bool empty: if true, request will be empty, any other given \
                       parameters will be ignored
@@ -310,7 +310,7 @@ class TestInvitationFormValidation(BaseTestCase):
             form = {'form.buttons.ok': 'OK'}
         else:
             form = {
-                'form.widgets.email': email,
+                'form.widgets.user': username,
                 'form.buttons.ok': 'OK',
             }
 
@@ -319,6 +319,21 @@ class TestInvitationFormValidation(BaseTestCase):
         alsoProvides(request, IFormLayer)
         alsoProvides(request, IAttributeAnnotatable)
         return request
+
+    def test_user_with_no_email_is_not_accepted(self):
+        username = 'muhammad'
+        user = self.portal['acl_users']._doAddUser(
+            username, '', ['AuthenticatedUser'], [])
+        self.assertEqual(user.getProperty("email"), '')
+        request = self.make_request(username=username)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+        form.update()
+        data, errors = form.extractData()
+        self.assertEqual(len(errors), 1)
 
     def test_empty_form_shows_an_error(self):
         request = self.make_request(empty=True)
@@ -332,26 +347,15 @@ class TestInvitationFormValidation(BaseTestCase):
         data, errors = form.extractData()
         self.assertEqual(len(errors), 1)
 
-    def test_form_doesnt_allow_non_emails(self):
-        request = self.make_request(email="non-email")
-        form = api.content.get_view(
-            'invite',
-            context=self.ws,
-            request=request,
-            )
-
-        form.update()
-        data, errors = form.extractData()
-        self.assertEqual(len(errors), 1)
-
     def test_form_doesnt_accept_a_ws_member_email(self):
         email = "vlad@example.org"
+        username = 'vladislav'
         self.create_user(name="vladislav", email=email)
         self.add_user_to_workspace("vladislav", self.ws)
         # there should be one user minus admin
         self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
 
-        request = self.make_request(email=email)
+        request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
@@ -363,22 +367,8 @@ class TestInvitationFormValidation(BaseTestCase):
         error_msg = "User is already a member of this workspace"
         self.assertEqual(
             error_msg,
-            form.widgets['email'].error.message
+            form.widgets['user'].error.message
             )
-
-    def test_form_doesnt_accept_non_existing_on_site_user_email(self):
-        email = "vlad@example.org"
-        request = self.make_request(email=email)
-        form = api.content.get_view(
-            'invite',
-            context=self.ws,
-            request=request,
-            )
-
-        form.update()
-        data, errors = form.extractData()
-        error_msg = "This email doesn't belong to any user of this site"
-        self.assertEqual(error_msg, form.widgets['email'].error.message)
 
     def test_our_event_handler_doesnt_handle_not_our_events(self):
         # shouldn't happen anything, especially there shouldn't be
@@ -426,16 +416,16 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.portal._updateProperty('email_from_name', 'Portal Owner')
         self.portal._updateProperty('email_from_address', 'sender@example.org')
 
-    def make_request(self, email="random@example.org"):
+    def make_request(self, username):
         """ Creates a request
         :param bool empty: if true, request will be empty, any other given \
                       parameters will be ignored
-        :param str email: email to submit
+        :param str username: username to enter
         :return: ready to submit request.
         """
 
         form = {
-            'form.widgets.email': email,
+            'form.widgets.user': username,
             'form.buttons.ok': 'OK',
         }
 
@@ -447,15 +437,16 @@ class TestInvitationFormEmailing(BaseTestCase):
 
     def test_invitation_send_if_all_above_conditions_met(self):
         email = "vlad@example.org"
+        username = 'vladislav'
         api.user.create(
             email=email,
-            username="vladislav",
+            username=username,
             password='whatever',
             )
         # there shouldn't be any minus admin user in workspace
         self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
-        request = self.make_request(email=email)
+        request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
@@ -466,7 +457,7 @@ class TestInvitationFormEmailing(BaseTestCase):
         data, errors = form.extractData()
         self.assertEqual(len(errors), 0)
         # no errors on the widget?
-        self.assertEqual(form.widgets['email'].error, None)
+        self.assertEqual(form.widgets['user'].error, None)
         # our mock mail host received one email?
         self.assertEqual(len(self.mailhost.messages), 1)
         msg = message_from_string(self.mailhost.messages[0])
@@ -490,15 +481,16 @@ class TestInvitationFormEmailing(BaseTestCase):
 
     def test_invitation_send_but_user_became_a_member_not_via_link(self):
         email = "vlad@example.org"
+        username = 'vladislav'
         api.user.create(
             email=email,
-            username="vladislav",
+            username=username,
             password='whatever',
             )
         # there shouldn't be any minus admin user in workspace
         self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
-        request = self.make_request(email=email)
+        request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
@@ -509,14 +501,14 @@ class TestInvitationFormEmailing(BaseTestCase):
         data, errors = form.extractData()
         self.assertEqual(len(errors), 0)
         # no errors on the widget?
-        self.assertEqual(form.widgets['email'].error, None)
+        self.assertEqual(form.widgets['user'].error, None)
         # our mock mail host received one email?
         self.assertEqual(len(self.mailhost.messages), 1)
         msg = message_from_string(self.mailhost.messages[0])
         # mail is actually received by correct recipient
 
         # now lets add this user to workspace via other channels
-        self.add_user_to_workspace('vladislav', self.ws)
+        self.add_user_to_workspace(username, self.ws)
 
         self.assertEqual(msg['To'], email)
         body = msg.get_payload()
