@@ -1,14 +1,22 @@
+from collective.z3cform.chosen import ChosenMultiFieldWidget
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.directives import form
-from plone.formwidget.autocomplete import AutocompleteMultiFieldWidget
 from z3c.form import button
+from z3c.form import field
 from zope.interface import alsoProvides
+from zope.interface import provider
 from zope import schema
+from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from collective.workspace.vocabs import UsersSource
 
 from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
+
+
+@provider(IContextAwareDefaultFactory)
+def share_with_default(context):
+    return context.users_with_local_role('Reader')
 
 
 class ISimpleSharing(form.Schema):
@@ -20,11 +28,11 @@ class ISimpleSharing(form.Schema):
         required=False
     )
 
-    form.widget(share_with=AutocompleteMultiFieldWidget)
     share_with = schema.List(
         title=u"Share with",
         description=u"The users with whom you'd like to share this content",
         required=False,
+        defaultFactory=share_with_default,
         value_type=schema.Choice(
             source=UsersSource
         )
@@ -38,11 +46,11 @@ class SimpleSharing(form.SchemaForm):
     ignoreContext = True
     label = u"Simple Sharing"
     description = u"Who do you want to share this with"
+    fields = field.Fields(ISimpleSharing)
+    fields['share_with'].widgetFactory = ChosenMultiFieldWidget
 
     def updateWidgets(self):
         super(SimpleSharing, self).updateWidgets()
-
-        self.widgets['share_with'].value = self.share_with
         self.widgets['visibility'].value = self.visibility
 
     @button.buttonAndHandler(u"Share")
@@ -58,6 +66,8 @@ class SimpleSharing(form.SchemaForm):
             message=u"Your content has been shared.",
             request=self.context.REQUEST,
         )
+        return self.request.response.redirect(
+            self.context.absolute_url())
 
     @property
     def visibility(self):
