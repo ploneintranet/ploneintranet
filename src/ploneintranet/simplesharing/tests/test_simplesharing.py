@@ -10,16 +10,12 @@ from ploneintranet.simplesharing.tests.base import BaseTestCase
 
 
 class TestBehaviors(BaseTestCase):
-
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
+        super(TestBehaviors, self).setUp()
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=SimpleSharing,
                        name="simple-sharing")
-
-    def setUp(self):
-        super(TestBehaviors, self).setUp()
         self.login_as_portal_owner()
         self.doc = api.content.create(
             self.portal,
@@ -48,7 +44,9 @@ class TestBehaviors(BaseTestCase):
         alsoProvides(request, IAttributeAnnotatable)
         return request
 
-    def simple_share(self, users, visibility='private'):
+    def simple_share(self, users, visibility='private', obj=None):
+        if obj is None:
+            obj = self.doc
         request = self.make_request(
             visibility=visibility,
             share_with=users
@@ -56,7 +54,7 @@ class TestBehaviors(BaseTestCase):
 
         shareform = api.content.get_view(
             'simple-sharing',
-            context=self.doc,
+            context=obj,
             request=request
         )
         shareform.update()

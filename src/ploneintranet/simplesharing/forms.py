@@ -82,14 +82,7 @@ class SimpleSharing(form.SchemaForm):
     def visibility(self, value):
         if not value:
             return
-        try:
-            api.content.transition(obj=self.context, to_state=value)
-        except InvalidParameterError:
-            api.portal.show_message(
-                u'Unable to share your %s' % self.context.portal_type,
-                self.context.REQUEST,
-                type='error',
-            )
+        api.content.transition(obj=self.context, to_state=value)
 
     @property
     def share_with(self):
