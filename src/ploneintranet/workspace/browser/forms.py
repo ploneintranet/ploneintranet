@@ -10,7 +10,6 @@ from zope.component import getUtility
 from zope.interface import directlyProvides, Invalid
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from z3c.form.browser.radio import RadioFieldWidget
 
 from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.workspace import MessageFactory as _
@@ -50,19 +49,16 @@ def valid_email_value(value):
 class IPolicyForm(form.Schema):
     """ Policy form fields, essentially radio buttons"""
 
-    form.widget(external_visibility=RadioFieldWidget)
     external_visibility = schema.Choice(
         title=_(u"ws_external_visibility", default="External Visibility"),
         source=visibility_vocab,
         )
 
-    form.widget(join_policy=RadioFieldWidget)
     join_policy = schema.Choice(
         title=_(u"ws_join_policy", default="Join Policy"),
         source=join_vocab,
         )
 
-    form.widget(participant_policy=RadioFieldWidget)
     participant_policy = schema.Choice(
         title=_(u"ws_participant_policy", default="Participant Policy"),
         source=particip_vocab,
