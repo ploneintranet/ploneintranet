@@ -1,8 +1,8 @@
-import re
-
 from collective.workspace.interfaces import IWorkspace
+from collective.workspace.vocabs import UsersSource
 from plone import api
 from plone.directives import form
+from plone.formwidget.autocomplete import AutocompleteFieldWidget
 from z3c.form import button
 from z3c.form.interfaces import WidgetActionExecutionError
 from zope import schema
@@ -36,11 +36,12 @@ particip_vocab = SimpleVocabulary([
     ])
 
 
-def valid_email_value(value):
-    # simple regex to check if email has a @ and "." and doesn't
-    # have a whitespace
-    if not re.match(r"[^\s@]+@[\S]+\.[\S]+", value):
-        msg = "Doesn't look like a valid email, want to try again?"
+def user_has_email(username):
+    """ make sure, that given user has an email associated """
+    user = api.user.get(username=username)
+    if not user.getProperty("email"):
+        msg = "For unknown reasons, this user doesn't have an email \
+associated with his account"
         raise Invalid(msg)
 
     return True
@@ -163,10 +164,12 @@ class TransferMembershipForm(form.SchemaForm):
 
 
 class IInviteForm(form.Schema):
-    email = schema.TextLine(
-        title=_(u"Enter email address"),
-        required=True,
-        constraint=valid_email_value,
+
+    form.widget(user=AutocompleteFieldWidget)
+    user = schema.Choice(
+        title=u'User',
+        source=UsersSource,
+        constraint=user_has_email,
         )
 
 
@@ -179,40 +182,27 @@ class InviteForm(form.SchemaForm):
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):
         data = self.extractData()[0]
-        given_email = data.get("email", "").strip()
-        if not given_email:
+        given_username = data.get("user", "").strip()
+        if not given_username:
             return
 
         ws = IWorkspace(self.context)
         for name in ws.members:
             member = api.user.get(username=name)
             if member is not None:
-                if member.getProperty("email") == given_email:
+                if member.getUserName() == given_username:
                     raise WidgetActionExecutionError(
-                        'email',
+                        'user',
                         Invalid("User is already a member of this workspace"))
 
-        mtool = api.portal.get_tool(name="portal_membership")
-        existing_member = None
-        for member in mtool.listMembers():
-            if member is not None:
-                email = member.getProperty("email")
-                if given_email == email:
-                    existing_member = member.getUserName()
-                    break
-        else:
-            # given email is not existing user on the site
-            # so far we have no story about this, therefore
-            # do nothing in this case
-            raise WidgetActionExecutionError(
-                'email',
-                Invalid("This email doesn't belong to any user of this site"))
+        user = api.user.get(username=given_username)
+        email = user.getProperty("email")
 
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token(
             redirect_path="resolveuid/%s" % (ws.context.UID(),))
         storage = get_storage()
-        storage[token_id] = (ws.context.UID(), existing_member)
+        storage[token_id] = (ws.context.UID(), given_username)
         message = """Congratulations! You've been invited to join %s
 
 The following is a unique URL tied to your email address (%s).
@@ -226,13 +216,13 @@ Yours
 ***** Email confidentiality notice *****
 This message is private and confidential. If you have received this
 message in error, please notify us and UNREAD it.
-""" % (self.context.title, given_email, self.context.title, token_url)
+""" % (self.context.title, email, self.context.title, token_url)
 
         subject = 'You are invited to "%s"' % self.context.title
 
-        send_email(given_email, subject, message)
+        send_email(email, subject, message)
         api.portal.show_message(
-            'Invitation sent to %s' % given_email,
+            'Invitation sent to %s' % email,
             self.request,
         )
         return
