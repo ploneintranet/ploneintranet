@@ -52,6 +52,7 @@ class TestInviteUser(unittest.TestCase):
         transaction.commit()
 
         browser = Browser(self.app)
+        browser.handleErrors = False
         browser.open(token_url)
 
         # We should now be authenticated
@@ -62,6 +63,7 @@ class TestInviteUser(unittest.TestCase):
             'Incorrect user authenticated after accepting token',
         )
 
+        # Logout and try an invalid token
         browser.open('%s/logout' % (
             self.portal.absolute_url(),
         ))
@@ -70,6 +72,12 @@ class TestInviteUser(unittest.TestCase):
         ))
         self.assertNotIn('userrole-authenticated', browser.contents,
                          'Invalid token should not allow access')
+
+        # No token
+        with self.assertRaises(KeyError):
+            browser.open('%s/@@accept-token' % (
+                self.portal.absolute_url(),
+            ))
 
     def test_invite_user_form(self):
         email = 'test@test.com'
