@@ -66,6 +66,7 @@ class SimpleSharing(form.SchemaForm):
             message=u"Your content has been shared.",
             request=self.context.REQUEST,
         )
+        self.context.reindexObject()
         return self.request.response.redirect(
             self.context.absolute_url())
 
