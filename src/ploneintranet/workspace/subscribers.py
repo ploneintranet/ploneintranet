@@ -33,6 +33,9 @@ def workspace_state_changed(ob, event):
         workspace.reindexObjectSecurity()
 
 
+WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
+
+
 def workspace_added(ob, event):
     """
     when a workspace is created, we add the creator to
@@ -101,3 +104,20 @@ def invitation_accepted(event):
                 'Welcome to our family, Stranger',
                 request,
             )
+
+
+def user_deleted_from_site_event(event):
+    """ Remove deleted user from all the workspaces where he
+    is a member """
+    userid = event.principal
+
+    catalog = api.portal.get_tool('portal_catalog')
+    query = {'object_provides': WORKSPACE_INTERFACE}
+
+    query['workspace_members'] = userid
+    workspaces = [
+        IWorkspace(b._unrestrictedGetObject())
+        for b in catalog.unrestrictedSearchResults(query)
+        ]
+    for workspace in workspaces:
+        workspace.remove_from_team(userid)
