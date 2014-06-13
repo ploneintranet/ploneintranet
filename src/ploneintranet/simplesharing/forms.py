@@ -1,6 +1,5 @@
 from collective.z3cform.chosen import ChosenMultiFieldWidget
 from plone import api
-from plone.api.exc import InvalidParameterError
 from plone.directives import form
 from z3c.form import button
 from z3c.form import field
