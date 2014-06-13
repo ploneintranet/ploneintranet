@@ -153,49 +153,6 @@ class TestTransferForm(BaseTestCase):
             )
         return user
 
-    def test_non_existing_member_is_not_transferred(self):
-        self.login_as_portal_owner()
-
-        provideAdapter(adapts=(Interface, IBrowserRequest),
-                       provides=Interface,
-                       factory=TransferMembershipForm,
-                       name="transfer")
-        ws = api.content.create(
-            self.portal,
-            "ploneintranet.workspace.workspacefolder",
-            "alejandro-workspace",
-            title="Alejandro workspace")
-
-        names = "Dima Nikita Alex Vlad Sergey".split()
-        for name in names:
-            IWorkspace(ws).add_to_team(
-                user=self.create_user(name=name).getId())
-
-        # subtracting admin from members list
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
-
-        other_ws = api.content.create(
-            self.portal,
-            "ploneintranet.workspace.workspacefolder",
-            "isabella-workspace",
-            "Isabella Workspace",)
-
-        api.user.delete(username="Dima")
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
-
-        # make a move
-        request = self.make_request(api.content.get_uuid(other_ws), True)
-        form = api.content.get_view('transfer',
-                                    context=ws,
-                                    request=request)
-        form.update()
-        data, errors = form.extractData()
-        self.assertEqual(len(errors), 0)
-
-        self.assertEqual(
-            len(names)-1, len(list(IWorkspace(other_ws).members))-1)
-        self.assertEqual(0, len(list(IWorkspace(ws).members)))
-
     def test_transfer_form(self):
         """ Check that the transfer form can copy/move users
             to another workspace """

@@ -44,9 +44,18 @@
      handler=".subscribers.participation_policy_changed"
      />
 
+  <!-- Subscribe to accepted token event which is fired
+       when user clicks on the link in received email-->
   <subscriber
     for="ploneintranet.invitations.events.ITokenAccepted"
     handler=".subscribers.invitation_accepted"
+    />
+
+  <!-- Subscribe to user removed event, and delete him 
+       from all workspaces where he is a member -->
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IPrincipalDeletedEvent"
+    handler=".subscribers.user_deleted_from_site_event"
     />
 
   <adapter
