@@ -33,6 +33,13 @@ class TestInviteUser(unittest.TestCase):
         self.portal._updateProperty('email_from_name', 'Portal Owner')
         self.portal._updateProperty('email_from_address', 'sender@example.org')
 
+        self.browser = Browser(self.app)
+        self.browser.handleErrors = False
+
+        # Commit so that the test browser sees these changes
+        import transaction
+        transaction.commit()
+
     def test_invite_user(self):
         email = 'test@test.com'
         view = getMultiAdapter(
@@ -51,45 +58,46 @@ class TestInviteUser(unittest.TestCase):
         import transaction
         transaction.commit()
 
-        browser = Browser(self.app)
-        browser.handleErrors = False
-        browser.open(token_url)
+        self.browser.open(token_url)
 
         # We should now be authenticated
-        self.assertIn('userrole-authenticated', browser.contents,
+        self.assertIn('userrole-authenticated', self.browser.contents,
                       'User was not authenticated after accepting token')
         self.assertIn(
-            email, browser.contents,
+            email, self.browser.contents,
             'Incorrect user authenticated after accepting token',
         )
 
         # Logout and try an invalid token
-        browser.open('%s/logout' % (
+        self.browser.open('%s/logout' % (
             self.portal.absolute_url(),
         ))
-        browser.open('%s/@@accept-token/thisisnotatoken' % (
+        self.browser.open('%s/@@accept-token/thisisnotatoken' % (
             self.portal.absolute_url(),
         ))
-        self.assertNotIn('userrole-authenticated', browser.contents,
+        self.assertNotIn('userrole-authenticated', self.browser.contents,
                          'Invalid token should not allow access')
 
         # No token
         with self.assertRaises(KeyError):
-            browser.open('%s/@@accept-token' % (
+            self.browser.open('%s/@@accept-token' % (
                 self.portal.absolute_url(),
             ))
 
     def test_invite_user_form(self):
         email = 'test@test.com'
-        browser = Browser(self.app)
-        browser.handleErrors = False
 
-        browser.open(self.portal.absolute_url() + '/login_form')
-        browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
-        browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
-        browser.getControl(name='submit').click()
+        self.browser.open(self.portal.absolute_url() + '/login_form')
+        self.browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+        self.browser.getControl(name='__ac_password').value = \
+            SITE_OWNER_PASSWORD
+        self.browser.getControl(name='submit').click()
 
-        browser.open('%s/@@ploneintranet-invitations-invite-user' %
-                     self.portal.absolute_url())
-        browser.getControl(name='email').value = email
-        browser.getControl(name='send').click()
+        self.browser.open('%s/@@ploneintranet-invitations-invite-user' %
+                          self.portal.absolute_url())
+        self.browser.getControl(name='email').value = email
+        self.browser.getControl(name='send').click()
+
+        self.assertEqual(len(self.mailhost.messages), 1)
+        msg = message_from_string(self.mailhost.messages[0])
+        self.assertEqual(msg['To'], email)

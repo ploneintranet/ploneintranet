@@ -22,7 +22,7 @@
               <br />
               <em>When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Subsequent uses of the URL will log the user in automatically.</em></p>
 
-            <form action="" method="post">
+            <form tal:attributes="action view/__name__" method="post">
 
               <p>
                 <label for="email">
