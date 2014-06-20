@@ -27,6 +27,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
         import ploneintranet.simplesharing
         self.loadZCML(package=ploneintranet.simplesharing)
+        import collective.z3cform.chosen
+        self.loadZCML(package=collective.z3cform.chosen)
 
         # plone social dependancies
         import plonesocial.microblog
