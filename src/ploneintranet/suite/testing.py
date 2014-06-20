@@ -25,6 +25,9 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=collective.workspace)
         z2.installProduct(app, 'collective.workspace')
 
+        import ploneintranet.simplesharing
+        self.loadZCML(package=ploneintranet.simplesharing)
+
         # plone social dependancies
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
