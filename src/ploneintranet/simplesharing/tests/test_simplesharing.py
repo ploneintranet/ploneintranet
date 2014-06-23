@@ -59,32 +59,34 @@ class TestSimpleSharing(BaseTestCase):
             request=request
         )
         shareform.update()
-        return shareform.extractData()
+        return shareform
 
     def test_visibility(self):
+        self.login_as_portal_owner()
+
         # Test empty form
-        data, errors = self.simple_share([], '')
-        self.assertEqual(len(errors), 0)
+        shareform = self.simple_share([], '')
+        self.assertFalse(shareform.status)
         self.assertEqual(api.content.get_state(self.doc), 'private')
         self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
         # Test validation error
-        data, errors = self.simple_share(['foobar'], 'published')
-        self.assertEqual(len(errors), 1)
+        shareform = self.simple_share(['foobar'], 'published')
+        self.assertTrue(shareform.status)
         # State and shared with should remain unchanged
         self.assertEqual(api.content.get_state(self.doc), 'private')
         self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
         # Test invalid workflow state
-        data, errors = self.simple_share(['user1'], 'foobar')
-        self.assertEqual(len(errors), 1)
+        shareform = self.simple_share(['user1'], 'foobar')
+        self.assertTrue(shareform.status)
         # State and shared with should remain unchanged
         self.assertEqual(api.content.get_state(self.doc), 'private')
         self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
         # Test "Share with all" (publish)
-        data, errors = self.simple_share([], 'published')
-        self.assertEqual(len(errors), 0)
+        shareform = self.simple_share([], 'publish')
+        self.assertFalse(shareform.status)
         self.assertEqual(api.content.get_state(self.doc), 'published')
         self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
@@ -106,8 +108,8 @@ class TestSimpleSharing(BaseTestCase):
         )
 
         # Test sharing with one user
-        data, errors = self.simple_share(['user1'])
-        self.assertEqual(len(errors), 0)
+        shareform = self.simple_share(['user1'])
+        self.assertFalse(shareform.status)
         self.assertEqual(api.content.get_state(self.doc), 'private')
         self.assertEqual(self.doc.users_with_local_role('Reader'),
                          ['user1'],
