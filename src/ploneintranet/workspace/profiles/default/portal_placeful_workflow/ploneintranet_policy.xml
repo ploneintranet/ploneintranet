@@ -14,5 +14,7 @@
   <type default_chain="true" type_id="News Item"/>
   <type default_chain="true" type_id="TempFolder"/>
   <type default_chain="true" type_id="Topic"/>
+  <type default_chain="true" type_id="File"/>
+  <type default_chain="true" type_id="Image"/>
  </bindings>
 </object>
