@@ -20,11 +20,27 @@ class WorkflowStatesSource(object):
     implements(IContextSourceBinder)
 
     def __call__(self, context):
+        """get available workflows/transitions for this object
+
+        :param context: the object being shared
+        :returns: vocab of avaible states
+        :rtype: SimpleVocabulary
+        """
         workflow = api.portal.get_tool('portal_workflow')
-        wf = workflow.getWorkflowsFor(context)
-        states = wf[0].states.objectValues()
-        return SimpleVocabulary([
-            SimpleTerm(value=x.id,
-                       token=x.id,
-                       title=x.description) for x in states
-        ])
+        transitions = workflow.listActionInfos(object=context, max=1)
+        workflows = workflow.getWorkflowsFor(context)
+        states = workflows[0].states.objectValues()
+        state_mapping = {x.id: x for x in states}
+
+        vocab = []
+        for transition in transitions:
+            new_state = transition['transition'].new_state_id
+            vocab.append(
+                SimpleTerm(
+                    value=new_state,
+                    token=new_state,
+                    title=state_mapping[new_state].description,
+                )
+            )
+
+        return SimpleVocabulary(vocab)
