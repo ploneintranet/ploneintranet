@@ -27,20 +27,25 @@ class WorkflowStatesSource(object):
         :rtype: SimpleVocabulary
         """
         workflow = api.portal.get_tool('portal_workflow')
-        transitions = workflow.listActionInfos(object=context, max=1)
+        transitions = workflow.listActionInfos(object=context)
         workflows = workflow.getWorkflowsFor(context)
         states = workflows[0].states.objectValues()
         state_mapping = {x.id: x for x in states}
 
         vocab = []
+        final_states = []
         for transition in transitions:
             new_state = transition['transition'].new_state_id
+            if new_state in final_states:
+                continue
+            transition_id = transition['transition'].id
             vocab.append(
                 SimpleTerm(
-                    value=new_state,
-                    token=new_state,
+                    value=transition_id,
+                    token=transition_id,
                     title=state_mapping[new_state].description,
                 )
             )
+            final_states.append(new_state)
 
         return SimpleVocabulary(vocab)
