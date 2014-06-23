@@ -21,6 +21,6 @@ class TestWorkflowStatesSource(BaseTestCase):
         vocab = cls.__call__(doc)
 
         self.assertIsInstance(vocab, SimpleVocabulary)
-        self.assertEqual(len(vocab), 1)
+        self.assertEqual(len(vocab), 2)
         self.assertIsInstance(list(vocab)[0], SimpleTerm)
         self.assertIn('Visible to everyone', list(vocab)[0].title)
