@@ -9,9 +9,10 @@ from ploneintranet.simplesharing.forms import SimpleSharing
 from ploneintranet.simplesharing.tests.base import BaseTestCase
 
 
-class TestBehaviors(BaseTestCase):
+class TestSimpleSharing(BaseTestCase):
+
     def setUp(self):
-        super(TestBehaviors, self).setUp()
+        super(TestSimpleSharing, self).setUp()
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=SimpleSharing,
