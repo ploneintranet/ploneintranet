@@ -82,7 +82,7 @@ class SimpleSharing(form.SchemaForm):
     def visibility(self, value):
         if not value:
             return
-        api.content.transition(obj=self.context, to_state=value)
+        api.content.transition(obj=self.context, transition=value)
 
     @property
     def share_with(self):
