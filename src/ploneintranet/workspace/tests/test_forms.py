@@ -363,7 +363,6 @@ class TestInvitationFormValidation(BaseTestCase):
             )
 
         form.update()
-        data, errors = form.extractData()
         error_msg = "User is already a member of this workspace"
         self.assertEqual(
             error_msg,
