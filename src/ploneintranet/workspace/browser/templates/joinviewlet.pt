@@ -1,0 +1,5 @@
+<div tal:condition="view/visible">
+  <form method="post" tal:attributes="action view/join_url">
+    <input type="submit" name="button.join" value="Join right here, right now" />
+  </form>
+</div>
