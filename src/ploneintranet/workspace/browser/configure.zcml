@@ -42,6 +42,7 @@
      class=".viewlets.JoinViewlet"
      template="templates/joinviewlet.pt"
      permission="zope2.View"
+     view="plone.app.layout.globals.interfaces.IViewView"
      />
 
 </configure>
