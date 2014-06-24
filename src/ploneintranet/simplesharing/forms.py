@@ -24,7 +24,7 @@ class ISimpleSharing(form.Schema):
         title=u"Visibility",
         description=u"Who should see this document?",
         source=WorkflowStatesSource(),
-        required=False
+        required=True,
     )
 
     share_with = schema.List(
