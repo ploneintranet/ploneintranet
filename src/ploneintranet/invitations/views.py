@@ -5,6 +5,7 @@ from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces import IPublishTraverse
 from ploneintranet.invitations.events import TokenAccepted
 from ploneintranet.invitations.interfaces import ITokenUtility
+from ploneintranet.invitations import MessageFactory as _
 from plone import api
 
 
@@ -26,8 +27,8 @@ class AcceptToken(BrowserView):
     def __call__(self):
         if self.token_id is None:
             raise KeyError(
-                "No token id given in sub-path."
-                "Use .../@@accept-token/tokenid"
+                _("No token id given in sub-path."
+                "Use .../@@accept-token/tokenid")
             )
         util = getUtility(ITokenUtility)
         portal = api.portal.get()
@@ -42,7 +43,7 @@ class AcceptToken(BrowserView):
                 ))
         else:
             api.portal.show_message(
-                'Token no longer valid',
+                _('Token no longer valid'),
                 self.request,
                 type='error'
             )
