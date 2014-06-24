@@ -3,8 +3,34 @@ from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
-
 from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+
+
+def workspace_state_changed(ob, event):
+    """
+    when a workspace is made 'open', we need to
+    give all intranet users the 'Guest' role
+
+    equally, when the workspace is not open, we need
+    to remove the role again
+    """
+    workspace = event.object
+    roles = ['Guest', ]
+    if event.new_state.id == 'open':
+        api.group.grant_roles(
+            groupname=INTRANET_USERS_GROUP_ID,
+            obj=workspace,
+            roles=roles,
+        )
+        workspace.reindexObjectSecurity()
+    elif event.old_state.id == 'open':
+        api.group.revoke_roles(
+            groupname=INTRANET_USERS_GROUP_ID,
+            obj=workspace,
+            roles=roles,
+        )
+        workspace.reindexObjectSecurity()
 
 
 def workspace_added(ob, event):

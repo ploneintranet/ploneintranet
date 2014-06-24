@@ -36,6 +36,12 @@
      handler=".subscribers.workspace_added"
      />
 
+  <subscriber
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
+          Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+     handler=".subscribers.workspace_state_changed"
+     />
+
   <!-- Subscribe to ParticipationPolicyChangedEvent in order to
        update existing users-->
   <subscriber
