@@ -107,6 +107,9 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         """
         Open workspaces should be visible
         and accessible to all users
+
+        Content within open workspace is also visible
+        to all users
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
@@ -114,9 +117,19 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='A secret workspace')
-
         api.content.transition(workspace_folder,
                                'make_open')
+        doc = api.content.create(
+            workspace_folder,
+            'Document',
+            'example-doc',
+            title='A document in a workspace')
+        api.content.transition(doc, to_state='published')
+        doc_private = api.content.create(
+            workspace_folder,
+            'Document',
+            'example-doc-private',
+            title='A private document in a workspace')
 
         api.user.create(username='nonmember', email="test@test.com")
         permissions = api.user.get_permissions(
@@ -143,6 +156,22 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # ... and get access to
         self.assertTrue(member_permissions['Access contents information'],
                         'Member cannot access contents of open workspace')
+
+        # Normal users can also view published content in an open group
+        self.assertTrue(
+            api.user.get_permissions(
+                username='nonmember',
+                obj=doc,
+            )['View'],
+            'Non-member cannot view published content within an open group.',
+        )
+        self.assertFalse(
+            api.user.get_permissions(
+                username='nonmember',
+                obj=doc_private,
+            )['View'],
+            'Non-member should not see private content in an open group',
+        )
 
     def test_modify_workspace(self):
         """
