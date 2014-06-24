@@ -1,50 +1,56 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/prefs_main_template/macros/master"
-    i18n:domain="plone">
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="ploneintranet">
 
 <body>
 
 <metal:main fill-slot="prefs_configlet_content">
 
-        <div metal:use-macro="context/global_statusmessage/macros/portal_message">
-          Portal status message
-        </div>
+  <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+    Portal status message
+  </div>
 
-        <div id="content">
+  <div id="content">
 
-            <h1>Invitations</h1>
+    <h1>Invitations</h1>
 
-            <p>Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address.
-              <br />
-              <em>When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Subsequent uses of the URL will log the user in automatically.</em></p>
+    <p>Enter an email address below to invite someone to the plone site. A
+       unique token URL will be sent to the address.
+      <br />
+      <em>When the unique token URL is accessed, a user account will be
+          automatically created and the user will be logged in. Subsequent uses
+          of the URL will log the user in automatically.</em></p>
 
-            <form action="" method="post">
+    <form action=""
+          method="post">
 
-              <p>
-                <label for="email">
-                  Send email invite to:
-                </label>
-                <br />
-                <input type="text" name="email" />
+      <p>
+        <label for="email">
+          Send email invite to:
+        </label>
+        <br />
+        <input type="text"
+               name="email" />
 
-                <input tal:replace="structure context/@@authenticator/authenticator"/>
-              </p>
+        <input tal:replace="structure context/@@authenticator/authenticator"/>
+      </p>
 
-              <p>
-                <input class="context"
-                       type="submit"
-                       name="send"
-                       value="Send"
-                       />
-              </p>
+      <p>
+        <input class="context"
+               type="submit"
+               name="send"
+               value="Send"
+            />
+      </p>
 
-            </form>
+    </form>
 
-    </div>
+  </div>
 
 </metal:main>
 
