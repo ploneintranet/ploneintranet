@@ -11,26 +11,33 @@
 
 <metal:main fill-slot="prefs_configlet_content">
 
-  <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+  <div metal:use-macro="context/global_statusmessage/macros/portal_message"
+       i18n:translate="">
     Portal status message
   </div>
 
   <div id="content">
 
-    <h1>Invitations</h1>
+    <h1 i18n:translate="">Invitations</h1>
 
-    <p>Enter an email address below to invite someone to the plone site. A
-       unique token URL will be sent to the address.
-      <br />
-      <em>When the unique token URL is accessed, a user account will be
-          automatically created and the user will be logged in. Subsequent uses
-          of the URL will log the user in automatically.</em></p>
+    <p i18n:translate="invitation_admin_para_1">
+      Enter an email address below to invite someone to the plone site. A
+      unique token URL will be sent to the address.
+    </p>
+
+    <p>
+      <em i18n:translate="invitation_admin_para_2">When the unique token URL is
+          accessed, a user account will be automatically created and the user
+          will be logged in. Subsequent uses of the URL will log the user in
+          automatically.
+      </em>
+    </p>
 
     <form action=""
           method="post">
 
       <p>
-        <label for="email">
+        <label for="email" i18n:translate="">
           Send email invite to:
         </label>
         <br />
