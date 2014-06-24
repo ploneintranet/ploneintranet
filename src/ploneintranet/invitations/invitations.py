@@ -8,6 +8,7 @@ from BTrees.OOBTree import OOBTree
 from plone.protect import CheckAuthenticator, PostOnly
 
 from ploneintranet.invitations.interfaces import ITokenUtility
+from ploneintranet.invitations import MessageFactory as _
 
 
 ANNOTATION_KEY = 'ploneintranet.invitations.invitation_storage'
@@ -36,6 +37,7 @@ class InviteUser(BrowserView):
         :return: Tuple of token id and token url
         """
         # TODO - check that this email address is not already registered
+        # TODO - Body and subject to become content
         portal = api.portal.get()
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token()
@@ -61,7 +63,7 @@ to access the site here:
         )
 
         api.portal.show_message(
-            'Invitation sent to %s' % email,
+            _('Invitation sent to %s') % email,
             self.request,
         )
         return token_id, token_url
