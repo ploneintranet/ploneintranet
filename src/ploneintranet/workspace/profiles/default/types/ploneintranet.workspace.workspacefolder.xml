@@ -9,7 +9,7 @@
     i18n:translate="">A Workspace users can collaborate in</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
   <property name="factory">ploneintranet.workspace.workspacefolder</property>
-  <property name="global_allow">True</property>
+  <property name="global_allow">False</property>
   <property name="filter_content_types">False</property>
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
@@ -50,7 +50,7 @@
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
-  <action title="Roster" action_id="edit-roster" 
+  <action title="Roster" action_id="edit-roster"
           category="object" condition_expr=""
     url_expr="string:${object_url}/@@edit-roster" visible="True">
     <permission value="collective.workspace: Manage roster" />
