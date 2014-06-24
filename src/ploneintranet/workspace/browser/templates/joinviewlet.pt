@@ -3,8 +3,11 @@
   <dt>Join</dt>
   <dd>
     <form method="post" tal:attributes="action view/join_url">
-      You can become a member of this workspace
+      <span i18n:translate="">
+        You can become a member of this workspace
+      </span>
       <input type="submit" name="button.join" 
+             i18n:attributes="value"
              value="Join now" />
     </form>
   </dd>
