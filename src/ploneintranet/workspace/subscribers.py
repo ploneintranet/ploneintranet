@@ -36,6 +36,9 @@ def workspace_state_changed(ob, event):
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
 
+WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
+
+
 def workspace_added(ob, event):
     """
     when a workspace is created, we add the creator to
