@@ -1,5 +1,11 @@
-<div tal:condition="view/visible">
-  <form method="post" tal:attributes="action view/join_url">
-    <input type="submit" name="button.join" value="Join right here, right now" />
-  </form>
-</div>
+<dl tal:condition="view/visible" class="portalMessage info"
+     i18n:domain="ploneintranet">
+  <dt>Join</dt>
+  <dd>
+    <form method="post" tal:attributes="action view/join_url">
+      You can become a member of this workspace
+      <input type="submit" name="button.join" 
+             value="Join now" />
+    </form>
+  </dd>
+</dl>
