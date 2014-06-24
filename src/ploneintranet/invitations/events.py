@@ -1,11 +1,12 @@
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import implements
+from ploneintranet.invitations import MessageFactory as _
 
 
 class ITokenAccepted(Interface):
 
-    token_id = Attribute("The id of the Token that was consumed")
+    token_id = Attribute(_(u"The id of the Token that was consumed"))
 
 
 class TokenAccepted(object):
