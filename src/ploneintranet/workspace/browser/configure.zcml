@@ -38,7 +38,7 @@
 
    <browser:viewlet
      name="ploneintranet.workspace.join"
-     manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      class=".viewlets.JoinViewlet"
      template="templates/joinviewlet.pt"
      permission="zope2.View"
