@@ -1,4 +1,4 @@
-from z3c.form.interfaces import NO_VALUE
+from z3c.form.interfaces import NOT_CHANGED
 from zope.interface import classProvides, implements
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
@@ -37,8 +37,8 @@ class WorkflowStatesSource(object):
         # add the current state
         vocab = [
             SimpleTerm(
-                value=NO_VALUE,
-                token=NO_VALUE,
+                value=NOT_CHANGED,
+                token=NOT_CHANGED,
                 title=state_mapping[current_state].description,
             )
         ]

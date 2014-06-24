@@ -3,6 +3,7 @@ from plone import api
 from plone.directives import form
 from z3c.form import button
 from z3c.form import field
+from z3c.form.interfaces import NOT_CHANGED
 from zope.interface import alsoProvides
 from zope.interface import provider
 from zope import schema
@@ -81,6 +82,8 @@ class SimpleSharing(form.SchemaForm):
     @visibility.setter
     def visibility(self, value):
         if not value:
+            return
+        if value == NOT_CHANGED:
             return
         api.content.transition(obj=self.context, transition=value)
 

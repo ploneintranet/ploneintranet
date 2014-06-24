@@ -1,4 +1,5 @@
 from z3c.form.interfaces import IFormLayer
+from z3c.form.interfaces import NOT_CHANGED
 from zope.annotation import IAttributeAnnotatable
 from zope.component import provideAdapter
 from zope.interface import alsoProvides, Interface
@@ -45,7 +46,7 @@ class TestSimpleSharing(BaseTestCase):
         alsoProvides(request, IAttributeAnnotatable)
         return request
 
-    def simple_share(self, users, visibility='private', obj=None):
+    def simple_share(self, users, visibility=str(NOT_CHANGED), obj=None):
         if obj is None:
             obj = self.doc
         request = self.make_request(
@@ -63,12 +64,6 @@ class TestSimpleSharing(BaseTestCase):
 
     def test_visibility(self):
         self.login_as_portal_owner()
-
-        # Test empty form
-        shareform = self.simple_share([], '')
-        self.assertFalse(shareform.status)
-        self.assertEqual(api.content.get_state(self.doc), 'private')
-        self.assertEqual(self.doc.users_with_local_role('Reader'), [])
 
         # Test validation error
         shareform = self.simple_share(['foobar'], 'published')
