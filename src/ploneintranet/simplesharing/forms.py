@@ -81,8 +81,6 @@ class SimpleSharing(form.SchemaForm):
 
     @visibility.setter
     def visibility(self, value):
-        if not value:
-            return
         if value == NOT_CHANGED:
             return
         api.content.transition(obj=self.context, transition=value)
