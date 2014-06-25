@@ -5,6 +5,7 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
 from zope.globalrequest import getRequest
 
 from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace import MessageFactory as _
 
 
 def workspace_added(ob, event):
@@ -65,13 +66,13 @@ def invitation_accepted(event):
             if member is not None:
                 if member.getUserName() == username:
                     api.portal.show_message(
-                        'Oh boy, oh boy, you are already a member',
+                        _('Oh boy, oh boy, you are already a member'),
                         request,
                     )
                     break
         else:
             ws.add_to_team(user=username)
             api.portal.show_message(
-                'Welcome to our family, Stranger',
+                _('Welcome to our family, Stranger'),
                 request,
             )
