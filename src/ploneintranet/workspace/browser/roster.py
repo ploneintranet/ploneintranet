@@ -5,7 +5,6 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.protect import CheckAuthenticator, PostOnly
-from plone.protect import protect
 from Products.Five import BrowserView
 from ploneintranet.workspace import MessageFactory as _
 from collective.workspace.interfaces import IWorkspace
