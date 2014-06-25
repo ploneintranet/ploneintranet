@@ -57,7 +57,7 @@
     handler=".subscribers.invitation_accepted"
     />
 
-  <!-- Subscribe to user removed event, and delete him 
+  <!-- Subscribe to user removed event, and delete him
        from all workspaces where he is a member -->
   <subscriber
     for="Products.PluggableAuthService.interfaces.events.IPrincipalDeletedEvent"
@@ -93,7 +93,8 @@
       title="Post-install setup for ploneintranet.workspace"
       description=""
       handler=".setuphandlers.post_install"
-      i18n:translate="title description"
-      />
+      i18n:translate="title description">
+      <depends name="placeful_workflow" />
+   </genericsetup:importStep>
 
 </configure>

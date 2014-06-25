@@ -44,3 +44,15 @@ def post_install(context):
     # deactivate the enumerate groups interface for collective.workspace
     activatePluginInterfaces(portal, 'workspace_groups',
                              disable=['IGroupEnumerationPlugin'])
+
+    # Set up the ploneintranet policy for all addable types
+    default_types = []
+    types = api.portal.get_tool('portal_types')
+    for type_info in types.listTypeInfo():
+        if type_info.global_allow:
+            default_types.append(type_info.getId())
+
+    if default_types:
+        pwftool = api.portal.get_tool('portal_placeful_workflow')
+        policy = pwftool['ploneintranet_policy']
+        policy.setChainForPortalTypes(default_types, ('(Default)',))

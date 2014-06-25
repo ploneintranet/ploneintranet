@@ -52,3 +52,27 @@ class TestSetupHandlers(BaseTestCase):
             groupname,
             [x['id'] for x in group_info],
         )
+
+    def test_placeful_workflow_policy(self):
+        """ globally addable types should be configured to use the default
+            chain in the ploneintranet policy """
+
+        pwftool = api.portal.get_tool('portal_placeful_workflow')
+        policy = pwftool['ploneintranet_policy']
+        default_chain = policy.getDefaultChain(None)
+
+        default_types = [
+            'Collection',
+            'Document',
+            'Event',
+            'File',
+            'Folder',
+            'Image',
+            'Link',
+            'News Item',
+        ]
+        for portal_type in default_types:
+            self.assertEqual(
+                default_chain,
+                policy.getChainFor(portal_type)
+            )
