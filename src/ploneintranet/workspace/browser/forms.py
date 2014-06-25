@@ -40,8 +40,10 @@ def user_has_email(username):
     """ make sure, that given user has an email associated """
     user = api.user.get(username=username)
     if not user.getProperty("email"):
-        msg = "For unknown reasons, this user doesn't have an email \
-associated with his account"
+        msg = _(
+            "For unknown reasons, this user doesn't have an email associated "
+            "with his account"
+        )
         raise Invalid(msg)
 
     return True
