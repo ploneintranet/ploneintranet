@@ -8,6 +8,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
+  <include package="collective.workspace" />
+
   <browser:page
      name="policies"
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
@@ -34,6 +36,14 @@
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      class=".views.JoinView"
      permission="zope2.View"
+     />
+
+   <browser:page
+     name="update_roster"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".roster.EditRoster"
+     attribute="update_roster"
+     permission="collective.workspace.ManageRoster"
      />
 
    <browser:viewlet

@@ -10,7 +10,7 @@
       name="edit-roster"
       for="collective.workspace.interfaces.IHasWorkspace"
       class=".browser.roster.EditRoster"
-      permission="cmf.ModifyPortalContent"
+      permission="collective.workspace.ViewRoster"
       />
 
 </configure>

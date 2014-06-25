@@ -2,6 +2,7 @@ from collective.workspace.interfaces import IHasWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
+from ploneintranet.workspace.browser.roster import EditRoster
 from zope.component import getMultiAdapter
 from zExceptions import Forbidden
 from collective.workspace.interfaces import IWorkspace
@@ -74,18 +75,13 @@ class TestEditRoster(BaseTestCase):
             html
         )
 
-    def test_handle_form(self):
-        self.request.form['form.submitted'] = True
-        self.request.form['form.button.Save'] = True
-        view = getMultiAdapter(
-            (self.workspace, self.request),
-            name='edit-roster'
-        )
+    def test_update_roster(self):
+        er = EditRoster(self.workspace, self.request)
         # This will give forbidden - see browser test
         # for further tests of this
         self.assertRaises(
             Forbidden,
-            view.handle_form,
+            er.update_roster,
         )
 
     def test_existing_users(self):
