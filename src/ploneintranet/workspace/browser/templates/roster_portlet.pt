@@ -1,0 +1,12 @@
+<dl class="portlet portletAnnualSubscription">
+  <dt class="portletHeader">
+    <a href=""
+       tal:attributes="href string:${context/absolute_url}/@@edit-roster"
+       tal:condition="view/on_workspace">
+      Roster
+    </a>
+    <p tal:condition="not:view/on_workspace">
+      The roster view is not available outside of a workspace.
+    </p>
+  </dt>
+</dl>

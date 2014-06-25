@@ -8,26 +8,37 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
+  <include package="plone.app.portlets" />
+
   <browser:page
-     name="policies"
-     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-     class=".forms.PolicyForm"
-     permission="cmf.ModifyPortalContent"
-     />
+      name="policies"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".forms.PolicyForm"
+      permission="cmf.ModifyPortalContent"
+      />
 
-   <browser:page
-     name="transfer"
-     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-     class=".forms.TransferMembershipForm"
-     permission="cmf.ModifyPortalContent"
-     />
+  <browser:page
+      name="transfer"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".forms.TransferMembershipForm"
+      permission="cmf.ModifyPortalContent"
+      />
 
-   <browser:page
-     name="invite"
-     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-     class=".forms.InviteForm"
-     permission="cmf.ModifyPortalContent"
-     />
+  <browser:page
+      name="invite"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".forms.InviteForm"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <plone:portlet
+      name="portlets.RosterPortlet"
+      interface=".portlets.IRosterPortlet"
+      assignment=".portlets.Assignment"
+      renderer=".portlets.Renderer"
+      addview=".portlets.AddForm"
+      editview=".portlets.EditForm"
+      />
 
    <browser:page
      name="joinme"
