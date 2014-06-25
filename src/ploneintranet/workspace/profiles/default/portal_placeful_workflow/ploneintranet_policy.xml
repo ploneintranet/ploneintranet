@@ -5,16 +5,5 @@
   <default>
    <bound-workflow workflow_id="ploneintranet_workflow"/>
   </default>
-  <type default_chain="true" type_id="Collection"/>
-  <type default_chain="true" type_id="Discussion Item"/>
-  <type default_chain="true" type_id="Document"/>
-  <type default_chain="true" type_id="Event"/>
-  <type default_chain="true" type_id="Folder"/>
-  <type default_chain="true" type_id="Link"/>
-  <type default_chain="true" type_id="News Item"/>
-  <type default_chain="true" type_id="TempFolder"/>
-  <type default_chain="true" type_id="Topic"/>
-  <type default_chain="true" type_id="File"/>
-  <type default_chain="true" type_id="Image"/>
  </bindings>
 </object>
