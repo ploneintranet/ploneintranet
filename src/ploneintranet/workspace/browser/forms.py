@@ -172,6 +172,12 @@ class IInviteForm(form.Schema):
         constraint=user_has_email,
         )
 
+    message = schema.Text(
+        title=_(u"Message"),
+        default=u"",
+        required=False,
+        )
+
 
 class InviteForm(form.SchemaForm):
     schema = IInviteForm
@@ -183,6 +189,8 @@ class InviteForm(form.SchemaForm):
     def handleApply(self, action):
         data = self.extractData()[0]
         given_username = data.get("user", "").strip()
+        given_message = data.get("message", "") or ""
+        given_message = given_message.strip()
         if not given_username:
             return
 
@@ -203,12 +211,27 @@ class InviteForm(form.SchemaForm):
             redirect_path="resolveuid/%s" % (ws.context.UID(),))
         storage = get_storage()
         storage[token_id] = (ws.context.UID(), given_username)
-        message = """Congratulations! You've been invited to join %s
 
-The following is a unique URL tied to your email address (%s).
-Clicking the link will make you a member of a %s workspace automatically.
+        current_user = api.user.get_current()
+        inviter = current_user.getProperty("fullname", None)
+        if not inviter:
+            inviter = current_user.getUserName()
 
-%s
+        msg_header = "You've been invited to join %s by %s" % (
+            self.context.title, inviter)
+
+        if given_message:
+            optional = "Here is the message from %s\n\n" % inviter
+            optional = "%s%s\n\n" % (optional, given_message)
+            given_message = optional
+
+        msg_footer = """
+The following is a unique URL tied to your email address ({email}).
+
+Clicking the link will make you a member of a {workspace} workspace
+automatically.
+
+{token_url}
 
 Good luck,
 Yours
@@ -216,9 +239,18 @@ Yours
 ***** Email confidentiality notice *****
 This message is private and confidential. If you have received this
 message in error, please notify us and UNREAD it.
-""" % (self.context.title, email, self.context.title, token_url)
+""".format(
+            email=email,
+            workspace=self.context.title,
+            token_url=token_url)
 
-        subject = 'You are invited to "%s"' % self.context.title
+        message = "{header}\n\n{optional}{footer}".format(
+            header=msg_header,
+            optional=given_message,
+            footer=msg_footer,
+            )
+
+        subject = 'You are invited to join "%s"' % self.context.title
 
         send_email(email, subject, message)
         api.portal.show_message(
