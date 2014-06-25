@@ -28,7 +28,7 @@ class AcceptToken(BrowserView):
         if self.token_id is None:
             raise KeyError(
                 _("No token id given in sub-path."
-                "Use .../@@accept-token/tokenid")
+                  "Use .../@@accept-token/tokenid")
             )
         util = getUtility(ITokenUtility)
         portal = api.portal.get()
