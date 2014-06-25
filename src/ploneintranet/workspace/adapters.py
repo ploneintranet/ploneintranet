@@ -34,7 +34,7 @@ class PloneIntranetWorkspace(Workspace):
         We override this method to add our additional participation
         policy groups, as detailed in available_groups above
         """
-        group = self.context.participant_policy
+        group = self.context.participant_policy.title()
         data = kw.copy()
         if "groups" in data:
             data["groups"].add(group)
@@ -42,6 +42,19 @@ class PloneIntranetWorkspace(Workspace):
             data["groups"] = set([group])
 
         super(PloneIntranetWorkspace, self).add_to_team(**data)
+
+    def group_for_policy(self, policy=None):
+        """
+        Lookup the collective.workspace usergroup corresponding to the
+        given policy
+
+        :param policy: The value of the policy to lookup, defaults to the
+                       current policy
+        :type policy: str
+        """
+        if policy is None:
+            policy = self.context.participant_policy
+        return "%s:%s" % (policy.title(), self.context.UID())
 
 
 class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):

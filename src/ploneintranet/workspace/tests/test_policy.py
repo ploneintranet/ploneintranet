@@ -80,7 +80,7 @@ class TestPolicy(BaseTestCase):
         # check that accessing setting for the first time doesn't fail
         self.assertEqual(workspace.external_visibility, "secret")
         self.assertEqual(workspace.join_policy, "admin")
-        self.assertEqual(workspace.participant_policy, "Consumers")
+        self.assertEqual(workspace.participant_policy, "consumers")
 
         workspace.set_external_visibility("open")
         self.assertEqual(workspace.external_visibility, "open")
@@ -88,8 +88,8 @@ class TestPolicy(BaseTestCase):
         workspace.join_policy = "team"
         self.assertEqual(workspace.join_policy, "team")
 
-        workspace.participant_policy = "Producers"
-        self.assertEqual(workspace.participant_policy, "Producers")
+        workspace.participant_policy = "producers"
+        self.assertEqual(workspace.participant_policy, "producers")
 
     def test_workspace_policy_change_updates_existing_members(self):
         """
@@ -103,8 +103,8 @@ class TestPolicy(BaseTestCase):
             "example-workspace",
             title="A workspace")
         # check that accessing setting for the first time doesn't fail
-        workspace.participant_policy = "Producers"
-        self.assertEqual(workspace.participant_policy, "Producers")
+        workspace.participant_policy = "producers"
+        self.assertEqual(workspace.participant_policy, "producers")
 
         username = "member_username"
         api.user.create(username=username, email="test@test.com")
@@ -112,7 +112,7 @@ class TestPolicy(BaseTestCase):
         group = api.group.get("Producers:" + api.content.get_uuid(workspace))
         self.assertIn(api.user.get(username=username),
                       group.getAllGroupMembers())
-        workspace.participant_policy = "Consumers"
+        workspace.participant_policy = "consumers"
         self.assertNotIn(
             api.user.get(username=username),
             group.getAllGroupMembers())
@@ -133,7 +133,7 @@ class TestPolicy(BaseTestCase):
             'ploneintranet.workspace.workspacefolder',
             'workspace')
         # default participant policy state should be "consumers"
-        self.assertEqual(workspace.participant_policy, "Consumers")
+        self.assertEqual(workspace.participant_policy, "consumers")
 
         # create a member and add to workspace
         username = "member_username"
@@ -153,9 +153,9 @@ class TestPolicy(BaseTestCase):
             self.portal,
             "ploneintranet.workspace.workspacefolder",
             "other-workspace")
-        self.assertEqual(workspace.participant_policy, "Consumers")
-        workspace.participant_policy = "Producers"
-        self.assertEqual(workspace.participant_policy, "Producers")
+        self.assertEqual(workspace.participant_policy, "consumers")
+        workspace.participant_policy = "producers"
+        self.assertEqual(workspace.participant_policy, "producers")
         username = "Vladislav"
         api.user.create(username=username, email="test1@test.com")
         self.add_user_to_workspace(username, workspace)
@@ -199,7 +199,7 @@ class TestPolicy(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'workspace')
-        workspace.participant_policy = "Publishers"
+        workspace.participant_policy = "publishers"
         username = "testuser"
         api.user.create(username=username, email="test@test.com")
         self.add_user_to_workspace(username, workspace)

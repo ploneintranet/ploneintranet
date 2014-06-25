@@ -37,7 +37,7 @@ class TestPermissions(BaseTestCase):
     def test_consumers_can_view(self):
         """ Consumers can only view published content in the workspace """
         self.login_as_portal_owner()
-        self.workspace.participant_policy = "Consumers"
+        self.workspace.participant_policy = "consumers"
         doc_private = api.content.create(
             self.workspace,
             'Document',
