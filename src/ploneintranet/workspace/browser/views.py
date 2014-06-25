@@ -10,16 +10,20 @@ class JoinView(BrowserView):
 
     def __call__(self):
         if not self.context.join_policy == "self":
-            raise Unauthorized("No way")
+            msg = _(u"Workspace join policy doesn't allow self join")
+            raise Unauthorized(msg)
 
         field = "button.join"
-        if self.request.method == "POST" and field in self.request.form:
+        req_method = self.request.method.lower()
+        if req_method == "post" and field in self.request.form:
             user = api.user.get_current()
             workspace = IWorkspace(self.context)
             workspace.add_to_team(user=user.getId())
-            msg = u"You are a fully qualified member of this workspace now"
+            msg = _(u"You are a member of this workspace now")
             api.portal.show_message(message=_(msg),
                                     request=self.request)
 
-        referer = self.request.get("HTTP_REFERER", self.context.absolute_url())
+        referer = self.request.get("HTTP_REFERER", "").strip()
+        if not referer:
+            referer = self.context.absolute_url()
         return self.request.response.redirect(referer)

@@ -56,7 +56,7 @@ Site User can join self managed workspace
     Logout
     Log in as test user
     Maneuver to  Demo Workspace
-    Click button  Join right here, right now
+    Click button  Join now
     Logout
     Log in as site owner
     Go to homepage

@@ -24,9 +24,12 @@ class TestSelfJoin(BaseTestCase):
             password="demon",
             )
 
-    def test_user_can_join(self):
+    def open_workspace(self):
         self.workspace.join_policy = "self"
         self.workspace.visibility = "open"
+
+    def test_user_can_join(self):
+        self.open_workspace()
         self.request.method = "POST"
         self.request.form = {"button.join": True}
         self.request["HTTP_REFERER"] = "someurl"
@@ -40,3 +43,21 @@ class TestSelfJoin(BaseTestCase):
         self.login("demo")
         view = JoinView(self.workspace, self.request)
         self.assertRaises(Unauthorized, view)
+
+    def test_user_redirected_if_method_get(self):
+        self.open_workspace()
+        self.request.method = "GET"
+        self.request.form = {"button.join": True}
+        self.request["HTTP_REFERER"] = "someurl"
+        self.login("demo")
+        view = JoinView(self.workspace, self.request)
+        response = view()
+        self.assertEqual("someurl", response)
+        self.assertNotIn("demo", IWorkspace(self.workspace).members)
+
+    def test_user_redirected_to_workspace_if_no_referer(self):
+        self.open_workspace()
+        self.login("demo")
+        view = JoinView(self.workspace, self.request)
+        response = view()
+        self.assertEqual(self.workspace.absolute_url(), response)
