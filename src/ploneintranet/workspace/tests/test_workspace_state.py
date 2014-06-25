@@ -66,27 +66,6 @@ class TestWorkSpaceState(BaseTestCase):
         self.assertEqual(workspace_folder,
                          view.workspace())
 
-    def test_sub_workspace(self):
-        """
-        If a workspace is inside a workspace the nearest workspace should
-        be retured
-        """
-        self.login_as_portal_owner()
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        workspace_folder2 = api.content.create(
-            workspace_folder,
-            'ploneintranet.workspace.workspacefolder',
-            'sub-workspace'
-        )
-        view = workspace_folder2.restrictedTraverse(
-            '@@ploneintranet_workspace_state'
-        )
-        self.assertEqual(workspace_folder2,
-                         view.workspace())
-
     def test_workspace_state(self):
         """
         The current state of the workspace should be returned

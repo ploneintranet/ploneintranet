@@ -1,5 +1,6 @@
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
+from plone.api.exc import InvalidParameterError
 from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 
 
@@ -61,6 +62,24 @@ class TestContentTypes(BaseTestCase):
         html = view()
         self.assertIn(workspace_folder.title, html,
                       'Workspace title not found on view page')
+
+    def test_cannot_add_sub_workspace(self):
+        """
+        workspaces cannot be nested
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            container=self.portal,
+            type='ploneintranet.workspace.workspacefolder',
+            id='workspace-1',
+        )
+        self.assertRaises(
+            InvalidParameterError,
+            api.content.create,
+            workspace,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-2',
+        )
 
     def test_add_user_to_workspace(self):
         """ check that we can add a new user to a workspace """
