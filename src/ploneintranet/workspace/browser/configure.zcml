@@ -29,4 +29,20 @@
      permission="cmf.ModifyPortalContent"
      />
 
+   <browser:page
+     name="joinme"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".views.JoinView"
+     permission="zope2.View"
+     />
+
+   <browser:viewlet
+     name="ploneintranet.workspace.join"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     class=".viewlets.JoinViewlet"
+     template="templates/joinviewlet.pt"
+     permission="zope2.View"
+     view="plone.app.layout.globals.interfaces.IViewView"
+     />
+
 </configure>

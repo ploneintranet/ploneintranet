@@ -40,3 +40,26 @@ Site Administrator can edit roster
     Click button  Search users
     Click button  Save
 
+Site User can join self managed workspace
+    Add workspace  Demo Workspace
+    Log in as test user
+    Go to homepage
+    Element should not be visible  xpath=//ul[@id=portal-globalnav]/li/a[text()='Demo Workspace']
+    Logout
+    Log in as site owner
+    Go to homepage
+    Navigate to  Demo Workspace
+    Click Policies In edit bar
+    Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  open
+    Select From List  xpath=//select[@name="form.widgets.join_policy:list"]  self
+    Click button  Ok
+    Logout
+    Log in as test user
+    Maneuver to  Demo Workspace
+    Click button  Join now
+    Logout
+    Log in as site owner
+    Go to homepage
+    Navigate to  Demo Workspace
+    Click Roster In edit bar
+    Element should be visible  xpath=//table[@id="edit-roster"]/tbody/tr/td[normalize-space()="test_user_1_"]

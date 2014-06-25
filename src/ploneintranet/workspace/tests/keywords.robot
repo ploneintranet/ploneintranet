@@ -25,3 +25,17 @@ Navigate to
     Go to homepage
     Click Contents In edit bar
     Click link  ${title}
+
+
+Add workspace
+    [arguments]  ${title}
+    Log in as site owner
+    Go to homepage
+    Add content item  Workspace  ${title}
+    Element should be visible  xpath=//ul[@id="portal-globalnav"]/li[a="${title}"]
+
+
+Maneuver to
+    [arguments]  ${title}
+    Go to homepage
+    Click link  ${title}
