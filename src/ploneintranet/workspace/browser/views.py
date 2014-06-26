@@ -33,9 +33,11 @@ class JoinView(BrowserView):
 
 class SharingView(BaseSharingView):
     def can_edit_inherit(self):
+        """ Disable "inherit permissions" checkbox """
         return False
 
     def role_settings(self):
+        """ Filter out unwanted to show groups """
         result = super(SharingView, self).role_settings()
         uid = self.context.UID()
         filter_func = lambda x: not any((
@@ -44,3 +46,14 @@ class SharingView(BaseSharingView):
             x["id"] == INTRANET_USERS_GROUP_ID,
             ))
         return filter(filter_func, result)
+
+    def user_search_results(self):
+        """ Add [member] to a user title if user is a member
+        of current workspace
+        """
+        results = super(SharingView, self).user_search_results()
+        ws = IWorkspace(self.context)
+        for result in results:
+            if result["id"] in ws.members:
+                result["title"] = "%s [member]" % result["title"]
+        return results

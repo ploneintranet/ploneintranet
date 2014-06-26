@@ -79,3 +79,18 @@ class TestSharingView(BaseViewTest):
         self.assertNotIn("AuthenticatedUsers", ids)
         uid = self.workspace.UID()
         self.assertEqual(filter(lambda x: x.endswith(uid), ids), [])
+
+    def test_member_is_added_to_user_title_if_user_is_a_member(self):
+        self.login_as_portal_owner()
+        IWorkspace(self.workspace).add_to_team(user=self.user.getUserName())
+        self.request.form = {'form.button.Search': 'Search',
+                             'search_term': 'demo'}
+        view = SharingView(self.workspace, self.request)
+        self.assertIn("%s [member]" % (self.user.getUserName(),), view())
+
+    def test_member_is_not_added_if_user_is_not_a_member(self):
+        self.login_as_portal_owner()
+        self.request.form = {'form.button.Search': 'Search',
+                             'search_term': 'demo'}
+        view = SharingView(self.workspace, self.request)
+        self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())

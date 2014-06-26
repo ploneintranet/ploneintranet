@@ -63,3 +63,11 @@ Site User can join self managed workspace
     Navigate to  Demo Workspace
     Click Roster In edit bar
     Element should be visible  xpath=//table[@id="edit-roster"]/tbody/tr/td[normalize-space()="test_user_1_"]
+
+Sharing Tab is usable
+    Add workspace  Demo Workspace
+    Maneuver to  Demo Workspace
+    Go To  ${PLONE_URL}/demo-workspace/@@sharing
+    Input text  sharing-user-group-search  test
+    Click button  sharing-search-button
+    Element should be visible  xpath=//table[@id="user-group-sharing"]/tbody/tr/td[normalize-space()="test_user_1_ (test-user)"]
