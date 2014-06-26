@@ -5,6 +5,7 @@ from AccessControl import Unauthorized
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 
 from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 
 
 class JoinView(BrowserView):
@@ -37,4 +38,9 @@ class SharingView(BaseSharingView):
     def role_settings(self):
         result = super(SharingView, self).role_settings()
         uid = self.context.UID()
-        return filter(lambda x: not x["id"].endswith(uid), result)
+        filter_func = lambda x: not any((
+            x["id"].endswith(uid),
+            x["id"] == "AuthenticatedUsers",
+            x["id"] == INTRANET_USERS_GROUP_ID,
+            ))
+        return filter(filter_func, result)

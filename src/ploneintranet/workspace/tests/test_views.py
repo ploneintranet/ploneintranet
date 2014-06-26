@@ -1,14 +1,13 @@
 from AccessControl import Unauthorized
-from ploneintranet.workspace.browser.views import JoinView
+from ploneintranet.workspace.browser.views import JoinView, SharingView
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 
 
-class TestSelfJoin(BaseTestCase):
-
+class BaseViewTest(BaseTestCase):
     def setUp(self):
-        super(TestSelfJoin, self).setUp()
+        super(BaseViewTest, self).setUp()
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
 
@@ -23,6 +22,9 @@ class TestSelfJoin(BaseTestCase):
             username="demo",
             password="demon",
             )
+
+
+class TestSelfJoin(BaseViewTest):
 
     def open_workspace(self):
         self.workspace.join_policy = "self"
@@ -61,3 +63,19 @@ class TestSelfJoin(BaseTestCase):
         view = JoinView(self.workspace, self.request)
         response = view()
         self.assertEqual(self.workspace.absolute_url(), response)
+
+
+class TestSharingView(BaseViewTest):
+
+    def test_inherit_view_is_not_shown(self):
+        self.login_as_portal_owner()
+        view = SharingView(self.workspace, self.request)
+        self.assertFalse(view.can_edit_inherit())
+
+    def test_sharing_view_filters_groups(self):
+        self.login_as_portal_owner()
+        view = SharingView(self.workspace, self.request)
+        ids = [group["id"] for group in view.role_settings()]
+        self.assertNotIn("AuthenticatedUsers", ids)
+        uid = self.workspace.UID()
+        self.assertEqual(filter(lambda x: x.endswith(uid), ids), [])
