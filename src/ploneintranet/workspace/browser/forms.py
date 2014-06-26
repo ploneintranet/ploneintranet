@@ -29,10 +29,14 @@ join_vocab = SimpleVocabulary([
 ])
 
 particip_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'consumers', title=_(u'Consumers')),
-    SimpleTerm(value=u'producers', title=_(u'Producers')),
-    SimpleTerm(value=u'publishers', title=_(u'Publishers')),
-    SimpleTerm(value=u'moderators', title=_(u'Moderators')),
+    SimpleTerm(value=u'consumers',
+               title=_(u'Consumers (Read only)')),
+    SimpleTerm(value=u'producers',
+               title=_(u'Producers (Can create content)')),
+    SimpleTerm(value=u'publishers',
+               title=_(u'Publishers (Can create and publish own content)')),
+    SimpleTerm(value=u'moderators',
+               title=_(u'Moderators (Full content administration rights)')),
 ])
 
 
@@ -54,16 +58,22 @@ class IPolicyForm(form.Schema):
 
     external_visibility = schema.Choice(
         title=_(u"ws_external_visibility", default="External Visibility"),
+        description=_(u"ws_external_visbility_description",
+                      default="Who can see this workspace and its content?"),
         source=visibility_vocab,
     )
 
     join_policy = schema.Choice(
         title=_(u"ws_join_policy", default="Join Policy"),
+        description=_(u"ws_join_policy_description",
+                      default="Who can add new members?"),
         source=join_vocab,
     )
 
     participant_policy = schema.Choice(
         title=_(u"ws_participant_policy", default="Participant Policy"),
+        description=_(u"ws_participant_policy_description",
+                      default="What permissions do members have by default?"),
         source=particip_vocab,
     )
 
