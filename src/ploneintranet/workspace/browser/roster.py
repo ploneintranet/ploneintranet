@@ -53,7 +53,9 @@ class EditRoster(BrowserView):
             raise Unauthorized("You are not allowed to add users here")
 
         for entry in entries:
-            id = entry['id']
+            id = entry.get('id')
+            if id is None:
+                continue
             is_member = bool(entry.get('member'))
             is_admin = bool(entry.get('admin'))
 
@@ -127,3 +129,16 @@ class EditRoster(BrowserView):
             "ploneintranet.workspace: Manage workspace",
             self.context,
         )
+
+    def can_add_users(self):
+        """
+        admins can add users.
+        if the workspace is team or self managed then members can
+        add other users too.
+        """
+        if self.can_manage_workspace():
+            return True
+        if self.context.join_policy in {'self', 'team'}:
+            return True
+        else:
+            return False

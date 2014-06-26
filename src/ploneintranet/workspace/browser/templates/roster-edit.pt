@@ -11,6 +11,8 @@
 		tal:define="context_state context/@@plone_context_state;
 			    user_cannot_manage python:
 			    not view.can_manage_workspace();
+			    can_remove_users view/can_manage_workspace;
+			    can_add_users view/can_add_users;
 			    ">
 
       <h1 class="documentFirstHeading"
@@ -71,7 +73,9 @@
                 <tal:entries repeat="user users">
                   <tr tal:define="oddrow repeat/user/odd;
                                   is_admin user/admin | nothing;
-                                  is_member user/member | nothing"
+                                  is_member user/member | nothing;
+				  is_user_removable python:
+				  can_remove_users and not is_admin;"
                       tal:attributes="class python:oddrow and 'odd' or 'even'">
                     <td>
                       <span tal:replace="user/title" />
@@ -91,22 +95,43 @@
                              type="checkbox"
                              value="1"
                              name="entries.member:records"
+			     tal:condition="python:
+					    (can_add_users and is_user_removable)
+					    or
+					    (can_add_users and not is_member)"
                              tal:attributes="checked is_member;
                                              disabled is_admin"
                              />
                       <input type="hidden"
                              name="entries.member:records"
                              value="1"
-                             tal:condition="is_admin" />
+                             tal:condition="python:
+					    not is_user_removable
+					    and is_member" />
+		      <img src="confirm_icon.png"
+			   tal:condition="python:
+					  not is_user_removable
+					  and is_member" />
                     </td>
                     <td class="listingCheckbox">
                       <input class="noborder"
                              type="checkbox"
                              value="1"
                              name="entries.admin:records"
+			     tal:condition="not: user_cannot_manage"
                              tal:attributes="checked is_admin;
 					     disabled user_cannot_manage;"
                              />
+		      <input type="hidden"
+                             name="entries.admin:records"
+                             value="1"
+                             tal:condition="python:
+					    user_cannot_manage
+					    and is_admin" />
+		      <img src="confirm_icon.png"
+			   tal:condition="python:
+					  user_cannot_manage
+					  and is_admin" />
                     </td>
                   </tr>
                 </tal:entries>
