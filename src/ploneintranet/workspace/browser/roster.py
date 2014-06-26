@@ -17,25 +17,26 @@ class EditRoster(BrowserView):
     Based on the @@sharing tab from plone.app.workflow
     """
 
-    index = ViewPageTemplateFile('roster-edit.pt')
+    index = ViewPageTemplateFile('templates/roster-edit.pt')
 
     def __call__(self):
-        """Perform the update and redirect if necessary, or render the page
-        """
-        self.handle_form()
         return self.index()
 
-    def handle_form(self):
+    def update_roster(self, REQUEST=None):
+        """
+        If workspace is team managed, users can add/remove participants.
+        Any user with the manage workspace permission can add/remove
+        participants and admins.
+        """
+        CheckAuthenticator(self.request)
+        PostOnly(self.request)
         form = self.request.form
-        submitted = form.get('form.submitted', False)
-        save_button = form.get('form.button.Save', None) is not None
-        if submitted and save_button:
-            CheckAuthenticator(self.request)
-            PostOnly(self.request)
-            entries = form.get('entries', [])
-            self.update_users(entries)
-            api.portal.show_message(message=_(u'Roster updated.'),
-                                    request=self.request)
+        entries = form.get('entries', [])
+        self.update_users(entries)
+        api.portal.show_message(message=_(u'Roster updated.'),
+                                request=self.request)
+        return self.request.response.redirect(
+            '%s/@@edit-roster' % self.context.absolute_url())
 
     @clearafter
     def update_users(self, entries):
@@ -111,3 +112,12 @@ class EditRoster(BrowserView):
             )
 
         return info
+
+    def can_manage_workspace(self):
+        """
+        does this user have permission to manage the workspace
+        """
+        return checkPermission(
+            "ploneintranet.workspace: Manage workspace",
+            self.context,
+        )
