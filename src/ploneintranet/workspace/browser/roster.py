@@ -1,12 +1,14 @@
+from AccessControl import Unauthorized
+from Products.CMFCore.utils import _checkPermission as checkPermission
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.instance import memoize, clearafter
-from zope.component import getMultiAdapter
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.protect import CheckAuthenticator, PostOnly
-from Products.Five import BrowserView
 from ploneintranet.workspace import MessageFactory as _
-from collective.workspace.interfaces import IWorkspace
+from zope.component import getMultiAdapter
 
 
 class EditRoster(BrowserView):
@@ -41,8 +43,15 @@ class EditRoster(BrowserView):
         ws = IWorkspace(self.context)
         members = ws.members
 
-        for entry in entries:
+        # check user permissions against join policy
+        join_policy = self.context.join_policy
+        if (join_policy == "admin"
+            and not checkPermission(
+                "collective.workspace: Manage roster",
+                self.context)):
+            raise Unauthorized("You are not allowed to add users here")
 
+        for entry in entries:
             id = entry['id']
             is_member = bool(entry.get('member'))
             is_admin = bool(entry.get('admin'))
