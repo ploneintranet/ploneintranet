@@ -52,7 +52,7 @@ class SharingViewlet(ViewletBase):
         context_state = api.content.get_view(context=self.context,
                                              request=self.request,
                                              name="plone_context_state")
-        url = context_state.current_page_url()
+        url = context_state.current_base_url()
         return url.endswith('@@sharing')
 
     def participant_policy(self):

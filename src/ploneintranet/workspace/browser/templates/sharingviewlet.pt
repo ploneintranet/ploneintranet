@@ -1,4 +1,4 @@
-<dl tal:condition="view/visible" class="portalMessage info"
+<dl tal:condition="view/visible" class="portalMessage warning"
      i18n:domain="ploneintranet">
   <dt i18n:translate="">Info</dt>
   <dd i18n:translate="sharing_policy_description">
