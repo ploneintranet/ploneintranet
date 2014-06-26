@@ -102,16 +102,15 @@
                              tal:attributes="checked is_member;
                                              disabled is_admin"
                              />
-                      <input type="hidden"
-                             name="entries.member:records"
-                             value="1"
-                             tal:condition="python:
-					    not is_user_removable
-					    and is_member" />
-		      <img src="confirm_icon.png"
-			   tal:condition="python:
-					  not is_user_removable
-					  and is_member" />
+		      <tal:disabled condition="python:
+					       not is_user_removable
+					       and is_member">
+			<input type="hidden"
+                               name="entries.member:records"
+                               value="1"
+			       />
+			<img src="confirm_icon.png" />
+		      </tal:disabled>
                     </td>
                     <td class="listingCheckbox">
                       <input class="noborder"
@@ -122,16 +121,16 @@
                              tal:attributes="checked is_admin;
 					     disabled user_cannot_manage;"
                              />
-		      <input type="hidden"
-                             name="entries.admin:records"
-                             value="1"
-                             tal:condition="python:
-					    user_cannot_manage
-					    and is_admin" />
-		      <img src="confirm_icon.png"
-			   tal:condition="python:
-					  user_cannot_manage
-					  and is_admin" />
+		      <tal:disabled condition="python:
+					       user_cannot_manage
+					       and is_admin">
+			<input type="hidden"
+                               name="entries.admin:records"
+                               value="1"
+			       />
+			<img src="confirm_icon.png"
+			     />
+		      </tal:disabled>
                     </td>
                   </tr>
                 </tal:entries>
