@@ -1,3 +1,4 @@
+from AccessControl import Unauthorized
 from collective.workspace.interfaces import IHasWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
@@ -129,7 +130,7 @@ class TestEditRoster(BaseTestCase):
 
     def test_update_users_remove_admin(self):
         """
-        Remove admin role from workspace
+        Remove admin role from workspace as manager
         """
         view = getMultiAdapter(
             (self.workspace, self.request),
@@ -159,6 +160,7 @@ class TestEditRoster(BaseTestCase):
         )
 
     def test_update_users_remove_member(self):
+        self.login('wsadmin')
         view = getMultiAdapter(
             (self.workspace, self.request),
             name='edit-roster'
@@ -175,6 +177,25 @@ class TestEditRoster(BaseTestCase):
         self.assertNotIn(
             'wsmember',
             members
+        )
+
+    def test_cannot_remove_member_as_member(self):
+        """
+        only admins can remove members
+        """
+        self.workspace.join_policy = 'team'
+
+        self.login('wsmember')
+        view = getMultiAdapter(
+            (self.workspace, self.request),
+            name='edit-roster'
+        )
+        settings = [{'id': 'wsmember',
+                     'member': False, }]
+        self.assertRaises(
+            Unauthorized,
+            view.update_users,
+            settings,
         )
 
     def test_update_users_add_member(self):
