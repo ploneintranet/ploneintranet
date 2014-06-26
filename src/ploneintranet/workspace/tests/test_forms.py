@@ -27,7 +27,7 @@ class TestPolicyForm(BaseTestCase):
     # Form setup gubbins stolen from:
     # http://plone-testing-documentation.readthedocs.org/en/latest/z3c.form.html  # noqa
     def make_request(self, empty=False, visibility="secret",
-                     join_policy="team", participant_policy="Moderators"):
+                     join_policy="team", participant_policy="moderators"):
         """ Creates a request
         :param bool empty: if true, request will be empty, any other given \
                       parameters will be ignored
@@ -95,7 +95,7 @@ class TestPolicyForm(BaseTestCase):
         self.assertEqual(workspace.join_policy,
                          'team')
         self.assertEqual(workspace.participant_policy,
-                         'Moderators')
+                         'moderators')
 
         # Now give it some data
         request = self.make_request(visibility="open")

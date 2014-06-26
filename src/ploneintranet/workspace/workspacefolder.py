@@ -55,7 +55,7 @@ class WorkspaceFolder(Container):
         try:
             return self._participant_policy
         except AttributeError:
-            return "Consumers"
+            return "consumers"
 
     @participant_policy.setter
     def participant_policy(self, value):

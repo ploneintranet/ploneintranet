@@ -5,6 +5,9 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
 from zope.globalrequest import getRequest
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace import MessageFactory as _
+
+WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
 
 def workspace_state_changed(ob, event):
@@ -33,12 +36,6 @@ def workspace_state_changed(ob, event):
         workspace.reindexObjectSecurity()
 
 
-WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
-
-
-WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
-
-
 def workspace_added(ob, event):
     """
     when a workspace is created, we add the creator to
@@ -65,12 +62,12 @@ def workspace_added(ob, event):
 def participation_policy_changed(ob, event):
     """ Move all the existing users to a new group """
     workspace = IWorkspace(ob)
-    old_group_name = "%s:%s" % (event.old_policy, ob.UID())
+    old_group_name = workspace.group_for_policy(event.old_policy)
     old_group = api.group.get(old_group_name)
     for member in old_group.getAllGroupMembers():
         groups = workspace.get(member.getId()).groups
-        groups -= set([event.old_policy])
-        groups.add(event.new_policy)
+        groups -= set([event.old_policy.title()])
+        groups.add(event.new_policy.title())
 
 
 def invitation_accepted(event):
@@ -97,14 +94,14 @@ def invitation_accepted(event):
             if member is not None:
                 if member.getUserName() == username:
                     api.portal.show_message(
-                        'Oh boy, oh boy, you are already a member',
+                        _('Oh boy, oh boy, you are already a member'),
                         request,
                     )
                     break
         else:
             ws.add_to_team(user=username)
             api.portal.show_message(
-                'Welcome to our family, Stranger',
+                _('Welcome to our family, Stranger'),
                 request,
             )
 

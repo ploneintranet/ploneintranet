@@ -20,28 +20,30 @@ visibility_vocab = SimpleVocabulary([
     SimpleTerm(value=u'secret', title=_(u'Secret')),
     SimpleTerm(value=u'private', title=_(u'Private')),
     SimpleTerm(value=u'open', title=_(u'Open')),
-    ])
+])
 
 join_vocab = SimpleVocabulary([
     SimpleTerm(value=u'admin', title=_(u'Admin-Managed')),
     SimpleTerm(value=u'team', title=_(u'Team-Managed')),
     SimpleTerm(value=u'self', title=_(u'Self-Managed')),
-    ])
+])
 
 particip_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'Consumers', title=_(u'Consumers')),
-    SimpleTerm(value=u'Producers', title=_(u'Producers')),
-    SimpleTerm(value=u'Publishers', title=_(u'Publishers')),
-    SimpleTerm(value=u'Moderators', title=_(u'Moderators')),
-    ])
+    SimpleTerm(value=u'consumers', title=_(u'Consumers')),
+    SimpleTerm(value=u'producers', title=_(u'Producers')),
+    SimpleTerm(value=u'publishers', title=_(u'Publishers')),
+    SimpleTerm(value=u'moderators', title=_(u'Moderators')),
+])
 
 
 def user_has_email(username):
     """ make sure, that given user has an email associated """
     user = api.user.get(username=username)
     if not user.getProperty("email"):
-        msg = "For unknown reasons, this user doesn't have an email \
-associated with his account"
+        msg = _(
+            "For unknown reasons, this user doesn't have an email associated "
+            "with his account"
+        )
         raise Invalid(msg)
 
     return True
@@ -53,17 +55,17 @@ class IPolicyForm(form.Schema):
     external_visibility = schema.Choice(
         title=_(u"ws_external_visibility", default="External Visibility"),
         source=visibility_vocab,
-        )
+    )
 
     join_policy = schema.Choice(
         title=_(u"ws_join_policy", default="Join Policy"),
         source=join_vocab,
-        )
+    )
 
     participant_policy = schema.Choice(
         title=_(u"ws_participant_policy", default="Participant Policy"),
         source=particip_vocab,
-        )
+    )
 
 
 class PolicyForm(form.SchemaForm):
@@ -122,13 +124,13 @@ class ITransferMembershipForm(form.Schema):
     workspace = schema.Choice(
         title=_(u"Select workspace"),
         source=workspaces_provider,
-        )
+    )
 
     move = schema.Bool(
         title=_(u"Move"),
         description=_(u"If checked, users will be removed from workspace"),
         required=False,
-        )
+    )
 
 
 class TransferMembershipForm(form.SchemaForm):
@@ -170,7 +172,7 @@ class IInviteForm(form.Schema):
         title=u'User',
         source=UsersSource,
         constraint=user_has_email,
-        )
+    )
 
     message = schema.Text(
         title=_(u"Message"),
