@@ -65,12 +65,12 @@ class EditRoster(BrowserView):
                 ws.add_to_team(user=id, groups=groups)
 
     def users(self):
-        """Get current users.
+        """Get current users and add in any search results.
 
-        Returns a list of dicts with keys:
-
+        :returns: a list of dicts with keys
          - id
          - title
+        :rtype: list
         """
         existing_users = self.existing_users()
         existing_user_ids = [x['id'] for x in existing_users]
