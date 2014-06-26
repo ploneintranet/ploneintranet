@@ -32,6 +32,13 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="sharing"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".views.SharingView"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
   <plone:portlet
       name="portlets.RosterPortlet"
       interface=".portlets.IRosterPortlet"
