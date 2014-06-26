@@ -37,3 +37,23 @@ class JoinViewlet(ViewletBase):
         """
         workspace = self.context.acquire_workspace()
         return "%s/%s" % (workspace.absolute_url(), "joinme")
+
+
+class SharingViewlet(ViewletBase):
+    """
+    Provides information about the default policy when viewing
+    the sharing tab on a workspace.
+    """
+
+    def visible(self):
+        """
+        Only shown on the sharing view
+        """
+        context_state = api.content.get_view(context=self.context,
+                                             request=self.request,
+                                             name="plone_context_state")
+        url = context_state.current_page_url()
+        return url.endswith('@@sharing')
+
+    def participant_policy(self):
+        return self.context.participant_policy.title()

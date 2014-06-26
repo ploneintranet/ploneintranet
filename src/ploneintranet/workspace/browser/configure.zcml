@@ -47,6 +47,14 @@
       permission="ploneintranet.workspace.ManageWorkspace"
       />
 
+  <browser:viewlet
+      name="ploneintranet.workspace.sharinginfo"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      class=".viewlets.SharingViewlet"
+      template="templates/sharingviewlet.pt"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
   <plone:portlet
       name="portlets.RosterPortlet"
       interface=".portlets.IRosterPortlet"
