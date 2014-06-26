@@ -61,7 +61,13 @@ class EditRoster(BrowserView):
             if id in members:
                 member = members[id]
                 if not is_member:
-                    ws.membership_factory(ws, member).remove_from_team()
+                    if checkPermission(
+                            "ploneintranet.workspace: Manage workspace",
+                            self.context):
+                        ws.membership_factory(ws, member).remove_from_team()
+                    else:
+                        raise Unauthorized(
+                            "Only team managers can remove members")
                 elif not is_admin:
                     ws.membership_factory(ws, member).groups -= {'Admins'}
                 else:
