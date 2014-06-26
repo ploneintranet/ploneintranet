@@ -138,7 +138,11 @@ class EditRoster(BrowserView):
         """
         if self.can_manage_workspace():
             return True
-        if self.context.join_policy in {'self', 'team'}:
-            return True
-        else:
-            return False
+
+        return self.context.join_policy in {'self', 'team'}
+
+    def admin_managed_workspace(self):
+        """
+        is this workspace admin managed?
+        """
+        return self.context.join_policy == 'admin'
