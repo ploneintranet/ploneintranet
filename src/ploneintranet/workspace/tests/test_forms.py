@@ -372,16 +372,18 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.portal._updateProperty('email_from_name', 'Portal Owner')
         self.portal._updateProperty('email_from_address', 'sender@example.org')
 
-    def make_request(self, username):
+    def make_request(self, username, message=""):
         """ Creates a request
         :param bool empty: if true, request will be empty, any other given \
                       parameters will be ignored
         :param str username: username to enter
+        :param str message: optional message to send to the user
         :return: ready to submit request.
         """
 
         form = {
             'form.widgets.user': username,
+            'form.widgets.message': message,
             'form.buttons.ok': 'OK',
         }
 
@@ -434,6 +436,57 @@ class TestInvitationFormEmailing(BaseTestCase):
                       'User was not authenticated after accepting token')
         # check that user is added to workspace
         self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+
+    def test_invitation_message_is_sent(self):
+        email = "vlad@example.org"
+        username = 'vladislav'
+        api.user.create(
+            email=email,
+            username=username,
+            password='whatever',
+            )
+
+        message = "Hello and join my workspace"
+        request = self.make_request(username=username, message=message)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        form.update()
+        data, errors = form.extractData()
+        self.assertEqual(len(self.mailhost.messages), 1)
+        msg = message_from_string(self.mailhost.messages[0])
+        # mail is actually received by correct recipient
+        self.assertEqual(msg['To'], email)
+        body = msg.get_payload()
+        self.assertIn(message, body)
+
+    def test_if_empty_message_no_text_is_included(self):
+        email = "vlad@example.org"
+        username = 'vladislav'
+        api.user.create(
+            email=email,
+            username=username,
+            password='whatever',
+            )
+
+        request = self.make_request(username=username, message=None)
+        form = api.content.get_view(
+            'invite',
+            context=self.ws,
+            request=request,
+            )
+
+        optional = "Here is the message from %s\n\n" % username
+        form.update()
+        self.assertEqual(len(self.mailhost.messages), 1)
+        msg = message_from_string(self.mailhost.messages[0])
+        # mail is actually received by correct recipient
+        self.assertEqual(msg['To'], email)
+        body = msg.get_payload()
+        self.assertNotIn(optional, body)
 
     def test_invitation_send_but_user_became_a_member_not_via_link(self):
         email = "vlad@example.org"
