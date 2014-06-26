@@ -1,5 +1,8 @@
+from AccessControl import Unauthorized
+from Products.CMFCore.utils import _checkPermission as checkPermission
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
 from zope.annotation.interfaces import IAnnotations
 
@@ -172,7 +175,7 @@ class TestPolicy(BaseTestCase):
 
     def test_role_adapter(self):
         """
-        test that the self publishers are also given reviewers if they
+        test that the self publishers are also given the reviewer role if they
         are an owner
         """
         self.login_as_portal_owner()
@@ -218,3 +221,78 @@ class TestPolicy(BaseTestCase):
         self.assertIn('Contributor', local_roles)
         self.assertIn('SelfPublisher', local_roles)
         self.assertIn('Reviewer', local_roles)
+
+    def test_join_policy_admin(self):
+        """
+        in an admin managed workspace, a user needs the
+        manage roster permission to update users
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace')
+        workspace.join_policy = 'admin'
+
+        username = "regular_member"
+        api.user.create(username=username, email="test@test.com")
+        self.add_user_to_workspace(username, workspace)
+
+        self.login(username)
+        self.assertFalse(
+            checkPermission("collective.workspace: Manage roster",
+                            workspace),
+        )
+        self.request['REQUEST_METHOD'] = 'POST'
+        edit_form = EditRoster(workspace, self.request)
+        settings = [
+            {
+                'id': 'wsadmin',
+                'member': True,
+                'admin': False,
+            },
+            {
+                'id': 'wsmember',
+                'member': True,
+            },
+        ]
+        self.assertRaises(
+            Unauthorized,
+            edit_form.update_users,
+            settings,
+        )
+
+    def test_join_policy_team(self):
+        """
+        in a team managed workspace a user only needs the view roster
+        permission to update users
+        """
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace')
+        workspace.join_policy = 'team'
+
+        username = "regular_member"
+        api.user.create(username=username, email="test@test.com")
+        self.add_user_to_workspace(username, workspace)
+
+        self.login(username)
+        self.assertTrue(
+            checkPermission("collective.workspace: View roster",
+                            workspace),
+        )
+        self.request['REQUEST_METHOD'] = 'POST'
+        edit_form = EditRoster(workspace, self.request)
+        settings = [
+            {
+                'id': 'member2',
+                'member': True,
+            },
+            {
+                'id': 'regular_member',
+                'member': True,
+            },
+        ]
+        edit_form.update_users(settings)
