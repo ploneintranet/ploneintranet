@@ -11,8 +11,10 @@
 		tal:define="context_state context/@@plone_context_state;
 			    user_cannot_manage python:
 			    not view.can_manage_workspace();
-			    can_remove_users view/can_manage_workspace;
+			    can_manage_workspace view/can_manage_workspace;
+			    can_remove_users can_manage_workspace;
 			    can_add_users view/can_add_users;
+			    admin_managed_workspace view/admin_managed_workspace;
 			    ">
 
       <h1 class="documentFirstHeading"
@@ -26,6 +28,10 @@
 
       <div id="content-core">
         <form method="post"
+	      tal:condition="python:
+			     can_manage_workspace
+			     or
+			     not admin_managed_workspace"
               tal:attributes="action string:${context/absolute_url}/@@edit-roster">
 
           <input type="hidden" name="form.submitted:boolean" value="True" />
@@ -138,7 +144,14 @@
             </table>
           </div>
 
-          <input id="edit-roster-save-button" class="context allowMultiSubmit" type="submit" name="form.button.Save" value="Save" i18n:attributes="value label_save" />
+          <input id="edit-roster-save-button"
+		 class="context allowMultiSubmit"
+		 type="submit"
+		 name="form.button.Save" value="Save"
+		 tal:condition="python:
+				can_manage_workspace
+				or not admin_managed_workspace"
+		 i18n:attributes="value label_save" />
           <input tal:replace="structure context/@@authenticator/authenticator" />
 
         </form>
