@@ -62,7 +62,7 @@
               <thead metal:define-macro="edit-roster-head" id="edit-roster-head">
                 <tr>
                   <th i18n:translate="label_name">Name</th>
-                  <th class="nosort">Participant</th>
+                  <th class="nosort">Member</th>
                   <th class="nosort">Workspace Admin</th>
                 </tr>
               </thead>
