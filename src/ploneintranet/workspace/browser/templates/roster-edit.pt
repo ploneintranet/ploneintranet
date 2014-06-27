@@ -11,6 +11,7 @@
 		tal:define="context_state context/@@plone_context_state;
 			    user_cannot_manage python:
 			    not view.can_manage_workspace();
+			    can_manage_workspace view/can_manage_workspace;
 			    ">
 
       <h1 class="documentFirstHeading"
