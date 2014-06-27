@@ -84,7 +84,10 @@
 				  can_remove_users and not is_admin;"
                       tal:attributes="class python:oddrow and 'odd' or 'even'">
                     <td>
-                      <span tal:replace="user/title" />
+                      <a tal:content="user/title" 
+                         tal:attributes="href 
+                                         string:${portal_url}/author/${user/id}" 
+                         />
                       <input
                          type="hidden"
                          name="entries.id:records"
