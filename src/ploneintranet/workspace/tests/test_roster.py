@@ -72,7 +72,7 @@ class TestEditRoster(BaseTestCase):
         )
         html = view.__call__()
         self.assertIn(
-            'Edit roster for',
+            'Roster for',
             html
         )
 
