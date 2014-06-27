@@ -118,6 +118,39 @@
           <input tal:replace="structure context/@@authenticator/authenticator" />
 
         </form>
+
+        <p>
+          <a tal:attributes="href string:${context/absolute_url}/@@invite" 
+             class="pat-modal">
+            Invite users to this workspace (via email)
+          </a>
+        </p>
+
+        <p>
+          <a tal:attributes="href string:${context/absolute_url}/@@transfer" 
+             class="pat-modal">
+            Transfer members to another workspace.
+          </a>
+        </p>
+
+        <p>
+          <a tal:attributes="href string:${context/absolute_url}/@@sharing">
+            Advanced user permissions
+          </a>
+        </p>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery('.pat-modal')
+        .prepOverlay({
+            subtype: 'ajax',
+            filter: common_content_filter,
+            formselector: '#form',
+            noform: 'reload'
+        });
+});
+</script>
+        
       </div>
     </metal:main>
   </body>
