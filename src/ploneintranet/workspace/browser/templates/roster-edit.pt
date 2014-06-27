@@ -158,6 +158,12 @@
           <input tal:replace="structure context/@@authenticator/authenticator" />
 
         </form>
+
+	<a href="#"
+	   tal:condition="can_manage_workspace"
+	   tal:attributes="href string:${context/absolute_url}/@@sharing">
+	  Advanced permissions
+	</a>
       </div>
     </metal:main>
   </body>
