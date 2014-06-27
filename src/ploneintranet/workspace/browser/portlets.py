@@ -4,6 +4,7 @@ from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from zope.formlib.form import Fields
 from zope.interface import implements
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 
 
@@ -28,16 +29,23 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
+        if not self.on_workspace():
+            return False
         context = aq_inner(self.context)
         mtool = api.portal.get_tool('portal_membership')
         return mtool.checkPermission('collective.workspace: View roster',
                                      context)
 
+    def member_count(self):
+        context = aq_inner(self.context)
+        return len(IWorkspace(context).members)
+
     def on_workspace(self):
         """
         are we within a workspace?
         """
-        return getattr(self.context, 'acquire_workspace', None) is not None
+        context = aq_inner(self.context)
+        return getattr(context, 'acquire_workspace', None) is not None
 
 
 class AddForm(base.AddForm):
