@@ -147,39 +147,42 @@
             </table>
           </div>
 
-          <input id="edit-roster-save-button"
-		 class="context allowMultiSubmit"
-		 type="submit"
-		 name="form.button.Save" value="Save"
-		 tal:condition="python:
-				can_manage_workspace
-				or not admin_managed_workspace"
-		 i18n:attributes="value label_save" />
-          <input tal:replace="structure context/@@authenticator/authenticator" />
+          <p>
+            <input id="edit-roster-save-button"
+		   class="context allowMultiSubmit"
+		   type="submit"
+		   name="form.button.Save" value="Save"
+		   tal:condition="python:
+				  can_manage_workspace
+				  or not admin_managed_workspace"
+		   i18n:attributes="value label_save" />
+            <input tal:replace="structure context/@@authenticator/authenticator" />
+          </p>
 
         </form>
 
         <tal:admin condition="can_manage_workspace">
-          <h3>
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@invite" 
-                 class="pat-modal">
-                Invite users to this workspace (via email)
-              </a>
-            </p>
+          <hr />
+          <h2>Advanced</h2>
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@invite" 
+               class="pat-modal">
+              Invite users to this workspace (via email)
+            </a>
+          </p>
 
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@transfer" 
-                 class="pat-modal">
-                Transfer members to another workspace.
-              </a>
-            </p>
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@transfer" 
+               class="pat-modal">
+              Transfer members to another workspace.
+            </a>
+          </p>
 
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@sharing">
-                Advanced permissions
-              </a>
-            </p>
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@sharing">
+              Advanced permissions
+            </a>
+          </p>
         </tal:admin>
 
         <script type="text/javascript">
