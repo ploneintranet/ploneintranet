@@ -217,6 +217,21 @@ class TestEditRoster(BaseTestCase):
             members
         )
 
+    def test_can_add_users_member(self):
+        """
+        admins can add users, and members can add users in
+        self/team managed workspaces
+        """
+        self.workspace.join_policy = 'team'
+
+        self.login('wsmember')
+        view = api.content.get_view(
+            context=self.workspace,
+            request=self.request,
+            name='edit-roster',
+        )
+        self.assertTrue(view.can_add_users())
+
 
 class TestEditRosterForm(FunctionalBaseTestCase):
 
