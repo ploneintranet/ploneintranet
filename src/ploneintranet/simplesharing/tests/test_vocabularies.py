@@ -29,3 +29,7 @@ class TestWorkflowStatesSource(BaseTestCase):
         self.assertIsInstance(list(vocab)[0], SimpleTerm)
         self.assertIn('edited by the owner', list(vocab)[0].title)
         self.assertIn('Visible to everyone', list(vocab)[1].title)
+
+        api.content.transition(obj=doc, transition='publish')
+        vocab = cls.__call__(doc)
+        self.assertEqual(len(vocab), 2)
