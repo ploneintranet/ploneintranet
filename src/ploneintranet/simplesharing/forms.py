@@ -3,6 +3,7 @@ from plone import api
 from plone.directives import form
 from z3c.form import button
 from z3c.form import field
+from z3c.form.interfaces import NOT_CHANGED
 from zope.interface import alsoProvides
 from zope.interface import provider
 from zope import schema
@@ -24,7 +25,7 @@ class ISimpleSharing(form.Schema):
         title=u"Visibility",
         description=u"Who should see this document?",
         source=WorkflowStatesSource(),
-        required=False
+        required=True,
     )
 
     share_with = schema.List(
@@ -80,7 +81,7 @@ class SimpleSharing(form.SchemaForm):
 
     @visibility.setter
     def visibility(self, value):
-        if not value:
+        if value == NOT_CHANGED:
             return
         api.content.transition(obj=self.context, transition=value)
 

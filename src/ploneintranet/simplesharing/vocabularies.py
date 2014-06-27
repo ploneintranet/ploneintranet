@@ -1,3 +1,4 @@
+from z3c.form.interfaces import NOT_CHANGED
 from zope.interface import classProvides, implements
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
@@ -31,8 +32,16 @@ class WorkflowStatesSource(object):
         workflows = workflow.getWorkflowsFor(context)
         states = workflows[0].states.objectValues()
         state_mapping = {x.id: x for x in states}
+        current_state = api.content.get_state(obj=context)
 
-        vocab = []
+        # add the current state
+        vocab = [
+            SimpleTerm(
+                value=NOT_CHANGED,
+                token=NOT_CHANGED,
+                title=state_mapping[current_state].description,
+            )
+        ]
         final_states = []
         for transition in transitions:
             new_state = transition['transition'].new_state_id
