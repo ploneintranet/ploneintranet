@@ -1,8 +1,10 @@
+from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from zope.formlib.form import Fields
 from zope.interface import implements
+from plone import api
 
 
 class IRosterPortlet(IPortletDataProvider):
@@ -26,7 +28,10 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
-        return True
+        context = aq_inner(self.context)
+        mtool = api.portal.get_tool('portal_membership')
+        return mtool.checkPermission('collective.workspace: View roster',
+                                     context)
 
     def on_workspace(self):
         """

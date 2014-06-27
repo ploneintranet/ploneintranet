@@ -53,7 +53,7 @@ class EditRoster(BrowserView):
             raise Unauthorized("You are not allowed to add users here")
 
         for entry in entries:
-            id = entry['id']
+            id = entry.get('id')
             is_member = bool(entry.get('member'))
             is_admin = bool(entry.get('admin'))
 
@@ -61,7 +61,13 @@ class EditRoster(BrowserView):
             if id in members:
                 member = members[id]
                 if not is_member:
-                    ws.membership_factory(ws, member).remove_from_team()
+                    if checkPermission(
+                            "ploneintranet.workspace: Manage workspace",
+                            self.context):
+                        ws.membership_factory(ws, member).remove_from_team()
+                    else:
+                        raise Unauthorized(
+                            "Only team managers can remove members")
                 elif not is_admin:
                     ws.membership_factory(ws, member).groups -= {'Admins'}
                 else:
@@ -121,3 +127,20 @@ class EditRoster(BrowserView):
             "ploneintranet.workspace: Manage workspace",
             self.context,
         )
+
+    def can_add_users(self):
+        """
+        admins can add users.
+        if the workspace is team or self managed then members can
+        add other users too.
+        """
+        if self.can_manage_workspace():
+            return True
+
+        return self.context.join_policy in {'self', 'team'}
+
+    def admin_managed_workspace(self):
+        """
+        is this workspace admin managed?
+        """
+        return self.context.join_policy == 'admin'
