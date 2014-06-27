@@ -54,8 +54,6 @@ class EditRoster(BrowserView):
 
         for entry in entries:
             id = entry.get('id')
-            if id is None:
-                continue
             is_member = bool(entry.get('member'))
             is_admin = bool(entry.get('admin'))
 
