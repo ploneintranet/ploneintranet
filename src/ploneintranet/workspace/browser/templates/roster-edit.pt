@@ -19,7 +19,7 @@
 
       <h1 class="documentFirstHeading"
           i18n:translate="heading_edit_roster">
-        Edit roster for
+        Roster for
         <q tal:content="context/Title" i18n:name="folder">title</q>
       </h1>
 
