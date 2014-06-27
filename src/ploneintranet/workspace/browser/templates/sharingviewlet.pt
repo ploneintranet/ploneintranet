@@ -1,0 +1,10 @@
+<dl tal:condition="view/visible" class="portalMessage warning"
+     i18n:domain="ploneintranet">
+  <dt i18n:translate="">Info</dt>
+  <dd i18n:translate="sharing_policy_description">
+    The participation policy of this workspace is
+    <a i18n:name="policy_name" 
+       tal:content="view/participant_policy" 
+       tal:attributes="href string:${context/absolute_url}/@@policies" />.
+  </dd>
+</dl>

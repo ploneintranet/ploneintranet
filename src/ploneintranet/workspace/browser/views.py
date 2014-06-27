@@ -2,8 +2,10 @@ from Products.Five.browser import BrowserView
 from plone import api
 from collective.workspace.interfaces import IWorkspace
 from AccessControl import Unauthorized
+from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 
 from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 
 
 class JoinView(BrowserView):
@@ -27,3 +29,31 @@ class JoinView(BrowserView):
         if not referer:
             referer = self.context.absolute_url()
         return self.request.response.redirect(referer)
+
+
+class SharingView(BaseSharingView):
+    def can_edit_inherit(self):
+        """ Disable "inherit permissions" checkbox """
+        return False
+
+    def role_settings(self):
+        """ Filter out unwanted to show groups """
+        result = super(SharingView, self).role_settings()
+        uid = self.context.UID()
+        filter_func = lambda x: not any((
+            x["id"].endswith(uid),
+            x["id"] == "AuthenticatedUsers",
+            x["id"] == INTRANET_USERS_GROUP_ID,
+            ))
+        return filter(filter_func, result)
+
+    def user_search_results(self):
+        """ Add [member] to a user title if user is a member
+        of current workspace
+        """
+        results = super(SharingView, self).user_search_results()
+        ws = IWorkspace(self.context)
+        for result in results:
+            if result["id"] in ws.members:
+                result["title"] = "%s [member]" % result["title"]
+        return results

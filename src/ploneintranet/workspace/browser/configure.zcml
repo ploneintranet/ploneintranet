@@ -32,6 +32,29 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="sharing"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".views.SharingView"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <browser:page
+      name="updateSharingInfo"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".views.SharingView"
+      attribute="updateSharingInfo"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <browser:viewlet
+      name="ploneintranet.workspace.sharinginfo"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      class=".viewlets.SharingViewlet"
+      template="templates/sharingviewlet.pt"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
   <plone:portlet
       name="portlets.RosterPortlet"
       interface=".portlets.IRosterPortlet"
