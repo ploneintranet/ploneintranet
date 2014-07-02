@@ -22,14 +22,14 @@ def share_with_default(context):
 class ISimpleSharing(form.Schema):
 
     visibility = schema.Choice(
-        title=u"Visibility",
+        title=u"Default visibility",
         description=u"Who should see this document?",
         source=WorkflowStatesSource(),
         required=True,
     )
 
     share_with = schema.List(
-        title=u"Share with",
+        title=u"Additional users",
         description=u"The users with whom you'd like to share this content",
         required=False,
         defaultFactory=share_with_default,
