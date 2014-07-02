@@ -1,17 +1,15 @@
+from collective.workspace.vocabs import UsersSource
 from collective.z3cform.chosen import ChosenMultiFieldWidget
 from plone import api
 from plone.directives import form
+from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
 from z3c.form import button
 from z3c.form import field
 from z3c.form.interfaces import NOT_CHANGED
+from zope import schema
 from zope.interface import alsoProvides
 from zope.interface import provider
-from zope import schema
 from zope.schema.interfaces import IContextAwareDefaultFactory
-
-from collective.workspace.vocabs import UsersSource
-
-from ploneintranet.simplesharing.vocabularies import WorkflowStatesSource
 
 
 @provider(IContextAwareDefaultFactory)
