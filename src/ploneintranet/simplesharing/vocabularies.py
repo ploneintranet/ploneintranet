@@ -20,6 +20,12 @@ class WorkflowStatesSource(object):
     classProvides(IContextSourceBinder)
     implements(IContextSourceBinder)
 
+    def _state_title_description(self, state):
+        return "%s (%s)" % (
+            state.title,
+            state.description,
+        )
+
     def __call__(self, context):
         """get available workflows/transitions for this object
 
@@ -39,7 +45,8 @@ class WorkflowStatesSource(object):
             SimpleTerm(
                 value=NOT_CHANGED,
                 token=NOT_CHANGED,
-                title=state_mapping[current_state].description,
+                title=self._state_title_description(
+                    state_mapping[current_state]),
             )
         ]
         final_states = []
@@ -52,7 +59,8 @@ class WorkflowStatesSource(object):
                 SimpleTerm(
                     value=transition_id,
                     token=transition_id,
-                    title=state_mapping[new_state].description,
+                    title=self._state_title_description(
+                        state_mapping[new_state]),
                 )
             )
             final_states.append(new_state)
