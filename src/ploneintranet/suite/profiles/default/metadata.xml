@@ -2,10 +2,8 @@
 <metadata>
   <version>0001</version>
   <dependencies>
-  	<dependency>profile-ploneintranet.workspace:default</dependency>
+        <dependency>profile-plonesocial.suite:default</dependency>
   	<dependency>profile-ploneintranet.simplesharing:default</dependency>
-        <dependency>profile-plonesocial.microblog:default</dependency>
-        <dependency>profile-plonesocial.activitystream:default</dependency>
-        <dependency>profile-plonesocial.network:default</dependency>
+  	<dependency>profile-ploneintranet.workspace:default</dependency>
   </dependencies>
 </metadata>

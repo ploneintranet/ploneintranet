@@ -44,9 +44,7 @@ setup(name='ploneintranet.suite',
           'ploneintranet.workspace',
           'ploneintranet.invitations',
           'ploneintranet.simplesharing',
-          'plonesocial.microblog',
-          'plonesocial.activitystream',
-          'plonesocial.network',
+          'plonesocial.suite',
       ],
       extras_require={
           'test': [

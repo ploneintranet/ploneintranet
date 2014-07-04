@@ -31,12 +31,12 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=collective.z3cform.chosen)
 
         # plone social dependancies
+        import plonesocial.suite
+        self.loadZCML(package=plonesocial.suite)
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
-
         import plonesocial.activitystream
         self.loadZCML(package=plonesocial.activitystream)
-
         import plonesocial.network
         self.loadZCML(package=plonesocial.network)
 
