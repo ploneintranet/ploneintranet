@@ -74,10 +74,6 @@
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
      />
 
-  <browser:resourceDirectory
-    name="ploneintranet.workspace"
-    directory="resources" />
-
   <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
