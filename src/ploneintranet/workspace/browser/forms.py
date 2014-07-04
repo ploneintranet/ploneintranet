@@ -79,6 +79,9 @@ class IPolicyForm(form.Schema):
 
 
 class PolicyForm(form.SchemaForm):
+    """
+    handle policy form submission
+    """
 
     schema = IPolicyForm
     ignoreContext = True
@@ -114,6 +117,9 @@ class PolicyForm(form.SchemaForm):
 
 
 def workspaces_provider(context):
+    """
+    create a vocab of all workspaces in this site
+    """
     catalog = api.portal.get_tool(name="portal_catalog")
     workspaces = catalog(portal_type="ploneintranet.workspace.workspacefolder")
     current = api.content.get_uuid(context)
@@ -130,6 +136,9 @@ directlyProvides(workspaces_provider, IContextSourceBinder)
 
 
 class ITransferMembershipForm(form.Schema):
+    """
+    the form to handle transferring membership
+    """
 
     workspace = schema.Choice(
         title=_(u"Select workspace"),
@@ -144,6 +153,9 @@ class ITransferMembershipForm(form.Schema):
 
 
 class TransferMembershipForm(form.SchemaForm):
+    """
+    handle transfer membership form submission
+    """
     schema = ITransferMembershipForm
     ignoreContext = True
 
@@ -176,6 +188,9 @@ class TransferMembershipForm(form.SchemaForm):
 
 
 class IInviteForm(form.Schema):
+    """
+    invite form schema
+    """
 
     form.widget(user=AutocompleteFieldWidget)
     user = schema.Choice(
@@ -192,6 +207,9 @@ class IInviteForm(form.Schema):
 
 
 class InviteForm(form.SchemaForm):
+    """
+    handle invite form submission
+    """
     schema = IInviteForm
     ignoreContext = True
 

@@ -9,6 +9,9 @@ from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 
 
 class JoinView(BrowserView):
+    """
+    adds a user to the team on a self-join workspace
+    """
 
     def __call__(self):
         if not self.context.join_policy == "self":
@@ -32,6 +35,10 @@ class JoinView(BrowserView):
 
 
 class SharingView(BaseSharingView):
+    """
+    override the sharing tab
+    """
+
     def can_edit_inherit(self):
         """ Disable "inherit permissions" checkbox """
         return False

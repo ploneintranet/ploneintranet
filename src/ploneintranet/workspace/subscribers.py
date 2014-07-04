@@ -71,6 +71,9 @@ def participation_policy_changed(ob, event):
 
 
 def invitation_accepted(event):
+    """
+    When an invitation is accepted, add the user to the team
+    """
     request = getRequest()
     storage = get_storage()
     if event.token_id not in storage:

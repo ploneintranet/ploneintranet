@@ -8,6 +8,11 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 
 def post_install(context):
+    """
+    - sets an acl user group to hold all intranet users
+    - setup the dynamic groups plugin
+    - sets the addable types for the ploneintranet policy
+    """
     marker = 'netsight-windowsauthplugin.marker'
     if context.readDataFile(marker) is None:
         return
