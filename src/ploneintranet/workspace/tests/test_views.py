@@ -94,3 +94,16 @@ class TestSharingView(BaseViewTest):
                              'search_term': 'demo'}
         view = SharingView(self.workspace, self.request)
         self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())
+
+    def test_administrator_is_added_to_administrator(self):
+        """ Test that [administrator] is added to the workspace
+        administrator """
+        self.login_as_portal_owner()
+        IWorkspace(self.workspace).add_to_team(
+            user=self.user.getUserName(),
+            groups=set(["Admins"]))
+        self.request.form = {'form.button.Search': 'Search',
+                             'search_term': 'demo'}
+        view = SharingView(self.workspace, self.request)
+        self.assertIn("%s [administrator]" % (self.user.getUserName(),), view())
+        self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())

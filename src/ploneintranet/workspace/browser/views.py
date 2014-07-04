@@ -62,5 +62,7 @@ class SharingView(BaseSharingView):
         ws = IWorkspace(self.context)
         for result in results:
             if result["id"] in ws.members:
-                result["title"] = "%s [member]" % result["title"]
+                groups = ws.get(result["id"]).groups
+                title = "administrator" if "Admins" in groups else "member"
+                result["title"] = "%s [%s]" % (result["title"], title)
         return results
