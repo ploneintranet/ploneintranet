@@ -105,5 +105,7 @@ class TestSharingView(BaseViewTest):
         self.request.form = {'form.button.Search': 'Search',
                              'search_term': 'demo'}
         view = SharingView(self.workspace, self.request)
-        self.assertIn("%s [administrator]" % (self.user.getUserName(),), view())
+        self.assertIn(
+            "%s [administrator]" % (self.user.getUserName(),),
+            view())
         self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())
