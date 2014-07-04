@@ -2,6 +2,8 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
 
+from ploneintranet.workspace.browser.forms import particip_vocab
+
 
 class JoinViewlet(ViewletBase):
     """ Allows users to join a self-joining workspace """
@@ -56,4 +58,6 @@ class SharingViewlet(ViewletBase):
         return url.endswith('@@sharing')
 
     def participant_policy(self):
-        return self.context.participant_policy.title()
+        key = self.context.participant_policy
+        term = particip_vocab.by_value.get(key)
+        return term.title
