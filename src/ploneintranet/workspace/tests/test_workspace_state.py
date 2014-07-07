@@ -3,7 +3,6 @@ from plone import api
 
 
 class TestWorkSpaceState(BaseTestCase):
-
     def test_portal_state(self):
         """
         There should be no workspace or state on the portal root
@@ -39,7 +38,8 @@ class TestWorkSpaceState(BaseTestCase):
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         view = workspace_folder.restrictedTraverse(
             '@@ploneintranet_workspace_state'
         )
@@ -54,7 +54,8 @@ class TestWorkSpaceState(BaseTestCase):
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         folder = api.content.create(
             workspace_folder,
             'Folder',
@@ -74,7 +75,8 @@ class TestWorkSpaceState(BaseTestCase):
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         view = workspace_folder.restrictedTraverse(
             '@@ploneintranet_workspace_state'
         )
@@ -88,9 +90,12 @@ class TestWorkSpaceState(BaseTestCase):
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        api.content.transition(workspace_folder,
-                               'make_private')
+            'example-workspace'
+        )
+        api.content.transition(
+            workspace_folder,
+            'make_private'
+        )
         view = workspace_folder.restrictedTraverse(
             '@@ploneintranet_workspace_state'
         )
