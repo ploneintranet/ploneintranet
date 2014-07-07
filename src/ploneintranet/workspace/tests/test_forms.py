@@ -226,7 +226,8 @@ class TestTransferForm(BaseTestCase):
         self.assertEqual(len(errors), 0)
 
         self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
-        self.assertEqual(len(names), len(list(IWorkspace(other_ws).members)) - 1)
+        self.assertEqual(
+            len(names), len(list(IWorkspace(other_ws).members)) - 1)
 
         # now move users
         # WARNING: browser creates a proper checkbox field in the form,
@@ -243,7 +244,8 @@ class TestTransferForm(BaseTestCase):
         data, errors = form.extractData()
         self.assertEqual(len(errors), 0)
 
-        self.assertEqual(len(names), len(list(IWorkspace(other_ws).members)) - 1)
+        self.assertEqual(len(names),
+                         len(list(IWorkspace(other_ws).members)) - 1)
         self.assertEqual(0, len(list(IWorkspace(ws).members)))
 
         # now move users back
