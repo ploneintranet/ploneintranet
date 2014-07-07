@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Tests for ploneintranet.workspace forms
 """
@@ -278,7 +279,7 @@ class TestInvitationFormValidation(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'alejandro-workspace',
-            title='Alejandro workspace'
+            title=u'Aléjandro workspace'
         )
 
     def create_user(self, name='auser', email='em@exa.org', password='secret'):
@@ -491,8 +492,11 @@ class TestInvitationFormEmailing(BaseTestCase):
 
         browser = Browser(self.app)
         browser.open(url)
-        self.assertIn('userrole-authenticated', browser.contents,
-                      'User was not authenticated after accepting token')
+        self.assertIn(
+            'userrole-authenticated',
+            browser.contents,
+            'User was not authenticated after accepting token'
+        )
         # check that user is added to workspace
         self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
 
@@ -505,7 +509,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             password='whatever',
         )
 
-        message = 'Hello and join my workspace'
+        message = u'Hello and join my wörkspace'
         request = self.make_request(username=username, message=message)
         form = api.content.get_view(
             'invite',
@@ -519,8 +523,8 @@ class TestInvitationFormEmailing(BaseTestCase):
         msg = message_from_string(self.mailhost.messages[0])
         # mail is actually received by correct recipient
         self.assertEqual(msg['To'], email)
-        body = msg.get_payload()
-        self.assertIn(message, body)
+        body = msg.get_payload(decode=True)
+        self.assertIn(message, body.decode('utf-8'))
 
     def test_if_empty_message_no_text_is_included(self):
         email = 'vlad@example.org'
@@ -538,7 +542,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             request=request,
         )
 
-        optional = 'Here is the message from %s\n\n' % username
+        optional = u'Here is the message from %s\n\n' % username
         form.update()
         self.assertEqual(len(self.mailhost.messages), 1)
         msg = message_from_string(self.mailhost.messages[0])
