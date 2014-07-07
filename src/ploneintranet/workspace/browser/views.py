@@ -60,9 +60,19 @@ class SharingView(BaseSharingView):
         """
         results = super(SharingView, self).user_search_results()
         ws = IWorkspace(self.context)
+        roles_mapping = ws.available_groups
+        roles = roles_mapping.get(self.context.participant_policy.title())
+
         for result in results:
             if result["id"] in ws.members:
                 groups = ws.get(result["id"]).groups
-                title = "administrator" if "Admins" in groups else "member"
+                for role in roles:
+                    result["roles"][role] = "acquired"
+                if "Admins" in groups:
+                    title = "administrator"
+                    result["roles"]["TeamManager"] = "acquired"
+                else:
+                    title = "member"
                 result["title"] = "%s [%s]" % (result["title"], title)
+
         return results
