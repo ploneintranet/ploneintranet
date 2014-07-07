@@ -32,9 +32,8 @@
           automatically.
       </em>
     </p>
-
-    <form action=""
-          method="post">
+            
+    <form tal:attributes="action view/__name__" method="post">
 
       <p>
         <label for="email" i18n:translate="">
