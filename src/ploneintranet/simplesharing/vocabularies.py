@@ -21,7 +21,7 @@ class WorkflowStatesSource(object):
     implements(IContextSourceBinder)
 
     def _state_title_description(self, state):
-        return "%s (%s)" % (
+        return u"%s (%s)" % (
             state.title,
             state.description,
         )
