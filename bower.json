@@ -1,0 +1,38 @@
+{
+  "name": "ploneintranet-patterns",
+  "version": "0.0.1",
+  "dependencies": {
+    "AnythingSlider": "1.8.17",
+    "almond": "",
+    "chosen": "0.9.11",
+    "fullcalendar": "http://arshaw.com/downloads/fullcalendar/fullcalendar-2.0.0.zip",
+    "jcrop": "0.9.12",
+    "jquery": "1.8.3",
+    "jquery-form": "3.46.0",
+    "jquery-placeholder": "2.0.7",
+    "jquery-textchange": "0.2.2",
+    "jquery.tinymce": "",
+    "klass": "",
+    "less.js": "1.6.3",
+    "logging": "",
+    "modernizr": "",
+    "moment": "",
+    "moment-timezone": "",
+    "parsleyjs": "1.2",
+    "prefixfree": "",
+    "requirejs": "",
+    "select2": "3.4.6",
+    "spectrum": "",
+    "imagesloaded": "",
+    "packery": "",
+    "pat-packery": "git@github.com:Patternslib/pat-packery.git",
+    "patterns.polyfill-date": "git@github.com:syslabcom/patterns.polyfill-date.git",
+    "pat-calendar": "0.0.1",
+    "underscore": "1.4.4",
+    "backbone": "0.9.10",
+    "tinysort": "git://github.com/Sjeiti/TinySort.git"
+  },
+  "resolutions": {
+    "jquery": "1.8.3"
+  }
+}
