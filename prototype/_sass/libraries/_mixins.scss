@@ -1,0 +1,239 @@
+// 'Conditional' Media Queries:
+// respond-min( $width )  :  Outputs a mediaquery with 'min-width' property.
+// respond-max( $width )  :  Outputs a mediaquery with 'max-width' property.
+// respond-to( $windowtype )  :  Outputs a mediaquery with 'min-width' property based on small-36,medium-50,large-58.
+
+$fixViewport: false !default;
+
+@mixin respond-min($width) {
+	// If we're outputting for a fixed media query set
+	@if $fixViewport {
+		// ...and if we should apply these rules
+		@if $fixViewport >= $width {
+			// ...output the content the user gave us.
+			@content;
+		}
+	}
+	@else {
+		// Otherwise, output it using a regular media query
+		@media (min-width: $width) {
+			@content;
+		}
+	}
+}
+
+@mixin respond-max($width) {
+	// If we're outputting for a fixed media query set...
+	@if $fixViewport {
+		// ...and if we should apply these rules...
+		@if $fixViewport < $width {
+			// ...output the content the user gave us.
+			@content;
+		}
+	}
+	@else {
+		// Otherwise, output it using a regular media query
+		@media (max-width: $width) {
+			@content;
+		}
+	}
+}
+
+@mixin respond-min-max($minwidth,$maxwidth) {
+	// If we're outputting for a fixed media query set...
+	@if $fixViewport {
+		// ...and if we should apply these rules...
+		@if $fixViewport >= $minwidth {
+			@if  $fixViewport <= $maxwidth {
+				// ...output the content the user gave us.
+				@content;
+			}
+		}
+	}
+	@else {
+		// Otherwise, output it using a regular media query
+		@media (min-width: $minwidth) and (max-width: $maxwidth) {
+			@content;
+		}
+	}
+}
+
+// specific breakpoint on type
+// $breakpoints: (
+// 				(small, 36em),
+// 				(medium, 50em),
+// 				(large, 58em)
+// 			);
+// @mixin respond-to($respond-to-breakpoint) {
+// 	@each $breakpoint in $breakpoints {
+// 		@if nth($breakpoint, 1) == $respond-to-breakpoint {
+// 			@include respond-min(nth($breakpoint, 2));
+// 		}
+// 	}
+// }
+
+// general media query
+@mixin media-query($value, $operator: 'min-width', $query: 'screen') {
+	@media #{$query} and (#{$operator}: #{$value}) {
+		@content;
+	}
+}
+
+// only for accessibility and validation purpose keep element in posittion to not scroll the page
+// http://webaim.org/techniques/css/invisiblecontent/#absolutepositioning top -10000px jumps the focus and scroll off the page
+@mixin visuallyhidden() {
+	position: absolute!important;
+	display:inline-block!important;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	margin: -1px;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+	border: 0;
+}
+
+
+// Ex with a 16px container and 14px desired for our targeted aside.
+// aside { font-size: pxtoem(14, 16); }
+// Ex with a 16px container and 1.5em desired for our targeted aside.
+// aside { margin-bottom: emtopx(1.5, 16); }
+
+// Convert px to em
+@function pxtoem($target, $context){
+	@return ($target/$context)+0em;
+}
+// Convert em to px
+@function emtopx($target, $context){
+	@return ($target*$context)+0px;
+}
+
+
+// Styles for Old IE and modern browsers:
+$oldIE: false !default;
+
+// Only use this content if we're dealing with old IE8
+@mixin oldIE {
+	@if $oldIE {
+		@content;
+	}
+}
+// Only use this content if we're NOT dealing with old IE
+@mixin modern{
+	@if $oldIE == false{
+		@content;
+	}
+}
+
+// Allows a parent element to enclose the full height of the children
+// elements when all of the children are floated.
+// Normally the parent will have no height.
+// @see http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clear-floats($clear:left) {
+	@if $clear == "both" {
+		&:before{
+			content:" ";
+			visibility: hidden;
+			width:0;
+			height:0;
+			display:block;
+			clear: $clear;
+		}
+	}
+	&:after {
+		content:" ";
+		visibility: hidden;
+		width:0;
+		height:0;
+		display:block;
+		clear: $clear; // both ?
+	}
+	@if $oldIE {
+		&	{
+			*zoom: 1
+		}
+	}
+}
+
+
+// * Calculate Luma
+// *
+// * Luma measures a colors percieved brightness
+// * by the human eye.
+// * http://en.wikipedia.org/wiki/YIQ
+@function luma($color){
+
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return 0.299 * $r + 0.587 * $g + 0.114 * $b;
+
+}
+
+// * Contrast Color w/ Luma
+// *
+// * Calculate the contrast based on the luma
+// * value of the color, as per W3C.
+// * http://www.w3.org/TR/AERT#color-contrast
+// usage color: contrast-color($theme-color,#000,#fff);
+@function contrast-color( $color, $dark: #000, $light: #fff, $threshold: 130) {
+	@return if(luma($color) < $threshold, $light, $dark)
+}
+
+
+@function color_contrast($color1, $color2) {
+	// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+	// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+	$luminance1: luma($color1) + .05;
+	$luminance2: luma($color2) + .05;
+	$ratio: $luminance1 / $luminance2;
+
+	@if $luminance2 > $luminance1 {
+		$ratio: 1 / $ratio;
+	}
+
+	$ratio: round($ratio * 10) / 10;
+
+	@return $ratio;
+}
+
+// example
+// @include webfont("RijksoverheidSerif-Regular","fonts","rijksoverheidserif-regular","italic","300");
+// @include webfont("Lora","fonts/Lora","Lora-Regular","normal","400");
+// @mixin webfont($font-family,$font-url,$font-name,$google-url,$style: normal, $weight: normal){
+// 	@font-face {
+// 		font: {
+// 				family: $font-family;
+// 				style: unquote($style);
+// 				weight:  unquote($weight);
+// 			}
+// 		src: url($font-url + '/' + $font-name + '.eot'); //IE9
+// 		src: url($font-url + '/' + $font-name + '.eot?#iefix') format("embedded-opentype"), //IE6-8
+// 			 url($font-url + '/' + $font-name + '.woff') format("woff"), // modern browsers
+// 			 url($font-url + '/' + $font-name + '.ttf') format("truetype"),  // safari android ios
+// 			 url($font-url + '/' + $font-name + '.svg#' + $font-name) format("svg"); //legacy ios
+// 	}
+// }
+
+// set crossbrowser opacity
+@mixin cb-opacity($opacity){
+	@if $oldIE {
+		//IE7
+		filter: alpha(opacity=($opacity * 100));
+		//IE8
+		-ms-filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
+	}
+	@else {
+		-moz-opacity: $opacity;
+		-khtml-opacity: $opacity;
+		opacity: $opacity;
+	}
+}
+
+@mixin horizontal-list($spacing: 10px){
+	li {
+		float: left;
+		margin-right: $spacing;
+	}
+}

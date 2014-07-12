@@ -1,0 +1,40 @@
+.pat-checklist {
+
+	label {
+		display: block;
+		padding-left: 1.5em;
+		position: relative;
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			position: absolute;
+			left: 0;
+			top: 0;
+			opacity: 0;
+		}
+
+		&:before {
+			font-family: "fontello";
+			font-size: 0.8em;
+			content: "\e808";
+			margin-left: -1.75em;
+			position: relative;
+			top: 0.25em;
+			float: left;
+		}
+
+		&.checked:before {
+			content: "\e809"
+		}
+	}
+
+	&.radio label {
+		&:before {
+			content: "\e807";
+		}
+
+		&.checked:before {
+			content: "\e806";
+		}
+	}
+}
