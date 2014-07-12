@@ -24,14 +24,7 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="state-{{ page.state }}">
-		<header id="site-header">
-			<nav class="global-nav navigation">
-				<a class="pat-switch download pat-inject" data-pat-switch="body state-* state-download" href="/download.html#content">Download</a>
-				<a class="pat-switch patterns pat-inject" data-pat-switch="body state-* state-home" href="/index.html#content">Patterns</a>
-				<a class="pat-switch documentation pat-inject" data-pat-switch="body state-* state-documentation" href="/documentation.html#content">Documentation</a>
-			</nav>
-		</header>
+	<body class="{{ page.template }}">
 		<div id="content">
 			{{ content }}
 		</div>
