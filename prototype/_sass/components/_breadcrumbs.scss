@@ -1,0 +1,85 @@
+/* @group Breadcrumbs */
+
+nav.breadcrumbs {
+  display: block;
+  height: 24px;
+  font-size: 13px;
+  line-height: 25px;
+  transition: left 0.2s;
+  float: left;
+  padding: 4px 0;
+  margin-left: 0;
+}
+
+.application-portal nav.breadcrumbs {
+  display: none;
+}
+
+nav.breadcrumbs {
+  a {
+    float: left;
+    color: silver;
+    height: 24px;
+    position: relative;
+    padding-left: 20px;
+    &:after {
+      content: "\e75e";
+      position: absolute;
+      right: -15px;
+      font-family: fontello;
+    }
+    &.has-siblings:after {
+      right: -43px;
+    }
+    &.current:after {
+      display: none;
+    }
+    &:first-child {
+      padding-left: 0;
+      &:before {
+        content: " ";
+        width: 1px;
+        height: 13px;
+        margin-top: 6px;
+        background: gray;
+        float: left;
+        margin-right: 13px;
+      }
+    }
+    &.current {
+      color: white;
+    }
+  }
+  form.doc-title {
+    color: white;
+  }
+}
+
+.lt-ie9 nav.breadcrumbs {
+  a! {
+    &.current, &:last-child {}
+  }
+  form.doc-title! {}
+}
+
+nav.breadcrumbs a.switch {
+  background: url(trail.png) right -92px;
+  text-indent: -1000px;
+  overflow: hidden;
+  width: 30px;
+  display: inline-block;
+  padding-right: 0;
+  margin-right: 0;
+  padding-left: 0;
+  cursor: pointer;
+  &.current {
+    padding-left: 0;
+  }
+}
+
+.lt-ie9 nav.breadcrumbs a.switch.current {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* @end */
