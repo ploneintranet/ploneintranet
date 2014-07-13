@@ -1,0 +1,83 @@
+.application-workspace {
+  fieldset.functions, div.functions {
+    padding: 10px 15px 0;
+    margin-bottom: 0;
+  }
+}
+
+#sidedebar-content {
+  fieldset.functions, div.functions {
+    padding: 5px 10px 7px;
+    zoom: 1;
+    z-index: 1;
+    position: relative;
+  }
+}
+
+fieldset.functions button, div.functions button {
+  float: left;
+  /*margin-right: 0;*/
+}
+
+fieldset.functions select, div.functions select {
+  float: right;
+  margin-left: 5px;
+  background-color: transparent;
+  border-color: #b7b7b7;
+}
+
+.sidebar .sidebar-functions {
+  position: absolute;
+  top: -27px;
+  left: 50px;
+  right: 15px;
+  height: 20px;
+  overflow: hidden;
+}
+
+fieldset.functions {
+  button.icon, a.button.icon {
+    display: inline-block;
+    padding: 0 0 0;
+    text-indent: -1000px;
+    position: relative;
+    margin-right: 0 !important;
+    width: 26px;
+  }
+  button.icon:before, a.button.icon:before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-indent: 0;
+    text-align: center;
+    font-size: 17px;
+    line-height: 20px;
+    display: block;
+    width: 26px;
+    height: 18px;
+    margin: 0;
+  }
+  button.icon.icon-grid-large:before {
+    font-size: 13px;
+  }
+  a.button.create:before {
+    content: "✍";
+    float: left;
+    margin-left: -4px;
+    margin-right: 3px;
+    font: bold 15px fontello;
+  }
+}
+
+.application-workspace fieldset.functions button.edit {
+  margin-left: 10px;
+  float: right;
+  margin-right: 0;
+}
+
+.edit fieldset.functions button.edit {
+  -webkit-box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+  margin-left: 0;
+}
