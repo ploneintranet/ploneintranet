@@ -24,7 +24,7 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-left-open {{ page.template }}">
+	<body class="sidebar-left-open {% if page.sidebar_controls %}toolbar{% endif %} {{ page.template }}">
 		{{ content }}
 	</body>
 </html>

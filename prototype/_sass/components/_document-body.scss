@@ -15,6 +15,10 @@
   z-index: 0;
 }
 
+body.toolbar #document-body {
+  top: 32px;
+}
+
 /* @group Sidebar positions */
 
 .sidebar-left-open #document-body {
