@@ -18,7 +18,7 @@ nav.breadcrumbs {
 nav.breadcrumbs {
   a {
     float: left;
-    color: silver;
+    color: $colour-header-elements;
     height: 24px;
     position: relative;
     padding-left: 20px;
@@ -47,12 +47,9 @@ nav.breadcrumbs {
         margin-right: 13px;
       }
     }
-    &.current {
-      color: white;
-    }
   }
   form.doc-title {
-    color: white;
+    color: $colour-header-elements;
   }
 }
 

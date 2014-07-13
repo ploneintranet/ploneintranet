@@ -1,12 +1,12 @@
 #global-header {
     height: 32px;
-    background-color: black;
+    background-color: $colour-base;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     padding-left: 15px;
-    color: white;
+    color: $colour-header-elements;
     padding-right: 75px;
     z-index: 10;
 }
@@ -22,7 +22,7 @@
 #global-header .icon {
     float: right;
     height: 32px;
-    color: white;
+    color: $colour-header-elements;
     line-height: 32px;
     font-size: 18px;
     margin-left: 10px;
@@ -32,21 +32,21 @@
 }
 
 .application-portal #global-header .icon {
-    color: white;
+    color: $colour-header-elements;
 }
 
 #global-header form.search {
-    color: white;
+    color: $colour-header-elements;
 }
 
 .application-portal #global-header form.search {
-    color: white;
+    color: $colour-header-elements;
 }
 
 #global-header {
     .icon:hover, form.search:hover {
         text-decoration: none;
-        color: white;
+        color: $colour-header-elements;
         cursor: default;
     }
     .icon sup.counter {
