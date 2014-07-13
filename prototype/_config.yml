@@ -6,53 +6,9 @@ media: /media
 markdown: kramdown
 permalink: /:title
 sass:
-  sass_dir: _sass
   style: :compressed
 exclude: 
   - Gemfile
   - Gemfile.lock
   - work
   - config.codekit
-prose:
-  rooturl: '_posts'
-  siteurl: 'http://patterns.cornae.com/'
-  relativeLinks: 'http://patterns.cornae.com/links.jsonp'
-  media: 'media'
-  ignore:
-    - index.html
-    - _config.yml
-    - /_layouts
-    - /_includes
-    - /media
-    - /lib
-    - /work
-    - /style
-  metadata:
-    _posts:
-      - name: "layout"
-        field:
-          element: "hidden"
-          value: "generic"
-          options:
-            - name: 'Generic'
-              value: 'generic'
-      - name: "title"
-        field:
-          element: "text"
-          placeholder: "Title"
-          label: "Documenttitel"
-      - name: "summary"
-        field:
-          element: "text"
-          placeholder: "Samenvatting"
-          label: "Samenvatting"
-    _posts/static:
-      - name: "layout"
-        field:
-          element: "hidden"
-          value: "page"
-      - name: "permalink"
-        field:
-          element: "text"
-          label: "Permalink"
-          value: ""
