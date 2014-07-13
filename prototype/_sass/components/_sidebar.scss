@@ -12,10 +12,11 @@
   color: #434343;
   width: auto;
   z-index: 0;
-  background-color: #efefef;
+  background-color: white;
   right: 70%;
   overflow-y: auto;
   overflow-x: hidden;
+  border-right: solid 1px silver;
 }
 
 .sidebar-left-closed .application aside.sidebar {
