@@ -1,13 +1,14 @@
 <header id="global-header">
 
-
     <a id="site-logo" href="portal-dashboard.html" class="logo"><img src="/media/logo.svg" alt="Plone intranet"></a>
 
     <nav class="breadcrumbs">
 
-        {% if page.application == 'workspace' %}
+        {% if page.application != 'workspace' %}
             <a class="current" href="#">{{ page.application_name }}</a>
-        {% else %}
+        {% endif %}
+
+        {% if page.application == 'workspace' %}
             <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
             <a class="switch current pat-tooltip" data-pat-tooltip="position-list: tl; position-policy: force; trigger: click; source: ajax" href="workspace-switch.html#workspace-siblings">Switch to sibling
         workspace</a>
@@ -15,7 +16,6 @@
     </nav>
 
     {% unless page.application == "registration" or page.application == 'stardesk-administration' %}
-
         <a href="global-personal-settings.html#settings" class="pat-tooltip avatar" data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: ajax" id="user-avatar"><img src="{{ site.baseurl }}/Media/avatar-liz.jpg" alt="John Doe" /></a>
         <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
 
