@@ -1,0 +1,687 @@
+---
+layout: workspace
+application: workspace
+screen: "workspace-landing"
+workspace_name: Baggage handling regulations
+workspace_module: docs
+sidebar_controls:
+  - label: Create
+    type: dropdown
+    url: "#create-document"
+    class: icon-plus-circle
+  - label: More
+    type: dropdown
+    url: "#more-menu"
+workspace_colour: 265c81
+design_title: Workspace landing
+design_description: The landing state of a workspace.
+---
+
+{% include workspace-question-form.html %}
+
+<p class="workspace-recommendations">If you use this Workspace, you might also be interested in: "<a href="#">Lost baggage</a>".</p>
+
+<div class="pin-wall pat-packery" id="news-wall">
+    <div class="item pin rich-page columns-2" id="pin-1">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Upcoming AMB Meeting on 2.6.2013</a></h4>
+
+        <p class="byline">Pinned by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p>
+
+        <div class="preview">
+            <h1>The big header</h1>
+
+            <h2>The sub-header</h2>
+
+            <ul>
+                <li><a href="#">Download the Agenda</a></li>
+
+                <li><a href="#">Remember to apply for travel expenses</a></li>
+
+                <li><a href="#">Download the Booklet</a></li>
+            </ul>
+
+            <p>If you want to attend the after meeting dinner, please contact <a href="mailto:xxx@staralliance.com">service@staralliance.com</a>.</p>
+        </div>
+
+        <div class="comments" id="art-12345">
+            <form action="comment-trail-image.html" class="pat-inject response" data-pat-inject="target: #art-12345::element">
+                <fieldset class="state-closed" id="art-12345-respond">
+                    <textarea placeholder="React to this pin">
+</textarea>
+
+                    <p class="attachments" id="art-12345-attachments">No attachments selected.</p>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small pat-switch" data-pat-switch=
+                        "#art-12345-respond state-* state-closed" type="reset">Cancel</button>
+
+                        <fieldset class="file-upload pat-autosubmit pat-inject pat-subform" data-pat-inject=
+                        "source: #art-12345-attachments; target: #art-12345-attachments">
+                            <label class="file-attachment"><input class="pat-switch" data-pat-switch="#art-12345-respond state-* state-attachment" multiple
+                            title="Attach a file" type="file"> Attach file(s)</label> <button formaction="comment-image-previews.html" hidden="" type=
+                            "submit">Preview file(s)</button>
+                        </fieldset>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <form action="workspace-landing.html#news-wall" class="pat-inject" data-pat-inject="source: #news-wall::element; target: #news-wall::element;">
+                <button class="iconified icon-up-circle" name="position" title="Promote to a higher position on this wall (Affects all users)" value=
+                "up">Promote</button> <button class="iconified icon-down-circle" name="position" title=
+                "Demote to a higher position on this wall (Affects all users)" value="down">Demote</button>
+            </form><a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="tooltip-pin.html#actions">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item pin rich-page columns-2">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Book and Fly work space</a></h4>
+
+        <p class="byline">Pinned by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p>
+
+        <div class="preview">
+            <p><strong>Welcome to the Book and Fly work space. The Star Alliance Book and Fly tool makes it easy for customers to plan and book their round
+            the world journey</strong></p>
+
+            <p><a href="#">ACSP</a></p>
+
+            <p><a href="#">Redmine</a></p>
+
+            <p>If you don't have an access right, please contact the product owner or the project manager.</p>
+        </div>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset class="closed" id="pin-2-respond">
+                    <textarea placeholder="React to this pin">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small pat-switch" data-pat-switch="#pin-2-respond open closed"
+                        type="reset">Cancel</button> <label class="file-attachment"><input class="pat-switch" data-pat-switch="#pin-2-respond closed open"
+                        multiple type="file"> Attach file(s)</label>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <form action="workspace-landing.html#news-wall" class="pat-inject" data-pat-inject="source: #news-wall::element; target: #news-wall::element;">
+                <button class="iconified icon-up-circle" name="position" title="Promote to a higher position on this wall (Affects all users)" type=
+                "submit" value="up">Promote</button> <button class="iconified icon-down-circle" name="position" title=
+                "Demote to a higher position on this wall (Affects all users)" type="submit" value="down">Demote</button>
+            </form><a class="icon-cog" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item pin rich-page columns-2">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Congres report</a></h4>
+
+        <p class="byline">Pinned by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p>
+
+        <div class="preview">
+            <p>Qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+
+            <ul>
+                <li><a href="#">Lorem</a></li>
+
+                <li><a href="#">Ipsum</a></li>
+
+                <li><a href="#">Dolor</a></li>
+            </ul>
+
+            <p><img alt="" src="http://lorempixel.com/300/120/abstract"></p>
+
+            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
+            autem vel eum iure reprehenderit.</p>
+        </div>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset class="closed" id="pin-3-respond">
+                    <textarea placeholder="React to this pin">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small pat-switch" data-pat-switch="#pin-3-respond open closed"
+                        type="reset">Cancel</button> <label class="file-attachment"><input class="pat-switch" data-pat-switch="#pin-3-respond closed open"
+                        multiple type="file"> Attach file(s)</label>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <form action="workspace-landing.html#news-wall" class="pat-inject" data-pat-inject="source: #news-wall::element; target: #news-wall::element;">
+                <button class="iconified icon-up-circle" name="position" title="Promote to a higher position on this wall (Affects all users)" value=
+                "up">Promote</button> <button class="iconified icon-down-circle" name="position" title=
+                "Demote to a higher position on this wall (Affects all users)" value="down">Demote</button>
+            </form><a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="tooltip-pin.html#actions">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item pin image columns-2">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Book And Fly</a></h4>
+
+        <p class="byline">Pinned by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p><a class="preview" href="#"><img alt=
+        "" src="Media/book-and-fly.jpg"></a>
+
+        <p class="description">The book and fly application demo screen.</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset class="closed" id="pin-4-respond">
+                    <textarea placeholder="React to this pin">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small pat-switch" data-pat-switch="#pin-4-respond open closed"
+                        type="reset">Cancel</button> <label class="file-attachment" title="Attach one or more files to this response"><input class=
+                        "pat-switch" data-pat-switch="#pin-4-respond closed open" multiple="multiple" type="file"> Attach file(s)</label>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <form action="workspace-landing.html#news-wall" class="pat-inject" data-pat-inject="source: #news-wall::element; target: #news-wall::element;">
+                <button class="iconified icon-up-circle" name="position" title="Promote to a higher position on this wall (Affects all users)" value=
+                "up">Promote</button> <button class="iconified icon-down-circle" name="position" title=
+                "Demote to a higher position on this wall (Affects all users)" value="down">Demote</button>
+            </form><a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="tooltip-pin.html#actions">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item question">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Edmund Hall" src="Media/avatar-edmund.jpg"></a>
+
+        <p class="byline">Posted by <a href="#">Edmund Hall</a>, <time class="date">Today, 8:44 CET</time> <em class="airline"><img alt="US Airways logo"
+        src="http://www.staralliance.com/assets/images/global/about/member-airlines/aircanada_AC.png"></em></p>
+
+        <div class="preview">
+            <blockquote class="question triangle-isosceles top-left">
+                <a class="question-box" href="#"></a>
+
+                <p class="question">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                aliqua. Ut enim ad minim veniam.</p>
+
+                <p class="attachments"><!-- don't include this paragraph tag if there are no attachments -->
+                 <img alt="" src="http://lorempixel.com/400/200/food"></p>
+            </blockquote>
+        </div>
+
+        <div class="comments" id="trail-1234">
+            <div class="pat-collapsible more-or-less closed">
+                <p><span class="more">Show 3</span> <span class="divider">or</span> <span class="less">Hide 3</span> older comments.
+                <!-- The value '3' has to be replaced with the actual number of items not shown when collapsed --></p>
+
+                <div class="comment author-comment">
+                    <a href="#"><img alt="Cornelis Kolbach" class="avatar" height="32" src="Media/avatar-liz.jpg" width="32"> <strong class="name">Liz
+                    Baker</strong></a>
+
+                    <p>Very interesting, but would you say the fronterus maleditcus ed ist?</p>
+
+                    <p class="attached-file"><a href="http://lorempixel.com/400/200/abstract"><img alt="" src=
+                    "http://lorempixel.com/400/200/abstract"></a></p>
+
+                    <p class="subscript"><time class="date">9 January 2012, 10:50 CET</time></p>
+                </div>
+
+                <div class="comment">
+                    <a href="#"><img alt="Liz" class="avatar" height="32" src="Media/avatar-cornelis.jpg" width="32"> <strong class="name">Cornelis G. A.
+                    Kolbach</strong></a>
+
+                    <p>Absolutely sir!</p>
+
+                    <p class="subscript"><time class="date">9 January 2012, 10:55 CET</time></p>
+                </div>
+            </div>
+
+            <div class="comment">
+                <a href="#"><img alt="Cornelis G. A. Kolbach" class="avatar" height="32" src="Media/avatar-cornelis.jpg" width="32"> <strong class=
+                "name">Cornelis G. A. Kolbach</strong></a>
+
+                <p>Check the information page in workspace so and so for lorem ipsum dolor sit amet.</p>
+
+                <p class="subscript"><time class="date">10 January 2012, 12:50 CET</time> <a class="float-after edit" href="#">Edit</a></p>
+            </div>
+
+            <div class="comment">
+                <a href="#"><img alt="Cornelis Kolbach" class="avatar" height="32" src="Media/avatar-liz.jpg" width="32"> <strong class="name">Liz
+                Baker</strong></a>
+
+                <p>Thanks a lot Cornelis. But my problem is still not completely solved, as lorem ipsum dolor sit amet consectetuer fronterus maleditcus ed
+                ist.</p>
+
+                <p class="attached-file"><a href="http://lorempixel.com/400/200/abstract"><img alt="" src="http://lorempixel.com/400/200/abstract"></a></p>
+
+                <p class="subscript"><time class="date">10 January 2012, 12:50 CET</time></p>
+            </div>
+
+            <div class="comment">
+                <a href="#"><img alt="Liz" class="avatar" height="32" src="Media/avatar-cornelis.jpg" width="32"> <strong class="name">Cornelis G. A.
+                Kolbach</strong></a>
+
+                <p>Ah, I see. Sorry I overlooked that. I think however that in section 4.5 of regulation lorem ipsum dolor sit amet consectetuer.</p>
+
+                <p class="subscript"><time class="date">20 September 2012, 10:50 CET</time></p>
+            </div>
+
+            <form action="comment-trail.html#ootb-1" class="pat-inject response" data-pat-inject="#trail-1234">
+                <fieldset class="closed" id="activity-1-respond">
+                    <textarea placeholder="React to this question">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small pat-switch" data-pat-switch=
+                        "#activity-1-respond open closed" type="reset">Cancel</button> <label class="file-attachment"><input class="pat-switch"
+                        data-pat-switch="#activity-1-respond closed open" multiple type="file"> Attach file(s)</label>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity" id="event-12345">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="out-of-the-box.html">Out of the box</a></h4>
+
+        <p class="byline">Published by <a href="#">Antonio Mastrolorito</a>, <time class="date">10 September 2012, 12:24 CET</time></p>
+
+        <p class="description">The paging box that is currently in use at a number of Asian airports is undergoing a rethink and we are looking at ways to
+        automise.</p>
+
+        <div class="comments" id="ootb-1">
+            <div class="comment">
+                <a href="#"><img alt="Antonio Mastrolorito" class="avatar" height="32" src="Media/avatar-liz.jpg" width="32"> <strong class=
+                "name">Liz</strong></a>
+
+                <p>Antonio, this is absolutely brilliant. Bravo!</p>
+
+                <p class="subscript"><time class="date">10 September 2012, 12:50 CET</time> <a class="float-after edit" href="#">Edit</a></p>
+            </div>
+
+            <div class="comment author-comment">
+                <a href="#"><img alt="Antonio Mastrolorito" class="avatar" height="32" src="Media/avatar-antonio.jpg" width="32"> <strong class=
+                "name">Antonio</strong></a>
+
+                <p>Thanks for that, Liz. I was wondering whether you could give me some input on the usage profile of the boxes in Taipei.
+                <!--Some actual data would help to strengthen the document but I couldn't find any when I was writing this draft. You will see what I mean if you look at Section 4. S-->Do
+                you have some figures to contribute?</p>
+
+                <p class="subscript"><time class="date">10 September 2012, 12:50 CET</time></p>
+            </div>
+
+            <form action="comment-trail.html#ootb-1" class="pat-inject response" data-pat-inject="target: #ootb-1" id="ootb-response" name="ootb-response">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="#">2013 Outline</a></h4>
+
+        <p class="byline">Published by <a href="#">Antonio Mastrolorito</a>, <time class="date">9 September 2012, 10:22 CET</time></p><a class="preview"
+        href="#"></a>
+
+        <p class="no-preview">A preview for this document is being generated.</p>
+
+        <p class="description">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+        ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
+        numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+
+        <div class="comments" id="art-2">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-2">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Waste not want not</a></h4>
+
+        <p class="byline">Published by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p><a class="preview" href=
+        "waste-not-want-not.html"><img alt="" src="Media/Waste-not-want-not/page0001.jpg"></a>
+
+        <p class="description">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+        consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum
+        fugiat quo voluptas nulla pariatur?"</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Liz">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">Lorem ipsum dolor</a></h4>
+
+        <p class="byline">Uploaded by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p><a class="preview" href=
+        "waste-not-want-not.html"><img alt="" src="http://lorempixel.com/300/240/business"></a>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Liz">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity rich-page">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="out-of-the-box.html">My Document</a></h4>
+
+        <p class="byline">Published by Antonio Mastrolorito, <time class="date">9 January 2012, 10:11 CET</time>.</p><a class="preview" href="#"><img alt=
+        "" src="Media/rich-render.png"></a>
+
+        <p class="description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
+        ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+        aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="#">Iure reprehenderit</a></h4>
+
+        <p class="byline">Uploaded by <a href="#" title="Antonio Mastrolorito">Anotonio Mastrolorito</a>, <time class="date">1 January 2012, 15:24
+        CET</time></p><a class="preview" href="#"><img alt="" src="http://lorempixel.com/300/400/transport"></a>
+
+        <p class="description">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+        ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
+        numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity" id="event-12345">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Hannah Zumbaum" src="Media/avatar-hannah.png"></a>
+
+        <h4><a href="out-of-the-box.html">SCP overview adhocgroups 22APR13</a></h4>
+
+        <p class="byline">Published by <a href="#">Hannah Zumbaum</a>, <time class="date">26 April 2013, 12:24 CET</time></p><a class="preview" href=
+        "#"><img src="Media/preview_thumb_1.jpg"></a>
+
+        <p class="description">The paging box that is currently in use at a number of Asian airports is undergoing a rethink and we are looking at ways to
+        automate.</p>
+
+        <div class="comments" id="art-1">
+            <div class="comment">
+                <a href="#"><img alt="Antonio Mastrolorito" class="avatar" height="32" src="Media/avatar-liz.jpg" width="32"> <strong class="name">Liz
+                Baker</strong></a>
+
+                <p>Hannah, this is absolutely brilliant. Bravo!</p>
+
+                <p class="subscript"><time class="date">10 September 2012, 12:50 CET</time> <a class="float-after edit" href="#">Edit</a></p>
+            </div>
+
+            <div class="comment author-comment">
+                <a href="#"><img alt="Antonio Mastrolorito" class="avatar" height="32" src="Media/avatar-hannah.png" width="32"> <strong class=
+                "name">Hannah Zumbaum</strong></a>
+
+                <p>Thanks for that, Liz. I was wondering whether you could give me some input on the usage profile of the boxes in Taipei.
+                <!--Some actual data would help to strengthen the document but I couldn't find any when I was writing this draft. You will see what I mean if you look at Section 4. S-->Do
+                you have some figures to contribute?</p>
+
+                <p class="subscript"><time class="date">10 September 2012, 12:50 CET</time></p>
+            </div>
+
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-1">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Hannah Zumbaum">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="#">Publications</a></h4>
+
+        <p class="byline">Published by <a href="#">Antonio Mastrolorito</a>, <time class="date">9 September 2012, 10:22 CET</time></p>
+
+        <p><a href="#">Click here to see the latest Star Alliance Publications</a></p><a class="preview" href="#"><img alt="" src=
+        "Media/article-publication.jpg"></a>
+
+        <p class="description">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+        ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
+        numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+
+        <div class="comments" id="art-2">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-2">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio Mastrolorito">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity author-comment">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-liz.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">05 I 01 AMB IST APR13 US Airways</a></h4>
+
+        <p class="byline">Published by <a href="#">Liz Baker</a>, <time class="date">9 January 2012, 12:21 CET</time></p><a class="preview" href=
+        "waste-not-want-not.html"><img alt="" src="Media/preview_thumb_2.jpg"></a>
+
+        <p class="description">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+        consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum
+        fugiat quo voluptas nulla pariatur?"</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Liz Baker">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Christian Klick" src="Media/avatar-christian-klick.jpg"></a>
+
+        <h4><a href="waste-not-want-not.html">04 I AMB APR13 slides Getting Basics Right and LHR T2 amended</a></h4>
+
+        <p class="byline">Uploaded by <a href="#">Christian Klick</a>, <time class="date">9 January 2012, 12:21 CET</time></p><a class="preview" href=
+        "waste-not-want-not.html"><img alt="" src="Media/preview_thumb_3.jpg"></a>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Christian Klick">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-christian-klick.jpg"></a>
+
+        <h4><a href="out-of-the-box.html">05I Germanwings presentation by Lufthansa</a></h4>
+
+        <p class="byline">Published by Christian Klick, <time class="date">9 January 2012, 10:11 CET</time>.</p>
+
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+        inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Christian Klick">
+</textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+
+    <div class="item activity">
+        <a class="avatar" href="#" title="Antonio Mastrolorito"><img alt="Antonio Mastrolorito" src="Media/avatar-antonio.jpg"></a>
+
+        <h4><a href="#">09D AMB Codeshare FFP Exceptions 20130410</a></h4>
+
+        <p class="byline">Uploaded by <a href="#" title="Antonio Mastrolorito">Anotonio Mastrolorito</a>, <time class="date">1 January 2012, 15:24
+        CET</time></p><a class="preview" href="#"><img alt="" src="Media/preview_thumb_5.jpg"></a>
+
+        <p class="description">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
+        ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
+        numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+
+        <div class="comments" id="">
+            <form action="comment-trail.html#trail" class="pat-inject response" data-pat-inject="#art-12345::element">
+                <fieldset>
+                    <textarea placeholder="Leave a response for Antonio Mastrolorito"></textarea>
+
+                    <fieldset class="button-bar">
+                        <button class="small" type="submit">Submit</button> <button class="small" type="reset">Cancel</button>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="functions">
+            <a class="icon-cog pat-tooltip" data-pat-tooltip="source: ajax" href="#">Edit…</a>
+        </div>
+    </div>
+</div>

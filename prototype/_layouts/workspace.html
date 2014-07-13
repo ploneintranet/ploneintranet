@@ -1,0 +1,25 @@
+---
+layout: shell
+template: generic
+class: sidebar-left-open buddies-off ws-baggage-handling-regulations
+---
+
+<div class="application project" id="content">
+    <h1 id="workspace-name"><a href="workspace-landing.html">{{ page.workspace_name }}</a></h1>
+
+    <div class="appBody ws-baggage-handling-regulations dark-theme" id="project-body">
+
+        {% include application-toolbar.html %}
+
+        <div id="document-body">
+        	{{ content }}
+        </div>
+
+        <aside class="sidebar left tagging-off" id="sidebar">
+            {% include workspace-sidebar.html %}
+        </aside>
+
+    </div>
+    {% include workspace-tabs.html %}
+</div>
+{% include global-header.html %}

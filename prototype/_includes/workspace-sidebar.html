@@ -1,0 +1,43 @@
+    <div hidden id="create-document">
+        <ul class="menu">
+            <li>
+                <a class="icon-document" href="#">Text document</a>
+            </li>
+
+            <li>
+                <a class="icon-calendar pat-inject" data-pat-inject="#document-body::element && #toolbar-main>.document-controls::element" href="panel-create-event-full.html" title="Create a new event">Event</a>
+            </li>
+
+            <li>
+                <a class="icon-link pat-inject" href="workspace-edit-link.html#document-body">Weblink</a>
+            </li>
+
+            <li>
+                <a class="icon-upload" href="#">Upload file(s)</a>
+            </li>
+        </ul>
+    </div>
+
+    <div hidden id="more-menu">
+        <ul class="menu">
+            <li>
+                <a class="icon-document" href="#">Paste document(s)</a>
+            </li>
+        </ul>
+    </div>
+
+    {% if page.workspace_module == 'docs' %}
+    	{% include workspace-sidebar-docs.html %}
+    {% endif %}
+
+    {% if page.workspace_module == 'events' %}
+    	{% include workspace-sidebar-events.html %}
+    {% endif %}
+
+    {% if page.workspace_module == 'about' %}
+        {% include workspace-sidebar-about.html %}
+    {% endif %}
+
+    {% if page.workspace_module == 'qa' %}
+        {% include workspace-sidebar-qa.html %}
+    {% endif %}
