@@ -1,2 +1,4 @@
 source 'https://rubygems.org'
-gem 'github-pages'
+gem 'jekyll', '2.1.1'
+#gem 'github-pages', '20'
+gem 'sass'

@@ -5,6 +5,9 @@ domain: patterns.cornae.com
 media: /media
 markdown: kramdown
 permalink: /:title
+sass:
+  sass_dir: _sass
+  style: :compressed
 exclude: 
   - Gemfile
   - Gemfile.lock
