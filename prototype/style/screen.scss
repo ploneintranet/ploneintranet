@@ -2,15 +2,16 @@
 ---
 
 // enable sass compass
-@import "compass";
+// @import "compass";
 
 // meta
 @import "settings";
 
-// general
+// libraries
+@import "libraries/animation";
+@import "libraries/mixins";
 @import "libraries/reset";
 @import "libraries/web-fonts";
-@import "libraries/animation";
 
 // components
 @import "components/grid";
