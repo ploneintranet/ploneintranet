@@ -1,0 +1,26 @@
+#content {
+  top: 32px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  transition: all 0.2s;
+  padding: 50px;
+  z-index: 6;
+  outline: solid silver 1px;
+  background-color: white;
+  
+  &.application-portal {
+    top: 50px;
+    padding-top: 0;
+  }
+}
+
+body.view-secure #content {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.lt-ie9 body.view-secure #content {
+  background-color: transparent;
+}

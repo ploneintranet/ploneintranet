@@ -1,9 +1,6 @@
 ---
 ---
 
-// enable sass compass
-// @import "compass";
-
 // meta
 @import "settings";
 
@@ -13,11 +10,16 @@
 @import "libraries/reset";
 @import "libraries/web-fonts";
 
+// patterns
+@import "libraries/patterns/checklist";
+@import "libraries/patterns/grid";
+@import "libraries/patterns/form";
+@import "libraries/patterns/injection";
+
 // components
-@import "components/grid";
-@import "components/injection";
-@import "components/site-header";
-@import "components/sub-nav";
+@import "components/body";
 @import "components/button-bar";
 @import "components/button";
-@import "components/checklist";
+@import "components/content";
+@import "components/site-header";
+@import "components/sub-nav";
