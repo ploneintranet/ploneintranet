@@ -18,6 +18,7 @@
 @import "libraries/patterns/injection";
 
 // components
+@import "components/activity-stream";
 @import "components/anchor";
 @import "components/avatar";
 @import "components/body";
@@ -25,10 +26,14 @@
 @import "components/button";
 @import "components/breadcrumbs";
 @import "components/content";
+@import "components/document-body";
+@import "components/document-content";
 @import "components/global-header";
 @import "components/icon";
 @import "components/logo";
+@import "components/metadata";
 @import "components/search";
+@import "components/sidebar";
 @import "components/site-header";
 @import "components/sub-nav";
-@import "components/anchor";
+@import "components/toolbar";

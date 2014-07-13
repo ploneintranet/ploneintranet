@@ -1,19 +1,7 @@
-.avatar {
-	
-}
-
-.avatar#user-avatar {
-  position: absolute;
-  top: 2px;
-  right: 40px;
-  width: 26px;
-  height: 26px;
-  float: right;
-  background-color: transparent;
-  img {
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    z-index: 40;
+a {
+  color: #0081be;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 }
