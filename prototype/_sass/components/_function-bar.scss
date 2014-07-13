@@ -221,8 +221,6 @@ fieldset.functions .modifiers {
 
 // Batch tagging
 
-/* @group Batch tagging / Batch sending link */
-
 #sidebar {
   #batch-tagging, #batch-sendlink {
     padding-top: 0;
@@ -249,6 +247,9 @@ fieldset.functions .modifiers {
     float: right;
     margin-right: 0;
     margin-left: 10px;
+  }
+  .select2-container {
+    margin-bottom: 7px;
   }
 }
 
@@ -288,5 +289,4 @@ fieldset.functions .modifiers {
   /*margin-bottom: 10px;*/
 }
 
-/* @end */
 
