@@ -1,0 +1,287 @@
+.tooltip .closePanel {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  text-indent: 100px;
+  overflow: hidden;
+  padding: 0px;
+  background: gray url(close.png) no-repeat 2px;
+  -webkit-border-radius: 3px;
+  display: block;
+  height: 15px;
+  width: 15px;
+  z-index: 3;
+  border: none;
+}
+
+.tooltip-container {
+  position: absolute;
+  /* changed by flo, to get tooltip above breadcrumps
+      z-index: 1001; */
+  z-index: 9998;
+  border: none;
+  min-height: 50px;
+  overflow: visible;
+  overflow-x: visible;
+  margin: 0;
+  border: 1px solid silver;
+  -webkit-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  line-height: 18px;
+  color: #26292c;
+  -webkit-border-radius: 4px;
+  width: 300px;
+  > button.close-panel {
+    display: none;
+  }
+  fieldset.condensed label, form.condensed label {
+    margin-bottom: 18px;
+  }
+  fieldset.condensed, form.condensed fieldset {
+    margin: 0 0 18px;
+  }
+  .pointer {
+    height: 20px;
+    width: 20px;
+    display: block;
+    background-color: white;
+    border: 1px solid silver;
+    z-index: 0;
+    position: absolute;
+    -webkit-transform: rotate(45deg);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+    -moz-transform: rotate(45deg);
+    -moz-box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+    transform: rotate(45deg);
+    box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+  }
+}
+
+.lt-ie9 .tooltip-container .pointer {
+  /*border-style: none;
+  background: transparent url(tooltip-ie.png) no-repeat;
+  width: 30px;
+  height: 16px;*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
+  /* IE8 */
+}
+
+.tooltip-container > div {
+  padding: 10px!important;
+  z-index: 1;
+  position: relative;
+  padding: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  min-height: 60px;
+  background-color: white;
+  overflow: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+.lt-ie9 .tooltip-container > div:after {
+  display: none;
+}
+
+.tooltip-container {
+  &.bl .pointer, &.bm .pointer, &.br .pointer {
+    margin-top: -12px;
+  }
+  &.lt .pointer, &.lm .pointer, &.lb .pointer {
+    margin-left: 12px;
+  }
+  &.tl .pointer, &.tm .pointer, &.tr .pointer {
+    margin-top: 12px;
+  }
+  &.rt .pointer, &.rm .pointer, &.rb .pointer {
+    margin-left: -12px;
+  }
+  &.lt .pointer, &.rt .pointer {
+    margin-top: 20px;
+  }
+  &.lb .pointer, &.rb .pointer {
+    margin-top: -20px;
+  }
+  &.tl .pointer, &.bl .pointer {
+    margin-left: 20px;
+  }
+  &.tr .pointer, &.br .pointer {
+    margin-left: -20px;
+  }
+  h4 {
+    color: #3b3b3b;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  &.event {
+    width: 550px;
+    .panel-body fieldset {
+      &.vertical {
+        width: 530px;
+        display: block;
+        overflow: hidden;
+      }
+      &.row {
+        width: 510px;
+      }
+    }
+    .select2-container-multi .select2-choices {
+      width: 100%;
+    }
+  }
+  &.wizard! > div {}
+  .wizard-box {
+    padding: 0;
+    height: 100%;
+  }
+  .panel-body {
+    overflow: hidden;
+    padding: 0;
+  }
+  .panel-footer {
+    background-color: #efefef;
+    padding: 10px;
+    margin-left: -10px;
+    margin-bottom: -10px;
+    margin-right: -10px;
+  }
+}
+
+// Menus
+
+/* @group Menus */
+
+.tooltip-container ul.menu {
+  margin: 0;
+  list-style-type: none;
+  li {
+    line-height: 24px;
+    a {
+      display: block;
+      margin-left: -10px;
+      margin-right: -10px;
+      padding-left: 32px;
+      padding-right: 15px;
+      color: black;
+      line-height: 20px;
+      cursor: default;
+    }
+    button {
+      display: block;
+      margin-left: -10px;
+      margin-right: -10px;
+      padding-left: 32px;
+      padding-right: 15px;
+      color: black;
+      line-height: 20px;
+      cursor: default;
+      &:active {
+        box-shadow: none;
+      }
+    }
+    a:before, button:before {
+      margin-left: -15px;
+      float: left;
+      margin-top: 5px;
+    }
+  }
+}
+
+.lt-ie9 .tooltip-container ul.menu li {
+  a:before, button:before {
+    display: none;
+  }
+}
+
+.tooltip-container ul.menu li {
+  &.current a {
+    &:before {
+      content: "✓";
+      float: left;
+      margin-left: -19px;
+      font: 12px fontello;
+      position: relative;
+      top: 7px;
+    }
+    color: black;
+  }
+  &:hover {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  a:hover {
+    text-decoration: none;
+  }
+  .checklist {
+    &.radio {
+      border-top: 1px solid silver;
+      border-bottom: 1px solid silver;
+      padding-left: 22px;
+      line-height: 18px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+    .legend {
+      margin-bottom: 0;
+    }
+  }
+  &.file-upload {
+    position: relative;
+    text-indent: 20px;
+    height: 25px;
+    overflow: hidden;
+    &:before {
+      content: "\e808";
+      font-family: fontello;
+      position: absolute;
+      left: -13px;
+    }
+    form {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      label {
+        position: absolute;
+        margin-left: 0;
+        left: 0;
+        overflow: hidden;
+        display: block;
+        right: 0;
+        cursor: pointer;
+        padding-left: 2px;
+      }
+      input {
+        opacity: 0;
+        filter: alpha(opacity = 0);
+        width: 100%;
+        cursor: pointer;
+        position: absolute;
+        top: 3px;
+        left: 0;
+      }
+    }
+  }
+}
+
+/* @group Avatar change */
+
+.lt-ie10 .tooltip-container ul.menu li.file-upload form input {
+  left: -1000px;
+}
+
+/* @end */
+
+/* @end */
