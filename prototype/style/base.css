@@ -171,217 +171,6 @@ button {
   }
 }
 /* @end */
-/* @group Throbber */
-.injecting * {
-  opacity: 0.19;
-}
-
-.injecting:before {
-  opacity: 1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  content: '\e817';
-  width: 50px;
-  height: 50px;
-  margin-top: -25px;
-  margin-left: -25px;
-  z-index: 1000;
-  font: 50px/50px fontello;
-  text-shadow: white 0 0 2px;
-  text-align: center;
-  -moz-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  -webkit-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
-}
-
-/* @end */
-.pattern-tile, .cat-form, .cat-layout {
-  width: 150px;
-  color: white;
-  text-decoration: none;
-  float: left;
-  margin: 0 10px 20px;
-  padding-bottom: 15px;
-}
-.pattern-tile figure img, .cat-form figure img, .cat-layout figure img {
-  width: 100%;
-}
-.pattern-tile figure figcaption, .cat-form figure figcaption, .cat-layout figure figcaption {
-  text-align: center;
-}
-
-.cat-form {
-  background-color: #be9ac1;
-}
-
-.cat-layout {
-  background-color: #a1ced2;
-}
-
-#site-header {
-  display: block;
-  text-align: center;
-  padding-top: 2%;
-  padding-bottom: 2%;
-  /*	border-bottom: 1px solid white;*/
-  background: url(blackboard.svg) bottom center no-repeat;
-  background-size: 0% auto;
-  transition: all 0.5s;
-}
-
-.state-home #site-header {
-  padding-bottom: 34%;
-  margin-top: 2%;
-  background-size: 90% auto;
-}
-
-#site-header nav a {
-  display: inline-block;
-  text-decoration: none;
-  width: 17%;
-  position: relative;
-  transition: all 0.5s;
-  position: relative;
-}
-
-.state-download #site-header nav a.download:after,
-.state-home #site-header nav a.patterns:after,
-.state-documentation #site-header nav a.documentation:after {
-  position: absolute;
-  bottom: -10px;
-  left: 25%;
-  width: 50%;
-  height: 2px;
-  background-color: white;
-  content: " ";
-  display: block;
-}
-
-.state-home #site-header nav a.patterns {
-  transform: scale(1.5);
-}
-
-#site-header nav a:before {
-  display: block;
-  text-align: center;
-  font: 4em fontello;
-}
-
-#site-header nav a.patterns:before {
-  content: "\e800";
-}
-
-#site-header nav a.download:before {
-  content: "\e805";
-}
-
-#site-header nav a.documentation:before {
-  content: "\e802";
-}
-
-.sub-nav {
-  text-align: center;
-  display: block;
-  margin-bottom: 3em;
-}
-.sub-nav a {
-  display: inline-block;
-  margin-right: 10px;
-  text-decoration: none;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 25px;
-  padding: 4px 20px 0;
-  line-height: 1.6em;
-}
-
-.button-bar {
-  margin-bottom: 1em;
-}
-
-button {
-  padding: 0.8em 2em;
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
-  font-size: 0.8em;
-}
-
-.component-index {
-  margin-bottom: 1em;
-}
-.component-index .functions {
-  display: block;
-  margin-bottom: 1em;
-}
-.component-index .listing {
-  column-count: 5;
-}
-.component-index label {
-  display: block;
-}
-
-form.download .bundle-type {
-  margin-bottom: 1em;
-}
-
-.pat-checklist label {
-  display: block;
-  padding-left: 1.5em;
-  position: relative;
-}
-.pat-checklist label input[type="checkbox"],
-.pat-checklist label input[type="radio"] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-}
-.pat-checklist label:before {
-  font-family: "fontello";
-  font-size: 0.8em;
-  content: "\e808";
-  margin-left: -1.75em;
-  position: relative;
-  top: 0.25em;
-  float: left;
-}
-.pat-checklist label.checked:before {
-  content: "\e809";
-}
-.pat-checklist.radio label:before {
-  content: "\e807";
-}
-.pat-checklist.radio label.checked:before {
-  content: "\e806";
-}
-
-.nav-tile {
-  float: left;
-  width: 34%;
-  margin: 0 8%;
-  padding: 0 5%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.15);
-}
-.nav-tile h3 {
-  padding-top: 3em;
-}
-.nav-tile:after {
-  content: " ";
-  display: block;
-  height: 4em;
-}
-@media (max-width: 768px) {
-  .nav-tile {
-    float: none;
-    width: auto;
-    margin-bottom: 2em;
-  }
-}
-
 /*
 This code is based on Zurb Foundation's grid framework.
 
@@ -940,4 +729,147 @@ Copyright (c) 2012 Mark Hayes
   }
 
   /* @end */
+}
+/* @group Throbber */
+.injecting * {
+  opacity: 0.19;
+}
+
+.injecting:before {
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: '\e817';
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  margin-left: -25px;
+  z-index: 1000;
+  font: 50px/50px fontello;
+  text-shadow: white 0 0 2px;
+  text-align: center;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+
+/* @end */
+#site-header {
+  display: block;
+  text-align: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  /*	border-bottom: 1px solid white;*/
+  background: url(blackboard.svg) bottom center no-repeat;
+  background-size: 0% auto;
+  transition: all 0.5s;
+}
+
+.state-home #site-header {
+  padding-bottom: 34%;
+  margin-top: 2%;
+  background-size: 90% auto;
+}
+
+#site-header nav a {
+  display: inline-block;
+  text-decoration: none;
+  width: 17%;
+  position: relative;
+  transition: all 0.5s;
+  position: relative;
+}
+
+.state-download #site-header nav a.download:after,
+.state-home #site-header nav a.patterns:after,
+.state-documentation #site-header nav a.documentation:after {
+  position: absolute;
+  bottom: -10px;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background-color: white;
+  content: " ";
+  display: block;
+}
+
+.state-home #site-header nav a.patterns {
+  transform: scale(1.5);
+}
+
+#site-header nav a:before {
+  display: block;
+  text-align: center;
+  font: 4em fontello;
+}
+
+#site-header nav a.patterns:before {
+  content: "\e800";
+}
+
+#site-header nav a.download:before {
+  content: "\e805";
+}
+
+#site-header nav a.documentation:before {
+  content: "\e802";
+}
+
+.sub-nav {
+  text-align: center;
+  display: block;
+  margin-bottom: 3em;
+}
+.sub-nav a {
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  padding: 4px 20px 0;
+  line-height: 1.6em;
+}
+
+.button-bar {
+  margin-bottom: 1em;
+}
+
+button {
+  padding: 0.8em 2em;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 0.8em;
+}
+
+.pat-checklist label {
+  display: block;
+  padding-left: 1.5em;
+  position: relative;
+}
+.pat-checklist label input[type="checkbox"],
+.pat-checklist label input[type="radio"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.pat-checklist label:before {
+  font-family: "fontello";
+  font-size: 0.8em;
+  content: "\e808";
+  margin-left: -1.75em;
+  position: relative;
+  top: 0.25em;
+  float: left;
+}
+.pat-checklist label.checked:before {
+  content: "\e809";
+}
+.pat-checklist.radio label:before {
+  content: "\e807";
+}
+.pat-checklist.radio label.checked:before {
+  content: "\e806";
 }
