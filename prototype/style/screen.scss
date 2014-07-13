@@ -11,6 +11,7 @@
 @import "libraries/web-fonts";
 
 // patterns
+@import "components/patterns/auto-suggest";
 @import "libraries/patterns/checklist";
 @import "libraries/patterns/grid";
 @import "libraries/patterns/form";
@@ -18,7 +19,6 @@
 
 // components
 @import "components/anchor";
-@import "components/auto-suggest";
 @import "components/avatar";
 @import "components/body";
 @import "components/button-bar";
