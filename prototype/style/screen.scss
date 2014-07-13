@@ -17,6 +17,8 @@
 @import "libraries/patterns/injection";
 
 // components
+@import "components/anchor";
+@import "components/auto-suggest";
 @import "components/avatar";
 @import "components/body";
 @import "components/button-bar";
@@ -26,5 +28,7 @@
 @import "components/global-header";
 @import "components/icon";
 @import "components/logo";
+@import "components/search";
 @import "components/site-header";
 @import "components/sub-nav";
+@import "components/anchor";
