@@ -49,6 +49,7 @@
 
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
       class=".viewlets.SharingViewlet"
       template="templates/sharingviewlet.pt"

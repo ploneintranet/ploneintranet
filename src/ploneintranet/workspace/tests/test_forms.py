@@ -27,6 +27,7 @@ from ploneintranet.workspace.testing import \
 
 
 class TestPolicyForm(BaseTestCase):
+
     # Form setup gubbins stolen from:
     # http://plone-testing-documentation.readthedocs.org/en/latest/z3c.form.html  # noqa
     def make_request(self, empty=False, visibility='secret',
@@ -117,11 +118,9 @@ class TestPolicyForm(BaseTestCase):
         # Now give it some data
         request = self.make_request(visibility='open')
 
-        policyform = api.content.get_view(
-            'policies',
-            context=workspace,
-            request=request
-        )
+        policyform = api.content.get_view('policies',
+                                          context=workspace,
+                                          request=request)
         policyform.update()
         data, errors = policyform.extractData()
         self.assertEqual(len(errors), 0)
@@ -185,35 +184,31 @@ class TestTransferForm(BaseTestCase):
         """
         self.login_as_portal_owner()
 
-        provideAdapter(
-            adapts=(Interface, IBrowserRequest),
-            provides=Interface,
-            factory=TransferMembershipForm,
-            name='transfer'
-        )
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=TransferMembershipForm,
+                       name="transfer")
 
         ws = api.content.create(
             self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'alejandro-workspace',
-            title='Alejandro workspace'
-        )
+            "ploneintranet.workspace.workspacefolder",
+            "alejandro-workspace",
+            title="Alejandro workspace")
 
-        names = ['Dima', 'Nikita', 'Alex', 'Vlad', 'Sergey']
+        names = "Dima Nikita Alex Vlad Sergey".split()
         for name in names:
             IWorkspace(ws).add_to_team(
                 user=self.create_user(name=name).getId()
             )
 
         # subtracting admin from members list
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
+        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
 
         other_ws = api.content.create(
             self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'isabella-workspace',
-            'Isabella Workspace',
-        )
+            "ploneintranet.workspace.workspacefolder",
+            "isabella-workspace",
+            "Isabella Workspace",)
 
         # copy users
         request = self.make_request(api.content.get_uuid(other_ws))
@@ -261,19 +256,18 @@ class TestTransferForm(BaseTestCase):
         self.assertEqual(len(errors), 0)
 
         self.assertEqual(0, len(list(IWorkspace(other_ws).members)))
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
+        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
 
 
 class TestInvitationFormValidation(BaseTestCase):
+
     def setUp(self):
         super(TestInvitationFormValidation, self).setUp()
         self.login_as_portal_owner()
-        provideAdapter(
-            adapts=(Interface, IBrowserRequest),
-            provides=Interface,
-            factory=InviteForm,
-            name='invite'
-        )
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=InviteForm,
+                       name="invite")
 
         self.ws = api.content.create(
             self.portal,
@@ -343,7 +337,7 @@ class TestInvitationFormValidation(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
         form.update()
         data, errors = form.extractData()
         self.assertEqual(len(errors), 1)
@@ -354,60 +348,58 @@ class TestInvitationFormValidation(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         form.update()
         data, errors = form.extractData()
         self.assertEqual(len(errors), 1)
 
     def test_form_doesnt_accept_a_ws_member_email(self):
-        email = 'vlad@example.org'
+        email = "vlad@example.org"
         username = 'vladislav'
         self.create_user(name='vladislav', email=email)
         self.add_user_to_workspace('vladislav', self.ws)
         # there should be one user minus admin
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         form.update()
-        error_msg = 'User is already a member of this workspace'
+        error_msg = "User is already a member of this workspace"
         self.assertEqual(
             error_msg,
             form.widgets['user'].error.message
-        )
+            )
 
     def test_our_event_handler_doesnt_handle_not_our_events(self):
         # shouldn't happen anything, especially there shouldn't be
         # a key error
-        notify(TokenAccepted('randomness'))
+        notify(TokenAccepted("randomness"))
 
 
 class TestInvitationFormEmailing(BaseTestCase):
+
     layer = PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
 
     def setUp(self):
         super(TestInvitationFormEmailing, self).setUp()
         self.login_as_portal_owner()
-        provideAdapter(
-            adapts=(Interface, IBrowserRequest),
-            provides=Interface,
-            factory=InviteForm,
-            name='invite'
-        )
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=InviteForm,
+                       name="invite")
 
         # create a workspace
         self.ws = api.content.create(
             self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'alejandro-workspace',
-            title='Alejandro workspace'
-        )
+            "ploneintranet.workspace.workspacefolder",
+            "alejandro-workspace",
+            title="Alejandro workspace")
 
         self.app = self.layer['app']
         self.portal = self.layer['portal']
@@ -415,7 +407,7 @@ class TestInvitationFormEmailing(BaseTestCase):
         # don't import this at the top, because it screws up the setup
         # and none of the tests can run
         from Products.CMFPlone.tests.utils import MockMailHost
-        # # Mock the mail host so we can test sending the email
+    #    # Mock the mail host so we can test sending the email
         mockmailhost = MockMailHost('MailHost')
 
         if not hasattr(mockmailhost, 'smtp_host'):
@@ -453,22 +445,22 @@ class TestInvitationFormEmailing(BaseTestCase):
         return request
 
     def test_invitation_send_if_all_above_conditions_met(self):
-        email = 'vlad@example.org'
+        email = "vlad@example.org"
         username = 'vladislav'
         api.user.create(
             email=email,
             username=username,
             password='whatever',
-        )
+            )
         # there shouldn't be any minus admin user in workspace
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         form.update()
         data, errors = form.extractData()
@@ -481,33 +473,29 @@ class TestInvitationFormEmailing(BaseTestCase):
         # mail is actually received by correct recipient
         self.assertEqual(msg['To'], email)
         body = msg.get_payload()
-        url_match = re.search(r'(?P<url>http://[0-9a-z:/@-]+)(?=\n)', body)
+        url_match = re.search("(?P<url>http://[0-9a-z:/@-]+)(?=\n)", body)
         self.assertNotEqual(url_match, None)
         url = url_match.groupdict('url').get('url')
 
         self.mailhost.reset()
         import transaction
-
         transaction.commit()
 
         browser = Browser(self.app)
         browser.open(url)
-        self.assertIn(
-            'userrole-authenticated',
-            browser.contents,
-            'User was not authenticated after accepting token'
-        )
+        self.assertIn('userrole-authenticated', browser.contents,
+                      'User was not authenticated after accepting token')
         # check that user is added to workspace
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
 
     def test_invitation_message_is_sent(self):
-        email = 'vlad@example.org'
+        email = "vlad@example.org"
         username = 'vladislav'
         api.user.create(
             email=email,
             username=username,
             password='whatever',
-        )
+            )
 
         message = u'Hello and join my wörkspace'
         request = self.make_request(username=username, message=message)
@@ -515,7 +503,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         form.update()
         form.extractData()
@@ -527,20 +515,20 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.assertIn(message, body.decode('utf-8'))
 
     def test_if_empty_message_no_text_is_included(self):
-        email = 'vlad@example.org'
+        email = "vlad@example.org"
         username = 'vladislav'
         api.user.create(
             email=email,
             username=username,
             password='whatever',
-        )
+            )
 
         request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         optional = u'Here is the message from %s\n\n' % username
         form.update()
@@ -552,22 +540,22 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.assertNotIn(optional, body)
 
     def test_invitation_send_but_user_became_a_member_not_via_link(self):
-        email = 'vlad@example.org'
+        email = "vlad@example.org"
         username = 'vladislav'
         api.user.create(
             email=email,
             username=username,
             password='whatever',
-        )
+            )
         # there shouldn't be any minus admin user in workspace
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
             request=request,
-        )
+            )
 
         form.update()
         data, errors = form.extractData()
@@ -584,25 +572,20 @@ class TestInvitationFormEmailing(BaseTestCase):
 
         self.assertEqual(msg['To'], email)
         body = msg.get_payload()
-        url_match = re.search(r'(?P<url>http://[0-9a-z:/@-]+)(?=\n)', body)
+        url_match = re.search("(?P<url>http://[0-9a-z:/@-]+)(?=\n)", body)
         self.assertNotEqual(url_match, None)
-        url = url_match.groupdict('url').get('url')
+        url = url_match.groupdict("url").get("url")
 
         self.mailhost.reset()
         import transaction
-
         transaction.commit()
 
         browser = Browser(self.app)
         browser.open(url)
-        self.assertIn(
-            'userrole-authenticated',
-            browser.contents,
-            'User was not authenticated after accepting token'
-        )
+        self.assertIn('userrole-authenticated', browser.contents,
+                      'User was not authenticated after accepting token')
         # check that user is added to workspace
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
         self.assertIn(
-            'Oh boy, oh boy, you are already a member',
-            browser.contents
-        )
+            "Oh boy, oh boy, you are already a member",
+            browser.contents)
