@@ -1,4 +1,20 @@
 fieldset.question {
+  &:before {
+      font-family: fontello;
+      font-size: 1.2em;
+      content: "\1f50d";
+      position: absolute;
+      top: 25px;
+      left: 64px;
+      opacity: 0.5;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        transition: all 0.2s;
+  }
+  &.focus:before {
+      opacity: 0;
+      left: 54px;
+  }
   textarea.question {
     font-size: 1.2em;
     height: 41px;
@@ -10,12 +26,15 @@ fieldset.question {
     overflow: hidden;
     resize: none;
     padding-top: 8px;
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        transition: all 0.2s;
     &:focus {
       background-color: white;
       overflow: auto;
     }
     &::-webkit-input-placeholder, &::-moz-placeholder, &::placeholder {
-      color: rgba(0,0,0,0.2);
+      color: rgba(0,0,0,0.5);
     }
   }
   &.focus textarea.question, &.inforeq-attached textarea.question {
@@ -70,7 +89,7 @@ fieldset.question {
   }
 }
 
-form#q-a {
+form#post-form {
   padding: 17px 50px 7px;
   background-color: $colour-post;
   overflow: hidden;
@@ -79,13 +98,13 @@ form#q-a {
   margin-bottom: 2em;
 }
 
-#sidebar form#q-a {
+#sidebar form#post-form {
   margin: 0;
   padding-right: 15px;
   padding-left: 15px;
 }
 
-form#q-a fieldset.question {
+form#post-form fieldset.question {
   margin-bottom: 0;
   background-image: none;
 }
