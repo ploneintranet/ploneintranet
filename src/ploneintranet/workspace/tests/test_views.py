@@ -107,4 +107,21 @@ class TestSharingView(BaseViewTest):
         self.assertIn(
             '%s [administrator]' % (self.user.getUserName(),),
             view())
-        self.assertNotIn('%s [member]' % (self.user.getUserName(),), view())
+        self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())
+
+    def test_acquired_roles_from_policy_settings(self):
+        self.login_as_portal_owner()
+        policy = "moderators"
+        self.workspace.participant_policy = policy
+        ws = IWorkspace(self.workspace)
+        ws.add_to_team(user=self.user.getUserName())
+        roles = ws.available_groups.get(policy.title())
+        self.request.form = {'form.button.Search': 'Search',
+                             'search_term': 'demo'}
+        view = SharingView(self.workspace, self.request)
+        results = view.user_search_results()
+
+        self.assertEqual(len(results), 1)
+        self.assertTrue(
+            all([results[0]["roles"][role] == "acquired" for role in roles]),
+            "Acquired roles were not set correctly")
