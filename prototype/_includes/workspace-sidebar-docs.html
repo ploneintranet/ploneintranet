@@ -1,45 +1,64 @@
 
-                <div class="layout-list consume" id="sidebar-content">
-                    <form action="workspace-landing.html#document-listings" class="pat-inject">
-                        <fieldset class="functions">
-                            <a class="dropdown button pat-tooltip" data-pat-tooltip="source: ajax; position: tl" href=
-                            "tooltip-document-filters.html#content" id="document-filters">View</a> <button class="pat-toggle edit" data-pat-toggle=
-                            "selector: #sidebar-content; value: edit consume" id="modify-toggle" title=
-                            "Allows you to select multiple files and apply an action to all of these." type="button">Modify</button>
+<div class="layout-list consume" id="sidebar-content">
+    <form action="workspace-landing.html#document-listings" class="pat-inject">
+        <fieldset class="functions">
+            <a class="dropdown button pat-tooltip" data-pat-tooltip="source: ajax; position: tl" href=
+            "tooltip-document-filters.html#content" id="document-filters">View</a> <button class="pat-toggle edit" data-pat-toggle=
+            "selector: #sidebar-content; value: edit consume" id="modify-toggle" title=
+            "Allows you to select multiple files and apply an action to all of these." type="button">Modify</button>
 
-                            <fieldset class="modifiers button-cluster" id="batch-functions">
-                                <!--<button type="submit" class="icon-cut cut" title="Cut selected documents to web clipboard">Cut</button>-->
-                                <!--<button type="submit" class="icon-download cut" title="Download selected documents">Download</button>-->
-                                <button class="icon-archive" title="Archive selected documents" type="submit">Archive</button>
-                                <a class="button icon-tags label pat-switch state-inactive" data-pat-switch="#sidebar tagging-off tagging-on" href="#batch-tagging" id=
-                                "button-batch-tagging" title="Tag selected documents">Tag</a>
-                                <a class="pat-tooltip dropdown button" data-pat-tooltip="source: ajax; position: tl;" href="#extra-functions">More</a>
-                            </fieldset>
+            <fieldset class="modifiers button-cluster" id="batch-functions">
+                <!--<button type="submit" class="icon-cut cut" title="Cut selected documents to web clipboard">Cut</button>-->
+                <!--<button type="submit" class="icon-download cut" title="Download selected documents">Download</button>-->
+                <button class="icon-archive" title="Archive selected documents" type="submit">Archive</button>
+                <a class="button icon-tags label pat-switch state-inactive" data-pat-switch="#sidebar tagging-off tagging-on" href="#batch-tagging" id=
+                "button-batch-tagging" title="Tag selected documents">Tag</a>
+                <a class="pat-tooltip dropdown button" data-pat-tooltip="source: ajax; position: tl;" href="#extra-functions">More</a>
+            </fieldset>
 
-                            <div hidden="" id="extra-functions">
-                                <ul class="menu">
-                                    <li><button class="icon-mail link" title="Subscribe to selected documents" type="submit">Subscribe</button></li>
+            <div hidden="" id="extra-functions">
+                <ul class="menu">
+                    <li><button class="icon-mail link" title="Subscribe to selected documents" type="submit">Subscribe</button></li>
 
-                                    <li>
-                                        <a class="icon-minus-circle" onClick="openModal(this);return false;" href=
-                                        "modal-bulk-delete.html" title="Delete selected documents">Delete</a>
-                                    </li>
+                    <li>
+                        <a class="icon-minus-circle" onClick="openModal(this);return false;" href=
+                        "modal-bulk-delete.html" title="Delete selected documents">Delete</a>
+                    </li>
 
-                                    <li>
-                                        <a class="icon-link pat-modal" href="link-workspaces.html" title="Create a link of selected documents in another Workspace">Send link</a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <li>
+                        <a class="icon-link pat-modal" href="link-workspaces.html" title="Create a link of selected documents in another Workspace">Send link</a>
+                    </li>
+                </ul>
+            </div>
 
-                            <fieldset id="batch-tagging">
-                                <input class="pat-autosuggest" data-pat-autosuggest="words: Analysis, Minutes, Planning" placeholder=
-                                "Enter a tag for the selected files" type="text"> <button name="tagging" type="submit" value="tagging">Tag</button>
-                                <button class="pat-switch" data-pat-switch="#sidebar tagging-on tagging-off" type="button">Cancel</button>
-                            </fieldset>
-                        </fieldset>
+            <fieldset id="batch-tagging">
+                <input class="pat-autosuggest" data-pat-autosuggest="words: Analysis, Minutes, Planning" placeholder=
+                "Enter a tag for the selected files" type="text"> <button name="tagging" type="submit" value="tagging">Tag</button>
+                <button class="pat-switch" data-pat-switch="#sidebar tagging-on tagging-off" type="button">Cancel</button>
+            </fieldset>
+        </fieldset>
 
-                        <div class="navigation documents">
-                            …
-                        </div>
-                    </form>
-                </div>
+        <div class="navigation documents">
+            <ul>
+                {% for item in site.posts  %}
+                    {% if item.type == 'rich' or 'file' or 'folder' %}
+                        <li class="type-{{ item.type }}">
+                            <a href="#" style="background-image: url(/media/previews{{ item.id }})">
+                                <h3>
+                                    {{ item.title }}
+                                </h3>
+                                <p class="description">
+                                    {{ item.description }}
+                                </p>
+                            </a>
+                            <a class="icon-cog pat-tooltip inactive" data-pat-tooltip="trigger: click; source: ajax" href="tooltip-document.html#settings">Edit…</a>
+                            <label>
+                                <input type="checkbox" /> Select
+                            </label>
+                        </li>                       
+                    {% endif %}           
+                {% endfor %}
+            </ul>
+        </div>
+    </form>
+</div>

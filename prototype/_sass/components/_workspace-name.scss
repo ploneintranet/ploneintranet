@@ -1,0 +1,25 @@
+#workspace-name {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 50px;
+  line-height: 65px;
+  font-weight: normal;
+  z-index: 0;
+  width: 50px;
+  background-color: $colour-workspace-tabs;
+  top: 32px;
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  a {
+    transform: rotate(-90deg);
+    transform-origin: top left;
+    color: white;
+    position: absolute;
+    bottom: -65px;
+    left: 0;
+    opacity: 0.4;
+  }
+}

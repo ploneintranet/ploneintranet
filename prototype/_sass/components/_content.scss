@@ -21,6 +21,6 @@ body.view-secure #content {
   background-color: rgba(255, 255, 255, 0);
 }
 
-.lt-ie9 body.view-secure #content {
-  background-color: transparent;
+body.application-workspace .application aside.sidebar.left {
+  left: 50px;
 }
