@@ -13,14 +13,14 @@ module.exports = function(grunt) {
         options: {
           browsers: ['> 1%', 'last 4 versions', 'Firefox ESR', 'Opera 12.1']
         },
-        src: 'Prototype/Style/base.css',
-        dest: 'Prototype/_site/Style/base.css'
+        src: 'prototype/style/base.css',
+        dest: 'prototype/_site/style/base.css'
       }
     },
     cssmin: {
       combine: {
         files: {
-            'Prototype/_site/Style/base.css': ['Prototype/_site/Style/base.css']
+            'prototype/_site/style/base.css': ['prototype/_site/style/base.css']
         }
       }
     }
