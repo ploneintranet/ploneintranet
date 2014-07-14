@@ -12,13 +12,14 @@ class TestPermissions(BaseTestCase):
         super(TestPermissions, self).setUp()
         self.login_as_portal_owner()
         # set up some users
-        api.user.create(username='wsadmin', email="admin@test.com")
-        api.user.create(username='user1', email="test@test.com")
-        api.user.create(username='user2', email="test2@test.com")
+        api.user.create(username='wsadmin', email='admin@test.com')
+        api.user.create(username='user1', email='test@test.com')
+        api.user.create(username='user2', email='test2@test.com')
         self.workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         self.add_user_to_workspace(
             'wsadmin',
             self.workspace,
@@ -37,7 +38,7 @@ class TestPermissions(BaseTestCase):
     def test_consumers_can_view(self):
         """ Consumers can only view published content in the workspace """
         self.login_as_portal_owner()
-        self.workspace.participant_policy = "consumers"
+        self.workspace.participant_policy = 'consumers'
         doc_private = api.content.create(
             self.workspace,
             'Document',
@@ -63,7 +64,7 @@ class TestPermissions(BaseTestCase):
         submit it for review
         """
         self.login_as_portal_owner()
-        self.workspace.participant_policy = "Producers"
+        self.workspace.participant_policy = 'Producers'
 
         self.login('user1')
         doc = api.content.create(
@@ -90,7 +91,7 @@ class TestPermissions(BaseTestCase):
             'Document',
             'my-admin-page',
         )
-        self.workspace.participant_policy = "Publishers"
+        self.workspace.participant_policy = 'Publishers'
 
         self.login('user1')
         doc = api.content.create(
@@ -118,7 +119,7 @@ class TestPermissions(BaseTestCase):
             'Document',
             'my-admin-page',
         )
-        self.workspace.participant_policy = "Moderators"
+        self.workspace.participant_policy = 'Moderators'
 
         self.login('user1')
         doc = api.content.create(

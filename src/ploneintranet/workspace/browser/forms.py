@@ -274,11 +274,11 @@ message in error, please notify us and UNREAD it.
             workspace=self.context.title,
             token_url=token_url)
 
-        message = "{header}\n\n{optional}{footer}".format(
+        message = u"{header}\n\n{optional}{footer}".format(
             header=msg_header,
             optional=given_message,
             footer=msg_footer,
-            )
+        )
 
         subject = 'You are invited to join "%s"' % self.context.title
 
