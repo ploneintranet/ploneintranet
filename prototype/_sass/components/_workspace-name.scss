@@ -16,6 +16,7 @@
   a {
     @include transform(rotate(-90deg));
     -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
     transform-origin: top left;
     color: white;
     position: absolute;
