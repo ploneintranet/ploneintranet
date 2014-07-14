@@ -89,11 +89,6 @@
   }
 }
 
-
-.lt-ie9 nav.workspace-tabs a:before {
-  background-image: url(icons-tabs-white.png);
-}
-
 .lt-ie10 nav.workspace-tabs a:last-child {
   margin-bottom: -150px;
   background-color: transparent;
@@ -103,10 +98,6 @@
 
 .theme-light nav.workspace-tabs a:before {
   background-image: url(icons-tabs-black.svg);
-}
-
-.lt-ie9 .theme-light nav.workspace-tabs a:before {
-  background-image: url(icons-tabs-black.png);
 }
 
 .lt-ie10 nav.workspace-tabs a:last-child sup.counter {
