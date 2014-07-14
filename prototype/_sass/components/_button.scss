@@ -84,15 +84,14 @@ a.button {
     margin-right: 10px;
   }
   margin: 0 5px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
   border-radius: 4px;
-  background-image: url(button-ie9-.png);
-  background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: -moz-linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
   text-decoration: none !important;
   line-height: 1.5;
   background-color: transparent;
@@ -103,17 +102,17 @@ a.button {
   font-size: 0.9em;
 }
 
-button, .accordion .header {
+button {
   margin: 0 5px 0 0;
   border: 1px solid rgba(0, 0, 0, 0.32);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
   border-radius: 4px;
   background-image: url(button-ie9-.png);
-  background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background-image: -moz-linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
   text-decoration: none !important;
   line-height: 1.5;
   background-color: transparent;
@@ -122,84 +121,18 @@ button, .accordion .header {
   padding-left: 1em;
   padding-right: 1em;
   font-size: 0.9em;
-}
 
-input {
-  &[type="submit"], &[type="button"] {
-    margin: 0 5px 0 0;
-    border: 1px solid rgba(0, 0, 0, 0.32);
-    color: rgba(0, 0, 0, 0.6);
-    cursor: default;
-    border-radius: 4px;
-    background-image: url(button-ie9-.png);
-    background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-    text-decoration: none !important;
-    line-height: 1.5;
-    background-color: transparent;
-    display: inline-block;
-    padding-top: 0;
-    padding-left: 1em;
-    padding-right: 1em;
-    font-size: 0.9em;
+  &.large {
+    font-size: 20px;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
-}
+  &:active, &.active {
+    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
 
-#calendar-filters .attendees .legend, *[data-option]:after {
-  margin: 0 5px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.32);
-  color: rgba(0, 0, 0, 0.6);
-  cursor: default;
-  border-radius: 4px;
-  background-image: url(button-ie9-.png);
-  background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
-  text-decoration: none !important;
-  line-height: 1.5;
-  background-color: transparent;
-  display: inline-block;
-  padding-top: 0;
-  padding-left: 1em;
-  padding-right: 1em;
-  font-size: 0.9em;
-}
-
-.lt-ie9 {
-  a.button, button, .accordion .header {
-    border-style: none;
-    color: black;
-    height: 21px;
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: 21px;
-    outline: solid gray 1px;
-    background: url(button-ie9-.png) repeat-x 0 bottom;
+  &.small.sublime:active, &.sublime:active {
+    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
   }
-  input {
-    &[type="submit"], &[type="button"] {
-      border-style: none;
-      color: black;
-      height: 21px;
-      padding-top: 0;
-      padding-bottom: 0;
-      line-height: 21px;
-      outline: solid gray 1px;
-      background: url(button-ie9-.png) repeat-x 0 bottom;
-    }
-  }
-  #calendar-filters .attendees .legend, *[data-option]:after {
-    border-style: none;
-    color: black;
-    height: 21px;
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: 21px;
-    outline: solid gray 1px;
-    background: url(button-ie9-.png) repeat-x 0 bottom;
   }
 }
 
@@ -266,27 +199,6 @@ a.button.large {
   margin-bottom: 0.5em;
 }
 
-button {
-  &.large {
-    font-size: 20px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
-  &:active, &.active {
-    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
-  }
-}
-
-.accordion .header.closed:active {
-  box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
-}
-
-button {
-  &.small.sublime:active, &.sublime:active {
-    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
-  }
-}
-
 input {
   &[type="submit"]:active, &[type="button"]:active {
     box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
@@ -309,20 +221,12 @@ button {
   }
 }
 
-/* @end */
-
 // Button cluster
-
-/* @group Button cluster */
 
 .button-cluster {
   overflow: hidden;
   display: inline-block;
   margin: 0;
-}
-
-.lt-ie9 .button-cluster {
-  outline: solid gray 1px;
 }
 
 .button-cluster {
@@ -350,13 +254,7 @@ button {
 	background-color: red;
 }*/
 
-.lt-ie9 .button-cluster :first-child {
-  border-left-style: none;
-}
-
 .button-cluster :last-child {
   border-top-right-radius: 4px !important;
   border-bottom-right-radius: 4px !important;
 }
-
-/* @end */
