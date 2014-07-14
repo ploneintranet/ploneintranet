@@ -20,18 +20,21 @@ class TestRoster(BaseTestCase):
         and that members can see users who are part of the workspace
         """
         self.login_as_portal_owner()
-        api.user.create(username='wsmember', email="member@test.com")
-        api.user.create(username='wsmember2', email="member2@test.com")
+        api.user.create(username='wsmember', email='member@test.com')
+        api.user.create(username='wsmember2', email='member2@test.com')
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         self.add_user_to_workspace(
             'wsmember',
-            workspace_folder)
+            workspace_folder
+        )
         self.add_user_to_workspace(
             'wsmember2',
-            workspace_folder)
+            workspace_folder
+        )
 
         self.login('wsmember')
         self.assertTrue(IHasWorkspace.providedBy(workspace_folder))
@@ -49,20 +52,23 @@ class TestEditRoster(BaseTestCase):
     def setUp(self):
         super(TestEditRoster, self).setUp()
         self.login_as_portal_owner()
-        api.user.create(username='wsadmin', email="admin@test.com")
-        api.user.create(username='wsmember', email="member@test.com")
-        api.user.create(username='wsmember2', email="member@test.com")
+        api.user.create(username='wsadmin', email='admin@test.com')
+        api.user.create(username='wsmember', email='member@test.com')
+        api.user.create(username='wsmember2', email='member@test.com')
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         self.add_user_to_workspace(
             'wsadmin',
             workspace_folder,
-            set(['Admins']))
+            set(['Admins'])
+        )
         self.add_user_to_workspace(
             'wsmember',
-            workspace_folder)
+            workspace_folder
+        )
         self.workspace = workspace_folder
 
     def test_index(self):
@@ -234,19 +240,20 @@ class TestEditRoster(BaseTestCase):
 
 
 class TestEditRosterForm(FunctionalBaseTestCase):
-
     def setUp(self):
         super(TestEditRosterForm, self).setUp()
         self.login_as_portal_owner()
-        api.user.create(username='wsmember', email="member@test.com")
+        api.user.create(username='wsmember', email='member@test.com')
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+            'example-workspace'
+        )
         self.workspace = workspace_folder
 
         # Commit so the testbrowser can see the workspace
         import transaction
+
         transaction.commit()
 
     def test_edit_roster_form(self):
@@ -255,10 +262,13 @@ class TestEditRosterForm(FunctionalBaseTestCase):
         self.browser.getControl(name='search_term').value = 'wsmember'
         self.browser.getControl(name='form.button.SearchUsers').click()
         # make sure both admin checkboxes are selected
-        self.browser.getControl(name='entries.admin:records').value = \
-            ['1', '1']
+        self.browser.getControl(
+            name='entries.admin:records'
+        ).value = ['1', '1']
         self.browser.getControl(name='form.button.Save').click()
 
         # wsmember should now be an admin
-        self.assertIn('Admins',
-                      IWorkspace(self.workspace).get('wsmember').groups)
+        self.assertIn(
+            'Admins',
+            IWorkspace(self.workspace).get('wsmember').groups
+        )

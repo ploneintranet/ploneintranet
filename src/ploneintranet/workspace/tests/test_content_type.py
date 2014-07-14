@@ -1,3 +1,4 @@
+# coding=utf-8
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.api.exc import InvalidParameterError
@@ -5,14 +6,14 @@ from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 
 
 class TestContentTypes(BaseTestCase):
-
     def create_workspace(self):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
-            title='Welcome to my workspace')
+            title='Welcome to my workspace'
+        )
         return IWorkspace(workspace_folder)
 
     def create_unadapted_workspace(self):
@@ -21,10 +22,11 @@ class TestContentTypes(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
-            title='Welcome to my workspace')
+            title='Welcome to my workspace'
+        )
         return workspace_folder
 
-    def create_user(self, name="testuser", password="secret"):
+    def create_user(self, name='testuser', password='secret'):
         """
         helper method for creating a test user
         :param name: username
@@ -34,10 +36,10 @@ class TestContentTypes(BaseTestCase):
 
         """
         user = api.user.create(
-            email="test@user.com",
+            email='test@user.com',
             username=name,
             password=password,
-            )
+        )
         return user
 
     def test_add_workspacefolder(self):
@@ -49,7 +51,8 @@ class TestContentTypes(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
-            title='Welcome to my workspace')
+            title=u'Welcome to my workspacé'
+        )
 
         self.assertTrue(
             IHasWorkspace.providedBy(workspace_folder),
@@ -60,8 +63,11 @@ class TestContentTypes(BaseTestCase):
         # does the view work?
         view = workspace_folder.restrictedTraverse('@@view')
         html = view()
-        self.assertIn(workspace_folder.title, html,
-                      'Workspace title not found on view page')
+        self.assertIn(
+            workspace_folder.title,
+            html,
+            'Workspace title not found on view page'
+        )
 
     def test_cannot_add_sub_workspace(self):
         """
@@ -97,10 +103,11 @@ class TestContentTypes(BaseTestCase):
         user = self.create_user()
         groups = api.group.get_groups()
         group_names = [x.getName() for x in groups]
-        group_name = "Admins:%s" % (api.content.get_uuid(ws))
+        group_name = 'Admins:%s' % (api.content.get_uuid(ws))
         self.assertIn(
             group_name,
-            group_names)
+            group_names
+        )
         workspace = IWorkspace(ws)
         workspace.add_to_team(user=user.getId(), groups=set([u"Admins"]))
 

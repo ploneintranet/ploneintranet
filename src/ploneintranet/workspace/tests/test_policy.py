@@ -8,7 +8,6 @@ from zope.annotation.interfaces import IAnnotations
 
 
 class TestPolicy(BaseTestCase):
-
     def test_groups_created(self):
         """
         When a workspace is created it should also create a number of groups
@@ -22,17 +21,22 @@ class TestPolicy(BaseTestCase):
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'workspace')
+            'workspace'
+        )
         workspace_folder_uid = api.content.get_uuid(workspace_folder)
 
         self.assertIsNotNone(
-            api.group.get('Consumers:%s' % workspace_folder_uid))
+            api.group.get('Consumers:%s' % workspace_folder_uid)
+        )
         self.assertIsNotNone(
-            api.group.get('Producers:%s' % workspace_folder_uid))
+            api.group.get('Producers:%s' % workspace_folder_uid)
+        )
         self.assertIsNotNone(
-            api.group.get('Publishers:%s' % workspace_folder_uid))
+            api.group.get('Publishers:%s' % workspace_folder_uid)
+        )
         self.assertIsNotNone(
-            api.group.get('Moderators:%s' % workspace_folder_uid))
+            api.group.get('Moderators:%s' % workspace_folder_uid)
+        )
 
     def test_workspace_creator(self):
         """
@@ -56,7 +60,8 @@ class TestPolicy(BaseTestCase):
             self.portal,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
-            title='A workspace')
+            title='A workspace'
+        )
 
         IAnnotations(self.request)[('workspaces', 'workspacecreator')] = None
 
@@ -77,22 +82,23 @@ class TestPolicy(BaseTestCase):
         self.login_as_portal_owner()
         workspace = api.content.create(
             self.portal,
-            "ploneintranet.workspace.workspacefolder",
-            "example-workspace",
-            title="A workspace")
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='A workspace'
+        )
         # check that accessing setting for the first time doesn't fail
-        self.assertEqual(workspace.external_visibility, "secret")
-        self.assertEqual(workspace.join_policy, "admin")
-        self.assertEqual(workspace.participant_policy, "consumers")
+        self.assertEqual(workspace.external_visibility, 'secret')
+        self.assertEqual(workspace.join_policy, 'admin')
+        self.assertEqual(workspace.participant_policy, 'consumers')
 
-        workspace.set_external_visibility("open")
-        self.assertEqual(workspace.external_visibility, "open")
+        workspace.set_external_visibility('open')
+        self.assertEqual(workspace.external_visibility, 'open')
 
-        workspace.join_policy = "team"
-        self.assertEqual(workspace.join_policy, "team")
+        workspace.join_policy = 'team'
+        self.assertEqual(workspace.join_policy, 'team')
 
-        workspace.participant_policy = "producers"
-        self.assertEqual(workspace.participant_policy, "producers")
+        workspace.participant_policy = 'producers'
+        self.assertEqual(workspace.participant_policy, 'producers')
 
     def test_workspace_policy_change_updates_existing_members(self):
         """
@@ -102,28 +108,33 @@ class TestPolicy(BaseTestCase):
         self.login_as_portal_owner()
         workspace = api.content.create(
             self.portal,
-            "ploneintranet.workspace.workspacefolder",
-            "example-workspace",
-            title="A workspace")
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='A workspace'
+        )
         # check that accessing setting for the first time doesn't fail
-        workspace.participant_policy = "producers"
-        self.assertEqual(workspace.participant_policy, "producers")
+        workspace.participant_policy = 'producers'
+        self.assertEqual(workspace.participant_policy, 'producers')
 
-        username = "member_username"
-        api.user.create(username=username, email="test@test.com")
+        username = 'member_username'
+        api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
-        group = api.group.get("Producers:" + api.content.get_uuid(workspace))
-        self.assertIn(api.user.get(username=username),
-                      group.getAllGroupMembers())
-        workspace.participant_policy = "consumers"
-        self.assertNotIn(
-            api.user.get(username=username),
-            group.getAllGroupMembers())
-
-        group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
+        group = api.group.get('Producers:' + api.content.get_uuid(workspace))
         self.assertIn(
             api.user.get(username=username),
-            group.getAllGroupMembers())
+            group.getAllGroupMembers()
+        )
+        workspace.participant_policy = 'consumers'
+        self.assertNotIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
+
+        group = api.group.get('Consumers:' + api.content.get_uuid(workspace))
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
 
     def test_members_are_correctly_added_to_group_by_policy(self):
         """
@@ -134,44 +145,58 @@ class TestPolicy(BaseTestCase):
         workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'workspace')
+            'workspace'
+        )
         # default participant policy state should be "consumers"
-        self.assertEqual(workspace.participant_policy, "consumers")
+        self.assertEqual(workspace.participant_policy, 'consumers')
 
         # create a member and add to workspace
-        username = "member_username"
-        api.user.create(username=username, email="test@test.com")
+        username = 'member_username'
+        api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
 
-        group = api.group.get("Consumers:" + api.content.get_uuid(workspace))
-        self.assertIn(api.user.get(username=username),
-                      group.getAllGroupMembers())
+        group = api.group.get('Consumers:' + api.content.get_uuid(workspace))
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
 
         self.login(username)
-        self.assertIn("TeamMember",
-                      api.user.get_roles(username=username, obj=workspace))
+        self.assertIn(
+            'TeamMember',
+            api.user.get_roles(username=username, obj=workspace)
+        )
 
         self.login_as_portal_owner()
         workspace = api.content.create(
             self.portal,
-            "ploneintranet.workspace.workspacefolder",
-            "other-workspace")
-        self.assertEqual(workspace.participant_policy, "consumers")
-        workspace.participant_policy = "producers"
-        self.assertEqual(workspace.participant_policy, "producers")
-        username = "Vladislav"
-        api.user.create(username=username, email="test1@test.com")
+            'ploneintranet.workspace.workspacefolder',
+            'other-workspace'
+        )
+        self.assertEqual(workspace.participant_policy, 'consumers')
+        workspace.participant_policy = 'producers'
+        self.assertEqual(workspace.participant_policy, 'producers')
+        username = 'Vladislav'
+        api.user.create(username=username, email='test1@test.com')
         self.add_user_to_workspace(username, workspace)
-        group = api.group.get("Producers:" + api.content.get_uuid(workspace))
-        self.assertIn(api.user.get(username=username),
-                      group.getAllGroupMembers())
+        group = api.group.get('Producers:' + api.content.get_uuid(workspace))
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
         self.login(username)
-        self.assertIn("Contributor",
-                      api.user.get_roles(username=username, obj=workspace))
-        self.assertIn("TeamMember",
-                      api.user.get_roles(username=username, obj=workspace))
-        self.assertNotIn("Reviewer",
-                         api.user.get_roles(username=username, obj=workspace))
+        self.assertIn(
+            'Contributor',
+            api.user.get_roles(username=username, obj=workspace)
+        )
+        self.assertIn(
+            'TeamMember',
+            api.user.get_roles(username=username, obj=workspace)
+        )
+        self.assertNotIn(
+            'Reviewer',
+            api.user.get_roles(username=username, obj=workspace)
+        )
 
     def test_role_adapter(self):
         """
@@ -183,8 +208,8 @@ class TestPolicy(BaseTestCase):
         # if a workspace cannot be acquired
         api.user.create(
             username='mrmanager',
-            email="manager@test.com",
-            roles=("Member", "Manager"),
+            email='manager@test.com',
+            roles=('Member', 'Manager'),
         )
         self.login('mrmanager')
         folder = api.content.create(
@@ -201,10 +226,11 @@ class TestPolicy(BaseTestCase):
         workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'workspace')
-        workspace.participant_policy = "publishers"
-        username = "testuser"
-        api.user.create(username=username, email="test@test.com")
+            'workspace'
+        )
+        workspace.participant_policy = 'publishers'
+        username = 'testuser'
+        api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
 
         self.login(username)
@@ -231,17 +257,20 @@ class TestPolicy(BaseTestCase):
         workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'workspace')
+            'workspace'
+        )
         workspace.join_policy = 'admin'
 
-        username = "regular_member"
-        api.user.create(username=username, email="test@test.com")
+        username = 'regular_member'
+        api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
 
         self.login(username)
         self.assertFalse(
-            checkPermission("collective.workspace: Manage roster",
-                            workspace),
+            checkPermission(
+                'collective.workspace: Manage roster',
+                workspace
+            ),
         )
         self.request['REQUEST_METHOD'] = 'POST'
         edit_form = EditRoster(workspace, self.request)
@@ -271,17 +300,20 @@ class TestPolicy(BaseTestCase):
         workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'workspace')
+            'workspace'
+        )
         workspace.join_policy = 'team'
 
-        username = "regular_member"
-        api.user.create(username=username, email="test@test.com")
+        username = 'regular_member'
+        api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
 
         self.login(username)
         self.assertTrue(
-            checkPermission("collective.workspace: View roster",
-                            workspace),
+            checkPermission(
+                'collective.workspace: View roster',
+                workspace
+            ),
         )
         self.request['REQUEST_METHOD'] = 'POST'
         edit_form = EditRoster(workspace, self.request)
