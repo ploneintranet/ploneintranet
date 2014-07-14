@@ -17,7 +17,6 @@ input[type="file"] {
 	-webkit-appearance: none;
 	padding-left: 4px;
 	display: inline-block;
-	box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
 	cursor: text;
 	box-sizing: border-box;
 	padding-top: 0;
@@ -39,7 +38,6 @@ input:disabled,
 textarea:disabled  {
 	border: transparent;
 	opacity: 1;
-	box-shadow: none;
 	padding: 0;
 	background-color: transparent;
 }
@@ -97,7 +95,6 @@ textarea.dark,
 	background-color: #1f2028;
 	color: white;
 	outline: 1px solid #474954;
-	box-shadow: inset 0 0 4px black;
 }
 
 input[type="text"].dark:focus,
