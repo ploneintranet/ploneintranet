@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         dest: 'bundle.min.js'
       }
     },
-    autoprefixer: {
+/*    autoprefixer: {
       dist: {
         options: {
           browsers: ['> 1%', 'last 4 versions', 'Firefox ESR', 'Opera 12.1']
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
             'prototype/_site/style/base.css': ['prototype/_site/style/base.css']
         }
       }
-    }
+    }*/
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -32,6 +32,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('css', ['autoprefixer', 'cssmin']);
+//  grunt.registerTask('css', ['autoprefixer', 'cssmin']);
 
 };
