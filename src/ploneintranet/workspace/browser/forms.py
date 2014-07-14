@@ -45,8 +45,8 @@ def user_has_email(username):
     user = api.user.get(username=username)
     if not user.getProperty("email"):
         msg = _(
-            "For unknown reasons, this user doesn't have an email associated "
-            "with his account"
+            "This user doesn't have an email associated "
+            "with their account."
         )
         raise Invalid(msg)
 
@@ -247,7 +247,7 @@ class InviteForm(form.SchemaForm):
         if not inviter:
             inviter = current_user.getUserName()
 
-        msg_header = "You've been invited to join %s by %s" % (
+        msg_header = "You have been invited to join %s by %s" % (
             self.context.title, inviter)
 
         if given_message:
@@ -258,17 +258,11 @@ class InviteForm(form.SchemaForm):
         msg_footer = """
 The following is a unique URL tied to your email address ({email}).
 
-Clicking the link will make you a member of a {workspace} workspace
+Following the link will make you a member of the {workspace} workspace
 automatically.
 
 {token_url}
 
-Good luck,
-Yours
-
-***** Email confidentiality notice *****
-This message is private and confidential. If you have received this
-message in error, please notify us and UNREAD it.
 """.format(
             email=email,
             workspace=self.context.title,
@@ -287,4 +281,3 @@ message in error, please notify us and UNREAD it.
             'Invitation sent to %s' % email,
             self.request,
         )
-        return
