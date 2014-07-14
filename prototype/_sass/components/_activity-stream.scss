@@ -264,13 +264,13 @@
       }
     }
     &.question {
-      background-color: #d0d9d1;
+      background-color: $colour-post;
       .icon-cog {
         color: #6e7370;
       }
       .preview {
         overflow: hidden;
-        background-color: #ecf5f0;
+        background-color: $colour-post;
         padding-right: 10px;
         padding-left: 10px;
         clear: both;
@@ -313,7 +313,7 @@
           position: absolute;
           top: 211px;
           left: -26px;
-          color: #e0e2dd;
+          color: $colour-post;
           z-index: -1;
           font: 500px / 0 Georgia, "Times New Roman", Times, serif;
         }
