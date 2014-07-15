@@ -54,13 +54,12 @@
     margin: 0;
   }
   h4 {
-    font-family: HelveticaNeueLTStd25UltraLt;
-    line-height: 22px;
+    line-height: 20px;
     padding-right: 20px;
     padding-left: 40px;
     font-size: 18px;
     margin-bottom: 0;
-    margin-top: -1px;
+    margin-top: -2px;
     font-weight: normal;
     font-style: normal;
     a {
@@ -143,6 +142,9 @@
     }
   }
   .item {
+    .description,.no-preview {
+      padding: 1em 0;
+    }
     .preview img {
       width: 100%;
       height: auto;
@@ -264,13 +266,13 @@
       }
     }
     &.question {
-      background-color: #d0d9d1;
+      background-color: $colour-post;
       .icon-cog {
         color: #6e7370;
       }
       .preview {
         overflow: hidden;
-        background-color: #ecf5f0;
+        background-color: $colour-post;
         padding-right: 10px;
         padding-left: 10px;
         clear: both;
@@ -313,7 +315,7 @@
           position: absolute;
           top: 211px;
           left: -26px;
-          color: #e0e2dd;
+          color: $colour-post;
           z-index: -1;
           font: 500px / 0 Georgia, "Times New Roman", Times, serif;
         }

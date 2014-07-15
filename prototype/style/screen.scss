@@ -6,6 +6,8 @@
 
 // libraries
 @import "libraries/animation";
+@import "libraries/compass/css3";
+// @import "libraries/compass/reset";
 @import "libraries/mixins";
 @import "libraries/reset";
 // @import "libraries/web-fonts";
@@ -28,15 +30,18 @@
 @import "components/content";
 @import "components/document-body";
 @import "components/document-content";
+@import "components/file-upload";
 @import "components/function-bar";
 @import "components/global-header";
 @import "components/icon";
 @import "components/logo";
 @import "components/metadata";
+@import "components/post-form";
 @import "components/search";
 @import "components/sidebar";
 @import "components/site-header";
 @import "components/sub-nav";
 @import "components/toolbar";
 @import "components/tooltip";
-@import "components/q-a-question";
+@import "components/workspace-name";
+@import "components/workspace-tabs";

@@ -1,7 +1,13 @@
 body {
-	font: 14px/1.7 "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 14px;
+	line-height: 1.6;
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
 	background: $colour-base;
+
+	[hidden="hidden"],[hidden],[type="hidden"] {
+	display: none;
+}
 }
