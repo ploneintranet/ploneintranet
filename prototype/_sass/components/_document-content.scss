@@ -1,3 +1,14 @@
 #document-content {
 	padding: 20px 50px;
+	font-size: 20px;
+
+	h1,h2,p,ul,ol,table,dl,pre {
+		margin-bottom: 2em;
+	}
+
+	h1 {
+		font-weight: 200; 
+		font-size: 2em;
+		margin-bottom: 0.7em;
+	}
 }
