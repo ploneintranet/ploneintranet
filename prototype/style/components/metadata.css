@@ -1,0 +1,266 @@
+/* @group Meta data */
+/* @group Meta data panel */
+/* line 5, ../../_sass/components/metadata.scss */
+#document-body div.metadata {
+  background-color: transparent;
+  margin-right: 0;
+  margin-left: 0;
+  padding: 26px 50px 0;
+}
+/* line 10, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions {
+  position: absolute;
+  top: 27px;
+  right: 77px;
+  line-height: 26px;
+}
+/* line 15, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions fieldset {
+  display: inline-block;
+  margin-left: 5px;
+  float: right;
+  margin-top: -1px;
+}
+/* line 21, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions select {
+  border-style: none;
+}
+/* line 25, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Private'] select {
+  background-color: #d561a4;
+}
+/* line 28, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Workspace Members Only'] select {
+  background-color: #f38300;
+}
+/* line 31, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Public'] select {
+  background-color: #65c981;
+}
+/* line 34, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Star only'] select {
+  background-color: #5e5e5e;
+}
+/* line 37, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Pending review'] select {
+  background-color: #ff0201;
+}
+/* line 40, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Logged in only'] select {
+  background-color: #008f51;
+}
+/* line 43, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='GMBH only'] select {
+  background-color: #c0c0c0;
+}
+/* line 46, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Internal'] select {
+  background-color: #ff2f92;
+}
+/* line 49, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Externally visible'] select {
+  background-color: #00b8ca;
+}
+/* line 52, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions span[data-option='Everyone'] select {
+  background-color: whitesmoke;
+}
+/* line 56, ../../_sass/components/metadata.scss */
+#document-body div.metadata .quick-functions .icon {
+  height: 30px;
+  font-size: 16px;
+  margin: 3px 0 0 12px;
+  padding: 0;
+  float: left;
+  color: gray;
+}
+/* line 65, ../../_sass/components/metadata.scss */
+#document-body div.metadata input[type="text"], #document-body div.metadata textarea {
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid silver;
+  background-color: transparent;
+}
+/* line 77, ../../_sass/components/metadata.scss */
+#document-body div.metadata input.doc-title {
+  border-top: 1px solid silver;
+  padding-right: 330px;
+  height: 27px;
+}
+/* line 82, ../../_sass/components/metadata.scss */
+#document-body div.metadata label.pin {
+  text-indent: -1000px;
+  border-style: none;
+  overflow: hidden;
+  display: inline-block;
+  padding: 0;
+  position: relative;
+}
+/* line 89, ../../_sass/components/metadata.scss */
+#document-body div.metadata label.pin:before {
+  content: '\1f4cc';
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-indent: 0;
+  transform: rotate(45deg);
+  text-align: left;
+  margin-top: 4px;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+/* line 101, ../../_sass/components/metadata.scss */
+#document-body div.metadata label.pin.checked {
+  color: #0181be;
+}
+/* line 106, ../../_sass/components/metadata.scss */
+#document-body div.metadata a.icon.comment {
+  border-style: none;
+  overflow: hidden;
+  display: inline-block;
+}
+/* line 111, ../../_sass/components/metadata.scss */
+#document-body div.metadata a.icon.comment strong {
+  font-size: 9px;
+  font-weight: normal;
+  font-style: normal;
+  color: white;
+  position: absolute;
+  top: 2px;
+  width: 30px;
+  text-align: center;
+  line-height: 16px;
+}
+/* line 122, ../../_sass/components/metadata.scss */
+#document-body div.metadata a.icon.comment em {
+  display: none;
+}
+/* line 126, ../../_sass/components/metadata.scss */
+#document-body div.metadata a.icon.share {
+  margin-top: 5px;
+}
+
+/* @group Dropdown */
+/* @end */
+/* line 136, ../../_sass/components/metadata.scss */
+fieldset.meta-extra {
+  background-color: white;
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+/* line 141, ../../_sass/components/metadata.scss */
+fieldset.meta-extra .panel-content {
+  background-color: white;
+  border-bottom: 1px solid #b0b0b0;
+  color: black;
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+/* line 151, ../../_sass/components/metadata.scss */
+fieldset.meta-extra > p.legend {
+  border-style: none;
+  display: inline;
+  left: auto;
+  position: absolute;
+  width: 30px;
+  text-transform: none;
+  font-weight: normal;
+  font-style: normal;
+  cursor: pointer;
+  z-index: 10;
+  float: right;
+  overflow: hidden;
+  padding: 24px 0 0;
+  text-align: center;
+  line-height: 30px;
+  filter: none;
+  height: 0;
+  margin-right: 28px;
+  top: 29px;
+  right: 20px;
+}
+/* line 172, ../../_sass/components/metadata.scss */
+fieldset.meta-extra > p.legend:before {
+  text-indent: 0;
+  position: absolute;
+  right: 4px;
+  top: 1px;
+  font: 17px fontello;
+}
+/* line 180, ../../_sass/components/metadata.scss */
+fieldset.meta-extra.closed > p.legend:before {
+  content: "\e705";
+}
+/* line 183, ../../_sass/components/metadata.scss */
+fieldset.meta-extra.open > p.legend:before {
+  color: #3381be;
+  content: "\e705";
+}
+/* line 187, ../../_sass/components/metadata.scss */
+fieldset.meta-extra .versioning {
+  border: 1px solid silver;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+  padding: 3px 10px 1px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  background-color: rgba(254, 255, 254, 0.68);
+  border-radius: 4px;
+}
+/* line 195, ../../_sass/components/metadata.scss */
+fieldset.meta-extra .versioning textarea {
+  margin-bottom: 0;
+}
+/* line 198, ../../_sass/components/metadata.scss */
+fieldset.meta-extra .versioning .new-version-details {
+  padding-bottom: 6px;
+}
+
+/* @end */
+/* @group Tagging bar */
+/* line 208, ../../_sass/components/metadata.scss */
+form#keywords {
+  background-color: transparent;
+  border-bottom: 1px solid #b6b6b6;
+  padding: 0;
+  z-index: 2;
+}
+
+/* line 215, ../../_sass/components/metadata.scss */
+#document-body.content-link form#keywords {
+  left: 0;
+}
+
+/* line 219, ../../_sass/components/metadata.scss */
+form#keywords .select2-container {
+  padding: 0;
+  height: 23px;
+}
+/* line 222, ../../_sass/components/metadata.scss */
+form#keywords .select2-container .select2-choices {
+  width: 100%;
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+  border-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 233, ../../_sass/components/metadata.scss */
+#document-body div.metadata .select2-container input {
+  padding: 0;
+  border-style: none;
+}
+
+/* @end */
+/* @end */

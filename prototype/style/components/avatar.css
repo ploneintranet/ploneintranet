@@ -1,0 +1,17 @@
+/* line 5, ../../_sass/components/avatar.scss */
+.avatar#user-avatar {
+  position: absolute;
+  top: 2px;
+  right: 40px;
+  width: 26px;
+  height: 26px;
+  float: right;
+  background-color: transparent;
+}
+/* line 13, ../../_sass/components/avatar.scss */
+.avatar#user-avatar img {
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  z-index: 40;
+}

@@ -1,0 +1,317 @@
+@charset "UTF-8";
+/* line 1, ../../_sass/components/tooltip.scss */
+.tooltip .closePanel {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  text-indent: 100px;
+  overflow: hidden;
+  padding: 0px;
+  background: gray url(close.png) no-repeat 2px;
+  -webkit-border-radius: 3px;
+  display: block;
+  height: 15px;
+  width: 15px;
+  z-index: 3;
+  border: none;
+}
+
+/* line 17, ../../_sass/components/tooltip.scss */
+.tooltip-container {
+  position: absolute;
+  /* changed by flo, to get tooltip above breadcrumps
+      z-index: 1001; */
+  z-index: 9998;
+  border: none;
+  min-height: 50px;
+  overflow: visible;
+  overflow-x: visible;
+  margin: 0;
+  border: 1px solid silver;
+  -webkit-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  line-height: 18px;
+  color: #26292c;
+  -webkit-border-radius: 4px;
+  width: 300px;
+}
+/* line 36, ../../_sass/components/tooltip.scss */
+.tooltip-container > button.close-panel {
+  display: none;
+}
+/* line 39, ../../_sass/components/tooltip.scss */
+.tooltip-container fieldset.condensed label, .tooltip-container form.condensed label {
+  margin-bottom: 18px;
+}
+/* line 42, ../../_sass/components/tooltip.scss */
+.tooltip-container fieldset.condensed, .tooltip-container form.condensed fieldset {
+  margin: 0 0 18px;
+}
+/* line 45, ../../_sass/components/tooltip.scss */
+.tooltip-container .pointer {
+  height: 20px;
+  width: 20px;
+  display: block;
+  background-color: white;
+  border: 1px solid silver;
+  z-index: 0;
+  position: absolute;
+  -webkit-transform: rotate(45deg);
+  -webkit-box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+  -moz-transform: rotate(45deg);
+  -moz-box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+  transform: rotate(45deg);
+  box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
+}
+
+/* line 62, ../../_sass/components/tooltip.scss */
+.lt-ie9 .tooltip-container .pointer {
+  /*border-style: none;
+  background: transparent url(tooltip-ie.png) no-repeat;
+  width: 30px;
+  height: 16px;*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
+  /* IE8 */
+}
+
+/* line 71, ../../_sass/components/tooltip.scss */
+.tooltip-container > div {
+  padding: 10px !important;
+  z-index: 1;
+  position: relative;
+  padding: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  min-height: 60px;
+  background-color: white;
+  overflow: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+/* line 86, ../../_sass/components/tooltip.scss */
+.tooltip-container > div:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* line 93, ../../_sass/components/tooltip.scss */
+.lt-ie9 .tooltip-container > div:after {
+  display: none;
+}
+
+/* line 98, ../../_sass/components/tooltip.scss */
+.tooltip-container.bl .pointer, .tooltip-container.bm .pointer, .tooltip-container.br .pointer {
+  margin-top: -12px;
+}
+/* line 101, ../../_sass/components/tooltip.scss */
+.tooltip-container.lt .pointer, .tooltip-container.lm .pointer, .tooltip-container.lb .pointer {
+  margin-left: 12px;
+}
+/* line 104, ../../_sass/components/tooltip.scss */
+.tooltip-container.tl .pointer, .tooltip-container.tm .pointer, .tooltip-container.tr .pointer {
+  margin-top: 12px;
+}
+/* line 107, ../../_sass/components/tooltip.scss */
+.tooltip-container.rt .pointer, .tooltip-container.rm .pointer, .tooltip-container.rb .pointer {
+  margin-left: -12px;
+}
+/* line 110, ../../_sass/components/tooltip.scss */
+.tooltip-container.lt .pointer, .tooltip-container.rt .pointer {
+  margin-top: 20px;
+}
+/* line 113, ../../_sass/components/tooltip.scss */
+.tooltip-container.lb .pointer, .tooltip-container.rb .pointer {
+  margin-top: -20px;
+}
+/* line 116, ../../_sass/components/tooltip.scss */
+.tooltip-container.tl .pointer, .tooltip-container.bl .pointer {
+  margin-left: 20px;
+}
+/* line 119, ../../_sass/components/tooltip.scss */
+.tooltip-container.tr .pointer, .tooltip-container.br .pointer {
+  margin-left: -20px;
+}
+/* line 122, ../../_sass/components/tooltip.scss */
+.tooltip-container h4 {
+  color: #3b3b3b;
+  font-size: 12px;
+  line-height: 18px;
+}
+/* line 127, ../../_sass/components/tooltip.scss */
+.tooltip-container.event {
+  width: 550px;
+}
+/* line 130, ../../_sass/components/tooltip.scss */
+.tooltip-container.event .panel-body fieldset.vertical {
+  width: 530px;
+  display: block;
+  overflow: hidden;
+}
+/* line 135, ../../_sass/components/tooltip.scss */
+.tooltip-container.event .panel-body fieldset.row {
+  width: 510px;
+}
+/* line 139, ../../_sass/components/tooltip.scss */
+.tooltip-container.event .select2-container-multi .select2-choices {
+  width: 100%;
+}
+/* line 144, ../../_sass/components/tooltip.scss */
+.tooltip-container .wizard-box {
+  padding: 0;
+  height: 100%;
+}
+/* line 148, ../../_sass/components/tooltip.scss */
+.tooltip-container .panel-body {
+  overflow: hidden;
+  padding: 0;
+}
+/* line 152, ../../_sass/components/tooltip.scss */
+.tooltip-container .panel-footer {
+  background-color: #efefef;
+  padding: 10px;
+  margin-left: -10px;
+  margin-bottom: -10px;
+  margin-right: -10px;
+}
+
+/* @group Menus */
+/* line 165, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu {
+  margin: 0;
+  list-style-type: none;
+}
+/* line 168, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li {
+  line-height: 24px;
+}
+/* line 170, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li a {
+  display: block;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 32px;
+  padding-right: 15px;
+  color: black;
+  line-height: 20px;
+  cursor: default;
+}
+/* line 180, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li button {
+  display: block;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 32px;
+  padding-right: 15px;
+  color: black;
+  line-height: 20px;
+  cursor: default;
+}
+/* line 189, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li button:active {
+  box-shadow: none;
+}
+/* line 193, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li a:before, .tooltip-container ul.menu li button:before {
+  margin-left: -15px;
+  float: left;
+  margin-top: 5px;
+}
+
+/* line 202, ../../_sass/components/tooltip.scss */
+.lt-ie9 .tooltip-container ul.menu li a:before, .lt-ie9 .tooltip-container ul.menu li button:before {
+  display: none;
+}
+
+/* line 208, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.current a {
+  color: black;
+}
+/* line 209, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.current a:before {
+  content: "✓";
+  float: left;
+  margin-left: -19px;
+  font: 12px fontello;
+  position: relative;
+  top: 7px;
+}
+/* line 219, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li:hover {
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+/* line 223, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li a:hover {
+  text-decoration: none;
+}
+/* line 227, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li .checklist.radio {
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  padding-left: 22px;
+  line-height: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+/* line 235, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li .checklist .legend {
+  margin-bottom: 0;
+}
+/* line 239, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.file-upload {
+  position: relative;
+  text-indent: 20px;
+  height: 25px;
+  overflow: hidden;
+}
+/* line 244, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.file-upload:before {
+  content: "\e808";
+  font-family: fontello;
+  position: absolute;
+  left: -13px;
+}
+/* line 250, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.file-upload form {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+/* line 256, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.file-upload form label {
+  position: absolute;
+  margin-left: 0;
+  left: 0;
+  overflow: hidden;
+  display: block;
+  right: 0;
+  cursor: pointer;
+  padding-left: 2px;
+}
+/* line 266, ../../_sass/components/tooltip.scss */
+.tooltip-container ul.menu li.file-upload form input {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  width: 100%;
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  left: 0;
+}
+
+/* @group Avatar change */
+/* line 281, ../../_sass/components/tooltip.scss */
+.lt-ie10 .tooltip-container ul.menu li.file-upload form input {
+  left: -1000px;
+}
+
+/* @end */
+/* @end */

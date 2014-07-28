@@ -1,0 +1,29 @@
+/* line 1, ../../_sass/components/content.scss */
+#content {
+  top: 32px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  transition: all 0.2s;
+  padding: 50px;
+  z-index: 6;
+  outline: solid silver 1px;
+  background-color: white;
+}
+/* line 14, ../../_sass/components/content.scss */
+#content.application-portal {
+  top: 50px;
+  padding-top: 0;
+}
+
+/* line 20, ../../_sass/components/content.scss */
+body.view-secure #content {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+/* line 24, ../../_sass/components/content.scss */
+body.application-workspace .application aside.sidebar.left {
+  left: 50px;
+}

@@ -1,0 +1,216 @@
+/* @group Sidebar */
+/* line 3, ../../_sass/components/sidebar.scss */
+.application aside.sidebar.left {
+  left: 0;
+  position: absolute;
+  top: 31px;
+  bottom: 0;
+  transition: all 0.2s;
+  font-size: 13px;
+  line-height: 20px;
+  padding-left: 0;
+  color: #434343;
+  width: auto;
+  z-index: 0;
+  background-color: white;
+  right: 70%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: solid 1px silver;
+}
+
+/* line 22, ../../_sass/components/sidebar.scss */
+.sidebar-left-closed .application aside.sidebar {
+  right: 100%;
+}
+
+/* line 26, ../../_sass/components/sidebar.scss */
+aside.sidebar ul a {
+  color: gray;
+  text-decoration: underline;
+}
+
+/*nav.workspace-tabs a:first-child {
+	margin-left: -10px;
+	border-right: 1px solid silver;
+	padding-left: 0;
+	border-right: 1px solid silver;
+	margin-right: -1px;
+	background-position: -195px!important;
+}*/
+/*aside.sidebar .functions {
+	position: relative;
+	z-index: 3;
+	background-color: transparent;
+	height: 17px;
+
+}*/
+/* line 48, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3 {
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.65);
+  position: relative;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* line 60, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3.archived:after {
+  content: '(\e80f Archived)';
+  margin-right: 5px;
+  color: gray;
+  font: 12px fontello;
+}
+/* line 66, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3:hover {
+  padding-right: 30px;
+}
+
+/* line 71, ../../_sass/components/sidebar.scss */
+.lt-ie10 #content aside.sidebar h3 {
+  padding-right: 50px;
+}
+
+/* line 78, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3 *[class*="icon-"] {
+  display: none;
+  width: 22px;
+  height: 20px;
+  /*	text-indent: -1000px;*/
+  overflow: hidden;
+  position: absolute;
+  top: 1px;
+  text-decoration: none;
+  color: #393a3d;
+  font-size: 19px;
+  float: right;
+  right: 17px;
+  zoom: 1;
+}
+/* line 93, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3:hover *[class*="icon-"] {
+  display: inline-block;
+}
+/* line 97, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3 *[class*="icon-"].active {
+  display: inline-block;
+}
+/* line 100, ../../_sass/components/sidebar.scss */
+#content aside.sidebar h3 *[class*="icon-"]:hover {
+  text-shadow: 0 0 3px #ffffff;
+}
+/* line 105, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content {
+  padding: 15px;
+}
+/* line 109, ../../_sass/components/sidebar.scss */
+#content.application.calendar aside.sidebar .content {
+  top: 0;
+}
+/* line 113, ../../_sass/components/sidebar.scss */
+#content aside.sidebar.tagging-on #sidebar-content.edit .content {
+  margin-top: 71px;
+}
+/* line 116, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content.documents {
+  padding: 10px 0 0;
+}
+/* line 118, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content.documents .pat-collapsible > .panel-content {
+  padding-left: 15px;
+  padding-bottom: 10px;
+  padding-right: 15px;
+}
+/* line 124, ../../_sass/components/sidebar.scss */
+#content aside.sidebar #sidebar-content.layout-grid .content.documents .pat-collapsible .panel-content {
+  padding-right: 0;
+}
+/* line 128, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content.documents .pat-collapsible .panel-content:before {
+  content: " ";
+  display: inline-block;
+  width: 0;
+  height: 51px;
+  float: left;
+}
+/* line 135, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content.documents .pat-collapsible .panel-content:after {
+  content: " ";
+  width: 1px;
+  height: 0;
+  display: block;
+  clear: both;
+}
+
+/* @group Twisties in IE 8- */
+/*.lt-ie9 #content  aside.sidebar h3 {
+	filter: none;
+	background: url(twistie-bar-IE.png) 0 0;
+	padding-left: 29px;
+}
+
+.lt-ie9 #content  aside.sidebar .closed h3 {
+	background: url(twistie-bar-IE.png) 0 -25px;
+}*/
+/* @end */
+/* @group Trick for getting a min height on.pat-collapsibles */
+/* @end */
+/* line 164, ../../_sass/components/sidebar.scss */
+.content.documents .pat-collapsible .panel-content footer {
+  font-size: 12px;
+}
+
+/* line 168, ../../_sass/components/sidebar.scss */
+#content aside.sidebar .content.documents ul.documents.layout-list {
+  margin-left: -12px;
+  margin-top: -10px;
+}
+
+/* line 173, ../../_sass/components/sidebar.scss */
+body.sidebar-left-closed aside.sidebar.left .sidebar-functions {
+  display: none;
+}
+
+/* @group Sidebar footer */
+/* line 179, ../../_sass/components/sidebar.scss */
+aside.sidebar footer.function-bar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+  border-top: 1px solid #d7d7d7;
+  z-index: 1;
+}
+/* line 187, ../../_sass/components/sidebar.scss */
+aside.sidebar footer.function-bar button {
+  border-radius: 0;
+  filter: none;
+}
+/* line 190, ../../_sass/components/sidebar.scss */
+aside.sidebar footer.function-bar button.icon {
+  width: 30px;
+  height: 30px;
+  text-indent: -1000px;
+  border-style: none;
+  background: url(icon-bar.png) 0 -90px;
+}
+/* line 196, ../../_sass/components/sidebar.scss */
+aside.sidebar footer.function-bar button.icon.sidebar-right-large {
+  float: right;
+  margin-right: 0;
+  background-position: -2148px -90px;
+}
+
+/* line 205, ../../_sass/components/sidebar.scss */
+.mode-m aside.sidebar footer.function-bar button.icon.sidebar-right-large {
+  background-position: -2106px -90px;
+}
+
+/* @end */
+/* @end */

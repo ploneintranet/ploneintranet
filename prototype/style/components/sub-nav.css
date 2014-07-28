@@ -1,0 +1,16 @@
+/* line 1, ../../_sass/components/sub-nav.scss */
+.sub-nav {
+  text-align: center;
+  display: block;
+  margin-bottom: 3em;
+}
+/* line 6, ../../_sass/components/sub-nav.scss */
+.sub-nav a {
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  padding: 4px 20px 0;
+  line-height: 1.6em;
+}

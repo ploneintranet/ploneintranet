@@ -1,0 +1,69 @@
+/* line 1, ../../_sass/components/site-header.scss */
+#site-header {
+  display: block;
+  text-align: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  /*	border-bottom: 1px solid white;*/
+  background: url(blackboard.svg) bottom center no-repeat;
+  background-size: 0% auto;
+  transition: all 0.5s;
+}
+
+/* line 12, ../../_sass/components/site-header.scss */
+.state-home #site-header {
+  padding-bottom: 34%;
+  margin-top: 2%;
+  background-size: 90% auto;
+}
+
+/* line 18, ../../_sass/components/site-header.scss */
+#site-header nav a {
+  display: inline-block;
+  text-decoration: none;
+  width: 17%;
+  position: relative;
+  transition: all 0.5s;
+  position: relative;
+}
+
+/* line 27, ../../_sass/components/site-header.scss */
+.state-download #site-header nav a.download:after,
+.state-home #site-header nav a.patterns:after,
+.state-documentation #site-header nav a.documentation:after {
+  position: absolute;
+  bottom: -10px;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background-color: white;
+  content: " ";
+  display: block;
+}
+
+/* line 40, ../../_sass/components/site-header.scss */
+.state-home #site-header nav a.patterns {
+  transform: scale(1.5);
+}
+
+/* line 44, ../../_sass/components/site-header.scss */
+#site-header nav a:before {
+  display: block;
+  text-align: center;
+  font: 4em fontello;
+}
+
+/* line 50, ../../_sass/components/site-header.scss */
+#site-header nav a.patterns:before {
+  content: "\e800";
+}
+
+/* line 54, ../../_sass/components/site-header.scss */
+#site-header nav a.download:before {
+  content: "\e805";
+}
+
+/* line 58, ../../_sass/components/site-header.scss */
+#site-header nav a.documentation:before {
+  content: "\e802";
+}

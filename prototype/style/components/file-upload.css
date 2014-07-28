@@ -1,0 +1,40 @@
+/* @group File upload */
+/* line 3, ../../_sass/components/file-upload.scss */
+label.file-attachment {
+  position: relative;
+  top: 1px;
+}
+/* line 6, ../../_sass/components/file-upload.scss */
+label.file-attachment:hover {
+  text-decoration: underline;
+}
+/* line 9, ../../_sass/components/file-upload.scss */
+label.file-attachment:before {
+  content: "\1f4ce";
+  display: inline-block;
+  font-family: fontello;
+  margin-right: 4px;
+}
+/* line 15, ../../_sass/components/file-upload.scss */
+label.file-attachment input {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+}
+
+/* line 28, ../../_sass/components/file-upload.scss */
+.comments form.response .state-attachment .button-bar label.file-attachment, .comments form.response .focus .button-bar label.file-attachment {
+  margin-right: 20px;
+}
+
+/* line 33, ../../_sass/components/file-upload.scss */
+fieldset.horizontal label.file-attachment input {
+  left: 33%;
+}
+
+/* @end */
