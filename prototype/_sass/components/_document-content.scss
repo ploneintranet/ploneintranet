@@ -6,9 +6,29 @@
 		margin-bottom: 2em;
 	}
 
+	ul,ol {
+		li {
+			 margin-left: 0;
+			 padding-left: 1em;
+
+			 &:before {
+			 	content: "•";
+			 	float: left;
+				margin-left: -1em;
+			 }
+		}
+
+	}
+
 	h1 {
 		font-weight: 200; 
 		font-size: 2em;
 		margin-bottom: 0.7em;
+	}
+
+	img {
+		max-width: 90%;
+		margin: 0 auto;
+		display: block;
 	}
 }
