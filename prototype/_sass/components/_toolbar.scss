@@ -26,6 +26,10 @@
 
 #toolbar-main form {
 	display: inline-block;
+
+	&.float-after {
+		float: right;
+	}
 }
 
 #toolbar-main button,
@@ -34,6 +38,10 @@
 #toolbar-main *[data-option]:after,
 #toolbar-main select {
 	float: left;
+
+	&.float-after {
+		float: right;
+	}
 }
 
 #toolbar-main input {
