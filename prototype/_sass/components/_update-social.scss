@@ -11,13 +11,17 @@
         background: transparent; 
         -webkit-transition: height 0.4s;
         -moz-transition: height 0.4s;
-        transition: height 0.4s;  
+        transition: height 0.4s; 
         &:focus {
           outline: none;
           box-shadow: none;
-          height: 5.5em;
         }
     }
+
+    &.status-active textarea {
+      height: 5.5em;
+    }
+
     .icon-attach {
         color: #666;
         &:hover, &:active {
@@ -27,19 +31,6 @@
         position: absolute;
         right: 5px;
         top: 10px;
-    }
-    .foo-container {
-        position: relative;
-        .foo {
-            left: 0;
-            padding-right: 2em;
-            padding: .5em;
-            position: absolute;
-            top: 0;
-            &.foo-hide {
-                display: none;
-            }
-        }
     }
 
     .button-bar {
@@ -66,7 +57,7 @@
         display: none
       }
     }
-    .focus {
+    &.status-active {
       .button-bar {
       height: 1.5em;
       padding-top: 0.5em;

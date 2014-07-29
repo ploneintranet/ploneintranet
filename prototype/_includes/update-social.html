@@ -1,13 +1,14 @@
-<form class="pat-inject update-social status-active" action="">
+<form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="">
 	<fieldset>
-	    <textarea placeholder="Leave a commnent" class="pat-comment-box"></textarea>
+	    <textarea placeholder="Leave a commnent" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-* status-active"></textarea>
 	    <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a>
 	    <div class="button-bar">
 	        <a class="iconified icon-user-add" href="panel-mentions.html">Mention people</a>
 	        <br/>
 	        <a class="iconified icon-tags" href="panel-tags.html">Add tags</a>
 	        <br/>
-	        <button type="submit">Post</button>
+	        <button class="pat-switch" data-pat-switch="#{{ include.id }} status-* status-inactive" type="submit">Post</button>
+	        <button class="pat-switch" data-pat-switch="#{{ include.id }} status-* status-inactive" type="reset">Cancel</button>
 	        <br/>
 	        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
 	        <label>
