@@ -29,25 +29,6 @@ design_description: A list of pages that are templatified in the prototype.
 			</dl>
 		</div>
 		<div class="six columns">
-			<h1>Content pages</h1>
-			<p>
-				The list below contains links to all the content pages in the prototype
-			</p>
-			<dl>
-			{% for post in site.posts %}
-				<dt>
-					<a href="{{ post.url }}"><strong>{{ post.title }}</strong> </a>
-				</dt>
-				<dd>
-					<p class="fragment" style="margin-bottom:0">
-						{{ post.excerpt | strip_html }} 
-					</p>
-					<p class="link">
-						<a href="{{ post.url }}">{{ post.url }} </a>
-					</p>
-				</dd>
-			{% endfor %}
-			<hr style="opacity: 0" />
 			<h1>Demo pages</h1>
 			<p>
 				The list below contains links to all the component demo pages in the prototype
@@ -70,5 +51,24 @@ design_description: A list of pages that are templatified in the prototype.
 					{% endif %}
 				{% endfor %}
 			</dl>
+			<hr style="opacity: 0" />
+			<h1>Content pages</h1>
+			<p>
+				The list below contains links to all the content pages in the prototype
+			</p>
+			<dl>
+			{% for post in site.posts %}
+				<dt>
+					<a href="{{ post.url }}"><strong>{{ post.title }}</strong> </a>
+				</dt>
+				<dd>
+					<p class="fragment" style="margin-bottom:0">
+						{{ post.excerpt | strip_html }} 
+					</p>
+					<p class="link">
+						<a href="{{ post.url }}">{{ post.url }} </a>
+					</p>
+				</dd>
+			{% endfor %}
 		</div>
 	</div>
