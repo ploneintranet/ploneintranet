@@ -1,17 +1,26 @@
 .buttonBar, .button-bar {
-	height: 1em;
+	height: 1.5em;
 	clear: left;
 	margin-bottom: 1em;
-	padding-top: 1em;
-	padding-bottom: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+
+	.iconified {
+		float: left;
+		line-height: 1.5em;
+		border-left: 0.8em solid transparent;
+		border-right: 0.8em solid transparent;
+		margin: -0.5em 0;
+		padding: 0.5em 0;
+	}
+
+	br {
+		display: none
+	}
 }
 
 .update-social .button-bar {
 	background-color: $colour-base;
-
-	a {
-		float: left;
-	}
 
 	.icon-users, button {
 		float: right;
