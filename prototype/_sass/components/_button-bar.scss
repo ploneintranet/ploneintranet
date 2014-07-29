@@ -1,7 +1,11 @@
 .buttonBar, .button-bar {
-  height: 2em;
-  clear: left;
+	height: 2em;
+	clear: left;
 	margin-bottom: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.update-social .button-bar {
+	background-color: $colour-base;
 }
