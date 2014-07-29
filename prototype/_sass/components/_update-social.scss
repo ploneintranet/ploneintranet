@@ -53,6 +53,7 @@
       label.visibility {
         position: relative;
         color: #666;
+        overflow: hidden;
         &:hover,&.focus { color: black }
       }
 

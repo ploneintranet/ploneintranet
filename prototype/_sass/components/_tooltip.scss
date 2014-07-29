@@ -59,6 +59,27 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .tooltip-container {
+    width: 100%;
+    z-index: 10000;
+    position: fixed;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+
+    > div {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: inherit !important;
+      max-height: inherit !important;
+      border: none;
+      padding: 5% !important;
+    }
+  }
+}
+
 .lt-ie9 .tooltip-container .pointer {
   /*border-style: none;
   background: transparent url(tooltip-ie.png) no-repeat;
@@ -69,10 +90,9 @@
 }
 
 .tooltip-container > div {
-  padding: 10px!important;
+  padding: 10px;
   z-index: 1;
   position: relative;
-  padding: 0;
   top: 0;
   bottom: 0;
   left: 0;
