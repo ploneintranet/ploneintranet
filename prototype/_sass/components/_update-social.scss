@@ -2,6 +2,7 @@
     position: relative;
     textarea {
         padding-right: 2em;
+        float: left;
         // KLUDGE Create padding to prevent text and icon conflict
    
     }
@@ -27,5 +28,18 @@
                 display: none;
             }
         }
+    }
+
+    .button-bar {
+      background-color: $colour-base;
+      padding-left: 0.5em;
+
+      .icon-users, button {
+        float: right;
+      }
+
+      br {
+        display: none
+      }
     }
 }
