@@ -36,6 +36,11 @@
   > button.close-panel {
     display: none;
   }
+
+  .close-panel.iconified {
+    display: none;
+  }
+
   fieldset.condensed label, form.condensed label {
     margin-bottom: 18px;
   }
@@ -76,6 +81,15 @@
       max-height: inherit !important;
       border: none;
       padding: 5% !important;
+    }
+
+    .close-panel.iconified {
+      position: absolute;
+      top: 2%;
+      right: 2%;
+      font-size: 2em;
+      margin: 0;
+      display: inline;
     }
   }
 }
