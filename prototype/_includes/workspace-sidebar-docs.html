@@ -41,9 +41,9 @@
         <div class="navigation documents">
             <ul>
                 {% for item in site.posts  %}
-                    {% if item.type == 'rich' or 'file' or 'folder' %}
+                    {% if item.document_type == 'rich' or 'file' or 'folder' %}
                         <li class="type-{{ item.type }}">
-                            <a href="#" style="background-image: url(/media/previews{{ item.id }})">
+                            <a href="{{ item.url }}#document-body" class="pat-inject" style="background-image: url(/media/previews{{ item.id }})">
                                 <h3>
                                     {{ item.title }}
                                 </h3>
