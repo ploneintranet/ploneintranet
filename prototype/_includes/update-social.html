@@ -1,4 +1,4 @@
-<form class="pat-inject update-social" action="">
+<form class="pat-inject update-social status-active" action="">
 	<fieldset>
 	    <textarea placeholder="Leave a commnent" class="pat-comment-box"></textarea>
 	    <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a>
@@ -9,7 +9,30 @@
 	        <br/>
 	        <button type="submit">Post</button>
 	        <br/>
-	        <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a>
+	        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+	        <label>
+				<select>
+					<optgroup>
+						<option>
+							Everyone
+						</option>
+						<option>
+							Trusted users
+						</option>
+					</optgroup>
+					<optgroup>
+						<option>
+							Workspace so and so
+						</option>
+						<option>
+							Baggage handling regulations
+						</option>
+						<option>
+							Human resources
+						</option>
+					</optgroup>
+				</select>
+	        </label>
 	    </div>
     </fieldset>
 </form>

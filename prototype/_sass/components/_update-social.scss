@@ -54,6 +54,10 @@
       -moz-transition: all 0.4s;
       transition: all 0.4s;
 
+      select {
+        opacity: 0;
+      }
+
       .icon-users, button {
         float: right;
       }
