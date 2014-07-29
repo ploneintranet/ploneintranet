@@ -1,11 +1,22 @@
 .update-social {
     position: relative;
+    background-color: #fcfcfc;
+
     textarea {
         padding-right: 2em;
         // KLUDGE Create padding to prevent text and icon conflict
         float: left;
+        height: 2.3em;
         border: none;
-        background: transparent;   
+        background: transparent; 
+      -webkit-transition: height 0.4s;
+      -moz-transition: height 0.4s;
+      transition: height 0.4s;  
+        &:focus {
+          outline: none;
+          box-shadow: none;
+          height: 5.5em;
+        }
     }
     .icon-attach {
         color: #666;
@@ -34,6 +45,14 @@
     .button-bar {
       background-color: $colour-base;
       padding-left: 0.5em;
+      height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      overflow: hidden;
+      margin: 0;
+      -webkit-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      transition: all 0.4s;
 
       .icon-users, button {
         float: right;
@@ -41,6 +60,13 @@
 
       br {
         display: none
+      }
+    }
+    .focus {
+      .button-bar {
+      height: 1.5em;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
       }
     }
 }
