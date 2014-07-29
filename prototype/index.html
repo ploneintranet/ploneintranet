@@ -12,17 +12,19 @@ design_description: A list of pages that are templatified in the prototype.
 			</p>
 			<dl>
 			{% for node in site.pages %}
-				<dt>
-					<h3><a href="{{ node.url | prepend: site.baseurl }}">{{ node.design_title }} </a></h3>
-				</dt>
-				<dd>
-					<p class="description" style="margin-bottom:0">
-						{{ node.design_description }} 
-					</p>
-					<p class="link">
-						<a href="{{ node.url | prepend: site.baseurl }}">{{ node.url | prepend: site.baseurl }} </a>
-					</p>
-				</dd>
+				{% unless node.application_name contains "demo" %}
+					<dt>
+						<h3><a href="{{ node.url | prepend: site.baseurl }}">{{ node.design_title }} </a></h3>
+					</dt>
+					<dd>
+						<p class="description" style="margin-bottom:0">
+							{{ node.design_description }} 
+						</p>
+						<p class="link">
+							<a href="{{ node.url | prepend: site.baseurl }}">{{ node.url | prepend: site.baseurl }} </a>
+						</p>
+					</dd>	    
+				{% endunless %}
 			{% endfor %}
 			</dl>
 		</div>
@@ -45,6 +47,29 @@ design_description: A list of pages that are templatified in the prototype.
 					</p>
 				</dd>
 			{% endfor %}
+			<hr style="opacity: 0" />
+			<h1>Demo pages</h1>
+			<p>
+				The list below contains links to all the component demo pages in the prototype
+			</p>
+
+			<dl>
+				{% for post in site.posts %}
+						{% unless node.application_name contains "demo" %}
+							<dt>
+								<h3><a href="{{ post.url }}">{{ post.title }} </a></h3>
+							</dt>
+							<dd>
+								<p class="fragment" style="margin-bottom:0">
+									{{ post.excerpt | strip_html }} 
+								</p>
+								<p class="link">
+									<a href="{{ post.url }}">{{ post.url }} </a>
+								</p>
+							</dd>
+
+						{% endunless %}
+				{% endfor %}
 			</dl>
 		</div>
 	</div>
