@@ -2,9 +2,10 @@
     position: relative;
     textarea {
         padding-right: 2em;
-        float: left;
         // KLUDGE Create padding to prevent text and icon conflict
-   
+        float: left;
+        border: none;
+        background: transparent;   
     }
     .icon-attach {
         color: #666;
