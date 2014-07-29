@@ -12,6 +12,11 @@
 		border-right: 0.8em solid transparent;
 		margin: -0.5em 0;
 		padding: 0.5em 0;
+		color: #666;
+  		cursor: default;
+  		&:hover,&:active {
+  			color: black;
+  		}
 	}
 
 	br {
@@ -21,6 +26,7 @@
 
 .update-social .button-bar {
 	background-color: $colour-base;
+	padding-left: 0.5em;
 
 	.icon-users, button {
 		float: right;
