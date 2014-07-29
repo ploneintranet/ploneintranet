@@ -1,37 +1,5 @@
 /* @group Buttons */
 
-.application-portal {
-  .button-bar, .buttonBar {
-    background-color: transparent;
-    color: silver;
-    line-height: 26px;
-    margin-left: -22px;
-    margin-right: -22px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  header.button-bar.header {
-    button, a.button, span[data-option]:after {
-      color: #e2e2e2;
-      padding-right: 18px;
-      padding-left: 18px;
-      margin-right: 5px;
-      background-image: none;
-      border-style: none;
-      outline: none;
-    }
-  }
-  .header span[data-option] select {
-    padding-left: 20px;
-    border-style: none;
-  }
-  header.button-bar.header {
-    button:hover, a.button:hover {
-      color: white;
-    }
-  }
-}
-
 .floatingPanel-modal .buttonBar, .kupu-drawer .buttonBar {
   background-color: transparent;
   margin-top: 20px;
@@ -58,23 +26,7 @@
   }
 }
 
-.outdent! .buttonBar {}
-
-button.floatAfter, a.button.floatAfter {
-  margin-left: 10px;
-  margin-right: 0;
-}
-
-button.floatBefore {
-  float: left;
-  margin-right: 10px;
-}
-
 a.button {
-  &.floatBefore {
-    float: left;
-    margin-right: 10px;
-  }
   margin: 0 5px 0 0;
   border: 1px solid rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.6);
@@ -191,12 +143,6 @@ a.button.large {
   margin-bottom: 0.5em;
 }
 
-input {
-  &[type="submit"]:active, &[type="button"]:active {
-    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
-  }
-}
-
 button.on, a.button:active, #sidebar.tagging-on #button-batch-tagging, a.button.dropdown.active, .sidebar-left-open #toolbar-main #sidebar-toggle {
   box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
 }
@@ -238,13 +184,6 @@ button {
     border-left-style: solid;
   }
 }
-
-/*.button-cluster:after {
-	content: " ";
-	display: table;
-	clear: both;
-	background-color: red;
-}*/
 
 .button-cluster :last-child {
   border-top-right-radius: 4px !important;
