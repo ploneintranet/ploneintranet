@@ -3,12 +3,12 @@
 .application-portal {
   .button-bar, .buttonBar {
     background-color: transparent;
+    color: silver;
     line-height: 26px;
+    margin-left: -22px;
+    margin-right: -22px;
     padding-left: 0;
     padding-right: 0;
-    color: silver;
-    margin-right: -22px;
-    margin-left: -22px;
   }
   header.button-bar.header {
     button, a.button, span[data-option]:after {
