@@ -1,5 +1,5 @@
 .buttonBar, .button-bar {
-	height: 2em;
+	height: 1em;
 	clear: left;
 	margin-bottom: 1em;
 	padding-top: 1em;
@@ -8,4 +8,8 @@
 
 .update-social .button-bar {
 	background-color: $colour-base;
+
+	.icon-users, button {
+		float: right;
+	}
 }
