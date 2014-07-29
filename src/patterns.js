@@ -55,7 +55,8 @@ define([
     "pat-tooltip",
     "pat-url",
     "pat-validate",
-    "pat-zoom"
+    "pat-zoom",
+    "pat-polyfill-date"
 ], function(registry) {
     window.patterns = registry;
 
