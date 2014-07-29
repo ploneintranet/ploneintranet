@@ -12,9 +12,9 @@ design_description: A list of pages that are templatified in the prototype.
 			</p>
 			<dl>
 			{% for node in site.pages %}
-				{% unless node.application_name contains "demo" %}
+				{% unless node.application_name contains "Demo" %}
 					<dt>
-						<h3><a href="{{ node.url | prepend: site.baseurl }}">{{ node.design_title }} </a></h3>
+						<a href="{{ node.url | prepend: site.baseurl }}"><strong>{{ node.design_title }}</strong> </a>
 					</dt>
 					<dd>
 						<p class="description" style="margin-bottom:0">
@@ -36,7 +36,7 @@ design_description: A list of pages that are templatified in the prototype.
 			<dl>
 			{% for post in site.posts %}
 				<dt>
-					<h3><a href="{{ post.url }}">{{ post.title }} </a></h3>
+					<a href="{{ post.url }}"><strong>{{ post.title }}</strong> </a>
 				</dt>
 				<dd>
 					<p class="fragment" style="margin-bottom:0">
@@ -54,21 +54,20 @@ design_description: A list of pages that are templatified in the prototype.
 			</p>
 
 			<dl>
-				{% for post in site.posts %}
-						{% unless node.application_name contains "demo" %}
-							<dt>
-								<h3><a href="{{ post.url }}">{{ post.title }} </a></h3>
-							</dt>
-							<dd>
-								<p class="fragment" style="margin-bottom:0">
-									{{ post.excerpt | strip_html }} 
-								</p>
-								<p class="link">
-									<a href="{{ post.url }}">{{ post.url }} </a>
-								</p>
-							</dd>
-
-						{% endunless %}
+				{% for node in site.pages %}
+					{% if node.application_name contains "Demo" %}
+						<dt>
+							<a href="{{ node.url | prepend: site.baseurl }}"><strong>{{ node.design_title }}</strong> </a>
+						</dt>
+						<dd>
+							<p class="description" style="margin-bottom:0">
+								{{ node.design_description }} 
+							</p>
+							<p class="link">
+								<a href="{{ node.url | prepend: site.baseurl }}">{{ node.url | prepend: site.baseurl }} </a>
+							</p>
+						</dd>	
+					{% endif %}
 				{% endfor %}
 			</dl>
 		</div>
