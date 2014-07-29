@@ -9,7 +9,15 @@
 .update-social .button-bar {
 	background-color: $colour-base;
 
+	a {
+		float: left;
+	}
+
 	.icon-users, button {
 		float: right;
+	}
+
+	br {
+		display: none
 	}
 }
