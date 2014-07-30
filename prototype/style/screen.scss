@@ -9,7 +9,7 @@
 // @import "libraries/bourbon/bourbon";
 // @import "libraries/compass/css3";
 // @import "libraries/compass/reset";
-// @import "libraries/mixins";
+@import "libraries/mixins";
 @import "libraries/reset";
 // @import "libraries/web-fonts";
 
@@ -36,6 +36,7 @@
 @import "components/function-bar";
 @import "components/global-header";
 @import "components/icon";
+@import "components/item-selector";
 @import "components/logo";
 @import "components/metadata";
 @import "components/post-form";

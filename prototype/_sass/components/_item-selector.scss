@@ -1,0 +1,40 @@
+.item-selector {
+    label.search {
+        position: relative;
+        &:before {
+            content: '\1f50d';
+            font-family: fontello;
+            font-size: 1em;
+            line-height: 1.5;
+            left: .5em;
+            position: absolute;
+            top: 0;
+        }
+        input {
+            padding-left: 1.25em;
+            width: 100%;
+        }
+        button {}
+    }
+    .checklist {
+        label {
+            input[type="checkbox"] {}
+            .name {}
+            .meta {}
+            &:before {
+
+
+position: absolute;
+top:50%;
+margin-top: -0.7em;
+
+// position: relative;
+// top: 50%;
+
+            }
+            &:nth-child(odd) {
+                background: #efefef;
+            }
+        }
+    }
+}
