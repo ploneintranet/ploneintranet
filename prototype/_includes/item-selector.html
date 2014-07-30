@@ -1,44 +1,72 @@
-<form action="{{ include.action }}#content" class="pat-inject item-selector">
-    <label class="search">
-        <input name="" type="search" />
-        <button type="submit" hidden>Search</button>
-    </label>
-    <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Adrian White</strong>
-            <br/>
-            <dfn class="meta">Developer</dfn>
+<div class="item-selector">
+    <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit">
+        <label class="search">
+            <input name="" type="search" />
+            <button type="submit" hidden>Search</button>
         </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Ben Ackland</strong>
-            <br/>
-            <dfn class="meta">Manager</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelis Kolbach</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Guido Stevens</strong>
-            <br/>
-            <dfn class="meta">Manager</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Lewis Dexter Litanzios</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-    </fieldset>
-    <p class="button-bar">
-        <button type="submit" class="close-panel">Submit</button>
-    </p>
-</form>
+    </form>
 
-
+    <form action="" id="items">
+        <fieldset class="checklist pat-checklist {{ include.mode }}">
+            <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Adrian White</strong>
+                <br/>
+                <dfn class="meta">Developer</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Ben Ackland</strong>
+                <br/>
+                <dfn class="meta">Manager</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Corin Wilkins</strong>
+                <br/>
+                <dfn class="meta">Designer</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Corina Armstrong</strong>
+                <br/>
+                <dfn class="meta">Manager</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Cornelia deVere</strong>
+                <br/>
+                <dfn class="meta">Designer</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Cornelis Kolbach</strong>
+                <br/>
+                <dfn class="meta">Designer</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Cornelius Fudge</strong>
+                <br/>
+                <dfn class="meta">Designer</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Guido Stevens</strong>
+                <br/>
+                <dfn class="meta">Manager</dfn>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Lewis Dexter Litanzios</strong>
+                <br/>
+                <dfn class="meta">Designer</dfn>
+            </label>
+        </fieldset>
+        <p class="button-bar">
+            <button type="submit" class="close-panel">Save</button>
+            <button type="reset" class="close-panel">Cancel</button>
+        </p>
+    </form>
+</div>
