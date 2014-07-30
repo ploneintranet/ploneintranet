@@ -62,6 +62,23 @@
     transform: rotate(45deg);
     box-shadow: rgba(0, 0, 0, 0.19922) 0px 0px 10px;
   }
+
+  &.mentions,
+  &.tags {
+    height: 300px;
+
+    @media screen and (max-width: 768px) {
+      height: 100%;
+    }
+
+    >div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -69,6 +86,8 @@
     width: 100%;
     z-index: 10000;
     position: fixed;
+    max-width: inherit !important;
+    max-height: inherit !important;
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -310,12 +329,3 @@
   }
 }
 
-/* @group Avatar change */
-
-.lt-ie10 .tooltip-container ul.menu li.file-upload form input {
-  left: -1000px;
-}
-
-/* @end */
-
-/* @end */
