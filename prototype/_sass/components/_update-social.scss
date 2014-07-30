@@ -45,6 +45,7 @@
 
     .attachments {
       clear: both;
+      margin: 0;
     }
 
     .attachment-previews {
@@ -58,7 +59,8 @@
       transition: all 0.6s;
     }
 
-    &.status-attach .attachment-previews {
+    &.status-attach 
+    .attachment-previews {
       height: 100px;
       padding: 1em;
     }
