@@ -5,8 +5,8 @@
             content: '\1f50d';
             font-family: fontello;
             font-size: 1em;
-            line-height: 1.5;
             left: .5em;
+            line-height: 1.5;
             position: absolute;
             top: 0;
         }
@@ -22,15 +22,10 @@
             .name {}
             .meta {}
             &:before {
-
-
-position: absolute;
-top:50%;
-margin-top: -0.7em;
-
-// position: relative;
-// top: 50%;
-
+                margin-top: -1em;
+                position: absolute;
+                right: 1em;
+                top: 50%;
             }
             &:nth-child(odd) {
                 background: #efefef;
