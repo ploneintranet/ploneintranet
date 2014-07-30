@@ -14,7 +14,7 @@ define([
     "pat-autofocus",
     "pat-autoscale",
     "pat-autosubmit",
-//    "pat-autosuggest",
+    "pat-autosuggest",
     "pat-breadcrumbs",
     "pat-bumper",
     "pat-calendar",
