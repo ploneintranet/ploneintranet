@@ -1,6 +1,8 @@
 .item-selector {
     label.search {
         position: relative;
+        margin-bottom: 1em;
+
         &:before {
             content: '\1f50d';
             font-family: fontello;
@@ -18,6 +20,8 @@
     }
     .checklist {
         label {
+            border-top: 1px solid $colour-base;
+position: relative;
             input[type="checkbox"] {}
             .name {}
             .meta {}
@@ -27,9 +31,49 @@
                 right: 1em;
                 top: 50%;
             }
-            &:nth-child(odd) {
-                background: #efefef;
+            &:first-child{
+                border-top: none;
             }
+
+
+        }
+    }
+}
+
+.tooltip-container {
+
+    .item-selector {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    
+        label.search,
+        .checklist,
+        .button-bar
+         {
+            position: absolute;
+        }
+
+        label.search {
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        
+        .checklist {
+            overflow: auto;
+            top: 3em;
+            left: 0;
+            right: 0;
+            bottom: 3em;
+        }
+
+        .button-bar {
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
     }
 }
