@@ -1,4 +1,4 @@
-.buttonBar, .button-bar {
+.button-bar {
 	height: 1.5em;
 	clear: left;
 	margin-bottom: 1em;
@@ -21,5 +21,11 @@
 
 	br {
 		display: none
+	}
+
+	button.float-after,
+	a.button.float-after {
+		margin-left: 0.5em;
+		margin-right: 0;
 	}
 }
