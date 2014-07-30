@@ -9,5 +9,13 @@ body {
 
 	[hidden="hidden"],[hidden],[type="hidden"] {
 	display: none;
-}
+	}
+
+	.float-after {
+		float: right;
+	}
+
+	.float-before {
+		float: left;
+	}
 }
