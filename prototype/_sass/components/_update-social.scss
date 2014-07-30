@@ -4,11 +4,13 @@
 
     textarea {
         padding-right: 2em;
+        padding-left: 1em;
         // KLUDGE Create padding to prevent text and icon conflict
         float: left;
         height: 2.3em;
         border: none;
         background: transparent; 
+        resize: none;
         -webkit-transition: height 0.4s;
         -moz-transition: height 0.4s;
         transition: height 0.4s; 
@@ -18,7 +20,8 @@
         }
     }
 
-    &.status-active textarea {
+    &.status-active textarea,
+    &.status-attach textarea {
       height: 5.5em;
     }
 
@@ -38,6 +41,26 @@
           opacity: 0;
           left: 0;
         }
+    }
+
+    .attachments {
+      clear: both;
+    }
+
+    .attachment-previews {
+      margin: 0;
+      clear: both;
+      padding: 0 1em;
+      font-style: italic;
+      color: rgba(0,0,0,0.3);
+      height: 0;
+      overflow: hidden;
+      transition: all 0.6s;
+    }
+
+    &.status-attach .attachment-previews {
+      height: 100px;
+      padding: 1em;
     }
 
     .button-bar {
@@ -90,7 +113,8 @@
         display: none
       }
     }
-    &.status-active {
+    &.status-active,
+    &.status-attach {
       .button-bar {
       height: 1.5em;
       padding-top: 0.5em;
