@@ -46,18 +46,28 @@
     .attachments {
       clear: both;
       margin: 0;
+      
+      .attachment-previews {
+          margin: 0;
+          clear: both;
+          padding: 0 1em;
+          font-style: italic;
+          color: rgba(0,0,0,0.3);
+          height: 0;
+          overflow: auto;
+          white-space: nowrap;
+          transition: all 0.6s;
+          
+          img {
+            height: 100%;
+            display: inline-block;
+            margin-right: 15px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.5)
+          }
+        }
     }
 
-    .attachment-previews {
-      margin: 0;
-      clear: both;
-      padding: 0 1em;
-      font-style: italic;
-      color: rgba(0,0,0,0.3);
-      height: 0;
-      overflow: hidden;
-      transition: all 0.6s;
-    }
+
 
     &.status-attach 
     .attachment-previews {
