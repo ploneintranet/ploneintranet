@@ -2,13 +2,11 @@
     label.search {
         position: relative;
         margin-bottom: 1em;
-
         &:before {
             content: '\1f50d';
             font-family: fontello;
             font-size: 1em;
             left: .5em;
-            line-height: 1.5;
             position: absolute;
             top: 0;
         }
@@ -21,7 +19,7 @@
     .checklist {
         label {
             border-top: 1px solid $colour-base;
-position: relative;
+            position: relative;
             input[type="checkbox"] {}
             .name {}
             .meta {}
@@ -30,38 +28,37 @@ position: relative;
                 position: absolute;
                 right: 1em;
                 top: 50%;
+                content: normal;
             }
-            &:first-child{
+            &:first-child {
                 border-top: none;
             }
-
-
+            &.checked {
+                &:before {
+                    content: '\2713';
+                }
+            }
         }
     }
 }
 
 .tooltip-container {
-
     .item-selector {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-    
         label.search,
         .checklist,
-        .button-bar
-         {
+        .button-bar {
             position: absolute;
         }
-
         label.search {
             top: 0;
             left: 0;
             right: 0;
         }
-        
         .checklist {
             overflow: auto;
             top: 3em;
@@ -69,11 +66,11 @@ position: relative;
             right: 0;
             bottom: 3em;
         }
-
         .button-bar {
             left: 0;
             right: 0;
             bottom: 0;
+            padding: 0 1em;
         }
     }
 }
