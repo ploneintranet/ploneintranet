@@ -1,9 +1,0 @@
-/* line 1, ../../_sass/components/anchor.scss */
-a {
-  color: #0081be;
-  text-decoration: none;
-}
-/* line 4, ../../_sass/components/anchor.scss */
-a:hover {
-  text-decoration: underline;
-}
