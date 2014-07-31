@@ -20,6 +20,7 @@
         label {
             border-top: 1px solid $colour-base;
             position: relative;
+            padding: .25em .5em;
             input[type="checkbox"] {}
             .name {}
             .meta {}
@@ -45,9 +46,9 @@
 .tooltip-container {
     .item-selector {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: .5em;
+        left: .5em;
+        right: .5em;
         bottom: 0;
         label.search,
         .checklist,
@@ -61,7 +62,7 @@
         }
         .checklist {
             overflow: auto;
-            top: 3em;
+            top: 2em;
             left: 0;
             right: 0;
             bottom: 3em;
