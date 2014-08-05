@@ -5,10 +5,10 @@
             <button type="submit" hidden>Search</button>
         </label>
     </form>
-
     <form action="" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
+            {% if include.mode == "users" %}
             <label>
                 <input name="" type="checkbox" />
                 <strong class="name">Adrian White</strong>
@@ -63,6 +63,50 @@
                 <br/>
                 <dfn class="meta">Designer</dfn>
             </label>
+            {% elsif include.mode == "tags" %}
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Design</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Economy</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">LightsOut</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">QatarAirways</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Samsung</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Scotland</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">SocialMedia</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Spain</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">Warsi</strong>
+            </label>
+            <label>
+                <input name="" type="checkbox" />
+                <strong class="name">WorldCup</strong>
+            </label>
+            {% elsif include.mode == "docs" %}
+            <!-- TODO -->
+            {% endif %}
         </fieldset>
         <p class="button-bar">
             <button type="submit" class="close-panel">Save</button>
