@@ -13,7 +13,7 @@ def post_install(context):
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy
     """
-    marker = 'netsight-windowsauthplugin.marker'
+    marker = 'ploneintranet-workspace.marker'
     if context.readDataFile(marker) is None:
         return
 
