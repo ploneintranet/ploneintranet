@@ -3,6 +3,9 @@
         <label class="search">
             <input name="" type="search" />
             <button type="submit" hidden>Search</button>
+            {% if include.mode == "tags"%}
+                <button type="submit" name="add" class="close-panel">Add</button>
+            {% endif %}
         </label>
     </form>
     <form action="" id="items">
