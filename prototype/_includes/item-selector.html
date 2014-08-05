@@ -1,7 +1,7 @@
 <div class="item-selector">
     <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit">
         <label class="search">
-            <input name="" type="search" />
+            <input name="" type="search" autofocus />
             <button type="submit" hidden>Search</button>
             {% if include.mode == "tags"%}
                 <button type="submit" name="add" class="close-panel">Add</button>
