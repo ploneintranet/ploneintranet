@@ -1,50 +1,21 @@
---- layout: generic ---
-
+---
+layout: generic
+---
 <!-- Update search results with dummy results, using keyword "Cor..." -->
 
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
         {% for user in site.posts %}
-            {% if user.layout == 'user' %}
+            {% if user.layout == 'user' and user.feedback == true %}
                 <label>
                     <input name="{{ user.id }}" type="checkbox" />
                     <strong class="name">{{ user.title }}</strong>
                     <br/>
-                    <dfn class="meta">{{ user.role }}</dfn>
+                    <dfn class="meta">{{ user.user_role }}</dfn>
                 </label>
             {% endif %}
         {% endfor %}
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Corin Wilkins</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Corina Armstrong</strong>
-            <br/>
-            <dfn class="meta">Manager</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelia deVere</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelis Kolbach</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelius Fudge</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
     </fieldset>
     <p class="button-bar">
         <button type="submit" class="close-panel">Save</button>
