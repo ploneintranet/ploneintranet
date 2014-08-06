@@ -6,73 +6,21 @@ layout: generic
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         <ul itemscope itemtype="http://schema.org/Person">
-            <li>
-                <label>
-                    <input name="" type="checkbox" />
-                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
-                    <div>
-                        <strong itemprop="name">Corin Wilkins</strong>
-                        <br>
-                        <dfn itemprop="jobTitle">Developer</dfn>
-                    </div>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input name="" type="checkbox" />
-                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
-                    <div>
-                        <strong itemprop="name">Corina Armstrong</strong>
-                        <br>
-                        <dfn itemprop="jobTitle">Manager</dfn>
-                    </div>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input name="" type="checkbox" />
-                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
-                    <div>
-                        <strong itemprop="name">Cornelia deVere</strong>
-                        <br>
-                        <dfn itemprop="jobTitle">Designer</dfn>
-                    </div>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input name="" type="checkbox" />
-                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
-                    <div>
-                        <strong itemprop="name">Cornelis Kolbach</strong>
-                        <br>
-                        <dfn itemprop="jobTitle">Designer</dfn>
-                    </div>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <input name="" type="checkbox" />
-                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
-                    <div>
-                        <strong itemprop="name">Cornelius Fudge</strong>
-                        <br>
-                        <dfn itemprop="jobTitle">Designer</dfn>
-                    </div>
-                </label>
-            </li>
+            {% for user in site.posts %}
+                {% if user.layout == 'user' and user.feedback == true %}
+                    <li>
+                        <label>
+                            <input name="" type="checkbox" />
+                            <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
+                            <div>
+                                <strong itemprop="name">{{ user.title }}</strong>
+                                <br>
+                                <dfn itemprop="jobTitle">{{ user.user_role }}</dfn>
+                            </div>
+                        </label>
+                {% endif %}
+            {% endfor %}
         </ul>
-        <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
-        {% for user in site.posts %}
-            {% if user.layout == 'user' and user.feedback == true %}
-                <label>
-                    <input name="{{ user.id }}" type="checkbox" />
-                    <strong class="name">{{ user.title }}</strong>
-                    <br/>
-                    <dfn class="meta">{{ user.user_role }}</dfn>
-                </label>
-            {% endif %}
-        {% endfor %}
     </fieldset>
     <div class="button-bar">
         <button type="submit" class="close-panel">Save</button>
