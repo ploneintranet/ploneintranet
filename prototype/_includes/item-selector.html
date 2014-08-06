@@ -1,5 +1,5 @@
 <div class="item-selector">
-    <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit">
+    <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit" {% if include.mode == "tags" %} data-pat-autosubmit="delay: 0ms" {% endif %}>
         <label class="search">
             <input name="" type="search" autofocus class="pat-repeater" data-pat-repeater="target: #{{ include.id }}-add-tag"/>
             <button type="submit" hidden>Search</button>
