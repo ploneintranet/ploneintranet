@@ -1,13 +1,20 @@
 <div class="item-selector">
     <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit">
         <label class="search">
-            <input name="" type="search" autofocus />
+            <input name="" type="search" autofocus class="pat-repeater" data-pat-repeater="target: #{{ include.id }}-add-tag"/>
             <button type="submit" hidden>Search</button>
-            {% if include.mode == "tags"%}
-                <button type="submit" name="add" class="close-panel">Add</button>
-            {% endif %}
         </label>
+        {% if include.mode == "tags" %}
+            <fieldset class="checklist pat-checklist">
+                <label>
+                    <input name="" type="checkbox" class="#{{ include.id }}-add-tag"/>
+                    <strong class="tag"></strong>
+                </label>
+                <button type="submit" name="add" class="close-panel" hidden>Add</button>
+            </fieldset>
+        {% endif %}
     </form>
+{% comment %}
     <form action="" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
@@ -111,6 +118,7 @@
             <!-- TODO -->
             {% endif %}
         </fieldset>
+{% endcomment %}
         <p class="button-bar">
             <button type="submit" class="close-panel">Save</button>
             <button type="reset" class="close-panel">Cancel</button>
