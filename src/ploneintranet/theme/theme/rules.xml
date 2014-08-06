@@ -5,7 +5,7 @@
   <replace content='/html/head/title' theme='/html/head/title' />
   <replace content='/html/head/base' theme='/html/head/base' />
 
-  <theme href="home.html" css:if-content="#visual-portal-wrapper" />
+  <theme href="prototype/home.html" css:if-content="#visual-portal-wrapper" />
 
   <!-- Pull in Plone CSS -->
 
