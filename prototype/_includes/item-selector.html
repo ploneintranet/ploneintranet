@@ -1,68 +1,125 @@
 <div class="item-selector">
-    <form action="/feedback/{{ include.action }}#items" class="pat-inject pat-autosubmit">
-        <label class="search">
+    <form class="item-selector__search pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
+        <label>
             <input name="" type="search" />
-            <button type="submit" hidden>Search</button>
+            <button type="submit">Search</button>
         </label>
     </form>
-    <form action="" id="items">
+    <form class="item-selector__search-result" action="" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
-            <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
             {% if include.mode == "users" %}
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Adrian White</strong>
-                <br/>
-                <dfn class="meta">Developer</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Ben Ackland</strong>
-                <br/>
-                <dfn class="meta">Manager</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Corin Wilkins</strong>
-                <br/>
-                <dfn class="meta">Designer</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Corina Armstrong</strong>
-                <br/>
-                <dfn class="meta">Manager</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Cornelia deVere</strong>
-                <br/>
-                <dfn class="meta">Designer</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Cornelis Kolbach</strong>
-                <br/>
-                <dfn class="meta">Designer</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Cornelius Fudge</strong>
-                <br/>
-                <dfn class="meta">Designer</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Guido Stevens</strong>
-                <br/>
-                <dfn class="meta">Manager</dfn>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Lewis Dexter Litanzios</strong>
-                <br/>
-                <dfn class="meta">Designer</dfn>
-            </label>
+            <ul itemscope itemtype="http://schema.org/Person">
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="https://pbs.twimg.com/profile_images/213006448/me_400x400.jpg" alt="">
+                        <div>
+                            <strong itemprop="name">Adrian White</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Developer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="https://pbs.twimg.com/profile_images/378800000596855209/d81a6b3d1e3f476a1ff68d813282e859_400x400.jpeg" alt="">
+                        <div>
+                            <strong itemprop="name">Ben Ackland</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Manager</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                        <div>
+                            <strong itemprop="name">Corin Wilkins</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Developer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                        <div>
+                            <strong itemprop="name">Corina Armstrong</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Manager</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                        <div>
+                            <strong itemprop="name">Cornelia deVere</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Designer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="https://lh3.googleusercontent.com/-9uF01FfyoII/AAAAAAAAAAI/AAAAAAAAE00/6aFAAU3SkrI/s120-c/photo.jpg" alt="">
+                        <div>
+                            <strong itemprop="name">Cornelis Kolbach</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Designer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                        <div>
+                            <strong itemprop="name">Cornelius Fudge</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Designer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="https://pbs.twimg.com/profile_images/378800000410696223/f6253e6c314bffbfba847c20871423a0_400x400.jpeg" alt="">
+                        <div>
+                            <strong itemprop="name">Guido Stevens</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Manager</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="http://www.netsight.co.uk/about/iain/squareImage_default" alt="">
+                        <div>
+                            <strong itemprop="name">Iain Claridge</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Designer</dfn>
+                        </div>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" />
+                        <img itemprop="image" src="https://pbs.twimg.com/profile_images/467687898846732288/169bfLZD_400x400.jpeg" alt="">
+                        <div>
+                            <strong itemprop="name">Lewis Dexter Litanzios has a very long name to provide an ellipsis example - resize the screen</strong>
+                            <br>
+                            <dfn itemprop="jobTitle">Deseloper, because he hasn't decided whether he's a Designer or a Developer yet</dfn>
+                        </div>
+                    </label>
+                </li>
+            </ul>
             {% elsif include.mode == "tags" %}
             <label>
                 <input name="" type="checkbox" />
@@ -108,9 +165,11 @@
             <!-- TODO -->
             {% endif %}
         </fieldset>
-        <p class="button-bar">
-            <button type="submit" class="close-panel">Save</button>
+        <div class="item-selector__nav-bar">
             <button type="reset" class="close-panel">Cancel</button>
-        </p>
+            <button type="submit" class="close-panel">Save</button>
+        </div>
+        <!-- /.item-selector__nav-bar -->
     </form>
 </div>
+<!-- /.item-selector -->
