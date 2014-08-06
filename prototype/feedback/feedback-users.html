@@ -5,6 +5,16 @@
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
+        {% for user in site.posts %}
+            {% if user.layout == 'user' %}
+                <label>
+                    <input name="{{ user.id }}" type="checkbox" />
+                    <strong class="name">{{ user.title }}</strong>
+                    <br/>
+                    <dfn class="meta">{{ user.role }}</dfn>
+                </label>
+            {% endif %}
+        {% endfor %}
         <label>
             <input name="" type="checkbox" />
             <strong class="name">Corin Wilkins</strong>
