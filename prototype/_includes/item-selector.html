@@ -30,102 +30,7 @@
                         </label>
                     {% endif %}
                 {% endfor %}
-            <!-- 
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Adrian White</strong>
-                    <br/>
-                    <dfn class="meta">Developer</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Ben Ackland</strong>
-                    <br/>
-                    <dfn class="meta">Manager</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Corin Wilkins</strong>
-                    <br/>
-                    <dfn class="meta">Designer</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Corina Armstrong</strong>
-                    <br/>
-                    <dfn class="meta">Manager</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Cornelia deVere</strong>
-                    <br/>
-                    <dfn class="meta">Designer</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Cornelis Kolbach</strong>
-                    <br/>
-                    <dfn class="meta">Designer</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Cornelius Fudge</strong>
-                    <br/>
-                    <dfn class="meta">Designer</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Guido Stevens</strong>
-                    <br/>
-                    <dfn class="meta">Manager</dfn>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Lewis Dexter Litanzios</strong>
-                    <br/>
-                    <dfn class="meta">Designer</dfn>
-                </label>
-                {% elsif include.mode == "tags" %}
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Design</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Economy</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">LightsOut</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">QatarAirways</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Samsung</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Scotland</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">SocialMedia</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Spain</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">Warsi</strong>
-                </label>
-                <label>
-                    <input name="" type="checkbox" />
-                    <strong class="name">WorldCup</strong>
-                </label> -->
+
             {% else include.mode == "tags" %}
                 {% for tag in data.tags %}
                     <label>
@@ -133,6 +38,9 @@
                         <strong class="name">{{ tag.title }}</strong>
                     </label>
                 {% endfor %}
+
+            {% else include.mode == "docs" %}
+                <!-- TODO -->
             {% endif %}
         </fieldset>
         <p class="button-bar">
