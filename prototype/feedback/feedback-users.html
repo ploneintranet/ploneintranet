@@ -1,43 +1,71 @@
---- layout: generic ---
+---
+layout: generic
+---
 
 <!-- Update search results with dummy results, using keyword "Cor..." -->
 
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <!-- class 'users' can also be 'docs' or 'tags' depending on the use of the widget -->
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Corin Wilkins</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Corina Armstrong</strong>
-            <br/>
-            <dfn class="meta">Manager</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelia deVere</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelis Kolbach</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Cornelius Fudge</strong>
-            <br/>
-            <dfn class="meta">Designer</dfn>
-        </label>
+        <ul itemscope itemtype="http://schema.org/Person">
+            <li>
+                <label>
+                    <input name="" type="checkbox" />
+                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                    <div>
+                        <strong itemprop="name">Corin Wilkins</strong>
+                        <br>
+                        <dfn itemprop="jobTitle">Developer</dfn>
+                    </div>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input name="" type="checkbox" />
+                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                    <div>
+                        <strong itemprop="name">Corina Armstrong</strong>
+                        <br>
+                        <dfn itemprop="jobTitle">Manager</dfn>
+                    </div>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input name="" type="checkbox" />
+                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                    <div>
+                        <strong itemprop="name">Cornelia deVere</strong>
+                        <br>
+                        <dfn itemprop="jobTitle">Designer</dfn>
+                    </div>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input name="" type="checkbox" />
+                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                    <div>
+                        <strong itemprop="name">Cornelis Kolbach</strong>
+                        <br>
+                        <dfn itemprop="jobTitle">Designer</dfn>
+                    </div>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input name="" type="checkbox" />
+                    <img itemprop="image" src="http://placehold.it/100x100" alt="">
+                    <div>
+                        <strong itemprop="name">Cornelius Fudge</strong>
+                        <br>
+                        <dfn itemprop="jobTitle">Designer</dfn>
+                    </div>
+                </label>
+            </li>
+        </ul>
     </fieldset>
-    <p class="button-bar">
+    <div class="button-bar">
         <button type="submit" class="close-panel">Save</button>
         <button type="reset" class="close-panel">Cancel</button>
-    </p>
+    </div>
 </form>
