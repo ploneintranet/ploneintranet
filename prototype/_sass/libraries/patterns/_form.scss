@@ -17,7 +17,7 @@ input[type="file"] {
 	-webkit-appearance: none;
 	padding-left: 4px;
 	display: inline-block;
-	cursor: text;
+	// cursor: text; // TODO Remove and let the browser/developer use this when required - not even https://github.com/necolas/normalize.css/blob/master/normalize.css uses it 
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -27,13 +27,19 @@ input[type="file"] {
 	margin-left: 0;
 	user-select: text;
 	max-width: 100%;
-	font: 1em/1.5 Verdana, "Lucida Grande", Lucida, sans-serif;
+	// font: 1em/1.5 Verdana, "Lucida Grande", Lucida, sans-serif;
 	background-color: rgba(0,0,0,0.05);
 	border: 1px solid silver;
 	border: 1px solid rgba(0,0,0,0.2);
 	color: inherit;
 	/*vertical-align: baseline;*/
 	/*transition: all 0.2s;*/
+
+	// @group TODO Hardcoded, reference variables once created
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	line-height: 150%; // Set to $base-line-height to take on browser default of 150%
+	// @end TODO Hardcoded, reference variables once created
 }
 
 input:disabled,
@@ -390,11 +396,12 @@ label.checked:before {
 	content: '\2611';
 }
 
-.checklist label.focus:before,
-label.checkbox.focus:before {
-	color: #0081be;
-	text-shadow:  0 0 4px #0081be;
-}
+// .checklist label.focus:before,
+// label.checkbox.focus:before {
+// 	// TODO Remove and let the browser/developer create this when required
+// 	color: #0081be;
+// 	text-shadow:  0 0 4px #0081be;
+// }
 
 @media only screen and (min-width: 767px) {
 
