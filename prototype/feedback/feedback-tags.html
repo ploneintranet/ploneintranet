@@ -2,6 +2,14 @@
 <!-- Update search results with dummy results, using keyword "Eco..." (e.g. Economy) -->
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
+
+        {% for tag in data.tags %}
+            <label>
+                <input name="{{ tag.name }}" type="checkbox" />
+                <strong class="name">{{ tag.title }}</strong>
+            </label>
+        {% endfor %}
+
         <label>
             <input name="" type="checkbox" />
             <strong class="name">Eco</strong>
