@@ -1,0 +1,59 @@
+- value: Design
+  suggestion: true
+  feedback: false
+
+- value: Economy
+  suggestion: true
+  feedback: false
+
+- value: LightsOut
+  suggestion: true
+  feedback: false
+
+- value: QatarAirways
+  suggestion: true
+  feedback: false
+
+- value: Samsung
+  suggestion: true
+  feedback: false
+
+- value: Scotland
+  suggestion: true
+  feedback: false
+
+- value: SocialMedia
+  suggestion: true
+  feedback: false
+
+- value: Spain
+  suggestion: true
+  feedback: false
+
+- value: Warsi
+  suggestion: true
+  feedback: false
+
+- value: WorldCup
+  suggestion: true
+  feedback: false
+
+- value: Eco
+  suggestion: false
+  feedback: true
+
+- value: Ecocatastrophe
+  suggestion: false
+  feedback: true
+
+- value: Ecological
+  suggestion: false
+  feedback: true
+
+- value: Economical
+  suggestion: false
+  feedback: true
+
+- value: Economy
+  suggestion: false
+  feedback: true

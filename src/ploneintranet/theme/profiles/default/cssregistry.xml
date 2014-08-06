@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<object name="portal_css" meta_type="Stylesheets Registry">
+  <stylesheet title=""
+              cacheable="True"
+              compression="safe"
+              cookable="True"
+              enabled="1"
+              id="++theme++ploneintranet.theme/prototype/style/screen.css"
+              media="screen"
+              rel="stylesheet"
+              rendering="import"
+              expression="" />
+  <stylesheet title=""
+              cacheable="True"
+              compression="safe"
+              cookable="True"
+              enabled="1"
+              id="++theme++ploneintranet.theme/prototype/style/colours.css"
+              media="screen"
+              rel="stylesheet"
+              rendering="import"
+              expression="" />
+</object>

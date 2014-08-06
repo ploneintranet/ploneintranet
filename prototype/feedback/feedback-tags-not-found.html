@@ -2,22 +2,15 @@
 layout: generic
 ---
 <!-- Update search results with dummy results, using keyword "Eco..." (e.g. Economy) -->
-
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-
-        {% for tag in site.data.tags %}
-            {% if tag.feedback == true %}
-                <label>
-                    <input name="{{ tag.value }}" type="checkbox" />
-                    <strong class="name">{{ tag.value }}</strong>
-                </label>
-            {% endif %}
-        {% endfor %}
-
+        <label>
+            <input name="add-new-tag" type="checkbox" checked="checked" disabled="disabled" />
+            <strong class="name">mynewtag</strong>
+        </label>
     </fieldset>
-    <div class="button-bar">
+    <p class="button-bar">
         <button type="submit" class="close-panel">Save</button>
         <button type="reset" class="close-panel">Cancel</button>
-    </div>
+    </p>
 </form>

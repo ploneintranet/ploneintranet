@@ -120,49 +120,30 @@
                     </label>
                 </li>
             </ul>
+                {% for user in site.posts %}
+                    {% if user.layout == 'user' %}
+                        <label>
+                            <img src="/media/avatars/{{ user.id | remove: "/" }}.png" alt="" />
+                            <input name="{{ user.id | remove: "/" }}" type="checkbox" />
+                            <strong class="name">{{ user.title }}</strong>
+                            <br/>
+                            <dfn class="meta">{{ user.user_role }}</dfn>
+                        </label>
+                    {% endif %}
+                {% endfor %}
             {% elsif include.mode == "tags" %}
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Design</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Economy</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">LightsOut</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">QatarAirways</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Samsung</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Scotland</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">SocialMedia</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Spain</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">Warsi</strong>
-            </label>
-            <label>
-                <input name="" type="checkbox" />
-                <strong class="name">WorldCup</strong>
-            </label>
-            {% elsif include.mode == "docs" %}
-            <!-- TODO -->
+                {% for tag in site.data.tags %}
+                    {% if tag.suggestion == true %}
+                        <label>
+                            <img src="/media/hash.png" alt="" />
+                            <input name="{{ tag.value }}" type="checkbox" />
+                            <strong class="name">{{ tag.value }}</strong>
+                        </label>
+                        {% endif %}
+                {% endfor %}
+
+            {% else include.mode == "docs" %}
+                <!-- TODO -->
             {% endif %}
         </fieldset>
         <div class="item-selector__nav-bar">
