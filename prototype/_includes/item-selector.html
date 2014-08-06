@@ -4,15 +4,6 @@
             <input name="" type="search" autofocus class="pat-repeater" data-pat-repeater="target: #{{ include.id }}-add-tag"/>
             <button type="submit" hidden>Search</button>
         </label>
-<!--         {% if include.mode == "tags" %}
-            <fieldset class="checklist pat-checklist">
-                <label>
-                    <input name="" type="checkbox" class="#{{ include.id }}-add-tag"/>
-                    <strong class="tag"></strong>
-                </label>
-                <button type="submit" name="add" class="close-panel" hidden>Add</button>
-            </fieldset>
-        {% endif %} -->
     </form>
 
     <form action="" id="items">
@@ -31,11 +22,12 @@
                     {% endif %}
                 {% endfor %}
 
-            {% else include.mode == "tags" %}
-                {% for tag in data.tags %}
+            {% elsif include.mode == "tags" %}
+                {% for tag in site.data.tags %}
                     <label>
-                        <input name="{{ tag.name }}" type="checkbox" />
-                        <strong class="name">{{ tag.title }}</strong>
+                        <img src="/media/hash.png" alt="" />
+                        <input name="{{ tag }}" type="checkbox" />
+                        <strong class="name">{{ tag }}</strong>
                     </label>
                 {% endfor %}
 
