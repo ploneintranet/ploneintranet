@@ -1,14 +1,14 @@
 ---
 layout: user
-title: Liz Baker
+title: Lewis Litanzios
 user_role: Designer
 application: profile
 application_name: Profile
-design_title: User profile Liz Baker
+design_title: User profile Lewis Litanzios
 design_description: Example of a user profile
 document_creator: Liz Baker
 document_creator_id: liz
 feedback: false
 ---
 
-Some content goes here on Liz
+Some content goes here on Lewis
