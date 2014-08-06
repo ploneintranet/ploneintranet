@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules xmlns="http://namespaces.plone.org/diazo"
+       xmlns:css="http://namespaces.plone.org/diazo/css"
+       xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <replace content='/html/head/title' theme='/html/head/title' />
+  <replace content='/html/head/base' theme='/html/head/base' />
+
+  <theme href="home.html" css:if-content="#visual-portal-wrapper" />
+
+  <!-- Pull in Plone CSS -->
+
+  <append theme="/html/head"
+          content="/html/head/link | /html/head/style | /html/head/script" />
+
+  <repalce theme="/html/head">
+    <drop content="/html/head/meta/[@name='viewport']"/>
+    <copy theme="/html/head/meta" content="/html/head/meta" />
+  </repalce>
+
+  <replace theme="/html/head/meta/[@name='viewport']" content="/html/head/meta/[@name='viewport']"/>
+
+  <!-- Copy over the id/class attributes on the body tag, this is
+       important for Kupu and per-section styling -->
+  <merge attributes="class" css:content="body" css:theme="body" />
+  <copy attributes="id dir" css:content="body" css:theme="body" />
+
+  <!-- Main content rule: Put plone content into theme content -->
+  <append content="//div[@id='content']/*"
+          theme="//div[@id='content']" />
+
+</rules>
