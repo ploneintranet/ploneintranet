@@ -24,11 +24,13 @@
 
             {% elsif include.mode == "tags" %}
                 {% for tag in site.data.tags %}
-                    <label>
-                        <img src="/media/hash.png" alt="" />
-                        <input name="{{ tag }}" type="checkbox" />
-                        <strong class="name">{{ tag }}</strong>
-                    </label>
+                    {% if tag.suggestion == true %}
+                        <label>
+                            <img src="/media/hash.png" alt="" />
+                            <input name="{{ tag.value }}" type="checkbox" />
+                            <strong class="name">{{ tag.value }}</strong>
+                        </label>
+                        {% endif %}
                 {% endfor %}
 
             {% else include.mode == "docs" %}

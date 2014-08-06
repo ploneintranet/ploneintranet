@@ -5,33 +5,15 @@ layout: generic
 <form action="" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
 
-        {% for tag in data.tags %}
-            <label>
-                <input name="{{ tag.name }}" type="checkbox" />
-                <strong class="name">{{ tag.title }}</strong>
-            </label>
+        {% for tag in site.data.tags %}
+            {% if tag.feedback == true %}
+                <label>
+                    <input name="{{ tag.value }}" type="checkbox" />
+                    <strong class="name">{{ tag.value }}</strong>
+                </label>
+            {% endif %}
         {% endfor %}
 
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Eco</strong>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Ecocatastrophe</strong>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Ecological</strong>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Economical</strong>
-        </label>
-        <label>
-            <input name="" type="checkbox" />
-            <strong class="name">Economy</strong>
-        </label>
     </fieldset>
     <p class="button-bar">
         <button type="submit" class="close-panel">Save</button>
