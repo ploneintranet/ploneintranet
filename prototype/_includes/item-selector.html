@@ -1,11 +1,11 @@
 <div class="item-selector">
     <form class="item-selector__search pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
         <label>
-            <input name="" type="search" autofocus/>
+            <input name="" type="search" />
             <button type="submit">Search</button>
         </label>
     </form>
-    <form class="item-selector__search-result pat-inject" action="{{ include.feedback }}#selected-{{ include.mode }}" id="items">
+    <form class="item-selector__search-result item-selector__search-result--{{ include.mode }} pat-inject" action="{{ include.feedback }}#selected-tags" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             <ul itemscope itemtype="http://schema.org/Person">
             {% if include.mode == "users" %}
@@ -31,6 +31,7 @@
                         <li>
                             <label>
                                 <input name="" type="checkbox" />
+                                <img src="/media/hash.png" alt="" />
                                 <div>
                                     <strong itemprop="name">{{ tag.value }}</strong>
                                 </div>
