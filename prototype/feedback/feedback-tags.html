@@ -6,6 +6,15 @@ layout: generic
 <form action="{{ include.feedback }}#selected-tags" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         <ul>
+            <li>
+                <label>
+                    <!-- only shown if there are no tag matches -->
+                    <input name="add-new-tag" value="Ec" type="checkbox" />
+                    <div>
+                        <strong class="name">MyNewTag</strong>
+                    </div>
+                </label>
+            </li>
             {% for tag in site.data.tags %}
                 {% if tag.feedback == true %}
                     <li>
