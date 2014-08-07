@@ -194,7 +194,7 @@ body {
                             display: inline-block;
                             vertical-align: top;
                         }
-                        > div {
+                        div {
                             display: inline-block;
                             line-height: 1.5;
                             // OVERRIDE TODO
@@ -258,7 +258,7 @@ body {
                     li {
                         label {
                             line-height: inherit;
-                            > div {
+                            div {
                                 strong {
                                     &:before {
                                         content: '#';
@@ -280,20 +280,22 @@ body {
 
 .tooltip-container {
     > div {
-        margin-bottom: $base-space * 2; // KLUDGE Update for .button-bar
-        padding: 0 !important; // OVERRIDE
-        position: static !important; // OVERRIDE
+        padding: 0 !important;
+        // OVERRIDE
+        position: static !important;
+        // OVERRIDE
         .item-selector {
             .item-selector__search {
-                background: $body-bg; // KLUDGE Fixes overlapping transparent form issue
+                background: $body-bg;
+                // KLUDGE Fixes overlapping transparent form issue
                 left: 0;
                 position: absolute;
                 right: 0;
                 top: 0;
                 z-index: 1;
                 &:after {
-                    background-image: -webkit-linear-gradient( $body-bg, transparent);
-                    background-image: linear-gradient($body-bg, rgba(255,255,255,0));
+                    background-image: -webkit-linear-gradient($body-bg, transparent);
+                    background-image: linear-gradient($body-bg, rgba(255, 255, 255, 0));
                     bottom: -$base-space;
                     content: '';
                     height: $base-space;
@@ -303,20 +305,27 @@ body {
                 }
             }
             .item-selector__search-result {
-                margin-top: $base-space * 2; // KLUDGE Update for .item-selector__search
+                fieldset {
+                    margin-top: $base-space * 2;
+                    // KLUDGE Update for .item-selector__search
+                    margin-bottom: $base-space * 4 !important;
+                    // KLUDGE OVERRIDE Update for .button-bar
+               
+                }
                 .button-bar {
                     @include respond-min(768px) {
                         background: $body-bg;
                         bottom: 0;
                         left: 0;
-                        margin: 0 !important; // OVERRIDE
+                        margin: 0 !important;
+                        // OVERRIDE
                         position: absolute;
                         right: 0;
                     }
 
                     &:before {
                         background-image: -webkit-linear-gradient(transparent, $body-bg);
-                        background-image: linear-gradient(rgba(255,255,255,0), $body-bg);
+                        background-image: linear-gradient(rgba(255, 255, 255, 0), $body-bg);
                         content: '';
                         height: $base-space;
                         left: 0;
@@ -329,10 +338,12 @@ body {
         }
     }
     .pointer {
-        display: none !important; // OVERRIDE TODO ~ https://github.com/ploneintranet/ploneintranet.theme/commit/75c3973a0da778bc1c103dcefcb1d39c3bf35158#commitcomment-7301593
+        display: none !important;
+        // OVERRIDE TODO ~ https://github.com/ploneintranet/ploneintranet.theme/commit/75c3973a0da778bc1c103dcefcb1d39c3bf35158#commitcomment-7301593
         @include respond-min(768px) {
             display: block !important;
-            z-index: -1 !important; // FIX TODO Contact Cornelis & merge into core?
+            z-index: -1 !important;
+            // FIX TODO Contact Cornelis & merge into core?
         }
     }
 }
@@ -344,6 +355,5 @@ body {
 // Create/delete http://foundation.zurb.com/
 // Create/update .pat-tooltip loader CSS
 // Review/create keyboard only navigation
-// Transfer .tooltip-container .pointer to a medium breakpoint - it's not required on small
 // Update/optimise CSS selectors
 // Update/show Search Submit button for users with no JS
