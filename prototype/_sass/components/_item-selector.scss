@@ -320,8 +320,8 @@ body {
                 }
             }
         }
-        .item-selector__nav-bar {
-            padding: $base-space;
+        .button-bar {
+            padding: $base-space; // OVERRIDE
         }
     }
     br {
@@ -372,7 +372,6 @@ body {
 // Create/delete http://bourbon.io/
 // Create/delete http://foundation.zurb.com/
 // Create/update .pat-tooltip loader CSS
-// Review usefulness of .button-bar
 // Review/create keyboard only navigation
 // Transfer .tooltip-container .pointer to a medium breakpoint - it's not required on small
 // Update/optimise CSS selectors
