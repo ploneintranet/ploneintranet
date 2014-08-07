@@ -5,7 +5,7 @@ layout: generic
 
 <form action="{{ include.feedback }}#selected-tags" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <ul itemscope itemtype="http://schema.org/Person">
+        <ul>
             {% for tag in site.data.tags %}
                 {% if tag.feedback == true %}
                     <li>
