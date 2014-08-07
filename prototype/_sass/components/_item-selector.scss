@@ -193,27 +193,27 @@ body {
                             @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
                             display: inline-block;
                             vertical-align: top;
-                            + div {
-                                display: inline-block;
-                                line-height: 1.5;
-                                // OVERRIDE TODO
-                                margin-left: $base-space / 2;
-                                max-width: 66%;
-                                // NB Create for ellipsis
-                                vertical-align: middle;
-                                strong {
-                                    // TODO Create title attr on elems
-                                    @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                                    @include font($color: inherit, $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: bold, $text-transform: none);
-                                    // TODO Create custom type & refactor
-                                    display: block;
-                                }
-                                dfn {
-                                    @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                                    @include font($color: blacken(white, 50%), $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: normal, $text-transform: none);
-                                    // TODO Create custom type & refactor
-                                    display: block;
-                                }
+                        }
+                        > div {
+                            display: inline-block;
+                            line-height: 1.5;
+                            // OVERRIDE TODO
+                            margin-left: $base-space / 2;
+                            max-width: 66%;
+                            // NB Create for ellipsis
+                            vertical-align: middle;
+                            strong {
+                                // TODO Create title attr on elems
+                                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                                @include font($color: inherit, $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: bold, $text-transform: none);
+                                // TODO Create custom type & refactor
+                                display: block;
+                            }
+                            dfn {
+                                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                                @include font($color: blacken(white, 50%), $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: normal, $text-transform: none);
+                                // TODO Create custom type & refactor
+                                display: block;
                             }
                         }
                         &.checked {
@@ -257,12 +257,11 @@ body {
                 ul {
                     li {
                         label {
-                            img {
-                                + div {
-                                    strong {
-                                        &:before {
-                                            content: '#';
-                                        }
+                            line-height: inherit;
+                            > div {
+                                strong {
+                                    &:before {
+                                        content: '#';
                                     }
                                 }
                             }
