@@ -40,7 +40,7 @@ $base-line-height: 150%;
 
 // Grid
 
-// $include-html-block-grid-classes: $include-html-classes; 
+// $include-html-block-grid-classes: $include-html-classes;
 // $include-xl-html-grid-classes: false;
 
 // $row-width: rem-calc(1000);
@@ -162,13 +162,13 @@ body {
                 width: 100%;
                 &:focus {
                     // TODO Review/create form :focus CSS & abstract
-               
+
                 }
             }
             button {
                 @include element-invisible;
                 // TODO Contact Cornelis, as need accessible no-js fallback
-           
+
             }
             &.focus {
                 &::before {
@@ -241,7 +241,7 @@ body {
                             &::before {
                                 content: '\2713';
                                 // TODO Create ability to universally theme all icons
-                           
+
                             }
                         }
                         &:hover,
@@ -269,7 +269,7 @@ body {
     br {
         display: none;
         // TODO Review accessibility to screen readers?
-   
+
     }
 }
 
