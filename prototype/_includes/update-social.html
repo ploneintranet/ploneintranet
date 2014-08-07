@@ -1,4 +1,17 @@
 <form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="">
+	    <script type="text/javascript">
+        $(document).ready(function(){
+        	var the_textarea = $('textarea.pat-comment-box');
+    		var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
+        	the_textarea.keyup(function(){
+        		var the_value = $(this).val();
+        		the_mirror.text(the_value);
+        		if(!the_value.length){
+        			the_mirror.html('<em class="placeholder">Leave a comment</em>');
+        		}
+        	});
+        });
+    </script>
 	<fieldset>
 	    <p class="content-mirror">
 	    	<!-- p.mirror is placed behind the textarea by means of CSS. Text mutations in the textarea are automatically copied over to span.text -->
