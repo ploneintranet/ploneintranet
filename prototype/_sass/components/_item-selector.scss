@@ -1,11 +1,3 @@
-// NB Agreed class naming conventions:
-// http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
-// .block {}
-// .block__element {}
-// .block--modifier {}
-
-// @group TODO Refactor to _settings.scss etc.
-
 // Foundation by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
@@ -87,13 +79,7 @@ $primary-color: #5d91ff;
 
 // $column-gutter: rem-calc(30);
 
-// @group TODO Review/refactor
-$base-space: 1em;
-
-// Create universal white space (e.g. margin, padding, left)
-// @end TODO Review/refactor
-
-// @end TODO Refactor to _settings.scss etc.
+$base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 
 // @group TODO Update/refactor to _functions.scss?
 // http://sassmeister.com/gist/942bc495aa572802f3a1
