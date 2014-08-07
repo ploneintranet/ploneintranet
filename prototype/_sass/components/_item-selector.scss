@@ -250,7 +250,7 @@ body {
             margin: 0;
             // OVERRIDE TODO
             ul {
-                height: 25em;
+                height: auto;
                 // TODO Create dynamic height, based on viewport
                 overflow: auto;
                 li {
@@ -333,35 +333,60 @@ body {
 
 .tooltip-container {
     > div {
-        padding: 0 !important;
-        // OVERRIDE TODO
-        position: static !important;
-        // OVERRIDE TODO
+        margin-bottom: $base-space * 2; // KLUDGE Update for .button-bar
+        padding: 0 !important; // OVERRIDE
+        position: static !important; // OVERRIDE
         .item-selector {
-            form.item-selector__search {
-                background-color: $body-bg;
+            .item-selector__search {
+                background: $body-bg; // KLUDGE Fixes overlapping transparent form issue
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
                 z-index: 1;
+                &:after {
+                    background: linear-gradient(to bottom, $body-bg, transparent);
+                    bottom: -$base-space;
+                    content: '';
+                    height: $base-space;
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                }
             }
-            form.item-selector__search-result {
-                background-color: $body-bg;
-                .item-selector__nav-bar {
-                    background-color: $body-bg;
-                    z-index: 1;
-                    > button {
-                        // TODO Review/create base form elem styling
-                   
+            .item-selector__search-result {
+                margin-top: $base-space * 2; // KLUDGE Update for .item-selector__search
+                fieldset {
+                    ul {}
+                }
+                .button-bar {
+                    @include respond-min(768px) {
+                        background: $body-bg;
+                        bottom: 0;
+                        left: 0;
+                        margin: 0 !important; // OVERRIDE
+                        position: absolute;
+                        right: 0;
+                    }
+
+                    &:before {
+                        background: linear-gradient(to top, $body-bg, transparent);
+                        content: '';
+                        height: $base-space;
+                        left: 0;
+                        position: absolute;
+                        right: 0;
+                        top: -$base-space;
                     }
                 }
             }
         }
     }
     .pointer {
-        display: none !important;
-    }
-    @include respond-min(768px) {
-        // TODO Review updating px to em
-        .pointer {
+        display: none !important; // OVERRIDE TODO ~ https://github.com/ploneintranet/ploneintranet.theme/commit/75c3973a0da778bc1c103dcefcb1d39c3bf35158#commitcomment-7301593
+        @include respond-min(768px) {
             display: block !important;
+            z-index: -1 !important; // FIX TODO Contact Cornelis & merge into core?
         }
     }
 }
