@@ -355,6 +355,15 @@ body {
             }
         }
     }
+    .pointer {
+        display: none !important;
+    }
+    @include respond-min(768px) {
+        // TODO Review updating px to em
+        .pointer {
+            display: block !important;
+        }
+    }
 }
 
 // TODO:
