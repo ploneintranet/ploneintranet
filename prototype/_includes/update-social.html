@@ -19,7 +19,13 @@
 				<em class="placeholder">Leave a comment</em>
 				<!-- Copy of the placeholder. Entire contents of span.text is replaced by the JavaScript once the user starts typing. -->
 			</span>
-			— <em id="selected-tags">{{ include.tags }}</em>
+
+            — <em id="selected-users">
+                {{ include.users }}
+            </em>
+			— <em id="selected-tags">
+                {{ include.tags }}
+            </em>
 	    </p>
 	    <textarea placeholder="Leave a comment" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
 	    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
