@@ -288,7 +288,7 @@ body {
                 z-index: 1;
                 &:after {
                     background-image: -webkit-linear-gradient( $body-bg, transparent);
-                    background-image: linear-gradient($body-bg, transparent);
+                    background-image: linear-gradient($body-bg, rgba(255,255,255,0));
                     bottom: -$base-space;
                     content: '';
                     height: $base-space;
@@ -314,7 +314,7 @@ body {
 
                     &:before {
                         background-image: -webkit-linear-gradient(transparent, $body-bg);
-                        background-image: linear-gradient(transparent, $body-bg);
+                        background-image: linear-gradient(rgba(255,255,255,0), $body-bg);
                         content: '';
                         height: $base-space;
                         left: 0;
