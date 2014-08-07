@@ -155,24 +155,55 @@ $oldIE: false !default;
 	}
 }
 
-// @group
-// Accessible additional alternative to @mixin element-invisible (http://foundation.zurb.com/docs/components/visibility.html) ~ http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
-@mixin custom-element-invisible($height: false) {
-  @if $height {
-    height: 0; // NB Optional conditional argument if we want to clear the elem's DOM presence
-  }
-  overflow: hidden;
-  text-indent: 100%;
-  white-space: nowrap;
+@mixin avatar($border-radius: auto, $border: 1px solid black, $height: auto, $width: auto) {
+    // http://colmjude.com/blog/css-only-rounded-images
+    border-radius: $border-radius;
+    border: $border;
+    display: block;
+    height: $height;
+    width: $width;
+    img {
+        border-radius: $border-radius;
+    }
 }
 
-@mixin custom-element-invisible-off($height: false) {
-  @if $height {
-    height: auto;
-    // NB Optional conditional argument if we want to clear the elem's DOM presence
-  }
-  overflow: visible;
-  text-indent: 0;
-  white-space: normal;
+@mixin ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap) {
+    overflow: $overflow;
+    text-overflow: $text-overflow;
+    white-space: $white-space;
+    // width: $width; // NB Required on the container elem
 }
-// @end
+
+@mixin font($color: $body-font-color, $font-family: $body-font-family, $font-size: inherit, $font-style: normal, $font-weight: normal, $text-transform: none) {
+    color: $color;
+    font-family: $font-family;
+    font-size: $font-size;
+    font-style: $font-style;
+    font-weight: $font-weight;
+    // 400 (normal) or 700 (bold)
+    text-transform: $text-transform;
+}
+
+// https://github.com/zurb/foundation/blob/master/scss/foundation/components/_global.scss#L196
+// @mixins
+//
+// Makes an element visually hidden, but accessible.
+// @see http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+@mixin element-invisible {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+// @mixins
+//
+// Turns off the element-invisible effect.
+@mixin element-invisible-off {
+    position: static !important;
+    height: auto;
+    width: auto;
+    overflow: visible;
+    clip: auto;
+}
