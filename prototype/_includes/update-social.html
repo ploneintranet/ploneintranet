@@ -1,6 +1,10 @@
 <form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="">
 	<fieldset>
 	    <textarea placeholder="Leave a comment" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
+	    <p class="content-mirror">
+
+			— <em id="selected-tags">{{ include.tags }}</em>
+	    </p>
 	    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
 	    <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
 		    <label class="iconified icon-attach pat-switch" data-pat-switch="#{{ include.id }} status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>

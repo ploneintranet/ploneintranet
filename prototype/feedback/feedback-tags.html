@@ -3,7 +3,7 @@ layout: generic
 ---
 <!-- Update search results with dummy results, using keyword "Eco..." (e.g. Economy) -->
 
-<form action="" id="items">
+<form action="{{ include.feedback }}#selected-tags" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         <ul itemscope itemtype="http://schema.org/Person">
             {% for tag in site.data.tags %}
