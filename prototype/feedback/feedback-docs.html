@@ -1,0 +1,27 @@
+---
+layout: generic
+---
+<!-- Update search results with dummy results, using keyword "Eco..." (e.g. Economy) -->
+
+<form action="{{ include.feedback }}#selected-docs" id="items">
+    <fieldset class="checklist pat-checklist {{ include.mode }}">
+        <ul>
+            {% for doc in site.data.docs %}
+                {% if doc.feedback == true %}
+                    <li>
+                        <label>
+                            <input name="" type="checkbox" />
+                            <div>
+                                <strong>{{ doc.name }}</strong>
+                            </div>
+                        </label>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </fieldset>
+    <div class="button-bar">
+        <button type="submit" class="close-panel">Save</button>
+        <button type="reset" class="close-panel">Cancel</button>
+    </div>
+</form>

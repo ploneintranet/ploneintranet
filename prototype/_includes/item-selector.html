@@ -40,7 +40,18 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
-                <!-- TODO -->
+                {% for doc in site.data.docs %}
+                    {% if doc.suggestion == true %}
+                        <li>
+                            <label>
+                                <input name="" type="checkbox" />
+                                <div>
+                                    <strong itemprop="name">{{ doc.name }}</strong>
+                                </div>
+                            </label>
+                        </li>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
 
             </ul>
