@@ -5,7 +5,7 @@
             <button type="submit">Search</button>
         </label>
     </form>
-    <form class="item-selector__search-result item-selector__search-result--{{ include.mode }} pat-inject" action="{{ include.feedback }}#selected-tags" id="items">
+    <form class="item-selector__search-result item-selector__search-result--{{ include.mode }} pat-inject" action="{{ include.feedback }}#selected-{{ include.mode }}" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             <ul itemscope itemtype="http://schema.org/Person">
             {% if include.mode == "users" %}
