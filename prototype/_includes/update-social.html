@@ -8,7 +8,7 @@
             var the_value = the_textarea.val();
             the_mirror.text(the_value);
             if (!the_value.length) {
-                the_mirror.html('<span class="update-social__textarea-placeholder">Leave a comment</span>');
+                the_mirror.html('<p class="update-social__textarea-placeholder">Leave a comment</p>');
             }
         };
         $(document).on('input propertychange', the_textarea, function() {
@@ -19,16 +19,17 @@
     <fieldset>
         <div class="update-social__textarea-container">
             <!-- p.mirror is placed behind the textarea by means of CSS. Text mutations in the textarea are automatically copied over to span.text -->
-            <pre class="update-social__textarea" style="display: inline;">
-			<span class="update-social__textarea-placeholder">Leave a comment</span>
-			<!-- Copy of the placeholder. Entire contents of span.text is replaced by the JavaScript once the user starts typing. -->
-			</pre>
-            <div>
+            <pre class="update-social__textarea">
+<p class="update-social__textarea-placeholder">Leave a comment</p>
+<!-- Copy of the placeholder. Entire contents of span.text is replaced by the JavaScript once the user starts typing. -->
+</pre>
+            <p>
                 <em id="selected-users">{{ include.users }}</em>
                 <em id="selected-tags">{{ include.tags }}</em>
-            </div>
+            </p>
             <textarea placeholder="Leave a comment" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         </div>
+        <!-- /.update-social__textarea-container -->
         <a class="iconified icon-attach pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: attachments;" href="/feedback/panel-attachments.html#content">Attach file or reference</a>
         {% comment %}
         <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
