@@ -4,7 +4,12 @@
             <a class="pat-inject"  data-pat-inject="target: #attachments;" href="panel-documents-search.html#content">Search</a>
         </li>
         <li>
-            <a class="pat-inject" href="panel-attachment.html">Upload</a>
+        <form action="">
+        <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
+            <label class="iconified icon-upload pat-switch" data-pat-switch="#{{ include.id }} status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
+        </fieldset>
+        <form>
         </li>
         <li>
             <a class="pat-inject" href="panel-attachment.html">Browse</a>
