@@ -134,148 +134,146 @@ body {
 }
 
 .item-selector {
-    form.item-selector__search {
-        position: relative;
-        label {
-            position: relative;
-            input[type="search"] {
-                // TODO Review/create base form elem styling
-                line-height: 2;
-                margin: 0;
-                // OVERRIDE TODO
-                padding-left: $base-space * 1.25;
-                position: relative;
-                width: 100%;
-                &:focus {
-                    // TODO Review/create form :focus CSS & abstract
-               
-                }
-            }
-            button {
-                @include element-invisible;
-                // TODO Contact Cornelis, as need accessible no-js fallback
-           
-            }
-            &.focus {
-                &::before {
-                    color: $primary-color;
-                }
-            }
-            &::before {
-                content: '\1f50d';
-                font-family: fontello;
-                left: 0.5em;
-                line-height: 1;
-                // == $base-font-size, not $base-line-height, to vertically align
-                margin-top: -.5em;
-                position: absolute;
-                top: 50%;
-            }
-        }
-    }
-    form.item-selector__search-result {
-        fieldset {
-            margin: 0;
-            // OVERRIDE TODO
-            ul {
-                height: auto;
-                // TODO Create dynamic height, based on viewport
-                overflow: auto;
-                li {
-                    border-top: 1px solid blacken(white, 10%);
-                    label {
-                        display: block;
-                        line-height: 3;
-                        padding: $base-space / 2;
-                        // OVERRIDE TODO
-                        position: relative;
-                        img {
-                            @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
-                            display: inline-block;
-                            vertical-align: top;
-                        }
-                        div {
-                            display: inline-block;
-                            line-height: 1.5;
-                            // OVERRIDE TODO
-                            margin-left: $base-space / 2;
-                            max-width: 66%;
-                            // NB Create for ellipsis
-                            vertical-align: middle;
-                            strong {
-                                // TODO Create title attr on elems
-                                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                                @include font($color: inherit, $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: bold, $text-transform: none);
-                                // TODO Create custom type & refactor
-                                display: block;
-                            }
-                            dfn {
-                                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                                @include font($color: blacken(white, 50%), $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: normal, $text-transform: none);
-                                // TODO Create custom type & refactor
-                                display: block;
-                            }
-                        }
-                        &.checked {
-                            &:hover,
-                            &:focus {
-                                &::before {
-                                    color: $primary-color;
-                                }
-                            }
-                            &::before {
-                                content: '\2713';
-                                // TODO Create ability to universally theme all icons
-                           
-                            }
-                        }
-                        &:hover,
-                        &:focus {
-                            background-color: blacken(white, 2%);
-                        }
-                        &::before {
-                            content: '';
-                            position: absolute;
-                            right: $base-space * 2;
-                            // KLUDGE Update additional right space to allow for scrollbar
-                            top: $base-space / 2;
-                        }
-                    }
-                    &:first-child {
-                        border-top: none;
-                    }
-                }
-            }
-        }
-        .button-bar {
-            padding: $base-space;
-            // OVERRIDE
-       
-        }
-        &.item-selector__search-result--tags {
-            fieldset {
-                ul {
-                    li {
-                        label {
-                            line-height: inherit;
-                            div {
-                                strong {
-                                    &:before {
-                                        content: '#';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     br {
         display: none;
-        // TODO Review accessibility to screen readers?
+        // TODO Review accessibility to screen readers & abstract
    
     }
+}
+
+.item-selector__search {
+    position: relative;
+    label {
+        position: relative;
+        input[type="search"] {
+            // TODO Review/create base form elem styling
+            line-height: 2;
+            margin: 0;
+            // OVERRIDE TODO
+            padding-left: $base-space * 1.25;
+            position: relative;
+            width: 100%;
+            &:focus {
+                // TODO Review/create form :focus CSS & abstract
+           
+            }
+        }
+        button {
+            @include element-invisible;
+            // TODO Contact Cornelis, as need accessible no-js fallback
+       
+        }
+        &.focus {
+            &::before {
+                color: $primary-color;
+            }
+        }
+        &::before {
+            content: '\1f50d';
+            font-family: fontello;
+            left: 0.5em;
+            line-height: 1;
+            // == $base-font-size, not $base-line-height, to vertically align
+            margin-top: -.5em;
+            position: absolute;
+            top: 50%;
+        }
+    }
+}
+
+.item-selector__search-result {
+    fieldset {
+        margin: 0;
+        // OVERRIDE TODO
+        ul {
+            height: auto;
+            // TODO Create dynamic height, based on viewport
+            overflow: auto;
+            li {
+                border-top: 1px solid blacken(white, 10%);
+                label {
+                    display: block;
+                    line-height: 3;
+                    padding: $base-space / 2;
+                    // OVERRIDE TODO
+                    position: relative;
+                    img {
+                        @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
+                        display: inline-block;
+                        vertical-align: top;
+                    }
+                    div {
+                        display: inline-block;
+                        line-height: 1.5;
+                        // OVERRIDE TODO
+                        margin-left: $base-space / 2;
+                        max-width: 66%;
+                        // NB Create for ellipsis
+                        vertical-align: middle;
+                        strong {
+                            // TODO Create title attr on elems
+                            @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                            @include font($color: inherit, $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: bold, $text-transform: none);
+                            // TODO Create custom type & refactor
+                            display: block;
+                        }
+                        dfn {
+                            @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                            @include font($color: blacken(white, 50%), $font-family: inherit, $font-size: 14px, $font-style: normal, $font-weight: normal, $text-transform: none);
+                            // TODO Create custom type & refactor
+                            display: block;
+                        }
+                    }
+                    &.checked {
+                        &:hover,
+                        &:focus {
+                            &::before {
+                                color: $primary-color;
+                            }
+                        }
+                        &::before {
+                            content: '\2713';
+                            // TODO Create ability to universally theme all icons
+                       
+                        }
+                    }
+                    &:hover,
+                    &:focus {
+                        background-color: blacken(white, 2%);
+                    }
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        right: $base-space * 2;
+                        // KLUDGE Update additional right space to allow for scrollbar
+                        top: $base-space / 2;
+                    }
+                }
+                &:first-child {
+                    border-top: none;
+                }
+            }
+        }
+    }
+}
+
+.item-selector__search-result--tags {
+    label {
+        line-height: inherit;
+        div {
+            strong {
+                &:before {
+                    content: '#';
+                }
+            }
+        }
+    }
+}
+
+.item-selector__nav-bar {
+    @extend .button-bar;
+    padding: $base-space;
+    // OVERRIDE
 }
 
 .tooltip-container {
@@ -284,56 +282,55 @@ body {
         // OVERRIDE
         position: static !important;
         // OVERRIDE
-        .item-selector {
-            .item-selector__search {
-                background: $body-bg;
-                // KLUDGE Fixes overlapping transparent form issue
+        .item-selector {}
+        .item-selector__search {
+            background: $body-bg;
+            // KLUDGE Fixes overlapping transparent form issue
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 1;
+            &:after {
+                background-image: -webkit-linear-gradient($body-bg, transparent);
+                background-image: linear-gradient($body-bg, rgba(255, 255, 255, 0));
+                bottom: -$base-space;
+                content: '';
+                height: $base-space;
                 left: 0;
                 position: absolute;
                 right: 0;
-                top: 0;
-                z-index: 1;
-                &:after {
-                    background-image: -webkit-linear-gradient($body-bg, transparent);
-                    background-image: linear-gradient($body-bg, rgba(255, 255, 255, 0));
-                    bottom: -$base-space;
-                    content: '';
-                    height: $base-space;
-                    left: 0;
-                    position: absolute;
-                    right: 0;
-                }
             }
-            .item-selector__search-result {
-                fieldset {
-                    margin-top: $base-space * 2;
-                    // KLUDGE Update for .item-selector__search
-                    margin-bottom: $base-space * 4 !important;
-                    // KLUDGE OVERRIDE Update for .button-bar
-               
-                }
-                .button-bar {
-                    @include respond-min(768px) {
-                        background: $body-bg;
-                        bottom: 0;
-                        left: 0;
-                        margin: 0 !important;
-                        // OVERRIDE
-                        position: absolute;
-                        right: 0;
-                    }
+        }
+        .item-selector__search-result {
+            fieldset {
+                margin-top: $base-space * 2;
+                // KLUDGE Update for .item-selector__search
+                margin-bottom: $base-space * 4 !important;
+                // KLUDGE OVERRIDE Update for .button-bar
+           
+            }
+        }
+        .item-selector__nav-bar {
+            @include respond-min(768px) {
+                background: $body-bg;
+                bottom: 0;
+                left: 0;
+                margin: 0 !important;
+                // OVERRIDE
+                position: absolute;
+                right: 0;
+            }
 
-                    &:before {
-                        background-image: -webkit-linear-gradient(transparent, $body-bg);
-                        background-image: linear-gradient(rgba(255, 255, 255, 0), $body-bg);
-                        content: '';
-                        height: $base-space;
-                        left: 0;
-                        position: absolute;
-                        right: 0;
-                        top: -$base-space;
-                    }
-                }
+            &:before {
+                background-image: -webkit-linear-gradient(transparent, $body-bg);
+                background-image: linear-gradient(rgba(255, 255, 255, 0), $body-bg);
+                content: '';
+                height: $base-space;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: -$base-space;
             }
         }
     }
