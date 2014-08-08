@@ -259,7 +259,7 @@ body {
 
 .item-selector__search-result--tags {
     label {
-        line-height: inherit;
+        line-height: inherit !important; // TODO Fix ~ https://twitter.com/ldexterldesign/status/497739237215977472
         div {
             strong {
                 &:before {
