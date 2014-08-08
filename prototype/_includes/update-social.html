@@ -1,15 +1,19 @@
 <form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="">
 	    <script type="text/javascript">
         $(document).ready(function(){
-        	var the_textarea = $('textarea.pat-comment-box');
-    		var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
-        	the_textarea.keyup(function(){
-        		var the_value = $(this).val();
-        		the_mirror.text(the_value);
-        		if(!the_value.length){
-        			the_mirror.html('<em class="placeholder">Leave a comment</em>');
-        		}
-        	});
+            var the_textarea = $('textarea.pat-comment-box');
+            function updateMirror(){
+                var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
+                var the_value = the_textarea.val();
+                the_mirror.text(the_value);
+                if(!the_value.length){
+                    the_mirror.html('<em class="placeholder">Leave a comment</em>');
+                }
+            };
+
+            $(document).on('input propertychange',the_textarea, function() {
+                updateMirror();
+            });
         });
     </script>
 	<fieldset>
