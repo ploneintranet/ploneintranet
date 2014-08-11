@@ -51,13 +51,21 @@
                 display: block;
                 position: relative;
                 color: $colour-primary;
+                -webkit-user-select: none;
                 user-select: none;
-                padding: 0;
+                padding: 0.5em 1.5em 0.5em 4em;
+                
+                &.folder,
+                &.document {
+                    padding: 0;
+                }
 
                 .follow {
                     display: block;
                     color: $colour-primary;
                     padding: 0.5em 1.5em 0.5em 4em;
+                    position: relative;
+                    z-index: -1;
                 }
 
                 &.folder:after {
@@ -107,6 +115,12 @@
 
                 &.checked {
                     background-color: $colour-accent;
+
+                    .follow {
+                        background-color: $colour-accent;
+                        color: white;
+                    }
+
                     color: white;
                     border-bottom-color: white;
 
@@ -117,6 +131,11 @@
 
                     &::before {
                         content: '\2713';
+                    }
+
+                    &.folder,
+                    &.document {
+                        background-color: transparent;
                     }
                 }
 
@@ -141,21 +160,10 @@
     }
 }
 
-.item-selector__search-result--tags {
-    label {
-        line-height: inherit !important; // TODO Fix ~ https://twitter.com/ldexterldesign/status/497739237215977472
-        div {
-            strong {
-                &:before {
-                    content: '#';
-                }
-            }
-        }
-    }
+.mode-follow .item-selector .search-result fieldset .item .follow {
+    z-index: 0;
 }
 
-.item-selector__nav-bar {
-    @extend .button-bar;
-    padding: $base-space;
-    // OVERRIDE
+.mode-select .item-selector .search-result fieldset .item.folder:after {
+    display: none;
 }
