@@ -34,8 +34,8 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
-                {% for doc in site.data.docs.content %}
-                    {% if doc.suggestion == true %}
+                {% for doc in site.posts %}
+                    {% if doc.parent == 'root' %}
                         {% if doc.folderish == false %}
                             <label class="item document">
                                 <input name="" type="checkbox" />

@@ -7,23 +7,26 @@ design_description: "Feedback for the contents of the minutes folder"
 
 <form class="item-selector__search-result" action="{{ include.feedback }}#selected-docs" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        {% for doc in site.data.docs.dir-minutes.content %}
-            {% if doc.folderish == false %}
-                <label class="item document">
-                    <input name="" type="checkbox" />
-                    <strong class="title">{{ doc.name }}</strong>
-                    {% if doc.description %}
-                        <dfn class="byline">{{ doc.description }}</dfn>
-                    {% endif %}
-                </label>
-            {% else %}
-                <a href="/feedback/dir-archive.html#items" class="item folder pat-inject">
-                    <strong class="title">{{ doc.name }}</strong>
-                    {% if doc.description %}
-                        <dfn class="byline">{{ doc.description }}</dfn>
-                    {% endif %}
-                </a>
+        {% for doc in site.posts %}
+            {% if doc.parent == 'minutes' %}
+                {% if doc.folderish == false %}
+                    <label class="item document">
+                        <input name="" type="checkbox" />
+                        <strong class="title">{{ doc.title }}</strong>
+                        {% if doc.description %}
+                            <dfn class="byline">{{ doc.description }}</dfn>
+                        {% endif %}
+                    </label>
+                {% else %}
+                    <a href="/feedback/#items" class="item folder pat-inject">
+                        <strong class="title">{{ doc.title }}</strong>
+                        {% if doc.description %}
+                            <dfn class="byline">{{ doc.description }}</dfn>
+                        {% endif %}
+                    </a>
+                {% endif %}
             {% endif %}
+
         {% endfor %}
     </fieldset>
     <div class="button-bar">
