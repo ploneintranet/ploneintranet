@@ -6,8 +6,7 @@
         </label>
     </form>
     <form class="search-result {{ include.mode }} pat-injec"
-    {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %}
-    action="{{ include.feedback }}#selected-{{ include.mode }}"
+    {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             {% if include.mode == "users" %}
@@ -39,14 +38,14 @@
                         {% if doc.folderish == false %}
                             <label class="item document">
                                 <input name="" type="checkbox" />
-                                <strong class="title">{{ doc.name }}</strong>
+                                <strong class="title">{{ doc.title }}</strong>
                                 {% if doc.description %}
                                     <dfn class="byline">{{ doc.description }}</dfn>
                                 {% endif %}
                             </label>
                         {% else %}
                             <a href="/feedback/dir-minutes.html#items" class="item folder pat-inject">
-                                <strong class="title">{{ doc.name }}</strong>
+                                <strong class="title">{{ doc.title }}</strong>
                                 {% if doc.description %}
                                     <dfn class="byline">{{ doc.description }}</dfn>
                                 {% endif %}
