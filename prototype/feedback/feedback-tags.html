@@ -8,29 +8,19 @@ design_description: "Feedback for the tags search results when 'Eco' input"
 
 <form action="{{ include.feedback }}#selected-tags" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <ul>
-            <li>
-                <label>
-                    <!-- only shown if there are no tag matches -->
-                    <input name="add-new-tag" value="MyNewTag" type="checkbox" />
-                    <div>
-                        <strong class="name">MyNewTag</strong>
-                    </div>
+        <label class="item tag">
+            <!-- only shown if there are no tag matches -->
+            <input name="add-new-tag" value="MyNewTag" type="checkbox" />
+            <strong class="title">MyNewTag</strong>
+        </label>
+        {% for tag in site.data.tags %}
+            {% if tag.feedback == true %}
+                <label class="item tag">
+                    <input name="" type="checkbox" />
+                    <strong class="title">{{ tag.value }}</strong>
                 </label>
-            </li>
-            {% for tag in site.data.tags %}
-                {% if tag.feedback == true %}
-                    <li>
-                        <label>
-                            <input name="" type="checkbox" />
-                            <div>
-                                <strong>{{ tag.value }}</strong>
-                            </div>
-                        </label>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+            {% endif %}
+        {% endfor %}
     </fieldset>
     <div class="button-bar">
         <button type="submit" class="close-panel">Save</button>

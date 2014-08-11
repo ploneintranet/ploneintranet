@@ -5,8 +5,8 @@
             <button type="submit">Search</button>
         </label>
     </form>
-    <form class="item-selector__search-result item-selector__search-result--{{ include.mode }} pat-inject"
-    {% if include.mode == "docs" %} data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %}
+    <form class="item-selector__search-result item-selector__search-result--{{ include.mode }} pat-injec"
+    {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %}
     action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">

@@ -8,23 +8,17 @@ design_description: "Feedback for the search results when 'Cor' input"
 
 <form action="{{ include.feedback }}#selected-users" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <ul itemscope itemtype="http://schema.org/Person">
-            {% for user in site.posts %}
-                {% if user.layout == 'user' and user.feedback == true %}
-                    <li>
-                        <label>
-                            <input name="" type="checkbox" />
-                            <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
-                            <div>
-                                <strong itemprop="name">{{ user.title }}</strong>
-                                <br>
-                                <dfn itemprop="jobTitle">{{ user.user_role }}</dfn>
-                            </div>
-                        </label>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+        {% for user in site.posts %}
+            {% if user.layout == 'user' and user.feedback == true %}
+                <label class="item user">
+                    <input name="" type="checkbox" />
+                    <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
+                    <strong class="title">{{ user.title }}</strong>
+                    <br>
+                    <dfn class="byline">{{ user.user_role }}</dfn>
+                </label>
+            {% endif %}
+        {% endfor %}
     </fieldset>
     <div class="button-bar">
         <button type="submit" class="close-panel">Save</button>
