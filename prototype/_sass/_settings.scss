@@ -3,14 +3,38 @@
 @import "fontello/css/fontello.css";
 
 // Primary colours
+$primary-color: #5d91ff;
 $colour-base: #efefef;
 $colour-header-elements: #666;
 $colour-post: #e4f2f8;
 $colour-alert: red;
 $colour-workspace-tabs: #869EBF;
 
-// Secondary colours
-
-
 // Responsive font-size: 
 $mobile:768px;
+
+$base-font-size: 100%;
+$base-line-height: 150%;
+
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+
+// We use these to control various global styles
+$body-bg: white;
+$body-font-color: #222222;
+$body-font-family: 'Source Sans Pro', sans-serif;
+$body-font-weight: $font-weight-normal;
+$body-font-style: normal;
+
+$base-space: 1em; // Create universal white space (e.g. margin, padding, left)
+
+// @group TODO Update/refactor to _functions.scss?
+// http://sassmeister.com/gist/942bc495aa572802f3a1
+@function blacken($color, $percent) {
+    @return mix(black, $color, $percent);
+}
+
+@function whiten($color, $percent) {
+    @return mix(white, $color, $percent);
+}
+

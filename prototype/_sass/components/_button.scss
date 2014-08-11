@@ -31,6 +31,26 @@ a.button {
   }
 }
 
+::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+::-webkit-search-cancel-button {
+    &:hover {
+        color: $primary-color;
+    }
+    &::after {
+        content: '\e803';
+        font-family: fontello;
+        right: $base-space / 2;
+        position: absolute;
+        top: 50%;
+        line-height: 1;
+        // == $base-font-size, not $base-line-height, to vertically align
+        margin-top: -.5em;
+    }
+}
+
 .button.icon-cog-many:before {
   /*exeption for wide many cogs icon*/
   margin-right: 6px;

@@ -10,60 +10,46 @@
     action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}">
-            <ul itemscope itemtype="http://schema.org/Person">
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
-                    {% if user.layout == 'user' %}
-                        <li>
-                            <label>
-                                <input name="" type="checkbox" />
-                                <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
-                                <div>
-                                    <strong itemprop="name">{{ user.title }}</strong>
-                                    <br>
-                                    <dfn itemprop="jobTitle">{{ user.user_role }}</dfn>
-                                </div>
-                            </label>
-                        </li>
+                    {% if user.layout == 'user' %}       
+                        <label>
+                            <input name="" type="checkbox" />
+                            <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
+                            <strong class="title">{{ user.title }}</strong>
+                            <br>
+                            <dfn class="byline">{{ user.user_role }}</dfn>
+                        </label>
                     {% endif %}
                 {% endfor %}
 
             {% elsif include.mode == "tags" %}
                 {% for tag in site.data.tags %}
                     {% if tag.suggestion == true %}
-                        <li>
-                            <label>
-                                <input name="" type="checkbox" />
-                                <div>
-                                    <strong itemprop="name">{{ tag.value }}</strong>
-                                </div>
-                            </label>
-                        </li>
+                        <label>
+                            <input name="" type="checkbox" />
+                            <strong class="title">{{ tag.value }}</strong>
+                        </label>
                     {% endif %}
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
                 {% for doc in site.data.docs %}
                     {% if doc.suggestion == true %}
-                        <li>
-                            <label>
-                                <input name="" type="checkbox" />
-                                <div>
-                                    <strong itemprop="name">{{ doc.name }}</strong>
-                                </div>
-                            </label>
-                        </li>
+                        <label>
+                            <input name="" type="checkbox" />
+                            <strong class="title">{{ doc.name }}</strong>
+                            <dfn class="byline">{{ doc.description }}</dfn>
+                        </label>
                     {% endif %}
                 {% endfor %}
             {% endif %}
 
-            </ul>
         </fieldset>
         <div class="item-selector__nav-bar">
-            <button type="reset" class="close-panel">Cancel</button>
             <button type="submit" class="close-panel">Save</button>
+            <button type="reset" class="close-panel">Cancel</button>
         </div>
-        <!-- /.item-selector__nav-bar -->
+
     </form>
 </div>
-<!-- /.item-selector -->
