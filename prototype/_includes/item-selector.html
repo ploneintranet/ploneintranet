@@ -38,18 +38,23 @@
                         {% if doc.folderish == false %}
                             <label class="item document">
                                 <input name="" type="checkbox" />
-                                <strong class="title">{{ doc.title }}</strong>
-                                {% if doc.description %}
-                                    <dfn class="byline">{{ doc.description }}</dfn>
-                                {% endif %}
+                                <a href="#" class="follow">
+                                    <strong class="title">{{ doc.title }}</strong>
+                                    {% if doc.description %}
+                                        <dfn class="byline">{{ doc.description }}</dfn>
+                                    {% endif %}
+                                </a>
                             </label>
                         {% else %}
-                            <a href="/feedback/dir-minutes.html#items" class="item folder pat-inject">
-                                <strong class="title">{{ doc.title }}</strong>
-                                {% if doc.description %}
-                                    <dfn class="byline">{{ doc.description }}</dfn>
-                                {% endif %}
-                            </a>
+                            <label class="item folder">
+                                <input name="" type="checkbox" />
+                                <a href="/feedback/dir-minutes.html#items" class="follow pat-inject">
+                                    <strong class="title">{{ doc.title }}</strong>
+                                    {% if doc.description %}
+                                        <dfn class="byline">{{ doc.description }}</dfn>
+                                    {% endif %}
+                                </a>
+                            </label>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

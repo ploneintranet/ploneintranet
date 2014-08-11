@@ -10,24 +10,18 @@
 
         label {
             position: relative;
+
             input[type="search"] {
-                // TODO Review/create base form elem styling
                 line-height: 2;
                 margin: 0;
-                // OVERRIDE TODO
                 padding-left: $base-space * 1.25;
                 position: relative;
                 width: 100%;
-                &:focus {
-                    // TODO Review/create form :focus CSS & abstract
-               
-                }
             }
 
             button {
                 @include element-invisible;
                 // TODO Contact Cornelis, as need accessible no-js fallback
-           
             }
 
             &.focus {
@@ -41,7 +35,6 @@
                 font-family: fontello;
                 left: 0.5em;
                 line-height: 1;
-                // == $base-font-size, not $base-line-height, to vertically align
                 margin-top: -.5em;
                 position: absolute;
                 top: 50%;
@@ -56,10 +49,16 @@
             .item {
                 border-bottom: 1px solid rgba(0,0,0,0.2);
                 display: block;
-                padding: 0.5em 1.5em 0.5em 4em;
                 position: relative;
                 color: $colour-primary;
                 user-select: none;
+                padding: 0;
+
+                .follow {
+                    display: block;
+                    color: $colour-primary;
+                    padding: 0.5em 1.5em 0.5em 4em;
+                }
 
                 &.folder:after {
                     font-family: fontello;
