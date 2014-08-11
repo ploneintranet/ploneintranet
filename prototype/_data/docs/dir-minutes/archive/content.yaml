@@ -1,0 +1,19 @@
+- name: Minutes from 2013-12-12
+  suggestion: true
+  feedback: true
+  folderish: false
+
+- name: Minutes from 2013-11-21
+  suggestion: true
+  feedback: true
+  folderish: false
+
+- name: Minutes from 2013-10-19
+  suggestion: true
+  feedback: false
+  folderish: false
+
+- name: Minutes from 2013-09-22
+  suggestion: true
+  feedback: false
+  folderish: false
