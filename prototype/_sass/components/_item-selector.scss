@@ -33,7 +33,7 @@
 
         &.focus {
             &::before {
-                color: $primary-color;
+                color: $colour-accent;
             }
         }
 
@@ -59,6 +59,16 @@
             display: block;
             padding: 0.5em 1.5em 0.5em 4em;
             position: relative;
+            color: $colour-primary;
+
+            &.folder:after {
+                font-family: fontello;
+                content: '\e4a2';
+                position: absolute;
+                right: 1em;
+                top: 50%;
+                margin-top: -0.7em;
+            }
 
             img {
                 @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);

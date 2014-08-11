@@ -3,8 +3,8 @@
 @import "fontello/css/fontello.css";
 
 // Primary colours
-$primary-color: #5d91ff;
 $colour-base: #efefef;
+$colour-primary: black;
 $colour-header-elements: #666;
 $colour-post: #e4f2f8;
 $colour-alert: red;
@@ -14,7 +14,7 @@ $colour-accent: #5d91ff;
 // Responsive font-size: 
 $mobile:768px;
 
-$base-font-size: 100%;
+$base-font-size: 18px;
 $base-line-height: 150%;
 
 $font-weight-normal: normal;

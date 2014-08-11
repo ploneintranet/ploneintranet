@@ -13,7 +13,7 @@
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}       
-                        <label>
+                        <label class="item">
                             <input name="" type="checkbox" />
                             <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
                             <strong class="title">{{ user.title }}</strong>
@@ -26,7 +26,7 @@
             {% elsif include.mode == "tags" %}
                 {% for tag in site.data.tags %}
                     {% if tag.suggestion == true %}
-                        <label>
+                        <label class="item">
                             <input name="" type="checkbox" />
                             <strong class="title">{{ tag.value }}</strong>
                         </label>

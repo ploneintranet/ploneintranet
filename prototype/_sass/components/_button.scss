@@ -37,7 +37,7 @@ a.button {
 
 ::-webkit-search-cancel-button {
     &:hover {
-        color: $primary-color;
+        color: $colour-accent;
     }
     &::after {
         content: '\e803';
