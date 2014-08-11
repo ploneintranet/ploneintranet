@@ -12,7 +12,7 @@
         <fieldset class="checklist pat-checklist {{ include.mode }}">
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
-                    {% if user.layout == 'user' %}       
+                    {% if user.layout == 'user' %}
                         <label class="item">
                             <input name="" type="checkbox" />
                             <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
