@@ -36,7 +36,7 @@
             {% elsif include.mode == "docs" %}
                 {% for doc in site.data.docs %}
                     {% if doc.suggestion == true %}
-                        <label>
+                        <label class="document">
                             <input name="" type="checkbox" />
                             <strong class="title">{{ doc.name }}</strong>
                             <dfn class="byline">{{ doc.description }}</dfn>
