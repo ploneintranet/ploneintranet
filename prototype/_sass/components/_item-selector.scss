@@ -53,6 +53,7 @@
 .item-selector__search-result {
     fieldset {
         margin: 0;
+
         label {
             border-bottom: 1px solid rgba(0,0,0,0.2);
             display: block;
@@ -96,12 +97,15 @@
             }
 
             &.checked {
+                background-color: $colour-accent;
+                color: white;
+                border-bottom-color: white;
+
                 &:hover,
                 &:focus {
-                    &::before {
-                        color: $primary-color;
-                    }
+                    background-color: $colour-accent;
                 }
+
                 &::before {
                     content: '\2713';
                 }
@@ -109,7 +113,7 @@
 
             &:hover,
             &:focus {
-                background-color: blacken(white, 2%);
+                background-color: rgba(0,0,0,0.03);
             }
 
             &::before {
