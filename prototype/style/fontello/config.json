@@ -163,6 +163,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "b091a8bd0fdade174951f17d936f51e4",
+      "css": "folder",
+      "code": 128193,
+      "src": "fontawesome"
+    },
+    {
       "uid": "e99461abfef3923546da8d745372c995",
       "css": "cog",
       "code": 59396,
@@ -340,12 +346,6 @@
       "uid": "457c8e2b305e7af74c1be4f07a01ca92",
       "css": "vcard",
       "code": 59170,
-      "src": "entypo"
-    },
-    {
-      "uid": "0ccb084ddeeae372673793ed0b45bb4a",
-      "css": "folder",
-      "code": 128193,
       "src": "entypo"
     },
     {
