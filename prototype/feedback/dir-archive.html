@@ -1,0 +1,31 @@
+---
+layout: generic
+---
+<!-- Update search results with dummy results, using keyword "Doc..." (e.g. Document) -->
+
+<form class="item-selector__search-result" action="{{ include.feedback }}#selected-docs" id="items">
+    <fieldset class="checklist pat-checklist {{ include.mode }}">
+        {% for doc in site.data.docs.dir-minutes.archive.content %}
+            {% if doc.folderish == false %}
+                <label class="item document">
+                    <input name="" type="checkbox" />
+                    <strong class="title">{{ doc.name }}</strong>
+                    {% if doc.description %}
+                        <dfn class="byline">{{ doc.description }}</dfn>
+                    {% endif %}
+                </label>
+            {% else %}
+                <a href="/feedback/dir-archive.html#items" class="item folder pat-inject">
+                    <strong class="title">{{ doc.name }}</strong>
+                    {% if doc.description %}
+                        <dfn class="byline">{{ doc.description }}</dfn>
+                    {% endif %}
+                </a>
+            {% endif %}
+        {% endfor %}
+    </fieldset>
+    <div class="button-bar">
+        <button type="submit" class="close-panel">Save</button>
+        <button type="reset" class="close-panel">Cancel</button>
+    </div>
+</form>

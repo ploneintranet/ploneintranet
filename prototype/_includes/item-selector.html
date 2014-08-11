@@ -34,22 +34,24 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
-                {% for doc in site.data.docs %}
-                    {% if doc.suggestion == true and doc.folderish == false %}
-                        <label class="item document">
-                            <input name="" type="checkbox" />
-                            <strong class="title">{{ doc.name }}</strong>
-                            {% if doc.description %}
-                                <dfn class="byline">{{ doc.description }}</dfn>
-                            {% endif %}
-                        </label>
-                    {% else %}
-                        <a href="/feedback/dir-minutes" class="item folder">
-                            <strong class="title">{{ doc.name }}</strong>
-                            {% if doc.description %}
-                                <dfn class="byline">{{ doc.description }}</dfn>
-                            {% endif %}
-                        </a>
+                {% for doc in site.data.docs.content %}
+                    {% if doc.suggestion == true %}
+                        {% if doc.folderish == false %}
+                            <label class="item document">
+                                <input name="" type="checkbox" />
+                                <strong class="title">{{ doc.name }}</strong>
+                                {% if doc.description %}
+                                    <dfn class="byline">{{ doc.description }}</dfn>
+                                {% endif %}
+                            </label>
+                        {% else %}
+                            <a href="/feedback/dir-minutes.html#items" class="item folder pat-inject">
+                                <strong class="title">{{ doc.name }}</strong>
+                                {% if doc.description %}
+                                    <dfn class="byline">{{ doc.description }}</dfn>
+                                {% endif %}
+                            </a>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
