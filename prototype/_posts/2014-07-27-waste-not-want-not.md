@@ -1,7 +1,10 @@
 ---
 layout: document
 title: Waste not want not
+description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
 application: workspace
+document_type: rich
+folderish: false
 workspace_name: Baggage handling regulations
 sidebar_controls:
   - label: Create document
@@ -16,11 +19,10 @@ document_controls:
 application_name: Workspace
 design_title: Rich page
 design_description: Exmple of a rich page
-document_type: rich
-document_creator: Liz Baker
-document_creator_id: liz
 pinned: true
 tile_size: 2.
+document_creator: Liz Baker
+document_creator_id: liz
 ---
 
 # Out of the box
