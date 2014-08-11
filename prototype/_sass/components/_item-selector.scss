@@ -4,139 +4,140 @@
         // TODO Review accessibility to screen readers & abstract
    
     }
-}
 
-.item-selector__search {
-    position: relative;
-
-    label {
+    .search-box {
         position: relative;
-        input[type="search"] {
-            // TODO Review/create base form elem styling
-            line-height: 2;
-            margin: 0;
-            // OVERRIDE TODO
-            padding-left: $base-space * 1.25;
+
+        label {
             position: relative;
-            width: 100%;
-            &:focus {
-                // TODO Review/create form :focus CSS & abstract
-           
-            }
-        }
-
-        button {
-            @include element-invisible;
-            // TODO Contact Cornelis, as need accessible no-js fallback
-       
-        }
-
-        &.focus {
-            &::before {
-                color: $colour-accent;
-            }
-        }
-
-        &::before {
-            content: '\1f50d';
-            font-family: fontello;
-            left: 0.5em;
-            line-height: 1;
-            // == $base-font-size, not $base-line-height, to vertically align
-            margin-top: -.5em;
-            position: absolute;
-            top: 50%;
-        }
-    }
-}
-
-.item-selector__search-result {
-    fieldset {
-        margin: 0;
-
-        .item {
-            border-bottom: 1px solid rgba(0,0,0,0.2);
-            display: block;
-            padding: 0.5em 1.5em 0.5em 4em;
-            position: relative;
-            color: $colour-primary;
-
-            &.folder:after {
-                font-family: fontello;
-                content: '\e4a2';
-                position: absolute;
-                right: 1em;
-                top: 50%;
-                margin-top: -0.7em;
-            }
-
-            img {
-                @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
-                position: absolute;
-                left: 0.5em;
-                top: 0.5em;
-            }
-
-            .title {
-                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                display: block;
-
-                &:before {
-                    font-family: fontello;
-                    content: '';
-                    font-size: 1.4em;
-                    position: absolute;
-                    left: 1.1em;
-                    top: 50%;
-                    margin-top: -0.5em;
-                    font-weight: normal;
+            input[type="search"] {
+                // TODO Review/create base form elem styling
+                line-height: 2;
+                margin: 0;
+                // OVERRIDE TODO
+                padding-left: $base-space * 1.25;
+                position: relative;
+                width: 100%;
+                &:focus {
+                    // TODO Review/create form :focus CSS & abstract
+               
                 }
             }
 
-            &.document .title:before {
-                content: '\e811'
+            button {
+                @include element-invisible;
+                // TODO Contact Cornelis, as need accessible no-js fallback
+           
             }
 
-            &.folder .title:before {
-                content: '\1f4c1'
+            &.focus {
+                &::before {
+                    color: $colour-accent;
+                }
             }
 
-            .byline {
-                // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+            &::before {
+                content: '\1f50d';
+                font-family: fontello;
+                left: 0.5em;
+                line-height: 1;
+                // == $base-font-size, not $base-line-height, to vertically align
+                margin-top: -.5em;
+                position: absolute;
+                top: 50%;
+            }
+        }
+    }
+
+    .search-result {
+        fieldset {
+            margin: 0;
+
+            .item {
+                border-bottom: 1px solid rgba(0,0,0,0.2);
                 display: block;
-            }
+                padding: 0.5em 1.5em 0.5em 4em;
+                position: relative;
+                color: $colour-primary;
+                user-select: none;
 
-            &.checked {
-                background-color: $colour-accent;
-                color: white;
-                border-bottom-color: white;
+                &.folder:after {
+                    font-family: fontello;
+                    content: '\e4a2';
+                    position: absolute;
+                    right: 1em;
+                    top: 50%;
+                    margin-top: -0.7em;
+                }
+
+                img {
+                    @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
+                    position: absolute;
+                    left: 0.5em;
+                    top: 0.5em;
+                }
+
+                .title {
+                    @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                    display: block;
+
+                    &:before {
+                        font-family: fontello;
+                        content: '';
+                        font-size: 1.4em;
+                        position: absolute;
+                        left: 1.1em;
+                        top: 50%;
+                        margin-top: -0.5em;
+                        font-weight: normal;
+                    }
+                }
+
+                &.document .title:before {
+                    content: '\e811'
+                }
+
+                &.folder .title:before {
+                    content: '\1f4c1'
+                }
+
+                .byline {
+                    // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                    display: block;
+                }
+
+                &.checked {
+                    background-color: $colour-accent;
+                    color: white;
+                    border-bottom-color: white;
+
+                    &:hover,
+                    &:focus {
+                        background-color: $colour-accent;
+                    }
+
+                    &::before {
+                        content: '\2713';
+                    }
+                }
 
                 &:hover,
                 &:focus {
-                    background-color: $colour-accent;
+                    background-color: rgba(0,0,0,0.03);
                 }
 
                 &::before {
-                    content: '\2713';
+                    content: '';
+                    position: absolute;
+                    right: $base-space * 2;
+                    top: 50%;
+                    margin-top: -0.8em;
                 }
             }
 
-            &:hover,
-            &:focus {
-                background-color: rgba(0,0,0,0.03);
+            &:first-child {
+                border-top: none;
             }
-
-            &::before {
-                content: '';
-                position: absolute;
-                right: $base-space * 2;
-                top: 50%;
-                margin-top: -0.8em;
-            }
-        }
-
-        &:first-child {
-            border-top: none;
         }
     }
 }
