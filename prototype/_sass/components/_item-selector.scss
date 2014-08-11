@@ -1,4 +1,5 @@
 .item-selector {
+
     br {
         display: none;
         // TODO Review accessibility to screen readers & abstract
@@ -44,7 +45,6 @@
 
     .search-result {
         fieldset {
-            margin: 0;
 
             .item {
                 border-bottom: 1px solid rgba(0,0,0,0.2);
