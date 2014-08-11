@@ -66,26 +66,20 @@
                 top: 0.5em;
             }
 
-            strong {
+            .title {
                 @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
                 display: block;
-            }
 
-            .byline {
-                // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
-                display: block;
-            }
-
-            &.document .title:before,
-            &.folder .title:before {
-                font-family: fontello;
-                content: '';
-                font-size: 1.4em;
-                position: absolute;
-                left: 1.1em;
-                top: 50%;
-                margin-top: -0.5em;
-                font-weight: normal;
+                &:before {
+                    font-family: fontello;
+                    content: '';
+                    font-size: 1.4em;
+                    position: absolute;
+                    left: 1.1em;
+                    top: 50%;
+                    margin-top: -0.5em;
+                    font-weight: normal;
+                }
             }
 
             &.document .title:before {
@@ -94,6 +88,11 @@
 
             &.folder .title:before {
                 content: '\1f4c1'
+            }
+
+            .byline {
+                // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                display: block;
             }
 
             &.checked {
