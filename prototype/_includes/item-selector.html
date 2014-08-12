@@ -1,12 +1,16 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
-    <div class="button-bar">
-        <span class="functions button-cluster">
+    <div class="button-bar functions" id="#{{ include.id }}-functions">
+        <div class="contextual buttons" id="#{{ include.id }}-contextual-functions">
+        </div>
+
+        {% if include.toggle == 'true' %}
+            <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</button>
+        {% endif %}
+
+        <span class="button-cluster select-buttons float-after select-buttons">
             <button class="select-all">Select all</button>
             <button class="deselect-all">Deselect all</button>
         </span>
-        {% if include.toggle == 'true' %}
-            <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</button>
-        {% endif %}
     </div>
 
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
