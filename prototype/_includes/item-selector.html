@@ -38,12 +38,12 @@
                         {% if doc.folderish == false %}
                             <label class="item document">
                                 <input name="" type="checkbox" />
-                                <a href="#" class="follow">
+                                <span class="follow">
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
                                     {% endif %}
-                                </a>
+                                </span>
                             </label>
                         {% else %}
                             <label class="item folder">
