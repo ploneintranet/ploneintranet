@@ -3,7 +3,7 @@
     br {
         display: none;
         // TODO Review accessibility to screen readers & abstract
-   
+
     }
 
     .search-box {
@@ -44,7 +44,6 @@
     }
 
     .search-result {
-        fieldset {
 
             .item {
                 border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -54,7 +53,7 @@
                 -webkit-user-select: none;
                 user-select: none;
                 padding: 0.5em 1.5em 0.5em 4em;
-                
+
                 &.folder,
                 &.document {
                     padding: 0;
@@ -156,7 +155,6 @@
             &:first-child {
                 border-top: none;
             }
-        }
     }
 }
 
