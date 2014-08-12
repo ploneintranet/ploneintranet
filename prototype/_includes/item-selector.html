@@ -1,14 +1,25 @@
-<div class="item-selector">
+<div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
+    <div class="button-bar">
+        <span class="functions button-cluster">
+            <button class="select-all">Select all</button>
+            <button class="deselect-all">Deselect all</button>
+        </span>
+        {% if include.toggle == 'true' %}
+            <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</button>
+        {% endif %}
+    </div>
+
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
         <label>
             <input name="" type="search" />
             <button type="submit">Search</button>
         </label>
     </form>
+
     <form class="search-result {{ include.mode }} pat-inject"
     {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
-        <fieldset class="checklist pat-checklist {{ include.mode }}">
+        <fieldset class="checklist pat-checklist {{ include.mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
@@ -33,10 +44,6 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
-                <div class="functions">
-                    <button class="select-all">Select all</button>
-                    <button class="deselect-all">Deselect all</button>
-                </div>
                 {% for doc in site.posts %}
                     {% if doc.parent == 'root' %}
                         {% if doc.folderish == false %}
