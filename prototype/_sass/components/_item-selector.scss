@@ -107,6 +107,10 @@
                     content: '\1f4c1'
                 }
 
+                &.back .title:before {
+                    content: '\e4a1';
+                }
+
                 .byline {
                     // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
                     display: block;
