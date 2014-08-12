@@ -10,10 +10,6 @@ design_description: "Feedback for the contents of the minutes folder"
         <strong class="title">Minutes </strong>
     </a>
     <fieldset class="checklist pat-checklist {{ include.mode }}">
-        <div class="functions">
-            <button class="select-all">Select all</button>
-            <button class="deselect-all">Deselect all</button>
-        </div>
         {% for doc in site.posts %}
             {% if doc.parent == 'minutes' %}
                 {% if doc.folderish == false %}
