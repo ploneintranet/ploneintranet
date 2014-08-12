@@ -15,21 +15,25 @@ design_description: "Feedback for the contents of the minutes folder"
                 {% if doc.folderish == false %}
                     <label class="item document">
                         <input name="" type="checkbox" />
-                        <strong class="title">{{ doc.title }}</strong>
-                        {% if doc.description %}
-                            <dfn class="byline">{{ doc.description }}</dfn>
-                        {% endif %}
+                        <span class="follow">
+                            <strong class="title">{{ doc.title }}</strong>
+                            {% if doc.description %}
+                                <dfn class="byline">{{ doc.description }}</dfn>
+                            {% endif %}
+                        <span/>
                     </label>
                 {% else %}
-                    <a href="/feedback/#items" class="item folder pat-inject">
-                        <strong class="title">{{ doc.title }}</strong>
-                        {% if doc.description %}
-                            <dfn class="byline">{{ doc.description }}</dfn>
-                        {% endif %}
-                    </a>
+                    <label class="item folder">
+                        <input name="" type="checkbox" />
+                        <a href="/feedback/dir-minutes.html#items" class="follow pat-inject">
+                            <strong class="title">{{ doc.title }}</strong>
+                            {% if doc.description %}
+                                <dfn class="byline">{{ doc.description }}</dfn>
+                            {% endif %}
+                        </a>
+                    </label>
                 {% endif %}
             {% endif %}
-
         {% endfor %}
     </fieldset>
     <div class="button-bar">
