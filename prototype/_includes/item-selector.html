@@ -33,6 +33,10 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
+                <div class="functions">
+                    <button class="select-all">Select all</button>
+                    <button class="deselect-all">Deselect all</button>
+                </div>
                 {% for doc in site.posts %}
                     {% if doc.parent == 'root' %}
                         {% if doc.folderish == false %}
