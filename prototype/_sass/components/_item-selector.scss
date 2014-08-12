@@ -68,7 +68,7 @@
                 .follow {
                     display: block;
                     color: $colour-primary;
-                    padding: 0.5em 1.5em 0.5em 4em;
+                    padding: 0.5em 1.5em 0.5em 6em;
                     position: relative;
                     z-index: -1;
                 }
@@ -98,7 +98,7 @@
                         content: '';
                         font-size: 1.4em;
                         position: absolute;
-                        left: 1.1em;
+                        left: 2.1em;
                         top: 50%;
                         margin-top: -0.5em;
                         font-weight: normal;
@@ -115,6 +115,7 @@
 
                 &.back .title:before {
                     content: '\e4a1';
+                    left: 1.1em;
                 }
 
                 .byline {
@@ -138,10 +139,6 @@
                         background-color: $colour-accent;
                     }
 
-                    &::before {
-                        content: '\2713';
-                    }
-
                     &.folder,
                     &.document {
                         background-color: transparent;
@@ -154,18 +151,27 @@
                 }
 
                 &::before {
-                    content: '';
                     position: absolute;
-                    right: $base-space * 2;
                     top: 50%;
                     margin-top: -0.8em;
+                    margin-left: 1em;
                 }
             }
     }
 }
 
-.mode-follow .item-selector .search-result fieldset .item .follow {
-    z-index: 0;
+.mode-follow .item-selector .search-result fieldset .item {
+    &::before {
+        content: '';
+    }
+    .title:before {
+        left: 1.1em;
+    }
+    .follow {
+        z-index: 0;
+        padding: 0.5em 1.5em 0.5em 4em;
+
+    }
 }
 
 .mode-follow .search-result{
