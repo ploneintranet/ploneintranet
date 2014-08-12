@@ -151,10 +151,11 @@
                 }
 
                 &::before {
+                    font-size: 1.2em;
                     position: absolute;
                     top: 50%;
-                    margin-top: -0.8em;
-                    margin-left: 1em;
+                    margin-top: -0.5em;
+                    margin-left: 0.5em;
                 }
             }
     }
