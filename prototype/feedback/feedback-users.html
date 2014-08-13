@@ -9,7 +9,8 @@ design_description: "Feedback for the search results when 'Cor' input"
 <form action="{{ include.feedback }}#selected-users" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         {% for user in site.posts %}
-            {% if user.layout == 'user' and user.feedback == true %}
+            {% assign lower_title = user.title | downcase%}
+            {% if user.layout == 'user' and lower_title contains 'cor' %}
                 <label class="item user">
                     <input name="" type="checkbox" />
                     <a href="user.id" class="follow">

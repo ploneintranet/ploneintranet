@@ -8,7 +8,6 @@ design_title: User profile Lewis Litanzios
 design_description: Example of a user profile
 document_creator: Liz Baker
 document_creator_id: liz
-feedback: false
 parent: profiles
 folderish: false
 ---
