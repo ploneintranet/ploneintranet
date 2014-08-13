@@ -67,7 +67,9 @@
                         {% else %}
                             <label class="item folder">
                                 <input name="" type="checkbox" />
-                                <a href="/feedback/dir-minutes.html#items" class="follow pat-inject">
+                                <a href="/feedback/dir-minutes.html" class="follow pat-inject"
+                                data-pat-inject="source: #items; target: #items && source: #{{ include.id }}-contextual-functions; target: #{{ include.id }}-contextual-functions"
+                                >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
