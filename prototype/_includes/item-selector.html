@@ -57,7 +57,7 @@
                         {% if doc.folderish == false %}
                             <label class="item document">
                                 <input name="" type="checkbox" />
-                                <a href="#" class="follow">
+                                <a href="{{ doc.id }}" class="follow">
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
