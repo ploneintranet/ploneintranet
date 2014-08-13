@@ -1,4 +1,4 @@
-@mixin avatar($border-radius: 50%, $border: 1px solid black, $height: auto, $width: auto) {
+@mixin avatar($border-radius: 50%, $border: 0,055556em solid black, $height: 2em, $width: 2em) {
     display: block;
     border-radius: $border-radius;
     border: $border;
