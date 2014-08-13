@@ -1,4 +1,5 @@
 from zope.interface import Interface, Attribute
+from ploneintranet.invitations import MessageFactory as _
 
 
 class ITokenUtility(Interface):
@@ -18,6 +19,6 @@ class ITokenUtility(Interface):
 class IToken(Interface):
     """ Interface for Token class
     """
-    id = Attribute('The UUID of this token')
-    uses = Attribute('The number of uses for this token before it expires')
-    expiry = Attribute('The datetime this token expires')
+    id = Attribute(_('The UUID of this token'))
+    uses = Attribute(_('The number of uses for this token before it expires'))
+    expiry = Attribute(_('The datetime this token expires'))
