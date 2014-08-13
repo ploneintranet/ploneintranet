@@ -1,11 +1,12 @@
-@mixin avatar($border-radius: 50%, $border: 0,055556em solid black, $height: 2em, $width: 2em) {
-    display: block;
+@mixin avatar($border-radius: 50%, $border: 0.055556em solid black, $height: 2em, $width: 2em) {
+    display: inline-block;
+    overflow: hidden;
     border-radius: $border-radius;
     border: $border;
     height: $height;
     width: $width;
     img {
-        border-radius: $border-radius;
+        width: 100%;
     }
 }
 
