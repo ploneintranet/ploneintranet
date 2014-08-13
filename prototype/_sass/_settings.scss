@@ -11,12 +11,12 @@ $colour-alert: red;
 $colour-workspace-tabs: #869EBF;
 $colour-accent: #5d91ff;
 
-// Responsive font-size: 
+// Responsive breakpoints: 
 $mobile:768px;
 
+// Font treatment
 $base-font-size: 18px;
 $base-line-height: 150%;
-
 $font-weight-normal: normal;
 $font-weight-bold: bold;
 
@@ -29,8 +29,6 @@ $body-font-style: normal;
 
 $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 
-// @group TODO Update/refactor to _functions.scss?
-// http://sassmeister.com/gist/942bc495aa572802f3a1
 @function blacken($color, $percent) {
     @return mix(black, $color, $percent);
 }
@@ -38,8 +36,6 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @function whiten($color, $percent) {
     @return mix(white, $color, $percent);
 }
-
-
 
 // libraries
 @import "libraries/animation";
