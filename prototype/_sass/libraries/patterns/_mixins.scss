@@ -1,0 +1,11 @@
+@mixin avatar($border-radius: auto, $border: 1px solid black, $height: auto, $width: auto) {
+    display: block;
+    border-radius: $border-radius;
+    border: $border;
+    height: $height;
+    width: $width;
+    img {
+        border-radius: $border-radius;
+    }
+}
+

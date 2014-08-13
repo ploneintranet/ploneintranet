@@ -1,0 +1,3 @@
+.pat-avatar {
+	@include avatar($border-radius: 3em, $border: 0.01em rgba(0,0,0,0.5), $height: 2em, $width: 2em);
+}
