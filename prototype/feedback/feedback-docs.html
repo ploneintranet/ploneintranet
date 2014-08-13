@@ -9,7 +9,8 @@ design_description: "Feedback for document search results when 'Doc' input"
 <form action="{{ include.feedback }}#selected-docs" id="items">
     <fieldset class="checklist pat-checklist {{ include.mode }}">
         {% for doc in site.posts %}
-            {% if doc.parent == 'root' %}
+        {% assign lower_title = doc.title | downcase %}
+            {% if doc.parent == 'root' and lower_title contains 'doc'%}
                 {% if doc.folderish == false %}
                     <label class="item document">
                         <input name="" type="checkbox" />
