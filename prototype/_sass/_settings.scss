@@ -37,13 +37,13 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
     @return mix(white, $color, $percent);
 }
 
-// libraries
+// Libraries
 @import "libraries/animation";
 @import "libraries/mixins";
 @import "libraries/reset";
 @import "libraries/patterns/patterns";
 
-// components
+// Project components
 @import "components/activity-stream";
 @import "components/anchor";
 @import "components/avatar";
