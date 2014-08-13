@@ -91,7 +91,6 @@
 
                 &:before {
                     font-family: fontello;
-                    content: '';
                     font-size: 1.4em;
                     position: absolute;
                     left: 0.6em;
@@ -109,6 +108,7 @@
                 transition: opacity 5s;
             }
 
+
             &.folder .title:before {
                 content: '\1f4c1'
             }
@@ -124,7 +124,6 @@
             }
 
             &.checked {
-                background-color: $colour-accent;
 
                 .follow {
                     background-color: $colour-accent;
@@ -133,16 +132,6 @@
 
                 color: white;
                 border-bottom-color: white;
-
-                &:hover,
-                &:focus {
-                    background-color: $colour-accent;
-                }
-
-                &.folder,
-                &.document {
-                    background-color: transparent;
-                }
             }
 
             &:hover,
@@ -186,4 +175,3 @@
         }
     }
 }
-
