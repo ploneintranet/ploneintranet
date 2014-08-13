@@ -73,6 +73,11 @@
                 padding-left: 4em;
             }
 
+            &.folder .follow{
+                padding-right: 2.5em;
+            }
+
+
             &.folder:after {
                 font-family: fontello;
                 content: '\e4a2';
@@ -80,6 +85,8 @@
                 right: 1em;
                 top: 50%;
                 margin-top: -0.7em;
+                -webkit-transition: 0.2s all;
+                transition: 0.2s all;
             }
 
             img {
@@ -174,8 +181,13 @@
     }
 
     &.mode-select {
-        .search-result fieldset .item .follow {
-            border-left: 2.25em solid #efefef;
+        .search-result fieldset .item {
+            &.folder:after {
+                content: '';
+            }
+            .follow {
+                border-left: 2.25em solid #efefef;
+            }
         }
     }
 }
