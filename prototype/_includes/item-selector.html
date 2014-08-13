@@ -29,10 +29,12 @@
                     {% if user.layout == 'user' %}
                         <label class="item user">
                             <input name="" type="checkbox" />
-                            <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
-                            <strong class="title">{{ user.title }}</strong>
-                            <br>
-                            <dfn class="byline">{{ user.user_role }}</dfn>
+                            <a class="follow">
+                                <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
+                                <strong class="title">{{ user.title }}</strong>
+                                <br>
+                                <dfn class="byline">{{ user.user_role }}</dfn>
+                            </a>
                         </label>
                     {% endif %}
                 {% endfor %}
