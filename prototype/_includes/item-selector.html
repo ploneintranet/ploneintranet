@@ -42,7 +42,9 @@
                     {% if tag.suggestion == true %}
                         <label class="item">
                             <input name="" type="checkbox" />
-                            <strong class="title">{{ tag.value }}</strong>
+                            <a class="follow">
+                              <strong class="title icon-tag">{{ tag.value }}</strong>
+                            </a>
                         </label>
                     {% endif %}
                 {% endfor %}
