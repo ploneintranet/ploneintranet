@@ -44,14 +44,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 // @import "libraries/compass/reset";
 @import "libraries/mixins";
 @import "libraries/reset";
-// @import "libraries/web-fonts";
-
-// patterns
-@import "libraries/patterns/auto-suggest";
-@import "libraries/patterns/checklist";
-@import "libraries/patterns/grid";
-@import "libraries/patterns/form";
-@import "libraries/patterns/injection";
+@import "libraries/patterns/patterns";
 
 // components
 @import "components/activity-stream";
