@@ -1,20 +1,11 @@
-.avatar {
-    background-color: transparent;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    width: 26px;
-    height: 26px;
-    img {
-      width: 26px;
-      height: 26px;
-      position: absolute;
-      z-index: 40;
-    }
+.pat-avatar {
+    
 
   	&#user-avatar {
     position: absolute;
     top: 3px;
     right: 25px;
+    width: 1.35em; // override default avatar width
+    height: 1.35em; // override default avatar height
   }
 }
