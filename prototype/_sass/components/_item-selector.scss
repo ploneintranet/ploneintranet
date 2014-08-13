@@ -69,6 +69,10 @@
                 transition: 0.4s border;
             }
 
+            &.user .follow{
+                padding-left: 4em;
+            }
+
             &.folder:after {
                 font-family: fontello;
                 content: '\e4a2';
