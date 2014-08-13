@@ -11,13 +11,17 @@ design_description: "Feedback for the tags search results when 'Eco' input"
         <label class="item tag">
             <!-- only shown if there are no tag matches -->
             <input name="add-new-tag" value="MyNewTag" type="checkbox" />
-            <strong class="title">MyNewTag</strong>
+            <a class="follow">
+                <strong class="title icon-tag">MyNewTag</strong>
+            </a>
         </label>
         {% for tag in site.data.tags %}
             {% if tag.feedback == true %}
                 <label class="item tag">
                     <input name="" type="checkbox" />
-                    <strong class="title">{{ tag.value }}</strong>
+                    <a class="follow">
+                        <strong class="title icon-tag">{{ tag.value }}</strong>
+                    </a>
                 </label>
             {% endif %}
         {% endfor %}
