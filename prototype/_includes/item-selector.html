@@ -1,6 +1,6 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
     <div class="button-bar functions" id="{{ include.id }}-functions">
-        <div class="contextual buttons" id="{{ include.id }}-contextual-functions">
+        <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
         </div>
 
         {% if include.toggle == 'true' %}
@@ -68,7 +68,7 @@
                             <label class="item folder">
                                 <input name="" type="checkbox" />
                                 <a href="/feedback/dir-minutes.html" class="follow pat-inject"
-                                data-pat-inject="source: #items; target: #items && source: #{{ include.id }}-contextual-functions; target: #{{ include.id }}-contextual-functions"
+                                data-pat-inject="source: #items; target: #items && source: #{{ include.id }}-contextual-functions::element; target: #{{ include.id }}-contextual-functions"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
