@@ -24,10 +24,16 @@
                 <!-- Copy of the placeholder. Entire contents of span.text is replaced by the JavaScript once the user starts typing. -->
             </span>
 
-            — <em class="selected-users" id="selected-users">
+            <em class="selected-users" id="selected-users">
+                {% if include.users %}
+                    —
+                {% endif %}
                 {{ include.users }}
             </em>
-            — <em class="selected-tags" id="selected-tags">
+            <em class="selected-tags" id="selected-tags">
+                {% if include.tags %}
+                    —
+                {% endif %}
                 {{ include.tags }}
             </em>
         </p>
