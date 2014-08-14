@@ -16,8 +16,6 @@
 
 .tooltip-container {
   position: absolute;
-  /* changed by flo, to get tooltip above breadcrumps
-      z-index: 1001; */
   z-index: 9998;
   border: none;
   min-height: 50px;
@@ -28,8 +26,8 @@
   -webkit-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-  // font-size: 12px;
-  // line-height: 18px;
+  font-size: 12px;
+  line-height: 18px;
   color: #26292c;
   -webkit-border-radius: 4px;
   width: 300px;
@@ -66,12 +64,9 @@
 
 @media only screen and (max-width: 768px) {
   .tooltip-container {
-    // font-size: 20px;
     width: 100%;
     z-index: 10000;
     position: fixed;
-    max-width: inherit !important;
-    max-height: inherit !important;
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -97,15 +92,6 @@
   }
 }
 
-.lt-ie9 .tooltip-container .pointer {
-  /*border-style: none;
-  background: transparent url(tooltip-ie.png) no-repeat;
-  width: 30px;
-  height: 16px;*/
-  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
-  /* IE8 */
-}
-
 .tooltip-container > div {
   padding: 10px;
   z-index: 1;
@@ -125,10 +111,6 @@
     display: block;
     clear: both;
   }
-}
-
-.lt-ie9 .tooltip-container > div:after {
-  display: none;
 }
 
 .tooltip-container {
@@ -195,10 +177,6 @@
   }
 }
 
-// Menus
-
-/* @group Menus */
-
 .tooltip-container ul.menu {
   margin: 0;
   list-style-type: none;
@@ -232,12 +210,6 @@
       float: left;
       margin-top: 5px;
     }
-  }
-}
-
-.lt-ie9 .tooltip-container ul.menu li {
-  a:before, button:before {
-    display: none;
   }
 }
 
@@ -312,4 +284,3 @@
     }
   }
 }
-
