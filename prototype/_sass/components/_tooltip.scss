@@ -31,20 +31,69 @@
   color: #26292c;
   -webkit-border-radius: 4px;
   width: 300px;
+
   > button.close-panel {
     display: none;
+  }
+
+  &.bl .pointer, &.bm .pointer, &.br .pointer {
+    margin-top: -12px;
+  }
+  &.lt .pointer, &.lm .pointer, &.lb .pointer {
+    margin-left: 12px;
+  }
+  &.tl .pointer, &.tm .pointer, &.tr .pointer {
+    margin-top: 12px;
+  }
+  &.rt .pointer, &.rm .pointer, &.rb .pointer {
+    margin-left: -12px;
+  }
+  &.lt .pointer, &.rt .pointer {
+    margin-top: 20px;
+  }
+  &.lb .pointer, &.rb .pointer {
+    margin-top: -20px;
+  }
+  &.tl .pointer, &.bl .pointer {
+    margin-left: 20px;
+  }
+  &.tr .pointer, &.br .pointer {
+    margin-left: -20px;
+  }
+  h4 {
+    color: #3b3b3b;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  
+  &.event {
+    width: 550px;
+    .panel-body fieldset {
+      &.vertical {
+        width: 530px;
+        display: block;
+        overflow: hidden;
+      }
+      &.row {
+        width: 510px;
+      }
+    }
   }
 
   .close-panel.iconified {
     display: none;
   }
 
-  fieldset.condensed label, form.condensed label {
-    margin-bottom: 18px;
+  .item-selector {
+    position: static;
   }
-  fieldset.condensed, form.condensed fieldset {
-    margin: 0 0 18px;
+
+  .button-bar.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
+
   .pointer {
     height: 20px;
     width: 20px;
@@ -110,70 +159,6 @@
     content: "";
     display: block;
     clear: both;
-  }
-}
-
-.tooltip-container {
-  &.bl .pointer, &.bm .pointer, &.br .pointer {
-    margin-top: -12px;
-  }
-  &.lt .pointer, &.lm .pointer, &.lb .pointer {
-    margin-left: 12px;
-  }
-  &.tl .pointer, &.tm .pointer, &.tr .pointer {
-    margin-top: 12px;
-  }
-  &.rt .pointer, &.rm .pointer, &.rb .pointer {
-    margin-left: -12px;
-  }
-  &.lt .pointer, &.rt .pointer {
-    margin-top: 20px;
-  }
-  &.lb .pointer, &.rb .pointer {
-    margin-top: -20px;
-  }
-  &.tl .pointer, &.bl .pointer {
-    margin-left: 20px;
-  }
-  &.tr .pointer, &.br .pointer {
-    margin-left: -20px;
-  }
-  h4 {
-    color: #3b3b3b;
-    font-size: 12px;
-    line-height: 18px;
-  }
-  &.event {
-    width: 550px;
-    .panel-body fieldset {
-      &.vertical {
-        width: 530px;
-        display: block;
-        overflow: hidden;
-      }
-      &.row {
-        width: 510px;
-      }
-    }
-    .select2-container-multi .select2-choices {
-      width: 100%;
-    }
-  }
-  &.wizard! > div {}
-  .wizard-box {
-    padding: 0;
-    height: 100%;
-  }
-  .panel-body {
-    overflow: hidden;
-    padding: 0;
-  }
-  .panel-footer {
-    background-color: #efefef;
-    padding: 10px;
-    margin-left: -10px;
-    margin-bottom: -10px;
-    margin-right: -10px;
   }
 }
 

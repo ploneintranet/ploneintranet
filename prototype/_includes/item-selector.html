@@ -20,8 +20,7 @@
         </label>
     </form>
 
-    <form class="search-result {{ include.mode }} pat-inject"
-    {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
+    <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
             {% if include.mode == "users" %}
@@ -82,10 +81,11 @@
             {% endif %}
 
         </fieldset>
-        <div class="button-bar form-submit">
-            <button type="submit" class="close-panel">Save</button>
-            <button type="reset" class="close-panel">Cancel</button>
-        </div>
-
+        {% unless include.autosubmit == 'true' %}
+            <div class="button-bar bottom form-submit pat-bumper">
+                <button type="submit" class="close-panel">Save</button>
+                <button type="reset" class="close-panel">Cancel</button>
+            </div>  
+        {% endunless %}
     </form>
 </div>
