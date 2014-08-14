@@ -29,12 +29,19 @@
 
     .content-mirror {
         margin-bottom: -100%;
+
         .text {
             .placeholder {
                 font-style: normal;
                 color: gray
             }
             
+        }
+
+        .selected-users,
+        .selected-tags {
+            position: relative;
+            z-index: 2;
         }
     }
 
@@ -52,6 +59,7 @@
         }
         cursor: default;
         position: absolute;
+        z-index: 2;
         height: 1.5em;
         right: 0.5em;
         top: 0.6em;
