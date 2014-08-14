@@ -28,11 +28,8 @@
     }
 
     .content-mirror {
-        z-index: 0;
-        position: absolute;
-
+        margin-bottom: -100%;
         .text {
-
             .placeholder {
                 font-style: normal;
                 color: gray
@@ -42,7 +39,9 @@
     }
 
     &.status-active textarea,
-    &.status-attach textarea {
+    &.status-attach textarea,
+    &.status-active .content-mirror,
+    &.status-attach .content-mirror {
       height: 5.5em;
     }
 
