@@ -1,57 +1,99 @@
-
-
 /* @group Form */
 
-input[type="text"],
-input[type="password"],
-input[type="search"],
-input[type="email"],
-textarea,
-input[type="file"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="color"],
-.select2-container-multi .select2-choices,
-input[type="file"] {
-	-webkit-appearance: none;
-	padding-left: 4px;
-	display: inline-block;
-	// cursor: text; // TODO Remove and let the browser/developer use this when required - not even https://github.com/necolas/normalize.css/blob/master/normalize.css uses it 
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-right: 0;
-	margin-left: 0;
-	user-select: text;
-	max-width: 100%;
-	// font: 1em/1.5 Verdana, "Lucida Grande", Lucida, sans-serif;
-	background-color: rgba(0,0,0,0.05);
-	border: 1px solid silver;
-	border: 1px solid rgba(0,0,0,0.2);
-	color: inherit;
-	/*vertical-align: baseline;*/
-	/*transition: all 0.2s;*/
-
-	// @group TODO Hardcoded, reference variables once created
-	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-	font-size: 100%;
-	line-height: 150%; // Set to $base-line-height to take on browser default of 150%
-	// @end TODO Hardcoded, reference variables once created
+input {
+  &[type="text"], 
+  &[type="password"], 
+  &[type="search"], 
+  &[type="email"],
+  &[type="file"], 
+  &[type="date"], 
+  &[type="month"], 
+  &[type="time"], 
+  &[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    padding-left: 4px;
+    display: inline-block;
+    cursor: text;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    user-select: text;
+    max-width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: inherit;
+    vertical-align: baseline;
+    font-size: 100%;
+    line-height: 150%;
+  }
 }
 
-input:disabled,
-textarea:disabled  {
-	border: transparent;
-	opacity: 1;
-	padding: 0;
-	background-color: transparent;
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-left: 4px;
+  display: inline-block;
+  cursor: text;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  user-select: text;
+  max-width: 100%;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid silver;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: inherit;
+  vertical-align: baseline;
+  font-size: 100%;
+  line-height: 150%;
 }
 
-.lt-ie9 input.select2-input {
-	max-width: none;
+input {
+  &[type="file"] {
+    -webkit-appearance: none;
+    appearance: none;
+    padding-left: 4px;
+    display: inline-block;
+    cursor: text;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    user-select: text;
+    max-width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid silver;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: inherit;
+    vertical-align: baseline;
+    font-size: 100%;
+    line-height: 150%;
+  }
+  &:disabled {
+    border: transparent;
+    opacity: 1;
+    padding: 0;
+    background-color: transparent;
+  }
+}
+
+textarea:disabled {
+  border: transparent;
+  opacity: 1;
+  padding: 0;
+  background-color: transparent;
 }
 
 /*input[type="text"].pat-autosuggest {
@@ -59,149 +101,181 @@ textarea:disabled  {
 	transition: none;
 }*/
 
-.lt-ie9 input,
-.lt-ie9 textarea {
-	border: 1px solid rgba(0,0,0,0.2);
-}
-
-.lt-ie10 input[type="text"],
-.lt-ie10 input[type="password"],
-.lt-ie10 input[type="search"],
-.lt-ie10 input[type="email"],
-.lt-ie10 .select2-container,
-.lt-ie10 input[type="file"] {
-	height: 21px;
-}
-
-.lt-ie10 .large input[type="text"],
-.lt-ie10 .large input[type="password"],
-.lt-ie10 .large input[type="search"],
-.lt-ie10 .large input[type="email"],
-.lt-ie10 .large .select2-container,
-.lt-ie10 .large input[type="file"],
-.lt-ie10 input[type="text"].large {
-	height: 40px;
+.lt-ie10 {
+  input {
+    &[type="text"], &[type="password"], &[type="search"], &[type="email"] {
+      height: 21px;
+    }
+  }
+  .select2-container, input[type="file"] {
+    height: 21px;
+  }
+  .large {
+    input {
+      &[type="text"], &[type="password"], &[type="search"], &[type="email"] {
+        height: 40px;
+      }
+    }
+    .select2-container, input[type="file"] {
+      height: 40px;
+    }
+  }
+  input[type="text"].large {
+    height: 40px;
+  }
 }
 
 h2 input[type="search"] {
-	font-size: 16px;
+  font-size: 16px;
 }
 
-input.block,textarea.block {
-	width: 100%;
+input.block, textarea.block {
+  width: 100%;
 }
 
-input[type="text"].dark,
-input[type="password"].dark,
-input[type="search"].dark,
-textarea.dark,
-.application-portal .header input[type="text"],
-.application-portal .header input[type="password"],
-.application-portal .header input[type="search"],
-.application-portal .header textarea {
-	border-radius: 20px;
-	background-color: #1f2028;
-	color: white;
-	outline: 1px solid #474954;
+input {
+  &[type="text"].dark, &[type="password"].dark, &[type="search"].dark {
+    border-radius: 20px;
+    background-color: #1f2028;
+    color: white;
+    outline: 1px solid #474954;
+  }
 }
 
-input[type="text"].dark:focus,
-input[type="password"].dark:focus,
-input[type="search"].dark:focus,
-textarea.dark:focus,
-.application-portal .header input[type="text"]:focus,
-.application-portal .header input[type="password"]:focus,
-.application-portal .header input[type="search"]:focus,
-.application-portal .header textarea:focus {
-	outline: silver;
+textarea.dark {
+  border-radius: 20px;
+  background-color: #1f2028;
+  color: white;
+  outline: 1px solid #474954;
 }
 
-.lt-ie9 input[type="text"],
-.lt-ie9 input[type="password"],
-.lt-ie9 input[type="search"]
- {
-	height: 22px;
+.application-portal .header {
+  input {
+    &[type="text"], &[type="password"], &[type="search"] {
+      border-radius: 20px;
+      background-color: #1f2028;
+      color: white;
+      outline: 1px solid #474954;
+    }
+  }
+  textarea {
+    border-radius: 20px;
+    background-color: #1f2028;
+    color: white;
+    outline: 1px solid #474954;
+  }
+}
+
+input {
+  &[type="text"].dark:focus, &[type="password"].dark:focus, &[type="search"].dark:focus {
+    outline: silver;
+  }
+}
+
+textarea.dark:focus {
+  outline: silver;
+}
+
+.application-portal .header {
+  input {
+    &[type="text"]:focus, &[type="password"]:focus, &[type="search"]:focus {
+      outline: silver;
+    }
+  }
+  textarea:focus {
+    outline: silver;
+  }
+}
+
+.lt-ie9 input {
+  &[type="text"], &[type="password"], &[type="search"] {
+    height: 22px;
+  }
 }
 
 textarea {
-	box-sizing: border-box;
-	margin-bottom: 1px;
-	width: 100%;
-	cursor: text;
-	padding-top: 5px;
-	padding-bottom: 5px;
+  box-sizing: border-box;
+  margin-bottom: 1px;
+  width: 100%;
+  cursor: text;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
-input[type="text"].large {
-	font-size: 30px;
-	line-height: 40px;
-}
-
-input[type="file"] {
-	margin-left: 0px !important;
-	background-image: none;
-	background-color: transparent;
-	border-style: none;
+input {
+  &[type="text"].large {
+    font-size: 30px;
+    line-height: 40px;
+  }
+  &[type="file"] {
+    margin-left: 0px !important;
+    background-image: none;
+    background-color: transparent;
+    border-style: none;
+  }
 }
 
 /* @group Select */
 
 select {
-	-webkit-appearance: none;
-    appearance: none;
-    -moz-appearance: none;
-    /*Next 2 lines is a bizarre patch to make misbehaving FF hide the original dropdown button*/
-    text-indent: 0.01px;
-    text-overflow: '';
-    height: 24;
-	margin: 0 5px 0 0;
-	border: 1px solid rgba(0,0,0,0.32);
-	color: rgba(0,0,0,0.6);
-	border-radius: 4px;
-	text-decoration: none !important;
-	line-height: 1.5;
-	display: inline-block;
-	padding-top: 0;
-	padding-left: 1em;
-	padding-right: 2em;
-	font-size: 0.9em;
-	background-color: #fafafa ;
-	background-repeat: no-repeat;
-	background-position: right center;
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
-}
-
-select:active option {
-	color: black;
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  /*Next 2 lines is a bizarre patch to make misbehaving FF hide the original dropdown button*/
+  text-indent: 0.01px;
+  text-overflow: '';
+  height: 24;
+  margin: 0 5px 0 0;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  color: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  text-decoration: none !important;
+  line-height: 1.5;
+  display: inline-block;
+  padding-top: 0;
+  padding-left: 1em;
+  padding-right: 2em;
+  font-size: 0.9em;
+  background-color: #fafafa;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
+  &:active option {
+    color: black;
+  }
 }
 
 .lt-ie10 select {
-	padding-right: 2px;
-	min-height: 21px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	height: 19px;
+  padding-right: 2px;
+  min-height: 21px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  height: 19px;
 }
 
 .lt-ie9 select {
-	min-height: 17px;
-	height: 17px;
-	border: 1px solid gray;
+  min-height: 17px;
+  height: 17px;
+  border: 1px solid gray;
 }
 
-.application-portal #content select,
-ul.cal-events label[data-option="Confirmed"] select,
-ul.cal-events label[data-option="Declined"] select,
-ul.cal-events label[data-option="Tentative"] select,
-#document-body div.metadata .quick-functions span[data-option='Private'] select,
-#document-body div.metadata .quick-functions span[data-option='Workspace Members Only'] select,
-#document-body div.metadata .quick-functions span[data-option='Public'] select,
-#document-body div.metadata .quick-functions span[data-option='Star only'] select,
-#document-body div.metadata .quick-functions span[data-option='Pending review'] select,
-#document-body div.metadata .quick-functions span[data-option='Logged in only'] select,
-#document-body div.metadata .quick-functions span[data-option='Internal'] select {
-	color: white;
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
+.application-portal #content select {
+  color: white;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
+}
+
+ul.cal-events label {
+  &[data-option="Confirmed"] select, &[data-option="Declined"] select, &[data-option="Tentative"] select {
+    color: white;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
+  }
+}
+
+#document-body div.metadata .quick-functions span {
+  &[data-option='Private'] select, &[data-option='Workspace Members Only'] select, &[data-option='Public'] select, &[data-option='Star only'] select, &[data-option='Pending review'] select, &[data-option='Logged in only'] select, &[data-option='Internal'] select {
+    color: white;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAgLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiIFsNCgk8IUVOVElUWSBuc19mbG93cyAiaHR0cDovL25zLmFkb2JlLmNvbS9GbG93cy8xLjAvIj4NCl0+DQo8c3ZnIHZlcnNpb249IjEuMSINCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM6YT0iaHR0cDovL25zLmFkb2JlLmNvbS9BZG9iZVNWR1ZpZXdlckV4dGVuc2lvbnMvMy4wLyINCgkgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjEwcHgiIHZpZXdCb3g9IjAgLTEuNDk2IDEyIDEwIiBvdmVyZmxvdz0idmlzaWJsZSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIC0xLjQ5NiAxMiAxMCINCgkgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8ZGVmcz4NCjwvZGVmcz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMCwwIDQuMjA1LDcuMDA5IDguNDEsMCAiLz4NCjwvc3ZnPg0K);
+  }
 }
 
 /* @end */
@@ -254,42 +328,36 @@ select:after {
 	overflow: hidden;
 }*/
 
-
-
 /* @end */
 
 /* @group recaptcha */
 
 #recaptcha_widget_div {
-	clear: left;
+  clear: left;
 }
 
 /* end */
-
-
 
 /* @end */
 
 /* @group Date & time */
 
-.date-eu {
-
+.date-eu input {
+  &.day {
+    width: 29px;
+  }
+  &.year {
+    width: 45px;
+  }
 }
 
-.date-eu input.day {
-	width: 29px;
-}
-
-.date-eu input.year {
-	width: 45px;
-}
-
-input[type="date"] {
-	width: 154px;
-}
-
-input[type="time"] {
-	min-width: 70px;
+input {
+  &[type="date"] {
+    width: 154px;
+  }
+  &[type="time"] {
+    min-width: 70px;
+  }
 }
 
 /* @end */
@@ -297,103 +365,132 @@ input[type="time"] {
 /* @group Checkmarks */
 
 .checklist {
-	margin: 0 0 1em;
+  margin: 0 0 1em;
+  &.tablesque {
+    border-top: 1px solid silver;
+    label {
+      border-bottom: 1px solid silver;
+      padding-left: 30px;
+    }
+  }
+  .checklist {
+    margin-bottom: -2px;
+    border-style: none;
+  }
+  .jump {
+    float: right;
+    position: absolute;
+    top: 0.45em;
+    right: 5px;
+  }
+  legend, p.legend {
+    font-weight: normal;
+    font-style: normal;
+  }
+  label {
+    display: block;
+    width: auto !important;
+    margin-bottom: 0 !important;
+    float: none;
+    margin-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    position: relative;
+    padding-left: 1.3em;
+  }
 }
 
-.checklist.tablesque {
-	border-top: 1px solid silver;
+label {
+  &.checkbox, &.checked, &.unchecked {
+    position: relative;
+    padding-left: 1.3em;
+  }
 }
 
-.checklist.tablesque label {
-	border-bottom: 1px solid silver;
-	padding-left: 30px;
+.checklist {
+  label.disabled {
+    color: silver;
+    color: rgba(0, 0, 0, 0.4);
+  }
+  input {
+    &[type="radio"], &[type="checkbox"] {
+      opacity: 0;
+      filter: alpha(opacity = 0);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 
-.checklist .checklist {
-	margin-bottom: -2px;
-	border-style: none;
+.checkbox > input[type="checkbox"] {
+  opacity: 0;
+  filter: alpha(opacity = 0);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.checklist .jump {
-	float: right;
-	position: absolute;
-	top: 0.45em;
-	right: 5px;
+label {
+  &.checked input[type="checkbox"], &.unchecked input[type="checkbox"] {
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
-.checklist legend,
-.checklist p.legend {
-	font-weight: normal;
-	font-style: normal;
-}
-
-.checklist label {
-	display: block;
-	width: auto !important;
-	margin-bottom: 0 !important;
-	float: none;
-	margin-left: 0;
-	padding-right: 0;
-	margin-right: 0;
-	position: relative;
-	padding-left: 1.3em;
-}
-
-label.checkbox,
-label.checked,
-label.unchecked {
-	position: relative;
-	padding-left: 1.3em;
-}
-
-.checklist label.disabled {
-	color: silver;
-	color: rgba(0,0,0,0.4);
-}
-
-.checklist input[type="radio"],
-.checklist input[type="checkbox"],
-.checkbox > input[type="checkbox"],
-label.checked input[type="checkbox"],
-label.unchecked input[type="checkbox"]  {
-	opacity: 0;
-	filter: alpha(opacity=0);
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-.tooltip-container .checklist input[type="radio"],
-.tooltip-container .checklist input[type="checkbox"],
-.tooltip-container .checkbox > input[type="checkbox"]  {
-	filter: alpha(opacity=100);
-}
-
-.checklist label:before,
-label.checkbox:before,
-label.checked:before,
-label.unchecked:before {
-	content: '\f096';
-	font-family: fontello;
-	width: 1em;
-	display: inline-block;
-	margin-left: -1.3em;
-	font-weight: normal!important;
-	font-style: normal;
-}
-
-.lt-ie9 .tooltip-container .checklist label:before,
-.lt-ie9 .tooltip-container label.checkbox:before {
-	display: none;
+.tooltip-container {
+  .checklist input {
+    &[type="radio"], &[type="checkbox"] {
+      filter: alpha(opacity = 100);
+    }
+  }
+  .checkbox > input[type="checkbox"] {
+    filter: alpha(opacity = 100);
+  }
 }
 
 .checklist label:before {
-	float: left;
+  content: '\f096';
+  font-family: fontello;
+  width: 1em;
+  display: inline-block;
+  margin-left: -1.3em;
+  font-weight: normal!important;
+  font-style: normal;
 }
 
-.checklist label.checked:before,
+label {
+  &.checkbox:before, &.checked:before, &.unchecked:before {
+    content: '\f096';
+    font-family: fontello;
+    width: 1em;
+    display: inline-block;
+    margin-left: -1.3em;
+    font-weight: normal!important;
+    font-style: normal;
+  }
+}
+
+.lt-ie9 .tooltip-container {
+  .checklist label:before, label.checkbox:before {
+    display: none;
+  }
+}
+
+.checklist label {
+  &:before {
+    float: left;
+  }
+  &.checked:before {
+    content: '\2611';
+  }
+}
+
 label.checked:before {
-	content: '\2611';
+  content: '\2611';
 }
 
 // .checklist label.focus:before,
@@ -404,319 +501,326 @@ label.checked:before {
 // }
 
 @media only screen and (min-width: 767px) {
-
-.horizontal label.checkbox:before {
-	padding-left: 0;
+  .horizontal label.checkbox {
+    &:before {
+      padding-left: 0;
+    }
+    padding-left: 0;
+  }
 }
 
-.horizontal label.checkbox {
-	padding-left: 0;
-} }
-
-.checklist.radio label:before {
-	content: '\f10c';
-	font-family: fontello;
-}
-
-.checklist.radio label.checked:before {
-	content: '\e702';
-}
-
-.checklist fieldset.composed {
-	padding-left: 0 !important;
-	margin-bottom: 0;
-	position: relative;
-}
-
-.checklist fieldset.composed.disabled {
-	opacity: 0.2;
-}
-
-.checklist fieldset.composed.disabled * {
-	user-select: none;
-}
-
-.checklist .checklist label {
-	padding-left: 50px;
-
-}
-
-.checklist .composed > select,
-.checklist .composed > span[data-option] {
-	position: absolute;
-	top: 6px;
-	right: 40px;
-	font-size: 14px;
-	display: none;
-}
-
-.checklist .composed.checked > select,
-.checklist .composed.checked > span[data-option] {
-	display: inline-block;
-}
-
-.checklist .checklist .checklist label {
-	padding-left: 70px;
-}
-
-.checklist.tablesque label:hover {
-	background-color: #efefef;
-}
-
-.checklist.tablesque label.checked,
-.checklist.tablesque fieldset.composed.checked > *:after {
-	background-color: #5bb75b;
-	color: white;
-	text-shadow: #000000 0px 0 0px;
-}
-
-.checklist.tablesque input[type="checkbox"] {
-	float: left;
-	margin-left: -2em;
-}
-
-.checklist.tablesque .checked > a ,
-.checklist.tablesque .checked > select {
-	color: white;
-}
-
-.checklist a.iconified {
-	float: right;
-	text-decoration: none;
+.checklist {
+  &.radio label {
+    &:before {
+      content: '\f10c';
+      font-family: fontello;
+    }
+    &.checked:before {
+      content: '\e702';
+    }
+  }
+  fieldset.composed {
+    padding-left: 0 !important;
+    margin-bottom: 0;
+    position: relative;
+    &.disabled {
+      opacity: 0.2;
+      * {
+        user-select: none;
+      }
+    }
+  }
+  .checklist label {
+    padding-left: 50px;
+  }
+  .composed {
+    > {
+      select, span[data-option] {
+        position: absolute;
+        top: 6px;
+        right: 40px;
+        font-size: 14px;
+        display: none;
+      }
+    }
+    &.checked > {
+      select, span[data-option] {
+        display: inline-block;
+      }
+    }
+  }
+  .checklist .checklist label {
+    padding-left: 70px;
+  }
+  &.tablesque {
+    label {
+      &:hover {
+        background-color: #efefef;
+      }
+      &.checked {
+        background-color: #5bb75b;
+        color: white;
+        text-shadow: #000000 0px 0 0px;
+      }
+    }
+    fieldset.composed.checked > *:after {
+      background-color: #5bb75b;
+      color: white;
+      text-shadow: #000000 0px 0 0px;
+    }
+    input[type="checkbox"] {
+      float: left;
+      margin-left: -2em;
+    }
+    .checked > {
+      a, select {
+        color: white;
+      }
+    }
+  }
+  a.iconified {
+    float: right;
+    text-decoration: none;
+  }
 }
 
 /* @end */
 
 /* @group Patterns fieldsets */
 
-fieldset,
-div.field {
-	border-style: none;
-	margin: 0 0 1em;
-	min-width: 0;
+fieldset, div.field {
+  border-style: none;
+  margin: 0 0 1em;
+  min-width: 0;
 }
 
 @media only screen and (min-width: 768px) {
-
-/* @group Fieldset horizontal */
-
-.horizontal {
-	width: 100%;
+  /* @group Fieldset horizontal */
+  .horizontal {
+    width: 100%;
+    .legend {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      font-weight: bold;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    > label {
+      position: relative;
+      float: left;
+      padding-right: 65%;
+      width: 35%;
+      left: 0;
+      padding-top: 1px;
+      margin-bottom: 1em;
+      > {
+        *, select {
+          position: relative;
+          vertical-align: top;
+          max-width: 170%;
+          left: 100%;
+          margin-right: -200%;
+          margin-left: 0;
+          float: left;
+        }
+      }
+      &.checkbox:before, &[data-option]:after {
+        position: relative;
+        vertical-align: top;
+        max-width: 170%;
+        left: 100%;
+        margin-right: -200%;
+        margin-left: 0;
+        float: left;
+      }
+    }
+    label {
+      .iconified {
+        float: none;
+        position: static;
+        line-height: 10px;
+        margin-top: 0;
+        vertical-align: baseline;
+        filter: none;
+      }
+      sup.required {
+        float: none;
+        position: static;
+        line-height: 10px;
+        margin-top: 0;
+        vertical-align: baseline;
+        filter: none;
+        line-height: 20px;
+        margin: 0;
+      }
+      textarea {
+        width: 170%;
+      }
+    }
+    .comprehensive textarea {
+      width: 100%;
+    }
+    fieldset {
+      &.group {
+        width: 65%;
+        clear: left;
+        border-style: none;
+        margin: 0 0 1em;
+        padding-left: 35%;
+        position: relative;
+        padding-bottom: 0;
+        padding-top: 0;
+        legend {
+          position: absolute;
+          left: 0;
+          font-weight: normal;
+          font-style: normal;
+          top: 0;
+        }
+        label {
+          font-weight: normal;
+          font-style: normal;
+          position: static;
+          border-style: none;
+          width: auto;
+          float: none;
+        }
+        &:not(.checklist)! label {}
+        .legend {
+          width: 48% !important;
+          display: inline;
+          text-align: left;
+          padding: 0;
+          position: relative;
+          float: left;
+          font-weight: normal;
+          font-style: normal;
+          margin: 0 0 0 -54%;
+          text-transform: none;
+          letter-spacing: 0;
+        }
+      }
+      &.button-bar {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+  }
+  /* @group Multiple elements */
+  /* @end */
+  /* @end */
 }
-
-.horizontal .legend {
-	width: auto;
-	margin: 0;
-	padding: 0;
-	font-weight: bold;
-	letter-spacing: 0;
-	text-transform: none;
-}
-
-.horizontal  > label {
-	position: relative;
-	float: left;
-	padding-right: 65%;
-	width: 35%;
-	left: 0;
-	padding-top: 1px;
-	margin-bottom: 1em;
-}
-
-.horizontal > label>*,
-.horizontal > label>select,
-.horizontal > label.checkbox:before,
-.horizontal > label[data-option]:after {
-	position: relative;
-	vertical-align: top;
-	max-width: 170%;
-	left: 100%;
-	margin-right: -200%;
-	margin-left: 0;
-	float: left;
-}
-
-.horizontal label .iconified,
-.horizontal label sup.required {
-	float: none;
-	position: static;
-	line-height: 10px;
-	margin-top: 0;
-	vertical-align: baseline;
-	filter:none;
-}
-
-.horizontal label sup.required {
-	line-height: 20px;
-	margin: 0;
-}
-
-.horizontal label textarea {
-	width: 170%;
-}
-
-.horizontal .comprehensive textarea {
-	width: 100%;
-}
-
-/* @group Multiple elements */
-
-.horizontal fieldset.group {
-	width: 65%;
-	clear: left;
-	border-style: none;
-	margin: 0 0 1em;
-	padding-left: 35%;
-	position: relative;
-	padding-bottom: 0;
-	padding-top: 0;
-}
-
-.horizontal fieldset.group legend {
-	position: absolute;
-	left: 0;
-	font-weight: normal;
-	font-style: normal;
-	top: 0;
-}
-
-.horizontal fieldset.group label {
-	font-weight: normal;
-	font-style: normal;
-	position: static;
-	border-style: none;
-	width: auto;
-	float: none;
-}
-
-.horizontal fieldset.group:not(.checklist) label {
-
-}
-
-.horizontal fieldset.group .legend {
-	width: 48% !important;
-	display: inline;
-	text-align: left;
-	padding: 0;
-	position: relative;
-	float: left;
-	font-weight: normal;
-	font-style: normal;
-	margin: 0 0 0 -54%;
-	text-transform: none;
-	letter-spacing: 0;
-}
-
-.horizontal fieldset.button-bar {
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-
-/* @end */
-
-/* @end */ }
 
 /* @group Fieldset vertical */
 
 fieldset.vertical {
-	width: 100%;
+  width: 100%;
 }
 
-.vertical fieldset .legend {
-	font-weight: normal;
-	font-style: normal;
+.vertical {
+  fieldset .legend {
+    font-weight: normal;
+    font-style: normal;
+  }
+  label {
+    font-weight: bold;
+    display: block;
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  fieldset {
+    .legend, legend {
+      font-weight: bold;
+      display: block;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+  }
+  .group label {
+    font-weight: normal;
+    font-style: normal;
+  }
+  label {
+    margin-bottom: 1em;
+  }
+  > br {
+    display: none;
+  }
+  input, select {
+    clear: both;
+    display: block;
+  }
 }
 
-.vertical label,
-.vertical fieldset .legend,
-.vertical fieldset legend {
-	font-weight: bold;
-	display: block;
-	font-size: 12px;
-	margin-bottom: 0;
-}
-
-.vertical .group label {
-	font-weight: normal;
-	font-style: normal;
-}
-
-.vertical label {
-	margin-bottom: 1em;
-}
-
-.vertical > br {
-	display: none;
-}
-
-.vertical input,
-.vertical select,
 .select2-container {
-	clear: both;
-	display: block;
+  clear: both;
+  display: block;
 }
 
-.vertical input[type="checkbox"] {
-	clear: none;
-	display: inline;
-}
-
-.vertical fieldset.group input,
-.vertical fieldset.group select {
-	clear: none;
-	display: inline;
-}
-
-.vertical p {
-	margin-bottom: 0;
-	font-weight: normal;
-	font-style: normal;
+.vertical {
+  input[type="checkbox"] {
+    clear: none;
+    display: inline;
+  }
+  fieldset.group {
+    input, select {
+      clear: none;
+      display: inline;
+    }
+  }
+  p {
+    margin-bottom: 0;
+    font-weight: normal;
+    font-style: normal;
+  }
 }
 
 @media only screen and (max-width: 767px) {
-
-.horizontal fieldset .legend {
-	font-weight: normal;
-	font-style: normal;
+  .horizontal {
+    fieldset .legend {
+      font-weight: normal;
+      font-style: normal;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 0;
+    }
+    fieldset {
+      .legend, legend {
+        font-weight: bold;
+        display: block;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 0;
+      }
+    }
+    label {
+      margin-bottom: 1em;
+    }
+    > br {
+      display: none;
+    }
+    input, select {
+      clear: both;
+      display: block;
+    }
+    fieldset.group {
+      input, select {
+        clear: none;
+        display: inline;
+      }
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
 }
-
-.horizontal label,
-.horizontal fieldset .legend,
-.horizontal fieldset legend {
-	font-weight: bold;
-	display: block;
-	font-size: 12px;
-	color: rgba(0,0,0,0.5);
-	margin-bottom: 0;
-}
-
-.horizontal label {
-	margin-bottom: 1em;
-}
-
-.horizontal > br {
-	display: none;
-}
-
-.horizontal input,
-.horizontal select {
-	clear: both;
-	display: block;
-}
-
-.horizontal fieldset.group input,
-.horizontal fieldset.group select {
-	clear: none;
-	display: inline;
-}
-
-.horizontal p {
-	margin-bottom: 0;
-} }
 
 /* @end */
-
-
 
 /* @end */
 
@@ -724,262 +828,327 @@ fieldset.vertical {
 
 /* @group Fieldsets */
 
-fieldset,
-div.field {
-	border-style: none;
-	margin: 0 0 1em;
+fieldset, div.field {
+  border-style: none;
+  margin: 0 0 1em;
 }
 
 /* @group User and group select */
 
-.userandgroupselect .buttons {
-	display: inline-block;
+.userandgroupselect {
+  .buttons {
+    display: inline-block;
+  }
+  input[type="button"] {
+    display: inline-block;
+    font-size: 10px;
+    line-height: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 
-.userandgroupselect input[type="button"],
-.querySelectSearch .searchButton
- {
-	display: inline-block;
-	font-size: 10px;
-	line-height: 10px;
-	padding-left: 5px;
-	padding-right: 5px;
+.querySelectSearch {
+  .searchButton {
+    display: inline-block;
+    font-size: 10px;
+    line-height: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
-
-
 
 /* @end */
 
 /* @group Select search */
 
-.querySelectSearch {
-	margin-bottom: 20px;
-	margin-top: 20px;
-}
-
-
-
 /* @end */
 
 /* @group Fieldset Concise */
 
-fieldset.concise,
-form.concise fieldset {
-	clear: left;
-	position: relative;
+fieldset.concise, form.concise fieldset {
+  clear: left;
+  position: relative;
 }
 
-fieldset.concise p.question,
-form.concise fieldset p.question,
-fieldset.concise legend,
-form.concise fieldset legend {
-	width: auto;
-	margin: 0;
-	padding: 0;
-	font-weight: bold;
-	letter-spacing: 0;
-	text-transform: none;
+fieldset.concise p.question, form.concise fieldset p.question, fieldset.concise legend, form.concise fieldset legend {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-fieldset.concise label,
-form.concise label {
-	position: relative;
-	float: left;
-	padding-right: 65%;
-	width: 35%;
-	left: 0;
-	margin-bottom: 10px;
-	padding-top: 1px;
+fieldset.concise label {
+  position: relative;
+  float: left;
+  padding-right: 65%;
+  width: 35%;
+  left: 0;
+  margin-bottom: 10px;
+  padding-top: 1px;
 }
 
-
-form.concise fieldset label *,
-fieldset.concise label *,
-form.concise fieldset label *,
-fieldset.concise label *,
-.concise label.checkbox:before {
-	position: relative;
-	vertical-align: top;
-	max-width: 133%;
-	left: 100%;
-	margin-right: -200%;
-	margin-left: 0;
-	float: left;
+form.concise {
+  label {
+    position: relative;
+    float: left;
+    padding-right: 65%;
+    width: 35%;
+    left: 0;
+    margin-bottom: 10px;
+    padding-top: 1px;
+  }
+  fieldset label * {
+    position: relative;
+    vertical-align: top;
+    max-width: 133%;
+    left: 100%;
+    margin-right: -200%;
+    margin-left: 0;
+    float: left;
+  }
 }
 
-form.concise fieldset label sup.required,
-fieldset.concise label sup.required,
-form.concise fieldset label sup.required,
-fieldset.concise label sup.required {
-	float: none;
-	position: static;
-	line-height: 20px;
-	margin: 0;
+fieldset.concise label *, form.concise fieldset label *, fieldset.concise label *, .concise label.checkbox:before {
+  position: relative;
+  vertical-align: top;
+  max-width: 133%;
+  left: 100%;
+  margin-right: -200%;
+  margin-left: 0;
+  float: left;
 }
 
-form.concise fieldset label input[type=checkbox],
-fieldset.concise label input[type=checkbox] {
-	top: 3px;
+form.concise fieldset label sup.required, fieldset.concise label sup.required, form.concise fieldset label sup.required, fieldset.concise label sup.required {
+  float: none;
+  position: static;
+  line-height: 20px;
+  margin: 0;
+}
+
+form.concise fieldset label input[type=checkbox], fieldset.concise label input[type=checkbox] {
+  top: 3px;
 }
 
 form.concise fieldset label select {
-	top: 1px;
+  top: 1px;
 }
 
 .concise label textarea {
-	width: 170%;
+  width: 170%;
 }
 
-.comprehensive textarea {
-	width: 100%;
+.comprehensive {
+  textarea {
+    width: 100%;
+  }
+  width: 65%;
+  clear: left;
+  border-style: none;
+  margin: 0;
+  margin-bottom: 10px;
+  padding-left: 35%;
+  padding-bottom: 0;
+  position: relative;
+  padding-top: 1px;
+  fieldset {
+    width: 65%;
+    clear: left;
+    border-style: none;
+    margin: 0;
+    margin-bottom: 10px;
+    padding-left: 35%;
+    padding-bottom: 0;
+    position: relative;
+    padding-top: 1px;
+  }
 }
 
 /* @end */
 
 /* @group Fieldset Comprehensive */
 
-.comprehensive,
-.comprehensive fieldset,
-.concise fieldset.comprehensive,
-.compact fieldset.comprehensive {
-	width: 65%;
-	clear: left;
-	border-style: none;
-	margin: 0;
-	margin-bottom: 10px;
-	padding-left: 35%;
-	padding-bottom: 0;
-	position: relative;
-	padding-top: 1px;
+.concise fieldset.comprehensive, .compact fieldset.comprehensive {
+  width: 65%;
+  clear: left;
+  border-style: none;
+  margin: 0;
+  margin-bottom: 10px;
+  padding-left: 35%;
+  padding-bottom: 0;
+  position: relative;
+  padding-top: 1px;
 }
 
-fieldset.comprehensive legend {
-	position: absolute;
-	left: 0;
-	font-weight: normal;
-	font-style: normal;
-	top: 0;
+fieldset.comprehensive {
+  legend {
+    position: absolute;
+    left: 0;
+    font-weight: normal;
+    font-style: normal;
+    top: 0;
+  }
+  label {
+    font-weight: normal;
+    font-style: normal;
+    position: static;
+    margin: 0;
+    border-style: none;
+    width: auto;
+    padding: 0;
+    float: none;
+  }
 }
 
-fieldset.comprehensive label,
-form.comprehensive fieldset label,
-form.concise fieldset.comprehensive label,
-form.compact fieldset.comprehensive label {
-	font-weight: normal;
-	font-style: normal;
-	position: static;
-	margin: 0;
-	border-style: none;
-	width: auto;
-	padding: 0;
-	float: none;
+form {
+  &.comprehensive fieldset label, &.concise fieldset.comprehensive label, &.compact fieldset.comprehensive label {
+    font-weight: normal;
+    font-style: normal;
+    position: static;
+    margin: 0;
+    border-style: none;
+    width: auto;
+    padding: 0;
+    float: none;
+  }
 }
 
-.concise fieldset.comprehensive,
-.condensed fieldset.comprehensive {
-	border-bottom-style: none;
-	margin: 0 0 10px;
-	padding-bottom: 0 !important;
-	padding-top: 1px;
-	height: auto;
+.concise fieldset.comprehensive, .condensed fieldset.comprehensive {
+  border-bottom-style: none;
+  margin: 0 0 10px;
+  padding-bottom: 0 !important;
+  padding-top: 1px;
+  height: auto;
 }
 
-fieldset.comprehensive label *,
-form.comprehensive fieldset label *,
-form.concise fieldset.comprehensive label *,
-form.compact fieldset.comprehensive label * {
-	position: static !important;
-	margin: 0;
-	float: none;
+fieldset.comprehensive label * {
+  position: static !important;
+  margin: 0;
+  float: none;
 }
 
-fieldset.comprehenisve input[type="radio"],
-.concise fieldset.comprehensive input[type="radio"] {
-	margin-top: 3px;
+form {
+  &.comprehensive fieldset label *, &.concise fieldset.comprehensive label *, &.compact fieldset.comprehensive label * {
+    position: static !important;
+    margin: 0;
+    float: none;
+  }
 }
 
-fieldset.comprehenisve input[type="checkbox"],
-.concise fieldset.comprehensive input[type="checkbox"] {
-	margin-top: 3px;
+fieldset.comprehenisve input[type="radio"], .concise fieldset.comprehensive input[type="radio"], fieldset.comprehenisve input[type="checkbox"], .concise fieldset.comprehensive input[type="checkbox"] {
+  margin-top: 3px;
 }
 
-fieldset.comprehensive p.question,
-form.comprehensive fieldset p.question,
-fieldset.comprehensive p.legend,
-form.comprehensive fieldset p.legend,
-form.concise fieldset.comprehensive p.question,
-form.compact fieldset.comprehensive p.question {
-	width: 48% !important;
-	display: inline;
-	text-align: left;
-	padding: 0;
-	position: relative;
-	float: left;
-	font-weight: normal;
-	font-style: normal;
-	color: black;
-	margin: 0 0 0 -54%;
-	text-transform: none;
-	letter-spacing: 0;
+fieldset.comprehensive p.question, form.comprehensive fieldset p.question, fieldset.comprehensive p.legend {
+  width: 48% !important;
+  display: inline;
+  text-align: left;
+  padding: 0;
+  position: relative;
+  float: left;
+  font-weight: normal;
+  font-style: normal;
+  color: black;
+  margin: 0 0 0 -54%;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
-fieldset.comprehensive label a.floatAfter {
-	float: right;
-	margin-right: 22px;
+form {
+  &.comprehensive fieldset p.legend, &.concise fieldset.comprehensive p.question, &.compact fieldset.comprehensive p.question {
+    width: 48% !important;
+    display: inline;
+    text-align: left;
+    padding: 0;
+    position: relative;
+    float: left;
+    font-weight: normal;
+    font-style: normal;
+    color: black;
+    margin: 0 0 0 -54%;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+
+fieldset {
+  &.comprehensive label a.floatAfter {
+    float: right;
+    margin-right: 22px;
+  }
+  &.condensed {
+    clear: left;
+    border-style: none;
+    margin: 0 0 20px;
+  }
 }
 
 /* @end */
 
 /* @group Fieldset Condensed */
 
-fieldset.condensed,
 form.condensed fieldset {
-	clear: left;
-	border-style: none;
-	margin: 0 0 20px;
+  clear: left;
+  border-style: none;
+  margin: 0 0 20px;
 }
 
-fieldset.condensed label,
-form.condensed label {
-	font-weight: normal;
-	font-style: normal;
-	display: block;
+fieldset.condensed label, form.condensed label {
+  font-weight: normal;
+  font-style: normal;
+  display: block;
 }
 
-fieldset.condensed p.question {
-	width: auto;
-	margin: 0;
-	letter-spacing: 0;
-	text-transform: none;
+fieldset.condensed {
+  p.question {
+    width: auto;
+    margin: 0;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  label input {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
 }
 
-fieldset.condensed label input,
-form.condensed fieldset label input,
-fieldset.condensed label textarea {
-	margin-bottom: 0;
-	margin-top: 0;
+form.condensed fieldset label input {
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
-fieldset.condensed fieldset p.question {
-	font-weight: normal;
-	font-style: normal;
+fieldset.condensed {
+  label textarea {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  fieldset p.question {
+    font-weight: normal;
+    font-style: normal;
+  }
 }
 
-.concise p.question,
-.concise p.legend {
-	width: 95%;
-	font-weight: bold;
-	color: #3f3f3f;
-	margin-bottom: 20px;
-	margin-top: 0;
-	text-transform: uppercase;
-	letter-spacing: 1px;
+.concise p {
+  &.question, &.legend {
+    width: 95%;
+    font-weight: bold;
+    color: #3f3f3f;
+    margin-bottom: 20px;
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 }
 
-.condensed p.question,
-.condensed p.legend {
-	font-weight: bold;
-	margin-bottom: 0;
+.condensed p {
+  &.question, &.legend {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
 }
 
 /* @end */
@@ -989,96 +1158,117 @@ fieldset.condensed fieldset p.question {
 /* @group Radio List */
 
 .radio-list {
-	margin: 0 0 20px;
+  margin: 0 0 20px;
 }
 
 .comprehensive.radio-list legend {
-	font-weight: normal;
-	font-style: normal;
+  font-weight: normal;
+  font-style: normal;
 }
 
-fieldset.radio-list label,
-fieldset.comprehensive.radio-list label,
+fieldset {
+  &.radio-list label, &.comprehensive.radio-list label {
+    display: block;
+    padding-left: 20px;
+    margin: 0;
+  }
+}
+
 form.concise fieldset.comprehensive.radio-list label {
-	display: block;
-	padding-left: 20px;
-	margin: 0;
+  display: block;
+  padding-left: 20px;
+  margin: 0;
 }
 
-.radio-list label input[type="radio"],
-fieldset.comprehensive.radio-list label input[type="radio"] {
-	margin-left: -20px;
-	float: left;
+.radio-list label input[type="radio"], fieldset.comprehensive.radio-list label input[type="radio"] {
+  margin-left: -20px;
+  float: left;
 }
 
-.lt-ie9 .radio-list label input[type="radio"],
-fieldset.comprehensive.radio-list label input[type="radio"] {
-	margin-top: 6px;
+.lt-ie9 .radio-list label input[type="radio"], fieldset.comprehensive.radio-list label input[type="radio"] {
+  margin-top: 6px;
 }
 
 /* @end */
 
 /* @group Radio Row */
 
-.radioRow {
-
+.radioRow label, label.radioRow {
+  display: inline;
+  width: auto !important;
+  float: left;
+  padding-right: 10px !important;
 }
 
-.radioRow label,
-label.radioRow {
-	display: inline;
-	width: auto !important;
-	float: left;
-	padding-right: 10px !important;
-}
-
-.radioRow input,
-label.radioRow input {
-	margin-top: 4px;
-	margin-right: 5px;
-	margin-bottom: 0;
-	position: static !important;
+.radioRow input, label.radioRow input {
+  margin-top: 4px;
+  margin-right: 5px;
+  margin-bottom: 0;
+  position: static !important;
 }
 
 /* @end */
 
 /* @group Input Row */
 
-ul.inputRow,
-ol.inputRow {
-	display: inline;
-	margin-top: 0;
-	padding-top: 0;
-	margin-left: 0;
-	padding-left: 0;
-	list-style-type: none !important;
+ul.inputRow, ol.inputRow {
+  display: inline;
+  margin-top: 0;
+  padding-top: 0;
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none !important;
 }
 
 /* @end */
 
 /* @group Input List */
 
-ul.inputList,
-ol.inputList,
-ol.radioList,
-ul.radioList,
-ol.check-list,
-ul.check-list {
-	margin-top: 0;
-	padding-top: 0;
-	margin-left: 0;
-	padding-left: 0;
-	list-style-type: none !important;
+ul.inputList {
+  margin-top: 0;
+  padding-top: 0;
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none !important;
 }
 
-ul.inputList li,
-ol.radioList li,
-ul.radioList li,
-ol.check-list li,
-ul.check-list li {
-	margin-left: 0;
-	padding-left: 0;
-	display: block;
+ol {
+  &.inputList, &.radioList {
+    margin-top: 0;
+    padding-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none !important;
+  }
+}
+
+ul.radioList, ol.check-list {
+  margin-top: 0;
+  padding-top: 0;
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none !important;
+}
+
+ul {
+  &.check-list {
+    margin-top: 0;
+    padding-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none !important;
+  }
+  &.inputList li {
+    margin-left: 0;
+    padding-left: 0;
+    display: block;
+  }
+}
+
+ol.radioList li, ul.radioList li, ol.check-list li, ul.check-list li {
+  margin-left: 0;
+  padding-left: 0;
+  display: block;
 }
 
 /* @end */
@@ -1086,124 +1276,117 @@ ul.check-list li {
 /* @group Check List */
 
 .check-list {
-	list-style-type: none !important;
-	margin: 0 0 20px;
-	padding-bottom: 4px !important;
+  list-style-type: none !important;
+  margin: 0 0 20px;
+  padding-bottom: 4px !important;
+  label {
+    display: block;
+    width: auto !important;
+    padding-left: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: auto;
+    user-select: none;
+  }
 }
 
-.check-list label,
-html>body fieldset.comprehensive.check-list label {
-	display: block;
-	width: auto !important;
-	padding-left: 20px;
-	-webkit-user-select: none;
-	-moz-user-select: auto;
-	user-select: none;
+html > body fieldset.comprehensive.check-list label {
+  display: block;
+  width: auto !important;
+  padding-left: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: auto;
+  user-select: none;
 }
 
 fieldset.check-list label input[type="checkbox"] {
-	float: left;
-	margin-left: -20px;
-	margin-top: 7px;
+  float: left;
+  margin-left: -20px;
+  margin-top: 7px;
 }
 
 .portlet .check-list input {
-	margin-top: 3px;
+  margin-top: 3px;
 }
 
-.check-list .column-1-of-3,
-.check-list .column-2-of-3,
-.check-list .column-3-of-3 {
-	padding: 0;
-	float: left;
-	width: 140px;
-	clear: none;
-	font-size: 10px;
+.check-list {
+  .column-1-of-3, .column-2-of-3, .column-3-of-3 {
+    padding: 0;
+    float: left;
+    width: 140px;
+    clear: none;
+    font-size: 10px;
+  }
 }
 
 /* @end */
 
 /* @group Check Row */
 
-ol.checkRow li,
-ul.checkRow li,
-ol.radioRow li,
-ul.radioRow li {
-	float: none;
-	margin-left: 0;
-	padding-left: 0;
-	display: inline;
+ol.checkRow li, ul.checkRow li, ol.radioRow li, ul.radioRow li {
+  float: none;
+  margin-left: 0;
+  padding-left: 0;
+  display: inline;
 }
 
-ol.checkRow li label,
-ul.checkRow li label,
-ol.radioRow li label,
-ul.radioRow li label {
-	display: inline;
+ol.checkRow li label, ul.checkRow li label, ol.radioRow li label, ul.radioRow li label {
+  display: inline;
 }
 
 /* @end */
-
-
 
 /* @end */
 
 /* @group Hyperlink title */
 
-input.hyperlink.title {
-	width: 100%;
+input.hyperlink {
+  &.title {
+    width: 100%;
+  }
+  width: 100%;
 }
-
-
 
 /* @end */
 
 /* @group Hyperlink */
-
-input.hyperlink {
-	width: 100%;
-}
-
-
 
 /* @end */
 
 /* @group Info panels */
 
 .concise .infoPanel {
-	margin-left: -16px;
-	z-index: 1000;
-	position: absolute;
-	left: 100%;
-	top: auto;
-	margin-top: 3px;
-}
-
-.concise .infoPanel.open {
-	margin-top: 27px;
+  margin-left: -16px;
+  z-index: 1000;
+  position: absolute;
+  left: 100%;
+  top: auto;
+  margin-top: 3px;
+  &.open {
+    margin-top: 27px;
+  }
 }
 
 .comprehensive .infoPanel {
-	top: 0;
-	margin-left: -16px;
+  top: 0;
+  margin-left: -16px;
+  &.open {
+    z-index: 999;
+  }
 }
 
-.comprehensive .infoPanel.open,
 .concise .infoPanel.open {
-	z-index: 999;
+  z-index: 999;
 }
 
 fieldset.richInput .infoPanel {
-	top: -1px;
+  top: -1px;
 }
 
 /* Next statement is to compensate for Firefox' absolute positioning behaviour where it counts in the padding with the positioning */
 
 html.gecko .comprehensive .infoPanel {
-	left: 65%;
+  left: 65%;
 }
-
-
 
 /* @end */
 
