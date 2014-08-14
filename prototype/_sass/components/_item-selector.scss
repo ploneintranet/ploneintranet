@@ -85,8 +85,8 @@
                 right: 1em;
                 top: 50%;
                 margin-top: -0.7em;
-                -webkit-transition: 0.2s all;
-                transition: 0.2s all;
+                -webkit-transition: 0.4s all;
+                transition: 0.4s all;
             }
 
             img {
@@ -183,7 +183,8 @@
     &.mode-select {
         .search-result fieldset .item {
             &.folder:after {
-                content: '';
+                right: -1em;
+                opacity: 0;
             }
             .follow {
                 border-left: 2.25em solid #efefef;
