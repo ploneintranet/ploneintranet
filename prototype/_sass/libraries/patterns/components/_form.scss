@@ -10,6 +10,7 @@ input {
   &[type="month"], 
   &[type="time"], 
   &[type="color"] {
+    font-family: $body-font-family;
     -webkit-appearance: none;
     appearance: none;
     padding-left: 4px;
@@ -34,6 +35,7 @@ input {
 }
 
 textarea {
+   font-family: $body-font-family;
   -webkit-appearance: none;
   appearance: none;
   padding-left: 4px;
