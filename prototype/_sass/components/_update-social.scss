@@ -2,10 +2,11 @@
     position: relative;
     background-color: #fcfcfc;
 
-    textarea {
+    textarea,
+    .content-mirror {
         padding-right: 2em;
         padding-left: 1em;
-        // KLUDGE Create padding to prevent text and icon conflict
+        padding-top: 0.2em;
         float: left;
         height: 2.3em;
         border: none;
@@ -14,9 +15,29 @@
         -webkit-transition: height 0.4s;
         -moz-transition: height 0.4s;
         transition: height 0.4s; 
+
         &:focus {
           outline: none;
           box-shadow: none;
+        }
+    }
+
+    textarea {
+        position: relative;
+        z-index: 1;
+    }
+
+    .content-mirror {
+        z-index: 0;
+        position: absolute;
+
+        .text {
+
+            .placeholder {
+                font-style: normal;
+                color: gray
+            }
+            
         }
     }
 
@@ -134,5 +155,3 @@
       }
     }
 }
-
-.update-social__content-mirror{}
