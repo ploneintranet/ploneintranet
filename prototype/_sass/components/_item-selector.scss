@@ -8,6 +8,13 @@
         box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
     }
 
+    .functions {
+        text-align: center;
+        .context-title{
+            display: inline;
+        }
+    }
+
     .search-box {
         position: relative;
         margin-bottom: 1.5em;

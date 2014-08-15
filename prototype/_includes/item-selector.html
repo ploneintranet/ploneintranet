@@ -1,7 +1,17 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
     <div class="button-bar functions" id="{{ include.id }}-functions">
+        {% if include.mode == "docs" %}
         <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
+            <a href="#" class="button icon-left-open pat-inject"
+            data-pat-inject="source: #items; target: #items &&
+            source: #selector-contextual-functions; target: #selector-contextual-functions &&
+            source: #context-title; target: #context-title">
+                Parent Title
+            </a>
         </div>
+
+        <h2 id="context-title" class="context-title">Some Context</h2>
+        {% endif %}
 
         {% if include.toggle == 'true' %}
             <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</button>
@@ -67,7 +77,9 @@
                             <label class="item folder">
                                 <input name="" type="checkbox" />
                                 <a href="/feedback/dir-minutes.html" class="follow pat-inject"
-                                data-pat-inject="source: #items; target: #items && source: #{{ include.id }}-contextual-functions::element; target: #{{ include.id }}-contextual-functions"
+                                data-pat-inject="source: #items; target: #items &&
+                                source: #{{ include.id }}-contextual-functions; target: #{{ include.id }}-contextual-functions &&
+                                source: #context-title; target: #context-title"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
@@ -85,7 +97,7 @@
             <div class="button-bar bottom form-submit pat-bumper">
                 <button type="submit" class="close-panel">Save</button>
                 <button type="reset" class="close-panel">Cancel</button>
-            </div>  
+            </div>
         {% endunless %}
     </form>
 </div>
