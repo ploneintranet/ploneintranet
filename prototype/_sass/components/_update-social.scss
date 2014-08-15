@@ -10,11 +10,11 @@
         float: left;
         height: 2.3em;
         border: none;
-        background: transparent; 
+        background: transparent;
         resize: none;
         -webkit-transition: height 0.4s;
         -moz-transition: height 0.4s;
-        transition: height 0.4s; 
+        transition: height 0.4s;
 
         &:focus {
           outline: none;
@@ -28,20 +28,26 @@
     }
 
     .content-mirror {
+        color: transparent;
+        font-family: inherit;
+        cursor: default;
+        text-align: start;
+        white-space: pre-wrap;
+        vertical-align: text-bottom;
+        overflow-x: scroll;
+        width: 100%;
+        box-sizing: border-box;
         margin-bottom: -100%;
-
-        .text {
-            .placeholder {
-                font-style: normal;
-                color: gray
-            }
-            
+        .text .placeholder {
+            font-style: normal;
+            color: gray
         }
 
         .selected-users,
         .selected-tags {
             position: relative;
             z-index: 2;
+            color: #222;
         }
     }
 
@@ -74,7 +80,7 @@
     .attachments {
       clear: both;
       margin: 0;
-      
+
       .attachment-previews {
           margin: 0;
           clear: both;
@@ -85,7 +91,7 @@
           overflow: auto;
           white-space: nowrap;
           transition: all 0.6s;
-          
+
           img {
             height: 100%;
             display: inline-block;
@@ -97,7 +103,7 @@
 
 
 
-    &.status-attach 
+    &.status-attach
     .attachment-previews {
       height: 100px;
       padding: 1em;

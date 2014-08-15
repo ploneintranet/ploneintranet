@@ -17,26 +17,12 @@
         });
     </script>
     <fieldset>
-        <p class="content-mirror">
-            <!-- p.mirror is placed behind the textarea by means of CSS. Text mutations in the textarea are automatically copied over to span.text -->
-            <span class="text">
-                <em class="placeholder">Leave a comment</em>
-                <!-- Copy of the placeholder. Entire contents of span.text is replaced by the JavaScript once the user starts typing. -->
-            </span>
-
-            <em class="selected-users" id="selected-users">
-                {% if include.users %}
-                    —
-                {% endif %}
-                {{ include.users }}
-            </em>
-            <em class="selected-tags" id="selected-tags">
-                {% if include.tags %}
-                    —
-                {% endif %}
-                {{ include.tags }}
-            </em>
-        </p>
+        <p class="content-mirror"
+            ><span class="text"
+                ><em class="placeholder">Leave a comment</em></span
+            ><em class="selected-users" id="selected-users">{% if include.users %} — {% endif %}{{ include.users }}</em
+            ><em class="selected-tags" id="selected-tags">{% if include.tags %} — {% endif %}{{ include.tags }}</em
+        ></p>
         <textarea placeholder="Leave a comment" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
         <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
