@@ -64,17 +64,13 @@
                 padding: 0.5em 1.5em 0.5em 3em;
                 position: relative;
                 z-index: -1;
-                border-left: 0 solid #efefef;
+                border-left: 2.25em solid #efefef;
                 -webkit-transition: 0.4s border;
                 transition: 0.4s border;
             }
 
             &.user .follow{
                 padding-left: 4em;
-            }
-
-            &.folder .follow{
-                padding-right: 2.5em;
             }
 
 
@@ -176,6 +172,8 @@
             }
             .follow {
                 z-index: 0;
+                border-left: 0 solid #efefef;
+                padding-right: 2.5em;
             }
         }
     }
@@ -187,7 +185,7 @@
                 opacity: 0;
             }
             .follow {
-                border-left: 2.25em solid #efefef;
+
             }
         }
     }
