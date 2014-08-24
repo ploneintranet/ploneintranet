@@ -18,7 +18,6 @@ label.pat-select.bare {
   &:hover,&.focus { color: black }
 }
 
-
 label.pat-select.bare:after {
   content: attr(data-option) ' ▼';
   box-shadow: none !important;
