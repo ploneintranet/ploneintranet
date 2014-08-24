@@ -15,6 +15,17 @@
       width: 2.8em;
       height: 2.8em;
     }
+
+    .byline { 
+      color: gray;
+
+      label.pat-select.visibility {
+        color: gray;
+        &:hover {color:black}
+
+        &:before {font-size: 0.8em;}
+      }
+    }
   } 
 
   .post-content {
