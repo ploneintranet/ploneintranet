@@ -24,11 +24,6 @@ label.pat-select.bare:after {
   box-shadow: none !important;
 }
 
-label.pat-select.bare:before {
-  font-family: "fontello";
-  content: "\1f465";
-}
-
 label.pat-select.bare select {
   opacity: 0;
   line-height: 1.5em;
