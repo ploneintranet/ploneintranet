@@ -1,0 +1,26 @@
+.post {
+  .post-header {
+    padding: 0 0 0 3.5em;
+    position: relative;
+    height: 3.5em;
+
+    .pat-avatar {
+      position: absolute;
+      left: 0;
+      width: 2.8em;
+      height: 2.8em;
+    }
+  } 
+
+  .post-content {
+    p,ul,ol,dl,table,pre {
+      margin: 0 0 1em 0;
+    }
+  } 
+
+  .preview {
+    img {
+      max-width: 100%;
+    }
+  }
+}

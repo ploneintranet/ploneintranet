@@ -1,0 +1,30 @@
+<div class="post">
+	<div class="post-header">
+		<a href="#">
+			{% include patterns/avatar.html img="/media/avatar-jeff-peters.jpg" %}
+			<h4 class="name">
+				{{ include.name }}
+			</h4>
+		</a>
+		<p class="byline">
+			<em class="action">Posted</em> <time>2 hours ago</time> | <a class="visibility public">Public</a>
+		</p>
+	</div>
+	<section class="post-content">
+		<p>
+			Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+		</p>
+	</section>
+	<section class="preview">
+		<figure>
+			<img src="http://lorempixel.com/600/300/business" alt="" />
+		</figure>
+	</section>
+	<div class="functions">
+		<a href="#">Share</a>
+		<a href="#">Like</a>
+	</div>
+	<div class="comments">
+		{% include update-social.html %}
+	</div>
+</div>
