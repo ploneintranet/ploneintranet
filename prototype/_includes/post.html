@@ -20,11 +20,11 @@
 			<img src="http://lorempixel.com/600/300/business" alt="" />
 		</figure>
 	</section>
-	<div class="functions">
-		<a href="#">Share</a>
-		<a href="#">Like</a>
-	</div>
+	<p class="functions">
+		<a href="#">Share <sup class="counter">(8)</sup></a>
+		<a href="#">Like <sup class="counter">(3)</sup></a>
+	</p>
 	<div class="comments">
-		{% include update-social.html id="mypost" %}
+		{% include update-social.html id="mypost" visibility="false" %}
 	</div>
 </div>
