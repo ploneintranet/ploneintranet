@@ -120,34 +120,8 @@
       transition: all 0.4s;
 
       label.visibility {
-        position: relative;
         color: #666;
-        overflow: hidden;
         &:hover,&.focus { color: black }
-      }
-
-      label.visibility:after {
-        content: attr(data-option) ' ▼';
-        box-shadow: none !important;
-      }
-
-      label.visibility:before {
-        font-family: "fontello";
-        content: "\1f465";
-      }
-
-      label.visibility select {
-        // -webkit-appearance: none;
-        // -moz-appearance: none;
-        // appearance: none;
-        // border: none;
-        // background-color: transparent;
-        // padding: 0;
-        opacity: 0;
-        line-height: 1.5em;
-        font-size: 1em;
-        position: absolute;
-        right: 0;
       }
 
       .icon-users, button, label.visibility {
