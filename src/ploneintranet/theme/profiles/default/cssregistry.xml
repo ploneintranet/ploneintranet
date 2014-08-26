@@ -9,7 +9,8 @@
               media="screen"
               rel="stylesheet"
               rendering="import"
-              expression="" />
+              expression="python:request.getHeader('X-Theme-Enabled') and not request.response.getHeader('X-Theme-Disabled')"
+              applyPrefix="True" />
   <stylesheet title=""
               cacheable="True"
               compression="safe"
@@ -19,5 +20,6 @@
               media="screen"
               rel="stylesheet"
               rendering="import"
-              expression="" />
+              expression="python:request.getHeader('X-Theme-Enabled') and not request.response.getHeader('X-Theme-Disabled')"
+              applyPrefix="True" />
 </object>
