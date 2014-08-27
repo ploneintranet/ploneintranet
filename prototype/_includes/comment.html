@@ -1,0 +1,22 @@
+<div class="comment">
+	<div class="comment-header">
+		<a href="#">
+			{% include patterns/avatar.html img="/media/avatar-adrian-white.png" %}
+			<h4 class="name">
+				{{ include.name }}
+			</h4>
+		</a>
+	</div>
+	<section class="comment-content">
+		<p>
+			Totam rem <a href="#" class="tag">#aperiam</a>, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae <a title="Jeff Peters" href="#">@jeffpeters</a> dicta sunt explicabo. <time class="date">5 minutes ago</time>
+		</p>
+	</section>
+	{% if include.preview %}
+		<section class="preview">
+			<figure>
+				<img src="{{include.preview}}" alt="" />
+			</figure>
+		</section>
+	{% endif %}
+</div>
