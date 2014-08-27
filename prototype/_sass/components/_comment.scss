@@ -1,26 +1,13 @@
 .comment {
 	position: relative;
 	padding-left: 2.5em;
-	padding-top: 2em;
 	margin-bottom: 1em;
 	min-height: 2em;
-
-	&:before {
-		content: " ";
-		display: block;
-		background-color: silver;
-		height: 0.05em;
-		width: 60%;
-		margin: 0 0 0 -30%;
-		position: absolute;
-		left: 50%;
-		top: 1em;
-	}
 
 	.pat-avatar {
 		position: absolute;
 		left: 0;
-		top: 2.6em;
+		top: 0.6em;
 	}
 	
 	.comment-content,

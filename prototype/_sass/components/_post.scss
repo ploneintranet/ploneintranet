@@ -65,6 +65,38 @@
     background-color: #efefef;
     margin: 0 -1em -1em;
     padding: 1em;
+
+    .comment {
+      padding-top: 2em;
+
+      .pat-avatar {
+        top: 2.6em;
+      }
+
+      &:before {
+        content: " ";
+        display: block;
+        background-color: silver;
+        height: 0.05em;
+        width: 60%;
+        margin: 0 0 0 -30%;
+        position: absolute;
+        left: 50%;
+        top: 1em;
+      }
+
+      &:first-child {
+        padding-top: 0;
+
+        .pat-avatar {
+          top: 0.4em;
+        }
+
+        &:before {
+          display: none;
+        }
+      }
+    }
   }
 
   .update-social fieldset {
