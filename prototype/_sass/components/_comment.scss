@@ -3,6 +3,7 @@
 	padding-left: 2.5em;
 	padding-top: 2em;
 	margin-bottom: 1em;
+	min-height: 2em;
 
 	&:before {
 		content: " ";
@@ -35,7 +36,7 @@
 
 	.comment-header {
 		.name {
-			float: left;
+			display: inline-block;
 			padding-right: 0.15em;
 
 			&:after {

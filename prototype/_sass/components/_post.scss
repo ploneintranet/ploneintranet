@@ -1,5 +1,5 @@
 .post {
-  border: solid 1px silver;
+  border: solid 1px #efefef;
   background-color: white;
   padding: 1em;
   border-top-left-radius: 2.2em;
@@ -59,6 +59,12 @@
       margin: 0 auto;
       display: block;
     }
+  }
+  
+  .comments {
+    background-color: #efefef;
+    margin: 0 -1em -1em;
+    padding: 1em;
   }
 
   .update-social fieldset {
