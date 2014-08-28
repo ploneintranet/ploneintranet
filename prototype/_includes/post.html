@@ -1,10 +1,17 @@
 <div class="post">
 	<div class="post-header">
-		<a href="#">
-			{% capture imageurl %}/media/avatar-{{ item.userid }}.jpg{% endcapture %}
+		<!-- find the user 'post' that remates to the poster's id -->
+		{% for node in site.posts %}
+			{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
+		    {% if  nodeid == item.userid %}
+				{% assign user = node %}
+			{% endif %}
+		{% endfor %}
+		<a href="{{user.id}}">
+			{% capture imageurl %}/media/avatar-{{ user.id | remove: "/" }}.jpg{% endcapture %}
 			{% include patterns/avatar.html img=imageurl %}
 			<h4 class="name">
-				{{ item.name }}
+				{{ user.title }}
 			</h4>
 		</a>
 		<p class="byline">

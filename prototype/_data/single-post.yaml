@@ -1,5 +1,4 @@
-- name: Jeff Peters
-  userid: jeff-peters
+- userid: jon-doe
   activity: posted
   datestamp: 4 minutes ago
   likes: 3
@@ -7,11 +6,9 @@
   text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
   preview: 'http://lorempixel.com/600/300/business'
   comments:
-  - name: Adrian White
-    userid: adrian-white
+  - userid: adrian-white
     datestamp: 3 minutes ago
     text: "Hear hear!"
-  - name: Jon Doe
-    userid: jon-doe
+  - userid: jon-doe
     datestamp: 2 minutes ago
     text: "Totam rem <a href='#' class='tag'>#aperiam</a>, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae <a title='Jeff Peters' href='#'>@jeffpeters</a> dicta sunt explicabo."

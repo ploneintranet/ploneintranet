@@ -1,10 +1,17 @@
 <div class="comment">
+	<!-- find the user 'post' that remates to the poster's id -->
+	{% for node in site.posts %}
+		{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
+		{% if  nodeid == comment.userid %}
+			{% assign user = node %}
+		{% endif %}
+	{% endfor %}
 	<div class="comment-header">
-		<a href="#">
-			{% capture imageurl %}/media/avatar-{{ comment.userid }}.jpg{% endcapture %}
+		<a href="{{ user.id }}">
+			{% capture imageurl %}/media/avatar-{{ user.id | remove: "/" }}.jpg{% endcapture %}
 			{% include patterns/avatar.html img=imageurl %}
 			<h4 class="name">
-				{{ comment.name }}
+				{{ user.title }}
 			</h4>
 			<time class="date">{{ comment.datestamp }}</time>
 		</a>
