@@ -5,7 +5,7 @@
   likes: 3
   shares: 8
   text: "This is my impressive statement"
-  preview: '/media/my-preview.jpg'
+  preview: 'http://lorempixel.com/600/300/business'
   comments:
     - name: Adrian White
       userid: adrian-white
@@ -25,7 +25,7 @@
   preview: '/media/preview_thumb_1.jpg'
   comments:
     - name: Corrine Bedow
-      userid: corine-beddow
+      userid: corinne-bedow
       datestamp: 8 minutes ago
       text: "OH YES!"
     - name: John Doe
