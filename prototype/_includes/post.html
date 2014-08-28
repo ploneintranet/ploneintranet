@@ -53,6 +53,6 @@
 		{% for comment in item.comments %}
 			{% include comment.html %}
 		{% endfor %}
+		{% include update-social.html id="mypost" visibility="false" %}
 	</div>
-	{% include update-social.html id="mypost" visibility="false" %}
 </div>
