@@ -1,0 +1,34 @@
+- name: Jeff Peters
+  userid: jeff-peters
+  activity: posted
+  datestamp: 4 minutes ago
+  likes: 3
+  shares: 8
+  text: "This is my impressive statement"
+  preview: '/media/my-preview.jpg'
+  comments:
+    - name: Adrian White
+      userid: adrian-white
+      datestamp: 3 minutes ago
+      text: "Hear hear!"
+    - name: John Doe
+      userid: jon-doe
+      datestamp: 2 minutes ago
+      text: "+1"
+- name: Joan Baker
+  userid: joan-baker
+  activity: posted
+  datestamp: 9 minutes ago
+  likes: 2
+  shares: 3
+  text: "This is my non-impressive statement"
+  preview: '/media/preview_thumb_1.jpg'
+  comments:
+    - name: Corrine Bedow
+      userid: corine-beddow
+      datestamp: 8 minutes ago
+      text: "OH YES!"
+    - name: John Doe
+      userid: jon-doe
+      datestamp: 6 minutes ago
+      text: "Do it now!"
