@@ -14,10 +14,10 @@
 			{{ comment.text }}
 		</p>
 	</section>
-	{% if include.preview %}
+	{% if comment.preview %}
 		<section class="preview">
 			<figure>
-				<img src="{{include.preview}}" alt="" />
+				<img src="{{comment.preview}}" alt="" />
 			</figure>
 		</section>
 	{% endif %}
