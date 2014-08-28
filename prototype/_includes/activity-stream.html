@@ -1,7 +1,3 @@
-<div class=""><!-- <div class="pin-wall pat-packery"> -->
-    {% for item in site.data.[include.src] %}
-    <div class=""><!-- <div class="item columns-2"> -->
-            {% include post.html %}
-        </div>
-	{% endfor %}
-</div>
+{% for item in site.data.[include.src] %}
+    {% include post.html %}
+{% endfor %}
