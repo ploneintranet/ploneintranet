@@ -40,11 +40,13 @@
 			{{ item.text }}
 		</p>
 	</section>
-	<section class="preview">
-		<figure>
-			<img src="{{ item.preview }}" alt="" />
-		</figure>
-	</section>
+	{% if include.preview %}
+		<section class="preview">
+			<figure>
+				<img src="{{include.preview}}" alt="" />
+			</figure>
+		</section>
+	{% endif %}
 	<p class="functions">
 		<a href="#">Share <sup class="counter">({{ item.shares }})</sup></a>
 		<a href="#">Like <sup class="counter">({{ item.likes }})</sup></a>
