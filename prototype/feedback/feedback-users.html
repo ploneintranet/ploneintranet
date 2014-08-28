@@ -14,7 +14,7 @@ design_description: "Feedback for the search results when 'Cor' input"
                 <label class="item user">
                     <input name="" type="checkbox" />
                     <a href="user.id" class="follow">
-                        <img src="/media/avatar-{{ user.id | remove: "/" }}.png" alt="" />
+                        <img src="{{ user.image_url }}" alt="" />
                         <strong class="title">{{ user.title }}</strong>
                         <br>
                         <dfn class="byline">{{ user.user_role }}</dfn>

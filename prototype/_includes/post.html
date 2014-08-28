@@ -8,8 +8,7 @@
 			{% endif %}
 		{% endfor %}
 		<a href="{{user.id}}">
-			{% capture imageurl %}/media/avatar-{{ user.id | remove: "/" }}.jpg{% endcapture %}
-			{% include patterns/avatar.html img=imageurl %}
+			{% include patterns/avatar.html img=user.image_url %}
 			<h4 class="name">
 				{{ user.title }}
 			</h4>

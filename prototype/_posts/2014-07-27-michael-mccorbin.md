@@ -10,6 +10,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 parent: profiles
 folderish: false
+image_url: /media/avatar-michael-mccorbin.jpg
 ---
 
 Some content goes here on Michael McCorbin

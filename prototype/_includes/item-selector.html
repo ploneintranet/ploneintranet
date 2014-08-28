@@ -39,7 +39,7 @@
                         <label class="item user">
                             <input name="" type="checkbox" />
                             <a class="follow">
-                                <img src="/media/avatar-{{ user.id | remove: "/" }}.jpg" alt="" />
+                                <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
                                 <dfn class="byline">{{ user.user_role }}</dfn>
