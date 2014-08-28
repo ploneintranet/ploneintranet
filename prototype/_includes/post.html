@@ -40,10 +40,10 @@
 			{{ item.text }}
 		</p>
 	</section>
-	{% if include.preview %}
+	{% if item.preview %}
 		<section class="preview">
 			<figure>
-				<img src="{{include.preview}}" alt="" />
+				<img src="{{ item.preview }}" alt="" />
 			</figure>
 		</section>
 	{% endif %}
