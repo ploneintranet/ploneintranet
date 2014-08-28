@@ -1,0 +1,17 @@
+- name: Jeff Peters
+  userid: jeff-peters
+  activity: posted
+  datestamp: 4 minutes ago
+  likes: 3
+  shares: 8
+  text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+  preview: '/media/my-preview.jpg'
+  comments:
+  - name: Adrian White
+    userid: adrian-white
+    datestamp: 3 minutes ago
+    text: "Hear hear!"
+  - name: Jon Doe
+    userid: jon-doe
+    datestamp: 2 minutes ago
+    text: "Totam rem <a href='#' class='tag'>#aperiam</a>, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae <a title='Jeff Peters' href='#'>@jeffpeters</a> dicta sunt explicabo."

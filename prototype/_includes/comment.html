@@ -1,16 +1,17 @@
 <div class="comment">
 	<div class="comment-header">
 		<a href="#">
-			{% include patterns/avatar.html img="/media/avatar-adrian-white.png" %}
+			{% capture imageurl %}/media/avatar-{{ comment.userid }}.jpg{% endcapture %}
+			{% include patterns/avatar.html img=imageurl %}
 			<h4 class="name">
-				{{ include.name }}
+				{{ comment.name }}
 			</h4>
-			<time class="date">5 minutes ago</time>
+			<time class="date">{{ comment.datestamp }}</time>
 		</a>
 	</div>
 	<section class="comment-content">
 		<p>
-			Totam rem <a href="#" class="tag">#aperiam</a>, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae <a title="Jeff Peters" href="#">@jeffpeters</a> dicta sunt explicabo. 
+			{{ comment.text }}
 		</p>
 	</section>
 	{% if include.preview %}

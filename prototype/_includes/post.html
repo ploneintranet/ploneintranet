@@ -1,13 +1,14 @@
 <div class="post">
 	<div class="post-header">
 		<a href="#">
-			{% include patterns/avatar.html img="/media/avatar-jeff-peters.jpg" %}
+			{% capture imageurl %}/media/avatar-{{ item.userid }}.jpg{% endcapture %}
+			{% include patterns/avatar.html img=imageurl %}
 			<h4 class="name">
-				{{ include.name }}
+				{{ item.name }}
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">Posted</em> <time>2 hours ago</time> | 
+			<em class="action">{{ item.activity }}</em> <time>{{ item.datestamp }}</time> |
             <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
@@ -36,7 +37,7 @@
 	</div>
 	<section class="post-content">
 		<p>
-			Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+			{{ item.text }}
 		</p>
 	</section>
 	<section class="preview">
@@ -45,13 +46,13 @@
 		</figure>
 	</section>
 	<p class="functions">
-		<a href="#">Share <sup class="counter">(8)</sup></a>
-		<a href="#">Like <sup class="counter">(3)</sup></a>
+		<a href="#">Share <sup class="counter">({{ item.shares }})</sup></a>
+		<a href="#">Like <sup class="counter">({{ item.likes }})</sup></a>
 	</p>
 	<div class="comments">
-		{% include comment.html %}
-		{% include comment.html %}
-		{% include comment.html %}
-		{% include update-social.html id="mypost" visibility="false" %}
+		{% for comment in item.comments %}
+			{% include comment.html %}
+		{% endfor %}
 	</div>
+	{% include update-social.html id="mypost" visibility="false" %}
 </div>
