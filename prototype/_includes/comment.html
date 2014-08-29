@@ -1,5 +1,5 @@
 <div class="comment">
-	<!-- find the user 'post' that remates to the poster's id -->
+	<!-- find the user 'post' that relates to the poster's id -->
 	{% for node in site.posts %}
 		{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
 		{% if  nodeid == comment.userid %}
