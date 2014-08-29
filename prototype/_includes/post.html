@@ -67,6 +67,7 @@
 		{% for comment in item.comments %}
 			{% include comment.html %}
 		{% endfor %}
-		{% include update-social.html id="mypost" visibility="false" %}
+		{% capture mypostUID %}mypost{{postcount}}{% endcapture %}
+		{% include update-social.html id=mypostUID visibility="false" %}
 	</div>
 </div>

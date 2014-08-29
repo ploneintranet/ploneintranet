@@ -1,3 +1,3 @@
 {% for item in site.data.[include.src] %}
-    {% include post.html %}
+    {% include post.html postcount=forloop.index %}
 {% endfor %}
