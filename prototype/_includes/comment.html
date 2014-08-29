@@ -23,7 +23,13 @@
 	{% if comment.preview %}
 		<section class="preview">
 			<figure>
-				<img src="{{comment.preview}}" alt="" />
+				{% if comment.preview_url %}
+					<a href="{{comment.preview_url}}">
+				{% endif %}
+				<img src="{{comment.preview }}" alt="" />
+				{% if comment.preview_url %}
+					</a>
+				{% endif %}
 			</figure>
 		</section>
 	{% endif %}

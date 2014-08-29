@@ -49,7 +49,13 @@
 	{% if item.preview %}
 		<section class="preview">
 			<figure>
+				{% if item.preview_url %}
+					<a href="{{item.preview_url}}">
+				{% endif %}
 				<img src="{{ item.preview }}" alt="" />
+				{% if item.preview_url %}
+					</a>
+				{% endif %}
 			</figure>
 		</section>
 	{% endif %}
