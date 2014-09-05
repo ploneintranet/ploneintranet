@@ -27,12 +27,15 @@
     "packery": "",
     "pat-packery": "git@github.com:Patternslib/pat-packery.git",
     "patterns.polyfill-date": "git@github.com:syslabcom/patterns.polyfill-date.git",
-    "pat-calendar": "0.0.1",
+    "pat-calendar": "0.0.3",
     "underscore": "1.4.4",
     "backbone": "0.9.10",
-    "tinysort": "git://github.com/Sjeiti/TinySort.git"
+    "tinysort": "git://github.com/Sjeiti/TinySort.git",
+    "patternslib": "2.0.1"
   },
   "resolutions": {
-    "jquery": "1.8.3"
+    "jquery": "1.8.3",
+    "select2": "3.4.6",
+    "parsleyjs": "1.2"
   }
 }
