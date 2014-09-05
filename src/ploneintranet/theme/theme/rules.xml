@@ -33,6 +33,9 @@
   <replace css:content-children="#portal-breadcrumbs"
            css:theme-children="nav.breadcrumbs" />
 
+  <!-- Portal Personal Tools -->
+  <replace css:content-children="#portal-personaltools-wrapper"
+           css:theme="#user-avatar" />
 
   <!-- IMPORTANT NOTE:
        These items are not styled for Plone Intranet at the moment. Instead
