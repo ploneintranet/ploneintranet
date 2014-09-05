@@ -11,7 +11,7 @@ $colour-alert: red;
 $colour-workspace-tabs: #869EBF;
 $colour-accent: #5d91ff;
 
-// Responsive breakpoints: 
+// Responsive breakpoints:
 $mobile:768px;
 
 // Font treatment
@@ -74,3 +74,5 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/update-social";
 @import "components/workspace-name";
 @import "components/workspace-tabs";
+
+@import "libraries/experimental_plone_integration";

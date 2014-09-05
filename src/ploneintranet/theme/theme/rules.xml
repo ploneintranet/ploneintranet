@@ -28,22 +28,29 @@
   <drop css:theme-children="#content"/>
 
   <!-- insert the breadcrumbs into the header bar -->
-<!--
-  <strip css:content="#portal-breadcrumbs span" />
-  This doesn't work for whatever reason. Also the styles assume that every
-  link is clickable. Probably we should override the breadcrumbs template
-  to provide the proper markup
--->
   <drop css:content="#breadcrumbs-you-are-here" />
   <drop css:content=".breadcrumbSeparator" css:if-content=".breadcrumbSeparator" />
   <replace css:content-children="#portal-breadcrumbs"
-          css:theme-children="nav.breadcrumbs" />
+           css:theme-children="nav.breadcrumbs" />
 
 
-  <!-- Temporary navigation rule: Put plone Navigation into theme content -->
-  <append content="//ul[@id='portal-globalnav']/*"
-          theme="//div[@id='content']" />
+  <!-- IMPORTANT NOTE:
+       These items are not styled for Plone Intranet at the moment. Instead
+       they are just shown so that you can 'get around' as a helper
+       the rules are likely to go away again -->
 
+      <!-- Temporary navigation rule: Put plone Navigation into theme content -->
+      <append css:content="#portal-globalnav" css:theme="#content" />
+
+      <!-- plonesocial navigation -->
+      <append css:content="#plonesocial-navigation" css:theme="#content" />
+
+      <!-- Edit Bar -->
+      <append css:content="#edit-bar" css:theme="#content"
+              css:if-content="#edit-bar" />
+
+
+  <!-- /END/ IMPORTANT NOTE -->
 
   <!-- Main content rule: Put plone content into theme content -->
   <append content="//div[@id='content']/*"
