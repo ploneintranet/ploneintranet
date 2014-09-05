@@ -1,0 +1,39 @@
+Installation for Developers
+===========================
+
+We assume you want to do some work on ploneintranet. Here is what you need
+to do to get yourself set up.
+
+* Clone the repository from https://github.com/ploneintranet/ploneintranet.suite
+* Create a virtualenv `virtualenv-2.7 --no-site-packages .`
+* Run bootstrap `bin/python-2.7 bootstrap.py
+* run buildout `bin/buildout -c dev.cfg`
+
+While we are still in development mode and don't have eggs released, you
+  have to make the theme explicitly
+
+**Note**: If you don't have node/npm and ruby/bundler/jekyll available, read
+the "Standalone Installation" under
+https://github.com/ploneintranet/ploneintranet.theme/blob/master/README.rst
+first.
+
+Then
+
+* cd into src/ploneintranet.theme
+* run `make release` to create the compiled theme files within the egg
+  (this would be the contents of the theme egg, once built)
+
+**Note**: Everytime you pull ploneintranet.theme again and expect new javascript or any
+design changes, you probably need to rerun make clean && make.
+
+
+* Start your Plone instance and manually install the package `ploneintranet.theme`
+*
+
+
+
+
+
+Specials:
+
+* Currently I have to deactivate simplesharing.js as it throws an error on non-existing dom element and effectively deactivates the other js.
