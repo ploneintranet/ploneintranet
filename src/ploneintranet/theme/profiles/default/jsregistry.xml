@@ -2,5 +2,5 @@
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
  <javascript authenticated="False" cacheable="True" compression="safe"
     conditionalcomment="" cookable="True" enabled="True" expression=""
-    id="++theme++ploneintranet.theme/prototype/bundles/ploneintranet.js" inline="False"/>
+    id="++theme++ploneintranet.theme/bundles/ploneintranet.js" inline="False"/>
 </object>

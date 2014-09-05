@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
@@ -17,7 +18,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="ploneintranet.theme"
+        title="Plone Intranet: Theme"
         directory="profiles/default"
         description="Extension profile for ploneintranet.theme."
         provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -28,5 +29,11 @@
         type="theme"
         name="ploneintranet.theme"
         />
+    <include package="z3c.jbot" file="meta.zcml" />
+    <interface name="ploneintranet.theme"
+        interface="ploneintranet.theme.interfaces.IThemeSpecific"
+        type="zope.publisher.interfaces.browser.IBrowserSkinType"
+        />
+    <browser:jbot directory="static/overrides" />
 
 </configure>

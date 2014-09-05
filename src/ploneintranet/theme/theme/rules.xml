@@ -2,27 +2,48 @@
 <rules xmlns="http://namespaces.plone.org/diazo"
        xmlns:css="http://namespaces.plone.org/diazo/css"
        xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <replace content='/html/head/title' theme='/html/head/title' />
-  <replace content='/html/head/base' theme='/html/head/base' />
 
-  <theme href="prototype/home.html" css:if-content="#visual-portal-wrapper" />
+  <replace content='/html/head/title' theme='/html/head/title' />
+  <append content='/html/head/base' theme='/html/head' />
+  <copy theme="/html/head/meta" content="/html/head/meta" />
+  <theme href="home.html" css:if-content="#visual-portal-wrapper" />
 
   <!-- Pull in Plone CSS -->
-
   <replace theme="/html/head"
           content="/html/head/link | /html/head/style | /html/head/script" />
 
-  <repalce theme="/html/head">
-    <drop content="/html/head/meta/[@name='viewport']"/>
-    <copy theme="/html/head/meta" content="/html/head/meta" />
-  </repalce>
-
-  <replace theme="/html/head/meta/[@name='viewport']" content="/html/head/meta/[@name='viewport']"/>
+  <!--<replace theme="/html/head/meta/[@name='viewport']" content="/html/head/meta/[@name='viewport']"/>-->
 
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
   <merge attributes="class" css:content="body" css:theme="body" />
   <copy attributes="id dir" css:content="body" css:theme="body" />
+
+
+  <!-- Logo -->
+  <replace css:content-children="#portal-logo" css:theme-children="#site-logo" />
+  <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
+
+  <!-- Cleanup any demo content that comes with the theme -->
+  <drop css:theme-children="#content"/>
+
+  <!-- insert the breadcrumbs into the header bar -->
+<!--
+  <strip css:content="#portal-breadcrumbs span" />
+  This doesn't work for whatever reason. Also the styles assume that every
+  link is clickable. Probably we should override the breadcrumbs template
+  to provide the proper markup
+-->
+  <drop css:content="#breadcrumbs-you-are-here" />
+  <drop css:content=".breadcrumbSeparator" css:if-content=".breadcrumbSeparator" />
+  <replace css:content-children="#portal-breadcrumbs"
+          css:theme-children="nav.breadcrumbs" />
+
+
+  <!-- Temporary navigation rule: Put plone Navigation into theme content -->
+  <append content="//ul[@id='portal-globalnav']/*"
+          theme="//div[@id='content']" />
+
 
   <!-- Main content rule: Put plone content into theme content -->
   <append content="//div[@id='content']/*"
