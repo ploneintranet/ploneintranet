@@ -6,6 +6,9 @@ design_description: The homepage of the intranet that contains a concatinated so
 ---
 
 <div id="content" class="row">
-	{% include update-social.html id="post-box" action="/feedback/post-well-done.html" %}
-	{% include activity-stream.html src="activity-stream-social" %}
+	{% include update-social.html id="post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #post-box" %}
+
+	<div id="activity-stream">
+		{% include activity-stream.html src="activity-stream-social" %}
+	</div>
 </div>
