@@ -81,15 +81,15 @@
       text: "Do it now!"
 
 - userid: joan-baker
-    activity: created the open workspace 'Alpha Protocol'
-    activity_location: Groups > Alpha Protocol
-    activity_url: #
-    datestamp: over 2 hours ago
-    likes: 2
-    shares: 5
-    text: "Please everyone get involved with this new project."
-    preview: 'http://lorempixel.com/g/800/300/'
-    comments:
-      - userid: adrian-white
-        datestamp: 36 minutes ago
-        text: "Looks really interesting. Can anyone join?"
+  activity: created the open workspace 'Alpha Protocol'
+  activity_location: Groups > Alpha Protocol
+  activity_url: #
+  datestamp: over 2 hours ago
+  likes: 2
+  shares: 5
+  text: "Please everyone get involved with this new project."
+  preview: 'http://lorempixel.com/g/800/300/'
+  comments:
+    - userid: adrian-white
+      datestamp: 36 minutes ago
+      text: "Looks really interesting. Can anyone join?"

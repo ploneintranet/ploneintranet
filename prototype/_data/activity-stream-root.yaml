@@ -81,15 +81,15 @@
   preview: 'http://lorempixel.com/g/800/300/'
   preview_url: '/incredibly-boring-document'
   comments:
-    - userid: corinne-bedow
-      datestamp: 11 minutes ago
-      text: "OH YES!"
-    - userid: jon-doe
-      datestamp: 3 minutes ago
-      text: "Do it now!"
-    - userid: cornelis-kolbach
-      datestamp: 3 minutes ago
-      text: "The planning keep deep need its house. By when brothers but in we on. I for ran head from a rather to equation, men's he years purpose on starting meals sovereignty. Not back cache the so sentences control way that into were business, herself not coming stupid cheek, periodic achieves.<br /><br />Everything expected with one their you on line on fortune. I for tone boss not some voice cut word to I in the comment they'd have its of other and salesmen visuals in rationally multitude discovered quickly approved the destined know the on he grammar. At and we human along the into nearby population self-interest her negatives, because at propitiously expectations. Sections. Of suppliers, grateful and I italic, divine the every that our two at people a drew of made he hide with watched tones recommended. From all those fully that avoided the furnished up hologram language weary into that."
+  - userid: corinne-bedow
+    datestamp: 11 minutes ago
+    text: "OH YES!"
+  - userid: jon-doe
+    datestamp: 3 minutes ago
+    text: "Do it now!"
+  - userid: cornelis-kolbach
+    datestamp: 3 minutes ago
+    text: "The planning keep deep need its house. By when brothers but in we on. I for ran head from a rather to equation, men's he years purpose on starting meals sovereignty. Not back cache the so sentences control way that into were business, herself not coming stupid cheek, periodic achieves.<br /><br />Everything expected with one their you on line on fortune. I for tone boss not some voice cut word to I in the comment they'd have its of other and salesmen visuals in rationally multitude discovered quickly approved the destined know the on he grammar. At and we human along the into nearby population self-interest her negatives, because at propitiously expectations. Sections. Of suppliers, grateful and I italic, divine the every that our two at people a drew of made he hide with watched tones recommended. From all those fully that avoided the furnished up hologram language weary into that."
 
 - userid: joan-baker
   activity: added the event 'Christmas Dinner'
@@ -173,15 +173,15 @@
 
 
 - userid: joan-baker
-    activity: created the open workspace 'Alpha Protocol'
-    activity_location: Groups > Alpha Protocol
-    activity_url: #
-    datestamp: over 2 hours ago
-    likes: 2
-    shares: 5
-    text: "Please everyone get involved with this new project."
-    preview: 'http://lorempixel.com/g/800/300/'
-    comments:
-      - userid: adrian-white
-        datestamp: 36 minutes ago
-        text: "Looks really interesting. Can anyone join?"
+  activity: "created the open workspace 'Alpha Protocol'"
+  activity_location: Groups > Alpha Protocol
+  activity_url: #
+  datestamp: over 2 hours ago
+  likes: 2
+  shares: 5
+  text: "Please everyone get involved with this new project."
+  preview: 'http://lorempixel.com/g/800/300/'
+  comments:
+    - userid: adrian-white
+      datestamp: 36 minutes ago
+      text: "Looks really interesting. Can anyone join?"
