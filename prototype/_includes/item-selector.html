@@ -10,7 +10,7 @@
             </a>
         </div>
 
-        <h2 id="context-title" class="context-title">Some Context</h2>
+        <!-- <h2 id="context-title" class="context-title">Some Context</h2> -->
         {% endif %}
 
         {% if include.toggle == 'true' %}
@@ -18,14 +18,14 @@
         {% endif %}
 
         <span class="button-cluster select-buttons float-after select-buttons">
-            <button class="select-all">Select all</button>
-            <button class="deselect-all">Deselect all</button>
+            <button class="select-all" title="Select all">All</button>
+            <button class="deselect-all" title="Deslect all">None</button>
         </span>
     </div>
 
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
         <label>
-            <input name="" type="search" />
+            <input name="" type="search" placeholder="Search" />
             <button type="submit">Search</button>
         </label>
     </form>
