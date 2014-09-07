@@ -16,8 +16,11 @@
             margin-bottom: 1em;
         }
 
-        .context-title{
-            display: inline;
+        .context-title {
+            // Temporarily hide context title until it is clear where it 
+            // has to go in the layout
+            display: none;
+            // display: inline;
         }
     }
 
