@@ -24,6 +24,11 @@
   }
 }
 
+.application-workspace #document-body {
+  left: 50px;
+}
+
+
 body.toolbar #document-body {
   top: 32px;
 }
@@ -32,15 +37,12 @@ body.toolbar #document-body {
   left: 30%;
 }
 
-.sidebar-left-full #document-body {
-  left: 100%;
-}
-
 .application-organisation #document-body {
   padding-top: 50px;
 }
 
-.application-workspace #document-body, .application-cms #document-body {
+.application-workspace #document-body, 
+.application-cms #document-body {
   top: 32px;
 }
 
