@@ -21,7 +21,7 @@ design_description: "Feedback for the contents of the minutes folder"
                 {% if doc.folderish == false %}
                     <label class="item document">
                         <input name="" type="checkbox" />
-                        <a href="{{doc.id}}" class="follow">
+                        <a href="{{doc.id}}#document-body" class="pat-inject follow">
                             <strong class="title">{{ doc.title }}</strong>
                             {% if doc.description %}
                                 <dfn class="byline">{{ doc.description }}</dfn>
