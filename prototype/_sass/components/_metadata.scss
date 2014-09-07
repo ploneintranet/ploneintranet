@@ -20,19 +20,19 @@
     }
     select {
       border-style: none;
+      font-size: 0.9em;
     }
     span {
       &[data-option='Private'] select {
         background-color: #d561a4;
+        color: white;
       }
       &[data-option='Workspace Members Only'] select {
         background-color: #f38300;
       }
       &[data-option='Public'] select {
         background-color: #65c981;
-      }
-      &[data-option='Star only'] select {
-        background-color: #5e5e5e;
+        color: white;
       }
       &[data-option='Pending review'] select {
         background-color: #ff0201;
@@ -40,11 +40,9 @@
       &[data-option='Logged in only'] select {
         background-color: #008f51;
       }
-      &[data-option='GMBH only'] select {
-        background-color: #c0c0c0;
-      }
       &[data-option='Internal'] select {
         background-color: #ff2f92;
+        color: white;
       }
       &[data-option='Externally visible'] select {
         background-color: #00b8ca;
