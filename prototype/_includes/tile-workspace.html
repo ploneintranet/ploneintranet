@@ -1,0 +1,10 @@
+<div class="tile workspace {% if include.description %}has-description{% endif %} workspace-{{ include.id }}">
+    <a href="{{ include.url }}" class="link">
+        <h3>{{ include.title }}</h3>
+        {% if include.description %}
+        <p>
+            {{ include.description}}
+        </p>
+        {% endif %}
+    </a>
+</div>

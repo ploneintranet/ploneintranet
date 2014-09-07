@@ -1,7 +1,4 @@
-/* @group Document body */
-
 #document-body {
-  /*This will become the new #document-body standard, but to be renamed to #main-content*/
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
@@ -13,13 +10,23 @@
   background-color: white;
   top: 0;
   z-index: 0;
+
+  .workspace-recommendations {
+    display: block;
+    margin: 0 auto 2em;
+    color: gray;
+    font-weight: bold;
+    text-align: center;
+  }
+  #primary-functions {
+    text-align: center;
+    margin-bottom: 2em;
+  }
 }
 
 body.toolbar #document-body {
   top: 32px;
 }
-
-/* @group Sidebar positions */
 
 .sidebar-left-open #document-body {
   left: 30%;
@@ -28,10 +35,6 @@ body.toolbar #document-body {
 .sidebar-left-full #document-body {
   left: 100%;
 }
-
-/* @end */
-
-/* @group Application variations */
 
 .application-organisation #document-body {
   padding-top: 50px;
@@ -49,26 +52,6 @@ body.toolbar #document-body {
 .application-workspace #document-body.calendar {
   padding-top: 20px;
 }
-
-/* @end */
-
-/* @group Workspace reccomendations block */
-
-#document-body {
-  .workspace-recommendations {
-    display: block;
-    margin: 0 auto 2em;
-    color: gray;
-    font-weight: bold;
-    text-align: center;
-  }
-  #primary-functions {
-    text-align: center;
-    margin-bottom: 2em;
-  }
-}
-
-/* @end */
 
 .office-preview {
   overflow: hidden;

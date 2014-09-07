@@ -5,3 +5,11 @@ design_title: Intranet homepage — Workspaces
 design_description: The homepage of the intranet with the workspaces tab active.
 ---
 
+<div class="tiles workspaces pat-packery" data-pat-packery="column-width: 300; gutter-width: 30px; item-selector: .tile;">
+	{% include tile-workspace.html title="Baggage handling regulations" id="1" url="/workspace-landing.html" %}
+	{% include tile-workspace.html title="My workspace" id="2" %}
+	{% include tile-workspace.html title="Another workspace" id="3" %}
+	{% include tile-workspace.html title="Lorem ipsum" id="4" %}
+	{% include tile-workspace.html title="Dolor sit amet" id="5" %}
+	{% include tile-workspace.html title="Consectetur" id="6" %}
+</div>
