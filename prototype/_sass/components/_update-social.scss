@@ -5,7 +5,6 @@
     &#post-box {
       margin: 0 auto 3em;
       width: 80%;
-
     }
 
     textarea,
@@ -150,4 +149,9 @@
       padding-bottom: 0.5em;
       }
     }
+}
+
+.application-workspace #post-box {
+  margin-top: 2em;
+  margin-bottom: 2em;
 }

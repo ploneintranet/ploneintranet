@@ -1,7 +1,13 @@
 .activity-stream {
   margin: 0 auto;
+}
 
-  .post {
+.application-workspace .activity-stream {
+	padding: 0 2em;
+}
+
+.application-home .activity-stream {
+	.post {
     @media only screen and (min-width: 767px) {
       width: 500px;
     }
