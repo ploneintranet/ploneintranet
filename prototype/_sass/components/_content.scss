@@ -10,17 +10,9 @@
   z-index: 6;
   outline: solid silver 1px;
   background-color: white;
-  
-  &.application-portal {
-    top: 50px;
-    padding-top: 0;
-  }
 }
 
-body.view-secure #content {
-  background-color: rgba(255, 255, 255, 0);
-}
-
-body.application-workspace .application aside.sidebar.left {
-  left: 50px;
+body.application-home #content {
+  top: 85px;
+  background-color: #f1f1f1;
 }

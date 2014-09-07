@@ -1,0 +1,25 @@
+.tabs {
+  text-align: center;
+
+  a {
+    display: inline-block;
+    padding: 0 1.5em;
+    height: 52px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    &.current {
+      border-bottom: 0.25em solid #0081be;
+    }
+  }
+
+  &#home-tabs {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    line-height: 54px;
+  }
+}

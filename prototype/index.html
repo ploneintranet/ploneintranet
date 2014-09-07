@@ -1,14 +1,23 @@
 ---
-layout: shell
-application: map
+layout: home
+application: home
+sidebar_controls:
+  - label: Create document
+    type: link
+document_controls:
+  - type: save
+    class: float-after
+    url: ""
+  - label: More
+    type: dropdown
+    url: "project-settings.html#settings"
 design_title: Intranet homepage
 design_description: The homepage of the intranet that contains a concatinated social feed.
 ---
 
-<div id="content" class="row">
 	{% include update-social.html id="post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #post-box" %}
 
 	<div id="activity-stream">
 		{% include activity-stream.html src="activity-stream-social" %}
 	</div>
-</div>
+
