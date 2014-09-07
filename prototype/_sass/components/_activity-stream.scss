@@ -2,7 +2,8 @@
   margin: 0 auto;
 
   .post {
-    width: 46%;
-    float: left;
+    @media only screen and (min-width: 767px) {
+      width: 500px;
+    }
   }
 }
