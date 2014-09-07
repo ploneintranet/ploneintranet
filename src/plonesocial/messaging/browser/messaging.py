@@ -209,7 +209,8 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
 
         for message in messages:
             message['sender_img'] = get_user_img(mtool, message['sender'])
-            message['recipient_img'] = get_user_img(mtool, message['recipient'])
+            message['recipient_img'] = get_user_img(mtool,
+                                                    message['recipient'])
 
         if requested_user:
             if requested_user == con['username']:
@@ -228,8 +229,10 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
 
     if conversations:
         if not display_messages:
-            # if the page is loaded with now requested user then show the last messages
-            display_messages = conversations[len(conversations) - 1]['full-messages']
+            # if the page is loaded with now requested user then
+            # show the last messages
+            display_messages = conversations[len(conversations) - 1]
+            ['full-messages']
             conv_with_user = conversations[len(conversations) - 1]['username']
 
     return {'conversations': conversations,
@@ -249,6 +252,7 @@ class YourMessagesView(BrowserView):
         msgs = {'unread': '',
                 'conversations': [],
                 'request': '',
+                'conv_with': '',
                 'display_message': [],
                 'view': 'full'}
 
@@ -303,6 +307,5 @@ class YourMessagesView(BrowserView):
         msgs['conversations'] = conversations
         msgs['display_message'] = display_message
         msgs['conv_with'] = conversation_with
-
 
         return msgs
