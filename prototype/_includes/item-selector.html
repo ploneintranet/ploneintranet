@@ -30,7 +30,7 @@
         </label>
     </form>
 
-    <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" {% if include.mode == "docs" %} data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
+    <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
             {% if include.mode == "users" %}
