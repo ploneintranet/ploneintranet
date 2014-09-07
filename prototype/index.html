@@ -17,7 +17,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 
 	{% include update-social.html id="post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #post-box" %}
 
-	<div id="activity-stream">
+	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: .post; gutter-width: 4%;">
 		{% include activity-stream.html src="activity-stream-social" %}
 	</div>
 
