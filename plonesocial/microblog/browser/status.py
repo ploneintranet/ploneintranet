@@ -9,6 +9,7 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_inner
 from Acquisition import aq_chain
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five import BrowserView
 from plone.app.layout.viewlets.common import ViewletBase
 
 from z3c.form import form, field, button
@@ -16,6 +17,7 @@ from z3c.form.interfaces import IFormLayer
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
+from plone import api
 
 from ..interfaces import IMicroblogTool
 from ..interfaces import IStatusUpdate
@@ -148,3 +150,28 @@ class StatusViewlet(StatusProvider, ViewletBase):
     def update(self):
         self._update()
         ViewletBase.update(self)
+
+
+class Tags(BrowserView):
+
+    index = ViewPageTemplateFile('panel_tags.pt')
+
+    def tags(self):
+        """ Get available tags, both from Plone's keyword index
+            and the microblog utility
+
+        Applies very basic text searching
+        """
+        catalog = api.portal.get_tool('portal_catalog')
+        tags = set(catalog.uniqueValuesFor('Subject'))
+
+        tool = queryUtility(IMicroblogTool)
+        tags.update(tool._tag_mapping.keys())
+        tags = sorted(tags)
+
+        search_string = self.request.form.get('tagsearch')
+        if search_string:
+            search_string = search_string.lower()
+            tags = filter(lambda x: search_string in x.lower(),
+                          tags)
+        return tags

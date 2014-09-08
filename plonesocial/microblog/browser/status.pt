@@ -46,7 +46,7 @@
       <fieldset>
         <!-- This content-mirror paragraph is oddly wrapped
              to avoid extra whitespace when it is rendered as a 'pre' -->
-        <p class="content-mirror"><span class="text"><em class="placeholder">What are you doing?</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
+        <p class="content-mirror"><span class="text"><em class="placeholder">What are you doing?</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"><a tal:repeat="tag request/tags|nothing" tal:content="string:#${tag}" /></em></p>
         <textarea placeholder="What are you doing?"
                   class="pat-comment-box pat-switch"
                   data-pat-switch="#update-status-form status-inactive status-active"
@@ -68,7 +68,7 @@
           <br/>
           <a class="iconified icon-tags pat-tooltip"
              data-pat-tooltip="position: tl; source: ajax; class: tags;" 
-             href="/feedback/panel-tags.html#content">Add tags</a>
+             href="@@panel-tags#status-tag-selector::element">Add tags</a>
           <br/>
           <button 
              class="pat-switch" 

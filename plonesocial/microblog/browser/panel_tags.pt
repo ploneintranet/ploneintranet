@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+  <body>
+
+    <div metal:fill-slot="main" i18n:domain="plonesocial.microblog">
+
+      <div id="status-tag-selector" class="item-selector mode-">
+        <div id="-functions" class="button-bar functions">
+          <span class="button-cluster select-buttons float-after select-buttons">
+            <button title="Select all" class="select-all">All</button>
+            <button title="Deselect all" class="deselect-all">None</button>
+          </span>
+        </div>
+
+        <form action="@@panel-tags#items" 
+              method="post"
+              class="search-box pat-inject pat-autosubmit">
+          <label>
+            <input type="search" placeholder="Search" name="tagsearch" />
+            <button type="submit">Search</button>
+          </label>
+        </form>
+
+        <form id="items" 
+              action="#selected-tags" 
+              class="search-result tags pat-inject pat-autosubmit">
+          <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all" 
+                    class="checklist pat-checklist tags unchecked">
+            
+            <label class="item tag unchecked"
+                   tal:repeat="tag view/tags">
+              <input type="checkbox" name="tags:list" 
+                     tal:attributes="value tag"/>
+              <a class="follow">
+                <strong class="title icon-tag"
+                        tal:content="tag" />
+              </a>
+            </label>
+          </fieldset>
+          
+        </form>
+      </div>
+
+    </div>
+    
+  </body>
+</html>

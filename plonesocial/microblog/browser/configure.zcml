@@ -8,6 +8,13 @@
       name="plonesocial.microblog.status_provider"
       factory=".status.StatusProvider"
       />
+
+  <browser:view
+      for="*"
+      name="panel-tags"
+      class=".status.Tags"
+      permission="zope2.View"
+      />
   
   <browser:resourceDirectory
       name="plonesocial.microblog.stylesheets"
