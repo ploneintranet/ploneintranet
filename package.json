@@ -36,5 +36,9 @@
             "name": "Plone Intranet Community",
             "email": "ploneintranet@netsight.co.uk"
         }
-    ]
+    ],
+    "repository" : {
+        "type" : "git",
+        "url" : "git@github.com:ploneintranet/ploneintranet.theme.git"
+    }
 }
