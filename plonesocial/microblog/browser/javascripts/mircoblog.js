@@ -1,1 +1,0 @@
-// microblog js file

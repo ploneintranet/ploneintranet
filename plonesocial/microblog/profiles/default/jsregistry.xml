@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
-    <javascript id="++resource++plonesocial.microblog.microblog.js" />
+    <javascript id="++resource++plonesocial.microblog.javascripts/microblog.js" />
 </object>
