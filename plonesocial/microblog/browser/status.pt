@@ -2,24 +2,107 @@
            tal:condition="view/available"
            i18n:domain="plone">
 
-    <div id="microblog" class="plonesocial">
+  <div id="microblog" class="plonesocial">
 
-        <fieldset tal:condition="not:view/compact">
+    <fieldset tal:condition="not:view/compact">
 
-            <legend i18n:translate="label_add_status">Add status update</legend>
-            <p tal:content="view/comment_transform_message">
-                You can add a comment by filling out the form below. Plain text
-                formatting.
-            </p>
+      <legend i18n:translate="label_add_status">Add status update</legend>
+      <p tal:content="view/comment_transform_message">
+        You can add a comment by filling out the form below. Plain text
+        formatting.
+      </p>
 
-            <div tal:replace="structure view/form/render" />
+      <div tal:replace="structure view/form/render" />
 
+    </fieldset>
+
+    <form id="update-status-form" method="post"
+          class="pat-inject update-social status-inactive"
+          action=""
+          data-pat-inject=".activityItem:first::element;
+                           target: #microblog::element::after
+                           && #update-status-form"
+          tal:condition="view/compact">
+
+      <script type="text/javascript">
+        <!-- Ideally this will be a separate pattern one day -->
+        $(document).ready(function(){
+        var the_textarea = $('textarea.pat-comment-box');
+        function updateMirror(){
+        var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
+        var the_value = the_textarea.val();
+        the_mirror.text(the_value);
+        if(!the_value.length){
+        the_mirror.html('<em class="placeholder">What are you doing?</em>');
+        }
+        };
+
+        $(document).on('input propertychange',the_textarea, function() {
+        updateMirror();
+        });
+        });
+      </script>
+
+      <fieldset>
+        <!-- This content-mirror paragraph is oddly wrapped
+             to avoid extra whitespace when it is rendered as a 'pre' -->
+        <p class="content-mirror"><span class="text"><em class="placeholder">What are you doing?</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
+        <textarea placeholder="What are you doing?"
+                  class="pat-comment-box pat-switch"
+                  data-pat-switch="#update-status-form status-inactive status-active"
+                  name="form.widgets.text"></textarea>
+        <fieldset 
+           class="attachments pat-subform pat-autosubmit pat-inject"
+           data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #update-status-form-attachment-previews">
+          <label class="iconified icon-attach pat-switch"
+                 data-pat-switch="#update-status-form status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+          <p class="attachment-previews"
+             id="update-status-form-attachment-previews">
+            No attachments selected.
+          </p>
         </fieldset>
+        <div class="button-bar">
+          <a class="iconified icon-user-add pat-tooltip" 
+             data-pat-tooltip="position: tl; source: ajax; class: mentions;" 
+             href="/feedback/panel-mentions.html#content">Mention people</a>
+          <br/>
+          <a class="iconified icon-tags pat-tooltip"
+             data-pat-tooltip="position: tl; source: ajax; class: tags;" 
+             href="/feedback/panel-tags.html#content">Add tags</a>
+          <br/>
+          <button 
+             class="pat-switch" 
+             data-pat-switch="#update-status-form status-* status-inactive" 
+             type="submit" 
+             name="form.buttons.statusupdate">Post</button>
+          <button 
+             class="pat-switch" 
+             data-pat-switch="#update-status-form status-* status-inactive" 
+             type="reset">Cancel</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 
+  <style type="text/css">
+    /* XXX temporary hack
+       These are overrides to some of Plone's overly-ambitious defaults,
+       to allow ploneintranet.theme's styles to work for now.
+    */
+    .update-social fieldset {
+       border-style: inherit !important;
+       margin: inherit !important;
+    }
+    .update-social p.content-mirror {
+        margin-bottom: -100% !important;
+    }
+    .update-social textarea {
+        font: inherit !important;
+    }
+    .update-social .attachment-previews {
+        margin: inherit !important;
+    }
 
-        <div tal:condition="view/compact" 
-             tal:replace="structure view/form/render" />
-
-    </div>
+  </style>
 
 </tal:block>
