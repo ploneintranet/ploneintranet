@@ -191,7 +191,7 @@ class BaseStatusContainer(Persistent, Explicit):
     iterkeys = keys
     itervalues = values
 
-    ## threaded accessors
+    # threaded accessors
 
     def thread_items(self, thread_id, min=None, max=None, limit=100):
         return ((key, self.get(key)) for key
@@ -208,12 +208,12 @@ class BaseStatusContainer(Persistent, Explicit):
         if not mapping:
             return [thread_id]
         else:
-            if not thread_id in mapping:
+            if thread_id not in mapping:
                 mapping.insert(thread_id)
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    ## user_* accessors
+    # user_* accessors
 
     def user_items(self, users, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key)) for key

@@ -127,4 +127,3 @@ class TestStatusUpdate(unittest.TestCase):
     def test_thread_id(self):
         su = StatusUpdate('foo bar', thread_id='jawel')
         self.assertEquals(su.thread_id, 'jawel')
-
