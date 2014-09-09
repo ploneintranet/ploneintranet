@@ -64,10 +64,13 @@
 		<a href="#">Like <sup class="counter">({{ item.likes }})</sup></a>
 	</p>
 	<div class="comments">
-		{% for comment in item.comments %}
-			{% include comment.html %}
-		{% endfor %}
-		{% capture mypostUID %}mypost{{postcount}}{% endcapture %}
-		{% include update-social.html id=mypostUID visibility="false" %}
+		{% capture mypostUID %}mypost_{{ include.postcount }}{% endcapture %}
+		<div id="comment-trail-{{mypostUID}}">
+			{% for comment in item.comments %}
+				{% include comment.html %}
+			{% endfor %}
+		</div>
+		{% capture localtarget %}#comment-trail-{{mypostUID}}{% endcapture %}
+		{% include update-social.html id=mypostUID visibility="false" action="/feedback/comment-well-said.html#comment-trail" %}
 	</div>
 </div>

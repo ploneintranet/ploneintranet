@@ -1,4 +1,4 @@
-<form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="{{ include.action }}" data-pat-inject="{{ include.inject }}">
+<form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="{{ include.action }}" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: {{localtarget}}{% endif %}">
     <script type="text/javascript">
         $(document).ready(function(){
             var the_textarea = $('textarea.pat-comment-box');
