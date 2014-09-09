@@ -4,11 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2014-03-07 21:30+0000\n"
-=======
-"POT-Creation-Date: 2014-02-02 10:46+0000\n"
->>>>>>> update translations
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,22 +30,15 @@ msgstr ""
 msgid "Compact rendering"
 msgstr ""
 
-<<<<<<< HEAD
-=======
 #: ./browser/statusconversation.py:45
 msgid "Conversation"
 msgstr ""
 
->>>>>>> update translations
 #: ./browser/stream.py:67
 msgid "Explore"
 msgstr ""
 
-<<<<<<< HEAD
-#: ./browser/interfaces.py:67
-=======
 #: ./browser/interfaces.py:71
->>>>>>> update translations
 msgid "Hide portlet header and footer"
 msgstr ""
 
@@ -66,7 +55,6 @@ msgstr ""
 msgid "More updates..."
 msgstr ""
 
-<<<<<<< HEAD
 #. Default: "My profile"
 #: ./browser/navigation.py:51
 msgid "My profile"
