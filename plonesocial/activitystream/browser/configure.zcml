@@ -11,8 +11,7 @@
             package="plonesocial.microblog"
             />
 
-  <browser:viewlet
-      zcml:condition="installed plonesocial.microblog"
+  <browser:viewlet zcml:condition="installed plonesocial.microblog"
       name="plonesocial.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".navigation.PloneSocialNavigation"
@@ -20,14 +19,26 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
-  <adapter 
-      name="plonesocial.activitystream.activity_provider"
-      factory=".activity_provider.ActivityProvider"
+  <adapter zcml:condition="installed plonesocial.microblog"
+      factory=".activity_provider.StatusActivityProvider"
       />
 
-  <adapter 
+  <adapter
+      factory=".activity_provider.ContentActivityProvider"
+      />
+
+  <adapter
+      factory=".activity_provider.DiscussionActivityProvider"
+      />
+
+  <adapter
       name="plonesocial.activitystream.stream_provider"
       factory=".stream_provider.StreamProvider"
+      />
+
+  <adapter zcml:condition="installed plonesocial.microblog"
+      name="plonesocial.activitystream.statusconversation_provider"
+      factory=".statusconversation_provider.StatusConversationProvider"
       />
 
   <browser:page
@@ -38,8 +49,15 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
-  <browser:page
-      zcml:condition="installed plonesocial.microblog"
+  <browser:page zcml:condition="installed plonesocial.microblog"
+      name="status"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".statusconversation.StatusConversationView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
+  <browser:page zcml:condition="installed plonesocial.microblog"
       name="stream"
       for="plonesocial.microblog.interfaces.IMicroblogContext"
       class=".stream.StreamView"
@@ -49,13 +67,18 @@
 
   <!-- complex portlet-based view separated out for clear config -->
   <include file="activitystream_portal.zcml" />
-  
-  
+
+
   <browser:resourceDirectory
       name="plonesocial.activitystream.stylesheets"
       directory="stylesheets"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
-  
+
+  <browser:resourceDirectory
+      name="plonesocial.activitystream.javascripts"
+      directory="javascripts"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
 
 </configure>

@@ -1,19 +1,20 @@
 from zope.interface import implements
 from zope.component import adapts
 
-from Products.ZCatalog.interfaces import ICatalogBrain
+from plone.app.discussion.interfaces import IComment
+from Products.CMFCore.interfaces import IContentish
 from Acquisition import aq_inner, aq_parent
 
+from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IContentActivity
+from plonesocial.activitystream.interfaces import IDiscussionActivity
 from plonesocial.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):
     # conditionally configured in zcml
     # adapts(IStatusUpdate)
-    implements(IActivity)
-
-    is_status = True
-    is_discussion = is_content = False
+    implements(IStatusActivity)
 
     def __init__(self, context):
         self.context = context
@@ -31,42 +32,46 @@ class StatusActivity(object):
             self.url = m_context.absolute_url() + '/@@stream'
 
 
-class BrainActivity(object):
-    adapts(ICatalogBrain)
-    implements(IActivity)
-
-    is_status = False
+class AbstractContentActivity(object):
 
     def __init__(self, context):
         self.context = context
-        obj = context.getObject()
-        self.title = obj.Title()
-        self.url = context.getURL()
-        self.portal_type = obj.portal_type
-        self.Creator = obj.Creator()
-        self.raw_date = max(context.created, context.effective)
+        self.title = context.Title()
+        self.url = context.absolute_url()
+        self.portal_type = context.portal_type
+        self.Creator = context.Creator()
+        self.raw_date = max(context.created(), context.effective())
 
-        if obj.portal_type == 'Discussion Item':
-            self.render_type = 'discussion'
-            self.userid = obj.author_username
-            # obj: DiscussionItem
-            # parent: Conversation
-            # grandparent: content object
-            _contentparent = aq_parent(aq_parent(aq_inner(obj)))
-            self.title = _contentparent.Title()
-            self.text = obj.getText()
-        else:
-            self.userid = obj.getOwnerTuple()[1]
-            self.render_type = 'content'
-            self.text = obj.Description() + self._tags(obj.Subject())
+
+class ContentActivity(AbstractContentActivity):
+    adapts(IContentish)
+    implements(IContentActivity)
+
+    def __init__(self, context):
+        super(ContentActivity, self).__init__(context)
+        self.userid = context.getOwnerTuple()[1]
+        self.render_type = 'content'
+        self.text = context.Description() + self._tags(context.Subject())
 
     def _tags(self, source):
         return ' '.join(['#%s' % x for x in source])
 
-    @property
-    def is_discussion(self):
-        return self.render_type == 'discussion'
 
-    @property
-    def is_content(self):
-        return self.render_type == 'content'
+class DiscussionActivity(AbstractContentActivity):
+    adapts(IComment)
+    implements(IDiscussionActivity)
+
+    def __init__(self, context):
+        super(DiscussionActivity, self).__init__(context)
+        self.render_type = 'discussion'
+        self.userid = context.author_username
+        # context: DiscussionItem
+        # parent: Conversation
+        # grandparent: content object
+        _contentparent = aq_parent(aq_parent(aq_inner(context)))
+        self.title = _contentparent.Title()
+        self.text = context.getText()
+
+
+def brainActivityFactory(context):
+    return IActivity(context.getObject())

@@ -16,8 +16,15 @@
 	   factory=".adapters.StatusActivity"
 	   for="plonesocial.microblog.interfaces.IStatusUpdate"
 	   />
-  <adapter factory=".adapters.BrainActivity"
+  <adapter factory=".adapters.ContentActivity"
 	   />
+  <adapter factory=".adapters.DiscussionActivity"
+	   />
+
+  <adapter factory=".adapters.brainActivityFactory"
+    for="Products.ZCatalog.interfaces.ICatalogBrain"
+    provides="plonesocial.activitystream.interfaces.IActivity"
+       />
 
   <genericsetup:registerProfile
       name="default"
@@ -39,5 +46,5 @@
 
 
   <!-- -*- extra stuff goes here -*- -->
-  
+
 </configure>

@@ -17,7 +17,7 @@ dl.portletActivitystream dd.portletFooter {
 dl.portlet.compact {
     margin: 0;
 }
-
+.conversation,
 div.activityItem {
     border-radius: 0.5em 0.5em 0.5em 0.5em;
     box-shadow: 0 0 0.5em 0 #888888;

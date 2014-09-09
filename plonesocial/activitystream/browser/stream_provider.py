@@ -20,6 +20,10 @@ from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
 
+from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IContentActivity
+from plonesocial.activitystream.interfaces import IDiscussionActivity
+
 from plonesocial.activitystream.integration import PLONESOCIAL
 
 import logging
@@ -92,12 +96,13 @@ class StreamProvider(object):
                 i += 1
 
     def _activity_visible(self, activity):
-        if activity.is_status and self.show_microblog:
+        if IStatusActivity.providedBy(activity) and self.show_microblog:
             return True
-        if activity.is_content and self.show_content:
+        elif IContentActivity.providedBy(activity) and self.show_content:
             return True
-        if activity.is_discussion and self.show_discussion:
+        elif IDiscussionActivity.providedBy(activity) and self.show_discussion:
             return True
+
         return False
 
     def _activities_brains(self):
@@ -152,24 +157,23 @@ class StreamProvider(object):
                 continue
             yield getMultiAdapter(
                 (activity, self.request, self.view),
-                IActivityProvider,
-                name="plonesocial.activitystream.activity_provider")
+                IActivityProvider)
 
     def can_view(self, activity):
         """Returns true if current user has the 'View' permission.
         """
         sm = getSecurityManager()
-        if activity.is_status:
+        if IStatusActivity.providedBy(activity):
             permission = "Plone Social: View Microblog Status Update"
             return sm.checkPermission(permission, self.context)
-        elif activity.is_discussion:
+        elif IDiscussionActivity.providedBy(activity):
             # check both the activity itself and it's page context
             return sm.checkPermission(
                 'View', aq_inner(activity.context)) \
                 and sm.checkPermission(
                     'View',
                     aq_inner(activity.context).__parent__.__parent__)
-        elif activity.is_content:
+        elif IContentActivity.providedBy(activity):
             return sm.checkPermission('View',
                                       aq_inner(activity.context))
 

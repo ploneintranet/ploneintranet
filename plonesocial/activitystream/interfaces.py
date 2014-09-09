@@ -13,6 +13,15 @@ class IActivity(Interface):
 
     portal_type = Attribute("portal_type")
     render_type = Attribute("render_type")
-    is_status = Attribute("is_status")
-    is_discussion = Attribute("is_discussion")
-    is_content = Attribute("is_content")
+
+
+class IStatusActivity(IActivity):
+    """IActivity for an IStatusUpdate"""
+
+
+class IContentActivity(IActivity):
+    """IActivity for a content object"""
+
+
+class IDiscussionActivity(IActivity):
+    """IActivity for a discussion comment"""

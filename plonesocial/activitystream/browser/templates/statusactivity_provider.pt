@@ -1,0 +1,57 @@
+<div  i18n:domain="plonesocial.activitystream"
+      tal:attributes="class string:activityItem ${view/render_type}">
+
+  <div class="activityAvatar">
+    <a href=""
+       tal:attributes="href view/author_home_url">
+      <img tal:replace="structure view/user_portrait" />
+    </a>
+  </div>
+
+  <div class="activityBody">
+
+    <a href="" class="creator"
+       tal:condition="view/Creator"
+       tal:content="view/Creator"
+       tal:attributes="href view/author_home_url">
+      Poster Name
+    </a>
+
+    <div class="activityByLine">
+
+      <a href="" class="userid"
+         tal:content="string:@${view/userid}"
+         tal:attributes="href view/author_home_url">
+        Poster Name
+      </a>
+
+      <span i18n:translate="label_says">says:</span>
+
+      <a tal:attributes="href view/url;
+                         title view/Title"
+         tal:content="view/Title">view title</a>
+
+    </div>
+
+    <div class="activityText"
+         tal:define="canReview python:view.can_review()"
+         tal:condition="view/getText">
+
+      <span tal:replace="structure view/getText" />
+    </div>
+
+    <div class="activityDate"
+         tal:content="view/date">
+      8/23/2001 12:40:44 PM
+    </div>
+
+  </div>
+
+  <div class="reply">
+    <a i18n:translate=""
+       tal:define="portal_url context/@@plone_portal_state/portal_url"
+       tal:attributes="href string:${portal_url}/@@status/${view/status_id}">Reply</a>
+  </div>
+
+
+</div>

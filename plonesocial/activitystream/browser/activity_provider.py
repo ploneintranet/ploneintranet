@@ -14,7 +14,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
-from plonesocial.activitystream.interfaces import IActivity
+from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IContentActivity
+from plonesocial.activitystream.interfaces import IDiscussionActivity
 
 
 TAGRE = re.compile('(#(\S+))')
@@ -25,13 +27,9 @@ def link_tags(text, url=''):
     return TAGRE.sub(tmpl % url, text)
 
 
-class ActivityProvider(object):
+class AbstractActivityProvider(object):
     """Helper for rendering IActivity
     """
-    implements(IActivityProvider)
-    adapts(IActivity, IPlonesocialActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/activity_provider.pt")
 
     def __init__(self, context, request, view):
         self.context = context
@@ -148,18 +146,6 @@ class ActivityProvider(object):
     def render_type(self):
         return self.context.render_type
 
-    @property
-    def is_status(self):
-        return self.context.is_status
-
-    @property
-    def is_discussion(self):
-        return self.context.is_discussion
-
-    @property
-    def is_content(self):
-        return self.context.is_content
-
     # extra
 
     @property
@@ -173,3 +159,52 @@ class ActivityProvider(object):
     @property
     def Title(self):
         return self.title
+
+
+class StatusActivityProvider(AbstractActivityProvider):
+    """Render an IStatusActivity"""
+
+    implements(IActivityProvider)
+    adapts(IStatusActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
+
+    def __init__(self, context, request, view):
+        self.context = context  # IStatusActivity
+        self.status = context.context  # IStatusUpdate
+        self.request = request
+        self.view = self.__parent__ = view
+
+    def status_id(self):
+        return self.status.id
+
+    def highlight(self):
+        if self.view.status_id == self.status_id():
+            return True
+
+    def statusreply_provider(self):
+        if not self.highlight():
+            return
+        provider = getMultiAdapter(
+            (self.status, self.request, self),
+            name="plonesocial.microblog.statusreply_provider")
+        provider.update()
+        return provider()
+
+
+class ContentActivityProvider(AbstractActivityProvider):
+    """Render an IBrainActivity"""
+
+    implements(IActivityProvider)
+    adapts(IContentActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
+
+
+class DiscussionActivityProvider(AbstractActivityProvider):
+    """Render an IDicussionCommentActivity"""
+
+    implements(IActivityProvider)
+    adapts(IDiscussionActivity, IPlonesocialActivitystreamLayer, Interface)
+
+    index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
