@@ -24,7 +24,9 @@
 
   <configure zcml:condition="installed plone.app.dexterity">
       <include file="dexterity.zcml" />
-  </configure>
+    </configure>
+
+  <adapter factory=".urlpreview.URLPreview"/> 
 
   <genericsetup:upgradeStep
     title="Setup UUID mapping"
