@@ -88,13 +88,14 @@
 
 #inbox-messages.full,
 #inbox-messages.small {
-    width: 400px;
+    width: 100%;
     border-radius: 2px 2px 2px 2px;
     border: 1px solid #ccc;
     background: #fff;
 }
 
 #inbox-messages.full  {
+    width: 400px;
     float: left;
     margin: 0px 10px 10px 0px;
 }
