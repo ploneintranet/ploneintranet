@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+  <body>
+
+    <div metal:fill-slot="main" i18n:domain="plonesocial.microblog">
+
+      <div id="status-user-selector" class="item-selector mode-">
+        <div id="-functions" class="button-bar functions">
+          <span class="button-cluster select-buttons float-after select-buttons">
+            <button title="Select all" class="select-all">All</button>
+            <button title="Deselect all" class="deselect-all">None</button>
+          </span>
+        </div>
+
+        <form tal:attributes="action string:${context/portal_url}/@@panel-users#items"
+              method="post"
+              class="search-box pat-inject pat-autosubmit">
+          <label>
+            <input type="search" placeholder="Search" name="usersearch" />
+            <button type="submit">Search</button>
+          </label>
+        </form>
+
+        <form id="items" 
+              action="#selected-users" 
+              class="search-result users pat-inject pat-autosubmit">
+          <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all" 
+                    class="checklist pat-checklist users unchecked">
+            <label class="item user unchecked"
+                   tal:repeat="user view/users">
+              <input type="checkbox" name="users:list" 
+                     tal:attributes="value user/id"/>
+              <a class="follow">
+                <img tal:replace="structure user/getPersonalPortrait"/>
+                <strong class="title icon-user"
+                    tal:content="python:user.getProperty('fullname')" >Full name</strong>
+                <br>
+                <dfn class="byline">
+                  <tal:loop tal:repeat="role user/getRoles" >
+                    <tal:item tal:content="role">Developer</tal:item>
+                    <span tal:condition="not: repeat/role/end"> | </span>
+                  </tal:loop>
+                </dfn>
+              </a>
+            </label>
+          </fieldset>
+          
+        </form>
+      </div>
+
+    </div>
+    
+  </body>
+</html>
