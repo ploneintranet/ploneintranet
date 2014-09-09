@@ -137,3 +137,10 @@ class IMicroblogContext(IUUIDAware):
     """Marker interface for non-SiteRoot objects with a local microblog.
     Such objects should be adaptable to provide a UUID.
     """
+
+
+class IURLPreview(Interface):
+    """Tool to generate url preview image"""
+
+    def generate_previews(url):
+        """Return web preview image urls, in most cases it's the OG link."""
