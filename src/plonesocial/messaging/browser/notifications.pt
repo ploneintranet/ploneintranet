@@ -1,1 +1,7 @@
-<div id="show-your-messages"></div>
+<button data-pat-toggle="selector: body; value: buddies-off buddies-on" class="icon iconified icon-chat im chat pat-toggle"
+id="buddies-toggle"
+    tal:define="notifications view/number_of_messages">Messages
+    <sup class="counter digit-2" id="online-count"
+    tal:condition="notifications"
+    tal:content="notifications">10</sup>
+</button>
