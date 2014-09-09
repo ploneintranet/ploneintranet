@@ -175,4 +175,9 @@ class Tags(BrowserView):
             search_string = search_string.lower()
             tags = filter(lambda x: search_string in x.lower(),
                           tags)
+            if search_string not in tags:
+                # add searched string as first item in list
+                # if it doesn't exist
+                tags = [search_string] + tags
+
         return tags
