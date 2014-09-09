@@ -65,6 +65,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._tag_mapping = OOBTree.OOBTree()
         # index by context (string UUID) -> (object TreeSet(long statusid))
         self._uuid_mapping = OOBTree.OOBTree()
+        # index by thread (string UUID) -> (object TreeSet(long statusid))
+        self._threadid_mapping = OOBTree.OOBTree()
 
     def add(self, status, context=None):
         self._check_permission("add")
@@ -79,6 +81,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_user(status)
         self._idx_tag(status)
         self._idx_context(status)
+        self._idx_threadid(status)
         self._notify(status)
 
     def _check_status(self, status):
@@ -125,6 +128,16 @@ class BaseStatusContainer(Persistent, Explicit):
             self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
             self._uuid_mapping[uuid].insert(status.id)
 
+    def _idx_threadid(self, status):
+        if not getattr(status, 'thread_id', False):
+            return
+        tread_id = status.thread_id
+        if tread_id:
+            # If the key was already in the collection, there is no change
+            # create tag treeset if not already present
+            self._threadid_mapping.insert(tread_id, LLBTree.LLTreeSet())
+            self._threadid_mapping[tread_id].insert(status.id)
+
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
         return IUUID(context)
@@ -133,6 +146,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._user_mapping.clear()
         self._tag_mapping.clear()
         self._uuid_mapping.clear()
+        self._threadid_mapping.clear()
         return self._status_mapping.clear()
 
     # blocked IBTree methods to protect index consistency
@@ -176,6 +190,28 @@ class BaseStatusContainer(Persistent, Explicit):
     iteritems = items
     iterkeys = keys
     itervalues = values
+
+    # threaded accessors
+
+    def thread_items(self, thread_id, min=None, max=None, limit=100):
+        return ((key, self.get(key)) for key
+                in self.thread_keys(thread_id, min, max, limit))
+
+    def thread_values(self, thread_id, min=None, max=None, limit=100):
+        return (self.get(key) for key
+                in self.thread_keys(thread_id, min, max, limit))
+
+    def thread_keys(self, thread_id, min=None, max=None, limit=100):
+        if not thread_id:
+            return ()
+        mapping = self._threadid_mapping.get(thread_id)
+        if not mapping:
+            return [thread_id]
+        else:
+            if thread_id not in mapping:
+                mapping.insert(thread_id)
+        return longkeysortreverse(mapping,
+                                  min, max, limit)
 
     # user_* accessors
 

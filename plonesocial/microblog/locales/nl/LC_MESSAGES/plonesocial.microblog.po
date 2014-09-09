@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-07 18:51+0000\n"
+"POT-Creation-Date: 2014-02-02 10:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,13 +24,17 @@ msgstr "Een titel voor deze portlet"
 
 #: ./browser/status.py:38
 msgid "Add a comment"
-msgstr "Verzend een status update"
+msgstr "Wat houdt je bezig?"
+
+#: ./browser/status.py:159
+msgid "Add a reply"
+msgstr "Reageer op dit item"
 
 #: ./interfaces.py:17
 msgid "Author name (for display)"
 msgstr "Naam (voor weergave)"
 
-#: ./browser/status.py:86
+#: ./browser/status.py:91
 msgid "Cancel"
 msgstr "Annuleer"
 
@@ -65,10 +69,10 @@ msgstr "Userid"
 #. Default: "What are you doing?"
 #: ./interfaces.py:15
 msgid "add_statusupdate_button"
-msgstr "Verzend status update"
+msgstr "Wat houdt je bezig?"
 
 #. Default: "Status Update"
-#: ./browser/status.py:59
+#: ./browser/status.py:60
 msgid "label_statusupdate"
-msgstr "Wat houdt je bezig?"
+msgstr "Verzend een status update"
 

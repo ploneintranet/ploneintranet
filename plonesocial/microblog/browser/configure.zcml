@@ -4,7 +4,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plonesocial.microblog">
 
-  <adapter 
+  <adapter
       name="plonesocial.microblog.status_provider"
       factory=".status.StatusProvider"
       />
@@ -15,13 +15,18 @@
       class=".status.Tags"
       permission="zope2.View"
       />
-  
+
+  <adapter
+      name="plonesocial.microblog.statusreply_provider"
+      factory=".status.StatusReplyProvider"
+      />
+
   <browser:resourceDirectory
       name="plonesocial.microblog.stylesheets"
       directory="stylesheets"
       layer=".interfaces.IPlonesocialMicroblogLayer"
       />
-  
+
   <browser:resourceDirectory
       name="plonesocial.microblog.javascripts"
       directory="javascripts"

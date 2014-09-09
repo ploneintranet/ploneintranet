@@ -18,10 +18,12 @@ class IStatusUpdate(Interface):
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))
     tags = Attribute("Tags/keywords")
+
     # the UUID of the IMicroblogContext
     context_UUID = Attribute("UUID of IMicroblogContext (e.g. a workspace)")
     # actual object context
     context_object = Attribute("UUID of context object (e.g. a Page)")
+    thread_id = Attribute("status.id from parent")
 
 
 class IStatusContainer(Interface):

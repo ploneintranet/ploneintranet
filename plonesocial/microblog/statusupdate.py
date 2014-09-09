@@ -21,9 +21,10 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, context=None):
+    def __init__(self, text, context=None, thread_id=None):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
+        self.thread_id = thread_id
         self.text = text
         self.date = DateTime()
         self._init_userid()
@@ -97,3 +98,6 @@ class StatusUpdate(Persistent):
 
     def Title(self):
         return self.text
+
+    def getId(self):
+        return self.id

@@ -45,7 +45,8 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
                                               'mime_type',
                                               'creator',
                                               'userid',
-                                              'creation_date')
+                                              'creation_date',
+                                              'thread_id')
 
     def updateFields(self):
         super(StatusForm, self).updateFields()
@@ -70,7 +71,15 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         container = queryUtility(IMicroblogTool)
         microblog_context = get_microblog_context(self.context)
-        status = StatusUpdate(data['text'], context=microblog_context)
+        if hasattr(self.context, 'thread_id') and self.context.thread_id:
+            thread_id = self.context.thread_id  # threaded
+        elif self.context.__class__.__name__ == 'StatusUpdate':
+            thread_id = self.context.id  # first reply
+        else:
+            thread_id = None  # new
+        status = StatusUpdate(data['text'],
+                              context=microblog_context,
+                              thread_id=thread_id)
 
         # debugging only
 #        container.clear()
@@ -102,6 +111,8 @@ class StatusProvider(object):
         self.context = context
         self.request = request
         self.view = view
+        # optional give thread to provider
+        self.thread_id = None
         self.portlet_data = None  # used by microblog portlet
         # force microblog context to IMicroblogContext or SiteRoot
         for obj in aq_chain(self.context):
@@ -139,6 +150,29 @@ class StatusProvider(object):
             return True
         else:
             return self.portlet_data.compact
+
+
+class StatusReplyProvider(StatusProvider):
+    """status form provider to be used on a statusupdate"""
+    implements(IStatusProvider)
+    adapts(IStatusUpdate, IPlonesocialMicroblogLayer, Interface)
+
+    form = StatusForm
+    label = _(u"Add a reply")
+
+    index = ViewPageTemplateFile('status.pt')
+    available = True  # fixme security check
+
+    comment_transform_message = "Reply..."
+
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
+        self.thread_id = context.thread_id or context.id  # catch first
+        self.portlet_data = None  # used by microblog portlet
+
+        self.form.fields['text'].field.title = self.label
 
 
 class StatusViewlet(StatusProvider, ViewletBase):
