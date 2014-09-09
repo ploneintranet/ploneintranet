@@ -165,6 +165,7 @@ class Tags(BrowserView):
         catalog = api.portal.get_tool('portal_catalog')
         tags = set(catalog.uniqueValuesFor('Subject'))
 
+        # TODO: Check if the user is actually allowed to view these tags
         tool = queryUtility(IMicroblogTool)
         tags.update(tool._tag_mapping.keys())
         tags = sorted(tags)
