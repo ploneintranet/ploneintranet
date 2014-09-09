@@ -1,9 +1,5 @@
-#your-messages-icon {
-    background: url('++resource++plonesocial.messaging.messages.png') no-repeat;
-    width: 25px;
-    height: 25px;
-    padding: 4px;
-    line-height: 1;
+#buddies-toggle {
+    margin-right: 10px;
     cursor: pointer;
 }
 
@@ -98,12 +94,6 @@
     width: 400px;
     float: left;
     margin: 0px 10px 10px 0px;
-}
-
-#inbox-messages.small {
-    position: absolute;
-    top: 5px;
-    left: 0px;
 }
 
 #inbox-new-message {
