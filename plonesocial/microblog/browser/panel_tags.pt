@@ -18,7 +18,7 @@
           </span>
         </div>
 
-        <form action="@@panel-tags#items" 
+        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#items"
               method="post"
               class="search-box pat-inject pat-autosubmit">
           <label>
