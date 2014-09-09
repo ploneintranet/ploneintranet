@@ -68,7 +68,8 @@
           <br/>
           <a class="iconified icon-tags pat-tooltip"
              data-pat-tooltip="position: tl; source: ajax; class: tags;" 
-             href="@@panel-tags#status-tag-selector::element">Add tags</a>
+             tal:attributes="href string:${context/portal_url}/@@panel-tags#status-tag-selector::element">
+             Add tags</a>
           <br/>
           <button 
              class="pat-switch" 
