@@ -11,7 +11,13 @@ function add_to_post(input_el) {
                 var tag = $(this).val();
                 if (tag) {
                     var comments = $('.pat-comment-box').val();
-                    $('.pat-comment-box').val(comments + ' #' + tag);
+                    var val = '#' + tag;
+                    if (comments) {
+                        // if a comment already exists then append
+                        // add a space
+                        val = comments + ' ' + val;
+                    }
+                    $('.pat-comment-box').val(val);
                 }
             }
         });
