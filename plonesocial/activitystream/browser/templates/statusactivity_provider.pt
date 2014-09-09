@@ -49,8 +49,8 @@
 
   <div class="reply">
     <a i18n:translate=""
-       tal:attributes="href string:@@status/${view/status_id};
-                       data-reply string:${view/status_id};">Reply</a>
+       tal:define="portal_url context/@@plone_portal_state/portal_url"
+       tal:attributes="href string:${portal_url}/@@status/${view/status_id}">Reply</a>
   </div>
 
 

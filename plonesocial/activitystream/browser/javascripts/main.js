@@ -1,7 +1,7 @@
 ;(function($) {
     $(document).ready(function(){
         $('.reply a').click(function(event) {
-            var url = "@@status/" + $(this).attr('data-reply') + '/';
+            var url = $(this).attr('href');
             // replace a > div.reply > div.activityItem
             $(this).parent().parent().load(url + ' .conversation', function() {
                 $(this).closest('.activityItem').removeClass('activityItem');
