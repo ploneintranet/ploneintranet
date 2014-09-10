@@ -14,7 +14,11 @@
 
                 <div id="message-title-full"
                      tal:condition="python: inbox['view'] != 'small'">
-                    <div id="inbox-new-message-full" class="btn"><a href="@@messaging-send">New Message</a></div>
+                    <div id="inbox-new-message-full" class="btn">
+                        <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
+                           class="pat-modal"
+                           data-pat-modal="class: large">New Message</a>
+                     </div>
                     <h1>Inbox</h1>
                 </div>
                 <div id="inbox-messages"
@@ -23,7 +27,11 @@
                     <div id="message-title"
                          tal:condition="python: inbox['view'] == 'small'">
                         Inbox
-                        <div id="inbox-new-message"><a href="@@messaging-send">New Message</a></div>
+                        <div id="inbox-new-message">
+                            <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
+                               class="pat-modal"
+                               data-pat-modal="class: large">New Message</a>
+                        </div>
                     </div>
                     <tal:rep tal:repeat="convo inbox/conversations">
                         <div tal:attributes="class string:conversations convo-count${convo/new_messages_count}">
