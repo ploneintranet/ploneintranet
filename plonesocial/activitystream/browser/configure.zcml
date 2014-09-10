@@ -23,6 +23,10 @@
       factory=".activity_provider.StatusActivityProvider"
       />
 
+  <adapter zcml:condition="installed plonesocial.microblog"
+      factory=".activity_provider.StatusActivityReplyProvider"
+      />
+
   <adapter
       factory=".activity_provider.ContentActivityProvider"
       />

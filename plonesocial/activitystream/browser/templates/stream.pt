@@ -18,10 +18,10 @@
 
           <tal:block replace="structure view/status_provider" />
 
-          <h2 tal:condition="view/tag" i18n:translate="">Updates tagged 
+          <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
           #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
           </h2>
-          
+
           <tal:block replace="structure view/stream_provider" />
         </div>
 

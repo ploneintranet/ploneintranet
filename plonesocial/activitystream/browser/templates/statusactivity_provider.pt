@@ -1,4 +1,5 @@
 <div  i18n:domain="plonesocial.activitystream"
+      tal:define="portal_url context/@@plone_portal_state/portal_url"
       tal:attributes="class string:activityItem ${view/render_type}">
 
   <div class="activityAvatar">
@@ -47,11 +48,17 @@
 
   </div>
 
-  <div class="reply">
-    <a i18n:translate=""
-       tal:define="portal_url context/@@plone_portal_state/portal_url"
-       tal:attributes="href string:${portal_url}/@@status/${view/status_id}">Reply</a>
+  <div class="comments"
+       tal:define="reply_providers view/reply_providers"
+       tal:condition="reply_providers">
+      <div class="comment"
+           tal:repeat="provider reply_providers"
+           tal:content="structure provider" />
   </div>
 
+  <div class="reply">
+    <a i18n:translate=""
+       tal:attributes="href string:${portal_url}/@@status/${view/status_id}">Reply</a>
+  </div>
 
 </div>
