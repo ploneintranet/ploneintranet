@@ -195,10 +195,11 @@ class StatusActivityProvider(AbstractActivityProvider):
         return provider()
 
     def reply_providers(self):
+        name = "plonesocial.activitystream.statusactivityinlinereply_provider"
         for reply in self.context.replies():
             provider = getMultiAdapter(
                 (reply, self.request, self),
-                name="plonesocial.microblog.statusreply_provider")
+                name=name)
             provider.update()
             yield provider
 
@@ -216,6 +217,15 @@ class StatusActivityReplyProvider(StatusActivityProvider):
         return getMultiAdapter(
             (IStatusActivity(parent), self.request, self.view),
             IActivityProvider)
+
+
+class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
+    template_name = "templates/statusactivityinlinereply_provider.pt"
+    index = ViewPageTemplateFile(template_name)
+
+    @property
+    def date(self):
+        return self._format_time(self.context.date)
 
 
 class ContentActivityProvider(AbstractActivityProvider):

@@ -56,9 +56,4 @@
            tal:content="structure provider" />
   </div>
 
-  <div class="reply">
-    <a i18n:translate=""
-       tal:attributes="href string:${portal_url}/@@status/${view/status_id}">Reply</a>
-  </div>
-
 </div>
