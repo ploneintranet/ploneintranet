@@ -1,39 +1,54 @@
 <div  i18n:domain="plonesocial.activitystream"
-      tal:attributes="class string:activityItem ${view/render_type}">
-
-  <div class="activityAvatar">
+      tal:attributes="class string:post ${view/render_type}">
+  <div class="post-header">
     <a href=""
-       tal:attributes="href view/author_home_url">
-      <img tal:replace="structure view/user_portrait" />
-    </a>
-  </div>
-
-  <div class="activityBody">
-
-    <a href="" class="creator"
+       class="creator"
        tal:condition="view/Creator"
-       tal:content="view/Creator"
        tal:attributes="href view/author_home_url">
-      Poster Name
+        <img class="pat-avatar"
+             tal:attributes="src view/user_portrait/absolute_url" />
+        <h4 tal:content="view/Creator"
+            class="name">
+            Poster Name
+        </h4>
     </a>
 
-    <div class="activityByLine">
-
-      <a href="" class="userid"
-         tal:content="string:@${view/userid}"
-         tal:attributes="href view/author_home_url">
-         Poster Name
-      </a>
-
-      <span i18n:translate="label_commented_on">commented on</span>
-
-
+    <p class="byline">
+      <em class="action"
+          i18n:translate="label_commented_on">commented on</em>
       <a tal:attributes="href view/url;
                          title view/Title"
          tal:content="view/Title">view title</a>
-
-    </div>
-
+      <time tal:content="view/date">
+        8/23/2001 12:40:44 PM
+      </time> |
+      <label class="visibility pat-select bare">
+        <select>
+          <optgroup>
+            <option>
+            Everyone
+            </option>
+            <option>
+            Trusted users
+            </option>
+          </optgroup>
+          <optgroup>
+            <option>
+            Workspace so and so
+            </option>
+            <option>
+            Baggage handling regulations
+            </option>
+            <option>
+            Human resources
+            </option>
+          </optgroup>
+        </select>
+      </label> <br/>
+      <a href="#" class="iconified icon-cog">Options</a>
+    </p>
+  </div>
+  <section class="post-content">
     <div class="activityText"
          tal:define="canReview python:view.can_review()"
          tal:condition="view/getText">
@@ -74,11 +89,11 @@
 
       <span tal:replace="structure view/getText" />
     </div>
+  </section>
 
-    <div class="activityDate"
-         tal:content="view/date">
-      8/23/2001 12:40:44 PM
-    </div>
+  <p class="functions">
+        <a href="#">Share <sup class="counter">(8)</sup></a>
+        <a href="#">Like <sup class="counter">(3)</sup></a>
+  </p>
 
-  </div>
 </div>
