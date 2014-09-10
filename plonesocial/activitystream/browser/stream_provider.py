@@ -21,6 +21,7 @@ from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
 
 from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IStatusActivityReply
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
 
@@ -158,9 +159,7 @@ class StreamProvider(object):
             if activity.id in seen_thread_ids:
                 continue
 
-            if activity.thread_id:
-                if activity.thread_id in seen_thread_ids:
-                    continue
+            if IStatusActivityReply.providedBy(activity):
                 seen_thread_ids.append(activity.thread_id)
 
             yield activity
