@@ -3,6 +3,7 @@ from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.component import adapts
 from zope.component import queryUtility
+from zope.component import getMultiAdapter
 
 from AccessControl import getSecurityManager
 from Products.CMFPlone.interfaces import IPloneSiteRoot
@@ -150,6 +151,11 @@ class StatusProvider(object):
             return True
         else:
             return self.portlet_data.compact
+
+    def portal_url(self):
+        portal_state = getMultiAdapter((self.context, self.request),
+                                       name=u'plone_portal_state')
+        return portal_state.portal_url()
 
 
 class StatusReplyProvider(StatusProvider):
