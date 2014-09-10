@@ -64,7 +64,9 @@ class StatusUpdate(Persistent):
 
     def replies(self):
         container = PLONESOCIAL.microblog
-        return container.thread_values(self.id)
+        for reply in container.thread_values(self.id):
+            if IStatusActivityReply.providedBy(reply):
+                yield reply
 
 #########################################################################
 # FIXME - this now resolves to IMicroblogContext | should resolve object
