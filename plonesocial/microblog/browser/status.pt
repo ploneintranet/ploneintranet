@@ -20,7 +20,7 @@
     <form id="update-status-form" method="post"
           class="pat-inject update-social status-inactive"
           action=""
-          data-pat-inject=".activityItem:first::element;
+          data-pat-inject=".post:first::element;
                            target: #microblog::element::after
                            && #update-status-form"
           tal:condition="view/compact">
