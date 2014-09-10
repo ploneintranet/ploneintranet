@@ -7,12 +7,16 @@ from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from persistent import Persistent
 from zope.interface import implements
+from zope.interface import alsoProvides
 from plone.uuid.interfaces import IUUID
 from plone.app.uuid.utils import uuidToObject
 from zope.component.hooks import getSite
 
 from interfaces import IStatusUpdate
 from utils import get_microblog_context
+
+from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.activitystream.interfaces import IStatusActivityReply
 
 logger = logging.getLogger('plonesocial.microblog')
 
@@ -30,6 +34,9 @@ class StatusUpdate(Persistent):
         self._init_userid()
         self._init_creator()
         self._init_context(context)
+
+        if thread_id:
+            alsoProvides(self, IStatusActivityReply)
 
     # for unittest subclassing
     def _init_userid(self):
@@ -54,6 +61,10 @@ class StatusUpdate(Persistent):
         else:
             # actual object context
             self.context_object = context
+
+    def replies(self):
+        container = PLONESOCIAL.microblog
+        return container.thread_values(self.id)
 
 #########################################################################
 # FIXME - this now resolves to IMicroblogContext | should resolve object

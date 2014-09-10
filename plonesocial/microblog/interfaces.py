@@ -25,6 +25,9 @@ class IStatusUpdate(Interface):
     context_object = Attribute("UUID of context object (e.g. a Page)")
     thread_id = Attribute("status.id from parent")
 
+    def replies():
+        """ Return a list of replies (IStatusUpdate)"""
+
 
 class IStatusContainer(Interface):
     """Manages read/write access to, and storage of,
