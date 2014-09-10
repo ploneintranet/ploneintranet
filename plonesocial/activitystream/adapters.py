@@ -31,6 +31,9 @@ class StatusActivity(object):
             self.title = m_context.Title()
             self.url = m_context.absolute_url() + '/@@stream'
 
+    def replies(self):
+        return map(IStatusActivity, self.context.replies())
+
 
 class AbstractContentActivity(object):
 

@@ -18,6 +18,13 @@ class IActivity(Interface):
 class IStatusActivity(IActivity):
     """IActivity for an IStatusUpdate"""
 
+    def replies():
+        """ Return a list of replies (IStatusActivity) to this activity"""
+
+
+class IStatusActivityReply(IStatusActivity):
+    """ A reply to a IStatusActivity """
+
 
 class IContentActivity(IActivity):
     """IActivity for a content object"""

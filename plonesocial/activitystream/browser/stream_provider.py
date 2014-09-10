@@ -126,35 +126,51 @@ class StreamProvider(object):
 
     def _activities_statuses(self):
         if not self.show_microblog:
-            return []
+            raise StopIteration()
         container = PLONESOCIAL.microblog
         # show_microblog yet no container can happen on microblog uninstall
         if not container:
-            return []
-        try:
-            # filter on users OR context, not both
-            if self.users:
-                # support plonesocial.network integration
-                return container.user_values(self.users,
-                                             limit=self.count,
-                                             tag=self.tag)
-            elif self.microblog_context:
-                # support collective.local integration
-                return container.context_values(self.microblog_context,
-                                                limit=self.count,
-                                                tag=self.tag)
-            else:
-                # default implementation
-                return container.values(limit=self.count,
-                                        tag=self.tag)
-        except Unauthorized:
-            return []
+            raise StopIteration()
+
+        # try:
+        # filter on users OR context, not both
+        if self.users:
+            # support plonesocial.network integration
+            activities = container.user_values(self.users,
+                                               limit=self.count,
+                                               tag=self.tag)
+        elif self.microblog_context:
+            # support collective.local integration
+            activities = container.context_values(self.microblog_context,
+                                                  limit=self.count,
+                                                  tag=self.tag)
+        else:
+            # default implementation
+            activities = container.values(limit=self.count, tag=self.tag)
+        # except Unauthorized:
+        #     return []
+
+        # For a reply IStatusActivity we render the parent post and then
+        # all the replies are inside that. So, here we filter out reply who's
+        # parent post we already rendered.
+        seen_thread_ids = []
+        for activity in activities:
+            if activity.id in seen_thread_ids:
+                continue
+
+            if activity.thread_id:
+                if activity.thread_id in seen_thread_ids:
+                    continue
+                seen_thread_ids.append(activity.thread_id)
+
+            yield activity
 
     def activity_providers(self):
         for activity in self.activities():
             if not self.can_view(activity):
                 # discussion parent inaccessible
                 continue
+
             yield getMultiAdapter(
                 (activity, self.request, self.view),
                 IActivityProvider)

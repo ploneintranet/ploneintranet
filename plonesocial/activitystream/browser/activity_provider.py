@@ -15,11 +15,12 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
 from plonesocial.activitystream.interfaces import IStatusActivity
+from plonesocial.activitystream.interfaces import IStatusActivityReply
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
 
 from plone import api
-
+from plonesocial.activitystream.integration import PLONESOCIAL
 
 TAGRE = re.compile('(#(\S+))')
 USERRE = re.compile('(@\S+)')
@@ -202,17 +203,41 @@ class StatusActivityProvider(AbstractActivityProvider):
         return self.status.id
 
     def highlight(self):
+        return False
         if self.view.status_id == self.status_id():
             return True
 
     def statusreply_provider(self):
-        if not self.highlight():
-            return
+        # if not self.highlight():
+        #     return
         provider = getMultiAdapter(
             (self.status, self.request, self),
             name="plonesocial.microblog.statusreply_provider")
         provider.update()
         return provider()
+
+    def reply_providers(self):
+        for reply in self.context.replies():
+            provider = getMultiAdapter(
+                (reply, self.request, self),
+                name="plonesocial.microblog.statusreply_provider")
+            provider.update()
+            yield provider
+
+
+class StatusActivityReplyProvider(StatusActivityProvider):
+    """ Renders a StatusActivity reply in """
+    adapts(IStatusActivityReply, IPlonesocialActivitystreamLayer, Interface)
+    index = ViewPageTemplateFile("templates/statusactivityreply_provider.pt")
+
+    def parent_provider(self):
+        container = PLONESOCIAL.microblog
+        if not container:
+            return
+        parent = container.get(self.context.thread_id)
+        return getMultiAdapter(
+            (IStatusActivity(parent), self.request, self.view),
+            IActivityProvider)
 
 
 class ContentActivityProvider(AbstractActivityProvider):

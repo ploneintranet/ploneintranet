@@ -30,6 +30,10 @@ class IActivityProvider(IContentProvider, IActivity):
     # + all the IActivity accessors
 
 
+class IActivityReplyProvider(IActivityProvider):
+    """ Render IActivityReply """
+
+
 class IStreamProvider(IContentProvider):
     """Helper to render activity streams"""
 
