@@ -34,7 +34,6 @@ function messaging_ajax (url, replaceid, datatype, contentid) {
                    $(replaceid).replaceWith(data);
                }
            }
-           send_new_message();
            format_send_form();
            add_btn_class();
        }
@@ -79,15 +78,6 @@ function add_inbox_count(data) {
     if (msg_count) {
         $('#personaltools-plone_social_menu a').append(" (" + msg_count + ")");
     }
-}
-
-
-function send_new_message(){
-    // create overlay of send messages
-    $('#inbox-new-message a').prepOverlay({
-        subtype: 'ajax',
-        filter: '#content > *',
-    });
 }
 
 
