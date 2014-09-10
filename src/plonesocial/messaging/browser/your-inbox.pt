@@ -14,7 +14,7 @@
 
                 <div id="message-title-full"
                      tal:condition="python: inbox['view'] != 'small'">
-                    <div id="inbox-new-message-full" class="btn">
+                    <div id="inbox-new-message-full" class="button">
                         <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
                            class="pat-modal"
                            data-pat-modal="class: large">New Message</a>
@@ -27,7 +27,7 @@
                     <div id="message-title"
                          tal:condition="python: inbox['view'] == 'small'">
                         <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
-                           class="pat-modal float-after"
+                           class="pat-modal float-after button"
                            data-pat-modal="class: large">New Message</a>
 
                         Inbox
@@ -51,30 +51,32 @@
                             </tal:c>
                         </li>
                     </ul>
-                    <ul tal:condition="not:inbox/conversations">
-                        <li class="item">
-                            <p class="no-conversations">No conversations</p>
+                    <ul class="list" tal:condition="not:inbox/conversations">
+                        <li class="item empty">
+                            <p>No messages</p>
                         </li>
                     </ul>
                     <div id="your-messages-inbox"><a tal:attributes="href string: ${context/portal_url}/@@social-inbox">Your Inbox</a></div>
                 </div>
                 <div id="conversation-content"
                     tal:condition="python: inbox['view'] != 'small'">
-                    <tal:rep tal:repeat="msg inbox/display_message">
-                        <div class="social-message">
-                            <tal:block tal:replace="structure msg/sender_img" />
-                            <div class="social-message-created">
-                                <tal:block tal:content="python: context.toLocalizedTime(msg['created'], long_format=0)" />
+                    <tal:def tal:define="msg inbox/display_message">
+                        <tal:con tal:condition="msg">
+                            <div class="social-message" tal:repeat="msg msg/full-messages">
+                                <tal:block tal:replace="structure msg/sender_img" />
+                                <div class="social-message-created">
+                                    <tal:block tal:content="python: context.toLocalizedTime(msg['created'], long_format=0)" />
+                                </div>
+                                <tal:block tal:content="msg/text" />
+                                <div class="clearall"></div>
                             </div>
-                            <tal:block tal:content="msg/text" />
-                            <div class="clearall"></div>
-                        </div>
-                    </tal:rep>
-                    <div id="inbox-reply-message-full" class="btn">
-                        <a href="@@messaging-send">Reply to
-                            <span id="social-reply-to" tal:content="inbox/conv_with" />
-                        </a>
-                    </div>
+                            <div id="inbox-reply-message-full" class="button">
+                                <a tal:attributes="href string: ${context/portal_url}/@@messaging-send">Reply to
+                                    <span id="social-reply-to" tal:content="inbox/conv_with" />
+                                </a>
+                            </div>
+                        </tal:con>
+                    </tal:def>
                 </div>
             </tal:def>
         </tal:c>
