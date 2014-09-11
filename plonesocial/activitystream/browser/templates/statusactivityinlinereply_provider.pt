@@ -5,8 +5,8 @@
     <div class="comment-header">
         <a href="/cornelis-kolbach" tal:attributes="href view/author_home_url">
 
-    <img src="/media/avatar-cornelis-kolbach.jpg" alt="" class="pat-avatar "
-         tal:replace="structure view/user_portrait">
+        <img class="pat-avatar"
+             tal:attributes="src view/user_portrait/absolute_url" />
             <h4 class="name" tal:content="view/Creator">
                 Cornelis Kolbach
             </h4>
