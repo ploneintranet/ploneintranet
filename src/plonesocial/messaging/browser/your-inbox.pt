@@ -71,10 +71,10 @@
                             <div class="social-message post"
                                 tal:repeat="msg msg/full-messages">
                                 <div class="post-header">
-                                    <a href="">
+                                    <a tal:attributes="href string:${context/portal_url}/profile/${msg/sender}">
                                         <img class="pat-avatar"
                                              tal:attributes="src msg/sender_img/absolute_url" />
-                                        <h4 class="name">Name</h4>
+                                        <h4 class="name" tal:content="msg/sender"></h4>
                                     </a>
                                     <p class="byline" />
                                 </div>
