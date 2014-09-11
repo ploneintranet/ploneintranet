@@ -38,13 +38,33 @@
         $(document).on('input propertychange',the_textarea, function() {
         updateMirror();
         });
+        $('#update-status-form').submit(function(event){
+            var textarea = $('#update-status-form').find('textarea');
+            var selected_tags = $('#update-status-form').find('#selected-tags a');
+            var selected_users = $('#update-status-form').find('#selected-users a');
+            var tags = '';
+            var users = '';
+
+            for (i = 0; i < selected_users.length; i++) {
+                users = users + ' @' + selected_users[i].dataset.userId;
+            }
+
+            for (i = 0; i < selected_tags.length; i++) {
+                tags = tags + ' ' + selected_tags[i].text;
+            }
+
+            users = users?' — ' + users:users
+            tags = tags?' — ' + tags:tags
+
+            textarea.val(textarea.val() + users + tags);
+            });
         });
       </script>
 
       <fieldset>
         <!-- This content-mirror paragraph is oddly wrapped
              to avoid extra whitespace when it is rendered as a 'pre' -->
-        <p class="content-mirror"><span class="text"><em class="placeholder">What are you doing?</em></span><em class="selected-users" id="selected-users"><a tal:repeat="user request/users|nothing" tal:content="string:@${user}" /></em><em class="selected-tags" id="selected-tags"><a tal:repeat="tag request/tags|nothing" tal:content="string:#${tag}" /></em></p>
+        <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="view/get_users|nothing"> — <tal:block tal:repeat="user view/get_users|nothing"><a tal:content="string:@${user/fullname}" tal:attributes="data-user-id user/id"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
         <textarea placeholder="What are you doing?"
                   class="pat-comment-box pat-switch"
                   data-pat-switch="#update-status-form status-inactive status-active"
