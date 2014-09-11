@@ -216,7 +216,7 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
             if requested_user == con['username']:
                 # if a user has been passed then, show all messages
                 # to this user
-                display_messages = messages
+                display_messages = {'full-messages': messages}
                 conv_with_user = con['username']
 
         if messages:
@@ -270,6 +270,7 @@ class YourMessagesView(BrowserView):
             return None
 
         locator = getUtility(IMessagingLocator)
+
         inboxes = locator.get_inboxes()
 
         if self.request.get('count'):
