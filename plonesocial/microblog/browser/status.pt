@@ -68,7 +68,7 @@
       <fieldset>
         <!-- This content-mirror paragraph is oddly wrapped
              to avoid extra whitespace when it is rendered as a 'pre' -->
-        <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="view/get_users|nothing"> — <tal:block tal:repeat="user view/get_users|nothing"><a tal:content="string:@${user/fullname}" tal:attributes="data-user-id user/id"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
+        <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')" tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
         <textarea placeholder="What are you doing?"
                   class="pat-comment-box pat-switch"
                   data-pat-switch="#new-post-box status-inactive status-active"

@@ -33,11 +33,4 @@
       layer=".interfaces.IPlonesocialMicroblogLayer"
       />
 
-  <browser:view
-      for="*"
-      name="panel-users"
-      class=".status.Users"
-      permission="zope2.View"
-      />
-
 </configure>
