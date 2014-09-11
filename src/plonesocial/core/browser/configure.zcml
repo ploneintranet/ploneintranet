@@ -9,6 +9,7 @@
       name="panel-users"
       class=".users.Users"
       permission="zope2.View"
+      layer=".interfaces.IPlonesocialCoreLayer"
       />
 
 </configure>
