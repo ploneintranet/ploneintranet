@@ -133,7 +133,6 @@ class StreamProvider(object):
         if not container:
             raise StopIteration()
 
-        # try:
         # filter on users OR context, not both
         if self.users:
             # support plonesocial.network integration
@@ -148,8 +147,6 @@ class StreamProvider(object):
         else:
             # default implementation
             activities = container.values(limit=self.count, tag=self.tag)
-        # except Unauthorized:
-        #     return []
 
         # For a reply IStatusActivity we render the parent post and then
         # all the replies are inside that. So, here we filter out reply who's
