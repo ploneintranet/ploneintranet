@@ -254,10 +254,13 @@ class YourMessagesView(BrowserView):
                 'request': '',
                 'conv_with': '',
                 'display_message': [],
-                'view': 'full'}
+                'view': 'full',
+                'width-style': 'four'}
 
         if self.request.get('view'):
             msgs['view'] = self.request.get('view')
+            if msgs['view'] == 'small':
+                msgs['width-style'] = 'eleven'
 
         if user is None:
             # something has gone wrong
