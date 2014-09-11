@@ -157,6 +157,20 @@ class StatusProvider(object):
                                        name=u'plone_portal_state')
         return portal_state.portal_url()
 
+    def get_users(self):
+        """Get user names"""
+        user_ids = self.request.get('users')
+        if user_ids:
+            return [
+                {
+                    'id': user.id,
+                    'fullname': user.getProperty('fullname'),
+                }
+                for user in api.user.get_users()
+                if user.id in user_ids
+            ]
+        return []
+
 
 class StatusReplyProvider(StatusProvider):
     """status form provider to be used on a statusupdate"""
