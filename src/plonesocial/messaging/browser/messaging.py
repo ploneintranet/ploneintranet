@@ -17,6 +17,7 @@ from zope.i18nmessageid import MessageFactory
 
 from plonesocial.messaging.interfaces import IMessage
 from plonesocial.messaging.interfaces import IMessagingLocator
+from AccessControl import Unauthorized
 
 _ = MessageFactory('plonesocial.microblog')
 
@@ -264,10 +265,10 @@ class YourMessagesView(BrowserView):
 
         if user is None:
             # something has gone wrong
-            return None
+            raise Unauthorized("User is not logged in")
         if user.id == 'acl_users':
             # is anon
-            return None
+            raise Unauthorized("User is not logged in")
 
         locator = getUtility(IMessagingLocator)
 
