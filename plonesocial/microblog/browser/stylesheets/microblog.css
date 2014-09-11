@@ -1,22 +1,3 @@
-div#microblog {
-    border-radius: 0.5em 0.5em 0.5em 0.5em;
-    box-shadow: 0 0 0.5em 0 #888888;
-    margin: 0.5em 0.5em 1em 0;
-    padding: 0.5em 2em 0.5em 1em;
-    background-color: #fafafa;
-}
-div#microblog label {
-    padding-left: 0.25em;
-}
-div#microblog .field {
-    margin: 0;
-}
-div#microblog textarea {
-    width: 100%;
-}
-div#microblog .formControls {
-    margin: 0.25em 0 0 0;
-}
 div#microblog input.hide,
 div#microblog .formControls input.reply,
 div#microblog .formControls input.hide {
