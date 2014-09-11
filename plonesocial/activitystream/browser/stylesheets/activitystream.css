@@ -106,3 +106,10 @@ div.activityDate {
     color: white;
     background-color: #205c90;
 }
+
+.plonesocial-navigation {
+  display:inline;
+}
+.plonesocial-navigation li {
+  display:inline  !important; //need this to overrides plone sunburst
+}
