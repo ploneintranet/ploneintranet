@@ -18,13 +18,35 @@ from plonesocial.activitystream.interfaces import IStatusActivity
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
 
+from plone import api
+
 
 TAGRE = re.compile('(#(\S+))')
+USERRE = re.compile('(@\S+)')
 
 
 def link_tags(text, url=''):
     tmpl = '<a href="%s/@@stream/tag/\\2" class="tag tag-\\2">\\1</a>'
     return TAGRE.sub(tmpl % url, text)
+
+
+def link_users(text, url=''):
+    user_tmpl = '<a href="{0}/@@profile/{1}" class="user user-{1}">@{2}</a>'
+    user_marks = USERRE.findall(text)
+    for user_mark in user_marks:
+        user_id = user_mark[1:]
+        user = api.user.get(username=user_id)
+        if user:
+            user_fullname = user.getProperty('fullname', '') or user_id
+            text = re.sub(
+                user_mark,
+                user_tmpl.format(
+                    url,
+                    user_id,
+                    user_fullname),
+                text
+            )
+    return text
 
 
 class AbstractActivityProvider(object):
@@ -132,7 +154,8 @@ class AbstractActivityProvider(object):
         portal_state = getMultiAdapter((self.context, self.request),
                                        name=u'plone_portal_state')
         url = portal_state.portal_url()
-        return link_tags(self.context.text, url)
+        text = link_users(self.context.text, url)
+        return link_tags(text, url)
 
     @property
     def raw_date(self):
