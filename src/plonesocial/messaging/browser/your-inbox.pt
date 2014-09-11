@@ -33,8 +33,9 @@
 
                         Inbox
                     </div>
-                    <ul class="list" tal:repeat="convo inbox/conversations">
-                        <li tal:attributes="class string:item user">
+                    <ul class="list">
+                        <li tal:repeat="convo inbox/conversations"
+                            tal:attributes="class string:item user">
                             <div class="social-message-name">
                                 <div class="social-message-created">
                                     <tal:block tal:content="python: context.toLocalizedTime(convo['last-updated'], long_format=0)" />
