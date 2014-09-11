@@ -33,7 +33,7 @@
 
                         Inbox
                     </div>
-                    <ul class="list">
+                    <ul class="list" tal:condition="inbox/conversations">
                         <li tal:repeat="convo inbox/conversations"
                             tal:attributes="class string:item user">
                             <div class="social-message-name">
