@@ -17,31 +17,35 @@
 
     </fieldset>
 
-    <form id="update-status-form" method="post"
-          class="main-update-status-form pat-inject update-social status-inactive"
+    <form id="new-post-box" method="post"
+          class="pat-inject update-social status-inactive"
           action=""
           data-pat-inject=".post:first::element;
                            target: #microblog::element::after
-                           && #update-status-form"
+                           && #new-post-box"
           tal:condition="view/compact">
 
       <script type="text/javascript">
         <!-- Ideally this will be a separate pattern one day -->
         $(document).ready(function(){
-        var the_textarea = $('textarea.pat-comment-box');
-        function updateMirror(){
-        var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
-        var the_value = the_textarea.val();
-        the_mirror.text(the_value);
+            var the_textarea = $('textarea.pat-comment-box');
+            function updateMirror(){
+            var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
+            var the_value = the_textarea.val();
+            the_mirror.text(the_value);
+            if(!the_value.length){
+                the_mirror.html('<em class="placeholder">What are you doing?</em>');
+            }
         };
 
         $(document).on('input propertychange',the_textarea, function() {
-        updateMirror();
+            updateMirror();
         });
-        $('#update-status-form').submit(function(event){
-            var textarea = $('#update-status-form').find('textarea');
-            var selected_tags = $('#update-status-form').find('#selected-tags a');
-            var selected_users = $('#update-status-form').find('#selected-users a');
+
+        $('#new-post-box').submit(function(event){
+            var textarea = $('#new-post-box').find('textarea');
+            var selected_tags = $('#new-post-box').find('#selected-tags a');
+            var selected_users = $('#new-post-box').find('#selected-users a');
             var tags = '';
             var users = '';
 
@@ -67,15 +71,15 @@
         <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="view/get_users|nothing"> — <tal:block tal:repeat="user view/get_users|nothing"><a tal:content="string:@${user/fullname}" tal:attributes="data-user-id user/id"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
         <textarea placeholder="What are you doing?"
                   class="pat-comment-box pat-switch"
-                  data-pat-switch="#update-status-form status-inactive status-active"
+                  data-pat-switch="#new-post-box status-inactive status-active"
                   name="form.widgets.text"></textarea>
         <fieldset
            class="attachments pat-subform pat-autosubmit pat-inject"
-           data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #update-status-form-attachment-previews">
+           data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #new-post-box-attachment-previews">
           <label class="iconified icon-attach pat-switch"
-                 data-pat-switch="#update-status-form status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+                 data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
           <p class="attachment-previews"
-             id="update-status-form-attachment-previews">
+             id="new-post-box-attachment-previews">
             No attachments selected.
           </p>
         </fieldset>
@@ -87,17 +91,17 @@
           <br/>
           <a class="iconified icon-tags pat-tooltip"
              data-pat-tooltip="position: tl; source: ajax; class: tags;"
-             tal:attributes="href string:${portal_url}/@@panel-tags#status-tag-selector::element">
+             tal:attributes="href string:${context/portal_url}/@@panel-tags#status-tag-selector::element">
              Add tags</a>
           <br/>
           <button
              class="pat-switch"
-             data-pat-switch="#update-status-form status-* status-inactive"
+             data-pat-switch="#new-post-box status-* status-inactive"
              type="submit"
              name="form.buttons.statusupdate">Post</button>
           <button
              class="pat-switch"
-             data-pat-switch="#update-status-form status-* status-inactive"
+             data-pat-switch="#new-post-box status-* status-inactive"
              type="reset">Cancel</button>
         </div>
       </fieldset>
@@ -118,6 +122,9 @@
     }
     .update-social textarea {
         font: inherit !important;
+    }
+    .update-social .attachments {
+        margin: 0 !important;
     }
     .update-social .attachment-previews {
         margin: inherit !important;
