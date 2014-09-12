@@ -6,7 +6,15 @@ from plone import api
 
 class Users(BrowserView):
 
+    action = "#selected-users"
+    button_deselect_all = True
+    button_select_all = True
     index = ViewPageTemplateFile('panel_users.pt')
+    input_name = 'users:list'
+    input_type = 'checkbox'
+    is_multiselect = True
+    panel_id = 'panel-users'
+    panel_type = 'mentions'
 
     def users(self):
         """Get users.
