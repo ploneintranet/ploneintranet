@@ -3,6 +3,7 @@ import datetime
 import json
 
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
 from plone import api
@@ -28,6 +29,7 @@ class MessageForm(extensible.ExtensibleForm, form.Form):
     id = None
     label = _('Add a comment')
     fields = field.Fields(IMessage).select('recipient', 'text')
+    template = ViewPageTemplateFile('send-message.pt')
 
     def updateActions(self):
         super(MessageForm, self).updateActions()
