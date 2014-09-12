@@ -1,0 +1,103 @@
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	    
+		.pat-calendar .cal-cat-baggage-handling-regulations, 
+		ul.cal-events > li.cal-cat-baggage-handling-regulations.no-date, 
+		.ws-baggage-handling-regulations .workspace-tabs,
+		.tiles li.workspace.ws-baggage-handling-regulations,
+		.ws-baggage-handling-regulations #workspace-name {
+		    background-color: #869EBF;
+		    color: white
+		}
+
+		.ws-baggage-handling-regulations #workspace-name a,
+		.tiles li.workspace.workspace.ws-baggage-handling-regulations a *  {
+		    color: white;
+		}
+
+		.ws-baggage-handling-regulations .workspace-tabs:after,
+		.lt-ie10 .ws-baggage-handling-regulations nav.workspace-tabs a:last-child {
+			background: linear-gradient(to bottom, #869EBF 0%, rgba(134,158,191,0) 100%);
+			filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#869EBF, endColorstr=#00869EBF);
+		}
+
+		.checklist .cal-cat-baggage-handling-regulations, 
+		.cal-events .cal-cat-baggage-handling-regulations .title a {
+			color: #869EBF;
+		}
+
+	
+
+	

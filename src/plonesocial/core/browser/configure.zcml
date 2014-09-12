@@ -28,4 +28,19 @@
       layer=".interfaces.IPlonesocialCoreLayer"
       />
 
+
+  <!-- styles and javascripts are only active in the "default" profile
+       not in the "minimal" profile. -->
+
+  <browser:resourceDirectory
+      name="plonesocial.core.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPlonesocialCoreLayer"
+      />
+  <browser:resourceDirectory
+      name="plonesocial.core.javascripts"
+      directory="javascripts"
+      layer=".interfaces.IPlonesocialCoreLayer"
+      />
+
 </configure>
