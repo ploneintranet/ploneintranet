@@ -5,7 +5,7 @@ from plone.app.layout.globals.interfaces import IViewView
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.core.integration import PLONESOCIAL
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.activitystream')

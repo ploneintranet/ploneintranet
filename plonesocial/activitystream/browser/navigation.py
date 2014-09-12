@@ -4,7 +4,7 @@ from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 
-from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.core.integration import PLONESOCIAL
 
 
 class PloneSocialNavigation(BrowserView):

@@ -19,7 +19,7 @@ from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStatusConversationProvider
 from .interfaces import IActivityProvider
 
-from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.core.integration import PLONESOCIAL
 
 import logging
 

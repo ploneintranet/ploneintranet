@@ -25,7 +25,7 @@ from plonesocial.activitystream.interfaces import IStatusActivityReply
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
 
-from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.core.integration import PLONESOCIAL
 
 import logging
 
