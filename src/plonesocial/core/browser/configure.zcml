@@ -6,6 +6,14 @@
 
   <browser:view
       for="*"
+      name="panel-tags"
+      class=".panel_tags.Tags"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialCoreLayer"
+      />
+
+  <browser:view
+      for="*"
       name="panel-users"
       class=".panel_users.Users"
       permission="zope2.View"
