@@ -7,7 +7,7 @@
   <browser:view
       for="*"
       name="panel-users"
-      class=".users.Users"
+      class=".panel_users.Users"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialCoreLayer"
       />
@@ -15,7 +15,7 @@
   <browser:view
       for="*"
       name="panel-user"
-      class=".users.User"
+      class=".panel_users.User"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialCoreLayer"
       />
