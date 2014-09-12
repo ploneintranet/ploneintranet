@@ -15,7 +15,7 @@ from zope.component.hooks import getSite
 from interfaces import IStatusUpdate
 from utils import get_microblog_context
 
-from plonesocial.activitystream.integration import PLONESOCIAL
+from plonesocial.core.integration import PLONESOCIAL
 from plonesocial.activitystream.interfaces import IStatusActivityReply
 
 logger = logging.getLogger('plonesocial.microblog')
