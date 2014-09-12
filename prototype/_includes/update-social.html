@@ -1,7 +1,7 @@
 <form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="{{ include.action }}" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: {{localtarget}}{% endif %}">
     <script type="text/javascript">
         $(document).ready(function(){
-            var the_textarea = $('textarea.pat-comment-box');
+            var the_textarea = $('#{{ include.id }}').find('textarea.pat-comment-box');
             function updateMirror(){
                 var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
                 var the_value = the_textarea.val();
@@ -16,6 +16,24 @@
             });
         });
     </script>
+    {% if include.direct == "true" %}
+        {% unless include.hideuser == 'true' %}
+            <label>
+                To:
+                {% if include.fixeduser == "true" %}
+                    <input disabled="disabled" value="{{ include.user }}" />
+                {% else %}
+                    <a class="iconified icon-user pat-tooltip"
+                        data-pat-tooltip="position: tl; source: ajax; class: user;"
+                        href="/feedback/panel-user.html#content"></a>
+                    <span id="selected-user"><input value="{{ include.user }}" /></span>
+                {% endif %}
+            </label>
+        {% endunless %}
+        {% if include.hideuser == "true" %}
+            <input type="hidden" value="{{ include.user }}" />
+        {% endif %}
+    {% endif %}
     <fieldset>
         <p class="content-mirror"
             ><span class="text"
@@ -63,7 +81,7 @@
                             </option>
                         </optgroup>
                     </select>
-                </label>  
+                </label>
             {% endunless %}
         </div>
     </fieldset>

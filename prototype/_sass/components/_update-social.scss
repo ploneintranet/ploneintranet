@@ -2,9 +2,9 @@
     position: relative;
     background-color: #fcfcfc;
 
-    &#post-box {
-      margin: 0 auto 3em;
-      width: 80%;
+    &#new-post-box {
+        margin: 0 auto 3em;
+        width: 80%;
     }
 
     textarea,
@@ -42,7 +42,7 @@
         text-align: start;
         white-space: pre-wrap;
         vertical-align: text-bottom;
-        overflow-x: scroll;
+        overflow-x: hidden;
         width: 100%;
         box-sizing: border-box;
         margin-bottom: -100%;
@@ -87,10 +87,10 @@
 
     .attachments {
       clear: both;
-      margin: 0;
+      margin: 0 !important; //is !important to override Plone style
 
       .attachment-previews {
-          margin: 0;
+          margin: 0 !important;  //is !important to override Plone style
           clear: both;
           padding: 0 1em;
           font-style: italic;
@@ -118,7 +118,7 @@
     }
 
     .button-bar {
-      background-color: $colour-base;
+      background-color: blacken($colour-base, 10);
       height: 0;
       padding: 0 0.5em;
       overflow: hidden;
@@ -151,7 +151,7 @@
     }
 }
 
-.application-workspace #post-box {
+.application-workspace #new-post-box {
   margin-top: 2em;
   margin-bottom: 2em;
 }

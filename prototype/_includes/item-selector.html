@@ -16,11 +16,12 @@
         {% if include.toggle == 'true' %}
             <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</button>
         {% endif %}
-
-        <span class="button-cluster select-buttons float-after select-buttons">
-            <button class="select-all" title="Select all">All</button>
-            <button class="deselect-all" title="Deslect all">None</button>
-        </span>
+        {% unless include.mode == "user" %}
+            <span class="button-cluster select-buttons float-after select-buttons">
+                <button class="select-all" title="Select all">All</button>
+                <button class="deselect-all" title="Deslect all">None</button>
+            </span>
+        {% endunless %}
     </div>
 
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
@@ -38,6 +39,21 @@
                     {% if user.layout == 'user' %}
                         <label class="item user">
                             <input name="" type="checkbox" />
+                            <a class="follow">
+                                <img src="{{user.image_url}}" alt="" />
+                                <strong class="title">{{ user.title }}</strong>
+                                <br>
+                                <dfn class="byline">{{ user.user_role }}</dfn>
+                            </a>
+                        </label>
+                    {% endif %}
+                {% endfor %}
+
+            {% elsif include.mode == "user" %}
+                {% for user in site.posts %}
+                    {% if user.layout == 'user' %}
+                        <label class="item user">
+                            <input name="" type="radio" />
                             <a class="follow">
                                 <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>

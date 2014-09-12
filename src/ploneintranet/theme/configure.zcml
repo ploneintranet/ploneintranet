@@ -25,7 +25,7 @@
         />
 
     <plone:static
-        directory="theme"
+        directory="static"
         type="theme"
         name="ploneintranet.theme"
         />

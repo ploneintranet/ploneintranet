@@ -5,7 +5,7 @@
               compression="safe"
               cookable="True"
               enabled="1"
-              id="++theme++ploneintranet.theme/style/screen.css"
+              id="++theme++ploneintranet.theme/generated/style/screen.css"
               media="screen"
               rel="stylesheet"
               rendering="import"
@@ -16,10 +16,13 @@
               compression="safe"
               cookable="True"
               enabled="1"
-              id="++theme++ploneintranet.theme/style/colours.css"
+              id="++theme++ploneintranet.theme/generated/style/colours.css"
               media="screen"
               rel="stylesheet"
               rendering="import"
               expression="python:request.getHeader('X-Theme-Enabled') and not request.response.getHeader('X-Theme-Disabled')"
               applyPrefix="True" />
+  <stylesheet id="public.css" expression="not:request/HTTP_X_THEME_ENABLED | nothing" />
+  <stylesheet id="base.css" expression="not:request/HTTP_X_THEME_ENABLED | nothing" />
+  <stylesheet id="++resource++plone.app.jquerytools.dateinput.css" expression="not:request/HTTP_X_THEME_ENABLED | nothing" />
 </object>

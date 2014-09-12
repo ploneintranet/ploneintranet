@@ -11,7 +11,7 @@ design_description: "Feedback for the search results when 'Cor' input"
             {% assign lower_title = user.title | downcase %}
             {% if user.layout == 'user' and lower_title contains 'cor' %}
                 <label class="item user">
-                    <input name="" type="checkbox" />
+                    <input name="" type="radio" />
                     <a href="user.id" class="follow">
                         <img src="{{ user.image_url }}" alt="" />
                         <strong class="title">{{ user.title }}</strong>
