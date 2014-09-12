@@ -22,6 +22,8 @@ class PlonesocialSuite(PloneSandboxLayer):
         import plonesocial.activitystream
         import plonesocial.network
         import plonesocial.theme
+        import plonesocial.messaging
+        import plonesocial.core
         xmlconfig.file('configure.zcml',
                        plonesocial.suite,
                        context=configurationContext)
@@ -36,6 +38,12 @@ class PlonesocialSuite(PloneSandboxLayer):
                        context=configurationContext)
         xmlconfig.file('configure.zcml',
                        plonesocial.theme,
+                       context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       plonesocial.messaging,
+                       context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       plonesocial.core,
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
