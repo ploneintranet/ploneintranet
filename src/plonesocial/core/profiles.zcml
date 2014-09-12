@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plonesocial.suite">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="PloneSocial Core: default"
+      directory="profiles/default"
+      description="Installs shared utilities for Plonesocial"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:registerProfile
+      name="minimal"
+      title="PloneSocial Core: minimal"
+      directory="profiles/minimal"
+      description="Installs only required utilities, NOT patternslib resources"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+</configure>

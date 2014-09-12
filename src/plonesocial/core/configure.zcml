@@ -4,5 +4,6 @@
     i18n_domain="plonesocial.core">
 
     <include package=".browser" />
+    <include file="profiles.zcml" />
 
 </configure>
