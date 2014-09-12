@@ -48,13 +48,13 @@
                                     <a class="social-message"
                                         tal:condition="python: inbox['view'] == 'small'"
                                         tal:attributes="href string:${context/portal_url}/@@social-inbox?user=${convo/username}"
-                                        tal:content="msg/text">
+                                        tal:content="structure msg/text">
                                     </a>
                                     <a class="social-message pat-inject"
                                         tal:condition="python: inbox['view'] != 'small'"
                                         data-pat-inject="target: #conversation-content"
                                         tal:attributes="href string:${context/portal_url}/@@social-inbox?user=${convo/username}#conversation-content"
-                                        tal:content="msg/text">
+                                        tal:content="structure msg/text">
                                     </a>
                                </tal:rep>
                             </tal:c>
@@ -90,7 +90,7 @@
                                     <div class="social-message-created">
                                         <tal:block tal:content="python: context.toLocalizedTime(msg['created'], long_format=0)" />
                                     </div>
-                                    <tal:block tal:content="msg/text" />
+                                    <tal:block tal:content="structure msg/text" />
                                     <div class="clearall"></div>
                                 </section>
                             </div>

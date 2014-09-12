@@ -14,8 +14,11 @@ from z3c.form import field
 from z3c.form import form
 
 from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.i18nmessageid import MessageFactory
 
+from plonesocial.core.browser.utils import link_tags
+from plonesocial.core.browser.utils import link_users
 from plonesocial.messaging.interfaces import IMessage
 from plonesocial.messaging.interfaces import IMessagingLocator
 from AccessControl import Unauthorized
@@ -237,6 +240,10 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
             display_messages = conversations[len(conversations) - 1]
             ['full-messages']
             conv_with_user = conversations[len(conversations) - 1]['username']
+
+    url = getSite().absolute_url()
+    for msg in display_messages['full-messages']:
+        msg['text'] = link_tags(link_users(msg['text'], url), url)
 
     return {'conversations': conversations,
             'display_messages': display_messages,
