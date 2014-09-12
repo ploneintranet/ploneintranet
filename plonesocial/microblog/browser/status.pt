@@ -21,7 +21,7 @@
           class="pat-inject update-social status-inactive"
           action=""
           data-pat-inject=".post:first::element;
-                           target: #microblog::element::after
+                           target: #activity-stream::before
                            && #new-post-box"
           tal:condition="view/compact">
 
@@ -33,9 +33,6 @@
             var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
             var the_value = the_textarea.val();
             the_mirror.text(the_value);
-            if(!the_value.length){
-                the_mirror.html('<em class="placeholder">What are you doing?</em>');
-            }
         };
 
         $(document).on('input propertychange',the_textarea, function() {
