@@ -39,10 +39,10 @@
             updateMirror();
         });
 
-        $('#new-post-box').submit(function(event){
-            var textarea = $('#new-post-box').find('textarea');
-            var selected_tags = $('#new-post-box').find('#selected-tags a');
-            var selected_users = $('#new-post-box').find('#selected-users a');
+        $('form.update-social').submit(function(event){
+            var textarea = $(this).find('textarea');
+            var selected_tags = $(this).find('.selected-tags a');
+            var selected_users = $(this).find('.selected-users a');
             var tags = '';
             var users = '';
 
