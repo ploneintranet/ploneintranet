@@ -11,3 +11,7 @@ body {
 body #content {
   position: relative;
 }
+
+body label.pat-select.visibility:before {
+  content: none;
+}
