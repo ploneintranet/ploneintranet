@@ -135,7 +135,8 @@
         </xsl:for-each>
     </replace>
     <replace css:theme-children="#personaltool-menu" 
-        css:content-children="#portal-personaltools ul"/>
+        css:content-children="#portal-personaltools"/>
+           
     <replace css:theme-children="#personaltool-menuheader" 
         css:content-children="#portal-personaltools .actionMenuHeader a"/>
     <replace css:theme-children="#secondary-nav" css:if-content="#anon-personalbar">
