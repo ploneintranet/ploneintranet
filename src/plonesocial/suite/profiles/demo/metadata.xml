@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>1002</version>
+  <version>1003</version>
   <dependencies>
     <dependency>profile-plonesocial.suite:default</dependency>
-    <dependency>profile-plonesocial.theme:default</dependency>
   </dependencies>
 </metadata>
