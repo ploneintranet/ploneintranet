@@ -33,9 +33,6 @@
             var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
             var the_value = the_textarea.val();
             the_mirror.text(the_value);
-            if(!the_value.length){
-                the_mirror.html('<em class="placeholder">What are you doing?</em>');
-            }
         };
 
         $(document).on('input propertychange',the_textarea, function() {
