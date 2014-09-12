@@ -21,7 +21,7 @@
           class="pat-inject update-social status-inactive"
           action=""
           data-pat-inject=".post:first::element;
-                           target: #microblog::element::after
+                           target: #activity-stream::before
                            && #new-post-box"
           tal:condition="view/compact">
 
