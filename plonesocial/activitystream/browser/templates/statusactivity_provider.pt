@@ -63,7 +63,7 @@
        tal:condition="reply_providers">
       <div class="comment"
            tal:repeat="provider reply_providers"
-           tal:content="structure provider" />
+           tal:replace="structure provider" />
   </div>
 
 </div>
