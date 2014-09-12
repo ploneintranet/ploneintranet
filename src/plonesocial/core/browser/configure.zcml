@@ -12,4 +12,12 @@
       layer=".interfaces.IPlonesocialCoreLayer"
       />
 
+  <browser:view
+      for="*"
+      name="panel-user"
+      class=".users.User"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialCoreLayer"
+      />
+
 </configure>

@@ -32,3 +32,16 @@ class Users(BrowserView):
             )
 
         return users
+
+
+class User(Users):
+
+    action = "#selected-user"
+    button_deselect_all = False
+    button_select_all = False
+    index = ViewPageTemplateFile('panel_users.pt')
+    input_name = 'user'
+    input_type = 'radio'
+    is_multiselect = False
+    panel_id = 'panel-user'
+    panel_type = 'user'
