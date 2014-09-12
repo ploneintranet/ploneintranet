@@ -1,5 +1,6 @@
 <div  i18n:domain="plonesocial.activitystream"
-      tal:define="portal_url context/@@plone_portal_state/portal_url"
+      tal:define="portal_url context/@@plone_portal_state/portal_url;
+                  thread_id view/status_id"
       tal:attributes="class string:post ${view/render_type}">
 
   <div class="post-header">
@@ -64,6 +65,43 @@
       <div class="comment"
            tal:repeat="provider reply_providers"
            tal:replace="structure provider" />
+
+    <form data-pat-inject="" action="" class="pat-inject update-social status-inactive" id="mypost"
+          tal:define="comment_box_id string:comment_box_${thread_id};
+                      attachment_previews_id string:attachment-previews-${thread_id}"
+          tal:attributes="id comment_box_id">
+        <input type="hidden" name="thread_id" tal:attributes="value thread_id" />
+
+        <fieldset class="focus">
+            <p class="content-mirror"><span class="text"><em class="placeholder">Leave a comment</em></span><em class="selected-users"></em><em class="selected-tags"></em></p>
+            <textarea data-pat-switch="#mypost status-inactive status-active" class="pat-comment-box pat-switch focus" placeholder="Leave a comment"
+                      tal:attributes="data-pat-switch string:#${comment_box_id} status-inactive status-active"></textarea>
+            <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+            <fieldset data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #mypost-attachment-previews" class="attachments pat-subform pat-autosubmit pat-inject"
+                      tal:attributes="data-pat-inject string:url: /feedback/attachment-waste-not-want-not.html#attachments;; target: #${attachment_previews_id}">
+                <label data-pat-switch="#mypost status-* status-attach" class="iconified icon-attach pat-switch"
+                       tal:attributes="data-pat-switch string:#${comment_box_id} status-* status-attach"><input type="file" title="Attach a file" accept="image/*" capture="camera" multiple=""> Attach a file (or create a picture)</label>
+                <p id="mypost-attachment-previews" class="attachment-previews"
+                   tal:attributes="id attachment_previews_id">
+                    No attachments selected.
+                </p>
+                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
+            </fieldset>
+            <div class="button-bar">
+                <a href="/feedback/panel-mentions.html#content" data-pat-tooltip="position: tl; source: ajax; class: mentions;" class="iconified icon-user-add pat-tooltip inactive">Mention people</a>
+                <br>
+                <a href="/feedback/panel-tags.html#content" data-pat-tooltip="position: tl; source: ajax; class: tags;" class="iconified icon-tags pat-tooltip inactive">Add tags</a>
+                <br>
+                <button type="submit" data-pat-switch="#mypost status-* status-inactive" class="pat-switch"
+                        tal:attributes="data-pat-switch string:#${comment_box_id} status-* status-inactive">Post</button>
+                <button type="reset" data-pat-switch="#mypost status-* status-inactive" class="pat-switch"
+                        tal:attributes="data-pat-switch string:#${comment_box_id} status-* status-inactive">Cancel</button>
+                <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+
+            </div>
+        </fieldset>
+    </form>
+
   </div>
 
 </div>
