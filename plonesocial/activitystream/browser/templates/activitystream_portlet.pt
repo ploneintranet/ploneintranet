@@ -14,7 +14,14 @@
     </dt>
 
     <dd class="portletItem odd">
-      <tal:block replace="structure view/stream_provider" />
+        <div id="activity-stream"
+             class="activity-stream pat-packery packery-ready"
+             data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .post;">
+
+             <tal:block replace="structure view/stream_provider" />
+
+         </div>
+
     </dd>
 
     <dd class="portletFooter">
