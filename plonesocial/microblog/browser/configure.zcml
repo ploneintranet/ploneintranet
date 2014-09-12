@@ -9,13 +9,6 @@
       factory=".status.StatusProvider"
       />
 
-  <browser:view
-      for="*"
-      name="panel-tags"
-      class=".status.Tags"
-      permission="zope2.View"
-      />
-
   <adapter
       name="plonesocial.microblog.statusreply_provider"
       factory=".status.StatusReplyProvider"

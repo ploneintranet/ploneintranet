@@ -10,7 +10,6 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Acquisition import aq_inner
 from Acquisition import aq_chain
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.Five import BrowserView
 from plone.app.layout.viewlets.common import ViewletBase
 
 from z3c.form import form, field, button
@@ -204,34 +203,3 @@ class StatusViewlet(StatusProvider, ViewletBase):
     def update(self):
         self._update()
         ViewletBase.update(self)
-
-
-class Tags(BrowserView):
-
-    index = ViewPageTemplateFile('panel_tags.pt')
-
-    def tags(self):
-        """ Get available tags, both from Plone's keyword index
-            and the microblog utility
-
-        Applies very basic text searching
-        """
-        catalog = api.portal.get_tool('portal_catalog')
-        tags = set(catalog.uniqueValuesFor('Subject'))
-
-        # TODO: Check if the user is actually allowed to view these tags
-        tool = queryUtility(IMicroblogTool)
-        tags.update(tool._tag_mapping.keys())
-        tags = sorted(tags)
-
-        search_string = self.request.form.get('tagsearch')
-        if search_string:
-            search_string = search_string.lower()
-            tags = filter(lambda x: search_string in x.lower(),
-                          tags)
-            if search_string not in tags:
-                # add searched string as first item in list
-                # if it doesn't exist
-                tags = [search_string] + tags
-
-        return tags
