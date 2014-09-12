@@ -23,7 +23,8 @@
           data-pat-inject=".post:first::element;
                            target: #activity-stream::before
                            && #new-post-box"
-          tal:condition="view/compact">
+          tal:condition="view/compact"
+          tal:attributes="action request/ACTUAL_URL">
 
       <script type="text/javascript">
         <!-- Ideally this will be a separate pattern one day -->
