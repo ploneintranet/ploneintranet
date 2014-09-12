@@ -11,14 +11,14 @@
     <div metal:fill-slot="main" i18n:domain="plonesocial.microblog">
 
       <div id="status-user-selector" class="item-selector mode-">
-        <div id="-functions" class="button-bar functions">
+        <div id="-functions" tal:attributes="id string:${view/panel_type}-functions" class="button-bar functions">
           <span class="button-cluster select-buttons float-after select-buttons">
-            <button title="Select all" class="select-all">All</button>
-            <button title="Deselect all" class="deselect-all">None</button>
+            <button title="Select all" class="select-all" tal:condition="view/button_select_all">All</button>
+            <button title="Deselect all" class="deselect-all" tal:condition="view/button_deselect_all">None</button>
           </span>
         </div>
 
-        <form tal:attributes="action string:${context/portal_url}/@@panel-users#items"
+        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#items"
               method="post"
               class="search-box pat-inject pat-autosubmit">
           <label>
@@ -28,14 +28,15 @@
         </form>
 
         <form id="items" 
-              action="#selected-users" 
+              tal:attributes="action view/action"
               class="search-result users pat-inject pat-autosubmit">
           <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all" 
                     class="checklist pat-checklist users unchecked">
             <label class="item user unchecked"
                    tal:repeat="user view/users">
-              <input type="checkbox" name="users:list" 
-                     tal:attributes="value user/id"/>
+              <input tal:attributes="value user/id;
+                                     type view/input_type;
+                                     name view/input_name"/>
               <a class="follow">
                 <img tal:replace="structure user/getPersonalPortrait"/>
                 <strong class="title icon-user"
