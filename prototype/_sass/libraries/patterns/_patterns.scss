@@ -3,6 +3,23 @@
 
 @import "mixins";
 
+// Variable defaults
+
+$body-font-family: 'Source Sans Pro', sans-serif;
+
+$colour-base: #efefef;
+$colour-primary: black;
+$colour-header-elements: #666;
+$colour-post: #e4f2f8;
+$colour-alert: red;
+$colour-workspace-tabs: #869EBF;
+$colour-accent: #5d91ff;
+
+$glyph-checkbox: \e808 !default;
+$glyph-checkbox-active: \e809 !default;
+$glyph-radio-button: \e807 !default;
+$glyph-radio-button-active: \e806 !default;
+
 // Individual scss files are imported for each Pattern. These files may
 // also be imported seperately in a project, but always require the Patterns
 // mixins

@@ -41,8 +41,7 @@
             }
 
             button {
-                @include element-invisible;
-                // TODO Contact Cornelis, as need accessible no-js fallback
+                display: none;
             }
 
             &.focus {
@@ -110,7 +109,9 @@
             }
 
             .title {
-                @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 display: block;
 
                 &:before {
@@ -143,7 +144,9 @@
             }
 
             .byline {
-                // @include ellipsis($overflow: hidden, $text-overflow: ellipsis, $white-space: nowrap);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 display: block;
             }
 

@@ -16,7 +16,7 @@
 		&:before {
 			font-family: "fontello";
 			font-size: 0.8em;
-			content: "\e808";
+			content: '#{$glyph-checkbox}';
 			margin-left: -1.75em;
 			position: relative;
 			top: 0.25em;
@@ -24,17 +24,17 @@
 		}
 
 		&.checked:before {
-			content: "\e809"
+			content: '#{$glyph-checkbox-active}'
 		}
 	}
 
 	&.radio label {
 		&:before {
-			content: "\e807";
+			content: "$glyph-radio-button";
 		}
 
 		&.checked:before {
-			content: "\e806";
+			content: "$glyph-radio-button-active";
 		}
 	}
 }
