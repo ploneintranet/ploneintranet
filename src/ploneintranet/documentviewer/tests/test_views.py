@@ -13,6 +13,17 @@ class TestViews(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.layer['request']
+        import pdb;pdb.set_trace()
+
+    def test_storage(self):
+        '''
+        '''
+        view = api.content.get_view(
+            'document_preview',
+            self.portal,
+            self.request,
+        )
+        view.thumbnail_storage
 
     def test_storage(self):
         '''
