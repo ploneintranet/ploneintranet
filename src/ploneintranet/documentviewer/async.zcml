@@ -1,0 +1,5 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:grok="http://namespaces.zope.org/grok">
+  <grok:grok package="." />
+  <utility factory=".async.AsyncExecutor" />
+</configure>
