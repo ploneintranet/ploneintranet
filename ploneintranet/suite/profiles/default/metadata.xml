@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0001</version>
+  <version>0002</version>
   <dependencies>
-        <dependency>profile-plonesocial.suite:default</dependency>
   	<dependency>profile-ploneintranet.simplesharing:default</dependency>
   	<dependency>profile-ploneintranet.workspace:default</dependency>
+        <dependency>profile-ploneintranet.theme:default</dependency>
+  	<dependency>profile-ploneintranet.invitations:default</dependency>
+        <dependency>profile-plonesocial.microblog:default</dependency>
+        <dependency>profile-plonesocial.activitystream:default</dependency>
+        <dependency>profile-plonesocial.network:default</dependency>
+        <dependency>profile-plonesocial.messaging:default</dependency>
+        <dependency>profile-plonesocial.core:minimal</dependency>
   </dependencies>
 </metadata>

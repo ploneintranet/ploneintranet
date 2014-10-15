@@ -40,10 +40,15 @@ setup(name='ploneintranet.suite',
           'setuptools',
           # -*- Extra requirements: -*-
           'Plone',
-          'ploneintranet.workspace',
-          'ploneintranet.invitations',
           'ploneintranet.simplesharing',
-          'plonesocial.suite',
+          'ploneintranet.workspace',
+          'ploneintranet.theme',
+          'ploneintranet.invitations',
+          'plonesocial.microblog',
+          'plonesocial.activitystream',
+          'plonesocial.network',
+          'plonesocial.messaging',
+          'plonesocial.core',
       ],
       extras_require={
           'test': [

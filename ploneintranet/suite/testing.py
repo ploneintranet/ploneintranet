@@ -30,15 +30,22 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import collective.z3cform.chosen
         self.loadZCML(package=collective.z3cform.chosen)
 
+        import ploneintranet.invitations
+        self.loadZCML(package=ploneintranet.invitations)
+        import ploneintranet.theme
+        self.loadZCML(package=ploneintranet.theme)
+
         # plone social dependancies
-        import plonesocial.suite
-        self.loadZCML(package=plonesocial.suite)
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
         import plonesocial.activitystream
         self.loadZCML(package=plonesocial.activitystream)
         import plonesocial.network
         self.loadZCML(package=plonesocial.network)
+        import plonesocial.messaging
+        self.loadZCML(package=plonesocial.messaging)
+        import plonesocial.core
+        self.loadZCML(package=plonesocial.core)
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
