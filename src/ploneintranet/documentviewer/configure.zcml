@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.documentviewer">
+
+  <i18n:registerTranslations directory="locales" />
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <includeDependencies package="." />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="ploneintranet.documentviewer"
+     directory="profiles/default"
+     description="Plone Intranet document preview framework"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
+</configure>
