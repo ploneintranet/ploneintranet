@@ -38,15 +38,27 @@ class TestViews(unittest.TestCase):
         '''
         self.assertEqual(self.image_view.thumbnail_storage, {})
 
-    def test_get_default_preview(self):
+    def test_get_default_preview_url(self):
         '''
         '''
 
         self.assertEqual(
-            self.image_view.get_default_preview(),
+            self.image_view.get_default_preview_url(),
             'http://nohost/plone/png.png'
         )
         self.assertEqual(
-            self.portal_view.get_default_preview(),
+            self.portal_view.get_default_preview_url(),
+            'http://nohost/plone/document.png'
+        )
+
+    def test_get_preview_url(self):
+        ''' We should get a default preview
+        '''
+        self.assertEqual(
+            self.image_view.get_preview_url(),
+            'http://nohost/plone/test_image/image_preview'
+        )
+        self.assertEqual(
+            self.portal_view.get_preview_url(),
             'http://nohost/plone/document.png'
         )

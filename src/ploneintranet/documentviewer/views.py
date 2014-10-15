@@ -24,7 +24,7 @@ class Documentpreview(BrowserView):
             annotations[self.thumbnail_storage_key] = PersistentDict()
         return annotations[self.thumbnail_storage_key]
 
-    def get_default_preview(self):
+    def get_default_preview_url(self):
         ''' Return
         '''
         navigation_root_url = api.content.get_view(
@@ -37,3 +37,23 @@ class Documentpreview(BrowserView):
         for mtobj in mt.lookup(ct):
             return '%s/%s' % (navigation_root_url, mtobj.icon_path)
         return '%s/document.png' % navigation_root_url
+
+    def is_preview_generation_queued(self):
+        ''' Check if the preview generation is in some queue
+        '''
+
+    def queue_preview_generation(self):
+        ''' Append preview generation for this context
+        '''
+
+    def get_preview_url(self):
+        ''' Get's the preview from the storage
+        If preview is not found return the default one
+        '''
+        # BBB this is just an example
+        preview = self.context.restrictedTraverse('image_preview', None)
+        if preview is not None:
+            return preview.absolute_url()
+        # if preview is not found we will ask for one and return a default
+        self.queue_preview_generation()
+        return self.get_default_preview_url()
