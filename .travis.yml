@@ -7,14 +7,14 @@ install:
   - bin/buildout -N -t 3 -c travis.cfg
 script: 
   - bin/test
-  - bin/flake8 src/ploneintranet
+  - bin/flake8 ploneintranet
 after_success:
   - bin/createcoverage run bin/test
   - pip install -q coveralls
   - coveralls
 notifications:
   email: plone.intranet@netsight.co.uk
-  irc: "chat.freenode.net#ploneintranet"
+  irc: "chat.freenode.net#plone.intranet"
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
