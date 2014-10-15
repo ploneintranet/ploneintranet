@@ -30,6 +30,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import collective.z3cform.chosen
         self.loadZCML(package=collective.z3cform.chosen)
 
+        import ploneintranet.documentviewer
+        self.loadZCML(package=ploneintranet.documentviewer)
         import ploneintranet.invitations
         self.loadZCML(package=ploneintranet.invitations)
         import ploneintranet.theme
