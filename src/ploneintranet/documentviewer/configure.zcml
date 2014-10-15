@@ -11,6 +11,14 @@
 
   <includeDependencies package="." />
 
+  <browser:page
+    name="document_preview"
+    for="*"
+    permission="zope.Public"
+    class=".views.Documentpreview"
+    allowed_interface=".interfaces.IDocumentviewer"
+  />
+
   <genericsetup:registerProfile
      name="default"
      title="ploneintranet.documentviewer"
