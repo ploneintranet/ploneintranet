@@ -1,0 +1,9 @@
+<html metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone.intranet" >
+<body>
+    <div id="content" metal:fill-slot="main">
+        <h1 i18n:translate="">PDF download requested</h1>
+        <p tal:content="view/message">Your request for a PDF version of this document is being processed. It will take a few minutes until it is ready for download. Please check back later.</p>
+    </div>
+</body>
+</html>
