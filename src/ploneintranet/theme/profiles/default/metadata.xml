@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>1</version>
+    <version>1</version>
     <dependencies>
         <dependency>profile-plone.app.theming:default</dependency>
+        <dependency>profile-wildcard.foldercontents:default</dependency>
     </dependencies>
 </metadata>
