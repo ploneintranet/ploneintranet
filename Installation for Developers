@@ -26,14 +26,9 @@ Then
 **Note**: Everytime you pull ploneintranet.theme again and expect new javascript or any
 design changes, you probably need to rerun make clean && make.
 
-
-* Start your Plone instance and manually install the package `ploneintranet.theme`
-*
-
-
-
-
+* Create a new Plone instance and under `Add-ons`, choose the package `Plone Intranet: Suite`
 
 Specials:
+---------
 
 * Currently I have to deactivate simplesharing.js as it throws an error on non-existing dom element and effectively deactivates the other js.
