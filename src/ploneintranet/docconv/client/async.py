@@ -101,33 +101,40 @@ def queueDelayedConversionJob(context, request):
 class RecursiveQueueJob(grok.View):
     """ Queues docconv jobs for the context and everything inside. Default
         behaviour:
+
         * skip if type is in EXCLUDE_TYPES
         * skip if object already has preview/thumb images
 
         URL Parameters:
-        dryrun:         don't really queue jobs, just show what would be done
-        force:          overwrite existing previews/thumbs
-        minresolution:  overwrite if existing previews are smaller than this
-        modified:       only consider objects modified after this date, or
-                        between these dates if a tuple/list is given (not even
-                        counted as skipped)
+
+        * *dryrun*:         don't really queue jobs, just show what would be done
+        * *force*:          overwrite existing previews/thumbs
+        * *minresolution*:  overwrite if existing previews are smaller than this
+        * *modified*:       only consider objects modified after this date, or between these dates if a tuple/list is given (not even counted as skipped)
 
         Examples:
-        # queue all objects modified after 1.12., even if they have previews
+
+        *queue all objects modified after 1.12., even if they have previews*
+
         /@@convertall?force=true&modified=20121201T00:00:00%2B00:00
 
-        # show which objects have previews with a resolution lower than
-        # 1024x768 (or none at all)
+
+        *show which objects have previews with a resolution lower than
+        1024x768 (or none at all)*
+
         /@@convertall?dryrun=true&minresolution:int:tuple=1024&
-                minresolution:int:tuple=768
-        # or, synonymous:
+        minresolution:int:tuple=768
+
+        *or, synonymous:*
+
         /@@convertall?dryrun=true&minresolution=1024x768
 
-        # queue objects modified between 1. and 2.12. that have a lower
-        # x resolution than 1024
+
+        *queue objects modified between 1. and 2.12. that have a lower
+        x resolution than 1024*
+
         /@@convertall?modified:tuple=20121201T00:00:00%2B00:00&
-                      modified:tuple=20121202T00:00:00%2B00:00&
-                            minresolution:int=1024
+        modified:tuple=20121202T00:00:00%2B00:00& minresolution:int=1024
         """
     grok.name('convertall')
     grok.context(Interface)
