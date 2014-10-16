@@ -46,7 +46,7 @@ class BasePreviewFetcher(object):
     the docconv service """
 
     typeinfo = {'html': {'ext': '.html', 'mime': 'text/html', },
-                'zip':  {'ext': '.zip',  'mime': 'application/octetstream', },
+                'zip': {'ext': '.zip', 'mime': 'application/octetstream', },
                 }
     body_tmpl = """--%(boundary)s
 Content-Disposition: form-data; name="filedata"; filename="%(id)s%(ext)s"
@@ -135,10 +135,10 @@ Content-Type: %(mime)s
     def convert_on_server(self, payload, datatype):
         docconv_url = get_server_url()
         if not docconv_url:
-            #logger.error('No docconv_url in site_properties')
+            # logger.error('No docconv_url in site_properties')
             raise ConfigError(
                 'No docconv_url specified, can not fetch previews')
-            #return None
+            # return None
         schema, docconv_server, docconv_path, _, _, _ = urlparse.urlparse(
             docconv_url)
 
@@ -147,7 +147,7 @@ Content-Type: %(mime)s
         headers = {'Content-Type': 'multipart/form-data;'
                    'boundary={0}'.format(boundary)}
 
-        if not datatype in self.typeinfo:
+        if datatype not in self.typeinfo:
             ext = ''
             mime = datatype
         else:
@@ -257,28 +257,28 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
             img_file = open(path.join(tempdir, img_id), 'wb')
             img_file.write(img_data)
             img_file.close()
-            if not 'width' in img or not 'height' in img:
+            if 'width' not in img or 'height' not in img:
                 try:
                     img_obj = Image.open(img_file.name)
                     width, height = img_obj.size
                 except Exception as e:
                     logger.warn('Could not get image size for {0}: {1}'.format(
                                 img['src'], e))
-            if width and not 'width' in img:
+            if width and 'width' not in img:
                 img['width'] = width
-            if height and not 'height' in img:
+            if height and 'height' not in img:
                 img['height'] = height
             img['src'] = img_id
         return soup
 
     def getLocalImage(self, path):
-        #portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        #absolute = path.startswith('/')
+        # portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        # absolute = path.startswith('/')
         img_path = path.split('/')
         try:
-            #if absolute:
-            #    img_obj = portal.restrictedTraverse(img_path)
-            #else:
+            # if absolute:
+            #     img_obj = portal.restrictedTraverse(img_path)
+            # else:
             img_obj = self.context.restrictedTraverse(img_path)
         except (KeyError, AttributeError) as e:
             logger.warn('Could not get image object for {0}: '
@@ -362,7 +362,7 @@ def fetchPreviews(context, virtual_url_parts=[], vr_path=''):
     """ calls the docconv service and stores pdf and preview images on the
     object """
     fetcher = IPreviewFetcher(context)
-    if IATDocument.providedBy(context):  #TODO: dexterity
+    if IATDocument.providedBy(context):  # TODO: dexterity
         if not virtual_url_parts or not vr_path:
             logger.warn('No virtual hosting info, cannot get local images! \
             Skipping %s' % '/'.join(context.getPhysicalPath()))

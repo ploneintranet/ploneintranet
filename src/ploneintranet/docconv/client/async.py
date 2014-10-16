@@ -47,7 +47,7 @@ def queueConversionJob(context, request=None, force=False):
         return
     queue = queues.get('', None)
     path = context.getPhysicalPath()
-    if force or not path in [j.args[0] for j in queue if len(j.args) >= 6
+    if force or path not in [j.args[0] for j in queue if len(j.args) >= 6
                              and j.args[4] == fetchPreviews]:
         virtual_url_parts = request.get('VIRTUAL_URL_PARTS')
         vr_path = list(request.get('VirtualRootPhysicalPath', ()))
@@ -89,8 +89,8 @@ def queueDelayedConversionJob(context, request):
 
     job = Job(_executeAsUser, context_path, portal_path, uf_path, user_id,
               fetchPreviews, virtual_url_parts, vr_path)
-    #job = async.queueJob(fetchPreviews, self.context,
-    #    virtual_url_parts, vr_path)
+    # job = async.queueJob(fetchPreviews, self.context,
+    #     virtual_url_parts, vr_path)
     job = queue.put(job, begin_after=datetime.now(pytz.UTC) + timedelta(0,
                     ASYNC_CONVERSION_DELAY))
     job.addCallbacks(success=job_success_callback,
