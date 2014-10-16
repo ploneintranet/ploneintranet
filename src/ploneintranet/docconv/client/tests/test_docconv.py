@@ -1,4 +1,5 @@
 from mock import Mock
+from Products.Archetypes.interfaces import IObjectInitializedEvent
 from Testing.makerequest import makerequest
 from plone import api
 from plone.app.testing import setRoles
@@ -108,3 +109,15 @@ class TestDocconv(IntegrationTestCase):
         self.assertIsNotNone(pdf_data)
         self.assertNotIn('not generated yet', pdf_data)
         self.assertEquals(pdf_view.request.RESPONSE.getStatus(), 200)
+
+    def test_event_handler(self):
+        portal = self.layer['portal']
+        setRoles(portal, TEST_USER_ID, ('Manager',))
+        fileob = api.content.create(
+            type='File',
+            title=u"Test File",
+            container=self.workspace)
+        event.notify(
+            IObjectInitializedEvent(fileob, self.request))
+        docconv = IDocconv(fileob)
+        self.assertTrue(docconv.has_previews())
