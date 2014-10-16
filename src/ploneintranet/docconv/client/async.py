@@ -150,8 +150,8 @@ class RecursiveQueueJob(grok.View):
         self.force = self.request.get('force', False)
         self.dryrun = self.request.get('dryrun', False)
 
-        if isinstance(self.force, basestring) and \
-                self.force == 'True' or self.force == 'true':
+        if (isinstance(self.force, basestring) and
+                self.force == 'True' or self.force == 'true'):
             self.force = True
 
         modified = self.request.get('modified', '')
@@ -187,9 +187,9 @@ class RecursiveQueueJob(grok.View):
                 [int(r or '0') for r in self.minresolution.split('x')])
 
         def hasPreviews(obj):
-            return IAnnotations(obj).get(PDF_VERSION_KEY) is not None and \
-                IAnnotations(obj).get(PREVIEW_IMAGES_KEY) is not None and \
-                IAnnotations(obj).get(THUMBNAIL_KEY) is not None
+            return (IAnnotations(obj).get(PDF_VERSION_KEY) is not None and
+                    IAnnotations(obj).get(PREVIEW_IMAGES_KEY) is not None and
+                    IAnnotations(obj).get(THUMBNAIL_KEY) is not None)
 
         def low_resolution(obj):
             return self.minresolution and (True in [
@@ -209,11 +209,11 @@ class RecursiveQueueJob(grok.View):
             except:
                 log('Could not get object %s\n' % brain.getPath())
                 continue
-            if ((hasattr(obj.aq_explicit, 'getContentType') and
+            if (((hasattr(obj.aq_explicit, 'getContentType') and
                 not obj.getContentType().split('/')[0] in EXCLUDE_TYPES)
-                or hasattr(obj.aq_explicit, 'text')) and \
+                or hasattr(obj.aq_explicit, 'text')) and
                 (self.force or not hasPreviews(obj)
-                 or low_resolution(obj)):
+                 or low_resolution(obj))):
 
                 if not self.dryrun:
                     queueConversionJob(obj, self.request, force=self.force)
@@ -224,8 +224,8 @@ class RecursiveQueueJob(grok.View):
                     if moreinfo['low_resolution']:
                         imgdata = StringIO(
                             IAnnotations(obj).get(PREVIEW_IMAGES_KEY)[-1])
-                        moreinfo['current_resolution'] = \
-                            Image.open(imgdata).size
+                        size = Image.open(imgdata).size
+                        moreinfo['current_resolution'] = size
                 log('Queued  %s (%s)\n' % ('/'.join(obj.getPhysicalPath()),
                                            moreinfo))
                 queued += 1

@@ -153,13 +153,13 @@ Content-Type: %(mime)s
         else:
             ext = self.typeinfo[datatype]['ext']
             mime = self.typeinfo[datatype]['mime']
-        body = self.body_tmpl % \
-            {'id': self.context.getId().replace(' ', '-'),
-             'boundary': boundary,
-             'ext': ext,
-             'mime': mime,
-             'data': payload,
-             }
+        body = self.body_tmpl % {
+            'id': self.context.getId().replace(' ', '-'),
+            'boundary': boundary,
+            'ext': ext,
+            'mime': mime,
+            'data': payload,
+        }
 
         try:
             if schema == 'http':
@@ -194,8 +194,7 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
         if not self.virtual_url_parts:
             return url
 
-        virtual_host, virtual_root, virtual_path = \
-            self.virtual_url_parts
+        virtual_host, virtual_root, virtual_path = self.virtual_url_parts
 
         if url.startswith(virtual_host):
             url = url[len(virtual_host):]
@@ -224,8 +223,7 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
                 img['src'] = 'http:' + img['src']
             # local image
             elif img['src'].startswith('/'):
-                img_data, width, height = \
-                    self.getLocalImage(img['src'])
+                img_data, width, height = self.getLocalImage(img['src'])
             # remote image
             if img['src'].startswith('http'):
                 _, remote_server, img_path, _, _, _ = urlparse.urlparse(
@@ -364,8 +362,8 @@ def fetchPreviews(context, virtual_url_parts=[], vr_path=''):
     fetcher = IPreviewFetcher(context)
     if IATDocument.providedBy(context):  # TODO: dexterity
         if not virtual_url_parts or not vr_path:
-            logger.warn('No virtual hosting info, cannot get local images! \
-            Skipping %s' % '/'.join(context.getPhysicalPath()))
+            logger.warn('No virtual hosting info, cannot get local images! '
+                        'Skipping %s' % '/'.join(context.getPhysicalPath()))
             return
         fetcher(virtual_url_parts, vr_path)
     else:

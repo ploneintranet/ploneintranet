@@ -99,14 +99,16 @@ class PdfRequestView(grok.View):
     def update(self):
         docconv = IDocconv(self.context)
         if docconv.generate_all():
-            self.message = 'Your request for a PDF version of this document '\
-                'is being processed. It will take a few minutes until it is '\
-                'ready for download. Please check back later.'
+            self.message = (
+                'Your request for a PDF version of this document '
+                'is being processed. It will take a few minutes until it is '
+                'ready for download. Please check back later.')
         else:
-            self.message = 'A PDF version of this document has been requested'\
-                ' and is in preparation. It will be available for download '\
-                'shortly. Please select the download button from the gearbox'\
-                ' again in a few minutes.'
+            self.message = (
+                'A PDF version of this document has been requested'
+                ' and is in preparation. It will be available for download '
+                'shortly. Please select the download button from the gearbox'
+                ' again in a few minutes.')
 
 
 class PdfView(grok.View):
