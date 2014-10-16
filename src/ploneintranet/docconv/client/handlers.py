@@ -1,3 +1,4 @@
+import logging
 from Products.ATContentTypes.interfaces import IATDocument
 from Products.ATContentTypes.interfaces import IATFile
 from Products.ATContentTypes.interfaces import IATImage
@@ -9,6 +10,7 @@ from five import grok
 from zope.annotation import IAnnotations
 
 from ploneintranet.docconv.client.async import queueDelayedConversionJob
+from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.fetcher import fetchPreviews
 from ploneintranet.docconv.client.config import (
     PDF_VERSION_KEY,
@@ -16,6 +18,8 @@ from ploneintranet.docconv.client.config import (
     THUMBNAIL_KEY,
     PREVIEW_MESSAGE_KEY,
 )
+
+log = logging.getLogger(__name__)
 
 
 def _update_preview_images(obj, event):
@@ -30,7 +34,10 @@ def _update_preview_images(obj, event):
         del annotations[PREVIEW_MESSAGE_KEY]
     success = queueDelayedConversionJob(obj, obj.REQUEST)
     if not success:
-        fetchPreviews(obj)
+        try:
+            fetchPreviews(obj)
+        except ConfigError as e:
+            log.error('ConfigError: %s' % e)
 
 
 @grok.subscribe(IATDocument, IObjectInitializedEvent)
