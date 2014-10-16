@@ -47,16 +47,17 @@ define([
     "pat-placeholder",
     "pat-skeleton",
     "pat-sortable",
+    "pat-polyfill-date",
     "pat-stacks",
     "pat-store",
     "pat-subform",
     "pat-switch",
     "pat-toggle",
     "pat-tooltip",
+    "pat-upload",
     "pat-url",
     "pat-validate",
-    "pat-zoom",
-    "pat-polyfill-date"
+    "pat-zoom"
 ], function(registry) {
     window.patterns = registry;
 
