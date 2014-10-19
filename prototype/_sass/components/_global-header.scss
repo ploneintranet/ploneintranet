@@ -29,6 +29,11 @@
     padding: 0;
     width: 22px;
     text-shadow: none;
+
+    &#notification-link:before {
+        font-size: 1.2em;
+        line-height: 1.5em;
+    }
 }
 
 .application-portal #global-header .icon {
@@ -44,16 +49,23 @@
 }
 
 #global-header {
-    .icon:hover, form.search:hover {
+    .icon:hover, 
+    form.search:hover {
         text-decoration: none;
         color: $colour-header-elements;
         cursor: default;
     }
     .icon sup.counter {
-        font-size: 7px;
-        width: 12px;
-        height: 12px;
-        line-height: 12px;
+        font-size: 0.6em;
+        width: 1.2em;
+        height: 1.2em;
+        line-height: 1.2em;
         top: 2px;
+        right: 0;
+        position: absolute;
+        background-color: $colour-alert;
+        text-align: center;
+        color: white;
+        border-radius: 50%;
     }
 }
