@@ -1,0 +1,27 @@
+---
+layout: home
+application: notifications
+screen: "notifications"
+design_title: Notifications
+design_description: The notifications page
+---
+
+<ul>
+	{% for item in site.data.notifications %}
+		{% assign separator = false %}
+		{% assign last = true %}
+		<li>
+			<a href="#" class="preview">
+				<img src="" alt="" />
+			</a><span class="subjects">
+				{% for subject in item.subjects  %}{% assign last = false %}{% unless separator == false %}{% if forloop.last == true %} and {% else %}, {% endif %}{% endunless %}<a href="" class="subject">{{ subject.name }}</a>{% assign separator = true %}{% assign last = true %}{% endfor %}
+			</span>
+			<span class="verb">
+				{{ item.verb }}
+			</span>
+			<a href="" class="object">
+				{{ item.object }}
+			</a>
+		</li>
+	{% endfor %}
+</ul>

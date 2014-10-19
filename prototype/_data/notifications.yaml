@@ -1,0 +1,24 @@
+- verb: shared
+  subjects: 
+    - name: Jeff Peters
+  object: minutes
+
+- verb: commented on
+  subjects: 
+    - name: Adrian White
+    - name: Joan Baker
+    - name: Guido Stevens
+    - name: Cornelis Kolbach
+    - name: Doctor Who
+  object: minutes
+
+- verb: liked
+  subjects: 
+    - name: Adrian White
+    - name: Doctor Who
+  object: minutes
+
+- verb: liked
+  subjects: 
+    - name: Corinne Bedrow
+  object: minutes
