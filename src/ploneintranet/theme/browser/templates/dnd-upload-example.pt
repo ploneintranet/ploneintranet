@@ -6,23 +6,9 @@
       metal:use-macro="context/main_template/macros/master">
 
 <metal:block fill-slot="main">
-
     <form action="POST"
-          tal:define="here_url context/absolute_url;
-                      path python:'/'.join(context.getPhysicalPath());">
-
-        <fieldset
-            class="pat-upload"
-            tal:attributes="data-pat-upload string:
-                    dropzone-text: Drag files here or ;;
-                    upload-button-text: click to upload them manually;;
-                    ie-fallback-button-text: Upload a file;;
-                    url: ${path}/@@wcFileUpload;;
-                    tags: example;;
-                    tags-autocomplete: example, document, upload;;
-                    load-content: ${path}/@@dnd-upload-example">
-        </fieldset>
+          tal:define="here_url context/absolute_url">
+        <fieldset class="pat-upload" tal:attributes="data-pat-upload string:url: ${here_url}/@@wcFileUpload"></fieldset>
     </form>
-
 </metal:block>
 </html>

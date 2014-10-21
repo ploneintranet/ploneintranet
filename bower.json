@@ -32,7 +32,9 @@
     "backbone": "0.9.10",
     "tinysort": "git://github.com/Sjeiti/TinySort.git",
     "patternslib": "2.0.1",
-    "pat-upload": "*"
+    "pat-upload": "*",
+    "dropzone": "~3.10.2",
+    "requirejs-text": "~2.0.12"
   },
   "resolutions": {
     "jquery": "1.8.3",
