@@ -13,5 +13,6 @@
         <dependency>profile-plonesocial.network:default</dependency>
         <dependency>profile-plonesocial.messaging:default</dependency>
         <dependency>profile-plonesocial.core:minimal</dependency>
+        <dependency>profile-wildcard.foldercontents:default</dependency>
   </dependencies>
 </metadata>
