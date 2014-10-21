@@ -10,11 +10,11 @@ design_description: The homepage of the intranet that contains a concatinated so
 	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .item;">
 		<form action="index.html#activity-stream" class="pat-autosubmit pat-inject">
 			<label class="filters item pat-select bare">
-				<select>
-					<option>All activities</option>
-					<option>Things I've posted</option>
-					<option>Things I've liked</option>
-					<option>Things I've commented on</option>
+				<select name="filter">
+					<option value="all">All activities</option>
+					<option value="posted">Things I've posted</option>
+					<option value="liked">Things I've liked</option>
+					<option value="commented">Things I've commented on</option>
 				</select>
 			</label>
 		</form>
