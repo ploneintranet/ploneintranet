@@ -22,7 +22,8 @@ design_description: The notifications page
 			<a href="" class="object">
 				{{ item.object }}
 			</a>
-			<time class="datestamp">{{ item.datestamp }}</time>
+			<time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">{{ item.datestamp }}</time>
+			<!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
 		</li>
 	{% endfor %}
 </ul>
