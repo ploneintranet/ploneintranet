@@ -1,5 +1,22 @@
 .activity-stream {
   margin: 0 auto;
+  opacity: 0;
+  transition: opacity 1s;
+
+  &.packery-ready {
+  	opacity: 1;
+  }
+
+  .filters {
+	width: 100%;
+	margin-bottom: 0;
+	text-align: right;
+	margin-bottom: -1em;
+
+  	select {
+  		float: right;
+  	}
+  }
 }
 
 .application-workspace .activity-stream {
