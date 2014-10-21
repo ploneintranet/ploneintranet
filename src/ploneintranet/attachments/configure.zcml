@@ -1,0 +1,47 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.attachments">
+
+    <!-- Zope2 initialization -->
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Include configuration for dependencies listed in setup.py -->
+    <includeDependencies package="." />
+
+    <!-- Include sub-packages that use their own configure.zcml files. -->
+    <!--include package=".browser" /-->
+
+    <!-- Register all components defined with grok -->
+    <grok:grok package="." />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+        name="default"
+        title="ploneintranet.attachments"
+        directory="profiles/default"
+        description="Extension profile for ploneintranet.attachments."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <adapter factory=".attachments.AttachmentStorageAdapterFactory" />
+
+    <adapter
+        name="attachments"
+        for="zope.interface.Interface zope.publisher.interfaces.browser.IBrowserRequest"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ploneintranet.attachments.attachments.AttachmentsNamespace"
+        />
+
+    <adapter
+        name="attachments"
+        for="zope.interface.Interface"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ploneintranet.attachments.attachments.AttachmentsNamespace"
+        />
+
+</configure>
