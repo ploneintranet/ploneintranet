@@ -2,6 +2,8 @@
   subjects: 
     - name: Jeff Peters
   object: minutes
+  datestamp: Just now
+  image: "/media/avatar-jeff-peters.jpg"
 
 - verb: commented on
   subjects: 
@@ -11,14 +13,20 @@
     - name: Cornelis Kolbach
     - name: Doctor Who
   object: minutes
+  datestamp: 5 Minutes ago
+  image: "/media/avatar-adrian-white.jpg"
 
 - verb: liked
   subjects: 
     - name: Adrian White
     - name: Doctor Who
   object: minutes
+  datestamp: 10 Minutes ago
+  image: "/media/avatar-adrian-white.jpg"
 
 - verb: liked
   subjects: 
-    - name: Corinne Bedrow
+    - name: Corinne Bedow
   object: minutes
+  datestamp: 6 Hours ago
+  image: "/media/avatar-corinne-bedow.jpg"

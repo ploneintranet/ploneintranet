@@ -6,13 +6,13 @@ design_title: Notifications
 design_description: The notifications page
 ---
 
-<ul>
+<ul class="notifications">
 	{% for item in site.data.notifications %}
 		{% assign separator = false %}
 		{% assign last = true %}
 		<li>
-			<a href="#" class="preview">
-				<img src="" alt="" />
+			<a href="#" class="image">
+				<img class="avatar" src="{{ item.image }}" alt="">
 			</a><span class="subjects">
 				{% for subject in item.subjects  %}{% assign last = false %}{% unless separator == false %}{% if forloop.last == true %} and {% else %}, {% endif %}{% endunless %}<a href="" class="subject">{{ subject.name }}</a>{% assign separator = true %}{% assign last = true %}{% endfor %}
 			</span>
@@ -22,6 +22,7 @@ design_description: The notifications page
 			<a href="" class="object">
 				{{ item.object }}
 			</a>
+			<time class="datestamp">{{ item.datestamp }}</time>
 		</li>
 	{% endfor %}
 </ul>
