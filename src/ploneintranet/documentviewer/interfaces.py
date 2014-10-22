@@ -6,7 +6,11 @@ class IDocumentviewer(Interface):
     '''
 
     def get_preview_url(self):
-        ''' Get's a preview for this document
+        ''' Get's a preview url for this document
+        '''
+
+    def get_preview_image(self):
+        ''' Get's a preview image for this document
         '''
 
 

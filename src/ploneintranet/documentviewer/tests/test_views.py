@@ -56,17 +56,36 @@ class TestViews(unittest.TestCase):
         '''
         self.assertEqual(
             self.image_view.get_preview_url(),
-            'http://nohost/plone/test_image/image_preview'
+            'http://nohost/plone/test_image/@@document_preview/get_preview_image'  # noqa
         )
         self.assertEqual(
             self.portal_view.get_preview_url(),
             'http://nohost/plone/document.png'
         )
 
+    def test_get_preview_image(self):
+        ''' We should get a default preview
+        '''
+        preview = self.image_view.get_preview_image()
+        self.assertEqual(
+            self.request.response.headers,
+            {
+                'content-length': '19963',
+                'content-type': 'image/png',
+                'content-disposition': 'attachment;filename=test.png'
+            }
+        )
+        self.assertTrue(preview.startswith('\x89PNG'))
+
     def test_traversable(self):
         ''' We should traverse to the view methods
         '''
         self.assertEqual(
             self.image.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
-            'http://nohost/plone/test_image/image_preview'
+            'http://nohost/plone/test_image/@@document_preview/get_preview_image'  # noqa
+        )
+        self.assertTrue(
+            self.image.restrictedTraverse(
+                '@@document_preview/get_preview_image'
+            )().startswith('\x89PNG')
         )

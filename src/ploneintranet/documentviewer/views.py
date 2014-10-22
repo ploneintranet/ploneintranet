@@ -5,6 +5,7 @@ from plone import api
 from plone.memoize.view import memoize
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import implementer
+from zope.publisher.interfaces import NotFound
 from .interfaces import IDocumentviewer
 
 
@@ -56,7 +57,20 @@ class Documentpreview(BrowserView):
         # BBB this is just an example
         preview = self.context.restrictedTraverse('image_preview', None)
         if preview is not None:
-            return preview.absolute_url()
+            return '%s/@@document_preview/get_preview_image' % self.context.absolute_url()  # noqa
         # if preview is not found we will ask for one and return a default
         self.queue_preview_generation()
         return self.get_default_preview_url()
+
+    def get_preview_image(self):
+        ''' Get's the preview from the storage
+        If preview is not found return the default one
+        '''
+        set_header = self.request.RESPONSE.setHeader
+        preview = self.context.restrictedTraverse('image_preview')
+        if not preview:
+            raise NotFound(self, self.__name__, self.request)
+        set_header('Content-length', preview.getSize())
+        set_header('Content-Type', preview.getContentType())
+        set_header('Content-Disposition', 'attachment;filename=%s' % preview.getFilename())  # noqa
+        return preview.data
