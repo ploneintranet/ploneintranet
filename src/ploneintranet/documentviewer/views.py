@@ -67,7 +67,7 @@ class Documentpreview(BrowserView):
         If preview is not found return the default one
         '''
         set_header = self.request.RESPONSE.setHeader
-        preview = self.context.restrictedTraverse('image_preview')
+        preview = self.context.restrictedTraverse('image_preview', None)
         if not preview:
             raise NotFound(self, self.__name__, self.request)
         set_header('Content-length', preview.getSize())

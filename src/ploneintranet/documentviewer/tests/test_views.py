@@ -3,6 +3,7 @@ import unittest
 from plone import api
 from ploneintranet.documentviewer.testing import \
     PLONEINTRANET_documentviewer_INTEGRATION_TESTING
+from zope.publisher.interfaces import NotFound
 import os
 
 
@@ -84,8 +85,18 @@ class TestViews(unittest.TestCase):
             self.image.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
             'http://nohost/plone/test_image/@@document_preview/get_preview_image'  # noqa
         )
+        self.assertEqual(
+            self.portal.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
+            'http://nohost/plone/document.png'
+        )
         self.assertTrue(
             self.image.restrictedTraverse(
                 '@@document_preview/get_preview_image'
             )().startswith('\x89PNG')
+        )
+        self.assertRaises(
+            NotFound,
+            self.portal.restrictedTraverse(
+                '@@document_preview/get_preview_image'
+            )
         )
