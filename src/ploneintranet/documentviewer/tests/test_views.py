@@ -16,13 +16,24 @@ class TestViews(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
 
+        test_png_path = os.path.join(os.path.dirname(__file__), 'test.png')
         with api.env.adopt_roles(['Manager']):
-            self.image = api.content.create(
-                self.portal,
-                'Image',
-                'test_image',
-                image=open(os.path.join(os.path.dirname(__file__), 'test.png')),  # noqa
-            )
+            with open(test_png_path) as f:
+                self.image = api.content.create(
+                    self.portal,
+                    'Image',
+                    'test_image',
+                    image=f,  # noqa
+                )
+            with open(test_png_path) as f:
+                from plone.app.blob.field import ImageField
+                from ploneintranet.docconv.client.config import THUMBNAIL_KEY
+                from zope.annotation import IAnnotations
+                annotations = IAnnotations(self.image)
+                thumbnail = ImageField()
+                thumbnail.set(self.image, f.read())
+                annotations[THUMBNAIL_KEY] = list([thumbnail])
+
         self.image_view = api.content.get_view(
             'document_preview',
             self.image,
@@ -34,10 +45,12 @@ class TestViews(unittest.TestCase):
             self.request,
         )
 
-    def test_storage(self):
+    def test_docconv(self):
+        ''' Get the IDocconv adapter
         '''
-        '''
-        self.assertEqual(self.image_view.thumbnail_storage, {})
+        from ploneintranet.docconv.client import DocconvAdapter
+        self.assertIsInstance(self.image_view.docconv, DocconvAdapter)
+        self.assertIsInstance(self.portal_view.docconv, DocconvAdapter)
 
     def test_get_default_preview_url(self):
         '''
@@ -67,16 +80,10 @@ class TestViews(unittest.TestCase):
     def test_get_preview_image(self):
         ''' We should get a default preview
         '''
-        preview = self.image_view.get_preview_image()
         self.assertEqual(
-            self.request.response.headers,
-            {
-                'content-length': '19963',
-                'content-type': 'image/png',
-                'content-disposition': 'attachment;filename=test.png'
-            }
+            self.image_view.get_preview_image(),
+            'http://nohost/plone/test_image/docconv_image_thumb.jpg'
         )
-        self.assertTrue(preview.startswith('\x89PNG'))
 
     def test_traversable(self):
         ''' We should traverse to the view methods
@@ -89,10 +96,9 @@ class TestViews(unittest.TestCase):
             self.portal.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
             'http://nohost/plone/document.png'
         )
-        self.assertTrue(
-            self.image.restrictedTraverse(
-                '@@document_preview/get_preview_image'
-            )().startswith('\x89PNG')
+        self.assertEqual(
+            self.image.restrictedTraverse('@@document_preview/get_preview_image')(),
+            'http://nohost/plone/test_image/docconv_image_thumb.jpg'
         )
         self.assertRaises(
             NotFound,

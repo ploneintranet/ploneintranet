@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser import BrowserView
-from persistent.dict import PersistentDict
 from plone import api
 from plone.memoize.view import memoize
-from zope.annotation.interfaces import IAnnotations
+from ploneintranet.docconv.client import IDocconv
 from zope.interface import implementer
 from zope.publisher.interfaces import NotFound
 from .interfaces import IDocumentviewer
@@ -17,16 +16,29 @@ class Documentpreview(BrowserView):
 
     @property
     @memoize
-    def thumbnail_storage(self):
-        ''' This will take the context and return the thumbnail storage
-        from the annotations
+    def docconv(self):
+        ''' This will take adapter for IDocconv
 
         '''
-        annotations = IAnnotations(self.context)
-        if not self.thumbnail_storage_key in annotations:
-            # BBB this is bad because will write data in the annotations
-            annotations[self.thumbnail_storage_key] = PersistentDict()
-        return annotations[self.thumbnail_storage_key]
+        return IDocconv(self.context)
+
+    @memoize
+    def has_preview(self):
+        ''' Check if we have a preview
+        '''
+        return self.docconv.has_thumbs()
+
+    @memoize
+    def get_preview(self):
+        ''' Get a preview
+        '''
+        if not self.has_preview():
+            return None
+        thumbs = self.docconv.get_thumbs()
+        if not thumbs:
+            return None
+        # Return the image field wrapped to the context
+        return thumbs[0].get(self.context)
 
     def get_default_preview_url(self):
         ''' Return
@@ -55,22 +67,23 @@ class Documentpreview(BrowserView):
         If preview is not found return the default one
         '''
         # BBB this is just an example
-        preview = self.context.restrictedTraverse('image_preview', None)
-        if preview is not None:
+        if self.has_preview():
             return '%s/@@document_preview/get_preview_image' % self.context.absolute_url()  # noqa
         # if preview is not found we will ask for one and return a default
-        self.queue_preview_generation()
+        self.queue_preview_generation()  # BBB probably remove this
         return self.get_default_preview_url()
 
     def get_preview_image(self):
         ''' Get's the preview from the storage
         If preview is not found return the default one
         '''
-        set_header = self.request.RESPONSE.setHeader
-        preview = self.context.restrictedTraverse('image_preview', None)
-        if not preview:
+        if not self.has_preview():
             raise NotFound(self, self.__name__, self.request)
-        set_header('Content-length', preview.getSize())
-        set_header('Content-Type', preview.getContentType())
-        set_header('Content-Disposition', 'attachment;filename=%s' % preview.getFilename())  # noqa
-        return preview.data
+        # BBB reuse ploneintranet.docconv.client view
+        from ploneintranet.docconv.client.view import ThumbnailView
+        return self.request.response.redirect(
+            '%s/%s' % (
+                self.context.absolute_url(),
+                getattr(ThumbnailView, 'grokcore.component.directive.name')
+            )
+        )
