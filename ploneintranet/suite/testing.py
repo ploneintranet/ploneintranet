@@ -34,6 +34,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.documentviewer)
         import ploneintranet.docconv.client
         self.loadZCML(package=ploneintranet.docconv.client)
+        import ploneintranet.attachments
+        self.loadZCML(package=ploneintranet.attachments)
         import ploneintranet.invitations
         self.loadZCML(package=ploneintranet.invitations)
         import ploneintranet.theme
