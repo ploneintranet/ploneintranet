@@ -54,23 +54,12 @@ class Documentpreview(BrowserView):
             return '%s/%s' % (navigation_root_url, mtobj.icon_path)
         return '%s/document.png' % navigation_root_url
 
-    def is_preview_generation_queued(self):
-        ''' Check if the preview generation is in some queue
-        '''
-
-    def queue_preview_generation(self):
-        ''' Append preview generation for this context
-        '''
-
     def get_preview_url(self):
         ''' Get's the preview from the storage
         If preview is not found return the default one
         '''
-        # BBB this is just an example
         if self.has_preview():
             return '%s/@@document_preview/get_preview_image' % self.context.absolute_url()  # noqa
-        # if preview is not found we will ask for one and return a default
-        self.queue_preview_generation()  # BBB probably remove this
         return self.get_default_preview_url()
 
     def get_preview_image(self):
