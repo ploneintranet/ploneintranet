@@ -113,13 +113,13 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
 def AttachmentStorageAdapterFactory(content):
     """ Adapter factory to fetch the attachment storage from annotations.
     """
-    annotions = IAnnotations(content)
-    if not ANNOTATION_KEY in annotions:
+    annotations = IAnnotations(content)
+    if ANNOTATION_KEY not in annotations:
         attachments = AttachmentStorage()
         attachments.__parent__ = aq_base(content)
-        annotions[ANNOTATION_KEY] = attachments
+        annotations[ANNOTATION_KEY] = attachments
     else:
-        attachments = annotions[ANNOTATION_KEY]
+        attachments = annotations[ANNOTATION_KEY]
     return attachments.__of__(content)
 
 

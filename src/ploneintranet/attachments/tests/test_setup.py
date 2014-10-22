@@ -14,17 +14,21 @@ class TestInstall(IntegrationTestCase):
         self.installer = api.portal.get_tool('portal_quickinstaller')
 
     def test_product_installed(self):
-        """Test if ploneintranet.attachments is installed with portal_quickinstaller."""
-        self.assertTrue(self.installer.isProductInstalled('ploneintranet.attachments'))
+        """Test if ploneintranet.attachments is installed with
+        portal_quickinstaller."""
+        self.assertTrue(
+            self.installer.isProductInstalled('ploneintranet.attachments'))
 
     def test_uninstall(self):
         """Test if ploneintranet.attachments is cleanly uninstalled."""
         self.installer.uninstallProducts(['ploneintranet.attachments'])
-        self.assertFalse(self.installer.isProductInstalled('ploneintranet.attachments'))
+        self.assertFalse(
+            self.installer.isProductInstalled('ploneintranet.attachments'))
 
     # browserlayer.xml
     def test_browserlayer(self):
         """Test that IPloneintranetAttachmentsLayer is registered."""
         from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
         from plone.browserlayer import utils
-        self.failUnless(IPloneintranetAttachmentsLayer in utils.registered_layers())
+        self.failUnless(
+            IPloneintranetAttachmentsLayer in utils.registered_layers())

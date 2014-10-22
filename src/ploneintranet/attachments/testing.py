@@ -28,7 +28,7 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         self.loadZCML(package=five.grok)
         import plone.dexterity
         self.loadZCML(package=plone.dexterity)
-        #TODO: use a content type from ploneintranet instead of the
+        # TODO: use a content type from ploneintranet instead of the
         # slc.underflow Question and get rid of all these extra packages
         import Products.UserAndGroupSelectionWidget
         self.loadZCML(package=Products.UserAndGroupSelectionWidget)
