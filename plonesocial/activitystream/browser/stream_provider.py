@@ -203,6 +203,10 @@ class StreamProvider(object):
 
     @property
     def show_microblog(self):
+        sm = getSecurityManager()
+        permission = "Plone Social: View Microblog Status Update"
+        if not sm.checkPermission(permission, self.context):
+            return False
         if self.portlet_data:
             return self.portlet_data.show_microblog
         return True
