@@ -5,7 +5,7 @@ class IDocumentviewer(Interface):
     ''' The interface for the document_preview view
     '''
 
-    def get_preview(self):
+    def get_preview_url(self):
         ''' Get's a preview for this document
         '''
 

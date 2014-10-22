@@ -62,3 +62,11 @@ class TestViews(unittest.TestCase):
             self.portal_view.get_preview_url(),
             'http://nohost/plone/document.png'
         )
+
+    def test_traversable(self):
+        ''' We should traverse to the view methods
+        '''
+        self.assertEqual(
+            self.image.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
+            'http://nohost/plone/test_image/image_preview'
+        )

@@ -4,8 +4,11 @@ from persistent.dict import PersistentDict
 from plone import api
 from plone.memoize.view import memoize
 from zope.annotation.interfaces import IAnnotations
+from zope.interface import implementer
+from .interfaces import IDocumentviewer
 
 
+@implementer(IDocumentviewer)
 class Documentpreview(BrowserView):
     ''' View to get a thumbnail for a document
     '''
