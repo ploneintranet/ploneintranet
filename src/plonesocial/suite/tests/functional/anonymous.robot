@@ -14,7 +14,7 @@ Home view
     Go to homepage
     Page should contain  Log in
     Page should not contain  @@stream
-    Element should be visible  css=.activityItem.content
+    Element should be visible  css=.post.content
     Page should contain link  link=Public Document
     Click link   link=Public Document
     Element should be visible  css=div.reply form input.standalone
