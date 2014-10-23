@@ -5,6 +5,9 @@ from zExceptions import NotFound
 from zope.publisher.browser import BrowserPage
 from zope.publisher.browser import BrowserView
 from Acquisition import aq_inner
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class ExampleDragAndDropUpload(BrowserView):
@@ -26,12 +29,16 @@ class ExampleFilePreview(BrowserPage):
     """
 
     def __call__(self, *args, **kw):
+        seconds = 10;
         context = aq_inner(self.context)
         if not hasattr(context, '_v_wait'):
-            context._v_wait = datetime.now() + timedelta(seconds=10)
+            context._v_wait = datetime.now() + timedelta(seconds=seconds)
+            log.info("Set waiting time to %s seconds" % seconds)
         if context._v_wait <= datetime.now():
+            log.info("Waiting time exceeded, resetting.")
             del context._v_wait
             return self.request.RESPONSE.redirect(context.absolute_url())
         else:
+            log.info("Waiting time not yet exceeded.")
             raise NotFound
 
