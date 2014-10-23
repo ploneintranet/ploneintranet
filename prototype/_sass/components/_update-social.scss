@@ -3,7 +3,7 @@
     background-color: #fcfcfc;
 
     &#new-post-box {
-        margin: 0 auto 3em;
+        margin: 0 auto 2em;
         width: 80%;
     }
 
@@ -20,9 +20,9 @@
         background: transparent;
         resize: none;
         width: 100%;
-        -webkit-transition: height 0.4s;
-        -moz-transition: height 0.4s;
-        transition: height 0.4s;
+        // -webkit-transition: height 0.4s;
+        // -moz-transition: height 0.4s;
+        // transition: height 0.4s;
 
         &:focus {
           outline: none;
@@ -123,9 +123,9 @@
       padding: 0 0.5em;
       overflow: hidden;
       margin: 0;
-      -webkit-transition: all 0.4s;
-      -moz-transition: all 0.4s;
-      transition: all 0.4s;
+      // -webkit-transition: all 0.4s;
+      // -moz-transition: all 0.4s;
+      // transition: all 0.4s;
 
       label.visibility {
         color: #666;

@@ -8,6 +8,64 @@ form.search {
   font-size: 16px;
   position: relative;
   float: right;
+
+
+  fieldset.search label.type:after {
+    clear: both;
+    position: absolute;
+    top: 55px;
+    left: 5px;
+  }
+
+  input.search {
+    color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin-top: 0.25em;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    cursor: default;
+    box-sizing: border-box;
+    width: 360px;
+    transition: all 0.2s;
+    height: 27px;
+    z-index: 0;
+  }
+
+  button[type="submit"] {
+    position: absolute;
+    left: -100000px;
+  }
+
+  &.state-open input.search {
+    opacity: 1;
+    right: 5px;
+    left: 5px;
+    cursor: text;
+    margin-right: 5px;
+    filter: alpha(opacity = 100);
+  }
+
+  button[type="reset"] {
+    position: absolute;
+    top: 10px;
+    right: -40px;
+    margin: 0;
+    font-size: 18px;
+    color: gray;
+    background: transparent;
+    z-index: 1000;
+    padding: 0;
+    line-height: 18px;
+    /* Next lines for global header out of global nav ocntext */
+    height: 18px;
+    font-weight: normal;
+    font-style: normal;
+    text-shadow: none;
+  }
+
   fieldset.search {
     position: relative;
     border-bottom-left-radius: 4px;
@@ -53,59 +111,6 @@ form.search fieldset.search label.type {
 
 .-moz- form.search.state-closed fieldset.search label.type, .lt-ie9 form.search.state-closed fieldset.search label.type {
   display: none;
-}
-
-form.search {
-  fieldset.search label.type:after {
-    clear: both;
-    position: absolute;
-    top: 55px;
-    left: 5px;
-  }
-  input.search {
-    color: black;
-    position: absolute;
-    top: 5px;
-    right: 0;
-    left: 0;
-    opacity: 0;
-    filter: alpha(opacity = 0);
-    cursor: default;
-    box-sizing: border-box;
-    width: 360px;
-    transition: all 0.2s;
-    height: 27px;
-    z-index: 0;
-  }
-  button[type="submit"] {
-    position: absolute;
-    left: -100000px;
-  }
-  &.state-open input.search {
-    opacity: 1;
-    right: 5px;
-    left: 5px;
-    cursor: text;
-    margin-right: 5px;
-    filter: alpha(opacity = 100);
-  }
-  button[type="reset"] {
-    position: absolute;
-    top: 10px;
-    right: -40px;
-    margin: 0;
-    font-size: 18px;
-    color: gray;
-    background: transparent;
-    z-index: 1000;
-    padding: 0;
-    line-height: 18px;
-    /* Next lines for global header out of global nav ocntext */
-    height: 18px;
-    font-weight: normal;
-    font-style: normal;
-    text-shadow: none;
-  }
 }
 
 #global-nav-search.state-open button[type="reset"] {

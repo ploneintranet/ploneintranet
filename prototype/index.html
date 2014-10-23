@@ -7,6 +7,16 @@ design_description: The homepage of the intranet that contains a concatinated so
 
 	{% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
 
-	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .post;">
+	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .item;">
+		<form action="index.html#activity-stream" class="pat-autosubmit pat-inject">
+			<label class="filters item pat-select bare">
+				<select name="filter">
+					<option value="all">All activities</option>
+					<option value="posted">Things I've posted</option>
+					<option value="liked">Things I've liked</option>
+					<option value="commented">Things I've commented on</option>
+				</select>
+			</label>
+		</form>
 		{% include activity-stream.html src="activity-stream-social" %}
 	</div>
