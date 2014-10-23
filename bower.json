@@ -33,6 +33,7 @@
     "tinysort": "git://github.com/Sjeiti/TinySort.git",
     "patternslib": "2.0.1",
     "pat-upload": "git://github.com/Patternslib/pat-upload.git#mockup-merge",
+    "pat-resourcepolling": "git://github.com/Patternslib/pat-resourcepolling.git#mockup-merge",
     "dropzone": "~3.10.2",
     "requirejs-text": "~2.0.12"
   },

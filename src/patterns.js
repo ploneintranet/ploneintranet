@@ -48,6 +48,7 @@ define([
     "pat-skeleton",
     "pat-sortable",
     "pat-polyfill-date",
+    "pat-resourcepolling",
     "pat-stacks",
     "pat-store",
     "pat-subform",
