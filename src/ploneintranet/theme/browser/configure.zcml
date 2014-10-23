@@ -9,9 +9,24 @@
   <browser:page
       name="dnd-upload-example"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".forms.ExampleDragAndDropUpload"
+      class=".views.ExampleDragAndDropUpload"
       permission="cmf.ModifyPortalContent"
       template="templates/dnd-upload-example.pt"
+      />
+
+  <browser:page
+      name="resource-polling-example"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".views.ExampleResourcePolling"
+      permission="zope2.View"
+      template="templates/resource-polling-example.pt"
+      />
+
+  <browser:page
+      name="file-preview-example.jpg"
+      for="zope.interface.interfaces.Interface"
+      class=".views.ExampleFilePreview"
+      permission="zope2.View"
       />
 
 </configure>
