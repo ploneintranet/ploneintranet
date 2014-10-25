@@ -5,6 +5,20 @@
   datestamp: Just now
   image: "/media/avatar-jeff-peters.jpg"
 
+- verb: requests to publish
+  subjects: 
+    - name: Jeff Peters
+  object: Document so and so
+  datestamp: Just now
+  image: "/media/avatar-jeff-peters.jpg"
+
+- verb: requests access to
+  subjects: 
+    - name: Jeff Peters
+  object: Workspace so and so
+  datestamp: Just now
+  image: "/media/avatar-jeff-peters.jpg"
+
 - verb: commented on
   subjects: 
     - name: Adrian White
