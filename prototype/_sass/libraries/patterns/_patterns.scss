@@ -7,13 +7,13 @@
 
 $body-font-family: 'Source Sans Pro', sans-serif;
 
-$colour-base: #efefef;
-$colour-primary: black;
-$colour-header-elements: #666;
-$colour-post: #e4f2f8;
-$colour-alert: red;
-$colour-workspace-tabs: #869EBF;
-$colour-accent: #5d91ff;
+$colour-base: #efefef !default;
+$colour-primary: black !default;
+$colour-header-elements: #666 !default;
+$colour-post: #e4f2f8 !default;
+$colour-alert: red !default;
+$colour-workspace-tabs: #869EBF !default;
+$colour-accent: #5d91ff !default;
 
 $glyph-checkbox: \e808 !default;
 $glyph-checkbox-active: \e809 !default;
