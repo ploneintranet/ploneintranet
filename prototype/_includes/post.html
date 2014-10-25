@@ -60,8 +60,9 @@
 		</section>
 	{% endif %}
 	<p class="functions">
-		<a href="#">Share <sup class="counter">({{ item.shares }})</sup></a>
-		<a href="#">Like <sup class="counter">({{ item.likes }})</sup></a>
+		<!-- Buttons and anchors in this section get a class 'active, when the share/like count is higher than 0' -->
+		<a href="#" class="share">Share <sup class="counter">({{ item.shares }})</sup></a>
+		<a href="#" class="like">Like <sup class="counter">({{ item.likes }})</sup></a>
 	</p>
 	<div class="comments">
 		{% capture mypostUID %}mypost_{{ include.postcount }}{% endcapture %}
