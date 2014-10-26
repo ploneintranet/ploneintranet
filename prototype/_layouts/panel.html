@@ -2,26 +2,28 @@
 layout: generic
 ---
 
-<div id="document-body">
-    <div id="document-content">
-        <h1>
-            {{ page.title }}
-        </h1>
-        <form action="{{ page.action }}" class="wizard-box">
-            <div class="panel-body">
-                {{ content }}
+<div id="document-content">
+    <h1>
+        {{ page.title }}
+    </h1>
+    {% if page.action %}
+        <form action="{{ page.action }}" class="wizard-box">    
+    {% endif %}
+        <div class="panel-body">
+            {{ content }}
+        </div>
+        {% if page.buttons %}
+            <div class="buttons panel-footer">
+                {% for button in page.buttons  %}
+                    {% if button.type == 'submit' or button.type == 'button' %}
+                        <button type="{{ button.type }}" class="{{ button.class }}">
+                            {{ button.label }}
+                        </button>                    
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% if page.buttons %}
-                <div class="buttons panel-footer">
-                    {% for button in page.buttons  %}
-                        {% if button.type == 'submit' or button.type == 'button' %}
-                            <button type="{{ button.type }}" class="{{ button.class }}">
-                                {{ button.label }}
-                            </button>                    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </form>    
-    </div>
+        {% endif %}
+    {% if page.action %}
+        </form>  
+    {% endif %}  
 </div>

@@ -7,14 +7,14 @@ div.pat-modal {
   box-shadow: 0 0.1em 1em rgba(0, 0, 0, 0.2);
   background-clip: padding-box;
   width: 500px;
-  box-shadow: 0 0 20px 10px black;
+  box-shadow: 0 0 2em 0.8em black;
   margin-left: -250px;
   left: 50%;
   margin-top: 20px;
   margin-bottom: 20px;
   .panel-content {
     background-color: white;
-    padding: 20px;
+    padding: 1.5em;
     position: relative;
     z-index: 1;
   }

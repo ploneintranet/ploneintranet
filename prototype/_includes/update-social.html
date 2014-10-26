@@ -1,4 +1,4 @@
-<form id="{{ include.id }}" class="pat-inject update-social status-inactive" action="{{ include.action }}" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: {{localtarget}}{% endif %}">
+<form id="{{ include.id }}" class="pat-inject update-social {% if include.status %}status-{{ include.status }}{% else %}status-inactive{% endif %}" action="{{ include.action }}" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: {{localtarget}}{% endif %}">
     <script type="text/javascript">
         $(document).ready(function(){
             var the_textarea = $('#{{ include.id }}').find('textarea.pat-comment-box');
@@ -52,13 +52,31 @@
                 <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
             </fieldset>
         {% endunless %}
+        {% if include.share_title %}
+            <div class="shared-item row">
+                <div class="three columns">
+                    <img src="{{ include.share_img }}" alt="" />   
+                </div>
+                <div class="nine columns">
+                    <h4 class="title">
+                        {{ include.share_title }}
+                    </h4>
+                    <p class="byline">
+                        {{ include.share_byline }}
+                    </p>
+                    <p class="description">
+                        {{ include.share_description }}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
         <div class="button-bar">
             <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
             <br/>
             <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
             <br/>
             <button class="pat-switch" data-pat-switch="#{{ include.id }} status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch" data-pat-switch="#{{ include.id }} status-* status-inactive" type="reset">Cancel</button>
+            <button class="pat-switch close-panel" data-pat-switch="#{{ include.id }} status-* status-inactive" type="reset">Cancel</button>
             <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
             {% unless include.visibility == "false" %}
                 <label class="visibility pat-select bare">
