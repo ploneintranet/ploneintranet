@@ -53,13 +53,23 @@
 
   .functions {
     margin: 0 0 0.5em 0;
-    font-size: 0.8em; 
+    font-size: 0.8em;
+
+    form {
+      display: inline;
+    }
 
     a,
     button {
       color: gray;
-      padding-right: 0.6em;
+      padding: 0 0.6em 0 0;
       cursor: default;
+      background: none;
+      border: none;
+
+      &:active {
+        box-shadow: none;
+      }
 
       &:hover {
         color: black;
@@ -73,6 +83,7 @@
 
       &.active {
         color: $colour-accent;
+        box-shadow: none;
       } 
     }
 
