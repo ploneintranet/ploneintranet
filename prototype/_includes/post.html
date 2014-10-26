@@ -64,7 +64,7 @@
 		<!-- Buttons and anchors in this section get a class 'active, when the share or like is used by the current user.' -->
 		<a href="/sharing.html#document-content" class="share pat-modal">Share <sup class="counter">({{ item.shares }})</sup></a>
 		<form action="/feedback/liked.html#content" class="pat-inject pat-autosubmit" id="functions-{{mypostUID}}" data-pat-inject="source: #functions; target: #functions-{{mypostUID}}">
-			<button type="submit" class="like">Like <sup class="counter">({{ item.likes }})</sup></button>
+			<button type="submit" name="like" value="like" class="like">Like <sup class="counter">({{ item.likes }})</sup></button>
 		</form>
 	</div>
 	<div class="comments">
