@@ -4,8 +4,6 @@ version = '0.1'
 
 long_description = (
     open('README.md').read()
-    +
-    open('INSTALL.md').read()
     + '\n' +
     'Contributors\n'
     '============\n'
