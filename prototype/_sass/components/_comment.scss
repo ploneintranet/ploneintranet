@@ -14,6 +14,10 @@
 	.comment-header {
 		font-size: 0.9em;
 		line-height: 1.4em;
+
+		p,ul,ol,table,dl {
+			margin-bottom: 1em;
+		}
 	}
 
 	.date {
