@@ -1,0 +1,90 @@
+.dz-preview {
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+    color: $colour-primary;
+    -webkit-user-select: none;
+    user-select: none;
+    padding: 0.5em 1.5em 0.5em 3em;
+
+	.dz-details {
+		position: relative;
+		z-index: 1;
+
+        &:before {
+            content: '\e811';
+            font-family: fontello;
+            font-size: 1.4em;
+            position: absolute;
+			left: -1.4em;
+            top: 50%;
+            margin-top: -0.5em;
+            font-weight: normal;
+            -webkit-transition: 0.4s left;
+            transition: 0.4s left;
+        }
+
+		.dz-filename {
+			font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+		}
+
+		.dz-size {
+			strong {
+				font-weight: normal;
+			}
+			font-style: italic;
+		}
+
+		img {
+			height: 2.6em;
+			max-width: 2.6em;
+			position: absolute;
+			left: -3em;
+			top: 50%;
+			margin-top: -1.3em;
+			display: none;
+		}
+	}
+
+	.dz-remove {
+		@include button();
+		position: absolute;
+		top: 50%;
+		margin-top: -0.7em;
+		right: 1.5em;
+	}
+
+	.dz-progress {
+		height: 3em;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: 0.3;
+
+		.dz-upload {
+			background: $colour-success;
+			display: block;
+			height: 4em;
+		}
+	}
+
+	.dz-success-mark,
+	.dz-error-mark {
+		float: right;
+		top: 50%;
+		margin-top: -0.5em;
+		right: 0.6em;
+		position: absolute;
+	}
+
+	.dz-error-mark {
+		float: right;
+	}
+}

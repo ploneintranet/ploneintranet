@@ -1,11 +1,10 @@
-button,
-a.button {
+@mixin button() {
   font-family: $body-font-family;
   margin: 0 0.5em 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.32);
+  border: 0.06em solid rgba(0, 0, 0, 0.32);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
-  border-radius: 4px;
+  border-radius: 0.2em;
   background-image: -moz-linear-gradient(bottom, #efefef 0%, white 100%);
   background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
   background-image: linear-gradient(bottom, #efefef 0%, white 100%);
@@ -18,18 +17,14 @@ a.button {
   padding-right: 1em;
   font-size: 0.98em;
 
-  &.large {
-    font-size: 20px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
   &:active, &.active {
     box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+  }
+}
 
-  &.small.sublime:active, &.sublime:active {
-    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
-  }
-  }
+button,
+a.button {
+  @include button();
 }
 
 ::-webkit-search-cancel-button {

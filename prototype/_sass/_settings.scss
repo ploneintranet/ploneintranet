@@ -10,6 +10,7 @@ $colour-post: #e4f2f8;
 $colour-alert: red;
 $colour-workspace-tabs: #869EBF;
 $colour-accent: #0081be;
+$colour-success: #CBF08B;
 
 // Glyps
 
@@ -83,6 +84,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/tooltip";
 @import "components/typography";
 @import "components/update-social";
+@import "components/upload";
 @import "components/workspace-name";
 @import "components/workspace-tabs";
 
