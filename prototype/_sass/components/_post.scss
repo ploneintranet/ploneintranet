@@ -1,5 +1,5 @@
 .post {
-  border: solid 1px #dedede;
+  border: solid 0.065rem #dedede;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -7,6 +7,10 @@
   padding: 1em;
   border-top-left-radius: 2.2em;
   // margin-bottom: 2em;
+
+  .post {
+    font-size: 0.8em;
+  }
 
   .post-header {
     padding: 0 0 0 3.5em;
@@ -32,6 +36,7 @@
 
     .byline { 
       color: gray;
+      margin-bottom: 0.5em;
 
       label.pat-select.visibility {
         color: gray;
