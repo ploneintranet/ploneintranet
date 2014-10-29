@@ -10,6 +10,12 @@
 
   .post {
     font-size: 0.8em;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-left: none;
+    border-right: none;
+    border-top: dashed silver 1px;
   }
 
   .post-header {
