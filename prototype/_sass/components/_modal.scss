@@ -1,9 +1,10 @@
 div.pat-modal {
   animation: fade-in 1s;
+  -webkit-box-sizing: border-box;
   position: fixed;
   z-index: 9998;
   background-color: #efefef;
-  border: 1px solid silver;
+  border: 1px solid black;
   box-shadow: 0 0.1em 1em rgba(0, 0, 0, 0.2);
   background-clip: padding-box;
   width: 500px;
@@ -17,6 +18,7 @@ div.pat-modal {
     padding: 1.5em;
     position: relative;
     z-index: 1;
+    overflow: hidden;
   }
   &.max-height .panel-content {
     overflow: auto;
@@ -108,13 +110,6 @@ div.pat-modal.max-height .panel-footer {
   left: 0;
 }
 
-.lt-ie9 div.pat-modal .wizard-box .panel-footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
 .pat-modal .header {
   padding: 0.5em 1.5em;
   border-bottom: 0.1em solid silver;
@@ -164,7 +159,8 @@ div.pat-modal.max-height .panel-footer {
   outline: none;
 }
 
-.pat-modal .header .close-panel:before, #redactor_modal_close:before {
+.pat-modal .header .close-panel:before, 
+#redactor_modal_close:before {
   content: "\e813";
   text-indent: 0;
   position: absolute;
@@ -172,43 +168,4 @@ div.pat-modal.max-height .panel-footer {
   right: 0;
   width: 22px;
   font: normal 20px/23px fontello;
-}
-
-.pat-modal {
-  .panel-content {
-    button, .button {
-      border-color: #999;
-    }
-  }
-  .pat-modal .footer {
-    padding: 14px 15px 15px;
-    margin-bottom: 0;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-    -webkit-box-shadow: inset 0 1px 0 #ffffff;
-    -moz-box-shadow: inset 0 1px 0 #ffffff;
-    box-shadow: inset 0 1px 0 #ffffff;
-    *zoom: 1;
-  }
-  .footer {
-    button, a.button {
-      min-width: 100px;
-    }
-    &:before {
-      display: table;
-      content: "";
-    }
-  }
-}
-
-.modal-footer:after {
-  display: table;
-  content: "";
-}
-
-.pat-modal .footer:after {
-  clear: both;
 }
