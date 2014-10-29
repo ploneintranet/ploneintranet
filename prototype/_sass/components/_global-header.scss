@@ -7,7 +7,7 @@
     left: 0;
     padding-left: 15px;
     color: $colour-header-elements;
-    padding-right: 45px;
+    padding-right: 3.1em;
     z-index: 10;
 }
 
@@ -21,13 +21,13 @@
 
 #global-header .icon {
     float: right;
-    height: 32px;
+    height: 2em;
     color: $colour-header-elements;
-    line-height: 32px;
-    font-size: 18px;
-    margin-left: 10px;
+    line-height: 2em;
+    font-size: 1em;
+    margin-left: 1em;
     padding: 0;
-    width: 22px;
+    width: 1.3em;
     text-shadow: none;
 
     &#notification-link:before {
