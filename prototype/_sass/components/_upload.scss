@@ -1,3 +1,10 @@
+.dz-default.dz-message {
+	display: block;
+	padding: 1em;
+	margin-bottom: 1em;
+	border: 0.2em $colour-base dashed;
+}
+
 .dz-preview {
     border-top: 1px solid rgba(0,0,0,0.2);
     border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -47,7 +54,6 @@
 			left: -3em;
 			top: 50%;
 			margin-top: -1.3em;
-			display: none;
 		}
 	}
 
@@ -82,9 +88,19 @@
 		margin-top: -0.5em;
 		right: 0.6em;
 		position: absolute;
+		display: none;
+	}
+
+	&.dz-success .dz-success-mark,
+	&.dz-error .dz-error-mark {
+		display: inline-block;
+	}
+
+	.dz-success-mark {
+		// color: $colour-success;
 	}
 
 	.dz-error-mark {
-		float: right;
+		color: $colour-alert;
 	}
 }
