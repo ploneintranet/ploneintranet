@@ -10,12 +10,12 @@
 
   .post {
     font-size: 0.8em;
-    border-radius: 0;
-    padding-left: 0;
-    padding-right: 0;
-    border-left: none;
+    // border-radius: 0;
+    padding: 1em 0 0 1em;
+    margin-bottom: 1em;
+    border-left: 0.5em solid $colour-base;
     border-right: none;
-    border-top: dashed silver 1px;
+    border-top: none;
     border-bottom: none;
     width: auto;
   }
