@@ -14,6 +14,7 @@
     -webkit-user-select: none;
     user-select: none;
     padding: 0.5em 1.5em 0.5em 3em;
+    margin-bottom: -1px;
 
 	.dz-details {
 		position: relative;
@@ -79,6 +80,10 @@
 			display: block;
 			height: 4em;
 		}
+	}
+
+	&.dz-error .dz-progress .dz-upload {
+		background-color: $colour-alert;
 	}
 
 	.dz-success-mark,
