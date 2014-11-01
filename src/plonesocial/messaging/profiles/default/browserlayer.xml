@@ -1,0 +1,6 @@
+<layers>
+  <layer
+    name="plonesocial.messaging.browser"
+    interface="plonesocial.messaging.browser.interfaces.IPlonesocialMessagingstreamLayer"
+  />
+</layers>
