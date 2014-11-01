@@ -6,7 +6,7 @@
     meta_type="Filesystem Directory View"
     directory="plonesocial.network:skins/plonesocial.network"/>
 
- <skin-path name="plonesocial" based-on="Sunburst Theme">
+ <skin-path name="plonesocial" based-on="Plone Default">
   <layer name="plonesocial.network"
      insert-after="custom"/>
  </skin-path>
