@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from plonesocial.messaging.testing import \
-    PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 from plone import api
+from plonesocial.messaging.testing import PLONESOCIAL_MESSAGING_INTEGRATION_TESTING  # noqa
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 

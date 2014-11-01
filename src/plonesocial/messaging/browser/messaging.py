@@ -1,27 +1,22 @@
 # -*- coding: utf-8 -*-
-import datetime
-import json
-
+from AccessControl import Unauthorized
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-
 from plone import api
-
 from plone.z3cform.fieldsets import extensible
-from z3c.form import button
-from z3c.form import field
-from z3c.form import form
-
-from zope.component import getUtility
-from zope.component.hooks import getSite
-from zope.i18nmessageid import MessageFactory
-
 from plonesocial.core.browser.utils import link_tags
 from plonesocial.core.browser.utils import link_users
 from plonesocial.messaging.interfaces import IMessage
 from plonesocial.messaging.interfaces import IMessagingLocator
-from AccessControl import Unauthorized
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from zope.component import getUtility
+from zope.component.hooks import getSite
+from zope.i18nmessageid import MessageFactory
+import datetime
+import json
 
 _ = MessageFactory('plonesocial.microblog')
 
@@ -218,12 +213,11 @@ def format_conversations(conversations, inboxes, user, requested_user, mtool):
             message['recipient_img'] = get_user_img(mtool,
                                                     message['recipient'])
 
-        if requested_user:
-            if requested_user == con['username']:
-                # if a user has been passed then, show all messages
-                # to this user
-                display_messages = {'full-messages': messages}
-                conv_with_user = con['username']
+        if (requested_user and requested_user == con['username']):
+            # if a user has been passed then, show all messages
+            # to this user
+            display_messages = {'full-messages': messages}
+            conv_with_user = con['username']
 
         if messages:
             con['last-updated'] = messages[len(messages) - 1]['created']
@@ -274,10 +268,10 @@ class YourMessagesView(BrowserView):
 
         if user is None:
             # something has gone wrong
-            raise Unauthorized("User is not logged in")
+            raise Unauthorized('User is not logged in')
         if user.id == 'acl_users':
             # is anon
-            raise Unauthorized("User is not logged in")
+            raise Unauthorized('User is not logged in')
 
         locator = getUtility(IMessagingLocator)
 
