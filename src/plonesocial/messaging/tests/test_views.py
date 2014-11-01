@@ -94,7 +94,7 @@ class TestAjaxViews(unittest.TestCase):
         self.assertEqual(message['recipient'], 'testuser2')
         self.assertEqual(message['text'], 'Message Text')
         self.assertEqual(message['created'], now.isoformat())
-        self.assertTrue(isinstance(message['uid'], int))
+        self.assertTrue(isinstance(message['uid'], (int, long)))
 
     def test_delete_message(self):
         self._create_message(
