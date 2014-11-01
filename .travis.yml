@@ -1,7 +1,12 @@
 language: python
 python: "2.7"
+before_install:
+  - sudo apt-get -qq -y install libenchant-dev
 install:
   - mkdir -p buildout-cache/downloads
+  - pip install -U setuptools
+  - pip install -U pip
+  - pip install pyenchant
   - python bootstrap.py -c travis.cfg -v 1.6.3
   - bin/buildout -c travis.cfg buildout:develop= install download install 
   - bin/buildout -N -t 3 -c travis.cfg
