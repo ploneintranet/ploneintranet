@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.async">
+
+  <i18n:registerTranslations directory="locales" />
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <includeDependencies package="." />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="ploneintranet.async"
+     directory="profiles/default"
+     description="Plone Intranet asyncronous task support"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
+</configure>
