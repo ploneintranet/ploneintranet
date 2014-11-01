@@ -20,9 +20,4 @@
       i18n:attributes="title; description"
       />
 
-  <!-- skins for overrides -->
-  <cmf:registerDirectory name="plonesocial.network" />
-
-  <!-- -*- extra stuff goes here -*- -->
-  
 </configure>

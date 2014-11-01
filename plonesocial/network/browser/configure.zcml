@@ -14,6 +14,16 @@
       layer=".interfaces.IPlonesocialNetworkLayer"
       />
 
+  <!-- This view Will override the author.cpt in the skins folder
+       and will rederict to the @@profile view -->
+  <browser:page
+    name="author"
+    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    class=".profile.OverrideAuthorView"
+    permission="zope2.View"
+    layer=".interfaces.IPlonesocialNetworkLayer"
+    />
+
   <adapter
       name="plonesocial.network.maxiprofile_provider"
       factory=".profile.MaxiProfileProvider"

@@ -1,20 +1,21 @@
-from zope.interface import implements, Interface
-from zope.component import adapts
-from zope.component import getMultiAdapter, ComponentLookupError
-from zope.component import queryUtility
-from zope.publisher.interfaces import IPublishTraverse
-from zope.component.hooks import getSite
-
+# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.PythonScripts.standard import url_unquote_plus
 from plone.app.layout.globals.interfaces import IViewView
-
+from plone.memoize.view import memoize
 from plonesocial.network.interfaces import INetworkGraph
+from zope.component import adapts
+from zope.component import getMultiAdapter, ComponentLookupError
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.interface import implements, Interface
+from zope.publisher.interfaces import IPublishTraverse
 from .interfaces import IPlonesocialNetworkLayer
 from .interfaces import IProfileProvider
-
 import logging
+
 logger = logging.getLogger('plonesocial.network.profile')
 
 
@@ -180,3 +181,31 @@ class ProfileView(BrowserView, AbstractProfile):
             name="plonesocial.network.maxiprofile_provider")
         provider.userid = userid
         return provider()
+
+
+class OverrideAuthorView(BrowserView):
+    ''' This view Will override the author.cpt in the skins folder
+    and will rederict to the @@profile view
+    '''
+
+    @property
+    @memoize
+    def navigation_root_url(self):
+        portal_state = getMultiAdapter(
+            (self.context, self.request),
+            name=u'plone_portal_state'
+        )
+        return portal_state.navigation_root_url()
+
+    def __call__(self):
+        ''' Check if we can get the author from the request url
+        and go to the author profile
+        otherwise redirect to the authenticated user profile
+        '''
+        subpath = self.request.other.get('traverse_subpath', [])
+        author = (
+            (len(subpath) > 0 and url_unquote_plus(subpath[0]))
+            or self.request.get('author', None)
+        )
+        profile = author and '@@profile/%s' % author or '@@profile'
+        self.request.response.redirect('%s/%s' % (self.portal_url(), profile))
