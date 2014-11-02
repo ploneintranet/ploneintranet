@@ -208,4 +208,4 @@ class OverrideAuthorView(BrowserView):
             or self.request.get('author', None)
         )
         profile = author and '@@profile/%s' % author or '@@profile'
-        self.request.response.redirect('%s/%s' % (self.portal_url(), profile))
+        self.request.response.redirect('%s/%s' % (self.navigation_root_url, profile))
