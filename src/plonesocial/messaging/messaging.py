@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from BTrees.LOBTree import LOBTree
 from BTrees.OOBTree import OOBTree
-from datetime import datetime
 from Persistence import Persistent
+from datetime import datetime
 from plone import api
 from plonesocial.messaging.events import MessageSendEvent
 from plonesocial.messaging.interfaces import IConversation
@@ -13,7 +13,6 @@ from plonesocial.messaging.interfaces import IMessagingLocator
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
-
 import time
 
 

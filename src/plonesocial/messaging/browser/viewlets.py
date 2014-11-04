@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.app.layout.viewlets.common import ViewletBase
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-
-from zope.component import getUtility
-
+from plone.app.layout.viewlets.common import ViewletBase
 from plonesocial.messaging.interfaces import IMessagingLocator
+from zope.component import getUtility
 
 
 class NotificationsViewlet(ViewletBase):
