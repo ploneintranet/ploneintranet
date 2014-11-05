@@ -4,6 +4,7 @@ from plone.uuid.interfaces import IUUID
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
 from ..testing import PLONEINTRANET_async_FUNCTIONAL_TESTING
 from ..demo.tasks import create_content
@@ -21,7 +22,7 @@ class TestContentCreation(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Member'])
 
     def test_content_creation(self):
-        login(self.portal, TEST_USER_ID)
+        login(self.portal, TEST_USER_NAME)
         self.assertNotIn('foo', self.portal)
         result = create_content.delay(
             self.portal,
@@ -39,7 +40,7 @@ class TestContentCreation(unittest.TestCase):
         logout()
 
     def test_content_creation_in_dir(self):
-        login(self.portal, TEST_USER_ID)
+        login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Folder', 'test-f')
         folder = self.portal['test-f']
         folder.setTitle('Test folder')
