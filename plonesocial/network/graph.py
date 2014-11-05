@@ -1,12 +1,10 @@
-import logging
-
-from BTrees import OOBTree
-from persistent import Persistent
+# -*- coding: utf-8 -*-
 from Acquisition import Explicit
-
-from zope.interface import implements
-
+from BTrees import OOBTree
 from interfaces import INetworkGraph
+from persistent import Persistent
+from zope.interface import implements
+import logging
 
 logger = logging.getLogger('plonesocial.network')
 

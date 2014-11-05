@@ -18,7 +18,7 @@
        and will rederict to the @@profile view -->
   <browser:page
     name="author"
-    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     class=".profile.OverrideAuthorView"
     permission="zope2.View"
     layer=".interfaces.IPlonesocialNetworkLayer"

@@ -20,4 +20,13 @@
       i18n:attributes="title; description"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="PloneSocial Network Uninstall"
+      directory="profiles/uninstall"
+      description="Uninstalls the plonesocial.network package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
 </configure>

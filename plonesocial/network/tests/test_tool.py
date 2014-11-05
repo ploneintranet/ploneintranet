@@ -1,13 +1,10 @@
-import unittest2 as unittest
-from zope.component import queryUtility
-
+# -*- coding: utf-8 -*-
 from plone import api
-
-from plonesocial.network.testing import \
-    PLONESOCIAL_NETWORK_INTEGRATION_TESTING
-
 from plonesocial.network.interfaces import INetworkGraph
 from plonesocial.network.interfaces import INetworkTool
+from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+from zope.component import queryUtility
+import unittest2 as unittest
 
 
 class TestNetworkTool(unittest.TestCase):

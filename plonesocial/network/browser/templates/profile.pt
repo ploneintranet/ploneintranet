@@ -13,16 +13,16 @@
       <div id="content"
            tal:define="maxiprofile python:view.maxiprofile_provider(view.userid)">
 
-        
+
         <div tal:condition="not:maxiprofile">
           <h2 i18n:translate="">Nothing here</h2>
           <div tal:condition="view/userid" i18n:translate="">
             No such user <b i18n:name="userid" tal:content="view/userid" />.
           </div>
         </div>
-        
 
-	<div tal:content="structure maxiprofile" />
+
+    <div tal:content="structure maxiprofile" />
 
         <h2 i18n:translate="">Updates</h2>
         <div class="description" i18n:translate="">Status updates by
@@ -34,6 +34,6 @@
       </div><!-- /content -->
     </metal:main-macro>
   </div>
-    
+
 </body>
 </html>

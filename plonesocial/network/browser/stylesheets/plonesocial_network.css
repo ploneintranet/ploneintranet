@@ -48,7 +48,7 @@ div.plonesocial.profile .navigation .count {
 div.plonesocial.profile .portrait {
     position: relative;
     overflow: hidden;
-}    
+}
 div.plonesocial.maxiprofile .portrait {
     width: 150px;
     height: 150px;
@@ -88,11 +88,11 @@ div.plonesocial.miniprofile .userid {
     display: inline;
 }
 div.plonesocial.maxiprofile .personal-info {
-    margin-left: 170px; 
+    margin-left: 170px;
     min-height: 150px;
 }
 div.plonesocial.miniprofile .personal-info {
-    margin-left: 90px; 
+    margin-left: 90px;
     min-height: 75px;
 }
 

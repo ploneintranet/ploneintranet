@@ -1,15 +1,14 @@
-import unittest2 as unittest
-
+# -*- coding: utf-8 -*-
 from plone import api
 from plone.browserlayer.utils import registered_layers
-
-from plonesocial.network.testing import\
-    PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+import unittest2 as unittest
 
 PROJECTNAME = 'plonesocial.network'
-CSS = (
+REGISTRY_ID = 'plone.resources/resource-plonesocial-network-stylesheets.css'
+EXPECTED_CSS = [
     '++resource++plonesocial.network.stylesheets/plonesocial_network.css',
-)
+]
 
 
 class TestInstall(unittest.TestCase):
@@ -28,9 +27,8 @@ class TestInstall(unittest.TestCase):
         self.assertIn('IPlonesocialNetworkLayer', layers)
 
     def test_cssregistry(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
+        resource_ids = api.portal.get_registry_record(REGISTRY_ID)
+        self.assertListEqual(EXPECTED_CSS, resource_ids)
 
 
 class TestUninstall(unittest.TestCase):
@@ -51,6 +49,8 @@ class TestUninstall(unittest.TestCase):
         self.assertNotIn('IPlonesocialNetworkLayer', layers)
 
     def test_cssregistry_removed(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertNotIn(id, resource_ids, '{0} not removed'.format(id))
+        self.assertRaises(
+            api.exc.InvalidParameterError,
+            api.portal.get_registry_record,
+            [REGISTRY_ID]
+        )

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.resources/resource-plonesocial-network-stylesheets.css" remove="true" />
+</registry>

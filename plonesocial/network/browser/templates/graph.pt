@@ -13,27 +13,27 @@
       <div id="content"
            tal:define="maxiprofile python:view.maxiprofile_provider(view.userid)">
 
-        
+
         <div tal:condition="not:maxiprofile">
           <h2 i18n:translate="">Nothing here</h2>
           <div tal:condition="view/userid" i18n:translate="">
             No such user <b i18n:name="userid" tal:content="view/userid" />.
           </div>
         </div>
-        
-	<div tal:content="structure maxiprofile" />
 
-	<div class="plonesocial" id="graph">
-	  <h2 tal:content="view/Title">follow</h2>
-	  <div class="description" tal:content="view/description" />
-	  <tal:users repeat="userid view/users">
-	    <div tal:content="structure python:view.miniprofile_provider(userid)" />
-	  </tal:users>
-	</div>
+    <div tal:content="structure maxiprofile" />
+
+    <div class="plonesocial" id="graph">
+      <h2 tal:content="view/Title">follow</h2>
+      <div class="description" tal:content="view/description" />
+      <tal:users repeat="userid view/users">
+        <div tal:content="structure python:view.miniprofile_provider(userid)" />
+      </tal:users>
+    </div>
 
       </div><!-- /content -->
     </metal:main-macro>
   </div>
-    
+
 </body>
 </html>
