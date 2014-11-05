@@ -8,10 +8,11 @@ from plone.testing import z2
 
 from zope.configuration import xmlconfig
 
+from collective.celery.testing import CELERY
 
 class PloneintranetasyncLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_FIXTURE, CELERY, )
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
