@@ -33,12 +33,7 @@ class TestContentCreation(unittest.TestCase):
             setText=u"<p>Hello <em>world</em>!</p>"
         )
         self.assertNotIn('foo', self.portal)
-        try:
-            transaction.commit()
-        except AssertionError:
-            # do not want our test to be pollutes by assert made in 
-            # transaction._manager
-            pass
+        transaction.commit()
         result = result.get()
         self.assertIn('foo', self.portal)
         self.assertEqual(result, IUUID(self.portal['foo']))
@@ -59,12 +54,7 @@ class TestContentCreation(unittest.TestCase):
             setText=u"<p>Hello <em>world</em>!</p>"
         )
         self.assertNotIn('foo', folder)
-        try:
-            transaction.commit()
-        except AssertionError:
-            # do not want our test to be pollutes by assert made in 
-            # transaction._manager
-            pass
+        transaction.commit()
         result = result.get()
         self.assertIn('foo', folder)
         self.assertEqual(result, IUUID(folder['foo']))
