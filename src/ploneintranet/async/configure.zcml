@@ -1,16 +1,17 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ploneintranet.async">
 
   <i18n:registerTranslations directory="locales" />
   <five:registerPackage package="." initialize=".initialize" />
 
   <includeDependencies package="." />
+
+  <include package=".demo" />
 
   <genericsetup:registerProfile
      name="default"
