@@ -12,6 +12,7 @@
       class=".views.ExampleDragAndDropUpload"
       permission="cmf.ModifyPortalContent"
       template="templates/dnd-upload-example.pt"
+      layer="..interfaces.IThemeSpecific"
       />
 
   <browser:page
@@ -20,6 +21,7 @@
       class=".views.ExampleResourcePolling"
       permission="zope2.View"
       template="templates/resource-polling-example.pt"
+      layer="..interfaces.IThemeSpecific"
       />
 
   <browser:page
@@ -27,6 +29,16 @@
       for="plone.app.blob.interfaces.IATBlobImage"
       class=".views.ExampleFilePreview"
       permission="zope2.View"
+      layer="..interfaces.IThemeSpecific"
+      />
+
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           Products.CMFDefault.interfaces.ICMFDefaultSkin
+           plone.dexterity.interfaces.IDexterityFTI"
+      factory=".document.AddView"
+      name="Document"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
       />
 
 </configure>
