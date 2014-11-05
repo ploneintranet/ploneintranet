@@ -1,6 +1,9 @@
 {
   "name": "ploneintranet-patterns",
   "version": "0.0.1",
+  "devDependencies": {
+    "jasmine": "https://github.com/jcbrand/jasmine.git#1_3_x"
+  },
   "dependencies": {
     "AnythingSlider": "1.8.17",
     "almond": "",
@@ -40,6 +43,7 @@
   "resolutions": {
     "jquery": "1.8.3",
     "select2": "3.4.6",
-    "parsleyjs": "1.2"
+    "parsleyjs": "1.2",
+    "underscore": "~1.7.0"
   }
 }
