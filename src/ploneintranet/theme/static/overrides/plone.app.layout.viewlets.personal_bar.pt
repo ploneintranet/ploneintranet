@@ -20,6 +20,7 @@
         tal:attributes="id string:personaltools-${action/id}">
         <a href=""
            tal:attributes="action"
+           tal:condition="exists:action/url"
            tal:content="action/title"
            i18n:translate="">
             action title
@@ -34,6 +35,7 @@
     <tal:actions repeat="action view/user_actions">
         <a href=""
            tal:attributes="action"
+           tal:condition="exists:action/url"
            tal:content="action/title"
            i18n:translate="">
             action title
