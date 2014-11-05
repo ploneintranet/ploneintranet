@@ -36,6 +36,7 @@
         interface="ploneintranet.theme.interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
         />
-    <browser:jbot directory="static/overrides" />
+    <browser:jbot directory="static/overrides" 
+        layer=".interfaces.IThemeSpecific" />
 
 </configure>
