@@ -46,7 +46,7 @@
 
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
-           Products.CMFDefault.interfaces.ICMFDefaultSkin
+           ..interfaces.IThemeSpecific
            plone.dexterity.interfaces.IDexterityFTI"
       factory=".document.AddView"
       name="Document"
