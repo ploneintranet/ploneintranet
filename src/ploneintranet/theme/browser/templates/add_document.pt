@@ -1,22 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="ploneintranet.theme"
-      metal:use-macro="context/main_template/macros/master">
-
-<body metal:fill-slot="head_slot">
-    <title>Plone intranet</title>
-</body>
-
-<body metal:fill-slot="content">
-heeeee
-heeeee
-heeeee
-heeeee
-heeeee
-    <form action="#">
-    <fieldset>
+<form action="#">
+<fieldset>
     <fieldset class="horizontal">
         <label class="select">
             Take your pick <sup class="required">*</sup> <a href="tooltip-help.html#subject-2" class="iconified icon-info-circle help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax">More info</a>
@@ -66,7 +49,5 @@ heeeee
         <button type="submit">Submit</button>
         <button type="reset">Reset</button>
     </fieldset>
-    </fieldset>
-    </form>
-</body>
-</html>
+</fieldset>
+</form>
