@@ -41,6 +41,9 @@
       permission="zope.Public"
       />
 
+  <!-- Provides markup around the Dexterity Add/Edit forms -->
+  <adapter factory=".templates.layout_factory" />
+
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
            Products.CMFDefault.interfaces.ICMFDefaultSkin
