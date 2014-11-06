@@ -32,6 +32,15 @@
       layer="..interfaces.IThemeSpecific"
       />
 
+  <!-- Helper view that allows us to disable CSS based on whether the Plone
+       Intranet theme is enabled or not. -->
+  <browser:page
+      for="*"
+      name="is_plone_intranet_theme_enabled"
+      class=".views.IsThemeEnabled"
+      permission="zope.Public"
+      />
+
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
            Products.CMFDefault.interfaces.ICMFDefaultSkin

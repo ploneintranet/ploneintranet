@@ -4,10 +4,18 @@ from plone import api
 from zExceptions import NotFound
 from zope.publisher.browser import BrowserPage
 from zope.publisher.browser import BrowserView
+from ploneintranet.theme.interfaces import IThemeSpecific
 from Acquisition import aq_inner
 import logging
 
 log = logging.getLogger(__name__)
+
+
+class IsThemeEnabled(BrowserView):
+
+    def __call__(self):
+        """ """
+        return IThemeSpecific.providedBy(self.request)
 
 
 class ExampleDragAndDropUpload(BrowserView):
