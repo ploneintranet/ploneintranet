@@ -1,4 +1,5 @@
 from plone.dexterity.browser import add
+from plone.dexterity.browser import edit
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from ploneintranet.theme import _
@@ -10,7 +11,7 @@ class AddForm(add.DefaultAddForm):
         It's not necessary to override all the methods below, but we leave them
         there for now as reference.
     """
-    template = ViewPageTemplateFile('templates/add_document.pt')
+    template = ViewPageTemplateFile('templates/edit_document.pt')
 
     def render(self):
         """ The "contents" attribute of the AddView gets populated with the
@@ -57,3 +58,29 @@ class AddView(add.DefaultAddView):
     def update(self):
         return super(AddView, self).update()
 
+
+class EditForm(edit.DefaultEditForm):
+    """ Custom edit form for the Document content type.
+
+        It's not necessary to override all the methods below, but we leave them
+        there for now as reference.
+    """
+    template = ViewPageTemplateFile('templates/edit_document.pt')
+
+    def update(self):
+        return super(EditForm, self).update()
+
+    def render(self):
+        """ The "contents" attribute of the AddView gets populated with the
+            return results of this method.
+        """
+        return super(EditForm, self).render()
+
+
+class EditView(edit.DefaultEditView):
+    """ Custom edit view for the Document content type.
+    """
+    form = EditForm
+
+    def update(self):
+        return super(EditView, self).update()

@@ -53,4 +53,11 @@
       provides="zope.publisher.interfaces.browser.IBrowserPage"
       />
 
+  <browser:page
+      for="plone.app.contenttypes.interfaces.IDocument"
+      name="edit"
+      class=".document.EditView"
+      permission="cmf.ModifyPortalContent"
+      />
+
 </configure>
