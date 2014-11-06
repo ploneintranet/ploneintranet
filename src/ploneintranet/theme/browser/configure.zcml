@@ -9,7 +9,7 @@
   <browser:page
       name="dnd-upload-example"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".views.ExampleDragAndDropUpload"
+      class=".examples.ExampleDragAndDropUpload"
       permission="cmf.ModifyPortalContent"
       template="templates/dnd-upload-example.pt"
       layer="..interfaces.IThemeSpecific"
@@ -18,7 +18,7 @@
   <browser:page
       name="resource-polling-example"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".views.ExampleResourcePolling"
+      class=".examples.ExampleResourcePolling"
       permission="zope2.View"
       template="templates/resource-polling-example.pt"
       layer="..interfaces.IThemeSpecific"
@@ -27,7 +27,7 @@
   <browser:page
       name="file-preview-example.jpg"
       for="plone.app.blob.interfaces.IATBlobImage"
-      class=".views.ExampleFilePreview"
+      class=".examples.ExampleFilePreview"
       permission="zope2.View"
       layer="..interfaces.IThemeSpecific"
       />
