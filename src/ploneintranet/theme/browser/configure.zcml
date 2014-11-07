@@ -1,11 +1,12 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.theme">
 
+  <!-- BEGIN Example views (used to document and show patterns usage) -->
   <browser:page
       name="dnd-upload-example"
       for="Products.CMFCore.interfaces.IFolderish"
@@ -31,6 +32,7 @@
       permission="zope2.View"
       layer="..interfaces.IThemeSpecific"
       />
+  <!-- END Example views -->
 
   <!-- Helper view that allows us to disable CSS based on whether the Plone
        Intranet theme is enabled or not. -->
@@ -44,6 +46,16 @@
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".templates.layout_factory" />
 
+  <!-- BEGIN Custom Content Type edit views -->
+  <browser:page
+      for="plone.app.contenttypes.interfaces.IDocument"
+      name="edit"
+      class=".document.EditView"
+      permission="cmf.ModifyPortalContent"
+      />
+  <!-- END Custom Content Type views -->
+
+  <!-- BEGIN Custom Content Type add views -->
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
            ..interfaces.IThemeSpecific
@@ -52,12 +64,6 @@
       name="Document"
       provides="zope.publisher.interfaces.browser.IBrowserPage"
       />
-
-  <browser:page
-      for="plone.app.contenttypes.interfaces.IDocument"
-      name="edit"
-      class=".document.EditView"
-      permission="cmf.ModifyPortalContent"
-      />
+  <!-- END Custom Content Type add views -->
 
 </configure>
