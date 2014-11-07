@@ -23,22 +23,11 @@
     <!-- XXX:  This is a required field, but will likely not be used in Plone Intranet -->
     <input type="hidden" value="selected" name="form.widgets.IExcludeFromNavigation.exclude_from_nav"/>
 
-    <!-- XXX: This is the button markup from the proto
     <fieldset class="button-bar group">
-        <button type="submit">Submit</button>
-        <button type="reset">Reset</button>
+        <tal:block repeat="action view/actions/values">
+            <button type="submit" tal:replace="structure action/render" />
+        </tal:block>
     </fieldset>
-    -->
-
-    <metal:actions-slot define-slot="actions">
-        <metal:define define-macro="actions">
-            <fieldset class="button-bar group">
-                <tal:block repeat="action view/actions/values">
-                    <button type="submit" tal:replace="structure action/render" />
-                </tal:block>
-            </fieldset>
-        </metal:define>
-    </metal:actions-slot>
 
 </fieldset>
 </form>
