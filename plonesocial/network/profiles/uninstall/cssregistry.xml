@@ -3,5 +3,5 @@
 <object name="portal_css">
  <stylesheet title=""
     id="++resource++plonesocial.network.stylesheets/plonesocial_network.css"
-    remove="True" />
+    remove="true" />
 </object>
