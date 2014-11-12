@@ -10,7 +10,7 @@
   <record name="plone.resources/resource-plonesocial-network-stylesheets" remove="true" />
   <record name="plone.bundles/plone-legacy.resources">
     <value purge="true" remove="True">
-    	<element delete="True" remove="True">resource-plonesocial-network-stylesheets</element>
+      <element delete="True" remove="True">resource-plonesocial-network-stylesheets</element>
     </value>
   </record>
 </registry>
