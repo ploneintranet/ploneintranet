@@ -141,7 +141,7 @@ class MiniProfileProvider(AbstractProfileProvider):
 class ProfileView(BrowserView, AbstractProfile):
     implements(IPublishTraverse, IViewView)
 
-    index = ViewPageTemplateFile('templates/profile.pt')
+    index = ViewPageTemplateFile('templates/author.pt')
 
     def __init__(self, context, request):
         self.context = context

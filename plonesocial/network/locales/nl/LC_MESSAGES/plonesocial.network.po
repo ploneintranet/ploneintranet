@@ -38,12 +38,12 @@ msgid "Installs the plonesocial.network package"
 msgstr ""
 
 #: ./browser/templates/graph.pt:20
-#: ./browser/templates/profile.pt:20
+#: ./browser/templates/author.pt:20
 msgid "No such user ${userid}."
 msgstr "Geen gebruiker ${userid}."
 
 #: ./browser/templates/graph.pt:18
-#: ./browser/templates/profile.pt:18
+#: ./browser/templates/author.pt:18
 msgid "Nothing here"
 msgstr "Niks hier"
 
@@ -51,12 +51,12 @@ msgstr "Niks hier"
 msgid "PloneSocial Network"
 msgstr ""
 
-#: ./browser/templates/profile.pt:29
+#: ./browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
 msgstr "Status updates door ${fullname}:"
 
 #: ./browser/templates/maxiprofile_provider.pt:21
-#: ./browser/templates/profile.pt:27
+#: ./browser/templates/author.pt:27
 msgid "Updates"
 msgstr ""
 

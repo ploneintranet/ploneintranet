@@ -11,7 +11,7 @@ from zope.publisher.interfaces import IPublishTraverse
 class AbstractGraph(ProfileView):
     implements(IPublishTraverse)
 
-    index = ViewPageTemplateFile('templates/profile.pt')
+    index = ViewPageTemplateFile('templates/author.pt')
 
     def miniprofile_provider(self, userid):
         provider = getMultiAdapter(
