@@ -32,6 +32,12 @@ from .interfaces import IStatusProvider
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
 
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+    from ploneintranet.attachments.utils import extract_and_add_attachments
+except ImportError:
+    IAttachmentStoragable = None
+
 
 class StatusForm(extensible.ExtensibleForm, form.Form):
 
@@ -80,6 +86,14 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
         status = StatusUpdate(data['text'],
                               context=microblog_context,
                               thread_id=thread_id)
+
+        file_upload = self.request.get('form.widgets.attachments')
+        attachments_supported = (
+            IAttachmentStoragable is not None and
+            IAttachmentStoragable.providedBy(status))
+        if attachments_supported and file_upload:
+            extract_and_add_attachments(
+                file_upload, status)
 
         # debugging only
 #        container.clear()
