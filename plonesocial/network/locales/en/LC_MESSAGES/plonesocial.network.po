@@ -23,13 +23,13 @@ msgid "%s is following:"
 msgstr ""
 
 #: ./browser/graph.py:42
-#: ./browser/templates/maxiprofile_provider.pt:28
+#: ./browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
 msgstr ""
 
 #: ./browser/graph.py:28
-#: ./browser/templates/maxiprofile_provider.pt:35
-#: ./browser/templates/miniprofile_provider.pt:33
+#: ./browser/templates/maxiauthor_provider.pt:35
+#: ./browser/templates/miniauthor_provider.pt:33
 msgid "Following"
 msgstr ""
 
@@ -55,16 +55,16 @@ msgstr ""
 msgid "Status updates by ${fullname}:"
 msgstr ""
 
-#: ./browser/templates/maxiprofile_provider.pt:21
+#: ./browser/templates/maxiauthor_provider.pt:21
 #: ./browser/templates/author.pt:27
 msgid "Updates"
 msgstr ""
 
-#: ./browser/templates/maxiprofile_provider.pt:62
+#: ./browser/templates/maxiauthor_provider.pt:62
 msgid "follow"
 msgstr ""
 
-#: ./browser/templates/maxiprofile_provider.pt:69
+#: ./browser/templates/maxiauthor_provider.pt:69
 msgid "unfollow"
 msgstr ""
 

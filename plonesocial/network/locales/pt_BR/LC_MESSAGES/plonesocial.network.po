@@ -24,13 +24,13 @@ msgid "%s is following:"
 msgstr "%s está seguindo:"
 
 #: ./plonesocial/network/browser/graph.py:44
-#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:28
+#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
 msgstr "Seguidores"
 
 #: ./plonesocial/network/browser/graph.py:29
-#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:35
-#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:34
+#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:35
+#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:34
 msgid "Following"
 msgstr "Seguindo"
 
@@ -56,18 +56,18 @@ msgstr "PloneSocial Network"
 msgid "Status updates by ${fullname}:"
 msgstr "Atualizações de estado do ${fullname}:"
 
-#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:21
+#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:21
 #: ./plonesocial/network/browser/templates/author.pt:27
 msgid "Updates"
 msgstr "Atualizações"
 
-#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:64
-#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:30
+#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:64
+#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:30
 msgid "follow"
 msgstr "seguir"
 
-#: ./plonesocial/network/browser/templates/maxiprofile_provider.pt:72
-#: ./plonesocial/network/browser/templates/miniprofile_provider.pt:38
+#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:72
+#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:38
 msgid "unfollow"
 msgstr "deixar de seguir"
 

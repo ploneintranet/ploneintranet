@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
+from .author import AuthorView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
 from plonesocial.network import _
-from profile import ProfileView
 from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 
-class AbstractGraph(ProfileView):
+class AbstractGraph(AuthorView):
     implements(IPublishTraverse)
 
     index = ViewPageTemplateFile('templates/author.pt')
 
-    def miniprofile_provider(self, userid):
+    def miniauthor_provider(self, userid):
         provider = getMultiAdapter(
             (self.context, self.request, self),
-            name='plonesocial.network.miniprofile_provider')
+            name='plonesocial.network.miniauthor_provider')
         provider.userid = userid
         return provider()
 

@@ -1,4 +1,4 @@
-<div class="plonesocial profile maxiprofile"
+<div class="plonesocial author maxiauthor"
      tal:condition="view/data">
 
   <div class="portrait">
@@ -76,4 +76,4 @@
       </form>
     </div>
   </div><!-- /info -->
-</div><!-- /profile -->
+</div><!-- /author -->
