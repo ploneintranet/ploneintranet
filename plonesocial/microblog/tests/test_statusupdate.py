@@ -1,4 +1,6 @@
 import unittest2 as unittest
+from Products.ATContentTypes.content.file import ATFile
+from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.interface.verify import verifyClass
 from zope.interface import implements
 
@@ -127,3 +129,13 @@ class TestStatusUpdate(unittest.TestCase):
     def test_thread_id(self):
         su = StatusUpdate('foo bar', thread_id='jawel')
         self.assertEquals(su.thread_id, 'jawel')
+
+    def test_attachments(self):
+        su = StatusUpdate('foo bar')
+        attachments = IAttachmentStorage(su)
+
+        f = ATFile('data.dat')
+        attachments.add(f)
+        self.assertEqual([k for k in attachments.keys()], [f.getId()])
+        attachments.remove(f.getId())
+        self.assertEqual(len(attachments.keys()), 0)
