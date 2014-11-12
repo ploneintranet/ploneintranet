@@ -9,7 +9,7 @@
   <theme href="generated/home.html" css:if-content="#visual-portal-wrapper" />
 
   <!-- Pull in Plone CSS -->
-  <replace theme="/html/head"
+  <before theme="/html/head"
           content="/html/head/link | /html/head/style | /html/head/script" />
 
   <!--<replace theme="/html/head/meta/[@name='viewport']" content="/html/head/meta/[@name='viewport']"/>-->
