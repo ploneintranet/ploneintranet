@@ -14,7 +14,7 @@ def link_tags(text, url=''):
 
 
 def link_users(text, url=''):
-    user_tmpl = '<a href="{0}/@@profile/{1}" class="user user-{1}">@{2}</a>'
+    user_tmpl = '<a href="{0}/@@author/{1}" class="user user-{1}">@{2}</a>'
     user_marks = USERRE.findall(text)
     for user_mark in user_marks:
         user_id = user_mark[1:]
