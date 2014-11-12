@@ -2,19 +2,19 @@
      tal:condition="view/data">
 
   <div class="portrait">
-    <a tal:attributes="href view/profile_url"
+    <a tal:attributes="href view/author_url"
        tal:content="structure view/portrait" />
   </div>
 
   <div class="personal-info" i18n:domain="plonesocial.network">
 
     <h3 class="username">
-      <a tal:attributes="href view/profile_url"
+      <a tal:attributes="href view/author_url"
          tal:content="view/data/fullname">user name</a>
     </h3>
 
     <div class="userid">
-      <a tal:attributes="href view/profile_url"
+      <a tal:attributes="href view/author_url"
          tal:content="string: @${view/userid}">@who</a>
     </div>
 
