@@ -1,3 +1,4 @@
+import ExtensionClass
 from Acquisition import Explicit
 from Acquisition import aq_inner
 from Acquisition import aq_base
@@ -120,7 +121,10 @@ def AttachmentStorageAdapterFactory(content):
         annotations[ANNOTATION_KEY] = attachments
     else:
         attachments = annotations[ANNOTATION_KEY]
-    return attachments.__of__(content)
+    if isinstance(content, ExtensionClass.Base):
+        return attachments.__of__(content)
+    else:
+        return attachments
 
 
 class AttachmentsNamespace(object):
