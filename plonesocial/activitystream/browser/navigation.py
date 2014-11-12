@@ -47,7 +47,7 @@ class PloneSocialNavigation(BrowserView):
             menu.extend([dict(url=base + '@@stream/network',
                               title='My network',
                               state='stream'),
-                         dict(url=base + '@@profile',
+                         dict(url=base + '@@author',
                               title='My profile',
                               state='profile')])
         for item in menu:
