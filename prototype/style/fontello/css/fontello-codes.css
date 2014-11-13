@@ -24,7 +24,6 @@
 .icon-radio-on:before { content: '\e702'; } /* '' */
 .icon-cancel-circle-open:before { content: '\e703'; } /* '' */
 .icon-help-circle:before { content: '\e704'; } /* '' */
-.icon-info-circle:before { content: '\e705'; } /* '' */
 .icon-eye:before { content: '\e70a'; } /* '' */
 .icon-tag:before { content: '\e70c'; } /* '' */
 .icon-tags:before { content: '\e70d'; } /* '' */
@@ -63,6 +62,7 @@
 .icon-contacts:before { content: '\e816'; } /* '' */
 .icon-calendar-empty:before { content: '\e817'; } /* '' */
 .icon-slides:before { content: '\e818'; } /* '' */
+.icon-info-circle:before { content: '\e819'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */

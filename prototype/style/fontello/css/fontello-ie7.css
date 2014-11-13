@@ -33,7 +33,6 @@
 .icon-radio-on { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe702;&nbsp;'); }
 .icon-cancel-circle-open { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe703;&nbsp;'); }
 .icon-help-circle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe704;&nbsp;'); }
-.icon-info-circle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe705;&nbsp;'); }
 .icon-eye { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe70a;&nbsp;'); }
 .icon-tag { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe70c;&nbsp;'); }
 .icon-tags { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe70d;&nbsp;'); }
@@ -72,6 +71,7 @@
 .icon-contacts { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe816;&nbsp;'); }
 .icon-calendar-empty { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe817;&nbsp;'); }
 .icon-slides { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe818;&nbsp;'); }
+.icon-info-circle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe819;&nbsp;'); }
 .icon-spin { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe838;&nbsp;'); }
 .icon-check-off { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf096;&nbsp;'); }
 .icon-paste { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0ea;&nbsp;'); }
