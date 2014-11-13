@@ -1,0 +1,12 @@
+---
+layout: home
+application: home
+design_title: Intranet homepage — Apps
+design_description: The homepage of the intranet with the apps tab active.
+---
+
+<div class="tiles apps pat-packery" data-pat-packery="column-width: 220; gutter-width: 30px; item-selector: .tile;">
+	{% include tile-app.html title="News CMS" id="cms" url="apps/cms.html" %}
+	{% include tile-app.html title="Contacts" id="contacts" url="apps/cms.html" %}
+	{% include tile-app.html title="Central calendar" id="calendar" url="apps/calendar.html" %}
+</div>
