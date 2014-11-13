@@ -39,10 +39,18 @@
 #toolbar-main *[data-option]:after,
 #toolbar-main select {
 	float: left;
+	border: none;
+	background-image: none;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
 
 	&.float-after {
 		float: right;
 	}
+}
+
+#toolbar-main a.button.dropdown {
+	padding-right: 1.1em;
 }
 
 #toolbar-main input {
