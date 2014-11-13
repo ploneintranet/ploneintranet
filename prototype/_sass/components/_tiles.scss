@@ -1,5 +1,11 @@
 .tiles {
 	margin: 0 auto;
+	opacity: 0;
+	transition: opacity 1s;
+
+	&.packery-ready {
+	  opacity: 1;
+	}
 	
 	.tile {
 	  width: 300px;
