@@ -73,9 +73,9 @@
 </header>
 
 <nav class="tabs navigation" id="home-tabs">
-	<a href="/index.html">Activity</a>
-	<a href="#">News</a>
-	<a href="/workspaces.html">Workspaces</a>
-	<a href="#">Messages</a>
-	<a href="/apps.html">Apps</a>
+	<a href="/index.html" {% if page.url == '/index.html' %}class="current"{% endif %}>Activity</a>
+	<a href="#" {% if page.url == '/news.html' %}class="current"{% endif %}>News</a>
+	<a href="/workspaces.html" {% if page.url == '/workspaces.html' %}class="current"{% endif %}>Workspaces</a>
+	<a href="#" {% if page.url == '/messages.html' %}class="current"{% endif %}>Messages</a>
+	<a href="/apps.html" {% if page.url == '/apps.html' %}class="current"{% endif %}>Apps</a>
 </nav>
