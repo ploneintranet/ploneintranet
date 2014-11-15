@@ -5,7 +5,8 @@ template: generic
 
 <div class="application project" id="content">
     <h1 id="workspace-name">
-        <a href="workspace-landing.html">{{ page.workspace_name }}</a>
+        <!-- Next link is to lead to landing state of current workspace -->
+        <a href="{{page.url}}">{{ page.workspace_name }}</a>
     </h1>
 
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">

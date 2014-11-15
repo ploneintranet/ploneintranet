@@ -1,43 +1,310 @@
-    <div hidden id="create-document">
-        <ul class="menu">
-            <li>
-                <a class="icon-document" href="#">Text document</a>
-            </li>
+<div hidden id="create-document">
+    <ul class="menu">
+        <li>
+            <a class="icon-document" href="#">Text document</a>
+        </li>
 
-            <li>
-                <a class="icon-calendar pat-inject" data-pat-inject="#document-body::element && #toolbar-main>.document-controls::element" href="panel-create-event-full.html" title="Create a new event">Event</a>
-            </li>
+        <li>
+            <a class="icon-calendar pat-inject" data-pat-inject="#document-body::element && #toolbar-main>.document-controls::element" href="panel-create-event-full.html" title="Create a new event">Event</a>
+        </li>
 
-            <li>
-                <a class="icon-link pat-inject" href="workspace-edit-link.html#document-body">Weblink</a>
-            </li>
+        <li>
+            <a class="icon-link pat-inject" href="workspace-edit-link.html#document-body">Weblink</a>
+        </li>
 
-            <li>
-                <a class="icon-upload" href="#">Upload file(s)</a>
-            </li>
-        </ul>
+        <li>
+            <a class="icon-upload" href="#">Upload file(s)</a>
+        </li>
+    </ul>
+</div>
+
+<div hidden id="more-menu">
+    <ul class="menu">
+        <li>
+            <a class="icon-document" href="#">Paste document(s)</a>
+        </li>
+    </ul>
+</div>
+
+<div id="sidebar-content" class="pat-stacks">
+    <div id="workspace-documents">
+        {% include item-selector.html mode="docs" id="selector" listitems="follow" toggle="true" %}
     </div>
-
-    <div hidden id="more-menu">
-        <ul class="menu">
-            <li>
-                <a class="icon-document" href="#">Paste document(s)</a>
-            </li>
-        </ul>
+    <div id="workspace-tickets">
+        <fieldset class="task-list pat-checklist">
+            {% for ticket in site.posts  %}
+                {% if ticket.layout == 'ticket' %}
+                    <label>
+                        <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
+                    </label>
+                {% endif %}
+            {% endfor %}
+        </fieldset>
     </div>
+    <div id="workspace-events">
+        
+        <div class="content">
 
-    {% if page.workspace_module == 'docs' %}
-    	{% include workspace-sidebar-docs.html %}
-    {% endif %}
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
+                <h3>Unscheduled events</h3>
 
-    {% if page.workspace_module == 'events' %}
-    	{% include workspace-sidebar-events.html %}
-    {% endif %}
+                <ul class="cal-events">
+                    <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Release of the new Baggage Handbook</a></h4>
 
-    {% if page.workspace_module == 'about' %}
-        {% include workspace-sidebar-about.html %}
-    {% endif %}
+                        <p class="description">Plan Press Conference and internal event to mark the release of the new Baggage Handbook. Scheduled to happen in September.</p>
 
-    {% if page.workspace_module == 'qa' %}
-        {% include workspace-sidebar-qa.html %}
-    {% endif %}
+                        <ul class="details">
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Opening of the new Baggage Sorting System - Phase 2 (CPH)</a></h4>
+
+                        <p class="description">Opening of the departure and transfer baggage section at Copenhagen Airport, scheduled for mid September. May be delayed until October.</p>
+
+                        <ul class="details">
+                            <li>Location <span class="location">Copenhagen, Denmark</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+                <h3>Upcoming events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on Baggage</a></h4>
+
+                        <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                            <li>Location <span class="location">Star HQ, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Annual Baggage Handling Workgroup Meeting</a></h4>
+
+                        <p class="description">Star Alliance is proud to offer its 10th annual Baggage Handling Workgroup Program in September 2013. This program provides you an introduction to the forecasting and optimization models found in baggage handling systems and focuses on recent research and new developments in baggage handling models for changing and less restricted baggage environments.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-10T10:00Z">10 September 2013, 9:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-12T17:00Z">12 September 2013, 17:00 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+
+                            <li><label>Status <select>
+                                <option>
+                                    Undecided
+                                </option>
+
+                                <option selected>
+                                    Confirm
+                                </option>
+
+                                <option>
+                                    Tentative
+                                </option>
+
+                                <option>
+                                    Decline
+                                </option>
+                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Key Flight Report</a></h4>
+
+                        <p class="description">Key Flight Report Deadline</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-15">15 September 2013</time></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Face-to-Face Meeting (CPT)</a></h4>
+
+                        <p class="description">Objective: To review current connection baggage performance overall and at the airports. Review current performance. Demonstration of the new baggage application and its potential to reduce delays.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-19">19 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-20">20 September 2013</time></li>
+
+                            <li>Location <span class="location">Cape Town, South Africa</span></li>
+
+                            <li><label>Status <select>
+                                <option>
+                                    Undecided
+                                </option>
+
+                                <option>
+                                    Confirm
+                                </option>
+
+                                <option selected>
+                                    Tentative
+                                </option>
+
+                                <option>
+                                    Decline
+                                </option>
+                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Baffling Baggage Ball (CPT)</a></h4>
+
+                        <p class="description">To celebrate another successful year with even less lost luggage!</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-20T18:00Z">20 September 2013, 18:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-21T04:00Z">21 September 2013, 04:00 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Cape Town Crystal Tower, South Africa</span></li>
+
+                            <li><label>Status <select>
+                                <option>
+                                    Undecided
+                                </option>
+
+                                <option selected>
+                                    Confirm
+                                </option>
+
+                                <option>
+                                    Tentative
+                                </option>
+
+                                <option>
+                                    Decline
+                                </option>
+                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">FoB Savings update</a></h4>
+
+                        <p class="description">Publication of the new "Mishandled Bag Files Created" Statistics</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-inject" href="event-amb-fra-2011.html#document-body">AMB 16-17 November 2011, Frankfurt</a></h4>
+
+                        <p class="description">Alliance Management Board Meeting 16-17 November 2013</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-11-30">16 November 2013 (UTC+2)</time></li>
+
+                            <li>Starts <time class="ends" datetime="2013-11-30">17 November 2013 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+                <h3>Older events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on Baggage</a></h4>
+
+                        <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                            <li>Location <span class="location">Star HQ, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="workspace-about">
+        <div class="content">
+            <p class="message notice description">The goal of this project is to integrate CA to ADC product.</p>
+            <h3>Members</h3>
+            <p class="members">
+                <a href="antonio.html#address-body" title="Jason Byrne" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="media/avatar-1.jpg" width="50" height="50" alt="Jason Byrne" /></a>
+
+                <a href="#" title="Antonio Mastrolorito"><img src="media/avatar-antonio.jpg" width="50" height="50" alt="Antonio Mastrolorito" /></a>
+
+                <a href="#" title="Christian Klick"><img src="media/avatar-christian-klick.jpg" width="50" height="50" alt="Christian Klick" /></a>
+
+                <a href="profile-liz.html#address-body" class="pat-inject" title="Liz Johnson"><img src="media/avatar-liz.jpg" width="50" height="50" alt="Name of colleague" alt="Name-of-colleague" /></a>
+
+                <a href="#"><img src="media/avatar-erbacci-justin.jpg" width="50" height="50" alt="Justin Erbacci" /></a>
+
+                <a href="#" title="Barack Obama"><img src="media/avatar-barack-obama.jpg" width="50" height="50" alt="Barack Obama" /></a>
+
+                <a href="#" title="Jeff Peters"><img src="media/avatar-jeff-peters.jpg" width="50" height="50" alt="Jeff Peters" /></a>
+
+                <a href="#" title="Joan Baker"><img src="media/avatar-joan-baker.jpg" width="50" height="50" alt="Joan Baker"></a>
+
+                <a href="#" title="Megan Fox"><img src="media/avatar-megan-fox.jpg" width="50" height="50" alt="Megan Fox"></a>
+                <a href="#" title="Add a new member to this workspace" class="add">Add member</a>
+            </p>
+            
+        </div>
+    </div>
+</div>

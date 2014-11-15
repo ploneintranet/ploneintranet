@@ -7,7 +7,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 
 	{% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
 
-	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .item;">
+	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 400; gutter-width: 30px; item-selector: .item;">
 		<form action="index.html#activity-stream" class="pat-autosubmit pat-inject">
 			<label class="filters item pat-select bare">
 				<select name="filter">
@@ -19,5 +19,31 @@ design_description: The homepage of the intranet that contains a concatinated so
 				</select>
 			</label>
 		</form>
+		<div class="item portlets">
+			<div class="workspaces portlet" id="portlet-workspaces">
+				<h2 class="portlet-title">Workspaces</h2>
+				<ul class="links">
+					{% for workspace in site.data.workspaces  %}
+						<li class="workspace" title="{{ workspace.description }}">
+							<a href="" class="link">
+								<h3 class="title">{{ workspace.title }}</h3>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="workspaces portlet" id="portlet-workspaces">
+				<h2 class="portlet-title">Taks</h2>
+				<fieldset class="task-list pat-checklist">
+					{% for ticket in site.posts  %}
+						{% if ticket.layout == 'ticket' %}
+							<label>
+								<input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
+							</label>
+						{% endif %}
+					{% endfor %}
+				</fieldset>
+			</div>
+		</div>
 		{% include activity-stream.html src="activity-stream-social" %}
 	</div>

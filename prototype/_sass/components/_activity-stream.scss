@@ -35,9 +35,10 @@
 }
 
 .application-home .activity-stream {
-	.post.item {
+	.post.item,
+  .portlets.item {
     @media only screen and (min-width: 767px) {
-      width: 500px;
+      width: 400px;
     }
   }
 }

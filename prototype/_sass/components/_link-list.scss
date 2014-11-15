@@ -1,0 +1,16 @@
+ul.links {
+  display: block;
+
+  li {
+    display: block;
+    padding: 0;
+
+    &:before {
+      display: none;
+    }
+
+    a {
+      display: block;
+    }
+  }
+}
