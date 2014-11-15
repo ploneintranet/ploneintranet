@@ -79,4 +79,3 @@ class Graph(object):
         return self._cache['content_tags']
 
 
-GRAPH = Graph()  # costly initialization once

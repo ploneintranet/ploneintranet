@@ -1,6 +1,6 @@
 import unittest2 as unittest
 
-from ploneintranet.pagerank.graph import GRAPH
+from ploneintranet.pagerank.graph import Graph
 from ploneintranet.pagerank.testing import\
     PLONEINTRANET_PAGERANK_INTEGRATION
 
@@ -14,18 +14,19 @@ class TestGraph(unittest.TestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.graph = Graph()
 
     def test_social_following(self):
         """Get the social graph from plonesocial.network
         """
-        self.assertEqual(GRAPH.social_following(),
+        self.assertEqual(self.graph.social_following(),
                          SOCIAL_GRAPH)
 
     def test_content_tree(self):
         """Get the object containment tree
         """
         self.assertEqual(
-            GRAPH.content_tree(),
+            self.graph.content_tree(),
             set([('path:/plone/public', 'path:/plone/public/d1'),
                  ('path:/plone/public/d1', 'path:/plone/public')]))
 
@@ -33,7 +34,7 @@ class TestGraph(unittest.TestCase):
         """Get the object authorships
         """
         self.assertEqual(
-            GRAPH.content_authors(),
+            self.graph.content_authors(),
             set([('path:/plone/public', 'user:admin'),
                  ('path:/plone/public/d1', 'user:admin'),
                  ('user:admin', 'path:/plone/public'),
@@ -42,7 +43,7 @@ class TestGraph(unittest.TestCase):
     def test_content_tags(self):
         """Get the object authorships
         """
-        self.assertEqual(GRAPH.content_tags(),
+        self.assertEqual(self.graph.content_tags(),
                          CONTENT_TAGS)
 
 
