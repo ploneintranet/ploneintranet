@@ -36,3 +36,19 @@ class TestGraph(unittest.TestCase):
                               ('/plone/public/d1', 'admin'),
                               ('admin', '/plone/public'),
                               ('admin', '/plone/public/d1')]))
+
+    def test_content_tags(self):
+        """Get the object authorships
+        """
+        self.assertEqual(GRAPH.content_tags(),
+                         CONTENT_TAGS)
+
+
+CONTENT_TAGS = set([('/plone/public/d1', 'foo'),
+                    ('/plone/public/d1', 'nix'),
+                    ('nix', '/plone/public/d1'),
+                    ('foo', '/plone/public/d1'),
+                    ('bar', '/plone/public'),
+                    ('foo', '/plone/public'),
+                    ('/plone/public', 'foo'),
+                    ('/plone/public', 'bar')])
