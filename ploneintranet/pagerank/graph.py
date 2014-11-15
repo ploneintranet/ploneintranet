@@ -17,7 +17,7 @@ class Graph(object):
         content_tags = []
         for brain in catalog():
             context = brain.getObject()
-            context_path = '/'.join(context.getPhysicalPath())
+            context_path = 'path:%s' % '/'.join(context.getPhysicalPath())
 
             for child_id in context.objectIds():
                 child_path = '%s/%s' % (context_path, child_id)
@@ -30,15 +30,15 @@ class Graph(object):
 
             for author in context.Creators():
                 # authorship is a bidirectional relationship
-                content_authors.append((context_path, author))
-                content_authors.append((author, context_path))
+                content_authors.append((context_path, 'user:%s' % author))
+                content_authors.append(('user:%s' % author, context_path))
 
             # TODO: add sharing
 
             for tag in context.Subject():
                 # tagging is bidirectional between context and tag
-                content_tags.append((context_path, tag))
-                content_tags.append((tag, context_path))
+                content_tags.append((context_path, 'tag:%s' % tag))
+                content_tags.append(('tag:%s' % tag, context_path))
 
         self._cache['content_tree'] = set(content_tree)
         self._cache['content_authors'] = set(content_authors)

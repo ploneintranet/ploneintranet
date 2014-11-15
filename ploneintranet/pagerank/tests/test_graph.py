@@ -24,18 +24,20 @@ class TestGraph(unittest.TestCase):
     def test_content_tree(self):
         """Get the object containment tree
         """
-        self.assertEqual(GRAPH.content_tree(),
-                         set([('/plone/public', '/plone/public/d1'),
-                              ('/plone/public/d1', '/plone/public')]))
+        self.assertEqual(
+            GRAPH.content_tree(),
+            set([('path:/plone/public', 'path:/plone/public/d1'),
+                 ('path:/plone/public/d1', 'path:/plone/public')]))
 
     def test_content_authors(self):
         """Get the object authorships
         """
-        self.assertEqual(GRAPH.content_authors(),
-                         set([('/plone/public', 'admin'),
-                              ('/plone/public/d1', 'admin'),
-                              ('admin', '/plone/public'),
-                              ('admin', '/plone/public/d1')]))
+        self.assertEqual(
+            GRAPH.content_authors(),
+            set([('path:/plone/public', 'user:admin'),
+                 ('path:/plone/public/d1', 'user:admin'),
+                 ('user:admin', 'path:/plone/public'),
+                 ('user:admin', 'path:/plone/public/d1')]))
 
     def test_content_tags(self):
         """Get the object authorships
@@ -44,11 +46,11 @@ class TestGraph(unittest.TestCase):
                          CONTENT_TAGS)
 
 
-CONTENT_TAGS = set([('/plone/public/d1', 'foo'),
-                    ('/plone/public/d1', 'nix'),
-                    ('nix', '/plone/public/d1'),
-                    ('foo', '/plone/public/d1'),
-                    ('bar', '/plone/public'),
-                    ('foo', '/plone/public'),
-                    ('/plone/public', 'foo'),
-                    ('/plone/public', 'bar')])
+CONTENT_TAGS = set([('path:/plone/public/d1', 'tag:foo'),
+                    ('path:/plone/public/d1', 'tag:nix'),
+                    ('tag:nix', 'path:/plone/public/d1'),
+                    ('tag:foo', 'path:/plone/public/d1'),
+                    ('tag:bar', 'path:/plone/public'),
+                    ('tag:foo', 'path:/plone/public'),
+                    ('path:/plone/public', 'tag:foo'),
+                    ('path:/plone/public', 'tag:bar')])
