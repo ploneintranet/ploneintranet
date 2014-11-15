@@ -1,7 +1,7 @@
 import unittest2 as unittest
+from plone import api
 
 from ploneintranet.pagerank import graph
-
 from ploneintranet.pagerank.testing import\
     PLONEINTRANET_PAGERANK_INTEGRATION
 
@@ -21,3 +21,10 @@ class TestGraph(unittest.TestCase):
         """
         self.assertEqual(graph.get_social_graph(),
                          SOCIAL_GRAPH)
+
+    def test_content_graph(self):
+        """Get the object containment tree
+        """
+        self.assertEqual(graph.get_content_graph(),
+                         set([('/plone/public', '/plone/public/d1'),
+                              ('/plone/public/d1', '/plone/public')]))
