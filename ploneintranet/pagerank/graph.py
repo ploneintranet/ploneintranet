@@ -86,7 +86,7 @@ class Graphs(object):
             self.calculate()
         return self._cache['content_tags']
 
-    def unify_weighted(self, edge_weights):
+    def unify(self, edge_weights={}):
         """Return a unified DiGraph containing all
         subgraphs, with edges weighted differently per subgraph.
         """

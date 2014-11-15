@@ -9,7 +9,7 @@ class Compute(object):
         self.graphs = Graphs()
 
     def pagerank(self, edge_weights={}, context=None, context_weight=10):
-        G = self.graphs.unify_weighted(edge_weights)
+        G = self.graphs.unify(edge_weights)
         if not context:
             return nx.pagerank(G)
         else:
