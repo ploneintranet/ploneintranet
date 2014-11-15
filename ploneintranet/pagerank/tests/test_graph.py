@@ -4,7 +4,7 @@ from ploneintranet.pagerank.graph import Graph
 from ploneintranet.pagerank.testing import\
     PLONEINTRANET_PAGERANK_INTEGRATION
 
-from ploneintranet.pagerank.testing_config import SOCIAL_GRAPH
+from ploneintranet.pagerank import testing_config as config
 
 
 class TestGraph(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestGraph(unittest.TestCase):
         """Get the social graph from plonesocial.network
         """
         self.assertEqual(self.graph.social_following(),
-                         SOCIAL_GRAPH)
+                         config.SOCIAL_GRAPH)
 
     def test_content_tree(self):
         """Get the object containment tree
@@ -44,14 +44,4 @@ class TestGraph(unittest.TestCase):
         """Get the object authorships
         """
         self.assertEqual(self.graph.content_tags(),
-                         CONTENT_TAGS)
-
-
-CONTENT_TAGS = set([('path:/plone/public/d1', 'tag:foo'),
-                    ('path:/plone/public/d1', 'tag:nix'),
-                    ('tag:nix', 'path:/plone/public/d1'),
-                    ('tag:foo', 'path:/plone/public/d1'),
-                    ('tag:bar', 'path:/plone/public'),
-                    ('tag:foo', 'path:/plone/public'),
-                    ('path:/plone/public', 'tag:foo'),
-                    ('path:/plone/public', 'tag:bar')])
+                         config.CONTENT_TAGS)
