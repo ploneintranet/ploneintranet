@@ -1,5 +1,4 @@
 import unittest2 as unittest
-from plone import api
 
 from ploneintranet.pagerank.graph import GRAPH
 from ploneintranet.pagerank.testing import\
