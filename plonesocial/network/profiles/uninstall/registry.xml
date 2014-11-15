@@ -7,10 +7,9 @@
   <record name="plone.resources/resource-plonesocial-network-stylesheets.init" remove="true" />
   <record name="plone.resources/resource-plonesocial-network-stylesheets.js" remove="true" />
   <record name="plone.resources/resource-plonesocial-network-stylesheets.url" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets" remove="true" />
-  <record name="plone.bundles/plone-legacy.resources">
-    <value purge="true" remove="True">
+<!--   <record name="plone.bundles/plone-legacy.resources" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="resources">
+    <value purge="false">
     	<element delete="True" remove="True">resource-plonesocial-network-stylesheets</element>
     </value>
-  </record>
+  </record> -->
 </registry>
