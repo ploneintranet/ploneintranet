@@ -18,3 +18,10 @@ class Compute(object):
                 weights[k] = 1
             weights[context] = context_weight
             return nx.pagerank(G, personalization=weights)
+
+    def personalized_pageranks(self, edge_weights={}, context_weight=10):
+        G = self.graphs.unify(edge_weights)
+        result = {}
+        for k in G.nodes():
+            result[k] = self.pagerank(edge_weights, k, context_weight)
+        return result

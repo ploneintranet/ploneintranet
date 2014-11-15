@@ -85,3 +85,16 @@ class TestCompute(unittest.TestCase):
                           ('tag:bar', 0.21),
                           ('path:/plone/public/d1', 0.15),
                           ('tag:foo', 0.12)])
+
+    def test_personalized_pageranks(self):
+        ALL = self.compute.personalized_pageranks(config.EDGE_WEIGHTS)
+        seq = self._sorted_pagerank(ALL['tag:nix'])
+        self.assertEqual(seq[:4],
+                         [('path:/plone/public/d1', 0.16),
+                          ('path:/plone/public', 0.11),
+                          ('tag:nix', 0.1),
+                          ('tag:foo', 0.08)])
+
+    def test_personalized_pageranks_many(self):
+        for i in xrange(100):
+            self.compute.personalized_pageranks(config.EDGE_WEIGHTS)
