@@ -86,4 +86,27 @@ class Graphs(object):
             self.calculate()
         return self._cache['content_tags']
 
-
+    def unify_weighted(self, edge_weights):
+        """Return a unified MultiDiGraph containing all
+        subgraphs, with edges weighted differently per subgraph.
+        """
+        social_following = self.social_following()
+        weight = edge_weights.get('social_following', 1)
+        for u, v, d in social_following.edges(data=True):
+            d['weight'] = weight
+        content_tree = self.content_tree()
+        weight = edge_weights.get('content_tree', 1)
+        for u, v, d in content_tree.edges(data=True):
+            d['weight'] = weight
+        content_authors = self.content_authors()
+        weight = edge_weights.get('content_authors', 1)
+        for u, v, d in content_authors.edges(data=True):
+            d['weight'] = weight
+        content_tags = self.content_tags()
+        weight = edge_weights.get('content_tags', 1)
+        for u, v, d in content_tags.edges(data=True):
+            d['weight'] = weight
+        return nx.compose_all([social_following,
+                               content_tree,
+                               content_authors,
+                               content_tags])

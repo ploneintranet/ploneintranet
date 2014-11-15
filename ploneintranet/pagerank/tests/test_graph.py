@@ -45,3 +45,27 @@ class TestGraph(unittest.TestCase):
         """
         self.assertEqual(set(self.graphs.content_tags().edges()),
                          config.CONTENT_TAGS)
+
+    def test_unify_weighted_following(self):
+        G = self.graphs.unify_weighted(config.EDGE_WEIGHTS)
+        edges = G.edges(data=True)
+        expect = ('neil_wichmann', 'christian_stoney', {'weight': 2})
+        self.assertTrue(expect in edges)
+
+    def test_unify_weighted_tree(self):
+        G = self.graphs.unify_weighted(config.EDGE_WEIGHTS)
+        edges = G.edges(data=True)
+        expect = ('path:/plone/public', 'path:/plone/public/d1', {'weight': 1})
+        self.assertTrue(expect in edges)
+
+    def test_unify_weighted_authors(self):
+        G = self.graphs.unify_weighted(config.EDGE_WEIGHTS)
+        edges = G.edges(data=True)
+        expect = ('path:/plone/public/d1', 'user:admin', {'weight': 3})
+        self.assertTrue(expect in edges)
+
+    def test_unify_weighted_tags(self):
+        G = self.graphs.unify_weighted(config.EDGE_WEIGHTS)
+        edges = G.edges(data=True)
+        expect = ('path:/plone/public/d1', 'tag:nix', {'weight': 4})
+        self.assertTrue(expect in edges)
