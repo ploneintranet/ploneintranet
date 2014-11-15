@@ -17,7 +17,7 @@ class TestCompute(unittest.TestCase):
         self.compute = Compute()
 
     def test_init(self):
-        self.assertTrue(self.compute.graph is not None)
+        self.assertTrue(self.compute.graphs is not None)
 
     def test_pagerank_tags_unweighted(self):
         """A minimal PR test"""

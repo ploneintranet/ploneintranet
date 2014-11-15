@@ -1,10 +1,11 @@
+import networkx as nx
 from plone import api
 from zope.component import queryUtility
 
 from plonesocial.network.interfaces import INetworkGraph
 
 
-class Graph(object):
+class Graphs(object):
 
     def __init__(self):
         self._cache = {}
@@ -43,9 +44,15 @@ class Graph(object):
                 content_tags.append((context_path, 'tag:%s' % tag))
                 content_tags.append(('tag:%s' % tag, context_path))
 
-        self._cache['content_tree'] = set(content_tree)
-        self._cache['content_authors'] = set(content_authors)
-        self._cache['content_tags'] = set(content_tags)
+        self._cache['content_tree'] = nx.from_edgelist(
+            content_tree,
+            create_using=nx.MultiDiGraph())
+        self._cache['content_authors'] = nx.from_edgelist(
+            content_authors,
+            create_using=nx.MultiDiGraph())
+        self._cache['content_tags'] = nx.from_edgelist(
+            content_tags,
+            create_using=nx.MultiDiGraph())
 
     def social_following(self):
         # FIXME: add proper site context to plonesocial.network graph
@@ -55,7 +62,8 @@ class Graph(object):
         for user in graph._following.keys():
             for following in graph.get_following(user):
                 result.append((user, following))
-        return set(result)
+        return nx.from_edgelist(result,
+                                create_using=nx.MultiDiGraph())
 
     # TODO: add microblog #tags
     # TODO: add microblog @mentions
