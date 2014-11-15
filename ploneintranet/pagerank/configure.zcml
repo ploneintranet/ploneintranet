@@ -14,6 +14,15 @@
       description="Installs the ploneintranet.pagerank package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="ploneintranet.pagerank"
+      directory="profiles/testing"
+      description="Integration testing setup for ploneintranet.pagerank"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <!-- -*- extra stuff goes here -*- -->
   
 </configure>

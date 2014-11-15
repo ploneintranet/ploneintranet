@@ -18,12 +18,38 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         z2.installProduct(app, 'ploneintranet.pagerank')
 
         # dependencies
+
+        # we're loading all of plonesocial so we can
+        # use the included demo site for testing
+
         import plonesocial.suite
         self.loadZCML(package=plonesocial.suite)
 
+        import plonesocial.microblog
+        self.loadZCML(package=plonesocial.microblog)
+
+        import plonesocial.activitystream
+        self.loadZCML(package=plonesocial.activitystream)
+
+        import plonesocial.network
+        self.loadZCML(package=plonesocial.network)
+
+        # plonesocial.messaging is not required yet
+#        import plonesocial.messaging
+#        self.loadZCML(package=plonesocial.messaging)
+
+        # plonesocial.core is not released yet
+#        import plonesocial.core
+#        self.loadZCML(package=plonesocial.core)
+
+        import plonesocial.theme
+        self.loadZCML(package=plonesocial.theme)
+
     def setUpPloneSite(self, portal):
+        # Installs all the Plone stuff. Workflows etc.
+        self.applyProfile(portal, 'Products.CMFPlone:testfixture')
         # Install into Plone site using portal_setup
-        self.applyProfile(portal, 'ploneintranet.pagerank:default')
+        self.applyProfile(portal, 'ploneintranet.pagerank:testing')
 
     def tearDownZope(self, app):
         # Uninstall product

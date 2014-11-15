@@ -6,7 +6,7 @@ from ploneintranet.pagerank.testing import\
     PLONEINTRANET_PAGERANK_INTEGRATION
 
 
-class TestExample(unittest.TestCase):
+class TestSetup(unittest.TestCase):
 
     layer = PLONEINTRANET_PAGERANK_INTEGRATION
 
@@ -23,3 +23,5 @@ class TestExample(unittest.TestCase):
         installed = [p['id'] for p in self.qi_tool.listInstalledProducts()]
         self.assertTrue(pid in installed,
                         'package appears not to have been installed')
+        self.assertTrue('plonesocial.suite' in installed,
+                        'plonesocial.suite is not installed')
