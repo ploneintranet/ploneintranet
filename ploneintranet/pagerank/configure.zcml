@@ -23,6 +23,13 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:importStep
+      name="ploneintranet.pagerank.setup_testing"
+      title="Testing setup handlers"
+      description=""
+      handler="ploneintranet.pagerank.setuphandlers.setup_testing" />
+
+
   <!-- -*- extra stuff goes here -*- -->
   
 </configure>
