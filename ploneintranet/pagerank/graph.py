@@ -19,8 +19,8 @@ class Graph(object):
             context = brain.getObject()
             context_path = '/'.join(context.getPhysicalPath())
 
-            for child in context.objectValues():
-                child_path = '/'.join(child.getPhysicalPath())
+            for child_id in context.objectIds():
+                child_path = '%s/%s' % (context_path, child_id)
                 # containment is a bidirectional relationship
                 content_tree.append((context_path, child_path))
                 content_tree.append((child_path, context_path))
