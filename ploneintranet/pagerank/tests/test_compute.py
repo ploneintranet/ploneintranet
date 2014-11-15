@@ -19,14 +19,18 @@ class TestCompute(unittest.TestCase):
     def test_init(self):
         self.assertTrue(self.compute.graphs is not None)
 
+    def _sorted_pagerank(self, PR):
+        seq = sorted(PR.items(),
+                     key=lambda x: x[1],
+                     reverse=True)
+        return [(x[0], round(x[1], 2)) for x in seq]
+
     def test_pagerank_tags_unweighted(self):
         """A minimal PR test"""
         G = nx.from_edgelist(config.CONTENT_TAGS)
         PR = nx.pagerank(G)
-        seq = sorted(PR.items(),
-                     key=lambda x: x[1],
-                     reverse=True)
-        self.assertEqual([(x[0], round(x[1], 2)) for x in seq],
+        seq = self._sorted_pagerank(PR)
+        self.assertEqual(seq,
                          [('path:/plone/public', 0.25),
                           ('path:/plone/public/d1', 0.25),
                           ('tag:foo', 0.24),
@@ -44,12 +48,40 @@ class TestCompute(unittest.TestCase):
             weights[k] = 1
         weights['path:/plone/public/d1'] = 10
         PR = nx.pagerank(G, personalization=weights)
-        seq = sorted(PR.items(),
-                     key=lambda x: x[1],
-                     reverse=True)
-        self.assertEqual([(x[0], round(x[1], 2)) for x in seq],
+        seq = self._sorted_pagerank(PR)
+        self.assertEqual(seq,
                          [('path:/plone/public/d1', 0.34),
                           ('tag:foo', 0.23),
                           ('path:/plone/public', 0.19),
                           ('tag:nix', 0.15),
                           ('tag:bar', 0.09)])
+
+    def test_pagerank_unweighted_global(self):
+        PR = self.compute.pagerank()
+        seq = self._sorted_pagerank(PR)
+        self.assertEqual(seq[:4],
+                         [('path:/plone/public/d1', 0.09),
+                          ('path:/plone/public', 0.09),
+                          ('lance_stockstill', 0.07),
+                          ('pearlie_whitby', 0.06)])
+
+    def test_pagerank_weighted_personalized_tag_nix(self):
+        PR = self.compute.pagerank(config.EDGE_WEIGHTS,
+                                   context='tag:nix')
+        seq = self._sorted_pagerank(PR)
+        self.assertEqual(seq[:4],
+                         [('path:/plone/public/d1', 0.16),
+                          ('path:/plone/public', 0.11),
+                          ('tag:nix', 0.1),
+                          ('tag:foo', 0.08)])
+
+    def test_pagerank_weighted_personalized_tag_bar(self):
+        PR = self.compute.pagerank(config.EDGE_WEIGHTS,
+                                   context='tag:bar',
+                                   context_weight=100)
+        seq = self._sorted_pagerank(PR)
+        self.assertEqual(seq[:4],
+                         [('path:/plone/public', 0.28),
+                          ('tag:bar', 0.21),
+                          ('path:/plone/public/d1', 0.15),
+                          ('tag:foo', 0.12)])

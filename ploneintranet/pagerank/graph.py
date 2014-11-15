@@ -46,13 +46,13 @@ class Graphs(object):
 
         self._cache['content_tree'] = nx.from_edgelist(
             content_tree,
-            create_using=nx.MultiDiGraph())
+            create_using=nx.DiGraph())
         self._cache['content_authors'] = nx.from_edgelist(
             content_authors,
-            create_using=nx.MultiDiGraph())
+            create_using=nx.DiGraph())
         self._cache['content_tags'] = nx.from_edgelist(
             content_tags,
-            create_using=nx.MultiDiGraph())
+            create_using=nx.DiGraph())
 
     def social_following(self):
         # FIXME: add proper site context to plonesocial.network graph
@@ -63,7 +63,7 @@ class Graphs(object):
             for following in graph.get_following(user):
                 result.append((user, following))
         return nx.from_edgelist(result,
-                                create_using=nx.MultiDiGraph())
+                                create_using=nx.DiGraph())
 
     # TODO: add microblog #tags
     # TODO: add microblog @mentions
@@ -87,7 +87,7 @@ class Graphs(object):
         return self._cache['content_tags']
 
     def unify_weighted(self, edge_weights):
-        """Return a unified MultiDiGraph containing all
+        """Return a unified DiGraph containing all
         subgraphs, with edges weighted differently per subgraph.
         """
         social_following = self.social_following()
