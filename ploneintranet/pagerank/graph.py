@@ -11,6 +11,9 @@ class Graph(object):
 
     def calculate(self):
         """Lazy initialization."""
+
+        # TODO: ensure that this is fully unrestricted / runs as admin
+
         catalog = api.portal.get_tool('portal_catalog')
         content_tree = []
         content_authors = []
