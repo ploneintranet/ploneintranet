@@ -13,17 +13,25 @@ class Graph(object):
         """Lazy initialization."""
         catalog = api.portal.get_tool('portal_catalog')
         content_tree = []
+        content_authors = []
         for brain in catalog():
             context = brain.getObject()
-            source = '/'.join(context.getPhysicalPath())
+            context_path = '/'.join(context.getPhysicalPath())
             for child in context.objectValues():
-                target = '/'.join(child.getPhysicalPath())
-                content_tree.append((source, target))
-                content_tree.append((target, source))
-                # TODO: add reference links, text links
-                # TODO: add creators, sharing
-                # TODO: add tags
+                child_path = '/'.join(child.getPhysicalPath())
+                # containment is a bidirectional relationship
+                content_tree.append((context_path, child_path))
+                content_tree.append((child_path, context_path))
+            # TODO: add reference links
+            # TODO: add text links
+            for author in context.Creators():
+                # authorship is a bidirectional relationship
+                content_authors.append((context_path, author))
+                content_authors.append((author, context_path))
+            # TODO: add sharing
+            # TODO: add tags
         self._cache['content_tree'] = set(content_tree)
+        self._cache['content_authors'] = set(content_authors)
 
     def social_following(self):
         # FIXME: add proper site context to plonesocial.network graph
@@ -40,6 +48,12 @@ class Graph(object):
         if 'content_tree' not in self._cache:
             self.calculate()
         return self._cache['content_tree']
+
+    def content_authors(self):
+        # lazy init
+        if 'content_authors' not in self._cache:
+            self.calculate()
+        return self._cache['content_authors']
 
 
 GRAPH = Graph()  # costly initialization once

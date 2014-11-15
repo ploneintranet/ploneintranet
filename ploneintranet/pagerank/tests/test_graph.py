@@ -16,7 +16,7 @@ class TestGraph(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
 
-    def test_get_social_graph(self):
+    def test_social_following(self):
         """Get the social graph from plonesocial.network
         """
         self.assertEqual(GRAPH.social_following(),
@@ -28,3 +28,12 @@ class TestGraph(unittest.TestCase):
         self.assertEqual(GRAPH.content_tree(),
                          set([('/plone/public', '/plone/public/d1'),
                               ('/plone/public/d1', '/plone/public')]))
+
+    def test_content_authors(self):
+        """Get the object authorships
+        """
+        self.assertEqual(GRAPH.content_authors(),
+                         set([('/plone/public', 'admin'),
+                              ('/plone/public/d1', 'admin'),
+                              ('admin', '/plone/public'),
+                              ('admin', '/plone/public/d1')]))
