@@ -11,12 +11,42 @@ design_description: The homepage of the intranet that contains a concatinated so
 			<div class="workspaces portlet" id="portlet-workspaces">
 				<h2 class="portlet-title">Workspaces</h2>
 				<ul class="links">
-					{% for workspace in site.data.workspaces  %}
-						<li class="workspace" title="{{ workspace.description }}">
-							<a href="" class="link">
-								<h4 class="title">{{ workspace.title }}</h4>
-							</a>
-						</li>
+					{% for workspace in site.posts  %}
+						{% if workspace.layout == 'workspace-landing' %}
+							<li class="workspace" title="{{ workspace.description }}">
+								<a href="" class="link">
+									<h4 class="title">{{ workspace.title }}</h4>
+									{% for mutation in workspace.mutations %}
+										<p class="byline">
+											<strong class="subjects">
+												{% assign separator = false %}
+												{% for subject in mutation.subjects  %}
+													{% assign last = false %}
+													{% unless separator == false %}
+														{% if forloop.last == true %}
+															and
+														{% else %}
+															, 
+														{% endif %}
+													{% endunless %}
+													<span class="subject">{{ subject.name }}</span>
+													{% assign separator = true %}
+													{% assign last = true %}
+												{% endfor %}
+											</strong>
+											<span class="verb">
+												{{ mutation.verb }}
+											</span>
+											<strong class="object">
+												{{ mutation.object }}
+											</strong>
+											<time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">{{ mutation.datestamp }}</time>
+											<!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
+										</p>
+									{% endfor %}
+								</a>
+							</li>
+						{% endif %}
 					{% endfor %}
 				</ul>
 			</div>

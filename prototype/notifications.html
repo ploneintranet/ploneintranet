@@ -15,7 +15,7 @@ design_description: The notifications page
 			{% for item in site.data.notifications %}
 				{% assign separator = false %}
 				{% assign last = true %}
-				<li>
+				<li class="notification">
 					<a href="#" class="image">
 						<img class="avatar" src="{{ item.image }}" alt="">
 					</a><span class="subjects">
