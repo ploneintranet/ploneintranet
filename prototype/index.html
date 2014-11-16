@@ -5,20 +5,8 @@ design_title: Intranet homepage
 design_description: The homepage of the intranet that contains a concatinated social feed.
 ---
 
-	{% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
-
-	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 400; gutter-width: 30px; item-selector: .item;">
-		<form action="index.html#activity-stream" class="pat-autosubmit pat-inject">
-			<label class="filters item pat-select bare">
-				<select name="filter">
-					<option value="all">All activities</option>
-					<option value="network">Only activities from people I follow</option>
-					<option value="interactions">Interactions with other people</option>
-					<option value="posted">My activities</option>
-					<option value="likes">My likes</option>
-				</select>
-			</label>
-		</form>
+<div class="row">
+	<div class="four columns">
 		<div class="item portlets">
 			<div class="workspaces portlet" id="portlet-workspaces">
 				<h2 class="portlet-title">Workspaces</h2>
@@ -26,14 +14,15 @@ design_description: The homepage of the intranet that contains a concatinated so
 					{% for workspace in site.data.workspaces  %}
 						<li class="workspace" title="{{ workspace.description }}">
 							<a href="" class="link">
-								<h3 class="title">{{ workspace.title }}</h3>
+								<h4 class="title">{{ workspace.title }}</h4>
 							</a>
 						</li>
 					{% endfor %}
 				</ul>
 			</div>
 			<div class="workspaces portlet" id="portlet-workspaces">
-				<h2 class="portlet-title">Taks</h2>
+				<h2 class="portlet-title">Tasks</h2>
+				<h3>Baggage handling regulations</h3>
 				<fieldset class="task-list pat-checklist">
 					{% for ticket in site.posts  %}
 						{% if ticket.layout == 'ticket' %}
@@ -43,7 +32,31 @@ design_description: The homepage of the intranet that contains a concatinated so
 						{% endif %}
 					{% endfor %}
 				</fieldset>
+				<h3>Personal tasks</h3>
+				<fieldset class="task-list pat-checklist">
+					<label>
+						<input type="checkbox" /> <a title="" href="">Talk to HR about vacancy</a>
+					</label>
+				</fieldset>
 			</div>
 		</div>
-		{% include activity-stream.html src="activity-stream-social" %}
 	</div>
+	<div class="eight columns">
+		{% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
+
+		<div id="activity-stream" class="activity-stream">
+			<form action="index.html#activity-stream" class="functions pat-autosubmit pat-inject">
+				<label class="filters item pat-select bare">
+					<select name="filter">
+						<option value="all">All activities</option>
+						<option value="network">Only activities from people I follow</option>
+						<option value="interactions">Interactions with other people</option>
+						<option value="posted">My activities</option>
+						<option value="likes">My likes</option>
+					</select>
+				</label>
+			</form>
+			{% include activity-stream.html src="activity-stream-social" %}
+		</div>
+	</div>
+</div>

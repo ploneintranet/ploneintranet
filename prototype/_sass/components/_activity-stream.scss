@@ -18,15 +18,17 @@
     }
   }
 
-  .filters {
-	width: 100%;
-	margin-bottom: 0;
-	text-align: right;
-	margin-bottom: -1em;
+  .functions {
+    margin-bottom: 0.5em;
+    text-align: right;
 
-  	select {
-  		float: right;
-  	}
+    .filters {
+      width: 100%;
+
+      select {
+        float: right;
+      }
+    }
   }
 }
 
@@ -34,11 +36,11 @@
 	padding: 0 2em;
 }
 
-.application-home .activity-stream {
-	.post.item,
-  .portlets.item {
-    @media only screen and (min-width: 767px) {
-      width: 400px;
-    }
-  }
-}
+// .application-home .activity-stream {
+// 	.post.item,
+//   .portlets.item {
+//     @media only screen and (min-width: 767px) {
+//       width: 400px;
+//     }
+//   }
+// }
