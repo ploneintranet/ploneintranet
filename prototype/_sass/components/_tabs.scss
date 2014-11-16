@@ -8,12 +8,15 @@
   a {
     display: inline-block;
     padding: 0 1.5em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    position: relative;
 
-    &.current {
-      border-bottom: 0.3em solid #0081be;
+    &.current:after {
+      position: absolute;
+      content: " ";
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 0.4em solid #0081be;
     }
   }
 
@@ -25,19 +28,15 @@
     overflow: hidden;
     z-index: 2;
     line-height: 3em;
-    height: 3em;
+    height: 2.9em;
     margin-bottom: 3em;
     background-color: white;
     border-bottom: silver 0.1em solid;
     transition: line-height .5s, opacity .5s, height .5s, font-size .5s;
 
-    a {
-      height: 101%;
-    }
-
     &.bumped {
       opacity: 0.9;
-      line-height: 2em;
+      line-height: 2.1em;
       height: 2em;
       font-size: 0.8em;
     }
