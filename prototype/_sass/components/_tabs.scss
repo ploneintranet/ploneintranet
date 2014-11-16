@@ -8,22 +8,38 @@
   a {
     display: inline-block;
     padding: 0 1.5em;
-    height: 52px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 
     &.current {
-      border-bottom: 0.25em solid #0081be;
+      border-bottom: 0.3em solid #0081be;
     }
   }
 
   &#home-tabs {
-    position: absolute;
-    top: 32px;
-    left: 0;
-    right: 0;
+    // position: absolute;
+    // top: 32px;
+    // left: 0;
+    // right: 0;
+    overflow: hidden;
     z-index: 2;
-    line-height: 54px;
+    line-height: 3em;
+    height: 3em;
+    margin-bottom: 3em;
+    background-color: white;
+    border-bottom: silver 0.1em solid;
+    transition: line-height .5s, opacity .5s, height .5s, font-size .5s;
+
+    a {
+      height: 101%;
+    }
+
+    &.bumped {
+      opacity: 0.9;
+      line-height: 2em;
+      height: 2em;
+      font-size: 0.8em;
+    }
   }
 }

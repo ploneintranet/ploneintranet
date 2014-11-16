@@ -71,11 +71,3 @@
         <a href="@@toolbar" class="pat-inject" data-pat-inject="source: #project-header; target: #project-header; trigger: autoload-visible && source: #global-header; target: #global-header"></a>
     {% endif %}
 </header>
-
-<nav class="tabs navigation" id="home-tabs">
-	<a href="/index.html" {% if page.url == '/index.html' %}class="current"{% endif %}>Dashboard</a>
-	<a href="#" {% if page.url == '/news.html' %}class="current"{% endif %}>News</a>
-	<a href="/workspaces.html" {% if page.url == '/workspaces.html' %}class="current"{% endif %}>Workspaces</a>
-	<a href="#" {% if page.url == '/messages.html' %}class="current"{% endif %}>Messages</a>
-	<a href="/apps.html" {% if page.url == '/apps.html' %}class="current"{% endif %}>Apps</a>
-</nav>
