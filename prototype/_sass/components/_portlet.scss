@@ -5,6 +5,14 @@
 		font-weight: 300;
 	}
 
+	.link {
+		
+		
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
 	
 	.title {
 		margin: 0;
@@ -17,6 +25,7 @@
 		font-size: 0.8em;
 		line-height: 1.3em;
 		font-style: italic;
+		margin: 0;
 	}
 
 	h3 {
