@@ -33,7 +33,7 @@
     <div id="workspace-tickets">
         <fieldset class="task-list pat-checklist">
             {% for ticket in site.posts  %}
-                {% if ticket.layout == 'ticket' %}
+                {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
                     <label>
                         <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
                     </label>
@@ -73,7 +73,7 @@
                         {% if item.layout == 'event' and item.workspace_name == page.workspace_name %}
                             <li class="cal-event all-day cal-cat-baggage-handling">
                                 <h4 class="title">
-                                    <a class="pat-modal external" href="{{ item.url }}#content">{{ item.title }}</a>
+                                    <a class="pat-inject" href="{{ item.url }}#document-body">{{ item.title }}</a>
                                 </h4>
 
                                 <p class="description">{{ item.description }}</p>
@@ -81,7 +81,7 @@
                                 <ul class="details">
                                     <li>Starts <time class="start" datetime="2013-09-05">{{ item.start }}</time></li>
 
-                                    <li>Location <span class="location">Star HQ, Germany</span></li>
+                                    <li>Location <span class="location">{{ item.location }}</span></li>
                                 </ul>
 
                                 <form action="">
@@ -120,7 +120,7 @@
         <div class="content">
             <p class="message notice description">The goal of this project is to integrate CA to ADC product.</p>
             <h3>Members</h3>
-            <p class="members">
+            <p class="user-cloud">
                 <a href="alexander-pilz.html#address-body" title="Alexander Pilz" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="../media/avatar-alexander-pilz.jpg" width="50" height="50" alt="Alexander Pilz" /></a>
 
                 <a href="#" title="Cornelis Kolbach"><img src="../media/avatar-cornelis-kolbach.jpg" width="50" height="50" alt="Cornelis Kolbach" /></a>
