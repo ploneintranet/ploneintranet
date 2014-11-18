@@ -73,7 +73,7 @@
                         {% if item.layout == 'event' and item.workspace_name == page.workspace_name %}
                             <li class="cal-event all-day cal-cat-baggage-handling">
                                 <h4 class="title">
-                                    <a class="pat-modal external" href="{{ item.url }}#content">{{ item.title }}</a>
+                                    <a class="pat-inject" href="{{ item.url }}#document-body">{{ item.title }}</a>
                                 </h4>
 
                                 <p class="description">{{ item.description }}</p>

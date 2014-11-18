@@ -3,7 +3,6 @@ layout: workspace-landing
 title: Open Market Committee
 workspace_name: Open Market Committee
 description: "The OMC holds eight regularly scheduled meetings during the year and other meetings as needed."
-application: workspace
 mutations:
   - verb: added new file
     subjects:
