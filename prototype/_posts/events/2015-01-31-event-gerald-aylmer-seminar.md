@@ -1,5 +1,7 @@
 ---
 layout: event
+folderish: false
+parent: open-market-committee
 title: "The Gerald Aylmer seminar 2015: Secret histories"
 section: Events
 category: open-market-committee

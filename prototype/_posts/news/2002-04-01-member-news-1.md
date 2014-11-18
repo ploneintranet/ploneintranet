@@ -3,6 +3,8 @@ layout: news-item
 title: Air Canada Named One of Canada's Top 100 Employers for 2015
 section: News
 code: ac
+folderish: false
+parent: root
 category: member-news
 image: "air-canada-top-100.jpg"
 description: "Air Canada selected from more than 80,000 employers considered for designation"

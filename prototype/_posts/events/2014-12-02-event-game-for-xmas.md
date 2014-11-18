@@ -1,5 +1,7 @@
 ---
 layout: event
+folderish: false
+parent: open-market-committee
 title: "A Game for Christmas: Football on the Western Front, December 1914?"
 section: Events
 category: open-market-committee

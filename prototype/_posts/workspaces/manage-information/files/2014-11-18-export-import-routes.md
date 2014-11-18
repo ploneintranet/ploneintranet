@@ -6,7 +6,8 @@ between systems"
 application: docs
 document_type: rich
 folderish: false
-parent: root
+parent: Manage Information
+parentid: manage-information
 sidebar_controls:
   - label: Create document
     type: link

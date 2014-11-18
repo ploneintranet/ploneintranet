@@ -3,6 +3,8 @@ layout: news-item
 title: "Lufthansa confirms projected 2014 operating result: EUR 1 billion profit in spite of strikes"
 section: News
 code: lh
+folderish: false
+parent: root
 category: member-news
 image: "lufthansa-operating-result.png"
 description: "Lufthansa Group posts nine-month operating profit of EUR 849 million and confirms projected full-year operating profit of EUR 1 billion.-"

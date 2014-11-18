@@ -1,5 +1,7 @@
 ---
 layout: event
+folderish: false
+parent: open-market-committee
 title: Catalogue Day
 section: Events
 category: open-market-committee

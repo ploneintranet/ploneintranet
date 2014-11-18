@@ -11,6 +11,7 @@ design_title: Rich page
 design_description: Example of a ticket
 document_creator: Adrian White
 document_creator_id: white
+parent: open-market-committee
 ---
 
 The committee requested a SWOT analysis of the potential outcomes of this concept. Prepare until next week.

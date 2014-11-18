@@ -5,6 +5,9 @@ workspace_name: Manage Information
 description: "Making arrangements for the transfer of information, records and
 knowledge is a key part of any Machinery of Government change."
 application: workspace
+folderish: false
+parent: Manage Information
+parentid: manage-information
 mutations:
   - verb: changed start date of
     subjects:

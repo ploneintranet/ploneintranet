@@ -11,6 +11,8 @@ design_title: Rich page
 design_description: Exmple of a ticket
 document_creator: Guido Stevens
 document_creator_id: gyst
+parent: open-market-committee
+
 ---
 
 Be early at the venue to prepare everything for the staff christmas get-together.

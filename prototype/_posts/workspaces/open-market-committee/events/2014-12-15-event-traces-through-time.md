@@ -2,6 +2,8 @@
 layout: event
 title: Traces through Time data workshop
 section: Events
+parent: Open Market Committee
+folderish: false
 workspace_name: Open Market Committee
 start: 2014-12-15 14:00 GMT+2
 end: 2014-12-15 17:00 GMT+2

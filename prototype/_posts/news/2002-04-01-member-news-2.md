@@ -3,6 +3,8 @@ layout: news-item
 title: Air Canada Given Top Honours by Canadian Occupational Safety Magazine's Safest Employers Awards
 section: News
 code: ac
+folderish: false
+parent: root
 category: member-news
 image: "air-canada-osh-award.jpg"
 youtube: 3UrjUt2Zhzg

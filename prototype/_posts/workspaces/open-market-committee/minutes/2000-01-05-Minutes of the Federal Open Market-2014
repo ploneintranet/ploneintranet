@@ -5,7 +5,8 @@ description: "A meeting of the Federal Open Market Committee was held in the off
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link

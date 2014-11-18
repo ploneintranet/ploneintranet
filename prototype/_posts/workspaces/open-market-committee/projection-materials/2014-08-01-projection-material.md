@@ -5,7 +5,7 @@ description: "Advance release of table 1 of the Summary of Economic Projections 
 application: docs
 document_type: rich
 folderish: false
-parent: root
+parent: Projection Materials
 sidebar_controls:
   - label: Create document
     type: link

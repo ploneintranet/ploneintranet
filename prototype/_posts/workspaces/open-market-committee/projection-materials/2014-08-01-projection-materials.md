@@ -5,7 +5,8 @@ description: "Economic Projections of Board Members. Advance release of table 1 
 application: folder
 document_type: rich
 folderish: true
-parent: root
+parent: Open Market Committee
+parentid: open-market-committee
 workspace_name: Open Market Committee
 sidebar_controls:
   - label: Create document

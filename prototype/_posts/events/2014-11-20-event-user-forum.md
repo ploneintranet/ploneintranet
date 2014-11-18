@@ -1,5 +1,7 @@
 ---
 layout: event
+folderish: false
+parent: open-market-committee
 title: User Forum - FREE
 section: Events
 category: open-market-committee

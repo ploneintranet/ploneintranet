@@ -3,6 +3,8 @@ layout: news-item
 title: Lufthansa Group successfully develops logistics platform
 section: News
 code: lh
+folderish: false
+parent: root
 category: member-news
 image: "lufthansa-logistic-platform.jpg"
 description: "Lufthansa’s equity investment time:matters sets new standards with its Liefery delivery service: goods delivered to customers within 90 minutes of ordering online"

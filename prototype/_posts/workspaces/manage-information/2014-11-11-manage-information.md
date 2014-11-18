@@ -4,6 +4,7 @@ title: Manage Information
 workspace_name: Manage Information
 description: "A range of guidance, tools and templates that can help you through
 the process of managing your information."
+parent: root
 application: workspace
 mutations:
   - verb: changed start date of

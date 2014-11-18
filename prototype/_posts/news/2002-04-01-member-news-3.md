@@ -3,6 +3,8 @@ layout: news-item
 title: Air Canada Welcomes Landmark Agreement with its Pilots
 section: News
 code: ac
+folderish: false
+parent: root
 category: member-news
 image: "air-canada-landmark-agreement.jpg"
 description: "MONTREAL, Oct. 31, 2014 /CNW Telbec/ - Air Canada welcomes today's confirmation by the Air Canada Pilots Association that its members have ratified a landmark agreement on collective agreement terms for ten years."

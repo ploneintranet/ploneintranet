@@ -11,6 +11,8 @@ design_title: Rich page
 design_description: Exmple of a ticket
 document_creator: Alexander Pilz
 document_creator_id: pilz
+parent: open-market-committee
+
 ---
 
 Need to have the first budget draft ready to present to the board.

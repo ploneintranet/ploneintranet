@@ -1,12 +1,12 @@
 ---
 layout: document
 title: Minutes of the Federal Open Market Committee June 17–18, 2014
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the
-Federal Reserve System in Washington, D.C., on Tuesday, June 17, 2014, at 10:00 a.m. and continued on Wednesday, June 18, 2014, at 9:00 a.m."
+description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, June 17, 2014, at 10:00 a.m. and continued on Wednesday, June 18, 2014, at 9:00 a.m."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -21,24 +21,27 @@ application_name: Workspace
 design_title: Rich page
 design_description: Example of a rich page
 pinned: true
-tile_size: 2.
+tile_size: 2
 document_creator: Liz Baker
 document_creator_id: liz
 ---
+
 # Minutes of the Federal Open Market Committee June 17–18, 2014
+
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, June 17, 2014, at 10:00 a.m. and continued on Wednesday, June 18, 2014, at 9:00 a.m.
 
 PRESENT:
-- Janet L. Yellen, Chair
-- William C. Dudley, Vice Chairman
-- Lael Brainard
-- Stanley Fischer
-- Richard W. Fisher
-- Narayana Kocherlakota
-- Loretta J. Mester
-- Charles I. Plosser
-- Jerome H. Powell
-- Daniel K. Tarullo
+
+* Janet L. Yellen, Chair
+* William C. Dudley, Vice Chairman
+* Lael Brainard
+* Stanley Fischer
+* Richard W. Fisher
+* Narayana Kocherlakota
+* Loretta J. Mester
+* Charles I. Plosser
+* Jerome H. Powell
+* Daniel K. Tarullo
 
 In the agenda for this meeting, it was reported that Loretta J. Mester had been elected a member of the Federal Open Market Committee and that she had executed her oath of office.
 

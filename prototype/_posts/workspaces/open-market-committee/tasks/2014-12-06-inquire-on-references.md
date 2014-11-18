@@ -11,6 +11,8 @@ design_title: Rich page
 design_description: Exmple of a ticket
 document_creator: Cornelis Kolbach
 document_creator_id: cornae
+parent: open-market-committee
+
 ---
 
 Inquire after the necessary references for the History Book project, as they haven't been provided initially.
