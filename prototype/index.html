@@ -8,6 +8,41 @@ design_description: The homepage of the intranet that contains a concatinated so
 <div class="row">
 	<div class="four columns">
 		<div class="item portlets">
+			<div class="workspaces portlet" id="portlet-news">
+				<h2 class="portlet-title">News</h2>
+				{% assign count = 1 %}
+				<div class="news-block">
+					{% for item in site.posts %}
+						{% if item.layout == 'news-item' %}
+							{% if count <= 3 %}
+								<article class="item item-{{ count }}">
+									<a href="{{item.url}}">
+										<figure class="branded">
+											<img class="illustration" src="/media/{{ item.image }}" alt="" />
+											<!-- {% if item.category == 'member-news' %}
+												<img class="logo" src="/media/logos/{{item.code}}.svg" alt="">
+											{% endif %} -->
+										</figure>
+										<div class="teaser">
+							    			<h3 class="title">
+							    				{{ item.title }}
+							    			</h3>
+							    			<p class="description">
+												{{ item.description | truncate: 160 }} <!-- <em>Read more…</em> -->
+							    			</p>
+										</div>
+									</a>
+									<form action="/#portlet-news" class="functions pat-inject">
+										<button type="submit" class="icon-ok">Mark read</button>
+									</form>
+								</article>
+							{% endif %}							
+							{% assign count = count | plus: 1 %}
+						{% endif %}
+					{% endfor %}
+					
+				</div>
+			</div>
 			<div class="workspaces portlet" id="portlet-workspaces">
 				<h2 class="portlet-title">Workspaces</h2>
 				<ul class="links">
