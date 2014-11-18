@@ -26,6 +26,7 @@ document_creator_id: liz
 ---
 
 # For immediate release
+
 Information received since the Federal Open Market Committee met in September suggests that economic activity is expanding at a moderate pace. Labor market conditions improved somewhat further, with solid job gains and a lower unemployment rate. On balance, a range of labor market indicators suggests that underutilization of labor resources is gradually diminishing. Household spending is rising moderately and business fixed investment is advancing, while the recovery in the housing sector remains slow. Inflation has continued to run below the Committee's longer-run objective. Market-based measures of inflation compensation have declined somewhat; survey-based measures of longer-term inflation expectations have remained stable.
 
 Consistent with its statutory mandate, the Committee seeks to foster maximum employment and price stability. The Committee expects that, with appropriate policy accommodation, economic activity will expand at a moderate pace, with labor market indicators and inflation moving toward levels the Committee judges consistent with its dual mandate. The Committee sees the risks to the outlook for economic activity and the labor market as nearly balanced. Although inflation in the near term will likely be held down by lower energy prices and other factors, the Committee judges that the likelihood of inflation running persistently below 2 percent has diminished somewhat since early this year.
