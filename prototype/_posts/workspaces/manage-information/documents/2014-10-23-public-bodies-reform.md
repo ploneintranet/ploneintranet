@@ -1,5 +1,5 @@
 ---
-layout: workspace-landing
+layout: document
 title: Public bodies reform
 workspace_name: Manage Information
 description: "Making arrangements for the transfer of information, records and
