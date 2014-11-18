@@ -14,7 +14,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 					{% for workspace in site.posts  %}
 						{% if workspace.layout == 'workspace-landing' %}
 							<li class="workspace" title="{{ workspace.description }}">
-								<a href="" class="link">
+								<a href="{{ workspace.url }}" class="link">
 									<h4 class="title">{{ workspace.title }}</h4>
 									{% for mutation in workspace.mutations %}
 										<p class="byline">

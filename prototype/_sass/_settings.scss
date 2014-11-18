@@ -52,6 +52,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 // Project components
 @import "components/activity-stream";
 @import "components/anchor";
+@import "components/article";
 @import "components/avatar";
 @import "components/body";
 @import "components/button-bar";
@@ -86,7 +87,6 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/tiles";
 @import "components/toolbar";
 @import "components/tooltip";
-@import "components/typography";
 @import "components/update-social";
 @import "components/upload";
 @import "components/workspace-name";
