@@ -4,6 +4,14 @@ title: Open Market Committee
 workspace_name: Open Market Committee
 description: "The OMC holds eight regularly scheduled meetings during the year and other meetings as needed."
 application: workspace
+mutations:
+  - verb: added new file
+    subjects:
+      - name: Georg Holzer
+    object: Budget draft V1.0
+    datestamp: 2 Hours ago
+    image: "/media/workspace/"
+
 ---
 
 

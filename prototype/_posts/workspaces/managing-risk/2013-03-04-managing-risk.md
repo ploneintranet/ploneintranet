@@ -7,11 +7,11 @@ on your ability to carry out your business functions and comply with
 legislation."
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: uploaded file
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Michael McCorbin
+    object: Gefährdungsbeurteilung-Final.docx
+    datestamp: 1 Day ago
     image: "/media/workspace/"
 ---
 

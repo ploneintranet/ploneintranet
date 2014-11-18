@@ -6,11 +6,11 @@ description: "Disposal scheduling is an important aspect of establishing and
 maintaining control of corporate information and record resources."
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: changed Document
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Alexander Pilz
+    object: General Guidelines
+    datestamp: 3 Minutes ago
     image: "/media/workspace/"
 ---
 

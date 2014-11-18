@@ -6,11 +6,11 @@ description: "We offer a one-day appraisal and selection course for staff from
 government departments and public record bodies that transfer records."
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: Updated File
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Guido Stevens
+    object: Konzept Entwurf V3.4
+    datestamp: 23 Minutes ago
     image: "/media/workspace/appraisal-masterclass.jpg"
 ---
 

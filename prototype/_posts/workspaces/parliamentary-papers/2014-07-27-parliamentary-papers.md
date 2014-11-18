@@ -14,11 +14,11 @@ correct a document appropriately.
 "
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: created Document
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Corinne Bedow
+    object: Concept Template 2014-11-10_V1.0
+    datestamp: 2 days ago
     image: "/media/workspace/parliamentary-papers.jpg"
 ---
 

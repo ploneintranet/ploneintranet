@@ -5,11 +5,11 @@ workspace_name: Annual report and accounts
 description: "Government organisations have their own detailed project plans to produce the report and accounts – this summary highlights some of the steps involved."
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: posted
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Guido Stevens
+    object: "Poll for next meeting date"
+    datestamp: 3 Hours ago
     image: "/media/workspace/"
 ---
 

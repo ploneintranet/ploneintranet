@@ -5,11 +5,11 @@ workspace_name: Digital continuity training
 description: "To reserve a place on one of these courses, please complete our online form."
 application: workspace
 mutations:
-  - verb: changed start date of
+  - verb: created Event
     subjects:
-      - name: Doctor Who
-    object: Demo Preparation
-    datestamp: 8 Hours ago
+      - name: Joan Baker
+    object: Traces Through Time
+    datestamp: 50 Minutes ago
     image: "/media/workspace/"
 ---
 
