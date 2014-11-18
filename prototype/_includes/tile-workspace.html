@@ -2,9 +2,9 @@
     <a href="{{ include.url }}" class="link">
         <h3>{{ include.title }}</h3>
         {% if include.description %}
-        <p>
-            {{ include.description}}
-        </p>
+	        <p class="description">
+	            {{ include.description | truncate: 50 }}
+	        </p>
         {% endif %}
     </a>
 </div>

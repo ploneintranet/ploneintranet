@@ -8,8 +8,8 @@
 	}
 	
 	.tile {
-	  width: 300px;
-	  background-color: #666;
+	  width: 350px;
+	  background-color: $colour-workspace-default;
 
 	  &.app {
 	  	background-color: $colour-accent;
@@ -77,6 +77,11 @@
 
 	  	&.app-slide-bank a:after {
 	  		content: "\E818"
+	  	}
+
+	  	&.app-image-bank a:after {
+	  		content: "\1f304";
+	  		font-size: 80px;
 	  	}
 	  }
 
