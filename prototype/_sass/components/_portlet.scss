@@ -1,4 +1,6 @@
 .portlet {
+	margin-bottom: 2rem;
+
 	.portlet-title {
 		margin: 0 0 1rem 0;
 		font-size: 1.2;
@@ -6,7 +8,7 @@
 	}
 
 	.link {
-		
+		padding: 0.2em 0;
 		
 		&:hover {
 			text-decoration: none;
