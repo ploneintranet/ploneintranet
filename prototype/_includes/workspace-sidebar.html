@@ -33,7 +33,7 @@
     <div id="workspace-tickets">
         <fieldset class="task-list pat-checklist">
             {% for ticket in site.posts  %}
-                {% if ticket.layout == 'ticket' %}
+                {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
                     <label>
                         <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
                     </label>
@@ -81,7 +81,7 @@
                                 <ul class="details">
                                     <li>Starts <time class="start" datetime="2013-09-05">{{ item.start }}</time></li>
 
-                                    <li>Location <span class="location">Star HQ, Germany</span></li>
+                                    <li>Location <span class="location">{{ item.location }}</span></li>
                                 </ul>
 
                                 <form action="">
