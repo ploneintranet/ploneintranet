@@ -2,7 +2,7 @@
 layout: event
 title: Traces through Time data workshop
 section: Events
-category: open-market-committee
+workspace_name: Open Market Committee
 start: 2014-12-15 14:00 GMT+2
 end: 2014-12-15 17:00 GMT+2
 description: "An interactive workshop to test new and innovative tools to trace people through time."
