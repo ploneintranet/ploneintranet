@@ -4,22 +4,13 @@ title: Write SWOT analysis
 application: workspace
 document_type: ticket
 folderish: false
-workspace_name: Lorem ipsum
+due_date: 2014-11-20 14:00 GMT+2
+workspace_name: Open Market Committee
 application_name: Workspace
 design_title: Rich page
 design_description: Example of a ticket
-document_creator: Liz Baker
-document_creator_id: liz
+document_creator: Adrian White
+document_creator_id: white
 ---
 
-Etiam nec ipsum ullamcorper, porttitor mi et, ultrices enim. Curabitur adipiscing urna at dui placerat, in sodales ligula luctus. Nullam et fermentum lorem.
-
-- Proin condimentum
-- Nisi enim
-- Non feugiat elit varius
-- Cras aliquam sit
-- Amet nunc in consequat
-
-At mattis massa. Integer venenatis pharetra velit, vel fringilla tellus lacinia quis. Ut porttitor vestibulum enim quis molestie. Sed et sem eget sapien adipiscing blandit. Ut ornare tellus eu neque porttitor bibendum. Duis consectetur dui ut pulvinar vehicula. In nec semper nisi. Duis posuere iaculis varius.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sollicitudin felis a quam sagittis adipiscing. Praesent nulla sapien, lacinia a lectus sit amet, fermentum fermentum eros. Nullam eget mi consectetur, suscipit arcu et, tincidunt nisl. Phasellus feugiat, eros id vestibulum vestibulum, est ligula ultrices erat, sit amet vulputate est ligula sed nisl. Duis ac tincidunt diam. Donec placerat sem commodo orci placerat, eu hendrerit urna bibendum. Nam a orci a neque sollicitudin ornare in ac est.
+The committee requested a SWOT analysis of the potential outcomes of this concept. Prepare until next week.
