@@ -25,6 +25,10 @@
 			top: 0.5em;
 			font-size: 0.7em;
 			opacity: 0.8;
+
+			button {
+				border-radius: 0.5em;
+			}
 		}
 		
 		.title {
@@ -46,6 +50,7 @@
 			margin-right: 1em;
 			position: relative;
 			top: 0.2em;
+			border-radius: 0.5em;
 		}
 	}
 }
