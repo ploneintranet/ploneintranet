@@ -1,3 +1,4 @@
+---
 layout: document
 title: Minutes of the Federal Open Market Committee April 30–May 1, 2013
 description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, April 30, 2013, at 2:00 p.m. and continued on Wednesday, May 1, 2013, at 9:00 a.m."
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 # Minutes of the Federal Open Market Committee April 30–May 1, 2013
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, April 30, 2013, at 2:00 p.m. and continued on Wednesday, May 1, 2013, at 9:00 a.m.

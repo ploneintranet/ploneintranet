@@ -1,3 +1,4 @@
+---
 layout: document
 title: Minutes of the Federal Open Market Committee January 29–30, 2013
 description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, January 29, 2013, at 2:00 p.m., and continued on Wednesday, January 30, 2013, at 9:00 a.m."
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 # Minutes of the Federal Open Market Committee January 29–30, 2013
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, January 29, 2013, at 2:00 p.m., and continued on Wednesday, January 30, 2013, at 9:00 a.m.
@@ -51,6 +53,6 @@ tions of, or fully guaranteed as to principal and inter- est by, any agency of t
 
 3. In order to ensure the effective conduct of open market operations, the Federal Open Market Committee authorizes the Federal Reserve Bank of New York to use agents in agency MBS-related transactions.
 
-4. In order to ensure the effective conduct of open market operations, the Federal Open Market Committee authorizes the Federal Reserve Bank of New York to lend on an overnight basis U.S. government securities and securities that are direct obligations of any agency of the United States, held in the System Open Market Account, to dealers at rates that shall be determined by competitive bidding. The Federal Reserve Bank of New York shall set a minimum lending fee consistent with the objectives of the program and apply reasonable limitations on the total amount of a specific issue that may be auctioned and on the amount of securities that each dealer may borrow. 
+4. In order to ensure the effective conduct of open market operations, the Federal Open Market Committee authorizes the Federal Reserve Bank of New York to lend on an overnight basis U.S. government securities and securities that are direct obligations of any agency of the United States, held in the System Open Market Account, to dealers at rates that shall be determined by competitive bidding. The Federal Reserve Bank of New York shall set a minimum lending fee consistent with the objectives of the program and apply reasonable limitations on the total amount of a specific issue that may be auctioned and on the amount of securities that each dealer may borrow.
 
 The Federal Reserve Bank of New York may reject bids that could facilitate a dealer’s ability to control a single issue as determined solely by the Federal Reserve Bank of New York. The Federal Reserve Bank of New York may lend securities on longer than an overnight basis to accommodate weekend, holiday, and similar trading conventions.

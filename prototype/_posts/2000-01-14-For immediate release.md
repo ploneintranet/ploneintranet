@@ -1,4 +1,5 @@
-layout: document
+---
+layout: press-release
 title: For immediate release
 description: "Information received since the Federal Open Market Committee met in September suggests that economic activity is expanding at a moderate pace."
 application: docs
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 # For immediate release
 Information received since the Federal Open Market Committee met in September suggests that economic activity is expanding at a moderate pace. Labor market conditions improved somewhat further, with solid job gains and a lower unemployment rate. On balance, a range of labor market indicators suggests that underutilization of labor resources is gradually diminishing. Household spending is rising moderately and business fixed investment is advancing, while the recovery in the housing sector remains slow. Inflation has continued to run below the Committee's longer-run objective. Market-based measures of inflation compensation have declined somewhat; survey-based measures of longer-term inflation expectations have remained stable.

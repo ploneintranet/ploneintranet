@@ -1,3 +1,4 @@
+---
 layout: document
 title: The Federal Reserve's response to the financial crisis and actions to foster maximum employment and price stability
 description: "The Federal Reserve responded aggressively to the financial crisis that emerged in the summer of 2007. The reduction in the target federal funds rate from 5-1/4 percent to effectively zero was an extraordinarily rapid easing in the stance of monetary policy."
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 In addition, the Federal Reserve implemented a number of programs designed to support the liquidity of financial institutions and foster improved conditions in financial markets. These programs led to significant changes to the Federal Reserve's balance sheet.
 

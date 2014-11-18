@@ -1,3 +1,4 @@
+---
 layout: document
 title: Minutes of the Federal Open Market Committee June 18–19, 2013
 description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, June 18, 2013, at 1:30 p.m. and continued on Wednesday, June 19, 2013, at 9:00 a.m."
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 # Minutes of the Federal Open Market Committee June 18–19, 2013
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, June 18, 2013, at 1:30 p.m. and continued on Wednesday, June 19, 2013, at 9:00 a.m.
@@ -40,9 +42,9 @@ PRESENT:
 - Janet L. Yellen
 
 ## Discussion of Guidelines for Policy Normalization
-In light of the changes in the System Open Market Account (SOMA) portfolio over the past two years, the Committee again discussed its strategy for the eventual normalization of the stance of monetary policy and the size and composition of the Federal Reserve’s balance sheet that was released in the minutes of the Committee’s June 2011 meeting. Although most participants saw this review as prudent longer-range planning, some felt that the discussion was premature. Meeting participants, in general, continued to view the broad principles set out in 2011 as still applicable. 
+In light of the changes in the System Open Market Account (SOMA) portfolio over the past two years, the Committee again discussed its strategy for the eventual normalization of the stance of monetary policy and the size and composition of the Federal Reserve’s balance sheet that was released in the minutes of the Committee’s June 2011 meeting. Although most participants saw this review as prudent longer-range planning, some felt that the discussion was premature. Meeting participants, in general, continued to view the broad principles set out in 2011 as still applicable.
 
-Nonetheless, they agreed that many of the details of the eventual normalization process would likely differ from those specified two years ago, that the appropriate details would depend in part on economic and financial developments between now and the time when it becomes appropriate to begin normalizing monetary policy, and that the Committee would need to provide additional information about its intentions as that time approaches. 
+Nonetheless, they agreed that many of the details of the eventual normalization process would likely differ from those specified two years ago, that the appropriate details would depend in part on economic and financial developments between now and the time when it becomes appropriate to begin normalizing monetary policy, and that the Committee would need to provide additional information about its intentions as that time approaches.
 
 Participants continued to think that the Federal Reserve should, in the long run, hold predominantly Treasury securities. Most, however, now anticipated that the Committee would not sell agency mortgage- backed securities (MBS) as part of the normalization process, although some indicated that limited sales might be warranted in the longer run to reduce or eliminate residual holdings. A couple of participants stated that they preferred that the Committee make no decision about sales of MBS until closer to the start of the normalization process. Participants agreed that the Committee’s focus continued to be on providing appropriate monetary accommodation to promote a stronger recovery in the context of price stability and so judged that additional discussion regarding policy normalization should be deferred.
 

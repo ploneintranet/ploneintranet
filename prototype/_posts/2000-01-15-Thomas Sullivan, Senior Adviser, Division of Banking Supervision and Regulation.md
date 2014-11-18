@@ -1,4 +1,5 @@
-layout: document
+---
+layout: press-release
 title: Thomas Sullivan, Senior Adviser, Division of Banking Supervision and Regulation
 description: "Before the Subcommittee on Housing and Insurance, Committee on Financial Services, U.S. House of Representatives, Washington, D.C. November 18, 2014."
 application: docs
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 Chairman Neugebauer, Ranking Member Capuano, and other members of the subcommittee, thank you for inviting me to testify on behalf of the Federal Reserve.
 

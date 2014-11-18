@@ -1,6 +1,7 @@
+---
 layout: document
 title: Minutes of the Federal Open Market Committee March 18–19, 2014
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the 
+description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the
 Federal Reserve System in Washington, D.C., on Tuesday, March 18, 2014, at 2:00 p.m. and continued on Wednesday, March 19, 2014, at 8:30 a.m. "
 application: docs
 document_type: rich
@@ -25,18 +26,18 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, March 18, 2014, at 2:00 p.m. and continued on Wednesday, March 19, 2014, at 8:30 a.m. 
+A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, March 18, 2014, at 2:00 p.m. and continued on Wednesday, March 19, 2014, at 8:30 a.m.
 
-PRESENT: 
-- Janet L. Yellen, Chair 
-- William C. Dudley, Vice Chairman 
-- Richard W. Fisher 
-- Narayana Kocherlakota 
-- Sandra Pianalto 
-- Charles I. Plosser 
-- Jerome H. Powell 
-- Jeremy C. Stein 
-- Daniel K. Tarullo 
+PRESENT:
+- Janet L. Yellen, Chair
+- William C. Dudley, Vice Chairman
+- Richard W. Fisher
+- Narayana Kocherlakota
+- Sandra Pianalto
+- Charles I. Plosser
+- Jerome H. Powell
+- Jeremy C. Stein
+- Daniel K. Tarullo
 
 # Developments in Financial Markets and the Federal Reserve’s Balance Sheet
 The manager of the System Open Market Account (SOMA) reported on developments in domestic and foreign financial markets as well as the System open market operations during the period since the Federal Open Market Committee (FOMC) met on January 28– 29, 2014. By unanimous vote, the Committee ratified the Open Market Desk’s domestic transactions over the intermeeting period. There were no intervention operations in foreign currencies for the System’s account over the intermeeting period.

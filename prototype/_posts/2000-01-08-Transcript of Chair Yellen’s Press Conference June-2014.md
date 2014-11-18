@@ -1,3 +1,4 @@
+---
 layout: document
 title: Transcript of Chair Yellen’s Press Conference June 18, 2014
 description: "CHAIR YELLEN. Good afternoon. The Federal Open Market Committee concluded its June meeting earlier today. As was indicated in our policy statement, the Committee decided to make another modest reduction in the pace of its purchases of longer-term securities. "
@@ -22,6 +23,7 @@ pinned: true
 tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
+---
 
 The Committee maintained its forward guidance regarding the federal funds rate target and reaffirmed its view that a highly accommodative stance of monetary policy remains appropriate.
 
