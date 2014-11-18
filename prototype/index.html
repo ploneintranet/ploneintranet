@@ -9,7 +9,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 	<div class="four columns">
 		<div class="item portlets">
 			<div class="news portlet" id="portlet-news">
-				<h2 class="portlet-title">News</h2>
+				<h2 class="portlet-title"><a href="/news.html">News</a></h2>
 				{% assign count = 1 %}
 				<div class="news-block" id="unread-news">
 					{% for item in site.posts %}
@@ -43,7 +43,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 				</div>
 			</div>
 			<div class="workspaces portlet" id="portlet-workspaces">
-				<h2 class="portlet-title">Workspaces</h2>
+				<h2 class="portlet-title"><a href="/workspaces.html">Workspaces</a></h2>
 				<ul class="links">
 					{% assign count = 1 %}
 					{% for workspace in site.posts  %}
