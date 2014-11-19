@@ -24,7 +24,7 @@
             ><em class="selected-users" id="selected-users">{% if include.users %} — {% endif %}{{ include.users }}</em
             ><em class="selected-tags" id="selected-tags">{% if include.tags %} — {% endif %}{{ include.tags }}</em
         ></p>
-        <textarea placeholder="Leave a comment" class="pat-updatesocial" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
+        <textarea placeholder="Leave a comment" class="pat-updatesocial pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
         {% unless include.attachment == 'false' %}
             <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
@@ -38,7 +38,7 @@
         {% if include.share_title %}
             <div class="shared-item row">
                 <div class="three columns">
-                    <img src="{{ include.share_img }}" alt="" />   
+                    <img src="{{ include.share_img }}" alt="" />
                 </div>
                 <div class="nine columns">
                     <h4 class="title">
