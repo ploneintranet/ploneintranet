@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet.attachments">
+
+    <browser:page
+      name="upload-attachments"
+      for="*"
+      class=".upload.UploadAttachments"
+      permission="cmf.AddPortalContent"
+      template="templates/upload.pt"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+</configure>

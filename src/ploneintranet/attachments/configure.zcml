@@ -14,7 +14,7 @@
     <includeDependencies package="." />
 
     <!-- Include sub-packages that use their own configure.zcml files. -->
-    <!--include package=".browser" /-->
+    <include package=".browser" />
 
     <!-- Register all components defined with grok -->
     <grok:grok package="." />

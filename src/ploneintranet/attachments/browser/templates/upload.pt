@@ -1,0 +1,4 @@
+<p id="attachments" class="attachments upload-previews">
+    <img tal:repeat="attachment view/attachments" src="http://lorempixel.com/600/240/abstract" 
+         tal:attributes="src attachment/@@document_preview/get_preview_url" alt="" />
+</p>
