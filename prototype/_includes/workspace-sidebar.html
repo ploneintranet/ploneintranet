@@ -32,12 +32,17 @@
     </div>
     <div id="workspace-tickets">
         <fieldset class="task-list pat-checklist">
+            {% assign count = 0 %}
             {% for ticket in site.posts  %}
                 {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
+                    {% if count >= 1 %}
+                        <br/>
+                    {% endif %}
                     <label>
                         <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
                     </label>
                 {% endif %}
+                {% assign count = count | plus: 1 %}
             {% endfor %}
         </fieldset>
     </div>
