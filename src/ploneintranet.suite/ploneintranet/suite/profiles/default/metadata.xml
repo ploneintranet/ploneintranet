@@ -9,6 +9,7 @@
         <dependency>profile-ploneintranet.attachments:default</dependency>
         <dependency>profile-ploneintranet.documentviewer:default</dependency>
         <dependency>profile-ploneintranet.invitations:default</dependency>
+        <dependency>profile-ploneintranet.readstatus:default</dependency>
         <dependency>profile-plonesocial.microblog:default</dependency>
         <dependency>profile-plonesocial.activitystream:default</dependency>
         <dependency>profile-plonesocial.network:default</dependency>
