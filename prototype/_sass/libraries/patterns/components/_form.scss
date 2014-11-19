@@ -220,7 +220,8 @@ fieldset {
 
   input,
   textarea,
-  select {
+  select,
+  .select2-container {
     display: block;
     margin-top: 0.5em;
     width: 100%;
