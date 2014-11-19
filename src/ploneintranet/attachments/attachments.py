@@ -6,6 +6,7 @@ from BTrees.OOBTree import OOBTree
 from OFS.Traversable import Traversable
 from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
+from Products.CMFPlone.Portal import PloneSite
 from persistent import Persistent
 from zExceptions import NotFound
 from zope import component
@@ -32,6 +33,7 @@ class IAttachmentStoragable(IAnnotatable):
     """ Marker interface for things that can have attachments
     """
 
+interface.classImplements(PloneSite, IAttachmentStoragable)
 if Comment is not None:
     interface.classImplements(Comment, IAttributeAnnotatable)
     interface.classImplements(Comment, IAttachmentStoragable)
