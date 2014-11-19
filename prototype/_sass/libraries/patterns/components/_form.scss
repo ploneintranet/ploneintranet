@@ -227,6 +227,12 @@ fieldset {
     width: 100%;
   }
 
+  .pat-checklist label input {
+    width: inherit;
+    display: inline;
+    margin: 0;
+  }
+
   .legend,
   > label {
     font-weight: bold;
