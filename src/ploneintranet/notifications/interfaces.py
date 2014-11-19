@@ -27,6 +27,12 @@ class INotificationsQueues(Interface):
         """
 
 
+class IMessage(Interface):
+    """
+    Represents a Notification Message for a specific user
+    """
+
+
 class INotificationsTool(Interface):
     """
     Provide INotificationsQueue as a site utility
