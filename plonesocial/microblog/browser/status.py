@@ -1,3 +1,4 @@
+from datetime import datetime
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.interface import implements
@@ -157,6 +158,16 @@ class StatusProvider(object):
             permission, self.context)
         is_installed = queryUtility(IMicroblogTool)
         return have_permission and is_installed
+
+    def is_attachment_supported(self):
+        return IAttachmentStoragable is not None
+
+    def attachment_form_token(self):
+        member = api.user.get_current()
+        username = member.getUserName()
+        return "{0}-{1}".format(
+            username,
+            datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))
 
     @property
     def compact(self):
