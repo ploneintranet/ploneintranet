@@ -1,12 +1,13 @@
-from zope.interface import implements
-from Products.CMFCore.utils import UniqueObject
+# -*- coding: utf-8 -*-
+
 from OFS.SimpleItem import SimpleItem
-
+from Products.CMFCore.utils import UniqueObject
 from interfaces import INotificationsTool
-from queue import Queue
+from queue import Queues
+from zope.interface import implements
 
 
-class NotificationsTool(UniqueObject, SimpleItem, Queue):
+class NotificationsTool(UniqueObject, SimpleItem, Queues):
     """Provide INetworkContainer as a site utility."""
 
     implements(INotificationsTool)

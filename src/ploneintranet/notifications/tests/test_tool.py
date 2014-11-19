@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from plone import api
-from ploneintranet.notifications.interfaces import INotificationsQueue
+from ploneintranet.notifications.interfaces import INotificationsQueues
 from ploneintranet.notifications.interfaces import INotificationsTool
 from ploneintranet.notifications.testing import \
     PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from zope.component import queryUtility
 import unittest2 as unittest
+
 
 class TestNetworkTool(unittest.TestCase):
 
@@ -15,7 +18,7 @@ class TestNetworkTool(unittest.TestCase):
 
     def test_tool_available(self):
         tool = queryUtility(INotificationsTool)
-        self.assertTrue(INotificationsQueue.providedBy(tool))
+        self.assertTrue(INotificationsQueues.providedBy(tool))
 
     def test_tool_uninstalled(self):
         qi = self.portal['portal_quickinstaller']
