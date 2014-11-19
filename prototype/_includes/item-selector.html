@@ -2,18 +2,10 @@
     <div class="button-bar functions" id="{{ include.id }}-functions">
         {% if include.mode == "docs" %}
         <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
-           <!--  <a href="#" class="button icon-left-open pat-inject"
-            data-pat-inject="source: #items; target: #items &&
-            source: #selector-contextual-functions; target: #selector-contextual-functions &&
-            source: #context-title; target: #context-title">
-                Parent Title
-            </a> -->
             {% if page.parent != 'root' %}
-                <div id="selector-contextual-functions" class="float-before">
-                    <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
+                <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
                     data-pat-inject="source: #items; target: #items &&
                     source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
-                </div>
             {% endif %}
         </div>
 
