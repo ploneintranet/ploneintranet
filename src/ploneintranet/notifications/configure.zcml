@@ -8,6 +8,7 @@
   <includeDependencies package="." />
 
   <include package=".browser" />
+  <include package=".events" />
 
   <genericsetup:registerProfile
       name="default"

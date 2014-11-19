@@ -25,6 +25,7 @@ class PloneintranetNotificationsLayer(PloneSandboxLayer):
         pass
 
     def setUpPloneSite(self, portal):
+        helpers.applyProfile(portal, 'plonesocial.microblog:default')
         helpers.applyProfile(portal, 'ploneintranet.notifications:default')
 
 PLONEINTRANET_NOTIFICATIONS_FIXTURE = PloneintranetNotificationsLayer()

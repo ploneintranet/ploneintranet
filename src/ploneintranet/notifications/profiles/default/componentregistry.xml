@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <utilities>
+  <utility
+      interface="ploneintranet.notifications.interfaces.INotificationsTool"
+      object="ploneintranet_notifications"
+      />
+ </utilities>
+</componentregistry>

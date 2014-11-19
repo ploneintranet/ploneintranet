@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ploneintranet.notifications">
+
+  ,
+      <subscriber
+        for="plonesocial.microblog.interfaces.IStatusUpdate
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".status_update.added" />
+
+</configure>
