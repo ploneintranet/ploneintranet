@@ -3,18 +3,14 @@
 
 class FakeMessageHandler(object):
 
-    def __init__(self, queue, message):
+    def __init__(self, queue):
         self.queue = queue
-        self.message = message
-        self.clean = False
 
-    def add(self):
-        self.clean = False
-        self.queue.append(self.message)
+    def add(self, message):
+        self.queue.append(message)
 
-    def mark_as_read(self):
-        self.clean = False
-        self.message.obj['read'] = True
+    def mark_as_read(self, message):
+        message.obj['read'] = True
 
     def cleanup(self):
         ids_to_remove = []
@@ -25,4 +21,7 @@ class FakeMessageHandler(object):
         ids_to_remove.reverse()
         for id_ in ids_to_remove:
             self.queue.pop(id_)
-        self.clean = True
+
+
+def fake_adapter(queue, name):
+    return FakeMessageHandler(queue)
