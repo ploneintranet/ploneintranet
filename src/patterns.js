@@ -55,6 +55,7 @@ define([
     "pat-switch",
     "pat-toggle",
     "pat-tooltip",
+    "pat-updatesocial",
     "pat-upload",
     "pat-url",
     "pat-validate",
