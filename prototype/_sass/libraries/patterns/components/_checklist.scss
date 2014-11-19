@@ -5,7 +5,7 @@
 		&.checked:before,
 		&.unchecked:before {
 			font-family: fontello;
-			content: "\e808";
+			content: '#{$glyph-checkbox}';
 			float: left;
 			position: absolute;
 			left: 0;
@@ -13,7 +13,7 @@
 		}
 
 		&.checked:before {
-			content: "\e809";
+			content: '#{$glyph-checkbox-active}'
 		}
 
 		input[type="checkbox"],
@@ -25,10 +25,10 @@
 
 	&.radio label {
 		&:before {
-			content: '\e807';
+			content: '#{$glyph-radio-button}';
 		}
 		&.checked:before {
-			content: '\e806';
+			content: '#{$glyph-radio-button-active}';
 		}
 	}
 
