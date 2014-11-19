@@ -15,7 +15,7 @@
             <ul class="notifications">
                 <li>
                         <a href="#" class="image">
-                                <img class="avatar" src="/media/avatar-jon-doe.jpg" alt="">
+                                <img class="avatar" src="defaultUser.png" alt="">
                         </a><span class="subjects">
                                 <a href="" class="subject">Jon Doe</a>
                         </span>
@@ -29,9 +29,6 @@
                         <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
                 </li>
             </ul>
-            <p class="all-notifications">
-                    <a href="/notifications.html">All notifications</a>
-            </p>
         </div>
     </div>
   </body>
