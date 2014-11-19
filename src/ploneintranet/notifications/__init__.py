@@ -1,1 +1,1 @@
-# This package may contain traces of nuts
+# -*- coding: utf-8 -*-
