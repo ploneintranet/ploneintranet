@@ -1,5 +1,16 @@
 #document-content {
-	padding: 2rem 4rem;
 	font-size: 1.2em;
-	line-height: 1.3em;
+	line-height: 130%;
+
+	article.rich,
+	.content-container {
+		background-color: white;
+		padding: 6% 6%;
+
+		img {
+			max-width: 90%;
+			margin: 0 auto;
+			display: block;
+		}
+	}
 }

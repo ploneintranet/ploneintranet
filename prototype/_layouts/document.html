@@ -51,10 +51,8 @@ workspace_module: docs
     </div>
 {% endif %}
 <div id="document-content">
-    <article class="document cms">
-      <!-- <a href="change-workflow.html"
-         class="pat-tooltip" data-pat-tooltip="trigger: click; source: ajax" id="workflow-state" alt="Change Workflow">Private</a> -->
-        <section class="cms">
+    {% if page.document_type == 'rich' %}   
+        <article class="document {% if page.document_type == 'rich' %}rich{% endif %}">
             {% if document.editable == "true" %}
                 <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
                   <!--section class="page"-->
@@ -65,6 +63,12 @@ workspace_module: docs
             {% else %}
                 {{ content }}
             {% endif %}
-        </section>
-    </article>
+        </article>
+    {% elsif page.document_type == 'file' %}
+        <article>
+            {% for preview in page.previews %}
+                <img src="{{ preview.url }}" alt="" class="page" />
+            {% endfor %}
+        </article>
+    {% endif %}
 </div>

@@ -1,27 +1,27 @@
-/* @group Meta data */
-
-/* @group Meta data panel */
-
-#document-body div.metadata {
-  background-color: transparent;
+.metadata {
+  background-color: white;
   margin-right: 0;
   margin-left: 0;
-  padding: 3rem 4rem 0;
+  padding: 3rem 6% 2em;
+
   .quick-functions {
     position: absolute;
     top: 3rem;
     right: 77px;
     line-height: 26px;
+
     fieldset {
       display: inline-block;
       margin-left: 5px;
       float: right;
       margin-top: -1px;
     }
+
     select {
       border-style: none;
       font-size: 0.9em;
     }
+
     span {
       &[data-option='Private'] select {
         background-color: #d561a4;
@@ -232,7 +232,3 @@ form#keywords .select2-container {
   padding: 0;
   border-style: none;
 }
-
-/* @end */
-
-/* @end */
