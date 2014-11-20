@@ -7,7 +7,6 @@ from Products.ATContentTypes.interfaces import IATNewsItem
 from Products.Archetypes.interfaces import IObjectEditedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from five import grok
-from plone import api
 from zope.annotation import IAnnotations
 from zope.app.container.interfaces import IObjectAddedEvent
 
@@ -78,6 +77,7 @@ def archetype_edited_in_workspace(obj, event):
     _update_preview_images(obj, event)
 
 
-@grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
-def attachmentstoragable_added(obj, event):
-    generate_attachment_preview_images(obj)
+if IAttachmentStoragable is not None:
+    @grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
+    def attachmentstoragable_added(obj, event):
+        generate_attachment_preview_images(obj)
