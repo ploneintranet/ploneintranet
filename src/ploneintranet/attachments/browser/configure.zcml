@@ -14,4 +14,13 @@
       layer="..interfaces.IPloneintranetAttachmentsLayer"
       />
 
+    <browser:page
+      name="attachment-info"
+      for="ploneintranet.attachments.attachments.IAttachmentStoragable"
+      class=".info.AttachmentInfo"
+      allowed_interface="..interfaces.IAttachmentInfo"
+      permission="zope2.View"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
 </configure>
