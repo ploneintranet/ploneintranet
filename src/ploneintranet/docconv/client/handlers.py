@@ -7,8 +7,11 @@ from Products.ATContentTypes.interfaces import IATNewsItem
 from Products.Archetypes.interfaces import IObjectEditedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent
 from five import grok
+from plone import api
 from zope.annotation import IAnnotations
+from zope.app.container.interfaces import IObjectAddedEvent
 
+from ploneintranet.docconv.client import IDocconv
 from ploneintranet.docconv.client.async import queueDelayedConversionJob
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.fetcher import fetchPreviews
@@ -18,6 +21,12 @@ from ploneintranet.docconv.client.config import (
     THUMBNAIL_KEY,
     PREVIEW_MESSAGE_KEY,
 )
+
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+    from ploneintranet.attachments.utils import IAttachmentStorage
+except ImportError:
+    IAttachmentStoragable = None
 
 log = logging.getLogger(__name__)
 
@@ -38,6 +47,17 @@ def _update_preview_images(obj, event):
             fetchPreviews(obj)
         except ConfigError as e:
             log.error('ConfigError: %s' % e)
+    generate_attachment_preview_images(obj)
+
+
+def generate_attachment_preview_images(obj):
+    if (IAttachmentStoragable is not None and
+            IAttachmentStoragable.providedBy(obj)):
+        attachment_storage = IAttachmentStorage(obj)
+        for att_id in attachment_storage.keys():
+            docconv = IDocconv(attachment_storage.get(att_id))
+            if not docconv.has_thumbs():
+                docconv.generate_all()
 
 
 @grok.subscribe(IATDocument, IObjectInitializedEvent)
@@ -56,3 +76,8 @@ def archetype_added_in_workspace(obj, event):
 @grok.subscribe(IATNewsItem, IObjectEditedEvent)
 def archetype_edited_in_workspace(obj, event):
     _update_preview_images(obj, event)
+
+
+@grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
+def attachmentstoragable_added(obj, event):
+    generate_attachment_preview_images(obj)

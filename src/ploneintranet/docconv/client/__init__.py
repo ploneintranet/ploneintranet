@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from five import grok
+from plone import api
 from zope.annotation import IAnnotations
 from zope.component.hooks import getSite
 from zope.interface import Interface
@@ -60,8 +61,10 @@ class DocconvAdapter(grok.Adapter):
             self.request = request
         elif hasattr(context, 'REQUEST'):
             self.request = context.REQUEST
+        elif hasattr(context, 'request'):
+            self.request = context.request
         else:
-            self.request = None
+            self.request = api.portal.getRequest()
         self._annotations = IAnnotations(self.context)
 
     def has_pdf(self):
