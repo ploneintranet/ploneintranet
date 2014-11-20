@@ -93,8 +93,10 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
             IAttachmentStoragable is not None and
             IAttachmentStoragable.providedBy(status))
         if attachments_supported and file_upload:
+            portal = api.portal.get()
+            token = self.request.get('attachment-form-token')
             extract_and_add_attachments(
-                file_upload, status)
+                file_upload, status, workspace=portal, token=token)
 
         # debugging only
 #        container.clear()
@@ -104,6 +106,13 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         # Redirect to portal home
         self.request.response.redirect(self.action)
+
+    def attachment_form_token(self):
+        member = api.user.get_current()
+        username = member.getUserName()
+        return "{0}-{1}".format(
+            username,
+            datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
@@ -161,13 +170,6 @@ class StatusProvider(object):
 
     def is_attachment_supported(self):
         return IAttachmentStoragable is not None
-
-    def attachment_form_token(self):
-        member = api.user.get_current()
-        username = member.getUserName()
-        return "{0}-{1}".format(
-            username,
-            datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))
 
     @property
     def compact(self):

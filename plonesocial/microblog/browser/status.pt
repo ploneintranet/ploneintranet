@@ -81,7 +81,7 @@
              id="new-post-box-attachment-previews">
             No attachments selected.
           </p>
-          <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/attachment_form_token">
+          <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/form/attachment_form_token">
           <span tal:replace="structure context/@@authenticator/authenticator"/>
         </fieldset>
         <div class="button-bar">
