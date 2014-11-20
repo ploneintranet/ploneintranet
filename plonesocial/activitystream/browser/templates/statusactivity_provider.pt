@@ -54,6 +54,15 @@
 
   </section>
 
+  <section class="preview">
+
+      <figure tal:repeat="preview view/attachment_previews">
+          <img src="/media/preview_thumb_1.jpg" alt=""
+               tal:attributes="src preview">
+      </figure>
+
+  </section>
+
   <p class="functions">
         <a href="#">Share <sup class="counter">(8)</sup></a>
         <a href="#">Like <sup class="counter">(3)</sup></a>
