@@ -101,6 +101,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 							<label>
 								<input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
 							</label>
+							<br/>
 						{% endif %}
 					{% endfor %}
 				</fieldset>
