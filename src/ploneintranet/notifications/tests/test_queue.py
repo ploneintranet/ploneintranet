@@ -31,3 +31,11 @@ class TestQueue(unittest.TestCase):
         user_queue.append('123')
         queues.del_user_queue(user)
         self.assertEqual([], queues.get_user_queue(user))
+
+    def test_delete_all_queues(self):
+        queues = Queues()
+        user = FakeUser()
+        user_queue = queues.get_user_queue(user)
+        user_queue.append('123')
+        queues.clear()
+        self.assertEqual([], queues.get_user_queue(user))
