@@ -27,10 +27,12 @@ class Queues(Persistent, Explicit):
     def clear(self):
         self._users = OOBTree.OOBTree()
 
-    def get_user_queue(self, userid):
+    def get_user_queue(self, user):
+        userid = user.getUserId()
         if userid not in self._users:
             self._users[userid] = PersistentList()
         return self._users[userid]
 
-    def del_user_queue(self, userid):
+    def del_user_queue(self, user):
+        userid = user.getUserId()
         del self._users[userid]
