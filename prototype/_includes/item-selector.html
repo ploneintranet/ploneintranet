@@ -119,4 +119,14 @@
             </div>
         {% endunless %}
     </form>
+
+    {% if include.mode == 'docs' %}
+        <form action="./">
+            <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload">
+                <label class="accessibility-options">
+                    <input type="file" multiple> Upload files
+                </label>
+            </fieldset>
+        </form>
+    {% endif %}
 </div>
