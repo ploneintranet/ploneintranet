@@ -23,10 +23,27 @@
 	.upload-area {
 
 		.dz-message {
-			display: block;
-			padding: 1em;
-			margin-bottom: 1em;
-			border: 0.2em $colour-base dashed;
+
+			p {
+				display: block;
+				padding: 1em;
+				margin-bottom: 1em;
+				border: 0.2em $colour-base dashed;
+
+				&:active {
+					background-color: $colour-base;
+				}
+			}
+		}
+
+		&.dz-drag-hover {
+
+			.dz-message {
+
+				p {
+					background-color: $colour-base;
+				}
+			}
 		}
 
 		.upload-queue {
@@ -83,20 +100,32 @@
 							left: 0.35em;
 							top: 50%;
 							margin-top: -1.2em;
+							background-color: white;
 						}
 					}
 
 					.btn {
-						@include button();
+						border: none;
+						background: none;
 						position: absolute;
+						padding: 0 0.35em;
 						top: 50%;
+						border-radius: 50%;
 						margin-top: -0.7em;
-						right: 1.5em;
+						right: 1em;
 						z-index: 1;
+
+						&:active {
+							box-shadow: none;
+
+							&:before {
+								color: black;
+							}
+						}
 
 						&:before {
 							font-family: fontello;
-							content: "x"
+							content: "\e803"
 						}
 					}
 
