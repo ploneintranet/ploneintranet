@@ -90,7 +90,7 @@
             }
 
 
-            &.folder:after {
+            &.group:after {
                 font-family: fontello;
                 content: '\e75e';
                 position: absolute;
@@ -127,15 +127,23 @@
                 }
             }
 
+            &.type-folder .title:before {
+                content: '\1f4c1'
+            }
+
             &.document .title:before {
                 content: '\e811';
                 -webkit-transition: opacity 5s;
                 transition: opacity 5s;
             }
 
+            &.type-presentation .title:before,
+            &.type-slide .title:before {
+                content: '\e81b';
+            }
 
-            &.folder .title:before {
-                content: '\1f4c1'
+            &.type-powerpoint .title:before {
+                content: '\e817';
             }
 
             &.back .title:before {
@@ -200,7 +208,7 @@
 
     &.mode-select {
         .search-result fieldset .item {
-            &.folder:after {
+            &.group:after {
                 right: -1em;
                 opacity: 0;
             }
