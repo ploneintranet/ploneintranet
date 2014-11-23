@@ -127,6 +127,11 @@
                 }
             }
 
+            &.has-no-description {
+                padding-top: 0.6em;
+                padding-bottom: 0.6em;
+            }
+
             &.type-folder .title:before {
                 content: '\1f4c1'
             }

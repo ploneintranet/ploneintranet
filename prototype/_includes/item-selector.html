@@ -125,7 +125,8 @@
                             - type-pdf
 
                             -->
-                            <label class="item document type-{{ doc.document_type }}">
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="" type="checkbox" />
                                 <a href="{{ doc.id }}#document-body" class="pat-inject follow">
                                     <strong class="title">{{ doc.title }}</strong>
@@ -137,7 +138,8 @@
                         {% else %}
                             <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                             -->
-                            <label class="item group type-folder">
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item group type-folder {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="" type="checkbox" />
                                 <a href="{{ doc.url }}#items" class="follow pat-inject"
                                 data-pat-inject="source: #items; target: #items &&
