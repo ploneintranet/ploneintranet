@@ -51,6 +51,14 @@
 			.previews {
 				margin-bottom: 1em;
 
+				.dz-filename {
+					font-weight: bold;
+		            overflow: hidden;
+		            text-overflow: ellipsis;
+		            white-space: nowrap;
+		            display: block;
+				}
+
 				.row {
 				    border-top: 1px solid rgba(0,0,0,0.2);
 				    border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -59,7 +67,7 @@
 				    color: $colour-primary;
 				    -webkit-user-select: none;
 				    user-select: none;
-				    padding: 0.5em 1.5em 0.5em 3em;
+				    padding: 0.2em 1.5em 0.2em 3.6em;
 				    margin: 0 0 -1px 0;
 				    position: relative;
 
@@ -78,14 +86,6 @@
 				            transition: 0.4s left;
 				        }
 
-						.dz-filename {
-							font-weight: bold;
-				            overflow: hidden;
-				            text-overflow: ellipsis;
-				            white-space: nowrap;
-				            display: block;
-						}
-
 						.dz-size {
 							strong {
 								font-weight: normal;
@@ -97,7 +97,7 @@
 							height: 2.4em;
 							max-width: 2.4em;
 							position: absolute;
-							left: 0.35em;
+							left: 0.45em;
 							top: 50%;
 							margin-top: -1.2em;
 							background-color: white;
@@ -112,7 +112,7 @@
 						top: 50%;
 						border-radius: 50%;
 						margin-top: -0.7em;
-						right: 1em;
+						right: 0.8em;
 						z-index: 1;
 
 						&:active {
