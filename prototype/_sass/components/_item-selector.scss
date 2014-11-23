@@ -81,8 +81,13 @@
                 position: relative;
                 z-index: -1;
                 border-left: 2.25em solid #efefef;
+                -moz-transition: 0.4s border;
                 -webkit-transition: 0.4s border;
                 transition: 0.4s border;
+
+                &:hover {
+                    text-decoration: none;
+                }
             }
 
             &.user .follow{
