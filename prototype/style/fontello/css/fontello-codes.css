@@ -63,6 +63,16 @@
 .icon-calendar-empty:before { content: '\e817'; } /* '' */
 .icon-slides:before { content: '\e818'; } /* '' */
 .icon-info-circle:before { content: '\e819'; } /* '' */
+.icon-file-pdf:before { content: '\e81a'; } /* '' */
+.icon-file-word:before { content: '\e81b'; } /* '' */
+.icon-file-excel:before { content: '\e81c'; } /* '' */
+.icon-file-powerpoint:before { content: '\e81d'; } /* '' */
+.icon-file-video:before { content: '\e81e'; } /* '' */
+.icon-file-code:before { content: '\e81f'; } /* '' */
+.icon-file-audio:before { content: '\e820'; } /* '' */
+.icon-file-archive:before { content: '\e821'; } /* '' */
+.icon-file-image:before { content: '\e822'; } /* '' */
+.icon-doc-text:before { content: '\e823'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */

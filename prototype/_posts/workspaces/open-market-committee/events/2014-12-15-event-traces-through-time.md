@@ -1,5 +1,6 @@
 ---
 layout: event
+document_type: event
 title: Traces through Time data workshop
 section: Events
 parent: Open Market Committee

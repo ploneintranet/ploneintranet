@@ -3,7 +3,7 @@ layout: document
 title: Projection Materials
 description: "Economic Projections of Board Members. Advance release of table 1 of the Summary of Economic Projections to be released with the OMC minutes."
 application: folder
-document_type: rich
+document_type: word
 folderish: true
 parent: Open Market Committee
 parentid: open-market-committee

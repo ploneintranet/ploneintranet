@@ -3,7 +3,7 @@ layout: document
 title: Projection Material
 description: "Advance release of table 1 of the Summary of Economic Projections to be released with the OMC minutes"
 application: docs
-document_type: file
+document_type: word
 folderish: false
 parent: Projection Materials
 sidebar_controls:

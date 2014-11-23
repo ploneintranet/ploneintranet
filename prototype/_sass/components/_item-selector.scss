@@ -139,11 +139,63 @@
 
             &.type-presentation .title:before,
             &.type-slide .title:before {
-                content: '\e81b';
+                content: '\e818';
+            }
+            
+            &.type-date .title:before {
+                content: '\e817'
+            }
+            
+            &.type-event .title:before {
+                content: '\e810'
+            }
+            
+            &.type-user .title:before {
+                content: '\1f464'
             }
 
+            &.type-tag .title:before {
+                content: '\e70c'
+            }
+            
             &.type-powerpoint .title:before {
-                content: '\e817';
+                content: '\e81d'
+            }
+            
+            &.type-word .title:before {
+                content: '\e81b'
+            }
+            
+            &.type-zip .title:before {
+                content: '\e821'
+            }
+            
+            &.type-video .title:before {
+                content: '\e81e'
+            }
+            
+            &.type-excel .title:before {
+                content: '\e81c'
+            }
+            
+            &.type-sound .title:before {
+                content: '\e820'
+            }
+            
+            &.type-image .title:before {
+                content: '\e822'
+            }
+            
+            &.type-code .title:before {
+                content: '\e81f'
+            }
+            
+            &.type-rich .title:before {
+                content: '\e823'
+            }
+            
+            &.type-pdf .title:before {
+                content: '\e81a'
             }
 
             &.back .title:before {
