@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee March 19–20, 2013
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, March 19, 2013, at 10:00 a.m., and continued on Wednesday, March 20, 2013, at 9:00 a.m."
+title: Open Market Report
+description: "The Manager of the System Open Market Account reported on developments in domestic and foreign financial markets as well as the System open market operations during the period since the Federal Open Market Committee (FOMC) met on January 29–30, 2013. "
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Federal Open Market Committee March 19–20, 2013
+# Open Market Report
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, March 19, 2013, at 10:00 a.m., and continued on Wednesday, March 20, 2013, at 9:00 a.m.
 
 PRESENT:
@@ -42,7 +43,7 @@ PRESENT:
 - L. Yellen
 
 ## Developments in Financial Markets and the Federal Reserve’s Balance Sheet
-The Manager of the System Open Market Account reported on developments in domestic and foreign fi- nancial markets as well as the System open market operations during the period since the Federal Open Market Committee (FOMC) met on January 29–30, 2013. The Manager also reported on developments in foreign money markets and implications for the assets that the Federal Reserve holds in its foreign currency portfolio. By unanimous vote, the Committee ratified the Open Market Desk’s domestic transactions over the intermeeting period. There were no intervention operations in foreign currencies for the System’s account over the intermeeting period.
+The Manager of the System Open Market Account reported on developments in domestic and foreign financial markets as well as the System open market operations during the period since the Federal Open Market Committee (FOMC) met on January 29–30, 2013. The Manager also reported on developments in foreign money markets and implications for the assets that the Federal Reserve holds in its foreign currency portfolio. By unanimous vote, the Committee ratified the Open Market Desk’s domestic transactions over the intermeeting period. There were no intervention operations in foreign currencies for the System’s account over the intermeeting period.
 
 ## Staff Review of the Economic Situation
 The information reviewed at the March 19–20 meeting suggested that economic activity was expanding at a moderate rate in the first quarter of this year after the slowdown late last year. Private-sector employment increased at a fairly solid pace, on balance, and the unemployment rate, though still elevated, was slightly lower in February than in the fourth quarter of last year. Consumer price inflation, excluding some temporary fluctuations in energy prices, was subdued, while measures of longerun inflation expectations remained stable.

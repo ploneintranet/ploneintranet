@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee April 30–May 1, 2013
+title: Developments in domestic and foreign financial markets
 description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, April 30, 2013, at 2:00 p.m. and continued on Wednesday, May 1, 2013, at 9:00 a.m."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Federal Open Market Committee April 30–May 1, 2013
+# Developments in domestic and foreign financial markets
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, April 30, 2013, at 2:00 p.m. and continued on Wednesday, May 1, 2013, at 9:00 a.m.
 
 PRESENT:
@@ -41,7 +42,7 @@ PRESENT:
 - Daniel K. Tarullo
 - Janet L. Yellen
 
-## Developments in Financial Markets and the Fed- eral Reserve’s Balance Sheet
+## Developments in Financial Markets and the Federal Reserve’s Balance Sheet
 The Manager of the System Open Market Account (SOMA) reported on developments in domestic and foreign financial markets as well as the System open market operations during the period since the Federal Open Market Committee (FOMC) met on March 19– 20, 2013. By unanimous vote, the Committee ratified the Open Market Desk’s domestic transactions over the intermeeting period. There were no intervention operations in foreign currencies for the System’s account over the intermeeting period.
 
 By unanimous vote, the Committee agreed to extend the reciprocal currency (swap) arrangements with the Bank of Canada and the Banco de México for an additional year beginning in mid-December 2013; these arrangements are associated with the Federal Reserve’s participation in the North American Framework Agreement of 1994. The arrangement with the Bank of Canada allows for cumulative drawings of up to $2 billion equivalent, and the arrangement with the Banco de México allows for cumulative drawings of up to $3 billion equivalent. The vote to renew the System’s participation in these swap arrangements was taken at this meeting because a provision in the Framework Agreement requires each party to provide six months’ prior notice of an intention to terminate its participation.

@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Federal Reserve liabilities
+title: Liabilities and deposits
 description: "The major items on the liability side of the Federal Reserve balance sheet are Federal Reserve notes (U.S. paper currency) and the deposits that thousands of depository institutions, the U.S. Treasury, and others hold in accounts at the Federal Reserve Banks."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,6 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
+# Liabilities and deposits
 These items, as well as the Federal Reserve's other liabilities, can be seen in tables 1, 6, and 7 of the H.4.1 statistical release. The expansion of Federal Reserve assets that has resulted from the aggressive response to the current financial crisis has been matched by an expansion of the Federal Reserve's liabilities, particularly the deposits of depository institutions.
 
 ## Federal Reserve notes, net of Federal Reserve Bank holdings

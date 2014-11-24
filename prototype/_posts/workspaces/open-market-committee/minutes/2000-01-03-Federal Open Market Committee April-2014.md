@@ -1,7 +1,7 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee April 29–30, 2014
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, April 29, 2014, at 10:30 a.m. and continued on Wednesday, April 30, 2014, at 9:00 a.m. "
+title: Repurchase Agreements
+description: "A staff presentation outlined several approaches to raising shortterm interest rates when it becomes appropriate to do so, and to controlling the level of short-term interest rates once they are above the effective lower bound, during a period when the Federal Reserve will have a very large balance sheet."
 application: docs
 document_type: rich
 folderish: false
@@ -25,7 +25,7 @@ tile_size: 2.
 document_creator: Liz Baker
 document_creator_id: liz
 ---
-
+# Repurchase Agreements
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, April 29, 2014, at 10:30 a.m. and continued on Wednesday, April 30, 2014, at 9:00 a.m.
 
 PRESENT:
@@ -39,11 +39,11 @@ PRESENT:
 - Daniel K. Tarullo
 
 # Monetary Policy Normalization
-In a joint session of the Federal Open Market Commit- tee (FOMC) and the Board of Governors of the Feder- al Reserve System, meeting participants discussed issues associated with the eventual normalization of the stance and conduct of monetary policy. The Commit- tee’s discussion of this topic was undertaken as part of prudent planning and did not imply that normalization would necessarily begin sometime soon.
+In a joint session of the Federal Open Market Committee (FOMC) and the Board of Governors of the Federal Reserve System, meeting participants discussed issues associated with the eventual normalization of the stance and conduct of monetary policy. The Committee’s discussion of this topic was undertaken as part of prudent planning and did not imply that normalization would necessarily begin sometime soon.
 
-A staff presentation outlined several approaches to raising shortterm interest rates when it becomes appropriate to do so, and to controlling the level of short-term in- terest rates once they are above the effective lower bound, during a period when the Federal Reserve will have a very large balance sheet.
+A staff presentation outlined several approaches to raising shortterm interest rates when it becomes appropriate to do so, and to controlling the level of short-term interest rates once they are above the effective lower bound, during a period when the Federal Reserve will have a very large balance sheet.
 
-The approaches dif- fered in terms of the combination of policy tools that might be used to accomplish those objectives. In addi- tion to the rate of interest paid on excess reserve bal- ances, the tools considered included fixed-rate over- night reverse repurchase (ON RRP) operations, term reverse repurchase agreements, and the Term Deposit Facility (TDF).
+The approaches differed in terms of the combination of policy tools that might be used to accomplish those objectives. In addition to the rate of interest paid on excess reserve balances, the tools considered included fixed-rate overnight reverse repurchase (ON RRP) operations, term reverse repurchase agreements, and the Term Deposit Facility (TDF).
 
 The staff presentation discussed the potential implications of each approach for financial intermediation and financial markets, including the fed- eral funds market, and the possible implications for financial stability. In addition, the staff outlined op- tions for additional operational testing of the policy tools.
 

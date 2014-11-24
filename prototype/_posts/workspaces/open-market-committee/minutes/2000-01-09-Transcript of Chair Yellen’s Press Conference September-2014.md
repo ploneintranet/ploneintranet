@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Transcript of Chair Yellen’s Press Conference September 17, 2014
-description: "CHAIR YELLEN. Good afternoon. The Federal Open Market Committee concluded its meeting earlier today and, as usual, released its monetary policy statement. The Committee also released a document describing the approach the Committee intends to take when, at some point in the future, it becomes appropriate to begin normalizing the stance of policy."
+title: Stance of Policy
+description: "The Federal Open Market Committee concluded its meeting earlier today and, as usual, released its monetary policy statement. The Committee also released a document describing the approach the Committee intends to take when, at some point in the future, it becomes appropriate to begin normalizing the stance of policy."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,6 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
+# Stance of Policy
 Let me underscore that our release of this information is not meant to convey any change in the stance of policy. As you know, the FOMC’s views on policy are conveyed in the policy statement, which I will now discuss before coming back to our normalization plans.
 
 As indicated in our policy statement, the FOMC decided to make another reduction in the pace of its asset purchases. The Committee also maintained its forward guidance regarding the federal funds rate target and reaffirmed its view that a highly accommodative stance of monetary policy remains appropriate. Let me discuss the economic conditions that underpin these actions.

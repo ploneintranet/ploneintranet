@@ -1,7 +1,7 @@
 ---
 layout: document
-title: 2014-01-28 Minutes of the Open Market Committee
-description: "A meeting was held in the offices of the Board of Governors of the Reserve System in Washington, D.C., on Tuesday, January 28, 2014, at 2:00 p.m. and continued on Wednesday, January 29, 2014, at 9:00 a.m."
+title: Policy Directives 
+description: "The Open Market Committee authorizes and directs the Reserve Bank of New York, to the extent necessary to carry out the most recent domestic policy directive adopted at a meeting of the Committee."
 application: docs
 document_type: rich
 folderish: false
@@ -26,14 +26,11 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Open Market Committee Meeting
+# Policy Directives
 
 ## January 28–29, 2014
 
-A meeting of the Open Market Committee was
-held in the offices of the Board of Governors of the Reserve System in Washington, D.C., on
-Tuesday, January 28, 2014, at 2:00 p.m. and continued
-on Wednesday, January 29, 2014, at 9:00 a.m.
+A meeting of the Open Market Committee was held in the offices of the Board of Governors of the Reserve System in Washington, D.C., on Tuesday, January 28, 2014, at 2:00 p.m. and continued on Wednesday, January 29, 2014, at 9:00 a.m.
 PRESENT:
 
 - Ben Bernanke, Chairman
@@ -50,9 +47,6 @@ PRESENT:
 Minutes of the Open Market Committee January 28–29, 2014
 
 ## AUTHORIZATION FOR DOMESTIC OPEN MARKET OPERATIONS
-
-(As amended effective January 28, 2014)
-
 1. The Open Market Committee authorizes and directs the Reserve Bank of New York, to the extent necessary to carry out the most recent domestic policy directive adopted at a meeting of the Committee:
 
 A. To buy or sell in the open market U.S. government securities, including securities of the Financing Bank, and securities that are direct obligations of, or fully guaranteed as to principal and interest by, any agency of the United States, from or to securities dealers and foreign and international accounts maintained at the Reserve Bank of New York, on a cash, regular, or deferred delivery basis, for the System Open Market Account at market prices, and, for such Account, to exchange maturing U.S. government and agency securities with the Treasury or the individual agencies or to allow them to mature without replacement; and
@@ -74,5 +68,3 @@ B. For the New York Bank account, when appropriate, to undertake with dealers, s
 C. For the New York Bank account, when appropriate, to buy U.S. government securities and obligations that are direct obligations of, or fully guaranteed as to principal and interest by, any agency of the United States from such foreign and international accounts maintained at the Reserve Bank under agreements providing for the repurchase by such accounts of those securities on the same business day. Transactions undertaken with such accounts under the provisions of this paragraph may provide for a service fee when appropriate.
 
 6. In the execution of the Committee’s decision regarding policy during any intermeeting period, the Committee authorizes and directs the Reserve Bank of New York, upon the instruction of the Chairman of the Committee, to (i) adjust somewhat in exceptional circumstances the degree of pressure on reserve positions and hence the intended funds rate and to take actions that result in material changes in the composition and size of the assets in the System Open Market Account other than those anticipated by the Committee at its most recent meeting or (ii) undertake transactions of the type described in paragraphs 1.A and 1.B in order to appropriately address temporary disruptions of an operational or highly unusual nature in U.S. dollar funding markets. Any such adjustment as described in clause (i) shall be made in the context of the Committee’s discussion and decision at its most recent meeting and the Committee’s longrun objectives to foster maximum employment and price stability, and shall be based on economic, financial, and monetary developments during the intermeeting period. Consistent with Committee practice, the Chairman, if feasible, will consult with the Committee before making any instruction under this paragraph.
-
-The Committee voted unanimously to amend the Authorization for Foreign Currency Operations, the Foreign Currency Directive, and the Procedural Instructions with Respect to Foreign Currency Operations in the form shown below. The approval of these documents included approval of the System’s warehousing agreement with the U.S. Treasury. These documents were modified to incorporate the dollar and foreign currency liquidity swap arrangements authorized by a resolution on October 29, 2013. Changes were made to the Authorization for Foreign Currency Operations and the Procedural Instructions with Respect to Foreign Currency Operations to align the treatment of the liquidity swap arrangements and that of the reciprocal currency arrangements that have been in place with the central banks of Mexico and Canada since 1994 as part of the North American Framework Agreement. The Authorization for Foreign Currency Operations was amended to remove language regarding the transmission of pertinent information on System foreign currency operations to appropriate officials of the Treasury Department because this language duplicated language in the Program for Security of FOMC Information.

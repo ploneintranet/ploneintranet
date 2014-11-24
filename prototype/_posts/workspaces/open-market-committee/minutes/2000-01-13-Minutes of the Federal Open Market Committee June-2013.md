@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee June 18–19, 2013
+title: Policy Normalization
 description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, June 18, 2013, at 1:30 p.m. and continued on Wednesday, June 19, 2013, at 9:00 a.m."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Federal Open Market Committee June 18–19, 2013
+# Policy Normalization
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tues- day, June 18, 2013, at 1:30 p.m. and continued on Wednesday, June 19, 2013, at 9:00 a.m.
 
 PRESENT:
@@ -41,7 +42,7 @@ PRESENT:
 - Daniel K. Tarullo
 - Janet L. Yellen
 
-## Discussion of Guidelines for Policy Normalization
+## Discussion of Guidelines 
 In light of the changes in the System Open Market Account (SOMA) portfolio over the past two years, the Committee again discussed its strategy for the eventual normalization of the stance of monetary policy and the size and composition of the Federal Reserve’s balance sheet that was released in the minutes of the Committee’s June 2011 meeting. Although most participants saw this review as prudent longer-range planning, some felt that the discussion was premature. Meeting participants, in general, continued to view the broad principles set out in 2011 as still applicable.
 
 Nonetheless, they agreed that many of the details of the eventual normalization process would likely differ from those specified two years ago, that the appropriate details would depend in part on economic and financial developments between now and the time when it becomes appropriate to begin normalizing monetary policy, and that the Committee would need to provide additional information about its intentions as that time approaches.

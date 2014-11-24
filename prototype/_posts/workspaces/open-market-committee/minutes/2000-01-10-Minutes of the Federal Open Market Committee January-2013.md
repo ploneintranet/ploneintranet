@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee January 29–30, 2013
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, January 29, 2013, at 2:00 p.m., and continued on Wednesday, January 30, 2013, at 9:00 a.m."
+title: Domestic Operations
+description: "The Federal Open Market Committee authorizes and directs the Federal Reserve Bank of New York, to the extent necessary to carry out the most recent domestic policy directive adopted at a meeting of the Committee."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Federal Open Market Committee January 29–30, 2013
+# Domestic Operations
 A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, January 29, 2013, at 2:00 p.m., and continued on Wednesday, January 30, 2013, at 9:00 a.m.
 
 PRESENT:
@@ -41,13 +42,12 @@ PRESENT:
 - Daniel K. Tarullo
 - Janet L. Yellen
 
-## AUTHORIZATION FOR DOMESTIC OPEN MARKET OPERATIONS (Amended effective on January 29, 2013)
+## AUTHORIZATION FOR DOMESTIC OPEN MARKET OPERATIONS 
 1. The Federal Open Market Committee authorizes and directs the Federal Reserve Bank of New York, to the extent necessary to carry out the most recent domestic policy directive adopted at a meeting of the Committee:
 
 A. To buy or sell U.S. government securities, including securities of the Federal Financing Bank, and securities that are direct obligations of, or fully guaranteed as to principal and interest by, any agency of the United States in the open market, from or to securities dealers and foreign and international accounts maintained at the Federal Reserve Bank of New York, on a cash, regular, or deferred delivery basis, for the System Open Market Account at market prices, and, for such Account, to exchange maturing U.S. government and federal agency securities with the Treasury or the individual agencies or to allow them to mature without replacement; and
 
-B. To buy or sell in the open market U.S. govern- ment securities, and securities that are direct obliga-
-tions of, or fully guaranteed as to principal and inter- est by, any agency of the United States, for the Sys- tem Open Market Account under agreements to resell or repurchase such securities or obligations (including such transactions as are commonly referred to as repo and reverse repo transactions) in 65 business days or less, at rates that, unless otherwise expressly authorized by the Committee, shall be determined by competitive bidding, after applying reason- able limitations on the volume of agreements with individual counterparties.
+B. To buy or sell in the open market U.S. govern- ment securities, and securities that are direct obligations of, or fully guaranteed as to principal and inter- est by, any agency of the United States, for the Sys- tem Open Market Account under agreements to resell or repurchase such securities or obligations (including such transactions as are commonly referred to as repo and reverse repo transactions) in 65 business days or less, at rates that, unless otherwise expressly authorized by the Committee, shall be determined by competitive bidding, after applying reasonable limitations on the volume of agreements with individual counterparties.
 
 2. The Federal Open Market Committee authorizes the Federal Reserve Bank of New York to undertake transactions of the type described in paragraphs 1.A and 1.B from time to time for the purpose of testing operational readiness. The aggregate par value of such transactions of the type described in paragraph 1.A shall not exceed $5 billion per calendar year. The outstanding amount of such transactions of the type described in paragraph 1.B shall not exceed $5 billion at any given time. These transactions shall be conducted with prior notice to the Committee.
 

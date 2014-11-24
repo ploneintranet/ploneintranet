@@ -1,12 +1,12 @@
 ---
 layout: document
-title: Minutes of the Federal Open Market Committee September 16–17, 2014
-description: "A meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the
-Federal Reserve System in Washington, D.C., on Tuesday, September 16, 2014, at 11:00 a.m. and continued on Wednesday, September 17, 2014, at 9:00 a.m. "
+title: ON RRP exercise at future FOMC meetings.
+description: "In a joint session of the Federal Open Market Committee (FOMC) and the Board of Governors of the Federal Reserve System, the manager of the System Open Market Account (SOMA) reported on developments in domestic and foreign financial markets and reviewed the effects of recent foreign central bank policy actions on yields on the international portion of the SOMA portfolio."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -26,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Minutes of the Federal Open Market Committee September 16–17, 2014
+# ON RRP exercise at future FOMC meetings
 AA meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, September 16, 2014, at 11:00 a.m. and continued on Wednesday, September 17, 2014, at 9:00 a.m.
 
 PRESENT:
@@ -40,9 +40,8 @@ PRESENT:
 - Jerome H. Powell
 - Daniel K. Tarullo
 
-## Developments in Financial Markets and the Fed- eral Reserve’s Balance Sheet
-In a joint session of the Federal Open Market Commit- tee (FOMC) and the Board of Governors of the Federal
-Reserve System, the manager of the System Open Mar- ket Account (SOMA) reported on developments in domestic and foreign financial markets and reviewed the effects of recent foreign central bank policy actions on yields on the international portion of the SOMA portfo- lio. The deputy manager reported on the System open market operations conducted during the period since the Committee met on July 29–30, 2014, summarized plans for additional test operations of the Term Deposit Facil- ity, and described the results from the fixed-rate overnight reverse repurchase agreement (ON RRP) operational exercise.
+## Developments in Financial Markets and the Federal Reserve’s Balance Sheet
+In a joint session of the Federal Open Market Committee (FOMC) and the Board of Governors of the Federal Reserve System, the manager of the System Open Market Account (SOMA) reported on developments in domestic and foreign financial markets and reviewed the effects of recent foreign central bank policy actions on yields on the international portion of the SOMA portfolio. The deputy manager reported on the System open market operations conducted during the period since the Committee met on July 29–30, 2014, summarized plans for additional test operations of the Term Deposit Facility, and described the results from the fixed-rate overnight reverse repurchase agreement (ON RRP) operational exercise.
 
 The deputy manager also outlined a proposal for changes to the ongoing ON RRP exercise to test possible design features that could allow an ON RRP facility to serve as an effective supplementary tool during policy normalization while also mitigating the potential for unintended effects in financial markets. Participants discussed the proposed changes in the ON RRP exercise, including raising the counterparty-specific limit from $10 billion to $30 billion, limiting the overall size of each operation to $300 billion, and introducing an auction process that would be used to determine the interest rate on such operations and allocate takeup if the sum of bids exceeded the overall limit.
 

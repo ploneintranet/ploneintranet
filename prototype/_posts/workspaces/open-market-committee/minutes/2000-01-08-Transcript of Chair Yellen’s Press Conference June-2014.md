@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Transcript of Chair Yellen’s Press Conference June 18, 2014
-description: "CHAIR YELLEN. Good afternoon. The Federal Open Market Committee concluded its June meeting earlier today. As was indicated in our policy statement, the Committee decided to make another modest reduction in the pace of its purchases of longer-term securities. "
+title: Funds Rate Target
+description: "Today’s policy actions reflect the Committee’s assessment that the economy is continuing to make progress toward our objectives of maximum employment and price stability."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,6 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
+# Funds Rate Target
 The Committee maintained its forward guidance regarding the federal funds rate target and reaffirmed its view that a highly accommodative stance of monetary policy remains appropriate.
 
 Today’s policy actions reflect the Committee’s assessment that the economy is continuing to make progress toward our objectives of maximum employment and price stability. In the labor market, conditions have improved further. The unemployment rate, at 6.3 percent, is four-tenths lower than at the time of our March meeting, and the broader U-6 measure—which includes marginally attached workers and those working part time but preferring full-time work—has fallen by a similar amount. Even given these declines, however, unemployment remains elevated, and a broader assessment of indicators suggests that underutilization in the labor market remains significant.
