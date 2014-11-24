@@ -1,11 +1,12 @@
 ---
 layout: document
-title: Transcript of Chair Yellen’s Press Conference March 19, 2014
-description: "CHAIR YELLEN. Good afternoon. I am pleased to join you for the first of my post- FOMC press conferences. Like Chairman Bernanke before me, I appreciate the opportunity these press conferences afford to explain the decisions of the FOMC and respond to your questions."
+title: Reduction in Purchases of longer-term securities
+description: "The Federal Open Market Committee concluded a two-day meeting earlier today. As you already know from our statement, the Committee decided to make another modest reduction in the pace of its purchases of longer-term securities."
 application: docs
 document_type: rich
 folderish: false
-parent: minutes
+parent: 2014 Meetings
+parentid: minutes
 sidebar_controls:
   - label: Create document
     type: link
@@ -25,7 +26,7 @@ document_creator: Liz Baker
 document_creator_id: liz
 ---
 
-# Transcript of Chair Yellen’s Press Conference March 19, 2014
+# Reduction in Purchases of longer-term securities
 AA meeting of the Federal Open Market Committee was held in the offices of the Board of Governors of the Federal Reserve System in Washington, D.C., on Tuesday, September 16, 2014, at 11:00 a.m. and continued on Wednesday, September 17, 2014, at 9:00 a.m.
 
 PRESENT:
@@ -39,6 +40,7 @@ PRESENT:
 - Jerome H. Powell
 - Daniel K. Tarullo
 
+## Conclusion of Two-day meeting with the Federal Open Market Committee
 The Federal Open Market Committee concluded a two-day meeting earlier today. As you already know from our statement, the Committee decided to make another modest reduction in the pace of its purchases of longer-term securities. The Committee also updated its guidance regarding the likely future path of the short-term interest rates. As I’ll explain more fully in a moment, this change in our guidance does not indicate any change in the Committee’s policy intentions as set forth in its recent statements; rather, the change is meant to clarify how the Committee anticipates policy evolving after the unemployment rate declines below 61⁄2 percent. Let me explain the economic outlook that underlies these actions.
 
 Despite some softer recent data, the FOMC’s outlook for continued progress toward our goals of maximum employment and inflation returning to 2 percent remains broadly unchanged. Unusually harsh weather in January and February has made assessing the underlying strength of the economy especially challenging. Broadly speaking, however, the spending and production data, while somewhat weaker than we had expected in January, are roughly in line with our expectations as of December, the last time Committee participants submitted economic projections. In contrast, labor market conditions have continued to improve. The unemployment rate, at 6.7 percent, is three-tenths lower than the data available at the time of the December meeting.
