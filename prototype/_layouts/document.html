@@ -64,7 +64,7 @@ workspace_module: docs
                 {{ content }}
             {% endif %}
         </article>
-    {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel'  %}
+    {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
         <article>
             {% for preview in page.previews %}
                 <img src="{{ preview.url }}" alt="" class="page" />

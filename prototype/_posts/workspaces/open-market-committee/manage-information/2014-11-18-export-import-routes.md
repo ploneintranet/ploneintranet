@@ -3,7 +3,7 @@ layout: document
 title: Export  Import Routes
 description: "Checklists for exporting and transferring electronic records data between systems"
 application: docs
-document_type: file
+document_type: pdf
 folderish: false
 parent: Manage Information
 parentid: manage-information

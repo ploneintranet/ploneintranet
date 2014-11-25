@@ -4,7 +4,7 @@ title: Managing Information Risk
 description: "A guide for Accounting Officers, Board members and Senior
 Information Risk Owners"
 application: docs
-document_type: file
+document_type: pdf
 folderish: false
 parent: Manage Information
 parentid: manage-information

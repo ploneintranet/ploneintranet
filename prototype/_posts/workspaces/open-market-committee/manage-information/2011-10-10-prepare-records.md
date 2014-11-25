@@ -3,7 +3,7 @@ layout: document
 title: Preparation of records
 description: "How to prepare records"
 application: docs
-document_type: file
+document_type: word
 folderish: false
 parent: Manage Information
 parentid: manage-information
