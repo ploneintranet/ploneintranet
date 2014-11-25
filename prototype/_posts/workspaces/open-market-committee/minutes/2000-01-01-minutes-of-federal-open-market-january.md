@@ -3,7 +3,7 @@ layout: document
 title: Policy Directives 
 description: "The Open Market Committee authorizes and directs the Reserve Bank of New York, to the extent necessary to carry out the most recent domestic policy directive adopted at a meeting of the Committee."
 application: docs
-document_type: rich
+document_type: presentation
 folderish: false
 parent: 2014 Meetings
 parentid: minutes
