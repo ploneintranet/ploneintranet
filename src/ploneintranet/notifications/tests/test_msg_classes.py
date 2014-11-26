@@ -4,8 +4,8 @@ from ..testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
-from ploneintranet.notifications.msg_classes import ForceAllMessageClassHandler
 from ploneintranet.notifications.message import create_message
+from ploneintranet.notifications.msg_classes import ForceAllMessageClassHandler
 import unittest
 
 

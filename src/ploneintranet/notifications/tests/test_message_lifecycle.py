@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from plone.api.user import create as create_user
-from ploneintranet.notifications.msg_classes import fake_adapter
 from ploneintranet.notifications.channel import AllChannel
 from ploneintranet.notifications.message import create_message
+from ploneintranet.notifications.msg_classes import fake_adapter
 from ploneintranet.notifications.testing import \
     PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 import unittest2 as unittest

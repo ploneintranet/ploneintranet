@@ -4,7 +4,7 @@ from plone import api
 
 
 class ForceAllMessageClassHandler(object):
-    msg_class = "GLOBAL_NOTICE"
+    msg_class = 'GLOBAL_NOTICE'
 
     def __init__(self):
         self.tool = api.portal.get_tool('ploneintranet_notifications')
@@ -23,8 +23,8 @@ class ForceAllMessageClassHandler(object):
 
     def add(self, message):
         assert message.predicate == self.msg_class, \
-                "This handler is not responsible for this message, "\
-                "wrong predicate"
+            'This handler is not responsible for this message, '\
+            'wrong predicate'
         list(self.g_add(message))
 
     def g_cleanup(self):
