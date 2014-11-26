@@ -94,5 +94,3 @@ class DefaultDocconvAdapter(DocconvAdapter):
     grok.context(Interface)
     grok.provides(IDocconv)
     grok.name('')
-
-
