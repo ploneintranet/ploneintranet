@@ -13,6 +13,13 @@ class IContentAction(Interface):
     verb = Attribute(_(u'The action to be taken on the content'))
     created = Attribute(_(u'The datetime this ContentAction was created'))
     completed = Attribute(_(u'The datetime this ContentAction was completed'))
+    modified = Attribute(_(u'The datetime this ContentAction was triggered'))
+
+    @property
+    def latest_date():
+        """
+        The most recent of created or modified
+        """
 
 
 class ITodoUtility(Interface):
