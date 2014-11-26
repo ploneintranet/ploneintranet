@@ -13,7 +13,11 @@ def added(obj, event):
         email=member.getProperty('email')
     )
     predicate = 'StatusUpdate'
-    message = create_message(actors, predicate, obj.__dict__)
+    obj_dict = obj.__dict__
+    if 'title' not in obj_dict:
+        obj_dict['title'] = 'Status update'
+    message = create_message(actors, predicate, obj_dict)
+
     pin = api.portal.get_tool('ploneintranet_notifications')
     for user in api.user.get_users():
         queue = pin.get_user_queue(user)
