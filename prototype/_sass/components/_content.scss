@@ -6,13 +6,12 @@
   left: 0;
   overflow: auto;
   transition: all 0.2s;
-  padding: 50px;
   z-index: 6;
   outline: solid silver 1px;
   background-color: white;
 }
 
 body.application-home #content {
-  top: 85px;
-  background-color: #f1f1f1;
+  // top: 85px;
+  background-color: $colour-base-light;
 }

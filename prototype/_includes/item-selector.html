@@ -2,12 +2,31 @@
     <div class="button-bar functions" id="{{ include.id }}-functions">
         {% if include.mode == "docs" %}
         <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
-           <!--  <a href="#" class="button icon-left-open pat-inject"
-            data-pat-inject="source: #items; target: #items &&
-            source: #selector-contextual-functions; target: #selector-contextual-functions &&
-            source: #context-title; target: #context-title">
-                Parent Title
-            </a> -->
+            {% if include.mode == 'docs' %}
+                {% if page.parent != 'root' %}
+                    <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
+                        data-pat-inject="source: #items; target: #items &&
+                        source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
+                {% else %}
+                    <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+                    <form action="./#items" class="pat-inject pat-autosubmit">
+                        <label class="pat-select bare">Group by
+                            <select name="browse-mode">
+                                <option value="folder">folder</option>
+                                <option value="label">label</option>
+                                <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                                <option value="type">document type</option>
+                                <!-- When the groups are author names, the author avatar is used as an icon. -->
+                                <option value="author">author</option>
+                                <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                                <option value="date">date</option>
+                                <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                                <option value="letter">first letter</option>
+                            </select>
+                        </label>
+                    </form>
+                {% endif %}
+            {% endif %}
         </div>
 
         <h2 id="context-title" class="context-title">Some Context</h2>
@@ -24,6 +43,9 @@
         {% endunless %}
     </div>
 
+
+
+
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
         <label>
             <input name="" type="search" placeholder="Search" />
@@ -33,7 +55,7 @@
 
     <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
-        <fieldset class="checklist pat-checklist {{ include.mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
+        <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
@@ -77,10 +99,34 @@
                 {% endfor %}
 
             {% elsif include.mode == "docs" %}
+
                 {% for doc in site.posts %}
-                    {% if doc.parent == 'root' %}
+                    {% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}
                         {% if doc.folderish == false %}
-                            <label class="item document">
+                            <!-- Each document has a class name on the label element that indicates the document type. 
+
+                            Supported types include (class names):
+
+                            - type-presentation
+                            - type-slide
+                            - type-date
+                            - type-event
+                            - type-user
+                            - type-tag
+                            - type-powerpoint
+                            - type-word
+                            - type-zip
+                            - type-video
+                            - type-excel
+                            - type-sound
+                            - type-image
+                            - type-code
+                            - type-rich
+                            - type-pdf
+
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="" type="checkbox" />
                                 <a href="{{ doc.id }}#document-body" class="pat-inject follow">
                                     <strong class="title">{{ doc.title }}</strong>
@@ -90,9 +136,12 @@
                                 </a>
                             </label>
                         {% else %}
-                            <label class="item folder">
+                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item group type-folder {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="" type="checkbox" />
-                                <a href="/feedback/dir-minutes.html" class="follow pat-inject"
+                                <a href="{{ doc.url }}#items" class="follow pat-inject"
                                 data-pat-inject="source: #items; target: #items &&
                                 source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions &&
                                 source: #context-title; target: #context-title"
@@ -116,4 +165,14 @@
             </div>
         {% endunless %}
     </form>
+
+    {% if include.mode == 'docs' %}
+        <form action="./">
+            <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload">
+                <label class="accessibility-options">
+                    <input type="file" multiple> Upload files
+                </label>
+            </fieldset>
+        </form>
+    {% endif %}
 </div>

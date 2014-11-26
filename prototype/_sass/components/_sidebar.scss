@@ -6,7 +6,7 @@
   top: 31px;
   bottom: 0;
   transition: all 0.2s;
-  font-size: 13px;
+  font-size: 0.8em;
   line-height: 20px;
   padding: 0;
   color: #434343;
@@ -17,6 +17,11 @@
   overflow-y: auto;
   overflow-x: hidden;
   border-right: solid 1px silver;
+
+  h3,
+  p {
+    margin-bottom: 1em;
+  }
 
   #sidebar-content {
     padding: 1em;

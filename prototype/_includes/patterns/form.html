@@ -1,0 +1,214 @@
+{% capture src %}{{ include.src }}{% endcapture %}
+
+<form action="{{ include.action }}">
+	<fieldset class="section {% if include.layout == 'horizontal' %}horizontal{% else %}vertical{% endif %}">
+		{% for item in site.data.[src] %}
+			{% if item.type == "title" %}
+				<h3 class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>{{item.label}}</h3>
+			{% endif %}	
+
+			{% if item.type == "checklist" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<fieldset class="group pat-checklist {{ item.variation }} {% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					<legend>{{ item.label }} {% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %}</legend>
+					{% if item.variation == 'checkbox' %}
+						{% for subitem in item.items %}
+							<label>
+								<input name="{{subitem.name}}" type="checkbox"{% if subitem.selected == 'selected' %} checked{% endif %} /> {{ subitem.label }}
+							</label>
+							<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+						{% endfor %}
+					{% else %}
+						{% for subitem in item.items %}
+							<label>
+								<input name="{{item.name}}" value="{{ subitem.value }}"{% if subitem.selected == 'selected' %} checked{% endif %} type="radio"> {{ subitem.label }} {% if subitem.input %}<input type="{{subitem.input}}" name="{{item.name}}-text" />{% endif %}
+							</label>
+							<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+						{% endfor %}
+					{% endif %}
+				</fieldset>	
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}	
+
+			{% if item.type == "text" %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+
+					{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+					{% capture thiscontent %}{{ item.help }}{% endcapture %}
+
+					{{ item.label }} {% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %}
+
+					<input type="text" size="{{ item.chars }}" placeholder="{{ item.placeholder }}" value="{{ item.value }}" /> 
+
+				</label>
+				<br/ class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+
+			{% endif %}	
+
+			{% if item.type == "date" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{{ item.label }}
+					{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+					<input type="date" size="{{ item.chars }}" value="{{ item.value }}" />
+				</label>
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "email" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{{ item.label }} 
+					{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+					<input type="email" size="{{ item.chars }}" value="{{ item.value }}" />
+				</label>
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "currency" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{{ item.label }} 
+					{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+					
+					<span class="composed currency-field">
+						<abbr title="Euro" class="currency">{{item.symbol}}</abbr>
+						<input type="number" class="currency" size="{{ item.chars }}" value="{{ item.value }}" />
+					</span>
+				</label>
+				{% include patterns/form-message.html %}
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "password" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<label>
+					{{ item.label }} 
+					{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+					<input type="password" size="{{ item.chars }}" value="{{ item.value }}" />
+				</label>
+				{% include patterns/form-message.html %}
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "textarea" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{{ item.label }} 
+					{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+					<textarea rows="{{item.rows}}">{{ item.value }}</textarea>
+				</label>
+				{% include patterns/form-message.html %}
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "multi" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<fieldset class="group layout-{{item.layout}} {% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					<legend>{{ item.label }} {% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %} 
+								</legend>
+					{% for subitem in item.items %}
+						{% if subitem.type == 'text' %}
+							<label>
+								{{ subitem.label }}
+								<input type="text" {% if subitem.chars %}size="{{ subitem.chars }}"{% endif %} placeholder="{{ subitem.placeholder }}" value="{{ subitem.value }}" />  
+							</label>
+						{% endif %}
+						{% if subitem.type == 'date' %}
+							<label>
+								{{ subitem.label }}
+								<input type="date" {% if subitem.chars %}size="{{ subitem.chars }}"{% endif %} placeholder="{{ subitem.placeholder }}" value="{{ subitem.value }}" />  
+							</label>
+						{% endif %}
+						{% if subitem.type == 'number' %}
+							<label>
+								{{ subitem.label }}
+								<input type="number" {% if subitem.chars %}size="{{ subitem.chars }}"{% endif %} placeholder="{{ subitem.placeholder }}" value="{{ subitem.value }}" />  
+							</label>
+						{% endif %}
+						{% if subitem.type == 'label' %}
+							{{subitem.label}}
+						{% endif %}
+					{% endfor %}
+				</fieldset>
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %} />
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "separator" %}
+				{% if item.variation == "visible" %}
+				    <hr class="pat-separator" />
+				{% else %}
+					</fieldset>
+					<fieldset class="section {% if item.layout == 'horizontal' %}horizontal{% else %}vertical{% endif %}">
+				{% endif %}
+			{% endif %}
+			{% if item.type == "file" %}
+				{% capture this %}{{ item.label | replace: ' ','-' }}{% endcapture %}
+				{% capture thiscontent %}{{ item.help }}{% endcapture %}
+				<fieldset class="group">
+					<legend>
+						{{ item.label }}
+						{% if item.help %}{% include patterns/help-icon.html id="this" %}{% endif %}
+					</legend>
+					<input type="file" accept="{{item.accept}}" />
+				</fieldset>
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+				{% if item.help %}
+					{% include patterns/collapsible.html class="help" trigger="this" contents="thiscontent" %}
+				{% endif %}
+			{% endif %}
+
+			{% if item.type == "select" %}
+				<label class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{{ item.label }}
+					<select name="{{ item.name }}">
+						{% for subitem in item.items %}
+							<option value="{{ subitem.value }}" {% if subitem.selected == 'selected' %}selected{% endif %}> 
+								{{ subitem.label }}
+							</option>
+						{% endfor %}
+					</select>
+				</label>
+				<br class="{% if item.depends %}pat-depends{% endif %}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}/>
+			{% endif %}
+			{% if item.type == "button-bar" %}
+				<div class="{% if item.depends %}pat-depends{% endif %} group button-bar {{ item.class }}" {% if item.depends %}data-pat-depends="{{ item.depends }}"{% endif %}>
+					{% for subitem in item.items %}
+						<button type="{{ subitem.type }}">{{ subitem.label }}</button>
+					{% endfor %}
+				</div>
+			{% endif %}
+		{% endfor %}
+	</fieldset>
+</form>

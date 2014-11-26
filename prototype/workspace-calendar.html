@@ -1,0 +1,868 @@
+---
+layout: home
+application: home
+design_title: Intranet homepage
+design_description: General news page.
+---
+
+<div class="appBody ws-baggage-handling-regulations" id="project-body">
+    <div class="toolbar" id="toolbar-main">
+        <div class="sidebar-controls">
+            <button class="icon-list pat-toggle" data-pat-toggle="selector: body; value: sidebar-left-open sidebar-left-closed; store: local" id="sidebar-toggle" title="Toggle sidebar">Toggle sidebar</button>
+            <a href="panel-create-event.html#content" id="document-filters" class="icon-plus-circle button pat-tooltip active" data-pat-tooltip="source: ajax; position: tl; closing: close-button; class: event wizard">Create event</a>
+            <a class="button icon-calendar pat-inject" data-pat-inject="#document-body::element" href="workspace-calendar.html#document-body">View calendar</a>
+        </div>
+        <div class="document-controls cal-controls cal-categories">
+            <fieldset class="button-cluster float-before">
+                <button class="view-month" type="button">Month</button> <button class="view-week" type="button">Week</button> <button class="view-day"
+                type="button">Day</button>
+            </fieldset><label class="toggle alien-calendars cal-cat-alien float-before"><input type="checkbox"> Other calendars <a href="/help.md#Toggle other calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: tm;">More info</a></label>
+            <input type="checkbox" checked="checked" hidden class="cal-cat-baggage-handling-regulations">
+            <a href="#more-menu" data-pat-tooltip="source: ajax; position: tr" class="button dropdown pat-tooltip float-after">More</a>
+            <label class="timezone float-after">
+                <select name="timezone" class="timezone">
+                    <option value="Pacific/Midway" data-use-daylight-time="0" gmt-adjustment="-11" data-timezone-id="02">(GMT-11:00) Midway Island, Samoa</option>
+                    <option value="US/Hawaii" data-use-daylight-time="0" gmt-adjustment="-10" data-timezone-id="03">(GMT-10:00) Hawaii</option>
+                    <option value="US/Alaska" data-use-daylight-time="1" gmt-adjustment="-9" data-timezone-id="04">(GMT-09:00) Alaska</option>
+                    <option value="US/Pacific" data-use-daylight-time="1" gmt-adjustment="-8" data-timezone-id="05">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+                    <option value="America/Tijuana" data-use-daylight-time="1" gmt-adjustment="-8" data-timezone-id="06">(GMT-08:00) Tijuana, Baja California</option>
+                    <option value="US/Arizona" data-use-daylight-time="0" gmt-adjustment="-7" data-timezone-id="07">(GMT-07:00) Arizona</option>
+                    <option value="America/Chihuahua" data-use-daylight-time="1" gmt-adjustment="-7" data-timezone-id="08">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+                    <option value="US/Mountain" data-use-daylight-time="1" gmt-adjustment="-7" data-timezone-id="09">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                    <option value="America/Guatemala" data-use-daylight-time="0" gmt-adjustment="-6" data-timezone-id="10">(GMT-06:00) Central America</option>
+                    <option value="US/Central" data-use-daylight-time="1" gmt-adjustment="-6" data-timezone-id="11">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                    <option value="America/Mexico_City" data-use-daylight-time="1" gmt-adjustment="-6" data-timezone-id="12">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+                    <option value="Canada/Saskatchewan" data-use-daylight-time="0" gmt-adjustment="-6" data-timezone-id="13">(GMT-06:00) Saskatchewan</option>
+                    <option value="America/Bogota" data-use-daylight-time="0" gmt-adjustment="-5" data-timezone-id="14">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+                    <option value="US/Eastern" data-use-daylight-time="1" gmt-adjustment="-5" data-timezone-id="15">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                    <option value="US/East-Indiana" data-use-daylight-time="1" gmt-adjustment="-5" data-timezone-id="16">(GMT-05:00) Indiana (East)</option>
+                    <option value="America/Caracas" data-use-daylight-time="0" gmt-adjustment="-4.5" data-timezone-id="17">(GMT-04:30) Caracas</option>
+                    <option value="Canada/Atlantic" data-use-daylight-time="1" gmt-adjustment="-4" data-timezone-id="18">(GMT-04:00) Atlantic Time (Canada)</option>
+                    <option value="America/Manaus" data-use-daylight-time="0" gmt-adjustment="-4" data-timezone-id="19">(GMT-04:00) Manaus</option>
+                    <option value="America/Santiago" data-use-daylight-time="1" gmt-adjustment="-4" data-timezone-id="20">(GMT-04:00) Santiago</option>
+                    <option value="Canada/Newfoundland" data-use-daylight-time="1" gmt-adjustment="-3.5" data-timezone-id="21">(GMT-03:30) Newfoundland</option>
+                    <option value="America/Sao_Paulo" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="22">(GMT-03:00) Brasilia</option>
+                    <option value="America/Argentina/Buenos_Aires" data-use-daylight-time="0" gmt-adjustment="-3" data-timezone-id="23">(GMT-03:00) Buenos Aires, Georgetown</option>
+                    <option value="America/Godthab" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="24">(GMT-03:00) Greenland (Nuuk)</option>
+                    <option value="America/Montevideo" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="25">(GMT-03:00) Montevideo</option>
+                    <option value="Atlantic/Azores" data-use-daylight-time="1" gmt-adjustment="-2" data-timezone-id="26">(GMT-02:00) Mid-Atlantic</option>
+                    <option value="Atlantic/Cape_Verde" data-use-daylight-time="0" gmt-adjustment="-1" data-timezone-id="27">(GMT-01:00) Cape Verde Is.</option>
+                    <option value="Atlantic/Azores" data-use-daylight-time="1" gmt-adjustment="-1" data-timezone-id="28">(GMT-01:00) Azores</option>
+                    <option value="Africa/Casablanca" data-use-daylight-time="0" gmt-adjustment="0" data-timezone-id="29">(GMT+00:00) Casablanca, Monrovia, Reykjavik</option>
+                    <option value="Europe/London" data-use-daylight-time="1" gmt-adjustment="0" data-timezone-id="30">(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                    <option value="Europe/Berlin" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="31">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+                    <option value="Europe/Belgrade" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="32">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+                    <option value="Europe/Brussels" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="33">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                    <option value="Europe/Sarajevo" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="34">(GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+                    <option value="Africa/Algiers" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="35">(GMT+01:00) West Central Africa</option>
+                    <option value="Asia/Amman" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="36">(GMT+02:00) Amman</option>
+                    <option value="Europe/Athens" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="37">(GMT+02:00) Athens, Bucharest, Istanbul</option>
+                    <option value="Asia/Beirut" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="38">(GMT+02:00) Beirut</option>
+                    <option value="Africa/Cairo" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="39">(GMT+02:00) Cairo</option>
+                    <option value="Africa/Harare" data-use-daylight-time="0" gmt-adjustment="2" data-timezone-id="40">(GMT+02:00) Harare, Pretoria</option>
+                    <option value="Europe/Helsinki" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="41">(GMT+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+                    <option value="Asia/Jerusalem" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="42">(GMT+02:00) Jerusalem</option>
+                    <option value="Europe/Minsk" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="43">(GMT+02:00) Minsk</option>
+                    <option value="Africa/Windhoek" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="44">(GMT+02:00) Windhoek</option>
+                    <option value="Asia/Kuwait" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="45">(GMT+03:00) Kuwait, Riyadh, Baghdad</option>
+                    <option value="Europe/Moscow" data-use-daylight-time="1" gmt-adjustment="3" data-timezone-id="46">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
+                    <option value="Africa/Nairobi" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="47">(GMT+03:00) Nairobi</option>
+                    <option value="Asia/Tbilisi" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="48">(GMT+03:00) Tbilisi</option>
+                    <option value="Asia/Tehran" data-use-daylight-time="1" gmt-adjustment="3.5" data-timezone-id="49">(GMT+03:30) Tehran</option>
+                    <option value="Asia/Muscat" data-use-daylight-time="0" gmt-adjustment="4" data-timezone-id="50">(GMT+04:00) Abu Dhabi, Muscat</option>
+                    <option value="Asia/Baku" data-use-daylight-time="1" gmt-adjustment="4" data-timezone-id="51">(GMT+04:00) Baku</option>
+                    <option value="Asia/Yerevan" data-use-daylight-time="1" gmt-adjustment="4" data-timezone-id="52">(GMT+04:00) Yerevan</option>
+                    <option value="Asia/Kabul" data-use-daylight-time="0" gmt-adjustment="4.5" data-timezone-id="53">(GMT+04:30) Kabul</option>
+                    <option value="Asia/Yekaterinburg" data-use-daylight-time="1" gmt-adjustment="5" data-timezone-id="54">(GMT+05:00) Yekaterinburg</option>
+                    <option value="Asia/Karachi" data-use-daylight-time="0" gmt-adjustment="5" data-timezone-id="55">(GMT+05:00) Islamabad, Karachi, Tashkent</option>
+                    <option value="Asia/Kolkata" data-use-daylight-time="0" gmt-adjustment="5.5" data-timezone-id="56">(GMT+05:30) Sri Jayawardenapura</option>
+                    <option value="Asia/Kolkata" data-use-daylight-time="0" gmt-adjustment="5.5" data-timezone-id="57">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                    <option value="Asia/Kathmandu" data-use-daylight-time="0" gmt-adjustment="5.75" data-timezone-id="58">(GMT+05:45) Kathmandu</option>
+                    <option value="Asia/Novosibirsk" data-use-daylight-time="1" gmt-adjustment="6" data-timezone-id="59">(GMT+06:00) Almaty, Novosibirsk</option>
+                    <option value="Asia/Dhaka" data-use-daylight-time="0" gmt-adjustment="6" data-timezone-id="60">(GMT+06:00) Astana, Dhaka</option>
+                    <option value="Asia/Rangoon" data-use-daylight-time="0" gmt-adjustment="6.5" data-timezone-id="61">(GMT+06:30) Yangon (Rangoon)</option>
+                    <option value="Asia/Bangkok" data-use-daylight-time="0" gmt-adjustment="7" data-timezone-id="62">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+                    <option value="Asia/Krasnoyarsk" data-use-daylight-time="1" gmt-adjustment="7" data-timezone-id="63">(GMT+07:00) Krasnoyarsk</option>
+                    <option value="Asia/Hong_Kong" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="64">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+                    <option value="Asia/Singapore" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="65">(GMT+08:00) Kuala Lumpur, Singapore</option>
+                    <option value="Asia/Irkutsk" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="66">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
+                    <option value="Australia/Perth" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="67">(GMT+08:00) Perth</option>
+                    <option value="Asia/Taipei" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="68">(GMT+08:00) Taipei</option>
+                    <option value="Asia/Tokyo" data-use-daylight-time="0" gmt-adjustment="9" data-timezone-id="69">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
+                    <option value="Asia/Seoul" data-use-daylight-time="0" gmt-adjustment="9" data-timezone-id="70">(GMT+09:00) Seoul</option>
+                    <option value="Asia/Yakutsk" data-use-daylight-time="1" gmt-adjustment="9" data-timezone-id="71">(GMT+09:00) Yakutsk</option>
+                    <option value="Australia/Adelaide" data-use-daylight-time="0" gmt-adjustment="9.5" data-timezone-id="72">(GMT+09:30) Adelaide</option>
+                    <option value="Australia/Darwin" data-use-daylight-time="0" gmt-adjustment="9.5" data-timezone-id="73">(GMT+09:30) Darwin</option>
+                    <option value="Australia/Brisbane" data-use-daylight-time="0" gmt-adjustment="10" data-timezone-id="74">(GMT+10:00) Brisbane</option>
+                    <option value="Australia/Sydney" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="75">(GMT+10:00) Canberra, Melbourne, Sydney</option>
+                    <option value="Australia/Hobart" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="76">(GMT+10:00) Hobart</option>
+                    <option value="Pacific/Guam" data-use-daylight-time="0" gmt-adjustment="10" data-timezone-id="77">(GMT+10:00) Guam, Port Moresby</option>
+                    <option value="Asia/Vladivostok" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="78">(GMT+10:00) Vladivostok</option>
+                    <option value="Asia/Magadan" data-use-daylight-time="1" gmt-adjustment="11" data-timezone-id="79">(GMT+11:00) Magadan, Solomon Is., New Caledonia</option>
+                    <option value="Pacific/Auckland" data-use-daylight-time="1" gmt-adjustment="12" data-timezone-id="80">(GMT+12:00) Auckland, Wellington</option>
+                    <option value="Pacific/Fiji" data-use-daylight-time="0" gmt-adjustment="12" data-timezone-id="81">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                    <option value="Pacific/Fakaofo" data-use-daylight-time="0" gmt-adjustment="13" data-timezone-id="82">(GMT+13:00) Nuku'alofa</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div id="document-body" class="calendar">
+
+        <div hidden="" id="more-menu">
+            <ul class="menu">
+                <li>
+                    <a href="#subscription-url" class="icon-rss pat-modal">Subscribe to this calendar in Outlook</a>
+                </li>
+            </ul>
+        </div>
+
+        <fieldset hidden id="subscription-url">
+            <h3>Subscribe to calendar</h3>
+            <textarea>webcal://calendar.star.lakjfpl.qwpoeiuvzcjn.oqijrllalkjfkl;afjl;j/a;lsfjdl;</textarea>
+            <p class="discrete">Use the above URL to see this Workspace's calendar also in your Outlook calendar. <a href="http://office.microsoft.com/en-us/outlook-help/view-and-subscribe-to-internet-calendars-HA010167325.aspx#BM2" target="new">Learn how this works</a>.
+        </fieldset>
+
+        <div id="document-content">
+            <div id="calendar" class="pat-calendar"
+                data-pat-calendar="
+                    drag-and-drop: true;;
+                    drop-external-events: true;;
+                    external-event-selector: .cal-event;;
+                    first-hour: 8;
+                    first-day: mo;
+                    time-format: H:mm;
+                    height: auto;
+                    title-day: dddd, D MMM YYYY;
+                    column-week: ddd D MMM;
+                    calendar-controls: .cal-controls;
+                    category-controls: .cal-categories;
+                    store: session"
+                data-pat-calendar-tooltip="
+                    source: ajax;
+                    url: panel-create-event.html#content;
+                    class: event wizard;
+                ">
+                <h1 class="cal-title">Calendar</h1>
+                <fieldset class="cal-nav cal-controls">
+                    <button class="jump-prev" title="Back" type="button">&lt;</button> 
+                    <button class="jump-today" title="Today" type="button">Today</button>
+                    <button class="jump-next" title="Forward" type="button">&gt;</button>
+                 </fieldset>
+                <ul class="cal-events">
+                    <li class="cal-event cal-cat-baggage-handling all-day">
+                        <a class="url external" href="#">
+                        <h4 class="title">Read the patterns calendar documentation</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-01-05">5 January 2013, 9:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-01-08">8 January 2013, 17:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling all-day editable">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Patterns sprint</h4>
+
+                        <p class="location">Munich</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-01-11">11 January 2013</time></li>
+                            <li>Ends <time class="end" datetime="2013-01-15">15 January 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling editable">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Prototype review</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-04T10:00Z">4 September 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-04T16:30Z">4 September 2013, 16:30 (UTC+2)</time></li>
+                        </ul></a>
+                    </li><!-- Start Baggage Handling Events -->
+
+                    <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on
+                        Baggage</a></h4>
+
+                        <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+                            <li>Ends <time class="end" datetime="2013-09-05">5 September 2013</time></li>
+
+                            <li>Location <span class="location">Star HQ, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Annual Baggage Handling Workgroup
+                        Meeting</a></h4>
+
+                        <p class="description">Star Alliance is proud to offer its 10th annual Baggage Handling Workgroup Program in September 2013. This
+                        program provides you an introduction to the forecasting and optimization models found in baggage handling systems and focuses on
+                        recent research and new developments in baggage handling models for changing and less restricted baggage environments.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-10">10 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-12">12 September 2013</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+
+                            <li><label>Status <select>
+                                      
+                                            <option>Undecided</option>
+                                            <option  value="Yes">Confirmed</option>
+                                            <option selected value="Maybe">Tentative</option>
+                                            <option value="No">Declined</option>
+                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Key Flight
+                        Report</a></h4>
+
+                        <p class="description">Key Flight Report Deadline</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-15">15 September 2013</time></li>
+                            <li>Ends <time class="end" datetime="2013-09-15">15 September 2013</time></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Face-to-Face Meeting (CPT)</a></h4>
+
+                        <p class="description">Objective: To review current connection baggage performance overall and at the airports. Review current
+                        performance. Demonstration of the new baggage application and its potential to reduce delays.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-18">18 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-19">19 September 2013</time></li>
+
+                            <li>Location <span class="location">Cape Town, South Africa</span></li>
+
+                            <li><label>Status <select>
+                                   
+                                            <option>Undecided</option>
+                                            <option  value="Yes">Confirmed</option>
+                                            <option value="Maybe">Tentative</option>
+                                            <option selected value="No">Declined</option>
+                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Baffling Baggage Ball (CPT)</a></h4>
+
+                        <p class="description">To celebrate another successful year with even less lost luggage!</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-20T18:00Z">20 September 2013, 18:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-21T04:00Z">21 September 2013, 04:00 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Cape Town Crystal Tower, South Africa</span></li>
+
+                            <li><label>Status <select>
+                               
+                                            <option>Undecided</option>
+                                            <option value="Yes">Confirmed</option>
+                                            <option value="Maybe">Tentative</option>
+                                            <option value="No">Declined</option>                            </select></label></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+
+                    <li class="cal-event cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">FoB Savings update</a></h4>
+
+                        <p class="description">Publication of the new "Mishandled Bag Files Created" Statistics</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+                            <li>Ends <time class="end" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li><!-- End Baggage Handling Events -->
+                    <!-- Start Star Alliance Events -->
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Safety Stratey Team Meeting (Singapore)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2014-01-09T09:00Z">9 January 2014, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2014-01-09T17:00Z">9 January 2014, 17:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Emergency Strategy Team Meeting (Singapore)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2014-01-12T09:00Z">12 January 2014, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2014-01-12T17:00Z">12 January 2014, 17:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Marketing Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2014-02-10">10 February 2014</time></li>
+
+                            <li>Ends <time class="end" datetime="2014-02-14">14 February 2014</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Customer Experience Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-10">10 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-11">11 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">IT Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-11">11 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-12">12 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Loyalty Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-11T09:00Z">11 September 2013, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-12T12:30Z">12 September 2013, 12:30 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Commercial Cooperation Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-12">12 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-13">13 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Membership Liaison and Quality Committee Meeting (Frankfurt)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-17">17 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-18">18 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">SAAT Meeting (South Mezzanine Conf)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-18T10:00Z">18 September 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-18T11:00Z">18 September 2013, 11:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">STAR BE CSMG/CSC MEETING (BRU)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-19T10:00Z">19 September 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-19T15:00Z">19 September 2013, 15:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Revenue Management Education Program 2013 (Bangkok)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-23">23 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-27">27 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">STAR NL CSMG MEETING (AMS)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-24">24 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-26">26 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">STAR NL CSC MEETING (AMS)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-26T10:00Z">26 September 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-26T12:00Z">26 September 2013, 12:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">IT Committee Meeting - LHR (LHR)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-08">8 October 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-09">9 October 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Marketing Committee (LHR)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-08T09:00Z">8 October 2013, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-08T18:00Z">8 October 2013, 18:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">STAR BE CSMG MEETING (BRU)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-08T10:00Z">8 October 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-08T12:00Z">8 October 2013, 12:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event all-day cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Customer Experience Committee Meeting - LHR (LHR)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-09">9 October 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-10">10 October 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Commercial Cooperation (LHR)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-10T09:00Z">10 October 2013, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-10T18:00Z">10 October 2013, 18:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable cal-cat-star-alliance-events">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Loyalty Committee Meeting (LHR)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-10-09T09:00Z">9 October 2013, 09:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-10-09T18:00Z">9 October 2013, 18:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li><!-- End Star Alliance Events -->
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-star-alliance-publications">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Release of the 2013 Network Facts &amp; Figures</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-26T12:00Z">26 September 2013, 12:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li><!-- Start Commercial Cooperation Strategy Team -->
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-commercial-strategy-team">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Performance Report Data Collection Meeting</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-20T10:00Z">20 September 2013, 10:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-20T11:30Z">20 September 2013, 11:30 (UTC+2)</time></li>
+                        </ul></a>
+                    </li><!-- End Commercial Cooperation Strategy Team -->
+                    <!-- Start SAUA-->
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-saua">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Update: SAUA Product Feature Matrix All Carriers SEP13</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-13T14:00Z">13 September 2013, 14:00 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-13T14:00Z">20 September 2013, 14:00 (UTC+2)</time></li>
+                        </ul></a>
+                    </li><!-- End SAUA -->
+                    <!-- Start Emergency Committee-->
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-emergency-committee">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">SCP ERCMTE Meeting</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-16">16 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-18">18 September 2013</time></li>
+                        </ul></a>
+                    </li><!-- End -->
+
+                    <li class="cal-event cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a data-pat-inject="source: #document-body; target: #document-body && source: .document-controls; target: .document-controls" class="pat-inject" href="event-amb-fra-2011.html#document-body">AMB 16-17 November 2011, Frankfurt</a></h4>
+
+                        <p class="description">Alliance Management Board Meeting 16-17 November 2013</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-11-30">16 November 2013 (UTC+2)</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-11-30">17 November 2013 (UTC+2)</time></li>
+
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li><!-- Start Blackout days-->
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-blackout-days">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Prolonged weekend of german unity (LH)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-06">6 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-09">9 September 2013</time></li>
+                        </ul></a>
+                    </li>
+
+                    <li class="cal-event cal-cat-alien editable all-day cal-cat-blackout-days">
+                        <a class="url external" href="some-event-details.html">
+                        <h4 class="title">Labour Day (JP, A3, AC, CA, NZ, NH, OZ, OS, AV, SN, CM, OU, MS, ET, BR, LO, LH, SK, ZH, SQ, SA, LX, JJ, TP, TG,
+                        TK, UA, US)</h4>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-19">19 September 2013</time></li>
+
+                            <li>Ends <time class="end" datetime="2013-09-19">19 September 2013</time></li>
+                        </ul></a>
+                    </li><!-- End -->
+                </ul>
+            </div>
+        </div>
+    </div><!-- InstanceEndEditable -->
+
+    <aside class="sidebar left" id="sidebar">
+        <div id="sidebar-content">
+            <!-- InstanceBeginEditable name="Sidebar content" -->
+
+            <div class="content">
+                <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
+                    <h3>Unscheduled events</h3>
+                    <h4>January</h4>
+                    <ul class="cal-events">
+                        <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Release of the new Baggage
+                            Handbook</a></h4>
+
+                            <p class="description">Plan Press Conference and internal event to mark the release of the new Baggage Handbook. Scheduled
+                            to happen in September.</p>
+
+                            <ul class="details">
+                                <li>Location <span class="location">Frankfurt, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Opening of the new Baggage
+                            Sorting System - Phase 2 (CPH)</a></h4>
+
+                            <p class="description">Opening of the departure and transfer baggage section at Copenhagen Airport, scheduled for mid
+                            September. May be delayed until October.</p>
+
+                            <ul class="details">
+                                <li>Location <span class="location">Copenhagen, Denmark</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+                    </ul>
+                    <h4>March</h4>
+
+                    <ul class="cal-events">
+                        <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Lorem ipsum dolor sit amet</a></h4>
+
+                            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+
+                            <ul class="details">
+                                <li>Location <span class="location">Frankfurt, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+                    <h3>Upcoming events</h3>
+
+                    <ul class="cal-events">
+                        <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on
+                            Baggage</a></h4>
+
+                            <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                                <li>Location <span class="location">Star HQ, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Annual Baggage Handling
+                            Workgroup Meeting</a></h4>
+
+                            <p class="description">Star Alliance is proud to offer its 10th annual Baggage Handling Workgroup Program in September
+                            2013. This program provides you an introduction to the forecasting and optimization models found in baggage handling
+                            systems and focuses on recent research and new developments in baggage handling models for changing and less restricted
+                            baggage environments.</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-10T10:00Z">10 September 2013, 9:00 (UTC+2)</time></li>
+
+                                <li>Ends <time class="end" datetime="2013-09-12T17:00Z">12 September 2013, 17:00 (UTC+2)</time></li>
+
+                                <li>Location <span class="location">Frankfurt, Germany</span></li>
+
+                                <li>
+                                    <label>Status 
+                                        <select>
+                                            <option selected value="Yes">Confirmed</option>
+                                            <option value="Maybe">Tentative</option>
+                                            <option value="No">Declined</option>
+                                        </select>
+                                    </label>
+                                </li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Key Flight
+                            Report</a></h4>
+
+                            <p class="description">Key Flight Report Deadline</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-15">15 September 2013</time></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Face-to-Face Meeting
+                            (CPT)</a></h4>
+
+                            <p class="description">Objective: To review current connection baggage performance overall and at the airports. Review
+                            current performance. Demonstration of the new baggage application and its potential to reduce delays.</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-19">19 September 2013</time></li>
+
+                                <li>Ends <time class="end" datetime="2013-09-20">20 September 2013</time></li>
+
+                                <li>Location <span class="location">Cape Town, South Africa</span></li>
+
+                                <li><label>Status <select>
+                       
+                                        <option>Undecided</option>
+                                        <option  value="Yes">Confirmed</option>
+                                        <option value="Maybe">Tentative</option>
+                                        <option selected value="No">Declined</option>
+                                </select></label></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Baffling Baggage Ball
+                            (CPT)</a></h4>
+
+                            <p class="description">To celebrate another successful year with even less lost luggage!</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-20T18:00Z">20 September 2013, 18:00 (UTC+2)</time></li>
+
+                                <li>Ends <time class="end" datetime="2013-09-21T04:00Z">21 September 2013, 04:00 (UTC+2)</time></li>
+
+                                <li>Location <span class="location">Cape Town Crystal Tower, South Africa</span></li>
+
+                                <li>
+                                <label>Status 
+                                    <select>
+                                        <option>Undecided</option>
+                                        <option selected value="Yes">Confirmed</option>
+                                        <option value="Maybe">Tentative</option>
+                                        <option value="No">Declined</option>
+                                    </select>
+                                </label>
+                                </li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">FoB Savings update</a></h4>
+
+                            <p class="description">Publication of the new "Mishandled Bag Files Created" Statistics</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+
+                                <li>Location <span class="location">Frankfurt, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+
+                        <li class="cal-event cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-inject" data-pat-inject="source: #document-body; target: #document-body && source: .document-controls; target: .document-controls" href="event-amb-fra-2011.html#document-body">AMB 16-17 November 2011,
+                            Frankfurt</a></h4>
+
+                            <p class="description">Alliance Management Board Meeting 16-17 November 2013</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-11-30">16 November 2013 (UTC+2)</time></li>
+
+                                <li>Starts <time class="ends" datetime="2013-11-30">17 November 2013 (UTC+2)</time></li>
+
+                                <li>Location <span class="location">Frankfurt, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+                    <h3>Older events</h3>
+
+                    <ul class="cal-events">
+                        <li class="cal-event all-day cal-cat-baggage-handling-regulations">
+                            <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on
+                            Baggage</a></h4>
+
+                            <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                            <ul class="details">
+                                <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                                <li>Location <span class="location">Star HQ, Germany</span></li>
+                            </ul>
+
+                            <form action="">
+                                <button class="iconified icon-trash" type="submit">Delete event</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+{% include workspace-tabs.html %}

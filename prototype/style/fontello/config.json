@@ -7,6 +7,20 @@
   "ascent": 850,
   "glyphs": [
     {
+      "uid": "035e394027c7a3c926d8c485ffe07de1",
+      "css": "slides",
+      "code": 59416,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M1056.4 334.7L671.9 260.3 640.4 71.3C637.2 52.3 619.2 39.4 600.1 42.5L44.2 135.3C25.1 138.4 12.2 156.5 15.4 175.6L108.2 731.5C111.3 750.6 129.4 763.4 148.5 760.3L371.6 723.1 355 808.6C351.3 827.6 363.7 846 382.7 849.7L936 956.8C955 960.4 973.3 948 977 929L1084.1 375.8C1087.8 356.7 1075.4 338.4 1056.4 334.7ZM191.8 608.5C177.3 610.9 164.1 604.3 162.4 593.8L111.4 288.2C109.7 277.7 120 267.2 134.5 264.8L556.9 194.3C571.4 191.9 584.6 198.5 586.3 209L592.3 244.8 503.3 227.5C484.3 223.9 465.9 236.3 462.3 255.3L400.6 573.6 191.8 608.5ZM637.2 514.6C639 525.1 628.7 535.6 614.2 538L480.6 560.3 512.8 394.3C514.8 383.9 528.1 377.7 542.5 380.5L617.3 394.9 637.2 514.6ZM985.4 485.8L926.5 790.1C924.5 800.5 911.1 806.7 896.7 804L476.3 722.6C466.7 720.7 459.1 715.4 455.6 709L704.3 667.5C723.4 664.3 736.3 646.3 733.1 627.2L697 410.4 963 461.9C977.4 464.7 987.4 475.4 985.4 485.8Z",
+        "width": 1100
+      },
+      "search": [
+        "slides"
+      ]
+    },
+    {
       "uid": "5d2d07f112b8de19f2c0dbfec3e42c05",
       "css": "spin",
       "code": 59448,
@@ -76,12 +90,6 @@
       "uid": "17ebadd1e3f274ff0205601eef7b9cc4",
       "css": "help-circle",
       "code": 59140,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "e82cedfa1d5f15b00c5a81c9bd731ea2",
-      "css": "info-circle",
-      "code": 59141,
       "src": "fontawesome"
     },
     {
@@ -163,6 +171,66 @@
       "src": "fontawesome"
     },
     {
+      "uid": "5408be43f7c42bccee419c6be53fdef5",
+      "css": "doc-text",
+      "code": 59427,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9daa1fdf0838118518a7e22715e83abc",
+      "css": "file-pdf",
+      "code": 59418,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "310ffd629da85142bc8669f010556f2d",
+      "css": "file-word",
+      "code": 59419,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f761c3bbe16ba2d332914ecb28e7a042",
+      "css": "file-excel",
+      "code": 59420,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "edcd4022de8d8df266ef7c42d2658ca5",
+      "css": "file-powerpoint",
+      "code": 59421,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "3c961c1a8d874815856fc6637dc5a13c",
+      "css": "file-image",
+      "code": 59426,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e80ae555c1413a4ec18b33fb348b4049",
+      "css": "file-archive",
+      "code": 59425,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "81db033e704eb7c586a365559d7c0f36",
+      "css": "file-audio",
+      "code": 59424,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "dd69d9aa589ea7bc0a82a3fe67039f4b",
+      "css": "file-video",
+      "code": 59422,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "26613a2e6bc41593c54bead46f8c8ee3",
+      "css": "file-code",
+      "code": 59423,
+      "src": "fontawesome"
+    },
+    {
       "uid": "b091a8bd0fdade174951f17d936f51e4",
       "css": "folder",
       "code": 128193,
@@ -184,6 +252,12 @@
       "uid": "5bb103cd29de77e0e06a52638527b575",
       "css": "wrench",
       "code": 128295,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "ead4c82d04d7758db0f076584893a8c1",
+      "css": "calendar-empty",
+      "code": 59415,
       "src": "fontawesome"
     },
     {
@@ -283,6 +357,12 @@
       "src": "entypo"
     },
     {
+      "uid": "7e4164950ffa4990961958b2d6318658",
+      "css": "info-circle",
+      "code": 59417,
+      "src": "entypo"
+    },
+    {
       "uid": "513ac180ff85bd275f2b736720cbbf5e",
       "css": "home",
       "code": 8962,
@@ -334,6 +414,12 @@
       "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
       "css": "pencil",
       "code": 9998,
+      "src": "entypo"
+    },
+    {
+      "uid": "bcb868184ff9c35f8aef564f50c0d649",
+      "css": "feather",
+      "code": 59413,
       "src": "entypo"
     },
     {
@@ -400,6 +486,12 @@
       "uid": "517522647a556192fbc78aa391b7b0c2",
       "css": "cancel-circle-open-light",
       "code": 59411,
+      "src": "typicons"
+    },
+    {
+      "uid": "ba9ae3250633c7b1fe249587358c8383",
+      "css": "contacts",
+      "code": 59414,
       "src": "typicons"
     },
     {

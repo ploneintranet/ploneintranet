@@ -1,13 +1,10 @@
 <nav class="navigation workspace-tabs">
-    <a class="pat-inject documents pat-switch current" data-pat-switch="#content mode-* mode-c" href="workspace-landing.html#sidebar-content" title=
+    <a class="documents pat-switch {% if page.workspace_module == 'docs' %}current{% endif %}" data-pat-switch="#content mode-* mode-c" href="#workspace-documents" title=
     "Documents">Documents</a> 
-    <a class="pat-inject notes pat-switch" data-pat-switch="#content mode-* mode-c" href="workspace-note.html#sidebar-content"
-    title="Notes">Notes</a> 
-    <a class="pat-inject events pat-switch" data-pat-switch="#content mode-* mode-c" href=
-    "workspace-calendar.html#sidebar-content" title="Events">Events</a> <a class="todos pat-switch" data-pat-switch="#content mode-* mode-c" href="#"
-    title="Todos">Todos</a> 
-    <a class="pat-inject about pat-switch" data-pat-switch="#content mode-* mode-c" href="workspace-about.html#sidebar-content"
-    title="About this project">About</a> 
-    <a class="pat-inject qa pat-switch" data-pat-inject="target: #sidebar-content::element" data-pat-switch=
-    "#content mode-* mode-c" href="workspace-qa.html#sidebar-content" title="About this project">Q&amp;A <sup class="counter digit-2">13</sup></a>
+    <a class="events pat-switch" data-pat-switch="#content mode-* mode-c" href=
+    "#workspace-events" title="Events">Events</a> 
+    <a class="todos pat-switch {% if page.workspace_module == 'tickets' %}current{% endif %}" data-pat-switch="#content mode-* mode-c" href="#workspace-tickets"
+    title="Tasks">Tasks</a> 
+    <a class="about pat-switch" data-pat-switch="#content mode-* mode-c" href="#workspace-about"
+    title="About this project">Workspace settings and about</a> 
 </nav>

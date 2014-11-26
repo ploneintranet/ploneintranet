@@ -7,7 +7,8 @@
   height: auto;
   border-style: none;
   padding: 0;
-  background-color: $colour-workspace-tabs;
+  background-color: $colour-workspace-default;
+
   &:after {
     content: " ";
     width: 50px;
@@ -23,23 +24,30 @@
     float: left;
     text-indent: -10000px;
     position: relative;
-    /*background-image: url(icons-tabs-white.svg);*/
     height: 50px;
     width: 50px;
     padding: 0;
+
     &:before {
       content: " ";
+      font-family: fontello;
       position: absolute;
-      background-image: url(icons-tabs-white.svg);
       height: 50px;
       width: 50px;
       display: block;
       top: 0;
       left: 0;
+      line-height: 49px;
+      text-indent: 0;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 20px;
     }
+
     &:hover {
       background-color: rgba(46, 46, 46, 0.1);
     }
+
     &.current {
       cursor: default;
       &:after {
@@ -55,36 +63,29 @@
         top: 18px;
       }
     }
+
     sup.counter.digit-3 {
       width: 22px;
     }
-    &.alert {
-      background-position-y: -55px !important;
-      background-color: orange;
-    }
-    &.blog:after {
-      background-position: 0 0;
-    }
-    &.notes:before {
-      background-position: -300px 0;
-    }
+
     &.documents:before {
-      background-position: -50px 0;
+      content: '\E811';
     }
+
     &.events:before {
-      background-position: -150px 0;
+      content: '\E810';
     }
+
     &.todos:before {
-      background-position: -100px 0;
+      content: '\2611';
     }
+
     &.home:before {
-      background-position: -200px 0;
+      content: '\2302';
     }
+
     &.about:before {
-      background-position: -250px 0;
-    }
-    &.qa:before {
-      background-position: -350px 0;
+      content: '\E819';
     }
   }
 }
@@ -97,16 +98,9 @@
 }
 
 .theme-light nav.workspace-tabs a:before {
-  background-image: url(icons-tabs-black.svg);
+  color: black;
 }
 
 .lt-ie10 nav.workspace-tabs a:last-child sup.counter {
   top: -43px;
-}
-
-html.cssanimations nav.workspace-tabs a.alert {
-  background-color: transparent;
-  -webkit-animation: myfirst 2s infinite;
-  -moz-animation: myfirst 2s infinite;
-  animation: myfirst 2s infinite;
 }

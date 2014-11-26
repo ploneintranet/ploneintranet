@@ -12,7 +12,7 @@ $colour-primary: black !default;
 $colour-header-elements: #666 !default;
 $colour-post: #e4f2f8 !default;
 $colour-alert: red !default;
-$colour-workspace-tabs: #869EBF !default;
+$colour-workspace-default: #869EBF !default;
 $colour-accent: #5d91ff !default;
 
 $glyph-checkbox: \e808 !default;
@@ -30,4 +30,5 @@ $glyph-radio-button-active: \e806 !default;
 @import "components/grid";
 @import "components/form";
 @import "components/injection";
+@import "components/modal";
 @import "components/select";
