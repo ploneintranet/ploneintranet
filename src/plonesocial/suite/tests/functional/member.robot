@@ -12,13 +12,13 @@ Test Teardown  Run keywords  Report test status  Close all browsers
 Home view
     [Tags]  member  home
     Log in as Clare
-    Go to  ${PLONE_URL}  
-    Page should contain   The "Explore" section shows all updates of all people. 
-    
+    Go to  ${PLONE_URL}
+    Page should contain   The "Explore" section shows all updates of all people.
+
 Submit microblog update on homepage
     [Tags]  member  home  submit  memberhomesubmit
     Log in as Clare
-    Go to  ${PLONE_URL}    
+    Go to  ${PLONE_URL}
     Element should be visible  id=microblog
     Element should be visible  css=div.post.status
     Element should not be visible  name=form.buttons.statusupdate
@@ -36,22 +36,22 @@ Tag view
     Element Should Contain  css=h2  Updates tagged #demo
     Page Should Contain Image  ${PLONE_URL}/portal_memberdata/portraits/kurt_silvio
     Page should not contain  clare
-    Page should not contain   The "Explore" section shows all updates of all people. 
-    
+    Page should not contain   The "Explore" section shows all updates of all people.
+
 
 Profile
     [Tags]  member  profile
     Log in as Clare
-    Go to  ${PLONE_URL}/@@profile
+    Go to  ${PLONE_URL}/@@author
     Page should contain  Followers
-    Page should contain  Following    
+    Page should contain  Following
     Element Should Contain  css=div.description  Status updates by Clare Presler:
     Page Should Not Contain Image  ${PLONE_URL}/portal_memberdata/portraits/kurt_silvio
 
 My Network Empty
     [Tags]  member  mynetwork
     Log in as Clare
-    Go to  ${PLONE_URL}/@@stream/network    
+    Go to  ${PLONE_URL}/@@stream/network
     Page Should Not Contain Image  ${PLONE_URL}/portal_memberdata/portraits/kurt_silvio
 
 Explore
@@ -59,7 +59,7 @@ Explore
     Log in as Clare
     Go to  ${PLONE_URL}/@@stream
     Page Should Contain Image  ${PLONE_URL}/portal_memberdata/portraits/kurt_silvio
-    Page should contain   The "Explore" section shows all updates of all people. 
+    Page should contain   The "Explore" section shows all updates of all people.
 
 FollowUnfollow
     [Tags]  member  follow
@@ -80,6 +80,4 @@ Log in as Clare
     Set autologin username  clare_presler
 
 
-
-      
 
