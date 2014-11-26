@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from Products.CMFCore.utils import getToolByName
+from plone import api
 from ploneintranet.notifications.interfaces import IChannel
 from zope.interface import implements
-from plone import api
 
 
 class AllChannel(object):
