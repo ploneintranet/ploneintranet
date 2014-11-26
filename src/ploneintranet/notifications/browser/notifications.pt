@@ -11,24 +11,44 @@
       <h1>
               Notifications
       </h1>
-      <div id="notifications">
+
+      <!--
+      {'actors': [{'fullname': 'Maarten Kling', 'userid': 'maarten', 'email': 'join@test.com'}],
+      'predicate': 'GLOBAL_NOTICE',
+      'obj': {
+        'url': 'Plone',
+        'message_last_modification_date': datetime.datetime(2014, 11, 26, 11, 32, 49, 409000),
+        'read': False,
+        'id': 'Plone',
+        'title': 'dfsasdfa'}
+      }
+      -->
+
+      <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
-          <li>
-            <a href="#" class="image">
-                    <img class="avatar" src="defaultUser.png" alt="">
-            </a><span class="subjects">
-                    <a href="" class="subject">Jon Doe</a>
+          <li tal:repeat="notification notifications">
+
+            <!-- todo no python in tal -->
+            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
+              <!-- todo getuserportrait here -->
+              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:portal_url + '/portal_memberdata/portraits/' + notification.actors[0]['userid']">
+            </a>
+
+            <span class="subjects">
+                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href notification/obj/url" class="subject">Jon Doe</a>
             </span>
-            <span class="verb">
+            <span class="verb" tal:content="notification/predicate">
                     asked
             </span>
-            <a href="" class="object">
+            <a href="" class="object" tal:content="notification/obj/title">
                     Who's up for a beer at Watershed at 8pm?
             </a>
-            <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">Just now</time>
-            <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
+            <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43" tal:content="notification/obj/message_last_modification_date">Just now</time>
           </li>
         </ul>
+
+        <div tal:condition="not: notifications">No pending notifications</div>
+
       </div>
     </div>
   </body>
