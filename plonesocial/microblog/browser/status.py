@@ -93,10 +93,9 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
             IAttachmentStoragable is not None and
             IAttachmentStoragable.providedBy(status))
         if attachments_supported and file_upload:
-            portal = api.portal.get()
             token = self.request.get('attachment-form-token')
             extract_and_add_attachments(
-                file_upload, status, workspace=portal, token=token)
+                file_upload, status, workspace=self.context, token=token)
 
         # debugging only
 #        container.clear()
