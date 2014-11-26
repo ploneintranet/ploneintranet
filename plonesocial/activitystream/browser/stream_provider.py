@@ -45,7 +45,7 @@ class StreamProvider(object):
 
     This is the core rendering logic that powers
     @@stream and @@activitystream_portal, and also
-    plonesocial.networking @@profile
+    plonesocial.networking @@author
     """
     implements(IStreamProvider)
     adapts(Interface, IPlonesocialActivitystreamLayer, Interface)
@@ -60,7 +60,7 @@ class StreamProvider(object):
         self.portlet_data = None
         # @@stream renders this optionally with a tag filter
         self.tag = None
-        # @@stream and plonesocial.network:@@profile
+        # @@stream and plonesocial.network:@@author
         # render this optionally with a users filter
         self.users = None
         self.microblog_context = PLONESOCIAL.context(context)
