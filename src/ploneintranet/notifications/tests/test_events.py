@@ -44,10 +44,11 @@ class TestEvents(TestCase):
             queue = pin.get_user_queue(user)
             self.assertTrue(len(queue), 1)
             message = queue[0]
+            self.assertTrue(len(message.actors), 1)
             self.assertEqual(message.predicate, 'StatusUpdate')
             self.assertEqual(message.obj['creator'], 'test_user_2_')
             self.assertDictEqual(
-                message.actors,
+                message.actors[0],
                 {
                     'email': 'marielle@sjogren.se',
                     'fullname': 'Marielle Sjögren',
