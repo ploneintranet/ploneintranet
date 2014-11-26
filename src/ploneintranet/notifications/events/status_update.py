@@ -15,7 +15,7 @@ def added(obj, event):
     predicate = 'StatusUpdate'
     obj_dict = obj.__dict__
     if 'title' not in obj_dict:
-        obj_dict['title'] = 'Status update'
+        obj_dict['title'] = obj_dict.get('text', u'Status update')
     message = create_message(actors, predicate, obj_dict)
 
     pin = api.portal.get_tool('ploneintranet_notifications')
