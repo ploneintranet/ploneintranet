@@ -138,9 +138,12 @@ class AbstractActivityProvider(object):
         text = link_users(self.context.text, url)
         return link_tags(text, url)
 
+    def is_attachment_supported(self):
+        return IAttachmentStoragable is not None
+
     @property
     def attachments(self):
-        if (IAttachmentStoragable is not None and
+        if (self.is_attachment_supported() and
                 IAttachmentStoragable.providedBy(self.context.context)):
             storage = IAttachmentStorage(self.context.context)
             attachments = storage.values()
