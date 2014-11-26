@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 from zope.interface import Interface, Attribute
-from ploneintranet.readstatus import MessageFactory as _
+from ploneintranet.todo import MessageFactory as _
 
 
 class IContentAction(Interface):
