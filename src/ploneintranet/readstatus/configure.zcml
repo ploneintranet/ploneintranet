@@ -33,4 +33,7 @@
         factory="plone.behavior.AnnotationStorage"
         marker=".behaviors.IMustReadMarker"
         />
+
+    <include package=".portlets" />
+
 </configure>
