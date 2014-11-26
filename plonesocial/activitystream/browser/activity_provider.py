@@ -139,7 +139,7 @@ class AbstractActivityProvider(object):
         return link_tags(text, url)
 
     @property
-    def attachment_previews(self):
+    def attachments(self):
         if (IAttachmentStoragable is not None and
                 IAttachmentStoragable.providedBy(self.context.context)):
             storage = IAttachmentStorage(self.context.context)
@@ -152,7 +152,7 @@ class AbstractActivityProvider(object):
                         name=u'plone_portal_state')
                     url = portal_state.portal_url()
                     yield ('{portal_url}/@@status-attachments/{status_id}/'
-                           '{attachment_id}/thumb').format(
+                           '{attachment_id}').format(
                                portal_url=url,
                                status_id=self.context.context.getId(),
                                attachment_id=attachment.getId())
