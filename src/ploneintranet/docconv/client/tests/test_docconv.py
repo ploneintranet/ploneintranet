@@ -5,9 +5,11 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from zope import event
+from zope.component import getAdapter
 from zope.traversing.interfaces import BeforeTraverseEvent
 
-from ploneintranet.docconv.client import IDocconv, DocconvAdapter
+from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet.docconv.client.adapters import DocconvAdapter
 from ploneintranet.docconv.client.fetcher import fetchPreviews
 from ploneintranet.docconv.client.testing import IntegrationTestCase
 
@@ -42,6 +44,11 @@ class TestDocconv(IntegrationTestCase):
         self.assertEquals(docconv.get_pdf(), None)
         self.assertEquals(docconv.get_previews(), None)
         self.assertEquals(docconv.get_thumbs(), None)
+
+    def test_named_docconv_adapter(self):
+        alt_docconv = getAdapter(
+            self.document, IDocconv, name='plone.app.async')
+        self.assertTrue(isinstance(alt_docconv, DocconvAdapter))
 
     def test_fetch_docconv_data(self):
         fetchPreviews(self.document,

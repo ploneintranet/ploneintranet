@@ -10,7 +10,7 @@ from five import grok
 from zope.annotation import IAnnotations
 from zope.app.container.interfaces import IObjectAddedEvent
 
-from ploneintranet.docconv.client import IDocconv
+from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.docconv.client.async import queueDelayedConversionJob
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.fetcher import fetchPreviews
