@@ -28,7 +28,7 @@
 
   <browser:page
       name="file-preview-example.jpg"
-      for="plone.app.blob.interfaces.IATBlobImage"
+      for="plone.app.contenttypes.interfaces.IImage"
       class=".examples.ExampleFilePreview"
       permission="zope2.View"
       layer="..interfaces.IThemeSpecific"
