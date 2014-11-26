@@ -26,12 +26,12 @@
       <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
           <li tal:repeat="notification notifications">
-            <a href="#" class="image">
-                    <img class="avatar" src="defaultUser.png" alt="">
+            <a href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
+                    <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:portal_url + '/portal_memberdata/portraits/' + notification.actors[0]['userid']">
             </a>
 
             <span class="subjects">
-                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname" href="" class="subject">Jon Doe</a>
+                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname" href="" tal:attributes="href notification/obj/url" class="subject">Jon Doe</a>
             </span>
             <span class="verb" tal:content="notification/predicate">
                     asked
@@ -44,7 +44,7 @@
         </ul>
 
         <div tal:condition="not: notifications">No pending notifications</div>
-        
+
       </div>
     </div>
   </body>
