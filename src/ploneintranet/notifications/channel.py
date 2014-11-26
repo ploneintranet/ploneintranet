@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from plone import api
 from ploneintranet.notifications.interfaces import IChannel
 from zope.interface import implements
@@ -10,8 +9,7 @@ class AllChannel(object):
 
     def __init__(self, user):
         self.user = user
-        portal = api.portal.get()
-        tool = getToolByName(portal, 'ploneintranet_notifications')
+        tool = api.portal.get_tool('ploneintranet_notifications')
         self.queue = tool.get_user_queue(user)
 
     def get_unread_count(self):

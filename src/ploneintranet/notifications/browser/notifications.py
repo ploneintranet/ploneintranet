@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
-# from AccessControl import Unauthorized
-# from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-# from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.memoize.view import memoize
 from ploneintranet.notifications.channel import AllChannel
 
 
 class NotificationsView(BrowserView):
 
+    @memoize
     def your_notifications(self):
         # count to show unread messages
-        user = api.user.get_current()
         display_message = []
+        user = api.user.get_current()
         channel = AllChannel(user)
-        #display_message = channel.get_all_messages()
         display_message = channel.get_unread_messages()
         return display_message
