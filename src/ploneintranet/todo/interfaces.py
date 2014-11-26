@@ -19,7 +19,7 @@ class ITodoUtility(Interface):
     """
     Interface for the TodoUtility
     """
-    def add_action(content_uid, verb, userids=None, all_users=False):
+    def add_action(content_uid, verb, userids=None):
         """
         Add the given action for the given content to the given users, or all
         users
@@ -28,10 +28,8 @@ class ITodoUtility(Interface):
         :type content_uid: str
         :param verb: The action to take
         :type verb: str
-        :param userids: The userids to add the action to
+        :param userids: The userids to add the action to or None for all users
         :type userids: list
-        :param all_users: Whether to add action to all users
-        :type all_users: bool
         """
 
     def complete_action(content_uid, verb, userids=None):
