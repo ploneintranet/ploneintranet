@@ -11,8 +11,8 @@ install:
   - bin/buildout -c travis.cfg buildout:develop= install download install 
   - bin/buildout -N -t 3 -c travis.cfg
 script: 
-  - bin/test
-  - bin/flake8 ploneintranet
+  - bin/test -s ploneintranet.suite
+  - bin/flake8 src/ploneintranet.suite
 after_success:
   - bin/createcoverage run bin/test
   - pip install -q coveralls
