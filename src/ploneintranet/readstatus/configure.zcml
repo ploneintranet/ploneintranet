@@ -30,6 +30,7 @@
         title="MustRead"
         description="MustRead behavior"
         provides=".behaviors.IMustRead"
-        factory=".behaviors.MustRead"
+        factory="plone.behavior.AnnotationStorage"
+        marker=".behaviors.IMustReadMarker"
         />
 </configure>

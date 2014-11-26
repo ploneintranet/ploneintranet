@@ -1,6 +1,6 @@
 from plone.directives import form
 from rwproperty import getproperty, setproperty
-from zope.interface import implements, alsoProvides
+from zope.interface import implements, alsoProvides, Interface
 from zope.component import adapts
 from zope.schema import Bool
 
@@ -25,18 +25,7 @@ class IMustRead(form.Schema):
 
 alsoProvides(IMustRead, form.IFormFieldProvider)
 
-class MustRead(object):
+class IMustReadMarker(Interface):
+    """Marker interface that will be provided by instances using the
+    IMustRead behavior.
     """
-    """
-    implements(IMustRead)
-
-    def __init__(self, context):
-        self.context = context
-
-    @getproperty
-    def mustread(self):
-        return self.context.mustread
-
-    @setproperty
-    def mustread(self, value):
-        self.context.mustread = value
