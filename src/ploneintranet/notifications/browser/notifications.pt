@@ -8,28 +8,28 @@
 <body>
   <div id="social-messages"
     metal:fill-slot="main">
-        <h1>
-                Notifications
-        </h1>
-        <div id="notifications">
-            <ul class="notifications">
-                <li>
-                        <a href="#" class="image">
-                                <img class="avatar" src="defaultUser.png" alt="">
-                        </a><span class="subjects">
-                                <a href="" class="subject">Jon Doe</a>
-                        </span>
-                        <span class="verb">
-                                asked
-                        </span>
-                        <a href="" class="object">
-                                Who's up for a beer at Watershed at 8pm?
-                        </a>
-                        <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">Just now</time>
-                        <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
-                </li>
-            </ul>
-        </div>
+      <h1>
+              Notifications
+      </h1>
+      <div id="notifications">
+        <ul class="notifications">
+          <li>
+            <a href="#" class="image">
+                    <img class="avatar" src="defaultUser.png" alt="">
+            </a><span class="subjects">
+                    <a href="" class="subject">Jon Doe</a>
+            </span>
+            <span class="verb">
+                    asked
+            </span>
+            <a href="" class="object">
+                    Who's up for a beer at Watershed at 8pm?
+            </a>
+            <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">Just now</time>
+            <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
+          </li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
