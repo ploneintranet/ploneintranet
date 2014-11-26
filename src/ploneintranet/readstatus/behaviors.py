@@ -12,8 +12,8 @@ class IMustRead(form.Schema):
     """
 
     form.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
+            'settings',
+            label=_(u'Settings'),
             fields=('mustread',),
         )
 
