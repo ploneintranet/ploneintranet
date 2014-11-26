@@ -12,7 +12,6 @@ class NotificationsView(BrowserView):
     def your_notifications(self):
         # count to show unread messages
         user = api.user.get_current()
-        #import ipdb; ipdb.set_trace()
         display_message = []
         channel = AllChannel(user)
         #display_message = channel.get_all_messages()

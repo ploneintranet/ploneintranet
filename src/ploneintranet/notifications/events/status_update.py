@@ -7,7 +7,6 @@ def added(obj, event):
     ''' What to do when a status update is added to its container
     '''
     member = api.user.get(username=obj.creator)
-    obj.creator
     actors = dict(
         fullname=member.getProperty('fullname'),
         userid=member.getId(),
@@ -16,5 +15,6 @@ def added(obj, event):
     predicate = 'StatusUpdate'
     message = create_message(actors, predicate, obj.__dict__)
     pin = api.portal.get_tool('ploneintranet_notifications')
-    queue = pin.get_user_queue(member)
-    queue.append(message)
+    for user in api.user.get_users():
+        queue = pin.get_user_queue(user)
+        queue.append(message)

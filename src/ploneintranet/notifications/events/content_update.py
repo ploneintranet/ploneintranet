@@ -25,7 +25,6 @@ def added(obj, event):
     message = create_message(actors, predicate, obj)
     msg_class_handler = fake_adapter(predicate)
     msg_class_handler.add(message)
-    import ipdb; ipdb.set_trace()
 
 
 def changed(obj, event):
