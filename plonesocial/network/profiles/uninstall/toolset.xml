@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<tool-setup>
+ <required tool_id="plonesocial_network" class="plonesocial.network.tool.NetworkTool" remove="true" />
+</tool-setup>

@@ -6,22 +6,23 @@
     i18n_domain="plonesocial.network">
 
 
+  <!-- This view Will override the author.cpt in the skins folder -->
   <browser:page
-      name="profile"
+      name="author"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".profile.ProfileView"
+      class=".author.AuthorView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialNetworkLayer"
       />
 
   <adapter
-      name="plonesocial.network.maxiprofile_provider"
-      factory=".profile.MaxiProfileProvider"
+      name="plonesocial.network.maxiauthor_provider"
+      factory=".author.MaxiAuthorProvider"
       />
 
   <adapter
-      name="plonesocial.network.miniprofile_provider"
-      factory=".profile.MiniProfileProvider"
+      name="plonesocial.network.miniauthor_provider"
+      factory=".author.MiniAuthorProvider"
       />
 
   <browser:page

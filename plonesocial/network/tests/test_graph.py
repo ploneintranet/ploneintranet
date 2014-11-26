@@ -1,9 +1,8 @@
-import unittest2 as unittest
-
-from zope.interface.verify import verifyClass
-
-from plonesocial.network.interfaces import INetworkGraph
+# -*- coding: utf-8 -*-
 from plonesocial.network.graph import NetworkGraph
+from plonesocial.network.interfaces import INetworkGraph
+from zope.interface.verify import verifyClass
+import unittest2 as unittest
 
 
 class TestNetworkGraph(unittest.TestCase):

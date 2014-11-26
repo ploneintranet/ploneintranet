@@ -23,13 +23,13 @@ msgid "%s is following:"
 msgstr "%s volgt:"
 
 #: ./browser/graph.py:42
-#: ./browser/templates/maxiprofile_provider.pt:28
+#: ./browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
 msgstr "Volgers"
 
 #: ./browser/graph.py:28
-#: ./browser/templates/maxiprofile_provider.pt:35
-#: ./browser/templates/miniprofile_provider.pt:33
+#: ./browser/templates/maxiauthor_provider.pt:35
+#: ./browser/templates/miniauthor_provider.pt:33
 msgid "Following"
 msgstr "Volgend"
 
@@ -38,12 +38,12 @@ msgid "Installs the plonesocial.network package"
 msgstr ""
 
 #: ./browser/templates/graph.pt:20
-#: ./browser/templates/profile.pt:20
+#: ./browser/templates/author.pt:20
 msgid "No such user ${userid}."
 msgstr "Geen gebruiker ${userid}."
 
 #: ./browser/templates/graph.pt:18
-#: ./browser/templates/profile.pt:18
+#: ./browser/templates/author.pt:18
 msgid "Nothing here"
 msgstr "Niks hier"
 
@@ -51,19 +51,19 @@ msgstr "Niks hier"
 msgid "PloneSocial Network"
 msgstr ""
 
-#: ./browser/templates/profile.pt:29
+#: ./browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
 msgstr "Status updates door ${fullname}:"
 
-#: ./browser/templates/maxiprofile_provider.pt:21
-#: ./browser/templates/profile.pt:27
+#: ./browser/templates/maxiauthor_provider.pt:21
+#: ./browser/templates/author.pt:27
 msgid "Updates"
 msgstr ""
 
-#: ./browser/templates/maxiprofile_provider.pt:62
+#: ./browser/templates/maxiauthor_provider.pt:62
 msgid "follow"
 msgstr "Volg"
 
-#: ./browser/templates/maxiprofile_provider.pt:69
+#: ./browser/templates/maxiauthor_provider.pt:69
 msgid "unfollow"
 msgstr "Stop volgen"

@@ -1,9 +1,9 @@
-from zope.interface import implements
-from Products.CMFCore.utils import UniqueObject
+# -*- coding: utf-8 -*-
+from .graph import NetworkGraph
 from OFS.SimpleItem import SimpleItem
-
+from Products.CMFCore.utils import UniqueObject
 from interfaces import INetworkTool
-from graph import NetworkGraph
+from zope.interface import implements
 
 
 class NetworkTool(UniqueObject, SimpleItem, NetworkGraph):

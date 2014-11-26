@@ -1,24 +1,25 @@
-from zope.interface import implements, Interface
-from zope.component import adapts
-from zope.component import getMultiAdapter, ComponentLookupError
-from zope.component import queryUtility
-from zope.publisher.interfaces import IPublishTraverse
-from zope.component.hooks import getSite
-
+# -*- coding: utf-8 -*-
+from .interfaces import IAuthorProvider
+from .interfaces import IPlonesocialNetworkLayer
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
-
 from plonesocial.network.interfaces import INetworkGraph
-from .interfaces import IPlonesocialNetworkLayer
-from .interfaces import IProfileProvider
-
+from zope.component import ComponentLookupError
+from zope.component import adapts
+from zope.component import getMultiAdapter
+from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.interface import Interface
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 import logging
-logger = logging.getLogger('plonesocial.network.profile')
+
+logger = logging.getLogger('plonesocial.network.author')
 
 
-class AbstractProfile(object):
+class AbstractAuthor(object):
 
     def render(self):
         return self.index()
@@ -27,7 +28,7 @@ class AbstractProfile(object):
 
     @property
     def viewer_id(self):
-        """The guy looking at the profile"""
+        '''The guy looking at the author view'''
         return self.mtool.getAuthenticatedMember().getId()
 
     @property
@@ -36,7 +37,7 @@ class AbstractProfile(object):
 
     @property
     def portrait(self):
-        """Mugshot."""
+        '''Mugshot.'''
         return self.mtool.getPersonalPortrait(self.userid)
 
     @property
@@ -45,7 +46,7 @@ class AbstractProfile(object):
 
     @property
     def is_mine(self):
-        """Is this my own profile, or somebody else's?"""
+        '''Is this my own author profile, or somebody else's?'''
         return self.userid == self.viewer_id
 
     @property
@@ -70,14 +71,14 @@ class AbstractProfile(object):
             name=u'plone_portal_state')
         return portal_state.portal_url()
 
-    def profile_url(self):
-        return self.portal_url() + "/@@profile/" + self.userid
+    def author_url(self):
+        return self.portal_url() + '/@@/author' + self.userid
 
     def following_url(self):
-        return self.portal_url() + "/@@following/" + self.userid
+        return self.portal_url() + '/@@following/' + self.userid
 
     def followers_url(self):
-        return self.portal_url() + "/@@followers/" + self.userid
+        return self.portal_url() + '/@@followers/' + self.userid
 
     def following_count(self):
         return len(self.graph.get_following(self.userid))
@@ -86,7 +87,7 @@ class AbstractProfile(object):
         return len(self.graph.get_followers(self.userid))
 
 
-class AbstractProfileProvider(AbstractProfile):
+class AbstractAuthorProvider(AbstractAuthor):
 
     def __init__(self, context, request, view):
         self.context = context
@@ -95,17 +96,17 @@ class AbstractProfileProvider(AbstractProfile):
         self.userid = None  # will be set by calling view
 
     def __call__(self):
-        userid = self.request.form.get("userid", None)
+        userid = self.request.form.get('userid', None)
 
         # no form submission - just render
         if userid is None:
             return self.render()
 
-        # each inline profileprovider has a different userid
+        # each inline authorprovider has a different userid
         # process only the right form out of many
         if userid is not None and userid == self.userid:
-            followaction = self.request.form.get("subunsub_follow", None)
-            unfollowaction = self.request.form.get("subunsub_unfollow", None)
+            followaction = self.request.form.get('subunsub_follow', None)
+            unfollowaction = self.request.form.get('subunsub_unfollow', None)
             if followaction:
                 self.graph.set_follow(self.viewer_id, userid)
                 logger.info('%s follows %s', self.viewer_id, userid)
@@ -121,26 +122,26 @@ class AbstractProfileProvider(AbstractProfile):
         return self.render()
 
 
-class MaxiProfileProvider(AbstractProfileProvider):
+class MaxiAuthorProvider(AbstractAuthorProvider):
 
-    implements(IProfileProvider)
+    implements(IAuthorProvider)
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/maxiprofile_provider.pt")
+    index = ViewPageTemplateFile('templates/maxiauthor_provider.pt')
 
 
-class MiniProfileProvider(AbstractProfileProvider):
+class MiniAuthorProvider(AbstractAuthorProvider):
 
-    implements(IProfileProvider)
+    implements(IAuthorProvider)
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/miniprofile_provider.pt")
+    index = ViewPageTemplateFile('templates/miniauthor_provider.pt')
 
 
-class ProfileView(BrowserView, AbstractProfile):
+class AuthorView(BrowserView, AbstractAuthor):
     implements(IPublishTraverse, IViewView)
 
-    index = ViewPageTemplateFile("templates/profile.pt")
+    index = ViewPageTemplateFile('templates/author.pt')
 
     def __init__(self, context, request):
         self.context = context
@@ -148,13 +149,13 @@ class ProfileView(BrowserView, AbstractProfile):
         self._userid = None
 
     def publishTraverse(self, request, name):
-        """ used for traversal via publisher, i.e. when using as a url """
+        ''' used for traversal via publisher, i.e. when using as a url '''
         self._userid = name
         return self
 
     @property
     def userid(self):
-        """The guy in the profile"""
+        '''The guy in the author'''
         if self._userid:
             return self._userid
         elif self.is_anonymous:
@@ -167,16 +168,16 @@ class ProfileView(BrowserView, AbstractProfile):
             # plonesocial.activitystream integration is optional
             provider = getMultiAdapter(
                 (self.context, self.request, self),
-                name="plonesocial.activitystream.stream_provider")
+                name='plonesocial.activitystream.stream_provider')
             provider.users = self.userid
             return provider()
         except ComponentLookupError:
             # no plonesocial.activitystream available
             return ''
 
-    def maxiprofile_provider(self, userid):
+    def maxiauthor_provider(self, userid):
         provider = getMultiAdapter(
             (self.context, self.request, self),
-            name="plonesocial.network.maxiprofile_provider")
+            name='plonesocial.network.maxiauthor_provider')
         provider.userid = userid
         return provider()

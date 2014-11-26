@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
+from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import IntegrationTesting
 from plone.app.testing import applyProfile
-
 from zope.configuration import xmlconfig
 
 
@@ -21,6 +21,7 @@ class PlonesocialNetwork(PloneSandboxLayer):
         applyProfile(portal, 'plonesocial.network:default')
 
 PLONESOCIAL_NETWORK_FIXTURE = PlonesocialNetwork()
-PLONESOCIAL_NETWORK_INTEGRATION_TESTING = \
-    IntegrationTesting(bases=(PLONESOCIAL_NETWORK_FIXTURE, ),
-                       name="PlonesocialNetwork:Integration")
+PLONESOCIAL_NETWORK_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(PLONESOCIAL_NETWORK_FIXTURE, ),
+    name='PlonesocialNetwork:Integration'
+)
