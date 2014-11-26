@@ -17,6 +17,10 @@ class Message(Persistent):
     def __init__(self, actors, predicate, obj):
         self.actors = actors
 
+        # make sure actors is a list
+        if not isinstance(self.actors, list):
+            self.actors = [self.actors]
+
         self.predicate = predicate
 
         self.obj = obj.copy()

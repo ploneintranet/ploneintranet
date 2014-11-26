@@ -15,5 +15,6 @@ class NotificationsView(BrowserView):
         #import ipdb; ipdb.set_trace()
         display_message = []
         channel = AllChannel(user)
-        display_message = channel.get_all_messages()
+        #display_message = channel.get_all_messages()
+        display_message = channel.get_unread_messages()
         return display_message

@@ -11,14 +11,6 @@
       permission="zope2.View"
       />
 
-  <browser:page
-      for="*"
-      name="make_dummy_message"
-      class=".make_dummy_message.MakeDummyMessageView"
-      template="make_dummy_message.pt"
-      permission="zope2.View"
-      />
-
   <!-- browser:viewlet
       name="plonesocial.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
