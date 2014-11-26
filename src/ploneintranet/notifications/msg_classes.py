@@ -7,7 +7,10 @@ class ForceAllMessageClassHandler(object):
     msg_class = 'GLOBAL_NOTICE'
 
     def __init__(self):
-        self.tool = api.portal.get_tool('ploneintranet_notifications')
+        try:
+            self.tool = api.portal.get_tool('ploneintranet_notifications')
+        except api.exc.InvalidParameterError:
+            self.tool = None
 
     def _for_each_user(self, func):
         for user in api.user.get_users():
