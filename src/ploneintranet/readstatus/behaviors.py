@@ -6,6 +6,7 @@ from zope.schema import Bool
 
 from ploneintranet.readstatus import MessageFactory as _
 
+
 class IMustRead(form.Schema):
     """MustRead schema
     """
@@ -24,6 +25,7 @@ class IMustRead(form.Schema):
         )
 
 alsoProvides(IMustRead, form.IFormFieldProvider)
+
 
 class IMustReadMarker(Interface):
     """Marker interface that will be provided by instances using the
