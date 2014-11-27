@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet.theme"
+      metal:use-macro="context/main_template/macros/master">
+
+<metal:block fill-slot="main">
+    <h1>Example page for pat-equaliser</h1>
+    <div class="row pat-equaliser" data-pat-equaliser="transition: grow; effect-easing: swing">
+        <div class="six columns">
+            <div class="panel">
+                <p>
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.
+                </p>
+                <div class="pat-collapsible">
+                    <h4>More…</h4>
+                    <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+        </div>
+        <div class="six columns">
+            <div class="panel"><p>Minimal content</p></div>
+        </div>
+    </div>
+</metal:block>
+</html>

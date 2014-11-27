@@ -24,6 +24,13 @@ class ExampleResourcePolling(BrowserView):
         return catalog(portal_type='Image', path=self.context.getPhysicalPath())
 
 
+class ExampleEqualiser(BrowserView):
+    """ A view to illustrate the usage of pat-equaliser, particularly the
+        slow loading of images, in order to fix the following bug:
+
+        https://github.com/Patternslib/Patterns/issues/383
+    """
+
 class ExampleFilePreview(BrowserPage):
     """ A view to serve as an example of file previews (e.g. via docconv)
     """

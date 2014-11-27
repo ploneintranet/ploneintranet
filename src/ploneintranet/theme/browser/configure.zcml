@@ -13,26 +13,36 @@
       for="Products.CMFCore.interfaces.IFolderish"
       class=".examples.ExampleDragAndDropUpload"
       permission="cmf.ModifyPortalContent"
-      template="templates/dnd-upload-example.pt"
-      layer="..interfaces.IThemeSpecific"
+      template="templates/examples/dnd-upload-example.pt"
       />
+    <!-- layer="..interfaces.IThemeSpecific" -->
+
+  <browser:page
+      name="pat-equaliser-example"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".examples.ExampleEqualiser"
+      permission="zope2.View"
+      template="templates/examples/pat-equaliser-example.pt"
+      />
+      <!-- layer="..interfaces.IThemeSpecific" -->
 
   <browser:page
       name="resource-polling-example"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".examples.ExampleResourcePolling"
       permission="zope2.View"
-      template="templates/resource-polling-example.pt"
-      layer="..interfaces.IThemeSpecific"
+      template="templates/examples/resource-polling-example.pt"
       />
+  <!-- layer="..interfaces.IThemeSpecific" -->
 
   <browser:page
       name="file-preview-example.jpg"
       for="plone.app.contenttypes.interfaces.IImage"
       class=".examples.ExampleFilePreview"
       permission="zope2.View"
-      layer="..interfaces.IThemeSpecific"
       />
+  <!-- layer="..interfaces.IThemeSpecific" -->
+
   <!-- END Example views -->
 
   <!-- Helper view that allows us to disable CSS based on whether the Plone
