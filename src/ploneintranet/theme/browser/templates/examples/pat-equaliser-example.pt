@@ -12,32 +12,31 @@
             display: table;
         }
 
-        .row .equalised {
+        .row .equalised-column {
             background-color: darkgrey;
             padding: 0;
             display: table-cell;
             width: 45%;
         }
 
-        .row .equalised li img {
+        .row .equalised-column li img {
             max-width: 100%;
         }
     </style>
 
     <h1>Example page for pat-equaliser</h1>
     <div class="row pat-equaliser" data-pat-equaliser="transition: grow; effect-easing: swing">
-        <div class="six columns equalised">
+        <div class="six columns equalised-column">
             <div class="panel">
                 <p> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
                     totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
                     dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
                     sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
                     qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.
-                    
                     <tal:get define="images view/get_images">
                     <ul tal:condition="images">
                         <li tal:repeat="image images">
-                            <img class="pat-resourcepolling" tal:attributes="src string:${image/getPath}/file-preview-example.jpg"/>
+                            <img tal:attributes="src string:${image/getPath}"/>
                         </li>
                     </ul>
                     </tal:get>
@@ -49,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="six columns equalised">
+        <div class="six columns equalised-column">
             <div class="panel"><p>Minimal content</p></div>
         </div>
     </div>
