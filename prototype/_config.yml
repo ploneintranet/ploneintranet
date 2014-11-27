@@ -1,6 +1,7 @@
 title: Patterns
 author: Cornelis G. A. Kolbach
-baseurl: /prototype/
+baseurl: http://demo.ploneintranet.net
+domain: demo.ploneintranet.net
 media: /media
 markdown: kramdown
 permalink: /:title
