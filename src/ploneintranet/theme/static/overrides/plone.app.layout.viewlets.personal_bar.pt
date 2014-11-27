@@ -19,8 +19,8 @@
     <li tal:repeat="action view/user_actions"
         tal:attributes="id string:personaltools-${action/id}">
         <a href=""
-           tal:attributes="href action/url;
-                           target action/link_target|nothing"
+           tal:attributes="action"
+           tal:condition="exists:action/url"
            tal:content="action/title"
            i18n:translate="">
             action title
@@ -34,9 +34,8 @@
   <li id="anon-personalbar">
     <tal:actions repeat="action view/user_actions">
         <a href=""
-           tal:attributes="href action/url;
-                           id string:personaltools-${action/id};
-                           target action/link_target|nothing;"
+           tal:attributes="action"
+           tal:condition="exists:action/url"
            tal:content="action/title"
            i18n:translate="">
             action title

@@ -43,8 +43,10 @@
        the rules are likely to go away again -->
 
 
+      <!--
       <append css:content="#edit-bar" css:theme="#content"
               css:if-content="#edit-bar" />
+              -->
 
        <!-- adaptation of the global-nav -->
        <replace css:theme-children="#home-tabs"
@@ -58,11 +60,14 @@
   <!-- /END/ IMPORTANT NOTE -->
 
   <!-- Main content rule: Put plone content into theme content -->
-  <append content="//div[@id='content']/*"
-          theme="//div[@id='content']" />
+  <append css:content-children="#content" css:theme="#content" />
   <drop css:theme="#buddies-toggle"
         css:if-not-content="#buddies-toggle" />
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
+
+  <!-- toolbar -->
+  <replace css:theme="#portal-toolbar" css:content-children="#edit-bar" css:if-not-content=".ajax_load" css:if-content=".userrole-authenticated"/>
+  <replace css:theme="#anonymous-actions" css:content-children="#portal-personaltools-wrapper" css:if-not-content=".ajax_load" css:if-content=".userrole-anonymous"/>
 
 </rules>

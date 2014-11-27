@@ -1,32 +1,77 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet.theme">
 
+  <!-- BEGIN Example views (used to document and show patterns usage) -->
   <browser:page
       name="dnd-upload-example"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".views.ExampleDragAndDropUpload"
+      class=".examples.ExampleDragAndDropUpload"
       permission="cmf.ModifyPortalContent"
       template="templates/dnd-upload-example.pt"
+      layer="..interfaces.IThemeSpecific"
       />
 
   <browser:page
       name="resource-polling-example"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".views.ExampleResourcePolling"
+      class=".examples.ExampleResourcePolling"
       permission="zope2.View"
       template="templates/resource-polling-example.pt"
+      layer="..interfaces.IThemeSpecific"
       />
 
   <browser:page
       name="file-preview-example.jpg"
-      for="plone.app.blob.interfaces.IATBlobImage"
-      class=".views.ExampleFilePreview"
+      for="plone.app.contenttypes.interfaces.IImage"
+      class=".examples.ExampleFilePreview"
       permission="zope2.View"
+      layer="..interfaces.IThemeSpecific"
+      />
+  <!-- END Example views -->
+
+  <!-- Helper view that allows us to disable CSS based on whether the Plone
+       Intranet theme is enabled or not. -->
+  <browser:page
+      for="*"
+      name="is_plone_intranet_theme_enabled"
+      class=".views.IsThemeEnabled"
+      permission="zope.Public"
+      />
+
+  <!-- Provides markup around the Dexterity Add/Edit forms -->
+  <adapter factory=".templates.layout_factory" />
+
+  <!-- BEGIN Custom Content Type edit views -->
+  <browser:page
+      for="plone.app.contenttypes.interfaces.IDocument"
+      name="edit"
+      class=".document.EditView"
+      permission="cmf.ModifyPortalContent"
+      />
+  <!-- END Custom Content Type views -->
+
+  <!-- BEGIN Custom Content Type add views -->
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           ..interfaces.IThemeSpecific
+           plone.dexterity.interfaces.IDexterityFTI"
+      factory=".document.AddView"
+      name="Document"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      />
+  <!-- END Custom Content Type add views -->
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ISubmitWidget"
+      layer="ploneintranet.theme.interfaces.IPloneIntranetFormLayer"
+      template="templates/submit_input.pt"
       />
 
 </configure>
