@@ -1,7 +1,6 @@
 title: Patterns
 author: Cornelis G. A. Kolbach
-baseurl: http://patterns.cornae.com
-domain: patterns.cornae.com
+baseurl: /prototype/
 media: /media
 markdown: kramdown
 permalink: /:title
