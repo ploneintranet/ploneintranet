@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 version = '0.1'
 
 long_description = (
-    open('README.md').read()
+    open('README.rst').read()
     + '\n' +
     'Contributors\n'
     '============\n'
@@ -30,7 +30,8 @@ setup(name='ploneintranet.suite',
       author_email='',
       url='https://github.com/ploneintranet/ploneintranet.suite',
       license='gpl',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=find_packages('src'),
+      package_dir={'': 'src'},
       namespace_packages=['ploneintranet', ],
       include_package_data=True,
       zip_safe=False,
