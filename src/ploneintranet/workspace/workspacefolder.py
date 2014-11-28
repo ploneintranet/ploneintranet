@@ -66,3 +66,12 @@ class WorkspaceFolder(Container):
         new_policy = value
         self._participant_policy = new_policy
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
+
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+except ImportError:
+    IAttachmentStoragable = None
+
+if IAttachmentStoragable is not None:
+    from zope import interface
+    interface.classImplements(WorkspaceFolder, IAttachmentStoragable)
