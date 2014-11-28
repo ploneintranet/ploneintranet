@@ -1,3 +1,4 @@
+from datetime import datetime
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.interface import implements
@@ -31,6 +32,12 @@ from .interfaces import IStatusProvider
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('plonesocial.microblog')
+
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+    from ploneintranet.attachments.utils import extract_and_add_attachments
+except ImportError:
+    IAttachmentStoragable = None
 
 
 class StatusForm(extensible.ExtensibleForm, form.Form):
@@ -81,6 +88,15 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
                               context=microblog_context,
                               thread_id=thread_id)
 
+        file_upload = self.request.get('form.widgets.attachments')
+        attachments_supported = (
+            IAttachmentStoragable is not None and
+            IAttachmentStoragable.providedBy(status))
+        if attachments_supported and file_upload:
+            token = self.request.get('attachment-form-token')
+            extract_and_add_attachments(
+                file_upload, status, workspace=self.context, token=token)
+
         # debugging only
 #        container.clear()
 
@@ -89,6 +105,13 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 
         # Redirect to portal home
         self.request.response.redirect(self.action)
+
+    def attachment_form_token(self):
+        member = api.user.get_current()
+        username = member.getUserName()
+        return "{0}-{1}".format(
+            username,
+            datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
@@ -143,6 +166,9 @@ class StatusProvider(object):
             permission, self.context)
         is_installed = queryUtility(IMicroblogTool)
         return have_permission and is_installed
+
+    def is_attachment_supported(self):
+        return IAttachmentStoragable is not None
 
     @property
     def compact(self):

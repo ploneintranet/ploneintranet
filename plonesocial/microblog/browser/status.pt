@@ -72,14 +72,17 @@
                   data-pat-switch="#new-post-box status-inactive status-active"
                   name="form.widgets.text"></textarea>
         <fieldset
+           tal:condition="view/is_attachment_supported"
            class="attachments pat-subform pat-autosubmit pat-inject"
-           data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #new-post-box-attachment-previews">
+           data-pat-inject="url: @@upload-attachments; source: #attachments; target: #new-post-box-attachment-previews">
           <label class="iconified icon-attach pat-switch"
-                 data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+                 data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
           <p class="attachment-previews"
              id="new-post-box-attachment-previews">
             No attachments selected.
           </p>
+          <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/form/attachment_form_token">
+          <span tal:replace="structure context/@@authenticator/authenticator"/>
         </fieldset>
         <div class="button-bar">
           <a class="iconified icon-user-add pat-tooltip"

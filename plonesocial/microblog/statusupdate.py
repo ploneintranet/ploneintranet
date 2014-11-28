@@ -114,3 +114,16 @@ class StatusUpdate(Persistent):
 
     def getId(self):
         return self.id
+
+
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+except ImportError:
+    IAttachmentStoragable = None
+
+
+if IAttachmentStoragable is not None:
+    from zope import interface
+    from zope.annotation.interfaces import IAttributeAnnotatable
+    interface.classImplements(StatusUpdate, IAttributeAnnotatable)
+    interface.classImplements(StatusUpdate, IAttachmentStoragable)
