@@ -54,6 +54,17 @@
 
   </section>
 
+  <section class="preview">
+
+      <figure tal:repeat="attachment view/attachments">
+          <a href="/incredibly-boring-document" tal:attributes="href attachment">
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                    tal:attributes="src string:${attachment}/thumb">
+           </a>
+      </figure>
+
+  </section>
+
   <p class="functions">
         <a href="#">Share <sup class="counter">(8)</sup></a>
         <a href="#">Like <sup class="counter">(3)</sup></a>
@@ -78,6 +89,7 @@
                       tal:attributes="data-pat-switch string:#${comment_box_id} status-inactive status-active"></textarea>
             <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
             <fieldset data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #mypost-attachment-previews" class="attachments pat-subform pat-autosubmit pat-inject"
+                      tal:condition="view/is_attachment_supported"
                       tal:attributes="data-pat-inject string:url: /feedback/attachment-waste-not-want-not.html#attachments;; target: #${attachment_previews_id}">
                 <label data-pat-switch="#mypost status-* status-attach" class="iconified icon-attach pat-switch"
                        tal:attributes="data-pat-switch string:#${comment_box_id} status-* status-attach"><input type="file" title="Attach a file" accept="image/*" capture="camera" multiple=""> Attach a file (or create a picture)</label>

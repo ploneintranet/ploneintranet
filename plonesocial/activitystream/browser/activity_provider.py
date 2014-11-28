@@ -22,6 +22,13 @@ from plonesocial.core.integration import PLONESOCIAL
 from plonesocial.core.browser.utils import link_tags
 from plonesocial.core.browser.utils import link_users
 
+try:
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+    from ploneintranet.attachments.utils import IAttachmentStorage
+    from ploneintranet.docconv.client import IDocconv
+except ImportError:
+    IAttachmentStoragable = None
+
 
 class AbstractActivityProvider(object):
     """Helper for rendering IActivity
@@ -130,6 +137,28 @@ class AbstractActivityProvider(object):
         url = portal_state.portal_url()
         text = link_users(self.context.text, url)
         return link_tags(text, url)
+
+    def is_attachment_supported(self):
+        return IAttachmentStoragable is not None
+
+    @property
+    def attachments(self):
+        if (self.is_attachment_supported() and
+                IAttachmentStoragable.providedBy(self.context.context)):
+            storage = IAttachmentStorage(self.context.context)
+            attachments = storage.values()
+            for attachment in attachments:
+                docconv = IDocconv(attachment)
+                if docconv.has_thumbs():
+                    portal_state = getMultiAdapter(
+                        (self.context, self.request),
+                        name=u'plone_portal_state')
+                    url = portal_state.portal_url()
+                    yield ('{portal_url}/@@status-attachments/{status_id}/'
+                           '{attachment_id}').format(
+                               portal_url=url,
+                               status_id=self.context.context.getId(),
+                               attachment_id=attachment.getId())
 
     @property
     def raw_date(self):
