@@ -17,7 +17,6 @@ design_description: The homepage of the intranet that contains a concatinated so
 							{% if count <= 3 %}
 								<article class="item item-{{ count }}">
 									<a href="{{item.url}}">
-										
 										<img class="illustration" src="/media/{{ item.image }}" alt="" />
 										<!-- {% if item.category == 'member-news' %}
 											<img class="logo" src="/media/logos/{{item.code}}.svg" alt="">
@@ -29,7 +28,6 @@ design_description: The homepage of the intranet that contains a concatinated so
 						    			<p class="description">
 											{{ item.description | truncate: 160 }} <!-- <em>Read more…</em> -->
 						    			</p>
-			
 									</a>
 									<form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
 										<button type="submit" class="icon-ok">Mark read</button>
@@ -81,7 +79,6 @@ design_description: The homepage of the intranet that contains a concatinated so
 									{% endfor %}
 								</a>
 							</li>
-						
 						{% assign count = count | plus: 1 %}
 						
 						{% endif %}
