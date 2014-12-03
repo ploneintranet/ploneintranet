@@ -4,6 +4,7 @@ from zope import schema
 from zope.interface import implements
 
 from ploneintranet.todo import _
+from ploneintranet.todo.vocabularies import todo_status, todo_priority
 
 
 class ISimpleTodo(model.Schema):
@@ -23,6 +24,20 @@ class ISimpleTodo(model.Schema):
         title=_(u"Workspace"),
         description=_(u"The workspace assigned to this task"),
         required=False,
+        )
+
+    status = schema.Choice(
+        title=_(u"Status"),
+        required=True,
+        default=u'tbd', 
+        vocabulary=todo_status,
+        )
+
+    priority = schema.Choice(
+        title=_(u"Priority"),
+        required=True,
+        default=1, 
+        vocabulary=todo_priority,
         )
 
 
