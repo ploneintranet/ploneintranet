@@ -2,12 +2,9 @@
 Creating a new Patternslib pattern
 ==================================
 
-----------------------
-Creating a new pattern
-----------------------
-
+--------------------
 The directory outlay
-====================
+--------------------
 
 Each pattern should have a certain layout. Look for example at [pat-redactor](https://github.com/Patternslib/pat-redactor).
 
@@ -19,31 +16,32 @@ well as some usage documentation in *documentation.md*.
 The *src* folder contains the pattern's actual Javascript source file(s).
 
 
+-------------------------------------------
 Determining the HTML markup for the pattern
-===========================================
+-------------------------------------------
 
 Please refer to the official Patternslib documentation:
 
 https://github.com/Patternslib/Patterns/blob/master/docs/api/parameters.rst
 
-
+--------------------------------
 Writing the pattern's javascript
-================================
+--------------------------------
 
 Please refer to the official Patternslib documentation:
 
 https://github.com/Patternslib/Patterns/blob/master/docs/create-a-pattern.md
 
-
+-------------------------------
 Hook the pattern into our build
-===============================
+-------------------------------
 
 In order to have your pattern available in Plone Intranet it needs to be
 installable via bower and hooked up into the build.
 
 
 Using bower to make the pattern installable
--------------------------------------------
+===========================================
 
 We use [bower](http://bower.io) for mananging our front-end Javascript
 dependencies.
@@ -70,7 +68,7 @@ your pattern will be available in ``./src/bower_components/``.
 
 
 Tell r.js and require.js where your pattern is located
-------------------------------------------------------
+======================================================
 
 Now, once we have the package registered and checked out by bower, we can
 specify the pattern's path, so that [r.js](http://requirejs.org/docs/optimization.html)
@@ -92,7 +90,7 @@ and adding the new pattern there.
 
 
 Generate a new bundle file
---------------------------
+==========================
 
 Once this is all done, you run ``make bundle`` and the new Javascript bundle
 will contain your newly created pattern.
