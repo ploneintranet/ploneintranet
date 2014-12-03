@@ -67,13 +67,13 @@ class TestPortlet(IntegrationTestCase):
             IPortletRenderer
         )
 
-    # def test_rendering(self):
-    #     renderer = self._get_renderer()
-    #     html = renderer.render()
-    #     self.assertIn(
-    #         u"""<div class="news portlet" id="portlet-news">""",
-    #         html
-    #     )
+    def test_rendering(self):
+        renderer = self._get_renderer()
+        html = renderer.render()
+        self.assertIn(
+            u"""<div class="news portlet" id="portlet-news">""",
+            html
+        )
     #     self.assertIn(
     #         u'News 10',
     #         html
