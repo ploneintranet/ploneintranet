@@ -67,7 +67,6 @@ class TestPortlet(IntegrationTestCase):
     def test_rendering(self):
         renderer = self._get_renderer()
         html = renderer.render()
-        self.assertEqual(
-            html,
-            u''
+        self.assertTrue(
+            u"""<div class="news portlet" id="portlet-news">""" in html
         )
