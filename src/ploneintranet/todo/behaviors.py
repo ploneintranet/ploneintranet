@@ -4,7 +4,7 @@ from zope.interface import implements, alsoProvides, Interface
 from zope.component import adapts
 from zope.schema import Bool
 
-from ploneintranet.todo import MessageFactory as _
+from ploneintranet.todo import _
 
 
 class IMustRead(form.Schema):
@@ -18,8 +18,8 @@ class IMustRead(form.Schema):
         )
 
     mustread = Bool(
-            title=u"Must read",
-            description=u"""Mark the content as "Must read" for all users.""",
+            title=_(u"Must read"),
+            description=_(u"""Mark the content as "Must read" for all users."""),
             default=False,
             required=False,
         )

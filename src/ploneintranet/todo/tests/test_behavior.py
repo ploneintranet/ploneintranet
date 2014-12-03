@@ -13,7 +13,7 @@ class TestBehavior(IntegrationTestCase):
 
     def test_set_get(self):
         news = api.content.create(
-            type='NewsItem',
+            type='News Item',
             title='My news',
             container=self.portal)
         behavior = IMustRead(news)

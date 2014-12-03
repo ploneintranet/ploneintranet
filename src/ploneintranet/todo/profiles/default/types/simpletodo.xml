@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<object name="simpletodo" meta_type="Dexterity FTI" i18n:domain="plone"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Todo</property>
+ <property name="factory">simpletodo</property>
+ <property
+    name="add_view_expr">string:${folder_url}/++add++simpletodo</property>
+ <property name="link_target"></property>
+ <property name="global_allow">True</property>
+ <property name="allow_discussion">False</property>
+ <property name="default_view">view</property>
+ <property name="view_methods">
+  <element value="view"/>
+ </property>
+ <property name="default_view_fallback">False</property>
+ <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="klass">ploneintranet.todo.content.simpletodo.SimpleTodo</property>
+ <property name="behaviors">
+  <element value="plone.app.content.interfaces.INameFromTitle"/>
+ </property>
+ <property name="schema">ploneintranet.todo.content.ISimpleTodo</property>
+ <property name="model_file"></property>
+ <property name="schema_policy">dexterity</property>
+ <alias from="(Default)" to="(dynamic view)"/>
+ <alias from="edit" to="@@edit"/>
+ <alias from="sharing" to="@@sharing"/>
+ <alias from="view" to="(selected layout)"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    description="" icon_expr="" link_target="" url_expr="string:${object_url}"
+    visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    description="" icon_expr="" link_target=""
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+</object>
