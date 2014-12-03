@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<object name="portal_javascripts" meta_type="JavaScripts Registry">
- <javascript authenticated="False" cacheable="True" compression="safe"
-    conditionalcomment="" cookable="True" enabled="True" expression=""
-    id="++theme++ploneintranet.theme/generated/bundles/ploneintranet.js" inline="False"/>
-</object>
