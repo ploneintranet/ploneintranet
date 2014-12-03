@@ -18,8 +18,7 @@
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
- <property name="schema">ploneintranet.todo.content.ISimpleTodo</property>
- <property name="model_file"></property>
+ <property name="schema">ploneintranet.todo.content.simpletodo.ISimpleTodo</property>
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>
