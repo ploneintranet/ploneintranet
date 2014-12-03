@@ -4,6 +4,11 @@ from zope.interface import Interface, Attribute
 from ploneintranet.todo import MessageFactory as _
 
 
+# verbs definition
+MUST_READ = 'mustread'
+TODO = 'todo'
+
+
 class IContentAction(Interface):
     """
     Interface for ContentAction class

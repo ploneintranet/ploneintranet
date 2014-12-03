@@ -6,50 +6,34 @@
       tal:omit-tag="">
 
 <div class="news portlet" id="portlet-news">
-  <h2 class="portlet-title"><a href="/news.html">News</a></h2>
+  <h2 class="portlet-title">
+    <!-- TODO: make this configurable -->
+    <a href="/news">News</a>
+  </h2>
   <div class="news-block" id="unread-news">
-	<article class="item item-1">
-	  <a href="/news-press-2">
-		<img class="illustration" src="/media/new-delhi-skyline.jpg" alt="">
-		<h3 class="title">
-		  Air India Joins Star Alliance
-		</h3>
-		<p class="description">
-		  First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market
-		</p>
-	  </a>
-	  <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-		<button type="submit" class="icon-ok">Mark read</button>
-	  </form>
-	</article>
-	<article class="item item-2">
-	  <a href="/news-press-1">
-		<img class="illustration" src="/media/corporate.png" alt="">
-		<h3 class="title">
-		  Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3
-		</h3>
-		<p class="description">
-		  Star Alliance officially opened its new Lounge at São Paulo –Guarulhos Airport, Terminal 3 today. About 1,350 square metres in size, the lounge can accommoda...
-		</p>
-	  </a>
-	  <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-		<button type="submit" class="icon-ok">Mark read</button>
-	  </form>
-	</article>
-	<article class="item item-3">
-	  <a href="/star-news-3">
-		<img class="illustration" src="/media/ethiopian-ana-thumb.jpg" alt="">
-		<h3 class="title">
-		  ANA and Ethiopian to codeshare
-		</h3>
-		<p class="description">
-		  In December, 2011 both airlines began reciprocal frequent flyer program awards.
-		</p>
-	  </a>
-	  <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-		<button type="submit" class="icon-ok">Mark read</button>
-	  </form>
-	</article>
+    <tal:news repeat="news_item view/latest_news">
+	  <article tal:attributes="class string:item item-${repeat/news_item/number}">
+	    <a href=""
+           tal:attributes="href news_item/absolute_url">
+          <img tal:condition="news_item/image"
+               tal:define="scales news_item/@@images"
+               tal:replace="structure python: scales.tag('image', 'thumb')" />
+		  <h3 class="title" tal:content="news_item/Title">
+		    Air India Joins Star Alliance
+		  </h3>
+		  <p class="description"
+             tal:condition="news_item/Description"
+             tal:content="news_item/Description">
+		    First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market
+		  </p>
+	    </a>
+        <!-- We must probably hook up to a view that marks the object as read -->
+	    <form action="__TODO__" class="functions pat-inject">
+		  <button type="submit" class="icon-ok"
+                  i18n:translate="">Mark read</button>
+	    </form>
+	  </article>
+    </tal:news>
   </div>
 </div>
 
