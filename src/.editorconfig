@@ -1,0 +1,8 @@
+[*.js]
+indent_size = 2
+
+[{*.dtml,*.pt,*.zcml}]
+indent_size = 2
+
+
+

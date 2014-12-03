@@ -3,7 +3,7 @@
   i18n_domain="ploneintranet.notifications">
 
   <subscriber
-    for="plonesocial.microblog.interfaces.IStatusUpdate
+    for="..interfaces.INotifiable
          zope.lifecycleevent.interfaces.IObjectAddedEvent"
     handler=".status_update.added" />
 

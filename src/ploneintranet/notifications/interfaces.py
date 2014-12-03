@@ -131,3 +131,15 @@ class IMessage(Interface):
         """
         Update the actors list
         """
+
+
+class INotifiable(Interface):
+    """
+    Interface applied to objects that should be notified
+    """
+
+
+class IMessageFactory(Interface):
+    """
+    Creates a message
+    """
