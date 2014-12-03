@@ -10,6 +10,7 @@
         <dependency>profile-ploneintranet.documentviewer:default</dependency>
         <dependency>profile-ploneintranet.invitations:default</dependency>
         <dependency>profile-ploneintranet.notifications:default</dependency>
+        <dependency>profile-ploneintranet.todo:default</dependency>
         <dependency>profile-plonesocial.microblog:default</dependency>
         <dependency>profile-plonesocial.activitystream:default</dependency>
         <dependency>profile-plonesocial.network:default</dependency>
