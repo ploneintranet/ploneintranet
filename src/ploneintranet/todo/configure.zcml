@@ -36,4 +36,9 @@
 
     <include package=".portlets" />
 
+    <utility
+        provides="ploneintranet.todo.interfaces.ITodoUtility"
+        factory=".todo_utility.TodoUtility"
+        />
+
 </configure>
