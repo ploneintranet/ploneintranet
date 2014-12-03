@@ -35,6 +35,8 @@
   <drop css:content=".breadcrumbSeparator" css:if-content=".breadcrumbSeparator" />
   <replace css:content-children="#portal-breadcrumbs"
            css:theme-children="nav.breadcrumbs" />
+  <replace css:content="#notification-link"
+           css:theme="#notification-link" />
 
   <!-- Portal Personal Tools -->
   <replace css:content-children="#portal-personaltools-wrapper"
