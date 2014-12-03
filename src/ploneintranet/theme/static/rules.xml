@@ -62,18 +62,28 @@
   <append css:theme="#login-form fieldset.vertical" css:content="#login-form input[type='hidden']" />
 </rules>
 
-<rules css:if-content="body.template-profile">
+<rules css:if-content="body.template-stream">
   <theme href="generated/notifications.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
-
 </rules>
 
-<rules css:if-content="body.template-dashboard">
-  <theme href="generated/dashboard.html" />
+<rules css:if-content="body.section-news">
+  <theme href="generated/news.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
+</rules>
 
+<rules css:if-content="body.section-events">
+  <theme href="generated/calendar.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <append css:content-children="#content" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.template-dashboard-html">
+  <theme href="generated/dashboard.html" />
+  <drop css:theme-children="div.container" />
+  <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
 
 <rules css:if-content="#visual-portal-wrapper">

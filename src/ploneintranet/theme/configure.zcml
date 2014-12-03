@@ -26,6 +26,13 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:importStep
+        name="ploneintranet.theme.configureFrontPage"
+        title="Delete default frontpage and configure dashboard as default"
+        description=""
+        handler="ploneintranet.theme.setuphandlers.configureFrontPage">
+    </genericsetup:importStep>
+
     <plone:static
         directory="static"
         type="theme"
@@ -36,7 +43,7 @@
         interface="ploneintranet.theme.interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
         />
-    <browser:jbot directory="static/overrides" 
+    <browser:jbot directory="static/overrides"
         layer=".interfaces.IThemeSpecific" />
 
 </configure>
