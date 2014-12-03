@@ -20,12 +20,6 @@ class IContentAction(Interface):
     completed = Attribute(_(u'The datetime this ContentAction was completed'))
     modified = Attribute(_(u'The datetime this ContentAction was triggered'))
 
-    @property
-    def latest_date():
-        """
-        The most recent of created or modified
-        """
-
 
 class ITodoUtility(Interface):
     """
