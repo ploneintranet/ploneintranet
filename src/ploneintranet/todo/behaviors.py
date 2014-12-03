@@ -1,10 +1,8 @@
 from plone.directives import form
-from rwproperty import getproperty, setproperty
-from zope.interface import implements, alsoProvides, Interface
-from zope.component import adapts
+from zope.interface import alsoProvides, Interface
 from zope.schema import Bool
 
-from ploneintranet.todo import _
+from . import _
 
 
 class IMustRead(form.Schema):
@@ -12,17 +10,17 @@ class IMustRead(form.Schema):
     """
 
     form.fieldset(
-            'settings',
-            label=_(u'Settings'),
-            fields=('mustread',),
-        )
+        'settings',
+        label=_(u'Settings'),
+        fields=('mustread',),
+    )
 
     mustread = Bool(
-            title=_(u"Must read"),
-            description=_(u"""Mark the content as "Must read" for all users."""),
-            default=False,
-            required=False,
-        )
+        title=_(u"Must read"),
+        description=_(u"""Mark the content as "Must read" for all users."""),
+        default=False,
+        required=False,
+    )
 
 alsoProvides(IMustRead, form.IFormFieldProvider)
 

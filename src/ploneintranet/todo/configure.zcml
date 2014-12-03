@@ -41,4 +41,12 @@
         factory=".todo_utility.TodoUtility"
         />
 
+    <subscriber for=".behaviors.IMustReadMarker
+                     zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+                handler=".handlers.mark" />
+
+    <subscriber for=".behaviors.IMustReadMarker
+                     zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+                handler=".handlers.on_delete" />
+
 </configure>

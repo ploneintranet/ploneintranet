@@ -1,6 +1,8 @@
 from zope.component import getUtility
 from zope.component import getMultiAdapter
+from zope.lifecycleevent import modified
 from plone import api
+from plone.uuid.interfaces import IUUID
 from plone.portlets.interfaces import IPortletRenderer
 from plone.portlets.interfaces import IPortletManager
 from plone.namedfile.file import NamedBlobImage
@@ -46,6 +48,7 @@ class TestPortlet(IntegrationTestCase):
             self.news_items.append(news_item)
             behavior = IMustRead(news_item)
             behavior.mustread = True
+            modified(news_item)
 
     def _get_renderer(self):
         manager = getUtility(
@@ -67,6 +70,31 @@ class TestPortlet(IntegrationTestCase):
     def test_rendering(self):
         renderer = self._get_renderer()
         html = renderer.render()
-        self.assertTrue(
-            u"""<div class="news portlet" id="portlet-news">""" in html
+        self.assertIn(
+            u"""<div class="news portlet" id="portlet-news">""",
+            html
+        )
+        self.assertIn(
+            u'News 10',
+            html
+        )
+        self.assertIn(
+            u'News 9',
+            html
+        )
+        self.assertIn(
+            u'News 8',
+            html
+        )
+        self.assertNotIn(
+            u'News 3',
+            html
+        )
+
+    def test_data(self):
+        renderer = self._get_renderer()
+        latest = renderer.latest_news()
+        self.assertEqual(
+            IUUID(latest[0]),
+            IUUID(self.news_item[-1])
         )

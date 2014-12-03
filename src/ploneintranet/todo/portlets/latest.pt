@@ -27,8 +27,9 @@
 		    First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market
 		  </p>
 	    </a>
-        <!-- We must probably hook up to a view that marks the object as read -->
-	    <form action="__TODO__" class="functions pat-inject">
+	    <form action=""
+              class="functions pat-inject"
+              tal:attributes="action string:${news_item/absolute_url}/@@markread#portlet-news">
 		  <button type="submit" class="icon-ok"
                   i18n:translate="">Mark read</button>
 	    </form>
