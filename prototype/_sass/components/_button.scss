@@ -3,7 +3,7 @@
 @mixin button() {
   font-family: $body-font-family;
   margin: 0 0.5em 0 0;
-  border: 0.06em solid rgba(0, 0, 0, 0.32);
+  border: 0.075em solid rgba(0, 0, 0, 0.32);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
   border-radius: 0.2em;
