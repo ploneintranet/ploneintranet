@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 from plone import api
-from ploneintranet.documentviewer.testing import \
+from plone.app.contenttypes.tests.test_image import dummy_image
+from ploneintranet.documentviewer.testing import (
     PLONEINTRANET_documentviewer_INTEGRATION_TESTING
+)
 from zope.publisher.interfaces import NotFound
-import os
 
 
 class TestViews(unittest.TestCase):
@@ -15,24 +16,20 @@ class TestViews(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-
-        test_png_path = os.path.join(os.path.dirname(__file__), 'test.png')
         with api.env.adopt_roles(['Manager']):
-            with open(test_png_path) as f:
-                self.image = api.content.create(
-                    self.portal,
-                    'Image',
-                    'test_image',
-                    image=f,  # noqa
-                )
-            with open(test_png_path) as f:
-                from plone.app.blob.field import ImageField
-                from ploneintranet.docconv.client.config import THUMBNAIL_KEY
-                from zope.annotation import IAnnotations
-                annotations = IAnnotations(self.image)
-                thumbnail = ImageField()
-                thumbnail.set(self.image, f.read())
-                annotations[THUMBNAIL_KEY] = list([thumbnail])
+            self.image = api.content.create(
+                self.portal,
+                'Image',
+                'test_image',
+                image=dummy_image(),
+            )
+            from plone.app.blob.field import ImageField
+            from ploneintranet.docconv.client.config import THUMBNAIL_KEY
+            from zope.annotation import IAnnotations
+            annotations = IAnnotations(self.image)
+            thumbnail = ImageField()
+            thumbnail.set(self.image, dummy_image().data)
+            annotations[THUMBNAIL_KEY] = list([thumbnail])
 
         self.image_view = api.content.get_view(
             'document_preview',
@@ -48,21 +45,20 @@ class TestViews(unittest.TestCase):
     def test_docconv(self):
         ''' Get the IDocconv adapter
         '''
-        from ploneintranet.docconv.client import DocconvAdapter
+        from ploneintranet.docconv.client.adapters import DocconvAdapter
         self.assertIsInstance(self.image_view.docconv, DocconvAdapter)
         self.assertIsInstance(self.portal_view.docconv, DocconvAdapter)
 
     def test_get_default_preview_url(self):
         '''
         '''
-
         self.assertEqual(
             self.image_view.get_default_preview_url(),
-            'http://nohost/plone/png.png'
+            'http://nohost/plone/image.png'
         )
         self.assertEqual(
             self.portal_view.get_default_preview_url(),
-            'http://nohost/plone/document.png'
+            'http://nohost/plone/application.png'
         )
 
     def test_get_preview_url(self):
@@ -74,7 +70,7 @@ class TestViews(unittest.TestCase):
         )
         self.assertEqual(
             self.portal_view.get_preview_url(),
-            'http://nohost/plone/document.png'
+            'http://nohost/plone/application.png'
         )
 
     def test_get_preview_image(self):
@@ -94,10 +90,10 @@ class TestViews(unittest.TestCase):
         )
         self.assertEqual(
             self.portal.restrictedTraverse('@@document_preview/get_preview_url')(),  # noqa
-            'http://nohost/plone/document.png'
+            'http://nohost/plone/application.png'
         )
         self.assertEqual(
-            self.image.restrictedTraverse('@@document_preview/get_preview_image')(),
+            self.image.restrictedTraverse('@@document_preview/get_preview_image')(),  # noqa
             'http://nohost/plone/test_image/docconv_image_thumb.jpg'
         )
         self.assertRaises(
