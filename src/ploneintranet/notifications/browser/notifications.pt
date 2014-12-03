@@ -46,10 +46,13 @@
             <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43" tal:content="notification/obj/message_last_modification_date">Just now</time>
           </li>
         </ul>
-
         <div tal:condition="not: notifications">No pending notifications</div>
 
+        <p class="all-notifications">
+          <a tal:attributes="href string:${portal_url}/notifications">All notifications</a>
+        </p>
       </div>
+
     </div>
   </body>
 </html>

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser import BrowserView
-from plone import api
+from plone.app.layout.viewlets import common as base
 from plone.memoize.view import memoize
+from plone import api
 from ploneintranet.notifications.channel import AllChannel
 
 
-class NotificationsView(BrowserView):
+class NotificationsViewlet(base.ViewletBase):
+    """
+    """
 
     @memoize
-    def your_notifications(self):
-        # count to show unread messages
-        display_message = []
+    def getNumber(self):
         user = api.user.get_current()
         # TODO a zope user like admin will fail from here
         try:
             channel = AllChannel(user)
-            display_message = channel.get_unread_messages()
+            count = channel.get_unread_count()
         except AttributeError:
             #AttributeError: getUserId
-            display_message = []
-        return display_message
+            count = 0
+        return count
