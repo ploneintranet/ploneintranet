@@ -17,6 +17,7 @@
  <property name="klass">ploneintranet.todo.content.simpletodo.SimpleTodo</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element value="ploneintranet.todo.behaviors.ITodo" />
  </property>
  <property name="schema">ploneintranet.todo.content.simpletodo.ISimpleTodo</property>
  <property name="schema_policy">dexterity</property>
