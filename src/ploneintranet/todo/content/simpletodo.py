@@ -3,7 +3,8 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import implements
 
-from ploneintranet.todo import _
+from .. import _
+from ..behaviors import ITodoMarker
 
 
 class ISimpleTodo(model.Schema):
@@ -14,4 +15,4 @@ class ISimpleTodo(model.Schema):
 
 
 class SimpleTodo(Item):
-    implements(ISimpleTodo)
+    implements(ISimpleTodo, ITodoMarker)
