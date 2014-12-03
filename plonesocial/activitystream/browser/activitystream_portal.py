@@ -1,17 +1,20 @@
-from zope.interface import implements
-from zope.component import getMultiAdapter
-from zope.formlib import form
+# -*- encoding: utf8 -*-
+from .interfaces import IActivitystreamPortlet
 from Acquisition import aq_inner
-
-from plone.app.portlets.portlets import base
-from zope.viewlet.interfaces import IViewlet
+from Products.CMFPlone.utils import getFSVersionTuple
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from .interfaces import IActivitystreamPortlet
-
+from plone.app.portlets.portlets import base
+from zope.component import getMultiAdapter
+from zope.formlib import form
 from zope.i18nmessageid import MessageFactory
+from zope.interface import implements
+from zope.viewlet.interfaces import IViewlet
+
+
 _ = MessageFactory('plonesocial.activitystream')
+
+PLONE4 = getFSVersionTuple()[0] <= 4
 
 
 class PortalView(BrowserView):
@@ -108,11 +111,17 @@ class Renderer(base.Renderer):
 
 
 class AddForm(base.AddForm):
-    form_fields = form.Fields(IActivitystreamPortlet)
+    if PLONE4:
+        form_fields = form.Fields(IActivitystreamPortlet)
+    else:
+        schema = IActivitystreamPortlet
 
     def create(self, data):
         return Assignment(**data)
 
 
 class EditForm(base.EditForm):
-    form_fields = form.Fields(IActivitystreamPortlet)
+    if PLONE4:
+        form_fields = form.Fields(IActivitystreamPortlet)
+    else:
+        schema = IActivitystreamPortlet
