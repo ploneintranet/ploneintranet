@@ -6,3 +6,4 @@ Developer documentation
     :maxdepth: 2
 
     forms 
+    patterns
