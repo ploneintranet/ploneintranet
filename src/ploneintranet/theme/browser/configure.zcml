@@ -84,4 +84,15 @@
       template="templates/submit_input.pt"
       />
 
+
+  <browser:page
+      name="dashboard.html"
+      for="*"
+      class=".dashboard.Dashboard"
+      permission="zope2.View"
+      template="templates/dashboard.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
+
+
 </configure>
