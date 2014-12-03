@@ -6,16 +6,17 @@
   <replace content='/html/head/title' theme='/html/head/title' />
   <append content='/html/head/base' theme='/html/head' />
   <copy theme="/html/head/meta" content="/html/head/meta" />
+
+<!-- remove the script and style from the prototype… -->
+  <drop theme="/html/head/script" />
+  <drop theme="/html/head/link" />
+<!-- … and deliver the one from plone resource registries -->
+  <after theme-children="/html/head" content="/html/head/link | /html/head/style" />
+  <after theme-children="/html/head" content="/html/head/script" />
+
+
   <theme href="generated/dashboard.html" css:if-content="#visual-portal-wrapper" />
 
-  <!-- Pull in Plone CSS -->
-  <!-- XXX: Removing this because it breaks Patterns JS and can't find a reason
-       why we should have standard Plone JS or CSS in our theme...
-    <replace theme="/html/head"
-            content="/html/head/link | /html/head/style | /html/head/script" />
-   -->
-
-  <!--<replace theme="/html/head/meta/[@name='viewport']" content="/html/head/meta/[@name='viewport']"/>-->
 
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
