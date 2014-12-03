@@ -1,4 +1,4 @@
-from BTrees import OOBTree
+from BTrees.OOBTree import OOBTree
 from Products.PlonePAS.tools.memberdata import MemberData
 
 from plone import api
