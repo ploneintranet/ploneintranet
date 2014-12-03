@@ -34,6 +34,8 @@
         marker=".behaviors.IMustReadMarker"
         />
 
+    <include file="permissions.zcml" />
+    
     <include package=".portlets" />
 
     <utility

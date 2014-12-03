@@ -1,4 +1,5 @@
 from plone.directives import form
+from plone.directives.dexterity import write_permission
 from zope.interface import alsoProvides, Interface
 from zope.schema import Bool, Choice, TextLine
 
@@ -49,6 +50,7 @@ class ITodo(form.Schema):
         required=False,
         )
 
+    write_permission(status='ploneintranet.todo.ChangeStatus')
     status = Choice(
         title=_(u"Status"),
         required=True,

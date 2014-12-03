@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <permission name="ploneintranet.todo: Change task status" acquire="True">
+      <role name="Owner"/>
+      <role name="Manager"/>
+    </permission>
+  </permissions>
+</rolemap>

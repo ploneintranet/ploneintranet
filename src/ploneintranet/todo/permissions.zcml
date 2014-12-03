@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ploneintranet.todo">
+
+    <permission
+        id="ploneintranet.todo.ChangeStatus"
+        title="ploneintranet.todo: Change task status"
+        />
+
+</configure>
