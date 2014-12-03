@@ -62,13 +62,23 @@
   <append css:theme="#login-form fieldset.vertical" css:content="#login-form input[type='hidden']" />
 </rules>
 
-<rules css:if-content="template-dashboard">
+<rules css:if-content="body.template-profile">
+  <theme href="generated/notifications.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <append css:content-children="#content" css:theme="#content" />
+
+</rules>
+
+<rules css:if-content="body.template-dashboard">
   <theme href="generated/dashboard.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
 
 </rules>
 
+<rules css:if-content="#visual-portal-wrapper">
+  <theme href="generated/empty.html" />
+</rules>
 
 
 
