@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implementer
+from zope.component import getUtility
 from zope import schema
+from plone import api
 from plone.memoize import ram
 from plone.memoize.compress import xhtml_compress
 from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
+from plone.app.uuid.utils import uuidToObject
 from plone.app.portlets.cache import render_cachekey
 from plone.app.portlets.portlets import base
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ..interfaces import ITodoUtility
+from ..interfaces import MUST_READ
 from .. import _
 
 
@@ -42,9 +47,26 @@ class Renderer(base.Renderer):
     def render(self):
         return xhtml_compress(self._template())
 
-    @memoize
     def latest_news(self):
-        return []
+        return self._data()
+
+    @memoize
+    def _data(self):
+        todos = getUtility(ITodoUtility)
+        current_user = api.user.get_current()
+        latest = todos.query(
+            userids=[current_user.getId()],
+            verbs=[MUST_READ],
+            sort_on='created',
+            sort_order='reverse'
+        )
+        limit = self.data.count
+        contents = []
+        for action in latest[:limit]:
+            # Maybe it is better to have a catalog brain here?
+            content = uuidToObject(action.content_uid)
+            contents.append(content)
+        return contents
 
 
 class AddForm(base.AddForm):
