@@ -37,7 +37,7 @@ class TestPortlet(IntegrationTestCase):
         self.news_items = []
         for i in xrange(0, 10):
             news_item = api.content.create(
-                type='NewsItem',
+                type='News Item',
                 title=u'News {}'.format(i+1),
                 container=self.portal,
                 text=u'<p>Hello <em>World</em>!</p>',
