@@ -6,7 +6,7 @@
   <replace content='/html/head/title' theme='/html/head/title' />
   <append content='/html/head/base' theme='/html/head' />
   <copy theme="/html/head/meta" content="/html/head/meta" />
-  <theme href="generated/home.html" css:if-content="#visual-portal-wrapper" />
+  <theme href="generated/dashboard.html" css:if-content="#visual-portal-wrapper" />
 
   <!-- Pull in Plone CSS -->
   <!-- XXX: Removing this because it breaks Patterns JS and can't find a reason
