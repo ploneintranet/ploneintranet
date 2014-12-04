@@ -13,6 +13,7 @@ There are two folders inside the **pat-redactor** repo:
 * **demo**
     Contains the files necessary to create a demonstration of the pattern as
     well as some usage documentation in *documentation.md*.
+
 * **src**
     Contains the pattern's actual Javascript source file(s).
 
@@ -64,7 +65,7 @@ specified color.
                 "pat-registry",
                 "pat-parser"
                 ], function() {
-                    return factory.apply(this, Array.prototype.slice.call(arguments, 1));
+                    return factory.apply(this, arguments);
                 });
         } else {
             /* A module loader is not available. In this case, we need the
@@ -116,7 +117,7 @@ specified color.
         };
         // Finally, we register the pattern object in the registry.
         registry.register(upload);
-    });
+    }));
 
 
 The Patternslib repository also has some documentation on creating a pattern,
