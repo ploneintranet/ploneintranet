@@ -26,6 +26,31 @@
                         </label>
                     </form>
                 {% endif %}
+
+                <div hidden id="create-menu">
+                    <ul class="menu">
+                        <li>
+                            <a class="icon-document" href="#">Text document</a>
+                        </li>
+
+                        <li>
+                            <a class="icon-slides">Slideshow</a>
+                        </li>
+
+                        <li>
+                            <a class="icon-calendar">Event</a>
+                        </li>
+
+
+                        <li>
+                            <a class="icon-linkdd">Weblink</a>
+                        </li>
+
+                        <li>
+                            <a class="icon-upload" href="#">Upload file(s)</a>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
         </div>
 
@@ -155,9 +180,11 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
+
             {% endif %}
 
         </fieldset>
+
         {% unless include.autosubmit == 'true' %}
             <div class="button-bar bottom form-submit pat-bumper">
                 <button type="submit" class="close-panel">Save</button>
@@ -167,6 +194,10 @@
     </form>
 
     {% if include.mode == 'docs' %}
+        <div class="button-bar create-buttons">
+            <a href="#" class="button create-document">Create document</a>
+            <a href="#" class="button create-folder">Create folder</a>
+        </div>
         <form action="./">
             <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload">
                 <label class="accessibility-options">

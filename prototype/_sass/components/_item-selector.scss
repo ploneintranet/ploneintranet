@@ -26,6 +26,27 @@
         }
     }
 
+    .create-buttons {
+        overflow: hidden;
+        margin-bottom: 0.3em;
+               
+        .button {
+            width: 48%;
+            line-height: 2.5em;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            border: 0.15em solid $colour-base;
+            background: none;
+            border-radius: 0;
+
+            &.create-folder {
+                float: right;
+            }
+        }
+
+    }
+
     .search-box {
         position: relative;
         margin-bottom: 1.5em;

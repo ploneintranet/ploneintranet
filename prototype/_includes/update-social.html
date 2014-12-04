@@ -27,7 +27,7 @@
         <textarea placeholder="Leave a comment" class="pat-updatesocial pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
         {% unless include.attachment == 'false' %}
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
+            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #{{ include.id }}-attachment-previews">
                 <label class="iconified icon-attach pat-switch" data-pat-switch="#{{ include.id }} status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
                 <p class="attachment-previews" id="{{ include.id }}-attachment-previews">
                     No attachments selected.
