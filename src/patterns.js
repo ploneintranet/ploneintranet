@@ -38,6 +38,7 @@ define([
     "pat-input-change-events",
     "pat-legend",
     "pat-markdown",
+    "pat-masonry",
     "pat-menu",
     "pat-modal",
     "pat-navigation",
