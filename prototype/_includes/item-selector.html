@@ -60,12 +60,6 @@
         {% if include.toggle == 'true' %}
             <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</button>
         {% endif %}
-        {% unless include.mode == "user" %}
-            <span class="button-cluster select-buttons float-after select-buttons">
-                <button class="select-all" title="Select all">All</button>
-                <button class="deselect-all" title="Deslect all">None</button>
-            </span>
-        {% endunless %}
     </div>
 
 
@@ -81,6 +75,18 @@
     <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" {% if include.mode == "docs" %} data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews"{% endif %} action="{{ include.feedback }}#selected-{{ include.mode }}"
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}" data-pat-checklist="select: #{{ include.id }} .select-all; deselect: #{{ include.id }} .deselect-all">
+
+            {% unless include.mode == "user" %}
+                <p class="batch-functions"> 
+                    <span class="float-before button-cluster select-buttons select-buttons">
+                        <button class="select-all" title="Select all">All</button>
+                        <button class="deselect-all" title="Deslect all">None</button>
+                    </span>
+                    <button name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
+                    <button name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
+                </p>
+            {% endunless %}
+
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
@@ -185,12 +191,12 @@
 
         </fieldset>
 
-        {% unless include.autosubmit == 'true' %}
+<!--         {% unless include.autosubmit == 'true' %}
             <div class="button-bar bottom form-submit pat-bumper">
                 <button type="submit" class="close-panel">Save</button>
                 <button type="reset" class="close-panel">Cancel</button>
             </div>
-        {% endunless %}
+        {% endunless %} -->
     </form>
 
     {% if include.mode == 'docs' %}

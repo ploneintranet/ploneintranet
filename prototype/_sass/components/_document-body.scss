@@ -30,35 +30,6 @@
   left: 50px;
 }
 
-
-body.toolbar #document-body {
-  top: 32px;
-}
-
 .sidebar-left-open #document-body {
   left: 30%;
 }
-
-.application-organisation #document-body {
-  padding-top: 50px;
-}
-
-.application-workspace #document-body, 
-.application-cms #document-body {
-  top: 32px;
-}
-
-.application-calendar #document-body {
-  padding-top: 20px;
-  top: 32px;
-}
-
-.application-workspace #document-body.calendar {
-  padding-top: 20px;
-}
-
-.office-preview {
-  overflow: hidden;
-}
-
-/* @end */
