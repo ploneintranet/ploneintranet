@@ -164,42 +164,6 @@
   }
 }
 
-.tooltip-container ul.menu {
-  margin: 0;
-  list-style-type: none;
-  li {
-    line-height: 24px;
-    a {
-      display: block;
-      margin-left: -10px;
-      margin-right: -10px;
-      padding-left: 32px;
-      padding-right: 15px;
-      color: black;
-      line-height: 20px;
-      cursor: default;
-    }
-    button {
-      display: block;
-      margin-left: -10px;
-      margin-right: -10px;
-      padding-left: 32px;
-      padding-right: 15px;
-      color: black;
-      line-height: 20px;
-      cursor: default;
-      &:active {
-        box-shadow: none;
-      }
-    }
-    a:before, button:before {
-      margin-left: -15px;
-      float: left;
-      margin-top: 5px;
-    }
-  }
-}
-
 .tooltip-container ul.menu li {
   &.current a {
     &:before {

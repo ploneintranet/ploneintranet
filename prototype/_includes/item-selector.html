@@ -1,69 +1,41 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
     <div class="button-bar functions" id="{{ include.id }}-functions">
         {% if include.mode == "docs" %}
-        <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
-            {% if include.mode == 'docs' %}
-                {% if page.parent != 'root' %}
-                    <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
-                        data-pat-inject="source: #items; target: #items &&
-                        source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
-                {% else %}
-                    <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                    <form action="./#items" class="pat-inject pat-autosubmit">
-                        <label class="pat-select bare">Group by
-                            <select name="browse-mode">
-                                <option value="folder">folder</option>
-                                <option value="label">tag</option>
-                                <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
-                                <option value="type">document type</option>
-                                <!-- When the groups are author names, the author avatar is used as an icon. -->
-                                <option value="author">author</option>
-                                <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
-                                <option value="date">date</option>
-                                <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
-                                <option value="letter">first letter</option>
-                            </select>
-                        </label>
-                    </form>
+            <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
+                {% if include.mode == 'docs' %}
+                    {% if page.parent != 'root' %}
+                        <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
+                            data-pat-inject="source: #items; target: #items &&
+                            source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
+                    {% else %}
+                        <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+                        <form action="./#items" class="pat-inject pat-autosubmit">
+                            <label class="pat-select bare">Group by
+                                <select name="browse-mode">
+                                    <option value="folder">folder</option>
+                                    <option value="label">tag</option>
+                                    <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                                    <option value="type">document type</option>
+                                    <!-- When the groups are author names, the author avatar is used as an icon. -->
+                                    <option value="author">author</option>
+                                    <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                                    <option value="date">date</option>
+                                    <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                                    <option value="letter">first letter</option>
+                                </select>
+                            </label>
+                        </form>
+                    {% endif %}
                 {% endif %}
+            </div>
 
-                <div hidden id="create-menu">
-                    <ul class="menu">
-                        <li>
-                            <a class="icon-document" href="#">Text document</a>
-                        </li>
+            <h2 id="context-title" class="context-title">
+                Some Context
+            </h2>
 
-                        <li>
-                            <a class="icon-slides">Slideshow</a>
-                        </li>
-
-                        <li>
-                            <a class="icon-calendar">Event</a>
-                        </li>
-
-
-                        <li>
-                            <a class="icon-linkdd">Weblink</a>
-                        </li>
-
-                        <li>
-                            <a class="icon-upload" href="#">Upload file(s)</a>
-                        </li>
-                    </ul>
-                </div>
-            {% endif %}
-        </div>
-
-        <h2 id="context-title" class="context-title">Some Context</h2>
-        {% endif %}
-
-        {% if include.toggle == 'true' %}
-            <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</button>
-        {% endif %}
+            <!-- <button class="more-menu" id="{{ include.id }}-more-menu-trigger">…</button> -->
+        {% endif %}       
     </div>
-
-
-
 
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
         <label>
@@ -212,4 +184,54 @@
             </fieldset>
         </form>
     {% endif %}
+
+    {% if include.mode == 'docs' %}
+        <div class="pat-collapsible more-menu closed" id="{{ include.id }}-more-menu">
+            <h3 class="trigger">
+                Functions…
+            </h3>
+            <ul class="menu">
+                <li>
+                    <a href="" class="icon-doc-text">Create document</a>
+                </li>
+                <li>
+                    <a href=""class="icon-folder">Create folder</a>
+                </li>
+                <li>
+                    <label class="icon-document"><input multiple type="file"> Upload file(s)</label>
+                </li>
+                <li> 
+                    {% if include.toggle == 'true' %}
+                        <a class="select icon-check-on pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div> 
+
+        <div hidden id="{{ include.id }}-create-menu">
+            <ul class="menu">
+                <li>
+                    <a class="icon-document" href="#">Text document</a>
+                </li>
+
+                <li>
+                    <a class="icon-slides">Slideshow</a>
+                </li>
+
+                <li>
+                    <a class="icon-calendar">Event</a>
+                </li>
+
+
+                <li>
+                    <a class="icon-linkdd">Weblink</a>
+                </li>
+
+                <li>
+                    <a class="icon-upload" href="#">Upload file(s)</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
 </div>

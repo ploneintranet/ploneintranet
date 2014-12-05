@@ -73,6 +73,8 @@
 .icon-file-archive:before { content: '\e821'; } /* '' */
 .icon-file-image:before { content: '\e822'; } /* '' */
 .icon-doc-text:before { content: '\e823'; } /* '' */
+.icon-ellipsis:before { content: '\e824'; } /* '' */
+.icon-plus:before { content: '\e825'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
