@@ -33,7 +33,8 @@
                 Some Context
             </h2>
 
-            <!-- <button class="more-menu" id="{{ include.id }}-more-menu-trigger">…</button> -->
+            <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
+
         {% endif %}       
     </div>
 
@@ -49,14 +50,18 @@
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% unless include.mode == "user" %}
-                <p class="batch-functions"> 
-                    <span class="float-before button-cluster select-buttons functions">
+                <div class="batch-functions"> 
+                    <div class="meta">
+                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-export">Share</button>
+                    </div>
+                    <span class="float-before button-cluster select-buttons">
                         <button type="button" class="select-all" title="Select all">All</button>
                         <button type="button" class="deselect-all" title="Deslect all">None</button>
                     </span>
-                    <button type="submit" name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
-                    <button type="submit" name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
-                </p>
+                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                </div>
             {% endunless %}
 
             {% if include.mode == "users" %}
@@ -186,10 +191,10 @@
     {% endif %}
 
     {% if include.mode == 'docs' %}
-        <div class="pat-collapsible more-menu closed" id="{{ include.id }}-more-menu">
-            <h3 class="trigger">
+        <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .{{ include.id }}-toggle-select" id="{{ include.id }}-more-menu">
+            <!-- <h3 class="trigger {{ include.id }}-toggle-select">
                 Functions…
-            </h3>
+            </h3> -->
             <ul class="menu">
                 <li>
                     <a href="" class="icon-doc-text">Create document</a>
@@ -202,7 +207,7 @@
                 </li>
                 <li> 
                     {% if include.toggle == 'true' %}
-                        <a class="select icon-check-on pat-toggle" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+                        <a class="pat-toggle icon-check-on {{ include.id }}-toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
                     {% endif %}
                 </li>
             </ul>
