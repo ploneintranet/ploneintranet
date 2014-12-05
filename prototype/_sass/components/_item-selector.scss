@@ -166,9 +166,9 @@
                 }
             }
 
-            &.has-no-description {
-                padding-top: 0.6em;
-                padding-bottom: 0.6em;
+            &.has-no-description a {
+                padding-top: 1.1em;
+                padding-bottom: 1.1em;
             }
 
             &.type-folder .title:before {
