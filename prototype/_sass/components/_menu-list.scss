@@ -22,7 +22,7 @@ ul.menu {
       // padding-right: 15px;
       padding: 0.2em 0 0.2em 1.6em;
       color: black;
-      line-height: 1.5em;
+      line-height: 1.7em;
       height: 1.5em;
       cursor: default;
       overflow: hidden;
@@ -40,6 +40,11 @@ ul.menu {
         margin-left: -1.6em;
         margin-top: 0.3em;
         float: left;
+      }
+
+      &:hover {
+        text-decoration: none;
+        background: #fcfcfc;
       }
 
       &:active {
