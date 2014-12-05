@@ -78,12 +78,12 @@
 
             {% unless include.mode == "user" %}
                 <p class="batch-functions"> 
-                    <span class="float-before button-cluster select-buttons select-buttons">
-                        <button class="select-all" title="Select all">All</button>
-                        <button class="deselect-all" title="Deslect all">None</button>
+                    <span class="float-before button-cluster select-buttons functions">
+                        <button type="button" class="select-all" title="Select all">All</button>
+                        <button type="button" class="deselect-all" title="Deslect all">None</button>
                     </span>
-                    <button name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
-                    <button name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
+                    <button type="submit" name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
+                    <button type="submit" name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
                 </p>
             {% endunless %}
 
