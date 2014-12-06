@@ -105,8 +105,10 @@
         transition: height 0.4s;
         margin-bottom: 0 !important;
 
-        .meta {
+        .button-bar {
             overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         button,

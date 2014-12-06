@@ -50,17 +50,26 @@
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% unless include.mode == "user" %}
-                <div class="batch-functions"> 
-                    <div class="meta">
-                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash">Delete</button>
-                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags">Re-tag</button>
-                        <button type="submit" name="batch-function" value="tag" class="float-before icon-export">Share</button>
+                <div class="batch-functions">
+                    <div class="button-bar">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
                     </div>
-                    <span class="float-before button-cluster select-buttons">
-                        <button type="button" class="select-all" title="Select all">All</button>
-                        <button type="button" class="deselect-all" title="Deslect all">None</button>
-                    </span>
-                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                    <div class="button-bar">
+                        <span class="float-before button-cluster">
+                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label" title="Cut">Cut</button>
+                            <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label" title="Copy">Copy</button>
+                            <button type="submit" name="batch-function" value="paste" class="float-before icon-paste no-label" title="Paste">Paste</button>
+                        </span>
+                        <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
+                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label" title="Delete">Delete</button>
+                        <button type="submit" name="batch-function" value="rename" class="float-before icon-rename no-label" title="Rename">Rename</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label" title="Re-tag">Re-tag</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-export" title="Share">Share</button>
+                    </div>
                 </div>
             {% endunless %}
 

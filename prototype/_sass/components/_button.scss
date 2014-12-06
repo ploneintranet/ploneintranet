@@ -12,6 +12,7 @@
   background-image: linear-gradient(bottom, #efefef 0%, white 100%);
   text-decoration: none !important;
   line-height: 1.5;
+  white-space: nowrap;
   background-color: transparent;
   display: inline-block;
   padding-top: 0;
@@ -22,6 +23,18 @@
   &:active, 
   &.active {
     box-shadow: inset 0 0 0.3em rgba(0, 0, 0, 0.3);
+  }
+
+  &.no-label {
+    padding-left: 0;
+    padding-right: 0;
+    width: 1.7em;
+
+    &:before {
+      width: 100%;
+      text-align: center;
+      margin: 0;
+    }
   }
 }
 
