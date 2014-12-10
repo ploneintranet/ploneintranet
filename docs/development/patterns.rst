@@ -88,14 +88,14 @@ Writing the pattern's javascript
 
 We're now ready to start writing the Javascript for our pattern.
 
-Put this code into ``./src/pat-colorchanger.js``:
+Put this code into ``./src/pat-colorchanger.js``
 
 .. code-block:: javascript
 
     (function (root, factory) {
         if (typeof define === 'function' && define.amd) {
             // Make this module AMD (Asynchronous Module Definition) compatible, so
-             / that it can be used with Require.js or other module loaders.
+            // that it can be used with Require.js or other module loaders.
             define([
                 "pat-registry",
                 "pat-parser"
@@ -149,8 +149,6 @@ Put this code into ``./src/pat-colorchanger.js``:
         // Finally, we register the pattern object in the registry.
         registry.register(upload);
     }));
-
-
 
 .. note:: The Patternslib repository also has some documentation on creating a pattern,
     although the example shown there is not compatible with AMD/require.js, which
