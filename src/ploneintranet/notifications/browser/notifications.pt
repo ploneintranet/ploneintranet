@@ -6,36 +6,22 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 <body>
-  <div id="social-messages"
-    metal:fill-slot="main">
-      <h1>
-              Notifications
-      </h1>
+  <div id="social-messages" metal:fill-slot="main">
 
-      <!--
-      {'actors': [{'fullname': 'Maarten Kling', 'userid': 'maarten', 'email': 'join@test.com'}],
-      'predicate': 'GLOBAL_NOTICE',
-      'obj': {
-        'url': 'Plone',
-        'message_last_modification_date': datetime.datetime(2014, 11, 26, 11, 32, 49, 409000),
-        'read': False,
-        'id': 'Plone',
-        'title': 'dfsasdfa'}
-      }
-      -->
+      <h1>
+        Notifications
+      </h1>
 
       <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
           <li tal:repeat="notification notifications"  class="notification">
 
-            <!-- todo no python in tal -->
             <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
-              <!-- todo getuserportrait here -->
               <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()">
             </a>
 
             <span class="subjects">
-                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
+              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
             <span class="verb" tal:content="notification/predicate">
                     asked
