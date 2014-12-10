@@ -114,7 +114,7 @@ class TodoUtility(object):
         :param verb: The action to take
         :type verb: str
         :param userids: The userids to add the action to
-        :type userids: list
+        :type userids: list or str or None
         """
         if isinstance(userids, basestring):
             userids = [userids]
@@ -148,7 +148,7 @@ class TodoUtility(object):
         :type verb: str
         :param userids: The userids to complete the action from or None for all
                         users
-        :type userids: list or None
+        :type userids: list or str or None
         """
 
 
