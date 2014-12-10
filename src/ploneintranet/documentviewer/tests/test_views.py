@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 import unittest
 from plone import api
+from plone.app.blob.field import ImageField
 from plone.app.contenttypes.tests.test_image import dummy_image
+from ploneintranet.docconv.client.adapters import DocconvAdapter
+from ploneintranet.docconv.client.config import THUMBNAIL_KEY
 from ploneintranet.documentviewer.testing import (
     PLONEINTRANET_documentviewer_INTEGRATION_TESTING
 )
+from zope.annotation import IAnnotations
 from zope.publisher.interfaces import NotFound
 
 
@@ -23,9 +27,6 @@ class TestViews(unittest.TestCase):
                 'test_image',
                 image=dummy_image(),
             )
-            from plone.app.blob.field import ImageField
-            from ploneintranet.docconv.client.config import THUMBNAIL_KEY
-            from zope.annotation import IAnnotations
             annotations = IAnnotations(self.image)
             thumbnail = ImageField()
             thumbnail.set(self.image, dummy_image().data)
@@ -45,7 +46,6 @@ class TestViews(unittest.TestCase):
     def test_docconv(self):
         ''' Get the IDocconv adapter
         '''
-        from ploneintranet.docconv.client.adapters import DocconvAdapter
         self.assertIsInstance(self.image_view.docconv, DocconvAdapter)
         self.assertIsInstance(self.portal_view.docconv, DocconvAdapter)
 
