@@ -9,4 +9,9 @@
                 class=".markread.MarkRead"
                 permission="zope2.View" />
 
+  <browser:page name="update_status"
+                for="..behaviors.ITodoMarker"
+                class=".updatestatus.UpdateTodoStatus"
+                permission="zope2.View" />
+
 </configure>

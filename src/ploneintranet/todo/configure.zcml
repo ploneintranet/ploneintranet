@@ -34,9 +34,18 @@
         marker=".behaviors.IMustReadMarker"
         />
 
+    <plone:behavior
+        title="Todo"
+        description="Todo behavior"
+        provides=".behaviors.ITodo"
+        factory="plone.behavior.AnnotationStorage"
+        marker=".behaviors.ITodoMarker"
+        />
+
     <include file="permissions.zcml" />
     
     <include package=".portlets" />
+    <include package=".browser" />
 
     <utility
         provides="ploneintranet.todo.interfaces.ITodoUtility"
