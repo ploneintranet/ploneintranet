@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from ..interfaces import IMessageClassHandler
-from ..message import Message
 from plone.api.user import create as create_user
 from ploneintranet.notifications.channel import AllChannel
-from ploneintranet.notifications.testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING  # noqa
+from ploneintranet.notifications.interfaces import IMessageClassHandler
+from ploneintranet.notifications.message import Message
+from ploneintranet.notifications.testing import \
+    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from zope.component import getAdapter
 import unittest2 as unittest
 
@@ -32,7 +33,9 @@ class TestMessageLifecycle(unittest.TestCase):
         msg = Message([actor], predicate, obj)
 
         # This should be an adapter
-        msg_class_handler = getAdapter(obj, IMessageClassHandler, name=predicate)  # noqa
+        msg_class_handler = getAdapter(
+            obj, IMessageClassHandler, name=predicate
+        )
         msg_class_handler.add(msg)
 
         # Step 2, test1 sees his message

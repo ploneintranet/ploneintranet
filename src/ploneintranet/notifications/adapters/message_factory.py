@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from ..message import Message
 from plone import api
+from ploneintranet.notifications.message import Message
 
 
 class Base(object):
@@ -51,8 +51,9 @@ class StatusUpdate(Base):
     def get_object_as_dict(self):
         ''' return a dict representation of the object
         '''
+        portal_relative_url = api.portal.get().absolute_url(relative=True)
         return {
             'id': self.context.id,
-            'url': api.portal.get().absolute_url(relative=True) + '/@@stream/network',  # noqa
+            'url': portal_relative_url + '/@@stream/network',
             'title': self.context.text
         }

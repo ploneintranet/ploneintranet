@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from ..testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from datetime import datetime
 from plone import api
 from plone.app.testing.interfaces import TEST_USER_PASSWORD
 from plone.app.testing.interfaces import TEST_USER_ROLES
+from ploneintranet.notifications.testing import \
+    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from plonesocial.microblog.statusupdate import StatusUpdate
 import unittest
 
@@ -24,8 +25,14 @@ class TestAdapters(unittest.TestCase):
             TEST_USER_PASSWORD
         )
         for role in TEST_USER_ROLES:
-            self.pas.portal_role_manager.doAssignRoleToPrincipal('test_user_adapters_', role)  # noqa
-            self.pas.portal_role_manager.doAssignRoleToPrincipal('test_user_adapters_', 'Contributor')  # noqa
+            self.pas.portal_role_manager.doAssignRoleToPrincipal(
+                'test_user_adapters_',
+                role
+            )
+        self.pas.portal_role_manager.doAssignRoleToPrincipal(
+            'test_user_adapters_',
+            'Contributor'
+        )
         with api.env.adopt_user('test_user_adapters_'):
             api.user.get('test_user_adapters_').setProperties({
                 'email': 'kelly@sjogren.se',
@@ -55,7 +62,10 @@ class TestAdapters(unittest.TestCase):
         self.assertEqual(message.obj['title'], 'page1')
         self.assertEqual(message.obj['url'], 'plone/page1')
         self.assertEqual(message.obj['read'], False)
-        self.assertIsInstance(message.obj['message_last_modification_date'], datetime)  # noqa
+        self.assertIsInstance(
+            message.obj['message_last_modification_date'],
+            datetime
+        )
 
     def test_status_update(self):
         ''' Let's try to create a status_update and inspect the created adapter
@@ -82,4 +92,7 @@ class TestAdapters(unittest.TestCase):
         self.assertEqual(message.obj['title'], u'Test \xe0')
         self.assertEqual(message.obj['url'], 'plone/@@stream/network')
         self.assertEqual(message.obj['read'], False)
-        self.assertIsInstance(message.obj['message_last_modification_date'], datetime)  # noqa
+        self.assertIsInstance(
+            message.obj['message_last_modification_date'],
+            datetime
+        )

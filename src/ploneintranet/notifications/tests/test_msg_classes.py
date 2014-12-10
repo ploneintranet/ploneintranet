@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from ..interfaces import IMessageClassHandler
-from ..message import Message
-from ..testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
+from ploneintranet.notifications.interfaces import IMessageClassHandler
+from ploneintranet.notifications.message import Message
+from ploneintranet.notifications.testing import \
+    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from zope.component import getAdapter
 import unittest
-
 
 
 class TestGenericMessageClassHandler(unittest.TestCase):
