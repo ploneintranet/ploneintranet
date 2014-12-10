@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from .interfaces import IDocumentviewer
 from Products.Five.browser import BrowserView
 from plone import api
+from plone.dexterity.content import Item
 from plone.memoize.view import memoize
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.docconv.client.interfaces import IDocconv
 from zope.interface import implementer
 from zope.publisher.interfaces import NotFound
-from .interfaces import IDocumentviewer
 
 
 @implementer(IDocumentviewer)
@@ -28,6 +30,14 @@ class Documentpreview(BrowserView):
         '''
         return self.docconv.has_thumbs()
 
+    @property
+    @memoize
+    def navigation_root_url(self):
+        ''' Return the navigation_root_url
+        '''
+        navigation_root = api.portal.get_navigation_root(self.context)
+        return navigation_root.absolute_url()
+
     @memoize
     def get_preview(self):
         ''' Get a preview
@@ -41,18 +51,35 @@ class Documentpreview(BrowserView):
         return thumbs[0].get(self.context)
 
     def get_default_preview_url(self):
-        ''' Return
+        ''' Return the default icon for a content
         '''
-        navigation_root_url = api.content.get_view(
-            'plone_portal_state',
-            self.context,
-            self.request
-        ).navigation_root_url()
+        # if we are a dexterity item use the dedicated helper view
+        if isinstance(self.context, Item):
+            try:
+                field = IPrimaryFieldInfo(self.context)
+            except TypeError:
+                # We don't have a primary field defined
+                field = None
+            if field:
+                contenttype_utils = api.content.get_view(
+                    'contenttype_utils',
+                    self.context,
+                    self.request
+                )
+                icon = contenttype_utils.getMimeTypeIcon(getattr(self.context, field.fieldname, None))  # noqa
+                if icon.startswith(self.navigation_root_url):
+                    return icon
+                else:
+                    return '%s/%s' % (self.navigation_root_url, icon)
+
+        # if we are not a dexterity item try another approach
         mt = api.portal.get_tool('mimetypes_registry')
         ct = getattr(self.context, 'content_type')
+        if callable(ct):
+            ct = ct() or 'application/octet-stream'
         for mtobj in mt.lookup(ct):
-            return '%s/%s' % (navigation_root_url, mtobj.icon_path)
-        return '%s/document.png' % navigation_root_url
+            return '%s/%s' % (self.navigation_root_url, mtobj.icon_path)
+        return '%s/document.png' % self.navigation_root_url
 
     def get_preview_url(self):
         ''' Get's the preview from the storage
