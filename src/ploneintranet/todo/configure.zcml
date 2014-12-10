@@ -60,4 +60,11 @@
                      zope.lifecycleevent.interfaces.IObjectRemovedEvent"
                 handler=".handlers.on_delete" />
 
+    <subscriber for=".behaviors.ITodoMarker
+                     zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+                handler=".handlers.todo_set_permission" />
+                
+    <subscriber for=".behaviors.ITodoMarker
+                     zope.lifecycleevent.interfaces.IObjectAddedEvent"
+                handler=".handlers.todo_set_permission" />
 </configure>

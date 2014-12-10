@@ -3,7 +3,7 @@ from plone.uuid.interfaces import IUUID
 
 from .interfaces import ITodoUtility
 from .interfaces import MUST_READ
-from .behaviors import IMustRead
+from .behaviors import IMustRead, ITodo
 
 
 def mark(obj, evt):
@@ -40,3 +40,12 @@ def on_delete(obj, evt):
         content_uid=obj_uuid,
         verb=MUST_READ
     )
+
+
+def todo_set_permission(obj, evt):
+    """ update permissions for assignees
+    """
+    todo = ITodo(obj)
+    assignee = todo.assignee
+    if assignee:
+        obj.manage_addLocalRoles(assignee, ["Assignee",])
