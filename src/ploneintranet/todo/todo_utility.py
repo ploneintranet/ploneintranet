@@ -124,11 +124,10 @@ class TodoUtility(object):
         for userid in userids:
             if not self._user_in_storage(userid):
                 storage[userid] = []
-            user_actions = self.query(
-                userids=userid,
-                verbs=verb,
-                content_uids=content_uid
-            )
+            user_actions = [
+                x for x in storage[userid]
+                if x.verb == verb and x.content_uid == content_uid
+            ]
             if not user_actions:
                 user_action = ContentAction(
                     userid,
