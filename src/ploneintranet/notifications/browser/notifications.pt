@@ -26,12 +26,12 @@
 
       <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
-          <li tal:repeat="notification notifications">
+          <li tal:repeat="notification notifications"  class="notification">
 
             <!-- todo no python in tal -->
             <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
               <!-- todo getuserportrait here -->
-              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:portal_url + '/portal_memberdata/portraits/' + notification.actors[0]['userid']">
+              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()">
             </a>
 
             <span class="subjects">

@@ -21,3 +21,10 @@ class NotificationsView(BrowserView):
             #AttributeError: getUserId
             display_message = []
         return display_message
+
+    def get_author_image(self, member_id):
+        """
+        Fetch the author portrait image url accoding to member_id
+        """
+        mtool = api.portal.get_tool(name='portal_membership')
+        return mtool.getPersonalPortrait(id=member_id)
