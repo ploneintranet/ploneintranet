@@ -135,6 +135,7 @@ class TodoUtility(object):
                     verb
                 )
                 storage[userid].append(user_action)
+            # TODO: If the action exists we perhaps should update the 'modified'
 
     def complete_action(self, content_uid, verb, userids=None):
         """
