@@ -79,7 +79,7 @@ class TestTodoUtility(IntegrationTestCase):
         self.assertIsInstance(action, ContentAction)
         self.assertEqual(action.userid, user1_id)
         self.assertEqual(action.content_uid, doc1_uid)
-        self.assertEqual(action.action_verb, 'todo')
+        self.assertEqual(action.verb, 'todo')
         self.assertLess(action.created, datetime.now())
         self.assertIsNone(action.completed)
         self.assertIsNone(action.modified)

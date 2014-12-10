@@ -19,7 +19,7 @@ class ContentAction(Persistent):
                  completed=None):
         self.userid = userid
         self.content_uid = content_uid
-        self.action_verb = verb
+        self.verb = verb
         if created is None:
             self.created = datetime.now()
         else:
