@@ -35,11 +35,8 @@ class Documentpreview(BrowserView):
     def navigation_root_url(self):
         ''' Return the navigation_root_url
         '''
-        return api.content.get_view(
-            'plone_portal_state',
-            self.context,
-            self.request
-        ).navigation_root_url()
+        navigation_root = api.portal.get_navigation_root(self.context)
+        return navigation_root.absolute_url()
 
     @memoize
     def get_preview(self):
