@@ -22,11 +22,6 @@ files, and then lets navigate into it..::
     pattern pat-colorchanger, but you'll of course choose a more appropriate
     name for your own pattern.
 
-Now we initialize the directory as a Git repository.::
-
-    git init
-
-
 The directory outlay
 ====================
 
