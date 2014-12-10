@@ -97,7 +97,7 @@ class TodoUtility(object):
 
         # Filter completed
         if ignore_completed:
-            actions = [x for x in actions if x.completed is not None]
+            actions = [x for x in actions if x.completed is None]
 
         # Sort results
         if sort_on is not None:
