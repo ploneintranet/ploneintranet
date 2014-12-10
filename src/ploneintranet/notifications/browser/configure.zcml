@@ -17,6 +17,7 @@
       class=".viewlets.NotificationsViewlet"
       permission="zope.Public"
       template="notificationsviewlet.pt"
+      layer=".interfaces.IPloneintranetNotificationsLayer"
       />
 
 </configure>
