@@ -5,7 +5,6 @@
 
 
 <!-- GENERIC RULES WHICH APPLY ALWAYS -->
-
   <replace content='/html/head/title' theme='/html/head/title' />
   <append content='/html/head/base' theme='/html/head' />
   <copy theme="/html/head/meta" content="/html/head/meta" />
@@ -58,14 +57,20 @@
 <!-- Login Form -->
 <rules css:if-content="body.template-login_form">
   <theme href="generated/index.html" />
-  <copy attributes="method id action" css:content="form#login_form" css:theme="form#login-form" />
-  <append css:theme="#login-form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+  <copy attributes="method id action" css:content="form#login_form" css:theme="form" />
+  <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
 </rules>
 
 <rules css:if-content="body.template-stream">
   <theme href="generated/notifications.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.template-notifications">
+  <theme href="generated/notifications.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <replace css:content-children="#social-messages" css:theme="#document-content" />
 </rules>
 
 <rules css:if-content="body.section-news">
