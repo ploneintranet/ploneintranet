@@ -1,7 +1,6 @@
 from datetime import datetime
 from faker import Factory
 from plone import api
-import transaction
 from zope.component import getUtility
 
 from ..interfaces import ITodoUtility
@@ -62,7 +61,6 @@ class TestTodoUtility(IntegrationTestCase):
         user1_id = self.user1.getId()
         storage = self.util._get_storage()
         storage[user1_id] = 'foo'
-        transaction.commit()
         self.assertTrue(self.util._user_in_storage(user1_id))
 
     def test_add_action_for_one_user(self):
