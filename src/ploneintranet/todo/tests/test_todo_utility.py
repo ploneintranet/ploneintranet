@@ -116,10 +116,106 @@ class TestTodoUtility(IntegrationTestCase):
         )
 
     def add_test_actions(self):
+        # 1. Add a todo for all users (4 users) on doc1
+        # 2. Add a read for user1 and 2 on doc2
+        # 3. Add a create for admin on doc2 (completed)
+        # 4. Add a create for user1 on doc1 (completed)
         user1_id = self.user1.getId()
         user2_id = self.user2.getId()
         doc1_uid = self.doc1.UID()
         doc2_uid = self.doc2.UID()
+        self.util.add_action(
+            doc1_uid,
+            'todo'
+        )
+        self.util.add_action(
+            doc2_uid,
+            'read',
+            [user1_id, user2_id]
+        )
+        self.util.add_action(
+            doc2_uid,
+            'create',
+            'admin'
+        )
+        self.util.complete_action(
+            doc2_uid,
+            'create',
+            'admin'
+        )
+        self.util.add_action(
+            doc1_uid,
+            'create',
+            user1_id
+        )
+        self.util.complete_action(
+            doc1_uid,
+            'create',
+            user1_id
+        )
+
 
     def test_query_no_params(self):
-        self.fail()
+        self.add_test_actions()
+        results = self.util.query()
+        self.assertEqual(len(results), 6)
+
+    def test_query_userids(self):
+        self.add_test_actions()
+        user1_id = self.user1.getId()
+        user2_id = self.user2.getId()
+        results = self.util.query(
+            userids=user1_id
+        )
+        self.assertEqual(len(results), 2)
+        results = self.util.query(
+            userids=[user1_id, user2_id]
+        )
+        self.assertEqual(len(results), 4)
+
+    def test_query_verbs(self):
+        self.add_test_actions()
+        results = self.util.query(
+            verbs='todo'
+        )
+        self.assertEqual(len(results), 4)
+        results = self.util.query(
+            verbs=['todo', 'read']
+        )
+        self.assertEqual(len(results), 6)
+
+    def test_query_content_uids(self):
+        self.add_test_actions()
+        doc1_uid = self.doc1.UID()
+        doc2_uid = self.doc2.UID()
+        results = self.util.query(
+            content_uids=doc1_uid
+        )
+        self.assertEqual(len(results), 4)
+        results = self.util.query(
+            content_uids=[doc1_uid, doc2_uid]
+        )
+        self.assertEqual(len(results), 6)
+
+    def test_query_sort(self):
+        self.add_test_actions()
+        self.maxDiff = None
+        results = [
+            x.created for x in
+            self.util.query(sort_on='created')
+        ]
+        sorted(results, reverse=True)
+        old_results_reversed = results
+        results = [
+            x.created for x in
+            self.util.query(
+                sort_on='created',
+                sort_order='reverse'
+            )
+        ]
+        self.assertEqual(results, old_results_reversed)
+
+    def test_query_ignore_completed(self):
+        self.add_test_actions()
+        results = self.util.query(ignore_completed=False)
+        self.assertEqual(len(results), 8)
