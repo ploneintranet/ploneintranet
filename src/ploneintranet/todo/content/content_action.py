@@ -27,6 +27,9 @@ class ContentAction(Persistent):
         self.completed = completed
         self.modified = None
 
+    def __getitem__(self, item):
+        return getattr(self, item)
+
     @property
     def latest_date(self):
         if self.modified is None:
