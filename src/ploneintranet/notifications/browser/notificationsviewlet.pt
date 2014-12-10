@@ -1,0 +1,6 @@
+<div tal:define="portal_url context/portal_url; token context/@@authenticator/token;">
+    <a tal:attributes="href string:${portal_url}/notifications?_authenticator=${token}#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip inactive"
+       data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
+        Notifications <sup id="online-count" class="counter digit-2" tal:content="view/getNumber">0</sup>
+     </a>
+</div>

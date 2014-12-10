@@ -24,7 +24,9 @@ class AllChannel(object):
             for message in messages:
                 message.mark_as_read()
 
-        return messages
+        return sorted(messages,
+                      key=lambda x: x.obj['message_last_modification_date'],
+                      reverse=True)
 
     def get_all_messages(self):
         return self.queue[:]

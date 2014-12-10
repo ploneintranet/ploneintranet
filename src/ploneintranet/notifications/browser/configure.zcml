@@ -11,12 +11,13 @@
       permission="zope2.View"
       />
 
-  <!-- browser:viewlet
-      name="plonesocial.messaging.notifications"
+  <browser:viewlet
+      name="ploneintranet.notifications.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".viewlets.NotificationsViewlet"
-      layer=".interfaces.IPlonesocialMessagingstreamLayer"
       permission="zope.Public"
-      /-->
+      template="notificationsviewlet.pt"
+      layer=".interfaces.IPloneintranetNotificationsLayer"
+      />
 
 </configure>
