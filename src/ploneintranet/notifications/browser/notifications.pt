@@ -35,7 +35,7 @@
             </a>
 
             <span class="subjects">
-                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href notification/obj/url" class="subject">Jon Doe</a>
+                    <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
             <span class="verb" tal:content="notification/predicate">
                     asked
