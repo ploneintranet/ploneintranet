@@ -13,18 +13,18 @@
     factory=".message_factory.StatusUpdate"
     />
 
-    <adapter
-      for="*"
-      name="GLOBAL_NOTICE"
-      provides="..interfaces.IMessageClassHandler"
-      factory=".message_handler.Base"
+  <adapter
+    for="*"
+    name="GLOBAL_NOTICE"
+    provides="..interfaces.IMessageClassHandler"
+    factory=".message_handler.Base"
     />
 
-    <adapter
-      for="*"
-      name="STATUS_UPDATE"
-      provides="..interfaces.IMessageClassHandler"
-      factory=".message_handler.StatusUpdate"
+  <adapter
+    for="*"
+    name="STATUS_UPDATE"
+    provides="..interfaces.IMessageClassHandler"
+    factory=".message_handler.StatusUpdate"
     />
 
 
