@@ -109,4 +109,17 @@ class TestPortlet(IntegrationTestCase):
             IUUID(self.news_item[-1])
         )
 
-    
+    def test_mark(self):
+        renderer = self._get_renderer()
+        latest = renderer.latest_news()
+        item = latest[0]
+        item_uuid = IUUID(item)
+        mark_view = getMultiAdapter(
+            (item, self.layer['request']),
+            name=u'mark_read'
+        )
+        mark_view()
+        self.assertNotIn(
+            item_uuid,
+            [IUUID(c) for c in renderer.latest_news()]
+        )
