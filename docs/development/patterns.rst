@@ -125,7 +125,7 @@ Put this code into ``./src/pat-colorchanger.js``
         parser.add_argument("color", "red"); // A configuration parameter and its default value.
 
         // We now create an object which encapsulates the pattern's methods
-        var example= {
+        var colorchanger = {
             name: "example",
             trigger: ".pat-colorchanger",
 
@@ -138,11 +138,11 @@ Put this code into ``./src/pat-colorchanger.js``
             },
 
             setColor: function patExampleSetColor($el, options) {
-                $el.style("color", options.color);
+                $el.css("color", options.color);
             }
         };
         // Finally, we register the pattern object in the registry.
-        registry.register(upload);
+        registry.register(colorchanger);
     }));
 
 .. note:: The Patternslib repository also has some documentation on creating a pattern,
