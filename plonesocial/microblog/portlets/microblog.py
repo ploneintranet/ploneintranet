@@ -1,14 +1,16 @@
-from zope.interface import implements
+# -*- encoding: utf8 -*-
+from Products.CMFPlone.utils import getFSVersionTuple
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.app.portlets.portlets import base
+from plone.portlets.interfaces import IPortletDataProvider
+from plonesocial.microblog.browser.status import StatusViewlet
 from zope import schema
 from zope.formlib import form
-from plone.portlets.interfaces import IPortletDataProvider
-from plone.app.portlets.portlets import base
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('plonesocial.microblog')
+from zope.interface import implements
 
-from plonesocial.microblog.browser.status import StatusViewlet
+_ = MessageFactory('plonesocial.microblog')
+PLONE4 = getFSVersionTuple()[0] <= 4
 
 
 class IMicroblogPortlet(IPortletDataProvider):
@@ -62,11 +64,17 @@ class Renderer(base.Renderer):
 
 
 class AddForm(base.AddForm):
-    form_fields = form.Fields(IMicroblogPortlet)
+    if PLONE4:
+        form_fields = form.Fields(IMicroblogPortlet)
+    else:
+        schema = IMicroblogPortlet
 
     def create(self, data):
         return Assignment(**data)
 
 
 class EditForm(base.EditForm):
-    form_fields = form.Fields(IMicroblogPortlet)
+    if PLONE4:
+        form_fields = form.Fields(IMicroblogPortlet)
+    else:
+        schema = IMicroblogPortlet
