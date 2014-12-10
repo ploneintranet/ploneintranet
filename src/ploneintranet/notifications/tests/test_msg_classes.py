@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from ..message import Message
 from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
 from ploneintranet.notifications.interfaces import IMessageClassHandler
-from ploneintranet.notifications.message import Message
 from ploneintranet.notifications.testing import \
     PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from zope.component import getAdapter
@@ -21,7 +21,9 @@ class TestGenericMessageClassHandler(unittest.TestCase):
                                 username='user').getUser()
         tool = getToolByName(self.portal, 'ploneintranet_notifications')
 
-        self.msg_class_handler = getAdapter(self.portal, IMessageClassHandler, name='GLOBAL_NOTICE')  # noqa
+        self.msg_class_handler = getAdapter(
+            self.portal, IMessageClassHandler, name='GLOBAL_NOTICE'
+        )
         self.queue1 = tool.get_user_queue(user1)
         self.queue2 = tool.get_user_queue(user2)
 

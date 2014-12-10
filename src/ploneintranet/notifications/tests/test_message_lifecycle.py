@@ -46,7 +46,7 @@ class TestMessageLifecycle(unittest.TestCase):
         # Step 3, the regular clean up tasks from somewhere
         # cleans up queues
 
-        handler = getAdapter(obj, IMessageClassHandler, name=predicate)  # noqa
+        handler = getAdapter(obj, IMessageClassHandler, name=predicate)
         handler.cleanup()
 
         # Step 4, somebody else reads his messages
