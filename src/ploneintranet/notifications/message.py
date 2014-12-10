@@ -61,10 +61,8 @@ class Message(Persistent):
 
     def clone(self):
         clone = lambda x: pickle.loads(pickle.dumps(x))
-        return create_message(actors=clone(self.actors),
-                              predicate=self.predicate,
-                              obj=clone(self.obj))
-
-
-def create_message(actors, predicate, obj):
-    return Message(actors, predicate, obj)
+        return self.__class__(
+            actors=clone(self.actors),
+            predicate=self.predicate,
+            obj=clone(self.obj)
+        )
