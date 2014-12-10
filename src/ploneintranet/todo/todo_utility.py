@@ -28,9 +28,23 @@ class TodoUtility(object):
 
     @staticmethod
     def _all_users():
+        """
+        Get all userids for the site
+
+        :return: The userids of all site users
+        :rtype: list
+        """
         return [x.getId() for x in api.user.get_users()]
 
     def _user_in_storage(self, userid):
+        """
+        Does the given userid exist in the annotation storage?
+
+        :param userid: The userid to check
+        :type userid: str
+        :return: Whether the userid is in storage or not
+        :rtype: bool
+        """
         storage = self._get_storage()
         return userid in storage
 
