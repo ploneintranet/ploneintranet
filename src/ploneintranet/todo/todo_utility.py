@@ -1,3 +1,4 @@
+from operator import itemgetter
 from BTrees.OOBTree import OOBTree
 from plone import api
 from zope.annotation import IAnnotations
@@ -76,7 +77,32 @@ class TodoUtility(object):
             verbs = [verbs]
         if isinstance(content_uids, basestring):
             content_uids = [content_uids]
-        return []
+        if userids is None:
+            userids = self._all_users()
+        reverse = True if sort_order == 'reverse' else False
+        storage = self._get_storage()
+        actions = []
+
+        # Get a list of all actions for the given userids
+        for userid in userids:
+            actions.extend(storage[userid])
+
+        # Filter on verbs
+        if verbs is not None:
+            actions = [x for x in actions if x.verb in verbs]
+
+        # Filter content_uids
+        if content_uids is not None:
+            actions = [x for x in actions if x.content_uid in content_uids]
+
+        # Filter completed
+        if ignore_completed:
+            actions = [x for x in actions if x.completed is not None]
+
+        # Sort results
+        if sort_on is not None:
+            return sorted(actions, key=itemgetter(sort_on), reverse=reverse)
+        return actions
 
     def add_action(self, content_uid, verb, userids=None):
         """
