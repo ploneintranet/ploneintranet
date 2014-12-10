@@ -2,9 +2,11 @@ from datetime import datetime
 from faker import Factory
 from plone import api
 from zope.component import getUtility
+from zope.interface.verify import verifyClass
 
 from ..interfaces import ITodoUtility
 from ..content.content_action import ContentAction
+from ..todo_utility import TodoUtility
 from ..testing import IntegrationTestCase
 
 
@@ -40,6 +42,9 @@ class TestTodoUtility(IntegrationTestCase):
             id='doc2',
             title='Doc 2'
         )
+
+    def test_implements_interface(self):
+        self.assertTrue(verifyClass(ITodoUtility, TodoUtility))
 
     def test__get_storage(self):
         storage = self.util._get_storage()
