@@ -74,27 +74,27 @@ class TestPortlet(IntegrationTestCase):
             u"""<div class="news portlet" id="portlet-news">""",
             html
         )
-    #     self.assertIn(
-    #         u'News 10',
-    #         html
-    #     )
-    #     self.assertIn(
-    #         u'News 9',
-    #         html
-    #     )
-    #     self.assertIn(
-    #         u'News 8',
-    #         html
-    #     )
-    #     self.assertNotIn(
-    #         u'News 3',
-    #         html
-    #     )
+        self.assertIn(
+            u'News 10',
+            html
+        )
+        self.assertIn(
+            u'News 9',
+            html
+        )
+        self.assertIn(
+            u'News 8',
+            html
+        )
+        self.assertNotIn(
+            u'News 3',
+            html
+        )
 
-    # def test_data(self):
-    #     renderer = self._get_renderer()
-    #     latest = renderer.latest_news()
-    #     self.assertEqual(
-    #         IUUID(latest[0]),
-    #         IUUID(self.news_item[-1])
-    #     )
+    def test_data(self):
+        renderer = self._get_renderer()
+        latest = renderer.latest_news()
+        self.assertEqual(
+            IUUID(latest[0]),
+            IUUID(self.news_item[-1])
+        )
