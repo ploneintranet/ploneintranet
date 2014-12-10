@@ -36,12 +36,17 @@ class TestPortlet(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.folder = api.content.create(
+            type='Folder',
+            title=u'News test',
+            container=self.portal
+        )
         self.news_items = []
         for i in xrange(0, 10):
             news_item = api.content.create(
                 type='News Item',
                 title=u'News {}'.format(i+1),
-                container=self.portal,
+                container=self.folder,
                 text=u'<p>Hello <em>World</em>!</p>',
                 image=NamedBlobImage(LOGO, filename=u'zpt.gif')
             )
@@ -49,6 +54,11 @@ class TestPortlet(IntegrationTestCase):
             behavior = IMustRead(news_item)
             behavior.mustread = True
             modified(news_item)
+
+    def tearDown(self):
+        self.portal.manage_delObjects([
+            self.folder.getId()
+        ])
 
     def _get_renderer(self):
         manager = getUtility(
@@ -98,3 +108,5 @@ class TestPortlet(IntegrationTestCase):
             IUUID(latest[0]),
             IUUID(self.news_item[-1])
         )
+
+    
