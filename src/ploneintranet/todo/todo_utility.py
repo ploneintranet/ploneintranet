@@ -35,7 +35,7 @@ class TodoUtility(object):
         return userid in storage
 
     def query(self, userids=None, verbs=None, content_uids=None, sort_on=None,
-              sort_order=None):
+              sort_order=None, ignore_completed=True):
         """
         Query the action storage for ContentActions matching the given query.
         Results are AND'd together
@@ -50,6 +50,9 @@ class TodoUtility(object):
         :type sort_on: str
         :param sort_order: Whether to reverse the sort order ('reverse')
         :type sort_order: str or None
+        :param ignore_completed: Whether to exclude completed actions from the
+               results
+        :type ignore_completed: bool
         :return: List of ContentActions
         :rtype: :class: `ContentAction`
         """
