@@ -32,3 +32,9 @@ class ContentAction(Persistent):
         if self.modified is None:
             return self.created
         return self.modified
+
+    def mark_complete(self):
+        """
+        Mark this ContentAction as complete
+        """
+        self.completed = datetime.now()
