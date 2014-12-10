@@ -150,5 +150,20 @@ class TodoUtility(object):
                         users
         :type userids: list or str or None
         """
+        if isinstance(userids, basestring):
+            userids = [userids]
+        if userids is None:
+            userids = self._all_users()
+        storage = self._get_storage()
 
-
+        # For each user, get their list of ContentActions, find the matching one
+        # pop it, mark it as complete and then append it back to the user's list
+        for userid in userids:
+            users_actions = storage[userid]
+            for idx, x in enumerate(users_actions):
+                if x.verb == verb and x.content_uid == content_uid:
+                    action = users_actions.pop(idx)
+                    action.mark_complete()
+                    users_actions.append(action)
+                    storage[userid] = users_actions
+                    break
