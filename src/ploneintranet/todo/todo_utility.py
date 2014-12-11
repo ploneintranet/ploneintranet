@@ -49,6 +49,17 @@ class TodoUtility(object):
         storage = self._get_storage()
         return userid in storage
 
+    def _create_user_storage(self, userid):
+        """
+        Initialise user's ContentAction storage
+
+        :param userid: The userid to initialise
+        :type userid: str
+        """
+        if not self._user_in_storage(userid):
+            storage = self._get_storage()
+            storage[userid] = []
+
     def query(self, userids=None, verbs=None, content_uids=None, sort_on=None,
               sort_order=None, ignore_completed=True):
         """
@@ -85,6 +96,7 @@ class TodoUtility(object):
 
         # Get a list of all actions for the given userids
         for userid in userids:
+            self._create_user_storage(userid)
             actions.extend(storage[userid])
 
         # Filter on verbs
@@ -123,8 +135,7 @@ class TodoUtility(object):
         if userids is None:
             userids = self._all_users()
         for userid in userids:
-            if not self._user_in_storage(userid):
-                storage[userid] = []
+            self._create_user_storage(userid)
             user_actions = [
                 x for x in storage[userid]
                 if x.verb == verb and x.content_uid == content_uid
