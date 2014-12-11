@@ -32,6 +32,14 @@
 				margin-bottom: 1em;
 				border: 0.2em $colour-base dashed;
 				text-align: center;
+				color: gray;
+
+				&:before {
+					content: "\e711";
+					font-family: fontello;
+					display: inline-block;
+					margin-right: 0.3em;
+				}
 
 				&:active {
 					background-color: $colour-base;
