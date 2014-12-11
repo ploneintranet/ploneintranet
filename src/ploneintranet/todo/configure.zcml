@@ -41,8 +41,6 @@
         factory="plone.behavior.AnnotationStorage"
         marker=".behaviors.ITodoMarker"
         />
-
-    <include file="permissions.zcml" />
     
     <include package=".portlets" />
     <include package=".browser" />
@@ -62,9 +60,9 @@
 
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-                handler=".handlers.todo_set_permission" />
+                handler=".handlers.todo_set_role" />
                 
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectAddedEvent"
-                handler=".handlers.todo_set_permission" />
+                handler=".handlers.todo_set_role" />
 </configure>

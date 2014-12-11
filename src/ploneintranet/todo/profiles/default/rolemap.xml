@@ -3,11 +3,4 @@
   <roles>
     <role name="Assignee"/>
   </roles>
-  <permissions>
-    <permission name="ploneintranet.todo: Change task status" acquire="True">
-      <role name="Owner"/>
-      <role name="Manager"/>
-      <role name="Assignee"/>
-    </permission>
-  </permissions>
 </rolemap>

@@ -42,8 +42,8 @@ def on_delete(obj, evt):
     )
 
 
-def todo_set_permission(obj, evt):
-    """ update permissions for assignees
+def todo_set_role(obj, evt):
+    """ update role for assignees
     """
     todo = ITodo(obj)
     assignee = todo.assignee

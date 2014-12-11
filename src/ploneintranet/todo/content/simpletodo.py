@@ -11,7 +11,7 @@ class ISimpleTodo(model.Schema):
     """A simple todo content type
     """
 
-    taskname = schema.TextLine(title=_("Task"))
+    title = schema.TextLine(title=_("Task"))
 
 
 class SimpleTodo(Item):
