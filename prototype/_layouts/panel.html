@@ -7,7 +7,7 @@ layout: generic
         {{ page.title }}
     </h1>
     {% if page.action %}
-        <form action="{{ page.action }}" class="wizard-box">    
+        <form action="{{ page.action }}" class="wizard-box {% if page.inject %}pat-inject{% endif %}" {% if page.inject %}pat-inject="{{page.inject}}"{% endif %}>    
     {% endif %}
         <div class="panel-body">
             {{ content }}

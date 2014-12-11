@@ -70,7 +70,7 @@ div.pat-modal {
 
 .pat-modal {
   .wizard-box {
-    margin: -20px;
+    margin: -1.5em;
   }
   &.max-height .wizard-box {
     overflow: hidden;
@@ -99,9 +99,9 @@ div.pat-modal {
 
 .pat-modal .wizard-box .panel-footer {
   margin: 0;
-  padding: 12px 20px;
+  padding: 0.5em 1.5em;
   border-top: 1px solid silver;
-  height: 26px;
+  height: 1.6em;
   background-color: #efefef;
 }
 
