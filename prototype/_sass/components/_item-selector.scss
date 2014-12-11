@@ -149,6 +149,8 @@
             background: none;
             border-radius: 0;
             color: gray;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             &.create-folder {
                 float: right;
