@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from faker import Factory
 from plone import api
 from zope.component import getUtility
@@ -13,15 +13,15 @@ from ..testing import IntegrationTestCase
 class TestTodoUtility(IntegrationTestCase):
 
     def setUp(self):
-        faker = Factory.create()
+        self.faker = Factory.create()
         self.portal = self.layer['portal']
         self.util = getUtility(ITodoUtility)
         self.user1 = api.user.create(
-            email=faker.company_email(),
+            email=self.faker.company_email(),
             username='user1'
         )
         self.user2 = api.user.create(
-            email=faker.company_email(),
+            email=self.faker.company_email(),
             username='user2'
         )
         self.all_userids = {
@@ -42,6 +42,64 @@ class TestTodoUtility(IntegrationTestCase):
             id='doc2',
             title='Doc 2'
         )
+
+    def add_test_actions(self):
+        # 1. Add a todo for all users (4 users) on doc1
+        # 2. Add a read for user1 and 2 on doc2
+        # 3. Add a create for admin on doc2 (completed)
+        # 4. Add a create for user1 on doc1 (completed)
+        user1_id = self.user1.getId()
+        user2_id = self.user2.getId()
+        doc1_uid = self.doc1.UID()
+        doc2_uid = self.doc2.UID()
+        self.util.add_action(
+            doc1_uid,
+            'todo'
+        )
+        self.util.add_action(
+            doc2_uid,
+            'read',
+            [user1_id, user2_id]
+        )
+        self.util.add_action(
+            doc2_uid,
+            'create',
+            'admin'
+        )
+        self.util.complete_action(
+            doc2_uid,
+            'create',
+            'admin'
+        )
+        self.util.add_action(
+            doc1_uid,
+            'create',
+            user1_id
+        )
+        self.util.complete_action(
+            doc1_uid,
+            'create',
+            user1_id
+        )
+
+    def add_actions_for_sort_test(self):
+        user1_id = self.user1.getId()
+        storage = self.util._get_storage()
+        created = self.faker.date_time_between(
+            start_date='-1m',
+            end_date='now'
+        )
+        user_actions = []
+        for _ in range(10):
+            action = ContentAction(
+                user1_id,
+                self.faker.md5(),
+                'todo',
+                created=created
+            )
+            created += timedelta(minutes=10)
+            user_actions.append(action)
+        storage[user1_id] = user_actions
 
     def test_implements_interface(self):
         self.assertTrue(verifyClass(ITodoUtility, TodoUtility))
@@ -115,46 +173,6 @@ class TestTodoUtility(IntegrationTestCase):
             len(self.all_userids)
         )
 
-    def add_test_actions(self):
-        # 1. Add a todo for all users (4 users) on doc1
-        # 2. Add a read for user1 and 2 on doc2
-        # 3. Add a create for admin on doc2 (completed)
-        # 4. Add a create for user1 on doc1 (completed)
-        user1_id = self.user1.getId()
-        user2_id = self.user2.getId()
-        doc1_uid = self.doc1.UID()
-        doc2_uid = self.doc2.UID()
-        self.util.add_action(
-            doc1_uid,
-            'todo'
-        )
-        self.util.add_action(
-            doc2_uid,
-            'read',
-            [user1_id, user2_id]
-        )
-        self.util.add_action(
-            doc2_uid,
-            'create',
-            'admin'
-        )
-        self.util.complete_action(
-            doc2_uid,
-            'create',
-            'admin'
-        )
-        self.util.add_action(
-            doc1_uid,
-            'create',
-            user1_id
-        )
-        self.util.complete_action(
-            doc1_uid,
-            'create',
-            user1_id
-        )
-
-
     def test_query_no_params(self):
         self.add_test_actions()
         results = self.util.query()
@@ -198,14 +216,13 @@ class TestTodoUtility(IntegrationTestCase):
         self.assertEqual(len(results), 6)
 
     def test_query_sort(self):
-        self.add_test_actions()
+        self.add_actions_for_sort_test()
         self.maxDiff = None
         results = [
             x.created for x in
             self.util.query(sort_on='created')
         ]
-        sorted(results, reverse=True)
-        old_results_reversed = results
+        old_results_reversed = sorted(results, reverse=True)
         results = [
             x.created for x in
             self.util.query(

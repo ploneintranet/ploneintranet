@@ -113,7 +113,6 @@ class TodoUtility(object):
 
         # Sort results
         if sort_on is not None:
-            # TODO: Sorting datetimes is broken
             return sorted(actions, key=itemgetter(sort_on), reverse=reverse)
         return actions
 
