@@ -49,7 +49,7 @@
     id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
-            {% unless include.mode == "user" %}
+            {% if include.mode == "docs" %}
                 <div class="batch-functions">
                     <div class="button-bar">
                         <span class="float-before button-cluster select-buttons">
@@ -71,7 +71,7 @@
                         <button type="submit" name="batch-function" value="tag" class="float-before icon-export pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Share">Share</button>
                     </div>
                 </div>
-            {% endunless %}
+            {% endif %}
 
             {% if include.mode == "users" %}
                 {% for user in site.posts %}
