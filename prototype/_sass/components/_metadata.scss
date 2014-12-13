@@ -2,21 +2,84 @@
 
 .metadata {
   background-color: white;
+  color: gray;
   margin-right: 0;
   margin-left: 0;
-  padding: 3rem 6% 2em;
+  padding: 6% 6% 0;
+
+  .meta-extra {
+    padding: 0;
+    margin: 0;
+    overflow: hidden; // To prevent a grey bar from appearing underneath the extra arrea when expanded
+
+    .bar {
+      border-bottom: 1px solid silver;
+
+      input[type="text"],
+      textarea {
+        background: none;
+        padding: 0.1em 0;
+        margin: 0;
+        display: block;
+        width: 100%;
+        resize:none;
+      }
+    }
+  }
 
   .meta-bar {
     border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
     overflow: hidden;
+    position: relative;
 
     .doc-title {
       font-size: 1em;
       float: left;
+      font-weight: normal;
+      line-height: 1.5em;
+    }
+
+    button, 
+    label.pat-select {
+      font-size: 1em;
+      padding: 0 0.5em;
+      line-height: 1.2em;
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 0.2em;
+    }
+
+    .doc-title.pat-content-mirror {
+      background: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      padding: 0;
+      padding-top: 0.2em;
+      height: 2em;
+      overflow: hidden;
+      opacity: 0;
+
+      &:focus {
+        opacity: 1;
+      }
     }
 
     .quick-functions {
       float: right;
+      position: relative;
+      z-index: 1;
+
+      a {
+        color: gray;
+        margin-left: 0.3em;
+
+        &.collapsible-open {
+          color: $colour-accent;
+        }
+      }
 
       fieldset {
         display: inline-block;
@@ -25,31 +88,41 @@
       }
 
       label.pat-select {
-        font-weight: bold;
+        margin-left: 0.3em;
+
+        &:before {
+          font-family: fontello;
+          content: '\e82c';
+          position: relative;
+          top: 0.08em;
+        }
 
         &[data-option='Private'] {
-          color: #d561a4;
+          background-color: #d561a4;
+          color: white;
         }
-        &[data-option='Workspace Members Only'] {
-          color: #f38300;
+        &[data-option='Members'] {
+          background-color: #f38300;
+          color: white;
         }
         &[data-option='Public'] {
-          color: #65c981;
+          background-color: #65c981;
+          color: white;
         }
-        &[data-option='Pending review'] {
-          color: #ff0201;
+        &[data-option='Pending'] {
+          background-color: #ff0201;
+          color: white;
         }
-        &[data-option='Logged in only'] {
-          color: #008f51;
+        &[data-option='Logged in'] {
+          background-color: #008f51;
+          color: white;
         }
         &[data-option='Internal'] {
-          color: #ff2f92;
-        }
-        &[data-option='Externally visible'] {
-          color: #00b8ca;
+          background-color: #ff2f92;
+          color: white;
         }
         &[data-option='Everyone'] {
-          color: whitesmoke;
+          background-color: whitesmoke;
         }
       }
     }

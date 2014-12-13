@@ -79,6 +79,8 @@
 .icon-share:before { content: '\e828'; } /* '' */
 .icon-rename:before { content: '\e829'; } /* '' */
 .icon-ok:before { content: '\e82a'; } /* '' */
+.icon-floppy:before { content: '\e82b'; } /* '' */
+.icon-speedometer:before { content: '\e82c'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */

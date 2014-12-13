@@ -1,6 +1,3 @@
-<section id="portal-toolbar">
-</section>
-
 <header id="global-header">
 
     <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Plone intranet"></a>
@@ -64,8 +61,4 @@
         "reset">Reset</button>
 
     </form>
-
-    {% if page.application == 'stardesk-administration' %}
-        <a href="@@toolbar" class="pat-inject" data-pat-inject="source: #project-header; target: #project-header; trigger: autoload-visible && source: #global-header; target: #global-header"></a>
-    {% endif %}
 </header>
