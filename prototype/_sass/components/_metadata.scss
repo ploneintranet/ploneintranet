@@ -1,11 +1,28 @@
 @charset "UTF-8";
 
 .metadata {
-  background-color: white;
+  background-color: rgba(255,255,255,0.9);
   color: gray;
   margin-right: 0;
   margin-left: 0;
   padding: 6% 6% 0;
+  -moz-transition: padding 0.5s;
+  -webkit-transition: padding 0.5s;
+  transition: padding 0.5s;
+
+  &.bumped {
+    padding: 0;
+    // border-bottom: 1px solid silver;
+
+    .meta-bar {
+      border-top: none;
+    }
+
+    .meta-bar,
+    .bar {
+      padding: 0 2%;
+    }
+  }
 
   .meta-extra {
     padding: 0;
@@ -14,6 +31,10 @@
 
     .bar {
       border-bottom: 1px solid silver;
+      -moz-transition: padding 0.5s;
+      -webkit-transition: padding 0.5s;
+      transition: padding 0.5s;
+      margin-bottom: 0;
 
       input[type="text"],
       textarea {
@@ -32,6 +53,9 @@
     border-bottom: 1px solid silver;
     overflow: hidden;
     position: relative;
+    -moz-transition: padding 0.5s;
+    -webkit-transition: padding 0.5s;
+    transition: padding 0.5s;
 
     .doc-title {
       font-size: 1em;
@@ -75,6 +99,9 @@
       a {
         color: gray;
         margin-left: 0.3em;
+        display: inline-block;
+        line-height: 1.5em;
+        float: left;
 
         &.collapsible-open {
           color: $colour-accent;

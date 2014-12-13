@@ -4,8 +4,8 @@ template: generic
 workspace_module: docs
 ---
 
-<div class="metadata">
-    <form class="meta-data" action="" data-pat-inject="#doc-title::element">
+<form class="document" action="" data-pat-inject="#doc-title::element">
+    <div class="metadata pat-bumper">
         <div class="meta-bar">
             <h1 class="doc-title" id="document-title">
                 {{ page.title }}
@@ -60,32 +60,32 @@ workspace_module: docs
                 </fieldset>
             </fieldset> -->
         </fieldset>
-    </form>
-</div>
-{% if document.editable == "true" %}
-    <div id="editor-toolbar" class="pat-bumper">
-        <p>Loading…</p>
     </div>
-{% endif %}
-<div id="document-content">
-    {% if page.document_type == 'rich' %}
-        <article class="document {% if page.document_type == 'rich' %}rich{% endif %}">
-            {% if document.editable == "true" %}
-                <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
-                  <!--section class="page"-->
-                    <textarea class="pat-redactor" data-pat-redactor="toolbar-external: #editor-toolbar">
-                        {{ content }}
-                    </textarea>
-                </form>
-            {% else %}
-                {{ content }}
-            {% endif %}
-        </article>
-    {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
-        <article>
-            {% for preview in page.previews %}
-                <img src="{{ preview.url }}" alt="" class="page" />
-            {% endfor %}
-        </article>
+    {% if document.editable == "true" %}
+        <div id="editor-toolbar" class="pat-bumper">
+            <p>Loading…</p>
+        </div>
     {% endif %}
-</div>
+    <div id="document-content">
+        {% if page.document_type == 'rich' %}
+            <article class="document {% if page.document_type == 'rich' %}rich{% endif %}">
+                {% if document.editable == "true" %}
+                    <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
+                      <!--section class="page"-->
+                        <textarea class="pat-redactor" data-pat-redactor="toolbar-external: #editor-toolbar">
+                            {{ content }}
+                        </textarea>
+                    </form>
+                {% else %}
+                    {{ content }}
+                {% endif %}
+            </article>
+        {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
+            <article>
+                {% for preview in page.previews %}
+                    <img src="{{ preview.url }}" alt="" class="page" />
+                {% endfor %}
+            </article>
+        {% endif %}
+    </div>
+</form>
