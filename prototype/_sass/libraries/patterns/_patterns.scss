@@ -15,6 +15,12 @@ $colour-alert: red !default;
 $colour-workspace-default: #869EBF !default;
 $colour-accent: #5d91ff !default;
 
+$colour-success: #5bb75b !default;
+$colour-warning: #faa732 !default;
+$colour-notice: #fdfdc8 !default;
+$colour-info: #d9edf7 !default;
+$colour-error: red !default;
+
 $glyph-checkbox: \e808 !default;
 $glyph-checkbox-active: \e809 !default;
 $glyph-radio-button: \e807 !default;
@@ -31,4 +37,5 @@ $glyph-radio-button-active: \e806 !default;
 @import "components/form";
 @import "components/injection";
 @import "components/modal";
+@import "components/notifications";
 @import "components/select";

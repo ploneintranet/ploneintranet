@@ -15,7 +15,6 @@
 .icon-mail:before { content: '\2709'; } /* '✉' */
 .icon-edit:before { content: '\270d'; } /* '✍' */
 .icon-pencil:before { content: '\270e'; } /* '✎' */
-.icon-ok:before { content: '\2713'; } /* '✓' */
 .icon-ok-circle:before { content: '\2714'; } /* '✔' */
 .icon-minus-circle:before { content: '\2796'; } /* '➖' */
 .icon-left-circle:before { content: '\e4a1'; } /* '' */
@@ -79,6 +78,7 @@
 .icon-move:before { content: '\e827'; } /* '' */
 .icon-share:before { content: '\e828'; } /* '' */
 .icon-rename:before { content: '\e829'; } /* '' */
+.icon-ok:before { content: '\e82a'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */

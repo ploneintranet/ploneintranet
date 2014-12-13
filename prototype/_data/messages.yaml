@@ -1,0 +1,5 @@
+- body: "This document is now set from 'Private' to 'Public'."
+  id: workflow-state-changed
+
+- body: "This role of John Smith on this group is now set from 'Regular' to 'Member'."
+  id: role-changed

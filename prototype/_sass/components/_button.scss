@@ -3,13 +3,13 @@
 @mixin button() {
   font-family: $body-font-family;
   margin: 0 0.5em 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
   border-radius: 0.2em;
-  background-image: -moz-linear-gradient(bottom, #efefef 0%, white 100%);
-  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
-  background-image: linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -moz-linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
+  background-image: linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
   text-decoration: none !important;
   line-height: 1.5;
   white-space: nowrap;
