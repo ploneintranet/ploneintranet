@@ -25,17 +25,21 @@ class ITodoUtility(Interface):
     """
     Interface for the TodoUtility
     """
-    def add_action(content_uid, verb, userids=None):
+    def add_action(content_uid, verb, userids=None, completed=False):
         """
         Add the given action for the given content to the given users, or all
-        users
+        users. If completed is True then this is an action that has occurred
+        (for example "Liking" content) rather than an action that needs to be
+        take in the future
 
         :param content_uid: The UID of the content
         :type content_uid: str
         :param verb: The action to take
         :type verb: str
         :param userids: The userids to add the action to or None for all users
-        :type userids: list
+        :type userids: str or list or None
+        :param completed: Whether this is a pre-completed action (e.g: a Like)
+        :type completed: bool
         """
 
     def complete_action(content_uid, verb, userids=None):

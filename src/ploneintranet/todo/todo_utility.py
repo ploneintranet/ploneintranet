@@ -116,17 +116,21 @@ class TodoUtility(object):
             return sorted(actions, key=itemgetter(sort_on), reverse=reverse)
         return actions
 
-    def add_action(self, content_uid, verb, userids=None):
+    def add_action(self, content_uid, verb, userids=None, completed=False):
         """
         Add the given action for the given content to the given users, or all
-        users
+        users. If completed is True then this is an action that has occurred
+        (for example "Liking" content) rather than an action that needs to be
+        take in the future
 
         :param content_uid: The UID of the content
         :type content_uid: str
         :param verb: The action to take
         :type verb: str
-        :param userids: The userids to add the action to
-        :type userids: list or str or None
+        :param userids: The userids to add the action to or None for all users
+        :type userids: str or list or None
+        :param completed: Whether this is a pre-completed action (e.g: a Like)
+        :type completed: bool
         """
         if isinstance(userids, basestring):
             userids = [userids]
@@ -145,6 +149,8 @@ class TodoUtility(object):
                     content_uid,
                     verb
                 )
+                if completed:
+                    user_action.mark_complete()
                 storage[userid].append(user_action)
             # TODO: If the action exists we perhaps should update the 'modified'
 
