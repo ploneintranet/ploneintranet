@@ -1,24 +1,13 @@
-from plone import api
-from plone.uuid.interfaces import IUUID
-from Products.Five import BrowserView
-from zope.component import getUtility
-
-from ..interfaces import ITodoUtility
+from .base_view import BaseView
 from ..interfaces import MUST_READ
 
 
-class MarkRead(BrowserView):
+class MarkRead(BaseView):
 
     def __call__(self):
-        todos = getUtility(ITodoUtility)
-        current_user = api.user.get_current()
-        todos.complete_action(
-            content_uid=IUUID(self.context),
+        self.util.complete_action(
+            content_uid=self.content_uid,
             verb=MUST_READ,
-            userids=[current_user.getId()]
+            userids=self.current_user_id
         )
-        referer = self.request.get_header("referer")
-        # We must rerender the page we came from to get the value
-        # for pat-inject.
-        # We rerender the whole page here which is not quite smart
-        self.request.response.redirect(referer)
+        return super(MarkRead, self).__call__()
