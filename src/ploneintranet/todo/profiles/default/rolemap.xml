@@ -3,4 +3,6 @@
   <roles>
     <role name="Assignee"/>
   </roles>
+  <permissions>
+  </permissions>
 </rolemap>
