@@ -1,5 +1,4 @@
 from plone import api
-from plone.uuid.interfaces import IUUID
 from Products.Five import BrowserView
 from zope.component import getUtility
 
@@ -12,7 +11,7 @@ class BaseView(BrowserView):
         super(BaseView, self).__init__(context, request)
         self.util = getUtility(ITodoUtility)
         self.current_user_id = api.user.get_current().getId()
-        self.content_uid = IUUID(self.context),
+        self.content_uid = api.content.get_uuid(self.context)
 
     def __call__(self):
         referer = self.request.get('HTTP_REFERER', '').strip()
