@@ -1,7 +1,8 @@
-from zope.component import getUtility
 from plone import api
 from plone.uuid.interfaces import IUUID
 from Products.Five import BrowserView
+from zope.component import getUtility
+
 from ..interfaces import ITodoUtility
 from ..interfaces import MUST_READ
 
