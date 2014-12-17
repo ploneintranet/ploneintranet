@@ -4,7 +4,7 @@ from plone import api
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-from ..interfaces import ITodoUtility
+from ..interfaces import ITodoUtility, TODO, MUST_READ, LIKE
 from ..content.content_action import ContentAction
 from ..todo_utility import TodoUtility
 from ..testing import IntegrationTestCase
@@ -54,11 +54,11 @@ class TestTodoUtility(IntegrationTestCase):
         doc2_uid = self.doc2.UID()
         self.util.add_action(
             doc1_uid,
-            'todo'
+            TODO
         )
         self.util.add_action(
             doc2_uid,
-            'read',
+            MUST_READ,
             [user1_id, user2_id]
         )
         self.util.add_action(
@@ -94,7 +94,7 @@ class TestTodoUtility(IntegrationTestCase):
             action = ContentAction(
                 user1_id,
                 self.faker.md5(),
-                'todo',
+                TODO,
                 created=created
             )
             created += timedelta(minutes=10)
@@ -131,7 +131,7 @@ class TestTodoUtility(IntegrationTestCase):
         doc1_uid = self.doc1.UID()
         self.util.add_action(
             doc1_uid,
-            'todo',
+            TODO,
             userids=user1_id
         )
         storage = self.util._get_storage()
@@ -142,7 +142,7 @@ class TestTodoUtility(IntegrationTestCase):
         self.assertIsInstance(action, ContentAction)
         self.assertEqual(action.userid, user1_id)
         self.assertEqual(action.content_uid, doc1_uid)
-        self.assertEqual(action.verb, 'todo')
+        self.assertEqual(action.verb, TODO)
         self.assertLess(action.created, datetime.now())
         self.assertIsNone(action.completed)
         self.assertIsNone(action.modified)
@@ -153,7 +153,7 @@ class TestTodoUtility(IntegrationTestCase):
         doc1_uid = self.doc1.UID()
         self.util.add_action(
             doc1_uid,
-            'todo',
+            TODO,
             userids=[user1_id, user2_id]
         )
         storage = self.util._get_storage()
@@ -165,7 +165,7 @@ class TestTodoUtility(IntegrationTestCase):
         doc1_uid = self.doc1.UID()
         self.util.add_action(
             doc1_uid,
-            'todo'
+            TODO
         )
         storage = self.util._get_storage()
         self.assertEqual(
@@ -194,11 +194,11 @@ class TestTodoUtility(IntegrationTestCase):
     def test_query_verbs(self):
         self.add_test_actions()
         results = self.util.query(
-            verbs='todo'
+            verbs=TODO
         )
         self.assertEqual(len(results), 4)
         results = self.util.query(
-            verbs=['todo', 'read']
+            verbs=[TODO, MUST_READ]
         )
         self.assertEqual(len(results), 6)
 
@@ -243,11 +243,11 @@ class TestTodoUtility(IntegrationTestCase):
         # 3. Check counts and who has liked
         self.util.add_action(
             self.doc1.UID(),
-            'like',
+            LIKE,
             completed=True
         )
         results = self.util.query(
-            verbs='like',
+            verbs=LIKE,
             ignore_completed=False
         )
         uids = {x.content_uid for x in results}
@@ -258,12 +258,12 @@ class TestTodoUtility(IntegrationTestCase):
         user2_id = self.user2.getId()
         self.util.add_action(
             self.doc2.UID(),
-            'like',
+            LIKE,
             [user1_id, user2_id],
             True
         )
         results = self.util.query(
-            verbs='like',
+            verbs=LIKE,
             content_uids=self.doc2.UID(),
             ignore_completed=False
         )
