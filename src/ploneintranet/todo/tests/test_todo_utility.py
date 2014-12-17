@@ -236,3 +236,38 @@ class TestTodoUtility(IntegrationTestCase):
         self.add_test_actions()
         results = self.util.query(ignore_completed=False)
         self.assertEqual(len(results), 8)
+
+    def test_liking_capability(self):
+        # 1. All users like doc1
+        # 2. user1 and user2 like doc2
+        # 3. Check counts and who has liked
+        self.util.add_action(
+            self.doc1.UID(),
+            'like',
+            completed=True
+        )
+        results = self.util.query(
+            verbs='like',
+            ignore_completed=False
+        )
+        uids = {x.content_uid for x in results}
+        self.assertEqual(len(uids), 1)
+        self.assertIn(self.doc1.UID(), uids)
+
+        user1_id = self.user1.getId()
+        user2_id = self.user2.getId()
+        self.util.add_action(
+            self.doc2.UID(),
+            'like',
+            [user1_id, user2_id],
+            True
+        )
+        results = self.util.query(
+            verbs='like',
+            content_uids=self.doc2.UID(),
+            ignore_completed=False
+        )
+        userids = [x.userid for x in results]
+        self.assertEqual(len(userids), 2)
+        self.assertIn(user1_id, userids)
+        self.assertIn(user2_id, userids)
