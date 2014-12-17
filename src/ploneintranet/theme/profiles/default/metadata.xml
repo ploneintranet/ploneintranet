@@ -3,5 +3,6 @@
     <version>1</version>
     <dependencies>
         <dependency>profile-plone.app.theming:default</dependency>
+        <dependency>profile-plone.app.blocks:default</dependency>
     </dependencies>
 </metadata>

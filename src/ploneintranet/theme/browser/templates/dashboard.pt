@@ -4,233 +4,28 @@
             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
             lang="en"
             metal:use-macro="context/main_template/macros/master"
-            i18n:domain="webwork">
+            i18n:domain="ploneintranet.theme">
 
     <body class="view-secure">
-        <metal:content fill-slot="content"
-            tal:define="purl context/portal_url">
-<!-- the above is a wrapper so that we can get it by a diazo rule. The below is a copy paste from the original prototype page dashboard.html
-We now need to replace the liquid template code with tal code to retrieve the actual data
--->
-<div class="row">
-    <div class="four columns">
-        <div class="item portlets">
-            <div class="news portlet" id="portlet-news">
-                <h2 class="portlet-title"><a href="/news.html">News</a></h2>
-                <div class="news-block" id="unread-news">
-                    <!-- XXX: tal repleat over real news -->
-                    <article class="item item-1">
-                        <a href="/news-press-2">
-                            <img class="illustration" src="++theme++ploneintranet.theme/generated/media/new-delhi-skyline.jpg" alt="" />
-                            <!--  -->
+        <metal:content fill-slot="content" tal:define="purl context/portal_url">
 
-                            <h3 class="title">
-                                Air India Joins Star Alliance
-                            </h3>
-                            <p class="description">
-                                First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market <!-- <em>Read more…</em> -->
-                            </p>
-                        </a>
-                        <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                            <button type="submit" class="icon-ok">Mark read</button>
-                        </form>
-                    </article>
-                    <article class="item item-2">
-                        <a href="/news-press-1">
-                            <img class="illustration" src="++theme++ploneintranet.theme/generated/media/corporate.png" alt="" />
-                            <!--  -->
+            <div class="row">
+                <div class="four columns">
+                    <div class="item portlets">
 
-                            <h3 class="title">
-                                Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3
-                            </h3>
-                            <p class="description">
-                                Star Alliance officially opened its new Lounge at São Paulo –Guarulhos Airport, Terminal 3 today. About 1,350 square metres in size, the lounge can accommoda... <!-- <em>Read more…</em> -->
-                            </p>
-                        </a>
-                        <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                            <button type="submit" class="icon-ok">Mark read</button>
-                        </form>
-                    </article>
-                    <article class="item item-3">
-                        <a href="/star-news-3">
-                            <img class="illustration" src="++theme++ploneintranet.theme/generated/media/ethiopian-ana-thumb.jpg" alt="" />
-                            <!--  -->
+                        <div id="portlet-news" data-tile="./@@news.tile"></div>
 
-                            <h3 class="title">
-                                ANA and Ethiopian to codeshare
-                            </h3>
-                            <p class="description">
-                                In December, 2011 both airlines began reciprocal frequent flyer program awards. <!-- <em>Read more…</em> -->
-                            </p>
-                        </a>
-                        <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                            <button type="submit" class="icon-ok">Mark read</button>
-                        </form>
-                    </article>
+                        <div id="portlet-workspaces" data-tile="./@@workspaces.tile"></div>
 
+                        <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
+
+                    </div>
+                </div>
+                <div class="eight columns">
+                    <div id="new-post-box" data-tile="./@@newpostbox.tile"></div>
+                    <div id="activity-stream" data-tile="./@@activitystream.tile"></div>
                 </div>
             </div>
-            <div class="workspaces portlet" id="portlet-workspaces">
-                <h2 class="portlet-title"><a href="/workspaces.html">Workspaces</a></h2>
-                <ul class="links">
-                    <!-- XXX: Replace with real workspaces a user can see -->
-                    <li class="workspace" title="The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.">
-                        <a href="/open-market-committee" class="link">
-                            <h4 class="title">Open Market Committee</h4>
-
-                                <p class="byline">
-                                    <strong class="subjects">
-
-
-
-
-                                            <span class="subject">Charlotte Holzer</span>
-
-
-
-                                    </strong>
-                                    <span class="verb">
-                                        published
-                                    </span>
-                                    <strong class="object">
-                                        Proposal draft V1.0
-                                    </strong>
-                                    <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">2 Hours ago</time>
-                                    <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
-                                </p>
-
-                        </a>
-                    </li>
-
-                    <li class="workspace" title="A range of guidance, tools and templates that can help you through the process of managing your information.">
-                        <a href="/manage-information" class="link">
-                            <h4 class="title">Manage Information</h4>
-
-                                <p class="byline">
-                                    <strong class="subjects">
-
-
-
-
-                                            <span class="subject">Jenny Smith</span>
-
-
-
-                                    </strong>
-                                    <span class="verb">
-                                        changed start date of
-                                    </span>
-                                    <strong class="object">
-                                        Manage Information
-                                    </strong>
-                                    <time class="datestamp" datetime="2008-02-14" title="5 October 2015, 18:43">2 Hours ago</time>
-                                    <!-- The date time attribute contains the time in international format (machine readable) and the title attribute contains the absolute date and time of the post. -->
-                                </p>
-
-                        </a>
-                    </li>
-                </ul>
-
-            <p class="portlet-footer">
-                <a href="#">All workspace activities…</a>
-            </p>
-            </div>
-            <div class="workspaces portlet" id="portlet-workspaces">
-                <h2 class="portlet-title">Tasks</h2>
-
-                <!-- XXX: List taskgroups from workspaces and tasks below -->
-                <h3>Baggage handling regulations</h3>
-                <fieldset class="task-list pat-checklist">
-                    <label>
-                                <input type="checkbox" /> <a title="Be early at the venue to prepare everything for the staff christmas get-together.
-Remember:
-* Decoration
-* Gifts
-* Get a toast master to organise the speeches
-* Projector for the annual retrospect
-* Cables and Adapters
-
-" href="/prepare-christmas-gettogether">Prepare Christmas get-together</a>
-                            </label>
-                            <br/>
-
-
-
-
-
-                            <label>
-                                <input type="checkbox" /> <a title="Inquire after the necessary references for the History Book project, as they haven’t been provided initially.
-
-" href="/inquire-on-references">Inquire after References</a>
-                            </label>
-                            <br/>
-
-
-
-
-
-
-
-                            <label>
-                                <input type="checkbox" /> <a title="Need to have the first budget draft ready to present to the board.
-
-" href="/finalise-budget">Finalise Budget</a>
-                            </label>
-                            <br/>
-
-
-
-                            <label>
-                                <input type="checkbox" /> <a title="Collect the latest data from Finance and update the 2013 presentation accordingly.
-Check with @Peter for details and have it approved by @Liz.
-
-" href="/prepare-sales-presentation">Prepare sales presentation</a>
-                            </label>
-                            <br/>
-
-
-
-
-
-                            <label>
-                                <input type="checkbox" /> <a title="The committee requested a SWOT analysis of the potential outcomes of this concept. Prepare until next week.
-
-" href="/write-swot-analysis">Write SWOT analysis</a>
-                            </label>
-
-                </fieldset>
-                <h3>Personal tasks</h3>
-                <fieldset class="task-list pat-checklist">
-                    <label>
-                        <input type="checkbox" /> <a title="" href="">Talk to HR about vacancy</a>
-                    </label>
-                    <br/>
-                    <label>
-                        <input type="checkbox" /> <a title="" href="">Shop Groceries</a>
-                    </label>
-                </fieldset>
-            </div>
-        </div>
-    </div>
-    <div class="eight columns">
-        {% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
-
-        <div id="activity-stream" class="activity-stream">
-            <form action="index.html#activity-stream" class="functions pat-autosubmit pat-inject">
-                <label class="filters item pat-select bare">
-                    <select name="filter">
-                        <option value="all">All activities</option>
-                        <option value="network">Only activities from people I follow</option>
-                        <option value="interactions">Interactions with other people</option>
-                        <option value="posted">My activities</option>
-                        <option value="likes">My likes</option>
-                    </select>
-                </label>
-            </form>
-            {% include activity-stream.html src="activity-stream-social" %}
-        </div>
-    </div>
-</div>
 
         </metal:content>
     </body>
