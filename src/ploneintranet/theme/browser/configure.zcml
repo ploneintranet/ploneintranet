@@ -94,5 +94,56 @@
       layer="..interfaces.IThemeSpecific"
       />
 
+  <!-- prototype tiles for dashboard -->
+  <plone:tile
+      name="workspaces.tile"
+      title="A title for the workspaces"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.WorkspacesTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+  <plone:tile
+      name="news.tile"
+      title="A title for the news"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.NewsTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+  <plone:tile
+      name="tasks.tile"
+      title="A title for the tasks"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.TasksTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+  <plone:tile
+      name="newpostbox.tile"
+      title="A title for the new-post-box"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.NewPostBoxTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+  <plone:tile
+      name="activitystream.tile"
+      title="A title for the activity-stream"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.ActivityStreamTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
 
 </configure>

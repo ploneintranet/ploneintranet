@@ -1,0 +1,48 @@
+<html>
+    <body>
+        <form id="new-post-box" class="pat-inject update-social status-inactive" action="/feedback/post-well-done.html" data-pat-inject="source: #activity-stream; target: #activity-stream::before &amp;&amp; #new-post-box">
+            <fieldset>
+                <p class="content-mirror"><span class="text"><em class="placeholder">Leave a comment</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
+                <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-switch="#new-post-box status-inactive status-active"></textarea>
+                <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+                <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #new-post-box-attachment-previews">
+                    <label class="iconified icon-attach pat-switch" data-pat-switch="#new-post-box status-* status-attach"><input multiple="" capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+                    <p class="attachment-previews" id="new-post-box-attachment-previews">
+                        No attachments selected.
+                    </p>
+                    <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
+                </fieldset>
+                <div class="button-bar">
+                    <a class="iconified icon-user-add pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+                    <a class="iconified icon-tags pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+                    <button class="pat-switch close-panel" data-pat-switch="#new-post-box status-* status-inactive" type="submit">Post</button>
+                    <button class="pat-switch close-panel" data-pat-switch="#new-post-box status-* status-inactive" type="reset">Cancel</button>
+                    <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+                    <label class="visibility pat-select bare" data-option="Everyone">
+                        <select>
+                            <optgroup>
+                                <option>
+                                    Everyone
+                                </option>
+                                <option>
+                                    Trusted users
+                                </option>
+                            </optgroup>
+                            <optgroup>
+                                <option>
+                                    Workspace so and so
+                                </option>
+                                <option>
+                                    Baggage handling regulations
+                                </option>
+                                <option>
+                                    Human resources
+                                </option>
+                            </optgroup>
+                        </select>
+                    </label>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>
