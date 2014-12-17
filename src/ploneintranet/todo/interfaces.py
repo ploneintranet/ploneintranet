@@ -7,6 +7,7 @@ from ploneintranet.todo import _
 # verbs definition
 MUST_READ = 'mustread'
 TODO = 'todo'
+LIKE = 'like'
 
 
 class IContentAction(Interface):
