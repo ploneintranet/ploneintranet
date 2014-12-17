@@ -1,5 +1,5 @@
 from zope.component import getUtility
-from plone.uuid.interfaces import IUUID
+from plone import api
 
 from .interfaces import ITodoUtility
 from .interfaces import MUST_READ
@@ -10,7 +10,7 @@ def mark(obj, evt):
     """The event handler that marks this object as mustread.
     """
     todos = getUtility(ITodoUtility)
-    obj_uuid = IUUID(obj)
+    obj_uuid = api.content.get_uuid(obj)
     behavior = IMustRead(obj)
     # Verify if it has been booked in the utility
     present = todos.query(
@@ -35,7 +35,7 @@ def on_delete(obj, evt):
     """Complete actions for objects marked as must read that have been deleted
     """
     todos = getUtility(ITodoUtility)
-    obj_uuid = IUUID(obj)
+    obj_uuid = api.content.get_uuid(obj)
     todos.complete_action(
         content_uid=obj_uuid,
         verb=MUST_READ

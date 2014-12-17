@@ -2,7 +2,6 @@ from zope.component import getUtility
 from zope.component import getMultiAdapter
 from zope.lifecycleevent import modified
 from plone import api
-from plone.uuid.interfaces import IUUID
 from plone.portlets.interfaces import IPortletRenderer
 from plone.portlets.interfaces import IPortletManager
 from plone.namedfile.file import NamedBlobImage
@@ -88,8 +87,8 @@ class TestPortlet(IntegrationTestCase):
         renderer = self._get_renderer()
         latest = renderer.latest_news()
         self.assertEqual(
-            IUUID(latest[0]),
-            IUUID(self.news_items[-1])
+            api.content.get_uuid(latest[0]),
+            api.content.get_uuid(self.news_items[-1])
         )
 
     def test_mark(self):
@@ -104,6 +103,6 @@ class TestPortlet(IntegrationTestCase):
         if hasattr(renderer, '_memojito_'):
             del renderer._memojito_
         self.assertNotIn(
-            IUUID(item),
-            [IUUID(c) for c in renderer.latest_news()]
+            api.content.get_uuid(item),
+            [api.content.get_uuid(c) for c in renderer.latest_news()]
         )
