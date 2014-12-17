@@ -1,0 +1,40 @@
+<html>
+<body>
+    <div class="workspaces portlet" id="portlet-tasks">
+        <h2 class="portlet-title">Tasks</h2>
+        <!-- XXX: List taskgroups from workspaces and tasks below -->
+        <h3>Baggage handling regulations</h3>
+        <fieldset class="task-list pat-checklist">
+            <label>
+                <input type="checkbox" /> <a title="Be early at the venue to prepare everything for the staff christmas get-together. Remember:* Decoration * Gifts * Get a toast master to organise the speeches * Projector for the annual retrospect * Cables and Adapters" href="/prepare-christmas-gettogether">Prepare Christmas get-together</a>
+            </label>
+            <br/>
+            <label>
+                <input type="checkbox" /> <a title="Inquire after the necessary references for the History Book project, as they haven’t been provided initially." href="/inquire-on-references">Inquire after References</a>
+            </label>
+            <br/>
+            <label>
+                <input type="checkbox" /> <a title="Need to have the first budget draft ready to present to the board." href="/finalise-budget">Finalise Budget</a>
+            </label>
+            <br/>
+            <label>
+                <input type="checkbox" /> <a title="Collect the latest data from Finance and update the 2013 presentation accordingly. Check with @Peter for details and have it approved by @Liz." href="/prepare-sales-presentation">Prepare sales presentation</a>
+            </label>
+            <br/>
+            <label>
+                <input type="checkbox" /> <a title="The committee requested a SWOT analysis of the potential outcomes of this concept. Prepare until next week." href="/write-swot-analysis">Write SWOT analysis</a>
+            </label>
+        </fieldset>
+        <h3>Personal tasks</h3>
+        <fieldset class="task-list pat-checklist">
+            <label>
+                <input type="checkbox" /> <a title="" href="">Talk to HR about vacancy</a>
+            </label>
+            <br/>
+            <label>
+                <input type="checkbox" /> <a title="" href="">Shop Groceries</a>
+            </label>
+        </fieldset>
+    </div>
+</body>
+</html>
