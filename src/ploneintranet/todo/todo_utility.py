@@ -60,6 +60,11 @@ class TodoUtility(object):
             storage = self._get_storage()
             storage[userid] = []
 
+    def _get_action_for_user(self, content_uid, verb, users_actions):
+        for idx, x in enumerate(users_actions):
+            if x.verb == verb and x.content_uid == content_uid:
+                return users_actions.pop(idx), users_actions
+
     def query(self, userids=None, verbs=None, content_uids=None, sort_on=None,
               sort_order=None, ignore_completed=True):
         """
@@ -173,14 +178,41 @@ class TodoUtility(object):
             userids = self._all_users()
         storage = self._get_storage()
 
-        # For each user, get their list of ContentActions, find the matching one
-        # pop it, mark it as complete and then append it back to the user's list
         for userid in userids:
             users_actions = storage[userid]
-            for idx, x in enumerate(users_actions):
-                if x.verb == verb and x.content_uid == content_uid:
-                    action = users_actions.pop(idx)
-                    action.mark_complete()
-                    users_actions.append(action)
-                    storage[userid] = users_actions
-                    break
+            action, users_actions = self._get_action_for_user(
+                content_uid,
+                verb,
+                users_actions
+            )
+            action.mark_complete()
+            users_actions.append(action)
+            storage[userid] = users_actions
+
+    def remove_action(self, content_uid, verb, userids=None):
+        """
+        Remove the given action from the users' actions. This is normally for
+        admin use, but also for removing pre-completed actions such as Likes
+
+        :param content_uid: The UID of the content
+        :type content_uid: str
+        :param verb: The action to complete
+        :type verb: str
+        :param userids: The userids to complete the action from or None for all
+                        users
+        :type userids: list or None
+        """
+        if isinstance(userids, basestring):
+            userids = [userids]
+        if userids is None:
+            userids = self._all_users()
+        storage = self._get_storage()
+
+        for userid in userids:
+            users_actions = storage[userid]
+            _, users_actions = self._get_action_for_user(
+                content_uid,
+                verb,
+                users_actions
+            )
+            storage[userid] = users_actions

@@ -45,8 +45,22 @@ class ITodoUtility(Interface):
 
     def complete_action(content_uid, verb, userids=None):
         """
-        Mark the given action for the given content as compelte for the given
+        Mark the given action for the given content as complete for the given
         users
+
+        :param content_uid: The UID of the content
+        :type content_uid: str
+        :param verb: The action to complete
+        :type verb: str
+        :param userids: The userids to complete the action from or None for all
+                        users
+        :type userids: list or None
+        """
+
+    def remove_action(content_uid, verb, userids=None):
+        """
+        Remove the given action from the users' actions. This is normally for
+        admin use, but also for removing pre-completed actions such as Likes
 
         :param content_uid: The UID of the content
         :type content_uid: str
