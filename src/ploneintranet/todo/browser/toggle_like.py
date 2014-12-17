@@ -11,7 +11,7 @@ class ToggleLike(BaseView):
             self.content_uid,
             ignore_completed=False
         )
-        if len(is_liked) > 0:
+        if len(is_liked) == 0:
             self.util.add_action(
                 self.content_uid,
                 LIKE,
