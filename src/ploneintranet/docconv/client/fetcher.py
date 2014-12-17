@@ -63,7 +63,14 @@ Content-Type: %(mime)s
             self.request = self.context.REQUEST
 
     def getPayload(self):
-        mime = self.context.getContentType()
+        if hasattr(self.context, 'getContentType'):
+            mime = self.context.getContentType()
+        elif hasattr(self.context, 'content_type'):
+            mime = self.context.content_type()
+        else:
+            logger.warn('Could not get content type of {0}'.format(
+                '/'.join(self.context.getPhysicalPath())))
+            mime = 'text/plain'
         data = None
 
         if hasattr(self.context, 'getBlobWrapper'):

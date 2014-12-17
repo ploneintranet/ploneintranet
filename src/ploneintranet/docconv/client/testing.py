@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
-import os
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import login
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -29,16 +27,6 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
         import ploneintranet.docconv.client
         self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.docconv.client')
-
-        def mock_convert_on_server(self, payload, datatype):
-            test_zip = os.path.join(os.path.split(__file__)[0],
-                                    'tests/Test_Document.zip')
-            zipfile = open(test_zip, 'r')
-            data = zipfile.read()
-            zipfile.close()
-            return data
-        from ploneintranet.docconv.client.fetcher import BasePreviewFetcher
-        BasePreviewFetcher.convert_on_server = mock_convert_on_server
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""

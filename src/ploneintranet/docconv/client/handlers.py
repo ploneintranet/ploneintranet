@@ -1,14 +1,13 @@
 import logging
-from Products.ATContentTypes.interfaces import IATDocument
-from Products.ATContentTypes.interfaces import IATFile
-from Products.ATContentTypes.interfaces import IATImage
-from Products.ATContentTypes.interfaces import IATLink
-from Products.ATContentTypes.interfaces import IATNewsItem
-from Products.Archetypes.interfaces import IObjectEditedEvent
-from Products.Archetypes.interfaces import IObjectInitializedEvent
+from plone.app.contenttypes.interfaces import IDocument
+from plone.app.contenttypes.interfaces import IFile
+from plone.app.contenttypes.interfaces import IImage
+from plone.app.contenttypes.interfaces import ILink
+from plone.app.contenttypes.interfaces import INewsItem
 from five import grok
 from zope.annotation import IAnnotations
-from zope.app.container.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.docconv.client.async import queueDelayedConversionJob
@@ -59,20 +58,20 @@ def generate_attachment_preview_images(obj):
                 docconv.generate_all()
 
 
-@grok.subscribe(IATDocument, IObjectInitializedEvent)
-@grok.subscribe(IATFile, IObjectInitializedEvent)
-@grok.subscribe(IATImage, IObjectInitializedEvent)
-@grok.subscribe(IATLink, IObjectInitializedEvent)
-@grok.subscribe(IATNewsItem, IObjectInitializedEvent)
+@grok.subscribe(IDocument, IObjectAddedEvent)
+@grok.subscribe(IFile, IObjectAddedEvent)
+@grok.subscribe(IImage, IObjectAddedEvent)
+@grok.subscribe(ILink, IObjectAddedEvent)
+@grok.subscribe(INewsItem, IObjectAddedEvent)
 def archetype_added_in_workspace(obj, event):
     _update_preview_images(obj, event)
 
 
-@grok.subscribe(IATDocument, IObjectEditedEvent)
-@grok.subscribe(IATFile, IObjectEditedEvent)
-@grok.subscribe(IATImage, IObjectEditedEvent)
-@grok.subscribe(IATLink, IObjectEditedEvent)
-@grok.subscribe(IATNewsItem, IObjectEditedEvent)
+@grok.subscribe(IDocument, IObjectModifiedEvent)
+@grok.subscribe(IFile, IObjectModifiedEvent)
+@grok.subscribe(IImage, IObjectModifiedEvent)
+@grok.subscribe(ILink, IObjectModifiedEvent)
+@grok.subscribe(INewsItem, IObjectModifiedEvent)
 def archetype_edited_in_workspace(obj, event):
     _update_preview_images(obj, event)
 

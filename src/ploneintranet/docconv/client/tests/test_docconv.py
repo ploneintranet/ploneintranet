@@ -1,15 +1,18 @@
 from mock import Mock
-from Products.Archetypes.interfaces import IObjectInitializedEvent
 from Testing.makerequest import makerequest
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from zope import event
 from zope.component import getAdapter
+from zope.interface import alsoProvides
 from zope.traversing.interfaces import BeforeTraverseEvent
+import os
 
 from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet.docconv.client.interfaces import IPloneintranetDocconvClientLayer
 from ploneintranet.docconv.client.adapters import DocconvAdapter
+from ploneintranet.docconv.client.fetcher import BasePreviewFetcher
 from ploneintranet.docconv.client.fetcher import fetchPreviews
 from ploneintranet.docconv.client.testing import IntegrationTestCase
 
@@ -21,20 +24,35 @@ class TestDocconv(IntegrationTestCase):
         """ """
         portal = makerequest(self.layer['portal'])
         self.request = portal.REQUEST
+        alsoProvides(self.request, IPloneintranetDocconvClientLayer)
         setRoles(portal, TEST_USER_ID, ('Manager',))
+
         self.workspace = api.content.create(
             type='Folder',
             title=u"Docconv Workspace",
             container=portal)
         self.document = api.content.create(
             type='Document',
+            id='test-document',
             title=u"Test Document",
             container=self.workspace)
+
         event.notify(BeforeTraverseEvent(portal, portal.REQUEST))
+
+        def mock_convert_on_server(self, payload, datatype):
+            test_zip = os.path.join(os.path.split(__file__)[0],
+                                    'Test_Document.zip')
+            zipfile = open(test_zip, 'r')
+            data = zipfile.read()
+            zipfile.close()
+            return data
+        self._convert_on_server = BasePreviewFetcher.convert_on_server
+        BasePreviewFetcher.convert_on_server = mock_convert_on_server
 
     def tearDown(self):
         api.content.delete(self.document)
         api.content.delete(self.workspace)
+        BasePreviewFetcher.convert_on_server = self._convert_on_server
 
     def test_docconv_adapter_on_new_object(self):
         docconv = IDocconv(self.document)
@@ -124,7 +142,5 @@ class TestDocconv(IntegrationTestCase):
             type='File',
             title=u"Test File",
             container=self.workspace)
-        event.notify(
-            IObjectInitializedEvent(fileob, self.request))
         docconv = IDocconv(fileob)
         self.assertTrue(docconv.has_previews())

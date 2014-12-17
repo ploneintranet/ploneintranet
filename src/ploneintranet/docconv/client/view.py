@@ -46,7 +46,12 @@ class ImageView(object):
             else:
                 length = imgdata.get_size(self.context)
                 R.setHeader('content-length', length)
-                return imgdata.download(self.context)
+                blob = imgdata.get(self.context, raw=True)
+                charset = 'utf-8'
+                return blob.index_html(
+                    REQUEST=self.request, RESPONSE=R,
+                    charset=charset
+                )
 
         self.request.RESPONSE.setStatus(404)
         return None
@@ -137,4 +142,9 @@ class PdfView(grok.View):
         else:
             length = pdfversion.get_size(self.context)
             R.setHeader('content-length', length)
-            return pdfversion.download(self.context)
+            blob = pdfversion.get(self.context, raw=True)
+            charset = 'utf-8'
+            return blob.index_html(
+                REQUEST=self.request, RESPONSE=R,
+                charset=charset
+            )
