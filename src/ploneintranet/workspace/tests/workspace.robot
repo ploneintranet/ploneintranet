@@ -14,27 +14,24 @@ Test Teardown  Close all browsers
 
 Site Administrator can add example user as member of workspace
     Log in as site owner
-    Go to homepage
-    Add content item  Workspace  Example Workspace
-    Navigate to  Example Workspace
-    Click Roster In edit bar
+    Add workspace  Example Workspace
+    Maneuver to  Example Workspace
+    Click Link  jquery=a:contains('View full Roster')
     Input text  edit-roster-user-search  Example User
     Click button  Search users
 
 Site Administrator can modify policies
     Log in as site owner
-    Go to homepage
-    Add content item  Workspace  Example Workspace
-    Navigate to  Example Workspace
-    Click Policies In edit bar
+    Add workspace  Policy Workspace
+    Maneuver to  Policy Workspace
+    Go to  policies
     Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  private
     Click button  Ok
 
 Site Administrator can edit roster
     Log in as site owner
-    Go to homepage
-    Add content item  Workspace  Example Workspace
-    Navigate to  Example Workspace
+    Add workspace  Example Workspace
+    Maneuver to  Example Workspace
     Click Roster In edit bar
     Input text  edit-roster-user-search  test
     Click button  Search users
@@ -48,8 +45,8 @@ Site User can join self managed workspace
     Logout
     Log in as site owner
     Go to homepage
-    Navigate to  Demo Workspace
-    Click Policies In edit bar
+    Maneuver to  Demo Workspace
+    Click Link  xpath=//a[contains(., "Policy...")]
     Select From List  xpath=//select[@name="form.widgets.external_visibility:list"]  open
     Select From List  xpath=//select[@name="form.widgets.join_policy:list"]  self
     Click button  Ok
@@ -60,7 +57,7 @@ Site User can join self managed workspace
     Logout
     Log in as site owner
     Go to homepage
-    Navigate to  Demo Workspace
+    Maneuver to  Demo Workspace
     Click Roster In edit bar
     Element should be visible  xpath=//table[@id="edit-roster"]/tbody/tr/td[normalize-space()="test_user_1_"]
 
