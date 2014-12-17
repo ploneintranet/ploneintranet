@@ -271,3 +271,25 @@ class TestTodoUtility(IntegrationTestCase):
         self.assertEqual(len(userids), 2)
         self.assertIn(user1_id, userids)
         self.assertIn(user2_id, userids)
+
+    def test_remove_action(self):
+        user1_id = self.user1.getId()
+        doc1_uid = self.doc1.UID()
+        self.util.add_action(
+            doc1_uid,
+            TODO,
+            user1_id
+        )
+        results = self.util.query(
+            user1_id
+        )
+        self.assertEqual(len(results), 1)
+        self.util.remove_action(
+            doc1_uid,
+            TODO,
+            user1_id
+        )
+        results = self.util.query(
+            user1_id
+        )
+        self.assertEqual(len(results), 0)
