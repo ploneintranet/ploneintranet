@@ -24,6 +24,8 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
+        import plone.app.contenttypes
+        self.loadZCML(package=plone.app.contenttypes)
         import ploneintranet.docconv.client
         self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.docconv.client')
@@ -41,6 +43,7 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'ploneintranet.docconv.client:default')
 
         # Login and create some test content
