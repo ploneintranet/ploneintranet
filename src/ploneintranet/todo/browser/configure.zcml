@@ -9,4 +9,9 @@
                 class=".markread.MarkRead"
                 permission="zope2.View" />
 
+  <browser:page name="toggle_like"
+                for="*"
+                class=".toggle_like.ToggleLike"
+                permission="zope2.View" />
+
 </configure>
