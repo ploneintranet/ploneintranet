@@ -7,7 +7,7 @@ from plone.memoize import ram
 from plone.memoize.compress import xhtml_compress
 from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
-from plone.app.uuid.utils import uuidToObject
+from plone.app.uuid.utils import uuidToCatalogBrain
 from plone.app.portlets.cache import render_cachekey
 from plone.app.portlets.portlets import base
 
@@ -48,7 +48,7 @@ class Renderer(base.Renderer):
         return xhtml_compress(self._template())
 
     def latest_news(self):
-        return self._data()
+        return [b.getObject() for b in self._data()]
 
     @memoize
     def _data(self):
@@ -64,7 +64,7 @@ class Renderer(base.Renderer):
         contents = []
         for action in latest[:limit]:
             # Maybe it is better to have a catalog brain here?
-            content = uuidToObject(action.content_uid)
+            content = uuidToCatalogBrain(action.content_uid)
             contents.append(content)
         return contents
 

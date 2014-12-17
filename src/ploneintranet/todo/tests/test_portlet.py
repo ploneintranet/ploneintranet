@@ -55,11 +55,6 @@ class TestPortlet(IntegrationTestCase):
             behavior.mustread = True
             modified(news_item)
 
-    def tearDown(self):
-        self.portal.manage_delObjects([
-            self.folder.getId()
-        ])
-
     def _get_renderer(self):
         manager = getUtility(
             IPortletManager,
@@ -85,19 +80,7 @@ class TestPortlet(IntegrationTestCase):
             html
         )
         self.assertIn(
-            u'News 10',
-            html
-        )
-        self.assertIn(
-            u'News 9',
-            html
-        )
-        self.assertIn(
-            u'News 8',
-            html
-        )
-        self.assertNotIn(
-            u'News 3',
+            u'news-test/news-',
             html
         )
 
@@ -106,20 +89,21 @@ class TestPortlet(IntegrationTestCase):
         latest = renderer.latest_news()
         self.assertEqual(
             IUUID(latest[0]),
-            IUUID(self.news_item[-1])
+            IUUID(self.news_items[-1])
         )
 
     def test_mark(self):
         renderer = self._get_renderer()
-        latest = renderer.latest_news()
-        item = latest[0]
-        item_uuid = IUUID(item)
+        item = renderer.latest_news()[0]
         mark_view = getMultiAdapter(
             (item, self.layer['request']),
             name=u'mark_read'
         )
         mark_view()
+        # If you know a more elegant way to clear memoize, please change :)
+        if hasattr(renderer, '_memojito_'):
+            del renderer._memojito_
         self.assertNotIn(
-            item_uuid,
+            IUUID(item),
             [IUUID(c) for c in renderer.latest_news()]
         )
