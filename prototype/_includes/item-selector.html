@@ -35,7 +35,7 @@
 
             <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
 
-        {% endif %}       
+        {% endif %}
     </div>
 
     <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
@@ -60,15 +60,16 @@
                     </div>
                     <div class="button-bar">
                         <span class="float-before button-cluster">
-                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
-                            <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Copy">Copy</button>
+                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %}; action: enable" title="Cut">Cut</button>
+                            <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %}; action: enable" title="Copy">Copy</button>
                             <button disabled type="submit" name="batch-function" value="paste" class="float-before icon-paste no-label" title="Paste">Paste</button>
                         </span>
                         <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Delete">Delete</button>
-                        <button type="submit" name="batch-function" value="rename" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Rename">Rename</button>
-                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label pat-depends" data-pat-depends="condition: event-traces-through-time; action: enable" title="Re-tag">Re-tag</button>
-                        <button type="submit" name="batch-function" value="tag" class="float-before icon-export pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Share">Share</button>
+                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %}; action: enable" title="Delete">Delete</button>
+                        <button type="submit" name="batch-function" value="rename" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %}; action: enable" title="Rename">Rename</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if (doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') and (doc.folderish != true)) %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %};
+                        action: enable;" title="Re-tag">Re-tag</button>
+                        <button type="submit" name="batch-function" value="tag" class="float-before icon-export pat-depends" data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% if forloop.last == false %} or {% endif %}{% endif %}{% endfor %}; action: enable" title="Share">Share</button>
                     </div>
                 </div>
             {% endif %}
@@ -120,7 +121,7 @@
                 {% for doc in site.posts %}
                     {% if doc.parent == include.title and (doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder') %}
                         {% if doc.folderish == false %}
-                            <!-- Each document has a class name on the label element that indicates the document type. 
+                            <!-- Each document has a class name on the label element that indicates the document type.
 
                             Supported types include (class names):
 
@@ -146,7 +147,8 @@
                             <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
                                 <a href="{{ doc.id }}#document-body" class="pat-inject follow">
-                                    <strong class="title">{{ doc.title }}</strong>
+                                    <strong class="title">{{ doc.title }}
+                                        {{ doc.layout }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
                                     {% endif %}
@@ -214,13 +216,13 @@
                 <li>
                     <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
                 </li>
-                <li> 
+                <li>
                     {% if include.toggle == 'true' %}
                         <a class="pat-toggle icon-ok {{ include.id }}-toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
                     {% endif %}
                 </li>
             </ul>
-        </div> 
+        </div>
 
         <div hidden id="{{ include.id }}-create-menu">
             <ul class="menu">
