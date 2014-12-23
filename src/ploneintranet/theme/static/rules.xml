@@ -85,6 +85,12 @@
   <append css:content-children="#content" css:theme="#content" />
 </rules>
 
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder">
+  <theme href="generated/open-market-committee/index.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <append css:content-children="#content" css:theme="#content" />
+</rules>
+
 <rules css:if-content="body.template-dashboard-html">
   <theme href="generated/dashboard.html" />
   <drop css:theme-children="div.container" />

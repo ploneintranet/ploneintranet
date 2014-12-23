@@ -1,3 +1,4 @@
+from plone import api
 from plone.tiles import Tile
 from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -22,6 +23,16 @@ class NewsTile(Tile):
 class WorkspacesTile(Tile):
 
     index = ViewPageTemplateFile("templates/workspace-tile.pt")
+
+    def workspaces(self):
+        ''' The list of my workspaces
+        '''
+        pc = api.portal.get_tool('portal_catalog')
+        return pc(
+            portal_type="ploneintranet.workspace.workspacefolder",
+            sort_on="modified",
+            sort_order="reversed",
+        )
 
     def render(self):
         return self.index()
