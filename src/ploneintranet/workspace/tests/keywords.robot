@@ -21,7 +21,6 @@ Fill text field
 
 Add workspace
     [arguments]  ${title}
-    Log in as site owner
     Go to  ${PLONE_URL}/++add++ploneintranet.workspace.workspacefolder
     Input text  name=form.widgets.IBasic.title  ${title}
     Click Button  Save

@@ -39,13 +39,12 @@ Site Administrator can edit roster
     Click button  Save
 
 Site User can join self managed workspace
+    Log in as site owner
     Add workspace  Demo Workspace
-    Log in as test user
+    Logout
     Go to homepage
     Element should not be visible  jquery=a:contains('Demo Workspace')
-    Logout
     Log in as site owner
-    Go to homepage
     Maneuver to  Demo Workspace
     ${url}  Get Location
     Go to  ${url}/policies
@@ -64,6 +63,7 @@ Site User can join self managed workspace
     Element should be visible  xpath=//table[@id="edit-roster"]/tbody/tr/td[normalize-space()="test_user_1_"]
 
 Sharing Tab is usable
+    Log in as site owner
     Add workspace  Demo Workspace
     Maneuver to  Demo Workspace
     Go To  ${PLONE_URL}/demo-workspace/@@sharing
