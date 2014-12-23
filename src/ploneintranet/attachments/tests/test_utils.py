@@ -1,10 +1,10 @@
 from datetime import datetime
 from io import BytesIO
 
-from Products.ATContentTypes.content.folder import ATFolder
 from ZPublisher.HTTPRequest import ZopeFieldStorage, FileUpload
 from plone import api
 from plone.app.blob.content import ATBlob
+from plone.app.contenttypes.content import Folder
 from plone.app.blob.markings import markAs
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
@@ -18,7 +18,7 @@ from ploneintranet.attachments.utils import create_attachment
 from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.attachments.utils import pop_temporary_attachment
 
-classImplements(ATFolder, IAttachmentStoragable)
+classImplements(Folder, IAttachmentStoragable)
 
 
 class TestAttachments(IntegrationTestCase):
