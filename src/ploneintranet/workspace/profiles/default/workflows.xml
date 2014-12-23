@@ -5,6 +5,9 @@
   <object name="ploneintranet_workflow" meta_type="Workflow" />
 
   <bindings>
+    <default>
+      <bound-workflow workflow_id="" />
+    </default>
     <type type_id="ploneintranet.workspace.workspacefolder">
       <bound-workflow workflow_id="ploneintranet_workspace_workflow" />
     </type>
