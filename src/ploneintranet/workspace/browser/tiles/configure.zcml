@@ -20,7 +20,6 @@
       class=".navigation.NavigationTile"
       permission="zope.Public"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
 </configure>
