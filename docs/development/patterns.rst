@@ -22,7 +22,7 @@ files, and then lets navigate into it..::
     pattern pat-colorchanger, but you'll of course choose a more appropriate
     name for your own pattern.
 
-The directory outlay
+The directory layout
 ====================
 
 Each pattern should have a certain layout. Look for example at `pat-redactor <https://github.com/Patternslib/pat-redactor>`_.
@@ -56,7 +56,7 @@ That pattern then acts upon that DOM element. In our example case, the pattern
 changes the text color after 3 seconds. This color change is applied to the DOM
 element on which the pattern is declared.
 
-The pattern be configured by specifying HTML5 data attributes, which start with
+The pattern can be configured by specifying HTML5 data attributes, which start with
 ``data-`` and then the pattern's name.
 
 So in our case, that's ``data-pat-colorchanger``.
