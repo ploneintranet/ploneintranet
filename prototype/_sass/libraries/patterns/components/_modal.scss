@@ -1,27 +1,73 @@
 @charset "UTF-8";
 
 div.pat-modal {
-
-  
-  animation: fade-in 1s;
+  -webkit-box-sizing: border-box;
   position: fixed;
   z-index: 9998;
   background-color: #efefef;
-  border: 1px solid silver;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  background-clip: padding-box;
+  // background-clip: padding-box;
+  border: 1px solid black;
   width: 500px;
-  box-shadow: 0 0 20px 10px black;
   margin-left: -250px;
   left: 50%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  .panel-content {
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  .header {
+    color: gray;
+    padding: 0.5em 1.5em;
+    border-bottom: 0.1em solid #dedede;
+    height: 1em;
     background-color: white;
-    padding: 20px;
     position: relative;
     z-index: 1;
+
+    h1, h3, h4 {
+      margin: 0;
+      font: 16px/20px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+      letter-spacing: 1px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .close-panel {
+      position: absolute;
+      color: gray;
+      top: 7px;
+      right: 20px;
+      line-height: 22px;
+      height: 22px;
+      width: 22px;
+      padding: 0;
+      text-indent: -1000px;
+      overflow: hidden;
+      margin: 0;
+      filter: none;
+      border-style: none;
+      border-radius: 50%;
+      background-image: none;
+      outline: none;
+
+      &:before {
+        content: "\e813";
+        text-indent: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 22px;
+        font: normal 20px/23px fontello;
+      }
+    }
   }
+
+  .panel-content {
+    background-color: white;
+    padding: 1.5em;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
   &.max-height .panel-content {
     overflow: auto;
     position: absolute;
@@ -31,17 +77,79 @@ div.pat-modal {
     top: 37px;
     z-index: 1;
   }
+
   &.large {
-    width: 800px;
-    margin-left: -400px;
+    width: 768px;
+    margin-left: -384px;
   }
+
   &.small {
     width: 400px;
     margin-left: -200px;
   }
+
   img {
     max-width: 100%;
   }
+
+  &:before {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    content: " ";
+    display: block;
+    z-index: 2;
+    border: 1px #dedede solid;
+    box-shadow: 0 0.1em 0.4em rgba(0,0,0,0.2);
+    -moz-pointer-events:none;  
+    -webkkt-pointer-events:none;  
+    pointer-events:none;  
+  }
+
+  .wizard-box {
+    margin: -1.5em -1.5em -1.55em -1.5em;
+
+    .panel-body {
+      overflow: auto;
+      padding: 1.5em;
+      background-color: white;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .panel-footer {
+      margin: 0;
+      padding: 0.5em 1.5em;
+      border-top: 1px solid #dedede;
+      height: 1.6em;
+      background-color: #efefef;
+    }
+  }
+
+  &.max-height {
+
+    .wizard-box {
+      overflow: hidden;
+    }
+
+    .panel-body {
+      position: absolute;
+      top: 0;
+      bottom: 51px;
+      right: 0;
+      left: 0;
+    }
+
+    .panel-footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+  }
+
   &:after {
     content: " ";
     display: block;
@@ -50,152 +158,14 @@ div.pat-modal {
     right: -10000px;
     bottom: -10000px;
     left: -10000px;
-    background-color: white;
+    background-color: rgba(255,255,255,0.95);
     z-index: -1;
-    opacity: 0.8;
+    opacity: 0;
+
+    -moz-animation: fadeIn 1s;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+
+    -webkit-animation-fill-mode: forwards;
   }
-}
-
-/* @group Special sizes */
-
-/* @end */
-
-.lt-ie9 div.pat-modal:after {
-  top: -10000px;
-  left: -10000px;
-  filter: alpha(opacity = 80);
-  background-color: transparent;
-  background-image: url(white-80p.png);
-}
-
-.pat-modal {
-  .wizard-box {
-    margin: -20px;
-  }
-  &.max-height .wizard-box {
-    overflow: hidden;
-  }
-  .wizard-box .panel-body {
-    overflow: auto;
-    padding: 2em;
-    background-color: white;
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-}
-
-div.pat-modal {
-  &.max-height .panel-body {
-    position: absolute;
-    top: 0;
-    bottom: 3em;
-    right: 0;
-    left: 0;
-  }
-  &.tiny-link .wizard-box .panel-body {
-    overflow: hidden;
-  }
-}
-
-.pat-modal .wizard-box .panel-footer {
-  margin: 0;
-  padding: 12px 2em;
-  border-top: 1px solid silver;
-  height: 26px;
-  background-color: #efefef;
-}
-
-div.pat-modal.max-height .panel-footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-}
-
-.pat-modal .header {
-  padding: 9px 2em;
-  border-bottom: 1px solid silver;
-  height: 0.9em;
-  background-color: white;
-  position: relative;
-  z-index: 1;
-
-  h1, h3, h4 {
-    margin: 0;
-    font-size: 1em;
-    letter-spacing: 1px;
-    font-weight: bold;
-    line-height: 0.9em;
-    text-align: center;
-  }
-
-  .close-panel {
-    position: absolute;
-    top: 7px;
-    right: 20px;
-    line-height: 22px;
-    height: 22px;
-    width: 36px;
-    padding: 0;
-    text-indent: -1000px;
-    overflow: hidden;
-    margin: 0;
-    filter: none;
-    border-style: none;
-    border-radius: 50%;
-    background-image: none;
-    outline: none;
-
-
-    &:before {
-      content: "\e819";
-      text-indent: 0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 6px;
-      font: normal 20px / 23px fontello;
-      color: gray;
-    }
-  }
-
-}
-
-.pat-modal {
-  .panel-content {
-    button, .button {
-      border-color: #999;
-    }
-  }
-  .pat-modal .footer {
-    padding: 14px 15px 15px;
-    margin-bottom: 0;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-    -webkit-box-shadow: inset 0 1px 0 #ffffff;
-    -moz-box-shadow: inset 0 1px 0 #ffffff;
-    box-shadow: inset 0 1px 0 #ffffff;
-    *zoom: 1;
-  }
-  .footer {
-    button, a.button {
-      min-width: 100px;
-    }
-    &:before {
-      display: table;
-      content: "";
-    }
-  }
-}
-
-.modal-footer:after {
-  display: table;
-  content: "";
-}
-
-.pat-modal .footer:after {
-  clear: both;
 }
