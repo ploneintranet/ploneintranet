@@ -1,4 +1,5 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
+<!-- <div class="item-selector mode-select" id="{{ include.id }}"> -->
     <div class="button-bar functions" id="{{ include.id }}-functions">
         {% if include.mode == "docs" %}
             <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
@@ -45,8 +46,7 @@
         </label>
     </form>
 
-    <form class="search-result {{ include.mode }} pat-inject {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %}" action="{{ page.url }}#items"
-    id="items">
+    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} {% if include.mode == "docs" %}pat-modal{% else %} pat-inject{% endif %}"  {% if include.mode == "docs" %}data-pat-modal="class: large"{% endif %} action="{{ include.action }}" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% if include.mode == "docs" %}
@@ -66,7 +66,7 @@
                         </span>
                         <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
                         <button type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Delete">Delete</button>
-                        <button type="submit" name="batch-function" value="rename" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Rename">Rename</button>
+                        <button type="submit" name="batch-function" value="rename" formaction="/feedback/batch-rename.html" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Rename">Rename</button>
                         <button type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label pat-depends" data-pat-depends="condition: event-traces-through-time; action: enable" title="Re-tag">Re-tag</button>
                         <button type="submit" name="batch-function" value="tag" class="float-before icon-export pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Share">Share</button>
                     </div>

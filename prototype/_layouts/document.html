@@ -4,13 +4,13 @@ template: generic
 workspace_module: docs
 ---
 
-<form class="document" action="" data-pat-inject="#doc-title::element">
-    <div class="metadata pat-bumper">
+<form class="document pat-inject" action="{{ page.url }}#meta">
+    <div class="metadata pat-bumper" id="meta">
         <div class="meta-bar">
             <h1 class="doc-title" id="document-title">
                 {{ page.title }}
             </h1>
-            <textarea class="doc-title pat-content-mirror" rows="1" data-pat-content-mirror="target: #document-title">{{ page.title }}</textarea>
+            <input type="text" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="{{ page.title }}" />
             <div class="quick-functions">
                 <a href="#confirm-delete" class="icon-trash iconified">
                     Delete
