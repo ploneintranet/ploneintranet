@@ -46,7 +46,7 @@
         </label>
     </form>
 
-    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} {% if include.mode == "docs" %}pat-modal{% else %} pat-inject{% endif %}"  {% if include.mode == "docs" %}data-pat-modal="class: large"{% endif %} action="{{ include.action }}" id="items">
+    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="target: body::after" action="{{ include.action }}" id="items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% if include.mode == "docs" %}
@@ -60,7 +60,9 @@
                     </div>
                     <div class="button-bar">
                         <span class="float-before button-cluster">
-                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
+                            <span class="pat-subform">
+                                <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
+                            </span>
                             <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Copy">Copy</button>
                             <button disabled type="submit" name="batch-function" value="paste" class="float-before icon-paste no-label" title="Paste">Paste</button>
                         </span>

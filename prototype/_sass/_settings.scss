@@ -49,6 +49,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 
 // Libraries
 @import "libraries/reset";
+@import "libraries/animate";
 @import "libraries/patterns/patterns";
 
 // Project components
