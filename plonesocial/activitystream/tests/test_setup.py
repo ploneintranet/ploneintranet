@@ -63,7 +63,8 @@ class UninstallTestCase(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPlonesocialActivitystreamLayer', layers)
 
-    def _XXXtest_cssregistry_removed(self): # Bug in Plone 5
+    @unittest.skip('Bug in Plone 5')
+    def test_cssregistry_removed(self):
         bundles = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
         bundle = bundles['resource-plonesocial-activitystream-stylesheets']
