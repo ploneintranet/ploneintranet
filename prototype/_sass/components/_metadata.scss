@@ -10,6 +10,19 @@
   -webkit-transition: padding 0.5s;
   transition: padding 0.5s;
 
+  .select2-choices {
+    border: none;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-choice {
+    margin: 0 0.5em 0 0;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-field {
+    height: 1.5em;
+    padding: 0 0 0 0;
+  }
+
   &.bumped {
     padding: 0;
     // border-bottom: 1px solid silver;
