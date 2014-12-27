@@ -71,8 +71,9 @@ class AbstractActivityProvider(object):
         if self.userid is None:
             return None
         else:
-            portal_state = getMultiAdapter((self.context, self.request),
-                                           name=u'plone_portal_state')
+            portal_state = getMultiAdapter(
+                (self.context.context, self.request),
+                name=u'plone_portal_state')
             url = portal_state.portal_url()
             return "%s/author/%s" % (url, self.userid)
 
@@ -132,7 +133,7 @@ class AbstractActivityProvider(object):
 
     @property
     def text(self):
-        portal_state = getMultiAdapter((self.context, self.request),
+        portal_state = getMultiAdapter((self.context.context, self.request),
                                        name=u'plone_portal_state')
         url = portal_state.portal_url()
         text = link_users(self.context.text, url)
@@ -151,7 +152,7 @@ class AbstractActivityProvider(object):
                 docconv = IDocconv(attachment)
                 if docconv.has_thumbs():
                     portal_state = getMultiAdapter(
-                        (self.context, self.request),
+                        (self.context.context, self.request),
                         name=u'plone_portal_state')
                     url = portal_state.portal_url()
                     yield ('{portal_url}/@@status-attachments/{status_id}/'
