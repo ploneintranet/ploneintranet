@@ -35,8 +35,11 @@ workspace_module: docs
                         </select>
                     </label>
                 </fieldset>
-                {% include application-toolbar.html %}
+                <!-- {% include application-toolbar.html %} -->
                 <button type="submit" class="icon-floppy">Save</button>
+                {% for item in page.document_controls %}
+                    {% include toolbar-control.html %}
+                {% endfor %}
             </div>
         </div>
         <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
@@ -81,7 +84,7 @@ workspace_module: docs
                 {% endif %}
             </article>
         {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
-            <article>
+            <article class="document preview">
                 {% for preview in page.previews %}
                     <img src="{{ preview.url }}" alt="" class="page" />
                 {% endfor %}

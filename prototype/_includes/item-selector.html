@@ -60,9 +60,7 @@
                     </div>
                     <div class="button-bar">
                         <span class="float-before button-cluster">
-                            <span class="pat-subform">
-                                <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
-                            </span>
+                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
                             <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Copy">Copy</button>
                             <button disabled type="submit" name="batch-function" value="paste" class="float-before icon-paste no-label" title="Paste">Paste</button>
                         </span>
@@ -147,7 +145,7 @@
                             <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
                             <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
-                                <a href="{{ doc.id }}#document-body" class="pat-inject follow">
+                                <a href="{{ doc.id }}#document-body" class="pat-inject follow" data-pat-inject="target: #document-body">
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
