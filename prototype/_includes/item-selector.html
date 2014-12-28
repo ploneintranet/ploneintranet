@@ -39,7 +39,7 @@
         {% endif %}       
     </div>
 
-    <form class="search-box pat-inject pat-autosubmit" action="/feedback/{{ include.action }}#items">
+    <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#items">
         <label>
             <input name="" type="search" placeholder="Search" />
             <button type="submit">Search</button>
