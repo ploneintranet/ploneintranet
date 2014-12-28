@@ -23,6 +23,24 @@
     padding: 0 0 0 0;
   }
 
+  .bar {
+    border-bottom: 1px solid silver;
+    -moz-transition: padding 0.5s;
+    -webkit-transition: padding 0.5s;
+    transition: padding 0.5s;
+    margin-bottom: 0;
+
+    input[type="text"],
+    textarea {
+      background: none;
+      padding: 0.1em 0;
+      margin: 0;
+      display: block;
+      width: 100%;
+      resize:none;
+    }
+  }
+
   &.bumped {
     padding: 0;
     // border-bottom: 1px solid silver;
@@ -41,24 +59,6 @@
     padding: 0;
     margin: 0;
     overflow: hidden; // To prevent a grey bar from appearing underneath the extra arrea when expanded
-
-    .bar {
-      border-bottom: 1px solid silver;
-      -moz-transition: padding 0.5s;
-      -webkit-transition: padding 0.5s;
-      transition: padding 0.5s;
-      margin-bottom: 0;
-
-      input[type="text"],
-      textarea {
-        background: none;
-        padding: 0.1em 0;
-        margin: 0;
-        display: block;
-        width: 100%;
-        resize:none;
-      }
-    }
   }
 
   .meta-bar {
