@@ -30,7 +30,7 @@ design_description: "Populate the tags tooltip"
                 </div>
             </div>
 			{% for doc in site.posts %}
-				{% if doc.title contains 'Min' %}
+				{% if doc.title contains 'Min' or doc.title contains 'min' %}
 				    {% if doc.layout == 'event' or doc.layout ==  'news' or doc.layout == 'document'  or doc.layout == 'folder' %}
 				        {% if doc.folderish == false %}
 				            <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
