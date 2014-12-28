@@ -60,14 +60,14 @@
                     </div>
                     <div class="button-bar">
                         <span class="float-before button-cluster">
-                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Cut">Cut</button>
-                            <button type="submit" name="batch-function" value="copy" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Copy">Copy</button>
-                            <button disabled type="submit" name="batch-function" value="paste" class="float-before icon-paste no-label" title="Paste">Paste</button>
+                            <button type="submit" name="batch-function" value="cut" class="float-before icon-cut no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" formaction="/feedback/banner-notifications#documents-cut" title="Cut">Cut</button>
+                            <button type="submit" name="batch-function" value="copy" formaction="/feedback/banner-notifications#documents-copied" class="float-before icon-copy no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Copy">Copy</button>
+                            <button disabled type="submit" name="batch-function" value="paste" formaction="{{ page.url }}#items" class="float-before icon-paste no-label" title="Paste">Paste</button>
                         </span>
                         <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                        <button type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Delete">Delete</button>
-                        <button type="submit" name="batch-function" value="rename" formaction="/feedback/batch-rename.html" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Rename">Rename</button>
-                        <button type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label pat-depends" data-pat-depends="condition: event-traces-through-time; action: enable" title="Re-tag">Re-tag</button>
+                        <button formaction="/feedback/batch-delete.html#content" type="submit" name="batch-function" value="delete" class="float-before icon-trash no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Delete">Delete</button>
+                        <button type="submit" name="batch-function" value="rename" formaction="/feedback/batch-rename.html#content" class="float-before icon-rename no-label pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Rename">Rename</button>
+                        <button formaction="/feedback/batch-tag.html#content" type="submit" name="batch-function" value="tag" class="float-before icon-tags no-label pat-depends" data-pat-depends="condition: event-traces-through-time; action: enable" title="Re-tag">Re-tag</button>
                         <button type="submit" name="batch-function" value="tag" class="float-before icon-export pat-depends" data-pat-depends="condition: event-traces-through-time or projection-materials or minutes or manage-information; action: enable" title="Share">Share</button>
                     </div>
                 </div>
