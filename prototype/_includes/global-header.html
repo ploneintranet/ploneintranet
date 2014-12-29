@@ -11,9 +11,7 @@
         {% endif %}
 
         {% if page.application == 'workspace' %}
-            <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
-            <a class="switch current pat-tooltip" data-pat-tooltip="position-list: tl; position-policy: force; trigger: click; source: ajax" href="workspace-switch.html#workspace-siblings">Switch to sibling
-        workspace</a>
+            <a href="/workspaces.html">Workspaces</a> <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
         {% endif %}
     </nav>
 
