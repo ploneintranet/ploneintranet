@@ -8,6 +8,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
+from plone import api
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -71,10 +72,7 @@ class AbstractActivityProvider(object):
         if self.userid is None:
             return None
         else:
-            portal_state = getMultiAdapter(
-                (self.context.context, self.request),
-                name=u'plone_portal_state')
-            url = portal_state.portal_url()
+            url = api.portal.get().absolute_url()
             return "%s/author/%s" % (url, self.userid)
 
     @property
@@ -133,9 +131,7 @@ class AbstractActivityProvider(object):
 
     @property
     def text(self):
-        portal_state = getMultiAdapter((self.context.context, self.request),
-                                       name=u'plone_portal_state')
-        url = portal_state.portal_url()
+        url = api.portal.get().absolute_url()
         text = link_users(self.context.text, url)
         return link_tags(text, url)
 
@@ -151,10 +147,7 @@ class AbstractActivityProvider(object):
             for attachment in attachments:
                 docconv = IDocconv(attachment)
                 if docconv.has_thumbs():
-                    portal_state = getMultiAdapter(
-                        (self.context.context, self.request),
-                        name=u'plone_portal_state')
-                    url = portal_state.portal_url()
+                    url = api.portal.get().absolute_url()
                     yield ('{portal_url}/@@status-attachments/{status_id}/'
                            '{attachment_id}').format(
                                portal_url=url,
