@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+#hamburger {
+	float: left;
+	height: 19px;
+	width: 19px;
+	text-indent: -100em;
+	position: relative;
+	margin-right: 14px;
+
+	&:before {
+		text-indent: 0;
+		content: "\2630";
+		font-family: fontello;
+		position: absolute;
+		left: 0;
+		top: 0;
+		font-size: 1.5em;
+		line-height: 1.25em;
+		color: $colour-header-elements;
+	}
+}
