@@ -1,6 +1,10 @@
 @charset "UTF-8";
 
 .portlet {
+	@include screen-size(small) {
+		display: none;
+	}
+
 	margin-bottom: 2rem;
 
 	.portlet-title {
@@ -40,3 +44,4 @@
 		font-weight: 300;
 	}
 }
+
