@@ -1,6 +1,5 @@
 <div  i18n:domain="plonesocial.activitystream"
-      tal:define="portal_url context/@@plone_portal_state/portal_url;
-                  thread_id view/status_id"
+      tal:define="thread_id view/status_id"
       tal:attributes="class string:post ${view/render_type}">
 
   <div class="post-header">
