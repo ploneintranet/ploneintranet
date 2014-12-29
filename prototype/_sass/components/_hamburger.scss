@@ -6,14 +6,16 @@
 	width: 19px;
 	text-indent: -100em;
 	position: relative;
-	margin-right: 14px;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-right: 6px;
 
 	&:before {
 		text-indent: 0;
 		content: "\2630";
 		font-family: fontello;
 		position: absolute;
-		left: 0;
+		left: 10px;
 		top: 0;
 		font-size: 1.5em;
 		line-height: 1.25em;
