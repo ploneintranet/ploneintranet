@@ -16,13 +16,6 @@ _ = MessageFactory('plonesocial.activitystream')
 class StreamBase(object):
     """Base for View and Tile"""
 
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.tag = None
-        # default to full stream
-        self.explore = True
-
     def render(self):
         return self.index()
 
@@ -77,6 +70,13 @@ class StreamView(StreamBase, BrowserView):
 
     index = ViewPageTemplateFile("templates/stream.pt")
 
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.tag = None
+        # default to full stream
+        self.explore = True
+
     def update(self):
         """Mute plone.app.z3cform.kss.validation AttributeError"""
         pass
@@ -110,3 +110,9 @@ class StreamTile(StreamBase, Tile):
     """Tile view similar to StreamView."""
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.tag = self.data.get('tag')
+        self.explore = 'network' not in self.data
