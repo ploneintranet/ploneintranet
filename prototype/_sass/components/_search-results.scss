@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.search-results {
+  .title {
+    a {
+      color: $colour-accent;
+      font-weight: bold;
+    }
+  }
+
+  .description {
+    margin-bottom: 2em;
+
+    a {
+      color: black;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      .summary {
+        color: black;
+      }
+      .url {
+        color: green;
+        font-style: italic;
+      }
+    }
+  }
+}

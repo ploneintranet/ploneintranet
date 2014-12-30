@@ -1,57 +1,74 @@
 @charset "UTF-8";
 
 form.search {
-  padding-left: 0;
-  line-height: 1.3em;
-  // margin-right: 0.5em;
-  text-align: left;
-  position: relative;
-  float: right;
 
-  label {
+    label {
+      position: relative;
 
-    &:before {
-      content: "\1f50d";
+      &:before {
+        content: "\1f50d";
+        position: absolute;
+        top: 0.15em;
+        left: 6px;
+        font: 18px fontello;
+        opacity: 1;
+      }
+
+      input.search {
+        padding-left: 1.5em;
+      }
+    }
+}
+
+#global-header {
+  form.search {
+    padding-left: 0;
+    line-height: 1.3em;
+    // margin-right: 0.5em;
+    text-align: left;
+    position: relative;
+    float: right;
+
+    label {
+
+      &:before {
+        top: 6px;
+      }
+
+      input.search {
+        background-color: white;
+        color: black;
+        opacity: 0;
+        cursor: default;
+        width: 0;
+        -moz-transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+        transition: all 0.2s;
+        height: 27px;
+        margin-top: 2px;
+        padding-left: 0.8em;
+      }
+
+      &.focus input.search {
+        width: 14em;
+        opacity: 1;
+        padding-left: 1.5em;
+        cursor: text;
+      }
+    }
+
+    button[type="submit"] {
       position: absolute;
-      top: 6px;
-      left: 6px;
-      font: 18px fontello;
-      opacity: 1;
-    }
-
-    input.search {
-      background-color: white;
-      color: black;
-      opacity: 0;
-      cursor: default;
-      width: 0;
-      -moz-transition: all 0.2s;
-      -webkit-transition: all 0.2s;
-      transition: all 0.2s;
-      height: 27px;
-      padding-left: 0.8em;
-      margin-top: 2px;
-    }
-
-    &.focus input.search {
-      width: 14em;
-      opacity: 1;
-      padding-left: 1.5em;
-      cursor: text;
-    }
-  }
-
-  button[type="submit"] {
-    position: absolute;
-    @include screen-size(large) {
-      left: -100000px;
-    }
-    @include screen-size(small) {
-      left: 0;
-      top: 0;
-      width: 1em;
-      height: 1.8em;
-      opacity: 0;
+      @include screen-size(large) {
+        left: -100000px;
+      }
+      @include screen-size(small) {
+        left: 0;
+        top: 0;
+        width: 1em;
+        height: 1.8em;
+        opacity: 0;
+      }
     }
   }
 }
