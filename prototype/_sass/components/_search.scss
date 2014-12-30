@@ -18,6 +18,12 @@ form.search {
         padding-left: 1.5em;
       }
     }
+    
+    button[type="submit"] {
+      @include screen-size(small) {
+        display: none;
+      }
+    }
 }
 
 #global-header {
@@ -59,6 +65,7 @@ form.search {
         left: -100000px;
       }
       @include screen-size(small) {
+        display: block;
         left: 0;
         top: 0;
         width: 1em;
