@@ -7,7 +7,7 @@
             i18n:domain="ploneintranet.theme">
 
     <body class="view-secure">
-        <metal:content fill-slot="content" tal:define="purl context/portal_url">
+        <metal:content fill-slot="content">
 
             <div class="row">
                 <div class="four columns">
