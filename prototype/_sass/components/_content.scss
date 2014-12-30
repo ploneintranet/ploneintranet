@@ -13,7 +13,7 @@
     outline: solid silver 1px;
   }
   @include screen-size(small) {
-    padding-top: 3em;
+    padding-top: 5em;
   }
   background-color: white;
 }
