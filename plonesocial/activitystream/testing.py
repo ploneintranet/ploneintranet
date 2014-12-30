@@ -11,6 +11,11 @@ class PlonesocialActivitystream(PloneSandboxLayer):
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
+        import plone.tiles
+        xmlconfig.file('meta.zcml',
+                       plone.tiles,
+                       context=configurationContext)
+
         # Load ZCML for this package
         import plonesocial.activitystream
         xmlconfig.file('configure.zcml',
