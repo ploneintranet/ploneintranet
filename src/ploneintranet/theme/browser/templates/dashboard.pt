@@ -23,7 +23,7 @@
                 </div>
                 <div class="eight columns">
                     <div id="new-post-box" data-tile="./@@newpostbox.tile"></div>
-                    <div id="activity-stream" data-tile="./@@activitystream.tile"></div>
+                    <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
                 </div>
             </div>
 
