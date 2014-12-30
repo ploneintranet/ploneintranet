@@ -17,6 +17,7 @@ class PlonesocialSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package
+        import plone.tiles
         import plonesocial.suite
         import plonesocial.microblog
         import plonesocial.activitystream
@@ -24,6 +25,9 @@ class PlonesocialSuite(PloneSandboxLayer):
         import plonesocial.theme
         import plonesocial.messaging
         import plonesocial.core
+        xmlconfig.file('meta.zcml',
+                       plone.tiles,
+                       context=configurationContext)
         xmlconfig.file('configure.zcml',
                        plonesocial.suite,
                        context=configurationContext)
