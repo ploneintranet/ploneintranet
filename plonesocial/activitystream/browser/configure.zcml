@@ -58,6 +58,17 @@
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
+  <plone:tile
+      name="activitystream.tile"
+      title="Activity stream tile"
+      description="Provides an activity stream as a tile"
+      add_permission="cmf.ManagePortal"
+      class=".stream.StreamTile"
+      permission="zope.Public"
+      for="*"
+      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      />
+
   <browser:page zcml:condition="installed plonesocial.microblog"
       name="status"
       for="Products.CMFCore.interfaces.ISiteRoot"
