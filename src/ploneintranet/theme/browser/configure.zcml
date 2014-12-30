@@ -135,15 +135,5 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
-  <plone:tile
-      name="activitystream.tile"
-      title="A title for the activity-stream"
-      description="My tile's description"
-      add_permission="cmf.ManagePortal"
-      class=".dashboard.ActivityStreamTile"
-      permission="zope.Public"
-      for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
 
 </configure>
