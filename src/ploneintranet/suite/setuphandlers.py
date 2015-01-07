@@ -2,6 +2,7 @@ import os
 import csv
 import logging
 from zope.component import queryUtility
+from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
@@ -75,6 +76,17 @@ def create_users(context, users, avatars_dir):
             graph.set_follow(userid, decode(followee))
 
 
+def create_as(userid, *args, **kwargs):
+    current = api.user.get_current()
+    user = api.user.get(username=userid)
+    newSecurityManager(None, user)
+    try:
+        api.content.create(*args, **kwargs)
+    finally:
+        # we always restore the previous security context, no matter what
+        newSecurityManager(None, current)
+
+
 def testing(context):
 
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
@@ -111,7 +123,8 @@ def testing(context):
              'description': ''},
         ]
         for newsitem in newscontent:
-            api.content.create(
+            create_as(
+                "admin",
                 type='News Item',
                 title=newsitem['title'],
                 description=newsitem['description'],
