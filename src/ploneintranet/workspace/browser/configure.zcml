@@ -91,4 +91,14 @@
 
    <include package=".tiles" />
 
+  <plone:tile
+    for="*"
+    name="workspaces.tile"
+    title="Workspaces tile"
+    description="A tile showing user workspaces and related activity"
+    class=".tiles.WorkspacesTile"
+    add_permission="cmf.ManagePortal"
+    permission="zope.Public"
+    />
+
 </configure>
