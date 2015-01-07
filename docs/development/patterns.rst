@@ -288,7 +288,7 @@ Release a new Javascript bundle
 The designers working on the theme use a pinned bundle release. So if we want
 to make our latest changes available to them, we need to release a new bundle.
 
-Simply run the following commands::
+Simply run the following commands inside a checkout of `ploneintranet.theme`::
 
     make clean
     make jsrelease
