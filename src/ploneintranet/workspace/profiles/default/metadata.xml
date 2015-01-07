@@ -4,5 +4,7 @@
   <dependencies>
   	<dependency>profile-collective.workspace:default</dependency>
     <dependency>profile-Products.CMFPlacefulWorkflow:base</dependency>
+    <dependency>profile-plonesocial.microblog:default</dependency>
+    <dependency>profile-plonesocial.activitystream:default</dependency>
   </dependencies>
 </metadata>
