@@ -1,6 +1,9 @@
 from uuid import uuid4
 from persistent import Persistent
 from plone import api
+from zope.interface import implements
+
+from .interfaces import IToken
 
 
 class Token(Persistent):
@@ -14,6 +17,8 @@ class Token(Persistent):
     :ivar redirect_path: (`str`) The optional path to redirect to after
                          the token is accepted
     """
+    implements(IToken)
+
     def __init__(self, usage_limit, expiry, redirect_path=None):
         self.uses_remaining = usage_limit
         self.expiry = expiry
