@@ -19,23 +19,14 @@ Fill text field
     [arguments]  ${field_label}   ${text}
     Input Text  xpath=//form//div/input[preceding-sibling::label[contains(text(), '${field_label}')]]  ${text}
 
-
-Navigate to
-    [arguments]  ${title}
-    Go to homepage
-    Click Contents In edit bar
-    Click link  ${title}
-
-
 Add workspace
     [arguments]  ${title}
-    Log in as site owner
-    Go to homepage
-    Add content item  Workspace  ${title}
-    Element should be visible  xpath=//ul[@id="portal-globalnav"]/li[a="${title}"]
-
+    Go to  ${PLONE_URL}/++add++ploneintranet.workspace.workspacefolder
+    Input text  name=form.widgets.IBasic.title  ${title}
+    Click Button  Save
+    Page Should Contain  Item created
 
 Maneuver to
     [arguments]  ${title}
     Go to homepage
-    Click link  ${title}
+    Click link  jquery=a:contains("${title}")
