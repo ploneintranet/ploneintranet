@@ -19,14 +19,16 @@ class ToggleLike(BaseView):
         else:
             self.verb = 'Unlike'
 
+        # toogle like only if the button is clicked
         if 'like_button' in self.request:
+            if not is_liked:
                 self.util.add_action(
                     self.content_uid,
                     LIKE,
                     self.current_user_id,
                     completed=True
                 )
-            else:
+            elif is_liked:
                 self.util.remove_action(
                     self.content_uid,
                     LIKE,

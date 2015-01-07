@@ -29,6 +29,7 @@ class TestToggleLikeView(IntegrationTestCase):
         )
 
         output = toggle_view()
+        # TODO: improve
         self.assertIn('like_button', output)
         results = util.query(
             userid,
