@@ -1,5 +1,15 @@
+from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 
+def create_as(userid, *args, **kwargs):
+    current = api.user.get_current()
+    user = api.user.get(username=userid)
+    newSecurityManager(None, user)
+    try:
+        api.content.create(*args, **kwargs)
+    finally:
+        # we always restore the previous security context, no matter what
+        newSecurityManager(None, current)
 
 def testing(context):
 
@@ -28,7 +38,8 @@ def testing(context):
              'description': ''},
         ]
         for newsitem in newscontent:
-            api.content.create(
+            create_as(
+                "admin",
                 type='News Item',
                 title=newsitem['title'],
                 description=newsitem['description'],
