@@ -22,4 +22,14 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       />
 
+  <plone:tile
+    for="*"
+    name="workspaces.tile"
+    title="Workspaces tile"
+    description="A tile showing user workspaces and related activity"
+    class=".workspaces.WorkspacesTile"
+    add_permission="cmf.ManagePortal"
+    permission="zope.Public"
+    />
+
 </configure>

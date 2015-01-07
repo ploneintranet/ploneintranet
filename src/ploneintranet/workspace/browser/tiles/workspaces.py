@@ -7,7 +7,7 @@ from plone.tiles import Tile
 
 class WorkspacesTile(Tile):
 
-    index = ViewPageTemplateFile("templates/workspace-tile.pt")
+    index = ViewPageTemplateFile("templates/workspaces.pt")
 
     def get_workspace_activities(self, brain, limit=1):
         ''' Return the workspace activities sorted by reverse chronological
