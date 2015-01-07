@@ -22,7 +22,7 @@
       />
 
   <genericsetup:registerProfile
-      name="demo"
+      name="development"
       title="Plone Intranet: Suite : Create Development Content"
       directory="profiles/development"
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
