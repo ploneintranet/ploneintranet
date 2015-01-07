@@ -21,11 +21,26 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="demo"
+      title="Plone Intranet: Suite : Create Development Content"
+      directory="profiles/development"
+      description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:importStep
+      name="ploneintranet.development"
+      title="Setup development data"
+      description=""
+      handler="ploneintranet.suite.setuphandlers.demo" />
+
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
     <implements interface="plonesocial.microblog.interfaces.IMicroblogContext"/>
   </class>
 
   <!-- -*- extra stuff goes here -*- -->
-  
+
 </configure>
