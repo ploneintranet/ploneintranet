@@ -280,11 +280,12 @@ Here are some things to check for:
 - The pattern is registered on Bower.
 - The pattern contains tests.
 
-----------------------------------------------------------------------
-Release a new Javascript bundle so that the designers has access to it
-----------------------------------------------------------------------
+-------------------------------
+Release a new Javascript bundle
+-------------------------------
 
-The designers working on the theme use a pinned bundle release.
+The designers working on the theme use a pinned bundle release. So if we want
+to make our latest changes available to them, we need to release a new bundle.
 
 Simply run the following commands::
 
