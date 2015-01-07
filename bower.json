@@ -28,7 +28,6 @@
     "spectrum": "",
     "imagesloaded": "",
     "packery": "",
-    "pat-packery": "git@github.com:Patternslib/pat-packery.git",
     "pat-masonry": "git@github.com:Patternslib/pat-masonry.git",
     "patterns.polyfill-date": "git@github.com:syslabcom/patterns.polyfill-date.git",
     "pat-calendar": "0.0.3",
