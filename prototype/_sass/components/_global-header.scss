@@ -11,6 +11,11 @@
     color: $colour-header-elements;
     padding-right: 3.1em;
     z-index: 0;
+
+    @include screen-size(small) {
+        zoom: 1.5;
+        background-color: darken($colour-base, 10%);
+    }
 }
 
 .application-portal #global-header {

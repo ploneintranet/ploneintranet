@@ -7,6 +7,11 @@ class Dashboard(BrowserView):
     """ A view to serve as a dashboard for homepage and/or users
     """
 
+    """ The tiles below are dummy tiles.
+         Please do NOT implement "real" tiles here, put them in another package.
+         We want to keep the theme simple and devoid of business logic
+    """
+
 
 class NewsTile(Tile):
 
@@ -33,17 +38,6 @@ class WorkspacesTile(Tile):
 class TasksTile(Tile):
 
     index = ViewPageTemplateFile("templates/tasks-tile.pt")
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
-
-
-class ActivityStreamTile(Tile):
-
-    index = ViewPageTemplateFile("templates/activity-stream-tile.pt")
 
     def render(self):
         return self.index()

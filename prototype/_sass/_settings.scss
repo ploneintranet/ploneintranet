@@ -49,6 +49,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 
 // Libraries
 @import "libraries/reset";
+@import "libraries/animate";
 @import "libraries/patterns/patterns";
 
 // Project components
@@ -65,11 +66,11 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/content";
 @import "components/definition-list";
 @import "components/document-body";
-@import "components/document-content";
 @import "components/event-list";
 @import "components/file-upload";
 @import "components/form-legend";
 @import "components/global-header";
+@import "components/hamburger";
 @import "components/icon";
 @import "components/icon-tabs";
 @import "components/item-selector";
@@ -88,6 +89,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/post";
 @import "components/tabs";
 @import "components/search";
+@import "components/search-results";
 @import "components/select";
 @import "components/sidebar";
 @import "components/site-header";

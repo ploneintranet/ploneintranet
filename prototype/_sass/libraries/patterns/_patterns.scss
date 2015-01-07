@@ -7,6 +7,9 @@
 
 $body-font-family: 'Source Sans Pro', sans-serif;
 
+$break-small: 768px !default;
+$break-large: 769px !default;
+
 $colour-base: #efefef !default;
 $colour-primary: black !default;
 $colour-header-elements: #666 !default;
@@ -40,3 +43,4 @@ $glyph-radio-button-active: \e806 !default;
 @import "components/modal";
 @import "components/notifications";
 @import "components/select";
+@import "components/tooltip";

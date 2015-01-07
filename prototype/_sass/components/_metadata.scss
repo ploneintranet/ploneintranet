@@ -10,6 +10,37 @@
   -webkit-transition: padding 0.5s;
   transition: padding 0.5s;
 
+  .select2-choices {
+    border: none;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-choice {
+    margin: 0 0.5em 0 0;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-field {
+    height: 1.5em;
+    padding: 0 0 0 0;
+  }
+
+  .bar {
+    border-bottom: 1px solid silver;
+    -moz-transition: padding 0.5s;
+    -webkit-transition: padding 0.5s;
+    transition: padding 0.5s;
+    margin-bottom: 0;
+
+    input[type="text"],
+    textarea {
+      background: none;
+      padding: 0.1em 0;
+      margin: 0;
+      display: block;
+      width: 100%;
+      resize:none;
+    }
+  }
+
   &.bumped {
     padding: 0;
     // border-bottom: 1px solid silver;
@@ -28,24 +59,6 @@
     padding: 0;
     margin: 0;
     overflow: hidden; // To prevent a grey bar from appearing underneath the extra arrea when expanded
-
-    .bar {
-      border-bottom: 1px solid silver;
-      -moz-transition: padding 0.5s;
-      -webkit-transition: padding 0.5s;
-      transition: padding 0.5s;
-      margin-bottom: 0;
-
-      input[type="text"],
-      textarea {
-        background: none;
-        padding: 0.1em 0;
-        margin: 0;
-        display: block;
-        width: 100%;
-        resize:none;
-      }
-    }
   }
 
   .meta-bar {
@@ -62,6 +75,32 @@
       float: left;
       font-weight: normal;
       line-height: 1.5em;
+
+      &.pat-content-mirror {
+        // background: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 0;
+        margin: 0;
+        padding-top: 0.15em;
+        padding-top: 0;
+        // height: 0.8em;
+        overflow: hidden;
+        opacity: 0;
+        width: 100%;
+        height: 1.4em;
+
+        &:focus {
+          opacity: 1;
+          -moz-box-shadow: inherit;
+          -webkit-box-shadow: inherit;
+          box-shadow: inherit;
+          background-color: transparent;
+          color: rgba(0,0,0,0);
+        }
+      }
     }
 
     button, 
@@ -72,23 +111,6 @@
       margin-left: 0;
       margin-right: 0;
       border-radius: 0.2em;
-    }
-
-    .doc-title.pat-content-mirror {
-      background: none;
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      padding: 0;
-      padding-top: 0.2em;
-      height: 2em;
-      overflow: hidden;
-      opacity: 0;
-
-      &:focus {
-        opacity: 1;
-      }
     }
 
     .quick-functions {
