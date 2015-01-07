@@ -1,6 +1,10 @@
-==================================
+=======================
+Patternslib Development
+=======================
+
+----------------------------------
 Creating a new Patternslib pattern
-==================================
+----------------------------------
 
 .. admonition:: Description
 
@@ -8,9 +12,8 @@ Creating a new Patternslib pattern
     pattern. We create a new pattern called pat-colorchanger, which will change
     the text-color of an element after waiting for 3 seconds.
 
-------------------------------
 Creating the pattern directory
-------------------------------
+==============================
 
 To start off, lets create a new directory in which we'll put our pattern's
 files, and then lets navigate into it..::
@@ -23,7 +26,7 @@ files, and then lets navigate into it..::
     name for your own pattern.
 
 The directory layout
-====================
+--------------------
 
 Each pattern should have a certain layout. Look for example at `pat-redactor <https://github.com/Patternslib/pat-redactor>`_.
 
@@ -44,8 +47,6 @@ And let's also create the files required::
 
     touch README.md demo/documentation.md src/pat-colorchanger.js
 
-
--------------------------------------------
 Determining the HTML markup for the pattern
 -------------------------------------------
 
@@ -76,10 +77,8 @@ For a reference of all the ways a pattern could be configured, please see the
 `Parameters <https://github.com/Patternslib/Patterns/blob/master/docs/api/parameters.rst>`_
 page of the Patternslib developer documentation.
 
-
---------------------------------
 Writing the pattern's javascript
---------------------------------
+================================
 
 We're now ready to start writing the Javascript for our pattern.
 
@@ -151,18 +150,16 @@ Put this code into ``./src/pat-colorchanger.js``
 
     See here: `Creating a pattern <https://github.com/Patternslib/Patterns/blob/master/docs/create-a-pattern.md>`_
 
--------------------------------
 Hook the pattern into our build
--------------------------------
+===============================
 
 In order to have your pattern available in Plone Intranet it needs to be
 installable via bower and hooked into the build.
 
 We manage our bower dependencies in ``ploneintranet.theme``.
 
-
 Using bower to make the pattern available
-=========================================
+-----------------------------------------
 
 We use `bower <http://bower.io>`_ for mananging our front-end Javascript
 dependencies.
@@ -207,7 +204,7 @@ register it with bower, so that other users can install and use it.
 Do do that, read the next section below.
 
 Registering your pattern with bower
------------------------------------
+***********************************
 
 The `bower.json <https://github.com/ploneintranet/ploneintranet.theme/blob/master/bower.json>`_
 file which states these dependencies is inside `ploneintranet.theme <https://github.com/ploneintranet/ploneintranet.theme>`_
@@ -231,7 +228,7 @@ your pattern will be available in ``./src/bower_components/``.
 
 
 Tell r.js and require.js where your pattern is located
-======================================================
+------------------------------------------------------
 
 Now, once we have the package registered and checked out by bower, we can
 specify the pattern's path, so that `r.js <http://requirejs.org/docs/optimization.html>`_
@@ -253,11 +250,39 @@ and adding the new pattern there.
 
 
 Generate a new bundle file
-==========================
+--------------------------
 
 Once this is all done, you run::
 
     make bundle
     
 and the new Javascript bundle will contain your newly created pattern.
+
+
+Release the bundle so that the designers has access to it
+---------------------------------------------------------
+
+The designers working on the theme use a pinned bundle release.
+
+Simply run the following commands::
+
+    make clean
+    make jsrelease
+
+To fetch the latest bundle (which was released with `make jsrelease`), designers can run::
+
+    make designerhappy
+
+.. note:: What do these commands do?
+
+    `make clean` will clear your NPM and Bower caches and refetch all the packages.
+    This important in order to be sure that your Javascript packages are all
+    available and up to date.
+
+    `make jsrelease` will then create a new bundle, give it a release number
+    and then upload it to https://products.syslab.com. It will then update the
+    LATEST file with the new release number.
+
+    `make designerhappy` fetches the latest bundle from https://products.syslab.com
+    and puts it in the `./prototype/bundles` directory.
 
