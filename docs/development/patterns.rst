@@ -32,24 +32,20 @@ files, and then lets navigate into it..::
 The directory layout
 --------------------
 
-Each pattern should have a certain layout. Look for example at `pat-redactor <https://github.com/Patternslib/pat-redactor>`_.
+Each pattern should have a certain layout. Look for example at `pat-pickadate <https://github.com/Patternslib/pat-pickadate>`_.
 
-There are two folders inside the **pat-redactor** repo:
-
-* **demo**
-    Contains the files necessary to create a demonstration of the pattern as
-    well as some usage documentation in *documentation.md*.
+There is one subfolder inside the **pat-pickadate** repo:
 
 * **src**
     Contains the pattern's actual Javascript source file(s).
 
-Let's create these now::
+Let's create this now::
 
-    mkdir demo src
+    mkdir src
 
 And let's also create the files required::
 
-    touch README.md demo/documentation.md src/pat-colorchanger.js
+    touch README.md index.html src/pat-colorchanger.js
 
 Determining the HTML markup for the pattern
 -------------------------------------------
@@ -73,6 +69,10 @@ For example:
     <p class="pat-colorchanger" data-pat-colorchanger="color: blue" style="color: red">
         This text will turn from red into blue after 3 seconds.
     </p>
+
+.. note:: HTML markup as shown above, which illustrates how your pattern functions,
+    should be put inside the `index.html` file. This file can then be used by
+    designers to demo the pattern's functionality.
 
 When you're designing your pattern, you need to decide a relevant name for it,
 and how it should be configured.
@@ -153,6 +153,7 @@ Put this code into ``./src/pat-colorchanger.js``
     is a requirement for Plone Intranet.
 
     See here: `Creating a pattern <https://github.com/Patternslib/Patterns/blob/master/docs/create-a-pattern.md>`_
+
 
 Hook the pattern into our build
 ===============================
