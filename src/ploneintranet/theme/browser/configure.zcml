@@ -137,4 +137,26 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+  <plone:tile
+      name="workspace.tabs.tile"
+      title="Workspace Tabs"
+      description="This tile shows the workspace tabs"
+      add_permission="cmf.ManagePortal"
+      class=".workspace.WorkspaceTabsTile"
+      permission="zope2.View"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+  <plone:tile
+      name="sidebar.files.tile"
+      title="Sidebar: Files"
+      description="This tile shows the sidebar listing files"
+      add_permission="cmf.ManagePortal"
+      class=".sidebar.FilesTile"
+      permission="zope2.View"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
 </configure>
