@@ -1,15 +1,7 @@
-<div class="toolbar" id="toolbar-main">
-    <div class="sidebar-controls">
-        <button class="icon-list pat-toggle" data-pat-toggle="selector: body; value: sidebar-left-open sidebar-left-closed; store: local" id="sidebar-toggle" title="Toggle sidebar">Toggle sidebar</button> 
-
-        {% for item in page.sidebar_controls %}
-            {% include toolbar-control.html %}
-        {% endfor %}
-    </div>
-
+{% if page.document_controls %}
     <div class="document-controls">
         {% for item in page.document_controls %}
             {% include toolbar-control.html %}
         {% endfor %}
     </div>
-</div>
+{% endif %}

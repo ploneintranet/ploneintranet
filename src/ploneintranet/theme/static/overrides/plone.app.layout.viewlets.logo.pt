@@ -7,5 +7,5 @@
    i18n:attributes="title">
     <img src="logo.jpg" alt=""
          tal:define="portal context/portal_url/getPortalObject"
-         tal:attributes="alt portal/Title; src string:${portal/absolute_url}/++theme++ploneintranet.theme/media/logo.svg"
+         tal:attributes="alt portal/Title; src string:${portal/absolute_url}/++theme++ploneintranet.theme/generated/media/logo.svg"
          /></a>

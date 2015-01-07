@@ -5,11 +5,20 @@ design_title: Intranet homepage — Workspaces
 design_description: The homepage of the intranet with the workspaces tab active.
 ---
 
-<div class="tiles workspaces pat-packery" data-pat-packery="column-width: 300; gutter-width: 30px; item-selector: .tile;">
-	{% include tile-workspace.html title="Baggage handling regulations" id="1" url="/workspace-landing.html" %}
-	{% include tile-workspace.html title="My workspace" id="2" %}
-	{% include tile-workspace.html title="Another workspace" id="3" %}
-	{% include tile-workspace.html title="Lorem ipsum" id="4" %}
-	{% include tile-workspace.html title="Dolor sit amet" id="5" %}
-	{% include tile-workspace.html title="Consectetur" id="6" %}
+<div class="tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+	<div class="grid-sizer four columns"></div>
+	{% for workspace in site.posts %}
+		{% if workspace.layout == 'workspace-landing' %}
+		    <div class="tile workspace four columns {% if include.description %}has-description{% endif %} workspace-{{ workspace.id | remove: '/' }}">
+			    <a href="{{ workspace.url }}" class="link">
+			        <h3>{{ workspace.workspace_name }}</h3>
+			        {% if workspace.description %}
+				        <p class="description">
+				            {{ workspace.description | truncate: 100 }}
+				        </p>
+			        {% endif %}
+			    </a>
+			</div>
+		{% endif %}
+	{% endfor %}
 </div>

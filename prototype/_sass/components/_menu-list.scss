@@ -1,0 +1,55 @@
+ul.menu {
+  margin: 0;
+  list-style-type: none;
+
+  border-top: 1px silver solid;
+
+  li {
+
+    line-height: 2em;
+    position: relative;
+
+    border-bottom: 1px silver solid;
+
+
+    a,
+    label,
+    button {
+      display: block;
+      // margin-left: -10px;
+      // margin-right: -10px;
+      // padding-left: 32px;
+      // padding-right: 15px;
+      padding: 0.2em 0 0.2em 1.6em;
+      color: black;
+      line-height: 1.7em;
+      height: 1.5em;
+      cursor: default;
+      overflow: hidden;
+
+      input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 1.8em;
+        width: 100%;
+      }
+
+      &:before {
+        margin-left: -1.6em;
+        margin-top: 0.3em;
+        float: left;
+      }
+
+      &:hover {
+        text-decoration: none;
+        background: #fcfcfc;
+      }
+
+      &:active {
+        box-shadow: none;
+      }
+    }
+  }
+}

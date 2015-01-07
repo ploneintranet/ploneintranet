@@ -1,18 +1,129 @@
+@charset "UTF-8";
+
 .item-selector {
 
     br {
         display: none;
     }
 
-    &.mode-select button.select {
-        box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+    div.more-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        .panel-content {
+            border-bottom: 0.2em solid $colour-base;
+            background-color: white;
+            padding: 3.5em 1em 2em;
+
+            font-size: 1.2em;
+
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+
+            box-shadow: 0 0 0.5em rgba(0,0,0,0.2);
+        }
+    }
+
+    .more-menu-trigger {
+        font-size: 0.82em;
+        position: absolute;
+        margin: 0;
+        background: none;
+        top: 0.55em;
+        right: 0;
+        z-index: 10;
+        text-indent: -1000em;
+        overflow: hidden;
+        width: 1.5em;
+        height: 1.5em;
+        padding: 0;
+        border-radius: 50%;
+        border: 2px solid silver;
+        color: rgba(0,0,0,0.2);
+
+        &:hover {
+            border-color: gray;
+
+            &:before,
+            &:after {
+                background-color: gray;
+            }
+        }
+
+        &:before,
+        &:after {
+            display: block;
+            background-color: silver;
+            width: 2px;
+            margin-left: -1px;
+            height: 1em;
+            margin-top: -0.5em;
+            top: 50%;
+            left: 50%;
+            content: " ";
+            position: absolute;
+            -moz-transition: -moz-transform 0.5s;
+            -webkit-transition: -webkit-transform 0.5s;
+            transition: transform 0.5s;
+        }
+
+        &:after {
+            -moz-transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+
+        &.collapsible-open {
+            // box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+            border-color: gray;
+
+            &:before {
+                -moz-transform: rotate(-225deg);
+                -webkit-transform: rotate(-225deg);
+                transform: rotate(-225deg);
+                background-color: gray;
+            }
+
+            &:after {
+                -moz-transform: rotate(225deg);
+                -webkit-transform: rotate(225deg);
+                transform: rotate(225deg);
+                background-color: gray;
+            }
+        }
+    }
+
+    .batch-functions {
+        height: 4.5em;
+        padding: 0;
+        overflow: hidden;
+        -moz-transition: height 0.4s;
+        -webkit-transition: height 0.4s;
+        transition: height 0.4s;
+        margin-bottom: 0 !important;
+
+        .button-bar {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        button,
+        .button {
+            margin-bottom: 0.6em;
+        }
     }
 
     .functions {
         text-align: center;
-        margin-bottom: 0;
+        // margin-bottom: 0.8em;
+        position: relative;
 
-        button,button {
+        button,
+        .button {
             margin-bottom: 1em;
         }
 
@@ -22,6 +133,30 @@
             display: none;
             // display: inline;
         }
+    }
+
+    .create-buttons {
+        overflow: hidden;
+        margin-bottom: 0.3em;
+               
+        .button {
+            width: 48%;
+            line-height: 2.5em;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            border: 0.15em solid $colour-base;
+            background: none;
+            border-radius: 0;
+            color: gray;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &.create-folder {
+                float: right;
+            }
+        }
+
     }
 
     .search-box {
@@ -37,7 +172,7 @@
                 padding-left: $base-space * 1.25;
                 position: relative;
                 width: 100%;
-                background-color: #fcfcfc
+                background-color: #fcfcfc;
             }
 
             button {
@@ -63,10 +198,11 @@
     }
 
     .search-result {
-        border-top: 1px solid rgba(0,0,0,0.2);
 
         .item {
+            border-top: 1px solid rgba(0,0,0,0.2);
             border-bottom: 1px solid rgba(0,0,0,0.2);
+            margin-bottom: -1px;
             display: block;
             position: relative;
             color: $colour-primary;
@@ -77,12 +213,17 @@
             .follow {
                 display: block;
                 color: $colour-primary;
-                padding: 0.5em 1.5em 0.5em 3em;
+                padding: 0.5em 1.5em 0.5em 3.6em;
                 position: relative;
                 z-index: -1;
                 border-left: 2.25em solid #efefef;
+                -moz-transition: 0.4s border;
                 -webkit-transition: 0.4s border;
                 transition: 0.4s border;
+
+                &:hover {
+                    text-decoration: none;
+                }
             }
 
             &.user .follow{
@@ -90,7 +231,7 @@
             }
 
 
-            &.folder:after {
+            &.group:after {
                 font-family: fontello;
                 content: '\e75e';
                 position: absolute;
@@ -118,7 +259,7 @@
                     font-family: fontello;
                     font-size: 1.4em;
                     position: absolute;
-                    left: 0.6em;
+                    left: 0.8em;
                     top: 50%;
                     margin-top: -0.5em;
                     font-weight: normal;
@@ -127,15 +268,80 @@
                 }
             }
 
+            &.has-no-description a {
+                padding-top: 1.1em;
+                padding-bottom: 1.1em;
+            }
+
+            &.type-folder .title:before {
+                content: '\1f4c1'
+            }
+
             &.document .title:before {
                 content: '\e811';
                 -webkit-transition: opacity 5s;
                 transition: opacity 5s;
             }
 
+            &.type-presentation .title:before,
+            &.type-slide .title:before {
+                content: '\e818';
+            }
+            
+            &.type-date .title:before {
+                content: '\e817'
+            }
+            
+            &.type-event .title:before {
+                content: '\e810'
+            }
+            
+            &.type-user .title:before {
+                content: '\1f464'
+            }
 
-            &.folder .title:before {
-                content: '\1f4c1'
+            &.type-tag .title:before {
+                content: '\e70c'
+            }
+            
+            &.type-powerpoint .title:before {
+                content: '\e81d'
+            }
+            
+            &.type-word .title:before {
+                content: '\e81b'
+            }
+            
+            &.type-zip .title:before {
+                content: '\e821'
+            }
+            
+            &.type-video .title:before {
+                content: '\e81e'
+            }
+            
+            &.type-excel .title:before {
+                content: '\e81c'
+            }
+            
+            &.type-sound .title:before {
+                content: '\e820'
+            }
+            
+            &.type-image .title:before {
+                content: '\e822'
+            }
+            
+            &.type-code .title:before {
+                content: '\e81f'
+            }
+            
+            &.type-rich .title:before {
+                content: '\e823'
+            }
+            
+            &.type-pdf .title:before {
+                content: '\e81a'
             }
 
             &.back .title:before {
@@ -180,9 +386,8 @@
     }
 
     &.mode-follow {
-        .select-buttons,
-        .search-result .button-bar {
-            display: none;
+        .batch-functions {
+            height: 0;
         }
 
         .search-result fieldset .item {
@@ -200,7 +405,7 @@
 
     &.mode-select {
         .search-result fieldset .item {
-            &.folder:after {
+            &.group:after {
                 right: -1em;
                 opacity: 0;
             }

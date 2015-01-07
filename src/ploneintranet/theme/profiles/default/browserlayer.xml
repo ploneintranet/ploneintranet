@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <layers>
-
   <layer name="ploneintranet.theme" interface="ploneintranet.theme.interfaces.IThemeSpecific"/>
-
+  <layer name="ploneintranet.form" interface="ploneintranet.theme.interfaces.IPloneIntranetFormLayer" />
 </layers>

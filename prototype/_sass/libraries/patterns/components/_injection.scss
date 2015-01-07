@@ -1,7 +1,16 @@
+@charset "UTF-8";
+
 /* @group Throbber */
 
-.injecting * {
-  opacity: 0.19;
+.injecting {
+
+  * {
+    opacity: 0.19;
+  }
+
+  &.injecting-after * {
+    opacity: inherit;
+  }
 }
 
 .injecting:before {

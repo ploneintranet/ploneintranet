@@ -1,0 +1,11 @@
+<div class="tile app {% if include.description %}has-description{% endif %} app-{{ include.id }}">
+    <a href="{{ include.url }}" class="link">
+        <h3>{{ include.title }}</h3>
+        {% if include.id == 'calendar' %}
+            <time class="date">
+            	<span class="date">5</span>
+            	<span class="month">DEC</span>
+            </time>
+        {% endif %}
+    </a>
+</div>

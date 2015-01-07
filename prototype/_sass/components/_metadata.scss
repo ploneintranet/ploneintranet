@@ -1,238 +1,185 @@
-/* @group Meta data */
+@charset "UTF-8";
 
-/* @group Meta data panel */
-
-#document-body div.metadata {
-  background-color: transparent;
+.metadata {
+  background-color: rgba(255,255,255,0.9);
+  color: gray;
   margin-right: 0;
   margin-left: 0;
-  padding: 26px 50px 0;
-  .quick-functions {
-    position: absolute;
-    top: 27px;
-    right: 77px;
-    line-height: 26px;
-    fieldset {
-      display: inline-block;
-      margin-left: 5px;
-      float: right;
-      margin-top: -1px;
-    }
-    select {
-      border-style: none;
-      font-size: 0.9em;
-    }
-    span {
-      &[data-option='Private'] select {
-        background-color: #d561a4;
-        color: white;
-      }
-      &[data-option='Workspace Members Only'] select {
-        background-color: #f38300;
-      }
-      &[data-option='Public'] select {
-        background-color: #65c981;
-        color: white;
-      }
-      &[data-option='Pending review'] select {
-        background-color: #ff0201;
-      }
-      &[data-option='Logged in only'] select {
-        background-color: #008f51;
-      }
-      &[data-option='Internal'] select {
-        background-color: #ff2f92;
-        color: white;
-      }
-      &[data-option='Externally visible'] select {
-        background-color: #00b8ca;
-      }
-      &[data-option='Everyone'] select {
-        background-color: whitesmoke;
-      }
-    }
-    .icon {
-      height: 30px;
-      font-size: 16px;
-      margin: 3px 0 0 12px;
-      padding: 0;
-      float: left;
-      color: gray;
-    }
-  }
-  input[type="text"], textarea {
-    border-style: none;
-    box-shadow: none;
-    outline: none;
-    width: 100%;
-    max-width: 100%;
-    padding-left: 0;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    border-bottom: 1px solid silver;
-    background-color: transparent;
-  }
-  input.doc-title {
-    border-top: 1px solid silver;
-    padding-right: 330px;
-    height: 27px;
-  }
-  label.pin {
-    text-indent: -1000px;
-    border-style: none;
-    overflow: hidden;
-    display: inline-block;
-    padding: 0;
-    position: relative;
-    &:before {
-      content: '\1f4cc';
-      position: absolute;
-      top: 0;
-      left: 0;
-      text-indent: 0;
-      transform: rotate(45deg);
-      text-align: left;
-      margin-top: 4px;
-      margin-bottom: 0;
-      margin-left: 0;
-    }
-    &.checked {
-      color: #0181be;
-    }
-  }
-  a.icon {
-    &.comment {
-      border-style: none;
-      overflow: hidden;
-      display: inline-block;
-      &.active! {}
-      strong {
-        font-size: 9px;
-        font-weight: normal;
-        font-style: normal;
-        color: white;
-        position: absolute;
-        top: 2px;
-        width: 30px;
-        text-align: center;
-        line-height: 16px;
-      }
-      em {
-        display: none;
-      }
-    }
-    &.share {
-      margin-top: 5px;
-    }
-  }
-}
+  padding: 6% 6% 0;
+  -moz-transition: padding 0.5s;
+  -webkit-transition: padding 0.5s;
+  transition: padding 0.5s;
 
-/* @group Dropdown */
-
-/* @end */
-
-fieldset.meta-extra {
-  background-color: white;
-  color: black;
-  padding: 0;
-  margin: 0;
-  .panel-content {
-    background-color: white;
-    border-bottom: 1px solid #b0b0b0;
-    color: black;
-    margin-right: 0;
-    margin-left: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    box-sizing: border-box;
-  }
-  > p.legend {
-    border-style: none;
-    display: inline;
-    left: auto;
-    position: absolute;
-    width: 30px;
-    text-transform: none;
-    font-weight: normal;
-    font-style: normal;
-    cursor: pointer;
-    z-index: 10;
-    float: right;
-    overflow: hidden;
-    padding: 24px 0 0;
-    text-align: center;
-    line-height: 30px;
-    filter: none;
-    height: 0;
-    margin-right: 28px;
-    top: 29px;
-    right: 20px;
-    &:before {
-      text-indent: 0;
-      position: absolute;
-      right: 4px;
-      top: 1px;
-      font: 17px fontello;
-    }
-  }
-  &.closed > p.legend:before {
-    content: "\e705";
-  }
-  &.open > p.legend:before {
-    color: #3381be;
-    content: "\e705";
-  }
-  .versioning {
-    border: 1px solid silver;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
-    padding: 3px 10px 1px;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    background-color: rgba(254, 255, 254, 0.68);
-    border-radius: 4px;
-    textarea {
-      margin-bottom: 0;
-    }
-    .new-version-details {
-      padding-bottom: 6px;
-    }
-  }
-}
-
-/* @end */
-
-/* @group Tagging bar */
-
-form#keywords {
-  background-color: transparent;
-  border-bottom: 1px solid #b6b6b6;
-  padding: 0;
-  z-index: 2;
-}
-
-#document-body.content-link form#keywords {
-  left: 0;
-}
-
-form#keywords .select2-container {
-  padding: 0;
-  height: 23px;
   .select2-choices {
-    width: 100%;
-    outline: none;
-    box-shadow: none;
-    background-color: transparent;
-    border-style: none;
+    border: none;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-choice {
+    margin: 0 0.5em 0 0;
+  }
+
+  .select2-container-multi .select2-choices .select2-search-field {
+    height: 1.5em;
+    padding: 0 0 0 0;
+  }
+
+  .bar {
+    border-bottom: 1px solid silver;
+    -moz-transition: padding 0.5s;
+    -webkit-transition: padding 0.5s;
+    transition: padding 0.5s;
+    margin-bottom: 0;
+
+    input[type="text"],
+    textarea {
+      background: none;
+      padding: 0.1em 0;
+      margin: 0;
+      display: block;
+      width: 100%;
+      resize:none;
+    }
+  }
+
+  &.bumped {
+    padding: 0;
+    // border-bottom: 1px solid silver;
+
+    .meta-bar {
+      border-top: none;
+    }
+
+    .meta-bar,
+    .bar {
+      padding: 0 2%;
+    }
+  }
+
+  .meta-extra {
     padding: 0;
     margin: 0;
+    overflow: hidden; // To prevent a grey bar from appearing underneath the extra arrea when expanded
+  }
+
+  .meta-bar {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
+    overflow: hidden;
+    position: relative;
+    -moz-transition: padding 0.5s;
+    -webkit-transition: padding 0.5s;
+    transition: padding 0.5s;
+
+    .doc-title {
+      font-size: 1em;
+      float: left;
+      font-weight: normal;
+      line-height: 1.5em;
+
+      &.pat-content-mirror {
+        // background: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        padding: 0;
+        margin: 0;
+        padding-top: 0.15em;
+        padding-top: 0;
+        // height: 0.8em;
+        overflow: hidden;
+        opacity: 0;
+        width: 100%;
+        height: 1.4em;
+
+        &:focus {
+          opacity: 1;
+          -moz-box-shadow: inherit;
+          -webkit-box-shadow: inherit;
+          box-shadow: inherit;
+          background-color: transparent;
+          color: rgba(0,0,0,0);
+        }
+      }
+    }
+
+    button, 
+    label.pat-select {
+      font-size: 1em;
+      padding: 0 0.5em;
+      line-height: 1.2em;
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 0.2em;
+    }
+
+    .quick-functions {
+      float: right;
+      position: relative;
+      z-index: 1;
+
+      a {
+        color: gray;
+        margin-left: 0.3em;
+        display: inline-block;
+        line-height: 1.5em;
+        float: left;
+
+        &.collapsible-open {
+          color: $colour-accent;
+        }
+      }
+
+      fieldset {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+      }
+
+      label.pat-select {
+        margin-left: 0.3em;
+
+        &:before {
+          font-family: fontello;
+          content: '\e82c';
+          position: relative;
+          top: 0.08em;
+        }
+
+        &[data-option='Private'] {
+          background-color: #d561a4;
+          color: white;
+        }
+        &[data-option='Members'] {
+          background-color: #f38300;
+          color: white;
+        }
+        &[data-option='Public'] {
+          background-color: #65c981;
+          color: white;
+        }
+        &[data-option='Pending'] {
+          background-color: #ff0201;
+          color: white;
+        }
+        &[data-option='Logged in'] {
+          background-color: #008f51;
+          color: white;
+        }
+        &[data-option='Internal'] {
+          background-color: #ff2f92;
+          color: white;
+        }
+        &[data-option='Everyone'] {
+          background-color: whitesmoke;
+        }
+      }
+    }
   }
 }
+
 
 #document-body div.metadata .select2-container input {
   padding: 0;
   border-style: none;
 }
-
-/* @end */
-
-/* @end */

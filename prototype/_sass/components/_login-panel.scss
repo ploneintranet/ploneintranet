@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.login-panel {
+	.header {
+		display: none;
+	}
+
+	.vertical {
+		margin-bottom: 0;
+	}
+
+	.logo {
+		margin-bottom: 1.5em;
+
+		img {
+
+			width: 40%;
+			display: block;
+			margin: 0 auto;
+		}
+	}
+}

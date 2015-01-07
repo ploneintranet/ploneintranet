@@ -1,18 +1,23 @@
+@charset "UTF-8";
+
 #content {
-  top: 32px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-  transition: all 0.2s;
-  padding: 50px;
-  z-index: 6;
-  outline: solid silver 1px;
+  @include screen-size(large) { 
+    top: 32px;
+    position: absolute; 
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    transition: all 0.2s;
+    z-index: 6;
+    outline: solid silver 1px;
+  }
+  @include screen-size(small) {
+    padding-top: 5em;
+  }
   background-color: white;
 }
 
 body.application-home #content {
-  top: 85px;
-  background-color: #f1f1f1;
+  background-color: $colour-base-light;
 }

@@ -7,13 +7,22 @@
 
 $body-font-family: 'Source Sans Pro', sans-serif;
 
+$break-small: 768px !default;
+$break-large: 769px !default;
+
 $colour-base: #efefef !default;
 $colour-primary: black !default;
 $colour-header-elements: #666 !default;
 $colour-post: #e4f2f8 !default;
 $colour-alert: red !default;
-$colour-workspace-tabs: #869EBF !default;
+$colour-workspace-default: #869EBF !default;
 $colour-accent: #5d91ff !default;
+
+$colour-success: #5bb75b !default;
+$colour-warning: #faa732 !default;
+$colour-notice: #fdfdc8 !default;
+$colour-info: #d9edf7 !default;
+$colour-error: red !default;
 
 $glyph-checkbox: \e808 !default;
 $glyph-checkbox-active: \e809 !default;
@@ -27,7 +36,11 @@ $glyph-radio-button-active: \e806 !default;
 @import "components/avatar";
 @import "components/auto-suggest";
 @import "components/checklist";
+@import "components/collapsible";
 @import "components/grid";
 @import "components/form";
 @import "components/injection";
+@import "components/modal";
+@import "components/notifications";
 @import "components/select";
+@import "components/tooltip";

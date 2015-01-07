@@ -1,136 +1,65 @@
-
-
-/* @group Main toolbar */
+@charset "UTF-8";
 
 #toolbar-main {
 	font-size: 14px;
 	height: 21px;
 	padding: 5px 0;
 	overflow: hidden;
-	position: absolute;
-	right: 0;
-	top: 0;
-	transition: left 0.2s;
-	left: 0;
 	z-index: 1;
-	border-bottom: 1px solid silver;
 	white-space: nowrap;
 	background: $colour-base;
-}
 
-#toolbar-main hr.divider {
-	width: 22px;
-	height: 22px;
-	float: right;
-	border-style: none;
-}
-
-#toolbar-main form {
-	display: inline-block;
-
-	&.float-after {
+	button.float-after,
+	a.button.float-after,
+	label.float-after,
+	form.float-after input,
+	form.float-after button {
 		float: right;
+		margin-right: 0;
+		margin-left: 5px;
+	}
+
+	input {
+		height: 22px;
+		margin-right: 5px;
+	}
+
+	a.button.dropdown {
+		padding-right: 1.1em;
+	}
+
+	button,
+	a.button,
+	label,
+	*[data-option]:after,
+	select {
+		float: left;
+		border: none;
+		background-image: none;
+		padding-left: 0.4em;
+		padding-right: 0.4em;
+
+		&.float-after {
+			float: right;
+		}
+	}
+
+	hr.divider {
+		width: 22px;
+		height: 22px;
+		float: right;
+		border-style: none;
+	}
+
+	form {
+		display: inline-block;
+
+		&.float-after {
+			float: right;
+		}
+	}
+
+	.document-controls {
+
 	}
 }
-
-#toolbar-main button,
-#toolbar-main a.button,
-#toolbar-main label,
-#toolbar-main *[data-option]:after,
-#toolbar-main select {
-	float: left;
-
-	&.float-after {
-		float: right;
-	}
-}
-
-#toolbar-main input {
-	height: 22px;
-	margin-right: 5px;
-}
-
-#toolbar-main button.float-after,
-#toolbar-main a.button.float-after,
-#toolbar-main label.float-after,
-#toolbar-main form.float-after input,
-#toolbar-main form.float-after button {
-	float: right;
-	margin-right: 0;
-	margin-left: 5px;
-}
-
-#toolbar-main .sidebar-controls {
-	float: left;
-	padding-left: 15px;
-	padding-right: 15px;
-	box-sizing: border-box;
-	margin-right: 50px;
-	transition: all 0.2s;
-}
-
-#toolbar-main .document-controls {
-	padding-right: 50px;
-	padding-left: 50px;
-}
-
-.sidebar-left-open #toolbar-main .sidebar-controls {
-	min-width: 30%;
-}
-
-.sidebar-left-open.application-contacts #toolbar-main .sidebar-controls {
-	margin-right: 11px;
-}
-
-.sidebar-left-closed #toolbar-main .sidebar-controls {
-	min-width: 0%;
-	margin-right: 0;
-	padding-right: 0;
-	/*padding-left: 50px;*/
-}
-
-/* @group Sidebar toggle */
-
-.sidebar #sidebar-toggle {
-  position: absolute;
-  top: -27px;
-  left: 15px;
-  width: 27px;
-  height: 20px;
-  padding: 0;
-}
-
-#toolbar-main #sidebar-toggle {
-  width: 27px;
-  padding: 19px 0 0;
-  height: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  position: relative;
-  background: transparent;
-}
-
-.lt-ie9 #toolbar-main #sidebar-toggle {
-  height: 21px;
-}
-
-#toolbar-main #sidebar-toggle:before {
-  width: 22px;
-  letter-spacing: 0;
-  line-height: 19px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.lt-ie9 #toolbar-main #sidebar-toggle:before {
-  font-weight: bold;
-  line-height: 22px;
-  font-size: 20px;
-  width: 18px;
-}
-
-/* @end */
-
-
-/* @end */

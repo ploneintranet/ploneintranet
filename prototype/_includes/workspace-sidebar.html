@@ -1,43 +1,131 @@
-    <div hidden id="create-document">
-        <ul class="menu">
-            <li>
-                <a class="icon-document" href="#">Text document</a>
-            </li>
+<div hidden id="more-menu">
+    <ul class="menu">
+        <li>
+            <a class="icon-document" href="#">Paste document(s)</a>
+        </li>
+    </ul>
+</div>
 
-            <li>
-                <a class="icon-calendar pat-inject" data-pat-inject="#document-body::element && #toolbar-main>.document-controls::element" href="panel-create-event-full.html" title="Create a new event">Event</a>
-            </li>
-
-            <li>
-                <a class="icon-link pat-inject" href="workspace-edit-link.html#document-body">Weblink</a>
-            </li>
-
-            <li>
-                <a class="icon-upload" href="#">Upload file(s)</a>
-            </li>
-        </ul>
+<div id="sidebar-content" class="pat-stacks">
+    <div id="workspace-documents">
+        {% include item-selector.html mode="docs" id="selector" listitems="follow" title=include.title searchresult="/feedback/workspace-search-results-min.html" toggle="true" action="/feedback/batch-rename.html#content" %}
     </div>
-
-    <div hidden id="more-menu">
-        <ul class="menu">
-            <li>
-                <a class="icon-document" href="#">Paste document(s)</a>
-            </li>
-        </ul>
+    <div id="workspace-tickets">
+        <fieldset class="task-list pat-checklist">
+            {% assign count = 0 %}
+            {% for ticket in site.posts  %}
+                {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
+                    {% if count >= 1 %}
+                        <br/>
+                    {% endif %}
+                    <label>
+                        <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
+                    </label>
+                {% endif %}
+                {% assign count = count | plus: 1 %}
+            {% endfor %}
+        </fieldset>
     </div>
+    <div id="workspace-events">
 
-    {% if page.workspace_module == 'docs' %}
-    	{% include workspace-sidebar-docs.html %}
-    {% endif %}
+        <div class="content">
 
-    {% if page.workspace_module == 'events' %}
-    	{% include workspace-sidebar-events.html %}
-    {% endif %}
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
+                <h3>Unscheduled events</h3>
 
-    {% if page.workspace_module == 'about' %}
-        {% include workspace-sidebar-about.html %}
-    {% endif %}
+                <ul class="cal-events">
+                    <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Release of the new Baggage Handbook</a></h4>
 
-    {% if page.workspace_module == 'qa' %}
-        {% include workspace-sidebar-qa.html %}
-    {% endif %}
+                        <p class="description">Plan Press Conference and internal event to mark the release of the new Baggage Handbook. Scheduled to happen in September.</p>
+
+                        <ul class="details">
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+                <h3>Upcoming events</h3>
+
+                <ul class="cal-events">
+                    {% for item in site.posts  %}
+                        {% if item.layout == 'event' and item.workspace_name == page.workspace_name %}
+                            <li class="cal-event all-day cal-cat-baggage-handling">
+                                <h4 class="title">
+                                    <a class="pat-inject" href="{{ item.url }}#document-body">{{ item.title }}</a>
+                                </h4>
+
+                                <p class="description">{{ item.description }}</p>
+
+                                <ul class="details">
+                                    <li>Starts <time class="start" datetime="2013-09-05">{{ item.start }}</time></li>
+
+                                    <li>Location <span class="location">{{ item.location }}</span></li>
+                                </ul>
+
+                                <form action="">
+                                    <button class="iconified icon-trash" type="submit">Delete event</button>
+                                </form>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+                <h3>Older events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on Baggage</a></h4>
+
+                        <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                            <li>Location <span class="location">Star HQ, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="workspace-about">
+        <div class="content">
+            <p class="message notice description">The goal of this project is to integrate CA to ADC product.</p>
+            <h3>Members</h3>
+            <p class="user-cloud">
+                <a href="alexander-pilz.html#address-body" title="Alexander Pilz" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="../media/avatar-alexander-pilz.jpg" width="50" height="50" alt="Alexander Pilz" /></a>
+
+                <a href="#" title="Cornelis Kolbach"><img src="../media/avatar-cornelis-kolbach.jpg" width="50" height="50" alt="Cornelis Kolbach" /></a>
+
+                <a href="#" title="Guido Stevens"><img src="../media/avatar-guido-stevens.jpg" width="50" height="50" alt="Guido Stevens" /></a>
+
+                <a href="profile-liz.html#address-body" class="pat-inject" title="Liz Johnson"><img src="../media/avatar-liz.jpg" width="50" height="50" alt="Name of colleague" alt="Name-of-colleague" /></a>
+
+                <a href="#"><img src="../media/avatar-corinne-bedow.jpg" width="50" height="50" alt="Justin Erbacci" /></a>
+
+                <a href="#" title="Barack Obama"><img src="../media/avatar-adrian-white.jpg" width="50" height="50" alt="Barack Obama" /></a>
+
+                <a href="#" title="Jeff Peters"><img src="../media/avatar-jeff-peters.jpg" width="50" height="50" alt="Jeff Peters" /></a>
+
+                <a href="#" title="Joan Baker"><img src="../media/avatar-joan-baker.jpg" width="50" height="50" alt="Joan Baker"></a>
+
+                <a href="#" title="Megan Fox"><img src="../media/avatar-megan-fox.jpg" width="50" height="50" alt="Megan Fox"></a>
+                <a href="#" title="Add a new member to this workspace" class="add">Add member</a>
+            </p>
+
+        </div>
+    </div>
+</div>

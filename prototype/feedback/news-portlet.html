@@ -1,0 +1,34 @@
+---
+layout: generic
+application: home
+design_title: Portlet news feedback
+---
+
+<div class="news portlet" id="portlet-news">
+	<h2 class="portlet-title">News</h2>
+	{% assign count = 1 %}
+	<div class="news-block" id="unread-news">
+		{% for item in site.posts %}
+			{% if item.layout == 'news-item' %}
+				{% if count <= 4 and count != 1 %}
+					<article class="item item-{{ count }}">
+						<a href="{{item.url}}">
+							<img class="illustration" src="/media/{{ item.image }}" alt="" />
+			    			<h3 class="title">
+			    				{{ item.title }}
+			    			</h3>
+			    			<p class="description">
+								{{ item.description | truncate: 160 }} <!-- <em>Read more…</em> -->
+			    			</p>
+						</a>
+						<form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
+							<button type="submit" class="icon-ok">Mark read</button>
+						</form>
+					</article>
+				{% endif %}							
+				{% assign count = count | plus: 1 %}
+			{% endif %}
+		{% endfor %}
+		
+	</div>
+</div>

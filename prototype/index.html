@@ -2,22 +2,22 @@
 layout: home
 application: home
 design_title: Intranet homepage
-design_description: The homepage of the intranet that contains a concatinated social feed.
+design_description: General news page.
 ---
 
-	{% include update-social.html id="new-post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream::before && #new-post-box" %}
+<div class="pat-modal login-panel">
+	<h1>Login</h1>
+	<form action="dashboard.html">
+		<p class="logo">
+			<img src="media/logo-pi.svg" alt="Plone Intranet" />
+		</p>
+		<fieldset class="vertical">
+			<input type="text" name="__ac_name" id="__ac_name" placeholder="E-mail address">
+			<input type="password" id="__ac_password" name="__ac_password" placeholder="Password"><br>
+			<fieldset class="button-bar">
+				<button type="submit">Login</button>
+			</fieldset>
+		</fieldset>
+	</form>
+</div>
 
-	<div id="activity-stream" class="activity-stream pat-packery" data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .item;">
-		<form action="index.html#activity-stream" class="pat-autosubmit pat-inject">
-			<label class="filters item pat-select bare">
-				<select name="filter">
-					<option value="all">All activities</option>
-					<option value="network">Only activities from people I follow</option>
-					<option value="interactions">Interactions with other people</option>
-					<option value="posted">My activities</option>
-					<option value="likes">My likes</option>
-				</select>
-			</label>
-		</form>
-		{% include activity-stream.html src="activity-stream-social" %}
-	</div>

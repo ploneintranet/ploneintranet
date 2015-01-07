@@ -1,26 +1,27 @@
 ---
 layout: shell
 template: generic
+application: workspace
 ---
 
 <div class="application project" id="content">
     <h1 id="workspace-name">
-        <a href="workspace-landing.html">{{ page.workspace_name }}</a>
+        <!-- Next link is to lead to landing state of current workspace -->
+        <a href="{{page.url}}">{{ page.workspace_name }}</a>
     </h1>
 
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-        {% include application-toolbar.html %}
-
-        <div id="document-body">
+        <div id="document-body">            
         	{{ content }}
         </div>
 
         <aside class="sidebar left tagging-off" id="sidebar">
-            {% include workspace-sidebar.html %}
+            {% include workspace-sidebar.html title=page.title %}
         </aside>
 
     </div>
     {% include workspace-tabs.html %}
 </div>
+
 {% include global-header.html %}

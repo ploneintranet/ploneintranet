@@ -1,0 +1,33 @@
+<form action="#">
+<fieldset>
+    <fieldset class="horizontal">
+        <label>Title <sup class="required">*</sup> <a href="tooltip-help.html#subject-2" class="iconified icon-info-circle help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax">More info</a>
+            <input type="text" name="form.widgets.IDublinCore.title" tal:attributes="value view/title|nothing"/>
+        </label>
+    </fieldset>
+    <fieldset class="horizontal">
+        <label>Textarea <a href="tooltip-help.html#subject-2" class="iconified icon-info-circle help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax">More info</a>
+            <textarea name="form.widgets.IDublinCore.description" tal:content="python:view.__getitem__('description', silent=True)"></textarea>
+        </label>
+    </fieldset>
+    <fieldset class="horizontal">
+    <label>Text <a href="tooltip-help.html#subject-2" class="iconified icon-info-circle help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax">More info</a>
+        <textarea name="form.widgets.IRichText.text"
+                  tal:define="text view/text|nothing"
+                  tal:content="python:text and text.output or ''"
+                  placeholder="Note: We don't yet have a Rich Text widget example from the prototype.">
+        </textarea>
+    </label>
+    </fieldset>
+
+    <!-- XXX:  This is a required field, but will likely not be used in Plone Intranet -->
+    <input type="hidden" value="selected" name="form.widgets.IExcludeFromNavigation.exclude_from_nav"/>
+
+    <fieldset class="button-bar group">
+        <tal:block repeat="action view/actions/values">
+            <button type="submit" tal:replace="structure action/render" />
+        </tal:block>
+    </fieldset>
+
+</fieldset>
+</form>

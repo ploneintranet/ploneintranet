@@ -1,0 +1,13 @@
+<div id="sidebar-content">
+
+	<fieldset class="task-list pat-checklist">
+		{% for ticket in site.posts  %}
+			{% if ticket.layout == 'ticket' %}
+				<label>
+					<input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
+				</label>
+			{% endif %}
+		{% endfor %}
+	</fieldset>
+
+</div>

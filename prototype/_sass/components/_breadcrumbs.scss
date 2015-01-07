@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* @group Breadcrumbs */
 
 nav.breadcrumbs {
@@ -9,6 +11,10 @@ nav.breadcrumbs {
   float: left;
   padding: 4px 0;
   margin-left: 0;
+  
+  @include screen-size(small) {
+    display: none;
+  }
 }
 
 .application-portal nav.breadcrumbs {
@@ -52,32 +58,3 @@ nav.breadcrumbs {
     color: $colour-header-elements;
   }
 }
-
-.lt-ie9 nav.breadcrumbs {
-  a! {
-    &.current, &:last-child {}
-  }
-  form.doc-title! {}
-}
-
-nav.breadcrumbs a.switch {
-  background: url(trail.png) right -92px;
-  text-indent: -1000px;
-  overflow: hidden;
-  width: 30px;
-  display: inline-block;
-  padding-right: 0;
-  margin-right: 0;
-  padding-left: 0;
-  cursor: pointer;
-  &.current {
-    padding-left: 0;
-  }
-}
-
-.lt-ie9 nav.breadcrumbs a.switch.current {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-/* @end */

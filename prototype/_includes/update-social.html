@@ -1,21 +1,4 @@
 <form id="{{ include.id }}" class="pat-inject update-social {% if include.status %}status-{{ include.status }}{% else %}status-inactive{% endif %}" action="{{ include.action }}" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: {{localtarget}}{% endif %}">
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var the_textarea = $('#{{ include.id }}').find('textarea.pat-comment-box');
-            function updateMirror(){
-                var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
-                var the_value = the_textarea.val();
-                the_mirror.text(the_value);
-                if(!the_value.length){
-                    the_mirror.html('<em class="placeholder">Leave a comment</em>');
-                }
-            };
-
-            $(document).on('input propertychange',the_textarea, function() {
-                updateMirror();
-            });
-        });
-    </script>
     {% if include.direct == "true" %}
         {% unless include.hideuser == 'true' %}
             <label>
@@ -41,7 +24,7 @@
             ><em class="selected-users" id="selected-users">{% if include.users %} — {% endif %}{{ include.users }}</em
             ><em class="selected-tags" id="selected-tags">{% if include.tags %} — {% endif %}{{ include.tags }}</em>
         </p>
-        <textarea placeholder="Leave a comment" class="pat-comment-box pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
+        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
         {% unless include.attachment == 'false' %}
             <fieldset class="pat-upload attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #{{ include.id }}-attachment-previews">
@@ -55,7 +38,7 @@
         {% if include.share_title %}
             <div class="shared-item row">
                 <div class="three columns">
-                    <img src="{{ include.share_img }}" alt="" />   
+                    <img src="{{ include.share_img }}" alt="" />
                 </div>
                 <div class="nine columns">
                     <h4 class="title">

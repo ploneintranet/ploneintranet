@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .logo {
 
 }
@@ -5,6 +7,10 @@
 .logo#site-logo {
 	float: left;
 	margin-right: 14px;
+	
+	@include screen-size(small) {
+		display: none;
+	}
 }
 
 .logo#site-logo img {

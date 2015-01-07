@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+ul.links {
+  display: block;
+  margin-bottom: 1rem;
+
+  li {
+    display: block;
+    padding: 0;
+
+    &:before {
+      display: none;
+    }
+
+    a {
+      display: block;
+    }
+  }
+}

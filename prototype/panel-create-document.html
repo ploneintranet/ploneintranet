@@ -1,0 +1,37 @@
+---
+layout: panel
+title: Create document
+action: "/open-market-committee/#sidebar"
+inject: ""
+buttons: 
+  - label: Create
+    class: 'icon-ok-circle close-panel'
+    type: submit
+  - label: Cancel
+    type: button
+    class: 'icon-cancel-circle close-panel'
+application: workspace
+application_name: Workspace
+design_title: Create document panel
+design_description: Dialogue box for creating a new document.
+---
+
+
+<fieldset class="icon-tabs">
+    <label class="icon-doc-text">
+        <input checked="checked" name="document-type" value="rich" type="radio"> Rich text
+    </label>
+    <label class="icon-slides">
+        <input name="document-type" value="slideshow" type="radio"> Slideshow
+    </label>
+    <label class="icon-calendar">
+        <input name="document-type" value="event" type="radio"> Event
+    </label>
+    <label class="icon-file-image">
+        <input name="document-type" value="image" type="radio"> Image
+    </label>
+</fieldset>
+<fieldset class="vertical">
+    <input type="text" placeholder="Document title" autofocus />
+    <textarea name="description" rows="6" placeholder="Description for search results (Optional)"></textarea>
+</fieldset>

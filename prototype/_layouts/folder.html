@@ -1,0 +1,70 @@
+---
+layout: workspace
+template: generic
+workspace_module: docs
+---
+
+<div class="metadata">
+    <form class="meta-data pat-autosubmit pat-inject" action="out-of-the-box.html#doc-title" data-pat-inject="#doc-title::element">
+        <input type="text" placeholder="Document title" name="out-of-the-box.html#breadcrumbs" value="{{ page.title }}" class="doc-title" />
+        <div class="quick-functions">
+            <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: messages.html; source: #workflow-state-changed::element;">
+                <select>
+                    <option>Private</option>
+                    <option>Public</option>
+                    <option>Members</option>
+                    <option>Pending</option>
+                    <option>Logged in</option>
+                    <option>Internal</option>
+                    <option>External</option>
+                </select>
+            </fieldset>
+        </div>
+        <fieldset class="pat-collapsible closed meta-extra">
+            <p class="legend">Metadata</p>
+                <fieldset>
+                    <textarea name="description" title="Description" placeholder="Description"></textarea>
+                 </fieldset>
+
+                <fieldset class="versioning">
+                    <label>
+                        <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                    </label>
+                    <fieldset class="condensed pat-depend new-version-details" data-pat-depend="cmfeditions_save_new_version">
+                        <!--<label>Upload a new file
+                            <input type="file" name="file_file">
+                        </label>-->
+                        <label>
+                            <textarea placeholder="Change notes" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4"></textarea>
+                        </label>
+
+                        <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                    </fieldset>
+                </fieldset>
+                    <input type="hidden" name="redirect" value="http://theme.star.syslab.com/stardesk/workspaces/test-project/test-by-adrian/view">
+        </fieldset>
+    </form>
+</div>
+
+<div id="document-content">
+    {% if page.document_type == 'rich' %}
+        <article class="document {% if page.document_type == 'rich' %}rich{% endif %}">
+            {% if document.editable == "true" %}
+                <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
+                  <!--section class="page"-->
+                    <textarea class="pat-redactor" data-pat-redactor="toolbar-external: #editor-toolbar">
+                        {{ content }}
+                    </textarea>
+                </form>
+            {% else %}
+                {{ content }}
+            {% endif %}
+        </article>
+    {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
+        <article>
+            {% for preview in page.previews %}
+                <img src="{{ preview.url }}" alt="" class="page" />
+            {% endfor %}
+        </article>
+    {% endif %}
+</div>

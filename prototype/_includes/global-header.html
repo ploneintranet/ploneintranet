@@ -1,6 +1,8 @@
 <header id="global-header">
 
-    <a id="site-logo" href="./" class="logo"><img src="/media/logo.svg" alt="Plone intranet"></a>
+    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+
+    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Plone intranet"></a>
 
     <nav class="breadcrumbs">
 
@@ -9,73 +11,25 @@
         {% endif %}
 
         {% if page.application == 'workspace' %}
-            <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
-            <a class="switch current pat-tooltip" data-pat-tooltip="position-list: tl; position-policy: force; trigger: click; source: ajax" href="workspace-switch.html#workspace-siblings">Switch to sibling
-        workspace</a>
+            <a href="/workspaces.html">Workspaces</a> <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
         {% endif %}
     </nav>
 
-    {% include patterns/avatar.html attributes="data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax'" link="global-personal-settings.html#settings" id="user-avatar" class="pat-tooltip" img="/media/avatar-liz.jpg" name="Liz Baker" %}
+    {% unless page.id == '/' %}
+        
+        {% include patterns/avatar.html attributes="data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax'" link="/global-personal-settings.html#settings" id="user-avatar" class="pat-tooltip" img="/media/avatar-liz.jpg" name="Liz Baker" %}
 
-    <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
 
-    <a href="notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
-        Notifications <sup id="online-count" class="counter digit-2">4</sup>
-    </a>
+        <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
+            Notifications <sup id="online-count" class="counter digit-2">4</sup>
+        </a>
+    {% endunless %}
 
-<!--     <a class="pat-tooltip icon icon-cog iconified settings" data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: content" href="#global-settings">Settings</a>
-    
-    <ul id="global-settings" hidden>
-        <li>
-            Whatever setting
-        </li>
-    </ul> -->
-
-    <form action="search#content" class="search state-closed pat-inject" data-pat-inject="#content::element" id="global-nav-search"
-    name="global-nav-search">
-
-        <fieldset class="search vertical pat-switch" data-pat-switch="#global-nav-search state-* state-open">
-            <input class="search content pat-depends pat-autofocus" data-pat-depends="condition: advanced-search = SearchableText" name=
-            "SearchableText" placeholder="Search through content…" type="text">
-
-            <div class="search tag pat-depends pat-autosuggest" data-pat-depends="condition: advanced-search = Subject">
-                <input class="pat-autosuggest pat-autofocus" data-pat-autosuggest="words: Apple, Pear, Banana; placeholder: Search by tag…"
-                data-placeholder="Search by tag…" name="Subject" type="text">
-            </div>
-
-            <div class="search tag pat-depends pat-autosuggest" data-pat-depends="condition: advanced-search = Creator">
-                <input class="pat-autosuggest pat-autofocus" data-pat-autosuggest=
-                "words: Alexander Pilz, Cornelis G. A. Kolbach, Janet Northcote, webworkadmin@staralliance.com; placeholder: Search by author…"
-                data-placeholder="Search by author…" name="Creator" type="text">
-            </div><label class="filter type">Search by <select id="advanced-search">
-                <option selected value="SearchableText">
-                    Matching document content
-                </option>
-
-                <option value="Subject">
-                    Documents with matching tag(s)
-                </option>
-
-                <option value="Creator">
-                    Author name
-                </option>
-            </select></label> <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
-        </fieldset>
-
-        <button class="iconified icon-cancel-circle-open pat-switch" data-pat-switch="#global-nav-search state-* state-closed" type=
-        "reset">Reset</button>
-
+    <form action="search-results.html" class="search" id="global-nav-search">
+        <label>
+            <input class="search" name="SearchableText" placeholder="Search through content…" type="text">
+        </label>
+        <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
-
-    {% if page.application == 'stardesk-administration' %}
-        <a href="@@toolbar" class="pat-inject" data-pat-inject="source: #project-header; target: #project-header; trigger: autoload-visible && source: #global-header; target: #global-header"></a>
-    {% endif %}
 </header>
-
-<nav class="tabs navigation" id="home-tabs">
-	<a href="index.html">Activity</a>
-	<a href="#">News</a>
-	<a href="workspaces.html">Workspaces</a>
-	<a href="#">Messages</a>
-	<a href="#">Apps</a>
-</nav>

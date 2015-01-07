@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.pat-collapsible {
+  display: none;
+
+  &.open,
+  &.closed {
+    display: inherit;
+  }
+}

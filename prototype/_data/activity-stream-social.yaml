@@ -1,17 +1,24 @@
+- userid: charlotte-holzer
+  activity: published
+  datestamp: 2 hours ago
+  likes: 0
+  shares: 0
+  # text: "This is my draft for the budget proposal."
+  preview: '/media/budget-proposal.png'
+
 - userid: jeff-peters
   activity: posted
   datestamp: just now
   likes: 3
   shares: 8
-  text: "I'm outta here!"
-  comments:
+  text: "Anyone who cares for a lift to location of tonight's company dinner?"
 
 - userid: jeff-peters
   activity: posted
   datestamp: 4 minutes ago
   likes: 3
   shares: 8
-  text: "This has been a long week."
+  text: "I would like to share this presentation that I found with everybody who also likes to give engaging presentations."
   preview: '/media/preview-how-to-make-beautiful-powerpoint.jpg'
   comments:
     - userid: adrian-white

@@ -1,44 +1,47 @@
-from datetime import datetime
-from datetime import timedelta
-from plone import api
-from zExceptions import NotFound
-from zope.publisher.browser import BrowserPage
 from zope.publisher.browser import BrowserView
+from ploneintranet.theme.interfaces import IThemeSpecific
+from z3c.form.interfaces import IAddForm
+from Products.Archetypes.utils import shasattr
 from Acquisition import aq_inner
-import logging
-
-log = logging.getLogger(__name__)
 
 
-class ExampleDragAndDropUpload(BrowserView):
-    """ A view to serve as an example of drag & drop uploading.
+class DexterityFormMixin(object):
+    """ Mixin View that provides extra methods for custom Add/Edit Dexterity
+        forms.
     """
 
+    def __getitem__(self, key, silent=False):
+        """ Allows us to get field values from the template.
+            For example using either view/title or view['title']
 
-class ExampleResourcePolling(BrowserView):
-    """ A view to serve as an example of how to use pat-resourcepolling
-    """
+            Enables us to have one form for both add/edit
+        """
+        if IAddForm.providedBy(self):
+            return self.request.get(key, None)
 
-    def get_images(self):
-        catalog = api.portal.get_tool('portal_catalog')
-        return catalog(portal_type='Image', path=self.context.getPhysicalPath())
+        if key == 'macros':
+            return self.index.macros
 
+        if key in self.request:
+            return self.request.get(key)
 
-class ExampleFilePreview(BrowserPage):
-    """ A view to serve as an example of file previews (e.g. via docconv)
-    """
-
-    def __call__(self, *args, **kw):
-        seconds = 10;
         context = aq_inner(self.context)
-        if not hasattr(context, '_v_wait'):
-            context._v_wait = datetime.now() + timedelta(seconds=seconds)
-            log.info("Set waiting time to %s seconds" % seconds)
-        if context._v_wait <= datetime.now():
-            log.info("Waiting time exceeded, resetting.")
-            del context._v_wait
-            return self.request.RESPONSE.redirect(context.absolute_url())
-        else:
-            log.info("Waiting time not yet exceeded.")
-            raise NotFound
+        if hasattr(self.context, key):
+            return getattr(context, key)
+
+        elif shasattr(context, 'Schema'):
+            field = context.Schema().get(key)
+            if field is not None:
+                return field.get(context)
+
+        if not silent:
+            raise KeyError('Could not get key %s in the request or context' % key)
+
+
+class IsThemeEnabled(BrowserView):
+
+    def __call__(self):
+        """ """
+        return IThemeSpecific.providedBy(self.request)
+
 

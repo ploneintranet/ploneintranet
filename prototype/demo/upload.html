@@ -5,13 +5,17 @@ design_title: Update social
 design_description: "File uploader widget based on Dropzone.js"
 ---
 
+<div class="container">
+	
 <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload">
-	<label><input type="file" multiple> Upload files</label>
+	<label class="accessibility-options">
+		<input type="file" multiple> Upload files
+	</label>
 </fieldset>
 
 <!-- Study with static generated markup -->
 
-<form action="http://www.torrentplease.com/dropzone.php" class="dropzone dz-clickable dz-started" id="demo-upload">
+<!-- <form action="http://www.torrentplease.com/dropzone.php" class="dropzone dz-clickable dz-started" id="demo-upload">
 	<div class="dz-default dz-message">
 		<span>Drop files here to upload</span>
 	</div>
@@ -78,4 +82,5 @@ design_description: "File uploader widget based on Dropzone.js"
 		<div class="dz-error-message"><span data-dz-errormessage=""></span></div>
 		<a class="dz-remove" href="javascript:undefined;" data-dz-remove="">Remove file</a>
 	</div>
-</form>
+</form> -->
+</div>

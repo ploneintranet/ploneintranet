@@ -3,8 +3,18 @@ layout: shell
 template: home
 ---
 
-<div id="content" class="application">
-	{{ content }}
+<div id="content">
+	<nav class="tabs navigation pat-bumper" id="home-tabs">
+		<a href="/dashboard.html" {% if page.url == '/dashboard.html' %}class="current"{% endif %}>Dashboard</a>
+		<a href="/news.html" {% if page.url == '/news.html' %}class="current"{% endif %}>News</a>
+		<a href="/workspaces.html" {% if page.url == '/workspaces.html' %}class="current"{% endif %}>Workspaces</a>
+		<a href="#" {% if page.url == '/messages.html' %}class="current"{% endif %}>Messages</a>
+		<a href="/apps.html" {% if page.url == '/apps.html' %}class="current"{% endif %}>Apps</a>
+	</nav>
+
+	<div class="container">
+		{{ content }}
+	</div>
 </div>
 
 {% include global-header.html %}

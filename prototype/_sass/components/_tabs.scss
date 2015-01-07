@@ -1,5 +1,20 @@
+@charset "UTF-8";
+
 .tabs {
   text-align: center;
+  line-height: 3em;
+  height: 2.9em;
+  overflow: hidden;
+  border-bottom: silver 0.1em solid;
+  background-color: white;
+  transition: line-height .5s, opacity .5s, height .5s, font-size .5s;
+
+  &.bumped {
+    opacity: 0.9;
+    line-height: 2.1em;
+    height: 2em;
+    font-size: 0.8em;
+  }
 
   ul {
     text-align: center;
@@ -8,22 +23,23 @@
   a {
     display: inline-block;
     padding: 0 1.5em;
-    height: 52px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    position: relative;
 
-    &.current {
-      border-bottom: 0.25em solid #0081be;
+    &.current:after {
+      position: absolute;
+      content: " ";
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 0.4em solid #0081be;
     }
   }
 
   &#home-tabs {
-    position: absolute;
-    top: 32px;
-    left: 0;
-    right: 0;
     z-index: 2;
-    line-height: 54px;
+    margin-bottom: 3em;
+    @include screen-size(small) {
+      display: none;
+    }
   }
 }

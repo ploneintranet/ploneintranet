@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 #global-header {
     height: 32px;
     background-color: $colour-base;
@@ -8,7 +10,12 @@
     padding-left: 15px;
     color: $colour-header-elements;
     padding-right: 3.1em;
-    z-index: 10;
+    z-index: 0;
+
+    @include screen-size(small) {
+        zoom: 1.5;
+        background-color: darken($colour-base, 10%);
+    }
 }
 
 .application-portal #global-header {

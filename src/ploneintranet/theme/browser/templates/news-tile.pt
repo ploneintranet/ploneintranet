@@ -1,0 +1,58 @@
+<html>
+<body>
+    <div class="news portlet" id="portlet-news">
+        <h2 class="portlet-title"><a href="/news.html">News</a></h2>
+        <div class="news-block" id="unread-news">
+            <!-- XXX: tal repleat over real news -->
+            <article class="item item-1">
+                <a href="/news-press-2">
+                    <img class="illustration" src="++theme++ploneintranet.theme/generated/media/new-delhi-skyline.jpg" alt="" />
+                    <!--  -->
+
+                    <h3 class="title">
+                        Air India Joins Star Alliance
+                    </h3>
+                    <p class="description">
+                        First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market <!-- <em>Read more…</em> -->
+                    </p>
+                </a>
+                <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
+                    <button type="submit" class="icon-ok">Mark read</button>
+                </form>
+            </article>
+            <article class="item item-2">
+                <a href="/news-press-1">
+                    <img class="illustration" src="++theme++ploneintranet.theme/generated/media/corporate.png" alt="" />
+                    <!--  -->
+
+                    <h3 class="title">
+                        Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3
+                    </h3>
+                    <p class="description">
+                        Star Alliance officially opened its new Lounge at São Paulo –Guarulhos Airport, Terminal 3 today. About 1,350 square metres in size, the lounge can accommoda... <!-- <em>Read more…</em> -->
+                    </p>
+                </a>
+                <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
+                    <button type="submit" class="icon-ok">Mark read</button>
+                </form>
+            </article>
+            <article class="item item-3">
+                <a href="/star-news-3">
+                    <img class="illustration" src="++theme++ploneintranet.theme/generated/media/ethiopian-ana-thumb.jpg" alt="" />
+                    <!--  -->
+
+                    <h3 class="title">
+                        ANA and Ethiopian to codeshare
+                    </h3>
+                    <p class="description">
+                        In December, 2011 both airlines began reciprocal frequent flyer program awards. <!-- <em>Read more…</em> -->
+                    </p>
+                </a>
+                <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
+                    <button type="submit" class="icon-ok">Mark read</button>
+                </form>
+            </article>
+        </div>
+    </div>
+</body>
+</html>

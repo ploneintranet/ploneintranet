@@ -1,0 +1,2071 @@
+---
+layout: generic
+application: calendar
+application_name: Calendar
+class: sidebar-left-open buddies-off
+design_title: Calendar
+design_description: Calendar application. Also sometime referred to as 'The central calendar'.
+---
+
+      <div class="appBody">
+        <div class="toolbar" id="toolbar-main">
+            <div class="sidebar-controls">
+                <button class="icon-list pat-toggle" id="sidebar-toggle" data-pat-toggle="selector: body; value: sidebar-left-open sidebar-left-closed; store: local" title="Toggle sidebar">Toggle sidebar</button>
+
+                <a href="panel-create-event.html#content" id="document-filters" class="icon-plus-circle button pat-tooltip active" data-pat-tooltip="source: ajax; position: tl; closing: close-button; class: event wizard">Create event</a>
+
+            </div>
+            <div class="document-controls cal-controls">
+                <fieldset class="button-cluster float-before">
+                  <button type="button" class="view-month">Month</button>
+                  <button type="button" class="view-week">Week</button>
+                  <button type="button" class="view-day">Day</button>
+                </fieldset>
+
+                <label class="timezone float-after">
+                    <select name="timezone" class="timezone">
+                        <option value="Pacific/Midway" data-use-daylight-time="0" gmt-adjustment="-11" data-timezone-id="02">(GMT-11:00) Midway Island, Samoa</option>
+                        <option value="US/Hawaii" data-use-daylight-time="0" gmt-adjustment="-10" data-timezone-id="03">(GMT-10:00) Hawaii</option>
+                        <option value="US/Alaska" data-use-daylight-time="1" gmt-adjustment="-9" data-timezone-id="04">(GMT-09:00) Alaska</option>
+                        <option value="US/Pacific" data-use-daylight-time="1" gmt-adjustment="-8" data-timezone-id="05">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+                        <option value="America/Tijuana" data-use-daylight-time="1" gmt-adjustment="-8" data-timezone-id="06">(GMT-08:00) Tijuana, Baja California</option>
+                        <option value="US/Arizona" data-use-daylight-time="0" gmt-adjustment="-7" data-timezone-id="07">(GMT-07:00) Arizona</option>
+                        <option value="America/Chihuahua" data-use-daylight-time="1" gmt-adjustment="-7" data-timezone-id="08">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+                        <option value="US/Mountain" data-use-daylight-time="1" gmt-adjustment="-7" data-timezone-id="09">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                        <option value="America/Guatemala" data-use-daylight-time="0" gmt-adjustment="-6" data-timezone-id="10">(GMT-06:00) Central America</option>
+                        <option value="US/Central" data-use-daylight-time="1" gmt-adjustment="-6" data-timezone-id="11">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                        <option value="America/Mexico_City" data-use-daylight-time="1" gmt-adjustment="-6" data-timezone-id="12">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+                        <option value="Canada/Saskatchewan" data-use-daylight-time="0" gmt-adjustment="-6" data-timezone-id="13">(GMT-06:00) Saskatchewan</option>
+                        <option value="America/Bogota" data-use-daylight-time="0" gmt-adjustment="-5" data-timezone-id="14">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+                        <option value="US/Eastern" data-use-daylight-time="1" gmt-adjustment="-5" data-timezone-id="15">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                        <option value="US/East-Indiana" data-use-daylight-time="1" gmt-adjustment="-5" data-timezone-id="16">(GMT-05:00) Indiana (East)</option>
+                        <option value="America/Caracas" data-use-daylight-time="0" gmt-adjustment="-4.5" data-timezone-id="17">(GMT-04:30) Caracas</option>
+                        <option value="Canada/Atlantic" data-use-daylight-time="1" gmt-adjustment="-4" data-timezone-id="18">(GMT-04:00) Atlantic Time (Canada)</option>
+                        <option value="America/Manaus" data-use-daylight-time="0" gmt-adjustment="-4" data-timezone-id="19">(GMT-04:00) Manaus</option>
+                        <option value="America/Santiago" data-use-daylight-time="1" gmt-adjustment="-4" data-timezone-id="20">(GMT-04:00) Santiago</option>
+                        <option value="Canada/Newfoundland" data-use-daylight-time="1" gmt-adjustment="-3.5" data-timezone-id="21">(GMT-03:30) Newfoundland</option>
+                        <option value="America/Sao_Paulo" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="22">(GMT-03:00) Brasilia</option>
+                        <option value="America/Argentina/Buenos_Aires" data-use-daylight-time="0" gmt-adjustment="-3" data-timezone-id="23">(GMT-03:00) Buenos Aires, Georgetown</option>
+                        <option value="America/Godthab" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="24">(GMT-03:00) Greenland (Nuuk)</option>
+                        <option value="America/Montevideo" data-use-daylight-time="1" gmt-adjustment="-3" data-timezone-id="25">(GMT-03:00) Montevideo</option>
+                        <option value="Atlantic/Azores" data-use-daylight-time="1" gmt-adjustment="-2" data-timezone-id="26">(GMT-02:00) Mid-Atlantic</option>
+                        <option value="Atlantic/Cape_Verde" data-use-daylight-time="0" gmt-adjustment="-1" data-timezone-id="27">(GMT-01:00) Cape Verde Is.</option>
+                        <option value="Atlantic/Azores" data-use-daylight-time="1" gmt-adjustment="-1" data-timezone-id="28">(GMT-01:00) Azores</option>
+                        <option value="Africa/Casablanca" data-use-daylight-time="0" gmt-adjustment="0" data-timezone-id="29">(GMT+00:00) Casablanca, Monrovia, Reykjavik</option>
+                        <option value="Europe/London" data-use-daylight-time="1" gmt-adjustment="0" data-timezone-id="30">(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                        <option value="Europe/Berlin" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="31">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+                        <option value="Europe/Belgrade" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="32">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+                        <option value="Europe/Brussels" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="33">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                        <option value="Europe/Sarajevo" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="34">(GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+                        <option value="Africa/Algiers" data-use-daylight-time="1" gmt-adjustment="1" data-timezone-id="35">(GMT+01:00) West Central Africa</option>
+                        <option value="Asia/Amman" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="36">(GMT+02:00) Amman</option>
+                        <option value="Europe/Athens" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="37">(GMT+02:00) Athens, Bucharest, Istanbul</option>
+                        <option value="Asia/Beirut" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="38">(GMT+02:00) Beirut</option>
+                        <option value="Africa/Cairo" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="39">(GMT+02:00) Cairo</option>
+                        <option value="Africa/Harare" data-use-daylight-time="0" gmt-adjustment="2" data-timezone-id="40">(GMT+02:00) Harare, Pretoria</option>
+                        <option value="Europe/Helsinki" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="41">(GMT+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+                        <option value="Asia/Jerusalem" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="42">(GMT+02:00) Jerusalem</option>
+                        <option value="Europe/Minsk" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="43">(GMT+02:00) Minsk</option>
+                        <option value="Africa/Windhoek" data-use-daylight-time="1" gmt-adjustment="2" data-timezone-id="44">(GMT+02:00) Windhoek</option>
+                        <option value="Asia/Kuwait" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="45">(GMT+03:00) Kuwait, Riyadh, Baghdad</option>
+                        <option value="Europe/Moscow" data-use-daylight-time="1" gmt-adjustment="3" data-timezone-id="46">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
+                        <option value="Africa/Nairobi" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="47">(GMT+03:00) Nairobi</option>
+                        <option value="Asia/Tbilisi" data-use-daylight-time="0" gmt-adjustment="3" data-timezone-id="48">(GMT+03:00) Tbilisi</option>
+                        <option value="Asia/Tehran" data-use-daylight-time="1" gmt-adjustment="3.5" data-timezone-id="49">(GMT+03:30) Tehran</option>
+                        <option value="Asia/Muscat" data-use-daylight-time="0" gmt-adjustment="4" data-timezone-id="50">(GMT+04:00) Abu Dhabi, Muscat</option>
+                        <option value="Asia/Baku" data-use-daylight-time="1" gmt-adjustment="4" data-timezone-id="51">(GMT+04:00) Baku</option>
+                        <option value="Asia/Yerevan" data-use-daylight-time="1" gmt-adjustment="4" data-timezone-id="52">(GMT+04:00) Yerevan</option>
+                        <option value="Asia/Kabul" data-use-daylight-time="0" gmt-adjustment="4.5" data-timezone-id="53">(GMT+04:30) Kabul</option>
+                        <option value="Asia/Yekaterinburg" data-use-daylight-time="1" gmt-adjustment="5" data-timezone-id="54">(GMT+05:00) Yekaterinburg</option>
+                        <option value="Asia/Karachi" data-use-daylight-time="0" gmt-adjustment="5" data-timezone-id="55">(GMT+05:00) Islamabad, Karachi, Tashkent</option>
+                        <option value="Asia/Kolkata" data-use-daylight-time="0" gmt-adjustment="5.5" data-timezone-id="56">(GMT+05:30) Sri Jayawardenapura</option>
+                        <option value="Asia/Kolkata" data-use-daylight-time="0" gmt-adjustment="5.5" data-timezone-id="57">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                        <option value="Asia/Kathmandu" data-use-daylight-time="0" gmt-adjustment="5.75" data-timezone-id="58">(GMT+05:45) Kathmandu</option>
+                        <option value="Asia/Novosibirsk" data-use-daylight-time="1" gmt-adjustment="6" data-timezone-id="59">(GMT+06:00) Almaty, Novosibirsk</option>
+                        <option value="Asia/Dhaka" data-use-daylight-time="0" gmt-adjustment="6" data-timezone-id="60">(GMT+06:00) Astana, Dhaka</option>
+                        <option value="Asia/Rangoon" data-use-daylight-time="0" gmt-adjustment="6.5" data-timezone-id="61">(GMT+06:30) Yangon (Rangoon)</option>
+                        <option value="Asia/Bangkok" data-use-daylight-time="0" gmt-adjustment="7" data-timezone-id="62">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+                        <option value="Asia/Krasnoyarsk" data-use-daylight-time="1" gmt-adjustment="7" data-timezone-id="63">(GMT+07:00) Krasnoyarsk</option>
+                        <option value="Asia/Hong_Kong" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="64">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+                        <option value="Asia/Singapore" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="65">(GMT+08:00) Kuala Lumpur, Singapore</option>
+                        <option value="Asia/Irkutsk" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="66">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
+                        <option value="Australia/Perth" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="67">(GMT+08:00) Perth</option>
+                        <option value="Asia/Taipei" data-use-daylight-time="0" gmt-adjustment="8" data-timezone-id="68">(GMT+08:00) Taipei</option>
+                        <option value="Asia/Tokyo" data-use-daylight-time="0" gmt-adjustment="9" data-timezone-id="69">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
+                        <option value="Asia/Seoul" data-use-daylight-time="0" gmt-adjustment="9" data-timezone-id="70">(GMT+09:00) Seoul</option>
+                        <option value="Asia/Yakutsk" data-use-daylight-time="1" gmt-adjustment="9" data-timezone-id="71">(GMT+09:00) Yakutsk</option>
+                        <option value="Australia/Adelaide" data-use-daylight-time="0" gmt-adjustment="9.5" data-timezone-id="72">(GMT+09:30) Adelaide</option>
+                        <option value="Australia/Darwin" data-use-daylight-time="0" gmt-adjustment="9.5" data-timezone-id="73">(GMT+09:30) Darwin</option>
+                        <option value="Australia/Brisbane" data-use-daylight-time="0" gmt-adjustment="10" data-timezone-id="74">(GMT+10:00) Brisbane</option>
+                        <option value="Australia/Sydney" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="75">(GMT+10:00) Canberra, Melbourne, Sydney</option>
+                        <option value="Australia/Hobart" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="76">(GMT+10:00) Hobart</option>
+                        <option value="Pacific/Guam" data-use-daylight-time="0" gmt-adjustment="10" data-timezone-id="77">(GMT+10:00) Guam, Port Moresby</option>
+                        <option value="Asia/Vladivostok" data-use-daylight-time="1" gmt-adjustment="10" data-timezone-id="78">(GMT+10:00) Vladivostok</option>
+                        <option value="Asia/Magadan" data-use-daylight-time="1" gmt-adjustment="11" data-timezone-id="79">(GMT+11:00) Magadan, Solomon Is., New Caledonia</option>
+                        <option value="Pacific/Auckland" data-use-daylight-time="1" gmt-adjustment="12" data-timezone-id="80">(GMT+12:00) Auckland, Wellington</option>
+                        <option value="Pacific/Fiji" data-use-daylight-time="0" gmt-adjustment="12" data-timezone-id="81">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                        <option value="Pacific/Fakaofo" data-use-daylight-time="0" gmt-adjustment="13" data-timezone-id="82">(GMT+13:00) Nuku'alofa</option>
+                    </select>
+                </label>
+
+                <a href="#extra-functions" class="float-after pat-tooltip dropdown button" data-pat-tooltip="source: ajax; position: tl;">More</a>
+
+                <div hidden id="extra-functions">
+                    <ul class="menu">
+                        <li>
+                            <a href="#" class="icon-cog">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="document-body">
+            <div id="document-content">
+                <div id="calendar-app" class="pat-calendar"
+                    data-pat-calendar="
+                        first-hour: 8;
+                        first-day: mo;
+                        time-format: H:mm;
+                        height: auto;
+                        title-day: dddd, D MMM YYYY;
+                        column-week: ddd D MMM;
+                        calendar-controls: .cal-controls;
+                        category-controls: .cal-categories;
+                        drag-and-drop: true;
+                        drop-external-events: true;
+                        external-event-selector: .cal-event;
+                        store: local"
+                    data-pat-calendar-tooltip="height: max;
+                        source: ajax;
+                        url: panel-create-event.html#content;
+                        class: event wizard;
+                    ">
+                    <h1 class="cal-title">
+                        Calendar
+                    </h1>
+
+                    <fieldset class="cal-nav cal-controls">
+                        <button class="jump-prev" title="Back" type="button">&lt;</button> 
+                        <button class="jump-today" title="Today" type="button">Today</button>
+                        <button class="jump-next" title="Forward" type="button">&gt;</button>
+                    </fieldset>
+
+                    <div class="calendar">
+                        <ul class="cal-events">
+						<!-- start imported events -->
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Safety Committee
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-11T08:00Z">11 March 2013, 08:00</time>
+                                            Ends <time class="end" datetime="2013-03-11T16:00Z">11 March 2013, 16:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        BOS Managers Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-11T13:00Z">11 February 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-02-13T13:30Z">13 February 2013, 13:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Fuel Group Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-06T09:00Z">06 May 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-05-06T15:30Z">06 May 2013, 15:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Post-AMB Meeting Debrief Call 2
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-17T16:30Z">17 April 2013, 16:30</time>
+                                            Ends <time class="end" datetime="2013-04-17T17:30Z">17 April 2013, 17:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Post-AMB Meeting Debrief Call 1
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-17T09:00Z">17 April 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-04-17T10:30Z">17 April 2013, 10:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Loyalty Committee Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-20T09:00Z">20 February 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-02-20T18:00Z">20 February 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Marketing Strategy Team Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-22T10:00Z">22 May 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-05-23T14:00Z">23 May 2013, 14:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Marketing Committee Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-19T09:00Z">19 February 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-02-19T18:00Z">19 February 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Loyalty Strategy Team Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-11T10:00Z">11 July 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-07-12T14:00Z">12 July 2013, 14:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Commercial Cooperation
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-10T09:00Z">10 October 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-10-10T18:00Z">10 October 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Commercial Cooperation Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-21T09:00Z">21 February 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-02-21T18:00Z">21 February 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        S/CBD Team meeting off-site
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-14T09:00Z">14 May 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-05-15T17:00Z">15 May 2013, 17:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Corporate Communications Committee Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-22T09:00Z">22 May 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-05-23T18:00Z">23 May 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        CEB Briefing Call Option 1
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-06T16:30Z">06 June 2013, 16:30</time>
+                                            Ends <time class="end" datetime="2013-06-06T17:00Z">06 June 2013, 17:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        CEB Briefing Call Option 2
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-07T10:00Z">07 June 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-06-07T10:30Z">07 June 2013, 10:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        TST
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-08-03T11:25Z">03 August 2013, 11:25</time>
+                                            Ends <time class="end" datetime="2013-08-03T15:25Z">03 August 2013, 15:25</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        COMST Conference call
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-24T13:00Z">24 June 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-06-24T14:00Z">24 June 2013, 14:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Test #7041 Purple Allowance
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-22T18:58Z">22 March 2013, 18:58</time>
+                                            Ends <time class="end" datetime="2013-03-22T18:59Z">22 March 2013, 18:59</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Test #6602
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-19T10:35Z">19 February 2013, 10:35</time>
+                                            Ends <time class="end" datetime="2013-02-19T10:35Z">19 February 2013, 10:35</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Star Alliance CH Sales Force Workshop
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-23T13:00Z">23 May 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-05-23T17:00Z">23 May 2013, 17:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-16T13:00Z">16 April 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-04-16T15:00Z">16 April 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG/CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-11-21T10:00Z">21 November 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-11-21T15:00Z">21 November 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-16T10:00Z">16 April 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-04-16T12:00Z">16 April 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE  CSMG/CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-18T10:00Z">18 April 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-04-18T15:00Z">18 April 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-05-07T10:00Z">07 May 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-05-07T12:00Z">07 May 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-11T13:00Z">11 June 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-06-11T15:00Z">11 June 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-11-28T13:00Z">28 November 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-11-28T15:00Z">28 November 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Avianca Full Carrier Audit
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-24T11:00Z">24 June 2013, 11:00</time>
+                                            Ends <time class="end" datetime="2013-06-28T19:00Z">28 June 2013, 19:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        TG full carrier audit
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-01T08:00Z">01 July 2013, 08:00</time>
+                                            Ends <time class="end" datetime="2013-07-04T19:00Z">04 July 2013, 19:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-08T10:00Z">08 July 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-07-08T12:00Z">08 July 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-08-27T10:00Z">27 August 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-08-27T12:00Z">27 August 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Legal Committee Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-17T17:00Z">17 February 2013, 17:00</time>
+                                            Ends <time class="end" datetime="2013-02-17T18:30Z">17 February 2013, 18:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB SC
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-16T09:00Z">16 October 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-10-17T17:30Z">17 October 2013, 17:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB SC
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-06T09:00Z">06 June 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-06-07T17:30Z">07 June 2013, 17:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Committee Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-19T09:00Z">19 February 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-02-21T17:30Z">21 February 2013, 17:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB SC
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-06T09:00Z">06 March 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-03-07T17:30Z">07 March 2013, 17:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-01T10:00Z">01 March 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-03-01T12:00Z">01 March 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-05T10:00Z">05 April 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-04-05T12:00Z">05 April 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-07T10:00Z">07 June 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-06-07T12:00Z">07 June 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-08-30T10:00Z">30 August 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-08-30T12:00Z">30 August 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-01-25T10:00Z">25 January 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-01-25T12:00Z">25 January 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-09T09:00Z">09 July 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-07-10T18:00Z">10 July 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-21T10:00Z">21 February 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-02-21T12:00Z">21 February 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-05T10:00Z">05 February 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-02-05T12:00Z">05 February 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-05T10:00Z">05 March 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-03-05T12:00Z">05 March 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-21T13:00Z">21 February 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-02-21T15:00Z">21 February 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        ASCEND Training
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-23T08:00Z">23 October 2013, 08:00</time>
+                                            Ends <time class="end" datetime="2013-10-24T16:00Z">24 October 2013, 16:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        IN 2013 CSC
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-08-07T12:00Z">07 August 2013, 12:00</time>
+                                            Ends <time class="end" datetime="2013-08-07T02:00Z">07 August 2013, 02:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Test
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2014-03-01T14:12Z">01 March 2014, 14:12</time>
+                                            Ends <time class="end" datetime="2014-03-01T14:20Z">01 March 2014, 14:20</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Test
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2014-03-01T14:12Z">01 March 2014, 14:12</time>
+                                            Ends <time class="end" datetime="2014-03-01T14:20Z">01 March 2014, 14:20</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-11-12T09:00Z">12 November 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-11-13T18:00Z">13 November 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        TEST
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2014-07-20T20:00Z">20 July 2014, 20:00</time>
+                                            Ends <time class="end" datetime="2014-07-20T20:01Z">20 July 2014, 20:01</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Post-AMB Meeting Debrief Call Option 1
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-18T09:00Z">18 July 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-07-18T10:00Z">18 July 2013, 10:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Post-AMB Meeting Debrief Call Option 2
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-07-18T16:00Z">18 July 2013, 16:00</time>
+                                            Ends <time class="end" datetime="2013-07-18T17:00Z">18 July 2013, 17:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        CEB Strategy Forum
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-18T00:00Z">18 June 2013, 00:00</time>
+                                            Ends <time class="end" datetime="2013-06-19T22:00Z">19 June 2013, 22:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Emergency Response Committee
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-14T14:30Z">14 March 2013, 14:30</time>
+                                            Ends <time class="end" datetime="2013-03-15T13:00Z">15 March 2013, 13:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Fuel efficiency task force meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-06T08:00Z">06 February 2013, 08:00</time>
+                                            Ends <time class="end" datetime="2013-02-07T18:00Z">07 February 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        RAA meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-19T09:00Z">19 March 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-03-20T16:00Z">20 March 2013, 16:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        RAA SC
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-01-28T09:00Z">28 January 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-01-29T16:00Z">29 January 2013, 16:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Interline Settlement ad hoc group
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-19T09:00Z">19 June 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-06-19T18:00Z">19 June 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Star Alliance CH Sales Force Workshop Romandie
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-06-27T13:00Z">27 June 2013, 13:00</time>
+                                            Ends <time class="end" datetime="2013-05-27T18:30Z">27 May 2013, 18:30</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-11-28T10:00Z">28 November 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-11-28T12:00Z">28 November 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSC MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-02-28T10:00Z">28 February 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-02-28T12:00Z">28 February 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        AMB Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-04-10T09:00Z">10 April 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-04-11T18:00Z">11 April 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        CEB Meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-12-12T00:00Z">12 December 2013, 00:00</time>
+                                            Ends <time class="end" datetime="2013-12-13T23:55Z">13 December 2013, 23:55</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-25T10:00Z">25 October 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-10-25T12:00Z">25 October 2013, 12:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Committee Strategy Team Meetings
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-03-19T09:00Z">19 March 2013, 09:00</time>
+                                            Ends <time class="end" datetime="2013-03-22T18:00Z">22 March 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        MLA meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-01-22T10:00Z">22 January 2013, 10:00</time>
+                                            Ends <time class="end" datetime="2013-01-23T18:00Z">23 January 2013, 18:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+                        <li class="cal-event cal-cat-star-alliance-events all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Alliance Management Board meeting
+                                    </h4>
+                                    <p class="location">
+
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-11-12T12:00Z">12 November 2013, 12:00</time>
+                                            Ends <time class="end" datetime="2013-11-13T15:00Z">13 November 2013, 15:00</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+
+						<!-- stop imported events -->
+
+                        <li class="cal-event cal-cat-baggage-handling all-day">
+                          <a href="#" class="url external">
+                              <h4 class="title">
+                                  Read the patterns calendar documentation
+                              </h4>
+                              <ul class="details">
+                                  <li>
+                                      Starts <time class="start" datetime="2013-01-05">5 January 2013, 9:00 (UTC+2)</time>
+                                  </li>
+                                  <li>
+                                      Ends <time class="end" datetime="2013-01-08">8 January 2013, 17:00 (UTC+2)</time>
+                                  </li>
+                              </ul>
+                          </a>
+                        </li>
+                        <li class="cal-event cal-cat-baggage-handling all-day editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Patterns sprint
+                                    </h4>
+                                    <p class="location">
+                                        Munich
+                                    </p>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-01-11">11 January 2013</time>
+                                        </li>
+                                  <li>
+                                      Ends <time class="end" datetime="2013-01-11">11 January 2013</time>
+                                  </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event cal-cat-baggage-handling editable">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Prototype review
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-04T10:00Z">4 September 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-04T16:30Z">4 September 2013, 16:30 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <!-- Start Baggage Handling Events -->
+                        <li class="cal-event all-day cal-cat-baggage-handling">
+                            <h4 class="title">
+                          <a href="project-calendar-detail.html#content" class="pat-modal external">
+                              Report Deadline: Focus on Baggage
+                          </a>
+                            </h4>
+                            <p class="description">
+                              The new Report on "Focus on Baggage" goes out today.</p>
+                            <ul class="details">
+                              <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+                              <li>Ends <time class="end" datetime="2013-09-05">5 September 2013</time></li>
+                              <li>Location <span class="location">Star HQ, Germany</span></li>
+                            </ul>
+
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+
+                        <li class="cal-event all-day cal-cat-baggage-handling">
+                            <h4 class="title">
+                            <a href="project-calendar-detail.html#content" class="pat-modal external">Annual Baggage Handling Workgroup Meeting</a>
+                            </h4>
+                            <p class="description">
+                              Star Alliance is proud to offer its 10th annual Baggage Handling Workgroup Program in September 2013. This program provides you an introduction to the forecasting and optimization models found in baggage handling systems and focuses on recent research and new developments in baggage handling models for changing and less restricted baggage environments.</p>
+                            <ul class="details">
+                              <li>Starts <time class="start" datetime="2013-09-10">10 September 2013</time></li>
+                              <li>Ends <time class="end" datetime="2013-09-12">12 September 2013</time></li>
+                              <li>Location <span class="location">Frankfurt, Germany</span></li>
+                              <li>
+                                <label>Status
+                                  <select>
+                                    <option>Undecided</option>
+                                    <option selected>Confirm</option>
+                                    <option>Tentative</option>
+                                    <option>Decline</option>
+                                  </select>
+                                </label>
+                              </li>
+                            </ul>
+
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+                        <li class="cal-event all-day cal-cat-baggage-handling">
+                            <h4 class="title">
+                          <a href="project-calendar-detail.html#content" class="pat-modal external">
+                              Report Deadline: Key Flight Report
+                          </a>
+                            </h4>
+                            <p class="description">
+                              Key Flight Report Deadline</p>
+                            <ul class="details">
+                              <li>Ends <time class="end" datetime="2013-09-15">15 September 2013</time></li>
+                              <li>Starts <time class="start" datetime="2013-09-15">15 September 2013</time></li>
+                            </ul>
+
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+
+                        <li class="cal-event all-day cal-cat-baggage-handling">
+                            <h4 class="title">
+                          <a href="project-calendar-detail.html#content" class="pat-modal external">
+                              Face-to-Face Meeting (CPT)
+                          </a>
+                            </h4>
+                            <p class="description">
+                              Objective: To review current connection baggage performance overall and at the airports. Review current performance. Demonstration of the new baggage application and its potential to reduce delays.</p>
+                            <ul class="details">
+                              <li>Starts <time class="start" datetime="2013-09-19">19 September 2013</time></li>
+                              <li>Ends <time class="end" datetime="2013-09-20">20 September 2013</time></li>
+                              <li>Location <span class="location">Cape Town, South Africa</span></li>
+                              <li>
+                                <label>Status
+                                  <select>
+                                    <option>Undecided</option>
+                                    <option >Confirm</option>
+                                    <option selected>Tentative</option>
+                                    <option>Decline</option>
+                                  </select>
+                                </label>
+                              </li>
+
+                            </ul>
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+                        <li class="cal-event cal-cat-baggage-handling">
+                            <h4 class="title">
+                          <a href="project-calendar-detail.html#content" class="pat-modal external">
+                              Baffling Baggage Ball (CPT)
+                          </a>
+                            </h4>
+                            <p class="description">
+                              To celebrate another successful year with even less lost luggage!</p>
+                            <ul class="details">
+                              <li>Starts <time class="start" datetime="2013-09-20T18:00Z">20 September 2013, 18:00 (UTC+2)</time></li>
+                              <li>Ends <time class="end" datetime="2013-09-21T04:00Z">21 September 2013, 04:00 (UTC+2)</time></li>
+                              <li>Location <span class="location">Cape Town, South Africa</span></li>
+                              <li>
+                                <label>Status
+                                  <select>
+                                    <option>Undecided</option>
+                                    <option >Confirm</option>
+                                    <option selected>Tentative</option>
+                                    <option>Decline</option>
+                                  </select>
+                                </label>
+                              </li>
+
+                            </ul>
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+                        <li class="cal-event cal-cat-baggage-handling">
+                            <h4 class="title">
+                          <a href="project-calendar-detail.html#content" class="pat-modal external">
+                              FoB Savings update
+                          </a>
+                            </h4>
+                            <p class="description">
+                              Publication of the new "Mishandled Bag Files Created" Statistics</p>
+                            <ul class="details">
+                              <li>Starts <time class="start" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+                              <li>Ends <time class="end" datetime="2013-09-30T12:00Z">30 September 2013, 12:00 (UTC+2)</time></li>
+                              <li>Location <span class="location">Frankfurt, Germany</span></li>
+                            </ul>
+
+                          <form action=""><button type="submit" class="iconified icon-trash">Delete event</button></form>
+                        </li>
+                        <!-- End Baggage Handling Events -->
+
+                        <!-- Start Star Alliance Events -->
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                            <a href="some-event-details.html" class="url external" data-injection".modal">
+                                <h4 class="title">
+                                        Safety Stratey Team Meeting (Singapore)
+                                </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-09T09:00Z">9 September 2013, 09:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-09T17:00Z">9 September 2013, 17:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                       </li>
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Emergency Strategy Team Meeting (Singapore)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-09T09:00Z">9 September 2013, 09:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-09T17:00Z">9 September 2013, 17:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Marketing Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-10">10 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-11">11 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable all-day cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Customer Experience Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-10">10 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-11">11 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        IT Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-11">11 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-12">12 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Loyalty Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-11">11 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-12">12 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Commercial Cooperation Strategy Team Meeting (Radisson Blu Edwardian, Heathrow)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-12">12 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-13">13 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Membership Liaison and Quality Committee Meeting (Frankfurt)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-17">17 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-18">18 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        SAAT Meeting (South Mezzanine Conf)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-18T10:00Z">18 September 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-18T11:00Z">18 September 2013, 11:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG/CSC MEETING (BRU)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-19T10:00Z">19 September 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-19T15:00Z">19 September 2013, 15:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Revenue Management Education Program 2013 (Bangkok)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-23">23 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-27">27 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSMG MEETING (AMS)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-24">24 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-26">26 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR NL CSC MEETING (AMS)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-26T10:00Z">26 September 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-26T12:00Z">26 September 2013, 12:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        IT Committee Meeting - LHR (LHR)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-08">8 October 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-09">9 October 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Marketing Committee (LHR)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-08T09:00Z">8 October 2013, 09:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-08T18:00Z">8 October 2013, 18:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        STAR BE CSMG MEETING (BRU)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-08T10:00Z">8 October 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-08T12:00Z">8 October 2013, 12:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event all-day editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Customer Experience Committee Meeting - LHR (LHR)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-09">9 October 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-10">10 October 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Commercial Cooperation (LHR)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-10T09:00Z">10 October 2013, 09:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-10T18:00Z">10 October 2013, 18:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable cal-cat-star-alliance-events">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Loyalty Committee Meeting (LHR)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-10-09T09:00Z">9 October 2013, 09:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-10-09T18:00Z">9 October 2013, 18:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <!-- End Star Alliance Events -->
+                        <li class="cal-event editable all-day cal-cat-star-alliance-publications">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Release of the 2013 Network Facts & Figures
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-26T12:00Z">26 September 2013, 12:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-26T12:00Z">26 September 2013, 12:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <!-- Start Commercial Cooperation Strategy Team -->
+                        <li class="cal-event editable all-day cal-cat-commercial-strategy-team">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Performance Report Data Collection Meeting
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-20T10:00Z">20 September 2013, 10:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-20T11:30Z">20 September 2013, 11:30 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <!-- End Commercial Cooperation Strategy Team -->
+
+
+                        <!-- Start SAUA-->
+                        <li class="cal-event editable all-day cal-cat-saua">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Update: SAUA Product Feature Matrix All Carriers SEP13
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-13T14:00Z">13 September 2013, 14:00 (UTC+2)</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-13T14:00Z">20 September 2013, 14:00 (UTC+2)</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <!-- End SAUA -->
+
+
+                        <!-- Start Emergency Committee-->
+
+                        <li class="cal-event editable all-day cal-cat-emergency-committee">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        SCP ERCMTE Meeting
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-16">16 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-18">18 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <!-- End -->
+
+
+                        <!-- Start Blackout days-->
+                        <li class="cal-event editable all-day cal-cat-blackout-days">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Prolonged weekend of german unity (LH)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-06">6 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-09">9 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+                        <li class="cal-event editable all-day cal-cat-blackout-days">
+                                <a href="some-event-details.html" class="url external" data-injection".modal">
+                                    <h4 class="title">
+                                        Labour Day (JP, A3, AC, CA, NZ, NH, OZ, OS, AV, SN, CM, OU, MS, ET, BR, LO, LH, SK, ZH, SQ, SA, LX, JJ, TP, TG, TK, UA, US)
+                                    </h4>
+                                    <ul class="details">
+                                        <li>
+                                            Starts <time class="start" datetime="2013-09-19">19 September 2013</time>
+                                        </li>
+                                        <li>
+                                            Ends <time class="end" datetime="2013-09-19">19 September 2013</time>
+                                        </li>
+                                    </ul>
+                                </a>
+                        </li>
+
+                        <!-- End -->
+
+
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aside class="sidebar left" id="sidebar">
+            <div class="content">
+                <form action="calendar.html#document-body" class="pat-inject pat-autosubmit">
+                    <fieldset class="cal-categories">
+                        <div class="pat-collapsible">
+                            <h3>My calendars <a href="/help.md#My calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                           
+                            <fieldset class="pat-checklist cal-categories checklist">
+                                <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                                <div class="toggles functions button-cluster">
+                                    <button class="small select-all">Select all</button>
+                                    <button class="small deselect-all">Deselect all</button>
+                                </div>
+                                <label class="cal-cat-personal-calendar"><input type="checkbox" checked="checked" /> Personal calendar</label>
+
+                                    <!-- This list of workspaces is generated -->
+
+                                    {% for workspace in site.data.workspaces %}
+                                        {% capture ws_code %}{{ workspace.name | downcase | replace:' ','-' }}{% endcapture %}
+
+                                        <label class="cal-cat-{{ ws_code }}">
+                                            <input type="checkbox" checked />
+                                         {{ workspace.name }} <a href="wsl-{{ ws_code }}.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a>
+                                        </label>
+
+                                    {% endfor %}
+
+                                    <!-- Some extra 'fake' workspace follow below -->
+
+
+                                    <!-- The next calendar tick box appears only when 'Show all calendars' is ticked -->
+                                    <label class="cal-cat-commercial-strategy-team pat-depends" data-pat-depends="all-cals"><input type="checkbox" checked /> Commercial Cooperation Strategy Team <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                                    <label class="cal-cat-star-alliance-events"><input type="checkbox" checked /> Star Alliance events</label>
+                                    <label class="cal-cat-star-alliance-publications"><input type="checkbox" checked /> Star Alliance Publications <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                                </fieldset>
+                        </div>
+
+                        <div class="pat-collapsible">
+                            <h3>Events I'm invited to <a href="/help.md#Events I'm invited to" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                            <fieldset class="pat-checklist cal-categories checklist ">
+                                <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                                <!-- <div class="toggles functions button-cluster">
+                                    <button class="small select-all">Select all</button>
+                                    <button class="small deselect-all">Deselect all</button>
+                                </div> -->
+                                <label class="cal-cat-lorem-ipsum-dolor-sit-amet"><input type="checkbox" checked /> Lorem ipsum dolor sit</label>
+                            </fieldset>
+                        </div>
+
+                        <div class="pat-collapsible">
+                            <h3>Shared events <a href="/help.md#Shared events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                            <fieldset class="pat-checklist cal-categories checklist ">
+                                <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                                <!-- <div class="toggles functions button-cluster">
+                                    <button class="small select-all">Select all</button>
+                                    <button class="small deselect-all">Deselect all</button>
+                                </div> -->
+                                <label class="cal-cat-blackout-days"><input type="checkbox" checked /> Blackout Days</label>
+                            </fieldset>
+                        </div>
+
+                        <div class="pat-collapsible closed">
+                            <h3>Other calendars <a href="/help.md#Other calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                            <p>Other calendars that you have viewing rights on.</p>
+                            <fieldset class="pat-checklist cal-categories checklist ">
+                                <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                                <div class="toggles functions button-cluster">
+                                    <button class="small select-all">Select all</button>
+                                    <button class="small deselect-all">Deselect all</button>
+                                </div>
+                                <label class="cal-cat-emergency-committee"><input type="checkbox" /> Emergency Committee <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                                <label class="cal-cat-saua"><input type="checkbox" /> SAUA <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                            </fieldset>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </aside>
+      </div>
+

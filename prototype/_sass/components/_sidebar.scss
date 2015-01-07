@@ -1,12 +1,14 @@
+@charset "UTF-8";
+
 /* @group Sidebar */
 
-#content aside.sidebar.left {
-  left: 0;
+aside.sidebar.left {
+  left: 50px;
   position: absolute;
-  top: 31px;
+  top: 0;
   bottom: 0;
   transition: all 0.2s;
-  font-size: 13px;
+  font-size: 0.8em;
   line-height: 20px;
   padding: 0;
   color: #434343;
@@ -18,15 +20,20 @@
   overflow-x: hidden;
   border-right: solid 1px silver;
 
+  h3,
+  p {
+    margin-bottom: 1em;
+  }
+
   #sidebar-content {
     padding: 1em;
   }
 }
 
-body.application-workspace #content aside.sidebar.left {
+body.application-workspace aside.sidebar.left {
   left: 50px
 }
 
-.sidebar-left-closed #content aside.sidebar.left {
+.sidebar-left-closed aside.sidebar.left {
   right: 100%;
 }

@@ -1,15 +1,18 @@
+@charset "UTF-8";
+
 @mixin button() {
   font-family: $body-font-family;
   margin: 0 0.5em 0 0;
-  border: 0.06em solid rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   color: rgba(0, 0, 0, 0.6);
   cursor: default;
   border-radius: 0.2em;
-  background-image: -moz-linear-gradient(bottom, #efefef 0%, white 100%);
-  background-image: -webkit-linear-gradient(bottom, #efefef 0%, white 100%);
-  background-image: linear-gradient(bottom, #efefef 0%, white 100%);
+  background-image: -moz-linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
+  background-image: linear-gradient(bottom, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.2) 100%);
   text-decoration: none !important;
   line-height: 1.5;
+  white-space: nowrap;
   background-color: transparent;
   display: inline-block;
   padding-top: 0;
@@ -17,8 +20,21 @@
   padding-right: 1em;
   font-size: 0.98em;
 
-  &:active, &.active {
-    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3);
+  &:active, 
+  &.active {
+    box-shadow: inset 0 0 0.3em rgba(0, 0, 0, 0.3);
+  }
+
+  &.no-label {
+    padding-left: 0;
+    padding-right: 0;
+    width: 1.7em;
+
+    &:before {
+      width: 100%;
+      text-align: center;
+      margin: 0;
+    }
   }
 }
 

@@ -1,9 +1,11 @@
+@charset "UTF-8";
+
 .update-social {
     position: relative;
     background-color: #fcfcfc;
 
     &#new-post-box {
-        margin: 0 auto 2em;
+        margin: 0 auto 1em;
         width: 80%;
     }
 
@@ -162,9 +164,9 @@
     }
 }
 
-.application-workspace #new-post-box {
-  margin-top: 2em;
-  margin-bottom: 2em;
+.application-workspace #post-box {
+  width: 80%;
+  margin: 2em auto;
 }
 
 .pat-modal .update-social {
