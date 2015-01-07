@@ -263,6 +263,23 @@ Once this is all done, you run::
 and the new Javascript bundle will contain your newly created pattern.
 
 
+---------------------
+Definitition of done.
+---------------------
+
+When can a newly created pattern be considered done?
+====================================================
+
+When creating a new pattern, eventually we need to decide that it's finished
+and send it off for review.
+
+Here are some things to check for:
+
+- The pattern has an `index.html` page which contains a live demo.
+- The pattern repo has a `README` which explains to a designer how to run the demo.
+- The pattern is registered on Bower.
+- The pattern contains tests.
+
 ----------------------------------------------------------------------
 Release a new Javascript bundle so that the designers has access to it
 ----------------------------------------------------------------------
