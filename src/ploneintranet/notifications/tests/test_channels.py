@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from ..channel import AllChannel
+from ..message import Message
 from ..testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
-from ploneintranet.notifications.channel import AllChannel
-from ploneintranet.notifications.message import create_message
 import unittest
 
 
@@ -24,9 +24,7 @@ class TestAllChannel(unittest.TestCase):
     def create_test_messages(self):
         for i in range(5):
             obj = {'title': 'Message {}'.format(i+1)}
-            self.queue.append(create_message(actors=[],
-                                             predicate='test',
-                                             obj=obj))
+            self.queue.append(Message(actors=[], predicate='test', obj=obj))
 
     def test_queue_empty(self):
         self.assertEqual(0, len(self.channel.get_unread_messages()))

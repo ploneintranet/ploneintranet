@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.layout.viewlets import common as base
 from plone.memoize.view import memoize
-from plone import api
 from ploneintranet.notifications.channel import AllChannel
 
 
@@ -17,6 +17,6 @@ class NotificationsViewlet(base.ViewletBase):
             channel = AllChannel(user)
             count = channel.get_unread_count()
         except AttributeError:
-            #AttributeError: getUserId
+            # AttributeError: getUserId
             count = 0
         return count

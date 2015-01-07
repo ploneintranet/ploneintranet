@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-
 from plone import api
 
 
-class ForceAllMessageClassHandler(object):
+class Base(object):
+    ''' A base handler for notifications
+    '''
     msg_class = 'GLOBAL_NOTICE'
 
-    def __init__(self):
+    def __init__(self, context):
+        self.context = context
         try:
             self.tool = api.portal.get_tool('ploneintranet_notifications')
         except api.exc.InvalidParameterError:
@@ -26,8 +28,7 @@ class ForceAllMessageClassHandler(object):
 
     def add(self, message):
         assert message.predicate == self.msg_class, \
-            'This handler is not responsible for this message, '\
-            'wrong predicate'
+            'This handler is not responsible for this message, wrong predicate'
         list(self.g_add(message))
 
     def g_cleanup(self):
@@ -49,5 +50,7 @@ class ForceAllMessageClassHandler(object):
         list(self.g_cleanup())
 
 
-def fake_adapter(predicate):
-    return ForceAllMessageClassHandler()
+class StatusUpdate(Base):
+    ''' A base handler for notifications
+    '''
+    msg_class = 'STATUS_UPDATE'

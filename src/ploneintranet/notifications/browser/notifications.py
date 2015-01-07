@@ -18,7 +18,7 @@ class NotificationsView(BrowserView):
             # TODO for now we keep the everything unread keep_unread=True
             display_message = channel.get_unread_messages(keep_unread=True)
         except AttributeError:
-            #AttributeError: getUserId
+            # AttributeError: getUserId
             display_message = []
         return display_message
 

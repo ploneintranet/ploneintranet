@@ -3,23 +3,20 @@
   i18n_domain="ploneintranet.notifications">
 
   <subscriber
-    for="plonesocial.microblog.interfaces.IStatusUpdate
+    for="..interfaces.INotifiable
          zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".status_update.added" />
+    handler=".base.base_handler"
+  />
 
   <subscriber
-    for="plone.dexterity.interfaces.IDexterityContent
-         zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".content_update.added" />
+    for="..interfaces.INotifiable
+    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+    handler=".base.base_handler"
+  />
 
   <subscriber
-    for="plone.dexterity.interfaces.IDexterityContent
-         zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    handler=".content_update.changed" />
-
-  <subscriber
-    for="plone.dexterity.interfaces.IDexterityContent
+    for="..interfaces.INotifiable
          Products.CMFCore.interfaces.IActionSucceededEvent"
-    handler=".content_update.workflow_change" />
+    handler=".base.base_handler" />
 
 </configure>

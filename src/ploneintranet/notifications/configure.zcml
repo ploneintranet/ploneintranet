@@ -7,8 +7,17 @@
 
   <includeDependencies package="." />
 
+  <include package=".adapters" />
   <include package=".browser" />
   <include package=".events" />
+
+  <class class="plonesocial.microblog.statusupdate.StatusUpdate">
+    <implements interface=".interfaces.INotifiable" />
+  </class>
+
+  <class class="plone.dexterity.content.Item">
+    <implements interface=".interfaces.INotifiable" />
+  </class>
 
   <genericsetup:registerProfile
       name="default"
