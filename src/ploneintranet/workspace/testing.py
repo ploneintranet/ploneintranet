@@ -33,6 +33,20 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        import plonesocial.microblog
+        xmlconfig.file(
+            'configure.zcml',
+            plonesocial.microblog,
+            context=configurationContext
+        )
+
+        import plonesocial.activitystream
+        xmlconfig.file(
+            'configure.zcml',
+            plonesocial.activitystream,
+            context=configurationContext
+        )
+
         import ploneintranet.invitations
         xmlconfig.file(
             'configure.zcml',
