@@ -72,7 +72,7 @@
                                     value="copy"
                                     formaction="/feedback/banner-notifications#documents-copied"
                                     class="float-before icon-copy no-label pat-depends"
-                                    data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }}{% endif %}{% endfor %} false; action: enable"
+                                    data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'event' or doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
                                     title="Copy">Copy</button>
                             <button disabled
                                     type="submit"
