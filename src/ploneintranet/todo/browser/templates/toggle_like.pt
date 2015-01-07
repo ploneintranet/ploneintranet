@@ -1,0 +1,5 @@
+<div id="content">
+    <form id="functions" action="/feedback/liked.html" tal:attributes="action string:${context/absolute_url}/@@toggle_like">
+        <button class="like active focus" value="like" name="like_button" type="submit"><span tal:replace="view/verb">Like </span> <sup class="counter">(4)</sup></button>
+</form>
+	</div>
