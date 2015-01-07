@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      i18n:domain="ploneintranet">
+  <body>
+    <div id="workspace-documents" class="visible">
+      <div class="item-selector mode-follow" id="selector">
+        <div class="button-bar functions" id="selector-functions">
+          <div class="contextual buttons float-before" id="selector-contextual-functions">
+            <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+            <form action="./#items" class="pat-inject pat-autosubmit">
+              <label class="pat-select bare" data-option="folder">Group by
+                <select name="browse-mode">
+                  <option value="folder">folder</option>
+                  <option value="label">label</option>
+                  <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                  <option value="type">document type</option>
+                  <!-- When the groups are author names, the author avatar is used as an icon. -->
+                  <option value="author">author</option>
+                  <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                  <option value="date">date</option>
+                  <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                  <option value="letter">first letter</option>
+                </select>
+              </label>
+            </form>
+          </div>
+          <h2 id="context-title" class="context-title">Some Context</h2>
+          <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</button>
+          <span class="button-cluster select-buttons float-after select-buttons">
+            <button class="select-all" title="Select all">All</button>
+            <button class="deselect-all" title="Deslect all" disabled="">None</button>
+          </span>
+        </div>
+        <form class="search-box pat-inject pat-autosubmit" action="/feedback/#items">
+          <label>
+            <input name="" type="search" placeholder="Search">
+            <button type="submit">Search</button>
+          </label>
+        </form>
+        <form class="search-result docs pat-inject " data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #selector-attachment-previews" action="#selected-docs" id="items">
+          <fieldset class="checklist pat-checklist docs  unchecked" data-pat-checklist="select: #selector .select-all; deselect: #selector .deselect-all"
+                    tal:define="items view/items">
+            <!-- Each document has a class name on the label element that indicates the document type.
+                 Supported types include (class names):
+                 - type-presentation
+                 - type-slide
+                 - type-date
+                 - type-event
+                 - type-user
+                 - type-tag
+                 - type-powerpoint
+                 - type-word
+                 - type-zip
+                 - type-video
+                 - type-excel
+                 - type-sound
+                 - type-image
+                 - type-code
+                 - type-rich
+                 - type-pdf
+              -->
+            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+            <tal:item repeat="item items">
+              <label class="item document type-event has-description unchecked"
+                     tal:define="is_group item/item/is_folderish;
+                                 group_class python:'group' if is_group else 'document';
+                                 description_class python:'has-description' if item.get('Description') else 'has-no-description'"
+                     tal:attributes="class string:item ${group_class} type${item/normalized_portal_type} ${description_class} unchecked">
+                <input name="" type="checkbox" />
+                <tal:group condition="is_group">
+                  <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                    -->
+                  <a href="/projection-materials#items" class="follow pat-inject" data-pat-inject="source: #items; target: #items &amp;&amp;
+                                                                                                   source: #selector-contextual-functions; target: #selector-contextual-functions &amp;&amp;
+                                                                                                   source: #context-title; target: #context-title"
+                     tal:attributes="href string:${context/absolute_url}/@@navigation.tile?root=${item/UID}">
+                    <strong class="title" tal:content="item/Title">2014 Meetings</strong>
+                    <dfn class="byline" tal:condition="item/Description" tal:content="item/Description">Meeting documents, statements, and minutes</dfn>
+                  </a>
+                </tal:group>
+                <tal:document condition="not:is_group">
+                  <a href="/event-traces-through-time#document-body" class="pat-inject follow"
+                     tal:attributes="href string:${item/absolute_url}#document-body">
+                    <strong class="title" tal:content="item/Title">Traces through Time data workshop</strong>
+                    <dfn class="byline" tal:condition="item/Description" tal:content="item/Description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
+                  </a>
+                </tal:document>
+              </label>
+            </tal:item>
+          </fieldset>
+          <div class="button-bar bottom form-submit pat-bumper" style="position: relative;">
+            <button type="submit" class="close-panel">Save</button>
+            <button type="reset" class="close-panel">Cancel</button>
+          </div>
+        </form>
+        <form action="./">
+          <fieldset class="pat-upload upload" data-pat-upload="url: https://example.org/upload">
+            <label class="accessibility-options">
+              <input type="file" multiple=""> Upload files
+            </label>
+            <div class="upload-container upload-multiple">
+              <div class="upload-area dz-clickable">
+                <div class="dz-message"><p>Drop files here...</p></div>
+                <div class="row">
+                  <div class="col-md-9">
+                    <input id="fakeUploadFile" placeholder="Choose File" disabled="disabled">
+                  </div>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-primary browse">
+                      Browse
+                    </button>
+                  </div>
+                </div>
+                <div class="upload-queue">
+                  <div class="previews">
+                  </div>
+                  <div class="controls" style="display: none;">
+                    <div class="actions row">
+                      <div class="col-md-9">
+                        <div class="progress progress-striped active">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                            <span class="sr-only">40% Complete (success)</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 align-right">
+                        <button type="button" class="btn btn-primary upload-all">
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -89,4 +89,6 @@
      view="plone.app.layout.globals.interfaces.IViewView"
      />
 
+   <include package=".tiles" />
+
 </configure>
