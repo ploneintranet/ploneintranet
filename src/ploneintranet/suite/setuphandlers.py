@@ -1,9 +1,9 @@
 from plone import api
 
 
-def demo(context):
+def testing(context):
 
-    if context.readDataFile('ploneintranet.suite_demo.txt') is None:
+    if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
 
     portal = api.portal.get()
