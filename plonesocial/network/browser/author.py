@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
+from .interfaces import IAuthorProvider
 from .interfaces import IPlonesocialNetworkLayer
-from .interfaces import IProfileProvider
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.PythonScripts.standard import url_unquote_plus
 from plone.app.layout.globals.interfaces import IViewView
-from plone.memoize.view import memoize
 from plonesocial.network.interfaces import INetworkGraph
 from zope.component import ComponentLookupError
 from zope.component import adapts
@@ -18,10 +16,10 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 import logging
 
-logger = logging.getLogger('plonesocial.network.profile')
+logger = logging.getLogger('plonesocial.network.author')
 
 
-class AbstractProfile(object):
+class AbstractAuthor(object):
 
     def render(self):
         return self.index()
@@ -30,7 +28,7 @@ class AbstractProfile(object):
 
     @property
     def viewer_id(self):
-        '''The guy looking at the profile'''
+        '''The guy looking at the author view'''
         return self.mtool.getAuthenticatedMember().getId()
 
     @property
@@ -48,7 +46,7 @@ class AbstractProfile(object):
 
     @property
     def is_mine(self):
-        '''Is this my own profile, or somebody else's?'''
+        '''Is this my own author profile, or somebody else's?'''
         return self.userid == self.viewer_id
 
     @property
@@ -73,8 +71,8 @@ class AbstractProfile(object):
             name=u'plone_portal_state')
         return portal_state.portal_url()
 
-    def profile_url(self):
-        return self.portal_url() + '/@@profile/' + self.userid
+    def author_url(self):
+        return self.portal_url() + '/@@/author' + self.userid
 
     def following_url(self):
         return self.portal_url() + '/@@following/' + self.userid
@@ -89,7 +87,7 @@ class AbstractProfile(object):
         return len(self.graph.get_followers(self.userid))
 
 
-class AbstractProfileProvider(AbstractProfile):
+class AbstractAuthorProvider(AbstractAuthor):
 
     def __init__(self, context, request, view):
         self.context = context
@@ -104,7 +102,7 @@ class AbstractProfileProvider(AbstractProfile):
         if userid is None:
             return self.render()
 
-        # each inline profileprovider has a different userid
+        # each inline authorprovider has a different userid
         # process only the right form out of many
         if userid is not None and userid == self.userid:
             followaction = self.request.form.get('subunsub_follow', None)
@@ -124,26 +122,26 @@ class AbstractProfileProvider(AbstractProfile):
         return self.render()
 
 
-class MaxiProfileProvider(AbstractProfileProvider):
+class MaxiAuthorProvider(AbstractAuthorProvider):
 
-    implements(IProfileProvider)
+    implements(IAuthorProvider)
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
-    index = ViewPageTemplateFile('templates/maxiprofile_provider.pt')
+    index = ViewPageTemplateFile('templates/maxiauthor_provider.pt')
 
 
-class MiniProfileProvider(AbstractProfileProvider):
+class MiniAuthorProvider(AbstractAuthorProvider):
 
-    implements(IProfileProvider)
+    implements(IAuthorProvider)
     adapts(Interface, IPlonesocialNetworkLayer, Interface)
 
-    index = ViewPageTemplateFile('templates/miniprofile_provider.pt')
+    index = ViewPageTemplateFile('templates/miniauthor_provider.pt')
 
 
-class ProfileView(BrowserView, AbstractProfile):
+class AuthorView(BrowserView, AbstractAuthor):
     implements(IPublishTraverse, IViewView)
 
-    index = ViewPageTemplateFile('templates/profile.pt')
+    index = ViewPageTemplateFile('templates/author.pt')
 
     def __init__(self, context, request):
         self.context = context
@@ -157,7 +155,7 @@ class ProfileView(BrowserView, AbstractProfile):
 
     @property
     def userid(self):
-        '''The guy in the profile'''
+        '''The guy in the author'''
         if self._userid:
             return self._userid
         elif self.is_anonymous:
@@ -177,38 +175,9 @@ class ProfileView(BrowserView, AbstractProfile):
             # no plonesocial.activitystream available
             return ''
 
-    def maxiprofile_provider(self, userid):
+    def maxiauthor_provider(self, userid):
         provider = getMultiAdapter(
             (self.context, self.request, self),
-            name='plonesocial.network.maxiprofile_provider')
+            name='plonesocial.network.maxiauthor_provider')
         provider.userid = userid
         return provider()
-
-
-class OverrideAuthorView(BrowserView):
-    ''' This view Will override the author.cpt in the skins folder
-    and will rederict to the @@profile view
-    '''
-
-    @property
-    @memoize
-    def navigation_root_url(self):
-        portal_state = getMultiAdapter(
-            (self.context, self.request),
-            name=u'plone_portal_state'
-        )
-        return portal_state.navigation_root_url()
-
-    def __call__(self):
-        ''' Check if we can get the author from the request url
-        and go to the author profile
-        otherwise redirect to the authenticated user profile
-        '''
-        subpath = self.request.other.get('traverse_subpath', [])
-        author = (
-            (len(subpath) > 0 and url_unquote_plus(subpath[0]))
-            or self.request.get('author', None)
-        )
-        profile = author and '@@profile/%s' % author or '@@profile'
-        self.request.response.redirect(
-            '%s/%s' % (self.navigation_root_url, profile))

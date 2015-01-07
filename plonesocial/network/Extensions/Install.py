@@ -9,6 +9,7 @@ PROJECTNAME = 'plonesocial.network'
 
 logger = logging.getLogger(PROJECTNAME)
 
+
 def _removeTool(portal):
     portal.manage_delObjects(['plonesocial_network'])
 
@@ -17,6 +18,7 @@ def _removePersistentUtility(portal):
     sm = portal.getSiteManager()
     sm.unregisterUtility(provided=INetworkTool)
     sm.utilities.unsubscribe((), INetworkTool)
+
 
 def _removeBundleFromRegistry():
     logger.info('Removing bundle reference from registry')

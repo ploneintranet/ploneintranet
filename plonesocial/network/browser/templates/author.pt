@@ -11,10 +11,10 @@
   <div metal:fill-slot="content" i18n:domain="plonesocial.network">
     <metal:main-macro define-macro="content">
       <div id="content"
-           tal:define="maxiprofile python:view.maxiprofile_provider(view.userid)">
+           tal:define="maxiauthor python:view.maxiauthor_provider(view.userid)">
 
 
-        <div tal:condition="not:maxiprofile">
+        <div tal:condition="not:maxiauthor">
           <h2 i18n:translate="">Nothing here</h2>
           <div tal:condition="view/userid" i18n:translate="">
             No such user <b i18n:name="userid" tal:content="view/userid" />.
@@ -22,7 +22,7 @@
         </div>
 
 
-    <div tal:content="structure maxiprofile" />
+    <div tal:content="structure maxiauthor" />
 
         <h2 i18n:translate="">Updates</h2>
         <div class="description" i18n:translate="">Status updates by

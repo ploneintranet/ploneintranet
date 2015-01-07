@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+from plonesocial.network.browser.author import AuthorView
 from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
-from plonesocial.network.browser.profile import OverrideAuthorView
 from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
 from zope.interface import directlyProvides
 import unittest2 as unittest
@@ -21,4 +21,4 @@ class TestViews(unittest.TestCase):
         This is going to fail in Plone4
         '''
         author_view = self.portal.restrictedTraverse('author')
-        self.assertIsInstance(author_view, OverrideAuthorView)
+        self.assertIsInstance(author_view, AuthorView)
