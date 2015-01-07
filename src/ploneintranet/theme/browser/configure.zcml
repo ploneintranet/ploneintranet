@@ -107,16 +107,6 @@
        Please remove the prototype tile here when the actual tile becomes available.
   -->
   <plone:tile
-      name="workspaces.tile"
-      title="A title for the workspaces"
-      description="My tile's description"
-      add_permission="cmf.ManagePortal"
-      class=".dashboard.WorkspacesTile"
-      permission="zope.Public"
-      for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
-  <plone:tile
       name="news.tile"
       title="A title for the news"
       description="My tile's description"
