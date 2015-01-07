@@ -95,12 +95,12 @@
       />
 
   <!-- prototype tiles for dashboard and workspace
-  
+
        These are 'mock' tiles.
        DO NOT IMPLEMENT ACTUAL LIVE TILES IN THE THEME NOR IN THE SUITE.
        We need to keep ploneintranet.theme and ploneintranet.suite minimalistic
        because those are the main customization entry points for customer projects.
-       
+
        Instead, implement actual live tiles in the most appropriate package for that tile.
        Create a new package if necessary.
        Use a view marker interface as for="..." to supersede the prototype tile below.
