@@ -15,9 +15,9 @@ class Sidebar(BrowserView):
     """
 
 
-class FilesTile(Tile):
+class Tile(Tile):
 
-    index = ViewPageTemplateFile("templates/sidebar-files-tile.pt")
+    index = ViewPageTemplateFile("templates/sidebar-tile.pt")
 
     def render(self):
         return self.index()
