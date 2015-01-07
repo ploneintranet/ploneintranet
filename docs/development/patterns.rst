@@ -1,6 +1,6 @@
-=======================
-Patternslib Development
-=======================
+======================================
+Javascript and Patternslib Development
+======================================
 
 ----------------------------------
 Creating a new Patternslib pattern
@@ -8,7 +8,7 @@ Creating a new Patternslib pattern
 
 .. admonition:: Description
 
-    This document provides a quick tutorial on how to create a new Patternslib
+    This section provides a quick tutorial on how to create a new Patternslib
     pattern. We create a new pattern called pat-colorchanger, which will change
     the text-color of an element after waiting for 3 seconds.
 
@@ -259,8 +259,9 @@ Once this is all done, you run::
 and the new Javascript bundle will contain your newly created pattern.
 
 
-Release the bundle so that the designers has access to it
----------------------------------------------------------
+----------------------------------------------------------------------
+Release a new Javascript bundle so that the designers has access to it
+----------------------------------------------------------------------
 
 The designers working on the theme use a pinned bundle release.
 
@@ -275,14 +276,14 @@ To fetch the latest bundle (which was released with `make jsrelease`), designers
 
 .. note:: What do these commands do?
 
-    `make clean` will clear your NPM and Bower caches and refetch all the packages.
+    "`make clean`" will clear your NPM and Bower caches and refetch all the packages.
     This important in order to be sure that your Javascript packages are all
     available and up to date.
 
-    `make jsrelease` will then create a new bundle, give it a release number
+    "`make jsrelease`" will then create a new bundle, give it a release number
     and then upload it to https://products.syslab.com. It will then update the
     LATEST file with the new release number.
 
-    `make designerhappy` fetches the latest bundle from https://products.syslab.com
+    "`make designerhappy`" fetches the latest bundle from https://products.syslab.com
     and puts it in the `./prototype/bundles` directory.
 
