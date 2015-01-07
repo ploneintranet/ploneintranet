@@ -1,0 +1,19 @@
+userid,fullname,location,description,follows
+admin,Guido Stevens,Amsterdam,"Donec posuere augue in quam.",allan_neece alice_lindstrom
+alice_lindstrom,Alice Lindström,Malmö,"Sed bibendum.",guy_hackey admin
+allan_neece,Allan Neece,Bristol,"Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio.",jorge_primavera guy_hackey admin
+christian_stoney,Christian Stoney,Springfield,"Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",dollie_nocera
+jorge_primavera,Jorge Primavera,Buenos Aires,"Donec pretium posuere tellus.",esmeralda_claassen francois_gast
+dollie_nocera,Dollie Nocera,New York,"Pellentesque tristique imperdiet tortor.",guy_hackey francois_gast
+esmeralda_claassen,Esmeralda Claassen,Oslo,"In id erat non orci commodo lobortis.",jorge_primavera
+fernando_poulter,Fernando Poulter,Barcelona,"Nam a sapien.",dollie_nocera
+francois_gast,François Gast,Tolouse,"Praesent augue.",
+guy_hackey,Guy Hackey,Melbourne,"Nam euismod tellus id erat.",jorge_primavera
+jamie_jacko,Jamie Jacko,Los Angeles,"Fusce commodo.",
+jesse_shaik,Jesse Shaik,London,"Curabitur lacinia pulvinar nibh.",jorge_primavera
+kurt_weissman,Kurt Weißman,Dresden,"Fusce sagittis, libero non molestie mollis, magna orci ultrices dolor, at vulputate neque nulla lacinia eros.",neil_wichmann
+lance_stockstill,Lance Stockstill,Dallas,"Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",neil_wichmann
+neil_wichmann,Neil Wichmann,Boston,"Phasellus purus.",kurt_weissman lance_stockstill pearlie_whitby
+pearlie_whitby,Pearlie Whitby,Philadelphia,"Nulla facilisis, risus a rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo sit amet elit.",neil_wichmann
+rosalinda_roache,Rosalinda Roache,Brussels,"Sed bibendum.",guy_hackey
+silvio_depaoli,Silvio De Paoli,Genoa,"Phasellus neque orci, porta a, aliquet quis, semper a, massa.",jamie_jacko esmeralda_claassen
