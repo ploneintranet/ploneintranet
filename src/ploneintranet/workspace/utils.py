@@ -1,8 +1,12 @@
+from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
+from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone import api
 from zope.annotation import IAnnotations
 from zope.component import getUtility
+from zope.component import hooks
 
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
@@ -35,3 +39,17 @@ def send_email(recipient,
         sender=sender,
         subject=subject,
         body=message)
+
+
+def parent_workspace(context):
+    """ Return containing workspace
+        Returns None if not found.
+    """
+    if IWorkspaceFolder.providedBy(context):
+        return context
+    for parent in aq_chain(context):
+        if IWorkspaceFolder.providedBy(parent):
+            return parent
+
+def in_workspace(context):
+    return IWorkspaceState.providedBy(parent_workspace(context))
