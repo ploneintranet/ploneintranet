@@ -149,11 +149,11 @@
       />
 
   <plone:tile
-      name="sidebar.files.tile"
+      name="sidebar.tile"
       title="Sidebar: Files"
       description="This tile shows the sidebar listing files"
       add_permission="cmf.ManagePortal"
-      class=".sidebar.FilesTile"
+      class=".sidebar.Tile"
       permission="zope2.View"
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
