@@ -2,6 +2,10 @@
 Javascript and Patternslib Development
 ======================================
 
+.. contents:: Table of Contents
+    :depth: 2
+    :local:
+
 ----------------------------------
 Creating a new Patternslib pattern
 ----------------------------------
