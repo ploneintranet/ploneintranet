@@ -1,3 +1,4 @@
+from Testing.makerequest import makerequest
 from plone import api
 from zope.component import getUtility
 
@@ -18,13 +19,32 @@ class TestToggleLikeView(IntegrationTestCase):
             title='Doc 1'
         )
 
-    def test_toggle_like(self):
+    def test_show_like(self):
         util = getUtility(ITodoUtility)
         userid = api.user.get_current().getId()
         toggle_view = api.content.get_view(
             'toggle_like',
             self.doc1,
             self.layer['request']
+        )
+
+        output = toggle_view()
+        self.assertIn('like_button', output)
+        results = util.query(
+            userid,
+            LIKE,
+            ignore_completed=False
+        )
+        self.assertEqual(len(results), 0)
+
+    def test_toggle_like(self):
+        util = getUtility(ITodoUtility)
+        userid = api.user.get_current().getId()
+        self.request.form['like_button'] = 'like'
+        toggle_view = api.content.get_view(
+            'toggle_like',
+            self.doc1,
+            self.request
         )
 
         # Toggle like for doc1
