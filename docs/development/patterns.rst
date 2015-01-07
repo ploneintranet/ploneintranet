@@ -300,7 +300,7 @@ To fetch the latest bundle (which was released with `make jsrelease`), designers
 .. note:: What do these commands do?
 
     "`make clean`" will clear your NPM and Bower caches and refetch all the packages.
-    This important in order to be sure that your Javascript packages are all
+    This is important in order to be sure that your Javascript packages are all
     available and up to date.
 
     "`make jsrelease`" will then create a new bundle, give it a release number
