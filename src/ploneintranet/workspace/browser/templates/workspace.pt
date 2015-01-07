@@ -15,18 +15,15 @@
 
             <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-                <div id="document-body">            
-                    XXXBody
-                    <!--div id="activity-stream" data-tile="./@@activitystream.tile?network=1" tal:attributes="data-tile string:${workspace/absolute_url}/@@activitystream.tile?network=1"></div-->
+                <div id="document-body" tal:attributes="data-tile string:@@activitystream.tile?network=1">            
+                    Add here the tile for the activity stream
                 </div>
 
-                <aside class="sidebar left tagging-off" id="sidebar"> YYY My sidebar
-                    <div id="sidebar-files-tile" data-tile="./@@sidebar.files.tile" tal:attributes="data-tile string:${workspace/absolute_url}/@@sidebar.files.tile"></div>
+                <aside class="sidebar left tagging-off" id="sidebar" tal:attributes="data-tile string:@@sidebar.files.tile">
                 </aside>
 
             </div>
-            <link rel="tile" target="placeholder" href="./@@sample.tile/tile1?option1=value1" tal:attributes="href python:'/'+workspace.absolute_url(1)+'/@@workspace.tabs.tile'"/>
-            <nav id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile python:'/'+workspace.absolute_url(1)+'/@@workspace.tabs.tile'"></nav>
+            <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="@@workspace.tabs.tile" />
 
         </metal:content>
     </body>
