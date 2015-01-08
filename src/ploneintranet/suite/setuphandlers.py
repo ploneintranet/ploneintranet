@@ -129,7 +129,7 @@ def create_as(userid, *args, **kwargs):
     return obj
 
 
-def create_news_items(context, newscontent):
+def create_news_items(newscontent):
     portal = api.portal.get()
 
     if 'news' not in portal:
@@ -151,6 +151,29 @@ def create_news_items(context, newscontent):
         )
         obj.publication_date = newsitem['publication_date']
         obj.Subject = newsitem['tags']
+
+
+def create_tasks(todos):
+    portal = api.portal.get()
+
+    if 'todos' not in portal:
+        todos_folder = create_as(
+            "admin",
+            type='Folder',
+            title='Todos',
+            container=portal)
+        api.content.transition(obj=todos_folder, transition='publish')
+    else:
+        todos_folder = portal['todos']
+
+    for data in todos:
+        obj = create_as(
+            data['creator'],
+            type='simpletodo',
+            title=data['title'],
+            container=todos_folder)
+        todo = ITodo(obj)
+        todo.assignee = data['assignee']
 
 
 def testing(context):
@@ -218,7 +241,7 @@ def testing(context):
     create_news_items(news_content)
 
     # Create tasks
-    todos = [{
+    todos_content = [{
         'title': 'Inquire after References',
         'creator': 'admin',
         'assignee': 'All Intranet Users',
@@ -239,21 +262,4 @@ def testing(context):
         'creator': 'admin',
         'assignee': 'All Intranet Users',
     }]
-    if 'todos' not in portal:
-        todos_folder = create_as(
-            "admin",
-            type='Folder',
-            title='Todos',
-            container=portal)
-        api.content.transition(obj=todos_folder, transition='publish')
-    else:
-        todos_folder = portal['todos']
-
-    for data in todos:
-        obj = create_as(
-            data['creator'],
-            type='simpletodo',
-            title=data['title'],
-            container=todos_folder)
-        todo = ITodo(obj)
-        todo.assignee = data['assignee']
+    create_tasks(todos_content)
