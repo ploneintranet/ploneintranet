@@ -33,7 +33,7 @@
     "underscore": "1.4.4",
     "backbone": "0.9.10",
     "tinysort": "git://github.com/Sjeiti/TinySort.git",
-    "patternslib": "2.0.5",
+    "patternslib": "master",
     "pat-content-mirror": "git://github.com/ploneintranet/pat-content-mirror.git",
     "pat-upload": "git://github.com/Patternslib/pat-upload.git",
     "pat-resourcepolling": "git@github.com:ploneintranet/pat-resourcepolling.git",
