@@ -49,19 +49,26 @@ class TestToggleLikeView(IntegrationTestCase):
         )
 
         # Toggle like for doc1
-        toggle_view()
-        results = util.query(
+        output = toggle_view()
+        self.assertIn('(1)', output)
+        user_likes = util.query(
             userid,
             LIKE,
             ignore_completed=False
         )
-        self.assertEqual(len(results), 1)
+        total_likes = util.query(
+            verbs=LIKE,
+            content_uids=self.doc1.UID(),
+            ignore_completed=False
+        )
 
+        self.assertEqual(len(user_likes), 1)
+        self.assertEqual(len(user_likes), len(total_likes))
         # Toggle like for doc1
         toggle_view()
-        results = util.query(
+        user_likes = util.query(
             userid,
             LIKE,
             ignore_completed=False
         )
-        self.assertEqual(len(results), 0)
+        self.assertEqual(len(user_likes), 0)

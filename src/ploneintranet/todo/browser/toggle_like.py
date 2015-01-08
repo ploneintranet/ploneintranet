@@ -1,6 +1,7 @@
 from .base_view import BaseView
 from ..interfaces import LIKE
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from random import randrange
 
 
 class ToggleLike(BaseView):
@@ -35,3 +36,14 @@ class ToggleLike(BaseView):
                     self.current_user_id
                 )
         return self.index()
+
+    def unique_id(self):
+        return randrange(100000, 999999)
+
+    def total_likes(self):
+        likes = self.util.query(
+            verbs=LIKE,
+            content_uids=self.content_uid,
+            ignore_completed=False
+        )
+        return len(likes)
