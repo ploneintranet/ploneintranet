@@ -128,12 +128,35 @@ def create_as(userid, *args, **kwargs):
     return obj
 
 
+def create_news_items(context, newscontent):
+    portal = api.portal.get()
+
+    if 'news' not in portal:
+        news_folder = api.content.create(
+            type='Folder',
+            title='News',
+            container=portal
+        )
+    else:
+        news_folder = portal['news']
+
+    for newsitem in newscontent:
+        obj = create_as(
+            "admin",
+            type='News Item',
+            title=newsitem['title'],
+            description=newsitem['description'],
+            container=news_folder
+        )
+        obj.publication_date = newsitem['publication_date']
+        obj.Subject = newsitem['tags']
+
+
 def testing(context):
 
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
 
-    portal = api.portal.get()
     users_csv_file = os.path.join(context._profile_path, 'users.csv')
     users = []
     with open(users_csv_file, 'rb') as users_csv_data:
@@ -192,28 +215,3 @@ def testing(context):
          'publication_date': ''},
     ]
     create_news_items(news_content)
-
-
-def create_news_items(context, newscontent):
-    # news item
-    portal = api.portal.get()
-
-    # news item
-    if 'news' not in portal:
-        news_folder = api.content.create(
-            type='Folder',
-            title='News',
-            container=portal
-        )
-    else:
-        news_folder = portal['news']
-
-    if 'news' in portal.keys():
-        for newsitem in newscontent:
-            obj = create_as("admin",
-                            type='News Item',
-                            title=newsitem['title'],
-                            description=newsitem['description'],
-                            container=news_folder)
-            obj.publication_date = newsitem['publication_date']
-            obj.Subject = newsitem['tags']
