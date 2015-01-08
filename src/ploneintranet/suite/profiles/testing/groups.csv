@@ -1,0 +1,4 @@
+groupid,groupname,roles,parentgroups,members
+managers,Managers,Reader|Editor|Site Administrators,,admin lance_stockstill dollie_nocera
+employees,Employees,Reader|Editor,,admin alice_lindstrom allan_neece christian_stoney jorge_primavera dollie_nocera esmeralda_claassen fernando_poulter francois_gast jamie_jacko jesse_shaik lance_stockstill neil_wichmann pearlie_whitby silvio_depaoli
+guests,Guests,Reader,,guy_hackey rosalinda_roache
