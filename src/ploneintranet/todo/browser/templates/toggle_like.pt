@@ -1,22 +1,23 @@
-<div id="content"
-     tal:define="unique_id view/unique_id;
-                 verb view/verb;
-                 total_likes view/total_likes;
-                 datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
-  <form id="functions"
+<tal:block tal:define="unique_id view/unique_id;
+                       is_liked view/is_liked;
+                       verb view/verb;
+                       total_likes view/total_likes;
+                       datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
+  <form id="functions-123456"
         action="@@toggle_like"
         tal:attributes="action string:${context/absolute_url}/@@toggle_like;
-                        id unique_id;
+                        id string:functions-${unique_id};
                         data-pat-inject datapatinject;"
         class="pat-inject pat-autosubmit"
         data-pat-inject="source: #functions; target: #functions-mypost_1"
         >
-    <button class="like active focus"
+    <button class="like active"
             value="like"
             name="like_button"
-            type="submit">
+            type="submit"
+            tal:attributes="class python:'like active' if is_liked else 'like'">
       <span tal:replace="verb">Like</span>
       <sup class="counter">(<span tal:replace="total_likes">4</span>)</sup>
     </button>
   </form>
-</div>
+</tal:block>
