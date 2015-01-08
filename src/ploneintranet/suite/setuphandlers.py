@@ -161,7 +161,7 @@ def create_tasks(todos):
 
     if 'todos' not in portal:
         todos_folder = create_as(
-            "admin",
+            'admin',
             type='Folder',
             title='Todos',
             container=portal)
