@@ -1,0 +1,1 @@
+class IWorkspaceContainer(form.Schema, IImageScaleTraversable)
