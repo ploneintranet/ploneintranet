@@ -181,13 +181,22 @@ def create_tasks(todos):
 
 def create_workspaces(workspaces):
     portal = api.portal.get()
+    if 'workspaces' not in portal:
+        ws_folder = create_as(
+            'admin',
+            container=portal,
+            type='Folder',
+            title='Workspaces'
+        )
+    else:
+        ws_folder = portal['workspaces']
 
     for w in workspaces:
         contents = w.pop('contents', None)
         workspace = create_as(
             'admin',
-            container=portal,
-            type='WorkspaceFolder',
+            container=ws_folder,
+            type='ploneintranet.workspace.workspacefolder',
             **w
         )
         if contents is not None:
