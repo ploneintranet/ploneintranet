@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            metal:use-macro="context/main_template/macros/master"
+            i18n:domain="ploneintranet.workspace">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content" 
+                        tal:define="workspace view/workspace; workspace_url python:'/'+workspace.absolute_url(1)">
+            <h1 id="workspace-name">
+                <!-- Next link is to lead to landing state of current workspace -->
+                <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
+            </h1>
+
+            <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+
+                <div id="document-body" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile?network=1">            
+                    Add here the tile for the activity stream
+                </div>
+
+                <aside class="sidebar left tagging-off" id="sidebar" tal:attributes="data-tile string:${workspace_url}/@@sidebar.tile">
+                </aside>
+
+            </div>
+            <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="${workspace_url}/@@workspace.tabs.tile" />
+
+        </metal:content>
+    </body>
+</html>

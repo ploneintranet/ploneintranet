@@ -12,6 +12,14 @@
   <include package="collective.workspace" />
 
   <browser:page
+      name="view"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class="..workspace.WorkspaceView"
+      permission="zope2.View"
+      template="templates/workspace.pt"
+      />
+
+  <browser:page
       name="policies"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.PolicyForm"
