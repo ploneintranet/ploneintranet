@@ -45,6 +45,6 @@
     "select2": "3.4.6",
     "parsleyjs": "1.2",
     "underscore": "~1.7.0",
-    "patternslib": "2.0.5"
+    "patternslib": "master"
   }
 }
