@@ -102,6 +102,14 @@
       template="templates/workspaces.pt"
       layer="..interfaces.IThemeSpecific"
       />
+  <browser:page
+      name="workspace-add"
+      for="*"
+      class=".workspace.AddView"
+      permission="cmf.ManagePortal"
+      template="templates/workspace-add.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
 
   <!-- prototype tiles for dashboard and workspace
 

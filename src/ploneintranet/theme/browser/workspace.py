@@ -20,6 +20,8 @@ class Workspaces(BrowserView):
         '''
         return my_workspaces(self.context)
 
+class AddView(BrowserView):
+    """ Add Form in a modal to create a new workspace """
 
 class WorkspaceTabsTile(Tile):
 
