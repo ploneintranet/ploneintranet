@@ -204,7 +204,7 @@ def testing(context):
          'publication_date': ''},
 
         {'title': 'BNB and Randomize to codeshare',
-         'description': 'Starting September 10, BNB passengers will be' +
+         'description': 'Starting September 10, BNB passengers will be'
          'able to book connecting flights on Ethiopian Airlines.',
          'tags': [tags[1]],
          'publication_date': ''},
