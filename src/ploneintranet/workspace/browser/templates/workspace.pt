@@ -16,7 +16,7 @@
 
             <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-                <div id="document-body" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile?network=1">            
+                <div id="document-body" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile">
                     Add here the tile for the activity stream
                 </div>
 
