@@ -26,23 +26,39 @@ def testing(context):
     # for creating users and network
 
     # news item
-    if 'news' in portal.keys():
+    if 'news' not in portal:
+        news_folder = api.content.create(
+            type='Folder',
+            title='News',
+            container=portal
+        )
+    else:
+        news_folder = portal['news']
 
-        newscontent = [
-            {'title': 'Second Indian Airline to join Global Airline Alliance',
-             'description': 'Weak network in growing Indian aviation market'},
+    newscontent = [
+        {
+            'title': 'Second Indian Airline to join Global Airline Alliance',
+            'description': 'Weak network in growing Indian aviation market'
+        },
 
-            {'title': 'BNB and Randomize to codeshare',
-             'description': 'Starting September 10, BNB passengers will be' +
-             'able to book connecting flights on Ethiopian Airlines.'},
+        {
+            'title': 'BNB and Randomize to codeshare',
+            'description': 'Starting September 10, BNB passengers will be able '
+                           'to book connecting flights on Ethiopian Airlines.'
+        },
 
-            {'title': 'Alliance Officially Opens New Lounge',
-             'description': ''},
-        ]
-        for newsitem in newscontent:
-            create_as(
-                "admin",
-                type='News Item',
-                title=newsitem['title'],
-                description=newsitem['description'],
-                container=portal['news'])
+        {
+            'title': 'Alliance Officially Opens New Lounge',
+            'description': ''
+        },
+    ]
+
+    for newsitem in newscontent:
+        api.content.create(
+            type='News Item',
+            title=newsitem['title'],
+            description=newsitem['description'],
+            container=news_folder
+        )
+
+    # Create workspaces
