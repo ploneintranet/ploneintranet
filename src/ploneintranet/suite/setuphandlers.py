@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import os
 import csv
 import logging
@@ -215,6 +216,25 @@ def create_ws_content(parent, contents):
             create_ws_content(obj, sub_contents)
 
 
+def create_events(events):
+    portal = api.portal.get()
+    if 'events' not in portal:
+        event_folder = create_as(
+            'admin',
+            container=portal,
+            type='Folder',
+            title='Events'
+        )
+    else:
+        event_folder = portal['events']
+    for ev in events:
+        create_as(
+            'admin',
+            container=event_folder,
+            **ev
+        )
+
+
 def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
@@ -338,3 +358,19 @@ def testing(context):
          }
     ]
     create_workspaces(workspaces)
+
+    # Create some events
+    now = datetime.now()
+    tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
+                                                 microsecond=0)
+    next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
+                                                    second=0, microsecond=0)
+    events = [
+        {'title': 'Open Market Day',
+         'start': tomorrow,
+         'end': tomorrow + timedelta(hours=8)},
+        {'title': 'Plone Conf',
+         'start': next_month,
+         'end': next_month + timedelta(days=3, hours=8)}
+    ]
+    create_events(events)
