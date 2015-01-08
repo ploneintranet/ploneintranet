@@ -76,6 +76,44 @@ def create_users(context, users, avatars_dir):
             graph.set_follow(userid, decode(followee))
 
 
+def create_groups(groups):
+    """Creates groups.
+
+    ``groups`` is a dictionary with the following keys:
+
+      * groupid
+      * groupname
+      * roles (list)
+      * parentgroups
+      * members (list)
+    """
+    group_tool = api.portal.get_tool(name='portal_groups')
+    for group in groups:
+        groupid = decode(group['groupid'])
+        try:
+            group_obj = api.group.get(groupname=groupid)
+        except ValueError:
+            group_obj = None
+        if group_obj is None:
+            api.group.create(
+                groupname=groupid,
+                roles=group.get('roles', []),
+                title=group.get('title', groupid),
+                groups=[decode(g) for g in group.get('parentgroups', [])]
+            )
+        else:
+            group_tool.editGroup(
+                groupid,
+                roles=group.get('roles', []),
+                title=group.get('title', groupid),
+                groups=[decode(g) for g in group.get('parentgroups', [])]
+            )
+        for member in group.get('members', []):
+            api.group.add_user(
+                groupname=groupid,
+                username=decode(member)
+            )
+
 
 def create_as(userid, *args, **kwargs):
     current = api.user.get_current()
@@ -94,10 +132,10 @@ def testing(context):
         return
 
     portal = api.portal.get()
-    csv_file = os.path.join(context._profile_path, 'users.csv')
+    users_csv_file = os.path.join(context._profile_path, 'users.csv')
     users = []
-    with open(csv_file, 'rb') as csv_data:
-        reader = csv.DictReader(csv_data)
+    with open(users_csv_file, 'rb') as users_csv_data:
+        reader = csv.DictReader(users_csv_data)
         for user in reader:
             user = {
                 k: v.decode('utf-8') for k, v in user.iteritems()
@@ -108,6 +146,24 @@ def testing(context):
             ]
             users.append(user)
     create_users(context, users, 'avatars')
+
+    groups_csv_file = os.path.join(context._profile_path, 'groups.csv')
+    groups = []
+    with open(groups_csv_file, 'rb') as groups_csv_data:
+        reader = csv.DictReader(groups_csv_data)
+        for group in reader:
+            group = {
+                k: v.decode('utf-8') for k, v in group.iteritems()
+            }
+            group['roles'] = [r for r in group['roles'].split('|') if r]
+            group['parentgroups'] = [
+                g for g in group['parentgroups'].split(' ') if g
+            ]
+            group['members'] = [
+                u for u in group['members'].split(' ') if u
+            ]
+            groups.append(group)
+    create_groups(groups)
 
     # news item
     if 'news' not in portal:
