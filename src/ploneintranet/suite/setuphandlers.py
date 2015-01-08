@@ -230,6 +230,7 @@ def create_events(events):
     for ev in events:
         create_as(
             'admin',
+            type='Event',
             container=event_folder,
             **ev
         )
