@@ -57,16 +57,26 @@
                          title view/Title"
          tal:content="view/Title">view title</a>
     </h4>
-  	<p> 
+  	<p>
       <tal:block tal:content="view/getText" />
       <a tal:attributes="href view/url"
          i18n:translate="see_more_link">See more...</a>
     </p>
   </section>
 
-  <p class="functions">
+  <div class="functions">
         <a href="#">Share <sup class="counter">(8)</sup></a>
-        <a href="#">Like <sup class="counter">(3)</sup></a>
-  </p>
+        <form href="#"
+           tal:define="toggle_like_view python:context.context.restrictedTraverse('toggle_like')"
+           tal:replace="structure python:toggle_like_view()">
+          <button class="like active"
+                  value="like"
+                  name="like_button"
+                  type="submit">
+            <span>Like</span>
+            <sup class="counter">(4)</sup>
+          </button>
+        </form>
+  </div>
 
 </div>
