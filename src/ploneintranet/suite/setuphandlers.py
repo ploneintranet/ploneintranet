@@ -10,6 +10,7 @@ from Products.PlonePAS.utils import scale_image
 from ploneintranet.todo.behaviors import ITodo
 from plonesocial.network.interfaces import INetworkGraph
 
+
 def decode(value):
     if isinstance(value, unicode):
         return value.encode('utf-8')
@@ -178,6 +179,33 @@ def create_tasks(todos):
         todo.assignee = data['assignee']
 
 
+def create_workspaces(workspaces):
+    portal = api.portal.get()
+
+    for w in workspaces:
+        contents = w.pop('contents', None)
+        workspace = create_as(
+            'admin',
+            container=portal,
+            type='WorkspaceFolder',
+            **w
+        )
+        if contents is not None:
+            create_ws_content(workspace, contents)
+
+
+def create_ws_content(parent, contents):
+    for content in contents:
+        sub_contents = content.pop('contents', None)
+        obj = create_as(
+            'admin',
+            container=parent,
+            **content
+        )
+        if sub_contents is not None:
+            create_ws_content(obj, sub_contents)
+
+
 def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
@@ -265,3 +293,39 @@ def testing(context):
         'assignee': 'kurt_weissman',
     }]
     create_tasks(todos_content)
+
+    # Create workspaces
+    workspaces = [
+        {'title': 'Open Market Committee',
+         'description': 'The OMC holds eight regularly scheduled meetings '
+                        'during the year and other meetings as needed.',
+         'contents':
+             [{'title': 'Manage Information',
+               'type': 'Folder',
+               'contents':
+                   [{'title': 'Preparation of Records',
+                     'description': 'How to prepare records',
+                     'type': 'File'},
+                    {'title': 'Public bodies reform',
+                     'description': 'Making arrangements for the transfer of '
+                                    'information, records and knowledge is a '
+                                    'key part of any Machinery of Government '
+                                    'change.',
+                     'type': 'Document'}]},
+              {'title': 'Projection Materials',
+               'type': 'Folder',
+               'contents':
+                   [{'title': 'Projection Material',
+                     'type': 'File'}]}]},
+        {'title': 'Parliamentary papers guidance',
+         'description': '"Parliamentary paper" is a term used to describe a '
+                        'document which is laid before Parliament. Most '
+                        'government organisations will produce at least one '
+                        'parliamentary paper per year.',
+         'contents':
+            [{'title': 'Test Document',
+              'description': 'A document just for testing',
+              'type': 'Document'}]
+         }
+    ]
+    create_workspaces(workspaces)
