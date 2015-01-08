@@ -1,9 +1,10 @@
-from zope.interface import implements
+from plone import api
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
-from interfaces import IWorkspaceState
-from ploneintranet.workspace.utils import parent_workspace
-from plone import api
+from zope.interface import implements
+
+from .interfaces import IWorkspaceState
+from .utils import parent_workspace
 
 
 class WorkspaceView(BrowserView):
