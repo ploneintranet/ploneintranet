@@ -2,14 +2,22 @@ from datetime import datetime, timedelta
 import os
 import csv
 import logging
+import json
+import time
 import transaction
+import mimetypes
+from DateTime import DateTime
 from zope.component import queryUtility
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.attachments.utils import create_attachment
 from plonesocial.network.interfaces import INetworkGraph
+from plonesocial.microblog.interfaces import IMicroblogTool
+from plonesocial.microblog.statusupdate import StatusUpdate
 
 
 def decode(value):
@@ -236,6 +244,64 @@ def create_events(events):
         )
 
 
+class FakeFileField(object):
+    """A mock so that we can use ``create_attachment``
+    """
+
+    def __init__(self, filename, file_object):
+        self.filename = filename
+        self.file_object = file_object
+
+    @property
+    def headers(self):
+        ctype, encoding = mimetypes.guess_type(self.filename)
+        if ctype is None:
+            ctype = 'application/octet-stream'
+        return {
+            'content-type': ctype
+        }
+
+    def read(self):
+        return self.file_object.read()
+
+
+def create_stream(context, stream, files_dir):
+    contexts_cache = {}
+    microblog = queryUtility(IMicroblogTool)
+    microblog.clear()
+    for status in stream:
+        kwargs = {}
+        if status['context']:
+            if status['context'] not in contexts_cache:
+                contexts_cache[status['context']] = api.content.get(
+                    path='/'+decode(status['context']).lstrip('/')
+                )
+            kwargs['context'] = contexts_cache[status['context']]
+        status_obj = StatusUpdate(status['text'], **kwargs)
+        status_obj.userid = status['user']
+        status.creator = api.user.get(
+            username=status['user']
+        ).getProperty('fullname')
+        offset_time = status['timestamp'] * 60
+        status_obj.id -= int(offset_time * 1e6)
+        status_obj.date = DateTime(time.time() - offset_time)
+        microblog.add(status_obj)
+        if 'attachment' in status:
+            attachment_definition = status['attachment']
+            attachment_filename = os.path.join(
+                files_dir,
+                attachment_definition['filename']
+            )
+            attachment = context.openDataFile(attachment_filename)
+            fake_field = FakeFileField(
+                attachment_definition['filename'],
+                attachment
+            )
+            attachment_obj = create_attachment(fake_field)
+            attachments = IAttachmentStorage(status_obj)
+            attachments.add(attachment_obj)
+
+
 def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
@@ -375,3 +441,8 @@ def testing(context):
          'end': next_month + timedelta(days=3, hours=8)}
     ]
     create_events(events)
+
+    stream_json = os.path.join(context._profile_path, 'stream.json')
+    with open(stream_json, 'rb') as stream_json_data:
+        stream = json.load(stream_json_data)
+    create_stream(context, stream, 'files')
