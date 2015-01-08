@@ -1,6 +1,7 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 
+
 def create_as(userid, *args, **kwargs):
     current = api.user.get_current()
     user = api.user.get(username=userid)
@@ -10,6 +11,7 @@ def create_as(userid, *args, **kwargs):
     finally:
         # we always restore the previous security context, no matter what
         newSecurityManager(None, current)
+
 
 def testing(context):
 
