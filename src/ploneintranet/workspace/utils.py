@@ -2,11 +2,9 @@ from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone import api
 from zope.annotation import IAnnotations
 from zope.component import getUtility
-from zope.component import hooks
 
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
@@ -51,8 +49,10 @@ def parent_workspace(context):
         if IWorkspaceFolder.providedBy(parent):
             return parent
 
+
 def in_workspace(context):
-    return IWorkspaceState.providedBy(parent_workspace(context))
+    return IWorkspaceFolder.providedBy(parent_workspace(context))
+
 
 def escape_id_to_class(cid):
     """ We use workspace ids as classes to style them.
@@ -106,4 +106,3 @@ def my_workspaces(context):
         } for brain in brains
     ]
     return workspaces
-

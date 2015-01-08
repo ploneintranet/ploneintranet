@@ -1,9 +1,7 @@
-from Acquisition import aq_chain
 from zope.interface import implements
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from interfaces import IWorkspaceState
-from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from ploneintranet.workspace.utils import parent_workspace
 from plone import api
 
@@ -16,6 +14,7 @@ class WorkspaceView(BrowserView):
     def workspace(self):
         # return the related workspace
         return parent_workspace(self.context)
+
 
 class WorkspaceState(BrowserView):
     """
