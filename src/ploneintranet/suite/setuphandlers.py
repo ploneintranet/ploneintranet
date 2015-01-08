@@ -179,7 +179,6 @@ def create_tasks(todos):
 
 
 def testing(context):
-
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
 
@@ -219,8 +218,8 @@ def testing(context):
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
 
-    # We use fixed dates, we need thes to be relative
-    #publication_date = ['just now', 'next week', 'next year', ]
+    # We use fixed dates, we need these to be relative
+    # publication_date = ['just now', 'next week', 'next year', ]
 
     # make newsitems
     news_content = [
@@ -231,7 +230,8 @@ def testing(context):
 
         {'title': 'BNB and Randomize to codeshare',
          'description': 'Starting September 10, BNB passengers will be'
-         'able to book connecting flights on Ethiopian Airlines.',
+                        'able to book connecting flights on Ethiopian '
+                        'Airlines.',
          'tags': [tags[1]],
          'publication_date': ''},
 
