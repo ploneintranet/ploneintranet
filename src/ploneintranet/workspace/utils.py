@@ -64,14 +64,14 @@ def escape_id_to_class(cid):
 
 
 def get_workspace_activities(brain, limit=1):
-    ''' Return the workspace activities sorted by reverse chronological
+    """ Return the workspace activities sorted by reverse chronological
     order
 
     Regarding the time value:
      - the datetime value contains the time in international format
        (machine readable)
      - the title value contains the absolute date and time of the post
-    '''
+    """
     # BBB: this is a mock!!!!
     return [
         {
@@ -87,8 +87,8 @@ def get_workspace_activities(brain, limit=1):
 
 
 def my_workspaces(context):
-    ''' The list of my workspaces
-    '''
+    """ The list of my workspaces
+    """
     pc = api.portal.get_tool('portal_catalog')
     brains = pc(
         portal_type="ploneintranet.workspace.workspacefolder",
