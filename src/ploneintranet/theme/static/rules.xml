@@ -111,6 +111,7 @@
   <theme href="generated/empty.html" />
 </rules>
 
+<notheme css:if-content="body.diazo-off"/>
 
 
   <!-- Cleanup any demo content that comes with the theme -->
