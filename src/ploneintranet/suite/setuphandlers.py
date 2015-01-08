@@ -127,7 +127,7 @@ def testing(context):
          'publication_date': ''},
 
         {'title': 'BNB and Randomize to codeshare',
-         'description': 'Starting September 10, BNB passengers will be' +
+         'description': 'Starting September 10, BNB passengers will be'
          'able to book connecting flights on Ethiopian Airlines.',
          'tags': [tags[1]],
          'publication_date': ''},
@@ -140,7 +140,7 @@ def testing(context):
     create_news_items(news_content)
 
 
-def create_news_items(context, newscontent):
+def create_news_items(newscontent):
     # news item
     portal = api.portal.get()
 
@@ -161,5 +161,6 @@ def create_news_items(context, newscontent):
                             title=newsitem['title'],
                             description=newsitem['description'],
                             container=news_folder)
-            obj.publication_date = newsitem['publication_date']
-            obj.Subject = newsitem['tags']
+            # we need to publish the item, set tags and publication date
+            #obj.publication_date = newsitem['publication_date']
+            #obj.Subject = newsitem['tags']
