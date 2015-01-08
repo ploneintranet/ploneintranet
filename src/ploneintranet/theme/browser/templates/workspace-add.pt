@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet.theme">
+<head>
+</head>
+<body class="diazo-off">
+    <div id="content" class="application">
+        <h1>Add new workspace</h1>
+        <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
+            tal:attributes="action string:${context/absolute_url}/++add++ploneintranet.workspace.workspacefolder" class="wizard-box pat-validate">
+
+          <div class="panel-body">
+            <fieldset class="horizontal">
+              <label>Title <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label>           
+              <label>Description <textarea name="form.widgets.IBasic.description"></textarea></label>
+            </fieldset>
+          </div>
+
+          <fieldset class="button-bar panel-footer">
+            <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative">Save</button>
+          </fieldset>
+          <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+          <span tal:replace="structure context/@@authenticator/authenticator"/>
+        </form>
+
+    </div>
+</body>
+</html>
+

@@ -94,6 +94,23 @@
       layer="..interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      name="workspaces.html"
+      for="*"
+      class=".workspace.Workspaces"
+      permission="zope2.View"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
+  <browser:page
+      name="workspace-add"
+      for="*"
+      class=".workspace.AddView"
+      permission="cmf.ManagePortal"
+      template="templates/workspace-add.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
+
   <!-- prototype tiles for dashboard and workspace
 
        These are 'mock' tiles.
@@ -133,6 +150,28 @@
       add_permission="cmf.ManagePortal"
       class=".dashboard.NewPostBoxTile"
       permission="zope.Public"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+  <plone:tile
+      name="workspace.tabs.tile"
+      title="Workspace Tabs"
+      description="This tile shows the workspace tabs"
+      add_permission="cmf.ManagePortal"
+      class=".workspace.WorkspaceTabsTile"
+      permission="zope2.View"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+  <plone:tile
+      name="sidebar.tile"
+      title="Sidebar: Files"
+      description="This tile shows the sidebar listing files"
+      add_permission="cmf.ManagePortal"
+      class=".sidebar.Tile"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />

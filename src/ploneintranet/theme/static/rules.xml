@@ -88,7 +88,10 @@
 <rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder">
   <theme href="generated/open-market-committee/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
-  <append css:content-children="#content" css:theme="#content" />
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
 <rules css:if-content="body.template-dashboard-html">
@@ -96,11 +99,19 @@
   <drop css:theme-children="div.container" />
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
+<rules css:if-content="body.template-workspaces-html">
+  <theme href="generated/workspaces.html" />
+  <drop css:theme-children="div.container" />
+  <append css:content-children="#portal-column-content" css:theme="div.container" />
+</rules>
+
+
 
 <rules css:if-content="#visual-portal-wrapper">
   <theme href="generated/empty.html" />
 </rules>
 
+<notheme css:if-content="body.diazo-off"/>
 
 
   <!-- Cleanup any demo content that comes with the theme -->

@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            metal:use-macro="context/main_template/macros/master"
+            i18n:domain="ploneintranet.theme">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content">
+
+    <div class="container">
+        <div class="tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+            <div class="grid-sizer four columns"></div>
+            
+            <tal:r repeat="w view/workspaces">
+            <div class="tile workspace four columns  workspace-open-market-committee"
+                tal:attributes="class string:tile workspace four columns ${w/class}">
+                <a href="/open-market-committee" class="link"
+                   tal:attributes="href w/url">
+                    <h3 tal:content="w/title">Open Market Committee</h3>
+                    
+                        <p class="description" tal:content="w/description">
+                            The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                        </p>
+                </a>
+            </div>
+            </tal:r>
+            <div class="tile workspace four columns add">
+                <a href="@@workspace-add#content" class="pat-modal">
+                   Create Workspace
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+        </metal:content>
+    </body>
+</html>

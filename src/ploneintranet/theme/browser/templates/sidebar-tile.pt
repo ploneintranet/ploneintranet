@@ -1,0 +1,424 @@
+<html>
+<body>
+
+<div hidden id="more-menu">
+    <ul class="menu">
+        <li>
+            <a class="icon-document" href="#">Paste document(s)</a>
+        </li>
+    </ul>
+</div>
+<div id="sidebar-content" class="pat-stacks">
+    <div id="workspace-documents">
+        <div class="item-selector mode-follow" id="selector">
+<!-- <div class="item-selector mode-select" id="selector"> -->
+            <div class="button-bar functions" id="selector-functions">    
+                <div class="contextual buttons float-before" id="selector-contextual-functions">
+                    <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+                    <form action="./#items" class="pat-inject pat-autosubmit">
+                        <label class="pat-select bare">Group by
+                            <select name="browse-mode">
+                                <option value="folder">folder</option>
+                                <option value="label">tag</option>
+                                <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                                <option value="type">document type</option>
+                                <!-- When the groups are author names, the author avatar is used as an icon. -->
+                                <option value="author">author</option>
+                                <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                                <option value="date">date</option>
+                                <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                                <option value="letter">first letter</option>
+                            </select>
+                        </label>
+                    </form>
+                </div>
+
+                <h2 id="context-title" class="context-title">
+                    Some Context
+                </h2>
+
+                <a class="selector-toggle-select more-menu-trigger">Functions</a>
+            </div>
+
+            <form class="search-box pat-inject pat-autosubmit" action="/feedback/workspace-search-results-min.html#items">
+                <label>
+                    <input name="" type="search" placeholder="Search" />
+                    <button type="submit">Search</button>
+                </label>
+            </form>
+
+            <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
+                <fieldset class="checklist pat-checklist docs ">
+            
+                    <div class="batch-functions">
+                        <div class="button-bar">
+                            <span class="float-before button-cluster select-buttons">
+                                <button type="button" class="select-all" title="Select all">All</button>
+                                <button type="button" class="deselect-all" title="Deslect all">None</button>
+                            </span>
+                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Cancel</button>
+                        </div>
+                        <div class="button-bar">
+                            <span class="float-before button-cluster">
+                                <button type="submit"
+                                        name="batch-function"
+                                        value="cut"
+                                        class="float-before icon-cut no-label pat-depends"
+                                        data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                        formaction="/feedback/banner-notifications#documents-cut"
+                                        title="Cut">Cut</button>
+                                <button type="submit"
+                                        name="batch-function"
+                                        value="copy"
+                                        formaction="/feedback/banner-notifications#documents-copied"
+                                        class="float-before icon-copy no-label pat-depends"
+                                        data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                        title="Copy">Copy</button>
+                                <button disabled
+                                        type="submit"
+                                        name="batch-function"
+                                        value="paste"
+                                        formaction="/open-market-committee#items"
+                                        class="float-before icon-paste no-label"
+                                        title="Paste">Paste</button>
+                            </span>
+                            <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
+                            <button formaction="/feedback/batch-delete.html#content"
+                                    type="submit"
+                                    name="batch-function"
+                                    value="delete"
+                                    class="float-before icon-trash no-label pat-depends"
+                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    title="Delete">Delete</button>
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="rename"
+                                    formaction="/feedback/batch-rename.html#content"
+                                    class="float-before icon-rename no-label pat-depends"
+                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    title="Rename">Rename</button>
+                            <button formaction="/feedback/batch-tag.html#content"
+                                    type="submit"
+                                    name="batch-function"
+                                    value="tag"
+                                    class="float-before icon-tags no-label pat-depends"
+                                    data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
+                                    title="Re-tag">Re-tag</button>
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="tag"
+                                    class="float-before icon-export pat-depends"
+                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    title="Share">Share</button>
+                        </div>
+                    </div>
+                                    
+                    <!-- Each document has a class name on the label element that indicates the document type.
+
+                    Supported types include (class names):
+
+                    - type-presentation
+                    - type-slide
+                    - type-date
+                    - type-event
+                    - type-user
+                    - type-tag
+                    - type-powerpoint
+                    - type-word
+                    - type-zip
+                    - type-video
+                    - type-excel
+                    - type-sound
+                    - type-image
+                    - type-code
+                    - type-rich
+                    - type-pdf
+
+                    -->
+                    <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                    <label class="item document type-event has-description">
+                        <input name="event-traces-through-time" type="checkbox" />
+                        <a href="/event-traces-through-time#document-body" class="pat-inject follow" data-pat-inject="target: #document-body">
+                            <strong class="title">Traces through Time data workshop</strong>
+                            
+                                <dfn class="byline">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
+                            
+                        </a>
+                    </label>
+                        
+
+                    <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                    -->
+                    <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                    <label class="item group type-folder has-no-description">
+                        <input name="projection-materials" type="checkbox" />
+                        <a href="/projection-materials#items" class="follow pat-inject"
+                        data-pat-inject="source: #items; target: #items &&
+                        source: #selector-contextual-functions; target: #selector-contextual-functions &&
+                        source: #context-title; target: #context-title"
+                        >
+                            <strong class="title">Projection Materials</strong>
+                            
+                        </a>
+                    </label>
+               
+                    <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                    -->
+                    <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                    <label class="item group type-folder has-description">
+                        <input name="minutes" type="checkbox" />
+                        <a href="/minutes#items" class="follow pat-inject"
+                        data-pat-inject="source: #items; target: #items &&
+                        source: #selector-contextual-functions; target: #selector-contextual-functions &&
+                        source: #context-title; target: #context-title"
+                        >
+                            <strong class="title">2014 Meetings</strong>
+                            
+                                <dfn class="byline">Meeting documents, statements, and minutes</dfn>
+                            
+                        </a>
+                    </label>
+       
+                    <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                    -->
+                    <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                    <label class="item group type-folder has-no-description">
+                        <input name="manage-information" type="checkbox" />
+                        <a href="/manage-information#items" class="follow pat-inject"
+                        data-pat-inject="source: #items; target: #items &&
+                        source: #selector-contextual-functions; target: #selector-contextual-functions &&
+                        source: #context-title; target: #context-title"
+                        >
+                            <strong class="title">Manage Information</strong>
+                            
+                        </a>
+                    </label>
+                        
+                </fieldset>
+<!--         
+            <div class="button-bar bottom form-submit pat-bumper">
+                <button type="submit" class="close-panel">Save</button>
+                <button type="reset" class="close-panel">Cancel</button>
+            </div>
+         -->
+            </form>
+
+            <div class="button-bar create-buttons">
+                <a href="/panel-create-document.html#document-content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
+                <a href="/panel-create-folder.html#document-content" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
+            </div>
+            <form action="./">
+                <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload; label: Drop files here or click to browse…; trigger: auto;">
+                    <label class="accessibility-options">
+                        <input type="file" multiple> Upload files
+                    </label>
+                </fieldset>
+            </form>
+
+            <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
+                <!-- <h3 class="trigger selector-toggle-select">
+                    Functions…
+                </h3> -->
+                <ul class="menu">
+                    <li>
+                        <a href="/panel-create-document.html#document-content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large">Create document</a>
+                    </li>
+                    <li>
+                        <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
+                    </li>
+                    <li>
+                        <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
+                    </li>
+                    <li>
+                        
+                            <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                        
+                    </li>
+                </ul>
+            </div>
+
+            <div hidden id="selector-create-menu">
+                <ul class="menu">
+                    <li>
+                        <a class="icon-document" href="#">Text document</a>
+                    </li>
+
+                    <li>
+                        <a class="icon-slides">Slideshow</a>
+                    </li>
+
+                    <li>
+                        <a class="icon-calendar">Event</a>
+                    </li>
+
+
+                    <li>
+                        <a class="icon-linkdd">Weblink</a>
+                    </li>
+
+                    <li>
+                        <a class="icon-upload" href="#">Upload file(s)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="workspace-tickets">
+        <fieldset class="task-list pat-checklist">    
+            <br/>
+                    
+            <label>
+                <input type="checkbox" /> <a title="Be early at the venue to prepare everything for the staff christmas get-together.
+Remember:
+* Decoration
+* Gifts
+* Get a toast master to organise the speeches
+* Projector for the annual retrospect
+* Cables and Adapters
+
+" href="/prepare-christmas-gettogether">Prepare Christmas get-together</a>
+            </label>
+        
+            
+                <br/>
+            
+            <label>
+                <input type="checkbox" /> <a title="Inquire after the necessary references for the History Book project, as they haven't been provided initially.
+
+" href="/inquire-on-references">Inquire after References</a>
+            </label>
+        
+            
+                <br/>
+            
+            <label>
+                <input type="checkbox" /> <a title="Need to have the first budget draft ready to present to the board.
+
+" href="/finalise-budget">Finalise Budget</a>
+            </label>
+        
+        
+    
+        
+            
+                <br/>
+            
+            <label>
+                <input type="checkbox" /> <a title="Collect the latest data from Finance and update the 2013 presentation accordingly.
+Check with @Peter for details and have it approved by @Liz.
+
+" href="/prepare-sales-presentation">Prepare sales presentation</a>
+            </label>
+                <br/>
+            
+            <label>
+                <input type="checkbox" /> <a title="The committee requested a SWOT analysis of the potential outcomes of this concept. Prepare until next week.
+
+" href="/write-swot-analysis">Write SWOT analysis</a>
+            </label>        
+        </fieldset>
+    </div>
+
+    <div id="workspace-events">
+
+        <div class="content">
+
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
+                <h3>Unscheduled events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event no-date cal-cat-baggage-handling-regulations">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Release of the new Baggage Handbook</a></h4>
+
+                        <p class="description">Plan Press Conference and internal event to mark the release of the new Baggage Handbook. Scheduled to happen in September.</p>
+
+                        <ul class="details">
+                            <li>Location <span class="location">Frankfurt, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+                <h3>Upcoming events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title">
+                            <a class="pat-inject" href="/event-traces-through-time#document-body">Traces through Time data workshop</a>
+                        </h4>
+
+                        <p class="description">An interactive workshop to test new and innovative tools to trace people through time.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">2014-12-15 14:00 GMT+2</time></li>
+
+                            <li>Location <span class="location"></span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+                <h3>Older events</h3>
+
+                <ul class="cal-events">
+                    <li class="cal-event all-day cal-cat-baggage-handling">
+                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Report Deadline: Focus on Baggage</a></h4>
+
+                        <p class="description">The new Report on "Focus on Baggage" goes out today.</p>
+
+                        <ul class="details">
+                            <li>Starts <time class="start" datetime="2013-09-05">5 September 2013</time></li>
+
+                            <li>Location <span class="location">Star HQ, Germany</span></li>
+                        </ul>
+
+                        <form action="">
+                            <button class="iconified icon-trash" type="submit">Delete event</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="workspace-about">
+        <div class="content">
+            <p class="message notice description">The goal of this project is to integrate CA to ADC product.</p>
+            <h3>Members</h3>
+            <p class="user-cloud">
+                <a href="alexander-pilz.html#address-body" title="Alexander Pilz" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="../media/avatar-alexander-pilz.jpg" width="50" height="50" alt="Alexander Pilz" /></a>
+
+                <a href="#" title="Cornelis Kolbach"><img src="../media/avatar-cornelis-kolbach.jpg" width="50" height="50" alt="Cornelis Kolbach" /></a>
+
+                <a href="#" title="Guido Stevens"><img src="../media/avatar-guido-stevens.jpg" width="50" height="50" alt="Guido Stevens" /></a>
+
+                <a href="profile-liz.html#address-body" class="pat-inject" title="Liz Johnson"><img src="../media/avatar-liz.jpg" width="50" height="50" alt="Name of colleague" alt="Name-of-colleague" /></a>
+
+                <a href="#"><img src="../media/avatar-corinne-bedow.jpg" width="50" height="50" alt="Justin Erbacci" /></a>
+
+                <a href="#" title="Barack Obama"><img src="../media/avatar-adrian-white.jpg" width="50" height="50" alt="Barack Obama" /></a>
+
+                <a href="#" title="Jeff Peters"><img src="../media/avatar-jeff-peters.jpg" width="50" height="50" alt="Jeff Peters" /></a>
+
+                <a href="#" title="Joan Baker"><img src="../media/avatar-joan-baker.jpg" width="50" height="50" alt="Joan Baker"></a>
+
+                <a href="#" title="Megan Fox"><img src="../media/avatar-megan-fox.jpg" width="50" height="50" alt="Megan Fox"></a>
+                <a href="#" title="Add a new member to this workspace" class="add">Add member</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

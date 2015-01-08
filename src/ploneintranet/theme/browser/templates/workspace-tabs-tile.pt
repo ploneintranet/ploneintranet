@@ -1,0 +1,12 @@
+<html>
+<body>
+    <a class="documents pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-documents" title=
+    "Documents">Documents</a> 
+    <a class="events pat-switch" data-pat-switch="#content mode-* mode-c" href=
+    "#workspace-events" title="Events">Events</a> 
+    <a class="todos pat-switch " data-pat-switch="#content mode-* mode-c" href="#workspace-tickets"
+    title="Tasks">Tasks</a> 
+    <a class="about pat-switch" data-pat-switch="#content mode-* mode-c" href="#workspace-about"
+    title="About this project">Workspace settings and about</a> 
+</body>
+</html>
