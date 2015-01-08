@@ -117,6 +117,8 @@ def create_groups(groups):
 
 
 def create_as(userid, *args, **kwargs):
+    """Call api.content.create as a different user
+    """
     current = api.user.get_current()
     user = api.user.get(username=userid)
     newSecurityManager(None, user)
