@@ -145,7 +145,7 @@ def create_news_items(newscontent):
 
     for newsitem in newscontent:
         obj = create_as(
-            "admin",
+            'admin',
             type='News Item',
             title=newsitem['title'],
             description=newsitem['description'],
