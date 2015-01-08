@@ -6,6 +6,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
+from ploneintranet.todo.behaviors import ITodo
 from plonesocial.network.interfaces import INetworkGraph
 
 
@@ -215,3 +216,44 @@ def testing(context):
          'publication_date': ''},
     ]
     create_news_items(news_content)
+
+    # Create tasks
+    todos = [{
+        'title': 'Inquire after References',
+        'creator': 'admin',
+        'assignee': 'All Intranet Users',
+    }, {
+        'title': 'Finalize budget',
+        'creator': 'admin',
+        'assignee': 'All Intranet Users',
+    }, {
+        'title': 'Write SWOT analysis',
+        'creator': 'admin',
+        'assignee': 'All Intranet Users',
+    }, {
+        'title': 'Prepare sales presentation',
+        'creator': 'admin',
+        'assignee': 'All Intranet Users',
+    }, {
+        'title': 'Talk to HR about vacancy',
+        'creator': 'admin',
+        'assignee': 'All Intranet Users',
+    }]
+    if 'todos' not in portal:
+        todos_folder = create_as(
+            "admin",
+            type='Folder',
+            title='Todos',
+            container=portal)
+        api.content.transition(obj=todos_folder, transition='publish')
+    else:
+        todos_folder = portal['todos']
+
+    for data in todos:
+        obj = create_as(
+            data['creator'],
+            type='simpletodo',
+            title=data['title'],
+            container=todos_folder)
+        todo = ITodo(obj)
+        todo.assignee = data['assignee']
