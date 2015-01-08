@@ -94,6 +94,15 @@
       layer="..interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      name="workspaces.html"
+      for="*"
+      class=".workspace.Workspaces"
+      permission="zope2.View"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
+
   <!-- prototype tiles for dashboard and workspace
 
        These are 'mock' tiles.
