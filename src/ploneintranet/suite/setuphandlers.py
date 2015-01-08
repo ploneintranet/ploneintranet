@@ -1,6 +1,7 @@
 import os
 import csv
 import logging
+import transaction
 from zope.component import queryUtility
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
@@ -8,7 +9,6 @@ from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from ploneintranet.todo.behaviors import ITodo
 from plonesocial.network.interfaces import INetworkGraph
-
 
 def decode(value):
     if isinstance(value, unicode):
@@ -170,7 +170,7 @@ def create_tasks(todos):
 
     for data in todos:
         obj = create_as(
-            data['creator'],
+            'admin',
             type='simpletodo',
             title=data['title'],
             container=todos_folder)
@@ -245,23 +245,23 @@ def testing(context):
     # Create tasks
     todos_content = [{
         'title': 'Inquire after References',
-        'creator': 'admin',
-        'assignee': 'All Intranet Users',
+        'creator': 'alice_lindstrom',
+        'assignee': 'employees',
     }, {
         'title': 'Finalize budget',
-        'creator': 'admin',
-        'assignee': 'All Intranet Users',
+        'creator': 'christian_stoney',
+        'assignee': 'employees',
     }, {
         'title': 'Write SWOT analysis',
-        'creator': 'admin',
-        'assignee': 'All Intranet Users',
+        'creator': 'pearlie_whitby',
+        'assignee': 'employees',
     }, {
         'title': 'Prepare sales presentation',
-        'creator': 'admin',
-        'assignee': 'All Intranet Users',
+        'creator': 'lance_stockstill',
+        'assignee': 'lance_stockstill',
     }, {
         'title': 'Talk to HR about vacancy',
-        'creator': 'admin',
-        'assignee': 'All Intranet Users',
+        'creator': 'kurt_weissman',
+        'assignee': 'kurt_weissman',
     }]
     create_tasks(todos_content)
