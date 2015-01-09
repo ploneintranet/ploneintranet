@@ -1,9 +1,10 @@
 import unittest2 as unittest
-from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+from plonesocial.network.testing import FunctionalTestCase
+from plonesocial.network.testing import IntegrationTestCase
 from plonesocial.network.likes import LikesContainer
 
 
-class TestLikes(unittest.TestCase):
+class TestLikes(IntegrationTestCase):
 
     def setUp(self):
         #self.portal = self.layer['portal']

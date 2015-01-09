@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+from plonesocial.network.testing import FunctionalTestCase
+from plonesocial.network.testing import IntegrationTestCase
 import unittest2 as unittest
 
 PROJECTNAME = 'plonesocial.network'
@@ -11,9 +12,7 @@ EXPECTED_CSS = [
 ]
 
 
-class TestInstall(unittest.TestCase):
-
-    layer = PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+class TestInstall(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -31,9 +30,7 @@ class TestInstall(unittest.TestCase):
         self.assertListEqual(EXPECTED_CSS, resource_ids)
 
 
-class TestUninstall(unittest.TestCase):
-
-    layer = PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+class TestUninstall(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

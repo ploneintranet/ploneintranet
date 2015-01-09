@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from plonesocial.network.browser.author import AuthorView
 from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
-from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+from plonesocial.network.testing import FunctionalTestCase
+from plonesocial.network.testing import IntegrationTestCase
 from zope.interface import directlyProvides
 import unittest2 as unittest
 
 
-class TestViews(unittest.TestCase):
-
-    layer = PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+class TestViews(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
