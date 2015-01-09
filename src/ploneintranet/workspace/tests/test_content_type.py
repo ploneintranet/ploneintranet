@@ -116,3 +116,35 @@ class TestContentTypes(BaseTestCase):
         member_ids = pgroups.getGroup().getMemberIds()
         self.assertIn(user.getId(),
                       member_ids)
+
+    def test_add_workspacecontainer(self):
+        """
+        Check that WorkspaceContainer can be added to site root
+        """
+        self.login_as_portal_owner()
+        api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspaces',
+            title='Workspaces'
+        )
+        self.assertIn('workspaces', self.portal)
+
+    def test_cannot_add_workspacecontainer_inside_workspace(self):
+        """
+        Check that WorkspaceContainer cannot be added inside a workspace
+        """
+        self.login_as_portal_owner()
+        ws = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-1',
+            title='Workspace 1'
+        )
+        self.assertRaises(
+            InvalidParameterError,
+            api.content.create,
+            ws,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspace-container',
+        )
