@@ -6,5 +6,10 @@
       object="plonesocial_network"
       remove="true"
       />
+  <utility
+      interface="plonesocial.network.interfaces.ILikesTool"
+      object="plonesocial_likes"
+      remove="true"
+      />
  </utilities>
 </componentregistry>

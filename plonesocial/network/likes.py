@@ -1,9 +1,12 @@
+from Acquisition import Explicit
 from BTrees import LOBTree
 from BTrees import OOBTree
 from persistent import Persistent
-from Acquisition import Explicit
+from plonesocial.network.interfaces import ILikesContainer
+from zope.interface import implementer
 
 
+@implementer(ILikesContainer)
 class LikesContainer(Persistent, Explicit):
 
     def __init__(self, context=None):

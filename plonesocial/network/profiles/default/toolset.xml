@@ -2,4 +2,6 @@
 <tool-setup>
  <required tool_id="plonesocial_network"
            class="plonesocial.network.tool.NetworkTool"/>
+ <required tool_id="plonesocial_likes"
+           class="plonesocial.network.tool.LikesTool"/>
 </tool-setup>
