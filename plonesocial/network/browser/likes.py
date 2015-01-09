@@ -2,15 +2,13 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.app.uuid.utils import uuidToCatalogBrain
 from plonesocial.core.integration import PLONESOCIAL
-from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.network import _
 from plonesocial.network.interfaces import ILikesContainer
-from random import randrange
-from zope.publisher.interfaces import IPublishTraverse
-from zope.interface import implementer
 from zope.component import getUtility
-from plone.app.uuid.utils import uuidToCatalogBrain
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 
 import uuid
 
