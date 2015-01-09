@@ -148,3 +148,41 @@ class TestContentTypes(BaseTestCase):
             'ploneintranet.workspace.workspacecontainer',
             'workspace-container',
         )
+
+    def test_can_add_workspace_inside_workspacecontainer(self):
+        """
+        Check that workspaces can be added inside workspace container
+        """
+        self.login_as_portal_owner()
+        wsc = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspaces',
+            title='Workspaces'
+        )
+        api.content.create(
+            wsc,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-1',
+            title='Workspace 1'
+        )
+        self.assertIn('workspace-1', wsc)
+
+    def test_cannot_add_other_content_in_workspacecontainer(self):
+        """
+        Check that *only* workspaces can be added inside workspace container
+        """
+        self.login_as_portal_owner()
+        wsc = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspaces',
+            title='Workspaces'
+        )
+        self.assertRaises(
+            InvalidParameterError,
+            api.content.create,
+            wsc,
+            'Document',
+            'doc-1',
+        )
