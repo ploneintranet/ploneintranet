@@ -5,6 +5,6 @@
  <property name="allowed_content_types"
 	   purge="False">
    <element value="ploneintranet.workspace.workspacefolder" />
-   <element value="WorkspaceContainer" />
+   <element value="ploneintranet.workspace.workspacecontainer" />
  </property>
 </object>
