@@ -41,6 +41,14 @@
       layer=".interfaces.IPlonesocialNetworkLayer"
       />
 
+  <browser:page
+      name="toggle_like"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".likes.ToggleLike"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialNetworkLayer"
+      />
+
   <browser:resourceDirectory
       name="plonesocial.network.stylesheets"
       directory="stylesheets"
