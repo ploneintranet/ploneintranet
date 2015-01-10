@@ -114,13 +114,41 @@
     .shared-item {
       padding: 0 1em 0.5em 1em;
       overflow: hidden;
+      // border-left: 0.3em #efefef solid;
+      
+      .preview {
+        width: 36%;
+        float: left;
+        padding-top: 0.3em;
+      }
+
+      &.has-preview {
+
+        .summary {
+          width: 60%;
+          float: right;
+        }
+      }
 
       .title {
         margin-bottom: 0;
+        font-size: 0.8em;
+        line-height: 1.3em;
       }
+
       .byline {
         font-size: 0.8em;
+        line-height: 1.4em;
         font-style: italic;
+        margin-bottom: 0.5em;
+      }
+      
+      .description {
+        font-size: 0.8em;
+        line-height: 1.4em;
+        font-style: normal;
+        color: gray;
+        margin-bottom: 0.5em;
       }
     }
 

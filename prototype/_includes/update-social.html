@@ -36,11 +36,13 @@
             </fieldset>
         {% endunless %}
         {% if include.share_title %}
-            <div class="shared-item row">
-                <div class="three columns">
-                    <img src="{{ include.share_img }}" alt="" />
-                </div>
-                <div class="nine columns">
+            <div class="shared-item {% if include.share_img %}has-preview{% endif %}">
+                {% if include.share_img %}
+                    <div class="preview">
+                        <img src="{{ include.share_img }}" alt="" />
+                    </div>
+                {% endif %}
+                <div class="summary">
                     <h4 class="title">
                         {{ include.share_title }}
                     </h4>
