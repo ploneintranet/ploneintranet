@@ -11,8 +11,10 @@
   @include screen-size(small) {  
     right: 0;
     bottom: 0;
-    height: 98px;
-    font-size: 1.6em;
+    height: 49px;
+    font-size: 0.8em;
+
+    border-top: 1px silver solid;
   }
 
   @include screen-size(large) {  
@@ -61,7 +63,7 @@
     }
 
     @include screen-size(small) { 
-      height: 98px;
+      height: 49px;
       width: 25%;
       color: rgba(255,255,255,0.6);
 
@@ -83,10 +85,10 @@
       }
 
       @include screen-size(small) { 
-        height: 98px;
+        height: 49px;
         width: 100%;
-        line-height: 98px;
-        font-size: 40px;
+        line-height: 49px;
+        font-size: 20px;
       }
 
       display: block;
