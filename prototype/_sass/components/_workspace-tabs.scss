@@ -2,68 +2,102 @@
 
 .workspace-tabs {
   position: absolute;
-  width: 50px;
-  top: 0;
   left: 0;
   z-index: 0;
-  height: auto;
   border-style: none;
   padding: 0;
   background-color: $colour-workspace-default;
 
-  &:after {
-    content: " ";
+  @include screen-size(small) {  
+    right: 0;
+    bottom: 0;
+    height: 98px;
+    font-size: 1.6em;
+  }
+
+  @include screen-size(large) {  
     width: 50px;
-    height: 150px;
-    display: block;
-    position: absolute;
-    bottom: -150px;
-    left: 0;
-    pointer-events: none;
+    top: 0;
+    height: auto;
+
+    &:after {
+      content: " ";
+      width: 50px;
+      height: 150px;
+      display: block;
+      position: absolute;
+      bottom: -150px;
+      left: 0;
+      pointer-events: none;
+    }
   }
 
   a {
     float: left;
     text-indent: -10000px;
     position: relative;
-    height: 50px;
-    width: 50px;
     padding: 0;
+
+    @include screen-size(large) { 
+      height: 50px;
+      width: 50px;
+      color: rgba(255,255,255,0.8);
+
+      &.current {
+        cursor: default;
+        &:after {
+          content: " ";
+          display: block;
+          width: 0;
+          height: 0;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-right: 8px solid white;
+          position: absolute;
+          right: 0;
+          top: 18px;
+        }
+      }
+    }
+
+    @include screen-size(small) { 
+      height: 98px;
+      width: 25%;
+      color: rgba(255,255,255,0.6);
+
+      &.current {
+        color: white;
+      }
+    }
 
     &:before {
       content: " ";
       font-family: fontello;
       position: absolute;
-      height: 50px;
-      width: 50px;
+
+      @include screen-size(large) { 
+        height: 50px;
+        width: 50px;
+        line-height: 49px;
+        font-size: 20px;
+      }
+
+      @include screen-size(small) { 
+        height: 98px;
+        width: 100%;
+        line-height: 98px;
+        font-size: 40px;
+      }
+
       display: block;
       top: 0;
       left: 0;
-      line-height: 49px;
       text-indent: 0;
       text-align: center;
-      color: rgba(255,255,255,0.8);
-      font-size: 20px;
     }
 
     &:hover {
       background-color: rgba(46, 46, 46, 0.1);
-    }
-
-    &.current {
-      cursor: default;
-      &:after {
-        content: " ";
-        display: block;
-        width: 0;
-        height: 0;
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-        border-right: 8px solid white;
-        position: absolute;
-        right: 0;
-        top: 18px;
-      }
     }
 
     sup.counter.digit-3 {
