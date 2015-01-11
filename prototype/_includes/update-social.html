@@ -46,12 +46,21 @@
                     <h4 class="title">
                         {{ include.share_title }}
                     </h4>
-                    <p class="byline">
-                        {{ include.share_byline }}
-                    </p>
-                    <p class="description">
-                        {{ include.share_description }}
-                    </p>
+                    {% if include.share_byline %}
+                        <p class="byline">
+                            {{ include.share_byline }}
+                        </p>
+                    {% endif %}
+                    {% if include.share_description %}
+                        <p class="description">
+                            {{ include.share_description }}
+                        </p>
+                    {% endif %}
+                    {% if include.share_quote %}
+                        <blockquote class="share-quote">
+                            {{ include.share_quote }}
+                        </blockquote>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
