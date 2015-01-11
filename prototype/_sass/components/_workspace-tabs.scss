@@ -12,7 +12,7 @@
     right: 0;
     bottom: 0;
     height: 49px;
-    font-size: 0.8em;
+    font-size: 1em;
 
     border-top: 1px silver solid;
   }
@@ -77,16 +77,16 @@
       font-family: fontello;
       position: absolute;
 
-      @include screen-size(large) { 
-        height: 50px;
-        width: 50px;
-        line-height: 49px;
-        font-size: 20px;
-      }
-
       @include screen-size(small) { 
         height: 49px;
         width: 100%;
+        line-height: 49px;
+        font-size: 26px;
+      }
+
+      @include screen-size(large) { 
+        height: 50px;
+        width: 50px;
         line-height: 49px;
         font-size: 20px;
       }
