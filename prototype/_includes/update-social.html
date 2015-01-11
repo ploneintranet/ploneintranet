@@ -43,9 +43,11 @@
                     </div>
                 {% endif %}
                 <div class="summary">
-                    <h4 class="title">
-                        {{ include.share_title }}
-                    </h4>
+                    {% if include.share_title %}
+                        <h4 class="title">
+                            {{ include.share_title }}
+                        </h4>
+                    {% endif %}
                     {% if include.share_byline %}
                         <p class="byline">
                             {{ include.share_byline }}
