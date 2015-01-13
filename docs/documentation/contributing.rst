@@ -54,7 +54,7 @@ Editing the documentation on GitHub
 
 This is the recommended way for smaller changes, and for people who are not familiar with Git.
 
-- Go to `Plone Intranet Suite <https://github.com/ploneintranet/ploneintranet.suite>`_ on  GitHub.
+- Go to `Plone Intranet Docs <https://github.com/ploneintranet/ploneintranet.docs>`_ on  GitHub.
 - Press the **Fork** button. This will create your own personal copy of the documentation.
 - **Edit** files in the docs directory using GitHub's text editor in your web browser
 - Fill in the **Commit changes**-textbox at the end of the page telling why you did the changes. Press the **Commit changes**-button next to it when done.
