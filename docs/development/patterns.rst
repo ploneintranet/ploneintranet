@@ -161,6 +161,9 @@ Hook the pattern into our build
 In order to have your pattern available in Plone Intranet it needs to be
 installable via bower and hooked into the build.
 
+In addition you may want to set up a standalone build for testing and demoing - see
+:ref:`standalone-build` for this.
+
 We manage our bower dependencies in ``ploneintranet.theme``.
 
 Using bower to make the pattern available
@@ -262,6 +265,141 @@ Once this is all done, you run::
     make bundle
     
 and the new Javascript bundle will contain your newly created pattern.
+
+
+.. _standalone-build:
+
+Setting up a standalone build
+=============================
+
+To test your pattern it can be very handy to have a standalone build set up. 
+It will have less dependencies than the plone.intranet bundle and thus it will
+be easier to manage, and it will be easier to see what's going on when
+debugging.
+
+Add a Makefile to automate the build process. You will need `nodejs
+<http://nodejs.org/>`_ installed which provides npm (the Node
+Package Manager).
+
+
+.. code-block:: make
+
+    BOWER       ?= node_modules/.bin/bower
+    HTTPSERVE   ?= node_modules/.bin/http-server
+
+    all:: designerhappy
+
+    stamp-npm: package.json
+        npm install
+        touch stamp-npm
+
+    stamp-bower: stamp-npm
+        $(BOWER) install
+        touch stamp-bower
+
+    clean::
+        rm -f stamp-npm stamp-bower
+        rm -rf node_modules bower_components ~/.cache/bower
+
+
+    designerhappy:: stamp-npm stamp-bower
+        printf "\n\n Designer, you can be happy now.\n Go to http://localhost:4001/ to see a demo \n\n\n\n"
+        $(HTTPSERVE) -p 4001
+
+You will need a file ``./bower.json`` to tell bower to pull in patternslib. If 
+your pattern has any other external dependencies you add them here in addition
+to ``patternslib``.
+
+.. code-block:: json
+
+ {
+   "name": "pat-colorchanger",
+   "version": "0.0.1",
+   "dependencies": {
+       "patternslib": "master"
+   }
+ }
+
+To tell ``require.js`` the paths to the dependencies and how to initialize your
+pattern, add a file ``./main.js`` with the following content:
+
+.. code-block:: javascript
+
+    require.config({
+        baseUrl: "",
+        paths: {
+            "i18n":                 "bower_components/patternslib/src/core/i18n",
+            "jquery":               "bower_components/jquery/jquery",
+            "logging":              "bower_components/logging/src/logging",
+            "pat-autosuggest":      "bower_components/patternslib/src/pat/autosuggest",
+            "pat-compat":           "bower_components/patternslib/src/core/compat",
+            "pat-jquery-ext":       "bower_components/patternslib/src/core/jquery-ext",
+            "pat-logger":           "bower_components/patternslib/src/core/logger",
+            "pat-parser":           "bower_components/patternslib/src/core/parser",
+            "pat-registry":         "bower_components/patternslib/src/core/registry",
+            "pat-utils":            "bower_components/patternslib/src/core/utils",
+            "patterns":             "bower_components/patternslib/bundle",
+            "select2":              "bower_components/select2/select2",
+            "pat-colorchanger":     "src/pat-colorchanger"
+        }
+    });
+    require(["pat-registry", "pat-colorchanger"], function(registry, colorchanger) {
+        window.patterns = registry;
+        registry.init();
+        return;
+    });
+
+Finally, ``./package.json`` holds all dependencies that are not managed by
+bower but by npm and also has some metadata about the package.
+
+.. code-block:: json
+
+    {
+      "name": "pat-colorchanger",
+      "version": "0.0.1",
+      "description": "A pattern that changes text colors",
+      "author": {
+        "name": "Plone Intranet Team",
+        "email": "ploneintranet-dev@groups.io"
+      },
+      "repository": {
+        "type": "git",
+        "url": "git@github.com:ploneintranet/pat-colorchanger.git"
+      },
+      "dependencies": {
+        "http-server": "^0.7.3"
+      },
+      "devDependencies": {
+        "bower": "latest",
+        "requirejs": ""
+      },
+      "licenses": [
+        {
+          "type": "MIT"
+        }
+      ]
+    }
+
+In your ``index.html``, put a line in the head to call ``require.js`` and point
+it to your ``main.js``:
+
+.. code-block:: html 
+
+ <script data-main="main" src="bower_components/requirejs/require.js"></script>
+
+You should now be able to run ``make all`` and then open `http://0.0.0.0:4001 <http://0.0.0.0:4001>`_ in your browser to see your demo page!
+
+You can see the steps that ``make all`` does in the Makefile. It boils down to
+this:
+
+* run ``npm install`` to install the dependencies from ``package.json``
+  (including bower and http-server)
+* run ``bower install`` to install the dependencies from ``bower.json``
+* run ``http-server`` to let you view your demo page
+
+At the core the first two steps are also what ``make bundle`` in the Plone 
+Intranet build does, with the additional step of running ``r.js`` to build a 
+bundle of all the individual javascripts.
 
 
 ---------------------
