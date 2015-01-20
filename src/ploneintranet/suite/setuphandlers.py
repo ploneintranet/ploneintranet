@@ -279,7 +279,7 @@ def create_stream(context, stream, files_dir):
             kwargs['context'] = contexts_cache[status['context']]
         status_obj = StatusUpdate(status['text'], **kwargs)
         status_obj.userid = status['user']
-        status.creator = api.user.get(
+        status_obj.creator = api.user.get(
             username=status['user']
         ).getProperty('fullname')
         offset_time = status['timestamp'] * 60
