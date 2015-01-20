@@ -67,11 +67,13 @@
   <div class="functions">
         <a href="#">Share <sup class="counter">(8)</sup></a>
         <form href="#"
+           tal:condition="not:context/context/@@plone_portal_state/anonymous"
            tal:define="portal context/context/@@plone_portal_state/portal;
                        toggle_like_view python:portal.unrestrictedTraverse('toggle_like');
-                       toggle_like python:view.publishTraverse(request, view.getId);
+                       toggle_like python:toggle_like_view.publishTraverse(request, view.getId);
                        "
-           tal:replace="structure python:toggle_like()">
+           tal:replace="structure python:toggle_like()"
+           >
           <button class="like active"
                   value="like"
                   name="like_button"
