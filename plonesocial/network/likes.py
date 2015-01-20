@@ -25,14 +25,26 @@ class LikesContainer(Persistent, Explicit):
         self._uuid_userids_mapping[item_id] = [user_id]
 
     def like(self, user_id, item_id):
-        self.add(user_id, item_id)
+        if not isinstance(user_id, list):
+            user_id = [user_id]
+        if not isinstance(item_id, list):
+            item_id = [item_id]
+        for i in item_id:
+            for u in user_id:
+                self.add(u, i)
 
     def remove(self, user_id, item_id):
         self._user_uuids_mapping[user_id].remove(item_id)
         self._uuid_userids_mapping[item_id].remove(user_id)
 
     def unlike(self, user_id, item_id):
-        self.remove(user_id, item_id)
+        if not isinstance(user_id, list):
+            user_id = [user_id]
+        if not isinstance(item_id, list):
+            item_id = [item_id]
+        for i in item_id:
+            for u in user_id:
+                self.remove(u, i)
 
     def get(self, user_id):
         try:
