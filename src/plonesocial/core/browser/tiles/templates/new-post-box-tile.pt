@@ -1,0 +1,5 @@
+<html>
+    <body>
+        <form tal:replace="structure view/status_provider" />
+    </body>
+</html>
