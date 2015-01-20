@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-02-02 10:46+0000\n"
+"POT-Creation-Date: 2015-01-20 16:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./browser/interfaces.py:60
+#: ./browser/interfaces.py:64
 msgid "A title for this portlet"
 msgstr "Le titre de la portlet"
 
@@ -23,7 +23,7 @@ msgstr "Le titre de la portlet"
 msgid "Activity Portal"
 msgstr "Activité sur le portail"
 
-#: ./browser/interfaces.py:70
+#: ./browser/interfaces.py:74
 msgid "Compact rendering"
 msgstr "Rendu compact"
 
@@ -31,11 +31,7 @@ msgstr "Rendu compact"
 msgid "Conversation"
 msgstr ""
 
-#: ./browser/stream.py:67
-msgid "Explore"
-msgstr ""
-
-#: ./browser/interfaces.py:71
+#: ./browser/interfaces.py:75
 msgid "Hide portlet header and footer"
 msgstr "Masque l'entête et le pied de la portlet"
 
@@ -44,19 +40,20 @@ msgstr "Masque l'entête et le pied de la portlet"
 msgid "Installs the plonesocial.activitystream package"
 msgstr "Installe le package plonesocial.activitystream"
 
-#: ./browser/interfaces.py:66
+#: ./browser/interfaces.py:70
 msgid "Maximum number of updates to show"
 msgstr "Nombre maximum de messages à afficher"
 
-#: ./browser/templates/activitystream_portlet.pt:23
+#: ./browser/templates/activitystream_portlet.pt:30
 msgid "More updates..."
 msgstr "Plus de messages..."
 
-#: ./browser/stream.py:69
-msgid "My network"
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
 msgstr ""
 
-#: ./browser/interfaces.py:65
+#: ./browser/interfaces.py:69
 msgid "Number of updates to display"
 msgstr "Nombre de messages à afficher"
 
@@ -65,31 +62,27 @@ msgstr "Nombre de messages à afficher"
 msgid "PloneSocial Activitystream"
 msgstr "Flux d'activité PloneSocial"
 
-#: ./browser/templates/statusactivity_provider.pt:51
-msgid "Reply"
-msgstr ""
-
-#: ./browser/interfaces.py:80
+#: ./browser/interfaces.py:84
 msgid "Show content creation"
 msgstr "Afficher la création de contenu"
 
-#: ./browser/interfaces.py:81
+#: ./browser/interfaces.py:85
 msgid "Show creation of new content"
 msgstr "Afficher la création de nouveaux contenus"
 
-#: ./browser/interfaces.py:85
+#: ./browser/interfaces.py:89
 msgid "Show discussion"
 msgstr "Afficher les commentaires"
 
-#: ./browser/interfaces.py:86
+#: ./browser/interfaces.py:90
 msgid "Show discussion replies"
 msgstr "Afficher les réponses aux commentaires"
 
-#: ./browser/interfaces.py:75
+#: ./browser/interfaces.py:79
 msgid "Show microblog"
 msgstr "Afficher le microblog"
 
-#: ./browser/interfaces.py:76
+#: ./browser/interfaces.py:80
 msgid "Show microblog status updates"
 msgstr "Afficher les messages de microblog"
 
@@ -98,7 +91,7 @@ msgstr "Afficher les messages de microblog"
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Écran du flux d'activité du portail avec des portlets configurables"
 
-#: ./browser/templates/stream.pt:22
+#: ./browser/templates/stream.pt:24
 msgid "Updates tagged #${tag}"
 msgstr "Messages tagués #${tag}"
 
@@ -107,17 +100,17 @@ msgid "View portlet management screen"
 msgstr "Afficher l'écran de configuration des portlets"
 
 #. Default: "commented on"
-#: ./browser/templates/discussionactivity_provider.pt:28
+#: ./browser/templates/discussionactivity_provider.pt:17
 msgid "label_commented_on"
 msgstr "a commenté"
 
 #. Default: "created"
-#: ./browser/templates/contentactivity_provider.pt:28
+#: ./browser/templates/contentactivity_provider.pt:18
 msgid "label_created"
 msgstr "a créé"
 
 #. Default: "says:"
-#: ./browser/templates/statusactivity_provider.pt:28
+#: ./browser/templates/statusactivity_provider.pt:18
 msgid "label_says"
 msgstr "a dit :"
 
@@ -126,4 +119,9 @@ msgstr "a dit :"
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
 msgstr "Configurer les portlets du flux d'activité"
+
+#. Default: "See more..."
+#: ./browser/templates/contentactivity_provider.pt:62
+msgid "see_more_link"
+msgstr ""
 

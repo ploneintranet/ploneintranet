@@ -50,14 +50,6 @@
       factory=".statusconversation_provider.StatusConversationProvider"
       />
 
-  <browser:page
-      name="stream"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".stream.StreamView"
-      permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
-      />
-
   <plone:tile
       name="activitystream.tile"
       title="Activity stream tile"
