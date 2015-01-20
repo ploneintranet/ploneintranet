@@ -12,8 +12,8 @@ class TestWorkflow(BaseTestCase):
         wftool = api.portal.get_tool('portal_workflow')
         self.assertIn('ploneintranet_workflow',
                       wftool.listWorkflows())
-        # But no default workflow should be set
-        self.assertFalse(wftool.getDefaultChain())
+        # Default workflow should be set
+        self.assertTrue(wftool.getDefaultChain())
 
     def test_placeful_workflow(self):
         """
@@ -29,7 +29,7 @@ class TestWorkflow(BaseTestCase):
             'Document',
             'document-portal'
         )
-        self.assertFalse(wftool.getWorkflowsFor(document))
+        self.assertTrue(wftool.getWorkflowsFor(document))
 
         # A document in the workspace should have the workspace workflow
         workspace_folder = api.content.create(
