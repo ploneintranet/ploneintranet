@@ -25,7 +25,7 @@ class ToggleLike(BrowserView):
 
     def publishTraverse(self, request, name):
         """Used for traversal via publisher, i.e. when using as a url"""
-        self.item_id = name
+        self.item_id = str(name)
         return self
 
     def __call__(self):
@@ -73,14 +73,12 @@ class ToggleLike(BrowserView):
 
     def validate_id(self, item_id):
         """Check if item_id is a UUID or a the id of a StatusUpdate"""
+        if item_id.isdigit():
+            container = PLONESOCIAL.microblog
+            if container and int(item_id) in container._status_mapping:
+                return True
         if uuidToCatalogBrain(item_id) is not None:
             return True
-        else:
-            # check for a StatusUpdate with this id
-            container = PLONESOCIAL.microblog
-            if not container:
-                return False
-            return item_id in container
 
     def total_likes(self):
         likes = self.util.get_users_for_item(
