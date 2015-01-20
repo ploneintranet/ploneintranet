@@ -194,7 +194,7 @@ def create_workspaces(workspaces):
         ws_folder = create_as(
             'admin',
             container=portal,
-            type='Folder',
+            type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
         )
     else:
