@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="eight columns">
-                    <form id="new-post-box" data-tile="./@@newpostbox.tile"></form>
+                    <form id="new-post-box" class="pat-inject update-social status-inactive" action="@@stream" data-pat-inject="source: #activity-stream; target: #activity-stream::before &amp;&amp; #new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="action string:${portal_url}/@@stream"></form>
                     <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
                 </div>
             </div>
