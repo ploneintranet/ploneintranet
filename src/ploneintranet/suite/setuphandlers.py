@@ -180,8 +180,7 @@ def create_tasks(todos):
     portal = api.portal.get()
 
     if 'todos' not in portal:
-        todos_folder = create_as(
-            'admin',
+        todos_folder = api.content.create(
             type='Folder',
             title='Todos',
             container=portal)
@@ -190,7 +189,7 @@ def create_tasks(todos):
 
     for data in todos:
         obj = create_as(
-            'admin',
+            data['creator'],
             type='simpletodo',
             title=data['title'],
             container=todos_folder)
@@ -201,8 +200,7 @@ def create_tasks(todos):
 def create_workspaces(workspaces):
     portal = api.portal.get()
     if 'workspaces' not in portal:
-        ws_folder = create_as(
-            'admin',
+        ws_folder = api.content.create(
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
@@ -212,8 +210,7 @@ def create_workspaces(workspaces):
 
     for w in workspaces:
         contents = w.pop('contents', None)
-        workspace = create_as(
-            'admin',
+        workspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.workspacefolder',
             **w
@@ -226,8 +223,7 @@ def create_workspaces(workspaces):
 def create_ws_content(parent, contents):
     for content in contents:
         sub_contents = content.pop('contents', None)
-        obj = create_as(
-            'admin',
+        obj = api.content.create(
             container=parent,
             **content
         )
@@ -238,8 +234,7 @@ def create_ws_content(parent, contents):
 def create_events(events):
     portal = api.portal.get()
     if 'events' not in portal:
-        event_folder = create_as(
-            'admin',
+        event_folder = api.content.create(
             container=portal,
             type='Folder',
             title='Events'
@@ -247,8 +242,7 @@ def create_events(events):
     else:
         event_folder = portal['events']
     for ev in events:
-        create_as(
-            'admin',
+        api.content.create(
             type='Event',
             container=event_folder,
             **ev
@@ -462,4 +456,4 @@ def testing(context):
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
-    create_stream(context, stream, 'files')
+    # create_stream(context, stream, 'files')
