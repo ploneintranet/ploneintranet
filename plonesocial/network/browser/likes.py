@@ -15,24 +15,23 @@ import uuid
 
 @implementer(IPublishTraverse)
 class ToggleLike(BrowserView):
-    """The new toggle_like_view. Mostly pseudo-code.
+    """The view 'toggle_like' callable on the navroot.
+
+    It uses publishTraverse to allow passing the id of an object as a path:
+    /toggle_like/1453656
     """
 
     index = ViewPageTemplateFile('templates/toggle_like.pt')
 
-    def __init__(self, context, request):
-        self.item_id = None
-
     def publishTraverse(self, request, name):
         """Used for traversal via publisher, i.e. when using as a url"""
         self.item_id = name
-        self.request = request
         return self
 
     def __call__(self):
         """ """
         self.context = api.portal.get()
-        if self.item_id is None:
+        if not getattr(self, 'item_id', False):
             raise KeyError(
                 _("No item id given in sub-path."
                   "Use .../@@toggle-like/123456")
