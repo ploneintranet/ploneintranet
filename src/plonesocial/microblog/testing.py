@@ -2,7 +2,9 @@ from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import applyProfile
+from plone.testing import Layer
 from plone.testing import z2
+from plone.testing import zca
 
 from zope.configuration import xmlconfig
 
@@ -28,3 +30,31 @@ PLONESOCIAL_MICROBLOG_FIXTURE = PlonesocialMicroblog()
 PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONESOCIAL_MICROBLOG_FIXTURE, ),
                        name="PlonesocialMicroblog:Integration")
+
+
+class PlonesocialMicroblogPortalSubcriber(Layer):
+
+    defaultBases = (PLONESOCIAL_MICROBLOG_FIXTURE,)
+
+    def setUp(self):
+        self['configurationContext'] = context = zca.stackConfigurationContext(
+            self.get('configurationContext')
+        )
+        import plonesocial.microblog
+        xmlconfig.file(
+            'tests/testing_portal_subscriber.zcml',
+            plonesocial.microblog,
+            context=context
+        )
+
+    def tearDown(self):
+        del self['configurationContext']
+
+
+PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE = \
+    PlonesocialMicroblogPortalSubcriber()
+PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING = \
+    IntegrationTesting(
+        bases=(PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE, ),
+        name="PlonesocialMicroblogPortalSubscriber:Integration"
+    )
