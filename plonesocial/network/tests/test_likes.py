@@ -15,18 +15,14 @@ class TestLikes(IntegrationTestCase):
         self.container.add(
             self.userid, self.object_uuid)
 
-    def test_items_empty(self):
-        self.container = LikesContainer()
-        self.assertEqual(0, len(list(self.container.items())))
-
     def test_add(self):
         self._add()
 
         liked_items = self.container._user_uuids_mapping[self.userid]
-        self.assertEqual(liked_items, [self.object_uuid])
+        self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
 
         liking_users = self.container._uuid_userids_mapping[self.object_uuid]
-        self.assertEqual(liking_users, [self.userid])
+        self.assertEqual(sorted(list(liking_users)), [self.userid])
 
     def test_remove(self):
         self._add()
@@ -34,14 +30,14 @@ class TestLikes(IntegrationTestCase):
         self.container.remove(self.userid, self.object_uuid)
 
         liked_items = self.container._user_uuids_mapping[self.userid]
-        self.assertEqual(liked_items, [])
+        self.assertEqual(sorted(list(liked_items)), [])
 
         liking_users = self.container._uuid_userids_mapping[self.object_uuid]
-        self.assertEqual(liking_users, [])
+        self.assertEqual(sorted(list(liking_users)), [])
 
     def test_get(self):
         self._add()
-        self.assertEqual(self.container.get(self.userid), [self.object_uuid])
+        self.assertEqual(sorted(list(self.container.get(self.userid))), [self.object_uuid])
 
     def test_get_empty(self):
         self.assertEqual(self.container.get(self.userid), [])
@@ -49,7 +45,7 @@ class TestLikes(IntegrationTestCase):
     def test_lookup(self):
         self._add()
         self.assertEqual(
-            self.container.lookup(self.object_uuid), [self.userid])
+            sorted(list(self.container.lookup(self.object_uuid))), [self.userid])
 
     def test_lookup_empty(self):
         self.assertEqual(

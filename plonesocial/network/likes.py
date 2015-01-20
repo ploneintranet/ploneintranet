@@ -22,8 +22,14 @@ class LikesContainer(Persistent, Explicit):
         # self._statusid_userids_mapping = OOBTree.OOBTree()
 
     def add(self, user_id, item_id):
-        self._user_uuids_mapping[user_id] = [item_id]
-        self._uuid_userids_mapping[item_id] = [user_id]
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+
+        self._user_uuids_mapping.insert(user_id, OOBTree.OOTreeSet())
+        self._uuid_userids_mapping.insert(item_id, OOBTree.OOTreeSet())
+
+        self._user_uuids_mapping[user_id].insert(item_id)
+        self._uuid_userids_mapping[item_id].insert(user_id)
 
     def like(self, user_id, item_id):
         if not isinstance(user_id, list):
@@ -35,8 +41,17 @@ class LikesContainer(Persistent, Explicit):
                 self.add(u, i)
 
     def remove(self, user_id, item_id):
-        self._user_uuids_mapping[user_id].remove(item_id)
-        self._uuid_userids_mapping[item_id].remove(user_id)
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+
+        try:
+            self._user_uuids_mapping[user_id].remove(item_id)
+        except KeyError:
+            pass
+        try:
+            self._uuid_userids_mapping[item_id].remove(user_id)
+        except KeyError:
+            pass
 
     def unlike(self, user_id, item_id):
         if not isinstance(user_id, list):
@@ -48,6 +63,7 @@ class LikesContainer(Persistent, Explicit):
                 self.remove(u, i)
 
     def get(self, user_id):
+        assert(user_id == str(user_id))
         try:
             return self._user_uuids_mapping[user_id]
         except KeyError:
@@ -57,6 +73,7 @@ class LikesContainer(Persistent, Explicit):
         return self.get(user_id)
 
     def lookup(self, item_id):
+        assert(item_id == str(item_id))
         try:
             return self._uuid_userids_mapping[item_id]
         except KeyError:
@@ -70,6 +87,3 @@ class LikesContainer(Persistent, Explicit):
             return user_id in self.lookup(item_id)
         except KeyError:
             return False
-
-    def items(self):
-        return []
