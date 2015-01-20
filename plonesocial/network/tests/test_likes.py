@@ -76,3 +76,17 @@ class TestLikes(IntegrationTestCase):
             self.container.is_item_liked_by_user(
                 self.userid,
                 self.object_uuid))
+
+    def test_get_items_for_user(self):
+        self._add()
+        self.assertIn(
+            self.object_uuid,
+            self.container.get_items_for_user(self.userid)
+        )
+
+    def test_get_users_for_item(self):
+        self._add()
+        self.assertIn(
+            self.userid,
+            self.container.get_users_for_item(self.object_uuid)
+        )
