@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts">
 
-  <javascript id="++resource++plonesocial.core.javascripts/patternslib.js"
+  <javascript id="++resource++plonesocial.core.javascripts/ploneintranet.js"
               cacheable="True"
               compression="safe"
               cookable="True"
