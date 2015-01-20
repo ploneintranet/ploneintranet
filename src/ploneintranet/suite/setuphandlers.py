@@ -242,7 +242,8 @@ def create_events(events):
     else:
         event_folder = portal['events']
     for ev in events:
-        api.content.create(
+        create_as(
+            ev['creator'],
             type='Event',
             container=event_folder,
             **ev
@@ -445,9 +446,11 @@ def testing(context):
                                                     second=0, microsecond=0)
     events = [
         {'title': 'Open Market Day',
+         'creator': 'allan_neece',
          'start': tomorrow,
          'end': tomorrow + timedelta(hours=8)},
         {'title': 'Plone Conf',
+         'creator': 'alice_lindstrom',
          'start': next_month,
          'end': next_month + timedelta(days=3, hours=8)}
     ]
