@@ -143,16 +143,6 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
-  <plone:tile
-      name="newpostbox.tile"
-      title="A title for the new-post-box"
-      description="My tile's description"
-      add_permission="cmf.ManagePortal"
-      class=".dashboard.NewPostBoxTile"
-      permission="zope.Public"
-      for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
 
   <plone:tile
       name="workspace.tabs.tile"

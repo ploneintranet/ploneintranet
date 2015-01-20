@@ -37,13 +37,3 @@ class TasksTile(Tile):
     def __call__(self):
         return self.render()
 
-
-class NewPostBoxTile(Tile):
-
-    index = ViewPageTemplateFile("templates/new-post-box-tile.pt")
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
