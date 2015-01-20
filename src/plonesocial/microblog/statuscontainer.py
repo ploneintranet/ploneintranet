@@ -3,6 +3,7 @@ import Queue
 import logging
 import time
 import math
+import sys
 
 from BTrees import LOBTree
 from BTrees import OOBTree
@@ -13,8 +14,11 @@ import transaction
 from Acquisition import Explicit
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+import Zope2
 from Products.CMFCore.utils import getToolByName
 
+from zope.component.hooks import setSite
+from zope.component.hooks import getSite
 from zope.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
@@ -32,6 +36,22 @@ STATUSQUEUE = Queue.PriorityQueue()
 
 # max in-memory time in millisec before disk sync
 MAX_QUEUE_AGE = 1000
+
+
+def getZope2App(*args, **kwargs):
+    """Gets the Zope2 app.
+
+    Copied almost verbatim from collective.celery
+    """
+    if Zope2.bobo_application is None:
+        orig_argv = sys.argv
+        sys.argv = ['']
+        res = Zope2.app(*args, **kwargs)
+        sys.argv = orig_argv
+        return res
+    # should set bobo_application
+    # man, freaking zope2 is weird
+    return Zope2.bobo_application(*args, **kwargs)
 
 
 class BaseStatusContainer(Persistent, Explicit):
@@ -418,15 +438,32 @@ class QueuedStatusContainer(BaseStatusContainer):
 
         # only a one-second granularity, round upwards
         timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        site = getSite()
+        # We do not use plone.api here because we cannot assume
+        # that site == plone portal.
+        # It could also be a directory under it
+        if site:
+            site_path = '/'.join(site.getPhysicalPath())
+        else:
+            # This situation can happen in tests.
+            logger.warning("Could not get the site")
+            site_path = None
         with LOCK:
             # logger.info("Setting timer")
-            self._v_timer = threading.Timer(timeout,
-                                            self._scheduled_autoflush)
+            self._v_timer = threading.Timer(
+                timeout,
+                self._scheduled_autoflush,
+                kwargs={'site_path': site_path}
+            )
             self._v_timer.start()
 
-    def _scheduled_autoflush(self):
+    def _scheduled_autoflush(self, site_path=None):
         """This method is run from the timer, outside a normal request scope.
         This requires an explicit commit on db write"""
+        if site_path is not None:
+            app = getZope2App()
+            site = app.restrictedTraverse(site_path)
+            setSite(site)
         if self._autoflush():  # returns 1 on actual write
             transaction.commit()
 
