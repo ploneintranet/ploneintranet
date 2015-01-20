@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from plonesocial.network.browser.author import AuthorView
 from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
 from zope.interface import directlyProvides
-import unittest2 as unittest
 
 
 class TestViews(IntegrationTestCase):

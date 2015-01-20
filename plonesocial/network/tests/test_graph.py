@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from plonesocial.network.graph import NetworkGraph
 from plonesocial.network.interfaces import INetworkGraph
-from zope.interface.verify import verifyClass
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
+from zope.interface.verify import verifyClass
 
 
 class TestNetworkGraph(IntegrationTestCase):

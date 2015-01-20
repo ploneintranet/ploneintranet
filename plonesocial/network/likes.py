@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from Acquisition import Explicit
-from BTrees import LOBTree
+# from BTrees import LOBTree
 from BTrees import OOBTree
 from persistent import Persistent
 from plonesocial.network.interfaces import ILikesContainer
@@ -16,9 +17,9 @@ class LikesContainer(Persistent, Explicit):
         self._uuid_userids_mapping = OOBTree.OOBTree()
 
         # maps user id to liked status ids
-        #self._user_statusids_mapping = LOBTree.LOBTree()
+        # self._user_statusids_mapping = LOBTree.LOBTree()
         # maps status id to user ids
-        #self._statusid_userids_mapping = OOBTree.OOBTree()
+        # self._statusid_userids_mapping = OOBTree.OOBTree()
 
     def add(self, user_id, item_id):
         self._user_uuids_mapping[user_id] = [item_id]

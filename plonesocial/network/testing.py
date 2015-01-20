@@ -2,17 +2,16 @@
 """Base module for unittesting."""
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import login
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
+from plone.app.testing import applyProfile
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.testing import z2
+from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
 from zope.interface import alsoProvides
 
 import unittest2 as unittest
@@ -60,9 +59,9 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
 
 FIXTURE = PloneintranetTodoLayer()
 INTEGRATION_TESTING = IntegrationTesting(
-    bases=(FIXTURE,), name="PloneintranetNetworkLayer:Integration")
+    bases=(FIXTURE,), name='PloneintranetNetworkLayer:Integration')
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(FIXTURE,), name="PloneintranetNetworkLayer:Functional")
+    bases=(FIXTURE,), name='PloneintranetNetworkLayer:Functional')
 
 
 class IntegrationTestCase(unittest.TestCase):

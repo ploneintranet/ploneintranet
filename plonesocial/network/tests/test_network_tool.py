@@ -2,10 +2,8 @@
 from plone import api
 from plonesocial.network.interfaces import INetworkGraph
 from plonesocial.network.interfaces import INetworkTool
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
 from zope.component import queryUtility
-import unittest2 as unittest
 
 
 class TestNetworkTool(IntegrationTestCase):

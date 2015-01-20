@@ -1,13 +1,12 @@
-import unittest2 as unittest
-from plonesocial.network.testing import FunctionalTestCase
-from plonesocial.network.testing import IntegrationTestCase
+# -*- coding: utf-8 -*-
 from plonesocial.network.likes import LikesContainer
+from plonesocial.network.testing import IntegrationTestCase
 
 
 class TestLikes(IntegrationTestCase):
 
     def setUp(self):
-        #self.portal = self.layer['portal']
+        # self.portal = self.layer['portal']
         self.userid = 'testperson@test.org'
         self.object_uuid = '827e65bd826a89790eba679e0c9ff864'
         self.container = LikesContainer()

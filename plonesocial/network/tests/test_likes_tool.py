@@ -2,10 +2,8 @@
 from plone import api
 from plonesocial.network.interfaces import ILikesContainer
 from plonesocial.network.interfaces import ILikesTool
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
 from zope.component import queryUtility
-import unittest2 as unittest
 
 
 class TestLikesTool(IntegrationTestCase):

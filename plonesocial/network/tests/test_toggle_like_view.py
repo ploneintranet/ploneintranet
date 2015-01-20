@@ -1,10 +1,10 @@
-from Testing.makerequest import makerequest
+# -*- coding: utf-8 -*-
 from plone import api
 from plonesocial.network.interfaces import ILikesContainer
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
 from plonesocial.network.testing import set_browserlayer
 from zope.component import getUtility
+
 import unittest2 as unittest
 
 
@@ -56,7 +56,7 @@ class TestToggleLikeView(IntegrationTestCase):
         self.assertIn('(0)', output)
         self.assertIn('Like', output)
 
-    @unittest.skip("This still fails since the api is not yet done.")
+    @unittest.skip('This still fails since the api is not yet done.')
     def test_liking_capability(self):
         """Test liking with multiple users and docs
         """

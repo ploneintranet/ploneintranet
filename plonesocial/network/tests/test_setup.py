@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plonesocial.network.testing import FunctionalTestCase
 from plonesocial.network.testing import IntegrationTestCase
-import unittest2 as unittest
 
 PROJECTNAME = 'plonesocial.network'
 REGISTRY_ID = 'plone.resources/resource-plonesocial-network-stylesheets.css'

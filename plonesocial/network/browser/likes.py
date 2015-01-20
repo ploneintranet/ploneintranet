@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
@@ -33,15 +33,15 @@ class ToggleLike(BrowserView):
         self.context = api.portal.get()
         if not getattr(self, 'item_id', False):
             raise KeyError(
-                _("No item id given in sub-path."
-                  "Use .../@@toggle-like/123456")
+                _('No item id given in sub-path. '
+                  'Use .../@@toggle-like/123456')
             )
         if not self.validate_id(self.item_id):
-            return "No valid item-id"
+            return 'No valid item-id'
 
         self.current_user_id = api.user.get_current().getId()
         if not self.current_user_id:
-            return "No user-id"
+            return 'No user-id'
 
         self.util = getUtility(ILikesContainer)
 
