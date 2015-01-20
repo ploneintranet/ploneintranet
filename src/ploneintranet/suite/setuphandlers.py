@@ -1,3 +1,4 @@
+from DateTime import DateTime
 import os
 import csv
 import logging
@@ -124,9 +125,6 @@ def create_as(userid, *args, **kwargs):
         except:
             # we still need to know what happend
             raise
-        finally:
-            # we always restore the previous security context, no matter what
-            newSecurityManager(None, current)
     return obj
 
 
@@ -162,9 +160,8 @@ def create_news_items(newscontent):
         # TODO: there is no worklow at this point
         #api.content.transition(obj=obj, transition='publish')
 
-        # TODO set date
-        #obj.publication_date = newsitem['publication_date']
-        #obj.reindexObject()
+        obj.setEffectiveDate(newsitem['publication_date'])
+        obj.reindexObject(idxs=['effective', ])
 
 
 def testing(context):
@@ -208,30 +205,30 @@ def testing(context):
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
 
-    # We use fixed dates, we need thes to be relative
-    #publication_date = ['just now', 'next week', 'next year', ]
-
-    #
+    # We use fixed dates
+    publication_date = [DateTime('01/01/2019'),
+                        DateTime('03/03/2021'),
+                        DateTime('11/11/2023'), ]
 
     # make newsitems
     news_content = [
         {'title': 'Second Indian Airline to join Global Airline Alliance',
          'description': 'Weak network in growing Indian aviation market',
          'tags': [tags[0]],
-         'publication_date': '',
+         'publication_date': publication_date[0],
          'creator': 'alice_lindstrom'},
 
         {'title': 'BNB and Randomize to codeshare',
          'description': 'Starting September 10, BNB passengers will be'
          'able to book connecting flights on Ethiopian Airlines.',
          'tags': [tags[1]],
-         'publication_date': '',
+         'publication_date': publication_date[1],
          'creator': 'allan_neece'},
 
         {'title': 'Alliance Officially Opens New Lounge',
          'description': '',
          'tags': [tags[0], tags[1]],
-         'publication_date': '',
+         'publication_date': publication_date[2],
          'creator': 'christian_stoney'},
     ]
     create_news_items(news_content)
