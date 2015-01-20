@@ -4,7 +4,7 @@ from plone import api
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-from ..interfaces import ITodoUtility, TODO, MUST_READ, LIKE
+from ..interfaces import ITodoUtility, TODO, MUST_READ
 from ..content.content_action import ContentAction
 from ..todo_utility import TodoUtility
 from ..testing import IntegrationTestCase
@@ -236,41 +236,6 @@ class TestTodoUtility(IntegrationTestCase):
         self.add_test_actions()
         results = self.util.query(ignore_completed=False)
         self.assertEqual(len(results), 8)
-
-    def test_liking_capability(self):
-        # 1. All users like doc1
-        # 2. user1 and user2 like doc2
-        # 3. Check counts and who has liked
-        self.util.add_action(
-            self.doc1.UID(),
-            LIKE,
-            completed=True
-        )
-        results = self.util.query(
-            verbs=LIKE,
-            ignore_completed=False
-        )
-        uids = {x.content_uid for x in results}
-        self.assertEqual(len(uids), 1)
-        self.assertIn(self.doc1.UID(), uids)
-
-        user1_id = self.user1.getId()
-        user2_id = self.user2.getId()
-        self.util.add_action(
-            self.doc2.UID(),
-            LIKE,
-            [user1_id, user2_id],
-            True
-        )
-        results = self.util.query(
-            verbs=LIKE,
-            content_uids=self.doc2.UID(),
-            ignore_completed=False
-        )
-        userids = [x.userid for x in results]
-        self.assertEqual(len(userids), 2)
-        self.assertIn(user1_id, userids)
-        self.assertIn(user2_id, userids)
 
     def test_remove_action(self):
         user1_id = self.user1.getId()

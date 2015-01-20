@@ -134,7 +134,7 @@ class TodoUtility(object):
         :type verb: str
         :param userids: The userids to add the action to or None for all users
         :type userids: str or list or None
-        :param completed: Whether this is a pre-completed action (e.g: a Like)
+        :param completed: Whether this is a pre-completed action
         :type completed: bool
         """
         if isinstance(userids, basestring):
@@ -192,7 +192,7 @@ class TodoUtility(object):
     def remove_action(self, content_uid, verb, userids=None):
         """
         Remove the given action from the users' actions. This is normally for
-        admin use, but also for removing pre-completed actions such as Likes
+        admin use, but also for removing pre-completed actions
 
         :param content_uid: The UID of the content
         :type content_uid: str
