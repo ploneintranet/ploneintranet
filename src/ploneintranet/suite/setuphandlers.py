@@ -130,7 +130,6 @@ def create_groups(groups):
 def create_as(userid, *args, **kwargs):
     """Call api.content.create as a different user
     """
-    current = api.user.get_current()
     obj = None
     with api.env.adopt_user(username=userid):
         try:
