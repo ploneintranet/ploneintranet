@@ -159,6 +159,10 @@ class AbstractActivityProvider(object):
         return self.context.raw_date
 
     @property
+    def getId(self):
+        pass
+
+    @property
     def portal_type(self):
         return self.context.portal_type
 
@@ -194,6 +198,10 @@ class StatusActivityProvider(AbstractActivityProvider):
         self.status = context.context  # IStatusUpdate
         self.request = request
         self.view = self.__parent__ = view
+
+    @property
+    def getId(self):
+        return self.status_id()
 
     def status_id(self):
         return self.status.id
@@ -254,6 +262,10 @@ class ContentActivityProvider(AbstractActivityProvider):
 
     index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
 
+    @property
+    def getId(self):
+        return api.content.get_uuid(self.context.context)
+
 
 class DiscussionActivityProvider(AbstractActivityProvider):
     """Render an IDicussionCommentActivity"""
@@ -262,3 +274,7 @@ class DiscussionActivityProvider(AbstractActivityProvider):
     adapts(IDiscussionActivity, IPlonesocialActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
+
+    @property
+    def getId(self):
+        return api.content.get_uuid(self.context.context)
