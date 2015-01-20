@@ -405,8 +405,8 @@ def testing(context):
         'assignee': 'lance_stockstill',
     }, {
         'title': 'Talk to HR about vacancy',
-        'creator': 'kurt_weissman',
-        'assignee': 'kurt_weissman',
+        'creator': 'allan_neece',
+        'assignee': 'allan_neece',
     }]
     create_tasks(todos_content)
 
