@@ -72,7 +72,7 @@
   <browser:page zcml:condition="installed plonesocial.microblog"
       name="stream"
       for="plonesocial.microblog.interfaces.IMicroblogContext"
-      class=".stream.StreamView"
+      class="plonesocial.core.browser.stream.StreamView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
