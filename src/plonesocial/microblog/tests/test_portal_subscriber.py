@@ -1,4 +1,5 @@
 import time
+import Queue
 import unittest2 as unittest
 from threading import RLock
 from zope.component import queryUtility
@@ -10,6 +11,7 @@ from plonesocial.microblog.testing import \
 
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.statusupdate import StatusUpdate
+from plonesocial.microblog.statuscontainer import STATUSQUEUE
 
 
 class PortalSubscriber(object):
@@ -40,9 +42,20 @@ class TestMicroblogPortalSubscriber(unittest.TestCase):
         self.portal = self.layer['portal']
 
     def tearDown(self):
-        time.sleep(2)  # allow for thread cleanup
-        tool = queryUtility(IMicroblogTool)
-        tool.flush_queue()
+        container = queryUtility(IMicroblogTool)
+        # stop the thread timer
+        try:
+            container._v_timer.cancel()
+            time.sleep(1)  # allow for thread cleanup
+        except AttributeError:
+            pass
+
+        # we have an in-memory queue, purge it
+        while True:
+            try:
+                STATUSQUEUE.get(block=False)
+            except Queue.Empty:
+                break
 
     def test_add_multi_portal(self):
         portal = api.portal.get()
