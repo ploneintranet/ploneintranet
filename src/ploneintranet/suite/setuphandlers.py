@@ -76,6 +76,45 @@ def create_users(context, users, avatars_dir):
             graph.set_follow(userid, decode(followee))
 
 
+def create_groups(groups):
+    """Creates groups.
+
+    ``groups`` is a dictionary with the following keys:
+
+      * groupid
+      * groupname
+      * roles (list)
+      * parentgroups
+      * members (list)
+    """
+    group_tool = api.portal.get_tool(name='portal_groups')
+    for group in groups:
+        groupid = decode(group['groupid'])
+        try:
+            group_obj = api.group.get(groupname=groupid)
+        except ValueError:
+            group_obj = None
+        if group_obj is None:
+            api.group.create(
+                groupname=groupid,
+                roles=group.get('roles', []),
+                title=group.get('title', groupid),
+                groups=[decode(g) for g in group.get('parentgroups', [])]
+            )
+        else:
+            group_tool.editGroup(
+                groupid,
+                roles=group.get('roles', []),
+                title=group.get('title', groupid),
+                groups=[decode(g) for g in group.get('parentgroups', [])]
+            )
+        for member in group.get('members', []):
+            api.group.add_user(
+                groupname=groupid,
+                username=decode(member)
+            )
+
+
 def create_as(userid, *args, **kwargs):
     current = api.user.get_current()
     user = api.user.get(username=userid)
@@ -89,19 +128,54 @@ def create_as(userid, *args, **kwargs):
     return obj
 
 
+def create_news_items(newscontent):
+    portal = api.portal.get()
+
+    if 'news' not in portal:
+        news_folder = api.content.create(
+            type='Folder',
+            title='News',
+            container=portal
+        )
+    else:
+        news_folder = portal['news']
+
+    for newsitem in newscontent:
+        # give the users rights to add news
+        api.user.grant_roles(
+            username=newsitem['creator'],
+            roles=['Contributor', 'Reader', 'Editor'],
+            obj=news_folder
+        )
+        # give the users rights to add news
+        # userid = newsitem['creator']
+        userid = 'admin'
+        obj = create_as(
+            userid,
+            type='News Item',
+            title=newsitem['title'],
+            description=newsitem['description'],
+            container=news_folder
+        )
+        obj.setSubject(tuple(newsitem['tags']))
+
+        # TODO: there is no worklow at this point
+        #api.content.transition(obj=obj, transition='publish')
+
+        # TODO set date
+        #obj.publication_date = newsitem['publication_date']
+        #obj.reindexObject()
+
+
 def testing(context):
 
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
 
-    # see: https://github.com/cosent/plonesocial.suite/
-    #       blob/master/src/plonesocial/suite/setuphandlers.py
-    # for creating users and network
-
-    csv_file = os.path.join(context._profile_path, 'users.csv')
+    users_csv_file = os.path.join(context._profile_path, 'users.csv')
     users = []
-    with open(csv_file, 'rb') as csv_data:
-        reader = csv.DictReader(csv_data)
+    with open(users_csv_file, 'rb') as users_csv_data:
+        reader = csv.DictReader(users_csv_data)
         for user in reader:
             user = {
                 k: v.decode('utf-8') for k, v in user.iteritems()
@@ -113,54 +187,51 @@ def testing(context):
             users.append(user)
     create_users(context, users, 'avatars')
 
+    groups_csv_file = os.path.join(context._profile_path, 'groups.csv')
+    groups = []
+    with open(groups_csv_file, 'rb') as groups_csv_data:
+        reader = csv.DictReader(groups_csv_data)
+        for group in reader:
+            group = {
+                k: v.decode('utf-8') for k, v in group.iteritems()
+            }
+            group['roles'] = [r for r in group['roles'].split('|') if r]
+            group['parentgroups'] = [
+                g for g in group['parentgroups'].split(' ') if g
+            ]
+            group['members'] = [
+                u for u in group['members'].split(' ') if u
+            ]
+            groups.append(group)
+    create_groups(groups)
+
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
 
     # We use fixed dates, we need thes to be relative
     #publication_date = ['just now', 'next week', 'next year', ]
 
+    #
+
     # make newsitems
     news_content = [
         {'title': 'Second Indian Airline to join Global Airline Alliance',
          'description': 'Weak network in growing Indian aviation market',
          'tags': [tags[0]],
-         'publication_date': ''},
+         'publication_date': '',
+         'creator': 'alice_lindstrom'},
 
         {'title': 'BNB and Randomize to codeshare',
          'description': 'Starting September 10, BNB passengers will be'
          'able to book connecting flights on Ethiopian Airlines.',
          'tags': [tags[1]],
-         'publication_date': ''},
+         'publication_date': '',
+         'creator': 'allan_neece'},
 
         {'title': 'Alliance Officially Opens New Lounge',
          'description': '',
          'tags': [tags[0], tags[1]],
-         'publication_date': ''},
+         'publication_date': '',
+         'creator': 'christian_stoney'},
     ]
     create_news_items(news_content)
-
-
-def create_news_items(newscontent):
-    # news item
-    portal = api.portal.get()
-
-    # news item
-    if 'news' not in portal:
-        news_folder = api.content.create(
-            type='Folder',
-            title='News',
-            container=portal
-        )
-    else:
-        news_folder = portal['news']
-
-    if 'news' in portal.keys():
-        for newsitem in newscontent:
-            obj = create_as("admin",
-                            type='News Item',
-                            title=newsitem['title'],
-                            description=newsitem['description'],
-                            container=news_folder)
-            # we need to publish the item, set tags and publication date
-            #obj.publication_date = newsitem['publication_date']
-            #obj.Subject = newsitem['tags']
