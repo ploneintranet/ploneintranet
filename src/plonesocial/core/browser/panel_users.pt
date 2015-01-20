@@ -27,10 +27,10 @@
           </label>
         </form>
 
-        <form id="items" 
+        <form id="items"
               tal:attributes="action view/action"
               class="search-result users pat-inject pat-autosubmit">
-          <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all" 
+          <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all"
                     class="checklist pat-checklist users unchecked">
             <label class="item user unchecked"
                    tal:repeat="user view/users">
@@ -51,11 +51,11 @@
               </a>
             </label>
           </fieldset>
-          
+
         </form>
       </div>
 
     </div>
-    
+
   </body>
 </html>

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 
 
 class Users(BrowserView):
 
-    action = "#selected-users"
+    action = '#selected-users'
     button_deselect_all = True
     button_select_all = True
     index = ViewPageTemplateFile('panel_users.pt')
@@ -17,10 +17,10 @@ class Users(BrowserView):
     panel_type = 'mentions'
 
     def users(self):
-        """Get users.
+        '''Get users.
 
         Applies very basic user name searching
-        """
+        '''
         users = api.user.get_users()
 
         search_string = self.request.form.get('usersearch')
@@ -36,7 +36,7 @@ class Users(BrowserView):
 
 class User(Users):
 
-    action = "#selected-user"
+    action = '#selected-user'
     button_deselect_all = False
     button_select_all = False
     index = ViewPageTemplateFile('panel_users.pt')
