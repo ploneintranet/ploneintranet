@@ -14,22 +14,22 @@ class LikesContainer(Persistent, Explicit):
         # maps user id to liked content uids
         self._user_uuids_mapping = OOBTree.OOBTree()
         # maps content uid to user ids
-        self._uuid_userids_mapping = OOBTree.OOBTree()
+        self._uuid_users_mapping = OOBTree.OOBTree()
 
         # maps user id to liked status ids
         # self._user_statusids_mapping = LOBTree.LOBTree()
         # maps status id to user ids
-        # self._statusid_userids_mapping = OOBTree.OOBTree()
+        # self._statusid_users_mapping = OOBTree.OOBTree()
 
     def add(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
         self._user_uuids_mapping.insert(user_id, OOBTree.OOTreeSet())
-        self._uuid_userids_mapping.insert(item_id, OOBTree.OOTreeSet())
+        self._uuid_users_mapping.insert(item_id, OOBTree.OOTreeSet())
 
         self._user_uuids_mapping[user_id].insert(item_id)
-        self._uuid_userids_mapping[item_id].insert(user_id)
+        self._uuid_users_mapping[item_id].insert(user_id)
 
     def like(self, user_id, item_id):
         if not isinstance(user_id, list):
@@ -49,7 +49,7 @@ class LikesContainer(Persistent, Explicit):
         except KeyError:
             pass
         try:
-            self._uuid_userids_mapping[item_id].remove(user_id)
+            self._uuid_users_mapping[item_id].remove(user_id)
         except KeyError:
             pass
 
@@ -75,7 +75,7 @@ class LikesContainer(Persistent, Explicit):
     def lookup(self, item_id):
         assert(item_id == str(item_id))
         try:
-            return self._uuid_userids_mapping[item_id]
+            return self._uuid_users_mapping[item_id]
         except KeyError:
             return []
 

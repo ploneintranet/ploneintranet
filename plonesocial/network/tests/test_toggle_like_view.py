@@ -88,9 +88,9 @@ class TestToggleLikeView(IntegrationTestCase):
             item_id=self.doc1.UID(),
         )
         self.assertEqual(len(util._user_uuids_mapping), 3)
-        self.assertEqual(len(util._uuid_userids_mapping), 1)
+        self.assertEqual(len(util._uuid_users_mapping), 1)
         self.assertEqual([self.doc1.UID()],
-            sorted(list(util._uuid_userids_mapping)))
+            sorted(list(util._uuid_users_mapping)))
 
         user1_id = self.user1.getId()
         user2_id = self.user2.getId()

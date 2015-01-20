@@ -21,7 +21,7 @@ class TestLikes(IntegrationTestCase):
         liked_items = self.container._user_uuids_mapping[self.userid]
         self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
 
-        liking_users = self.container._uuid_userids_mapping[self.object_uuid]
+        liking_users = self.container._uuid_users_mapping[self.object_uuid]
         self.assertEqual(sorted(list(liking_users)), [self.userid])
 
     def test_remove(self):
@@ -32,7 +32,7 @@ class TestLikes(IntegrationTestCase):
         liked_items = self.container._user_uuids_mapping[self.userid]
         self.assertEqual(sorted(list(liked_items)), [])
 
-        liking_users = self.container._uuid_userids_mapping[self.object_uuid]
+        liking_users = self.container._uuid_users_mapping[self.object_uuid]
         self.assertEqual(sorted(list(liking_users)), [])
 
     def test_get(self):
