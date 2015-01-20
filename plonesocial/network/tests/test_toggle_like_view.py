@@ -55,3 +55,54 @@ class TestToggleLikeView(IntegrationTestCase):
         self.assertEqual(len(user_likes), 0)
         self.assertIn('(0)', output)
         self.assertIn('Like', output)
+
+    @unittest.skip("This still fails since the api is not yet done.")
+    def test_liking_capability(self):
+        """Test liking with multiple users and docs
+        """
+        util = getUtility(ILikesContainer)
+        self.user1 = api.user.create(
+            email='john@plone.org',
+            username='user1'
+        )
+        self.user2 = api.user.create(
+            email='jane@plone.org',
+            username='user2'
+        )
+        self.all_userids = {
+            self.user1.getId(),
+            self.user2.getId(),
+            'admin',
+        }
+        self.doc2 = api.content.create(
+            container=self.portal,
+            type='Document',
+            id='doc2',
+            title='Doc 2'
+        )
+
+        # 1. All users like doc1
+        # 2. user1 and user2 like doc2
+        # 3. Check counts and who has liked
+        # util.like(
+        #     user_id=self.all_userids,
+        #     item_id=self.doc1.UID(),
+        # )
+        # results = util.items()
+        # self.assertEqual(len(results), 1)
+        # self.assertEqual([self.doc1.UID()], results)
+
+        user1_id = self.user1.getId()
+        user2_id = self.user2.getId()
+        util.like(
+            user_id=user1_id,
+            item_id=self.doc2.UID(),
+        )
+        util.like(
+            user_id=user2_id,
+            item_id=self.doc2.UID(),
+        )
+        results = util.get_users_for_item(self.doc2.UID())
+        self.assertEqual(len(results), 2)
+        self.assertIn(user1_id, results)
+        self.assertIn(user2_id, results)
