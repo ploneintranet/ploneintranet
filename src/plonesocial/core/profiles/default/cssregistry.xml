@@ -7,11 +7,6 @@
     cacheable="True" compression="safe" cookable="True"
     enabled="1" expression=""/>
  <stylesheet title=""
-    id="++resource++plonesocial.core.stylesheets/colours.css"
-    media="screen" rel="stylesheet" rendering="link"
-    cacheable="True" compression="safe" cookable="True"
-    enabled="1" expression=""/>
- <stylesheet title=""
     id="++resource++plonesocial.core.stylesheets/default-overrides.css"
     media="screen" rel="stylesheet" rendering="link"
     cacheable="True" compression="safe" cookable="True"
