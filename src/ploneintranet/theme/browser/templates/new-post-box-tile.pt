@@ -1,6 +1,6 @@
 <html>
     <body>
-        <form id="new-post-box" class="pat-inject update-social status-inactive" action="/feedback/post-well-done.html" data-pat-inject="source: #activity-stream; target: #activity-stream::before &amp;&amp; #new-post-box" data-tile="./@@newpostbox.tile">        
+        <form id="new-post-box" class="pat-inject update-social status-inactive" action="/feedback/post-well-done.html" data-pat-inject="source: #activity-stream; target: #activity-stream::before &amp;&amp; #new-post-box">        
             <fieldset>
                 <p class="content-mirror"><span class="text"><em class="placeholder">Leave a comment</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
                 <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-switch="#new-post-box status-inactive status-active"></textarea>
