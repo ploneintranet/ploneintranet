@@ -14,6 +14,7 @@ class TestToggleLikeView(IntegrationTestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         set_browserlayer(self.request)
+        self.util = getUtility(ILikesContainer)
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',
@@ -23,7 +24,6 @@ class TestToggleLikeView(IntegrationTestCase):
         self.user_id = api.user.get_current().getId()
 
     def test_show_like(self):
-        util = getUtility(ILikesContainer)
         view = api.content.get_view('toggle_like', self.portal, self.request)
         self.assertRaises(KeyError, view)
         item_id = api.content.get_uuid(self.doc1)
@@ -31,10 +31,9 @@ class TestToggleLikeView(IntegrationTestCase):
         output = view()
         self.assertIn('like_button', output)
         self.assertIn(item_id, output)
-        self.assertFalse(util.is_item_liked_by_user(self.user_id, item_id))
+        self.assertFalse(self.util.is_item_liked_by_user(self.user_id, item_id))
 
     def test_toggle_like(self):
-        util = getUtility(ILikesContainer)
         self.request.form['like_button'] = 'like'
         view = api.content.get_view('toggle_like', self.portal, self.request)
         item_id = api.content.get_uuid(self.doc1)
@@ -44,22 +43,21 @@ class TestToggleLikeView(IntegrationTestCase):
         output = view()
         self.assertIn('(1)', output)
         self.assertIn('Unlike', output)
-        user_likes = util.get_items_for_user(self.user_id)
+        user_likes = self.util.get_items_for_user(self.user_id)
 
-        self.assertTrue(util.is_item_liked_by_user(self.user_id, item_id))
+        self.assertTrue(self.util.is_item_liked_by_user(self.user_id, item_id))
         self.assertEqual(len(user_likes), 1)
 
         # Toggle like for doc1
         output = view()
-        user_likes = util.get_items_for_user(self.user_id)
+        user_likes = self.util.get_items_for_user(self.user_id)
         self.assertEqual(len(user_likes), 0)
         self.assertIn('(0)', output)
         self.assertIn('Like', output)
 
-    def test_liking_capability(self):
-        """Test liking with multiple users and docs
+    def test_multiple_liking(self):
+        """Test liking with multiple users and various content
         """
-        util = getUtility(ILikesContainer)
         self.user1 = api.user.create(
             email='john@plone.org',
             username='user1'
@@ -83,22 +81,22 @@ class TestToggleLikeView(IntegrationTestCase):
         # 1. All users like doc1
         # 2. user1 and user2 like doc2
         # 3. Check counts and who has liked
-        util.like(
+        self.util.like(
             user_id=self.all_userids,
             item_id=self.doc1.UID(),
         )
-        self.assertEqual(len(util._user_uuids_mapping), 3)
-        self.assertEqual(len(util._uuid_users_mapping), 1)
+        self.assertEqual(len(self.util._user_uuids_mapping), 3)
+        self.assertEqual(len(self.util._uuid_users_mapping), 1)
         self.assertEqual([self.doc1.UID()],
-            sorted(list(util._uuid_users_mapping)))
+            sorted(list(self.util._uuid_users_mapping)))
 
         user1_id = self.user1.getId()
         user2_id = self.user2.getId()
-        util.like(
+        self.util.like(
             user_id=[user1_id, user2_id],
             item_id=self.doc2.UID(),
         )
-        results = util.get_users_for_item(self.doc2.UID())
+        results = self.util.get_users_for_item(self.doc2.UID())
         self.assertEqual(len(results), 2)
         self.assertIn(user1_id, results)
         self.assertIn(user2_id, results)
