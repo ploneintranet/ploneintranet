@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from plone.app.discussion.interfaces import IConversation
+from plone.uuid.interfaces import IUUID
+from plonesocial.core.integration import PLONESOCIAL
+from plonesocial.microblog.statusupdate import StatusUpdate
 from plonesocial.network.interfaces import ILikesContainer
 from plonesocial.network.testing import IntegrationTestCase
 from plonesocial.network.testing import set_browserlayer
+from zope.component import createObject
 from zope.component import getUtility
 
 import unittest2 as unittest
@@ -148,3 +153,58 @@ class TestToggleLikeView(IntegrationTestCase):
         self.assertIn(user1_id, results)
         self.assertIn(user2_id, results)
 
+
+    def test_like_discussion_item(self):
+        # test discussion-item
+        conversation = IConversation(self.doc1)
+        comment1 = createObject('plone.Comment')
+        conversation.addComment(comment1)
+        comment = [i for i in conversation.getComments()][0]
+        comment_id = IUUID(comment)
+
+        self.request.form['like_button'] = 'like'
+        view = api.content.get_view('toggle_like', self.portal, self.request)
+        view = view.publishTraverse(self.request, comment_id)
+
+        # Toggle like for comment
+        output = view()
+        self.assertIn('(1)', output)
+        self.assertIn('Unlike', output)
+        user_likes = self.util.get_items_for_user(self.user_id)
+
+        self.assertTrue(self.util.is_item_liked_by_user(self.user_id, comment_id))
+        self.assertEqual(len(user_likes), 1)
+
+        # Toggle like for comment
+        output = view()
+        user_likes = self.util.get_items_for_user(self.user_id)
+        self.assertEqual(len(user_likes), 0)
+        self.assertIn('(0)', output)
+        self.assertIn('Like', output)
+
+    def test_like_status_update(self):
+        # test statusupdate
+        su = StatusUpdate('Some cool news!')
+        container = PLONESOCIAL.microblog
+        container.add(su)
+        update_id = str(su.id)
+
+        self.request.form['like_button'] = 'like'
+        view = api.content.get_view('toggle_like', self.portal, self.request)
+        view = view.publishTraverse(self.request, update_id)
+
+        # Toggle like for statusupdate
+        output = view()
+        self.assertIn('(1)', output)
+        self.assertIn('Unlike', output)
+        user_likes = self.util.get_items_for_user(self.user_id)
+
+        self.assertTrue(self.util.is_item_liked_by_user(self.user_id, update_id))
+        self.assertEqual(len(user_likes), 1)
+
+        # Toggle like for statusupdate
+        output = view()
+        user_likes = self.util.get_items_for_user(self.user_id)
+        self.assertEqual(len(user_likes), 0)
+        self.assertIn('(0)', output)
+        self.assertIn('Like', output)

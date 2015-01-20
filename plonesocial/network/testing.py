@@ -36,11 +36,19 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
         import plonesocial.network
         self.loadZCML(package=plonesocial.network)
         z2.installProduct(app, 'ploneintranet.network')
+        import plonesocial.microblog
+        self.loadZCML(package=plonesocial.microblog)
+        z2.installProduct(app, 'plonesocial.microblog')
+        import plone.app.discussion
+        self.loadZCML(package=plone.app.discussion)
+        z2.installProduct(app, 'plone.app.discussion')
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plonesocial.network:default')
+        applyProfile(portal, 'plonesocial.microblog:default')
+        applyProfile(portal, 'plone.app.discussion:default')
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
