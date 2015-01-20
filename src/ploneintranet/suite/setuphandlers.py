@@ -174,7 +174,6 @@ def create_tasks(todos):
             type='Folder',
             title='Todos',
             container=portal)
-        api.content.transition(obj=todos_folder, transition='publish')
     else:
         todos_folder = portal['todos']
 
@@ -208,6 +207,7 @@ def create_workspaces(workspaces):
             type='ploneintranet.workspace.workspacefolder',
             **w
         )
+        api.content.transition(obj=workspace, transition='make_open')
         if contents is not None:
             create_ws_content(workspace, contents)
 
