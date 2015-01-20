@@ -117,14 +117,16 @@ def create_groups(groups):
 
 def create_as(userid, *args, **kwargs):
     current = api.user.get_current()
-    user = api.user.get(username=userid)
-    newSecurityManager(None, user)
     obj = None
-    try:
-        obj = api.content.create(*args, **kwargs)
-    finally:
-        # we always restore the previous security context, no matter what
-        newSecurityManager(None, current)
+    with api.env.adopt_user(username=userid):
+        try:
+            obj = api.content.create(*args, **kwargs)
+        except:
+            # we still need to know what happend
+            raise
+        finally:
+            # we always restore the previous security context, no matter what
+            newSecurityManager(None, current)
     return obj
 
 
@@ -148,10 +150,8 @@ def create_news_items(newscontent):
             obj=news_folder
         )
         # give the users rights to add news
-        # userid = newsitem['creator']
-        userid = 'admin'
         obj = create_as(
-            userid,
+            userid=newsitem['creator'],
             type='News Item',
             title=newsitem['title'],
             description=newsitem['description'],
