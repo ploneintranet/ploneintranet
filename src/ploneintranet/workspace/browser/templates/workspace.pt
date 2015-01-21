@@ -16,8 +16,10 @@
 
             <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-                <div id="document-body" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile">
-                    Add here the tile for the activity stream
+                <div id="document-body">
+                    <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
+                    <form id="new-post-box" data-tile="./@@newpostbox.tile"></form>
+                    <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile"></div>
                 </div>
 
                 <aside class="sidebar left tagging-off" id="sidebar" tal:attributes="data-tile string:${workspace_url}/@@sidebar.tile">

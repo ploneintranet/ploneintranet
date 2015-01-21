@@ -1,4 +1,5 @@
 from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from zope.interface import implements
@@ -11,6 +12,7 @@ class WorkspaceView(BrowserView):
     """
     Default View of the workspace
     """
+    implements(IBlocksTransformEnabled)
 
     def workspace(self):
         # return the related workspace
