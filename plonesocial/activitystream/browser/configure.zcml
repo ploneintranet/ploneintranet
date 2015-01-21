@@ -41,7 +41,7 @@
       />
 
   <adapter
-      name="plonesocial.activitystream.stream_provider"
+      name="plonesocial.core.stream_provider"
       factory=".stream_provider.StreamProvider"
       />
 
