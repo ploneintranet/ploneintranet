@@ -105,7 +105,7 @@ class Renderer(base.Renderer):
     def stream_provider(self):
         provider = getMultiAdapter(
             (self.context, self.request, self.view),
-            name="plonesocial.activitystream.stream_provider")
+            name="plonesocial.core.stream_provider")
         provider.portlet_data = self.data
         return provider()
 
