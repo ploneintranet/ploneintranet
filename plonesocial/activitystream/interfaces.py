@@ -10,6 +10,7 @@ class IActivity(Interface):
     Creator = Attribute("creator")
     getText = Attribute("text")
     raw_date = Attribute("raw date")
+    getId = Attribute("activity id")
 
     portal_type = Attribute("portal_type")
     render_type = Attribute("render_type")

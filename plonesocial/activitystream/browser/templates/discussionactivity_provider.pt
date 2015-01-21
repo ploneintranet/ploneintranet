@@ -91,9 +91,23 @@
     </div>
   </section>
 
-  <p class="functions">
-        <a href="#">Share <sup class="counter">(8)</sup></a>
-        <a href="#">Like <sup class="counter">(3)</sup></a>
-  </p>
+  <div class="functions"
+       tal:define="portal_state context/context/@@plone_portal_state;"
+       tal:condition="not:portal_state/anonymous">
+    <a href="#">Share <sup class="counter">(8)</sup></a>
+    <form href="#"
+       tal:define="portal portal_state/portal;
+                   toggle_like_view python:portal.unrestrictedTraverse('toggle_like');
+                   toggle_like python:toggle_like_view.publishTraverse(request, view.getId);"
+       tal:replace="structure python:toggle_like()">
+      <button class="like active"
+              value="like"
+              name="like_button"
+              type="submit">
+        <span>Like</span>
+        <sup class="counter">(4)</sup>
+      </button>
+    </form>
+  </div>
 
 </div>

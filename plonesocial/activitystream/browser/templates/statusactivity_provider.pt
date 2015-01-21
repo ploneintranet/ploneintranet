@@ -64,10 +64,21 @@
 
   </section>
 
-  <p class="functions">
-        <a href="#">Share <sup class="counter">(8)</sup></a>
-        <a href="#">Like <sup class="counter">(3)</sup></a>
-  </p>
+  <div class="functions"
+       tal:condition="not:view/is_anonymous">
+    <a href="#">Share <sup class="counter">(8)</sup></a>
+    <form href="#"
+       tal:define="toggle_like view/get_toggle_like_view;"
+       tal:replace="structure python:toggle_like()">
+      <button class="like active"
+              value="like"
+              name="like_button"
+              type="submit">
+        <span>Like</span>
+        <sup class="counter">(4)</sup>
+      </button>
+    </form>
+  </div>
 
   <div class="comments"
        tal:define="reply_providers view/reply_providers"
