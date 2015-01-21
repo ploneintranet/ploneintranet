@@ -1,7 +1,8 @@
 # Héctor Velarde <hector.velarde@gmail.com>, 2014.
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2014-03-07 21:30+0000\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-01-20 16:39+0000\n"
 "PO-Revision-Date: 2014-03-10 15:32-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,9 +14,8 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"Project-Id-Version: \n"
 
-#: ./browser/interfaces.py:56
+#: ./browser/interfaces.py:64
 msgid "A title for this portlet"
 msgstr "Um título para este portlet"
 
@@ -24,15 +24,15 @@ msgstr "Um título para este portlet"
 msgid "Activity Portal"
 msgstr "Portal de atividade"
 
-#: ./browser/interfaces.py:66
+#: ./browser/interfaces.py:74
 msgid "Compact rendering"
 msgstr "Visualização compacta"
 
-#: ./browser/stream.py:67
-msgid "Explore"
-msgstr "Explorar"
+#: ./browser/statusconversation.py:45
+msgid "Conversation"
+msgstr ""
 
-#: ./browser/interfaces.py:67
+#: ./browser/interfaces.py:75
 msgid "Hide portlet header and footer"
 msgstr "Ocultar cabeçalho e rodapé do portlet"
 
@@ -41,11 +41,11 @@ msgstr "Ocultar cabeçalho e rodapé do portlet"
 msgid "Installs the plonesocial.activitystream package"
 msgstr "Instalar o pacote plonesocial.activitystream"
 
-#: ./browser/interfaces.py:62
+#: ./browser/interfaces.py:70
 msgid "Maximum number of updates to show"
 msgstr "Número máximo de atualizações para exibir"
 
-#: ./browser/templates/activitystream_portlet.pt:23
+#: ./browser/templates/activitystream_portlet.pt:30
 msgid "More updates..."
 msgstr "Mais atualizações..."
 
@@ -54,11 +54,7 @@ msgstr "Mais atualizações..."
 msgid "My profile"
 msgstr "Meu perfil"
 
-#: ./browser/stream.py:69
-msgid "My network"
-msgstr "Minha rede"
-
-#: ./browser/interfaces.py:61
+#: ./browser/interfaces.py:69
 msgid "Number of updates to display"
 msgstr "Número de atualizações para exibir"
 
@@ -67,27 +63,27 @@ msgstr "Número de atualizações para exibir"
 msgid "PloneSocial Activitystream"
 msgstr "Fluxo de atividade do PloneSocial"
 
-#: ./browser/interfaces.py:76
+#: ./browser/interfaces.py:84
 msgid "Show content creation"
 msgstr "Exibir criação de conteúdo"
 
-#: ./browser/interfaces.py:77
+#: ./browser/interfaces.py:85
 msgid "Show creation of new content"
 msgstr "Exibir criação de conteúdo novo"
 
-#: ./browser/interfaces.py:81
+#: ./browser/interfaces.py:89
 msgid "Show discussion"
 msgstr "Exibir as discussões"
 
-#: ./browser/interfaces.py:82
+#: ./browser/interfaces.py:90
 msgid "Show discussion replies"
 msgstr "Exibir as respostas às discussões"
 
-#: ./browser/interfaces.py:71
+#: ./browser/interfaces.py:79
 msgid "Show microblog"
 msgstr "Exibir o microblog"
 
-#: ./browser/interfaces.py:72
+#: ./browser/interfaces.py:80
 msgid "Show microblog status updates"
 msgstr "Exibir as atualizações do microblog"
 
@@ -96,11 +92,7 @@ msgstr "Exibir as atualizações do microblog"
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Visão do fluxo de atividade social com portlets gerenciáveis"
 
-#: ./browser/templates/stream.pt:16
-msgid "Updates"
-msgstr "Atualizações"
-
-#: ./browser/templates/stream.pt:21
+#: ./browser/templates/stream.pt:24
 msgid "Updates tagged #${tag}"
 msgstr "Atualizações marcadas #${tag}"
 
@@ -109,17 +101,17 @@ msgid "View portlet management screen"
 msgstr "Ver tela de gerenciamento de portlet"
 
 #. Default: "commented on"
-#: ./browser/templates/activity_provider.pt:32
+#: ./browser/templates/discussionactivity_provider.pt:17
 msgid "label_commented_on"
 msgstr "comentado no"
 
 #. Default: "created"
-#: ./browser/templates/activity_provider.pt:37
+#: ./browser/templates/contentactivity_provider.pt:18
 msgid "label_created"
 msgstr "criado"
 
 #. Default: "says:"
-#: ./browser/templates/activity_provider.pt:28
+#: ./browser/templates/statusactivity_provider.pt:18
 msgid "label_says"
 msgstr "diz:"
 
@@ -128,4 +120,9 @@ msgstr "diz:"
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
 msgstr "Gerenciar portlets de fluxo de atividade"
+
+#. Default: "See more..."
+#: ./browser/templates/contentactivity_provider.pt:62
+msgid "see_more_link"
+msgstr ""
 

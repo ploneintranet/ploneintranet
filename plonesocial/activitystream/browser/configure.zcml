@@ -43,21 +43,13 @@
       />
 
   <adapter
-      name="plonesocial.activitystream.stream_provider"
+      name="plonesocial.core.stream_provider"
       factory=".stream_provider.StreamProvider"
       />
 
   <adapter zcml:condition="installed plonesocial.microblog"
       name="plonesocial.activitystream.statusconversation_provider"
       factory=".statusconversation_provider.StatusConversationProvider"
-      />
-
-  <browser:page
-      name="stream"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".stream.StreamView"
-      permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
 
   <plone:tile
@@ -82,7 +74,7 @@
   <browser:page zcml:condition="installed plonesocial.microblog"
       name="stream"
       for="plonesocial.microblog.interfaces.IMicroblogContext"
-      class=".stream.StreamView"
+      class="plonesocial.core.browser.stream.StreamView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
