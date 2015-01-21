@@ -168,7 +168,7 @@ class AuthorView(BrowserView, AbstractAuthor):
             # plonesocial.activitystream integration is optional
             provider = getMultiAdapter(
                 (self.context, self.request, self),
-                name='plonesocial.activitystream.stream_provider')
+                name='plonesocial.core.stream_provider')
             provider.users = self.userid
             return provider()
         except ComponentLookupError:
