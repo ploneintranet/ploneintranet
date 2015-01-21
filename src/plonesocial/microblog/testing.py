@@ -51,9 +51,13 @@ PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING = \
                        name="PlonesocialMicroblog:Integration")
 
 
-class PlonesocialMicroblogPortalSubcriber(Layer):
+class PlonesocialMicroblogSubcriber(Layer):
 
     defaultBases = (PLONESOCIAL_MICROBLOG_FIXTURE,)
+
+    def __init__(self, zcml_file):
+        super(PlonesocialMicroblogSubcriber, self).__init__()
+        self.zcml_file = zcml_file
 
     def setUp(self):
         self['configurationContext'] = context = zca.stackConfigurationContext(
@@ -61,7 +65,7 @@ class PlonesocialMicroblogPortalSubcriber(Layer):
         )
         import plonesocial.microblog
         xmlconfig.file(
-            'tests/testing_portal_subscriber.zcml',
+            self.zcml_file,
             plonesocial.microblog,
             context=context
         )
@@ -71,9 +75,18 @@ class PlonesocialMicroblogPortalSubcriber(Layer):
 
 
 PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE = \
-    PlonesocialMicroblogPortalSubcriber()
+    PlonesocialMicroblogSubcriber('tests/testing_portal_subscriber.zcml')
 PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING = \
     IntegrationTesting(
         bases=(PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE, ),
         name="PlonesocialMicroblogPortalSubscriber:Integration"
+    )
+
+
+PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE = \
+    PlonesocialMicroblogSubcriber('tests/testing_request_subscriber.zcml')
+PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING = \
+    IntegrationTesting(
+        bases=(PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE, ),
+        name="PlonesocialMicroblogRequestSubscriber:Integration"
     )
