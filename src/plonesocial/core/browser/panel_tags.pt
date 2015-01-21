@@ -27,15 +27,15 @@
           </label>
         </form>
 
-        <form id="items" 
-              action="#selected-tags" 
+        <form id="items"
+              action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit">
-          <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all" 
+          <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
                     class="checklist pat-checklist tags unchecked">
-            
+
             <label class="item tag unchecked"
                    tal:repeat="tag view/tags">
-              <input type="checkbox" name="tags:list" 
+              <input type="checkbox" name="tags:list"
                      tal:attributes="value tag"/>
               <a class="follow">
                 <strong class="title icon-tag"
@@ -43,11 +43,11 @@
               </a>
             </label>
           </fieldset>
-          
+
         </form>
       </div>
 
     </div>
-    
+
   </body>
 </html>
