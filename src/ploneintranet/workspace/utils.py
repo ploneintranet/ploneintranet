@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
+from plonesocial.microblog.interfaces import IMicroblogTool
 from zope.annotation import IAnnotations
 from zope.component import getUtility
+from zope.component import queryUtility
 
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
@@ -72,18 +75,19 @@ def get_workspace_activities(brain, limit=1):
        (machine readable)
      - the title value contains the absolute date and time of the post
     """
-    # BBB: this is a mock!!!!
+    mb = queryUtility(IMicroblogTool)
+    items = mb.context_values(brain.getObject(), limit=limit)
     return [
         {
-            'subject': 'Charlotte Holzer',
+            'subject': item.creator,
             'verb': 'published',
-            'object': 'Proposal draft V1.0 # This is a mock!!!',
+            'object': item.text,
             'time': {
-                'datetime': '2008-02-14',
-                'title': '5 October 2015, 18:43',
+                'datetime': item.date.strftime('%Y-%m-%d'),
+                'title': item.date.strftime('%d %B %Y, %H:%M'),
             }
-        }
-    ][:limit]
+        } for item in items
+    ]
 
 
 def my_workspaces(context):
