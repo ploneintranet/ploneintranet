@@ -150,30 +150,24 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
             #
             #  * Create a first expendable status
             #  * Create ten statuses we will test
-            #  * Create a last expendable status
             #  * Do some magic to ensure the damned threaded autoflush runs
             #  * Abort the transaction
             #  * PROFIT!
             #
-            # Why the first and last statuses are lost?
+            # Why the first status is lost?
             #
             # Because the queued autoflush "kicks in"
             # from the second status onward.
             # This means the first status gets added
-            # within the transaction that we abort
-            # (and not within the transaction that gets committed,
-            # which is the one in the thread), so it gets lost.
-            # The same holds for the last one, which triggers the queue
-            # flushing but gets similarly stuck in the doomed transaction.
+            # within the "doomed" transaction (the one that we abort)
+            # and not within the transaction that gets committed,
+            # which is the one in the thread, so it gets lost.
             su = StatusUpdate(u'Test à FIRST')
             pm.add(su)
             for i in xrange(0, 10):
                 su = StatusUpdate(u'Test à {}'.format(unicode(i+1)))
                 pm.add(su)
             time.sleep(2)
-            su = StatusUpdate(u'Test à LAST')
-            pm.add(su)
-            time.sleep(0.5)
             if getattr(pm, '_v_timer', None) is not None:
                 pm._v_timer.join()
             transaction.abort()
@@ -181,7 +175,7 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         messages = pin.get_user_queue(api.user.get('test_user_adapters_'))
         self.assertGreaterEqual(len(messages), 10)
 
-        for i, message in enumerate(messages[-11:-1]):
+        for i, message in enumerate(messages[-10:]):
             self.assertEqual(message.predicate, 'STATUS_UPDATE')
             self.assertEqual(message.obj['title'], u'Test à {}'.format(
                 unicode(i+1)
