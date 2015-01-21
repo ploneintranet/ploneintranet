@@ -65,8 +65,7 @@
   </section>
 
   <div class="functions"
-       tal:define="portal_state context/context/@@plone_portal_state;"
-       tal:condition="not:portal_state/anonymous">
+       tal:condition="not:view/is_anonymous">
     <a href="#">Share <sup class="counter">(8)</sup></a>
     <form href="#"
        tal:define="toggle_like view/get_toggle_like_view;"
