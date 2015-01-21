@@ -1,3 +1,4 @@
+from DateTime import DateTime
 import os
 import csv
 import logging
@@ -117,18 +118,17 @@ def create_groups(groups):
 
 def create_as(userid, *args, **kwargs):
     current = api.user.get_current()
-    user = api.user.get(username=userid)
-    newSecurityManager(None, user)
     obj = None
-    try:
-        obj = api.content.create(*args, **kwargs)
-    finally:
-        # we always restore the previous security context, no matter what
-        newSecurityManager(None, current)
+    with api.env.adopt_user(username=userid):
+        try:
+            obj = api.content.create(*args, **kwargs)
+        except:
+            # we still need to know what happend
+            raise
     return obj
 
 
-def create_news_items(context, newscontent):
+def create_news_items(newscontent):
     portal = api.portal.get()
 
     if 'news' not in portal:
@@ -141,15 +141,27 @@ def create_news_items(context, newscontent):
         news_folder = portal['news']
 
     for newsitem in newscontent:
+        # give the users rights to add news
+        api.user.grant_roles(
+            username=newsitem['creator'],
+            roles=['Contributor', 'Reader', 'Editor'],
+            obj=news_folder
+        )
+        # give the users rights to add news
         obj = create_as(
-            "admin",
+            userid=newsitem['creator'],
             type='News Item',
             title=newsitem['title'],
             description=newsitem['description'],
             container=news_folder
         )
-        obj.publication_date = newsitem['publication_date']
-        obj.Subject = newsitem['tags']
+        obj.setSubject(tuple(newsitem['tags']))
+
+        # TODO: there is no worklow at this point
+        #api.content.transition(obj=obj, transition='publish')
+
+        obj.setEffectiveDate(newsitem['publication_date'])
+        obj.reindexObject(idxs=['effective', ])
 
 
 def testing(context):
@@ -193,25 +205,30 @@ def testing(context):
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
 
-    # We use fixed dates, we need thes to be relative
-    #publication_date = ['just now', 'next week', 'next year', ]
+    # We use fixed dates
+    publication_date = [DateTime('01/01/2019'),
+                        DateTime('03/03/2021'),
+                        DateTime('11/11/2023'), ]
 
     # make newsitems
     news_content = [
         {'title': 'Second Indian Airline to join Global Airline Alliance',
          'description': 'Weak network in growing Indian aviation market',
          'tags': [tags[0]],
-         'publication_date': ''},
+         'publication_date': publication_date[0],
+         'creator': 'alice_lindstrom'},
 
         {'title': 'BNB and Randomize to codeshare',
-         'description': 'Starting September 10, BNB passengers will be' +
+         'description': 'Starting September 10, BNB passengers will be'
          'able to book connecting flights on Ethiopian Airlines.',
          'tags': [tags[1]],
-         'publication_date': ''},
+         'publication_date': publication_date[1],
+         'creator': 'allan_neece'},
 
         {'title': 'Alliance Officially Opens New Lounge',
          'description': '',
          'tags': [tags[0], tags[1]],
-         'publication_date': ''},
+         'publication_date': publication_date[2],
+         'creator': 'christian_stoney'},
     ]
     create_news_items(news_content)
