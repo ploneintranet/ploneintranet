@@ -459,4 +459,4 @@ def testing(context):
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
-    # create_stream(context, stream, 'files')
+    create_stream(context, stream, 'files')
