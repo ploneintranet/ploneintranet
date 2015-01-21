@@ -10,6 +10,7 @@ install:
   - python bootstrap.py -c travis.cfg -v 1.6.3
   - bin/buildout -c travis.cfg buildout:develop= install download install 
   - bin/buildout -N -t 3 -c travis.cfg
+  - cd src/ploneintranet.theme && make diazo
 script: 
   - bin/test
   - bin/flake8 src/ploneintranet.suite

@@ -9,18 +9,14 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Site Administrator can access sharing tab
+Site Administrator can access dashboard
     Given I'm logged in as a 'Site Administrator'
-     Then I see the Sharing tab
+     Then I see the Dashboard
 
 *** Keywords ***
 
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
-    Go to  ${PLONE_URL}
 
-I open the personal menu
-    Click link  css=#user-name
-
-I see the Sharing tab
-    Element should be visible  css=li#contentview-local_roles a[href*='@@sharing']
+I see the Dashboard
+    Element should be visible  css=#portlet-news
