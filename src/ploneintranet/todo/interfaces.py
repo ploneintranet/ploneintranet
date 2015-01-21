@@ -7,7 +7,6 @@ from ploneintranet.todo import _
 # verbs definition
 MUST_READ = 'mustread'
 TODO = 'todo'
-LIKE = 'like'
 
 
 class IContentAction(Interface):
@@ -39,7 +38,7 @@ class ITodoUtility(Interface):
         :type verb: str
         :param userids: The userids to add the action to or None for all users
         :type userids: str or list or None
-        :param completed: Whether this is a pre-completed action (e.g: a Like)
+        :param completed: Whether this is a pre-completed action
         :type completed: bool
         """
 
@@ -60,7 +59,7 @@ class ITodoUtility(Interface):
     def remove_action(content_uid, verb, userids=None):
         """
         Remove the given action from the users' actions. This is normally for
-        admin use, but also for removing pre-completed actions such as Likes
+        admin use, but also for removing pre-completed actions
 
         :param content_uid: The UID of the content
         :type content_uid: str
