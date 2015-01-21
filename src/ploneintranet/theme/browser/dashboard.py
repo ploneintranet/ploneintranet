@@ -1,8 +1,8 @@
-from plone import api
-from plone.memoize.view import memoize
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.tiles import Tile
-from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.interface import implements
+from zope.publisher.browser import BrowserView
 
 
 class Dashboard(BrowserView):
@@ -11,9 +11,10 @@ class Dashboard(BrowserView):
     """
 
     """ The tiles below are dummy tiles.
-         Please do NOT implement "real" tiles here, put them in another package.
+         Please do NOT implement "real" tiles here, put them in another package
          We want to keep the theme simple and devoid of business logic
     """
+    implements(IBlocksTransformEnabled)
 
 
 class NewsTile(Tile):
