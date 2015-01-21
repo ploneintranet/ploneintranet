@@ -69,9 +69,7 @@
        tal:condition="not:portal_state/anonymous">
     <a href="#">Share <sup class="counter">(8)</sup></a>
     <form href="#"
-       tal:define="portal portal_state/portal;
-                   toggle_like_view python:portal.unrestrictedTraverse('toggle_like');
-                   toggle_like python:toggle_like_view.publishTraverse(request, view.getId);"
+       tal:define="toggle_like view/get_toggle_like_view;"
        tal:replace="structure python:toggle_like()">
       <button class="like active"
               value="like"

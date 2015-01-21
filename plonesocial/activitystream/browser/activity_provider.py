@@ -184,6 +184,13 @@ class AbstractActivityProvider(object):
     def Title(self):
         return self.title
 
+    def get_toggle_like_view(self):
+        portal = api.portal.get()
+        toggle_like_base = portal.restrictedTraverse('toggle_like')
+        toggle_like_view = toggle_like_base.publishTraverse(
+            self.request, self.getId)
+        return toggle_like_view
+
 
 class StatusActivityProvider(AbstractActivityProvider):
     """Render an IStatusActivity"""
