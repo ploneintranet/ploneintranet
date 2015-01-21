@@ -5,6 +5,7 @@ from plonesocial.network.interfaces import ILikesContainer
 from plonesocial.network.interfaces import ILikesTool
 from plonesocial.network.likes import LikesContainer
 from plonesocial.network.testing import IntegrationTestCase
+from zope.component import getUtility
 from zope.component import queryUtility
 
 
@@ -24,6 +25,61 @@ class TestLikesTool(IntegrationTestCase):
         self.assertNotIn('plonesocial_likes', self.portal)
         tool = queryUtility(ILikesTool, None)
         self.assertIsNone(tool)
+
+    def test_multiple_liking(self):
+        """Test liking with multiple users and various content
+        """
+        self.user1 = api.user.create(
+            email='john@plone.org',
+            username='user1'
+        )
+        self.user2 = api.user.create(
+            email='jane@plone.org',
+            username='user2'
+        )
+        self.all_userids = [
+            self.user1.getId(),
+            self.user2.getId(),
+            'admin',
+        ]
+        self.doc1 = api.content.create(
+            container=self.portal,
+            type='Document',
+            id='doc1',
+            title='Doc 1'
+        )
+        self.doc2 = api.content.create(
+            container=self.portal,
+            type='Document',
+            id='doc2',
+            title='Doc 2'
+        )
+
+        self.util = getUtility(ILikesTool)
+        # 1. All users like doc1
+        # 2. user1 and user2 like doc2
+        # 3. Check counts and who has liked
+        self.util.like(
+            user_id=self.all_userids,
+            item_id=self.doc1.UID(),
+        )
+        self.assertEqual(len(self.util._user_uuids_mapping), 3)
+        self.assertEqual(len(self.util._uuid_users_mapping), 1)
+        self.assertEqual(
+            [self.doc1.UID()],
+            sorted(list(self.util._uuid_users_mapping))
+        )
+
+        user1_id = self.user1.getId()
+        user2_id = self.user2.getId()
+        self.util.like(
+            user_id=[user1_id, user2_id],
+            item_id=self.doc2.UID(),
+        )
+        results = self.util.get_users_for_item(self.doc2.UID())
+        self.assertEqual(len(results), 2)
+        self.assertIn(user1_id, results)
+        self.assertIn(user2_id, results)
 
 
 class TestLikes(unittest.TestCase):
