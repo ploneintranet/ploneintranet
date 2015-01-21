@@ -3,6 +3,7 @@
 Resource  plone/app/robotframework/selenium.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
+Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers

@@ -10,5 +10,7 @@ def test_suite():
     suite.addTests([
         layered(robotsuite.RobotTestSuite('test_hello.robot'),
                 layer=PLONEINTRANET_SUITE_ROBOT),
+        layered(robotsuite.RobotTestSuite('create_workspace.robot'),
+                layer=PLONEINTRANET_SUITE_ROBOT),
     ])
     return suite
