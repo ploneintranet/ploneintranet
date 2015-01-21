@@ -6,6 +6,8 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="plonesocial.activitystream">
 
+  <include package="plone.tiles" file="meta.zcml" />
+  
   <include  zcml:condition="installed plonesocial.microblog"
             file="permissions.zcml"
             package="plonesocial.microblog"
