@@ -1,13 +1,24 @@
+from datetime import datetime, timedelta
 from DateTime import DateTime
 import os
 import csv
 import logging
+import json
+import time
+import transaction
+import mimetypes
+from DateTime import DateTime
 from zope.component import queryUtility
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
+from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.attachments.utils import create_attachment
 from plonesocial.network.interfaces import INetworkGraph
+from plonesocial.microblog.interfaces import IMicroblogTool
+from plonesocial.microblog.statusupdate import StatusUpdate
 
 
 def decode(value):
@@ -117,7 +128,8 @@ def create_groups(groups):
 
 
 def create_as(userid, *args, **kwargs):
-    current = api.user.get_current()
+    """Call api.content.create as a different user
+    """
     obj = None
     with api.env.adopt_user(username=userid):
         try:
@@ -164,8 +176,139 @@ def create_news_items(newscontent):
         obj.reindexObject(idxs=['effective', ])
 
 
-def testing(context):
+def create_tasks(todos):
+    portal = api.portal.get()
 
+    if 'todos' not in portal:
+        todos_folder = api.content.create(
+            type='Folder',
+            title='Todos',
+            container=portal)
+    else:
+        todos_folder = portal['todos']
+
+    for data in todos:
+        obj = create_as(
+            data['creator'],
+            type='simpletodo',
+            title=data['title'],
+            container=todos_folder)
+        todo = ITodo(obj)
+        todo.assignee = data['assignee']
+
+
+def create_workspaces(workspaces):
+    portal = api.portal.get()
+    if 'workspaces' not in portal:
+        ws_folder = api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
+    else:
+        ws_folder = portal['workspaces']
+
+    for w in workspaces:
+        contents = w.pop('contents', None)
+        workspace = api.content.create(
+            container=ws_folder,
+            type='ploneintranet.workspace.workspacefolder',
+            **w
+        )
+        api.content.transition(obj=workspace, transition='make_open')
+        if contents is not None:
+            create_ws_content(workspace, contents)
+
+
+def create_ws_content(parent, contents):
+    for content in contents:
+        sub_contents = content.pop('contents', None)
+        obj = api.content.create(
+            container=parent,
+            **content
+        )
+        if sub_contents is not None:
+            create_ws_content(obj, sub_contents)
+
+
+def create_events(events):
+    portal = api.portal.get()
+    if 'events' not in portal:
+        event_folder = api.content.create(
+            container=portal,
+            type='Folder',
+            title='Events'
+        )
+    else:
+        event_folder = portal['events']
+    for ev in events:
+        create_as(
+            ev['creator'],
+            type='Event',
+            container=event_folder,
+            **ev
+        )
+
+
+class FakeFileField(object):
+    """A mock so that we can use ``create_attachment``
+    """
+
+    def __init__(self, filename, file_object):
+        self.filename = filename
+        self.file_object = file_object
+
+    @property
+    def headers(self):
+        ctype, encoding = mimetypes.guess_type(self.filename)
+        if ctype is None:
+            ctype = 'application/octet-stream'
+        return {
+            'content-type': ctype
+        }
+
+    def read(self):
+        return self.file_object.read()
+
+
+def create_stream(context, stream, files_dir):
+    contexts_cache = {}
+    microblog = queryUtility(IMicroblogTool)
+    microblog.clear()
+    for status in stream:
+        kwargs = {}
+        if status['context']:
+            if status['context'] not in contexts_cache:
+                contexts_cache[status['context']] = api.content.get(
+                    path='/'+decode(status['context']).lstrip('/')
+                )
+            kwargs['context'] = contexts_cache[status['context']]
+        status_obj = StatusUpdate(status['text'], **kwargs)
+        status_obj.userid = status['user']
+        status_obj.creator = api.user.get(
+            username=status['user']
+        ).getProperty('fullname')
+        offset_time = status['timestamp'] * 60
+        status_obj.id -= int(offset_time * 1e6)
+        status_obj.date = DateTime(time.time() - offset_time)
+        microblog.add(status_obj)
+        if 'attachment' in status:
+            attachment_definition = status['attachment']
+            attachment_filename = os.path.join(
+                files_dir,
+                attachment_definition['filename']
+            )
+            attachment = context.openDataFile(attachment_filename)
+            fake_field = FakeFileField(
+                attachment_definition['filename'],
+                attachment
+            )
+            attachment_obj = create_attachment(fake_field)
+            attachments = IAttachmentStorage(status_obj)
+            attachments.add(attachment_obj)
+
+
+def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
 
@@ -205,7 +348,8 @@ def testing(context):
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
 
-    # We use fixed dates
+    # We use fixed dates, we need these to be relative
+    # publication_date = ['just now', 'next week', 'next year', ]
     publication_date = [DateTime('01/01/2019'),
                         DateTime('03/03/2021'),
                         DateTime('11/11/2023'), ]
@@ -220,7 +364,8 @@ def testing(context):
 
         {'title': 'BNB and Randomize to codeshare',
          'description': 'Starting September 10, BNB passengers will be'
-         'able to book connecting flights on Ethiopian Airlines.',
+                        'able to book connecting flights on Ethiopian '
+                        'Airlines.',
          'tags': [tags[1]],
          'publication_date': publication_date[1],
          'creator': 'allan_neece'},
@@ -232,3 +377,86 @@ def testing(context):
          'creator': 'christian_stoney'},
     ]
     create_news_items(news_content)
+
+    # Create tasks
+    todos_content = [{
+        'title': 'Inquire after References',
+        'creator': 'alice_lindstrom',
+        'assignee': 'employees',
+    }, {
+        'title': 'Finalize budget',
+        'creator': 'christian_stoney',
+        'assignee': 'employees',
+    }, {
+        'title': 'Write SWOT analysis',
+        'creator': 'pearlie_whitby',
+        'assignee': 'employees',
+    }, {
+        'title': 'Prepare sales presentation',
+        'creator': 'lance_stockstill',
+        'assignee': 'lance_stockstill',
+    }, {
+        'title': 'Talk to HR about vacancy',
+        'creator': 'allan_neece',
+        'assignee': 'allan_neece',
+    }]
+    create_tasks(todos_content)
+
+    # Create workspaces
+    workspaces = [
+        {'title': 'Open Market Committee',
+         'description': 'The OMC holds eight regularly scheduled meetings '
+                        'during the year and other meetings as needed.',
+         'contents':
+             [{'title': 'Manage Information',
+               'type': 'Folder',
+               'contents':
+                   [{'title': 'Preparation of Records',
+                     'description': 'How to prepare records',
+                     'type': 'File'},
+                    {'title': 'Public bodies reform',
+                     'description': 'Making arrangements for the transfer of '
+                                    'information, records and knowledge is a '
+                                    'key part of any Machinery of Government '
+                                    'change.',
+                     'type': 'Document'}]},
+              {'title': 'Projection Materials',
+               'type': 'Folder',
+               'contents':
+                   [{'title': 'Projection Material',
+                     'type': 'File'}]}]},
+        {'title': 'Parliamentary papers guidance',
+         'description': '"Parliamentary paper" is a term used to describe a '
+                        'document which is laid before Parliament. Most '
+                        'government organisations will produce at least one '
+                        'parliamentary paper per year.',
+         'contents':
+            [{'title': 'Test Document',
+              'description': 'A document just for testing',
+              'type': 'Document'}]
+         }
+    ]
+    create_workspaces(workspaces)
+
+    # Create some events
+    now = datetime.now()
+    tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
+                                                 microsecond=0)
+    next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
+                                                    second=0, microsecond=0)
+    events = [
+        {'title': 'Open Market Day',
+         'creator': 'allan_neece',
+         'start': tomorrow,
+         'end': tomorrow + timedelta(hours=8)},
+        {'title': 'Plone Conf',
+         'creator': 'alice_lindstrom',
+         'start': next_month,
+         'end': next_month + timedelta(days=3, hours=8)}
+    ]
+    create_events(events)
+
+    stream_json = os.path.join(context._profile_path, 'stream.json')
+    with open(stream_json, 'rb') as stream_json_data:
+        stream = json.load(stream_json_data)
+    create_stream(context, stream, 'files')
