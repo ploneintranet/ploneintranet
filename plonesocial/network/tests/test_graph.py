@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from plonesocial.network.graph import NetworkGraph
 from plonesocial.network.interfaces import INetworkGraph
+from plonesocial.network.testing import IntegrationTestCase
 from zope.interface.verify import verifyClass
-import unittest2 as unittest
 
 
-class TestNetworkGraph(unittest.TestCase):
+class TestNetworkGraph(IntegrationTestCase):
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(INetworkGraph, NetworkGraph))

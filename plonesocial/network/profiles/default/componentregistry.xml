@@ -5,5 +5,9 @@
       interface="plonesocial.network.interfaces.INetworkTool"
       object="plonesocial_network"
       />
+  <utility
+      interface="plonesocial.network.interfaces.ILikesTool"
+      object="plonesocial_likes"
+      />
  </utilities>
 </componentregistry>

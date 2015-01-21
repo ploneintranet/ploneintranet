@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plonesocial.network.testing import PLONESOCIAL_NETWORK_INTEGRATION_TESTING
-import unittest2 as unittest
+from plonesocial.network.testing import IntegrationTestCase
 
 PROJECTNAME = 'plonesocial.network'
 REGISTRY_ID = 'plone.resources/resource-plonesocial-network-stylesheets.css'
@@ -11,9 +10,7 @@ EXPECTED_CSS = [
 ]
 
 
-class TestInstall(unittest.TestCase):
-
-    layer = PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+class TestInstall(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -31,9 +28,7 @@ class TestInstall(unittest.TestCase):
         self.assertListEqual(EXPECTED_CSS, resource_ids)
 
 
-class TestUninstall(unittest.TestCase):
-
-    layer = PLONESOCIAL_NETWORK_INTEGRATION_TESTING
+class TestUninstall(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
