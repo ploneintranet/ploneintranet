@@ -15,10 +15,12 @@ from Acquisition import Explicit
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 import Zope2
+from Testing.makerequest import makerequest
 from Products.CMFCore.utils import getToolByName
 
 from zope.component.hooks import setSite
 from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.container.contained import ObjectAddedEvent
 from zope.event import notify
 from zope.interface import implements
@@ -438,30 +440,44 @@ class QueuedStatusContainer(BaseStatusContainer):
 
         # only a one-second granularity, round upwards
         timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        # Get the global request,
+        # we just need to copy over some environment stuff.
+        request = getRequest()
+        request_environ = {}
         site = getSite()
         # We do not use plone.api here because we cannot assume
         # that site == plone portal.
         # It could also be a directory under it
         if site:
             site_path = '/'.join(site.getPhysicalPath())
+            if request is None:
+                # If we fail getting a request,
+                # we might still have it in portal
+                request = getattr(site, 'REQUEST', None)
         else:
             # This situation can happen in tests.
             logger.warning("Could not get the site")
             site_path = None
+        if request is not None:
+            request_environ = {
+                'SERVER_NAME': request.SERVER_NAME,
+                'SERVER_PORT': request.SERVER_PORT,
+                'REQUEST_METHOD': request.REQUEST_METHOD
+            }
         with LOCK:
             # logger.info("Setting timer")
             self._v_timer = threading.Timer(
                 timeout,
                 self._scheduled_autoflush,
-                kwargs={'site_path': site_path}
+                kwargs={'site_path': site_path, 'environ': request_environ}
             )
             self._v_timer.start()
 
-    def _scheduled_autoflush(self, site_path=None):
+    def _scheduled_autoflush(self, site_path=None, environ=None):
         """This method is run from the timer, outside a normal request scope.
         This requires an explicit commit on db write"""
         if site_path is not None:
-            app = getZope2App()
+            app = makerequest(getZope2App(), environ=environ)
             site = app.restrictedTraverse(site_path)
             setSite(site)
         if self._autoflush():  # returns 1 on actual write
