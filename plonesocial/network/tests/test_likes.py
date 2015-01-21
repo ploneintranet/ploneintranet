@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import unittest2 as unittest
 from plone import api
 from plonesocial.network.interfaces import ILikesContainer
 from plonesocial.network.interfaces import ILikesTool
@@ -25,7 +26,7 @@ class TestLikesTool(IntegrationTestCase):
         self.assertIsNone(tool)
 
 
-class TestLikes(IntegrationTestCase):
+class TestLikes(unittest.TestCase):
 
     def setUp(self):
         # self.portal = self.layer['portal']
