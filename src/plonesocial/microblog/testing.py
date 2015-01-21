@@ -1,3 +1,5 @@
+import time
+import Queue
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
@@ -7,6 +9,23 @@ from plone.testing import z2
 from plone.testing import zca
 
 from zope.configuration import xmlconfig
+
+
+def tearDownContainer(container):
+    from plonesocial.microblog.statuscontainer import STATUSQUEUE
+    # stop the thread timer
+    try:
+        container._v_timer.cancel()
+        time.sleep(1)  # allow for thread cleanup
+    except AttributeError:
+        pass
+
+    # we have an in-memory queue, purge it
+    while True:
+        try:
+            STATUSQUEUE.get(block=False)
+        except Queue.Empty:
+            break
 
 
 class PlonesocialMicroblog(PloneSandboxLayer):

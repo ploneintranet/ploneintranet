@@ -1,5 +1,4 @@
 import time
-import Queue
 import unittest2 as unittest
 from zope.interface import implements
 from zope.interface.verify import verifyClass
@@ -12,6 +11,7 @@ from plonesocial.microblog import statusupdate
 from plonesocial.microblog.statuscontainer import STATUSQUEUE
 import plonesocial.microblog.statuscontainer
 plonesocial.microblog.statuscontainer.MAX_QUEUE_AGE = 50
+from plonesocial.microblog.testing import tearDownContainer
 
 
 class StatusContainer(statuscontainer.QueuedStatusContainer):
@@ -52,19 +52,7 @@ class TestQueueStatusContainer(unittest.TestCase):
         self.container._mtime = int(time.time() * 1000)
 
     def tearDown(self):
-        # stop the thread timer
-        try:
-            self.container._v_timer.cancel()
-            time.sleep(1)  # allow for thread cleanup
-        except AttributeError:
-            pass
-
-        # we have an in-memory queue, purge it
-        while True:
-            try:
-                STATUSQUEUE.get(block=False)
-            except Queue.Empty:
-                break
+        tearDownContainer(self.container)
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(IStatusContainer, StatusContainer))
