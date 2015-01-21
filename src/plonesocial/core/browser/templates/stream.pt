@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plonesocial.activitystream">
+
+<body>
+
+    <div metal:fill-slot="content">
+    <metal:main-macro define-macro="content">
+      <div id="content">
+          <h1 class="documentFirstHeading" i18n:translate=""
+              tal:content="view/title">Updates</h1>
+
+        <tal:block replace="structure view/status_provider" />
+
+        <div id="activity-stream"
+             class="activity-stream pat-packery packery-ready"
+             data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .post;">
+
+          <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
+          #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
+          </h2>
+
+          <tal:block replace="structure view/stream_provider" />
+        </div>
+
+      </div>
+    </metal:main-macro>
+    </div>
+
+</body>
+</html>

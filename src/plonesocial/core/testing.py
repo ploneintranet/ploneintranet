@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
+from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from zope.configuration import xmlconfig
 
 
-class PlonesocialNetwork(PloneSandboxLayer):
+class PlonesocialCore(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE, )
+    defaultBases = (
+        PLONE_APP_TILES_FIXTURE,
+    )
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package
@@ -20,10 +22,10 @@ class PlonesocialNetwork(PloneSandboxLayer):
         )
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plonesocial.core:default')
+        applyProfile(portal, 'plonesocial.core:minimal')
 
-PLONESOCIAL_CORE_FIXTURE = PlonesocialNetwork()
+PLONESOCIAL_CORE_FIXTURE = PlonesocialCore()
 PLONESOCIAL_CORE_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONESOCIAL_CORE_FIXTURE, ),
-    name='PlonesocialNetwork:Integration'
+    name='PlonesocialCore:Integration'
 )

@@ -4,6 +4,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plonesocial.core">
 
+  <include package=".tiles" />
+
   <browser:view
       for="*"
       name="panel-tags"
@@ -28,6 +30,13 @@
       layer=".interfaces.IPlonesocialCoreLayer"
       />
 
+  <browser:page
+      name="stream"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".stream.StreamView"
+      permission="zope2.View"
+      layer=".interfaces.IPlonesocialCoreLayer"
+      />
 
   <!-- styles and javascripts are only active in the "default" profile
        not in the "minimal" profile. -->

@@ -3,5 +3,6 @@
   <version>1000</version>
   <dependencies>
     <dependency>profile-plonesocial.core:minimal</dependency>
+    <dependency>profile-plone.app.tiles:default</dependency>
   </dependencies>
 </metadata>
