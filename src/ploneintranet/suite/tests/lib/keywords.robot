@@ -3,6 +3,9 @@
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
 
+I am logged in as site administrator
+    Element should be visible  css=body.userrole-site-administrator
+
 # add content keyword that supports
 # both dexterity and archetypes
 Add content item
