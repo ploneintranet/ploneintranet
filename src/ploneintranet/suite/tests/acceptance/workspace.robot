@@ -2,7 +2,7 @@
 
 Resource  plone/app/robotframework/selenium.robot
 Resource  plone/app/robotframework/keywords.robot
-Resource  ../keywords.robot
+Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -12,21 +12,20 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-# I outcomment these tests as they were written for barceloneta.
-# We need to
-#  a) Rewrite them for ploneintranet.theme and
-#  b) Move them to ploneintranet.suite so that we can test
-#     for all integrated packages.
-# We don't delete them yet so that we have a reference
-# [pilz]
+Manager can create a workspace
+    Given I'm logged in as a 'Manager'
+     Then I can create a new workspace
 
-Site Administrator can add example user as member of workspace
-    Given I'm logged in as a 'Site Administrator'
-     Add workspace  Example Workspace
-     Maneuver to  Example Workspace
-     Click Link  jquery=a:contains('View full Roster')
-     Input text  edit-roster-user-search  Example User
-     Click button  Search users
+# XXX: The following tests derive from ploneintranet.workspace and still
+# need to be adapted to our current state of layout integration
+
+# Site Administrator can add example user as member of workspace
+#     Given I'm logged in as a 'Site Administrator'
+#      Add workspace  Example Workspace
+#      Maneuver to  Example Workspace
+#      Click Link  jquery=a:contains('View full Roster')
+#      Input text  edit-roster-user-search  Example User
+#      Click button  Search users
 
 # Site Administrator can modify policies
 #     Log in as site owner
@@ -78,3 +77,15 @@ Site Administrator can add example user as member of workspace
 #     Input text  sharing-user-group-search  test
 #     Click button  sharing-search-button
 #     Element should be visible  xpath=//table[@id="user-group-sharing"]/tbody/tr/td[normalize-space()="test_user_1_ (test-user)"]
+
+
+*** Keywords ***
+
+I can create a new workspace
+    Go To  ${PLONE_URL}/workspaces.html
+    Click Link  link=Create Workspace
+    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Input Text  css=input.required.parsley-validated  text=New Workspace
+    Input Text  name=form.widgets.IBasic.description  text=A new Workspace
+    Click Element  css=button.icon-ok-circle.confirmative
+    Wait Until Element Is visible  css=div.post.content  timeout=5
