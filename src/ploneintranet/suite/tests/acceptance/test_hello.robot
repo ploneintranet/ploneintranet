@@ -11,7 +11,7 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Manager can access dashboard
+Site Administrator can access dashboard
     Given I'm logged in as a 'Site Administrator'
      and I open the Dashboard
      then I am logged in as site administrator
