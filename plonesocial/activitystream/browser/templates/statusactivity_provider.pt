@@ -1,6 +1,6 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:define="thread_id view/status_id"
-      tal:attributes="class string:post ${view/render_type}">
+      tal:attributes="class string:post ${view/render_type} item">
 
   <div class="post-header">
     <a href=""
