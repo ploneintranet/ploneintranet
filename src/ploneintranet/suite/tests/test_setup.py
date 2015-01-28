@@ -5,7 +5,6 @@ from Products.CMFCore.utils import getToolByName
 from ploneintranet.suite.testing import\
     PLONEINTRANET_SUITE_INTEGRATION
 
-
 class TestExample(unittest.TestCase):
 
     layer = PLONEINTRANET_SUITE_INTEGRATION
