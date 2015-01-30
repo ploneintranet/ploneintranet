@@ -44,7 +44,7 @@
         text-align: start;
         white-space: pre-wrap;
         vertical-align: text-bottom;
-        overflow-x: hidden;
+        overflow: hidden;
         width: 100%;
         box-sizing: border-box;
         margin-bottom: -100%;
@@ -59,6 +59,10 @@
             z-index: 2;
             color: #222;
         }
+    }
+
+    &.status-active .content-mirror {
+      overflow: auto;
     }
 
     &.status-active textarea,
