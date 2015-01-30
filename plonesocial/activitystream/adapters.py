@@ -53,7 +53,7 @@ class ContentActivity(AbstractContentActivity):
     def __init__(self, context):
         super(ContentActivity, self).__init__(context)
         self.userid = context.getOwnerTuple()[1]
-        self.render_type = 'content'
+        self.render_type = 'item'
         self.text = context.Description() + self._tags(context.Subject())
 
     def _tags(self, source):

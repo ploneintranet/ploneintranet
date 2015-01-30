@@ -1,8 +1,7 @@
 <html>
     <body>
         <div id="activity-stream"
-             class="activity-stream pat-packery packery-ready"
-             data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .post;">
+             class="activity-stream">
 
           <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
           #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
