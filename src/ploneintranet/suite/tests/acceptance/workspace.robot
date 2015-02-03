@@ -16,6 +16,12 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace
 
+Traverse Folder in sidebar navigation
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    Then I can enter the Manage Information Folder
+    And Go back to the workspace by clicking the parent button
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -89,3 +95,21 @@ I can create a new workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div.post.item  timeout=5
+
+I go to the Open Market Committee Workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Open Market Committee
+
+I can enter the Manage Information Folder
+	Page Should Contain  Manage Information
+	Click Element  xpath=//form[@id='items']/fieldset/label[1]/a
+	Wait Until Page Contains  Preparation of Records
+	Wait Until Page Contains  How to prepare records
+
+Go back to the workspace by clicking the parent button
+	Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
+	Click Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
+	Page Should Contain  Projection Materials
+
+
