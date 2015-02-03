@@ -147,7 +147,7 @@
                         <tal:block repeat="item view/children">
                         <label class="item document type-event has-description"
                                 tal:attributes="class item/cls">
-                            <input name="event-traces-through-time" talattributes="name item/id" type="checkbox" />
+                            <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
                             <a href="/event-traces-through-time#document-body" 
                                class="pat-inject follow" 
                                data-pat-inject="target: #document-body" 
