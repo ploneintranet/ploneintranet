@@ -109,6 +109,7 @@
 
 <rules css:if-content="#visual-portal-wrapper">
   <theme href="generated/empty.html" />
+  <replace css:content-children="#content" css:theme-children="#original-content" />
 </rules>
 
 <notheme css:if-content="body.diazo-off"/>
