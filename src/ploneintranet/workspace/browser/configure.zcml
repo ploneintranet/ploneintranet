@@ -104,4 +104,15 @@
 
    <include package=".tiles" />
 
+    <plone:tile
+        name="sidebar.default"
+        title="Sidebar: Files"
+        description="This tile shows the sidebar listing files"
+        add_permission="cmf.ManagePortal"
+        class=".sidebar.ContentItemsTile"
+        permission="zope2.View"
+        for="*"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
 </configure>

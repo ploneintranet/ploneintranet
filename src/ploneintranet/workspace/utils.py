@@ -12,6 +12,18 @@ from zope.component import queryUtility
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 
+# The type map is used to deduct clear text names for classes and labels
+# from portal types
+TYPE_MAP = {'Event': 'event',
+            'News Item': 'news',
+            'Image': 'image',
+            'File': 'file',
+            'Link': 'link',
+            'Folder': 'folder',
+            'Document': 'rich',
+            'simpletodo': 'task',
+            'ploneintranet.workspace.workspacefolder': 'workspace'}
+
 
 def get_storage(clear=False):
     """helper function to get annotation storage on the portal
