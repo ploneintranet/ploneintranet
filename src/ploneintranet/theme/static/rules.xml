@@ -25,9 +25,7 @@
   <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
 
   <!-- insert the breadcrumbs into the header bar -->
-  <drop css:content="#breadcrumbs-you-are-here" />
-  <drop css:content=".breadcrumbSeparator" css:if-content=".breadcrumbSeparator" />
-  <replace css:content-children="#portal-breadcrumbs"
+  <replace css:content-children="#breadcrumbs"
            css:theme-children="nav.breadcrumbs" />
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
