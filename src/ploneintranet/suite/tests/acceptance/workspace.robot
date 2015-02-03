@@ -88,4 +88,4 @@ I can create a new workspace
     Input Text  css=input.required.parsley-validated  text=New Workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
-    Wait Until Element Is visible  css=div.post.content  timeout=5
+    Wait Until Element Is visible  css=div.post.item  timeout=5
