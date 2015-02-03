@@ -292,20 +292,21 @@ def create_stream(context, stream, files_dir):
         status_obj.id -= int(offset_time * 1e6)
         status_obj.date = DateTime(time.time() - offset_time)
         microblog.add(status_obj)
-        if 'attachment' in status:
-            attachment_definition = status['attachment']
-            attachment_filename = os.path.join(
-                files_dir,
-                attachment_definition['filename']
-            )
-            attachment = context.openDataFile(attachment_filename)
-            fake_field = FakeFileField(
-                attachment_definition['filename'],
-                attachment
-            )
-            attachment_obj = create_attachment(fake_field)
-            attachments = IAttachmentStorage(status_obj)
-            attachments.add(attachment_obj)
+        # THIS BREAKS BECAUSE DOCCONV. FIX DOCCONV, UNCOMMENT
+        # if 'attachment' in status:
+        #     attachment_definition = status['attachment']
+        #     attachment_filename = os.path.join(
+        #         files_dir,
+        #         attachment_definition['filename']
+        #     )
+        #     attachment = context.openDataFile(attachment_filename)
+        #     fake_field = FakeFileField(
+        #         attachment_definition['filename'],
+        #         attachment
+        #     )
+        #     attachment_obj = create_attachment(fake_field)
+        #     attachments = IAttachmentStorage(status_obj)
+        #     attachments.add(attachment_obj)
 
 
 def testing(context):
