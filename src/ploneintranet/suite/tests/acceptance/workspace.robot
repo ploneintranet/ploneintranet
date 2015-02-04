@@ -5,6 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
+# Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
@@ -26,6 +27,11 @@ Traverse Folder in sidebar navigation
     And I go to the Open Market Committee Workspace
     Then I can enter the Manage Information Folder
     And Go back to the workspace by clicking the parent button
+
+Search for objects in sidebar navigation
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    Then I can search for items
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -119,5 +125,15 @@ Go back to the workspace by clicking the parent button
 	Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
 	Click Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
 	Page Should Contain  Projection Materials
+
+I can search for items
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+    Input Text  xpath=//input[@name='sidebar-search']  Info
+    Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
 
 
