@@ -19,8 +19,5 @@ Site Administrator can access dashboard
 
 *** Keywords ***
 
-I open the Dashboard
-    Go to  ${PLONE_URL}/dashboard.html
-
 I see the Dashboard
     Element should be visible  css=#portlet-news
