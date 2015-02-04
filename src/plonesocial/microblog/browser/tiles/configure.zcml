@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plonesocial.core">
+
+  <include package="plone.tiles" file="meta.zcml" />
+
+  <plone:tile
+      for="*"
+      name="newpostbox.tile"
+      title="A tile to add a new post"
+      description="A tile to add a new post"
+      class=".newpostbox.NewPostBoxTile"
+      layer="..interfaces.IPlonesocialMicroblogLayer"
+      add_permission="cmf.ManagePortal"
+      permission="zope.Public"
+      />
+
+</configure>

@@ -5,6 +5,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.microblog">
 
+  <include package=".tiles" />
+
   <adapter
       name="plonesocial.microblog.status_provider"
       factory=".status.StatusProvider"
