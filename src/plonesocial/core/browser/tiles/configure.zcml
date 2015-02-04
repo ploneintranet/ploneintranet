@@ -1,11 +1,13 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plonesocial.core">
 
   <include package="plone.tiles" file="meta.zcml" />
 
   <plone:tile
+      zcml:condition="not-installed plonesocial.microblog.browser.tiles"
       for="*"
       name="newpostbox.tile"
       title="A tile to add a new post"
