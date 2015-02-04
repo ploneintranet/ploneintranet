@@ -4,15 +4,39 @@
 <tal:block tal:define="portal_url here/portal_url"
            i18n:domain="plone">
 
-  <div id="microblog" class="plonesocial">
+  <div id="microblog" class="plonesocial"
+      tal:define="form_id request/form_id|string:new-post-box">
 
     <form id="new-post-box" method="post"
           class="pat-inject update-social status-inactive"
           action=""
-          data-pat-inject=".post:first::element;
-                           target: #activity-stream::before
-                           && #new-post-box"
-          tal:attributes="action request/ACTUAL_URL">
+          data-pat-inject="source: #activity-stream;
+                           target: #activity-stream .activities::before"
+          tal:attributes="action request/ACTUAL_URL;
+                          id form_id;
+                          data-pat-inject string:${attrs/data-pat-inject} && ${form_id}">
+
+
+    <tal:direct condition="view/direct">
+      <tal:hideuser condition="not: view/hideuser">
+            <label>
+                To:
+                <tal:fixeduser condition="view/fixeduser">
+                    <input disabled="disabled" value="user" tal:attributes="value view/user" />
+                </tal:fixeduser>
+                <tal:fixeduser condition="not: view/fixeduser">
+                    <a class="iconified icon-user pat-tooltip"
+                        data-pat-tooltip="position: tl; source: ajax; class: user;"
+                        href="panel-user.html#content"
+                        tal:attributes="href string:${portal_url}/@@panel-users#content"></a>
+                    <span id="selected-user"><input value="user" tal:attributes="value view/user" /></span>
+                </tal:fixeduser>
+            </label>
+        </tal:hideuser>
+        <tal:hideuser condition="view/hideuser">
+            <input type="hidden" value="user" tal:attributes="value view/user" />
+        </tal:hideuser>
+    </tal:direct>
 
       <script type="text/javascript">
         <!-- Ideally this will be a separate pattern one day -->
@@ -52,10 +76,22 @@
       </script>
 
       <fieldset>
-        <!-- This content-mirror paragraph is oddly wrapped
-             to avoid extra whitespace when it is rendered as a 'pre' -->
-        <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')" tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
-        <textarea placeholder="What are you doing?"
+        <p class="content-mirror"
+          ><span class="text"
+            ><em class="placeholder" tal:content="view/placeholder">What are you doing?</em></span
+          ><em class="selected-users" id="selected-users"
+            ><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"
+              ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
+              tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
+              ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
+            ></em><em class="selected-tags" id="selected-tags"
+            ><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing"
+              ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
+          ></em>
+        </p>
+
+        <textarea placeholder="placeholder"
+                  tal:attributes="placeholder view/placeholder"
                   class="pat-comment-box pat-switch"
                   data-pat-switch="#new-post-box status-inactive status-active"
                   name="form.widgets.text"></textarea>
