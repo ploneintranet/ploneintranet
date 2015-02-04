@@ -22,7 +22,7 @@
                     <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
                 </div>
 
-                <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.tile" tal:attributes="data-tile string:${workspace_url}/@@sidebar.tile">
+                <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
                 </aside>
 
             </div>
