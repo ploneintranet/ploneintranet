@@ -41,7 +41,7 @@
       <script type="text/javascript">
         <!-- Ideally this will be a separate pattern one day -->
         $(document).ready(function(){
-            var the_textarea = $('textarea.pat-comment-box');
+            var the_textarea = $('textarea.pat-content-mirror');
             function updateMirror(){
             var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
             var the_value = the_textarea.val();
@@ -91,14 +91,18 @@
         </p>
 
         <textarea placeholder="placeholder"
-                  tal:attributes="placeholder view/placeholder"
-                  class="pat-comment-box pat-switch"
+                  class="pat-content-mirror pat-switch"
                   data-pat-switch="#new-post-box status-inactive status-active"
+                  tal:attributes="placeholder view/placeholder;
+                                  data-pat-switch string:#${form_id} status-inactive status-active"
                   name="form.widgets.text"></textarea>
+
+
         <fieldset
            tal:condition="view/is_attachment_supported"
            class="attachments pat-subform pat-autosubmit pat-inject"
-           data-pat-inject="url: @@upload-attachments; source: #attachments; target: #new-post-box-attachment-previews">
+           data-pat-inject="url: @@upload-attachments; source: #attachments;"
+           tal:attributes="data-pat-inject string:{attrs/data-pat-inject} target: #{form_id}-attachment-previews">
           <label class="iconified icon-attach pat-switch"
                  data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
           <p class="attachment-previews"
