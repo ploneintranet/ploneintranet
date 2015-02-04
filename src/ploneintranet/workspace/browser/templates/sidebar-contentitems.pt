@@ -47,9 +47,11 @@
                     <a class="selector-toggle-select more-menu-trigger">Functions</a>
                 </div>
 
-                <form class="search-box pat-inject pat-autosubmit" action="/feedback/workspace-search-results-min.html#items">
+                <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
+                      action="/feedback/workspace-search-results-min.html#items"
+                      tal:attributes="action string:${context/absolute_url}/@@sidebar.default#items">
                     <label>
-                        <input name="" type="search" placeholder="Search" />
+                        <input name="sidebar-search" type="search" placeholder="Search" />
                         <button type="submit">Search</button>
                     </label>
                 </form>

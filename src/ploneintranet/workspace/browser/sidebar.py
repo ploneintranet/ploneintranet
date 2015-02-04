@@ -36,7 +36,19 @@ class ContentItemsTile(Tile):
         """ returns a list of dicts of items in the current context
         """
         items = []
-        for item in self.context.getFolderContents():
+        catalog = self.context.portal_catalog
+        current_path = '/'.join(self.context.getPhysicalPath())
+
+        sidebar_search = self.context.REQUEST.get('sidebar-search', None)
+        if sidebar_search:
+            st = '%s*' % sidebar_search  # XXX plone only allows * as postfix. 
+            # With solr we might want to do real substr
+            results = catalog.searchResults(SearchableText=st,
+                                            path=current_path)
+        else:
+            results = self.context.getFolderContents()
+
+        for item in results:
             # Do some checks to set the right classes for icons and candy
             desc = item['Description'] and 'has-description' \
                 or 'has-no-description'
@@ -51,7 +63,9 @@ class ContentItemsTile(Tile):
                 dpi = "source: #items; target: #items && " \
                       "source: #selector-contextual-functions; " \
                       "target: #selector-contextual-functions && " \
-                      "source: #context-title; target: #context-title"
+                      "source: #context-title; target: #context-title && " \
+                      "source: #sidebar-search-form; " \
+                      "target: #sidebar-search-form"
                 url = item.getURL() + '/@@sidebar.default#items'
                 content_type = 'group'
             else:
