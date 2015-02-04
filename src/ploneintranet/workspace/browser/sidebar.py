@@ -39,7 +39,7 @@ class ContentItemsTile(Tile):
         catalog = self.context.portal_catalog
         current_path = '/'.join(self.context.getPhysicalPath())
 
-        sidebar_search = self.context.REQUEST.get('sidebar-search', None)
+        sidebar_search = self.request.get('sidebar-search', None)
         if sidebar_search:
             st = '%s*' % sidebar_search  # XXX plone only allows * as postfix.
             # With solr we might want to do real substr

@@ -39,6 +39,7 @@ class TestSidebar(BaseTestCase):
             title='An example Folder'
         )
         myfolder = getattr(ws, 'myfolder')
+        #myfolder.description = "123456"
         api.content.create(
             myfolder,
             'Document',
@@ -76,3 +77,18 @@ class TestSidebar(BaseTestCase):
         self.assertIn('example-subdocument',
                       ids,
                       "No such IDs found in sidebar navigation")
+
+        # Check if search works
+        from zope.publisher.browser import TestRequest
+        TR = TestRequest(form={'sidebar-search': 'Folder'})
+        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 1)
+        self.assertTrue(children[0]['id']=='myfolder')
+
+        # Assert that substr works and we find all
+        TR = TestRequest(form={'sidebar-search': 'exampl'})
+        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 3)
+
