@@ -4,7 +4,7 @@ from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.interface.verify import verifyClass
 from zope.interface import implements
 
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID, setRoles, TEST_USER_NAME
 
 from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
@@ -139,3 +139,7 @@ class TestStatusUpdate(unittest.TestCase):
         self.assertEqual([k for k in attachments.keys()], [f.getId()])
         attachments.remove(f.getId())
         self.assertEqual(len(attachments.keys()), 0)
+
+    def test_statusupdate_mentions(self):
+        su = StatusUpdate('foo', mention_ids=[TEST_USER_ID])
+        self.assertEqual(su.mentions, {TEST_USER_ID: TEST_USER_NAME})
