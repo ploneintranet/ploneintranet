@@ -16,6 +16,11 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace
 
+Breadcrumbs are not borked
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    Then the breadcrumbs show the name of the workspace
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -89,3 +94,12 @@ I can create a new workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div.post.item  timeout=5
+
+I go to the Open Market Committee Workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Open Market Committee
+
+The breadcrumbs show the name of the workspace
+    Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
+
