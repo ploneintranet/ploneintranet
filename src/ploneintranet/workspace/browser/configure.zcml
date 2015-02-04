@@ -112,7 +112,6 @@
         class=".sidebar.ContentItemsTile"
         permission="zope2.View"
         for="*"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
 </configure>
