@@ -1,8 +1,6 @@
 # coding=utf-8
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
-# from plone.api.exc import InvalidParameterError
-from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 from zope.component import provideAdapter
 from zope.interface import Interface
 from plone.tiles.interfaces import IBasicTile
@@ -47,7 +45,8 @@ class TestSidebar(BaseTestCase):
             'example-subdocument',
             title='Some example nested Rich Text'
         )
-        provideAdapter(ContentItemsTile, (Interface, Interface), IBasicTile, name=u"sidebar.default")
+        provideAdapter(ContentItemsTile, (Interface, Interface), IBasicTile,
+                       name=u"sidebar.default")
         sidebar = getMultiAdapter((ws, ws.REQUEST), name=u"sidebar.default")
         children = sidebar.children()
 
@@ -69,7 +68,8 @@ class TestSidebar(BaseTestCase):
                          ids,
                          "No such IDs found in sidebar navigation")
 
-        subsidebar = getMultiAdapter((myfolder, myfolder.REQUEST), name=u"sidebar.default")
+        subsidebar = getMultiAdapter((myfolder, myfolder.REQUEST),
+                                     name=u"sidebar.default")
         subchildren = subsidebar.children()
         ids = [x['id'] for x in subchildren]
         self.assertIn('example-subdocument',
