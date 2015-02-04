@@ -41,7 +41,7 @@ class ContentItemsTile(Tile):
 
         sidebar_search = self.context.REQUEST.get('sidebar-search', None)
         if sidebar_search:
-            st = '%s*' % sidebar_search  # XXX plone only allows * as postfix. 
+            st = '%s*' % sidebar_search  # XXX plone only allows * as postfix.
             # With solr we might want to do real substr
             results = catalog.searchResults(SearchableText=st,
                                             path=current_path)
