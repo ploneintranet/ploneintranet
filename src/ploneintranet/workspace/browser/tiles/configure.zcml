@@ -32,4 +32,35 @@
     permission="zope.Public"
     />
 
+ <plone:tile
+      name="workspace.tabs.tile"
+      title="Workspace Tabs"
+      description="This tile shows the workspace tabs"
+      add_permission="cmf.ManagePortal"
+      class=".workspace_tabs.WorkspaceTabsTile"
+      permission="zope2.View"
+      for="*"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+    <plone:tile
+        name="sidebar.default"
+        title="Sidebar: Files"
+        description="This tile shows the sidebar listing files"
+        add_permission="cmf.ManagePortal"
+        class=".sidebar.ContentItemsTile"
+        permission="zope2.View"
+        for="*"
+        />
+
+    <plone:tile
+        name="sidebar.info"
+        title="Sidebar: Info"
+        description="This tile says 'hello world'"
+        add_permission="cmf.ManagePortal"
+        class=".sidebar.InfoTile"
+        permission="zope2.View"
+        for="*"
+        />
+
 </configure>

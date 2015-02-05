@@ -1,3 +1,4 @@
+<div id="sidebar-content">
 <dl class="portlet portletAnnualSubscription"
     i18n:domain="ploneintranet">
   <dt class="portletHeader">
@@ -25,3 +26,4 @@
     </p>
   </dd>
 </dl>
+</div>
