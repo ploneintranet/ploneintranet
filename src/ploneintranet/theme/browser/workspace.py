@@ -22,13 +22,3 @@ class Workspaces(BrowserView):
 
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
-
-class WorkspaceTabsTile(Tile):
-
-    index = ViewPageTemplateFile("templates/workspace-tabs-tile.pt")
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
