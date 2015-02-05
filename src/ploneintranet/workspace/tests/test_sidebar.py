@@ -1,11 +1,11 @@
 # coding=utf-8
-from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
-from zope.component import provideAdapter
-from zope.interface import Interface
 from plone.tiles.interfaces import IBasicTile
 from ploneintranet.workspace.browser.sidebar import ContentItemsTile
+from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
+from zope.component import provideAdapter
+from zope.interface import Interface
 
 
 class TestSidebar(BaseTestCase):
@@ -76,3 +76,17 @@ class TestSidebar(BaseTestCase):
         self.assertIn('example-subdocument',
                       ids,
                       "No such IDs found in sidebar navigation")
+
+        # Check if search works
+        from zope.publisher.browser import TestRequest
+        TR = TestRequest(form={'sidebar-search': 'Folder'})
+        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 1)
+        self.assertTrue(children[0]['id'] == 'myfolder')
+
+        # Assert that substr works and we find all
+        TR = TestRequest(form={'sidebar-search': 'exampl'})
+        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 3)
