@@ -219,6 +219,7 @@ fieldset {
 @mixin form-vertical () {
   label {
     position: relative;
+    margin-bottom: 1em;
   }
 
   input,
