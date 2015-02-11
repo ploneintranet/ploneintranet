@@ -1,7 +1,7 @@
 # coding=utf-8
 from plone import api
 from plone.tiles.interfaces import IBasicTile
-from ploneintranet.workspace.browser.sidebar import ContentItemsTile
+from ploneintranet.workspace.browser.tiles.sidebar import ContentItemsTile
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
 from zope.component import provideAdapter
