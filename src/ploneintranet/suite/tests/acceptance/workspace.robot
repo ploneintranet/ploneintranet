@@ -24,7 +24,14 @@ Breadcrumbs are not borked
 Manager can view sidebar info
     given I'm logged in as a 'Manager'
     I can go to the sidebar info tile
-    I can invite users to the current workspace
+
+Manager can view sidebar events
+    given I'm logged in as a 'Manager'
+    I can go to the sidebar events tile
+
+Manager can view sidebar tasks
+    given I'm logged in as a 'Manager'
+    I can go to the sidebar tasks tile
 
 Traverse Folder in sidebar navigation
     Given I'm logged in as a 'Manager'
@@ -120,6 +127,16 @@ I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Workspace settings and about
     Wait Until Element Is visible  css=p.user-cloud
+
+I can go to the sidebar events tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  css=a.todos.pat-inject
+    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
+
+I can go to the sidebar tasks tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  css=a.events.pat-inject
+    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar events tile']
 
 # This doesn't work yet, because ?diazo.off=1 has no effect and the design is missing (...I believe)
 I can invite users to the current workspace
