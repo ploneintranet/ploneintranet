@@ -10,7 +10,6 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
-
 *** Test Cases ***
 
 Manager can create a workspace
@@ -21,6 +20,11 @@ Breadcrumbs are not borked
     Given I'm logged in as a 'Manager'
     And I go to the Open Market Committee Workspace
     Then the breadcrumbs show the name of the workspace
+
+Manager can view sidebar info
+    given I'm logged in as a 'Manager'
+    I can go to the sidebar info tile
+    I can invite users to the current workspace
 
 Traverse Folder in sidebar navigation
     Given I'm logged in as a 'Manager'
@@ -111,6 +115,16 @@ I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
+
+I can go to the sidebar info tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Workspace settings and about
+    Wait Until Element Is visible  css=p.user-cloud
+
+# This doesn't work yet, because ?diazo.off=1 has no effect and the design is missing (...I believe)
+I can invite users to the current workspace
+    Click Link  link=Invite users to this workspace (via email)
+    Wait Until Element Is visible  xpath=//h1[.='Invitations']
 
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
