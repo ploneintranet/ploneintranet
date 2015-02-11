@@ -19,6 +19,32 @@ class Sidebar(BrowserView):
     """ A view to serve as a sidebar navigation for workspaces
     """
 
+class EventsTile(BrowserView):
+
+    """ A view for workspace events
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-events.pt")
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        return self.render()
+
+class TasksTile(BrowserView):
+
+    """ A view for workspace tasks
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-tasks.pt")
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        return self.render()
+
 class InfoTile(Tile):
 
     index = ViewPageTemplateFile("templates/sidebar-info.pt")

@@ -1,0 +1,45 @@
+<html>
+<body>
+  <div id="sidebar-content">
+
+    <h1>Placeholder for the sidebar events tile</h1>
+
+
+    <!--div id="workspace-about" tal:define="ws view/my_workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
+      <div class="content">
+        <p class="message notice description" tal:content="ws/description">The goal of this project is to integrate CA to ADC product.</p>
+        <h3>Members</h3>
+	<p class="user-cloud">
+          <a href="#" tal:attributes="title user/title" tal:repeat="user users"><img tal:attributes="src portrait/absolute_url" width="50" height="50" alt=""/></a>
+	</p>  
+      </div>
+    </div>
+
+    <tal:admin condition="view/can_manage_workspace">
+      <hr />
+      <h2>Advanced</h2>
+      <p>
+        <a tal:attributes="href string:${context/absolute_url}/@@invite?diazo.off=1" 
+           class="pat-modal">
+          Invite users to this workspace (via email)
+        </a>
+      </p>
+
+      <p>
+        <a tal:attributes="href string:${context/absolute_url}/@@transfer?diazo.off=1" 
+           class="pat-modal">
+          Transfer members to another workspace.
+        </a>
+      </p>
+
+      <p>
+        <a tal:attributes="href string:${context/absolute_url}/@@sharing?diazo.off=1">
+          Advanced permissions
+        </a>
+      </p>
+    </tal:admin-->
+
+  </div>
+
+</body>
+</html>

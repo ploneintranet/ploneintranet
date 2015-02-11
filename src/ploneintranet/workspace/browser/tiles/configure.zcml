@@ -56,9 +56,29 @@
     <plone:tile
         name="sidebar.info"
         title="Sidebar: Info"
-        description="This tile says 'hello world'"
+        description="This tile shows the members of the workspace"
         add_permission="cmf.ManagePortal"
         class=".sidebar.InfoTile"
+        permission="zope2.View"
+        for="*"
+        />
+
+    <plone:tile
+        name="sidebar.events"
+        title="Sidebar: Events"
+        description="This tile shows workspace related events"
+        add_permission="cmf.ManagePortal"
+        class=".sidebar.EventsTile"
+        permission="zope2.View"
+        for="*"
+        />
+
+    <plone:tile
+        name="sidebar.tasks"
+        title="Sidebar: Tasks"
+        description="This tile shows workspace related tasks"
+        add_permission="cmf.ManagePortal"
+        class=".sidebar.TasksTile"
         permission="zope2.View"
         for="*"
         />
