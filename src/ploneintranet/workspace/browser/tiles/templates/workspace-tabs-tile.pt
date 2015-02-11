@@ -1,17 +1,15 @@
 <html>
 <body>
 
-<nav class="navigation workspace-tabs" id="workspace-tabs">
+<nav class="navigation workspace-tabs" id="workspace-tabs" tal:define="ws view/workspace">
     <a class="documents pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-documents" title=
     "Documents">Documents</a> 
     <a class="events pat-switch" data-pat-switch="#content mode-* mode-c" href=
     "#workspace-events" title="Events">Events</a> 
     <a class="todos pat-switch " data-pat-switch="#content mode-* mode-c" href="#workspace-tickets"
     title="Tasks">Tasks</a> 
-    <div tal:define="ws view/workspace">
     <a class="about pat-inject" data-pat-inject="source:#sidebar-content::element; target:#sidebar" href="${ws/absolute_url}/sidebar.info"
     title="About this project">Workspace settings and about</a> 
-    </div>
 </nav>
 </body>
 </html>
