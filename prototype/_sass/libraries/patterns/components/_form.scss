@@ -39,32 +39,10 @@ select {
   }
 }
 
-// input[type="range"] {
-//   border-radius: 1em;
-//   padding: 0;
-// }
-
-// input[type="range"]::-webkit-slider-thumb{
-//    -webkit-appearance:none !important;  
-//    width:1.2em;
-//    height:1.2em;
-//    -webkit-appearance: none;
-//     border-radius: 1em;
-//     -moz-border-radius: 1em;
-//     -wekkit-border-radius: 1em;
-//     border: none;
-//     background: $colour-accent;
-//     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 );
-      
-//     @media only screen and (max-width: 768px) { 
-//       height: 2em;
-//       border-radius: 50%;
-//     }
-//  }
-
 input[type=range] {
     /*removes default webkit styles*/
     -webkit-appearance: none;
+    padding: 0.2em 0;
 
     background: transparent;
     
@@ -164,6 +142,53 @@ input[type=range]:focus::-ms-fill-lower {
 
 input[type=range]:focus::-ms-fill-upper {
     background: #ccc;
+}
+
+.slider-labels {
+  width: 100%;
+  overflow: hidden;
+  font-size: 0.8em;
+
+  .label {
+    float: left;
+    width: 100%;
+    text-align: center;
+
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    &:first-child {
+      text-align: left;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  &.two {
+    .label {
+      width: 50%;
+    }
+  }
+
+  &.three {
+    .label {
+      width: 33.3333332%;
+    }
+  }
+
+  &.four {
+    .label {
+      width: 33.333333332%;
+    }
+
+    .label:first-child,
+    .label:last-child {
+      width: 16.666666667%;
+    }
+  }
 }
 
 .currency-field {
@@ -323,6 +348,8 @@ fieldset {
   label {
     position: relative;
     margin-bottom: 1em;
+
+    @include clear-fix();
   }
 
   input,
