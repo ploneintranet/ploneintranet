@@ -7,13 +7,31 @@ design_title: Settings form Security
 <div id="workspace-settings">
     <nav class="navigation tabs">
         <a href="/open-market-committee/" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">General</a>
-        <a href="/feedback/workspace-settings-people.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">People</a>
+        <a href="/feedback/workspace-settings-members.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Members</a>
         <a href="/feedback/workspace-settings-security.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Security</a>
         <a href="/feedback/workspace-settings-advanced.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Advanced</a>
     </nav>
 	<div class="content">
 	    <form action="">
-	    	
+	    	<h3>Workspace policy</h3>
+            
+            <fieldset class="vertical">
+                <label>
+                    <legend>External visibility</legend>
+                    <input type="range" step="1" min="1" max="3" />    
+                </label>
+                <label>
+                    <legend>Join policy</legend>
+                    <input type="range" step="1" min="1" max="3" />    
+                </label>
+                <label>
+                    <legend>Particpant policy</legend>
+                    <input type="range" step="1" min="1" max="4" value="2" /> 
+                </label>
+                <p>
+                    The participant policy is the default permission settings for all members of this workspace. Execptions for individual people may be made on the <a href="/feedback/workspace-settings-people.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Members tab</a>.
+                </p>
+            </fieldset>
 	    </form>
 	</div>
 </div>

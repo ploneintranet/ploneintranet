@@ -25,7 +25,7 @@ select {
   // margin: -0.2em 0;
   margin: 0;
   box-sizing: border-box;
-  background-color: #efefef;
+  background-color: $colour-base;
   border: none;
   color: inherit;
   font-size: 100%;
@@ -39,29 +39,132 @@ select {
   }
 }
 
-input[type="range"] {
-  border-radius: 1em;
-  padding: 0;
+// input[type="range"] {
+//   border-radius: 1em;
+//   padding: 0;
+// }
+
+// input[type="range"]::-webkit-slider-thumb{
+//    -webkit-appearance:none !important;  
+//    width:1.2em;
+//    height:1.2em;
+//    -webkit-appearance: none;
+//     border-radius: 1em;
+//     -moz-border-radius: 1em;
+//     -wekkit-border-radius: 1em;
+//     border: none;
+//     background: $colour-accent;
+//     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 );
+      
+//     @media only screen and (max-width: 768px) { 
+//       height: 2em;
+//       border-radius: 50%;
+//     }
+//  }
+
+input[type=range] {
+    /*removes default webkit styles*/
+    -webkit-appearance: none;
+
+    background: transparent;
+    
+    /*fix for FF unable to apply focus style bug */
+    border: 1px solid white;
+    
+    /*required for proper track sizing in FF*/
+    // width: 300px;
 }
 
-input[type="range"]::-webkit-slider-thumb{
-   -webkit-appearance:none !important;  
-   width:2em;
-   height:0.8em;
-   -webkit-appearance: none;
-    border-radius: 0.4em;
-    -moz-border-radius: 0.4em;
-    -wekkit-border-radius: 0.4em;
-    border: none;
-    background: $colour-accent;
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 );
-      
-    @media only screen and (max-width: 768px) { 
-      height: 2em;
-      border-radius: 50%;
-    }
- }
+input[type=range]:focus {
+    outline: none;
+    border: 1px solid white;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 
+input[type=range]::-webkit-slider-runnable-track {
+    // width: 300px;
+    height: 0.5em;
+    background: $colour-base;
+    border: none;
+    border-radius: 1em;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 50%;
+    background: $colour-accent;
+    margin-top: -0.45em;
+}
+
+input[type=range]::-moz-range-track {
+    // width: 300px;
+    height: 0.5em;
+    background: #efefef;
+    border: none;
+    border-radius: 1em;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 50%;
+    background: $colour-accent;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]::-ms-track {
+    // width: 300px;
+    height: 0.5em;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: $colour-base;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 0.5em 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+
+// Fill lower/upper unused untill al major browser support this. 
+
+// input[type=range]::-ms-fill-lower {
+//     background: #777;
+//     border-radius: 1em;
+// }
+
+// input[type=range]::-ms-fill-upper {
+//     background: #ddd;
+//     border-radius: 1em;
+// }
+
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 50%;
+    background: $colour-accent;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: #ccc;
+}
 
 .currency-field {
   position: relative;
