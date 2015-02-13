@@ -11,3 +11,12 @@
     height: 1.35em; // override default avatar height
   }
 }
+
+article.rich.person {
+	.sidebar {
+		.pat-avatar {
+			width: 100%;
+			height: auto;
+		}
+	}
+}
