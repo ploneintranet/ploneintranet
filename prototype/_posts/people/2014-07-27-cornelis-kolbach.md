@@ -1,6 +1,6 @@
 ---
 layout: user
-title: Cornelis Kolbach
+title: Cornelis G. A. Kolbach
 user_role: Designer
 application: profile
 application_name: Profile
@@ -13,4 +13,6 @@ folderish: false
 image_url: /media/avatar-cornelis-kolbach.jpg
 ---
 
-Some content goes here on Cornelis
+As a consultant Human Factors & Web Technologies for [Cornae](http://cornae.com) and CTO and principal consultant at [Informaat](http://www.informaat.com), Cornelis is on an ongoing mission to help businesses to design products their clients like to use. 
+
+With his knowledge about fields as diverse as architecture, interior design, visual design, interaction design and front end programming, he supports multi disciplinary teams to reach their goals and to reach those fast.
