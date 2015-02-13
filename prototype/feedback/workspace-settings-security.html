@@ -18,12 +18,40 @@ design_title: Settings form Security
             <fieldset class="vertical">
                 <label>
                     <legend>External visibility</legend>
-                    <input type="range" step="1" min="1" max="3" />    
+                    <input name="ext" type="range" step="1" min="1" max="3" />   
+                    <span class="three slider-labels">
+                        <span class="label pat-depends" data-pat-depends="condition: ext=1; action: enable">Private</span>
+                        <span class="label pat-depends" data-pat-depends="condition: ext=2; action: enable">Secret</span>
+                        <span class="label pat-depends" data-pat-depends="condition: ext=3; action: enable">Open</span>
+                    </span>  
                 </label>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: ext=1">
+                    <strong>Private:</strong>  The workspace is inaccessible to outsiders. Only workspace members can access the workspace.
+                </p>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: ext=2">
+                    <strong>Secret:</strong>   The workspace is hidden from outsiders. Only workspace members know it exists.
+                </p>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: ext=3">
+                    <strong>Open: </strong> The workspace can be explored by outsiders. Outsiders can browse but not actively participate.
+                </p>
                 <label>
                     <legend>Join policy</legend>
-                    <input type="range" step="1" min="1" max="3" />    
+                    <input name="joinpol" type="range" step="1" min="1" max="3" />   
+                    <span class="three slider-labels">
+                        <span class="label pat-depends" data-pat-depends="condition: joinpol=1; action: enable">Self-managed</span>
+                        <span class="label pat-depends" data-pat-depends="condition: joinpol=2; action: enable">Team-managed</span>
+                        <span class="label pat-depends" data-pat-depends="condition: joinpol=3; action: enable">Admin-managed</span>
+                    </span> 
                 </label>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=1">
+                    <strong>Self-managed:</strong>  Only administrators can add workspace members.
+                </p>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=2">
+                    <strong>Admin-managed:</strong> Only administrators can add workspace members.
+                </p>
+                <p class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=3">
+                    <strong>Team-managed:</strong> Workspace members can add outsiders as a workspace member.
+                </p>
                 <label>
                     <legend>Particpant policy</legend>
                     <input name="partpol" type="range" step="1" min="1" max="4" value="2" /> 
