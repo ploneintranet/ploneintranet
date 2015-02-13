@@ -1,0 +1,48 @@
+.user-list {
+
+
+    .item {
+        border-top: 1px solid rgba(0,0,0,0.2);
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        margin-bottom: -1px;
+        display: block;
+        position: relative;
+        color: $colour-primary;
+        padding: 0;
+
+        .follow {
+            display: block;
+            color: $colour-primary;
+            padding: 0.5em 1.5em 0.5em 4.1em;
+            
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        br {
+            display: none;
+        }
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+
+        .byline {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+        }
+
+        img {
+            @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
+            position: absolute;
+            left: 0.5em;
+            top: 0.5em;
+        }
+    }
+}

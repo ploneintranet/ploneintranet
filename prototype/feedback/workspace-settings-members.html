@@ -12,22 +12,39 @@ design_title: Settings form People
         <a href="/feedback/workspace-settings-advanced.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Advanced</a>
     </nav>
 	<div class="content">
-	    <h3>
+		<!-- Stats are Star only -->
+	    <!-- <h3>
 	    	Statistics
-	    </h3>
-	    <dl class="pat-grid-list">
+	    </h3> -->
+	    <!-- <dl class="pat-grid-list">
 	        <dt>Can Add</dt><dd>0</dd>
 	        <dt>Can Edit</dt><dd>0</dd>
 	        <dt>Can Review</dt><dd>0</dd>
 	        <dt>Can View</dt><dd>1</dd>
 	        <dt>Local Admin</dt><dd>710</dd>
 	        <dt>Total Number of Users</dt><dd>711</dd>
-	    </dl>
+	    </dl> -->
 
 	    <h3>
 	    	Members
 	    </h3>
-	    <p class="user-cloud">
+
+	    <ul class="user-list">
+	    	{% for member in site.posts  %}
+	    		{% if member.layout == 'user' %}
+			    	<li class="item">
+			    	    <a class="follow pat-inject" href="{{ member.url }}#document-body">
+				            <img src="{{ member.image_url }}" alt="">
+				            <strong class="title">{{ member.title }}</strong>
+				            <br>
+				            <dfn class="byline">Publish</dfn>
+				        </a>
+			    	</li>
+	    		{% endif %}
+	    	{% endfor %}
+	    </ul>
+
+	    <!-- <p class="user-cloud">
 	        <a href="alexander-pilz.html#address-body" title="Alexander Pilz" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="../media/avatar-alexander-pilz.jpg" width="50" height="50" alt="Alexander Pilz" /></a>
 
 	        <a href="#" title="Cornelis Kolbach"><img src="../media/avatar-cornelis-kolbach.jpg" width="50" height="50" alt="Cornelis Kolbach" /></a>
@@ -46,6 +63,6 @@ design_title: Settings form People
 
 	        <a href="#" title="Megan Fox"><img src="../media/avatar-megan-fox.jpg" width="50" height="50" alt="Megan Fox"></a>
 	        <a href="#" title="Add a new member to this workspace" class="add">Add member</a>
-	    </p>
+	    </p> -->
 	</div>
 </div>
