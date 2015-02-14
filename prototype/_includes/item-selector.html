@@ -30,12 +30,22 @@
                 {% endif %}
             </div>
 
-            <h2 id="context-title" class="context-title">
-                Some Context
-            </h2>
+            {% if include.title %}
+                <h3 id="context-title" class="context-title">
+                    {{ include.title }}
+                </h3>
+            {% endif %}
 
             <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
 
+        {% endif %}
+        {% if include.mode == "users" %}
+            {% if include.title %}
+                <h3 id="context-title" class="context-title">
+                    {{ include.title }}
+                </h3>
+            {% endif %}
+            <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
         {% endif %}
     </div>
 
@@ -110,6 +120,30 @@
                                 class="float-before icon-export pat-depends"
                                 data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout ==  'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
                                 title="Share">Share</button>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if include.mode == "users" %}
+                <div class="batch-functions">
+                    <div class="button-bar">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                    </div>
+                    <div class="button-bar"> 
+                        <button type="submit"
+                                name="batch-function"
+                                value="role"
+                                class="float-before icon-role"
+                                title="Change role of member">Change role</button>
+                        <button type="submit"
+                                name="batch-function"
+                                value="remove"
+                                class="float-before icon-role"
+                                title="Remove member or group">Remove</button>
                     </div>
                 </div>
             {% endif %}
@@ -287,6 +321,25 @@
                 </li>
             </ul>
         </div>
+    {% endif %}
+
+    {% if include.mode == 'users' %}
+        <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .{{ include.id }}-toggle-select" id="{{ include.id }}-more-menu">
+            <!-- <h3 class="trigger {{ include.id }}-toggle-select">
+                Functions…
+            </h3> -->
+            <ul class="menu">
+                <li>
+                    <a href="/panel-add-user.html#document-content" class="icon-user-add add-user pat-modal" data-pat-modal="class: medium">Add user</a>
+                </li>
+                <li>
+                    {% if include.toggle == 'true' %}
+                        <a class="pat-toggle icon-ok {{ include.id }}-toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
     {% endif %}
 
 </div>

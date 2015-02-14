@@ -24,12 +24,44 @@
             display: none;
         }
 
-        .label {
+        .functions {
+            float: right;
+            padding-top: 1.4em;
 
-            .remove {
-                
+
+            .label {
+                float: right;
+                color: white;
+                padding: 0 0 0 1em;
+                background-color: $colour-accent;
+                border-radius: 1em;
+                margin-right: 0.5em;
+
+                a {
+                    color: white;
+                }
+
+                .remove {
+                    float: right;
+                    border-left: 1px solid rgba(0,0,0,0.4);
+                    width: 1em;
+                    height: 1em;
+                    overflow: hidden;
+                    border: none;
+                    background: none;
+                    text-indent: -100em;
+
+                    &:before {
+                        content: 'x';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        text-indent: 0;
+                    }
+                }
             }
         }
+
 
         .title {
             overflow: hidden;

@@ -43,6 +43,9 @@
         border-radius: 50%;
         border: 2px solid silver;
         color: rgba(0,0,0,0.2);
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
 
         &:hover {
             border-color: gray;
@@ -121,6 +124,7 @@
         text-align: center;
         // margin-bottom: 0.8em;
         position: relative;
+        min-height: 1em;
 
         button,
         .button {
@@ -128,9 +132,7 @@
         }
 
         .context-title {
-            // Temporarily hide context title until it is clear where it 
-            // has to go in the layout
-            display: none;
+            // display: none;
             // display: inline;
         }
     }
@@ -412,6 +414,14 @@
             .follow {
 
             }
+        }
+    }
+}
+
+.tabs-content {
+    .item-selector {
+        .more-menu {
+            margin: -1em;
         }
     }
 }

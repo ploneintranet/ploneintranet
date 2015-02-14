@@ -11,6 +11,7 @@ document_creator_id: guido-stevens
 parent: profiles
 folderish: false
 image_url: "/media/avatar-guido-stevens.jpg"
+role: moderate
 ---
 
 Guido A.J. Stevens MBA combines an integral business perspective, with in-depth technical expertise. He is passionate about innovation, learning, networking and open source technology. 

@@ -1,68 +1,35 @@
 ---
-layout: generic
+layout: shell
 application_name: workspace
 design_title: Settings form People
 ---
 
-<div id="workspace-settings">
-    <nav class="navigation tabs">
-        <a href="/open-market-committee/" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">General</a>
-        <a href="/feedback/workspace-settings-members.html" class="pat-inject current" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Members</a>
-        <a href="/feedback/workspace-settings-security.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Security</a>
-        <a href="/feedback/workspace-settings-advanced.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .content; source: #workspace-settings > .content">Advanced</a>
-    </nav>
-	<div class="content">
-		<!-- Stats are Star only -->
-	    <!-- <h3>
-	    	Statistics
-	    </h3> -->
-	    <!-- <dl class="pat-grid-list">
-	        <dt>Can Add</dt><dd>0</dd>
-	        <dt>Can Edit</dt><dd>0</dd>
-	        <dt>Can Review</dt><dd>0</dd>
-	        <dt>Can View</dt><dd>1</dd>
-	        <dt>Local Admin</dt><dd>710</dd>
-	        <dt>Total Number of Users</dt><dd>711</dd>
-	    </dl> -->
+<div class="application project" id="content">
+    <h1 id="workspace-name">
+        <!-- Next link is to lead to landing state of current workspace -->
+        <a href="{{page.url}}">{{ page.workspace_name }}</a>
+    </h1>
 
-	    <h3>
-	    	Members
-	    </h3>
+    <div id="application-body">
 
-	    <ul class="user-list">
-	    	{% for member in site.posts  %}
-	    		{% if member.layout == 'user' %}
-			    	<li class="item">
-			    	    <a class="follow pat-inject" href="{{ member.url }}#document-body">
-				            <img src="{{ member.image_url }}" alt="">
-				            <strong class="title">{{ member.title }}</strong>
-				            <br>
-				            <dfn class="byline">Publish</dfn>
-				        </a>
-			    	</li>
-	    		{% endif %}
-	    	{% endfor %}
-	    </ul>
+        <div id="document-body">            
+        	{{ content }}
+        </div>
 
-	    <!-- <p class="user-cloud">
-	        <a href="alexander-pilz.html#address-body" title="Alexander Pilz" class="pat-inject pat-switch" data-pat-inject="#address-body::element" data-pat-switch="#'applications' 'application-* application-address'"><img class="bw-c" src="../media/avatar-alexander-pilz.jpg" width="50" height="50" alt="Alexander Pilz" /></a>
-
-	        <a href="#" title="Cornelis Kolbach"><img src="../media/avatar-cornelis-kolbach.jpg" width="50" height="50" alt="Cornelis Kolbach" /></a>
-
-	        <a href="#" title="Guido Stevens"><img src="../media/avatar-guido-stevens.jpg" width="50" height="50" alt="Guido Stevens" /></a>
-
-	        <a href="profile-liz.html#address-body" class="pat-inject" title="Liz Johnson"><img src="../media/avatar-liz.jpg" width="50" height="50" alt="Name of colleague" alt="Name-of-colleague" /></a>
-
-	        <a href="#"><img src="../media/avatar-corinne-bedow.jpg" width="50" height="50" alt="Justin Erbacci" /></a>
-
-	        <a href="#" title="Barack Obama"><img src="../media/avatar-adrian-white.jpg" width="50" height="50" alt="Barack Obama" /></a>
-
-	        <a href="#" title="Jeff Peters"><img src="../media/avatar-jeff-peters.jpg" width="50" height="50" alt="Jeff Peters" /></a>
-
-	        <a href="#" title="Joan Baker"><img src="../media/avatar-joan-baker.jpg" width="50" height="50" alt="Joan Baker"></a>
-
-	        <a href="#" title="Megan Fox"><img src="../media/avatar-megan-fox.jpg" width="50" height="50" alt="Megan Fox"></a>
-	        <a href="#" title="Add a new member to this workspace" class="add">Add member</a>
-	    </p> -->
+        <aside class="sidebar left tagging-off" id="sidebar">
+			<div id="sidebar-content">
+				<div id="workspace-settings">
+				    <nav class="navigation tabs">
+				        <a href="/open-market-committee/" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">General</a>
+				        <a href="/feedback/workspace-settings-members.html" class="pat-inject current" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Members</a>
+				        <a href="/feedback/workspace-settings-security.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Security</a>
+				        <a href="/feedback/workspace-settings-advanced.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
+				    </nav>
+					<div class="tabs-content">
+					    {% include item-selector.html action="/feedback/update-social-mentions-feedback.html" autosubmit="true" inject="target: #selected-users; source: #selected-users" feedback="/feedback/update-social-mentions-feedback.html" mode="users" toggle="true" listitems="follow" title="Members" id="member-list" %}
+					</div>
+				</div>
+			</div>
+		</aside>
 	</div>
 </div>
