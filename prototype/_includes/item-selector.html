@@ -147,7 +147,7 @@
                     {% if user.layout == 'user' %}
                         <label class="item user">
                             <input name="" type="checkbox" />
-                            <a class="follow">
+                            <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
                                 <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
@@ -162,7 +162,7 @@
                     {% if user.layout == 'user' %}
                         <label class="item user">
                             <input name="" type="radio" />
-                            <a class="follow">
+                            <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
                                 <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
@@ -177,7 +177,7 @@
                     {% if tag.suggestion == true %}
                         <label class="item tag">
                             <input name="" type="checkbox" />
-                            <a class="follow">
+                            <a class="follow" href="{{ tag.url }}">
                               <strong class="title icon-tag">{{ tag.value }}</strong>
                             </a>
                         </label>
