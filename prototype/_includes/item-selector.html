@@ -1,7 +1,8 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
 <!-- <div class="item-selector mode-select" id="{{ include.id }}"> -->
-    <div class="button-bar functions" id="{{ include.id }}-functions">
-        {% if include.mode == "docs" %}
+    
+    {% if include.mode == "docs" %}
+        <div class="button-bar functions" id="{{ include.id }}-functions">
             <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
                 {% if include.mode == 'docs' %}
                     {% if page.parent != 'root' %}
@@ -31,17 +32,20 @@
             </div>
 
             <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
-
-        {% endif %}
-        {% if include.mode == "users" %}
+        </div>
+    {% endif %}
+    {% if include.mode == "users" and (include.title or include.controls contains 'pull-menu') %}
+        <div class="button-bar functions" id="{{ include.id }}-functions">
             {% if include.title %}
                 <h3 id="context-title" class="context-title">
                     {{ include.title }}
                 </h3>
             {% endif %}
-            <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
-        {% endif %}
-    </div>
+            {% if include.controls contains 'pull-menu' %}
+                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>  
+            {% endif %}
+        </div>
+    {% endif %}
 
     <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#items">
         <label>
@@ -118,27 +122,31 @@
                 </div>
             {% endif %}
 
-            {% if include.mode == "users" %}
+            {% if include.mode == "users" and include.buttons %}
                 <div class="batch-functions">
                     <div class="button-bar">
                         <span class="float-before button-cluster select-buttons">
                             <button type="button" class="select-all" title="Select all">All</button>
                             <button type="button" class="deselect-all" title="Deslect all">None</button>
                         </span>
-                        <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                        {% if include.controls contains 'pull-menu' %}
+                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                        {% endif %}
                     </div>
-                    <div class="button-bar"> 
-                        <button type="submit"
-                                name="batch-function"
-                                value="role"
-                                class="float-before icon-role"
-                                title="Change role of member">Change role</button>
-                        <button type="submit"
-                                name="batch-function"
-                                value="remove"
-                                class="float-before icon-role"
-                                title="Remove member or group">Remove</button>
-                    </div>
+                    {% if include.buttons contains 'batch-operations' %}
+                        <div class="button-bar"> 
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="role"
+                                    class="float-before icon-role"
+                                    title="Change role of member">Change role</button>
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="remove"
+                                    class="float-before icon-role"
+                                    title="Remove member or group">Remove</button>
+                        </div>
+                    {% endif %}
                 </div>
             {% endif %}
 
@@ -317,7 +325,7 @@
         </div>
     {% endif %}
 
-    {% if include.mode == 'users' %}
+    {% if include.mode == 'users' and include.controls contains 'pull-menu' %}
         <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .{{ include.id }}-toggle-select" id="{{ include.id }}-more-menu">
             <!-- <h3 class="trigger {{ include.id }}-toggle-select">
                 Functions…
