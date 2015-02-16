@@ -159,7 +159,7 @@
                                 <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
-                                <dfn class="byline">{{ user.user_role }}</dfn>
+                                <dfn class="byline">{{ user.status }}</dfn>
                             </a>
                         </label>
                     {% endif %}
@@ -168,13 +168,13 @@
             {% elsif include.mode == "user" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
-                        <label class="item user">
+                        <label class="item user {% if user.byline %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="radio" />
                             <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
                                 <img src="{{user.image_url}}" alt="" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
-                                <dfn class="byline">{{ user.user_role }}</dfn>
+                                <dfn class="byline">{{ user.status }}</dfn>
                             </a>
                         </label>
                     {% endif %}
@@ -183,7 +183,7 @@
             {% elsif include.mode == "tags" %}
                 {% for tag in site.data.tags %}
                     {% if tag.suggestion == true %}
-                        <label class="item tag">
+                        <label class="item tag {% if user.description %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="checkbox" />
                             <a class="follow" href="{{ tag.url }}">
                               <strong class="title icon-tag">{{ tag.value }}</strong>

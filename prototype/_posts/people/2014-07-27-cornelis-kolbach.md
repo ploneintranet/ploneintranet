@@ -11,6 +11,7 @@ document_creator_id: liz
 parent: profiles
 folderish: false
 image_url: /media/avatar-cornelis-kolbach.jpg
+status: Working against a deadline…
 ---
 
 As a consultant Human Factors & Web Technologies for [Cornae](http://cornae.com) and CTO and principal consultant at [Informaat](http://www.informaat.com), Cornelis is on an ongoing mission to help businesses to design products their clients like to use. 

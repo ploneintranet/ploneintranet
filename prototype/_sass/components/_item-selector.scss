@@ -222,6 +222,7 @@
                 -moz-transition: 0.4s border;
                 -webkit-transition: 0.4s border;
                 transition: 0.4s border;
+                min-height: 2.8em;
 
                 &:hover {
                     text-decoration: none;
