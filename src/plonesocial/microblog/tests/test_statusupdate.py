@@ -151,5 +151,5 @@ class TestStatusUpdate(unittest.TestCase):
         )
         userid = test_user.getId()
         fullname = test_user.getProperty('fullname')
-        su = StatusUpdate('foo', mention_ids=test_user.getId())
+        su = StatusUpdate('foo', mention_ids=[userid])
         self.assertEqual(su.mentions, {userid: fullname})
