@@ -1,7 +1,7 @@
 <h1>
     Create document
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #content; target: #document-body">
   <div class="panel-body">
     <fieldset class="icon-tabs">
         <label class="icon-doc-text">
