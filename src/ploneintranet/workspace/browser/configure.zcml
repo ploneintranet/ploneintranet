@@ -11,11 +11,6 @@
   <include package="plone.app.portlets" />
   <include package="collective.workspace" />
 
-  <adapter
-      name="plonesocial.microblog.status_provider"
-      factory=".status.WSStatusProvider"
-  />
-
   <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
