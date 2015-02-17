@@ -70,7 +70,8 @@ class StatusUpdate(Persistent):
             return
         for userid in mention_ids:
             user = api.user.get(userid)
-            self.mentions[userid] = user.getProperty('fullname')
+            if user is not None:
+                self.mentions[userid] = user.getProperty('fullname')
 
     def replies(self):
         container = PLONESOCIAL.microblog
