@@ -231,7 +231,7 @@
                 </form>
 
                 <div class="button-bar create-buttons">
-                    <a href="/++add++Document#content" tal:attributes="href string:${context/absolute_url}/++add++Document#content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
+                    <a href="/++add++Document#document-content" tal:attributes="href string:${context/absolute_url}/++add++Document#document-content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
                     <a href="/panel-create-folder.html#document-content" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
                 </div>
                 <form action="./">
@@ -248,7 +248,7 @@
                     </h3> -->
                     <ul class="menu">
                         <li>
-                            <a href="/++add++Document#content" tal:attributes="href string:${context/absolute_url}/++add++Document#content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large">Create document</a>
+                            <a href="/++add++Document#document-content" tal:attributes="href string:${context/absolute_url}/++add++Document#document-content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large">Create document</a>
                         </li>
                         <li>
                             <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
