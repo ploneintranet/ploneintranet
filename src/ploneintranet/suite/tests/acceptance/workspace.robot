@@ -33,6 +33,12 @@ Search for objects in sidebar navigation
     And I go to the Open Market Committee Workspace
     Then I can search for items
 
+Create document
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new document
+
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -98,6 +104,9 @@ Search for objects in sidebar navigation
 
 *** Keywords ***
 
+I am logged in as the user ${userid}
+    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
+
 I can create a new workspace
     Go To  ${PLONE_URL}/workspaces.html
     Click Link  link=Create Workspace
@@ -135,5 +144,10 @@ I can search for items
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
-
-
+I can create a new document
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=form.widgets.IDublinCore.title  text=My Humble Document
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains  My Humble Document

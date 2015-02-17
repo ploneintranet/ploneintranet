@@ -41,7 +41,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import ploneintranet.theme
         self.loadZCML(package=ploneintranet.theme)
 
-        # plone social dependancies
+        # plone social dependencies
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
         import plonesocial.activitystream
@@ -56,6 +56,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
+        self.applyProfile(portal, 'ploneintranet.theme:default')
 
     def tearDownZope(self, app):
         # Uninstall product

@@ -169,7 +169,7 @@ def create_news_items(newscontent):
         )
         obj.setSubject(tuple(newsitem['tags']))
 
-        # TODO: there is no worklow at this point
+        # TODO: there is no workflow at this point
         #api.content.transition(obj=obj, transition='publish')
 
         obj.setEffectiveDate(newsitem['publication_date'])
