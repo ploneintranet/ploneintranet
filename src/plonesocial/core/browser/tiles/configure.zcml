@@ -6,16 +6,6 @@
 
   <include package="plone.tiles" file="meta.zcml" />
 
-  <plone:tile
-      zcml:condition="not-installed plonesocial.microblog.browser.tiles"
-      for="*"
-      name="newpostbox.tile"
-      title="A tile to add a new post"
-      description="A tile to add a new post"
-      class=".newpostbox.NewPostBoxTile"
-      layer="..interfaces.IPlonesocialCoreLayer"
-      add_permission="cmf.ManagePortal"
-      permission="zope.Public"
-      />
+  <!-- Add your tiles here -->
 
 </configure>
