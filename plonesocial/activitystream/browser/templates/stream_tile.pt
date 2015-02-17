@@ -6,8 +6,9 @@
           <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
           #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
           </h2>
-
-          <tal:block replace="structure view/stream_provider" />
+          <div class="activities">
+            <tal:block replace="structure view/stream_provider" />
+          </div>
         </div>
     </body>
 </html>
