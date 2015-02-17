@@ -1,4 +1,5 @@
 import logging
+from plone import api
 import re
 import time
 
@@ -25,12 +26,13 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, context=None, thread_id=None):
+    def __init__(self, text, context=None, thread_id=None, mention_ids=None):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
         self.thread_id = thread_id
         self.text = text
         self.date = DateTime()
+        self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
         self._init_context(context)
@@ -61,6 +63,15 @@ class StatusUpdate(Persistent):
         else:
             # actual object context
             self.context_object = context
+
+    def _init_mentions(self, mention_ids):
+        self.mentions = {}
+        if mention_ids is None:
+            return
+        for userid in mention_ids:
+            user = api.user.get(userid)
+            if user is not None:
+                self.mentions[userid] = user.getProperty('fullname')
 
     def replies(self):
         container = PLONESOCIAL.microblog

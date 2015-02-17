@@ -4,7 +4,8 @@ from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.interface.verify import verifyClass
 from zope.interface import implements
 
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID, setRoles, TEST_USER_NAME
+from plone import api
 
 from plonesocial.microblog.testing import\
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
@@ -139,3 +140,16 @@ class TestStatusUpdate(unittest.TestCase):
         self.assertEqual([k for k in attachments.keys()], [f.getId()])
         attachments.remove(f.getId())
         self.assertEqual(len(attachments.keys()), 0)
+
+    def test_statusupdate_mentions(self):
+        test_user = api.user.create(
+            email='test@example.com',
+            username='testuser',
+            properties={
+                'fullname': 'Test User'
+            }
+        )
+        userid = test_user.getId()
+        fullname = test_user.getProperty('fullname')
+        su = StatusUpdate('foo', mention_ids=test_user.getId())
+        self.assertEqual(su.mentions, {userid: fullname})
