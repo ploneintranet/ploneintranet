@@ -16,7 +16,7 @@
                     <div class="contextual buttons float-before" id="selector-contextual-functions">
                     <a href="/open-market-committee" 
                        class="button icon-left-open pat-inject" 
-                       data-pat-inject="source: #items; target: #items && source: #selector-functions; target: #selector-functions"
+                       data-pat-inject="source: #sidebar-content; target: #sidebar-content"
                        tal:define="parent view/parent"
                        tal:condition="parent"
                        tal:attributes="href parent/url"
@@ -40,7 +40,7 @@
                         </form>
                     </div>
 
-                    <h2 id="context-title" class="context-title">
+                    <h2 id="context-title" class="context-title" tal:content="context/Title">
                         Some Context
                     </h2>
 
