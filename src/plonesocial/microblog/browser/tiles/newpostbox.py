@@ -149,6 +149,15 @@ class NewPostBoxTile(Tile):
         '''
         self.update()
         if self.is_posting:
+            # BBB We're using the ActivityProvider from ps.activitystream
+            # here for rendering the (singular) status post that was just
+            # created. While this enables posting by 1) placing the post into
+            # the post-container and 2) returning the rendered post so that it
+            # can be injected into the page without a reload, fetching this
+            # adapter is overly complex.
+            # Therefore this will be replaced by a browser view that renders
+            # both the form for posting a status update and, conditionally,
+            # the new post itself.
             post = IStatusActivity(self.post)
             self.status_provider = getMultiAdapter(
                 (post, self.request, self.__parent__.view), IActivityProvider)
