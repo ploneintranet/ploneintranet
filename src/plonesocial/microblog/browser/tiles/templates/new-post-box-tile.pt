@@ -150,6 +150,10 @@
     </form>
   </div>
 
+  <div id="activity-stream" tal:condition="view/is_posting">
+    <span tal:replace="structure view/status_provider" />
+  </div>
+
   <style type="text/css">
     /* XXX temporary hack
        These are overrides to some of Plone's overly-ambitious defaults,

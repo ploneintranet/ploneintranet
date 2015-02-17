@@ -4,9 +4,12 @@ from datetime import datetime
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from plonesocial.activitystream.browser.interfaces import IActivityProvider
+from plonesocial.activitystream.interfaces import IStatusActivity
 from plonesocial.microblog.interfaces import IMicroblogTool
 from plonesocial.microblog.statusupdate import StatusUpdate
 from plonesocial.microblog.utils import get_microblog_context
+from zope.component import getMultiAdapter
 from zope.component import queryUtility
 try:
     from ploneintranet.attachments.attachments import IAttachmentStoragable
@@ -145,6 +148,10 @@ class NewPostBoxTile(Tile):
         We need to call the update manually (Tile instances don't do it)
         '''
         self.update()
+        if self.is_posting:
+            post = IStatusActivity(self.post)
+            self.status_provider = getMultiAdapter(
+                (post, self.request, self.__parent__.view), IActivityProvider)
         return super(NewPostBoxTile, self).__call__(*args, **kwargs)
 
     ###
