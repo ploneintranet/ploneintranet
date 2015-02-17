@@ -1,0 +1,34 @@
+<h1>
+    Create document
+</h1>
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject">
+  <div class="panel-body">
+    <fieldset class="icon-tabs">
+        <label class="icon-doc-text">
+            <input checked="checked" name="document-type" value="rich" type="radio"> Rich text
+        </label>
+        <label class="icon-slides">
+            <input name="document-type" value="slideshow" type="radio"> Slideshow
+        </label>
+        <label class="icon-calendar">
+            <input name="document-type" value="event" type="radio"> Event
+        </label>
+        <label class="icon-file-image">
+            <input name="document-type" value="image" type="radio"> Image
+        </label>
+    </fieldset>
+    <fieldset class="vertical">
+        <input type="text" name="form.widgets.IDublinCore.title" placeholder="Document title" autofocus />
+        <textarea name="form.widgets.IDublinCore.description" rows="6" placeholder="Description for search results (Optional)"></textarea>
+        <input type="hidden" name="form.widgets.IExcludeFromNavigation.exclude_from_nav" value="selected">
+    </fieldset>
+  </div>
+<div class="buttons panel-footer">
+    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle close-panel focus">
+        Create
+    </button>                    
+    <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel">
+        Cancel
+    </button>                    
+</div>
+</form>

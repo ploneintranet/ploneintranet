@@ -91,6 +91,9 @@
   <append css:content="#application-body" css:theme="#content" />
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
+<rules css:if-content="body.template-document">
+  <append css:content-children="#content" css:theme="#content" />
+</rules>
 
 <rules css:if-content="body.template-dashboard-html">
   <theme href="generated/dashboard.html" />
