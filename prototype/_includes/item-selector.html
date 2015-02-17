@@ -237,8 +237,7 @@
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
                                 <a href="{{ doc.url }}#items" class="follow pat-inject"
                                 data-pat-inject="source: #items; target: #items &&
-                                source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions &&
-                                source: #context-title; target: #context-title"
+                                source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
