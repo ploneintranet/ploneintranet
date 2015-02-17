@@ -27,18 +27,18 @@ Manager can post a status update
 
 I post a status update
     [arguments]  ${message}
-    Wait Until Element Is visible  css=textarea.pat-comment-box
+    Wait Until Element Is visible  css=textarea.pat-content-mirror
     Element should not be visible  css=button[name='form.buttons.statusupdate']
-    Click element  css=textarea.pat-comment-box
+    Click element  css=textarea.pat-content-mirror
     Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
-    Input Text  css=textarea.pat-comment-box  ${message}
+    Input Text  css=textarea.pat-content-mirror  ${message}
     Click button  css=button[name='form.buttons.statusupdate']
 
 
 The message is visible as top element
     [arguments]  ${message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']/div[@class='post status item']/section[@class='post-content' and contains(text(), '${message}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post status item']/section[@class='post-content' and contains(text(), '${message}')][1]
 
 The status update only appears once
-    Element should be visible  xpath=//div[@id='activity-stream']/div[@class='post status item'][1]
-    Element should not be visible  xpath=//div[@id='activity-stream']/div[@class='post status item'][2]
+    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post status item'][1]
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post status item'][2]
