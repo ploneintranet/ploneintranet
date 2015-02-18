@@ -221,7 +221,7 @@ def create_workspaces(workspaces):
         if contents is not None:
             create_ws_content(workspace, contents)
         for m in members:
-            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Admins']))
+            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Members']))
 
 
 def create_ws_content(parent, contents):

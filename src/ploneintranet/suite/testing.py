@@ -56,6 +56,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
+        self.applyProfile(portal, 'ploneintranet.workspace:default')
         self.applyProfile(portal, 'ploneintranet.theme:default')
 
     def tearDownZope(self, app):
