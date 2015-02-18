@@ -18,12 +18,14 @@
         {% endif %}
     {% endif %}
     <fieldset>
-        <p class="content-mirror"><span class="text" id="bla{{ mypostUID }}"><em class="placeholder">{% if include.placeholder %}{{ include.placeholder }}{% else %}Leave a comment{% endif %}</em>
-            </span>
-            <em class="selected-users" id="selected-users">{% if include.users %} — {% endif %}{{ include.users }}</em>
-            <em class="selected-tags" id="selected-tags">{% if include.tags %} — {% endif %}{{ include.tags }}</em>
-        </p>
-        <textarea placeholder="{% if include.placeholder %}{{ include.placeholder }}{% else %}Leave a comment…{% endif %}" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #bla{{ mypostUID }}" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
+        <p class="content-mirror"
+            ><span class="text"  id="bla{{ mypostUID }}"
+                ><em class="placeholder">{% if include.placeholder %}{{ include.placeholder }}{% else %}Leave a comment{% endif %}</em
+            ></span
+            ><em class="selected-users" id="selected-users">{% if include.selectedusers %} —{% assign selusers = include.selectedusers | split: ' ' %}{% for user in site.posts %}{% if user.layout == 'user' %}{% for seluser in selusers %}{% assign normuserid = user.id | remove: '/' %}{% if seluser == normuserid %} <a href="{{ user.url }}">@{{ user.title }}</a>{% endif %}{% endfor %}{% endif %}{% endfor %}{% endif %}</em
+            ><em class="selected-tags" id="selected-tags">{% if include.tags %} —{% assign tags = include.tags | split: ' ' %}{% for tag in tags %} <a href="#{{ tag }}">#{{ tag }}</a>{% endfor %}{% endif %}</em
+        ></p>
+        <textarea placeholder="{% if include.placeholder %}{{ include.placeholder }}{% else %}Leave a comment{% endif %}" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #bla{{ mypostUID }}" data-pat-switch="#{{ include.id }} status-inactive status-active"></textarea>
         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
         {% unless include.attachment == 'false' %}
             <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #{{ include.id }}-attachment-previews">
