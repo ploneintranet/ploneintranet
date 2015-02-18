@@ -89,6 +89,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._uuid_mapping = OOBTree.OOBTree()
         # index by thread (string UUID) -> (object TreeSet(long statusid))
         self._threadid_mapping = OOBTree.OOBTree()
+        # index by user mentions (string UUID) -> (object TreeSet(long statusid))
+        self._mentions_mapping = OOBTree.OOBTree()
 
     def add(self, status, context=None):
         self._check_permission("add")
@@ -104,6 +106,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_tag(status)
         self._idx_context(status)
         self._idx_threadid(status)
+        self._idx_mentions(status)
         self._notify(status)
 
     def _check_status(self, status):
@@ -160,6 +163,17 @@ class BaseStatusContainer(Persistent, Explicit):
             self._threadid_mapping.insert(tread_id, LLBTree.LLTreeSet())
             self._threadid_mapping[tread_id].insert(status.id)
 
+    def _idx_mentions(self, status):
+        if not getattr(status, 'mentions', False):
+            return
+        mentions = status.mentions.keys()
+        for mention in mentions:
+            # If the key was already in the collection, there is no change
+            # create tag treeset if not already present
+            self._mentions_mapping.insert(mention, LLBTree.LLTreeSet())
+            self._mentions_mapping[mention].insert(status.id)
+
+
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
         return IUUID(context)
@@ -169,6 +183,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._tag_mapping.clear()
         self._uuid_mapping.clear()
         self._threadid_mapping.clear()
+        self._mentions_mapping.clear()
         return self._status_mapping.clear()
 
     # blocked IBTree methods to protect index consistency
@@ -202,9 +217,8 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def keys(self, min=None, max=None, limit=100, tag=None):
         self._check_permission("read")
-        if tag and tag not in self._tag_mapping:
+        if tag not in self._tag_mapping:
             return ()
-
         mapping = self._keys_tag(tag, self.allowed_status_keys())
         return longkeysortreverse(mapping,
                                   min, max, limit)
@@ -284,7 +298,7 @@ class BaseStatusContainer(Persistent, Explicit):
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
-                     min=None, max=None, limit=100, tag=None, nested=True):
+                     min=None, max=None, limit=100, tag=None, nested=True, mention=None):
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
@@ -305,14 +319,54 @@ class BaseStatusContainer(Persistent, Explicit):
 
         # tag and uuid filters handle None inputs gracefully
         keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
-        # calculate the tag+uuid intersection for each uuid context
 
-        keyset_uuids = [self._keys_uuid(uuid, keyset_tag)
+        # mention and uuid filters handle None inputs gracefully
+        keyset_mention = self._keys_tag(mention, keyset_tag)
+
+        # calculate the tag+mention+uuid intersection for each uuid context
+        keyset_uuids = [self._keys_uuid(uuid, keyset_mention)
                         for uuid in nested_uuids]
 
         # merge the intersections
         merged_set = LLBTree.multiunion(keyset_uuids)
+
         return longkeysortreverse(merged_set,
+                                  min, max, limit)
+
+    # mention_* accessors
+
+    def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
+        return ((key, self.get(key)) for key
+                in self.mention_keys(mentions, min, max, limit, tag))
+
+    def mention_values(self, mentions, min=None, max=None, limit=100, tag=None):
+        return (self.get(key) for key
+                in self.mention_keys(mentions, min, max, limit, tag))
+
+    def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
+        if not mentions:
+            return ()
+        if tag and tag not in self._tag_mapping:
+            return ()
+
+        if mentions == str(mentions):
+            # single mention optimization
+            mention = mentions
+            mapping = self._mentions_mapping.get(mention)
+            if not mapping:
+                return ()
+
+        else:
+            # collection of LLTreeSet
+            treesets = (self._mentions_mapping.get(mention)
+                        for mention in mentions
+                        if mention in self._mentions_mapping.keys())
+            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+
+        # returns unchanged mapping if tag is None
+        mapping = self._keys_tag(tag, mapping)
+
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
     # helpers
@@ -330,6 +384,13 @@ class BaseStatusContainer(Persistent, Explicit):
         return LLBTree.intersection(
             LLBTree.LLTreeSet(keyset),
             self._tag_mapping[tag])
+
+    def _keys_mention(self, mention, keyset):
+        if mention is None:
+            return keyset
+        return LLBTree.intersection(
+            LLBTree.LLTreeSet(keyset),
+            self._mentions_mapping[mention])
 
     def _keys_uuid(self, uuid, keyset):
         if uuid is None:
