@@ -48,6 +48,11 @@ Create image
       And I go to the Open Market Committee Workspace
      Then I can create a new image
 
+Create structure
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a structure
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -180,3 +185,19 @@ I can create a new image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input#form-widgets-image-input
+
+I can create a structure
+    Click link  Create folder
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=Another Folder
+    Click Button  css=#form-buttons-create
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=Document in subfolder
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
