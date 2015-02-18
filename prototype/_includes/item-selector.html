@@ -275,6 +275,13 @@
         </form>
     {% endif %}
 
+    {% if include.mode == 'users' and include.buttons contains 'add-members' %}
+        <div class="button-bar create-buttons">
+            <a href="/panel-add-member.html#document-content" class="button icon-user-add pat-modal" data-pat-modal="class: large">Add members</a>
+            <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
+        </div>
+    {% endif %}
+
     {% if include.mode == 'docs' %}
         <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .{{ include.id }}-toggle-select" id="{{ include.id }}-more-menu">
             <!-- <h3 class="trigger {{ include.id }}-toggle-select">
