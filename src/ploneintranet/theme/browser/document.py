@@ -12,7 +12,7 @@ class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
         It's not necessary to override all the methods below, but we leave them
         there for now as reference.
     """
-    template = ViewPageTemplateFile('templates/edit_document.pt')
+    template = ViewPageTemplateFile('templates/add_document.pt')
 
     def render(self):
         """ The "contents" attribute of the AddView gets populated with the
@@ -24,17 +24,17 @@ class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
         return super(AddForm, self).update()
 
     def extractData(self, setErrors=True):
-        exclude_from_nav = ''
-        if not self.request.get(exclude_from_nav):
+        exclude_from_nav_id = 'form.widgets.IExcludeFromNavigation.exclude_from_nav'
+        if not exclude_from_nav_id in self.request:
             # XXX: This is a required field, but not in the form. Not yet sure
             # what the right approach to deal with it is.
             # Either we deal with it here, or add a hidden field in the
             # template.
-            self.request.form[exclude_from_nav] = 'selected'
+            self.request.form[exclude_from_nav_id] = 'selected'
         return super(AddForm, self).extractData()
 
-    @button.buttonAndHandler(_('Save'), name='save')
-    def handleAdd(self, action):
+    @button.buttonAndHandler(_('Create'), name='create')
+    def handleCreate(self, action):
         return super(AddForm, self).handleAdd(self, action)
 
     @button.buttonAndHandler(_(u'Cancel'), name='cancel')
