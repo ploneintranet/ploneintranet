@@ -27,10 +27,12 @@ class StatusActivity(object):
         self.Creator = context.creator
         self.userid = context.userid
         self.raw_date = context.date
-        m_context = context.context or api.portal.get()
+        m_context = context.context  # IStatusUpdate.IMicroblogContext
         if m_context:
             self.title = m_context.Title()
             self.url = m_context.absolute_url()
+        else:
+            self.url = api.portal.get().absolute_url()
 
     def replies(self):
         return map(IStatusActivity, self.context.replies())

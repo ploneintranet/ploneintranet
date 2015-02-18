@@ -1,6 +1,7 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:define="thread_id view/status_id"
-      tal:attributes="class string:post ${view/render_type} item">
+      tal:attributes="class string:post ${view/render_type} item;
+                      id thread_id">
 
   <div class="post-header">
     <a href=""
@@ -94,9 +95,9 @@
                       attachment_previews_id string:attachment-previews-${thread_id}"
           data-pat-inject="source: #activity-stream;
                            target: #activity-stream .activities::before"
-          tal:attributes="action string:./@@newpostbox.tile;
+          tal:attributes="action string:${here/url}/@@newpostbox.tile;
                           id form_id;
-                          data-pat-inject string:${attrs/data-pat-inject} && #${form_id}">
+                          data-pat-inject string:source: #${thread_id};; target: #${thread_id} && #${form_id}">
         <input type="hidden" name="thread_id:int" tal:attributes="value thread_id" />
 
         <fieldset class="focus">
