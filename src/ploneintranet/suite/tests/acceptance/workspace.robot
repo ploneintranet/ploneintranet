@@ -41,8 +41,12 @@ Create document
 Create folder
     Given I am logged in as the user christian_stoney
       And I go to the Open Market Committee Workspace
-     Then I can create a new document
+     Then I can create a new folder
 
+Create image
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new image
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -158,9 +162,21 @@ I can create a new document
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
 I can create a new folder
-    Click link  Functions
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  name=title  text=My Humble Folder
+    Input Text  css=textarea[name=description]  text=The description of my humble folder
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input[value="My Humble Folder"]
+    # We cannot jet test the folders existence without reloading
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#items']
+
+I can create a new image
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=My Image
+    Input Text  css=textarea[name=description]  text=The description of my humble image
+    Click Element  css=label.icon-file-image
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input#form-widgets-image-input
