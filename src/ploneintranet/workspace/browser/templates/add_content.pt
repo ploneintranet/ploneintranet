@@ -1,0 +1,36 @@
+
+<h1>
+    Create document
+</h1>
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #content; target: #document-body && source: #sidebar-content; target: #sidebar-content">
+  <div class="panel-body">
+    <fieldset class="icon-tabs">
+        <label class="icon-doc-text">
+            <input checked="checked" name="portal_type" value="Document" type="radio"> Rich text
+        </label>
+        <label class="icon-slides">
+            <input name="portal_type" value="Slideshow" type="radio"> Slideshow
+        </label>
+        <label class="icon-calendar">
+            <input name="portal_type" value="Event" type="radio"> Event
+        </label>
+        <label class="icon-file-image">
+            <input name="portal_type" value="Image" type="radio"> Image
+        </label>
+    </fieldset>
+    <fieldset class="vertical">
+        <input type="text" name="title" placeholder="Document title" autofocus />
+        <textarea name="description" rows="6" placeholder="Description for search results (Optional)"></textarea>
+        <input type="hidden" name="form.widgets.IExcludeFromNavigation.exclude_from_nav" value="selected">
+    </fieldset>
+  </div>
+<div class="buttons panel-footer">
+    <span tal:replace="structure context/@@authenticator/authenticator"/>
+    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle close-panel focus">
+        Create
+    </button>
+    <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel">
+        Cancel
+    </button>
+</div>
+</form>

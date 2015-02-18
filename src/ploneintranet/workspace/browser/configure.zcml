@@ -55,6 +55,22 @@
       permission="ploneintranet.workspace.ManageWorkspace"
       />
 
+  <browser:page
+      name="add_content"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddContent"
+      template="templates/add_content.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:page
+      name="add_folder"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddFolder"
+      template="templates/add_folder.pt"
+      permission="cmf.AddPortalContent"
+      />
+
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
