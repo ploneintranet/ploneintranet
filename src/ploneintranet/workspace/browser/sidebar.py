@@ -64,12 +64,7 @@ class ContentItemsTile(Tile):
 
             if content_type in FOLDERISH_TYPES:
                 dpi = (
-                    "source: #items; target: #items && "
-                    "source: #selector-contextual-functions; "
-                    "target: #selector-contextual-functions && "
-                    "source: #context-title; target: #context-title && "
-                    "source: #sidebar-search-form; "
-                    "target: #sidebar-search-form"
+                    "source: #sidebar-content; target: #sidebar-content"
                 )
                 url = item.getURL() + '/@@sidebar.default#items'
                 content_type = 'group'
