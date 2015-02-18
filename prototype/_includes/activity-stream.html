@@ -1,4 +1,4 @@
 
 	{% for item in site.data.[include.src] %}
-	    {% include post.html postcount=forloop.index %}
+	    {% include post.html postcount=forloop.index placeholder="Leave a comment…" %}
 	{% endfor %}
