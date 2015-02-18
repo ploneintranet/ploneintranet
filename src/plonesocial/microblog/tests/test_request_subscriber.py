@@ -59,18 +59,14 @@ class TestMicroblogRequestSubscriber(unittest.TestCase):
         # queue committer in plonesocial.microblog
         # time to commit the statuses.
         time.sleep(2)
-        self.assertEqual(
-            request_subscriber.messages,
-            [
-                ('Test 1', portal_request.getURL()),
-                ('Test 2', portal_request.getURL()),
-                ('Test 3', portal_request.getURL()),
-                ('Test 4', portal_request.getURL()),
-                ('Test 5', portal_request.getURL()),
-                ('Test 6', portal_request.getURL()),
-                ('Test 7', portal_request.getURL()),
-                ('Test 8', portal_request.getURL()),
-                ('Test 9', portal_request.getURL()),
-                ('Test 10', portal_request.getURL())
-            ]
-        )
+        self.assertEqual(len(request_subscriber.messages), 10)
+        self.assertIn(('Test 1', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 2', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 3', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 4', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 5', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 6', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 7', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 8', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 9', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 10', portal_request.getURL()), request_subscriber.messages)
