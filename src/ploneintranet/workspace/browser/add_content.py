@@ -47,7 +47,3 @@ class AddContent(BrowserView):
 class AddFolder(AddContent):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
-
-    def redirect(self, url):
-        """redirect to view"""
-        return self.request.response.redirect(url)
