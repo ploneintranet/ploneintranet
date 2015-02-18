@@ -5,6 +5,7 @@ from plone.app.discussion.interfaces import IComment
 from Products.CMFCore.interfaces import IContentish
 from Acquisition import aq_inner, aq_parent
 
+from plone import api
 from plonesocial.activitystream.interfaces import IStatusActivity
 from plonesocial.activitystream.interfaces import IContentActivity
 from plonesocial.activitystream.interfaces import IDiscussionActivity
@@ -26,10 +27,10 @@ class StatusActivity(object):
         self.Creator = context.creator
         self.userid = context.userid
         self.raw_date = context.date
-        m_context = context.context  # IStatusUpdate.IMicroblogContext
+        m_context = context.context or api.portal.get()
         if m_context:
             self.title = m_context.Title()
-            self.url = m_context.absolute_url() + '/@@stream'
+            self.url = m_context.absolute_url()
 
     def replies(self):
         return map(IStatusActivity, self.context.replies())
