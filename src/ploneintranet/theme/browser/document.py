@@ -12,7 +12,7 @@ class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
         It's not necessary to override all the methods below, but we leave them
         there for now as reference.
     """
-    template = ViewPageTemplateFile('templates/add_document.pt')
+    template = ViewPageTemplateFile('templates/edit_document.pt')
 
     def render(self):
         """ The "contents" attribute of the AddView gets populated with the
@@ -33,9 +33,9 @@ class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
             self.request.form[exclude_from_nav_id] = 'selected'
         return super(AddForm, self).extractData()
 
-    @button.buttonAndHandler(_('Create'), name='create')
-    def handleCreate(self, action):
-        return super(AddForm, self).handleAdd(self, action)
+    @button.buttonAndHandler(_('Save'), name='save')
+    def handleAdd(self, action):
+        return super(EditForm, self).handleAdd(self, action)
 
     @button.buttonAndHandler(_(u'Cancel'), name='cancel')
     def handleCancel(self, action):
