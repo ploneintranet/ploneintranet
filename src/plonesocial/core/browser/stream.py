@@ -2,6 +2,7 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.layout.globals.interfaces import IViewView
 from plonesocial.core import plonesocialCoreMessageFactory as _
 from plonesocial.core.integration import PLONESOCIAL
@@ -11,6 +12,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 
 class StreamBase(object):
+
     '''Base for View and Tile'''
 
     def render(self):
@@ -18,17 +20,6 @@ class StreamBase(object):
 
     def __call__(self):
         return self.render()
-
-    def status_provider(self):
-        if not PLONESOCIAL.microblog:
-            return ''
-
-        provider = getMultiAdapter(
-            (self.context, self.request, self),
-            name='plonesocial.microblog.status_provider'
-        )
-        provider.update()
-        return provider()
 
     def stream_provider(self):
         provider = getMultiAdapter(
@@ -55,6 +46,7 @@ class StreamBase(object):
 
 
 class StreamView(StreamBase, BrowserView):
+
     '''Standalone view, providing
     - microblog input
     - activitystream rendering (via stream provider)
@@ -65,7 +57,7 @@ class StreamView(StreamBase, BrowserView):
     @@stream/tag/foobar -> all activities tagged #foobar
     '''
 
-    implements(IPublishTraverse, IViewView)
+    implements(IPublishTraverse, IViewView, IBlocksTransformEnabled)
 
     index = ViewPageTemplateFile('templates/stream.pt')
 

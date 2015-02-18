@@ -13,18 +13,18 @@
       <div id="content">
           <h1 class="documentFirstHeading" i18n:translate=""
               tal:content="view/title">Updates</h1>
+        <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${here/absolute_url}/@@newpostbox.tile"></form>
 
-        <tal:block replace="structure view/status_provider" />
-
+        <!-- BBB: this has to be modified to use the activitystream.tile -->
         <div id="activity-stream"
              class="activity-stream pat-packery packery-ready"
              data-pat-packery="column-width: 500; gutter-width: 30px; item-selector: .post;">
-
-          <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
-          #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
-          </h2>
-
-          <tal:block replace="structure view/stream_provider" />
+          <div class="activities">
+            <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
+              #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
+            </h2>
+            <tal:block replace="structure view/stream_provider" />
+          </div>
         </div>
 
       </div>
