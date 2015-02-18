@@ -10,6 +10,7 @@ import mimetypes
 from DateTime import DateTime
 from zope.component import queryUtility
 from AccessControl.SecurityManagement import newSecurityManager
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
@@ -210,6 +211,7 @@ def create_workspaces(workspaces):
 
     for w in workspaces:
         contents = w.pop('contents', None)
+        members = w.pop('members', [])
         workspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.workspacefolder',
@@ -218,6 +220,8 @@ def create_workspaces(workspaces):
         api.content.transition(obj=workspace, transition='make_open')
         if contents is not None:
             create_ws_content(workspace, contents)
+        for m in members:
+            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Admins']))
 
 
 def create_ws_content(parent, contents):
@@ -425,7 +429,9 @@ def testing(context):
                'type': 'Folder',
                'contents':
                    [{'title': 'Projection Material',
-                     'type': 'File'}]}]},
+                     'type': 'File'}]}],
+         'members': ['christian_stoney', ],
+         },
         {'title': 'Parliamentary papers guidance',
          'description': '"Parliamentary paper" is a term used to describe a '
                         'document which is laid before Parliament. Most '

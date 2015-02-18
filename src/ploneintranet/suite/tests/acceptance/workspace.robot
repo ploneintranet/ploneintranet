@@ -150,4 +150,4 @@ I can create a new document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  name=form.widgets.IDublinCore.title  text=My Humble Document
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains  My Humble Document
+    Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
