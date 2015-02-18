@@ -38,6 +38,11 @@ Create document
       And I go to the Open Market Committee Workspace
      Then I can create a new document
 
+Create folder
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new document
+
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -148,6 +153,14 @@ I can create a new document
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=form.widgets.IDublinCore.title  text=My Humble Document
+    Input Text  name=title  text=My Humble Document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
+
+I can create a new folder
+    Click link  Functions
+    Click link  Create folder
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=My Humble Folder
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input[value="My Humble Folder"]
