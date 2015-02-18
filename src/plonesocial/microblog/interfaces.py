@@ -133,6 +133,29 @@ class IStatusContainer(Interface):
 
         """
 
+    # mention_* accessors
+
+    def mention_items(mentions, min=None, max=None, limit=100, tag=None):
+        """Filter (key, IStatusUpdate) items by mentions.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        tag 'foo' filters status text on hashtag '#foo'
+        """
+
+    def mention_keys(mentions, min=None, max=None, limit=100, tag=None):
+        """Filter IStatusUpdate keys by mentions.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        tag 'foo' filters status text on hashtag '#foo'
+        """
+
+    def mention_values(mentions, min=None, max=None, limit=100, tag=None):
+        """Filter IStatusUpdate values by mentions.
+        min and max are longint IStatusUpdate.id keys.
+        limit returns [:limit] most recent items
+        tag 'foo' filters status text on hashtag '#foo'
+        """
+
 
 class IMicroblogTool(IStatusContainer):
     """Provide IStatusContainer as a site utility."""

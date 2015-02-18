@@ -207,25 +207,19 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_permission("read")
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100, tag=None, mention=None):
+    def items(self, min=None, max=None, limit=100, tag=None):
         return ((key, self.get(key))
-                for key in self.keys(min, max, limit, tag, mention))
+                for key in self.keys(min, max, limit, tag))
 
-    def values(self, min=None, max=None, limit=100, tag=None, mention=None):
+    def values(self, min=None, max=None, limit=100, tag=None):
         return (self.get(key)
-                for key in self.keys(min, max, limit, tag, mention))
+                for key in self.keys(min, max, limit, tag))
 
-    def keys(self, min=None, max=None, limit=100, tag=None, mention=None):
+    def keys(self, min=None, max=None, limit=100, tag=None):
         self._check_permission("read")
-        if tag:
-            if tag not in self._tag_mapping:
-                return ()
-            else:
-                mapping = self._keys_tag(tag, self.allowed_status_keys())
-        else:
-          if mention and mention not in self._mentions_mapping:
-              return ()
-          mapping = self._keys_mention(mention, self.allowed_status_keys())
+        if tag not in self._tag_mapping:
+            return ()
+        mapping = self._keys_tag(tag, self.allowed_status_keys())
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
@@ -337,6 +331,42 @@ class BaseStatusContainer(Persistent, Explicit):
         merged_set = LLBTree.multiunion(keyset_uuids)
 
         return longkeysortreverse(merged_set,
+                                  min, max, limit)
+
+    # mention_* accessors
+
+    def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
+        return ((key, self.get(key)) for key
+                in self.mention_keys(mentions, min, max, limit, tag))
+
+    def mention_values(self, mentions, min=None, max=None, limit=100, tag=None):
+        return (self.get(key) for key
+                in self.mention_keys(mentions, min, max, limit, tag))
+
+    def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
+        if not mentions:
+            return ()
+        if tag and tag not in self._tag_mapping:
+            return ()
+
+        if mentions == str(mentions):
+            # single mention optimization
+            mention = mentions
+            mapping = self._mentions_mapping.get(mention)
+            if not mapping:
+                return ()
+
+        else:
+            # collection of LLTreeSet
+            treesets = (self._mentions_mapping.get(mention)
+                        for mention in mentions
+                        if mention in self._mentions_mapping.keys())
+            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+
+        # returns unchanged mapping if tag is None
+        mapping = self._keys_tag(tag, mapping)
+
+        return longkeysortreverse(mapping,
                                   min, max, limit)
 
     # helpers
