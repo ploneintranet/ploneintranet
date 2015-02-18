@@ -217,7 +217,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def keys(self, min=None, max=None, limit=100, tag=None):
         self._check_permission("read")
-        if tag not in self._tag_mapping:
+        if tag and tag not in self._tag_mapping:
             return ()
         mapping = self._keys_tag(tag, self.allowed_status_keys())
         return longkeysortreverse(mapping,
