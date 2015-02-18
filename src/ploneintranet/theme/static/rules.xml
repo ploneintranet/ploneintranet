@@ -93,6 +93,7 @@
 </rules>
 <rules css:if-content="body.template-document">
   <theme href="generated/panel-create-document.html" />
+  <drop css:theme-children="#document-content" />
   <append css:content-children="#content" css:theme="#document-content" />
 </rules>
 
