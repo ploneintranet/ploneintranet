@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from ploneintranet.workspace.browser.add_content import AddContent
-from ploneintranet.workspace.browser.add_content import AddFolder
 from plone import api
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 

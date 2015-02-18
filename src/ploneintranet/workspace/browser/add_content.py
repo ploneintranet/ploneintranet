@@ -12,7 +12,6 @@ class AddContent(BrowserView):
 
     template = ViewPageTemplateFile('templates/add_content.pt')
 
-
     def __call__(self, portal_type=None, title=None, description=None):
         """Evaluate form and redirect"""
         if title is not None:
@@ -43,7 +42,6 @@ class AddContent(BrowserView):
         """Has its own method to allow overriding"""
         url = '{}/edit'.format(url)
         return self.request.response.redirect(url)
-
 
 
 class AddFolder(AddContent):
