@@ -1,7 +1,7 @@
 <div  i18n:domain="plonesocial.activitystream"
       tal:define="thread_id view/status_id"
       tal:attributes="class string:post ${view/render_type} item;
-                      id thread_id">
+                      id string:post-${thread_id}">
 
   <div class="post-header">
     <a href=""
@@ -97,13 +97,18 @@
                            target: #activity-stream .activities::before"
           tal:attributes="action string:${here/url}/@@newpostbox.tile;
                           id form_id;
-                          data-pat-inject string:source: #${thread_id};; target: #${thread_id} && #${form_id}">
+                          data-pat-inject string:source: #post-${thread_id};; target: #post-${thread_id} && #${form_id}">
         <input type="hidden" name="thread_id:int" tal:attributes="value thread_id" />
 
         <fieldset class="focus">
-            <p class="content-mirror"><span class="text"><em class="placeholder">Leave a comment</em></span><em class="selected-users"></em><em class="selected-tags"></em></p>
-            <textarea data-pat-switch="#mypost status-inactive status-active" class="pat-comment-box pat-switch focus" name="form.widgets.text" placeholder="Leave a comment"
-                      tal:attributes="data-pat-switch string:#${form_id} status-inactive status-active"></textarea>
+            <p class="content-mirror"><span class="text"><em class="placeholder" id="mirror" tal:attributes="id string:mirror-${thread_id}">Leave a comment</em></span><em class="selected-users"></em><em class="selected-tags"></em></p>
+            <textarea placeholder="Leave a comment"
+                      class="pat-content-mirror pat-switch"
+                      data-pat-switch="#new-post-box status-inactive status-active"
+                      data-pat-content-mirror="target: #mirror"
+                      tal:attributes="data-pat-switch string:#${form_id} status-inactive status-active;
+                                      data-pat-content-mirror string:target: #mirror-${thread_id}"
+                      name="form.widgets.text"></textarea>
             <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
             <fieldset data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #mypost-attachment-previews" class="attachments pat-subform pat-autosubmit pat-inject"
                       tal:condition="view/is_attachment_supported"
