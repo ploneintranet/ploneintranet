@@ -1,17 +1,15 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
-<!-- <div class="item-selector mode-select" id="{{ include.id }}"> -->
-    
     {% if include.mode == "docs" %}
         <div class="button-bar functions" id="{{ include.id }}-functions">
             <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
                 {% if include.mode == 'docs' %}
                     {% if page.parent != 'root' %}
                         <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
-                            data-pat-inject="source: #items; target: #items &&
-                            source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
+                            data-pat-inject="source: #{{ include.id }}-items; target: #{{ include.id }}-items &&
+                            source: #{{ include.id }}-functions; target: #{{ include.id }}-functions">{{ page.parent }}</a>
                     {% else %}
                         <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                        <form action="./#items" class="pat-inject pat-autosubmit">
+                        <form action="./#{{ include.id }}-items" class="pat-inject pat-autosubmit">
                             <label class="pat-select bare">Group by
                                 <select name="browse-mode">
                                     <option value="folder">folder</option>
@@ -30,31 +28,30 @@
                     {% endif %}
                 {% endif %}
             </div>
-
             <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
         </div>
     {% endif %}
     {% if include.mode == "users" and (include.title or include.controls contains 'pull-menu') %}
         <div class="button-bar functions" id="{{ include.id }}-functions">
             {% if include.title %}
-                <h3 id="context-title" class="context-title">
+                <h3 id="{{ include.id }}-context-title" class="context-title">
                     {{ include.title }}
                 </h3>
             {% endif %}
             {% if include.controls contains 'pull-menu' %}
-                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>  
+                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
             {% endif %}
         </div>
     {% endif %}
 
-    <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#items">
+    <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#{{ include.id }}-items">
         <label>
             <input name="" type="search" placeholder="Search" />
             <button type="submit">Search</button>
         </label>
     </form>
 
-    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: body::after{% endif %}" action="{{ include.action }}" id="items">
+    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: body::after{% endif %}" action="{{ include.action }}" id="{{ include.id }}-items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% if include.mode == "docs" %}
@@ -134,7 +131,7 @@
                         {% endif %}
                     </div>
                     {% if include.buttons contains 'batch-operations' %}
-                        <div class="button-bar"> 
+                        <div class="button-bar">
                             <button type="submit"
                                     name="batch-function"
                                     value="role"
