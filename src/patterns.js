@@ -49,6 +49,7 @@ define([
     "pat-sortable",
     "pat-polyfill-date",
     "pat-resourcepolling",
+    "pat-checklist-picker",
     "pat-stacks",
     "pat-store",
     "pat-subform",
