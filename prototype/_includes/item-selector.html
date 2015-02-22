@@ -44,12 +44,14 @@
         </div>
     {% endif %}
 
-    <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#{{ include.id }}-items">
-        <label>
-            <input name="" type="search" placeholder="Search" />
-            <button type="submit">Search</button>
-        </label>
-    </form>
+    {% if include.fields contains 'search' %}
+        <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#{{ include.id }}-items">
+            <label>
+                <input name="" type="search" placeholder="Search" />
+                <button type="submit">Search</button>
+            </label>
+        </form>
+    {% endif %}
 
     <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: body::after{% endif %}" action="{{ include.action }}" id="{{ include.id }}-items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
@@ -148,27 +150,40 @@
             {% endif %}
 
             {% if include.mode == "users" %}
+                {% for group in site.posts %}
+                    {% if group.layout == 'group' %}
+                        <label class="item user-group has-description">
+                            <input name="" type="checkbox" />
+                            <a class="follow pat-inject" href="{{ group.url }}" data-pat-inject="source: #document-body; target: #document-body">
+                                <strong class="title">{{ group.title }}</strong>         
+                                <br>
+                                <dfn class="byline">25 Members</dfn>
+                            </a>
+                        </label>
+                    {% endif %}
+                {% endfor %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
                         <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="checkbox" />
                             <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
-                                <img src="{{user.image_url}}" alt="" />
+                                <img src="{{user.image_url}}" alt="" class="avatar" />
                                 <strong class="title">{{ user.title }}</strong>
-                                <br>
-                                <dfn class="byline">{{ user.status }}</dfn>
+                                {% if user.status %}
+                                    <br>
+                                    <dfn class="byline">{{ user.status }}</dfn>
+                                {% endif %}
                             </a>
                         </label>
                     {% endif %}
                 {% endfor %}
-
             {% elsif include.mode == "user" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
                         <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="radio" />
                             <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
-                                <img src="{{user.image_url}}" alt="" />
+                                <img src="{{user.image_url}}" alt="" class="avatar" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
                                 <dfn class="byline">{{ user.status }}</dfn>

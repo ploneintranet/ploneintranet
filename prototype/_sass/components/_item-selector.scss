@@ -234,6 +234,15 @@
                 padding-left: 4em;
             }
 
+            &.user-group .follow:before {
+                font-family: fontello;
+                content: '\1f465';
+                text-align: center;
+                line-height: 2em;
+                font-size: 1.5em;
+                height: 2em;
+                width: 2em;
+            }
 
             &.group:after {
                 font-family: fontello;
@@ -246,11 +255,12 @@
                 transition: 0.4s all;
             }
 
-            img {
+            .avatar,
+            .follow:before {
                 @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
                 position: absolute;
-                left: 0.2em;
-                top: 0.2em;
+                left: 0.2rem;
+                top: 0.3rem;
             }
 
             .title {
