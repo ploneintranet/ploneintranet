@@ -116,7 +116,7 @@ I can create a new workspace
     Input Text  css=input.required.parsley-validated  text=New Workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
-    Wait Until Element Is visible  css=div.post.item  timeout=5
+    Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -125,18 +125,18 @@ I go to the Open Market Committee Workspace
 
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  link=Workspace settings and about
+    Click Link  link=Info
     Wait Until Element Is visible  css=p.user-cloud
 
 I can go to the sidebar events tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  css=a.todos.pat-inject
-    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
+    Click Link  link=Events
+    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar events tile']
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  css=a.events.pat-inject
-    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar events tile']
+    Click Link  link=Tasks
+    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
 
 # This doesn't work yet, because ?diazo.off=1 has no effect and the design is missing (...I believe)
 I can invite users to the current workspace
