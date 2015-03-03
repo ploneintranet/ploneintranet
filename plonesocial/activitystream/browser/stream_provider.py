@@ -153,11 +153,13 @@ class StreamProvider(object):
         # parent post we already rendered.
         seen_thread_ids = []
         for activity in activities:
-            if activity.id in seen_thread_ids:
+            if activity.thread_id and activity.thread_id in seen_thread_ids:
                 continue
 
             if IStatusActivityReply.providedBy(activity):
                 seen_thread_ids.append(activity.thread_id)
+            else:
+                seen_thread_ids.append(activity.id)
 
             yield activity
 
