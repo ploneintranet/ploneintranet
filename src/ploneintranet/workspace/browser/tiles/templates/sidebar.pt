@@ -300,8 +300,53 @@
       <h1>Placeholder for the sidebar tasks tile</h1>
     </div>
 
-    <div id="workspace-events">
-      <h1>Placeholder for the sidebar events tile</h1>
+    <div id="workspace-events" tal:define="events view/events">
+      <div class="content">
+
+        <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+          <h3>Upcoming events</h3>
+
+          <ul class="cal-events">
+            <tal:events repeat="event events/upcoming">
+              <metal:event define-macro="eventdetails">
+                <li class="cal-event"
+                    tal:define="extra_classes python:'all-day' if event.getObject().whole_day else ''"
+                    tal:attributes="class string:${attrs/class} ${extra_classes} ">
+                  <h4 class="title">
+                    <a class="pat-inject"
+                       tal:attributes="href string:${event/getURL}#document-body"
+                       tal:content="event/Title"/>
+                  </h4>
+
+                  <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="Description" />
+
+                  <ul class="details">
+                    <li>Starts <time class="start"
+                    tal:attributes="datetime event/start"
+                    tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
+
+                    <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
+                  </ul>
+
+                  <form action="">
+                    <button class="iconified icon-trash" type="submit">Delete event</button>
+                  </form>
+                </li>
+              </metal:event>
+            </tal:events>
+          </ul>
+        </div>
+
+        <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+          <h3>Older events</h3>
+
+          <ul class="cal-events">
+            <tal:events repeat="event events/older">
+              <metal:event use-macro="template/macros/eventdetails" />
+            </tal:events>
+          </ul>
+        </div>
+      </div>
     </div>
 
 

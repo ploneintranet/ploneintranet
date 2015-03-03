@@ -6,7 +6,9 @@ from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
 from collective.workspace.interfaces import IWorkspace
+from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
+from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 
@@ -190,3 +192,25 @@ class Sidebar(BaseTile):
                 'mime-type': mime_type,
                 'dpi': dpi})
         return items
+
+    def events(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        workspace = parent_workspace(self.context)
+        workspace_path = '/'.join(workspace.getPhysicalPath())
+        now = DateTime()
+
+        # Current and future events
+        upcoming_events = catalog.searchResults(
+            object_provides=IEvent.__identifier__,
+            path=workspace_path,
+            start={'query': (now), 'range': 'min'},
+        )
+
+        # Events which have finished
+        older_events = catalog.searchResults(
+            object_provides=IEvent.__identifier__,
+            path=workspace_path,
+            end={'query': (now), 'range': 'max'},
+        )
+        return {"upcoming": upcoming_events, "older": older_events}
+
