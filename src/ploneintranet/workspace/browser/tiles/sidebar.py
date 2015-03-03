@@ -213,4 +213,3 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {"upcoming": upcoming_events, "older": older_events}
-
