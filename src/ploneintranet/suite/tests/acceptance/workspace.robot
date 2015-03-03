@@ -125,8 +125,10 @@ I go to the Open Market Committee Workspace
 
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  link=Info
-    Wait Until Element Is visible  css=p.user-cloud
+    Click Link  link=Workspace Settings and about
+    Wait Until Page Contains  General
+    Wait Until Page Contains  Workspace title
+    Wait Until Page Contains  Workspace brief description
 
 I can go to the sidebar events tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
