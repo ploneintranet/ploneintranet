@@ -42,10 +42,6 @@
                     </form>
                 </div>
 
-                <h2 id="context-title" class="context-title">
-                    Some Context
-                </h2>
-
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
             </div>
 
