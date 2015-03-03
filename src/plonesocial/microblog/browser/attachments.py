@@ -6,7 +6,7 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
 
 try:
-    from ploneintranet.docconv.client import IDocconv
+    from ploneintranet.docconv.client.interfaces import IDocconv
 except ImportError:
     IDocconv = None
 
