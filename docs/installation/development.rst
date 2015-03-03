@@ -99,6 +99,25 @@ Create a new Plone instance, under `Add-ons`, choose the package
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
 .. _`stackoverflow article`: http://stackoverflow.com/questions/3683181/cannot-install-pyenchant-on-osx
 
+
+Building the Documentation
+--------------------------
+
+The documentation along with its own buildout, is in a separate repository.
+Follow these steps to build it::
+
+    git clone https://github.com/ploneintranet/ploneintranet.docs.git
+    cd ploneintranet.docs
+    virtualenv .
+    bin/python bootstrap.py
+    bin/buildout
+
+This creates a script in bin to generate the docs::
+
+   bin/generate-docs
+
+The docs are generated in docs/html.
+
 Specials:
 ---------
 
