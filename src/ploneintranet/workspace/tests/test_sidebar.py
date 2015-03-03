@@ -1,7 +1,7 @@
 # coding=utf-8
 from plone import api
 from plone.tiles.interfaces import IBasicTile
-from ploneintranet.workspace.browser.tiles.sidebar import ContentItemsTile
+from ploneintranet.workspace.browser.tiles.sidebar import Sidebar
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
 from zope.component import provideAdapter
@@ -45,7 +45,7 @@ class TestSidebar(BaseTestCase):
             'example-subdocument',
             title='Some example nested Rich Text'
         )
-        provideAdapter(ContentItemsTile, (Interface, Interface), IBasicTile,
+        provideAdapter(Sidebar, (Interface, Interface), IBasicTile,
                        name=u"sidebar.default")
         sidebar = getMultiAdapter((ws, ws.REQUEST), name=u"sidebar.default")
         children = sidebar.children()
