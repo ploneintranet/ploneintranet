@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      >
+<body>
+
+<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/comment.html -->
+<metal:macro define-macro="main">
+
+<div i18n:domain="plonesocial.activitystream"
+     tal:define="
+         thread_id activity_provider/status_id|nothing;
+         render_type activity_provider/render_type|nothing;
+         class python: 'post %s item' % (render_type or '');
+         id python: thread_id and ('post-%s' % thread_id) or None;
+     "
+     tal:attributes="id id; class class">
+  <div class="post-header">
+    <a href="" class="creator" tal:condition="activity_provider/Creator" tal:attributes="href activity_provider/author_home_url">
+      <img class="pat-avatar" tal:attributes="src activity_provider/user_portrait/absolute_url" />
+      <h4 tal:content="activity_provider/Creator" class="name">
+        Poster Name
+      </h4>
+    </a>
+    <p class="byline">
+      <em class="action" i18n:translate="label_says">says:</em>
+      <time tal:content="activity_provider/date">
+        8/23/2001 12:40:44 PM
+      </time> |
+      <label class="visibility pat-select bare">
+        <select>
+          <optgroup>
+            <option>
+              Everyone
+            </option>
+            <option>
+              Trusted users
+            </option>
+          </optgroup>
+          <optgroup>
+            <option>
+              Workspace so and so
+            </option>
+            <option>
+              Baggage handling regulations
+            </option>
+            <option>
+              Human resources
+            </option>
+          </optgroup>
+        </select>
+      </label>
+      <br/>
+      <a href="#" class="iconified icon-cog">Options</a>
+    </p>
+  </div>
+
+  <section class="post-content">
+
+    <span tal:replace="structure activity_provider/getText" />
+
+  </section>
+
+  <section class="preview">
+
+    <figure tal:repeat="attachment activity_provider/attachments">
+      <a href="/incredibly-boring-document" tal:attributes="href attachment">
+        <img src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}/thumb">
+      </a>
+    </figure>
+
+  </section>
+
+  <div class="functions" tal:condition="not:activity_provider/is_anonymous">
+    <a href="#">Share <sup class="counter">(8)</sup></a>
+    <form href="#" tal:define="toggle_like activity_provider/get_toggle_like_view;" tal:replace="structure python:toggle_like()">
+      <button class="like active" value="like" name="like_button" type="submit">
+        <span>Like</span>
+        <sup class="counter">(4)</sup>
+      </button>
+    </form>
+  </div>
+
+  <div class="comments" tal:define="reply_providers activity_provider/reply_providers|nothing" tal:condition="reply_providers">
+    <div class="comment" tal:repeat="provider reply_providers" tal:replace="structure provider" />
+    <tal:define define="view nocall:here/newpostbox.tile" >
+      <metal:block use-macro="here/@@upload.html/main" />
+    </tal:define>
+  </div>
+
+</div>
+</metal:macro>
+
+</body>
+</html

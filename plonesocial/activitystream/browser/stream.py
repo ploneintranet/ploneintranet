@@ -1,6 +1,8 @@
+# coding=utf-8
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.tiles import Tile
 from plonesocial.core.browser.stream import StreamBase
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getMultiAdapter
 
 
 class StreamTile(StreamBase, Tile):
@@ -13,3 +15,13 @@ class StreamTile(StreamBase, Tile):
         self.request = request
         self.tag = self.data.get('tag')
         self.explore = 'network' not in self.data
+
+    @property
+    def activity_providers(self):
+        ''' Returtn the activity providers
+        '''
+        provider = getMultiAdapter(
+            (self.context, self.request, self),
+            name="plonesocial.core.stream_provider"
+        )
+        return provider.activity_providers

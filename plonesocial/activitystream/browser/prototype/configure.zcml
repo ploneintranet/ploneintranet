@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plonesocial.activitystream">
+
+    <browser:page
+        name="activity-stream.html"
+        for="*"
+        permission="zope2.View"
+        template="activity-stream.html"
+        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+    <browser:page
+        name="post.html"
+        for="*"
+        permission="zope2.View"
+        template="post.html"
+        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+    <browser:page
+        name="comment.html"
+        for="*"
+        permission="zope2.View"
+        template="comment.html"
+        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        />
+
+</configure>
