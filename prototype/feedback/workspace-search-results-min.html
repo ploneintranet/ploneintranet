@@ -6,7 +6,8 @@ design_description: "Populate the tags tooltip"
 ---
 
 <div class="item-selector mode-follow">
-    <form class="search-result docs" id="items">
+    {% capture include_id %}selector{% endcapture %} <!-- this attribute should be unique to the instance of the item-selector -->
+    <form class="search-result docs" id="{{ include_id }}-items">
         <fieldset class="checklist pat-checklist docs">
             <div class="batch-functions">
                 <div class="button-bar">
@@ -14,7 +15,7 @@ design_description: "Populate the tags tooltip"
                         <button type="button" class="select-all" title="Select all">All</button>
                         <button type="button" class="deselect-all" title="Deslect all">None</button>
                     </span>
-                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include_id }}; value: mode-select mode-follow">Cancel</button>
                 </div>
                 <div class="button-bar">
                     <span class="float-before button-cluster">
@@ -85,10 +86,10 @@ design_description: "Populate the tags tooltip"
                         {% else %}
                             <label class="item group type-folder {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
-                                <a href="{{ doc.url }}#items" class="follow pat-inject"
-                                data-pat-inject="source: #items; target: #items &&
-                                source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions &&
-                                source: #context-title; target: #context-title"
+                                <a href="{{ doc.url }}#{{ include_id }}-items" class="follow pat-inject"
+                                data-pat-inject="source: #{{ include_id }}-items; target: #{{ include_id }}-items &&
+                                source: #{{ include_id }}-contextual-functions; target: #{{ include_id }}-contextual-functions &&
+                                source: #{{ include_id }}-context-title; target: #{{ include_id }}-context-title"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}

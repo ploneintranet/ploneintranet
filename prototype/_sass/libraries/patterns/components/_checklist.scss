@@ -4,6 +4,7 @@
 	label {
 		padding-left: 1.5em;
 		position: relative;
+		display: block;
 
 		&.checked:before,
 		&.unchecked:before {

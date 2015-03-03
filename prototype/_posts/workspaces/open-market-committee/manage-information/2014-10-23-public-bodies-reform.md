@@ -1,7 +1,6 @@
 ---
 layout: document
 title: Public bodies reform
-workspace_name: Manage Information
 description: "Making arrangements for the transfer of information, records and
 knowledge is a key part of any Machinery of Government change."
 document_type: rich

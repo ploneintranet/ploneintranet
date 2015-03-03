@@ -43,6 +43,9 @@
         border-radius: 50%;
         border: 2px solid silver;
         color: rgba(0,0,0,0.2);
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
 
         &:hover {
             border-color: gray;
@@ -121,6 +124,7 @@
         text-align: center;
         // margin-bottom: 0.8em;
         position: relative;
+        min-height: 1em;
 
         button,
         .button {
@@ -128,10 +132,9 @@
         }
 
         .context-title {
-            // Temporarily hide context title until it is clear where it 
-            // has to go in the layout
-            display: none;
+            // display: none;
             // display: inline;
+            margin: 0;
         }
     }
 
@@ -220,6 +223,7 @@
                 -moz-transition: 0.4s border;
                 -webkit-transition: 0.4s border;
                 transition: 0.4s border;
+                // min-height: 2.8em;
 
                 &:hover {
                     text-decoration: none;
@@ -230,6 +234,15 @@
                 padding-left: 4em;
             }
 
+            &.user-group .follow:before {
+                font-family: fontello;
+                content: '\1f465';
+                text-align: center;
+                line-height: 2em;
+                font-size: 1.5em;
+                height: 2em;
+                width: 2em;
+            }
 
             &.group:after {
                 font-family: fontello;
@@ -242,11 +255,12 @@
                 transition: 0.4s all;
             }
 
-            img {
+            .avatar,
+            .follow:before {
                 @include avatar($border-radius: 3em, $border: 1px solid blacken(white, 50%), $height: 3em, $width: 3em);
                 position: absolute;
-                left: 0.5em;
-                top: 0.5em;
+                left: 0.2rem;
+                top: 0.3rem;
             }
 
             .title {
@@ -412,6 +426,14 @@
             .follow {
 
             }
+        }
+    }
+}
+
+.tabs-content {
+    .item-selector {
+        .more-menu {
+            margin: -1em;
         }
     }
 }

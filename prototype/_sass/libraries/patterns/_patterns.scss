@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 // Each pattern comes with a mixin. They may also be included seperately 
 // in a project and applied on custom markup.
 
@@ -38,8 +40,10 @@ $glyph-radio-button-active: \e806 !default;
 @import "components/checklist";
 @import "components/collapsible";
 @import "components/grid";
+@import "components/grid-list";
 @import "components/form";
 @import "components/injection";
+@import "components/message";
 @import "components/modal";
 @import "components/notifications";
 @import "components/select";

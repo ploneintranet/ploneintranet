@@ -10,6 +10,14 @@
   }
 }
 
+@mixin clear-fix() {
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+}
+
 @mixin avatar($border-radius: 50%, $border: 0.055556em solid rgba(0,0,0,0.2), $height: 2em, $width: 2em) {
     display: inline-block;
     overflow: hidden;
@@ -33,7 +41,8 @@
 
 @mixin pat-message() {
     color: rgba(0,0,0,0.5);
-    padding: 1em;
+    padding: 0.8em;
+    margin-bottom: 1em;
     border: rgba(0,0,0,0.05) solid 0.2rem;
     background-color: #efefef;
 

@@ -1,16 +1,15 @@
 <div class="item-selector mode-{{ include.listitems }}" id="{{ include.id }}">
-<!-- <div class="item-selector mode-select" id="{{ include.id }}"> -->
-    <div class="button-bar functions" id="{{ include.id }}-functions">
-        {% if include.mode == "docs" %}
+    {% if include.mode == "docs" %}
+        <div class="button-bar functions" id="{{ include.id }}-functions">
             <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
                 {% if include.mode == 'docs' %}
                     {% if page.parent != 'root' %}
                         <a href="/{{ page.parentid }}" class="button icon-left-open pat-inject"
-                            data-pat-inject="source: #items; target: #items &&
-                            source: #selector-functions; target: #selector-functions">{{ page.parent }}</a>
+                            data-pat-inject="source: #{{ include.id }}-items; target: #{{ include.id }}-items &&
+                            source: #{{ include.id }}-functions; target: #{{ include.id }}-functions">{{ page.parent }}</a>
                     {% else %}
                         <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                        <form action="./#items" class="pat-inject pat-autosubmit">
+                        <form action="./#{{ include.id }}-items" class="pat-inject pat-autosubmit">
                             <label class="pat-select bare">Group by
                                 <select name="browse-mode">
                                     <option value="folder">folder</option>
@@ -29,24 +28,32 @@
                     {% endif %}
                 {% endif %}
             </div>
-
-            <h2 id="context-title" class="context-title">
-                Some Context
-            </h2>
-
             <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
+        </div>
+    {% endif %}
+    {% if include.mode == "users" and (include.title or include.controls contains 'pull-menu') %}
+        <div class="button-bar functions" id="{{ include.id }}-functions">
+            {% if include.title %}
+                <h3 id="{{ include.id }}-context-title" class="context-title">
+                    {{ include.title }}
+                </h3>
+            {% endif %}
+            {% if include.controls contains 'pull-menu' %}
+                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
+            {% endif %}
+        </div>
+    {% endif %}
 
-        {% endif %}
-    </div>
+    {% if include.fields contains 'search' %}
+        <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#{{ include.id }}-items">
+            <label>
+                <input name="" type="search" placeholder="Search" />
+                <button type="submit">Search</button>
+            </label>
+        </form>
+    {% endif %}
 
-    <form class="search-box pat-inject pat-autosubmit" action="{{ include.searchresult }}#items">
-        <label>
-            <input name="" type="search" placeholder="Search" />
-            <button type="submit">Search</button>
-        </label>
-    </form>
-
-    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: body::after{% endif %}" action="{{ include.action }}" id="items">
+    <form class="search-result {{ include.mode }} {% if include.autosubmit == 'true' %}pat-autosubmit{% endif %} pat-inject" data-pat-inject="{% if include.inject %}{{ include.inject }}{% else %}target: body::after{% endif %}" action="{{ include.action }}" id="{{ include.id }}-items">
         <fieldset class="checklist pat-checklist {{ include.mode }} {{ include.browse-mode }}">
 
             {% if include.mode == "docs" %}
@@ -114,31 +121,72 @@
                 </div>
             {% endif %}
 
+            {% if include.mode == "users" and include.buttons %}
+                <div class="batch-functions">
+                    <div class="button-bar">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        {% if include.controls contains 'pull-menu' %}
+                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Cancel</button>
+                        {% endif %}
+                    </div>
+                    {% if include.buttons contains 'batch-operations' %}
+                        <div class="button-bar">
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="role"
+                                    class="float-before icon-role"
+                                    title="Change role of member">Change role</button>
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="remove"
+                                    class="float-before icon-role"
+                                    title="Remove member or group">Remove</button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
             {% if include.mode == "users" %}
-                {% for user in site.posts %}
-                    {% if user.layout == 'user' %}
-                        <label class="item user">
+                {% for group in site.posts %}
+                    {% if group.layout == 'group' %}
+                        <label class="item user-group has-description">
                             <input name="" type="checkbox" />
-                            <a class="follow">
-                                <img src="{{user.image_url}}" alt="" />
-                                <strong class="title">{{ user.title }}</strong>
+                            <a class="follow pat-inject" href="{{ group.url }}" data-pat-inject="source: #document-body; target: #document-body">
+                                <strong class="title">{{ group.title }}</strong>         
                                 <br>
-                                <dfn class="byline">{{ user.user_role }}</dfn>
+                                <dfn class="byline">25 Members</dfn>
                             </a>
                         </label>
                     {% endif %}
                 {% endfor %}
-
+                {% for user in site.posts %}
+                    {% if user.layout == 'user' %}
+                        <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %}">
+                            <input name="" type="checkbox" />
+                            <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
+                                <img src="{{user.image_url}}" alt="" class="avatar" />
+                                <strong class="title">{{ user.title }}</strong>
+                                {% if user.status %}
+                                    <br>
+                                    <dfn class="byline">{{ user.status }}</dfn>
+                                {% endif %}
+                            </a>
+                        </label>
+                    {% endif %}
+                {% endfor %}
             {% elsif include.mode == "user" %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
-                        <label class="item user">
+                        <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="radio" />
-                            <a class="follow">
-                                <img src="{{user.image_url}}" alt="" />
+                            <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
+                                <img src="{{user.image_url}}" alt="" class="avatar" />
                                 <strong class="title">{{ user.title }}</strong>
                                 <br>
-                                <dfn class="byline">{{ user.user_role }}</dfn>
+                                <dfn class="byline">{{ user.status }}</dfn>
                             </a>
                         </label>
                     {% endif %}
@@ -147,9 +195,9 @@
             {% elsif include.mode == "tags" %}
                 {% for tag in site.data.tags %}
                     {% if tag.suggestion == true %}
-                        <label class="item tag">
+                        <label class="item tag {% if user.description %}has-description{% else %}has-no-description{% endif %}">
                             <input name="" type="checkbox" />
-                            <a class="follow">
+                            <a class="follow" href="{{ tag.url }}">
                               <strong class="title icon-tag">{{ tag.value }}</strong>
                             </a>
                         </label>
@@ -201,8 +249,7 @@
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
                                 <a href="{{ doc.url }}#items" class="follow pat-inject"
                                 data-pat-inject="source: #items; target: #items &&
-                                source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions &&
-                                source: #context-title; target: #context-title"
+                                source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
@@ -238,6 +285,13 @@
                 </label>
             </fieldset>
         </form>
+    {% endif %}
+
+    {% if include.mode == 'users' and include.buttons contains 'add-members' %}
+        <div class="button-bar create-buttons">
+            <a href="/panel-add-user.html#document-content" class="button icon-user-add pat-modal" data-pat-modal="class: large">Add user</a>
+            <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
+        </div>
     {% endif %}
 
     {% if include.mode == 'docs' %}
@@ -287,6 +341,25 @@
                 </li>
             </ul>
         </div>
+    {% endif %}
+
+    {% if include.mode == 'users' and include.controls contains 'pull-menu' %}
+        <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .{{ include.id }}-toggle-select" id="{{ include.id }}-more-menu">
+            <!-- <h3 class="trigger {{ include.id }}-toggle-select">
+                Functions…
+            </h3> -->
+            <ul class="menu">
+                <li>
+                    <a href="/panel-add-user.html#document-content" class="icon-user-add add-user pat-modal" data-pat-modal="class: medium">Add user</a>
+                </li>
+                <li>
+                    {% if include.toggle == 'true' %}
+                        <a class="pat-toggle icon-ok {{ include.id }}-toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
     {% endif %}
 
 </div>
