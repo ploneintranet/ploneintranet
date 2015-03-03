@@ -3,6 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize.view import memoize
 from ...utils import parent_workspace
 
+
 class WorkspaceTabsTile(Tile):
 
     index = ViewPageTemplateFile("templates/workspace-tabs-tile.pt")
@@ -17,4 +18,3 @@ class WorkspaceTabsTile(Tile):
 
     def __call__(self):
         return self.render()
-

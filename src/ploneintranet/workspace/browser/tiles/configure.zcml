@@ -40,7 +40,6 @@
       class=".workspace_tabs.WorkspaceTabsTile"
       permission="zope2.View"
       for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
     <plone:tile
