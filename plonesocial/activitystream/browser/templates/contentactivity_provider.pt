@@ -64,6 +64,17 @@
     </p>
   </section>
 
+  <section class="preview">
+
+      <figure tal:repeat="preview view/previews">
+          <a href="/incredibly-boring-document" tal:attributes="href context/context/absolute_url">
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                    tal:attributes="src preview">
+           </a>
+      </figure>
+
+  </section>
+
   <div class="functions"
        tal:define="portal_state context/context/@@plone_portal_state;"
        tal:condition="not:portal_state/anonymous">

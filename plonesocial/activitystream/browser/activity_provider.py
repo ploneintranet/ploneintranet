@@ -26,9 +26,12 @@ from plonesocial.core.browser.utils import link_users
 try:
     from ploneintranet.attachments.attachments import IAttachmentStoragable
     from ploneintranet.attachments.utils import IAttachmentStorage
-    from ploneintranet.docconv.client import IDocconv
 except ImportError:
     IAttachmentStoragable = None
+try:
+    from ploneintranet.docconv.client.interfaces import IDocconv
+except ImportError:
+    IDocconv = None
 
 
 class AbstractActivityProvider(object):
@@ -138,9 +141,13 @@ class AbstractActivityProvider(object):
     def is_attachment_supported(self):
         return IAttachmentStoragable is not None
 
+    def is_preview_supported(self):
+        return IDocconv is not None
+
     @property
     def attachments(self):
         if (self.is_attachment_supported() and
+                self.is_preview_supported() and
                 IAttachmentStoragable.providedBy(self.context.context)):
             storage = IAttachmentStorage(self.context.context)
             attachments = storage.values()
@@ -153,6 +160,14 @@ class AbstractActivityProvider(object):
                                portal_url=url,
                                status_id=self.context.context.getId(),
                                attachment_id=attachment.getId())
+
+    @property
+    def previews(self):
+        if self.is_preview_supported():
+            docconv = IDocconv(self.context.context)
+            if docconv.has_thumbs():
+                return [self.context.context.absolute_url() +
+                        '/docconv_image_thumb.jpg']
 
     @property
     def raw_date(self):
