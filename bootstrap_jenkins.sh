@@ -1,4 +1,4 @@
-virtualenv --no-site-packages .
+virtualenv --no-site-packages --clear .
 mkdir -p buildout-cache/downloads || exit 1
 #./bin/python bootstrap.py || exit 1
 ./bin/easy_install pip || exit 1
