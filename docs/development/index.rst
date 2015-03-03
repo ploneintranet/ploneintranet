@@ -7,3 +7,4 @@ Developer documentation
 
     forms 
     patterns
+    testing
