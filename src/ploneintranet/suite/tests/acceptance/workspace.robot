@@ -26,8 +26,15 @@ Manager can view sidebar info
     I can go to the sidebar info tile
 
 Manager can view sidebar events
-    given I'm logged in as a 'Manager'
+    given I'm logged in as a 'alice_lindstrom'
     I can go to the sidebar events tile
+    I can see upcoming events
+    Older events are hidden
+
+Manager can delete sidebar events
+    given I'm logged in as a 'alice_lindstrom'
+    I can go to the sidebar events tile
+    I can delete an old event
 
 Manager can view sidebar tasks
     given I'm logged in as a 'Manager'
@@ -131,7 +138,21 @@ I can go to the sidebar info tile
 I can go to the sidebar events tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Events
-    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar events tile']
+    Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
+
+I can see upcoming events
+    Page Should Contain Element  xpath=//a[.='Future Event']
+
+Older events are hidden
+    Element should not be visible  jquery=div#older-events a
+
+I can delete an old event
+    Click Element  css=div#older-events h3
+    Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Simulate  css=div#older-events button[type='submit']  click
+    Wait Until Page Contains  Do you really want to delete this item
+    Click Button  Delete
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee

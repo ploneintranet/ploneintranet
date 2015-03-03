@@ -403,6 +403,8 @@ def testing(context):
     }]
     create_tasks(todos_content)
 
+    now = datetime.now()
+
     # Create workspaces
     workspaces = [
         {'title': 'Open Market Committee',
@@ -425,7 +427,16 @@ def testing(context):
                'type': 'Folder',
                'contents':
                    [{'title': 'Projection Material',
-                     'type': 'File'}]}]},
+                     'type': 'File'}]},
+              {'title': 'Future Event',
+               'type': 'Event',
+               'start': now + timedelta(days=7),
+               'end': now + timedelta(days=14)},
+              {'title': 'Past Event',
+               'type': 'Event',
+               'start': now + timedelta(days=-7),
+               'end': now + timedelta(days=-14)},
+             ]},
         {'title': 'Parliamentary papers guidance',
          'description': '"Parliamentary paper" is a term used to describe a '
                         'document which is laid before Parliament. Most '
@@ -440,7 +451,6 @@ def testing(context):
     create_workspaces(workspaces)
 
     # Create some events
-    now = datetime.now()
     tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
                                                  microsecond=0)
     next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
