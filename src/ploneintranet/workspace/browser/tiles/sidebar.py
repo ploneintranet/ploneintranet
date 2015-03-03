@@ -39,7 +39,7 @@ class Sidebar(BrowserView):
         existing_user_ids = [x['id'] for x in existing_users]
 
         # Only add search results that are not already members
-        sharing = getMultiAdapter((self.context, self.request),
+        sharing = getMultiAdapter((self.my_workspace(), self.request),
                                   name='sharing')
         search_results = sharing.user_search_results()
         users = existing_users + [x for x in search_results
@@ -54,10 +54,13 @@ class Sidebar(BrowserView):
     @memoize
     def existing_users(self):
 
-        members = IWorkspace(self.context).members
+        members = IWorkspace(self.my_workspace()).members
         info = []
         for userid, details in members.items():
-            user = api.user.get(userid).getUser()
+            user = api.user.get(userid)
+            if user is None:
+                continue
+            user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
             info.append(
                 dict(
