@@ -30,28 +30,6 @@ class SidebarSettingsMembers(BaseTile):
 
     index = ViewPageTemplateFile("templates/sidebar-settings-members.pt")
 
-
-class SidebarSettingsSecurity(BaseTile):
-    """ A view to serve as the security settings in the sidebar
-    """
-
-    index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
-
-
-class SidebarSettingsAdvanced(BaseTile):
-    """ A view to serve as the advanced config in the sidebar
-    """
-
-    index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
-
-
-class Sidebar(BaseTile):
-
-    """ A view to serve as a sidebar navigation for workspaces
-    """
-
-    index = ViewPageTemplateFile("templates/sidebar.pt")
-
     def users(self):
         """Get current users and add in any search results.
 
@@ -81,16 +59,27 @@ class Sidebar(BaseTile):
 
         members = IWorkspace(self.my_workspace()).members
         info = []
+        portal = api.portal.get()
+
         for userid, details in members.items():
             user = api.user.get(userid)
             if user is None:
                 continue
             user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
+            # XXX tbd, we don't know what a persons description is, yet
+            description = 'Here we could have a nice status of this person'
+            classes = description and 'has-description' or 'has-no-description'
+            portrait = '%s/portal_memberdata/portraits/%s' % \
+                       (portal.absolute_url(), userid)
+
             info.append(
                 dict(
                     id=userid,
                     title=title,
+                    description=description,
+                    portrait=portrait,
+                    cls=classes,
                     member=True,
                     admin='Admins' in details['groups'],
                 )
@@ -106,6 +95,31 @@ class Sidebar(BaseTile):
             "ploneintranet.workspace: Manage workspace",
             self.context,
         )
+
+
+class SidebarSettingsSecurity(BaseTile):
+    """ A view to serve as the security settings in the sidebar
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
+
+
+class SidebarSettingsAdvanced(BaseTile):
+    """ A view to serve as the advanced config in the sidebar
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
+
+
+class Sidebar(BaseTile):
+
+    """ A view to serve as a sidebar navigation for workspaces
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar.pt")
+
+    def my_workspace(self):
+        return parent_workspace(self)
 
     # ContentItems
 
