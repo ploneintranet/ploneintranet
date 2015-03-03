@@ -305,7 +305,37 @@
     </div>
 
 
-    <div id="workspace-about" tal:define="ws view/my_workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
+    <div id="workspace-settings" tal:define="ws view/my_workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
+        <nav class="navigation tabs">
+            <a href="/open-market-committee/" tal:attributes="href string:${ws/absolute_url}/sidebar.default" class="pat-inject current" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">General</a>
+            <a href="/feedback/workspace-settings-members.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.members" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Members</a>
+            <a href="/feedback/workspace-settings-security.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Security</a>
+            <a href="/feedback/workspace-settings-advanced.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
+        </nav>
+        <div class="tabs-content">
+            <form action="">
+                <fieldset class="vertical">
+                    <label>
+                        Workspace title
+                        <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title" 
+                            tal:attributes="value ws/Title" />
+                    </label>
+                    <label>
+                        Workspace brief description
+                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description">The goal of this project is to integrate CA to ADC product.</textarea>
+                    </label>
+                    <fieldset class="pat-checklist">
+                        <label>
+                            <input type="checkbox" checked> Visible workspace
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Workspace calendar visible in central calendar application
+                        </label>
+                    </fieldset>
+                </fieldset>
+            </form>
+        </div>
+<!--
         <div class="content">
             <p class="message notice description" tal:content="ws/description">The goal of this project is to integrate CA to ADC product.</p>
             <h3>Members</h3>
@@ -335,7 +365,7 @@
             </a>
         </p>
         </tal:admin>
-
+-->
     </div>
 
 

@@ -2,10 +2,10 @@
 <body>
 
 <nav class="navigation workspace-tabs" id="workspace-tabs" tal:define="ws view/workspace">
-    <a class="documents pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-documents" title="Documents">Documents</a> 
-    <a class="events pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-events" title="Events">Events</a> 
-    <a class="todos pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-tasks" title="Tasks">Tasks</a> 
-    <a class="about pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-about" title="Info">Info</a> 
+    <a class="documents pat-switch current" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title="Documents">Documents</a> 
+    <a class="events pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-events" title="Events">Events</a> 
+    <a class="todos pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-tasks" title="Tasks">Tasks</a> 
+    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings" title="Workspace Settings">Workspace Settings and about</a> 
 </nav>
 </body>
 </html>

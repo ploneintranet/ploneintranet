@@ -13,18 +13,44 @@ from Products.CMFCore.utils import _checkPermission as checkPermission
 FOLDERISH_TYPES = ['folder']
 
 
-class Sidebar(BrowserView):
+class BaseTile(BrowserView):
 
-    """ A view to serve as a sidebar navigation for workspaces
-    """
-
-    index = ViewPageTemplateFile("templates/sidebar.pt")
+    index = None
 
     def render(self):
         return self.index()
 
     def __call__(self):
         return self.render()
+
+
+class SidebarSettingsMembers(BaseTile):
+    """ A view to serve as the member roster in the sidebar
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-settings-members.pt")
+
+
+class SidebarSettingsSecurity(BaseTile):
+    """ A view to serve as the security settings in the sidebar
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
+
+
+class SidebarSettingsAdvanced(BaseTile):
+    """ A view to serve as the advanced config in the sidebar
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
+
+
+class Sidebar(BaseTile):
+
+    """ A view to serve as a sidebar navigation for workspaces
+    """
+
+    index = ViewPageTemplateFile("templates/sidebar.pt")
 
     def users(self):
         """Get current users and add in any search results.
