@@ -38,13 +38,15 @@
     "pat-upload": "git://github.com/Patternslib/pat-upload.git",
     "pat-resourcepolling": "git@github.com:ploneintranet/pat-resourcepolling.git",
     "dropzone": "~3.10.2",
-    "requirejs-text": "~2.0.12"
+    "requirejs-text": "~2.0.12",
+    "pat-date-picker": "*"
   },
   "resolutions": {
     "jquery": "1.8.3",
     "select2": "3.4.6",
     "parsleyjs": "1.2",
     "underscore": "~1.7.0",
-    "patternslib": "master"
+    "patternslib": "master",
+    "backbone": "0.9.10"
   }
 }
