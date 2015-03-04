@@ -31,17 +31,18 @@ class TestInstall(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPlonesocialMicroblogLayer', layers)
 
-    def test_cssregistry(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
-
     def test_permissions(self):
         expected = ['Manager', 'Member', 'Site Administrator']
         for permission in PERMISSIONS:
             roles = self.portal.rolesOfPermission(permission)
             roles = [r['name'] for r in roles if r['selected']]
             self.assertListEqual(roles, expected)
+
+    def test_add_folder(self):
+        testfolder = api.content.create(type='Folder',
+                                        title='testfolder',
+                                        container=self.portal)
+        self.assertIn(testfolder.id, self.portal.objectIds())
 
 
 class TestUninstall(unittest.TestCase):
