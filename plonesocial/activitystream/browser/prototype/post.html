@@ -86,11 +86,11 @@
     <div class="comment" tal:repeat="provider reply_providers" tal:replace="structure provider" />
     <div tal:attributes="id string:comment-trail-${thread_id}"></div>
     <tal:define define="
-      view nocall:here/newpostbox.tile;
+      newpostbox_view nocall:here/newpostbox.tile;
       form_id string:comment_box_${thread_id};
       attachment_previews_id string:attachment-previews-${thread_id};
       action string:${here/absolute_url}/@@newpostbox.tile;
-    " >
+    ">
       <metal:block use-macro="here/@@upload.html/main" />
     </tal:define>
   </div>
