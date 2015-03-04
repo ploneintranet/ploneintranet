@@ -143,25 +143,39 @@ class Sidebar(BaseTile):
 
         if self.request.method == "POST" and form:
             ws = self.my_workspace()
+            if self.request.form.get('section', None) == 'task':
+                current_tasks = self.request.form.get('current-tasks', [])
+                active_tasks = self.request.form.get('active-tasks', [])
 
-            if form.get('title') and form.get('title') != ws.title:
-                ws.title = form.get('title').strip()
-                _m('Title changed')
+                catalog = api.portal.get_tool("portal_catalog")
+                brains = catalog(UID={'query': current_tasks, 'operator': 'or'})
+                for brain in brains:
+                    obj = brain.getObject()
+                    todo = ITodo(obj)
+                    if brain.UID in active_tasks:
+                        todo.status = u'done'
+                    else:
+                        todo.status = u'tbd'
+                _m('Changes applied')
+            else:
+                if form.get('title') and form.get('title') != ws.title:
+                    ws.title = form.get('title').strip()
+                    _m('Title changed')
 
-            if form.get('description') and \
-               form.get('description') != ws.description:
-                ws.description = form.get('description').strip()
-                _m('Description changed')
+                if form.get('description') and \
+                   form.get('description') != ws.description:
+                    ws.description = form.get('description').strip()
+                    _m('Description changed')
 
-            workspace_visible = not not form.get('workspace_visible')
-            if workspace_visible != ws.workspace_visible:
-                ws.workspace_visible = workspace_visible
-                _m('Workspace visibility changed')
+                workspace_visible = not not form.get('workspace_visible')
+                if workspace_visible != ws.workspace_visible:
+                    ws.workspace_visible = workspace_visible
+                    _m('Workspace visibility changed')
 
-            calendar_visible = not not form.get('calendar_visible')
-            if calendar_visible != ws.calendar_visible:
-                ws.calendar_visible = calendar_visible
-                _m('Calendar visibility changed')
+                calendar_visible = not not form.get('calendar_visible')
+                if calendar_visible != ws.calendar_visible:
+                    ws.calendar_visible = calendar_visible
+                    _m('Calendar visibility changed')
 
         return self.render()
 
@@ -248,6 +262,7 @@ class Sidebar(BaseTile):
             obj = brain.getObject()
             todo = ITodo(obj)
             data = {
+                'id': brain.UID,
                 'title': brain.Description,
                 'content': brain.Title,
                 'url': brain.getURL(),
