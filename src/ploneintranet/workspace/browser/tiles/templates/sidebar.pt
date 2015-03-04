@@ -305,9 +305,7 @@
           <ul class="cal-events">
             <tal:events repeat="event events/upcoming">
               <metal:event define-macro="eventdetails">
-                <li class="cal-event"
-                    tal:define="extra_classes python:'all-day' if event.getObject().whole_day else ''"
-                    tal:attributes="class string:${attrs/class} ${extra_classes} ">
+                <li class="cal-event">
                   <h4 class="title">
                     <a class="pat-inject"
                        tal:attributes="href string:${event/getURL}#document-body"
@@ -324,7 +322,7 @@
                     <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
                   </ul>
 
-                  <form action="">
+                  <form tal:attributes="action string:${event/getURL}/delete_confirmation">
                     <button class="iconified icon-trash" type="submit">Delete event</button>
                   </form>
                 </li>
