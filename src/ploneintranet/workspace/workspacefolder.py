@@ -19,6 +19,11 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
         required=False,
         default=True,
     )
+    calendar_visible = schema.Bool(
+        title=u"Calendar visible in central calendar",
+        required=False,
+        default=False,
+    )
 
 
 class WorkspaceFolder(Container):

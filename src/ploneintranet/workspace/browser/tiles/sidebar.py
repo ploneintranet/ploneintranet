@@ -156,6 +156,11 @@ class Sidebar(BaseTile):
                 ws.workspace_visible = workspace_visible
                 _m('Workspace visibility changed')
 
+            calendar_visible = not not form.get('calendar_visible')
+            if calendar_visible != ws.calendar_visible:
+                ws.calendar_visible = calendar_visible
+                _m('Calendar visibility changed')
+
         return self.render()
 
     def my_workspace(self):
