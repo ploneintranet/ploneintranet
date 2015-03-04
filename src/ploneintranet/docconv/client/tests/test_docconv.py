@@ -28,7 +28,8 @@ class TestDocconvLocal(IntegrationTestCase):
         alsoProvides(self.request, IPloneintranetDocconvClientLayer)
         setRoles(portal, TEST_USER_ID, ('Manager',))
 
-        # temporarily disable event handler
+        # temporarily disable event handler so that we can test objects without
+        # previews
         from ploneintranet.docconv.client import handlers
         _update_preview_images = handlers._update_preview_images
         handlers._update_preview_images = lambda obj, event: None
@@ -157,6 +158,7 @@ class TestDocconvRemote(TestDocconvLocal):
                                     'Test_Document.zip')
             zipfile = open(test_zip, 'r')
             data = zipfile.read()
+            data = self.unpack_zipdata(data)
             zipfile.close()
             return data
         self._convert_on_server = BasePreviewFetcher.convert_on_server

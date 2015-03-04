@@ -32,13 +32,7 @@ from ploneintranet.docconv.client.config import (
 from ploneintranet.docconv.client.exceptions import ServerError
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.interfaces import IPreviewFetcher
-
-try:
-    from slc.docconv.convert import docsplit
-    from slc.docconv.convert import GlobalSettings
-    from slc.docconv.convert import DUMP_FILENAME
-except ImportError:
-    docsplit = None
+from slc.docconv.convert import convert_to_raw
 
 logger = getLogger(__name__)
 
@@ -107,7 +101,7 @@ Content-Type: %(mime)s
         datatype, payload = self.getPayload()
 
         try:
-            resp_data = self.convert_on_server(payload, datatype)
+            converted = self.convert_on_server(payload, datatype)
         except ServerError as e:
             if e.args and e.args[0].startswith("Error connecting"):
                 annotations[PREVIEW_MESSAGE_KEY] = 'Could not contact conversion server'
@@ -115,9 +109,38 @@ Content-Type: %(mime)s
                 annotations[PREVIEW_MESSAGE_KEY] = 'Sorry, this document type cannot be converted. There is no preview available.'
             return
         except ConfigError:
-            resp_data = self.convert_locally(payload, datatype)
+            converted = self.convert_locally(payload, datatype)
 
-        stream = BytesIO(resp_data)
+        pdfdata = FileField()
+        pdfdata.set(self.context, converted['pdfs'][0])
+        previewdata = []
+        thumbdata = []
+        for filedata in converted['previews'][:20]:
+            IF = ImageField()
+            IF.set(self.context, filedata)
+            previewdata.append(IF)
+        for filedata in converted['thumbnails'][:20]:
+            IF = ImageField()
+            IF.set(self.context, filedata)
+            thumbdata.append(IF)
+
+        annotations[PDF_VERSION_KEY] = pdfdata
+        annotations[PREVIEW_IMAGES_KEY] = previewdata
+        annotations[THUMBNAIL_KEY] = thumbdata
+
+    def convert_locally(self, payload, datatype):
+        try:
+            converted = convert_to_raw(
+                self.context.getId(), payload, datatype)
+        except IOError as e:
+            if 'docsplit not found' in e:
+                raise ConfigError("docsplit is not available")
+            else:
+                raise e
+        return converted
+
+    def unpack_zipdata(self, zipdata):
+        stream = BytesIO(zipdata)
         fzip = ZipFile(stream)
         pdfs = [x.filename for x in fzip.filelist
                 if x.filename.endswith('.pdf')]
@@ -125,8 +148,6 @@ Content-Type: %(mime)s
             raise ServerError(
                 'Conversion returned zip containing no pdf files')
 
-        pdfdata = FileField()
-        pdfdata.set(self.context, fzip.read(pdfs[0]))
         thumbnails = sorted(
             [x.filename for x in fzip.filelist
                 if x.filename.startswith('small/') and x.filename != 'small/'],
@@ -135,85 +156,14 @@ Content-Type: %(mime)s
             [x.filename for x in fzip.filelist
                 if x.filename.startswith('large/') and x.filename != 'large/'],
             key=lambda x: int(x.split('.')[0].split('_')[-1]))
-        previewdata = []
-        thumbdata = []
-        for filename in previews[:20]:
-            IF = ImageField()
-            IF.set(self.context, fzip.read(filename))
-            previewdata.append(IF)
-        for filename in thumbnails[:20]:
-            IF = ImageField()
-            IF.set(self.context, fzip.read(filename))
-            thumbdata.append(IF)
+        converted = {
+            'pdfs': [fzip.read(pdfs[0])],
+            'thumbnails': [fzip.read(filename) for filename in thumbnails[:20]],
+            'previews': [fzip.read(filename) for filename in previews[:20]],
+        }
         fzip.close()
         stream.close()
-
-        annotations[PDF_VERSION_KEY] = pdfdata
-        annotations[PREVIEW_IMAGES_KEY] = previewdata
-        annotations[THUMBNAIL_KEY] = thumbdata
-
-    def convert_locally(self, payload, datatype):
-        if docsplit is not None:
-            gsettings = GlobalSettings(self.context)
-            filename_base = self.context.getId()
-            if '.' in filename_base:
-                filename_base = '.'.join(filename_base.split('.')[:-1])
-            storage_dir = path.join(
-                gsettings.storage_location, filename_base)
-            # Handle Document?
-            filename_dump = path.join(gsettings.storage_location, filename_base)
-            if filename_dump.endswith(filename_base):
-                filename_dump = '.'.join([filename_dump, 'dat'])
-            filename_pdf = path.join(storage_dir, 'converted.pdf') #'.'.join((filename_base, 'pdf')))
-
-            if not path.exists(storage_dir):
-                from collective.documentviewer.utils import mkdir_p
-                mkdir_p(storage_dir)
-            if path.exists(filename_dump):
-                remove(filename_dump)
-
-            fi = open(filename_dump, 'wb')
-            fi.write(payload)
-            fi.close()
-
-            if 'pdf' in datatype:
-                shutil.move(filename_dump, filename_pdf)
-            else:
-                if path.exists(path.join(storage_dir, DUMP_FILENAME)):
-                    remove(path.join(storage_dir, DUMP_FILENAME))
-                docsplit.convert_to_pdf(filename_dump, filename_dump, storage_dir)
-                shutil.move(path.join(storage_dir, DUMP_FILENAME), filename_pdf)
-
-            args = dict(
-                sizes=(('large', gsettings.large_size),
-                       ('normal', gsettings.normal_size),
-                       ('small', gsettings.thumb_size)),
-                ocr=gsettings.ocr,
-                detect_text=gsettings.detect_text,
-                format=gsettings.pdf_image_format,
-                converttopdf=False,
-                filename=filename_base,
-                inputfilepath=filename_pdf)
-            docsplit.convert(storage_dir, **args)
-
-            stream = BytesIO()
-            zipped = ZipFile(stream, 'w')
-            for entry in walk(storage_dir):
-                relpath = path.relpath(entry[0], storage_dir)
-                if not entry[0] == storage_dir:
-                    # if it's not the top dir we want to add it
-                    zipped.write(entry[0], relpath.encode('CP437'))
-                # we always want to add the contained files
-                for filename in entry[2]:
-                    relative = path.join(relpath, filename)
-                    zipped.write(path.join(entry[0], filename), relative)
-            zipped.close()
-            resp_data = stream.getvalue()
-            stream.close()
-            shutil.rmtree(storage_dir)
-            return resp_data
-        else:
-            raise ConfigError("docsplit is not available")
+        return converted
 
     def convert_on_server(self, payload, datatype):
         docconv_url = get_server_url()
@@ -259,8 +209,11 @@ Content-Type: %(mime)s
         if not resp.status == 200:
             raise ServerError('Conversion returned {0}: {1}'.format(
                 resp.status, resp.reason))
-        data = resp.read()
+        zipdata = resp.read()
         conn.close()
+
+        data = self.unpack_zipdata(zipdata)
+
         return data
 
 
