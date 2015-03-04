@@ -39,7 +39,7 @@ class NavigationTile(Tile):
             root = api.content.get(UID=root)
         else:
             root = self.context
-        queryBuilder = WorkspaceQueryBuilder(self.context, root)
+        query_builder = WorkspaceQueryBuilder(self.context, root)
         strategy = getMultiAdapter((self.context, None), INavtreeStrategy)
         strategy.showAllParents = False
         strategy.rootPath = '/'.join(root.getPhysicalPath())
@@ -47,7 +47,7 @@ class NavigationTile(Tile):
         tree = buildFolderTree(
             self.context,
             obj=self.context,
-            query=queryBuilder(),
+            query=query_builder(),
             strategy=strategy
         )
         return tree['children']
