@@ -5,8 +5,35 @@
       >
 <body>
 
-<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/post.html -->
+<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/comment.html -->
 
+    <metal:macro define-macro="main">
+        <div class="comment">
+            <div class="comment-header">
+                <a href="user" tal:attributes="href provider/author_home_url">
+                    <img class="pat-avatar" alt="" tal:attributes="src provider/user_portrait/absolute_url" />
+                    <h4 class="name" tal:content="provider/Creator">
+                        User Name
+                    </h4>
+                    <time class="date" tal:content="provider/date">1 hour ago</time>
+                </a>
+            </div>
+            <section class="comment-content" tal:content="structure provider/getText">
+                <p>
+                    The text of the comment
+                </p>
+            </section>
 
+            <section class="preview">
+                <figure tal:repeat="attachment provider/attachments">
+                    <a href="/incredibly-boring-document" tal:attributes="href attachment">
+                        <img alt="" src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}/thumb" />
+                    </a>
+                </figure>
+            </section>
+
+        </div>
+
+    </metal:macro>
 </body>
 </html>
