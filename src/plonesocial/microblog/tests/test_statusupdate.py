@@ -4,7 +4,7 @@ from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.interface.verify import verifyClass
 from zope.interface import implements
 
-from plone.app.testing import TEST_USER_ID, setRoles, TEST_USER_NAME
+from plone.app.testing import TEST_USER_ID, setRoles
 from plone import api
 
 from plonesocial.microblog.testing import\

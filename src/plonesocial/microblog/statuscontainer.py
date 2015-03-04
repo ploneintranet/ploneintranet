@@ -89,7 +89,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._uuid_mapping = OOBTree.OOBTree()
         # index by thread (string UUID) -> (object TreeSet(long statusid))
         self._threadid_mapping = OOBTree.OOBTree()
-        # index by user mentions (string UUID) -> (object TreeSet(long statusid))
+        # index by mentions (string UUID) -> (object TreeSet(long statusid))
         self._mentions_mapping = OOBTree.OOBTree()
 
     def add(self, status, context=None):
@@ -172,7 +172,6 @@ class BaseStatusContainer(Persistent, Explicit):
             # create tag treeset if not already present
             self._mentions_mapping.insert(mention, LLBTree.LLTreeSet())
             self._mentions_mapping[mention].insert(status.id)
-
 
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
@@ -298,7 +297,8 @@ class BaseStatusContainer(Persistent, Explicit):
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
-                     min=None, max=None, limit=100, tag=None, nested=True, mention=None):
+                     min=None, max=None, limit=100,
+                     tag=None, nested=True, mention=None):
         self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
@@ -339,7 +339,9 @@ class BaseStatusContainer(Persistent, Explicit):
         return ((key, self.get(key)) for key
                 in self.mention_keys(mentions, min, max, limit, tag))
 
-    def mention_values(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_values(self, mentions,
+                       min=None, max=None, limit=100,
+                       tag=None):
         return (self.get(key) for key
                 in self.mention_keys(mentions, min, max, limit, tag))
 

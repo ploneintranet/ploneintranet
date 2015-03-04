@@ -60,13 +60,23 @@ class TestMicroblogRequestSubscriber(unittest.TestCase):
         # time to commit the statuses.
         time.sleep(2)
         self.assertEqual(len(request_subscriber.messages), 10)
-        self.assertIn(('Test 1', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 2', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 3', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 4', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 5', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 6', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 7', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 8', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 9', portal_request.getURL()), request_subscriber.messages)
-        self.assertIn(('Test 10', portal_request.getURL()), request_subscriber.messages)
+        self.assertIn(('Test 1', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 2', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 3', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 4', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 5', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 6', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 7', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 8', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 9', portal_request.getURL()),
+                      request_subscriber.messages)
+        self.assertIn(('Test 10', portal_request.getURL()),
+                      request_subscriber.messages)
