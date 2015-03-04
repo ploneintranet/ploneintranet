@@ -91,8 +91,10 @@
   </div>
 
   <div class="comments" tal:define="reply_providers activity_provider/reply_providers|nothing" tal:condition="reply_providers">
-    <div tal:attributes="id string:comment-trail-${thread_id}" tal:repeat="provider reply_providers">
-      <metal:block use-macro="here/@@comment.html/main" />
+    <div tal:attributes="id string:comment-trail-${thread_id}">
+      <tal:loop tal:repeat="provider reply_providers">
+        <metal:block use-macro="here/@@comment.html/main" />
+      </tal:loop>
     </div>
     <tal:define define="
       newpostbox_view nocall:here/newpostbox.tile;
