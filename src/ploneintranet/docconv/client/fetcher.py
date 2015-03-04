@@ -5,7 +5,6 @@ import string
 from io import BytesIO
 from logging import getLogger
 from os import path
-from os import remove
 from os import walk
 from urllib2 import urlparse
 from zipfile import ZipFile
