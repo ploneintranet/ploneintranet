@@ -25,13 +25,13 @@ Manager can view sidebar info
     given I'm logged in as a 'Manager'
     I can go to the sidebar info tile
 
-Manager can view sidebar events
+Alice can view sidebar events
     given I'm logged in as a 'alice_lindstrom'
     I can go to the sidebar events tile
     I can see upcoming events
     Older events are hidden
 
-Manager can delete sidebar events
+Alice can delete sidebar events
     given I'm logged in as a 'alice_lindstrom'
     I can go to the sidebar events tile
     I can delete an old event
