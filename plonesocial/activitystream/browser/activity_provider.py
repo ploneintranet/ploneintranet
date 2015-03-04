@@ -227,9 +227,6 @@ class StatusActivityProvider(AbstractActivityProvider):
         provider.update()
         return provider()
 
-    def replies(self):
-        return self.context.replies()
-
     def reply_providers(self):
         name = "plonesocial.activitystream.statusactivityinlinereply_provider"
         for reply in self.context.replies():

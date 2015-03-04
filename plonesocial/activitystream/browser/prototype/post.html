@@ -90,9 +90,9 @@
     </form>
   </div>
 
-  <div class="comments" tal:define="replies activity_provider/replies|nothing">
+  <div class="comments" tal:define="reply_providers activity_provider/reply_providers|nothing">
     <div tal:attributes="id string:comment-trail-${thread_id}">
-      <tal:loop tal:repeat="reply python:replies or []">
+      <tal:loop tal:repeat="provider reply_providers">
         <metal:block use-macro="here/@@comment.html/main" />
       </tal:loop>
     </div>
