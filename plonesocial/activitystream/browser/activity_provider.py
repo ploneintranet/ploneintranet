@@ -184,6 +184,10 @@ class AbstractActivityProvider(object):
     def Title(self):
         return self.title
 
+    @property
+    def placeholder(self):
+        return u"Leave a comment..."
+
     def get_toggle_like_view(self):
         portal = api.portal.get()
         toggle_like_base = portal.restrictedTraverse('toggle_like')

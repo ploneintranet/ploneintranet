@@ -102,6 +102,7 @@
           form_id string:comment_box_${thread_id};
           attachment_previews_id string:attachment-previews-${thread_id};
           action string:${here/absolute_url}/@@newpostbox.tile;
+          placeholder activity_provider/placeholder;
         ">
           <metal:block use-macro="here/@@upload.html/main" />
         </tal:define>
