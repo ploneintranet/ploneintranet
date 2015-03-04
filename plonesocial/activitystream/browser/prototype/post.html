@@ -10,15 +10,23 @@
 
 <div i18n:domain="plonesocial.activitystream"
      tal:define="
+         portal_url here/portal_url;
          thread_id activity_provider/status_id|nothing;
-         render_type activity_provider/render_type|nothing;
-         class python: 'post %s item' % (render_type or '');
          id python: thread_id and ('post-%s' % thread_id) or None;
      "
-     tal:attributes="id id; class class">
+     class="post item"
+     tal:attributes="id id">
   <div class="post-header">
-    <a href="" class="creator" tal:condition="activity_provider/Creator" tal:attributes="href activity_provider/author_home_url">
-      <img class="pat-avatar" tal:attributes="src activity_provider/user_portrait/absolute_url" />
+    <a tal:define="
+        userid activity_provider/userid;
+        avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
+        avatar_name activity_provider/Creator;
+      "
+      tal:condition="userid"
+      tal:attributes="
+        href string:${portal_url}/author/${userid};
+      ">
+      <metal:block use-macro="here/@@avatar.html/main" />
       <h4 tal:content="activity_provider/Creator" class="name">
         Poster Name
       </h4>
