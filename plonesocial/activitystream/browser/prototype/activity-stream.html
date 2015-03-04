@@ -7,10 +7,12 @@
 
   <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/activity-stream.html -->
   <metal:macro define-macro="main">
-    <tal:loop tal:repeat="activity_provider view/activity_providers">
-      <metal:block use-macro="here/@@post.html/main" />
+    <tal:loop tal:repeat="activity view/activity_providers">
+      <tal:define define="activity_provider python:view.get_activity_provider(activity)">
+        <metal:block use-macro="here/@@post.html/main" />
+      </tal:define>
     </tal:loop>
   </metal:macro>
-  
+
 </body>
 </html
