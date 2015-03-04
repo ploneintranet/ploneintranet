@@ -1,14 +1,17 @@
 from mock import Mock
 from Testing.makerequest import makerequest
+from collective.documentviewer.settings import GlobalSettings
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
+from tempfile import mkdtemp
 from zope import event
 from zope.component import getAdapter
 from zope.interface import alsoProvides
 from zope.traversing.interfaces import BeforeTraverseEvent
 import os
+import shutil
 
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.docconv.client.interfaces import IPloneintranetDocconvClientLayer
@@ -27,6 +30,10 @@ class TestDocconvLocal(IntegrationTestCase):
         self.request = portal.REQUEST
         alsoProvides(self.request, IPloneintranetDocconvClientLayer)
         setRoles(portal, TEST_USER_ID, ('Manager',))
+
+        gsettings = GlobalSettings(portal)
+        self.storage_dir = mkdtemp()
+        gsettings.storage_location = self.storage_dir
 
         # temporarily disable event handler so that we can test objects without
         # previews
@@ -55,6 +62,7 @@ class TestDocconvLocal(IntegrationTestCase):
     def tearDown(self):
         api.content.delete(self.testfile)
         api.content.delete(self.workspace)
+        shutil.rmtree(self.storage_dir)
 
     def test_docconv_adapter_on_new_object(self):
         docconv = IDocconv(self.testfile)
