@@ -57,7 +57,7 @@ class TestSidebar(BaseTestCase):
 
         urls = [x['url'] for x in children]
         self.assertIn('http://nohost/plone/example-workspace/myfolder/'
-                      '@@sidebar.default#items',
+                      '@@sidebar.default#workspace-documents',
                       urls,
                       "Folder with that url not found in sidebar navigation")
         classes = [x['cls'] for x in children]
