@@ -38,6 +38,9 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
+    def my_workspace(self):
+        return parent_workspace(self)
+
 
 class SidebarSettingsMembers(BaseTile):
     """ A view to serve as the member roster in the sidebar
@@ -125,6 +128,21 @@ class SidebarSettingsAdvanced(BaseTile):
 
     index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
 
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        form = self.request.form
+
+        if self.request.method == "POST" and form:
+            ws = self.my_workspace()
+
+            if form.get('email') and form.get('email') != ws.email:
+                ws.email = form.get('email').strip()
+                IStatusMessage(self.request) \
+                    .addStatusMessage('Email changed', 'success')
+
+        return self.render()
+
 
 class Sidebar(BaseTile):
 
@@ -137,9 +155,6 @@ class Sidebar(BaseTile):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
-
-        def _m(m, t='success'):
-            IStatusMessage(self.request).addStatusMessage(m, t)
 
         if self.request.method == "POST" and form:
             ws = self.my_workspace()
@@ -156,31 +171,34 @@ class Sidebar(BaseTile):
                         todo.status = u'done'
                     else:
                         todo.status = u'tbd'
-                _m('Changes applied')
+                IStatusMessage(self.request) \
+                    .addStatusMessage('Changes applied', 'success')
             else:
                 if form.get('title') and form.get('title') != ws.title:
                     ws.title = form.get('title').strip()
-                    _m('Title changed')
+                    IStatusMessage(self.request) \
+                        .addStatusMessage('Title changed', 'success')
 
                 if form.get('description') and \
                    form.get('description') != ws.description:
                     ws.description = form.get('description').strip()
-                    _m('Description changed')
+                    IStatusMessage(self.request) \
+                        .addStatusMessage('Description changed', 'success')
 
                 workspace_visible = not not form.get('workspace_visible')
                 if workspace_visible != ws.workspace_visible:
                     ws.workspace_visible = workspace_visible
-                    _m('Workspace visibility changed')
+                    IStatusMessage(self.request) \
+                        .addStatusMessage('Workspace visibility changed',
+                                          'success')
 
                 calendar_visible = not not form.get('calendar_visible')
                 if calendar_visible != ws.calendar_visible:
                     ws.calendar_visible = calendar_visible
-                    _m('Calendar visibility changed')
+                    IStatusMessage(self.request) \
+                        .addStatusMessage('Calendar visibility changed', 'success')
 
         return self.render()
-
-    def my_workspace(self):
-        return parent_workspace(self)
 
     # ContentItems
 

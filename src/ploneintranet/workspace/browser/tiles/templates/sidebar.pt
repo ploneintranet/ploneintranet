@@ -380,7 +380,7 @@
             <a href="/feedback/workspace-settings-advanced.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
         </nav>
         <div class="tabs-content">
-            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
+            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #document-content::before; source: .sidebar-status-message">
                 <fieldset class="vertical">
                     <label>
                         Workspace title
