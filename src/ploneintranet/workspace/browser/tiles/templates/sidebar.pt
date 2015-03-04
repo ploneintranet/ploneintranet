@@ -1,6 +1,6 @@
 <html>
 <body>
-<aside class="sidebar left tagging-off" id="sidebar">
+<aside class="sidebar left tagging-off" id="sidebar" >
 
   <div hidden id="more-menu">
     <ul class="menu">
@@ -41,10 +41,6 @@
                         </label>
                     </form>
                 </div>
-
-                <h2 id="context-title" class="context-title">
-                    Some Context
-                </h2>
 
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
             </div>
@@ -317,8 +313,51 @@
         </tal:tasks>
     </div>
 
-    <div id="workspace-events">
-      <h1>Placeholder for the sidebar events tile</h1>
+    <div id="workspace-events" tal:define="events view/events">
+      <div class="content">
+
+        <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+          <h3>Upcoming events</h3>
+
+          <ul class="cal-events">
+            <tal:events repeat="event events/upcoming">
+              <metal:event define-macro="eventdetails">
+                <li class="cal-event">
+                  <h4 class="title">
+                    <a class="pat-inject"
+                       tal:attributes="href string:${event/getURL}#document-body"
+                       tal:content="event/Title"/>
+                  </h4>
+
+                  <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="Description" />
+
+                  <ul class="details">
+                    <li>Starts <time class="start"
+                    tal:attributes="datetime event/start"
+                    tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
+
+                    <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
+                  </ul>
+
+                  <form tal:attributes="action string:${event/getURL}/delete_confirmation">
+                    <button class="iconified icon-trash" type="submit">Delete event</button>
+                  </form>
+                </li>
+              </metal:event>
+            </tal:events>
+          </ul>
+        </div>
+
+        <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+          <h3>Older events</h3>
+
+          <ul class="cal-events">
+            <tal:events repeat="event events/older">
+              <metal:event use-macro="template/macros/eventdetails" />
+            </tal:events>
+          </ul>
+        </div>
+      </div>
     </div>
 
 
@@ -330,37 +369,38 @@
             <a href="/feedback/workspace-settings-advanced.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
         </nav>
         <div class="tabs-content">
-            <form action="">
+            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
                 <fieldset class="vertical">
                     <label>
                         Workspace title
-                        <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title"
-                            tal:attributes="value ws/Title" />
+                        <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title" data-pat-autosubmit="delay: defocus"
+                            tal:attributes="value ws/Title" name="title" />
                     </label>
                     <label>
                         Workspace brief description
-                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description">The goal of this project is to integrate CA to ADC product.</textarea>
+                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description" name="description" data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
                     <fieldset class="pat-checklist">
                         <label>
-                            <input type="checkbox" checked> Visible workspace
+                            <input type="checkbox" name="workspace_visible" tal:attributes="checked python:ws.workspace_visible == True and 'checked' or ''" data-pat-autosubmit="delay: 100ms"> Visible workspace
                         </label>
                         <label>
-                            <input type="checkbox" checked> Workspace calendar visible in central calendar application
+                            <input type="checkbox" name="calendar_visible" tal:attributes="checked python:ws.calendar_visible == True and 'checked' or ''" data-pat-autosubmit="delay: 100ms"> Workspace calendar visible in central calendar application
                         </label>
                     </fieldset>
                 </fieldset>
             </form>
         </div>
-
     </div>
-
-
   </div>
 
-
-
-
+    <tal:messages define="status_messages view/status_messages" condition="status_messages" repeat="message status_messages">
+    <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
+        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
+            Something good happened
+        </p>
+    </article>
+    </tal:messages>
 </aside>
 
 </body>

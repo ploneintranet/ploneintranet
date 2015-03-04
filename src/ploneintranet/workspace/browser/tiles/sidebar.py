@@ -5,12 +5,16 @@ from ploneintranet.workspace.utils import parent_workspace
 from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
+from plone.i18n.normalizer import idnormalizer
 from collective.workspace.interfaces import IWorkspace
+from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
+from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from Products.CMFCore.utils import getToolByName
 from ploneintranet.todo.behaviors import ITodo
+from Products.statusmessages.interfaces import IStatusMessage
 
 FOLDERISH_TYPES = ['folder']
 
@@ -24,6 +28,15 @@ class BaseTile(BrowserView):
 
     def __call__(self):
         return self.render()
+
+    def status_messages(self):
+        """ Returns status messages if any
+        """
+        messages = IStatusMessage(self.request)
+        m = messages.show()
+        for item in m:
+            item.id = idnormalizer.normalize(item.message)
+        return m
 
 
 class SidebarSettingsMembers(BaseTile):
@@ -120,6 +133,38 @@ class Sidebar(BaseTile):
 
     index = ViewPageTemplateFile("templates/sidebar.pt")
 
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        form = self.request.form
+
+        def _m(m, t='success'):
+            IStatusMessage(self.request).addStatusMessage(m, t)
+
+        if self.request.method == "POST" and form:
+            ws = self.my_workspace()
+
+            if form.get('title') and form.get('title') != ws.title:
+                ws.title = form.get('title').strip()
+                _m('Title changed')
+
+            if form.get('description') and \
+               form.get('description') != ws.description:
+                ws.description = form.get('description').strip()
+                _m('Description changed')
+
+            workspace_visible = not not form.get('workspace_visible')
+            if workspace_visible != ws.workspace_visible:
+                ws.workspace_visible = workspace_visible
+                _m('Workspace visibility changed')
+
+            calendar_visible = not not form.get('calendar_visible')
+            if calendar_visible != ws.calendar_visible:
+                ws.calendar_visible = calendar_visible
+                _m('Calendar visibility changed')
+
+        return self.render()
+
     def my_workspace(self):
         return parent_workspace(self)
 
@@ -210,3 +255,24 @@ class Sidebar(BaseTile):
             }
             items.append(data)
         return items
+
+    def events(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        workspace = parent_workspace(self.context)
+        workspace_path = '/'.join(workspace.getPhysicalPath())
+        now = DateTime()
+
+        # Current and future events
+        upcoming_events = catalog.searchResults(
+            object_provides=IEvent.__identifier__,
+            path=workspace_path,
+            start={'query': (now), 'range': 'min'},
+        )
+
+        # Events which have finished
+        older_events = catalog.searchResults(
+            object_provides=IEvent.__identifier__,
+            path=workspace_path,
+            end={'query': (now), 'range': 'max'},
+        )
+        return {"upcoming": upcoming_events, "older": older_events}
