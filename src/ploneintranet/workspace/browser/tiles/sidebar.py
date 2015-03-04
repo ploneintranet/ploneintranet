@@ -9,6 +9,8 @@ from collective.workspace.interfaces import IWorkspace
 from plone.memoize.instance import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
+from Products.CMFCore.utils import getToolByName
+from ploneintranet.todo.behaviors import ITodo
 
 FOLDERISH_TYPES = ['folder']
 
@@ -189,4 +191,22 @@ class Sidebar(BaseTile):
                 'type': TYPE_MAP.get(item['portal_type'], 'none'),
                 'mime-type': mime_type,
                 'dpi': dpi})
+        return items
+
+    def tasks(self):
+        items = []
+        catalog = getToolByName(self.context, name="portal_catalog")
+        current_path = '/'.join(self.context.getPhysicalPath())
+        ptype = 'simpletodo'
+        brains = catalog(path=current_path, portal_type=ptype)
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            data = {
+                'title': brain.Description,
+                'content': brain.Title,
+                'url': brain.getURL(),
+                'checked': todo.status == u'done' and True or False
+            }
+            items.append(data)
         return items
