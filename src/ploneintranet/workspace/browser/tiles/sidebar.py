@@ -36,9 +36,6 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
-    def make_id(self, text):
-        return idnormalizer(text)
-
 
 class SidebarSettingsMembers(BaseTile):
     """ A view to serve as the member roster in the sidebar
