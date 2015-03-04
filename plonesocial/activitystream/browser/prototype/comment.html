@@ -16,14 +16,14 @@
                        userid provider/userid;
                        avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
                        avatar_name userid;
-                       tlt nocall:here/@@plone/toLocalizedTime;
+                       toLocalizedTime nocall:toLocalizedTime|here/@@plone/toLocalizedTime;
                    "
                    >
                     <metal:block use-macro="here/@@avatar.html/main" />
                     <h4 class="name" tal:content="string:${provider/Creator}">
                         User Name
                     </h4>
-                    <time class="date" tal:content="python:tlt(provider.date)">1 hour ago</time>
+                    <time class="date" tal:content="python:toLocalizedTime(provider.date)">1 hour ago</time>
                 </a>
             </div>
             <section class="comment-content" tal:content="structure provider/text">
