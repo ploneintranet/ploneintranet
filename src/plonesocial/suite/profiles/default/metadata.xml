@@ -7,6 +7,5 @@
     <dependency>profile-plonesocial.network:default</dependency>
     <dependency>profile-plonesocial.messaging:default</dependency>
     <dependency>profile-plonesocial.core:default</dependency>
-    <dependency>profile-plonesocial.theme:default</dependency>
   </dependencies>
 </metadata>

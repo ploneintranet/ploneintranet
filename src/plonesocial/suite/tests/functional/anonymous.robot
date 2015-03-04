@@ -17,9 +17,7 @@ Home view
     Element should be visible  css=.post.item
     Page should contain link  link=Public Document
     Click link   link=Public Document
-    Element should be visible  css=div.reply form input.standalone
-    Click button  css=div.reply form input.standalone
-    Page should contain  Forgot your password?
+
 
       
 
