@@ -1,9 +1,9 @@
-from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace.utils import my_workspaces
+
 
 class Workspaces(BrowserView):
 
@@ -11,7 +11,7 @@ class Workspaces(BrowserView):
     """
 
     """ The tiles below are dummy tiles.
-         Please do NOT implement "real" tiles here, put them in another package.
+         Please do NOT implement real tiles here, put them in another package.
          We want to keep the theme simple and devoid of business logic
     """
     @memoize
@@ -20,8 +20,10 @@ class Workspaces(BrowserView):
         '''
         return my_workspaces(self.context)
 
+
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
+
 
 class WorkspaceTabsTile(Tile):
 
