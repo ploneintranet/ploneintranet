@@ -354,20 +354,20 @@
             <a href="/feedback/workspace-settings-advanced.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
         </nav>
         <div class="tabs-content">
-            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message" data-pat-autosubmit="delay: defocus">
+            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
                 <fieldset class="vertical">
                     <label>
                         Workspace title
-                        <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title" 
+                        <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title" data-pat-autosubmit="delay: defocus"
                             tal:attributes="value ws/Title" name="title" />
                     </label>
                     <label>
                         Workspace brief description
-                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description" name="description">The goal of this project is to integrate CA to ADC product.</textarea>
+                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description" name="description" data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
                     <fieldset class="pat-checklist">
                         <label>
-                            <input type="checkbox" name="workspace_visible"> Visible workspace
+                            <input type="checkbox" name="workspace_visible" tal:attributes="checked python:ws.workspace_visible == True and 'checked' or ''" data-pat-autosubmit="delay: 100ms"> Visible workspace
                         </label>
                         <label>
                             <input type="checkbox" name="calendar_visible"> Workspace calendar visible in central calendar application

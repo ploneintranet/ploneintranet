@@ -151,6 +151,11 @@ class Sidebar(BaseTile):
                 ws.description = form.get('description').strip()
                 _m('Description changed')
 
+            workspace_visible = not not form.get('workspace_visible')
+            if workspace_visible != ws.workspace_visible:
+                ws.workspace_visible = workspace_visible
+                _m('Workspace visibility changed')
+
         return self.render()
 
     def my_workspace(self):

@@ -4,6 +4,7 @@ from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
+from zope import schema
 from zope.event import notify
 
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
@@ -13,6 +14,11 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
     Interface for WorkspaceFolder
     """
+    workspace_visible = schema.Bool(
+        title=u"Visible Workspace",
+        required=False,
+        default=True,
+    )
 
 
 class WorkspaceFolder(Container):
