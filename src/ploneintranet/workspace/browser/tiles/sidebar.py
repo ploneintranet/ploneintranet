@@ -12,7 +12,6 @@ from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
-from Products.CMFCore.utils import getToolByName
 from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 from ploneintranet.workspace import MessageFactory as _
@@ -139,8 +138,9 @@ class SidebarSettingsAdvanced(BaseTile):
 
             if form.get('email') and form.get('email') != ws.email:
                 ws.email = form.get('email').strip()
-                IStatusMessage(self.request) \
-                    .addStatusMessage(_(u'Email changed'), 'success')
+                api.portal.show_message(_(u'Email changed'),
+                                        self.request,
+                                        'success')
 
         return self.render()
 
@@ -164,7 +164,8 @@ class Sidebar(BaseTile):
                 active_tasks = self.request.form.get('active-tasks', [])
 
                 catalog = api.portal.get_tool("portal_catalog")
-                brains = catalog(UID={'query': current_tasks, 'operator': 'or'})
+                brains = catalog(UID={'query': current_tasks,
+                                      'operator': 'or'})
                 for brain in brains:
                     obj = brain.getObject()
                     todo = ITodo(obj)
@@ -172,32 +173,36 @@ class Sidebar(BaseTile):
                         todo.status = u'done'
                     else:
                         todo.status = u'tbd'
-                IStatusMessage(self.request) \
-                    .addStatusMessage(_(u'Changes applied'), 'success')
+                api.portal.show_message(_(u'Changes applied'),
+                                        self.request,
+                                        'success')
             else:
                 if form.get('title') and form.get('title') != ws.title:
                     ws.title = form.get('title').strip()
-                    IStatusMessage(self.request) \
-                        .addStatusMessage(_(u'Title changed'), 'success')
+                    api.portal.show_message(_(u'Title changed'),
+                                            self.request,
+                                            'success')
 
                 if form.get('description') and \
                    form.get('description') != ws.description:
                     ws.description = form.get('description').strip()
-                    IStatusMessage(self.request) \
-                        .addStatusMessage(_(u'Description changed'), 'success')
+                    api.portal.show_message(_(u'Description changed'),
+                                            self.request,
+                                            'success')
 
                 workspace_visible = not not form.get('workspace_visible')
                 if workspace_visible != ws.workspace_visible:
                     ws.workspace_visible = workspace_visible
-                    IStatusMessage(self.request) \
-                        .addStatusMessage(_(u'Workspace visibility changed'),
-                                          'success')
+                    api.portal.show_message(_(u'Workspace visibility changed'),
+                                            self.request,
+                                            'success')
 
                 calendar_visible = not not form.get('calendar_visible')
                 if calendar_visible != ws.calendar_visible:
                     ws.calendar_visible = calendar_visible
-                    IStatusMessage(self.request) \
-                        .addStatusMessage(_(u'Calendar visibility changed'), 'success')
+                    api.portal.show_message(_(u'Calendar visibility changed'),
+                                            self.request,
+                                            'success')
 
         return self.render()
 
@@ -273,7 +278,7 @@ class Sidebar(BaseTile):
 
     def tasks(self):
         items = []
-        catalog = getToolByName(self.context, name="portal_catalog")
+        catalog = api.portal.get_tool("portal_catalog")
         current_path = '/'.join(self.context.getPhysicalPath())
         ptype = 'simpletodo'
         brains = catalog(path=current_path, portal_type=ptype)
@@ -285,7 +290,7 @@ class Sidebar(BaseTile):
                 'title': brain.Description,
                 'content': brain.Title,
                 'url': brain.getURL(),
-                'checked': todo.status == u'done' and True or False
+                'checked': todo.status == u'done'
             }
             items.append(data)
         return items
