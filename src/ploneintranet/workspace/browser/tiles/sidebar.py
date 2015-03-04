@@ -249,9 +249,10 @@ class Sidebar(BaseTile):
 
             if content_type in FOLDERISH_TYPES:
                 dpi = (
-                    "source: #sidebar-content; target: #sidebar-content"
+                    "source: #workspace-documents; "
+                    "target: #workspace-documents"
                 )
-                url = item.getURL() + '/@@sidebar.default#items'
+                url = item.getURL() + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
                 dpi = "target: #document-body"

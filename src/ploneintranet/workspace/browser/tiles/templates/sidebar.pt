@@ -18,7 +18,7 @@
                 <div class="contextual buttons float-before" id="selector-contextual-functions">
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
-                   data-pat-inject="source: #sidebar-content; target: #sidebar-content"
+                   data-pat-inject="source: #workspace-documents; target: #workspace-documents"
                    tal:define="parent view/parent"
                    tal:condition="parent"
                    tal:attributes="href parent/url"
@@ -47,7 +47,7 @@
 
             <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
                   action="/feedback/workspace-search-results-min.html#items"
-                  tal:attributes="action string:${context/absolute_url}/@@sidebar.default#items">
+                  tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents">
                 <label>
                     <input name="sidebar-search" type="search" placeholder="Search" />
                     <button type="submit">Search</button>
