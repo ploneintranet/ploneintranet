@@ -1,6 +1,6 @@
 <html>
 <body>
-<aside class="sidebar left tagging-off" id="sidebar">
+<aside class="sidebar left tagging-off" id="sidebar" >
 
   <div hidden id="more-menu">
     <ul class="menu">
@@ -354,37 +354,38 @@
             <a href="/feedback/workspace-settings-advanced.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Advanced</a>
         </nav>
         <div class="tabs-content">
-            <form action="">
+            <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message" data-pat-autosubmit="delay: defocus">
                 <fieldset class="vertical">
                     <label>
                         Workspace title
                         <input type="text" value="{{ page.workspace_name }}" placeholder="Workspace title" 
-                            tal:attributes="value ws/Title" />
+                            tal:attributes="value ws/Title" name="title" />
                     </label>
                     <label>
                         Workspace brief description
-                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description">The goal of this project is to integrate CA to ADC product.</textarea>
+                        <textarea rows="4" placeholder="Workspace brief description" tal:content="ws/Description" name="description">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
                     <fieldset class="pat-checklist">
                         <label>
-                            <input type="checkbox" checked> Visible workspace
+                            <input type="checkbox" name="workspace_visible"> Visible workspace
                         </label>
                         <label>
-                            <input type="checkbox" checked> Workspace calendar visible in central calendar application
+                            <input type="checkbox" name="calendar_visible"> Workspace calendar visible in central calendar application
                         </label>
                     </fieldset>
                 </fieldset>
             </form>
         </div>
-
     </div>
-
-
   </div>
 
-
-
-
+    <tal:messages define="status_messages view/status_messages" condition="status_messages" repeat="message status_messages">
+    <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
+        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
+            Something good happened
+        </p>
+    </article>
+    </tal:messages>
 </aside>
 
 </body>
