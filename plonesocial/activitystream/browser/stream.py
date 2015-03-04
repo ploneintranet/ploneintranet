@@ -34,5 +34,6 @@ class StreamTile(StreamBase, Tile):
         for activity_provider in activity_providers:
             if isinstance(activity_provider, StatusActivityReplyProvider):
                 real_providers.append(activity_provider.parent_provider())
-            real_providers.append(activity_provider)
+            else:
+                real_providers.append(activity_provider)
         return real_providers
