@@ -12,7 +12,10 @@ from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
+from Products.CMFCore.utils import getToolByName
+from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
+from ploneintranet.workspace import MessageFactory as _
 
 FOLDERISH_TYPES = ['folder']
 
@@ -84,7 +87,7 @@ class SidebarSettingsMembers(BaseTile):
             user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
             # XXX tbd, we don't know what a persons description is, yet
-            description = 'Here we could have a nice status of this person'
+            description = _(u'Here we could have a nice status of this person')
             classes = description and 'has-description' or 'has-no-description'
             portrait = '%s/portal_memberdata/portraits/%s' % \
                        (portal.absolute_url(), userid)
@@ -137,7 +140,7 @@ class SidebarSettingsAdvanced(BaseTile):
             if form.get('email') and form.get('email') != ws.email:
                 ws.email = form.get('email').strip()
                 IStatusMessage(self.request) \
-                    .addStatusMessage('Email changed', 'success')
+                    .addStatusMessage(_(u'Email changed'), 'success')
 
         return self.render()
 
@@ -156,30 +159,45 @@ class Sidebar(BaseTile):
 
         if self.request.method == "POST" and form:
             ws = self.my_workspace()
+            if self.request.form.get('section', None) == 'task':
+                current_tasks = self.request.form.get('current-tasks', [])
+                active_tasks = self.request.form.get('active-tasks', [])
 
-            if form.get('title') and form.get('title') != ws.title:
-                ws.title = form.get('title').strip()
+                catalog = api.portal.get_tool("portal_catalog")
+                brains = catalog(UID={'query': current_tasks, 'operator': 'or'})
+                for brain in brains:
+                    obj = brain.getObject()
+                    todo = ITodo(obj)
+                    if brain.UID in active_tasks:
+                        todo.status = u'done'
+                    else:
+                        todo.status = u'tbd'
                 IStatusMessage(self.request) \
-                    .addStatusMessage('Title changed', 'success')
+                    .addStatusMessage(_(u'Changes applied'), 'success')
+            else:
+                if form.get('title') and form.get('title') != ws.title:
+                    ws.title = form.get('title').strip()
+                    IStatusMessage(self.request) \
+                        .addStatusMessage(_(u'Title changed'), 'success')
 
-            if form.get('description') and \
-               form.get('description') != ws.description:
-                ws.description = form.get('description').strip()
-                IStatusMessage(self.request) \
-                    .addStatusMessage('Description changed', 'success')
+                if form.get('description') and \
+                   form.get('description') != ws.description:
+                    ws.description = form.get('description').strip()
+                    IStatusMessage(self.request) \
+                        .addStatusMessage(_(u'Description changed'), 'success')
 
-            workspace_visible = not not form.get('workspace_visible')
-            if workspace_visible != ws.workspace_visible:
-                ws.workspace_visible = workspace_visible
-                IStatusMessage(self.request) \
-                    .addStatusMessage('Workspace visibility changed',
-                                      'success')
+                workspace_visible = not not form.get('workspace_visible')
+                if workspace_visible != ws.workspace_visible:
+                    ws.workspace_visible = workspace_visible
+                    IStatusMessage(self.request) \
+                        .addStatusMessage(_(u'Workspace visibility changed'),
+                                          'success')
 
-            calendar_visible = not not form.get('calendar_visible')
-            if calendar_visible != ws.calendar_visible:
-                ws.calendar_visible = calendar_visible
-                IStatusMessage(self.request) \
-                    .addStatusMessage('Calendar visibility changed', 'success')
+                calendar_visible = not not form.get('calendar_visible')
+                if calendar_visible != ws.calendar_visible:
+                    ws.calendar_visible = calendar_visible
+                    IStatusMessage(self.request) \
+                        .addStatusMessage(_(u'Calendar visibility changed'), 'success')
 
         return self.render()
 
@@ -251,6 +269,25 @@ class Sidebar(BaseTile):
                 'type': TYPE_MAP.get(item['portal_type'], 'none'),
                 'mime-type': mime_type,
                 'dpi': dpi})
+        return items
+
+    def tasks(self):
+        items = []
+        catalog = getToolByName(self.context, name="portal_catalog")
+        current_path = '/'.join(self.context.getPhysicalPath())
+        ptype = 'simpletodo'
+        brains = catalog(path=current_path, portal_type=ptype)
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            data = {
+                'id': brain.UID,
+                'title': brain.Description,
+                'content': brain.Title,
+                'url': brain.getURL(),
+                'checked': todo.status == u'done' and True or False
+            }
+            items.append(data)
         return items
 
     def events(self):

@@ -14,10 +14,10 @@
     <div id="workspace-documents">
         <div class="item-selector mode-follow" id="selector">
 <!-- <div class="item-selector mode-select" id="selector"> -->
-            <div class="button-bar functions" id="selector-functions">    
+            <div class="button-bar functions" id="selector-functions">
                 <div class="contextual buttons float-before" id="selector-contextual-functions">
-                <a href="/open-market-committee" 
-                   class="button icon-left-open pat-inject" 
+                <a href="/open-market-committee"
+                   class="button icon-left-open pat-inject"
                    data-pat-inject="source: #items; target: #items && source: #selector-functions; target: #selector-functions"
                    tal:define="parent view/parent"
                    tal:condition="parent"
@@ -56,7 +56,7 @@
 
             <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
                 <fieldset class="checklist pat-checklist docs ">
-            
+
                     <div class="batch-functions">
                         <div class="button-bar">
                             <span class="float-before button-cluster select-buttons">
@@ -119,7 +119,7 @@
                                     title="Share">Share</button>
                         </div>
                     </div>
-                                    
+
                     <!-- Each document has a class name on the label element that indicates the document type.
 
                     Supported types include (class names):
@@ -148,15 +148,15 @@
                     <label class="item document type-event has-description"
                             tal:attributes="class item/cls">
                         <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
-                        <a href="/event-traces-through-time#document-body" 
-                           class="pat-inject follow" 
-                           data-pat-inject="target: #document-body" 
+                        <a href="/event-traces-through-time#document-body"
+                           class="pat-inject follow"
+                           data-pat-inject="target: #document-body"
                            tal:attributes="href string:${item/url};
                                            data-pat-inject item/dpi">
                             <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
-                            
+
                                 <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
-                            
+
                         </a>
                     </label>
                     </tal:block>
@@ -165,12 +165,12 @@
                         <input name="event-traces-through-time" type="checkbox" />
                         <a href="/event-traces-through-time#document-body" class="pat-inject follow" data-pat-inject="target: #document-body">
                             <strong class="title">Traces through Time data workshop</strong>
-                            
+
                                 <dfn class="byline">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
-                            
+
                         </a>
                     </label-->
-                        
+
 
                     <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                     -->
@@ -183,10 +183,10 @@
                         source: #context-title; target: #context-title"
                         >
                             <strong class="title">Projection Materials</strong>
-                            
+
                         </a>
                     </label-->
-               
+
                     <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                     -->
                     <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
@@ -198,12 +198,12 @@
                         source: #context-title; target: #context-title"
                         >
                             <strong class="title">2014 Meetings</strong>
-                            
+
                                 <dfn class="byline">Meeting documents, statements, and minutes</dfn>
-                            
+
                         </a>
                     </label-->
-       
+
                     <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                     -->
                     <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
@@ -215,12 +215,12 @@
                         source: #context-title; target: #context-title"
                         >
                             <strong class="title">Manage Information</strong>
-                            
+
                         </a>
                     </label-->
-                        
+
                 </fieldset>
-<!--         
+<!--
             <div class="button-bar bottom form-submit pat-bumper">
                 <button type="submit" class="close-panel">Save</button>
                 <button type="reset" class="close-panel">Cancel</button>
@@ -255,9 +255,9 @@
                         <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
                     </li>
                     <li>
-                        
+
                             <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                        
+
                     </li>
                 </ul>
             </div>
@@ -292,8 +292,36 @@
 
 
 
-    <div id="workspace-tasks">
-      <h1>Placeholder for the sidebar tasks tile</h1>
+    <div id="workspace-tasks" tal:define="tasks view/tasks">
+        <tal:no-tasks condition="not: tasks">
+            <p i18n:translate="no-task-found">No tasks created yet</p>
+        </tal:no-tasks>
+        <tal:tasks condition="tasks">
+          <form action="#"
+            tal:define="ws view/my_workspace"
+            tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
+            method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
+            <fieldset class="task-list pat-checklist">
+              <tal:task repeat="task tasks">
+                <br/>
+                <label>
+                  <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
+                  <input type="checkbox" name="active-tasks:list"
+                    tal:attributes="value python: task['id']"
+                    tal:condition="python: task['checked']" checked="checked"/>
+                  <input type="checkbox" name="active-tasks:list"
+                    tal:attributes="value python: task['id']"
+                    tal:condition="python: not task['checked']"/>
+                  <a href="#"
+                      tal:attributes="title python: task['title'];
+                                      href python: task['url']"
+                      tal:content="python:task['content']"></a>
+                </label>
+              </tal:task>
+            </fieldset>
+            <input type="hidden" name="section" value="task">
+          </form>
+        </tal:tasks>
     </div>
 
     <div id="workspace-events" tal:define="events view/events">
