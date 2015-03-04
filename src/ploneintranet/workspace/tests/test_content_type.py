@@ -204,14 +204,14 @@ class TestContentTypes(BaseTestCase):
             'workspace-1',
             title='Workspace 1'
         )
-        self.assertEquals(ws.workspace_visible, True)
-        self.assertEquals(ws.calendar_visible, False)
-        self.assertEquals(ws.email, '')
+        self.assertEqual(ws.workspace_visible, True)
+        self.assertEqual(ws.calendar_visible, False)
+        self.assertEqual(ws.email, '')
 
         ws.workspace_visible = False
         ws.calendar_visible = True
         ws.email = 'test@testing.net'
 
-        self.assertEquals(ws.workspace_visible, False)
-        self.assertEquals(ws.calendar_visible, True)
-        self.assertEquals(ws.email, 'test@testing.net')
+        self.assertEqual(ws.workspace_visible, False)
+        self.assertEqual(ws.calendar_visible, True)
+        self.assertEqual(ws.email, 'test@testing.net')
