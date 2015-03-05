@@ -235,7 +235,7 @@
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
                 </div>
                 <form action="./">
-                    <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload; label: Drop files here or click to browse…; trigger: auto;">
+                    <fieldset class="pat-upload" data-pat-upload="url: fileUpload; label: Drop files here or click to browse…; trigger: auto;" tal:attributes="data-pat-upload string:url: ${context/absolute_url}/fileUpload;; label: Drop files here or click to browse…;; trigger: auto;">
                         <label class="accessibility-options">
                             <input type="file" multiple> Upload files
                         </label>
