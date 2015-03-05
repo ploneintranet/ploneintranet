@@ -248,7 +248,7 @@
                             <label class="item group type-folder {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
                                 <a href="{{ doc.url }}#items" class="follow pat-inject"
-                                data-pat-inject="source: #items; target: #items &&
+                                data-pat-inject="source: #{{ include.id }}-items; target: #{{ include.id }}-items &&
                                 source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
