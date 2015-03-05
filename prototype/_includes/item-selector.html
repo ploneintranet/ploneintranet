@@ -72,12 +72,12 @@
                                     value="cut"
                                     class="float-before icon-cut no-label pat-depends"
                                     data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
-                                    formaction="/feedback/banner-notifications#documents-cut"
+                                    formaction="/feedback/banner-notifications.html#documents-cut"
                                     title="Cut">Cut</button>
                             <button type="submit"
                                     name="batch-function"
                                     value="copy"
-                                    formaction="/feedback/banner-notifications#documents-copied"
+                                    formaction="/feedback/banner-notifications.html#documents-copied"
                                     class="float-before icon-copy no-label pat-depends"
                                     data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
                                     title="Copy">Copy</button>
