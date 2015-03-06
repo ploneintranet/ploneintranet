@@ -3,7 +3,7 @@
     <div id="sidebar-content">
       <div id="workspace-settings">
         <div class="tabs-content">
-          <form class="pat-autosubmit pat-inject" method="POST" data-pat-inject="#document-content::before; source: .sidebar-status-message"
+          <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST" data-pat-inject="#document-content::before; source: .sidebar-status-message"
                 tal:define="workspace view/my_workspace"
                 tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security">
 

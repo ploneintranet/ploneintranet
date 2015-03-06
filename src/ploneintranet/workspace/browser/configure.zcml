@@ -25,13 +25,6 @@
       />
 
   <browser:page
-      name="policies"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class=".forms.PolicyForm"
-      permission="cmf.ModifyPortalContent"
-      />
-
-  <browser:page
       name="transfer"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.TransferMembershipForm"
@@ -57,15 +50,6 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".views.SharingView"
       attribute="updateSharingInfo"
-      permission="ploneintranet.workspace.ManageWorkspace"
-      />
-
-  <browser:viewlet
-      name="ploneintranet.workspace.sharinginfo"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
-      class=".viewlets.SharingViewlet"
-      template="templates/sharingviewlet.pt"
       permission="ploneintranet.workspace.ManageWorkspace"
       />
 
