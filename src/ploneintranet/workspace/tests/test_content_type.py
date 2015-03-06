@@ -186,3 +186,32 @@ class TestContentTypes(BaseTestCase):
             'Document',
             'doc-1',
         )
+
+    def test_attributes(self):
+        """
+        Check that we can access and set the attributes
+        """
+        self.login_as_portal_owner()
+        wsc = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspaces',
+            title='Workspaces'
+        )
+        ws = api.content.create(
+            wsc,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-1',
+            title='Workspace 1'
+        )
+        self.assertEqual(ws.workspace_visible, True)
+        self.assertEqual(ws.calendar_visible, False)
+        self.assertEqual(ws.email, '')
+
+        ws.workspace_visible = False
+        ws.calendar_visible = True
+        ws.email = 'test@testing.net'
+
+        self.assertEqual(ws.workspace_visible, False)
+        self.assertEqual(ws.calendar_visible, True)
+        self.assertEqual(ws.email, 'test@testing.net')

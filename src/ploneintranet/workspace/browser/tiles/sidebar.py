@@ -14,7 +14,9 @@ from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
+from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
+from ploneintranet.workspace import MessageFactory as _
 
 FOLDERISH_TYPES = ['folder']
 
@@ -83,7 +85,7 @@ class SidebarSettingsMembers(BaseTile):
             user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
             # XXX tbd, we don't know what a persons description is, yet
-            description = 'Here we could have a nice status of this person'
+            description = _(u'Here we could have a nice status of this person')
             classes = description and 'has-description' or 'has-no-description'
             portrait = '%s/portal_memberdata/portraits/%s' % \
                        (portal.absolute_url(), userid)
@@ -216,6 +218,22 @@ class SidebarSettingsAdvanced(BaseTile):
 
     index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
 
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        form = self.request.form
+
+        if self.request.method == "POST" and form:
+            ws = self.my_workspace()
+
+            if form.get('email') and form.get('email') != ws.email:
+                ws.email = form.get('email').strip()
+                api.portal.show_message(_(u'Email changed'),
+                                        self.request,
+                                        'success')
+
+        return self.render()
+
 
 class Sidebar(BaseTile):
 
@@ -229,20 +247,52 @@ class Sidebar(BaseTile):
         """
         form = self.request.form
 
-        def _m(m, t='success'):
-            IStatusMessage(self.request).addStatusMessage(m, t)
-
         if self.request.method == "POST" and form:
             ws = self.my_workspace()
+            if self.request.form.get('section', None) == 'task':
+                current_tasks = self.request.form.get('current-tasks', [])
+                active_tasks = self.request.form.get('active-tasks', [])
 
-            if form.get('title') and form.get('title') != ws.title:
-                ws.title = form.get('title').strip()
-                _m('Title changed')
+                catalog = api.portal.get_tool("portal_catalog")
+                brains = catalog(UID={'query': current_tasks,
+                                      'operator': 'or'})
+                for brain in brains:
+                    obj = brain.getObject()
+                    todo = ITodo(obj)
+                    if brain.UID in active_tasks:
+                        todo.status = u'done'
+                    else:
+                        todo.status = u'tbd'
+                api.portal.show_message(_(u'Changes applied'),
+                                        self.request,
+                                        'success')
+            else:
+                if form.get('title') and form.get('title') != ws.title:
+                    ws.title = form.get('title').strip()
+                    api.portal.show_message(_(u'Title changed'),
+                                            self.request,
+                                            'success')
 
-            if form.get('description') and \
-               form.get('description') != ws.description:
-                ws.description = form.get('description').strip()
-                _m('Description changed')
+                if form.get('description') and \
+                   form.get('description') != ws.description:
+                    ws.description = form.get('description').strip()
+                    api.portal.show_message(_(u'Description changed'),
+                                            self.request,
+                                            'success')
+
+                workspace_visible = not not form.get('workspace_visible')
+                if workspace_visible != ws.workspace_visible:
+                    ws.workspace_visible = workspace_visible
+                    api.portal.show_message(_(u'Workspace visibility changed'),
+                                            self.request,
+                                            'success')
+
+                calendar_visible = not not form.get('calendar_visible')
+                if calendar_visible != ws.calendar_visible:
+                    ws.calendar_visible = calendar_visible
+                    api.portal.show_message(_(u'Calendar visibility changed'),
+                                            self.request,
+                                            'success')
 
         return self.render()
 
@@ -289,14 +339,10 @@ class Sidebar(BaseTile):
 
             if content_type in FOLDERISH_TYPES:
                 dpi = (
-                    "source: #items; target: #items && "
-                    "source: #selector-contextual-functions; "
-                    "target: #selector-contextual-functions && "
-                    "source: #context-title; target: #context-title && "
-                    "source: #sidebar-search-form; "
-                    "target: #sidebar-search-form"
+                    "source: #workspace-documents; "
+                    "target: #workspace-documents"
                 )
-                url = item.getURL() + '/@@sidebar.default#items'
+                url = item.getURL() + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
                 dpi = "target: #document-body"
@@ -314,6 +360,25 @@ class Sidebar(BaseTile):
                 'type': TYPE_MAP.get(item['portal_type'], 'none'),
                 'mime-type': mime_type,
                 'dpi': dpi})
+        return items
+
+    def tasks(self):
+        items = []
+        catalog = api.portal.get_tool("portal_catalog")
+        current_path = '/'.join(self.context.getPhysicalPath())
+        ptype = 'simpletodo'
+        brains = catalog(path=current_path, portal_type=ptype)
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            data = {
+                'id': brain.UID,
+                'title': brain.Description,
+                'content': brain.Title,
+                'url': brain.getURL(),
+                'checked': todo.status == u'done'
+            }
+            items.append(data)
         return items
 
     def events(self):
