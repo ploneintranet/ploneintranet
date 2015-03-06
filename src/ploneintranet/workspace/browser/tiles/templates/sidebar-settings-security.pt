@@ -1,81 +1,66 @@
 <html>
-<body>
-<div id="sidebar-content">
-    <div id="workspace-settings">
-        
+  <body>
+    <div id="sidebar-content">
+      <div id="workspace-settings">
         <div class="tabs-content">
-            <form action="">
-                <h3>Workspace policy</h3>
-                
-                <fieldset class="vertical">
-                    <label>
-                        External visibility
-                        <input name="ext" type="range" step="1" min="1" max="3" />   
-                        <span class="three slider-labels">
-                            <span class="label pat-depends" data-pat-depends="condition: ext=1; action: enable">Secret&nbsp;<a href="#help-ext-1" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: ext=2; action: enable">Private&nbsp;<a href="#help-ext-2" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: ext=3; action: enable">Open&nbsp;<a href="#help-ext-3" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                        </span>  
-                    </label>
-                    <p id="help-ext-1" class="pat-message notice pat-depends" data-pat-depends="condition: ext=1">
-                        <strong>Secret:</strong>   The workspace is hidden from outsiders. Only workspace members know it exists.
-                    </p>
+          <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST" data-pat-inject="#document-content::before; source: .sidebar-status-message"
+                tal:define="workspace view/my_workspace"
+                tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security">
 
-                    <p id="help-ext-2" class="pat-message notice pat-depends" data-pat-depends="condition: ext=2">
-                        <strong>Private:</strong>  The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace.
-                    </p>
-                    <p id="help-ext-3" class="pat-message notice pat-depends" data-pat-depends="condition: ext=3">
-                        <strong>Open: </strong> The workspace can be explored by outsiders. Outsiders can browse but not actively participate.
-                    </p>
-                    <label>
-                        Join policy
-                        <input name="joinpol" type="range" step="1" min="1" max="3" />   
-                        <span class="three slider-labels">
-                            <span class="label pat-depends" data-pat-depends="condition: joinpol=1; action: enable">Admin-managed&nbsp;<a href="#help-joinpol-1" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: joinpol=2; action: enable">Team-managed&nbsp;<a href="#help-joinpol-2" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: joinpol=3; action: enable">Self-managed&nbsp;<a href="#help-joinpol-3" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
+            <h3>Workspace policy</h3>
 
-                        </span> 
-                    </label>
-                    <p id="help-joinpol-1" class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=1">
-                        <strong>Admin-managed:</strong> Only administrators can add workspace members.
-                    </p>
-                    <p id="help-joinpol-2" class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=2">
-                        <strong>Team-managed:</strong> Workspace members can add outsiders as a workspace member.
-                    </p>
-                    <p id="help-joinpol-3" class="pat-message notice pat-depends" data-pat-depends="condition: joinpol=3">
-                        <strong>Self-managed:</strong> Outsiders can self-join becoming a workspace member.
-                    </p>
-                    <label>
-                        Particpant policy
-                        <input name="partpol" type="range" step="1" min="1" max="4" value="2" /> 
-                        <span class="four slider-labels">
-                            <span class="label pat-depends" data-pat-depends="condition: partpol=1; action: enable">Consume&nbsp;<a href="#help-partpol-1" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: partpol=2; action: enable">Produce&nbsp;<a href="#help-partpol-2" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: partpol=3; action: enable">Publish&nbsp;<a href="#help-partpol-3" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
-                            <span class="label pat-depends" data-pat-depends="condition: partpol=4; action: enable">Moderate&nbsp;<a href="#help-partpol-4" class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;">Info</a></span>
+            <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
-                        </span>
-                    </label>
-                    <p id="help-partpol-1" class="pat-message notice pat-depends" data-pat-depends="condition: partpol=1">
-                        <strong>Consume:</strong> Workspace members can read content. They cannot add, publish or edit content.
-                    </p>
-                    <p id="help-partpol-2" class="pat-message notice pat-depends" data-pat-depends="condition: partpol=2">
-                        <strong>Produce:</strong> Workspace members can read and add content. They can neither publish nor edit content.
-                    </p>
-                    <p id="help-partpol-3" class="pat-message notice pat-depends" data-pat-depends="condition: partpol=3">
-                        <strong>Publish:</strong> Workspace members can read, add and publish content. They cannot edit other member's content.
-                    </p>
-                    <p id="help-partpol-4" class="pat-message notice pat-depends" data-pat-depends="condition: partpol=4">
-                        <strong>Moderate:</strong> Workspace members can do everything: read, add, publish and edit content.
-                    </p>
-                    <p>
-                        The participant policy is the default permission settings for all members of this workspace. Execptions for individual people may be made on the <a href="/feedback/workspace-settings-members.html" class="pat-inject" data-pat-inject="target: #workspace-settings; source: #workspace-settings">Members tab</a>.
-                    </p>
-                </fieldset>
-            </form>
+              <tal:field_info define="label string: External visibility; field_name string:external_visibility">
+                <metal:field_macro define-macro="field_macro"
+                                   tal:define="field_info python:getattr(view, field_name);
+                                               field_value python:field_info.keys().index(getattr(workspace, field_name)) + 1;">
+                  <label tal:define="max_values python:len(field_info);">
+                    <tal:label replace="label"/>
+                    <input type="range" step="1" min="1"
+                           tal:attributes="name field_name; value field_value; max max_values" />
+                    <span tal:attributes="class python:'{0} slider-labels'.format(numbers[max_values - 1])">
+                      <tal:label repeat="label field_info">
+                        <tal:number define="number repeat/label/number">
+                          <span class="label pat-depends" tal:attributes="data-pat-depends string:condition: ${field_name}=${number};; action: enable"><tal:title replace="python: field_info[label]['title']"/>&nbsp;<a class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;" tal:attributes="href string:#help-${field_name}-${number}">Info</a></span>
+                        </tal:number>
+                      </tal:label>
+                    </span>
+                  </label>
+                  <tal:label repeat="help field_info">
+                    <tal:number define="number repeat/help/number">
+                      <p class="pat-message notice pat-depends"
+                         tal:attributes="id string:help-${field_name}-${number};
+                                         data-pat-depends string:condition: ${field_name}=${number}">
+                        <strong><tal:title replace="python: field_info[help]['title']"/>:</strong>
+                        <tal:help replace="python: field_info[help]['help']"/>
+                      </p>
+                    </tal:number>
+                  </tal:label>
+                </metal:field_macro>
+              </tal:field_info>
+
+              <tal:field_info define="field_name string:join_policy; label string: Join policy">
+                <metal:field_macro use-macro="template/macros/field_macro"/>
+              </tal:field_info>
+
+              <tal:field_info define="field_name string:participant_policy; label string: Participant policy">
+                <metal:field_macro use-macro="template/macros/field_macro"/>
+              </tal:field_info>
+
+            </fieldset>
+          </form>
         </div>
+      </div>
     </div>
-</div>
-</body>
+
+    <tal:messages define="status_messages view/status_messages" condition="status_messages" repeat="message status_messages">
+      <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
+        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
+          Something good happened
+        </p>
+      </article>
+    </tal:messages>
+
+  </body>
 </html>
