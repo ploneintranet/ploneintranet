@@ -27,16 +27,4 @@
           />
   </configure>
 
-  <browser:resourceDirectory
-      name="plonesocial.microblog.stylesheets"
-      directory="stylesheets"
-      layer=".interfaces.IPlonesocialMicroblogLayer"
-      />
-
-  <browser:resourceDirectory
-      name="plonesocial.microblog.javascripts"
-      directory="javascripts"
-      layer=".interfaces.IPlonesocialMicroblogLayer"
-      />
-
 </configure>

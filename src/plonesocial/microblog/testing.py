@@ -1,6 +1,7 @@
 import time
 import Queue
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import applyProfile
@@ -30,7 +31,7 @@ def tearDownContainer(container):
 
 class PlonesocialMicroblog(PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_TILES_FIXTURE, )
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, PLONE_APP_TILES_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package
