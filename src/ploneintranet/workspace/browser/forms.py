@@ -9,7 +9,7 @@ from zope import schema
 from zope.component import getUtility
 from zope.interface import directlyProvides, Invalid
 from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.workspace import MessageFactory as _

@@ -16,7 +16,6 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
-from ploneintranet.workspace import MessageFactory as _
 
 FOLDERISH_TYPES = ['folder']
 
@@ -121,39 +120,41 @@ class SidebarSettingsSecurity(BaseTile):
     index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
     external_visibility = OrderedDict([
         ('secret', {
-            "title": _("Secret"),
+            "title": _(u"Secret"),
             "help": _(
-                "The workspace is hidden from outsiders. Only workspace members know it exists."),
+                u"The workspace is hidden from outsiders. Only workspace "
+                u"members know it exists."
+            ),
         }),
         ('private', {
-            "title": _("Private"),
+            "title": _(u"Private"),
             "help": _(
-                "The workspace is visible, but inaccessible to outsiders. Only workspace members "
-                "can access the workspace."
+                u"The workspace is visible, but inaccessible to outsiders. "
+                u"Only workspace members can access the workspace."
             ),
         }),
         ('open', {
-            "title": _("Open"),
+            "title": _(u"Open"),
             "help": _(
-                "The workspace can be explored by outsiders. Outsiders can browse but not actively "
-                "participate."
+                u"The workspace can be explored by outsiders. Outsiders can "
+                u"browse but not actively participate."
             ),
         }),
     ])
 
     join_policy = OrderedDict([
         ('admin', {
-            "title": _("Admin-Managed"),
-            "help": _("Only administrators can add workspace members."),
+            "title": _(u"Admin-Managed"),
+            "help": _(u"Only administrators can add workspace members."),
         }),
         ('team', {
-            "title": _("Team-Managed"),
+            "title": _(u"Team-Managed"),
             "help": _(
-                "Workspace members can add outsiders as a workspace member."),
+                u"Workspace members can add outsiders as a workspace member."),
         }),
         ('self', {
-            "title": _("Self-Managed"),
-            "help": _("Outsiders can self-join becoming a workspace member."),
+            "title": _(u"Self-Managed"),
+            "help": _(u"Outsiders can self-join becoming a workspace member."),
         }),
     ])
 
@@ -161,25 +162,30 @@ class SidebarSettingsSecurity(BaseTile):
         ('consumers', {
             "title": _(u"Consume"),
             "help": _(
-                u"Workspace members can read content. They cannot add, publish or edit content."),
+                u"Workspace members can read content. They cannot add, "
+                u"publish or edit content."
+            ),
         }),
         ('producers', {
             "title": _(u"Produce"),
             "help": _(
-                u"Workspace members can read and add content. They can neither publish nor edit "
-                u"content."
+                u"Workspace members can read and add content. They can "
+                u"neither publish nor edit content."
             ),
         }),
         ('publishers', {
             "title": _(u"Publish"),
             "help": _(
-                u"Workspace members can read, add and publish content. They cannot edit other "
-                u"member's content."
+                u"Workspace members can read, add and publish content. They "
+                u"cannot edit other member's content."
             ),
         }),
         ('moderators', {
             "title": _(u"Moderate"),
-            "help": _(u"Workspace members can do everything: read, add, publish and edit content."),
+            "help": _(
+                u"Workspace members can do everything: read, add, publish and "
+                u"edit content."
+            ),
         }),
     ])
 
@@ -206,7 +212,9 @@ class SidebarSettingsSecurity(BaseTile):
                 _m('Workspace security policy changes saved')
 
         if self.request.method == "POST" and form:
-            for field in ['external_visibility', 'join_policy', 'participant_policy']:
+            for field in [
+                'external_visibility', 'join_policy', 'participant_policy'
+            ]:
                 update_field(field)
 
         return self.render()
