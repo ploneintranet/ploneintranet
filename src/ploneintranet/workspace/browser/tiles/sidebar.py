@@ -194,9 +194,6 @@ class SidebarSettingsSecurity(BaseTile):
         """
         form = self.request.form
 
-        def _m(m, t='success'):
-            IStatusMessage(self.request).addStatusMessage(m, t)
-
         ws = self.my_workspace()
 
         def update_field(field_name):
@@ -209,7 +206,11 @@ class SidebarSettingsSecurity(BaseTile):
                     ws.set_external_visibility(value)
                 else:
                     setattr(ws, field_name, value)
-                _m('Workspace security policy changes saved')
+                api.portal.show_message(
+                    _(u'Workspace security policy changes saved'),
+                    self.request,
+                    'success',
+                )
 
         if self.request.method == "POST" and form:
             for field in [
