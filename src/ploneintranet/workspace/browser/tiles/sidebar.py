@@ -2,6 +2,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace.utils import TYPE_MAP
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import existing_users
 from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
@@ -17,7 +18,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from ploneintranet.workspace import MessageFactory as _
 
 FOLDERISH_TYPES = ['folder']
-
 
 class BaseTile(BrowserView):
 
@@ -72,38 +72,8 @@ class SidebarSettingsMembers(BaseTile):
     def my_workspace(self):
         return parent_workspace(self)
 
-    @memoize
     def existing_users(self):
-
-        members = IWorkspace(self.my_workspace()).members
-        info = []
-        portal = api.portal.get()
-
-        for userid, details in members.items():
-            user = api.user.get(userid)
-            if user is None:
-                continue
-            user = user.getUser()
-            title = user.getProperty('fullname') or user.getId() or userid
-            # XXX tbd, we don't know what a persons description is, yet
-            description = _(u'Here we could have a nice status of this person')
-            classes = description and 'has-description' or 'has-no-description'
-            portrait = '%s/portal_memberdata/portraits/%s' % \
-                       (portal.absolute_url(), userid)
-
-            info.append(
-                dict(
-                    id=userid,
-                    title=title,
-                    description=description,
-                    portrait=portrait,
-                    cls=classes,
-                    member=True,
-                    admin='Admins' in details['groups'],
-                )
-            )
-
-        return info
+        return existing_users(self.my_workspace())
 
     def can_manage_workspace(self):
         """
