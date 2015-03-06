@@ -1,5 +1,6 @@
 # from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from collections import OrderedDict
 from ploneintranet.workspace.utils import TYPE_MAP
 from ploneintranet.workspace.utils import parent_workspace
 from zope.publisher.browser import BrowserView
@@ -8,6 +9,7 @@ from plone import api
 from plone.i18n.normalizer import idnormalizer
 from collective.workspace.interfaces import IWorkspace
 from plone.app.contenttypes.interfaces import IEvent
+from ploneintranet.workspace import MessageFactory as _
 from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
@@ -36,6 +38,9 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
+    def my_workspace(self):
+        return parent_workspace(self)
+
 
 class SidebarSettingsMembers(BaseTile):
     """ A view to serve as the member roster in the sidebar
@@ -63,9 +68,6 @@ class SidebarSettingsMembers(BaseTile):
 
         users.sort(key=lambda x: safe_unicode(x["title"]))
         return users
-
-    def my_workspace(self):
-        return parent_workspace(self)
 
     @memoize
     def existing_users(self):
@@ -115,6 +117,97 @@ class SidebarSettingsSecurity(BaseTile):
     """
 
     index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
+    external_visibility = OrderedDict([
+        ('secret', {
+            "title": _("Secret"),
+            "help": _(
+                "The workspace is hidden from outsiders. Only workspace members know it exists."),
+        }),
+        ('private', {
+            "title": _("Private"),
+            "help": _(
+                "The workspace is visible, but inaccessible to outsiders. Only workspace members "
+                "can access the workspace."
+            ),
+        }),
+        ('open', {
+            "title": _("Open"),
+            "help": _(
+                "The workspace can be explored by outsiders. Outsiders can browse but not actively "
+                "participate."
+            ),
+        }),
+    ])
+
+    join_policy = OrderedDict([
+        ('admin', {
+            "title": _("Admin-Managed"),
+            "help": _("Only administrators can add workspace members."),
+        }),
+        ('team', {
+            "title": _("Team-Managed"),
+            "help": _(
+                "Workspace members can add outsiders as a workspace member."),
+        }),
+        ('self', {
+            "title": _("Self-Managed"),
+            "help": _("Outsiders can self-join becoming a workspace member."),
+        }),
+    ])
+
+    participant_policy = OrderedDict([
+        ('consumers', {
+            "title": _(u"Consume"),
+            "help": _(
+                u"Workspace members can read content. They cannot add, publish or edit content."),
+        }),
+        ('producers', {
+            "title": _(u"Produce"),
+            "help": _(
+                u"Workspace members can read and add content. They can neither publish nor edit "
+                u"content."
+            ),
+        }),
+        ('publishers', {
+            "title": _(u"Publish"),
+            "help": _(
+                u"Workspace members can read, add and publish content. They cannot edit other "
+                u"member's content."
+            ),
+        }),
+        ('moderators', {
+            "title": _(u"Moderate"),
+            "help": _(u"Workspace members can do everything: read, add, publish and edit content."),
+        }),
+    ])
+
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        form = self.request.form
+
+        def _m(m, t='success'):
+            IStatusMessage(self.request).addStatusMessage(m, t)
+
+        ws = self.my_workspace()
+
+        def update_field(field_name):
+            index = int(form.get(field_name)) - 1
+            field = getattr(self, field_name)
+            value = field.keys()[index]
+
+            if value != getattr(ws, field_name):
+                if field_name == "external_visibility":
+                    ws.set_external_visibility(value)
+                else:
+                    setattr(ws, field_name, value)
+                _m('Workspace security policy changes saved')
+
+        if self.request.method == "POST" and form:
+            for field in ['external_visibility', 'join_policy', 'participant_policy']:
+                update_field(field)
+
+        return self.render()
 
 
 class SidebarSettingsAdvanced(BaseTile):
@@ -152,9 +245,6 @@ class Sidebar(BaseTile):
                 _m('Description changed')
 
         return self.render()
-
-    def my_workspace(self):
-        return parent_workspace(self)
 
     # ContentItems
 
