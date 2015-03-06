@@ -159,7 +159,7 @@ I can delete an old event
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Tasks
-    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
+    Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 # This doesn't work yet, because ?diazo.off=1 has no effect and the design is missing (...I believe)
 I can invite users to the current workspace
