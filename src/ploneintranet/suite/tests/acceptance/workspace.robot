@@ -51,6 +51,15 @@ Search for objects in sidebar navigation
     And I go to the Open Market Committee Workspace
     Then I can search for items
 
+Manager can modify workspace security policies
+    Given I'm logged in as a 'Manager'
+    And add workspace  Policy Workspace
+    And maneuver to  Policy Workspace
+    I can open the workspace security settings tab
+    And I can set the external visibility to Open
+    And I can set the join policy to Admin-Managed
+    And I can set the participant policy to Moderate
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -61,15 +70,6 @@ Search for objects in sidebar navigation
 #      Click Link  jquery=a:contains('View full Roster')
 #      Input text  edit-roster-user-search  Example User
 #      Click button  Search users
-
-# Site Administrator can modify policies
-#     Log in as site owner
-#     Add workspace  Policy Workspace
-#     Maneuver to  Policy Workspace
-#     ${url}    Get Location
-#     Go to  ${url}/policies
-#     Select From List  jquery=select[name="form.widgets.external_visibility:list"]  private
-#     Click button  Ok
 
 # Site Administrator can edit roster
 #     Log in as site owner
@@ -142,6 +142,32 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+I can open the workspace security settings tab
+    Click Link  link=Workspace Settings and about
+    Click link  link=Security
+    Wait until page contains  Workspace policy
+
+I can set the external visibility to Open
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  The workspace can be explored by outsiders.
+
+I can set the join policy to Admin-Managed
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='join_policy']")[0].value = 1
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  Only administrators can add workspace members.
+
+I can set the participant policy to Moderate
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 4
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  Workspace members can do everything
+
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Future Event']
 
@@ -151,8 +177,7 @@ Older events are hidden
 I can delete an old event
     Click Element  css=div#older-events h3
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Simulate  css=div#older-events button[type='submit']  click
+    Click Button  css=div#older-events button[type='submit']
     Wait Until Page Contains  Do you really want to delete this item
     Click Button  Delete
 
