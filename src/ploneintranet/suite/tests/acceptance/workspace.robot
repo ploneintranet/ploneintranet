@@ -152,7 +152,7 @@ I can delete an old event
     Click Element  css=div#older-events h3
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
     Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Simulate  css=div#older-events button[type='submit']  click
+    Click Element  css=div#older-events button[type='submit']
     Wait Until Page Contains  Do you really want to delete this item
     Click Button  Delete
 
