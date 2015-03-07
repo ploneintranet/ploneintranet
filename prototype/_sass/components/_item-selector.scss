@@ -213,6 +213,10 @@
             user-select: none;
             padding: 0;
 
+            .label {
+                display: none;
+            }
+
             .follow {
                 display: block;
                 color: $colour-primary;
