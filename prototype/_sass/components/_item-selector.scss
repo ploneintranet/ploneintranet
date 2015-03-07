@@ -413,6 +413,39 @@
                 z-index: 0;
                 border-left: 0 solid #efefef;
                 padding-right: 2.5em;
+            }            
+
+            &.has-label {
+                .follow {
+                    padding-right: 30%;
+                }
+
+                .label {
+                    position: absolute;
+                    right: 0;
+                    z-index: 0;
+                    display: inline-block;
+                    width: 30%;
+                    top: 1.3em;
+                    text-align: center;
+                    background-color: $colour-warning;
+                    border-radius: 1em;
+                    color: white;
+                    text-transform: capitalize;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding: 0 0.3em;
+                    cursor: default;
+
+                    &:hover {
+                        text-decoration: none;
+                        background-color: darken($colour-warning, 10%);
+                    }
+
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                }   
             }
         }
     }
