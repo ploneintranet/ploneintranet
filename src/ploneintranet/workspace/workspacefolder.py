@@ -15,12 +15,6 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
     Interface for WorkspaceFolder
     """
-    workspace_visible = schema.Bool(
-        title=MessageFactory(u"label_workspace_visibility",
-                             u"Visible Workspace"),
-        required=False,
-        default=True,
-    )
     calendar_visible = schema.Bool(
         title=MessageFactory(u"label_workspace_calendar_visibility",
                              u"Calendar visible in central calendar"),
