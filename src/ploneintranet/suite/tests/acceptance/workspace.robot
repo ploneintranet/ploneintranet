@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
-# Library  DebugLibrary
+Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
@@ -205,7 +205,8 @@ I can go to the sidebar tasks tile
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
-    Click Link  xpath=//div[@class='button-bar']//a[.='Add user']
+    Debug
+    Click Link  css=div.button-bar.create-buttons a.icon-user-add
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
