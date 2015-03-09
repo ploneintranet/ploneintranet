@@ -32,6 +32,8 @@ You can avoid repeatedly running the test setup phases before running robot test
 This does the test setup, creates the demo content etc.
 You can now log in to the test instance: http://localhost:55001/plone using the credentials of users created by create_users in pi.suite.setuphandlers e.g. alice_lindstrom:secret.
 
+To configure robot-server to serve on the external interface instead of localhost e.g. when testing against a container/virtual machine, you can `export ZSERVER_HOST=10.233.13.2`.
+
 You can use the pybot script to run robot tests against the robot-server instance::
 
     bin/pybot -t "*events*" src/ploneintranet/suite/tests/acceptance/workspace.robot
@@ -39,6 +41,8 @@ You can use the pybot script to run robot tests against the robot-server instanc
 You can also override variables, e.g. to use Chrome instead of Firefox for testing::
 
     bin/pybot --variable BROWSER:chrome src/ploneintranet/suite/tests/acceptance/workspace.robot
+
+To run pybot tests against a remote server you can `export ZOPE_HOST=10.233.13.2`.
 
 
 Running robot tests from a container host against a robot-server in a container
