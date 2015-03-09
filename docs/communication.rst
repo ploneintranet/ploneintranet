@@ -35,13 +35,17 @@ and also in the
 `Cosent organization <https://github.com/cosent>`_
 (plonesocial.*)
 
-We track issues and manage our backlog in an Assembla tracker at
-https://www.assembla.com/spaces/ploneintranet
+We track issues and manage our backlog in 
+`Work Bamboo <https://workbamboo.com>`_
+
+We use the #plone.intranet IRC channel on Freenode:
+http://webchat.freenode.net/?channels=plone.intranet
+
+The canonical place for documentation is http://docs.ploneintranet.org
 
 .. note::
 
-    If you're a team member but lacking commit access, or cannot get into Assembla,
-    please contact info@ploneintranet.org.
+    If you're a team member but lacking commit access, please contact info@ploneintranet.org.
 
 
 Marketing and Communications Team
