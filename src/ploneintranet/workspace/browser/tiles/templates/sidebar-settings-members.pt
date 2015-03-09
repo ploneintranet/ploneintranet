@@ -66,7 +66,7 @@
             </form>
 
             <div class="button-bar create-buttons">
-              <a href="/panel-add-user.html#document-content" class="button icon-user-add pat-modal" data-pat-modal="class: large">Add user</a>
+              <a class="button icon-user-add pat-modal" data-pat-modal="class: large" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
               <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
             </div>
 
