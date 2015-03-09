@@ -9,6 +9,7 @@ from plone.memoize.instance import memoize, clearafter
 from plone.protect import CheckAuthenticator, PostOnly
 from ploneintranet.workspace import MessageFactory as _
 from zope.component import getMultiAdapter
+from ploneintranet.workspace.utils import existing_users
 
 
 class EditRoster(BrowserView):
@@ -101,23 +102,8 @@ class EditRoster(BrowserView):
         users.sort(key=lambda x: safe_unicode(x["title"]))
         return users
 
-    @memoize
     def existing_users(self):
-        members = IWorkspace(self.context).members
-        info = []
-        for userid, details in members.items():
-            user = api.user.get(userid).getUser()
-            title = user.getProperty('fullname') or user.getId() or userid
-            info.append(
-                dict(
-                    id=userid,
-                    title=title,
-                    member=True,
-                    admin='Admins' in details['groups'],
-                )
-            )
-
-        return info
+        return existing_users(self.context)
 
     def can_manage_workspace(self):
         """
