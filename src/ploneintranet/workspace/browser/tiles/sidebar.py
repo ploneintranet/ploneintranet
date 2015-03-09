@@ -256,15 +256,22 @@ class Sidebar(BaseTile):
             mime_type = ''  # XXX: will be needed later for grouping by mimetyp
             # typ can be user, folder, date and mime typish
             typ = 'folder'  # XXX: This needs to get dynamic later
+            url = item.getURL()
+
+            ptool = api.portal.get_tool('portal_properties')
+            view_action_types = \
+                ptool.site_properties.typesUseViewActionInListings
 
             if content_type in FOLDERISH_TYPES:
                 dpi = (
                     "source: #workspace-documents; "
                     "target: #workspace-documents"
                 )
-                url = item.getURL() + '/@@sidebar.default#workspace-documents'
+                url = url + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
+                if item['portal_type'] in view_action_types:
+                    url = "%s/view" % url
                 dpi = "target: #document-body"
                 url = url + "#original-content"
                 content_type = 'document'
