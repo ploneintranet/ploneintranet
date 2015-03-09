@@ -28,7 +28,6 @@
     "spectrum": "",
     "imagesloaded": "",
     "packery": "",
-    "patterns.polyfill-date": "git@github.com:syslabcom/patterns.polyfill-date.git",
     "pat-calendar": "0.0.3",
     "underscore": "1.4.4",
     "backbone": "0.9.10",
