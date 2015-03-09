@@ -30,7 +30,7 @@ Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet.suite
     cd ploneintranet.suite
-    virtualenv --no-site-packages ploneintranet.suite
+    virtualenv --no-site-packages .
     bin/python2.7 bootstrap.py -c dev.cfg -v 1.6.3  # matching the current version pin!
     bin/buildout -c dev.cfg
 
@@ -58,7 +58,7 @@ disable or reconfigure some of that if you're not on a Linux host.
 Once you've completed all these steps and have the installation working, you can
 exit via `^C` (end instance) `^D` (log out of docker app).
 
-To re-run the instance you only need to `sudo make docker-run` 
+To re-run the instance you only need to `sudo make docker-run`
 and then inside the app `bin/instance fg`.
 
 It's also possible to run this `without sudo`_.
