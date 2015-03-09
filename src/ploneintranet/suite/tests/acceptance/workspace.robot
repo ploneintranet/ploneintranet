@@ -270,26 +270,26 @@ I can create a new document
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Humble Document
+    Input Text  css=.panel-content input[name=title]  text=My Humble Document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
 I can create a new folder
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Humble Folder
-    Input Text  css=textarea[name=description]  text=The description of my humble folder
+    Input Text  css=.panel-content input[name=title]  text=My Humble Folder
+    Input Text  css=.panel-content textarea[name=description]  text=The description of my humble folder
     Click Button  css=#form-buttons-create
     # We cannot jet test the folders existence without reloading
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#items']
+    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents']
 
 I can create a new image
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Image
-    Input Text  css=textarea[name=description]  text=The description of my humble image
+    Input Text  css=.panel-content input[name=title]  text=My Image
+    Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input#form-widgets-image-input
@@ -297,15 +297,15 @@ I can create a new image
 I can create a structure
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=Another Folder
+    Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=Document in subfolder
+    Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
