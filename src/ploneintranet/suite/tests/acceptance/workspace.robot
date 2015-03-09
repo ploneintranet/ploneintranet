@@ -5,11 +5,10 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
-# Library  DebugLibrary
+Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
-
 
 *** Test Cases ***
 
@@ -22,6 +21,25 @@ Breadcrumbs are not borked
     And I go to the Open Market Committee Workspace
     Then the breadcrumbs show the name of the workspace
 
+Manager can view sidebar info
+    given I'm logged in as a 'Manager'
+    I can go to the sidebar info tile
+
+Alice can view sidebar events
+    given I'm logged in as a 'alice_lindstrom'
+    I can go to the sidebar events tile
+    I can see upcoming events
+    Older events are hidden
+
+Alice can delete sidebar events
+    given I'm logged in as a 'alice_lindstrom'
+    I can go to the sidebar events tile
+    I can delete an old event
+
+Manager can view sidebar tasks
+    given I'm logged in as a 'Manager'
+    I can go to the sidebar tasks tile
+
 Traverse Folder in sidebar navigation
     Given I'm logged in as a 'Manager'
     And I go to the Open Market Committee Workspace
@@ -32,6 +50,27 @@ Search for objects in sidebar navigation
     Given I'm logged in as a 'Manager'
     And I go to the Open Market Committee Workspace
     Then I can search for items
+
+The manager can modify workspace security policies
+    Given I'm logged in as a 'Manager'
+    And add workspace  Policy Workspace
+    And maneuver to  Policy Workspace
+    I can open the workspace security settings tab
+    And I can set the external visibility to Open
+    And I can set the join policy to Admin-Managed
+    And I can set the participant policy to Moderate
+
+The manager can invite Alice to join the Open Market Committee Workspace
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    And I can open the workspace member settings tab
+    I can invite Alice to join the workspace
+
+The manager can invite Alice to join the Open Market Committee Workspace from the menu
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    And I can open the workspace member settings tab
+    I can invite Alice to join the workspace from the menu
 
 Create document
     Given I am logged in as the user christian_stoney
@@ -63,15 +102,6 @@ Create structure
 #      Click Link  jquery=a:contains('View full Roster')
 #      Input text  edit-roster-user-search  Example User
 #      Click button  Search users
-
-# Site Administrator can modify policies
-#     Log in as site owner
-#     Add workspace  Policy Workspace
-#     Maneuver to  Policy Workspace
-#     ${url}    Get Location
-#     Go to  ${url}/policies
-#     Select From List  jquery=select[name="form.widgets.external_visibility:list"]  private
-#     Click button  Ok
 
 # Site Administrator can edit roster
 #     Log in as site owner
@@ -128,12 +158,90 @@ I can create a new workspace
     Input Text  css=input.required.parsley-validated  text=New Workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
-    Wait Until Element Is visible  css=div.post.item  timeout=5
+    Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
+
+I can go to the sidebar info tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Workspace Settings and about
+    Wait Until Page Contains  General
+    Wait Until Page Contains  Workspace title
+    Wait Until Page Contains  Workspace brief description
+
+I can go to the sidebar events tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Events
+    Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
+
+I can open the workspace security settings tab
+    Click Link  link=Workspace Settings and about
+    Click link  link=Security
+    Wait until page contains  Workspace policy
+
+I can open the workspace member settings tab
+    Click Link  link=Workspace Settings and about
+    Click link  link=Members
+    Wait until page contains  Members
+
+I can set the external visibility to Open
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  The workspace can be explored by outsiders.
+
+I can set the join policy to Admin-Managed
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='join_policy']")[0].value = 1
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  Only administrators can add workspace members.
+
+I can set the participant policy to Moderate
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 4
+    Submit form  css=#sidebar-settings-security
+    Click link  link=Security
+    Wait until page contains  Workspace members can do everything
+
+I can see upcoming events
+    Page Should Contain Element  xpath=//a[.='Future Event']
+
+Older events are hidden
+    Element should not be visible  jquery=div#older-events a
+
+I can delete an old event
+    Click Element  css=div#older-events h3
+    Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Click Element  css=div#older-events button[type='submit']
+    Wait Until Page Contains  Do you really want to delete this item
+    Click Button  Delete
+
+I can go to the sidebar tasks tile
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Tasks
+    Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
+
+I can invite Alice to join the workspace
+    Click Link  css=div.button-bar.create-buttons a.icon-user-add
+    I can invite Alice to the workspace
+
+I can invite Alice to join the workspace from the menu
+    Click Link  link=Functions
+    Click Link  xpath=//ul[@class='menu']//a[.='Add user']
+    I can invite Alice to the workspace
+
+I can invite Alice to the workspace
+    Wait until page contains  Invitations
+    Input Text  css=#form-widgets-user-widgets-query  Alice
+    Click Button  Ok
+    Select Radio Button  form.widgets.user  alice_lindstrom
+    Click Button  Ok
 
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
@@ -162,26 +270,26 @@ I can create a new document
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Humble Document
+    Input Text  css=.panel-content input[name=title]  text=My Humble Document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
 I can create a new folder
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Humble Folder
-    Input Text  css=textarea[name=description]  text=The description of my humble folder
+    Input Text  css=.panel-content input[name=title]  text=My Humble Folder
+    Input Text  css=.panel-content textarea[name=description]  text=The description of my humble folder
     Click Button  css=#form-buttons-create
     # We cannot jet test the folders existence without reloading
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#items']
+    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents']
 
 I can create a new image
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=My Image
-    Input Text  css=textarea[name=description]  text=The description of my humble image
+    Input Text  css=.panel-content input[name=title]  text=My Image
+    Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input#form-widgets-image-input
@@ -189,15 +297,15 @@ I can create a new image
 I can create a structure
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=Another Folder
+    Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  name=title  text=Document in subfolder
+    Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
