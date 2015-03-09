@@ -1,6 +1,7 @@
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 
 
 class JoinViewlet(ViewletBase):
@@ -37,3 +38,26 @@ class JoinViewlet(ViewletBase):
         """
         workspace = self.context.acquire_workspace()
         return "%s/%s" % (workspace.absolute_url(), "joinme")
+
+
+class SharingViewlet(ViewletBase):
+    """
+    Provides information about the default policy when viewing
+    the sharing tab on a workspace.
+    """
+
+    def visible(self):
+        """
+        Only shown on the sharing view
+        """
+        context_state = api.content.get_view(context=self.context,
+                                             request=self.request,
+                                             name="plone_context_state")
+        url = context_state.current_base_url()
+        return url.endswith('@@sharing')
+
+    def active_participant_policy(self):
+        """ Get the title of the current participation policy """
+        key = self.context.participant_policy
+        policy = PARTICIPANT_POLICY.get(key)
+        return policy['title']
