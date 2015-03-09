@@ -322,9 +322,6 @@
                     </label>
                     <fieldset class="pat-checklist">
                         <label>
-                            <input type="checkbox" name="workspace_visible" tal:attributes="checked python:ws.workspace_visible == True and 'checked' or ''" data-pat-autosubmit="delay: 100ms"> Visible workspace
-                        </label>
-                        <label>
                             <input type="checkbox" name="calendar_visible" tal:attributes="checked python:ws.calendar_visible == True and 'checked' or ''" data-pat-autosubmit="delay: 100ms"> Workspace calendar visible in central calendar application
                         </label>
                     </fieldset>

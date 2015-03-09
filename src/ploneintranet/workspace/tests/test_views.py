@@ -34,7 +34,6 @@ class TestWorkspaceSettings(BaseViewTest):
         self.request.method = 'POST'
         self.request.form = {'title': 'Settings Test',
                              'description': 'attr write test',
-                             'workspace_visible': False,
                              'calendar_visible': True,
                              'email': 'tester@testorg.net'}
         self.request['HTTP_REFERER'] = 'someurl'
@@ -43,12 +42,10 @@ class TestWorkspaceSettings(BaseViewTest):
         view = Sidebar(self.workspace, self.request)
         self.assertNotEqual(self.workspace.title, 'Settings Test')
         self.assertNotEqual(self.workspace.description, 'attr write test')
-        self.assertNotEqual(self.workspace.workspace_visible, False)
         self.assertNotEqual(self.workspace.calendar_visible, True)
         view()
         self.assertEqual(self.workspace.title, 'Settings Test')
         self.assertEqual(self.workspace.description, 'attr write test')
-        self.assertEqual(self.workspace.workspace_visible, False)
         self.assertEqual(self.workspace.calendar_visible, True)
 
         view = SidebarSettingsAdvanced(self.workspace, self.request)

@@ -200,13 +200,6 @@ class Sidebar(BaseTile):
                                             self.request,
                                             'success')
 
-                workspace_visible = not not form.get('workspace_visible')
-                if workspace_visible != ws.workspace_visible:
-                    ws.workspace_visible = workspace_visible
-                    api.portal.show_message(_(u'Workspace visibility changed'),
-                                            self.request,
-                                            'success')
-
                 calendar_visible = not not form.get('calendar_visible')
                 if calendar_visible != ws.calendar_visible:
                     ws.calendar_visible = calendar_visible
