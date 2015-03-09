@@ -133,9 +133,7 @@ def my_workspaces(context):
     return workspaces
 
 
-@memoize
 def existing_users(context):
-
     members = IWorkspace(context).members
     info = []
     for userid, details in members.items():
