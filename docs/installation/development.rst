@@ -15,17 +15,6 @@ Setting up Your Development Environment
 Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
 
-Install Enchant libraries, this is needed for docs.
-
-To install Enchant library on Ubuntu::
-
-    sudo apt-get install libenchant-dev
-
-To install Enchant library on OSX using brew. Alternatively see the
-`stackoverflow article`_ on Enchant and OSX::
-
-    brew install enchant
-
 Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet.suite
@@ -102,6 +91,16 @@ Create a new Plone instance, under `Add-ons`, choose the package
 
 Building the Documentation
 --------------------------
+
+To build the documentation you need to have the `Enchant <http://www.abisource.com/projects/enchant/>`_ library installed on your system.
+To install Enchant library on Ubuntu::
+
+    sudo apt-get install libenchant-dev
+
+To install Enchant library on OSX using brew. Alternatively see the
+`stackoverflow article`_ on Enchant and OSX::
+
+    brew install enchant
 
 The documentation along with its own buildout, is in a separate repository.
 Follow these steps to build it::
