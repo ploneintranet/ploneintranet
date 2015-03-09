@@ -272,8 +272,10 @@ class Sidebar(BaseTile):
             else:
                 if item['portal_type'] in view_action_types:
                     url = "%s/view" % url
-                dpi = "target: #document-body"
-                url = url + "#original-content"
+                dpi = (
+                    "target: #document-body; "
+                    "source: .container"
+                )
                 content_type = 'document'
 
             cls = 'item %s type-%s %s' % (content_type, typ, desc)
