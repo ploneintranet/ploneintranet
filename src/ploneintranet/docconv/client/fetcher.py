@@ -4,7 +4,8 @@ import shutil
 import string
 from io import BytesIO
 from logging import getLogger
-from os import path, walk
+from os import path
+from os import walk
 from urllib2 import urlparse
 from zipfile import ZipFile
 from tempfile import mkdtemp
@@ -30,6 +31,7 @@ from ploneintranet.docconv.client.config import (
 from ploneintranet.docconv.client.exceptions import ServerError
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.interfaces import IPreviewFetcher
+from slc.docconv.convert import convert_to_raw
 
 logger = getLogger(__name__)
 
@@ -71,12 +73,14 @@ Content-Type: %(mime)s
             logger.warn('Could not get content type of {0}'.format(
                 '/'.join(self.context.getPhysicalPath())))
             mime = 'text/plain'
-        data = None
+        data = ''
 
         if hasattr(self.context, 'getBlobWrapper'):
             data = self.context.getBlobWrapper().getBlob().open().read()
-        if hasattr(self.context, 'get_data'):
+        elif hasattr(self.context, 'get_data'):
             data = self.context.get_data()
+        elif hasattr(self.context, 'file') and self.context.file:
+            data = self.context.file.data
         return mime, data
 
     def __call__(self):
@@ -96,15 +100,46 @@ Content-Type: %(mime)s
         datatype, payload = self.getPayload()
 
         try:
-            resp_data = self.convert_on_server(payload, datatype)
+            converted = self.convert_on_server(payload, datatype)
         except ServerError as e:
             if e.args and e.args[0].startswith("Error connecting"):
                 annotations[PREVIEW_MESSAGE_KEY] = 'Could not contact conversion server'
             else:
                 annotations[PREVIEW_MESSAGE_KEY] = 'Sorry, this document type cannot be converted. There is no preview available.'
             return
+        except ConfigError:
+            converted = self.convert_locally(payload, datatype)
 
-        stream = BytesIO(resp_data)
+        pdfdata = FileField()
+        pdfdata.set(self.context, converted['pdfs'][0])
+        previewdata = []
+        thumbdata = []
+        for filedata in converted['previews'][:20]:
+            IF = ImageField()
+            IF.set(self.context, filedata)
+            previewdata.append(IF)
+        for filedata in converted['thumbnails'][:20]:
+            IF = ImageField()
+            IF.set(self.context, filedata)
+            thumbdata.append(IF)
+
+        annotations[PDF_VERSION_KEY] = pdfdata
+        annotations[PREVIEW_IMAGES_KEY] = previewdata
+        annotations[THUMBNAIL_KEY] = thumbdata
+
+    def convert_locally(self, payload, datatype):
+        try:
+            converted = convert_to_raw(
+                self.context.getId(), payload, datatype)
+        except IOError as e:
+            if 'docsplit not found' in e:
+                raise ConfigError("docsplit is not available")
+            else:
+                raise e
+        return converted
+
+    def unpack_zipdata(self, zipdata):
+        stream = BytesIO(zipdata)
         fzip = ZipFile(stream)
         pdfs = [x.filename for x in fzip.filelist
                 if x.filename.endswith('.pdf')]
@@ -112,8 +147,6 @@ Content-Type: %(mime)s
             raise ServerError(
                 'Conversion returned zip containing no pdf files')
 
-        pdfdata = FileField()
-        pdfdata.set(self.context, fzip.read(pdfs[0]))
         thumbnails = sorted(
             [x.filename for x in fzip.filelist
                 if x.filename.startswith('small/') and x.filename != 'small/'],
@@ -122,22 +155,14 @@ Content-Type: %(mime)s
             [x.filename for x in fzip.filelist
                 if x.filename.startswith('large/') and x.filename != 'large/'],
             key=lambda x: int(x.split('.')[0].split('_')[-1]))
-        previewdata = []
-        thumbdata = []
-        for filename in previews[:20]:
-            IF = ImageField()
-            IF.set(self.context, fzip.read(filename))
-            previewdata.append(IF)
-        for filename in thumbnails[:20]:
-            IF = ImageField()
-            IF.set(self.context, fzip.read(filename))
-            thumbdata.append(IF)
+        converted = {
+            'pdfs': [fzip.read(pdfs[0])],
+            'thumbnails': [fzip.read(filename) for filename in thumbnails[:20]],
+            'previews': [fzip.read(filename) for filename in previews[:20]],
+        }
         fzip.close()
         stream.close()
-
-        annotations[PDF_VERSION_KEY] = pdfdata
-        annotations[PREVIEW_IMAGES_KEY] = previewdata
-        annotations[THUMBNAIL_KEY] = thumbdata
+        return converted
 
     def convert_on_server(self, payload, datatype):
         docconv_url = get_server_url()
@@ -183,8 +208,11 @@ Content-Type: %(mime)s
         if not resp.status == 200:
             raise ServerError('Conversion returned {0}: {1}'.format(
                 resp.status, resp.reason))
-        data = resp.read()
+        zipdata = resp.read()
         conn.close()
+
+        data = self.unpack_zipdata(zipdata)
+
         return data
 
 
@@ -372,7 +400,12 @@ def fetchPreviews(context, virtual_url_parts=[], vr_path=''):
             logger.warn('No virtual hosting info, cannot get local images! '
                         'Skipping %s' % '/'.join(context.getPhysicalPath()))
             return
-        fetcher(virtual_url_parts, vr_path)
+        fetcher_args = (virtual_url_parts, vr_path)
     else:
-        fetcher()
+        fetcher_args = ()
+    try:
+        fetcher(*fetcher_args)
+    except Exception as e:
+        logger.warn('fetchPreviews failed: {0}'.format(e))
+        return
     context.reindexObject()
