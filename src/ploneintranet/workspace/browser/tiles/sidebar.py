@@ -266,7 +266,7 @@ class Sidebar(BaseTile):
                 content_type = 'group'
             else:
                 dpi = "target: #document-body"
-                url = item.getURL() + "#document-body"
+                url = url + "#original-content"
                 content_type = 'document'
 
             cls = 'item %s type-%s %s' % (content_type, typ, desc)
