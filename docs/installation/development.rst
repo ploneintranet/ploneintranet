@@ -35,6 +35,16 @@ Set-up a development environment::
     bin/buildout -c dev.cfg
 
 
+Build using the Plone 5 coredev
+-------------------------------
+
+Use ``coredev.cfg`` instead of ``dev.cfg``.
+
+The theme currently only works when enabling the development-mode in the resource-registries, then pressing ``develop css`` and ``develop javascript`` for the bundle ``ploneintranet`` and pressing ``Save``.
+
+Due to a limitation of zc.buildout ``coredev.cfg`` has to have a copy of the same checkouts as ``dev.cfg``.
+
+
 Alternative Docker-based development environment
 ------------------------------------------------
 
