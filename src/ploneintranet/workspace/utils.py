@@ -134,6 +134,9 @@ def my_workspaces(context):
 
 
 def existing_users(context):
+    """
+    Look up the full user details for current workspace members
+    """
     members = IWorkspace(context).members
     info = []
     for userid, details in members.items():
