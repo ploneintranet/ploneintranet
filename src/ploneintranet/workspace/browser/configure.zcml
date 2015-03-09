@@ -11,11 +11,6 @@
   <include package="plone.app.portlets" />
   <include package="collective.workspace" />
 
-  <adapter
-      name="plonesocial.microblog.status_provider"
-      factory=".status.WSStatusProvider"
-  />
-
   <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
@@ -50,6 +45,31 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".views.SharingView"
       attribute="updateSharingInfo"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <browser:page
+      name="add_content"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddContent"
+      template="templates/add_content.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:page
+      name="add_folder"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddFolder"
+      template="templates/add_folder.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:viewlet
+      name="ploneintranet.workspace.sharinginfo"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      class=".viewlets.SharingViewlet"
+      template="templates/sharingviewlet.pt"
       permission="ploneintranet.workspace.ManageWorkspace"
       />
 
