@@ -400,7 +400,12 @@ def fetchPreviews(context, virtual_url_parts=[], vr_path=''):
             logger.warn('No virtual hosting info, cannot get local images! '
                         'Skipping %s' % '/'.join(context.getPhysicalPath()))
             return
-        fetcher(virtual_url_parts, vr_path)
+        fetcher_args = (virtual_url_parts, vr_path)
     else:
-        fetcher()
+        fetcher_args = ()
+    try:
+        fetcher(*fetcher_args)
+    except Exception as e:
+        logger.warn('fetchPreviews failed: {0}'.format(e))
+        return
     context.reindexObject()
