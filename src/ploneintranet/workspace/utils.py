@@ -9,6 +9,9 @@ from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.component import queryUtility
 
+import logging
+
+log = logging.getLogger(__name__)
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 
@@ -47,11 +50,14 @@ def send_email(recipient,
     """helper function to send an email with the sender preset
 
     """
-    api.portal.send_email(
-        recipient=recipient,
-        sender=sender,
-        subject=subject,
-        body=message)
+    try:
+        api.portal.send_email(
+            recipient=recipient,
+            sender=sender,
+            subject=subject,
+            body=message)
+    except ValueError, e:
+        log.error("MailHost error: {0}".format(e))
 
 
 def parent_workspace(context):
