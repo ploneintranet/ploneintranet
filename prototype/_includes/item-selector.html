@@ -72,12 +72,12 @@
                                     value="cut"
                                     class="float-before icon-cut no-label pat-depends"
                                     data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
-                                    formaction="/feedback/banner-notifications#documents-cut"
+                                    formaction="/feedback/banner-notifications.html#documents-cut"
                                     title="Cut">Cut</button>
                             <button type="submit"
                                     name="batch-function"
                                     value="copy"
-                                    formaction="/feedback/banner-notifications#documents-copied"
+                                    formaction="/feedback/banner-notifications.html#documents-copied"
                                     class="float-before icon-copy no-label pat-depends"
                                     data-pat-depends="condition:{% for doc in site.posts %}{% if doc.parent == include.title and (doc.layout == 'news' or doc.layout == 'document' or doc.layout == 'folder') %}{{ doc.id | remove: '/' }} or {% endif %}{% endfor %} false; action: enable"
                                     title="Copy">Copy</button>
@@ -137,11 +137,13 @@
                             <button type="submit"
                                     name="batch-function"
                                     value="role"
+                                    formaction="/feedback/batch-change-roles.html#content"
                                     class="float-before icon-role"
-                                    title="Change role of member">Change role</button>
+                                    title="Change role of member">Change roles</button>
                             <button type="submit"
                                     name="batch-function"
                                     value="remove"
+                                    formaction="/feedback/batch-remove-member.html#content"
                                     class="float-before icon-role"
                                     title="Remove member or group">Remove</button>
                         </div>
@@ -152,19 +154,22 @@
             {% if include.mode == "users" %}
                 {% for group in site.posts %}
                     {% if group.layout == 'group' %}
-                        <label class="item user-group has-description">
+                        <label class="item user-group has-description {% if group.role and include.labels == 'true' %}has-label{% endif %}">
                             <input name="" type="checkbox" />
                             <a class="follow pat-inject" href="{{ group.url }}" data-pat-inject="source: #document-body; target: #document-body">
                                 <strong class="title">{{ group.title }}</strong>         
                                 <br>
                                 <dfn class="byline">25 Members</dfn>
                             </a>
+                            {% if group.role and include.labels == 'true' %}
+                                <a href="/feedback/panel-member-role-actions.html#content" class="label pat-tooltip" data-pat-tooltip="source: ajax">{{ group.role }}</a>
+                            {% endif %}
                         </label>
                     {% endif %}
                 {% endfor %}
                 {% for user in site.posts %}
                     {% if user.layout == 'user' %}
-                        <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %}">
+                        <label class="item user {% if user.status %}has-description{% else %}has-no-description{% endif %} {% if user.role and include.labels == 'true' %}has-label{% endif %}">
                             <input name="" type="checkbox" />
                             <a class="follow pat-inject" href="{{ user.url }}" data-pat-inject="source: #document-body; target: #document-body">
                                 <img src="{{user.image_url}}" alt="" class="avatar" />
@@ -174,6 +179,9 @@
                                     <dfn class="byline">{{ user.status }}</dfn>
                                 {% endif %}
                             </a>
+                            {% if user.role and include.labels == 'true' %}
+                                <a href="/feedback/panel-member-role-actions.html#content" class="label pat-tooltip" data-pat-tooltip="source: ajax">{{ user.role }}</a>
+                            {% endif %}
                         </label>
                     {% endif %}
                 {% endfor %}
@@ -248,7 +256,7 @@
                             <label class="item group type-folder {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
                                 <a href="{{ doc.url }}#items" class="follow pat-inject"
-                                data-pat-inject="source: #items; target: #items &&
+                                data-pat-inject="source: #{{ include.id }}-items; target: #{{ include.id }}-items &&
                                 source: #selector-contextual-functions; target: #{{ include.id }}-contextual-functions"
                                 >
                                     <strong class="title">{{ doc.title }}</strong>
