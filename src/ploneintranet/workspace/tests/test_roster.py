@@ -103,9 +103,9 @@ class TestEditRoster(BaseTestCase):
             'admin': True,
             'title': 'wsadmin',
             'description': u'Here we could have a nice status of this person',
-            'portrait': 'http://nohost/plone/portal_memberdata/portraits/' \
-            'wsadmin',
-            'cls': 'has-description'
+            'portrait':
+                'http://nohost/plone/portal_memberdata/portraits/wsadmin',
+            'cls': 'has-description',
         }
         self.assertIn(
             wsadmin,
@@ -118,9 +118,9 @@ class TestEditRoster(BaseTestCase):
             'admin': False,
             'title': 'wsmember',
             'description': u'Here we could have a nice status of this person',
-            'portrait': 'http://nohost/plone/portal_memberdata/portraits/' \
-            'wsmember',
-            'cls': 'has-description'
+            'portrait':
+                'http://nohost/plone/portal_memberdata/portraits/wsmember',
+            'cls': 'has-description',
         }
         self.assertIn(
             wsmember,

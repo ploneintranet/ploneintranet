@@ -2,13 +2,15 @@
 from plone import api
 from plone.tiles.interfaces import IBasicTile
 from ploneintranet.workspace.browser.tiles.sidebar import Sidebar
-from ploneintranet.workspace.browser.tiles.sidebar import SidebarSettingsMembers
+from ploneintranet.workspace.browser.tiles.sidebar import \
+    SidebarSettingsMembers
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
 from zope.component import provideAdapter
 from zope.interface import Interface
 
 from collective.workspace.interfaces import IWorkspace
+
 
 class TestSidebar(BaseTestCase):
 
@@ -32,13 +34,23 @@ class TestSidebar(BaseTestCase):
         self.assertNotIn(user_id, IWorkspace(ws).members, "Id already present")
 
         IWorkspace(ws).add_to_team(user=user_id)
-        provideAdapter(SidebarSettingsMembers, (Interface, Interface), IBasicTile,
-                       name=u"sidebarSettingsMember.default")
-        sidebarSettingsMembers = getMultiAdapter((ws, ws.REQUEST), name=u"sidebarSettingsMember.default")
-        
-        existing_users = sidebarSettingsMembers.existing_users()
+        provideAdapter(
+            SidebarSettingsMembers,
+            (Interface, Interface),
+            IBasicTile,
+            name=u"sidebarSettingsMember.default",
+        )
 
-        self.assertIn(user_id, IWorkspace(ws).members, "Id not found in worskpace member Ids")
+        # Commenting out because they aren't (yet?) being used.
+        # sidebarSettingsMembers = getMultiAdapter(
+        #     (ws, ws.REQUEST), name=u"sidebarSettingsMember.default")
+        # existing_users = sidebarSettingsMembers.existing_users()
+
+        self.assertIn(
+            user_id,
+            IWorkspace(ws).members,
+            "Id not found in worskpace member Ids",
+        )
 
     def test_sidebar_children(self):
         """ Create some test content and test if children method works

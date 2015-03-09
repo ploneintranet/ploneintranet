@@ -5,7 +5,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.workspace.interfaces import IWorkspace
 from plone import api
-from plone.memoize.instance import memoize, clearafter
+from plone.memoize.instance import clearafter
 from plone.protect import CheckAuthenticator, PostOnly
 from ploneintranet.workspace import MessageFactory as _
 from zope.component import getMultiAdapter

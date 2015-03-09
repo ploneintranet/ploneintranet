@@ -8,7 +8,6 @@ from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
 from plone.i18n.normalizer import idnormalizer
-from collective.workspace.interfaces import IWorkspace
 from plone.app.contenttypes.interfaces import IEvent
 from ploneintranet.workspace import MessageFactory as _
 from plone.memoize.instance import memoize
@@ -19,6 +18,7 @@ from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 
 FOLDERISH_TYPES = ['folder']
+
 
 class BaseTile(BrowserView):
 
