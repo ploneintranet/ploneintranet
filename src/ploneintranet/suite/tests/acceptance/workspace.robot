@@ -72,6 +72,26 @@ The manager can invite Alice to join the Open Market Committee Workspace from th
     And I can open the workspace member settings tab
     I can invite Alice to join the workspace from the menu
 
+Create document
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new document
+
+Create folder
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new folder
+
+Create image
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a new image
+
+Create structure
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can create a structure
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -127,6 +147,9 @@ The manager can invite Alice to join the Open Market Committee Workspace from th
 
 
 *** Keywords ***
+
+I am logged in as the user ${userid}
+    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
 
 I can create a new workspace
     Go To  ${PLONE_URL}/workspaces.html
@@ -244,5 +267,46 @@ I can search for items
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
+I can create a new document
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=My Humble Document
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
+I can create a new folder
+    Click link  Create folder
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=My Humble Folder
+    Input Text  css=textarea[name=description]  text=The description of my humble folder
+    Click Button  css=#form-buttons-create
+    # We cannot jet test the folders existence without reloading
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#items']
 
+I can create a new image
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=My Image
+    Input Text  css=textarea[name=description]  text=The description of my humble image
+    Click Element  css=label.icon-file-image
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input#form-widgets-image-input
+
+I can create a structure
+    Click link  Create folder
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=Another Folder
+    Click Button  css=#form-buttons-create
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content form
+    Input Text  name=title  text=Document in subfolder
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#items']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']

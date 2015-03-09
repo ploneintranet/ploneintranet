@@ -36,3 +36,6 @@ Maneuver to
     [arguments]  ${title}
     Go to homepage
     Click link  jquery=a:contains("${title}")
+
+I open the Dashboard
+    Go to  ${PLONE_URL}/dashboard.html

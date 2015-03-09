@@ -5,11 +5,10 @@ import csv
 import logging
 import json
 import time
-import transaction
 import mimetypes
 from DateTime import DateTime
 from zope.component import queryUtility
-from AccessControl.SecurityManagement import newSecurityManager
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
@@ -169,8 +168,8 @@ def create_news_items(newscontent):
         )
         obj.setSubject(tuple(newsitem['tags']))
 
-        # TODO: there is no worklow at this point
-        #api.content.transition(obj=obj, transition='publish')
+        # TODO: there is no workflow at this point
+        # api.content.transition(obj=obj, transition='publish')
 
         obj.setEffectiveDate(newsitem['publication_date'])
         obj.reindexObject(idxs=['effective', ])
@@ -210,6 +209,7 @@ def create_workspaces(workspaces):
 
     for w in workspaces:
         contents = w.pop('contents', None)
+        members = w.pop('members', [])
         workspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.workspacefolder',
@@ -218,6 +218,8 @@ def create_workspaces(workspaces):
         api.content.transition(obj=workspace, transition='make_open')
         if contents is not None:
             create_ws_content(workspace, contents)
+        for m in members:
+            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Members']))
 
 
 def create_ws_content(parent, contents):
@@ -280,7 +282,7 @@ def create_stream(context, stream, files_dir):
         if status['context']:
             if status['context'] not in contexts_cache:
                 contexts_cache[status['context']] = api.content.get(
-                    path='/'+decode(status['context']).lstrip('/')
+                    path='/' + decode(status['context']).lstrip('/')
                 )
             kwargs['context'] = contexts_cache[status['context']]
         status_obj = StatusUpdate(status['text'], **kwargs)
@@ -436,7 +438,9 @@ def testing(context):
                'type': 'Event',
                'start': now + timedelta(days=-7),
                'end': now + timedelta(days=-14)},
-             ]},
+              ],
+         'members': ['christian_stoney', ],
+         },
         {'title': 'Parliamentary papers guidance',
          'description': '"Parliamentary paper" is a term used to describe a '
                         'document which is laid before Parliament. Most '
