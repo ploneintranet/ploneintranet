@@ -29,8 +29,7 @@
     "imagesloaded": "",
     "packery": "",
     "pat-calendar": "0.0.3",
-    "underscore": "1.4.4",
-    "backbone": "0.9.10",
+    "backbone": "1.1.2",
     "tinysort": "git://github.com/Sjeiti/TinySort.git",
     "patternslib": "master",
     "pat-content-mirror": "git://github.com/ploneintranet/pat-content-mirror.git",
@@ -38,14 +37,14 @@
     "pat-resourcepolling": "git@github.com:ploneintranet/pat-resourcepolling.git",
     "dropzone": "~3.10.2",
     "requirejs-text": "~2.0.12",
-    "pat-date-picker": "*"
+    "pat-date-picker": "*",
+    "lodash": "~3.3.1"
   },
   "resolutions": {
     "jquery": "1.8.3",
     "select2": "3.4.6",
     "parsleyjs": "1.2",
-    "underscore": "~1.7.0",
     "patternslib": "master",
-    "backbone": "0.9.10"
+    "lodash": "~3.3.1"
   }
 }
