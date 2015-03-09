@@ -45,7 +45,7 @@ The canonical place for documentation is http://docs.ploneintranet.org
 
 .. note::
 
-    If you're a team member but lacking commit access, please contact info@ploneintranet.org.
+    If you're a team member but lack commit access, please contact info@ploneintranet.org.
 
 
 Marketing and Communications Team
@@ -67,7 +67,7 @@ inside the
 
 .. note::
 
-    If you're a team member but lacking access,
+    If you're a team member but lack access,
     please contact info@ploneintranet.org.
 
 We do not use the Assembla tracker to avoid non tech noise there, distracting the developers.
