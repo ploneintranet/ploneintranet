@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plonesocial.microblog.browser.interfaces import IPlonesocialMicroblogLayer
+from plonesocial.activitystream.browser.interfaces import (
+    IPlonesocialActivitystreamLayer
+)
 from plonesocial.microblog.tool import MicroblogTool
 from plonesocial.microblog.testing import (
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
@@ -17,6 +20,7 @@ class TestSetup(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
+        alsoProvides(self.request, IPlonesocialActivitystreamLayer)
         alsoProvides(self.request, IPlonesocialMicroblogLayer)
 
     def test_newpostbox_tile_on_portal(self):

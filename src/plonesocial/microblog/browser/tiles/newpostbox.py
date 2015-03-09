@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from datetime import datetime
+from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
@@ -17,6 +18,8 @@ try:
 except ImportError:
     IAttachmentStoragable = None
     extract_and_add_attachments = None
+
+logger = getLogger('newpostbox')
 
 
 class NewPostBoxTile(Tile):
@@ -68,11 +71,12 @@ class NewPostBoxTile(Tile):
         )
 
     @property
-    @memoize
     def thread_id(self):
         ''' Return the thread_id
         (used e.g. for commenting other status updates)
         '''
+        if 'thread_id' in self.request:
+            return self.request.get('thread_id')
         if hasattr(self.context, 'thread_id') and self.context.thread_id:
             thread_id = self.context.thread_id  # threaded
         elif isinstance(self.context, StatusUpdate):
@@ -80,6 +84,17 @@ class NewPostBoxTile(Tile):
         else:
             thread_id = None  # new
         return thread_id
+
+    def userid2fullname(self, userid):
+        ''' Return the fullname for the post
+        '''
+        try:
+            fullname = api.user.get(userid).getProperty('fullname')
+        except:
+            fullname = ''
+            msg = 'Problem getting fullname for userid "%s"' % userid
+            logger.exception(msg)
+        return fullname or userid
 
     def create_post_attachment(self, post):
         ''' Check:
@@ -134,21 +149,6 @@ class NewPostBoxTile(Tile):
         '''
         if self.is_posting:
             self.post = self.create_post()
-        else:
-            self.post = None
-        # BBB attachment_form_token is already a property
-        # of the view, no need to define a form
-        # In order to get rid of the next line we have to remove any reference
-        # to the form in the template
-        self.form = {'attachment_form_token': self.attachment_form_token}
-
-    def __call__(self, *args, **kwargs):
-        ''' Call the multiadapter update
-
-        We need to call the update manually (Tile instances don't do it)
-        '''
-        self.update()
-        if self.is_posting:
             # BBB We're using the ActivityProvider from ps.activitystream
             # here for rendering the (singular) status post that was just
             # created. While this enables posting by 1) placing the post into
@@ -158,9 +158,26 @@ class NewPostBoxTile(Tile):
             # Therefore this will be replaced by a browser view that renders
             # both the form for posting a status update and, conditionally,
             # the new post itself.
-            post = IStatusActivity(self.post)
-            self.status_provider = getMultiAdapter(
-                (post, self.request, self.__parent__.view), IActivityProvider)
+            self.activity_providers = [
+                getMultiAdapter(
+                    (
+                        IStatusActivity(self.post),
+                        self.request,
+                        self.__parent__.view
+                    ),
+                    IActivityProvider
+                )
+            ]
+        else:
+            self.post = None
+            self.activity_providers = []
+
+    def __call__(self, *args, **kwargs):
+        ''' Call the multiadapter update
+
+        We need to call the update manually (Tile instances don't do it)
+        '''
+        self.update()
         return super(NewPostBoxTile, self).__call__(*args, **kwargs)
 
     ###
@@ -192,3 +209,11 @@ class NewPostBoxTile(Tile):
     @memoize
     def placeholder(self):
         return u"What are you doing?"
+
+    def get_pat_inject(self, form_id, thread_id):
+        if not thread_id:
+            return (
+                'source: #activity-stream; '
+                'target: #activity-stream .activities::before && #%s'
+            ) % form_id
+        return 'target: #comment-trail-%s' % thread_id

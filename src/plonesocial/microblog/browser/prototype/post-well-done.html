@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:tal="http://xml.zope.org/namespaces/tal" metal:use-macro="context/main_template/macros/master">
+
+<body>
+
+  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/post-well-done.html -->
+  <metal:macro define-macro="main">
+    <metal:block use-macro="here/upload.html/main" />
+    <div id="activity-stream" tal:define="activity_providers view/activity_providers">
+        <metal:block use-macro="here/activity-stream.html/main" />
+    </div>
+  </metal:macro>
+
+</body>
+
+</html>

@@ -39,6 +39,10 @@ class PlonesocialMicroblog(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        plonesocial.microblog,
                        context=configurationContext)
+        import plonesocial.activitystream
+        xmlconfig.file('configure.zcml',
+                       plonesocial.activitystream,
+                       context=configurationContext)
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)
         z2.installProduct(app, 'ploneintranet.attachments')

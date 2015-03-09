@@ -1,0 +1,186 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      >
+    <body>
+
+<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
+<metal:macro define-macro="main">
+  <tal:block tal:define="portal_url here/portal_url" i18n:domain="plone">
+    <div id="microblog" class="plonesocial"
+        tal:define="
+          form_id form_id|request/form_id|string:new-post-box;
+          thread_id thread_id|nothing;
+        ">
+      <form id="new-post-box" method="post"
+            class="pat-inject update-social status-inactive"
+            tal:attributes="
+              action action|request/ACTUAL_URL;
+              id form_id;
+              data-pat-inject python:newpostbox_view.get_pat_inject(form_id, thread_id);
+            ">
+        <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+
+        <tal:direct condition="newpostbox_view/direct">
+          <tal:hideuser condition="not: newpostbox_view/hideuser">
+                <label>
+                    To:
+                    <tal:fixeduser condition="newpostbox_view/fixeduser">
+                        <input disabled="disabled" value="user" tal:attributes="value newpostbox_view/user" />
+                    </tal:fixeduser>
+                    <tal:fixeduser condition="not: newpostbox_view/fixeduser">
+                        <a class="iconified icon-user pat-tooltip"
+                            data-pat-tooltip="position: tl; source: ajax; class: user;"
+                            href="panel-user.html#content"
+                            tal:attributes="href string:${portal_url}/@@panel-users#content"></a>
+                        <span id="selected-user"><input value="user" tal:attributes="value newpostbox_view/user" /></span>
+                    </tal:fixeduser>
+                </label>
+            </tal:hideuser>
+            <tal:hideuser condition="newpostbox_view/hideuser">
+                <input type="hidden" value="user" tal:attributes="value newpostbox_view/user" />
+            </tal:hideuser>
+        </tal:direct>
+
+        <script type="text/javascript">
+          <!-- Ideally this will be a separate pattern one day -->
+          $(document).ready(function(){
+              var the_textarea = $('textarea.pat-content-mirror');
+              function updateMirror(){
+              var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
+              var the_value = the_textarea.val();
+              the_mirror.text(the_value);
+          };
+
+          $(document).on('input propertychange',the_textarea, function() {
+              updateMirror();
+          });
+
+          $('form.update-social').submit(function(event){
+              var textarea = $(this).find('textarea');
+              var selected_tags = $(this).find('.selected-tags a');
+              var selected_users = $(this).find('.selected-users a');
+              var tags = '';
+              var users = '';
+
+              for (i = 0; i < selected_users.length; i++) {
+                  users = users + ' @' + selected_users[i].dataset.userId;
+              }
+
+              for (i = 0; i < selected_tags.length; i++) {
+                  tags = tags + ' ' + selected_tags[i].text;
+              }
+
+              users = users?' — ' + users:users
+              tags = tags?' — ' + tags:tags
+
+              textarea.val(textarea.val() + users + tags);
+              });
+          });
+        </script>
+
+        <fieldset>
+          <p class="content-mirror"
+            ><span class="text"
+              ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
+            ><em class="selected-users" id="selected-users"
+              ><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"
+                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
+                tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
+                ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
+              ></em><em class="selected-tags" id="selected-tags"
+              ><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing"
+                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
+            ></em>
+          </p>
+
+          <textarea placeholder="placeholder"
+                    class="pat-content-mirror pat-switch"
+                    data-pat-switch="#new-post-box status-inactive status-active"
+                    tal:attributes="placeholder placeholder|newpostbox_view/placeholder;
+                                    data-pat-content-mirror string:target: #mirror-${form_id};
+                                    data-pat-switch string:#${form_id} status-inactive status-active"
+                    name="form.widgets.text"></textarea>
+
+          <fieldset
+             tal:condition="newpostbox_view/is_attachment_supported"
+             class="attachments pat-subform pat-autosubmit pat-inject"
+             data-pat-inject="url: @@upload-attachments; source: #attachments;"
+             tal:attributes="data-pat-inject string:${attrs/data-pat-inject} target: #${form_id}-attachment-previews">
+            <label class="iconified icon-attach pat-switch"
+                   data-pat-switch="#new-post-box status-* status-attach"
+                   tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
+                   ><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews"
+               id="new-post-box-attachment-previews"
+               tal:attributes="id string:${form_id}-attachment-previews">
+              No attachments selected.
+            </p>
+            <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value newpostbox_view/attachment_form_token">
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
+          </fieldset>
+
+          <!-- The proto conditionally includes the share_tile in this place. Since
+            there's no design for it yet in PI, the markup has not been copied. -->
+
+          <div class="button-bar">
+            <a class="iconified icon-user-add pat-tooltip"
+               data-pat-tooltip="position: tl; source: ajax; class: mentions;"
+               tal:attributes="href string:${portal_url}/@@panel-users#status-user-selector::element"
+               href="/feedback/panel-mentions.html#content">Mention people</a>
+
+            <a class="iconified icon-tags pat-tooltip"
+               data-pat-tooltip="position: tl; source: ajax; class: tags;"
+               href="/feedback/panel-tags.html#content"
+               tal:attributes="href string:${context/portal_url}/@@panel-tags#status-tag-selector::element">
+               Add tags</a>
+
+            <button
+               class="pat-switch close-panel"
+               data-pat-switch="#new-post-box status-* status-inactive"
+               tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
+               type="submit"
+               name="form.buttons.statusupdate">Post</button>
+            <button
+               class="pat-switch close-panel"
+               data-pat-switch="#new-post-box status-* status-inactive"
+               tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
+               type="reset">Cancel</button>
+
+          <!-- The proto conditionally includes the visibility selection in this place. Since
+            there's no design for it yet in PI, the markup has not been copied. -->
+
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <style type="text/css">
+      /* XXX temporary hack
+         These are overrides to some of Plone's overly-ambitious defaults,
+         to allow ploneintranet.theme's styles to work for now.
+      */
+      .update-social fieldset {
+         border-style: inherit !important;
+         margin: inherit !important;
+      }
+      .update-social p.content-mirror {
+          margin-bottom: -100% !important;
+      }
+      .update-social textarea {
+          font: inherit !important;
+      }
+      .update-social .attachments {
+          margin: 0 !important;
+      }
+      .update-social .attachment-previews {
+          margin: inherit !important;
+      }
+
+    </style>
+
+  </tal:block>
+</metal:macro>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:tal="http://xml.zope.org/namespaces/tal" metal:use-macro="context/main_template/macros/master">
+
+<body>
+
+  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/comment-well-said.html -->
+  <metal:macro define-macro="main">
+    <tal:define define="
+          post view/post;
+        ">
+      <div id="comment-trail">
+        <div class="comment">
+          <div class="comment-header">
+            <a href="${here/portal_url}/author/${post/creator}"
+               tal:define="
+                 avatar_img string:${here/portal_url}/portal_memberdata/portraits/${post/creator};
+               ">
+              <metal:block use-macro="here/@@avatar.html/main" />
+              <h4 class="name">${python:view.userid2fullname(post.creator)}</h4>
+              <time class="date" tal:define="toLocalizedTime nocall:toLocalizedTime|context/@@plone/toLocalizedTime">${python:toLocalizedTime(post.date)}</time>
+            </a>
+          </div>
+          <section class="comment-content">
+            <p>${post/text}</p>
+          </section>
+        </div>
+      </div>
+    </tal:define>
+  </metal:macro>
+</body>
+
+</html>
