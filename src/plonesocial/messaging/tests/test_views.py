@@ -117,8 +117,8 @@ class TestAjaxViews(unittest.TestCase):
         self.assertNotIn(message_id, inbox['testuser2'])
         self.request.form = {}
 
-    @unittest.skip("After the mechanize call the item seems to get"
-                   "resurrected. Persistence issue?")
+    @unittest.skip('After the mechanize call the item seems to get'
+                   'resurrected. Persistence issue?')
     def test_delete_message(self):
         self._create_message(
             'testuser1', 'testuser2', 'Message Text', created=now)
@@ -161,8 +161,8 @@ class TestAjaxViews(unittest.TestCase):
         self.assertEqual(len(self._conversations('testuser1')), 0)
         self.request.form = {}
 
-    @unittest.skip("After the mechanize call the item seems to get"
-                   "resurrected. Persistence issue?")
+    @unittest.skip('After the mechanize call the item seems to get'
+                   'resurrected. Persistence issue?')
     def test_delete_conversation(self):
         self._create_message(
             'testuser1', 'testuser2', 'Message Text', created=now)
