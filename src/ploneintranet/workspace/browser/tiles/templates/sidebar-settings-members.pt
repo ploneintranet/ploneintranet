@@ -76,7 +76,7 @@
                    </h3> -->
               <ul class="menu">
                 <li>
-                  <a href="/panel-add-user.html#document-content" class="icon-user-add add-user pat-modal" data-pat-modal="class: medium">Add user</a>
+                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
                 </li>
                 <li>
                   <a class="pat-toggle icon-ok member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow">Select</a>
