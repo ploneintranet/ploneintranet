@@ -273,7 +273,7 @@ Setting up a standalone build
 =============================
 
 To test your pattern it can be very handy to have a standalone build set up. 
-It will have less dependencies than the plone.intranet bundle and thus it will
+It will have less dependencies than the Plone Intranet bundle and thus it will
 be easier to manage, and it will be easier to see what's going on when
 debugging.
 

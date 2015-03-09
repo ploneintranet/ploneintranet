@@ -30,7 +30,7 @@ Development Team
 ----------------
 
 Code lives on github, in the
-`Ploneintranet organization <https://github.com/ploneintranet>`_
+`Plone Intranet organization <https://github.com/ploneintranet>`_
 and also in the
 `Cosent organization <https://github.com/cosent>`_
 (plonesocial.*)

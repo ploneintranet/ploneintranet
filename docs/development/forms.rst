@@ -40,7 +40,7 @@ Custom view (form wrapper) layout
 =================================
 
 Generally you wouldn't care about the form wrapper view's layout, but in the case of
-PloneIntranet, we need fully custom designer specified markup, so it was  necessary
+Plone Intranet, we need fully custom designer specified markup, so it was  necessary
 to modify this layout.
 
 Luckily, this only needed to be done once, and then all custom add/edit views
