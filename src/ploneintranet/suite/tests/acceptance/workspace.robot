@@ -228,7 +228,6 @@ I can go to the sidebar tasks tile
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
-    Debug
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
     I can invite Alice to the workspace
 
