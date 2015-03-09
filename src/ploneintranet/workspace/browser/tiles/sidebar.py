@@ -1,9 +1,11 @@
 # from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collections import OrderedDict
 from ploneintranet.workspace.utils import TYPE_MAP
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.utils import existing_users
+from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
+from ploneintranet.workspace.policies import JOIN_POLICY
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
@@ -89,76 +91,14 @@ class SidebarSettingsSecurity(BaseTile):
     """
 
     index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
-    external_visibility = OrderedDict([
-        ('secret', {
-            "title": _(u"Secret"),
-            "help": _(
-                u"The workspace is hidden from outsiders. Only workspace "
-                u"members know it exists."
-            ),
-        }),
-        ('private', {
-            "title": _(u"Private"),
-            "help": _(
-                u"The workspace is visible, but inaccessible to outsiders. "
-                u"Only workspace members can access the workspace."
-            ),
-        }),
-        ('open', {
-            "title": _(u"Open"),
-            "help": _(
-                u"The workspace can be explored by outsiders. Outsiders can "
-                u"browse but not actively participate."
-            ),
-        }),
-    ])
 
-    join_policy = OrderedDict([
-        ('admin', {
-            "title": _(u"Admin-Managed"),
-            "help": _(u"Only administrators can add workspace members."),
-        }),
-        ('team', {
-            "title": _(u"Team-Managed"),
-            "help": _(
-                u"Workspace members can add outsiders as a workspace member."),
-        }),
-        ('self', {
-            "title": _(u"Self-Managed"),
-            "help": _(u"Outsiders can self-join becoming a workspace member."),
-        }),
-    ])
-
-    participant_policy = OrderedDict([
-        ('consumers', {
-            "title": _(u"Consume"),
-            "help": _(
-                u"Workspace members can read content. They cannot add, "
-                u"publish or edit content."
-            ),
-        }),
-        ('producers', {
-            "title": _(u"Produce"),
-            "help": _(
-                u"Workspace members can read and add content. They can "
-                u"neither publish nor edit content."
-            ),
-        }),
-        ('publishers', {
-            "title": _(u"Publish"),
-            "help": _(
-                u"Workspace members can read, add and publish content. They "
-                u"cannot edit other member's content."
-            ),
-        }),
-        ('moderators', {
-            "title": _(u"Moderate"),
-            "help": _(
-                u"Workspace members can do everything: read, add, publish and "
-                u"edit content."
-            ),
-        }),
-    ])
+    def __init__(self, context, request):
+        """ set up local copies of the policies for the sidebar template
+        """
+        super(SidebarSettingsSecurity, self).__init__(context, request)
+        self.external_visibility = EXTERNAL_VISIBILITY
+        self.join_policy = JOIN_POLICY
+        self.participant_policy = PARTICIPANT_POLICY
 
     def __call__(self):
         """ write attributes, if any, set state, render
