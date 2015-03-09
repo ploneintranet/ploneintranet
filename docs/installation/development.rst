@@ -93,14 +93,15 @@ Building the Documentation
 --------------------------
 
 To build the documentation you need to have the `Enchant <http://www.abisource.com/projects/enchant/>`_ library installed on your system.
-To install Enchant library on Ubuntu::
+To install the Enchant library on Ubuntu::
 
     sudo apt-get install libenchant-dev
 
-To install Enchant library on OSX using brew. Alternatively see the
-`stackoverflow article`_ on Enchant and OSX::
+To install the Enchant library on OSX using brew.::
 
     brew install enchant
+
+Alternatively see the `stackoverflow article`_ on Enchant and OSX.
 
 The documentation along with its own buildout, is in a separate repository.
 Follow these steps to build it::
