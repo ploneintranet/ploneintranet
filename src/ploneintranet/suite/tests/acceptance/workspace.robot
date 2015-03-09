@@ -51,7 +51,7 @@ Search for objects in sidebar navigation
     And I go to the Open Market Committee Workspace
     Then I can search for items
 
-Manager can modify workspace security policies
+The manager can modify workspace security policies
     Given I'm logged in as a 'Manager'
     And add workspace  Policy Workspace
     And maneuver to  Policy Workspace
@@ -59,6 +59,12 @@ Manager can modify workspace security policies
     And I can set the external visibility to Open
     And I can set the join policy to Admin-Managed
     And I can set the participant policy to Moderate
+
+The manager can invite Alice to join the Open Market Committee Workspace
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    And I can open the workspace member settings tab
+    I can invite Alice to join the workspace
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -147,6 +153,11 @@ I can open the workspace security settings tab
     Click link  link=Security
     Wait until page contains  Workspace policy
 
+I can open the workspace member settings tab
+    Click Link  link=Workspace Settings and about
+    Click link  link=Members
+    Wait until page contains  Members
+
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
@@ -186,10 +197,13 @@ I can go to the sidebar tasks tile
     Click Link  link=Tasks
     Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
 
-# This doesn't work yet, because ?diazo.off=1 has no effect and the design is missing (...I believe)
-I can invite users to the current workspace
-    Click Link  link=Invite users to this workspace (via email)
-    Wait Until Element Is visible  xpath=//h1[.='Invitations']
+I can invite Alice to join the workspace
+    Click Link  link=Add user
+    Wait until page contains  Invitations
+    Input Text  css=#form-widgets-user-widgets-query  Alice
+    Click Button  Ok
+    Select Radio Button  form.widgets.user  alice_lindstrom
+    Click Button  Ok
 
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
