@@ -199,6 +199,10 @@ class AbstractActivityProvider(object):
     def Title(self):
         return self.title
 
+    @property
+    def placeholder(self):
+        return u"Leave a comment..."
+
     def get_toggle_like_view(self):
         portal = api.portal.get()
         toggle_like_base = portal.restrictedTraverse('toggle_like')
@@ -266,14 +270,24 @@ class StatusActivityReplyProvider(StatusActivityProvider):
             (IStatusActivity(parent), self.request, self.view),
             IActivityProvider)
 
+    @property
+    def date(self):
+        return self._format_time(self.context.date)
+
+    def status_id(self):
+        """
+            TEMPORARY HACK - NEEDS TO BE REMOVED
+            once the composition of the activity stream gets fixed
+        """
+        try:
+            return self.status.id
+        except:
+            return None
+
 
 class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
     template_name = "templates/statusactivityinlinereply_provider.pt"
     index = ViewPageTemplateFile(template_name)
-
-    @property
-    def date(self):
-        return self._format_time(self.context.date)
 
 
 class ContentActivityProvider(AbstractActivityProvider):

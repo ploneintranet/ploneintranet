@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      >
+<body>
+
+<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/comment.html -->
+
+    <metal:macro define-macro="main">
+        <div class="comment">
+            <div class="comment-header">
+                <a href="user"
+                   tal:attributes="href string:${portal_url}/author/${provider/userid}"
+                   tal:define="
+                       userid provider/userid;
+                       avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
+                       avatar_name userid;
+                       toLocalizedTime nocall:toLocalizedTime|here/@@plone/toLocalizedTime;
+                   "
+                   >
+                    <metal:block use-macro="here/@@avatar.html/main" />
+                    <h4 class="name" tal:content="string:${provider/Creator}">
+                        User Name
+                    </h4>
+                    <time class="date" tal:content="python:toLocalizedTime(provider.date)">1 hour ago</time>
+                </a>
+            </div>
+            <section class="comment-content" tal:content="structure provider/text">
+                <p>
+                    The text of the comment
+                </p>
+            </section>
+
+            <section class="preview" tal:condition="nothing">
+                <figure tal:repeat="attachment provider/attachments">
+                    <a href="/incredibly-boring-document" tal:attributes="href attachment">
+                        <img alt="" src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}/thumb" />
+                    </a>
+                </figure>
+            </section>
+        </div>
+
+    </metal:macro>
+</body>
+</html>
