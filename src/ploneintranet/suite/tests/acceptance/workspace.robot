@@ -188,14 +188,15 @@ Older events are hidden
 I can delete an old event
     Click Element  css=div#older-events h3
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Click Button  css=div#older-events button[type='submit']
+    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Click Element  css=div#older-events button[type='submit']
     Wait Until Page Contains  Do you really want to delete this item
     Click Button  Delete
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Tasks
-    Wait Until Element Is visible  xpath=//h1[.='Placeholder for the sidebar tasks tile']
+    Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
     Click Link  link=Add user
