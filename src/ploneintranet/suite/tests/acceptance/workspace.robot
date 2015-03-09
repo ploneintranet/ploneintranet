@@ -66,6 +66,12 @@ The manager can invite Alice to join the Open Market Committee Workspace
     And I can open the workspace member settings tab
     I can invite Alice to join the workspace
 
+The manager can invite Alice to join the Open Market Committee Workspace from the menu
+    Given I'm logged in as a 'Manager'
+    And I go to the Open Market Committee Workspace
+    And I can open the workspace member settings tab
+    I can invite Alice to join the workspace from the menu
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -199,7 +205,15 @@ I can go to the sidebar tasks tile
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
-    Click Link  link=Add user
+    Click Link  xpath=//div[@class='button-bar']//a[.='Add user']
+    I can invite Alice to the workspace
+
+I can invite Alice to join the workspace from the menu
+    Click Link  link=Functions
+    Click Link  xpath=//ul[@class='menu']//a[.='Add user']
+    I can invite Alice to the workspace
+
+I can invite Alice to the workspace
     Wait until page contains  Invitations
     Input Text  css=#form-widgets-user-widgets-query  Alice
     Click Button  Ok
