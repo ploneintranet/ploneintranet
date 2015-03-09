@@ -32,4 +32,54 @@
     permission="zope.Public"
     />
 
+  <plone:tile
+    name="workspace.tabs.tile"
+    title="Workspace Tabs"
+    description="This tile shows the workspace tabs"
+    add_permission="cmf.ManagePortal"
+    class=".workspace_tabs.WorkspaceTabsTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.default"
+    title="Sidebar"
+    description="default tile"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.Sidebar"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.members"
+    title="Sidebar Settings Members"
+    description="Tile to show member roster in Settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsMembers"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.security"
+    title="Sidebar Settings Security"
+    description="Tile to show security controls in Settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsSecurity"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.advanced"
+    title="Sidebar Settings Advanced"
+    description="Tile to show the advanced settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsAdvanced"
+    permission="zope2.View"
+    for="*"
+    />
+
 </configure>

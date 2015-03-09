@@ -4,15 +4,34 @@ from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
+from zope import schema
 from zope.event import notify
 
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
+from ploneintranet.workspace import MessageFactory
 
 
 class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
     Interface for WorkspaceFolder
     """
+    workspace_visible = schema.Bool(
+        title=MessageFactory(u"label_workspace_visibility",
+                             u"Visible Workspace"),
+        required=False,
+        default=True,
+    )
+    calendar_visible = schema.Bool(
+        title=MessageFactory(u"label_workspace_calendar_visibility",
+                             u"Calendar visible in central calendar"),
+        required=False,
+        default=False,
+    )
+    email = schema.TextLine(
+        title=MessageFactory(u'label_workspace_email', u'E-mail address'),
+        required=False,
+        default=u'',
+    )
 
 
 class WorkspaceFolder(Container):

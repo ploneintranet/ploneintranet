@@ -8,7 +8,13 @@ from plonesocial.microblog.interfaces import IMicroblogTool
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.component import queryUtility
+from plone.memoize.instance import memoize
+from collective.workspace.interfaces import IWorkspace
+from ploneintranet.workspace import MessageFactory as _
 
+import logging
+
+log = logging.getLogger(__name__)
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 
@@ -47,11 +53,14 @@ def send_email(recipient,
     """helper function to send an email with the sender preset
 
     """
-    api.portal.send_email(
-        recipient=recipient,
-        sender=sender,
-        subject=subject,
-        body=message)
+    try:
+        api.portal.send_email(
+            recipient=recipient,
+            sender=sender,
+            subject=subject,
+            body=message)
+    except ValueError, e:
+        log.error("MailHost error: {0}".format(e))
 
 
 def parent_workspace(context):
@@ -122,3 +131,35 @@ def my_workspaces(context):
         } for brain in brains
     ]
     return workspaces
+
+
+@memoize
+def existing_users(context):
+
+    members = IWorkspace(context).members
+    info = []
+    for userid, details in members.items():
+        user = api.user.get(userid)
+        if user is None:
+            continue
+        user = user.getUser()
+        title = user.getProperty('fullname') or user.getId() or userid
+        # XXX tbd, we don't know what a persons description is, yet
+        description = _(u'Here we could have a nice status of this person')
+        classes = description and 'has-description' or 'has-no-description'
+        portal = api.portal.get()
+        portrait = '%s/portal_memberdata/portraits/%s' % \
+                   (portal.absolute_url(), userid)
+        info.append(
+            dict(
+                id=userid,
+                title=title,
+                description=description,
+                portrait=portrait,
+                cls=classes,
+                member=True,
+                admin='Admins' in details['groups'],
+            )
+        )
+
+    return info

@@ -9,35 +9,11 @@ from zope import schema
 from zope.component import getUtility
 from zope.interface import directlyProvides, Invalid
 from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.utils import get_storage, send_email
-
-
-visibility_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'secret', title=_(u'Secret')),
-    SimpleTerm(value=u'private', title=_(u'Private')),
-    SimpleTerm(value=u'open', title=_(u'Open')),
-])
-
-join_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'admin', title=_(u'Admin-Managed')),
-    SimpleTerm(value=u'team', title=_(u'Team-Managed')),
-    SimpleTerm(value=u'self', title=_(u'Self-Managed')),
-])
-
-particip_vocab = SimpleVocabulary([
-    SimpleTerm(value=u'consumers',
-               title=_(u'Consumers (Read only)')),
-    SimpleTerm(value=u'producers',
-               title=_(u'Producers (Can create content)')),
-    SimpleTerm(value=u'publishers',
-               title=_(u'Publishers (Can create and publish own content)')),
-    SimpleTerm(value=u'moderators',
-               title=_(u'Moderators (Full content administration rights)')),
-])
 
 
 def user_has_email(username):
@@ -51,69 +27,6 @@ def user_has_email(username):
         raise Invalid(msg)
 
     return True
-
-
-class IPolicyForm(form.Schema):
-    """ Policy form fields, essentially radio buttons"""
-
-    external_visibility = schema.Choice(
-        title=_(u"ws_external_visibility", default="External Visibility"),
-        description=_(u"ws_external_visbility_description",
-                      default="Who can see this workspace and its content?"),
-        source=visibility_vocab,
-    )
-
-    join_policy = schema.Choice(
-        title=_(u"ws_join_policy", default="Join Policy"),
-        description=_(u"ws_join_policy_description",
-                      default="Who can add new members?"),
-        source=join_vocab,
-    )
-
-    participant_policy = schema.Choice(
-        title=_(u"ws_participant_policy", default="Participant Policy"),
-        description=_(u"ws_participant_policy_description",
-                      default="What permissions do members have by default?"),
-        source=particip_vocab,
-    )
-
-
-class PolicyForm(form.SchemaForm):
-    """
-    handle policy form submission
-    """
-
-    schema = IPolicyForm
-    ignoreContext = True
-
-    label = u"Workspace Policies"
-
-    @button.buttonAndHandler(u'Ok')
-    def handleApply(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-
-        ws = self.context
-        ws.set_external_visibility(data.get("external_visibility", "private"))
-        ws.join_policy = data.get("join_policy", "admin")
-        ws.participant_policy = data.get("participant_policy", "consumers")
-
-        self.updateWidgets()
-        self.status = "Policy updated."
-
-    @button.buttonAndHandler(u"Cancel")
-    def handleCancel(self, action):
-        """User cancelled. Redirect back to the front page.
-        """
-
-    def updateWidgets(self):
-        super(PolicyForm, self).updateWidgets()
-        ws = self.context
-        self.widgets["external_visibility"].value = ws.external_visibility
-        self.widgets["join_policy"].value = ws.join_policy
-        self.widgets["participant_policy"].value = ws.participant_policy
 
 
 def workspaces_provider(context):

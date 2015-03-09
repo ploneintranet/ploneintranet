@@ -1,8 +1,7 @@
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
-
-from ploneintranet.workspace.browser.forms import particip_vocab
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 
 
 class JoinViewlet(ViewletBase):
@@ -57,7 +56,8 @@ class SharingViewlet(ViewletBase):
         url = context_state.current_base_url()
         return url.endswith('@@sharing')
 
-    def participant_policy(self):
+    def active_participant_policy(self):
+        """ Get the title of the current participation policy """
         key = self.context.participant_policy
-        term = particip_vocab.by_value.get(key)
-        return term.title
+        policy = PARTICIPANT_POLICY.get(key)
+        return policy['title']

@@ -1,11 +1,15 @@
 # coding=utf-8
 from plone import api
 from plone.tiles.interfaces import IBasicTile
-from ploneintranet.workspace.browser.sidebar import ContentItemsTile
+from ploneintranet.workspace.browser.tiles.sidebar import Sidebar
+from ploneintranet.workspace.browser.tiles.sidebar import \
+    SidebarSettingsMembers
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.component import getMultiAdapter
 from zope.component import provideAdapter
 from zope.interface import Interface
+
+from collective.workspace.interfaces import IWorkspace
 
 
 class TestSidebar(BaseTestCase):
@@ -20,6 +24,33 @@ class TestSidebar(BaseTestCase):
         )
         return workspace_folder
         # return IWorkspace(workspace_folder)
+
+    def test_sidebar_existing_users(self):
+
+        ws = self.create_workspace()
+        user = api.user.create(email="newuser@example.org", username="newuser")
+        user_id = user.getId()
+
+        self.assertNotIn(user_id, IWorkspace(ws).members, "Id already present")
+
+        IWorkspace(ws).add_to_team(user=user_id)
+        provideAdapter(
+            SidebarSettingsMembers,
+            (Interface, Interface),
+            IBasicTile,
+            name=u"sidebarSettingsMember.default",
+        )
+
+        # Commenting out because they aren't (yet?) being used.
+        # sidebarSettingsMembers = getMultiAdapter(
+        #     (ws, ws.REQUEST), name=u"sidebarSettingsMember.default")
+        # existing_users = sidebarSettingsMembers.existing_users()
+
+        self.assertIn(
+            user_id,
+            IWorkspace(ws).members,
+            "Id not found in worskpace member Ids",
+        )
 
     def test_sidebar_children(self):
         """ Create some test content and test if children method works
@@ -45,7 +76,7 @@ class TestSidebar(BaseTestCase):
             'example-subdocument',
             title='Some example nested Rich Text'
         )
-        provideAdapter(ContentItemsTile, (Interface, Interface), IBasicTile,
+        provideAdapter(Sidebar, (Interface, Interface), IBasicTile,
                        name=u"sidebar.default")
         sidebar = getMultiAdapter((ws, ws.REQUEST), name=u"sidebar.default")
         children = sidebar.children()
@@ -57,7 +88,7 @@ class TestSidebar(BaseTestCase):
 
         urls = [x['url'] for x in children]
         self.assertIn('http://nohost/plone/example-workspace/myfolder/'
-                      '@@sidebar.default#items',
+                      '@@sidebar.default#workspace-documents',
                       urls,
                       "Folder with that url not found in sidebar navigation")
         classes = [x['cls'] for x in children]

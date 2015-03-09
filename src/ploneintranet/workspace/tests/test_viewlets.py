@@ -1,10 +1,10 @@
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 
-from ploneintranet.workspace.browser.forms import particip_vocab
 from ploneintranet.workspace.browser.viewlets import JoinViewlet
-from ploneintranet.workspace.browser.viewlets import SharingViewlet
 from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.browser.viewlets import SharingViewlet
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 
 
 class TestSelfJoinViewlet(BaseTestCase):
@@ -71,12 +71,14 @@ class TestSharingViewlet(BaseTestCase):
         self.workspace = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
-            'demo-workspace',
+            'demoworkspace',
             title='Demo Workspace'
         )
 
     def test_viewlet_message_is_correct(self):
+        self.workspace.participant_policy = 'moderators'
         viewlet = SharingViewlet(self.workspace, self.request, None, None)
-        key = self.workspace.participant_policy
-        term = particip_vocab.by_value.get(key)
-        self.assertEqual(viewlet.participant_policy(), term.title)
+        self.assertEqual(
+            viewlet.active_participant_policy(),
+            PARTICIPANT_POLICY['moderators']['title']
+        )

@@ -4,15 +4,8 @@
     <dt i18n:translate="">Info</dt>
     <dd i18n:translate="sharing_policy_description">
       The participation policy of this workspace is
-      <a i18n:name="policy_name" 
-         tal:content="view/participant_policy" 
-         tal:attributes="href string:${context/absolute_url}/@@policies" />.
+      <em i18n:name="policy_name" 
+          tal:content="view/active_participant_policy" />
     </dd>
   </dl>
-  <p>
-    <a i18n:translate="" 
-       tal:attributes="href string:${context/absolute_url}/@@edit-roster">
-      &laquo; Back to Roster
-    </a>
-  </p>
 </tal:block>
