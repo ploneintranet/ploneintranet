@@ -8,11 +8,13 @@ import unittest
 PROJECTNAME = 'plonesocial.messaging'
 
 JS = [
-    '++resource++plonesocial.messaging.messaging.js',
+    ('plone.resources/resource-plonesocial-messaging-messaging-js.js',
+     '++resource++plonesocial.messaging.messaging.js'),
 ]
 
 CSS = [
-    '++resource++plonesocial.messaging.messaging.css',
+    ('plone.resources/resource-plonesocial-messaging-messaging-css.css',
+     '++resource++plonesocial.messaging.messaging.css'),
 ]
 
 
@@ -28,15 +30,19 @@ class InstallTestCase(unittest.TestCase):
         qi = self.portal['portal_quickinstaller']
         self.assertTrue(qi.isProductInstalled(PROJECTNAME))
 
-    def test_jsregistry(self):
-        resource_ids = self.portal.portal_javascripts.getResourceIds()
-        for id in JS:
-            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
+    def test_registry(self):
+        records = self.portal.portal_registry.records
+        msg = '{0} not installed'
+        for (key, id) in JS:
+            self.assertIn(key, records, msg.format(id))
+            self.assertIn(id, records[key].value, msg.format(id))
 
     def test_cssregistry(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
+        records = self.portal.portal_registry.records
+        msg = '{0} not installed'
+        for (key, id) in CSS:
+            self.assertIn(key, records, msg.format(id))
+            self.assertIn(id, records[key].value, msg.format(id))
 
     def test_user_actions(self):
         user_actions = self.portal['portal_actions'].user
