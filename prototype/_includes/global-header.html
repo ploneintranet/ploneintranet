@@ -11,7 +11,9 @@
         {% endif %}
 
         {% if page.application == 'workspace' %}
-            <a href="/workspaces.html">Workspaces</a> <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
+            <a href="/workspaces.html">Workspaces</a> 
+            <!-- Next link must point to Workspace landing state -->
+            <a class="current {% if page.super_space %}has-siblings{% endif %}" href="#">{{ page.workspace_name }}</a>
         {% endif %}
     </nav>
 
