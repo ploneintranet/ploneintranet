@@ -242,7 +242,7 @@
                             <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
                             <label class="item document type-{{ doc.document_type }} {% if doc.description %}has-description{% else %}has-no-description{% endif %}">
                                 <input name="{{ doc.id | remove: '/' }}" type="checkbox" />
-                                <a href="{{ doc.id }}#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body">
+                                <a href="{{ doc.id }}#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
                                     <strong class="title">{{ doc.title }}</strong>
                                     {% if doc.description %}
                                         <dfn class="byline">{{ doc.description }}</dfn>
