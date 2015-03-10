@@ -286,12 +286,13 @@
             <a href="/panel-create-document.html#document-content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
             <a href="/panel-create-folder.html#document-content" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
         </div>
-        <form action="./">
-            <fieldset class="pat-upload" data-pat-upload="url: https://example.org/upload; label: Drop files here or click to browse…; trigger: auto;">
+        <form action="./#workspace-documents" class="pat-inject" enctype="multipart/form-data">
+            <fieldset class="pat-upload" data-pat-upload="label: Drop files here or click to browse…; trigger: auto;">
                 <label class="accessibility-options">
-                    <input type="file" multiple> Upload files
+                    <input type="file" name="file" multiple> Upload files
                 </label>
             </fieldset>
+            <button type="submit">Upload</button>
         </form>
     {% endif %}
 
