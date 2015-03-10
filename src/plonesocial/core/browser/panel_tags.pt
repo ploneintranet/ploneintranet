@@ -9,8 +9,8 @@
   <body>
 
     <div metal:fill-slot="main" i18n:domain="plonesocial.microblog"
-         tal:define="form_id request/form_id|nothing;
-                     form_string python:form_id and '%s-' % form_id or ''">
+         tal:define="thread_id request/thread_id|nothing;
+                     form_id python:thread_id and 'comment_box_%s' % thread_id or 'new-post-box'">
 
       <div id="status-tag-selector" class="item-selector mode-">
         <div id="-functions" class="button-bar functions">
@@ -32,7 +32,7 @@
         <form id="postbox-items"
               action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit"
-              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_string}selected-tags">
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_id}-selected-tags">
           <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
                     class="checklist pat-checklist tags unchecked">
 
@@ -46,7 +46,7 @@
               </a>
             </label>
           </fieldset>
-
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
       </div>
 
