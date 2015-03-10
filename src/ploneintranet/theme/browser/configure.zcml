@@ -121,8 +121,8 @@
     />
 
   <browser:page
-    name="intranet_event_view"
-    for="plone.app.contenttypes.interfaces.IEvent"
+    name="event_view"
+    for="plone.event.interfaces.IEvent"
     layer="..interfaces.IIntranetContentLayer"
     template="templates/event_view.pt"
     class=".content.ContentView"

@@ -1,192 +1,132 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-            xmlns:tal="http://xml.zope.org/namespaces/tal"
-            xmlns:metal="http://xml.zope.org/namespaces/metal"
-            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-            lang="en"
-            metal:use-macro="context/main_template/macros/master"
-            i18n:domain="ploneintranet.theme">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="ploneintranet.theme">
 
 <body>
-<metal:content metal:fill-slot="main">
 
-<h1>huhu!</h1>
-<div id="document-body">
-    <nav class="tabs document-tabs">
+        <metal:content metal:fill-slot="content">
+            <h1 id="workspace-name">
+                 <!-- Next link is to lead to landing state of current workspace -->
+                <a href="/event-traces-through-time">Open Market Committee</a>
+            </h1>
+            <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-    </nav>
-    <div id="document-content">
-        <form action="" class="content-container" id="calendar-details" method="post" name="event_form">
-            <fieldset class="vertical">
-                <input class="title" name="title" placeholder="Event title" type="text" value="${context/title}">
-            </fieldset>
-            <fieldset class="vertical">
-                <textarea name="description" placeholder="Description">
-                ${context/description}
-                </textarea>
-                <br>
-                <label>
-                    Location <input name="location" type="text" value="${context/location}">
-                </label>
-                <br>
-                <label>
-                    Called by <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Mark Schwab">
-                </label>
-                <br>
-                <label>
-                    Organiser <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Janet Northcote &lt;janet.northcote@staralliance.com&gt;">
-                </label>
-                <br>
-                <fieldset class="pat-checklist">
-                    <label>
-                        <input checked="${context/whole_day}" type="checkbox"> All day event
-                    </label>
-                    <br>
-                    <label>
-                        <input checked type="checkbox"> Visible on other calendars
-                    </label>
-                </fieldset>
-                <br>
-                <fieldset class"date-time">
-                    <fieldset class="row">
-                        <fieldset class="group six columns">
-                            <legend>From</legend>
-                            <input type="date" size="10" class="date" name="start-day" placeholder="Date" value="${context/start}" />
-                            <input type="time" size="10" class="date" name="start-time" placeholder="Time" value="${context/start}" />
-                        </fieldset>
-                        <fieldset class="group six columns">
-                            <legend>To</legend>
-                            <input type="date" size="10" class="date" name="end_date-day" placeholder="Date" value="${context/end}"/>
-                            <input type="time" size="10" class="date" name="end_date-time" placeholder="Time" value="${context/end}"/>
-                        </fieldset>
+        <div id="document-body">
+            <nav class="tabs document-tabs">
+                <a data-pat-inject="source: #document-body; target: #document-body && source: .document-controls; target: .document-controls"
+                    class="current pat-inject icon-calendar"
+                    href="${context/absolute_url}/intranet_event_view#document-content">
+                    Event details
+                </a>
+                <a data-pat-inject="source: #document-content .officePreview; target: #document-content && source: .document-controls; target: .document-controls"
+                    class="pat-inject icon-document"
+                    href="event-amb-fra-2011-boardbook.html#document-content">
+                    Boardbook
+                </a>
+                <a class="pat-inject icon-document"
+                    data-pat-inject="source: #document-content .officePreview; target: #document-content && source: .document-controls; target: .document-controls"
+                    href="waste-not-want-not.html#document-content">
+                    Waste not want not
+                </a>
+            </nav>
+            <div id="document-content">
+                <form action="" class="content-container" id="calendar-details" method="post" name="event_form">
+                    <fieldset class="vertical">
+                        <input class="title" name="title" placeholder="Event title" type="text" value="${context/title}">
                     </fieldset>
-                    <label>Timezone <select class="timezone">
-                        <option data-timezone-id="1" gmt-adjustment="GMT-12:00" data-use-daylight-time="0" value="-12">(GMT-12:00) International Date Line West</option>
-                        <option data-timezone-id="2" gmt-adjustment="GMT-11:00" data-use-daylight-time="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                        <option data-timezone-id="3" gmt-adjustment="GMT-10:00" data-use-daylight-time="0" value="-10">(GMT-10:00) Hawaii</option>
-                        <option data-timezone-id="4" gmt-adjustment="GMT-09:00" data-use-daylight-time="1" value="-9">(GMT-09:00) Alaska</option>
-                        <option data-timezone-id="5" gmt-adjustment="GMT-08:00" data-use-daylight-time="1" value="-8">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                        <option data-timezone-id="6" gmt-adjustment="GMT-08:00" data-use-daylight-time="1" value="-8">(GMT-08:00) Tijuana, Baja California</option>
-                        <option data-timezone-id="7" gmt-adjustment="GMT-07:00" data-use-daylight-time="0" value="-7">(GMT-07:00) Arizona</option>
-                        <option data-timezone-id="8" gmt-adjustment="GMT-07:00" data-use-daylight-time="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                        <option data-timezone-id="9" gmt-adjustment="GMT-07:00" data-use-daylight-time="1" value="-7">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                        <option data-timezone-id="10" gmt-adjustment="GMT-06:00" data-use-daylight-time="0" value="-6">(GMT-06:00) Central America</option>
-                        <option data-timezone-id="11" gmt-adjustment="GMT-06:00" data-use-daylight-time="1" value="-6">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                        <option data-timezone-id="12" gmt-adjustment="GMT-06:00" data-use-daylight-time="1" value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                        <option data-timezone-id="13" gmt-adjustment="GMT-06:00" data-use-daylight-time="0" value="-6">(GMT-06:00) Saskatchewan</option>
-                        <option data-timezone-id="14" gmt-adjustment="GMT-05:00" data-use-daylight-time="0" value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                        <option data-timezone-id="15" gmt-adjustment="GMT-05:00" data-use-daylight-time="1" value="-5">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                        <option data-timezone-id="16" gmt-adjustment="GMT-05:00" data-use-daylight-time="1" value="-5">(GMT-05:00) Indiana (East)</option>
-                        <option data-timezone-id="17" gmt-adjustment="GMT-04:00" data-use-daylight-time="1" value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                        <option data-timezone-id="18" gmt-adjustment="GMT-04:00" data-use-daylight-time="0" value="-4">(GMT-04:00) Caracas, La Paz</option>
-                        <option data-timezone-id="19" gmt-adjustment="GMT-04:00" data-use-daylight-time="0" value="-4">(GMT-04:00) Manaus</option>
-                        <option data-timezone-id="20" gmt-adjustment="GMT-04:00" data-use-daylight-time="1" value="-4">(GMT-04:00) Santiago</option>
-                        <option data-timezone-id="21" gmt-adjustment="GMT-03:30" data-use-daylight-time="1" value="-3.5">(GMT-03:30) Newfoundland</option>
-                        <option data-timezone-id="22" gmt-adjustment="GMT-03:00" data-use-daylight-time="1" value="-3">(GMT-03:00) Brasilia</option>
-                        <option data-timezone-id="23" gmt-adjustment="GMT-03:00" data-use-daylight-time="0" value="-3">(GMT-03:00) Buenos Aires, Georgetown</option>
-                        <option data-timezone-id="24" gmt-adjustment="GMT-03:00" data-use-daylight-time="1" value="-3">(GMT-03:00) Greenland</option>
-                        <option data-timezone-id="25" gmt-adjustment="GMT-03:00" data-use-daylight-time="1" value="-3">(GMT-03:00) Montevideo</option>
-                        <option data-timezone-id="26" gmt-adjustment="GMT-02:00" data-use-daylight-time="1" value="-2">(GMT-02:00) Mid-Atlantic</option>
-                        <option data-timezone-id="27" gmt-adjustment="GMT-01:00" data-use-daylight-time="0" value="-1">(GMT-01:00) Cape Verde Is.</option>
-                        <option data-timezone-id="28" gmt-adjustment="GMT-01:00" data-use-daylight-time="1" value="-1">(GMT-01:00) Azores</option>
-                        <option data-timezone-id="29" gmt-adjustment="GMT+00:00" data-use-daylight-time="0" value="0">(GMT+00:00) Casablanca, Monrovia, Reykjavik</option>
-                        <option data-timezone-id="30" gmt-adjustment="GMT+00:00" data-use-daylight-time="1" value="0">(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
-                        <option selected data-timezone-id="31" gmt-adjustment="GMT+01:00" data-use-daylight-time="1" value="1">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
-                        <option data-timezone-id="32" gmt-adjustment="GMT+01:00" data-use-daylight-time="1" value="1">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
-                        <option data-timezone-id="33" gmt-adjustment="GMT+01:00" data-use-daylight-time="1" value="1">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
-                        <option data-timezone-id="34" gmt-adjustment="GMT+01:00" data-use-daylight-time="1" value="1">(GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
-                        <option data-timezone-id="35" gmt-adjustment="GMT+01:00" data-use-daylight-time="1" value="1">(GMT+01:00) West Central Africa</option>
-                        <option data-timezone-id="36" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Amman</option>
-                        <option data-timezone-id="37" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Athens, Bucharest, Istanbul</option>
-                        <option data-timezone-id="38" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Beirut</option>
-                        <option data-timezone-id="39" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Cairo</option>
-                        <option data-timezone-id="40" gmt-adjustment="GMT+02:00" data-use-daylight-time="0" value="2">(GMT+02:00) Harare, Pretoria</option>
-                        <option data-timezone-id="41" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
-                        <option data-timezone-id="42" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Jerusalem</option>
-                        <option data-timezone-id="43" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Minsk</option>
-                        <option data-timezone-id="44" gmt-adjustment="GMT+02:00" data-use-daylight-time="1" value="2">(GMT+02:00) Windhoek</option>
-                        <option data-timezone-id="45" gmt-adjustment="GMT+03:00" data-use-daylight-time="0" value="3">(GMT+03:00) Kuwait, Riyadh, Baghdad</option>
-                        <option data-timezone-id="46" gmt-adjustment="GMT+03:00" data-use-daylight-time="1" value="3">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
-                        <option data-timezone-id="47" gmt-adjustment="GMT+03:00" data-use-daylight-time="0" value="3">(GMT+03:00) Nairobi</option>
-                        <option data-timezone-id="48" gmt-adjustment="GMT+03:00" data-use-daylight-time="0" value="3">(GMT+03:00) Tbilisi</option>
-                        <option data-timezone-id="49" gmt-adjustment="GMT+03:30" data-use-daylight-time="1" value="3.5">(GMT+03:30) Tehran</option>
-                        <option data-timezone-id="50" gmt-adjustment="GMT+04:00" data-use-daylight-time="0" value="4">(GMT+04:00) Abu Dhabi, Muscat</option>
-                        <option data-timezone-id="51" gmt-adjustment="GMT+04:00" data-use-daylight-time="1" value="4">(GMT+04:00) Baku</option>
-                        <option data-timezone-id="52" gmt-adjustment="GMT+04:00" data-use-daylight-time="1" value="4">(GMT+04:00) Yerevan</option>
-                        <option data-timezone-id="53" gmt-adjustment="GMT+04:30" data-use-daylight-time="0" value="4.5">(GMT+04:30) Kabul</option>
-                        <option data-timezone-id="54" gmt-adjustment="GMT+05:00" data-use-daylight-time="1" value="5">(GMT+05:00) Yekaterinburg</option>
-                        <option data-timezone-id="55" gmt-adjustment="GMT+05:00" data-use-daylight-time="0" value="5">(GMT+05:00) Islamabad, Karachi, Tashkent</option>
-                        <option data-timezone-id="56" gmt-adjustment="GMT+05:30" data-use-daylight-time="0" value="5.5">(GMT+05:30) Sri Jayawardenapura</option>
-                        <option data-timezone-id="57" gmt-adjustment="GMT+05:30" data-use-daylight-time="0" value="5.5">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
-                        <option data-timezone-id="58" gmt-adjustment="GMT+05:45" data-use-daylight-time="0" value="5.75">(GMT+05:45) Kathmandu</option>
-                        <option data-timezone-id="59" gmt-adjustment="GMT+06:00" data-use-daylight-time="1" value="6">(GMT+06:00) Almaty, Novosibirsk</option>
-                        <option data-timezone-id="60" gmt-adjustment="GMT+06:00" data-use-daylight-time="0" value="6">(GMT+06:00) Astana, Dhaka</option>
-                        <option data-timezone-id="61" gmt-adjustment="GMT+06:30" data-use-daylight-time="0" value="6.5">(GMT+06:30) Yangon (Rangoon)</option>
-                        <option data-timezone-id="62" gmt-adjustment="GMT+07:00" data-use-daylight-time="0" value="7">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
-                        <option data-timezone-id="63" gmt-adjustment="GMT+07:00" data-use-daylight-time="1" value="7">(GMT+07:00) Krasnoyarsk</option>
-                        <option data-timezone-id="64" gmt-adjustment="GMT+08:00" data-use-daylight-time="0" value="8">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
-                        <option data-timezone-id="65" gmt-adjustment="GMT+08:00" data-use-daylight-time="0" value="8">(GMT+08:00) Kuala Lumpur, Singapore</option>
-                        <option data-timezone-id="66" gmt-adjustment="GMT+08:00" data-use-daylight-time="0" value="8">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
-                        <option data-timezone-id="67" gmt-adjustment="GMT+08:00" data-use-daylight-time="0" value="8">(GMT+08:00) Perth</option>
-                        <option data-timezone-id="68" gmt-adjustment="GMT+08:00" data-use-daylight-time="0" value="8">(GMT+08:00) Taipei</option>
-                        <option data-timezone-id="69" gmt-adjustment="GMT+09:00" data-use-daylight-time="0" value="9">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
-                        <option data-timezone-id="70" gmt-adjustment="GMT+09:00" data-use-daylight-time="0" value="9">(GMT+09:00) Seoul</option>
-                        <option data-timezone-id="71" gmt-adjustment="GMT+09:00" data-use-daylight-time="1" value="9">(GMT+09:00) Yakutsk</option>
-                        <option data-timezone-id="72" gmt-adjustment="GMT+09:30" data-use-daylight-time="0" value="9.5">(GMT+09:30) Adelaide</option>
-                        <option data-timezone-id="73" gmt-adjustment="GMT+09:30" data-use-daylight-time="0" value="9.5">(GMT+09:30) Darwin</option>
-                        <option data-timezone-id="74" gmt-adjustment="GMT+10:00" data-use-daylight-time="0" value="10">(GMT+10:00) Brisbane</option>
-                        <option data-timezone-id="75" gmt-adjustment="GMT+10:00" data-use-daylight-time="1" value="10">(GMT+10:00) Canberra, Melbourne, Sydney</option>
-                        <option data-timezone-id="76" gmt-adjustment="GMT+10:00" data-use-daylight-time="1" value="10">(GMT+10:00) Hobart</option>
-                        <option data-timezone-id="77" gmt-adjustment="GMT+10:00" data-use-daylight-time="0" value="10">(GMT+10:00) Guam, Port Moresby</option>
-                        <option data-timezone-id="78" gmt-adjustment="GMT+10:00" data-use-daylight-time="1" value="10">(GMT+10:00) Vladivostok</option>
-                        <option data-timezone-id="79" gmt-adjustment="GMT+11:00" data-use-daylight-time="1" value="11">(GMT+11:00) Magadan, Solomon Is., New Caledonia</option>
-                        <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
-                        <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
-                        <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
-                    </select> </label>
-                </fieldset>
-                <label>Invitees <input class="pat-autosuggest users" data-pat-autosuggest=""
-                    data-pat-autosuggest-classes='{"Brett Anderson &lt;brett.anderson@united.com&gt;": ["undecided"], "Steffen Harbarth &lt;steffen.harbarth@dlh.de&gt;": ["confirmed"], "Julie Pepiot &lt;julie.pepiot@swiss.com&gt;": ["tentative"], "Lillian Lautzenheiser-Page &lt;lillian.lautz-page@ual.com&gt;": ["declined"], "G7 &lt;g7@world.com&gt;": ["group"]}'>
-                    <span class="legend">
-                        <dfn class="undecided">Undecided</dfn>
-                        <dfn class="confirmed">Confirmed</dfn>
-                        <dfn class="tentative">Tentative</dfn>
-                        <dfn class="declined">Declined</dfn>
-                    </span>
-                </label>
-                <fieldset class="group pat-checklist radio">
-                    <legend>
-                        Event type
-                    </legend>
-                    <label>
-                        <input name="meeting-type" type="radio"> Unspecified
-                    </label>
-                    <br>
-                    <label>
-                        <input name="meeting-type" type="radio"> Blackout day
-                    </label>
-                    <br>
-                    <label>
-                        <input checked name="meeting-type" type="radio"> Face to face
-                    </label>
-                    <br>
-                    <label>
-                        <input name="meeting-type" type="radio"> Conference call
-                    </label>
-                    <br>
-                    <label>
-                        <input name="meeting-type" type="radio"><input placeholder="Other" type="text">
-                    </label>
-                </fieldset>
-                <label>Attached documents from this workspace <input class="pat-autosuggest documents" data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Baggage rules,First delivery presentation,IATA standards 2012,Initial competitive analysis,Market segmentation,Minutes kick-off meeting,Out of the box,Priority bag process,Priority bag tag specification,Waste not want not" type="text" value="Boardbook, Waste not want not"></label>
-            </fieldset>
-            <input name="redirect" type="hidden" value="/pview#document-body#buttons-contextual">
-            <input name="portal_type" type="hidden" value="VSEvent">
-            <input name="content_type" type="hidden" value="archetypes">
-        </form>
-    </div>
-</div>
-
-
-</metal:content>
-</body>
+                    <fieldset class="vertical">
+                        <textarea name="description" placeholder="Description">${context/description}</textarea>
+                        <br>
+                        <label>
+                            Location <input name="location" type="text" value="${context/location}">
+                        </label>
+                        <br>
+                        <label>
+                            Called by <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Mark Schwab">
+                        </label>
+                        <br>
+                        <label>
+                            Organiser <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Janet Northcote &lt;janet.northcote@staralliance.com&gt;">
+                        </label>
+                        <br>
+                        <fieldset class="pat-checklist">
+                            <label>
+                                <input tal:attributes="checked python:context.whole_day" type="checkbox"> All day event
+                            </label>
+                            <br>
+                            <label>
+                                <input checked type="checkbox"> Visible on other calendars
+                            </label>
+                        </fieldset>
+                        <br>
+                        <fieldset class="date-time">
+                            <fieldset class="row">
+                                <fieldset class="group six columns">
+                                    <legend>From</legend>
+                                    <input type="date" size="10" class="date" name="start-day" placeholder="Date" value="${context/start/date}" />
+                                    <input type="time" size="10" class="date" name="start-time" placeholder="Time" value="${context/start/time}" />
+                                </fieldset>
+                                <fieldset class="group six columns">
+                                    <legend>To</legend>
+                                    <input type="date" size="10" class="date" name="end_date-day" placeholder="Date" value="${context/end/date}" />
+                                    <input type="time" size="10" class="date" name="end_date-time" placeholder="Time" value="${context/end/time}" />
+                                </fieldset>
+                            </fieldset>
+                            <label>Timezone <select class="timezone">
+                                <option data-timezone-id="1" gmt-adjustment="GMT-12:00" data-use-daylight-time="0" value="-12">(GMT-12:00) International Date Line West</option>
+                            </select> </label>
+                        </fieldset>
+                        <label>Invitees <input class="pat-autosuggest users"
+                            data-pat-autosuggest=""
+                            data-pat-autosuggest-classes='{"Brett Anderson &lt;brett.anderson@united.com&gt;": ["undecided"], "Steffen Harbarth &lt;steffen.harbarth@dlh.de&gt;": ["confirmed"], "Julie Pepiot &lt;julie.pepiot@swiss.com&gt;": ["tentative"], "Lillian Lautzenheiser-Page &lt;lillian.lautz-page@ual.com&gt;": ["declined"], "G7 &lt;g7@world.com&gt;": ["group"]}'>
+                            <span class="legend">
+                                <dfn class="undecided">Undecided</dfn>
+                                <dfn class="confirmed">Confirmed</dfn>
+                                <dfn class="tentative">Tentative</dfn>
+                                <dfn class="declined">Declined</dfn>
+                            </span>
+                        </label>
+                        <fieldset class="group pat-checklist radio">
+                            <legend>
+                                Event type
+                            </legend>
+                            <label>
+                                <input name="meeting-type" type="radio"> Unspecified
+                            </label>
+                            <br>
+                            <label>
+                                <input name="meeting-type" type="radio"> Blackout day
+                            </label>
+                            <br>
+                            <label>
+                                <input checked name="meeting-type" type="radio"> Face to face
+                            </label>
+                            <br>
+                            <label>
+                                <input name="meeting-type" type="radio"> Conference call
+                            </label>
+                            <br>
+                            <label>
+                                <input name="meeting-type" type="radio"><input placeholder="Other" type="text">
+                            </label>
+                        </fieldset>
+                        <label>Attached documents from this workspace
+                            <input class="pat-autosuggest documents"
+                                data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Baggage rules,First delivery presentation,IATA standards 2012,Initial competitive analysis,Market segmentation,Minutes kick-off meeting,Out of the box,Priority bag process,Priority bag tag specification,Waste not want not" type="text" value="Boardbook, Waste not want not">
+                        </label>
+                    </fieldset>
+                    <input name="redirect" type="hidden" value="/pview#document-body#buttons-contextual">
+                    <input name="portal_type" type="hidden" value="VSEvent">
+                    <input name="content_type" type="hidden" value="archetypes">
+                </form>
+            </div>
+        </div>
+        </div>
+        </metal:content>
+    </body>
 </html>

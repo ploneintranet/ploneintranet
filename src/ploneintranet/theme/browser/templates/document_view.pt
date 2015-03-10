@@ -6,7 +6,7 @@
             metal:use-macro="context/main_template/macros/master"
             i18n:domain="ploneintranet.theme">
 
-<body class="view-secure">
+<body>
   <metal:content fill-slot="content" tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
 
     <h1 id="workspace-name">

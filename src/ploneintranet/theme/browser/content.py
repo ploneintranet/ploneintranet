@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from Products.Five import BrowserView
-from plone.protect import CheckAuthenticator, PostOnly
-from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
 from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
 from plone import api
-from ploneintranet.workspace.utils import parent_workspace
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from zope.interface import implements
+from plone.protect import CheckAuthenticator, PostOnly
+from ploneintranet.workspace.utils import parent_workspace
+from zope.event import notify
+from zope.interface import implementer
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
+@implementer(IBlocksTransformEnabled)
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types"""
-
-    implements(IBlocksTransformEnabled)
 
     def __call__(self, title=None, description=None, tags=[]):
         context = aq_inner(self.context)

@@ -2,6 +2,7 @@
 from plone.theme.interfaces import IDefaultPloneLayer
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
+from plone.app.event.interfaces import IBrowserLayer as IPloneAppEventLayer
 
 
 class IThemeSpecific(IDefaultPloneLayer):
@@ -10,7 +11,7 @@ class IThemeSpecific(IDefaultPloneLayer):
     """
 
 
-class IIntranetContentLayer(IPloneAppContenttypesLayer):
+class IIntranetContentLayer(IPloneAppContenttypesLayer, IPloneAppEventLayer):
     """ Marker interface that defines a Zope 3 browser layer and a plone skin
         marker.
     """
