@@ -178,6 +178,7 @@ I go to the Open Market Committee Workspace
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
     Execute JavaScript  jQuery('.pat-upload.upload .accessibility-options').show()
+    Execute JavaScript  jQuery('.pat-upload.upload').siblings('button').show()
     Choose File  css=input[name=file]  ${UPLOADS}/test.odt
     Click Element  xpath=//button[text()='Upload']
 
