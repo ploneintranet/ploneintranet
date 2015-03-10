@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
-Library  DebugLibrary
+# Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
