@@ -12,6 +12,7 @@
         tal:define="
           form_id form_id|request/form_id|string:new-post-box;
           thread_id thread_id|nothing;
+          is_posting is_posting|nothing;
         ">
       <form id="new-post-box" method="post"
             class="pat-inject update-social status-inactive"
@@ -47,17 +48,17 @@
 
 
         <fieldset>
-          <p class="content-mirror"
+          <p class="content-mirror" tal:define="tags request/tags|nothing; users request/users|nothing"
             ><span class="text"
               ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
-              ><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"
+              ><tal:users tal:condition="users"> — <tal:block tal:repeat="user request/users|nothing"
                 ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
                 tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
                 ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
-              ><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing"
-                ><a tal:content="string:#${tag}" /><input type="hidden" name="tags:list" tal:attributes="value tag" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
+              ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
+                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block></tal:tags
             ></em>
           </p>
 
