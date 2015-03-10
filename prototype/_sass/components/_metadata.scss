@@ -70,11 +70,21 @@
     -webkit-transition: padding 0.5s;
     transition: padding 0.5s;
 
+    .back-to-parent {
+      @include screen-size(large) {  
+        display: none;
+      }
+    }
+
     .doc-title {
       font-size: 1em;
       float: left;
       font-weight: normal;
       line-height: 1.5em;
+
+      @include screen-size(small) {  
+        display: none;
+      }
 
       &.pat-content-mirror {
         // background: none;
@@ -103,7 +113,8 @@
       }
     }
 
-    button, 
+    button,
+    .button, 
     label.pat-select {
       font-size: 1em;
       padding: 0 0.5em;
@@ -127,6 +138,15 @@
 
         &.collapsible-open {
           color: $colour-accent;
+        }
+      }
+
+      @include screen-size(small) {  
+        .icon-floppy,
+        .icon-info-circle,
+        .icon-copy,
+        .icon-trash {
+          display: none;
         }
       }
 
@@ -183,3 +203,5 @@
   padding: 0;
   border-style: none;
 }
+
+

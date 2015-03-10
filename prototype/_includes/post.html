@@ -50,18 +50,28 @@
 	{% if item.preview %}
 		<section class="preview">
 			<figure>
-				{% if item.preview_url %}
-					<a href="{{item.preview_url}}">
+				{% for node in site.posts %}
+					{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
+					{% if  nodeid == item.object_id %}
+						{% assign object = node %}
+					{% endif %}
+				{% endfor %}
+				{% if object %}
+					<a href="{{ object.url }}" alt="{{ object.title }}">
 				{% endif %}
-				<img src="{{ item.preview }}" alt="" />
-				{% if item.preview_url %}
+				{% if item.preview == 'not-generated' %}
+					<h1>*** NOT GENERATED *** {{ object.title }}</h1>
+				{% else %}
+					<img src="{{ item.preview }}" alt="" />
+				{% endif %}
+				{% if object %}
 					</a>
 				{% endif %}
 			</figure>
 		</section>
 	{% endif %}
 	<div class="functions">
-		
+
 		<!-- Buttons and anchors in this section get a class 'active, when the share or like is used by the current user.' -->
 		<a href="/sharing.html#document-content" class="share pat-modal">Share <sup class="counter">({{ item.shares }})</sup></a>
 		<form action="/feedback/liked.html#content" class="pat-inject pat-autosubmit" id="functions-{{mypostUID}}" data-pat-inject="source: #functions; target: #functions-{{mypostUID}}">
@@ -70,7 +80,7 @@
 		</form>
 	</div>
 	<div class="comments">
-		
+
 		<div id="comment-trail-{{mypostUID}}">
 			{% for comment in item.comments %}
 				{% include comment.html %}
