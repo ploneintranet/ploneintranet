@@ -5,11 +5,9 @@ import csv
 import logging
 import json
 import time
-import transaction
 import mimetypes
 from DateTime import DateTime
 from zope.component import queryUtility
-from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from OFS.Image import Image
@@ -171,7 +169,7 @@ def create_news_items(newscontent):
         obj.setSubject(tuple(newsitem['tags']))
 
         # TODO: there is no workflow at this point
-        #api.content.transition(obj=obj, transition='publish')
+        # api.content.transition(obj=obj, transition='publish')
 
         obj.setEffectiveDate(newsitem['publication_date'])
         obj.reindexObject(idxs=['effective', ])
@@ -284,7 +282,7 @@ def create_stream(context, stream, files_dir):
         if status['context']:
             if status['context'] not in contexts_cache:
                 contexts_cache[status['context']] = api.content.get(
-                    path='/'+decode(status['context']).lstrip('/')
+                    path='/' + decode(status['context']).lstrip('/')
                 )
             kwargs['context'] = contexts_cache[status['context']]
         status_obj = StatusUpdate(status['text'], **kwargs)
@@ -407,6 +405,8 @@ def testing(context):
     }]
     create_tasks(todos_content)
 
+    now = datetime.now()
+
     # Create workspaces
     workspaces = [
         {'title': 'Open Market Committee',
@@ -429,7 +429,16 @@ def testing(context):
                'type': 'Folder',
                'contents':
                    [{'title': 'Projection Material',
-                     'type': 'File'}]}],
+                     'type': 'File'}]},
+              {'title': 'Future Event',
+               'type': 'Event',
+               'start': now + timedelta(days=7),
+               'end': now + timedelta(days=14)},
+              {'title': 'Past Event',
+               'type': 'Event',
+               'start': now + timedelta(days=-7),
+               'end': now + timedelta(days=-14)},
+              ],
          'members': ['christian_stoney', ],
          },
         {'title': 'Parliamentary papers guidance',
@@ -446,7 +455,6 @@ def testing(context):
     create_workspaces(workspaces)
 
     # Create some events
-    now = datetime.now()
     tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
                                                  microsecond=0)
     next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,

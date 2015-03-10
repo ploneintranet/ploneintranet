@@ -58,7 +58,7 @@ setup(name='ploneintranet.suite',
       extras_require={
           'test': [
               'plone.app.testing',
-              'plone.app.robotframework',
+              'plone.app.robotframework[debug]',
           ],
           'develop': [
               # 'Sphinx',
