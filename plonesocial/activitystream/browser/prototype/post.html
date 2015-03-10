@@ -11,7 +11,7 @@
 <div i18n:domain="plonesocial.activitystream"
      tal:define="
          portal_url here/portal_url;
-         thread_id activity_provider/status_id|nothing;
+         thread_id thread_id|activity_provider/status_id|nothing;
          id python: thread_id and ('post-%s' % thread_id) or None;
      "
      class="post item"
