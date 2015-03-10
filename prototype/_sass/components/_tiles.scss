@@ -3,10 +3,10 @@
 .tiles {
 	margin: 0 auto;
 	position: relative;
-	// opacity: 0;
+	opacity: 0;
 	transition: opacity 1s;
 
-	&.packery-ready {
+	&.masonry-ready {
 	  opacity: 1;
 	}
 	
