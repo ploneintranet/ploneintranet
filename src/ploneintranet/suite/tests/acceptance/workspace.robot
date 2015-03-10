@@ -292,7 +292,7 @@ I can create a new image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input#form-widgets-image-input
+    Wait Until Page Contains Element  css=#content input.doc-title[value='My Image']
 
 I can create a structure
     Click link  Create folder
