@@ -107,7 +107,7 @@
              tal:condition="newpostbox_view/is_attachment_supported"
              class="attachments pat-subform pat-autosubmit pat-inject"
              data-pat-inject="url: @@upload-attachments; source: #attachments;"
-             tal:attributes="data-pat-inject string:${attrs/data-pat-inject} target: #${form_id}-attachment-previews">
+             tal:attributes="data-pat-inject string:url:${context/absolute_url}/@@upload-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
             <label class="iconified icon-attach pat-switch"
                    data-pat-switch="#new-post-box status-* status-attach"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
