@@ -20,6 +20,7 @@
               id form_id;
               data-pat-inject python:newpostbox_view.get_pat_inject(form_id, thread_id);
             ">
+
         <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
 
         <tal:direct condition="newpostbox_view/direct">
@@ -133,7 +134,7 @@
             <a class="iconified icon-tags pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: tags;"
                href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${context/portal_url}/@@panel-tags?form_id=${form_id}#status-tag-selector::element">
+               tal:attributes="href string:${context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
                Add tags</a>
 
             <button

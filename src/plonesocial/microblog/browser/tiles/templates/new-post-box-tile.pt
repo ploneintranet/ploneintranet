@@ -1,5 +1,8 @@
 <html>
-    <body tal:define="newpostbox_view nocall:view">
+    <body tal:define="newpostbox_view nocall:view;
+      thread_id view/thread_id;
+      form_id python: thread_id and 'comment_box_%s' % thread_id or 'new-post-box'">
+
       <tal:not_posting tal:condition="not:view/is_posting">
         <metal:block use-macro="here/upload.html/main" />
       </tal:not_posting>
