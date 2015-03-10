@@ -18,7 +18,6 @@ class ContentView(BrowserView):
     def __call__(self, title=None, description=None, tags=[]):
         context = aq_inner(self.context)
         if title or description or tags:
-            CheckAuthenticator(self.request)
             PostOnly(self.request)
             modified = False
             if title and title != context.title:
