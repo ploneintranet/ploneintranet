@@ -120,6 +120,63 @@
   .preview {
     background-color: #efefef;
 
+    figure {
+      border: 1px #dedede solid;
+      box-shadow: 0 0 0.1em silver;
+
+      figcaption {
+        padding: 0;
+        background-color: white;
+
+        .title {
+          color: black;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 0.3em 0.5em 0 0;
+        }
+
+        .byline {
+          color: silver;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 0 0.5em 0.3em 0;
+        }
+
+        &:before {
+          font-family: fontello;
+          content: '\e823';
+          line-height: 1.85em;
+          width: 1.8em;
+          font-size: 2em;
+          float: left;
+          text-align: center;
+          color: silver;
+        }
+      }
+    }
+
+    &.not-generated figure figcaption .byline {
+      
+      
+      &:before {
+        font-family: fontello;
+        content: "\e838";
+        float: left;
+
+        font-style: normal;
+        padding: 0 0.2em;
+
+        -moz-animation: spin 2s infinite linear;
+        -o-animation: spin 2s infinite linear;
+        -webkit-animation: spin 2s infinite linear;
+        animation: spin 2s infinite linear;
+      }
+    }
+
     img {
       max-width: 100%;
       margin: 0 auto;

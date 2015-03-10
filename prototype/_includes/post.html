@@ -48,7 +48,10 @@
 		</p>
 	</section>
 	{% if item.preview %}
-		<section class="preview">
+		<section class="preview {% if item.preview == 'not-generated' %}not-generated{% endif %}">
+			{% if object %}
+				<a href="{{ object.url }}" alt="{{ object.title }}">
+			{% endif %}
 			<figure>
 				{% for node in site.posts %}
 					{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
@@ -56,18 +59,18 @@
 						{% assign object = node %}
 					{% endif %}
 				{% endfor %}
-				{% if object %}
-					<a href="{{ object.url }}" alt="{{ object.title }}">
-				{% endif %}
 				{% if item.preview == 'not-generated' %}
-					<h1>*** NOT GENERATED *** {{ object.title }}</h1>
+					<figcaption>
+						<strong class="title">{{ object.title }}</strong>
+						<em class="byline">Preview being generated</em>
+					</figcaption>
 				{% else %}
 					<img src="{{ item.preview }}" alt="" />
 				{% endif %}
-				{% if object %}
-					</a>
-				{% endif %}
 			</figure>
+			{% if object %}
+				</a>
+			{% endif %}
 		</section>
 	{% endif %}
 	<div class="functions">
