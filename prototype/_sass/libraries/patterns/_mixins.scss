@@ -18,6 +18,16 @@
   }
 }
 
+@mixin bumper() {
+    &.sticky-supported.bumped {
+      // position: -webkit-sticky !important;
+      // position: -moz-sticky !important;
+      // position: -ms-sticky !important;
+      // position: -o-sticky !important;
+      // top: 1px!important;
+    }
+}
+
 @mixin avatar($border-radius: 50%, $border: 0.055556em solid rgba(0,0,0,0.2), $height: 2em, $width: 2em) {
     display: inline-block;
     overflow: hidden;
