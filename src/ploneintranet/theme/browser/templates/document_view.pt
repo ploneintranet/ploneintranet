@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            metal:use-macro="context/main_template/macros/master"
+            i18n:domain="ploneintranet.theme">
+
+<body class="view-secure">
+<metal:content fill-slot="content">
+
+<form class="document pat-inject" method="POST" action="${context/absolute_url}#meta">
+    <div class="metadata pat-bumper" id="meta">
+        <div class="meta-bar">
+            <h1 class="doc-title" id="document-title">
+                ${context/title}
+            </h1>
+            <input name="title" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+            <div class="quick-functions">
+                <a href="#confirm-delete" class="icon-trash iconified">
+                    Delete
+                </a>
+                <a href="" class="icon-copy iconified">
+                    Copy
+                </a>
+                <a href="#share-panel" class="icon-export iconified pat-modal">
+                    Share
+                </a>
+                <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                    <label class="pat-select bare">
+                        <select>
+                            <option>Private</option>
+                            <option>Public</option>
+                            <option>Members</option>
+                            <option>Pending</option>
+                            <option>Logged in</option>
+                            <option>Internal</option>
+                            <option>External</option>
+                        </select>
+                    </label>
+                </fieldset>
+                <button type="submit" class="icon-floppy">Save</button>
+
+            </div>
+        </div>
+        <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+            <fieldset class="bar">
+                <input type="text" class="pat-autosuggest" name="tags" placeholder="Tags" />
+            </fieldset>
+            <fieldset class="bar description">
+                <textarea name="description" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+             </fieldset>
+
+            <!-- <fieldset class="bar versioning">
+                <label>
+                    <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                </label>
+                <fieldset class="condensed pat-depend new-version-details" data-pat-depend="cmfeditions_save_new_version">
+                    <label>Upload a new file
+                        <input type="file" name="file_file">
+                    </label>
+                    <label>
+                        <textarea placeholder="Change notes" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4"></textarea>
+                    </label>
+
+                    <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                </fieldset>
+            </fieldset> -->
+        </fieldset>
+    </div>
+
+    <div id="document-content">
+        <article class="document rich">
+            ${python: context.text.output if context.text else ''}
+        </article>
+    </div>
+</form>
+
+</metal:content>
+</body>
+</html>

@@ -80,7 +80,7 @@
 
 <rules css:if-content="body.portaltype-document">
   <theme href="generated/public-bodies-reform/index.html" />
-  <replace css:content-children="#content" css:theme="#document-content" />
+  <replace css:content="form.document" css:theme="form.document" />
 </rules>
 
 <rules css:if-content="body.template-dashboard-html">

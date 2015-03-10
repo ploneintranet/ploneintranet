@@ -93,6 +93,15 @@
       template="templates/submit_input.pt"
       />
 
+  <browser:page
+    name="document_view"
+    for="plone.app.contenttypes.interfaces.IDocument"
+    layer="..interfaces.IIntranetContentLayer"
+    template="templates/document_view.pt"
+    class=".document_view.DocumentView"
+    permission="zope2.View"
+    />
+
 
   <browser:page
       name="dashboard.html"
