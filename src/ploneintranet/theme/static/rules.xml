@@ -48,9 +48,9 @@
            css:theme="#buddies-toggle" />
 
   <!-- toolbar -->
-  <replace css:theme="#portal-toolbar" css:content-children="#edit-bar" css:if-not-content=".ajax_load" css:if-content=".userrole-authenticated"/>
+<!--  <replace css:theme="#portal-toolbar" css:content-children="#edit-bar" css:if-not-content=".ajax_load" css:if-content=".userrole-authenticated"/>
   <replace css:theme="#anonymous-actions" css:content-children="#portal-personaltools-wrapper" css:if-not-content=".ajax_load" css:if-content=".userrole-anonymous"/>
-
+-->
 
 <!-- Login Form -->
 <rules css:if-content="body.template-login_form">
@@ -61,26 +61,12 @@
 
 <rules css:if-content="body.template-stream">
   <theme href="generated/notifications.html" />
-  <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
 </rules>
 
 <rules css:if-content="body.template-notifications">
   <theme href="generated/notifications.html" />
-  <!-- Main content rule: Put plone content into theme content -->
   <replace css:content-children="#social-messages" css:theme="#document-content" />
-</rules>
-
-<rules css:if-content="body.section-news">
-  <theme href="generated/news.html" />
-  <!-- Main content rule: Put plone content into theme content -->
-  <append css:content-children="#content" css:theme="#content" />
-</rules>
-
-<rules css:if-content="body.section-events">
-  <theme href="generated/calendar.html" />
-  <!-- Main content rule: Put plone content into theme content -->
-  <append css:content-children="#content" css:theme="#content" />
 </rules>
 
 <rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view">
@@ -91,10 +77,10 @@
   <append css:content="#application-body" css:theme="#content" />
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
-<rules css:if-content="body.template-document">
-  <theme href="generated/panel-create-document.html" />
-  <drop css:theme-children="#document-content" />
-  <append css:content-children="#content" css:theme="#document-content" />
+
+<rules css:if-content="body.portaltype-document">
+  <theme href="generated/public-bodies-reform/index.html" />
+  <replace css:content-children="#content" css:theme="#document-content" />
 </rules>
 
 <rules css:if-content="body.template-dashboard-html">
@@ -102,6 +88,7 @@
   <drop css:theme-children="div.container" />
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
+
 <rules css:if-content="body.template-workspaces-html">
   <theme href="generated/workspaces.html" />
   <drop css:theme-children="div.container" />
