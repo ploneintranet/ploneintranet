@@ -156,12 +156,14 @@ class BaseStatusContainer(Persistent, Explicit):
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
             return
-        tread_id = status.thread_id
-        if tread_id:
+        thread_id = status.thread_id
+        if thread_id:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
-            self._threadid_mapping.insert(tread_id, LLBTree.LLTreeSet())
-            self._threadid_mapping[tread_id].insert(status.id)
+            self._threadid_mapping.insert(thread_id, LLBTree.LLTreeSet())
+            self._threadid_mapping[thread_id].insert(status.id)
+            # Make sure thread_id is also in the mapping
+            self._threadid_mapping[thread_id].insert(thread_id)
 
     def _idx_mentions(self, status):
         if not getattr(status, 'mentions', False):
@@ -242,9 +244,6 @@ class BaseStatusContainer(Persistent, Explicit):
         mapping = self._threadid_mapping.get(thread_id)
         if not mapping:
             return [thread_id]
-        else:
-            if thread_id not in mapping:
-                mapping.insert(thread_id)
         return longkeysortreverse(mapping,
                                   min, max, limit, reverse=False)
 
