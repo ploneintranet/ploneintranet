@@ -78,9 +78,14 @@
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
-<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-event">
+<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image">
   <theme href="generated/public-bodies-reform/index.html" />
   <replace css:content="form.document" css:theme="form.document" />
+</rules>
+
+<rules css:if-content="body.portaltype-event">
+  <theme href="generated/event-traces-through-time/index.html" />
+  <replace css:content="#document-body" css:theme="#document-body" />
 </rules>
 
 <rules css:if-content="body.template-dashboard-html">
