@@ -166,12 +166,13 @@
                     <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
                 </div>
-                <form action="./">
-                    <fieldset class="pat-upload" data-pat-upload="url: fileUpload; label: Drop files here or click to browse…; trigger: auto;" tal:attributes="data-pat-upload string:url: ${context/absolute_url}/fileUpload;; label: Drop files here or click to browse…;; trigger: auto;">
+                <form action="workspaceFileUpload#workspace-documents" method="POST" class="pat-inject" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload#workspace-documents">
+                    <fieldset class="pat-upload" data-pat-upload="label: Drop files here or click to browse…; trigger: auto;" tal:attributes="data-pat-upload string:label: Drop files here or click to browse…;; trigger: auto;">
                         <label class="accessibility-options">
-                            <input type="file" multiple> Upload files
+                            <input type="file" name="file" multiple> Upload files
                         </label>
                     </fieldset>
+                    <button type="submit">Upload</button>
                 </form>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
