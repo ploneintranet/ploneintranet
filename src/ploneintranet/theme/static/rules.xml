@@ -69,7 +69,7 @@
   <replace css:content-children="#social-messages" css:theme="#document-content" />
 </rules>
 
-<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view">
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image">
   <theme href="generated/open-market-committee/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <drop css:theme-children="#content" />
@@ -78,10 +78,13 @@
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
-<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image">
+<!--rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image">
   <theme href="generated/public-bodies-reform/index.html" />
-  <replace css:content="form.document" css:theme="form.document" />
-</rules>
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
+</rules-->
 
 <rules css:if-content="body.portaltype-event">
   <theme href="generated/event-traces-through-time/index.html" />

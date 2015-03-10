@@ -6,10 +6,15 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from Products.CMFPlone.utils import safe_unicode
 from plone import api
+from ploneintranet.workspace.utils import parent_workspace
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from zope.interface import implements
 
 
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types"""
+
+    implements(IBlocksTransformEnabled)
 
     def __call__(self, title=None, description=None, tags=[]):
         context = aq_inner(self.context)
@@ -32,6 +37,9 @@ class ContentView(BrowserView):
                 notify(ObjectModifiedEvent(context))
 
         return super(ContentView, self).__call__()
+
+    def workspace(self):
+        return parent_workspace(self)
 
     def file_previews(self):
         context = aq_inner(self.context)
