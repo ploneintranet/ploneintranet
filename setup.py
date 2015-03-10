@@ -45,7 +45,7 @@ setup(name='ploneintranet.suite',
           'ploneintranet.theme',
           'ploneintranet.documentviewer',
           'ploneintranet.invitations',
-          'ploneintranet.docconv.client',
+          'ploneintranet.docconv.client[local]',  # XXX is this a good default?
           'ploneintranet.attachments',
           'ploneintranet.todo',
           'ploneintranet.notifications',
