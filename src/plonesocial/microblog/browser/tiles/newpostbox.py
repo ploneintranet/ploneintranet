@@ -60,6 +60,12 @@ class NewPostBoxTile(Tile):
         return self.request.form.get(('%stext' % self.input_prefix), u'')
 
     @property
+    def post_tags(self):
+        ''' The tags that were added
+        '''
+        return self.request.form.get('tags', [])
+
+    @property
     @memoize
     def post_attachment(self):
         '''
@@ -122,8 +128,14 @@ class NewPostBoxTile(Tile):
         '''
         if not self.post_text:
             return None
+        # XXX To be refactored: Temporarily we append the tags with
+        # hash marks to the post text.
+        # StatusUpdate will need to handle tags separately in the future
+        text = self.post_text
+        for tag in self.post_tags:
+            text = "{0} #{1}".format(text, tag)
         post = StatusUpdate(
-            self.post_text,
+            text,
             context=self.post_context,
             thread_id=self.thread_id
         )

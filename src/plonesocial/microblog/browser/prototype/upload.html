@@ -44,42 +44,7 @@
             </tal:hideuser>
         </tal:direct>
 
-        <script type="text/javascript">
-          //<!-- Ideally this will be a separate pattern one day -->
-          $(document).ready(function(){
-              var the_textarea = $('textarea.pat-content-mirror');
-              function updateMirror(){
-              var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
-              var the_value = the_textarea.val();
-              the_mirror.text(the_value);
-          }
 
-          $(document).on('input propertychange',the_textarea, function() {
-              updateMirror();
-          });
-
-          $('form.update-social').submit(function(event){
-              var textarea = $(this).find('textarea');
-              var selected_tags = $(this).find('.selected-tags a');
-              var selected_users = $(this).find('.selected-users a');
-              var tags = '';
-              var users = '';
-
-              for (i = 0; i < selected_users.length; i++) {
-                  users = users + ' @' + selected_users[i].dataset.userId;
-              }
-
-              for (i = 0; i < selected_tags.length; i++) {
-                  tags = tags + ' ' + selected_tags[i].text;
-              }
-
-              users = users?' — ' + users:users;
-              tags = tags?' — ' + tags:tags;
-
-              textarea.val(textarea.val() + users + tags);
-              });
-          });
-        </script>
 
         <fieldset>
           <p class="content-mirror"
@@ -92,7 +57,7 @@
                 ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing"
-                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
+                ><a tal:content="string:#${tag}" /><input type="hidden" name="tags:list" tal:attributes="value tag" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
             ></em>
           </p>
 
