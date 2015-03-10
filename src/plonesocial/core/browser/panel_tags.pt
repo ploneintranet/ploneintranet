@@ -8,7 +8,9 @@
 
   <body>
 
-    <div metal:fill-slot="main" i18n:domain="plonesocial.microblog">
+    <div metal:fill-slot="main" i18n:domain="plonesocial.microblog"
+         tal:define="form_id request/form_id|nothing;
+                     form_string python:form_id and '%s-' % form_id or ''">
 
       <div id="status-tag-selector" class="item-selector mode-">
         <div id="-functions" class="button-bar functions">
@@ -18,7 +20,7 @@
           </span>
         </div>
 
-        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#items"
+        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#postbox-items"
               method="post"
               class="search-box pat-inject pat-autosubmit">
           <label>
@@ -27,9 +29,10 @@
           </label>
         </form>
 
-        <form id="items"
+        <form id="postbox-items"
               action="#selected-tags"
-              class="search-result tags pat-inject pat-autosubmit">
+              class="search-result tags pat-inject pat-autosubmit"
+              tal:attributes="data-pat-inject string:source: #postbox-items;; target:#${form_string}selected-tags">
           <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
                     class="checklist pat-checklist tags unchecked">
 
