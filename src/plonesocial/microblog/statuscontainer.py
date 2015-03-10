@@ -156,12 +156,12 @@ class BaseStatusContainer(Persistent, Explicit):
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
             return
-        tread_id = status.thread_id
-        if tread_id:
+        thread_id = status.thread_id
+        if thread_id:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
-            self._threadid_mapping.insert(tread_id, LLBTree.LLTreeSet())
-            self._threadid_mapping[tread_id].insert(status.id)
+            self._threadid_mapping.insert(thread_id, LLBTree.LLTreeSet())
+            self._threadid_mapping[thread_id].insert(status.id)
 
     def _idx_mentions(self, status):
         if not getattr(status, 'mentions', False):
