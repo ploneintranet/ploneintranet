@@ -32,7 +32,7 @@
         <form id="postbox-items"
               action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit"
-              tal:attributes="data-pat-inject string:source: #postbox-items;; target:#${form_string}selected-tags">
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_string}selected-tags">
           <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
                     class="checklist pat-checklist tags unchecked">
 
