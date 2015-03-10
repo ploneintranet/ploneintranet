@@ -75,9 +75,7 @@ class StatusUpdate(Persistent):
 
     def replies(self):
         container = PLONESOCIAL.microblog
-        my_replies = list(container.thread_values(self.id))
-        my_replies.reverse()
-        for reply in my_replies:
+        for reply in container.thread_values(self.id):
             if IStatusActivityReply.providedBy(reply):
                 yield reply
 
