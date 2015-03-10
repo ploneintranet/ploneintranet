@@ -120,6 +120,14 @@
   .preview {
     background-color: #efefef;
 
+    a:hover {
+      text-decoration: none;
+
+      figure figcaption {
+        background-color: #ededed;
+      }
+    }
+
     figure {
       border: 1px #dedede solid;
       box-shadow: 0 0 0.1em silver;
@@ -145,7 +153,6 @@
           overflow: hidden;
           text-overflow: ellipsis;
           padding: 0 0.5em 0.3em 0;
-          margin-left: -0.3em;
         }
 
         &:before {
@@ -164,7 +171,7 @@
     }
 
     &.not-generated figure figcaption .byline {
-      
+      margin-left: -0.3em;
       
       &:before {
         font-family: fontello;
