@@ -78,7 +78,7 @@
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
-<rules css:if-content="body.portaltype-document">
+<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-event">
   <theme href="generated/public-bodies-reform/index.html" />
   <replace css:content="form.document" css:theme="form.document" />
 </rules>

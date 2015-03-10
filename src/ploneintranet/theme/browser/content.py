@@ -4,9 +4,11 @@ from Products.Five import BrowserView
 from plone.protect import CheckAuthenticator, PostOnly
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from Products.CMFPlone.utils import safe_unicode
 
 
-class DocumentView(BrowserView):
+class ContentView(BrowserView):
+    """View and edit class/form for all default DX content-types"""
 
     def __call__(self, title=None, description=None, tags=[]):
         context = aq_inner(self.context)
@@ -15,16 +17,17 @@ class DocumentView(BrowserView):
             PostOnly(self.request)
             modified = False
             if title and title != context.title:
-                context.title = title
+                context.title = safe_unicode(title)
                 modified = True
             if description and description != context.description:
-                context.description = description
+                context.description = safe_unicode(description)
                 modified = True
-            if tags and tags != context.subjects:
-                context.subjects = tags
+            if tags:
+                tags = tuple([safe_unicode(tag) for tag in tags.split(',')])
+                context.subject = tags
                 modified = True
             if modified:
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
 
-        return super(DocumentView, self).__call__()
+        return super(ContentView, self).__call__()
