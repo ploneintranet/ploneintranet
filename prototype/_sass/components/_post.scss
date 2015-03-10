@@ -125,8 +125,9 @@
       box-shadow: 0 0 0.1em silver;
 
       figcaption {
-        padding: 0;
+        padding: 0 0 0 3.5em;
         background-color: white;
+        position: relative;
 
         .title {
           color: black;
@@ -144,6 +145,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           padding: 0 0.5em 0.3em 0;
+          margin-left: -0.3em;
         }
 
         &:before {
@@ -152,7 +154,9 @@
           line-height: 1.85em;
           width: 1.8em;
           font-size: 2em;
-          float: left;
+          position: absolute;
+          top: 0;
+          left: 0;
           text-align: center;
           color: silver;
         }
@@ -166,6 +170,8 @@
         font-family: fontello;
         content: "\e838";
         float: left;
+        height: 1.4em;
+        line-height: 1.45em;
 
         font-style: normal;
         padding: 0 0.2em;
