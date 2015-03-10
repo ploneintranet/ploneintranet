@@ -19,6 +19,7 @@ template: generic
                 <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents">
                     Attachments
                 </a>
+                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
                 <!-- <a href="" class="icon-copy iconified" title="Copy this document">
                     Copy
                 </a>
@@ -46,13 +47,35 @@ template: generic
                 {% endfor %}
             </div>
         </div>
+        <fieldset class="pat-collapsible open meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+            <!-- <fieldset class="bar">
+                <input type="text" class="pat-autosuggest" placeholder="Tags" />
+            </fieldset> -->
+            <fieldset class="bar description">
+                <textarea name="description" rows="8" title="Description" placeholder="Description"></textarea>
+             </fieldset>
+
+            <!-- <fieldset class="bar versioning">
+                <label>
+                    <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                </label>
+                <fieldset class="condensed pat-depend new-version-details" data-pat-depend="cmfeditions_save_new_version">
+                    <label>Upload a new file
+                        <input type="file" name="file_file">
+                    </label>
+                    <label>
+                        <textarea placeholder="Change notes" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4"></textarea>
+                    </label>
+
+                    <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                </fieldset>
+            </fieldset> -->
+        </fieldset>
     </div>
     <div id="document-content">
         <div class="document">
 
-        <fieldset class="vertical">
-                <textarea name="description" placeholder="Description">This is the Plone Intranet Board meeting for 2015</textarea>
-        <br>
+    <fieldset class="vertical">
         <label>
             Location <input name="location" type="text" value="Frankfurt">
         </label>
