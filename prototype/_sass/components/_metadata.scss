@@ -10,6 +10,10 @@
   -webkit-transition: padding 0.5s;
   transition: padding 0.5s;
 
+  @include screen-size(small) {  
+    position: static !important;
+  }
+
   .select2-choices {
     border: none;
   }
@@ -42,16 +46,18 @@
   }
 
   &.bumped {
-    padding: 0;
-    // border-bottom: 1px solid silver;
+    @include screen-size(large) {
+      padding: 0;
+      // border-bottom: 1px solid silver;
 
-    .meta-bar {
-      border-top: none;
-    }
+      .meta-bar {
+        border-top: none;
+      }
 
-    .meta-bar,
-    .bar {
-      padding: 0 2%;
+      .meta-bar,
+      .bar {
+        padding: 0 2%;
+      }
     }
   }
 
@@ -69,6 +75,10 @@
     -moz-transition: padding 0.5s;
     -webkit-transition: padding 0.5s;
     transition: padding 0.5s;
+
+    @include screen-size(small) {  
+      border: none;
+    }
 
     .back-to-parent {
       @include screen-size(large) {  
