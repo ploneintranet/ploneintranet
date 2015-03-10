@@ -4,7 +4,6 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.protect import CheckAuthenticator, PostOnly
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
@@ -20,7 +19,6 @@ class ContentView(BrowserView):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         if title or description or tags:
-            PostOnly(self.request)
             modified = False
             if title and title != context.title:
                 context.title = safe_unicode(title)
@@ -57,4 +55,3 @@ class ContentView(BrowserView):
         scale = images_view.scale(fieldname='image', scale='large')
         if scale:
             return scale.tag(css_class='page')
-
