@@ -267,7 +267,8 @@ class Sidebar(BaseTile):
                     url = "%s/view" % url
                 dpi = (
                     "target: #document-body; "
-                    "source: .container"
+                    "source: .container; "
+                    "history: record"
                 )
                 content_type = 'document'
 
