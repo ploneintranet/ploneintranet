@@ -352,6 +352,12 @@ fieldset {
     @include clear-fix();
   }
 
+  .pat-checklist {
+    label {
+      margin-bottom: 0;
+    }
+  }
+
   input,
   textarea,
   select,
