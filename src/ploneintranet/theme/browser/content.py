@@ -5,6 +5,7 @@ from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.protect import CheckAuthenticator, PostOnly
+from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.interface import implementer
@@ -16,6 +17,7 @@ class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types"""
 
     def __call__(self, title=None, description=None, tags=[]):
+        """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         if title or description or tags:
             PostOnly(self.request)
@@ -39,15 +41,20 @@ class ContentView(BrowserView):
     def workspace(self):
         return parent_workspace(self)
 
-    def file_previews(self):
+    def number_of_file_previews(self):
+        """The number of previews generated for that file."""
         context = aq_inner(self.context)
         if context.portal_type != 'File':
             return
-        return "get the damn previews!"
+        docconv = IDocconv(self.context)
+        if docconv.has_previews():
+            return docconv.get_number_of_pages()
 
-    def image_preview(self):
+    def image_preview_tag(self):
+        """The img-tag used to render the image."""
         context = aq_inner(self.context)
         images_view = api.content.get_view('images', context, self.request)
         scale = images_view.scale(fieldname='image', scale='large')
         if scale:
-            return scale.tag()
+            return scale.tag(css_class='page')
+

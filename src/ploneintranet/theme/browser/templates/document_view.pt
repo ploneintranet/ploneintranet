@@ -15,7 +15,7 @@
 
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-        <div id="document-body">     
+        <div id="document-body">
 
             <form class="document pat-inject" method="POST" action="${context/absolute_url}#meta">
                 <div class="metadata pat-bumper" id="meta">
@@ -83,14 +83,16 @@
                         ${python: context.text.output if context.text else ''}
                     </article>
 
-                    <article class="document preview" tal:condition="python: context.portal_type == 'File'">
-                        <tal:previews tal:repeat="preview view/file_previews">
-                            <img tal:replace="structure preview/tag" />
+                    <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
+                        <tal:previews tal:repeat="preview python:range(number_of_file_previews)">
+                            <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
                         </tal:previews>
                     </article>
 
                     <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
+                        <figure>
                         <img tal:replace="structure view/image_preview" />
+                        </figure>
                     </article>
 
                 </div>
