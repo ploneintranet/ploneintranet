@@ -128,6 +128,7 @@
         img {
           background-color: white;
           border: 1px silver solid;
+          width: 100%; // fix for IE & FF http://stackoverflow.com/questions/14550356/image-mysteriously-ignoring-max-width-in-firefox-ie#comment20355324_14578128
         }
       }
 
