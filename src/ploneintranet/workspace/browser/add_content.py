@@ -40,7 +40,7 @@ class AddContent(BrowserView):
 
     def redirect(self, url):
         """Has its own method to allow overriding"""
-        url = '{}/edit'.format(url)
+        # url = '{}/edit'.format(url)
         return self.request.response.redirect(url)
 
 
