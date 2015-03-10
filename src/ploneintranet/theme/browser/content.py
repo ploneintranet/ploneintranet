@@ -5,6 +5,7 @@ from plone.protect import CheckAuthenticator, PostOnly
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from Products.CMFPlone.utils import safe_unicode
+from plone import api
 
 
 class ContentView(BrowserView):
@@ -31,3 +32,16 @@ class ContentView(BrowserView):
                 notify(ObjectModifiedEvent(context))
 
         return super(ContentView, self).__call__()
+
+    def file_previews(self):
+        context = aq_inner(self.context)
+        if context.portal_type != 'File':
+            return
+        return "get the damn previews!"
+
+    def image_preview(self):
+        context = aq_inner(self.context)
+        images_view = api.content.get_view('images', context, self.request)
+        scale = images_view.scale(fieldname='image', scale='large')
+        if scale:
+            return scale.tag()

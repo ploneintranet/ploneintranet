@@ -71,9 +71,20 @@
     </div>
 
     <div id="document-content">
-        <article class="document rich">
+        <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
             ${python: context.text.output if context.text else ''}
         </article>
+
+        <article class="document preview" tal:condition="python: context.portal_type == 'File'">
+            <tal:previews tal:repeat="preview view/file_previews">
+                <img tal:replace="structure preview/tag" />
+            </tal:previews>
+        </article>
+
+        <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
+            <img tal:replace="structure view/image_preview" />
+        </article>
+
     </div>
 </form>
 

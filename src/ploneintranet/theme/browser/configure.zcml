@@ -106,7 +106,7 @@
     name="file_view"
     for="plone.app.contenttypes.interfaces.IFile"
     layer="..interfaces.IIntranetContentLayer"
-    template="templates/file_view.pt"
+    template="templates/document_view.pt"
     class=".content.ContentView"
     permission="zope2.View"
     />
@@ -115,13 +115,13 @@
     name="image_view"
     for="plone.app.contenttypes.interfaces.IImage"
     layer="..interfaces.IIntranetContentLayer"
-    template="templates/image_view.pt"
+    template="templates/document_view.pt"
     class=".content.ContentView"
     permission="zope2.View"
     />
 
   <browser:page
-    name="event_view"
+    name="intranet_event_view"
     for="plone.app.contenttypes.interfaces.IEvent"
     layer="..interfaces.IIntranetContentLayer"
     template="templates/event_view.pt"
