@@ -246,7 +246,7 @@ class BaseStatusContainer(Persistent, Explicit):
             if thread_id not in mapping:
                 mapping.insert(thread_id)
         return longkeysortreverse(mapping,
-                                  min, max, limit)
+                                  min, max, limit, reverse=False)
 
     # user_* accessors
 
