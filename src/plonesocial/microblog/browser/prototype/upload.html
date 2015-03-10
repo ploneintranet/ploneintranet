@@ -44,14 +44,14 @@
         </tal:direct>
 
         <script type="text/javascript">
-          <!-- Ideally this will be a separate pattern one day -->
+          //<!-- Ideally this will be a separate pattern one day -->
           $(document).ready(function(){
               var the_textarea = $('textarea.pat-content-mirror');
               function updateMirror(){
               var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
               var the_value = the_textarea.val();
               the_mirror.text(the_value);
-          };
+          }
 
           $(document).on('input propertychange',the_textarea, function() {
               updateMirror();
@@ -72,8 +72,8 @@
                   tags = tags + ' ' + selected_tags[i].text;
               }
 
-              users = users?' — ' + users:users
-              tags = tags?' — ' + tags:tags
+              users = users?' — ' + users:users;
+              tags = tags?' — ' + tags:tags;
 
               textarea.val(textarea.val() + users + tags);
               });
@@ -84,12 +84,12 @@
           <p class="content-mirror"
             ><span class="text"
               ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
-            ><em class="selected-users" id="selected-users"
+            ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"
                 ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
                 tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
                 ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
-              ></em><em class="selected-tags" id="selected-tags"
+              ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing"
                 ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags
             ></em>
@@ -133,7 +133,7 @@
             <a class="iconified icon-tags pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: tags;"
                href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${context/portal_url}/@@panel-tags#status-tag-selector::element">
+               tal:attributes="href string:${context/portal_url}/@@panel-tags?form_id=${form_id}#status-tag-selector::element">
                Add tags</a>
 
             <button
