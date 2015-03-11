@@ -48,13 +48,13 @@ class TestDocconvLocal(IntegrationTestCase):
             title=u"Docconv Workspace",
             container=portal)
         ff = open(os.path.join(os.path.dirname(__file__), 'test.odt'), 'r')
-        filedata = ff.read()
+        self.filedata = ff.read()
         ff.close()
         self.testfile = api.content.create(
             type='File',
             id='test-file',
             title=u"Test File",
-            file=NamedBlobFile(data=filedata, filename=u'test.odt'),
+            file=NamedBlobFile(data=self.filedata, filename=u'test.odt'),
             container=self.workspace)
 
         handlers._update_preview_images = _update_preview_images
@@ -80,6 +80,21 @@ class TestDocconvLocal(IntegrationTestCase):
             self.testfile, IDocconv, name='plone.app.async')
         self.assertTrue(isinstance(alt_docconv, DocconvAdapter))
 
+    def test_document(self):
+        testdoc = api.content.create(
+            type='Document',
+            id='test-doc',
+            title=u"Test Document",
+            text=u'The main text',
+            container=self.workspace)
+        fetchPreviews(testdoc,
+                      virtual_url_parts=['dummy', ],
+                      vr_path='/plone')
+        docconv = IDocconv(testdoc)
+        self.assertTrue(docconv.has_pdf())
+        self.assertTrue(docconv.has_previews())
+        self.assertTrue(docconv.has_thumbs())
+
     def test_empty_document_skipped(self):
         testdoc = api.content.create(
             type='Document',
@@ -100,7 +115,7 @@ class TestDocconvLocal(IntegrationTestCase):
             type='Image',
             id='test-image',
             title=u"Test Image",
-            file=NamedBlobImage(data=imagedata, filename=u'testimage.gif'),
+            image=NamedBlobImage(data=imagedata, filename=u'testimage.gif'),
             container=self.workspace)
         with patch.object(
                 BasePreviewFetcher, convert_method_name) as mock_convert:
@@ -185,6 +200,7 @@ class TestDocconvLocal(IntegrationTestCase):
         fileob = api.content.create(
             type='File',
             title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=u'test.odt'),
             container=self.workspace)
         docconv = IDocconv(fileob)
         self.assertTrue(docconv.has_previews())
