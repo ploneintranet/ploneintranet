@@ -43,8 +43,13 @@
     content: "\e82f";
   }
 
-  .timezone:before {
-    content: "\e830";
+  .timezone {
+    padding-left: 0;
+
+    &:before {
+      content: "\e830";
+      left: -4.5rem;
+    }
   }
 
   .invitiees:before {
