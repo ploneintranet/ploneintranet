@@ -1,7 +1,7 @@
 <html>
     <body tal:define="newpostbox_view nocall:view;
       thread_id view/thread_id;
-      form_id python: thread_id and 'comment_box_%s' % thread_id or 'new-post-box';
+      form_id python: thread_id and 'comment_box_%s' % thread_id or 'post-box';
       is_posting view/is_posting">
 
       <tal:not_posting tal:condition="not:is_posting">
