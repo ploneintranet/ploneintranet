@@ -8,7 +8,7 @@ import sys
 python_path = sys.executable
 bin_dir = os.path.dirname(python_path)
 pip_path = os.path.join(bin_dir, "pip")
-bootstrap_clean = "{0} uninstall zc.buildout".format(pip_path)
+bootstrap_clean = "{0} uninstall -y zc.buildout".format(pip_path)
 bootstrap = "{0} install -r requirements.txt".format(pip_path)
 
 try:
