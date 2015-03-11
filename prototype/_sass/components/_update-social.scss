@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
+.application-home .update-social {
+  margin: 0 auto 1em;
+  width: 80%;
+}
+
 .update-social {
     position: relative;
     background-color: #fcfcfc;
-
-    &#new-post-box {
-        margin: 0 auto 1em;
-        width: 80%;
-    }
 
     textarea,
     .content-mirror {
