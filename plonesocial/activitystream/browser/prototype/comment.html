@@ -32,10 +32,10 @@
                 </p>
             </section>
 
-            <section class="preview" tal:condition="nothing">
+            <section class="preview">
                 <figure tal:repeat="attachment provider/attachments">
                     <a href="/incredibly-boring-document" tal:attributes="href attachment">
-                        <img alt="" src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}/thumb" />
+                        <img alt="" src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}" />
                     </a>
                 </figure>
             </section>
