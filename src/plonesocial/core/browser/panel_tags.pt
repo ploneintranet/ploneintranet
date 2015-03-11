@@ -10,7 +10,7 @@
 
     <div metal:fill-slot="main" i18n:domain="plonesocial.microblog"
          tal:define="thread_id request/thread_id|nothing;
-                     form_id python:thread_id and 'comment_box_%s' % thread_id or 'new-post-box'">
+                     form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
       <div id="status-tag-selector" class="item-selector mode-">
         <div id="-functions" class="button-bar functions">
