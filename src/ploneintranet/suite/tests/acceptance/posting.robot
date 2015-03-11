@@ -37,8 +37,8 @@ I post a status update
 
 The message is visible as top element
     [arguments]  ${message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post status item']/section[@class='post-content' and contains(text(), '${message}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content' and contains(text(), '${message}')][1]
 
 The status update only appears once
-    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post status item'][1]
-    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post status item'][2]
+    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content' and contains(text(), '${message}')][1]
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content' and contains(text(), '${message}')][2]
