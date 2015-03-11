@@ -8,6 +8,14 @@ from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
 
+import ploneintranet.workspace
+import collective.workspace
+import plonesocial.microblog
+import plonesocial.activitystream
+import ploneintranet.invitations
+import Products.CMFPlacefulWorkflow
+import ploneintranet.theme
+
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
@@ -18,7 +26,6 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import ploneintranet.workspace
         xmlconfig.file(
             'configure.zcml',
             ploneintranet.workspace,
@@ -30,42 +37,36 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             package=ploneintranet.workspace,
         )
 
-        import collective.workspace
         xmlconfig.file(
             'configure.zcml',
             collective.workspace,
             context=configurationContext
         )
 
-        import plonesocial.microblog
         xmlconfig.file(
             'configure.zcml',
             plonesocial.microblog,
             context=configurationContext
         )
 
-        import plonesocial.activitystream
         xmlconfig.file(
             'configure.zcml',
             plonesocial.activitystream,
             context=configurationContext
         )
 
-        import ploneintranet.invitations
         xmlconfig.file(
             'configure.zcml',
             ploneintranet.invitations,
             context=configurationContext
         )
 
-        import Products.CMFPlacefulWorkflow
         xmlconfig.file(
             'configure.zcml',
             Products.CMFPlacefulWorkflow,
             context=configurationContext
         )
 
-        import ploneintranet.theme
         xmlconfig.file(
             'configure.zcml',
             ploneintranet.theme,
