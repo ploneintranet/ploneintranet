@@ -53,14 +53,6 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('foo bar')
         self.assertEqual(su.creator, 'test-user')
 
-    def test_tag_comma(self):
-        sa = StatusUpdate('test #foo,')
-        self.assertEqual(sa.tags, ['foo'])
-
-    def test_tag_interpunction(self):
-        sa = StatusUpdate('test #foo,:.;!$')
-        self.assertEqual(sa.tags, ['foo'])
-
     def test_context_is_not_IMicroblogContext(self):
         mockcontext = object()
         sa = StatusUpdate('foo', context=mockcontext)
