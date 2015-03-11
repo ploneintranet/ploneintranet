@@ -38,25 +38,25 @@ I view a document
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/public-bodies-reform
 
 I change the title
-    Input Text  title  New title
+    Input Text  title  New title ♥
     Click Button  Save
 
 The document has the new title
-    Textfield Should Contain  title  New title
+    Textfield Should Contain  title  New title ♥
 
 I change the description
     Click Link  link=Toggle extra metadata
-    Input Text  xpath=//textarea[@name='description']  New description
+    Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
 
 The document has the new description
-    Page Should Contain  New description
+    Page Should Contain  New description ☀
 
 I tag the description
     Click Link  link=Toggle extra metadata
-    Input Text  id=s2id_autogen2  NewTag,
+    Input Text  id=s2id_autogen2  NewTag☃,
     Click Button  Save
 
 The document has the new tag
     Click Link  link=Toggle extra metadata
-    Page Should Contain  NewTag    
+    Page Should Contain  NewTag☃
