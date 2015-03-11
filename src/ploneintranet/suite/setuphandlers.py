@@ -13,6 +13,7 @@ from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from plone.namedfile.file import NamedBlobImage
+from plone.namedfile.file import NamedBlobFile
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.utils import create_attachment
@@ -407,11 +408,18 @@ def testing(context):
     create_tasks(todos_content)
 
     now = datetime.now()
+
     budget_proposal_filename = u'budget-proposal.png'
     budget_proposal_path = os.path.join('images', budget_proposal_filename)
     budget_proposal_img = NamedBlobImage(
         data=context.openDataFile(budget_proposal_path).read(),
         filename=budget_proposal_filename
+    )
+    minutes_filename = u'minutes.docx'
+    minutes_path = os.path.join('files', minutes_filename)
+    minutes_file = NamedBlobImage(
+        data=context.openDataFile(minutes_path).read(),
+        filename=minutes_filename
     )
 
     # Create workspaces
@@ -439,6 +447,11 @@ def testing(context):
                      ),
                      'image': budget_proposal_img,
                      'type': 'Image',
+                     },
+                    {'title': u'Minutes',
+                     'description': u'Meeting Minutes',
+                     'file': minutes_file,
+                     'type': 'File',
                      },
                    ]
               },
