@@ -1,4 +1,5 @@
 from mock import Mock
+from mock import patch
 from Testing.makerequest import makerequest
 from collective.documentviewer.settings import GlobalSettings
 from plone import api
@@ -77,6 +78,18 @@ class TestDocconvLocal(IntegrationTestCase):
         alt_docconv = getAdapter(
             self.testfile, IDocconv, name='plone.app.async')
         self.assertTrue(isinstance(alt_docconv, DocconvAdapter))
+
+    def test_empty_document_skipped(self):
+        testdoc = api.content.create(
+            type='Document',
+            id='test-doc',
+            title=u"Test Document",
+            container=self.workspace)
+        with patch.object(BasePreviewFetcher, '__call__') as mock_call:
+            fetchPreviews(testdoc,
+                          virtual_url_parts=['dummy', ],
+                          vr_path='/plone')
+            self.assertFalse(mock_call.called)
 
     def test_fetch_docconv_data(self):
         fetchPreviews(self.testfile,
