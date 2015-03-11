@@ -28,7 +28,14 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <a class="{{ include.id }}-toggle-select more-menu-trigger" title="Show more functions">Functions</a>
+
+            <div class="quick-functions">
+                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
+                <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
+                {% if include.toggle == 'true' %}
+                    <a class="pat-toggle toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+                {% endif %}
+            </div>
         </div>
     {% endif %}
     {% if include.mode == "users" and (include.title or include.controls contains 'pull-menu') %}
@@ -38,9 +45,12 @@
                     {{ include.title }}
                 </h3>
             {% endif %}
-            {% if include.controls contains 'pull-menu' %}
-                <a class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
-            {% endif %}
+            <div class="quick-functions">
+                {% if include.controls contains 'pull-menu' %}
+                    <a title="Show functions" class="{{ include.id }}-toggle-select more-menu-trigger">Functions</a>
+                {% endif %}
+                <a class="toggle-select-mode pat-toggle {{ include.id }}-toggle-select" data-pat-toggle="selector: #{{ include.id }}; value: mode-select mode-follow">Select</a>
+            </div>
         </div>
     {% endif %}
 
