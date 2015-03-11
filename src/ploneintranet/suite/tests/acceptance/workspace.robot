@@ -328,6 +328,4 @@ I can create a structure
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
 
 The file appears in the sidebar
-    Wait until Keyword Succeeds  1 min  5 sec  Page Should Not Contain Element  css=.previews .item
-    Wait until Page contains Element  css=#workspace-documents.injecting
-    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']
+    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
