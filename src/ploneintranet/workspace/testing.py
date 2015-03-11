@@ -65,6 +65,13 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        import ploneintranet.theme
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.theme,
+            context=configurationContext
+        )
+
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
@@ -76,6 +83,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
+        applyProfile(portal, 'ploneintranet.theme:default')
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 
