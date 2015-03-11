@@ -106,6 +106,13 @@
      view="plone.app.layout.globals.interfaces.IViewView"
      />
 
+    <browser:page
+      name="workspaceFileUpload"
+      for="Products.CMFCore.interfaces._content.IFolderish"
+      class=".views.FileUploadView"
+      permission="cmf.AddPortalContent"
+      />
+
    <include package=".tiles" />
 
 

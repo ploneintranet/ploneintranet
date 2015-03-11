@@ -8,7 +8,6 @@ from plonesocial.microblog.interfaces import IMicroblogTool
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.component import queryUtility
-from plone.memoize.instance import memoize
 from collective.workspace.interfaces import IWorkspace
 from ploneintranet.workspace import MessageFactory as _
 
