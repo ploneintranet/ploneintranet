@@ -1,4 +1,5 @@
 from AccessControl import Unauthorized
+from ploneintranet.workspace.browser.views import BaseFileUploadView
 from ploneintranet.workspace.browser.views import FileUploadView
 from ploneintranet.workspace.browser.views import JoinView
 from ploneintranet.workspace.browser.views import SharingView
@@ -176,7 +177,6 @@ class TestFileUploadView(BaseViewTest):
     def test_upload_file_json(self):
         self.request.environ['HTTP_ACCEPT'] = 'text/json'
         self.request.form = {'file': 'dummy'}
-        from ploneintranet.workspace.browser.views import BaseFileUploadView
         with patch.object(BaseFileUploadView, '__call__') as mock_call:
             mock_call.return_value = '{"type": "dummy"}'
             result = self.view()
@@ -186,7 +186,6 @@ class TestFileUploadView(BaseViewTest):
     def test_upload_file_html(self):
         self.request.environ['HTTP_ACCEPT'] = 'text/html'
         self.request.form = {'file': 'dummy'}
-        from ploneintranet.workspace.browser.views import BaseFileUploadView
         with patch.object(BaseFileUploadView, '__call__') as mock_call:
             mock_call.return_value = '{"type": "dummy"}'
             self.assertEqual(self.view(), None)
