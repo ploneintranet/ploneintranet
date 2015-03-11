@@ -11,7 +11,8 @@
 
     <metal:content metal:fill-slot="content"
         tal:define="workspace view/workspace;
-                    workspace_url python:workspace.absolute_url()">
+                    workspace_url python:workspace.absolute_url();
+                    workspace_id python:workspace.id">
 
         <h1 id="workspace-name">
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
