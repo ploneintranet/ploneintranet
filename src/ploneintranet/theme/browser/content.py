@@ -18,6 +18,7 @@ class ContentView(BrowserView):
     def __call__(self, title=None, description=None, tags=[]):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
+        self.workspace = parent_workspace(context)
         if title or description or tags:
             modified = False
             if title and title != context.title:
@@ -35,9 +36,6 @@ class ContentView(BrowserView):
                 notify(ObjectModifiedEvent(context))
 
         return super(ContentView, self).__call__()
-
-    def workspace(self):
-        return parent_workspace(self)
 
     def number_of_file_previews(self):
         """The number of previews generated for that file."""
