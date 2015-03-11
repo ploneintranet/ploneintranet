@@ -13,11 +13,12 @@ from zope.lifecycleevent import ObjectModifiedEvent
 
 @implementer(IBlocksTransformEnabled)
 class ContentView(BrowserView):
-    """View and edit class/form for all default DX content-types"""
+    """View and edit class/form for all default DX content-types."""
 
     def __call__(self, title=None, description=None, tags=[]):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
+        self.workspace = parent_workspace(context)
         if title or description or tags:
             modified = False
             if title and title != context.title:
@@ -36,11 +37,8 @@ class ContentView(BrowserView):
 
         return super(ContentView, self).__call__()
 
-    def workspace(self):
-        return parent_workspace(self)
-
     def number_of_file_previews(self):
-        """The number of previews generated for that file."""
+        """The number of previews generated for a file."""
         context = aq_inner(self.context)
         if context.portal_type != 'File':
             return
@@ -49,7 +47,7 @@ class ContentView(BrowserView):
             return docconv.get_number_of_pages()
 
     def image_preview_tag(self):
-        """The img-tag used to render the image."""
+        """The img-tag used to render an image."""
         context = aq_inner(self.context)
         images_view = api.content.get_view('images', context, self.request)
         scale = images_view.scale(fieldname='image', scale='large')

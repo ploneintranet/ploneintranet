@@ -10,7 +10,7 @@
 <body>
 
     <metal:content metal:fill-slot="content"
-        tal:define="workspace view/workspace;
+        tal:define="workspace python:view.workspace;
                     workspace_url python:workspace.absolute_url();
                     workspace_id python:workspace.id">
 
