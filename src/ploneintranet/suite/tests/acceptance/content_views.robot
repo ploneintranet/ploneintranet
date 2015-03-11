@@ -14,30 +14,38 @@ Test Teardown  Close all browsers
 
 Alice can change the title of a document
     Given I'm logged in as a 'alice_lindstrom'
-    And I view a document
+    And I browse to a document
     And I change the title
-    Reload Page
+    And I view a document
     The document has the new title
 
 Alice can change the description of a document
     Given I'm logged in as a 'alice_lindstrom'
-    And I view a document
+    And I browse to a document
     And I change the description
-    Reload Page
+    And I view a document
     The document has the new description
 
 Alice can tag a document
     Given I'm logged in as a 'alice_lindstrom'
-    And I view a document
+    And I browse to a document
     And I tag the description
-    Reload Page
+    And I view a document
     The document has the new tag
 
 *** Keywords ***
+I browse to a document
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Manage Information
+    Click Link  xpath=//a[contains(@href, 'public-bodies-reform')]
+
 I view a document
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/public-bodies-reform
 
 I change the title
+    Comment  Toggle the metadata to give the JavaScript time to load
+    Click Link  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
     Input Text  title  New title ♥
     Click Button  Save
 
