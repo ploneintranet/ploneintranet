@@ -120,13 +120,22 @@
   .preview {
     background-color: #efefef;
 
+    a:hover {
+      text-decoration: none;
+
+      figure figcaption {
+        background-color: #ededed;
+      }
+    }
+
     figure {
       border: 1px #dedede solid;
       box-shadow: 0 0 0.1em silver;
 
       figcaption {
-        padding: 0;
+        padding: 0 0 0 3.5em;
         background-color: white;
+        position: relative;
 
         .title {
           color: black;
@@ -148,11 +157,13 @@
 
         &:before {
           font-family: fontello;
-          content: '\e823';
+          content: '\e811';
           line-height: 1.85em;
           width: 1.8em;
           font-size: 2em;
-          float: left;
+          position: absolute;
+          top: 0;
+          left: 0;
           text-align: center;
           color: silver;
         }
@@ -160,12 +171,14 @@
     }
 
     &.not-generated figure figcaption .byline {
-      
+      margin-left: -0.3em;
       
       &:before {
         font-family: fontello;
         content: "\e838";
         float: left;
+        height: 1.4em;
+        line-height: 1.45em;
 
         font-style: normal;
         padding: 0 0.2em;

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .metadata {
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(255,255,255,0.93);
   color: gray;
   margin-right: 0;
   margin-left: 0;
@@ -9,6 +9,7 @@
   -moz-transition: padding 0.5s;
   -webkit-transition: padding 0.5s;
   transition: padding 0.5s;
+  z-index: 1;
 
   @include screen-size(small) {  
     position: static !important;
@@ -90,6 +91,8 @@
       font-size: 1em;
       float: left;
       font-weight: normal;
+      color: black;
+      font-weight: bold;
       line-height: 1.5em;
 
       @include screen-size(small) {  

@@ -66,6 +66,11 @@
 					</figcaption>
 				{% else %}
 					<img src="{{ item.preview }}" alt="" />
+					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
+<!-- 				<figcaption>
+						<strong class="title">{{ object.title }}</strong>
+						<em class="byline">Description goes here</em>
+					</figcaption> -->
 				{% endif %}
 			</figure>
 			{% if object %}
