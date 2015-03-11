@@ -6,6 +6,7 @@
         position: absolute;
         top: 0.2em;
         right: 0;
+        height: 0;
 
         button,
         a {
@@ -53,12 +54,18 @@
             &:before {
                 content: "\E82A";
             }
+
+            z-index: 0;
+            position: relative;
         }
 
         .create-document {
             &:before {
                 content: "\E825";
             }
+
+            z-index: 0;
+            position: relative;
         }
 
         .more-menu-trigger {
@@ -125,6 +132,15 @@
             //         background-color: gray;
             //     }
             // }
+        }
+    }
+
+    &.mode-select {
+        .quick-functions .toggle-select {
+            &:before {
+                border: 1px solid $colour-accent;
+                color: $colour-accent;
+            }
         }
     }
 
