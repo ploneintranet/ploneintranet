@@ -328,7 +328,7 @@ I can create a structure
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
+    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
