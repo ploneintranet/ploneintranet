@@ -42,7 +42,10 @@ class ContentView(BrowserView):
         context = aq_inner(self.context)
         if context.portal_type != 'File':
             return
-        docconv = IDocconv(self.context)
+        try:
+            docconv = IDocconv(self.context)
+        except TypeError:  # XXX happens in tests
+            return
         if docconv.has_previews():
             return docconv.get_number_of_pages()
 
