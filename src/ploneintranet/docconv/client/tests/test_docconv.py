@@ -16,7 +16,8 @@ import os
 import shutil
 
 from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.docconv.client.interfaces import IPloneintranetDocconvClientLayer
+from ploneintranet.docconv.client.interfaces import \
+    IPloneintranetDocconvClientLayer
 from ploneintranet.docconv.client.adapters import DocconvAdapter
 from ploneintranet.docconv.client.fetcher import BasePreviewFetcher
 from ploneintranet.docconv.client.fetcher import fetchPreviews
