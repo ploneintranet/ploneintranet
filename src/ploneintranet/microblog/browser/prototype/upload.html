@@ -52,10 +52,10 @@
             ><span class="text"
               ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
-              ><tal:users tal:condition="users"> — <tal:block tal:repeat="user request/users|nothing"
-                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
-                tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
-                ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
+              ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
+                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
+                display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
+                ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
                 ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block></tal:tags

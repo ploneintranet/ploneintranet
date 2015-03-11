@@ -66,6 +66,12 @@ class NewPostBoxTile(Tile):
         return self.request.form.get('tags', [])
 
     @property
+    def post_mentions(self):
+        """ The tags that were added
+        """
+        return self.request.form.get('mentions', [])
+
+    @property
     @memoize
     def post_attachment(self):
         """
@@ -132,6 +138,7 @@ class NewPostBoxTile(Tile):
             text=self.post_text,
             context=self.post_context,
             thread_id=self.thread_id,
+            mention_ids=self.post_mentions,
             tags=self.post_tags,
         )
         self.create_post_attachment(post)
