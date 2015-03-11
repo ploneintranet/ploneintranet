@@ -23,7 +23,8 @@ def get_microblog_context(context):
         return None
 
 
-def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
+def longkeysortreverse(
+        btreeish, minv=None, maxv=None, limit=None, reverse=True):
     """Performance optimized keyspace accessor.
     Returns an iterable of btreeish keys, reverse sorted by key.
     Expects a btreeish with long(microsec) keys.
@@ -39,7 +40,8 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
         # no optimization
         keys = [x for x in accessor(min=minv, max=maxv)]
         keys.sort()
-        keys.reverse()
+        if reverse:
+            keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -53,7 +55,8 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
         tmin = long(tmax - 3600 * 1e6)
         keys = [x for x in accessor(min=tmin, max=tmax)]
         keys.sort()
-        keys.reverse()
+        if reverse:
+            keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -65,7 +68,8 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
         tmin = long(tmax - 23 * 3600 * 1e6)
         keys = [x for x in accessor(min=tmin, max=tmax)]
         keys.sort()
-        keys.reverse()
+        if reverse:
+            keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -76,7 +80,8 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
         tmax = tmin
         keys = [x for x in accessor(max=tmax)]
         keys.sort()
-        keys.reverse()
+        if reverse:
+            keys.reverse()
         for key in keys:
             yield key
             i += 1
