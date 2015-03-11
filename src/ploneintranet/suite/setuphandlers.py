@@ -12,6 +12,7 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
+from plone.namedfile.file import NamedBlobImage
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.utils import create_attachment
@@ -406,6 +407,12 @@ def testing(context):
     create_tasks(todos_content)
 
     now = datetime.now()
+    budget_proposal_filename = u'budget-proposal.png'
+    budget_proposal_path = os.path.join('images', budget_proposal_filename)
+    budget_proposal_img = NamedBlobImage(
+        data=context.openDataFile(budget_proposal_path).read(),
+        filename=budget_proposal_filename
+    )
 
     # Create workspaces
     workspaces = [
@@ -424,7 +431,17 @@ def testing(context):
                                     'information, records and knowledge is a '
                                     'key part of any Machinery of Government '
                                     'change.',
-                     'type': 'Document'}]},
+                     'type': 'Document'},
+                    {'title': u'Budget Proposal',
+                     'description': (
+                         u'A diagram of the factors impacting the budget and '
+                         u'results'
+                     ),
+                     'image': budget_proposal_img,
+                     'type': 'Image',
+                     },
+                   ]
+              },
               {'title': 'Projection Materials',
                'type': 'Folder',
                'contents':
