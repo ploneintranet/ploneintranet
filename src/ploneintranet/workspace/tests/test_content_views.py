@@ -88,4 +88,3 @@ class TestContentViews(BaseTestCase):
         self.assertIn('document_view.pt', view.index.filename)
         html = view()
         self.assertIn(u'My Fîle', html)
-        self.assertIn(u'<article class="document preview">', html)
