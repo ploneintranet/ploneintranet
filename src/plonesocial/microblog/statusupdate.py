@@ -1,6 +1,5 @@
 import logging
 from plone import api
-import re
 import time
 
 from AccessControl import getSecurityManager
@@ -26,7 +25,8 @@ class StatusUpdate(Persistent):
 
     implements(IStatusUpdate)
 
-    def __init__(self, text, context=None, thread_id=None, mention_ids=None):
+    def __init__(self, text, context=None, thread_id=None, mention_ids=None,
+                 tags=None):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
         self.thread_id = thread_id
@@ -36,6 +36,7 @@ class StatusUpdate(Persistent):
         self._init_userid()
         self._init_creator()
         self._init_context(context)
+        self.tags = tags
 
         if thread_id:
             alsoProvides(self, IStatusActivityReply)
@@ -103,12 +104,7 @@ class StatusUpdate(Persistent):
     def _context2uuid(self, context):
         return IUUID(context)
 
-    @property
-    def tags(self):
-        return [x.strip('#,.;:!$') for x in re.findall('#\S+', self.text)]
-
     # Act a bit more like a catalog brain:
-
     def getURL(self):
         return ''
 

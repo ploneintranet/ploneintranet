@@ -128,16 +128,11 @@ class NewPostBoxTile(Tile):
         """
         if not self.post_text:
             return None
-        # TODO To be refactored: Temporarily we append the tags with
-        # hash marks to the post text.
-        # StatusUpdate will need to handle tags separately in the future
-        text = self.post_text
-        for tag in self.post_tags:
-            text = "{0} #{1}".format(text, tag)
         post = StatusUpdate(
-            text,
+            text=self.post_text,
             context=self.post_context,
-            thread_id=self.thread_id
+            thread_id=self.thread_id,
+            tags=self.post_tags,
         )
         self.create_post_attachment(post)
         self.post_container.add(post)
