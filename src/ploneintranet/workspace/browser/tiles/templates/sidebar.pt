@@ -46,9 +46,14 @@
 
             <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
                   action="/feedback/workspace-search-results-min.html#items"
+                  data-pat-inject="source: #items; target: #items"
                   tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents">
                 <label>
-                    <input name="sidebar-search" type="search" placeholder="Search" />
+                    <input name="sidebar-search"
+			   type="search" 
+			   placeholder="Search" 
+			   tal:attributes="value 
+					   request/sidebar-search|nothing" />
                     <button type="submit">Search</button>
                 </label>
             </form>
