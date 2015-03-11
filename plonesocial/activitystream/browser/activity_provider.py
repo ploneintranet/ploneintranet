@@ -149,28 +149,11 @@ class AbstractActivityProvider(object):
 
     @property
     def attachments(self):
-        if (self.is_attachment_supported() and
-                self.is_preview_supported() and
-                IAttachmentStoragable.providedBy(self.context.context)):
-            storage = IAttachmentStorage(self.context.context)
-            attachments = storage.values()
-            for attachment in attachments:
-                docconv = IDocconv(attachment)
-                if docconv.has_thumbs():
-                    url = api.portal.get().absolute_url()
-                    yield ('{portal_url}/@@status-attachments/{status_id}/'
-                           '{attachment_id}').format(
-                               portal_url=url,
-                               status_id=self.context.context.getId(),
-                               attachment_id=attachment.getId())
-
-    @property
-    def previews(self):
-        if self.is_preview_supported():
-            docconv = IDocconv(self.context.context)
-            if docconv.has_thumbs():
-                return [self.context.context.absolute_url() +
-                        '/docconv_image_thumb.jpg']
+        """
+        Get a list of URLs for attachment previews
+        (Defined by each activity provider)
+        """
+        return []
 
     @property
     def raw_date(self):
@@ -258,6 +241,26 @@ class StatusActivityProvider(AbstractActivityProvider):
             provider.update()
             yield provider
 
+    @property
+    def attachments(self):
+        """ Get preview images for status update attachments """
+        if all([
+            self.is_attachment_supported(),
+            self.is_preview_supported(),
+                IAttachmentStoragable.providedBy(self.status),
+        ]):
+            storage = IAttachmentStorage(self.status)
+            attachments = storage.values()
+            for attachment in attachments:
+                docconv = IDocconv(attachment)
+                if docconv.has_thumbs():
+                    url = api.portal.get().absolute_url()
+                    yield ('{portal_url}/@@status-attachments/{status_id}/'
+                           '{attachment_id}/thumb').format(
+                               portal_url=url,
+                               status_id=self.status.getId(),
+                               attachment_id=attachment.getId())
+
 
 class StatusActivityReplyProvider(StatusActivityProvider):
     """ Renders a StatusActivity reply in """
@@ -313,6 +316,15 @@ class ContentActivityProvider(AbstractActivityProvider):
     @property
     def getId(self):
         return api.content.get_uuid(self.context.context)
+
+    @property
+    def attachments(self):
+        """ Get preview image for content-related updates"""
+        if self.is_preview_supported():
+            docconv = IDocconv(self.context.context)
+            if docconv.has_thumbs():
+                return [self.context.context.absolute_url() +
+                        '/docconv_image_thumb.jpg']
 
 
 class DiscussionActivityProvider(AbstractActivityProvider):
