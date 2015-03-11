@@ -11,11 +11,22 @@ from ploneintranet.theme.interfaces import IIntranetContentLayer
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.interface import alsoProvides
 
+import os
 
-class TestAddContent(BaseTestCase):
+
+def test_image():
+    from plone.namedfile.file import NamedBlobImage
+    filename = os.path.join(os.path.dirname(__file__), u'plone_logo.png')
+    return NamedBlobImage(
+        data=open(filename, 'r').read(),
+        filename=filename,
+    )
+
+
+class TestContentViews(BaseTestCase):
 
     def setUp(self):
-        super(TestAddContent, self).setUp()
+        super(TestContentViews, self).setUp()
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
             self.portal,
@@ -42,8 +53,37 @@ class TestAddContent(BaseTestCase):
         doc1.text = richtext
         view = doc1.restrictedTraverse('document_view')
         self.assertIn('document_view.pt', view.index.filename)
-        self.assertIn('ploneintranet.theme.browser.content.ContentView',
-                      str(view.__class__.__mro__))
         html = view()
         self.assertIn(u'My Døcümént', html)
-        self.assertIn(u'<strong class="title">%s</a>' % doc1.title, html)
+        self.assertIn(u'<article class="document rich">', html)
+
+    def test_image_view(self):
+        img1 = api.content.create(
+            container=self.workspace,
+            type='Image',
+            title=u'My îmage',
+        )
+        img1.description = u'Déscription'
+        img1.image = test_image()
+        view = img1.restrictedTraverse('image_view')
+        self.assertIn('document_view.pt', view.index.filename)
+        html = view()
+        self.assertIn(u'My îmage', html)
+        self.assertIn(u'<article class="document preview">', html)
+        self.assertIn(
+            u'<img src="http://nohost/plone/example-workspace/my-image/@@images',  # NOQA
+            html
+        )
+
+    def test_file_view(self):
+        img1 = api.content.create(
+            container=self.workspace,
+            type='File',
+            title=u'My Fîle',
+        )
+        img1.description = u'Déscription'
+        view = img1.restrictedTraverse('file_view')
+        self.assertIn('document_view.pt', view.index.filename)
+        html = view()
+        self.assertIn(u'My Fîle', html)
+        self.assertIn(u'<article class="document preview">', html)
