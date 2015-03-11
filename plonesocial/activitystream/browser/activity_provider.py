@@ -136,7 +136,10 @@ class AbstractActivityProvider(object):
     def text(self):
         url = api.portal.get().absolute_url()
         text = link_users(self.context.text, url)
-        return link_tags(text, url)
+        status = getattr(self, 'status', None)
+        tags = getattr(status, 'tags', None)
+        text += link_tags(url, tags)
+        return text
 
     def is_attachment_supported(self):
         return IAttachmentStoragable is not None
@@ -260,6 +263,15 @@ class StatusActivityReplyProvider(StatusActivityProvider):
     """ Renders a StatusActivity reply in """
     adapts(IStatusActivityReply, IPlonesocialActivitystreamLayer, Interface)
     index = ViewPageTemplateFile("templates/statusactivityreply_provider.pt")
+
+    def __init__(self, context, request, view):
+        """
+        Override the __init__ method so that self.status gets defined properly.
+        """
+        self.context = context  # IStatusUpdate
+        self.status = context  # IStatusUpdate
+        self.request = request
+        self.view = self.__parent__ = view
 
     def parent_provider(self):
         container = PLONESOCIAL.microblog

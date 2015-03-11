@@ -104,7 +104,7 @@
             <p class="content-mirror"><span class="text"><em class="placeholder" id="mirror" tal:attributes="id string:mirror-${thread_id}">Leave a comment</em></span><em class="selected-users"></em><em class="selected-tags"></em></p>
             <textarea placeholder="Leave a comment"
                       class="pat-content-mirror pat-switch"
-                      data-pat-switch="#new-post-box status-inactive status-active"
+                      data-pat-switch="#post-box status-inactive status-active"
                       data-pat-content-mirror="target: #mirror"
                       tal:attributes="data-pat-switch string:#${form_id} status-inactive status-active;
                                       data-pat-content-mirror string:target: #mirror-${thread_id}"
@@ -128,13 +128,13 @@
                 <br>
                 <button
                    class="pat-switch close-panel"
-                   data-pat-switch="#new-post-box status-* status-inactive"
+                   data-pat-switch="#post-box status-* status-inactive"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
                    type="submit"
                    name="form.buttons.statusupdate">Post</button>
                 <button
                    class="pat-switch close-panel"
-                   data-pat-switch="#new-post-box status-* status-inactive"
+                   data-pat-switch="#post-box status-* status-inactive"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
                    type="reset">Cancel</button>
 
