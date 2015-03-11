@@ -92,7 +92,7 @@ class BaseStatusContainer(Persistent, Explicit):
         # index by mentions (string UUID) -> (object TreeSet(long statusid))
         self._mentions_mapping = OOBTree.OOBTree()
 
-    def add(self, status, context=None):
+    def add(self, status):
         self._check_permission("add")
         self._check_status(status)
         self._store(status)
