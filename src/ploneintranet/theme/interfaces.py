@@ -12,8 +12,7 @@ class IThemeSpecific(IDefaultPloneLayer):
 
 
 class IIntranetContentLayer(IPloneAppContenttypesLayer, IPloneAppEventLayer):
-    """ Marker interface that defines a Zope 3 browser layer and a plone skin
-        marker.
+    """ Subclass the browserlayer of p.a.c and p.a.e to override the views.
     """
 
 
