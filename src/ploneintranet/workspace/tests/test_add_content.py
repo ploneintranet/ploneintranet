@@ -71,6 +71,16 @@ class TestAddContent(FunctionalBaseTestCase):
         image_path = os.path.join(os.path.dirname(__file__), "plone_logo.png")
         image_ctl = self.browser.getControl(name='image')
         image_ctl.add_file(open(image_path), 'image/png', 'plone_logo.png')
+
+        # XXX TODO
+        # Submitting the form now fails with LocationError: (None, 'getSize')
+        # ie. there's no image uploaded.
+        # May have something to do with the checkbox for image not being set,
+        # as demonstrated by writing the HTML into a file.
+        handle = open('/tmp/test_add_content_image_with_imagefile.html', 'w+')
+        handle.write(self.browser.contents)
+        handle.close()
+
         self.browser.getControl(name='form.buttons.create').click()
         new = self.workspace['my-image']
         self.assertEqual(new.portal_type, 'Image')
