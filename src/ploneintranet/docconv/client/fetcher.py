@@ -15,6 +15,7 @@ from PIL import Image
 from plone.app.blob.field import FileField
 from plone.app.blob.field import ImageField
 from plone.app.contenttypes.interfaces import IDocument
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 from five import grok
@@ -65,35 +66,34 @@ Content-Type: %(mime)s
             self.request = self.context.REQUEST
 
     def getPayload(self):
-        if hasattr(self.context, 'getContentType'):
-            mime = self.context.getContentType()
+        primary_field = IPrimaryFieldInfo(self.context)
+        if hasattr(primary_field.value, 'contentType'):
+            mimetype = primary_field.value.contentType
         elif hasattr(self.context, 'content_type'):
-            mime = self.context.content_type()
+            mimetype = self.context.content_type()
         else:
             logger.warn('Could not get content type of {0}'.format(
                 '/'.join(self.context.getPhysicalPath())))
-            mime = 'text/plain'
-        data = ''
+            mimetype = 'text/plain'
 
-        if hasattr(self.context, 'getBlobWrapper'):
-            data = self.context.getBlobWrapper().getBlob().open().read()
-        elif hasattr(self.context, 'get_data'):
-            data = self.context.get_data()
-        elif hasattr(self.context, 'file') and self.context.file:
-            data = self.context.file.data
-        return mime, data
+        if hasattr(primary_field.value, 'data'):
+            data = primary_field.value.data
+        else:
+            data = primary_field.value
+
+        return mimetype, data
 
     def __call__(self):
         annotations = IAnnotations(self.context)
 
-        basetype = None
-        if hasattr(self.context, 'getContentType'):
-            basetype = self.context.getContentType().split('/')[0]
-        elif hasattr(self.context, 'file'):
-            if hasattr(self.context.file, 'contentType'):
-                basetype = self.context.file.contentType.split('/')[0]
-        elif hasattr(self.context, 'content_type'):
-            basetype = self.context.content_type().split('/')[0]
+        # get the contents of the context
+        mimetype, payload = self.getPayload()
+
+        if mimetype:
+            basetype = mimetype.split('/')[0]
+        else:
+            basetype = None
+
         if basetype in EXCLUDE_TYPES:
             logger.warn('Type {0} is in excluded types, '
                         'skipping {1}'.format(
@@ -102,11 +102,9 @@ Content-Type: %(mime)s
                         )
             annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
             return
-        # get the contents of the context
-        datatype, payload = self.getPayload()
 
         try:
-            converted = self.convert_on_server(payload, datatype)
+            converted = self.convert_on_server(payload, mimetype)
         except ServerError as e:
             if e.args and e.args[0].startswith("Error connecting"):
                 annotations[PREVIEW_MESSAGE_KEY] = 'Could not contact conversion server'
@@ -114,7 +112,7 @@ Content-Type: %(mime)s
                 annotations[PREVIEW_MESSAGE_KEY] = 'Sorry, this document type cannot be converted. There is no preview available.'
             return
         except ConfigError:
-            converted = self.convert_locally(payload, datatype)
+            converted = self.convert_locally(payload, mimetype)
 
         pdfdata = FileField()
         pdfdata.set(self.context, converted['pdfs'][0])
@@ -350,7 +348,7 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
         return stream.getvalue()
 
     def getHtml(self):
-        return self.context.getText()
+        return self.context.text
 
     def getPayload(self):
         html = self.getHtml()
@@ -368,7 +366,7 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
             soup = frame
 
         if not soup.body.img:
-            return 'html', str(soup)
+            return 'text/html', str(soup)
         else:
             tempdir = mkdtemp()
 
@@ -384,7 +382,7 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
             zipdata = self.getZipData(tempdir)
             shutil.rmtree(tempdir)
 
-            return 'zip', zipdata
+            return 'application/zip', zipdata
 
     def __call__(self, virtual_url_parts, vr_path):
         self.virtual_url_parts = virtual_url_parts
