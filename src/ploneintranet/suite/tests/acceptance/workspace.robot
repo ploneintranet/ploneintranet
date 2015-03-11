@@ -330,4 +330,4 @@ I can create a structure
 The file appears in the sidebar
     Wait until Keyword Succeeds  1 min  5 sec  Page Should Not Contain Element  css=.previews .item
     Wait until Page contains Element  css=#workspace-documents.injecting
-    Wait until Page contains Element  xpath=//input[@name='bärtige_flößer.odt']
+    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']
