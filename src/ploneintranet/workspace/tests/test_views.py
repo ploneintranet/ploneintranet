@@ -1,9 +1,12 @@
 from AccessControl import Unauthorized
-from ploneintranet.workspace.browser.views import JoinView, SharingView
+from ploneintranet.workspace.browser.views import FileUploadView
+from ploneintranet.workspace.browser.views import JoinView
+from ploneintranet.workspace.browser.views import SharingView
 from ploneintranet.workspace.browser.tiles.sidebar import Sidebar
 from ploneintranet.workspace.browser.tiles.sidebar import \
     SidebarSettingsAdvanced
 from collective.workspace.interfaces import IWorkspace
+from mock import patch
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 
@@ -154,3 +157,37 @@ class TestSharingView(BaseViewTest):
         self.assertTrue(
             all([results[0]["roles"][role] == "acquired" for role in roles]),
             "Acquired roles were not set correctly")
+
+
+class TestFileUploadView(BaseViewTest):
+    def setUp(self):
+        super(TestFileUploadView, self).setUp()
+        self.view = FileUploadView(self.workspace, self.request)
+
+    def test_no_file_json(self):
+        self.request.environ['HTTP_ACCEPT'] = 'text/json'
+        self.assertEqual(self.view(), {})
+
+    def test_no_file_html(self):
+        self.request.environ['HTTP_ACCEPT'] = 'text/html'
+        self.assertEqual(self.view(), None)
+        self.assertEqual(self.request.response.getStatus(), 302)
+
+    def test_upload_file_json(self):
+        self.request.environ['HTTP_ACCEPT'] = 'text/json'
+        self.request.form = {'file': 'dummy'}
+        from ploneintranet.workspace.browser.views import BaseFileUploadView
+        with patch.object(BaseFileUploadView, '__call__') as mock_call:
+            mock_call.return_value = '{"type": "dummy"}'
+            result = self.view()
+            self.assertTrue(isinstance(result, str))
+            self.assertNotEqual(result, '{}')
+
+    def test_upload_file_html(self):
+        self.request.environ['HTTP_ACCEPT'] = 'text/html'
+        self.request.form = {'file': 'dummy'}
+        from ploneintranet.workspace.browser.views import BaseFileUploadView
+        with patch.object(BaseFileUploadView, '__call__') as mock_call:
+            mock_call.return_value = '{"type": "dummy"}'
+            self.assertEqual(self.view(), None)
+            self.assertEqual(self.request.response.getStatus(), 302)
