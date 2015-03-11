@@ -264,6 +264,15 @@ class StatusActivityReplyProvider(StatusActivityProvider):
     adapts(IStatusActivityReply, IPlonesocialActivitystreamLayer, Interface)
     index = ViewPageTemplateFile("templates/statusactivityreply_provider.pt")
 
+    def __init__(self, context, request, view):
+        """
+        Override the __init__ method so that self.status gets defined properly.
+        """
+        self.context = context  # IStatusUpdate
+        self.status = context  # IStatusUpdate
+        self.request = request
+        self.view = self.__parent__ = view
+
     def parent_provider(self):
         container = PLONESOCIAL.microblog
         if not container:
