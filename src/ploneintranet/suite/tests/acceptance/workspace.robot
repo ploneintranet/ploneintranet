@@ -208,6 +208,7 @@ I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  The workspace can be explored by outsiders.
 
