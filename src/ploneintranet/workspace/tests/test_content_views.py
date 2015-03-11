@@ -78,13 +78,13 @@ class TestContentViews(BaseTestCase):
         # )
 
     def test_file_view(self):
-        img1 = api.content.create(
+        file1 = api.content.create(
             container=self.workspace,
             type='File',
             title=u'My Fîle',
         )
-        img1.description = u'Déscription'
-        view = img1.restrictedTraverse('file_view')
+        file1.description = u'Déscription'
+        view = file1.restrictedTraverse('file_view')
         self.assertIn('document_view.pt', view.index.filename)
         html = view()
         self.assertIn(u'My Fîle', html)
