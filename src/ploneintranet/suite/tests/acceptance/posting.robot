@@ -11,7 +11,7 @@ Test Teardown  Close all browsers
 
 *** Variable ***
 
-${MESSAGE}    I am so excited, this is süper!
+${MESSAGE}    I am so excited, this is super!
 
 
 *** Test Cases ***
