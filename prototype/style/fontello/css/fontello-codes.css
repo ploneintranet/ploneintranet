@@ -81,6 +81,10 @@
 .icon-ok:before { content: '\e82a'; } /* '' */
 .icon-floppy:before { content: '\e82b'; } /* '' */
 .icon-speedometer:before { content: '\e82c'; } /* '' */
+.icon-location:before { content: '\e82d'; } /* '' */
+.icon-back-in-time:before { content: '\e82e'; } /* '' */
+.icon-clock:before { content: '\e82f'; } /* '' */
+.icon-globe:before { content: '\e830'; } /* '' */
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */

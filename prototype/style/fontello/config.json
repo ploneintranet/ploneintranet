@@ -241,6 +241,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0d08dbb1dd648a43bdea81b7e6c9e036",
+      "css": "location",
+      "code": 59437,
+      "src": "fontawesome"
+    },
+    {
       "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
       "css": "trash",
       "code": 59177,
@@ -340,6 +346,12 @@
       "uid": "ead4c82d04d7758db0f076584893a8c1",
       "css": "calendar-empty",
       "code": 59415,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "598a5f2bcf3521d1615de8e1881ccd17",
+      "css": "clock",
+      "code": 59439,
       "src": "fontawesome"
     },
     {
@@ -559,6 +571,12 @@
       "src": "entypo"
     },
     {
+      "uid": "89eb512cb82a1c3fe83cb16134f9876c",
+      "css": "back-in-time",
+      "code": 59438,
+      "src": "entypo"
+    },
+    {
       "uid": "414fe97e4af5215a06d29be0f2cecdf5",
       "css": "network",
       "code": 59254,
@@ -611,6 +629,12 @@
       "css": "calendar",
       "code": 59408,
       "src": "elusive"
+    },
+    {
+      "uid": "1e89103762be72b0720eda0468e62b90",
+      "css": "globe",
+      "code": 59440,
+      "src": "linecons"
     },
     {
       "uid": "baa375529925294ea0a2bc889c93ba2d",

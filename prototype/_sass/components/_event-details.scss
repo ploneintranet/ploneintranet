@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+.event-details {
+  .location,
+  .organiser,
+  .options,
+  .date-time,
+  .timezone,
+  .invitees,
+  .attachments {
+    padding-left: 4.5rem;
+
+    &:before {
+      float: left;
+      margin-left: -4.5rem;
+      width: 4.5rem;
+      text-align: center;
+      line-height: 4rem;
+      font-family: fontello;
+      font-size: 1.6em;
+      color: gray;
+      content: "x";
+      font-weight: normal;
+    }
+  }
+
+  .location:before {
+    content: "\e82d";
+  }
+
+  .organiser:before {
+    content: "\1f464";
+  }
+
+  .options:before {
+    content: "\2714";
+  }
+
+  .date-time:before {
+    content: "\e82f";
+  }
+
+  .timezone {
+    padding-left: 0;
+
+    &:before {
+    content: "\e830";
+  }
+
+  }
+  .invitiees:before {
+    content: "\1f465";
+  }
+
+  .attachments:before {
+    content: "\1f4ce";
+  }
+}
