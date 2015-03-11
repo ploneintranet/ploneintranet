@@ -1,6 +1,7 @@
 from mock import Mock
 from mock import patch
 from Testing.makerequest import makerequest
+from Products.ATContentTypes.content.file import ATFile
 from collective.documentviewer.settings import GlobalSettings
 from plone import api
 from plone.app.testing import setRoles
@@ -22,6 +23,9 @@ from ploneintranet.docconv.client.adapters import DocconvAdapter
 from ploneintranet.docconv.client.fetcher import BasePreviewFetcher
 from ploneintranet.docconv.client.fetcher import fetchPreviews
 from ploneintranet.docconv.client.testing import IntegrationTestCase
+
+TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
+TEST_FILENAME = u'test.odt'
 
 
 class TestDocconvLocal(IntegrationTestCase):
@@ -48,14 +52,14 @@ class TestDocconvLocal(IntegrationTestCase):
             type='Folder',
             title=u"Docconv Workspace",
             container=portal)
-        ff = open(os.path.join(os.path.dirname(__file__), 'test.odt'), 'r')
+        ff = open(os.path.join(os.path.dirname(__file__), TEST_FILENAME), 'r')
         self.filedata = ff.read()
         ff.close()
         self.testfile = api.content.create(
             type='File',
             id='test-file',
             title=u"Test File",
-            file=NamedBlobFile(data=self.filedata, filename=u'test.odt'),
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.workspace)
 
         handlers._update_preview_images = _update_preview_images
@@ -66,6 +70,27 @@ class TestDocconvLocal(IntegrationTestCase):
         api.content.delete(self.testfile)
         api.content.delete(self.workspace)
         shutil.rmtree(self.storage_dir)
+
+    def test_getPayload(self):
+        # We don't actually allow archetypes in a workspace
+        # but we need to check that this method supports them
+        # so we manually set one up here
+        testfile_at = ATFile(TEST_FILENAME)
+        testfile_at.initializeArchetype()
+        testfile_at.setFile(self.filedata,
+                            filename=TEST_FILENAME)
+        fetcher = BasePreviewFetcher(testfile_at)
+        mimetype, data = fetcher.getPayload()
+        self.assertEqual(mimetype, TEST_MIME_TYPE)
+        self.assertEqual(data, self.filedata,
+                         'File data does not match')
+
+        # ... and then for default dexterity
+        fetcher = BasePreviewFetcher(self.testfile)
+        mimetype, data = fetcher.getPayload()
+        self.assertEqual(mimetype, TEST_MIME_TYPE)
+        self.assertEqual(data, self.filedata,
+                         'File data does not match')
 
     def test_docconv_adapter_on_new_object(self):
         docconv = IDocconv(self.testfile)
@@ -201,7 +226,7 @@ class TestDocconvLocal(IntegrationTestCase):
         fileob = api.content.create(
             type='File',
             title=u"Test File",
-            file=NamedBlobFile(data=self.filedata, filename=u'test.odt'),
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.workspace)
         docconv = IDocconv(fileob)
         self.assertTrue(docconv.has_previews())
