@@ -18,6 +18,7 @@ from plone.app.contenttypes.interfaces import IDocument
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.interfaces import IBaseContent
 from five import grok
 from zope.annotation import IAnnotations
 from zope.component.hooks import getSite
@@ -66,22 +67,19 @@ Content-Type: %(mime)s
             self.request = self.context.REQUEST
 
     def getPayload(self):
-        primary_field = IPrimaryFieldInfo(self.context)
-        if hasattr(primary_field.value, 'contentType'):
-            mimetype = primary_field.value.contentType
-        elif hasattr(self.context, 'content_type'):
-            mimetype = self.context.content_type()
+        """
+        Get mimetype and data for associated file
+        """
+        if IBaseContent.providedBy(self.context):
+            primary_field = self.context.getPrimaryField()
+            mimetype = self.context.getContentType()
+            data = primary_field.get(self.context)
         else:
-            logger.warn('Could not get content type of {0}'.format(
-                '/'.join(self.context.getPhysicalPath())))
-            mimetype = 'text/plain'
+            primary_field = IPrimaryFieldInfo(self.context).value
+            mimetype = primary_field.contentType
+            data = primary_field.data
 
-        if hasattr(primary_field.value, 'data'):
-            data = primary_field.value.data
-        else:
-            data = primary_field.value
-
-        return mimetype, data
+        return mimetype, str(data)
 
     def __call__(self):
         annotations = IAnnotations(self.context)
