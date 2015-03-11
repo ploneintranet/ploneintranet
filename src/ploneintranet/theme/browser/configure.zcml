@@ -94,42 +94,6 @@
       />
 
   <browser:page
-    name="document_view"
-    for="plone.app.contenttypes.interfaces.IDocument"
-    layer="..interfaces.IIntranetContentLayer"
-    template="templates/document_view.pt"
-    class=".content.ContentView"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    name="file_view"
-    for="plone.app.contenttypes.interfaces.IFile"
-    layer="..interfaces.IIntranetContentLayer"
-    template="templates/document_view.pt"
-    class=".content.ContentView"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    name="image_view"
-    for="plone.app.contenttypes.interfaces.IImage"
-    layer="..interfaces.IIntranetContentLayer"
-    template="templates/document_view.pt"
-    class=".content.ContentView"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    name="event_view"
-    for="plone.event.interfaces.IEvent"
-    layer="..interfaces.IIntranetContentLayer"
-    template="templates/event_view.pt"
-    class=".content.ContentView"
-    permission="zope2.View"
-    />
-
-  <browser:page
       name="dashboard.html"
       for="*"
       class=".dashboard.Dashboard"
