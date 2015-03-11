@@ -48,20 +48,38 @@
 		</p>
 	</section>
 	{% if item.preview %}
-		<section class="preview">
+		<section class="preview {% if item.preview == 'not-generated' %}not-generated{% endif %}">
+			{% if object %}
+				<a href="{{ object.url }}" alt="{{ object.title }}">
+			{% endif %}
 			<figure>
-				{% if item.preview_url %}
-					<a href="{{item.preview_url}}">
-				{% endif %}
-				<img src="{{ item.preview }}" alt="" />
-				{% if item.preview_url %}
-					</a>
+				{% for node in site.posts %}
+					{% capture nodeid %}{{ node.id | remove: "/" }}{% endcapture %}
+					{% if  nodeid == item.object_id %}
+						{% assign object = node %}
+					{% endif %}
+				{% endfor %}
+				{% if item.preview == 'not-generated' %}
+					<figcaption>
+						<strong class="title">{{ object.title }}</strong>
+						<em class="byline">Preview being generated</em>
+					</figcaption>
+				{% else %}
+					<img src="{{ item.preview }}" alt="" />
+					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
+<!-- 				<figcaption>
+						<strong class="title">{{ object.title }}</strong>
+						<em class="byline">Description goes here</em>
+					</figcaption> -->
 				{% endif %}
 			</figure>
+			{% if object %}
+				</a>
+			{% endif %}
 		</section>
 	{% endif %}
 	<div class="functions">
-		
+
 		<!-- Buttons and anchors in this section get a class 'active, when the share or like is used by the current user.' -->
 		<a href="/sharing.html#document-content" class="share pat-modal">Share <sup class="counter">({{ item.shares }})</sup></a>
 		<form action="/feedback/liked.html#content" class="pat-inject pat-autosubmit" id="functions-{{mypostUID}}" data-pat-inject="source: #functions; target: #functions-{{mypostUID}}">
@@ -70,7 +88,7 @@
 		</form>
 	</div>
 	<div class="comments">
-		
+
 		<div id="comment-trail-{{mypostUID}}">
 			{% for comment in item.comments %}
 				{% include comment.html %}

@@ -14,31 +14,31 @@ workspace_module: docs
             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
             <input type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="{{ page.title }}" />
             <div class="quick-functions">
-                <a href="#confirm-delete" class="icon-trash iconified">
+                <a href="#confirm-delete" class="icon-trash iconified" title="Delete this document">
                     Delete
                 </a>
-                <a href="" class="icon-copy iconified">
+                <a href="" class="icon-copy iconified" title="Copy this document">
                     Copy
                 </a>
-                <a href="#share-panel" class="icon-export iconified pat-modal">
+                <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document">
                     Share
                 </a>
-                <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
                 <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
-                    <label class="pat-select bare">
+                    <label class="pat-select bare" title="Change the workflow state">
                         <select>
                             <option>Private</option>
-                            <option>Public</option>
-                            <option>Members</option>
                             <option>Pending</option>
-                            <option>Logged in</option>
-                            <option>Internal</option>
-                            <option>External</option>
+                            <option>Published</option>
+                            <!-- <option>Members</option> -->
+                            <!-- <option>Logged in</option> -->
+                            <!-- <option>Internal</option> -->
+                            <!-- <option>External</option> -->
                         </select>
                     </label>
                 </fieldset>
                 <!-- {% include application-toolbar.html %} -->
-                <button type="submit" class="icon-floppy">Save</button>
+                <button type="submit" class="icon-floppy" title="Save this document">Save</button>
                 {% for item in page.document_controls %}
                     {% include toolbar-control.html %}
                 {% endfor %}
