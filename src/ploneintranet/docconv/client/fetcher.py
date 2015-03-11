@@ -91,7 +91,7 @@ Content-Type: %(mime)s
             basetype = self.context.getContentType().split('/')[0]
         elif hasattr(self.context, 'file'):
             if hasattr(self.context.file, 'contentType'):
-                basetype = self.context.file.contentType().split('/')[0]
+                basetype = self.context.file.contentType.split('/')[0]
         elif hasattr(self.context, 'content_type'):
             basetype = self.context.content_type().split('/')[0]
         if basetype in EXCLUDE_TYPES:
