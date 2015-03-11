@@ -25,6 +25,17 @@
           </section>
         </div>
       </div>
+
+        <tal:define define="
+          newpostbox_view nocall:newpostbox_view|here/newpostbox.tile;
+          thread_id newpostbox_view/thread_id;
+          attachment_previews_id string:attachment-previews-${thread_id};
+          action string:${here/absolute_url}/@@newpostbox.tile;
+          placeholder activity_provider/placeholder;
+        ">
+          <metal:block use-macro="here/@@upload.html/main" />
+        </tal:define>
+
     </tal:define>
   </metal:macro>
 </body>
