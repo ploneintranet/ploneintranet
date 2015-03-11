@@ -2,6 +2,7 @@ from Products.Five.browser import BrowserView
 from plone import api
 from collective.workspace.interfaces import IWorkspace
 from AccessControl import Unauthorized
+from plone.app.widgets.browser.file import FileUploadView as BaseFileUploadView
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 
 from ploneintranet.workspace import MessageFactory as _
@@ -76,3 +77,16 @@ class SharingView(BaseSharingView):
                 result["title"] = "%s [%s]" % (result["title"], title)
 
         return results
+
+
+class FileUploadView(BaseFileUploadView):
+    """Redirect to the workspace view so we can inject."""
+    def __call__(self):
+        result = {}
+        if self.request.get('file', ''):
+            result = super(FileUploadView, self).__call__()
+        accept = self.request.get_header('HTTP_ACCEPT')
+        if accept == 'text/json':
+            return result
+        else:
+            self.request.response.redirect(self.context.absolute_url())
