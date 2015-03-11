@@ -8,9 +8,14 @@ TAGRE = re.compile('(#(\S+))')
 USERRE = re.compile('(@\S+)')
 
 
-def link_tags(text, url=''):
-    tmpl = '<a href="%s/@@stream/tag/\\2" class="tag tag-\\2">\\1</a>'
-    return TAGRE.sub(tmpl % url, text)
+def link_tags(url='', tags=None):
+    if tags:
+        tmpl = ' <a href="%s/@@stream/tag/%s" class="tag tag-%s">#%s</a>'
+        text = ' &mdash;'
+        for tag in tags:
+            text += tmpl % (url, tag, tag, tag)
+        return text
+    return ''
 
 
 def link_users(text, url=''):
