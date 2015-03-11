@@ -1,10 +1,12 @@
 from mock import Mock
+from mock import patch
 from Testing.makerequest import makerequest
 from collective.documentviewer.settings import GlobalSettings
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from tempfile import mkdtemp
 from zope import event
 from zope.component import getAdapter
@@ -77,6 +79,38 @@ class TestDocconvLocal(IntegrationTestCase):
         alt_docconv = getAdapter(
             self.testfile, IDocconv, name='plone.app.async')
         self.assertTrue(isinstance(alt_docconv, DocconvAdapter))
+
+    def test_empty_document_skipped(self):
+        testdoc = api.content.create(
+            type='Document',
+            id='test-doc',
+            title=u"Test Document",
+            container=self.workspace)
+        with patch.object(BasePreviewFetcher, '__call__') as mock_call:
+            fetchPreviews(testdoc,
+                          virtual_url_parts=['dummy', ],
+                          vr_path='/plone')
+            self.assertFalse(mock_call.called)
+
+    def _test_image_skipped(self, convert_method_name):
+        imagedata = (
+            'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00\xff\xff'
+            '\xff,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;')
+        testdoc = api.content.create(
+            type='Image',
+            id='test-image',
+            title=u"Test Image",
+            file=NamedBlobImage(data=imagedata, filename=u'testimage.gif'),
+            container=self.workspace)
+        with patch.object(
+                BasePreviewFetcher, convert_method_name) as mock_convert:
+            fetchPreviews(testdoc,
+                          virtual_url_parts=['dummy', ],
+                          vr_path='/plone')
+            self.assertFalse(mock_convert.called)
+
+    def test_image_skipped(self):
+        self._test_image_skipped('convert_locally')
 
     def test_fetch_docconv_data(self):
         fetchPreviews(self.testfile,
@@ -177,3 +211,6 @@ class TestDocconvRemote(TestDocconvLocal):
     def tearDown(self):
         super(TestDocconvRemote, self).tearDown()
         BasePreviewFetcher.convert_on_server = self._convert_on_server
+
+    def test_image_skipped(self):
+        self._test_image_skipped('convert_on_server')

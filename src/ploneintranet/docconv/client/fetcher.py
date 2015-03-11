@@ -14,7 +14,7 @@ from PIL import Image
 
 from plone.app.blob.field import FileField
 from plone.app.blob.field import ImageField
-from Products.ATContentTypes.interfaces import IATDocument
+from plone.app.contenttypes.interfaces import IDocument
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 from five import grok
@@ -86,16 +86,22 @@ Content-Type: %(mime)s
     def __call__(self):
         annotations = IAnnotations(self.context)
 
+        basetype = None
         if hasattr(self.context, 'getContentType'):
             basetype = self.context.getContentType().split('/')[0]
-            if basetype in EXCLUDE_TYPES:
-                logger.warn('Type {0} is in excluded types, '
-                            'skipping {1}'.format(
-                                self.context.getContentType(),
-                                self.context.getId())
-                            )
-                annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
-                return
+        elif hasattr(self.context, 'file'):
+            if hasattr(self.context.file, 'contentType'):
+                basetype = self.context.file.contentType.split('/')[0]
+        elif hasattr(self.context, 'content_type'):
+            basetype = self.context.content_type().split('/')[0]
+        if basetype in EXCLUDE_TYPES:
+            logger.warn('Type {0} is in excluded types, '
+                        'skipping {1}'.format(
+                            basetype,
+                            self.context.getId())
+                        )
+            annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
+            return
         # get the contents of the context
         datatype, payload = self.getPayload()
 
@@ -383,19 +389,23 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
     def __call__(self, virtual_url_parts, vr_path):
         self.virtual_url_parts = virtual_url_parts
         self.vr_path = vr_path
+        if not self.getHtml():
+            logger.info('Skipping empty object {0}'.format(
+                '/'.join(self.context.getPhysicalPath())))
+            return
         return super(HtmlPreviewFetcher, self).__call__()
 
 
 class DocumentPreviewFetcher(HtmlPreviewFetcher, grok.Adapter):
     grok.provides(IPreviewFetcher)
-    grok.context(IATDocument)
+    grok.context(IDocument)
 
 
 def fetchPreviews(context, virtual_url_parts=[], vr_path=''):
     """ calls the docconv service and stores pdf and preview images on the
     object """
     fetcher = IPreviewFetcher(context)
-    if IATDocument.providedBy(context):  # TODO: dexterity
+    if IDocument.providedBy(context):
         if not virtual_url_parts or not vr_path:
             logger.warn('No virtual hosting info, cannot get local images! '
                         'Skipping %s' % '/'.join(context.getPhysicalPath()))
