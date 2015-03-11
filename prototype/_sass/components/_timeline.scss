@@ -1,0 +1,163 @@
+
+.timeline {
+    padding: 4%;
+    white-space: nowrap;
+    text-align: center;
+    overflow: auto;
+    margin-bottom: 2em;
+    letter-spacing: -0.2em;
+    display: block;
+    background-color: white;
+
+    .section {
+        letter-spacing: 0em;
+        display: inline-block;
+        padding-top: 10em;
+        padding-bottom: 1em;
+        border-left: 0.1em dotted silver;
+        border-right: 0.1em dotted silver;
+        margin-right: -0.1em;
+        position: relative;
+
+        .section-label {
+            color: gray;
+            display: block;
+            text-align: center;
+            font-weight: normal;
+            font-size: 1em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0.5em
+        }
+
+        .step-background {
+            width: 1.5em;
+            min-height: 1.5em;
+            float: left;
+            position: relative;
+            margin-right: 1em;
+            margin-left: 1em;
+
+            &.illustrated:before {
+                content: " ";
+                position: absolute;
+                left: 0.65em;
+                top: 0;
+                bottom: 0;
+                width: 0.2em;
+                background-color: silver;
+            }
+
+            .illustration {
+                border-radius: 50%;
+                width: 5em;
+                height: 5em;
+                overflow: hidden;
+                float: left;
+                margin: 3em -2.5em 0;
+                position: relative;
+                left: 0.55em;
+                border: 0.2em silver solid;
+
+                &.pos-1 {
+                    margin-top: 3em;
+                }
+
+                &.pos-2 {
+                    margin-top: 9em;
+                }
+
+                &.pos-3 {
+                    margin-top: 6em;
+                }
+                
+                a {
+                    position: absolute;
+                    left: -100em;
+                    right: -100em;
+                    top: 0;
+                    bottom: 0;
+                    text-align: center;
+
+                    img {
+                        height: 100%;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .step-label {
+
+                &.icon {
+                    font-weight: bold;
+
+                    &:before {
+                        border-radius: 50%;
+                        display: block;
+                        width: 2em;
+                        height: 2em;
+                        line-height: 1.9em;
+                        position: absolute;
+                        top: -0.5em;
+                        left: -0.5em;
+                        background: white;
+                        border: 0.2em orange solid;
+                        color: orange;
+                        z-index: 2;
+                    }
+                }
+            }
+
+            &:after {
+                content: " ";
+                display: block;
+                background-color: orange;
+                height: 0.8em;
+                width: 3em;
+                position: absolute;
+                right: 0.75em;
+                top: 0.35em;
+                z-index: 0;
+            }
+
+            &#item-1:after {
+                display: none;
+            }
+
+            .step-label {
+                position: absolute;
+                top: 0;
+                border-radius: 50%;
+                width: 1.5em;
+                height: 1.5em;
+                background-color: orange;
+                display: block;
+
+                .link {
+                    text-decoration: none;
+                    bottom: 1.5em;
+                    left: 1.9em;
+                    display: block;
+                    white-space: nowrap;
+                    position: absolute;
+                    -moz-transform: rotate(-45deg);
+                    -moz-transform-origin: 0 center;
+                    -webkit-transform: rotate(-45deg);
+                    -webkit-transform-origin: 0 center;
+                    transform: rotate(-45deg);
+                    transform-origin: 0 center;
+                    background-color: white;
+                    z-index: 1;
+                }
+            }
+
+            .text {
+                  font-size: small;
+            }
+        }
+    }
+}
