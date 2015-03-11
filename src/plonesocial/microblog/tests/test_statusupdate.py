@@ -39,7 +39,7 @@ class TestStatusUpdate(unittest.TestCase):
         self.assertEqual(su.text, 'foo bar')
 
     def test_tags(self):
-        su = StatusUpdate('#foo bar #fuzzy #beer')
+        su = StatusUpdate('bar', tags=['foo', 'fuzzy', 'beer'])
         tags = list(su.tags)
         tags.sort()
         self.assertEqual(tags, ['beer', 'foo', 'fuzzy'])
