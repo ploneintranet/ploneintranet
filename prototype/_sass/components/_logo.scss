@@ -7,14 +7,15 @@
 .logo#site-logo {
 	float: left;
 	margin-right: 14px;
-	
+	height: 19px;
+
 	@include screen-size(small) {
 		display: none;
 	}
 }
 
 .logo#site-logo img {
-	height: 19px;
+	height: 100%;
 	margin-top: 6px;
 	opacity: 0.6;
 }
