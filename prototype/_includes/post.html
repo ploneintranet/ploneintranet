@@ -87,14 +87,14 @@
 			<button type="submit" name="like_button" value="like" class="like">Like <sup class="counter">({{ item.likes }})</sup></button>
 		</form>
 	</div>
-	<div class="comments">
+	<div class="comments" id="comments-{{mypostUID}}">
 
 		<div id="comment-trail-{{mypostUID}}">
 			{% for comment in item.comments %}
 				{% include comment.html %}
 			{% endfor %}
 		</div>
-		{% capture localtarget %}#comment-trail-{{mypostUID}}{% endcapture %}
+		{% capture localtarget %}#comments-{{mypostUID}}{% endcapture %}
 		{% include update-social.html id=mypostUID visibility="false" action="/feedback/comment-well-said.html#comment-trail" %}
 	</div>
 </div>

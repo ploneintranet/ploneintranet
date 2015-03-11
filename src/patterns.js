@@ -47,6 +47,7 @@ define([
     "pat-placeholder",
     "pat-skeleton",
     "pat-sortable",
+    "pat-raptor",
     "pat-resourcepolling",
     "pat-stacks",
     "pat-store",
