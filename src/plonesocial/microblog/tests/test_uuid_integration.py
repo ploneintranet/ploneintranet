@@ -1,15 +1,11 @@
 import unittest2 as unittest
-from zope.interface import implements
 from zope.interface import directlyProvides
 from plone.uuid.interfaces import IUUID
-
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from plonesocial.microblog.testing import \
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
-
 from plonesocial.microblog.statuscontainer import BaseStatusContainer
-from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog import statusupdate
 
