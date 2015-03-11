@@ -179,7 +179,7 @@ I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
     Execute JavaScript  jQuery('.pat-upload.upload .accessibility-options').show()
     Execute JavaScript  jQuery('.pat-upload.upload').siblings('button').show()
-    Choose File  css=input[name=file]  ${UPLOADS}/test.odt
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Element  xpath=//button[text()='Upload']
 
 I can go to the sidebar info tile
@@ -330,4 +330,4 @@ I can create a structure
 The file appears in the sidebar
     Wait until Keyword Succeeds  1 min  5 sec  Page Should Not Contain Element  css=.previews .item
     Wait until Page contains Element  css=#workspace-documents.injecting
-    Wait until Page contains Element  xpath=//input[@name='test.odt']
+    Wait until Page contains Element  xpath=//input[@name='bärtige_flößer.odt']
