@@ -7,13 +7,16 @@
             i18n:domain="ploneintranet.theme">
 
 <body>
-  <metal:content fill-slot="content" tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
+  <metal:content fill-slot="content"
+    tal:define="workspace view/workspace;
+                workspace_url python:workspace.absolute_url();
+                workspace_id python:workspace.id">
 
     <h1 id="workspace-name">
-        <a href="/public-bodies-reform" tal:content="context/Title">Title</a>
+        <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
     </h1>
 
-    <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+    <div class="${workspace_id} dark-theme" id="application-body">
 
         <div id="document-body">
 

@@ -88,7 +88,10 @@
 
 <rules css:if-content="body.portaltype-event">
   <theme href="generated/event-traces-through-time/index.html" />
-  <replace css:content="#document-body" css:theme="#document-body" />
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
 <rules css:if-content="body.template-dashboard-html">
