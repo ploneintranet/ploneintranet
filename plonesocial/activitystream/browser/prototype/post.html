@@ -91,7 +91,8 @@
     </form>
   </div>
   <tal:commentable condition="exists:activity_provider/reply_providers">
-      <div class="comments"
+      <div class="comments" id="comments"
+        tal:attributes="id string:comments-${thread_id}"
         tal:define="reply_providers activity_provider/reply_providers">
         <div tal:attributes="id string:comment-trail-${thread_id}">
           <tal:loop tal:repeat="provider reply_providers">
