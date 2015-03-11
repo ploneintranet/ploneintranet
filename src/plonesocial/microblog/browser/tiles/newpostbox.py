@@ -180,9 +180,11 @@ class NewPostBoxTile(Tile):
                     IActivityProvider
                 )
             ]
+            self.activity_provider = self.activity_providers[0]
         else:
             self.post = None
             self.activity_providers = []
+            self.activity_provider = None
 
     def __call__(self, *args, **kwargs):
         ''' Call the multiadapter update

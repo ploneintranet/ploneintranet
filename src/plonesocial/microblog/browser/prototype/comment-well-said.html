@@ -5,7 +5,8 @@
   <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/comment-well-said.html -->
   <metal:macro define-macro="main">
     <tal:define define="
-          post view/post;
+          post newpostbox_view/post;
+          activity_provider nocall:newpostbox_view/activity_provider;
         ">
       <div id="comment-trail">
         <div class="comment">
@@ -20,7 +21,7 @@
             </a>
           </div>
           <section class="comment-content">
-            <p>${post/text}</p>
+            <p tal:content="structure activity_provider/getText"></p>
           </section>
         </div>
       </div>
