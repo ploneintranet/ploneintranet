@@ -87,6 +87,16 @@
 	  	}
 	  }
 
+	  &.type-case {
+	  	.link {
+	  		background-color: #DE7F00;
+
+	  		&:hover {
+	  			background-color: #B96A00;
+	  		}
+	  	}
+	  }
+
 	  .link {
 	    display: block;
 	    padding: 1.5em;

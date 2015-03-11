@@ -19,6 +19,66 @@
         margin-right: -0.1em;
         position: relative;
 
+        &.actioned {
+            padding-right: 2em;
+        }
+
+        .action {
+            position: absolute;
+            right: -1.15em;
+            bottom: 0.65em;
+            border-radius: 50%;
+            width: 2.35em;
+            height: 2.35em;
+            background-color: orange;
+            z-index: 1;
+
+            &:after {
+                content: " ";
+                display: block;
+                background-color: orange;
+                height: 0.8em;
+                width: 3em;
+                position: absolute;
+                right: 0.75em;
+                top: 0.85em;
+                left: -2.2em;
+                z-index: -1;
+            }
+
+            .link {
+                font-weight: bold;
+                position: absolute;
+                top: -1em;
+                left: 2.2em;
+                -moz-transform: rotate(-45deg);
+                -moz-transform-origin: 0 center;
+                -webkit-transform: rotate(-45deg);
+                -webkit-transform-origin: 0 center;
+                transform: rotate(-45deg);
+                transform-origin: 0 center;
+            }
+
+            &.icon {
+
+                &:before {
+                    border-radius: 50%;
+                    display: block;
+                    width: 2em;
+                    height: 2em;
+                    line-height: 1.9em;
+                    position: absolute;
+                    top: -0.5em;
+                    left: -0.5em;
+                    background: white;
+                    border: 0.2em orange solid;
+                    color: orange;
+                    z-index: 2;
+                }
+            }
+
+        }
+
         .section-label {
             color: gray;
             display: block;
@@ -93,7 +153,7 @@
             .step-label {
 
                 &.icon {
-                    font-weight: bold;
+                    // font-weight: bold;
 
                     &:before {
                         border-radius: 50%;
@@ -159,5 +219,9 @@
                   font-size: small;
             }
         }
+    }
+
+    .section.actioned + .section {
+        padding-left: 2em;
     }
 }
