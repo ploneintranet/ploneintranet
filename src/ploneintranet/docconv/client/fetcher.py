@@ -86,16 +86,22 @@ Content-Type: %(mime)s
     def __call__(self):
         annotations = IAnnotations(self.context)
 
+        basetype = None
         if hasattr(self.context, 'getContentType'):
             basetype = self.context.getContentType().split('/')[0]
-            if basetype in EXCLUDE_TYPES:
-                logger.warn('Type {0} is in excluded types, '
-                            'skipping {1}'.format(
-                                self.context.getContentType(),
-                                self.context.getId())
-                            )
-                annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
-                return
+        elif hasattr(self.context, 'file'):
+            if hasattr(self.context.file, 'contentType'):
+                basetype = self.context.file.contentType().split('/')[0]
+        elif hasattr(self.context, 'content_type'):
+            basetype = self.context.content_type().split('/')[0]
+        if basetype in EXCLUDE_TYPES:
+            logger.warn('Type {0} is in excluded types, '
+                        'skipping {1}'.format(
+                            basetype,
+                            self.context.getId())
+                        )
+            annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
+            return
         # get the contents of the context
         datatype, payload = self.getPayload()
 
