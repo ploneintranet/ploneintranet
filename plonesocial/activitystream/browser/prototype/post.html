@@ -74,7 +74,8 @@
 
     <figure tal:repeat="attachment activity_provider/attachments">
       <a href="/incredibly-boring-document" tal:attributes="href attachment">
-        <img src="/media/preview_thumb_1.jpg" alt="" tal:attributes="src string:${attachment}/thumb">
+        <img src="/media/preview_thumb_1.jpg" alt=""
+             tal:attributes="src string:${attachment}">
       </a>
     </figure>
 
