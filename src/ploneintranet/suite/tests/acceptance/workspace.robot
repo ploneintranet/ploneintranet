@@ -7,6 +7,8 @@ Resource  ../lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 # Library  DebugLibrary
 
+Variables  variables.py
+
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
@@ -92,6 +94,14 @@ Create structure
       And I go to the Open Market Committee Workspace
      Then I can create a structure
 
+Alice can upload a file
+    Given I am logged in as the user alice_lindstrom
+      And I go to the Open Market Committee Workspace
+      And I select a file to upload
+     Then the file appears in the sidebar
+#TODO      And the upload appears in the stream
+
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -164,6 +174,13 @@ I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
+
+I select a file to upload
+    [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
+    Execute JavaScript  jQuery('.pat-upload.upload .accessibility-options').show()
+    Execute JavaScript  jQuery('.pat-upload.upload').siblings('button').show()
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
+    Click Element  xpath=//button[text()='Upload']
 
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -310,4 +327,8 @@ I can create a structure
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
+
+The file appears in the sidebar
+    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
+
