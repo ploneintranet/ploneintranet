@@ -225,4 +225,4 @@ class NewPostBoxTile(Tile):
                 'source: #activity-stream; '
                 'target: #activity-stream .activities::before && #%s'
             ) % form_id
-        return 'target: #comment-trail-%s' % thread_id
+        return 'target: #comments-%s' % thread_id
