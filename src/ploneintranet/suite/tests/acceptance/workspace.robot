@@ -31,10 +31,10 @@ Alice can view sidebar events
     I can see upcoming events
     Older events are hidden
 
-Alice can delete sidebar events
-    given I'm logged in as a 'alice_lindstrom'
-    I can go to the sidebar events tile
-    I can delete an old event
+# Alice can delete sidebar events
+#     given I'm logged in as a 'alice_lindstrom'
+#     I can go to the sidebar events tile
+#     I can delete an old event
 
 Manager can view sidebar tasks
     given I'm logged in as a 'Manager'
