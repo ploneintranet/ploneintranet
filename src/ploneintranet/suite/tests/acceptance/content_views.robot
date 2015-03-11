@@ -82,11 +82,11 @@ I browse to a workspace
 
 I browse to a document
     I browse to a workspace
-    Wait Until Page Contains Element  xpath=//a[contains(@href, 'public-bodies-reform')]
-    Click Link  xpath=//a[contains(@href, 'public-bodies-reform')]
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
+    Click Link  xpath=//a[contains(@href, 'repurchase-agreements')]
 
 I view the document
-    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/public-bodies-reform
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
 
 I browse to an image
     I browse to a workspace

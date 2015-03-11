@@ -440,6 +440,13 @@ def testing(context):
                                     'key part of any Machinery of Government '
                                     'change.',
                      'type': 'Document'},
+                    {'title': 'Repurchase Agreements',
+                     'description': 'A staff presentation outlined several '
+                                    'approaches to raising shortterm interest '
+                                    'rates when it becomes appropriate to do '
+                                    'so, and to controlling the level of '
+                                    'short-term interest rates ',
+                     'type': 'Document'},
                     {'title': u'Budget Proposal',
                      'description': (
                          u'A diagram of the factors impacting the budget and '
