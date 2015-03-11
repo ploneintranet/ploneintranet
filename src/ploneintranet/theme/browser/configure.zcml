@@ -93,7 +93,6 @@
       template="templates/submit_input.pt"
       />
 
-
   <browser:page
       name="dashboard.html"
       for="*"
