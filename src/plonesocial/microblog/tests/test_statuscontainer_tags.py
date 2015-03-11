@@ -49,7 +49,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
 
     def test_items(self):
         values = [x[1] for x in self.container.items(tag='b')]
-        self.assertEqual([self.sc, self.sb], values)
+        self.assertEqual([self.sb], values)
 
     def test_user_keys_match(self):
         keys = [x for x in self.container.user_keys(
