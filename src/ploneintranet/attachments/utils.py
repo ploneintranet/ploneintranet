@@ -1,8 +1,7 @@
 import logging
 from Acquisition import aq_base
 from datetime import datetime, timedelta
-from plone.app.blob.content import ATBlob
-from plone.app.blob.markings import markAs
+from plone.app.contenttypes.content import File
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.container.interfaces import DuplicateIDError
 
@@ -20,7 +19,10 @@ def extract_attachments(file_upload, workspace=None, token=None):
         if token is not None and workspace is not None:
             attachment = pop_temporary_attachment(workspace, file_field, token)
         if attachment is None:
-            attachment = create_attachment(file_field)
+            attachment = create_attachment(
+                filename=file_field.filename,
+                data=file_field.read(),
+            )
         attachments.append(attachment)
     return attachments
 
@@ -37,18 +39,13 @@ def pop_temporary_attachment(workspace, file_field, token):
     return None
 
 
-def create_attachment(file_field):
-        attachment = ATBlob(file_field.filename)
-        if file_field.headers.get('content-type').split('/')[0] == 'image':
-            subtype = 'Image'
-        else:
-            subtype = 'File'
-        markAs(attachment, subtype)
-        if hasattr(attachment, '_setPortalTypeName'):
-            attachment._setPortalTypeName(subtype)
-        attachment.initializeArchetype()
-        attachment.update_data(file_field.read())
-        return attachment
+def create_attachment(filename, data):
+    if not isinstance(filename, unicode):
+        filename = filename.decode('utf-8')
+    thefile = File()
+    thefile.file = data
+    thefile.id = filename
+    return thefile
 
 
 def add_attachments(attachments, attachment_storage):
