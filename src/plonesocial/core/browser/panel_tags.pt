@@ -27,6 +27,7 @@
             <input type="search" placeholder="Search" name="tagsearch" />
             <button type="submit">Search</button>
           </label>
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
 
         <form id="postbox-items"
