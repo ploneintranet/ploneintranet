@@ -138,6 +138,12 @@ class BaseStatusContainer(Persistent, Explicit):
         self._user_mapping[userid].insert(status.id)
 
     def _idx_tag(self, status):
+        """
+        Update the `StatusContainer` tag index with any new tags
+        :param status: a `StatusUpdate` object
+        """
+        if status.tags is None:
+            return
         for tag in [unicode(tag) for tag in status.tags]:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
