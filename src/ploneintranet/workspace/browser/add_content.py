@@ -51,12 +51,6 @@ class AddContent(BrowserView):
     def redirect(self, url):
         """Has its own method to allow overriding"""
         url = '{}/view'.format(url)
-        # portal_type = new.portal_type.lower()
-        # if portal_type in ['image', 'file']:
-        #     url = '{}/{}_view'.format(new_url, portal_type)
-        # else:
-        #     url = '{}'.format(new_url)
-        # import pdb; pdb.set_trace()
         return self.request.response.redirect(url)
 
 
