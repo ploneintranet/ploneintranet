@@ -1,15 +1,11 @@
 import unittest2 as unittest
-from zope.interface import implements
 from zope.interface import directlyProvides
 from plone.uuid.interfaces import IUUID
-
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from plonesocial.microblog.testing import \
     PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
-
 from plonesocial.microblog.statuscontainer import BaseStatusContainer
-from plonesocial.microblog.interfaces import IStatusUpdate
 from plonesocial.microblog.interfaces import IMicroblogContext
 from plonesocial.microblog import statusupdate
 
@@ -25,16 +21,6 @@ class StatusUpdate(statusupdate.StatusUpdate):
     """Override actual implementation with test features.
     Does NOT override the uuid functionality.
     """
-
-    implements(IStatusUpdate)
-
-    def __init__(self, text, context=None, userid='dude', creator=None):
-        statusupdate.StatusUpdate.__init__(self, text, context)
-        self.userid = userid
-        if creator:
-            self.creator = creator
-        else:
-            self.creator = userid
 
     def _init_userid(self):
         pass
@@ -84,20 +70,25 @@ class TestUUIDIntegration(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'f2', title=u"Folder 2")
         mockcontext2 = self.portal['f2']
         directlyProvides(mockcontext2, IMicroblogContext)
-        su1 = StatusUpdate('test #foo',
-                           context=mockcontext1, userid='arnold')
-        su2 = StatusUpdate('test #foo',
-                           context=mockcontext2, userid='arnold')
-        su3 = StatusUpdate('test #foo #bar',
-                           context=mockcontext2, userid='arnold')
+        su1 = StatusUpdate('test', tags=['foo'],
+                           context=mockcontext1)
+        su1.userid = 'arnold'
+        su2 = StatusUpdate('test', tags=['foo'],
+                           context=mockcontext2)
+        su2.userid = 'arnold'
+        su3 = StatusUpdate('test', tags=['foo', 'bar', ],
+                           context=mockcontext2)
+        su3.userid = 'arnold'
         su4 = StatusUpdate('test',
-                           context=mockcontext2, userid='bernard')
+                           context=mockcontext2)
+        su4.userid = 'bernard'
         container.add(su1)
         container.add(su2)
         container.add(su3)
         container.add(su4)
-        values = [x[1] for x in container.context_items(mockcontext1,
-                                                        tag='foo')]
+        values = [x[1] for x in container.context_items(
+            mockcontext1,
+            tag='foo')]
         self.assertEqual([su1], values)
         values = [x[1] for x in container.context_items(mockcontext1,
                                                         tag='bar')]

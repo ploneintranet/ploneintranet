@@ -33,38 +33,44 @@ class NewPostBoxTile(Tile):
     @property
     @memoize
     def post_container(self):
-        ''' Return the object that will contain the post
-        '''
+        """ Return the object that will contain the post
+        """
         return queryUtility(IMicroblogTool)
 
     @property
     @memoize
     def post_context(self):
-        ''' The context of this microblog post
+        """ The context of this microblog post
         (the portal, a workspace, and so on...)
-        '''
+        """
         return get_microblog_context(self.context)
 
     @property
     @memoize
     def is_posting(self):
-        ''' Check if the form was submitted
-        '''
+        """ Check if the form was submitted
+        """
         return ('%sstatusupdate' % self.button_prefix) in self.request.form
 
     @property
     @memoize
     def post_text(self):
-        ''' The text that was posted
-        '''
+        """ The text that was posted
+        """
         return self.request.form.get(('%stext' % self.input_prefix), u'')
+
+    @property
+    def post_tags(self):
+        """ The tags that were added
+        """
+        return self.request.form.get('tags', [])
 
     @property
     @memoize
     def post_attachment(self):
-        '''
+        """
         The attachmented that was posted (if any)
-        '''
+        """
         return self.request.form.get(
             ('%sattachments' % self.input_prefix),
             None
@@ -72,9 +78,9 @@ class NewPostBoxTile(Tile):
 
     @property
     def thread_id(self):
-        ''' Return the thread_id
+        """ Return the thread_id
         (used e.g. for commenting other status updates)
-        '''
+        """
         if 'thread_id' in self.request:
             return self.request.get('thread_id')
         if hasattr(self.context, 'thread_id') and self.context.thread_id:
@@ -86,8 +92,8 @@ class NewPostBoxTile(Tile):
         return thread_id
 
     def userid2fullname(self, userid):
-        ''' Return the fullname for the post
-        '''
+        """ Return the fullname for the post
+        """
         try:
             fullname = api.user.get(userid).getProperty('fullname')
         except:
@@ -97,12 +103,12 @@ class NewPostBoxTile(Tile):
         return fullname or userid
 
     def create_post_attachment(self, post):
-        ''' Check:
+        """ Check:
          - if the post supports attachments
          - if we have an attachment posted
 
         If both are True attach the data to the post
-        '''
+        """
         if IAttachmentStoragable is None:
             return
         if not IAttachmentStoragable.providedBy(post):
@@ -118,14 +124,15 @@ class NewPostBoxTile(Tile):
         )
 
     def create_post(self):
-        ''' Return the post object or None
-        '''
+        """ Return the post object or None
+        """
         if not self.post_text:
             return None
         post = StatusUpdate(
-            self.post_text,
+            text=self.post_text,
             context=self.post_context,
-            thread_id=self.thread_id
+            thread_id=self.thread_id,
+            tags=self.post_tags,
         )
         self.create_post_attachment(post)
         self.post_container.add(post)
@@ -144,9 +151,9 @@ class NewPostBoxTile(Tile):
         )
 
     def update(self):
-        ''' When updating we may want to process the form data and,
+        """ When updating we may want to process the form data and,
         if needed, create a post
-        '''
+        """
         if self.is_posting:
             self.post = self.create_post()
             # BBB We're using the ActivityProvider from ps.activitystream
@@ -168,15 +175,17 @@ class NewPostBoxTile(Tile):
                     IActivityProvider
                 )
             ]
+            self.activity_provider = self.activity_providers[0]
         else:
             self.post = None
             self.activity_providers = []
+            self.activity_provider = None
 
     def __call__(self, *args, **kwargs):
-        ''' Call the multiadapter update
+        """ Call the multiadapter update
 
         We need to call the update manually (Tile instances don't do it)
-        '''
+        """
         self.update()
         return super(NewPostBoxTile, self).__call__(*args, **kwargs)
 

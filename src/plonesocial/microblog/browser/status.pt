@@ -17,12 +17,12 @@
 
     </fieldset>
 
-    <form id="new-post-box" method="post"
+    <form id="post-box" method="post"
           class="pat-inject update-social status-inactive"
           action=""
           data-pat-inject=".post:first::element;
                            target: #activity-stream::before
-                           && #new-post-box"
+                           && #post-box"
           tal:condition="view/compact"
           tal:attributes="action request/ACTUAL_URL">
 
@@ -69,16 +69,16 @@
         <p class="content-mirror"><span class="text">What are you doing?</span><em class="selected-users" id="selected-users"><tal:users tal:condition="request/users|nothing"> — <tal:block tal:repeat="user request/users|nothing"><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')" tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users></em><em class="selected-tags" id="selected-tags"><tal:tags tal:condition="request/tags|nothing"> — <tal:block tal:repeat="tag request/tags|nothing" ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space></tal:block></tal:tags></em></p>
         <textarea placeholder="What are you doing?"
                   class="pat-comment-box pat-switch"
-                  data-pat-switch="#new-post-box status-inactive status-active"
+                  data-pat-switch="#post-box status-inactive status-active"
                   name="form.widgets.text"></textarea>
         <fieldset
            tal:condition="view/is_attachment_supported"
            class="attachments pat-subform pat-autosubmit pat-inject"
-           data-pat-inject="url: @@upload-attachments; source: #attachments; target: #new-post-box-attachment-previews">
+           data-pat-inject="url: @@upload-attachments; source: #attachments; target: #post-box-attachment-previews">
           <label class="iconified icon-attach pat-switch"
-                 data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
+                 data-pat-switch="#post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
           <p class="attachment-previews"
-             id="new-post-box-attachment-previews">
+             id="post-box-attachment-previews">
             No attachments selected.
           </p>
           <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/form/attachment_form_token">
@@ -97,12 +97,12 @@
           <br/>
           <button
              class="pat-switch"
-             data-pat-switch="#new-post-box status-* status-inactive"
+             data-pat-switch="#post-box status-* status-inactive"
              type="submit"
              name="form.buttons.statusupdate">Post</button>
           <button
              class="pat-switch"
-             data-pat-switch="#new-post-box status-* status-inactive"
+             data-pat-switch="#post-box status-* status-inactive"
              type="reset">Cancel</button>
         </div>
       </fieldset>

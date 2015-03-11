@@ -92,7 +92,7 @@ class BaseStatusContainer(Persistent, Explicit):
         # index by mentions (string UUID) -> (object TreeSet(long statusid))
         self._mentions_mapping = OOBTree.OOBTree()
 
-    def add(self, status, context=None):
+    def add(self, status):
         self._check_permission("add")
         self._check_status(status)
         self._store(status)
@@ -138,6 +138,12 @@ class BaseStatusContainer(Persistent, Explicit):
         self._user_mapping[userid].insert(status.id)
 
     def _idx_tag(self, status):
+        """
+        Update the `StatusContainer` tag index with any new tags
+        :param status: a `StatusUpdate` object
+        """
+        if status.tags is None:
+            return
         for tag in [unicode(tag) for tag in status.tags]:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
