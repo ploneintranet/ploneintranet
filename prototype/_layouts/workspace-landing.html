@@ -31,13 +31,6 @@ workspace_module: docs
 											{{ node.title }}
 										</a>
 									</p>
-									{% if node.image %}
-										<figure class="illustration {% unless node.image-position %}{% cycle 'pos-1', 'pos-2', pos-3 %}{% endunless %}" {% if node.image-size %}style="{% if node.image-position %}margin-top: {{ node.image-position }}em;{% endif %} width: {{ node.image-size }}em; height: {{ node.image-size }}em; margin-left: {{ node.image-size | times:-0.5 }}em;"{% endif %}>
-											<a href="/media/{{ node.image }}" target="image">
-												<img src="/media/{{ node.image }}" alt="" />
-											</a>
-										</figure>
-									{% endif %}
 								</li>
 							{% endif %}
 						{% endfor %}
