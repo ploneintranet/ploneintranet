@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+article {
+
+	h1,h2,p,ul,ol,table,dl,pre {
+		margin-bottom: 2rem;
+	}
+
+	ul,ol {
+		li {
+			 margin-left: 0;
+			 padding-left: 1em;
+
+			 &:before {
+			 	content: "•";
+			 	float: left;
+				margin-left: -1em;
+			 }
+		}
+
+	}
+
+	h1 {
+		font-weight: 200; 
+		font-size: 2em;
+		line-height: 130%;
+		margin-bottom: 0.7em;
+	}
+
+	h2 {
+		line-height: 130%;
+	}
+
+	img {
+		max-width: 100%;
+	}
+
+}

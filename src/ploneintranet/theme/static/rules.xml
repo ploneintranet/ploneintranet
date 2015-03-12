@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules xmlns="http://namespaces.plone.org/diazo"
+       xmlns:css="http://namespaces.plone.org/diazo/css"
+       xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+
+<!-- GENERIC RULES WHICH APPLY ALWAYS -->
+  <replace content='/html/head/title' theme='/html/head/title' />
+  <append content='/html/head/base' theme='/html/head' />
+  <copy theme="/html/head/meta" content="/html/head/meta" />
+  <!-- remove the script and style from the prototype… -->
+  <drop theme="/html/head/script" />
+  <drop theme="/html/head/link" />
+  <!-- … and deliver the one from plone resource registries -->
+  <after theme-children="/html/head" content="/html/head/link | /html/head/style" />
+  <after theme-children="/html/head" content="/html/head/script" />
+
+  <!-- Copy over the id/class attributes on the body tag, this is
+       important for Kupu and per-section styling -->
+  <merge attributes="class" css:content="body" css:theme="body" />
+  <copy attributes="id dir" css:content="body" css:theme="body" />
+
+  <!-- Logo -->
+  <replace css:content-children="#portal-logo" css:theme-children="#site-logo" />
+  <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
+
+  <!-- insert the breadcrumbs into the header bar -->
+  <replace css:content-children="#breadcrumbs"
+           css:theme-children="nav.breadcrumbs" />
+  <replace css:content="#notification-link"
+           css:theme="#notification-link" />
+
+  <!-- Portal Personal Tools -->
+  <replace css:content-children="#portal-personaltools-wrapper"
+           css:theme="#user-avatar" />
+
+  <!-- adaptation of the global-nav -->
+  <replace css:theme-children="#home-tabs"
+           css:content-children="#portal-globalnav li" />
+
+  <!-- inject plonesocial navigation -->
+  <append css:theme="#home-tabs"
+          css:content-children="#plonesocial-navigation li" />
+
+  <drop css:theme="#buddies-toggle"
+        css:if-not-content="#buddies-toggle" />
+  <replace css:content="#buddies-toggle"
+           css:theme="#buddies-toggle" />
+
+  <copy attributes="method id action" css:content="form#searchGadget_form" css:theme="form#global-nav-search" />
+
+<!-- Login Form -->
+<rules css:if-content="body.template-login_form">
+  <theme href="generated/index.html" />
+  <copy attributes="method id action" css:content="form#login_form" css:theme=".login-panel form" />
+  <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+</rules>
+
+<rules css:if-content="body.template-stream">
+  <theme href="generated/notifications.html" />
+  <append css:content-children="#content" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.template-notifications">
+  <theme href="generated/notifications.html" />
+  <replace css:content-children="#social-messages" css:theme="#document-content" />
+</rules>
+
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image">
+  <theme href="generated/open-market-committee/index.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.portaltype-event">
+  <theme href="generated/event-traces-through-time/index.html" />
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.template-dashboard-html">
+  <theme href="generated/dashboard.html" />
+  <drop css:theme-children="div.container" />
+  <append css:content-children="#portal-column-content" css:theme="div.container" />
+</rules>
+
+<rules css:if-content="body.template-workspaces-html">
+  <theme href="generated/workspaces.html" />
+  <drop css:theme-children="div.container" />
+  <append css:content-children="#portal-column-content" css:theme="div.container" />
+</rules>
+
+
+
+<rules css:if-content="#visual-portal-wrapper">
+  <theme href="generated/empty.html" />
+  <replace css:content-children="#content" css:theme-children="#original-content" />
+</rules>
+
+<notheme css:if-content="body.diazo-off"/>
+
+
+  <!-- Cleanup any demo content that comes with the theme -->
+  <!--drop css:theme-children="#content"/-->
+
+
+
+
+
+</rules>

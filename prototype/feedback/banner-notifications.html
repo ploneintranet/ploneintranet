@@ -1,0 +1,14 @@
+---
+layout: generic
+application: home
+design_title: Messages feedback
+---
+
+
+{% for message in site.data.messages %}
+	<article id="{{ message.id }}">
+		<p id="{{ message.id }}-body" class="pat-notification" data-pat-notification="type: banner; class: success">
+			{{ message.body }}
+		</p>
+	</article>
+{% endfor %}	

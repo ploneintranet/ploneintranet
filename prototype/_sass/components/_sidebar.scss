@@ -1,0 +1,64 @@
+@charset "UTF-8";
+
+/* @group Sidebar */
+
+aside.sidebar.left {
+  position: absolute;
+  font-size: 0.8em;
+
+  @include screen-size(small) {  
+    font-size: 1em;
+  }
+
+  line-height: 20px;
+  bottom: 0;
+  padding: 0;
+  color: #434343;
+  width: auto;
+  z-index: 0;
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  top: 0;
+
+  @include screen-size(small) {  
+    right: 0;
+    left: 0;
+    top: 48px;
+    bottom: 50px;
+  }
+
+  @include screen-size(large) {  
+    right: 70%;  
+    left: 50px;
+    transition: all 0.2s;
+    border-right: solid 1px silver;
+  }
+
+  h3,
+  p {
+    margin-bottom: 1em;
+  }
+
+  #sidebar-content {
+    padding: 1em;
+
+    @include screen-size(small) {  
+      padding: 6%;
+    }
+
+    .tabs-content {
+      position: relative;
+    }
+  }
+}
+
+@include screen-size(large) {     
+  body.application-workspace aside.sidebar.left {
+    left: 50px
+  }
+
+  .sidebar-left-closed aside.sidebar.left {
+    right: 100%;
+  } 
+}

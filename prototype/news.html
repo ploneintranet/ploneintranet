@@ -1,0 +1,107 @@
+---
+layout: home
+application: home
+design_title: Intranet homepage
+design_description: General news page.
+---
+
+<div class="row">
+	<div class="eight columns">
+		<div class="news-feed">
+			{% assign count = 1 %}
+			{% for item in site.posts %}
+				{% if item.category == 'member-news' or item.category == 'general-news' or item.category == 'press-release' or item.category == 'star-news' %}
+					{% if item.layout == 'news-item' %}
+						{% if count == 1 %}
+							<article class="item item-{{ count }}">
+								<a href="{{item.url}}">
+									<figure class="branded">
+										<img class="illustration" src="media/{{ item.image }}" alt="" />
+										
+									</figure>
+									<div class="teaser">
+						    			<h3 class="title">
+						    				{{ item.title }}
+						    			</h3>
+										{{ item.description | truncate: 160 }} <strong>Read more…</strong>
+									</div>
+								</a>
+							</article>
+							<div class="row pat-equaliser">
+						{% endif %}
+
+						{% if count >= 2 and count <= 4 %}
+							<article class="item item-{{ count }} level-2 four columns">
+								<a href="{{item.url}}">
+									<figure class="branded">
+										<img class="illustration" src="media/{{ item.image }}" alt="" />
+										
+									</figure>
+							    	<h3 class="title">
+							    		{{ item.title }}
+							    	</h3>
+									<p class="description">
+										{{ item.description | truncate: 160 }} <strong>Read more…</strong>
+									</p>
+								</a>
+							</article>
+						{% endif %} 
+					
+						{% if count == 4 %}
+							</div>
+						{% endif %}
+
+						{% if count >= 5 %}
+							<article class="item item-{{ count }} level-3">
+								<a href="{{item.url}}">
+									<figure class="branded">
+										<img class="illustration" src="media/{{ item.image }}" alt="" />
+										
+									</figure>
+							    	<h3 class="title">
+							    		{{ item.title }}
+							    	</h3>
+									<p class="description">
+										{{ item.description | truncate: 160 }} <strong>Read more…</strong>
+									</p>
+								</a>
+							</article>
+						{% endif %}
+					{% endif %}
+
+					{% assign count = count | plus: 1 %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+	<div class="four columns">
+		<div class="news-feed well">
+			<h2>
+				Hot topics
+			</h2>
+			{% for item in site.posts %}
+				{% if item.category == 'hot-topics' and item.layout == 'news-item' %}
+					<article class="item item-{{ count }}">
+						<a href="{{item.url}}">
+							<img class="illustration" src="media/{{ item.image }}" alt="" />
+							<div class="teaser">
+				    			<h3 class="title">
+				    				{{ item.title }}
+				    			</h3>
+				    			<p class="description">
+									{{ item.description | truncate: 160 }} <strong>Read more…</strong>
+								</p>
+							</div>
+						</a>
+					</article>
+					
+					{% assign count = count | plus: 1 %}
+				{% endif %}
+			{% endfor %}
+			<p class="more">
+				<a href="/news-hot-topics/">More hot topics…</a>
+			</p>
+		</div>
+	</div>
+</div>
+

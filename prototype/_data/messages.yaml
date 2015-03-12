@@ -1,0 +1,17 @@
+- body: "This document is now set from 'Private' to 'Public'."
+  id: workflow-state-changed
+
+- body: "This role of John Smith on this group is now set from 'Regular' to 'Member'."
+  id: role-changed
+
+- body: "<strong>5</strong> Files were copied to your cloud clipboard"
+  id: documents-copied
+  type: banner
+
+- body: "<strong>2</strong> Files were cut and moved to your cloud clipboard"
+  id: documents-cut
+  type: banner
+
+- body: "Document shared"
+  id: document-shared
+  type: banner

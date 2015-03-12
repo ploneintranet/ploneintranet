@@ -1,0 +1,39 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ul,
+ol,
+li,
+table,
+tr,
+th,
+td,
+form,
+fieldset,
+legend,
+button,
+div,
+object,
+figure,
+img {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	list-style: none;
+	text-align: left;
+	// vertical-align: top; // TODO Remove and let the browser/developer use this when required - not even https://github.com/necolas/normalize.css/blob/master/normalize.css uses it
+}
+
+input,
+select,
+textarea,
+button {
+	padding: 0;
+	background-color: #FFF;
+}

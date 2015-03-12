@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.user-cloud {
+
+  margin-right: -1em;
+  display: block;
+  overflow: hidden;
+
+  a {
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    float: left;
+    border: 0.065rem solid silver;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+
+    img {
+    	width: 100%;
+    	height: 100%;
+    }
+
+    &.add {
+      background-color: rgba(0, 0, 0, 0.1);
+      text-indent: -1000px;
+      position: relative;
+      box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.15);
+
+      &:before {
+        content: "\e700";
+        position: absolute;
+        top: 0;
+        left: 0;
+        text-indent: 6px;
+        font: 1.5rem / 3rem fontello;
+        text-align: center;
+        display: block;
+        width: 2.8rem;
+        height: 2.8rem;
+        color: #666;
+      }
+    }
+  }
+}

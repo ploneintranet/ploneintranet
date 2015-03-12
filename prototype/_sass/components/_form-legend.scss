@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+span.legend {
+  margin-left: 0;
+}
+
+.legend dfn {
+  padding: 0;
+  margin: 0 1em 0 0;
+  list-style-type: none;
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: normal;
+  font-style: italic;
+  &:before {
+    content: " ";
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5em;
+    width: 0.8em;
+    height: 0.8em;
+  }
+  &.declined:before {
+    background-color: red;
+  }
+  &.confirmed:before {
+    background-color: #5bb75b;
+  }
+  &.tentative:before {
+    background-color: #ff9300;
+  }
+  &.undecided:before {
+    background-color: #0081be;
+  }
+}

@@ -1,0 +1,41 @@
+---
+layout: home
+application: home
+design_title: Intranet homepage — Global search results
+design_description: Example global search results page
+---
+
+<!-- Temporary filling of the search results page -->
+
+<form action="/search-results.html" class="search">
+	<fieldset>
+		<label>
+			<input value="Minutes" autofocus type="text" size="50" placeholder="Search for content…" class="search" style="background: white" />
+			<button type="submit">Search</button>
+		</label>
+	</fieldset>
+</form>
+
+<dl class="search-results">
+	{% for item in site.posts  %}
+		{% if item.title contains 'Min' or item.title contains 'min' %}
+		    {% if item.layout == 'event' or item.layout ==  'news' or item.layout == 'document'  or item.layout == 'folder' %}
+				<dt class="title">
+					<a href="{{ item.url }}">{{ item.title }}</a>
+				</dt>
+				<dd class="description">
+					<a href="{{ item.url }}">
+						<p class="url">
+							{{ item.url }}
+						</p>
+						{% if item.description %}
+							<p class="summary">
+								{{ item.description }}
+							</p>
+						{% endif %}
+					</a>
+				</dd>
+		    {% endif %}
+		{% endif %}
+	{% endfor %}
+</dl>
