@@ -24,6 +24,10 @@
                     </label>
                 </form>
             </div>
+
+            <div class="quick-functions">
+                <a title="Create new document" href="/panel-create-task.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
+            </div>
         </div>
         {% if page.type == 'case' %}
             <!-- <h3>Case Tasks</h3> -->
@@ -85,6 +89,11 @@
         </div>
     </div>
     <div id="workspace-events">
+        <div class="button-bar functions" id="{{ include.id }}-functions">
+            <div class="quick-functions">
+                <a title="Create new document" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
+            </div>
+        </div>
 
         <div class="content">
             <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
