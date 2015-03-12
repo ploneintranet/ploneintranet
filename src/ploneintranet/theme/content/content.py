@@ -19,18 +19,21 @@ class ContentView(BrowserView):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
+        # TODO: check for edit-permissions
         if title or description or tags:
             modified = False
-            if title and title != context.title:
+            if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
                 modified = True
-            if description and description != context.description:
-                context.description = safe_unicode(description)
-                modified = True
+            if description:
+                if safe_unicode(description) != context.description:
+                    context.description = safe_unicode(description)
+                    modified = True
             if tags:
                 tags = tuple([safe_unicode(tag) for tag in tags.split(',')])
-                context.subject = tags
-                modified = True
+                if tags != context.subject:
+                    context.subject = tags
+                    modified = True
             if modified:
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
@@ -44,7 +47,7 @@ class ContentView(BrowserView):
             return
         try:
             docconv = IDocconv(self.context)
-        except TypeError:  # XXX happens in tests
+        except TypeError:  # TODO: prevent this form happening in tests
             return
         if docconv.has_previews():
             return docconv.get_number_of_pages()
