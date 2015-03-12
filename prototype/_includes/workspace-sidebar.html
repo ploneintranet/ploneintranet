@@ -21,7 +21,7 @@
                     {% for ticket in site.posts  %}
                         {% if ticket.case_state == item.label %}
                             <label>
-                                <input type="checkbox" {% if ticket.state == 'complete' or item.transition_state == 'finished' %}checked{% endif %} /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body">{{ ticket.title }}</a>
+                                <input type="checkbox" {% if ticket.state == 'complete' or item.transition_state == 'finished' %}checked{% endif %} /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
                             </label>
                         {% endif %}
                     {% endfor %}
@@ -35,7 +35,7 @@
                 {% for ticket in site.posts  %}
                     {% if ticket.case_state == 'unassigned' %}
                         <label>
-                            <input type="checkbox" /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}">{{ ticket.title }}</a>
+                            <input type="checkbox" /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
                         </label>
                     {% endif %}
                 {% endfor %}
