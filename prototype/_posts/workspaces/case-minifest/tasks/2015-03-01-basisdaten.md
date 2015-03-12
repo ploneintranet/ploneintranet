@@ -11,9 +11,10 @@ case_state: Neu
 icon: help-circled
 document_creator: Adrian White
 document_creator_id: white
-description: Erfassung der Basis-Absenderdaten
+
 application: workspace
 application_name: Workspace
-workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
+workspace_name: Minifest
 ---
 
+Erfassung der Basis-Absenderdaten
