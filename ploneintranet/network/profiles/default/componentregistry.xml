@@ -2,12 +2,12 @@
 <componentregistry>
  <utilities>
   <utility
-      interface="plonesocial.network.interfaces.INetworkTool"
-      object="plonesocial_network"
+      interface="ploneintranet.network.interfaces.INetworkTool"
+      object="ploneintranet_network"
       />
   <utility
-      interface="plonesocial.network.interfaces.ILikesTool"
-      object="plonesocial_likes"
+      interface="ploneintranet.network.interfaces.ILikesTool"
+      object="ploneintranet_likes"
       />
  </utilities>
 </componentregistry>

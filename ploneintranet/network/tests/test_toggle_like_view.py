@@ -2,11 +2,11 @@
 from plone import api
 from plone.app.discussion.interfaces import IConversation
 from plone.uuid.interfaces import IUUID
-from plonesocial.core.integration import PLONESOCIAL
-from plonesocial.microblog.statusupdate import StatusUpdate
-from plonesocial.network.interfaces import ILikesTool
-from plonesocial.network.testing import IntegrationTestCase
-from plonesocial.network.testing import set_browserlayer
+from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.network.interfaces import ILikesTool
+from ploneintranet.network.testing import IntegrationTestCase
+from ploneintranet.network.testing import set_browserlayer
 from zope.component import createObject
 from zope.component import getUtility
 
@@ -91,7 +91,7 @@ class TestToggleLikeView(IntegrationTestCase):
     def test_like_status_update(self):
         # test statusupdate
         su = StatusUpdate('Some cool news!')
-        container = PLONESOCIAL.microblog
+        container = PLONEINTRANET.microblog
         container.add(su)
         update_id = str(su.id)
 

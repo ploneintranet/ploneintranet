@@ -3,9 +3,9 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.uuid.utils import uuidToCatalogBrain
-from plonesocial.core.integration import PLONESOCIAL
-from plonesocial.network import _
-from plonesocial.network.interfaces import ILikesTool
+from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet.network import _
+from ploneintranet.network.interfaces import ILikesTool
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -74,7 +74,7 @@ class ToggleLike(BrowserView):
     def validate_id(self, item_id):
         """Check if item_id is a UUID or a the id of a StatusUpdate"""
         if item_id.isdigit():
-            container = PLONESOCIAL.microblog
+            container = PLONEINTRANET.microblog
             if container and int(item_id) in container._status_mapping:
                 return True
         if uuidToCatalogBrain(item_id) is not None:

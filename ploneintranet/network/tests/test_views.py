@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from plonesocial.network.browser.author import AuthorView
-from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
-from plonesocial.network.testing import IntegrationTestCase
+from ploneintranet.network.browser.author import AuthorView
+from ploneintranet.network.browser.interfaces import IPlonesocialNetworkLayer
+from ploneintranet.network.testing import IntegrationTestCase
 from zope.interface import directlyProvides
 
 

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from plone import api
-from plonesocial.network.interfaces import INetworkTool
+from ploneintranet.network.interfaces import INetworkTool
 
 import logging
 
-PROJECTNAME = 'plonesocial.network'
+PROJECTNAME = 'ploneintranet.network'
 
 logger = logging.getLogger(PROJECTNAME)
 
 
 def _removeTool(portal):
-    portal.manage_delObjects(['plonesocial_network'])
+    portal.manage_delObjects(['ploneintranet_network'])
 
 
 def _removePersistentUtility(portal):
@@ -25,8 +25,8 @@ def _removeBundleFromRegistry():
 
     record = 'plone.bundles/plone-legacy.resources'
     resources = api.portal.get_registry_record(record)
-    if u'resource-plonesocial-network-stylesheets' in resources:
-        resources.remove(u'resource-plonesocial-network-stylesheets')
+    if u'resource-ploneintranet-network-stylesheets' in resources:
+        resources.remove(u'resource-ploneintranet-network-stylesheets')
 
 
 def uninstall(portal, reinstall=False):

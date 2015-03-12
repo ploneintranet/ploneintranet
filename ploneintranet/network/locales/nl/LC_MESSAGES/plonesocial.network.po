@@ -34,7 +34,7 @@ msgid "Following"
 msgstr "Volgend"
 
 #: configure.zcml
-msgid "Installs the plonesocial.network package"
+msgid "Installs the ploneintranet.network package"
 msgstr ""
 
 #: ./browser/templates/graph.pt:20

@@ -1,4 +1,4 @@
-<div class="plonesocial author maxiauthor"
+<div class="ploneintranet author maxiauthor"
      tal:condition="view/data">
 
   <div class="portrait">
@@ -6,14 +6,14 @@
        tal:content="structure view/portrait" />
   </div>
 
-  <div class="personal-info" i18n:domain="plonesocial.network">
+  <div class="personal-info" i18n:domain="ploneintranet.network">
 
     <h1 class="username">
       <a tal:attributes="href view/author_url"
          tal:content="view/data/fullname">user name</a>
     </h1>
 
-    <div class="plonesocial network navigation">
+    <div class="ploneintranet network navigation">
       <ul>
         <li class="updates">
           <a tal:attributes="href view/author_url">

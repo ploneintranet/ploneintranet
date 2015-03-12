@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <tool-setup>
- <required tool_id="plonesocial_network" class="plonesocial.network.tool.NetworkTool" remove="true" />
- <required tool_id="plonesocial_likes" class="plonesocial.network.tool.LikesTool" remove="true" />
+ <required tool_id="ploneintranet_network" class="ploneintranet.network.tool.NetworkTool" remove="true" />
+ <required tool_id="ploneintranet_likes" class="ploneintranet.network.tool.LikesTool" remove="true" />
 </tool-setup>

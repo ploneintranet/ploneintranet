@@ -4,7 +4,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:cmf="http://namespaces.zope.org/cmf"
-    i18n_domain="plonesocial.network">
+    i18n_domain="ploneintranet.network">
 
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
@@ -16,7 +16,7 @@
       name="default"
       title="PloneSocial Network"
       directory="profiles/default"
-      description="Installs the plonesocial.network package"
+      description="Installs the ploneintranet.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />
@@ -25,7 +25,7 @@
       name="uninstall"
       title="PloneSocial Network Uninstall"
       directory="profiles/uninstall"
-      description="Uninstalls the plonesocial.network package"
+      description="Uninstalls the ploneintranet.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />

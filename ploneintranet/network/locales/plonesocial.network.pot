@@ -15,7 +15,7 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonesocial.network\n"
+"Domain: ploneintranet.network\n"
 
 #: ./browser/graph.py:46
 msgid "%s is followed by:"
@@ -37,7 +37,7 @@ msgid "Following"
 msgstr ""
 
 #: configure.zcml
-msgid "Installs the plonesocial.network package"
+msgid "Installs the ploneintranet.network package"
 msgstr ""
 
 #: ./browser/templates/graph.pt:20

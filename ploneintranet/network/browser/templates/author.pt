@@ -8,7 +8,7 @@
 
 <body>
 
-  <div metal:fill-slot="content" i18n:domain="plonesocial.network">
+  <div metal:fill-slot="content" i18n:domain="ploneintranet.network">
     <metal:main-macro define-macro="content">
       <div id="content"
            tal:define="maxiauthor python:view.maxiauthor_provider(view.userid)">

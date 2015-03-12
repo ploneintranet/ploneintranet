@@ -1,7 +1,7 @@
 # Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: plonesocial.network\n"
+"Project-Id-Version: ploneintranet.network\n"
 "POT-Creation-Date: 2012-11-21 03:44+0000\n"
 "PO-Revision-Date: 2012-11-20 23:29-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Language-Code: es\n"
 "Language-Name: Español\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonesocial.network\n"
+"Domain: ploneintranet.network\n"
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
 #: ./browser/graph.py:46
@@ -38,8 +38,8 @@ msgid "Following"
 msgstr "Siguiendo"
 
 #: configure.zcml
-msgid "Installs the plonesocial.network package"
-msgstr "Instala el paquete plonesocial.network"
+msgid "Installs the ploneintranet.network package"
+msgstr "Instala el paquete ploneintranet.network"
 
 #: ./browser/templates/graph.pt:20
 #: ./browser/templates/author.pt:20

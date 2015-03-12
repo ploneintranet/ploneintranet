@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest2 as unittest
 from plone import api
-from plonesocial.network.interfaces import ILikesContainer
-from plonesocial.network.interfaces import ILikesTool
-from plonesocial.network.likes import LikesContainer
-from plonesocial.network.testing import IntegrationTestCase
+from ploneintranet.network.interfaces import ILikesContainer
+from ploneintranet.network.interfaces import ILikesTool
+from ploneintranet.network.likes import LikesContainer
+from ploneintranet.network.testing import IntegrationTestCase
 from zope.component import getUtility
 from zope.component import queryUtility
 
@@ -21,8 +21,8 @@ class TestLikesTool(IntegrationTestCase):
     def test_likes_tool_uninstalled(self):
         qi = self.portal['portal_quickinstaller']
         with api.env.adopt_roles(['Manager']):
-            qi.uninstallProducts(products=['plonesocial.network'])
-        self.assertNotIn('plonesocial_likes', self.portal)
+            qi.uninstallProducts(products=['ploneintranet.network'])
+        self.assertNotIn('ploneintranet_likes', self.portal)
         tool = queryUtility(ILikesTool, None)
         self.assertIsNone(tool)
 

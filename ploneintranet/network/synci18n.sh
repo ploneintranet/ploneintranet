@@ -13,7 +13,7 @@
 
 # Assume the product name is the current folder name
 CURRENT_PATH=`pwd`
-CATALOGNAME="plonesocial.network"
+CATALOGNAME="ploneintranet.network"
 
 # List of languages
 LANGUAGES="en nl es"

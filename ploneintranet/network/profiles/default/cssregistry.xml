@@ -24,7 +24,7 @@
       available keys and default values.
       -->
  <stylesheet title=""
-    id="++resource++plonesocial.network.stylesheets/plonesocial_network.css"
+    id="++resource++ploneintranet.network.stylesheets/ploneintranet_network.css"
     media="screen" rel="stylesheet" rendering="link"
     cacheable="True" compression="safe" cookable="True"
     enabled="1" expression=""/>

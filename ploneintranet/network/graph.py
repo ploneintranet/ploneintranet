@@ -6,7 +6,7 @@ from persistent import Persistent
 from zope.interface import implements
 import logging
 
-logger = logging.getLogger('plonesocial.network')
+logger = logging.getLogger('ploneintranet.network')
 
 
 class NetworkGraph(Persistent, Explicit):

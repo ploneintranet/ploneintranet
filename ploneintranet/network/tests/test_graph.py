@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from plonesocial.network.graph import NetworkGraph
-from plonesocial.network.interfaces import INetworkGraph
-from plonesocial.network.testing import IntegrationTestCase
+from ploneintranet.network.graph import NetworkGraph
+from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.network.testing import IntegrationTestCase
 from zope.interface.verify import verifyClass
 
 

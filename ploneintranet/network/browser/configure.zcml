@@ -3,7 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plonesocial.network">
+    i18n_domain="ploneintranet.network">
 
 
   <!-- This view Will override the author.cpt in the skins folder -->
@@ -16,12 +16,12 @@
       />
 
   <adapter
-      name="plonesocial.network.maxiauthor_provider"
+      name="ploneintranet.network.maxiauthor_provider"
       factory=".author.MaxiAuthorProvider"
       />
 
   <adapter
-      name="plonesocial.network.miniauthor_provider"
+      name="ploneintranet.network.miniauthor_provider"
       factory=".author.MiniAuthorProvider"
       />
 
@@ -50,7 +50,7 @@
       />
 
   <browser:resourceDirectory
-      name="plonesocial.network.stylesheets"
+      name="ploneintranet.network.stylesheets"
       directory="stylesheets"
       layer=".interfaces.IPlonesocialNetworkLayer"
       />

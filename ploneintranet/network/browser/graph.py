@@ -2,7 +2,7 @@
 from .author import AuthorView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
-from plonesocial.network import _
+from ploneintranet.network import _
 from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
@@ -16,7 +16,7 @@ class AbstractGraph(AuthorView):
     def miniauthor_provider(self, userid):
         provider = getMultiAdapter(
             (self.context, self.request, self),
-            name='plonesocial.network.miniauthor_provider')
+            name='ploneintranet.network.miniauthor_provider')
         provider.userid = userid
         return provider()
 

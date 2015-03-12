@@ -11,7 +11,7 @@ from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.testing import z2
-from plonesocial.network.browser.interfaces import IPlonesocialNetworkLayer
+from ploneintranet.network.browser.interfaces import IPlonesocialNetworkLayer
 from zope.interface import alsoProvides
 
 import unittest2 as unittest
@@ -33,12 +33,12 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
-        import plonesocial.network
-        self.loadZCML(package=plonesocial.network)
-        z2.installProduct(app, 'plonesocial.network')
-        import plonesocial.microblog
-        self.loadZCML(package=plonesocial.microblog)
-        z2.installProduct(app, 'plonesocial.microblog')
+        import ploneintranet.network
+        self.loadZCML(package=ploneintranet.network)
+        z2.installProduct(app, 'ploneintranet.network')
+        import ploneintranet.microblog
+        self.loadZCML(package=ploneintranet.microblog)
+        z2.installProduct(app, 'ploneintranet.microblog')
         import plone.app.discussion
         self.loadZCML(package=plone.app.discussion)
         z2.installProduct(app, 'plone.app.discussion')
@@ -46,8 +46,8 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'plonesocial.network:default')
-        applyProfile(portal, 'plonesocial.microblog:default')
+        applyProfile(portal, 'ploneintranet.network:default')
+        applyProfile(portal, 'ploneintranet.microblog:default')
         applyProfile(portal, 'plone.app.discussion:default')
 
         # Login and create some test content
@@ -62,7 +62,7 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, 'plonesocial.network')
+        z2.uninstallProduct(app, 'ploneintranet.network')
 
 
 FIXTURE = PloneintranetTodoLayer()

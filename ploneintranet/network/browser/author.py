@@ -5,7 +5,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
-from plonesocial.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkGraph
 from zope.component import ComponentLookupError
 from zope.component import adapts
 from zope.component import getMultiAdapter
@@ -16,7 +16,7 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 import logging
 
-logger = logging.getLogger('plonesocial.network.author')
+logger = logging.getLogger('ploneintranet.network.author')
 
 
 class AbstractAuthor(object):
@@ -165,19 +165,19 @@ class AuthorView(BrowserView, AbstractAuthor):
 
     def stream_provider(self):
         try:
-            # plonesocial.activitystream integration is optional
+            # ploneintranet.activitystream integration is optional
             provider = getMultiAdapter(
                 (self.context, self.request, self),
-                name='plonesocial.core.stream_provider')
+                name='ploneintranet.core.stream_provider')
             provider.users = self.userid
             return provider()
         except ComponentLookupError:
-            # no plonesocial.activitystream available
+            # no ploneintranet.activitystream available
             return ''
 
     def maxiauthor_provider(self, userid):
         provider = getMultiAdapter(
             (self.context, self.request, self),
-            name='plonesocial.network.maxiauthor_provider')
+            name='ploneintranet.network.maxiauthor_provider')
         provider.userid = userid
         return provider()

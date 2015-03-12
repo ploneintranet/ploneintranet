@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plonesocial.network.interfaces import INetworkGraph
-from plonesocial.network.interfaces import INetworkTool
-from plonesocial.network.testing import IntegrationTestCase
+from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.network.testing import IntegrationTestCase
 from zope.component import queryUtility
 
 
@@ -18,7 +18,7 @@ class TestNetworkTool(IntegrationTestCase):
     def test_network_tool_uninstalled(self):
         qi = self.portal['portal_quickinstaller']
         with api.env.adopt_roles(['Manager']):
-            qi.uninstallProducts(products=['plonesocial.network'])
-        self.assertNotIn('plonesocial_network', self.portal)
+            qi.uninstallProducts(products=['ploneintranet.network'])
+        self.assertNotIn('ploneintranet_network', self.portal)
         tool = queryUtility(INetworkTool, None)
         self.assertIsNone(tool)

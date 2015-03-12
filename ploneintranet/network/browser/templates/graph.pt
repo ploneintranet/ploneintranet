@@ -8,7 +8,7 @@
 
 <body>
 
-  <div metal:fill-slot="content" i18n:domain="plonesocial.network">
+  <div metal:fill-slot="content" i18n:domain="ploneintranet.network">
     <metal:main-macro define-macro="content">
       <div id="content"
            tal:define="maxiauthor python:view.maxiauthor_provider(view.userid)">
@@ -23,7 +23,7 @@
 
     <div tal:content="structure maxiauthor" />
 
-    <div class="plonesocial" id="graph">
+    <div class="ploneintranet" id="graph">
       <h2 tal:content="view/Title">follow</h2>
       <div class="description" tal:content="view/description" />
       <tal:users repeat="userid view/users">

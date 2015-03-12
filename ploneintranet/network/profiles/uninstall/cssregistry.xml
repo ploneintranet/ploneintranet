@@ -2,6 +2,6 @@
 <!-- This file holds the uninstall configuration for the portal_css tool. -->
 <object name="portal_css">
  <stylesheet title=""
-    id="++resource++plonesocial.network.stylesheets/plonesocial_network.css"
+    id="++resource++ploneintranet.network.stylesheets/ploneintranet_network.css"
     remove="true" />
 </object>

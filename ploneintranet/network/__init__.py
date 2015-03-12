@@ -11,7 +11,7 @@ logger.info('Setting PlonePAS portrait scale')
 plonepas_config.MEMBER_IMAGE_SCALE = portrait_scale = (300, 300)
 plonepas_config.IMAGE_SCALE_PARAMS['scale'] = portrait_scale
 
-_ = MessageFactory('plonesocial.network')
+_ = MessageFactory('ploneintranet.network')
 
 
 def initialize(context):

@@ -3,7 +3,7 @@ from Acquisition import Explicit
 # from BTrees import LOBTree
 from BTrees import OOBTree
 from persistent import Persistent
-from plonesocial.network.interfaces import ILikesContainer
+from ploneintranet.network.interfaces import ILikesContainer
 from zope.interface import implementer
 
 

@@ -1,8 +1,8 @@
-div.plonesocial.author .portrait {
+div.ploneintranet.author .portrait {
     float: left;
 }
 
-div.plonesocial.author {
+div.ploneintranet.author {
     background-color: #fafafa;
     border-radius: 1em;
     padding: 1em;
@@ -11,7 +11,7 @@ div.plonesocial.author {
     padding: 0.5em 1em;
 }
 
-div.plonesocial.author .navigation {
+div.ploneintranet.author .navigation {
     float: right;
     margin: 0 2em;
     background-color: #eee;
@@ -19,106 +19,106 @@ div.plonesocial.author .navigation {
     padding: 1em;
 }
 
-#content div.plonesocial.author .navigation ul,
-div.plonesocial.author .navigation ul {
+#content div.ploneintranet.author .navigation ul,
+div.ploneintranet.author .navigation ul {
     list-style-type: none;
     margin: 0;
 }
-#content div.plonesocial.author .navigation li a {
+#content div.ploneintranet.author .navigation li a {
     font-weight: bold;
     display: inline;
 }
-#content div.plonesocial.author .navigation li a:link,
-div.plonesocial.author .navigation li a:link,
-#content div.plonesocial.author .navigation li a:visited,
-div.plonesocial.author .navigation li a:visited {
+#content div.ploneintranet.author .navigation li a:link,
+div.ploneintranet.author .navigation li a:link,
+#content div.ploneintranet.author .navigation li a:visited,
+div.ploneintranet.author .navigation li a:visited {
     color: #444;
 }
 
-div.plonesocial.author .navigation .count {
+div.ploneintranet.author .navigation .count {
     width: 4em;
     display: inline-block;
     text-align: right;
     margin-right: 0.25em;
 }
 
-div.plonesocial.author .portrait {
+div.ploneintranet.author .portrait {
     position: relative;
     overflow: hidden;
 }
-div.plonesocial.maxiauthor .portrait {
+div.ploneintranet.maxiauthor .portrait {
     width: 150px;
     height: 150px;
 }
-div.plonesocial.miniauthor .portrait {
+div.ploneintranet.miniauthor .portrait {
     width: 75px;
     height: 75px;
 }
-div.plonesocial.author img {
+div.ploneintranet.author img {
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: 0.5em;
 }
 
-#content div.plonesocial.author h1,
-div.plonesocial.author h1 {
+#content div.ploneintranet.author h1,
+div.ploneintranet.author h1 {
     letter-spacing: 0;
     line-height: 1em;
     margin-top: 0;
     margin-bottom: 0.25em;
     color: #444;
 }
-#content div.plonesocial.author a,
-div.plonesocial.author a {
+#content div.ploneintranet.author a,
+div.ploneintranet.author a {
     border: 0;
 }
-#content div.plonesocial.author .username a,
-div.plonesocial.author .username a {
+#content div.ploneintranet.author .username a,
+div.ploneintranet.author .username a {
     color: #444;
 }
-div.plonesocial.miniauthor h3.username {
+div.ploneintranet.miniauthor h3.username {
     display: inline;
     margin-right: 0.25em;
 }
-div.plonesocial.miniauthor .userid {
+div.ploneintranet.miniauthor .userid {
     display: inline;
 }
-div.plonesocial.maxiauthor .personal-info {
+div.ploneintranet.maxiauthor .personal-info {
     margin-left: 170px;
     min-height: 150px;
 }
-div.plonesocial.miniauthor .personal-info {
+div.ploneintranet.miniauthor .personal-info {
     margin-left: 90px;
     min-height: 75px;
 }
 
-div.plonesocial.author .bio {
+div.ploneintranet.author .bio {
     font-style: italic;
     color: #666;
     margin: 0.25em 0;
 }
 
-div.plonesocial.author .location {
+div.ploneintranet.author .location {
     margin-right: 1em;
     color: #666;
 }
 
-div.plonesocial.maxiauthor .subunsub input {
+div.ploneintranet.maxiauthor .subunsub input {
     margin: 0.5em 1em 0 0;
     padding: 0.25em;
     font-size: 150%;
 }
 
-div.plonesocial.miniauthor .subunsub input {
+div.ploneintranet.miniauthor .subunsub input {
     margin: 0;
     padding: 0.25em;
     font-size: 100%;
 }
-div.plonesocial .following {
+div.ploneintranet .following {
     color: #444;
 }
 
-div.plonesocial .description {
+div.ploneintranet .description {
     color: #444;
 }

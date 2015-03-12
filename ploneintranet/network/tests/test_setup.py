@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plonesocial.network.testing import IntegrationTestCase
+from ploneintranet.network.testing import IntegrationTestCase
 
-PROJECTNAME = 'plonesocial.network'
-REGISTRY_ID = 'plone.resources/resource-plonesocial-network-stylesheets.css'
+PROJECTNAME = 'ploneintranet.network'
+REGISTRY_ID = 'plone.resources/resource-ploneintranet-network-stylesheets.css'
 EXPECTED_CSS = [
-    '++resource++plonesocial.network.stylesheets/plonesocial_network.css',
+    '++resource++ploneintranet.network.stylesheets/ploneintranet_network.css',
 ]
 
 

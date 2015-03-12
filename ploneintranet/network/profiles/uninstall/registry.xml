@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <registry>
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.conf" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.css" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.deps" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.export" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.init" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.js" remove="true" />
-  <record name="plone.resources/resource-plonesocial-network-stylesheets.url" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-network-stylesheets.url" remove="true" />
 </registry>

@@ -15,36 +15,36 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./plonesocial/network/browser/graph.py:49
+#: ./ploneintranet/network/browser/graph.py:49
 msgid "%s is followed by:"
 msgstr "%s é seguido por:"
 
-#: ./plonesocial/network/browser/graph.py:34
+#: ./ploneintranet/network/browser/graph.py:34
 msgid "%s is following:"
 msgstr "%s está seguindo:"
 
-#: ./plonesocial/network/browser/graph.py:44
-#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:28
+#: ./ploneintranet/network/browser/graph.py:44
+#: ./ploneintranet/network/browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
 msgstr "Seguidores"
 
-#: ./plonesocial/network/browser/graph.py:29
-#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:35
-#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:34
+#: ./ploneintranet/network/browser/graph.py:29
+#: ./ploneintranet/network/browser/templates/maxiauthor_provider.pt:35
+#: ./ploneintranet/network/browser/templates/miniauthor_provider.pt:34
 msgid "Following"
 msgstr "Seguindo"
 
 #: ./configure.zcml
-msgid "Installs the plonesocial.network package"
-msgstr "Instala o pacote plonesocial.network"
+msgid "Installs the ploneintranet.network package"
+msgstr "Instala o pacote ploneintranet.network"
 
-#: ./plonesocial/network/browser/templates/graph.pt:20
-#: ./plonesocial/network/browser/templates/author.pt:20
+#: ./ploneintranet/network/browser/templates/graph.pt:20
+#: ./ploneintranet/network/browser/templates/author.pt:20
 msgid "No such user ${userid}."
 msgstr "No existe o usuário ${userid}."
 
-#: ./plonesocial/network/browser/templates/graph.pt:18
-#: ./plonesocial/network/browser/templates/author.pt:18
+#: ./ploneintranet/network/browser/templates/graph.pt:18
+#: ./ploneintranet/network/browser/templates/author.pt:18
 msgid "Nothing here"
 msgstr ""
 
@@ -52,22 +52,22 @@ msgstr ""
 msgid "PloneSocial Network"
 msgstr "PloneSocial Network"
 
-#: ./plonesocial/network/browser/templates/author.pt:29
+#: ./ploneintranet/network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
 msgstr "Atualizações de estado do ${fullname}:"
 
-#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:21
-#: ./plonesocial/network/browser/templates/author.pt:27
+#: ./ploneintranet/network/browser/templates/maxiauthor_provider.pt:21
+#: ./ploneintranet/network/browser/templates/author.pt:27
 msgid "Updates"
 msgstr "Atualizações"
 
-#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:64
-#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:30
+#: ./ploneintranet/network/browser/templates/maxiauthor_provider.pt:64
+#: ./ploneintranet/network/browser/templates/miniauthor_provider.pt:30
 msgid "follow"
 msgstr "seguir"
 
-#: ./plonesocial/network/browser/templates/maxiauthor_provider.pt:72
-#: ./plonesocial/network/browser/templates/miniauthor_provider.pt:38
+#: ./ploneintranet/network/browser/templates/maxiauthor_provider.pt:72
+#: ./ploneintranet/network/browser/templates/miniauthor_provider.pt:38
 msgid "unfollow"
 msgstr "deixar de seguir"
 
