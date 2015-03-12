@@ -5,6 +5,7 @@ run apt-get install -y python-dev gcc make zlib1g-dev libjpeg-dev python-virtual
 run apt-get install -y libfreetype6-dev gettext python-pip libxslt1-dev python-lxml
 run apt-get install -y jed firefox xvfb
 run apt-get update && apt-get install -y npm nodejs ruby ruby-dev
+run apt-get install -y libenchant-dev
 run ln -s /usr/bin/nodejs /usr/local/bin/node
 run gem install bundler
 run locale-gen en_US.UTF-8
