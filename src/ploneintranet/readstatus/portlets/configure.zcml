@@ -4,6 +4,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.readstatus">
 
+    <!--
   <plone:portlet name="abstractng.contents.LabFilters"
                  interface=".labfilters.ILabFilters"
                  assignment=".labfilters.Assignment"
@@ -12,4 +13,5 @@
                  renderer=".labfilters.Renderer"
                  addview=".labfilters.AddForm"
                  editview=".labfilters.EditForm" />
+    -->
 </configure>
