@@ -29,7 +29,6 @@ class IAttachmentStoragable(IAnnotatable):
     """ Marker interface for things that can have attachments
     """
 
-
 interface.classImplements(PloneSite, IAttachmentStoragable)
 if Comment is not None:
     interface.classImplements(Comment, IAttributeAnnotatable)
