@@ -5,6 +5,11 @@
 aside.sidebar.left {
   position: absolute;
   font-size: 0.8em;
+
+  @include screen-size(small) {  
+    font-size: 1em;
+  }
+
   line-height: 20px;
   bottom: 0;
   padding: 0;
@@ -37,6 +42,14 @@ aside.sidebar.left {
 
   #sidebar-content {
     padding: 1em;
+
+    @include screen-size(small) {  
+      padding: 6%;
+    }
+
+    .tabs-content {
+      position: relative;
+    }
   }
 }
 

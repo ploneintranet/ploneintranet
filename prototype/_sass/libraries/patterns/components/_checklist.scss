@@ -1,9 +1,15 @@
 @charset "UTF-8";
 
 .pat-checklist {
+
+	> br {
+		display: none;
+	}
+
 	label {
 		padding-left: 1.5em;
 		position: relative;
+		display: block;
 
 		&.checked:before,
 		&.unchecked:before {
@@ -12,7 +18,7 @@
 			float: left;
 			position: absolute;
 			left: 0;
-			top: 0.1em;
+			top: 0em;
 		}
 
 		&.checked:before {

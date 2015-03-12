@@ -28,24 +28,24 @@
     "spectrum": "",
     "imagesloaded": "",
     "packery": "",
-    "patterns.polyfill-date": "git@github.com:syslabcom/patterns.polyfill-date.git",
     "pat-calendar": "0.0.3",
-    "underscore": "1.4.4",
-    "backbone": "0.9.10",
     "tinysort": "git://github.com/Sjeiti/TinySort.git",
     "patternslib": "master",
     "pat-content-mirror": "git://github.com/ploneintranet/pat-content-mirror.git",
-    "pat-upload": "git://github.com/Patternslib/pat-upload.git",
+    "pat-upload": "git://github.com/Patternslib/pat-upload.git#update-on-success",
     "pat-resourcepolling": "git@github.com:ploneintranet/pat-resourcepolling.git",
     "pat-checklist-picker": "https://github.com/ploneintranet/pat-checklist-picker.git",
     "dropzone": "~3.10.2",
-    "requirejs-text": "~2.0.12"
+    "requirejs-text": "~2.0.12",
+    "pat-date-picker": "*",
+    "underscore": "~1.8.2",
+    "pat-raptor": "https://github.com/Patternslib/pat-raptor.git"
   },
   "resolutions": {
     "jquery": "1.8.3",
     "select2": "3.4.6",
     "parsleyjs": "1.2",
-    "underscore": "~1.7.0",
-    "patternslib": "master"
+    "patternslib": "master",
+    "underscore": "~1.8.2"
   }
 }

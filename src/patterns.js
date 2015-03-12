@@ -47,7 +47,7 @@ define([
     "pat-placeholder",
     "pat-skeleton",
     "pat-sortable",
-    "pat-polyfill-date",
+    "pat-raptor",
     "pat-resourcepolling",
     "pat-checklist-picker",
     "pat-stacks",

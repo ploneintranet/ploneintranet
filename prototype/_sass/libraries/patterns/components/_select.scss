@@ -5,7 +5,7 @@ label.pat-select select {
   /*Next 2 lines is a bizarre patch to make misbehaving FF hide the original dropdown button*/
   text-indent: 0.01px;
   text-overflow: '';
-  
+
   border-right: 0.35em solid rgba(0, 0, 0, 0);
   padding-right: 1em;
   background-repeat: no-repeat;
@@ -32,4 +32,5 @@ label.pat-select.bare select {
   position: absolute;
   right: 0;
   left: 0;
+  max-width: 100%;
 }

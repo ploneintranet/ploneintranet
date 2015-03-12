@@ -25,9 +25,7 @@
   <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
 
   <!-- insert the breadcrumbs into the header bar -->
-  <drop css:content="#breadcrumbs-you-are-here" />
-  <drop css:content=".breadcrumbSeparator" css:if-content=".breadcrumbSeparator" />
-  <replace css:content-children="#portal-breadcrumbs"
+  <replace css:content-children="#breadcrumbs"
            css:theme-children="nav.breadcrumbs" />
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
@@ -49,11 +47,6 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
-  <!-- toolbar -->
-  <replace css:theme="#portal-toolbar" css:content-children="#edit-bar" css:if-not-content=".ajax_load" css:if-content=".userrole-authenticated"/>
-  <replace css:theme="#anonymous-actions" css:content-children="#portal-personaltools-wrapper" css:if-not-content=".ajax_load" css:if-content=".userrole-anonymous"/>
-
-
 <!-- Login Form -->
 <rules css:if-content="body.template-login_form">
   <theme href="generated/index.html" />
@@ -63,31 +56,25 @@
 
 <rules css:if-content="body.template-stream">
   <theme href="generated/notifications.html" />
-  <!-- Main content rule: Put plone content into theme content -->
   <append css:content-children="#content" css:theme="#content" />
 </rules>
 
 <rules css:if-content="body.template-notifications">
   <theme href="generated/notifications.html" />
-  <!-- Main content rule: Put plone content into theme content -->
   <replace css:content-children="#social-messages" css:theme="#document-content" />
 </rules>
 
-<rules css:if-content="body.section-news">
-  <theme href="generated/news.html" />
-  <!-- Main content rule: Put plone content into theme content -->
-  <append css:content-children="#content" css:theme="#content" />
-</rules>
-
-<rules css:if-content="body.section-events">
-  <theme href="generated/calendar.html" />
-  <!-- Main content rule: Put plone content into theme content -->
-  <append css:content-children="#content" css:theme="#content" />
-</rules>
-
-<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder">
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image">
   <theme href="generated/open-market-committee/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.portaltype-event">
+  <theme href="generated/event-traces-through-time/index.html" />
   <drop css:theme-children="#content" />
   <append css:content="#workspace-name" css:theme="#content" />
   <append css:content="#application-body" css:theme="#content" />
@@ -99,6 +86,7 @@
   <drop css:theme-children="div.container" />
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
+
 <rules css:if-content="body.template-workspaces-html">
   <theme href="generated/workspaces.html" />
   <drop css:theme-children="div.container" />

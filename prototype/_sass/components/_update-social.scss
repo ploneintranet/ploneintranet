@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
+.application-home #post-box {
+  margin: 0 auto 1em;
+  width: 80%;
+}
+
 .update-social {
     position: relative;
     background-color: #fcfcfc;
-
-    &#new-post-box {
-        margin: 0 auto 1em;
-        width: 80%;
-    }
 
     textarea,
     .content-mirror {
@@ -22,6 +22,7 @@
         background: transparent;
         resize: none;
         width: 100%;
+        overflow-y: auto;
         // -webkit-transition: height 0.4s;
         // -moz-transition: height 0.4s;
         // transition: height 0.4s;
@@ -119,7 +120,7 @@
       padding: 0 1em 0.5em 1em;
       overflow: hidden;
       // border-left: 0.3em #efefef solid;
-      
+
       .preview {
         width: 36%;
         float: left;
@@ -128,6 +129,7 @@
         img {
           background-color: white;
           border: 1px silver solid;
+          width: 100%; // fix for IE & FF http://stackoverflow.com/questions/14550356/image-mysteriously-ignoring-max-width-in-firefox-ie#comment20355324_14578128
         }
       }
 
@@ -151,7 +153,7 @@
         font-style: italic;
         margin-bottom: 0.5em;
       }
-      
+
       .description {
         font-size: 0.8em;
         line-height: 1.4em;

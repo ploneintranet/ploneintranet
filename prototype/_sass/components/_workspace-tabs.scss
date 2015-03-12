@@ -125,6 +125,10 @@
     &.about:before {
       content: '\E819';
     }
+
+    &.settings:before {
+      content: '\e804';
+    }
   }
 }
 

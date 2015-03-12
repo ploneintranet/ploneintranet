@@ -1,10 +1,19 @@
 - userid: charlotte-holzer
   activity: published
-  datestamp: 2 hours ago
+  datestamp: just now
   likes: 0
   shares: 0
   # text: "This is my draft for the budget proposal."
   preview: '/media/budget-proposal.png'
+
+- userid: guido-stevens
+  activity: created
+  datestamp: just now
+  likes: 0
+  shares: 0
+  text: "Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI"
+  preview: 'not-generated'
+  object_id: 'projection-material'
 
 - userid: jeff-peters
   activity: posted

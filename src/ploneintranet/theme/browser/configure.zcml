@@ -7,7 +7,16 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet.theme">
 
-  <!-- BEGIN Example views (used to document and show patterns usage) -->
+  <!-- Simplified main_template -->
+  <browser:page
+    for="*"
+    name="main_template"
+    class=".main_template.PIMainTemplate"
+    permission="zope.Public"
+    layer="..interfaces.IThemeSpecific"
+  />
+
+<!-- BEGIN Example views (used to document and show patterns usage) -->
   <browser:page
       name="dnd-upload-example"
       for="Products.CMFCore.interfaces.IFolderish"
@@ -84,7 +93,6 @@
       template="templates/submit_input.pt"
       />
 
-
   <browser:page
       name="dashboard.html"
       for="*"
@@ -140,17 +148,6 @@
       add_permission="cmf.ManagePortal"
       class=".dashboard.TasksTile"
       permission="zope.Public"
-      for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
-
-  <plone:tile
-      name="workspace.tabs.tile"
-      title="Workspace Tabs"
-      description="This tile shows the workspace tabs"
-      add_permission="cmf.ManagePortal"
-      class=".workspace.WorkspaceTabsTile"
-      permission="zope2.View"
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />

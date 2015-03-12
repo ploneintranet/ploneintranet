@@ -1,7 +1,7 @@
 ---
 layout: workspace-landing
-title: Manage Information
-workspace_name: Manage Information
+title: Managing Information
+workspace_name: Managing Information
 description: "A range of guidance, tools and templates that can help you through
 the process of managing your information."
 parent: root
@@ -10,7 +10,7 @@ mutations:
   - verb: changed start date of
     subjects:
       - name: Jenny Smith
-    object: Manage Information
+    object: Managing Information
     datestamp: 2 Hours ago
     image: "/media/workspace/"
 ---

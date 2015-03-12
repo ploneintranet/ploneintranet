@@ -43,3 +43,16 @@
     }
   }
 }
+
+#sidebar-content {
+  .tabs {
+    line-height: 1.2em;
+    height: 1.5em;
+    margin-bottom: 1em;
+
+    a {
+      float: left;
+      padding: 0 0.4em 0.4em 0.4em;
+    }
+  }
+}

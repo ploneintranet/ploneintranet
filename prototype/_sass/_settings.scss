@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 // Assets
 //@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700);
 @import url(fonts/font.css);
@@ -16,10 +18,10 @@ $colour-success: #CBF08B;
 
 // Glyps
 
-$glyph-checkbox: \f096;
-$glyph-checkbox-active: \2611;
-$glyph-radio-button: \f10c;
-$glyph-radio-button-active: \e702;
+$glyph-checkbox: '\f096';
+$glyph-checkbox-active: '\2611';
+$glyph-radio-button: '\f10c';
+$glyph-radio-button-active: '\e702';
 
 // Responsive breakpoints:
 $mobile:768px;
@@ -66,6 +68,7 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/content";
 @import "components/definition-list";
 @import "components/document-body";
+@import "components/event-details";
 @import "components/event-list";
 @import "components/file-upload";
 @import "components/form-legend";
@@ -87,19 +90,21 @@ $base-space: 1em; // Create universal white space (e.g. margin, padding, left)
 @import "components/portlet";
 @import "components/post-form";
 @import "components/post";
-@import "components/tabs";
 @import "components/search";
 @import "components/search-results";
 @import "components/select";
 @import "components/sidebar";
 @import "components/site-header";
 @import "components/sub-nav";
+@import "components/tabs";
 @import "components/tiles";
 @import "components/toolbar";
 @import "components/tooltip";
 @import "components/update-social";
 @import "components/upload";
 @import "components/user-cloud";
+@import "components/user-table";
+@import "components/user-list";
 @import "components/well";
 @import "components/workspace-name";
 @import "components/workspace-tabs";
