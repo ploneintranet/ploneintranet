@@ -22,6 +22,8 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
+        import ploneintranet.attachments
+        self.loadZCML(package=ploneintranet.attachments)
         import plone.app.contenttypes
         self.loadZCML(package=plone.app.contenttypes)
         import collective.documentviewer
