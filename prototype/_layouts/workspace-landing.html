@@ -20,29 +20,31 @@ workspace_module: docs
 					<h3 class="section-label">
 						{{ item.label }} {% if item.text %}<a href="/{{ item.text }}#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>{% endif %}
 					</h3>
-					
+
 					<ul>
-						{% for sub in item.steps  %}
-							{% assign count = count | plus: 1 %}
-							<li id="item-{{ count }}" class="step-background {%  if sub.image %} illustrated{% endif %}">
-								<p class="step-label{% if sub.icon %} icon icon-{{ sub.icon }}{% endif %}">
-									<a href="{{ sub.url }}" class="link">
-										{{ sub.label }}
-									</a>
-								</p>
-								{% if sub.image %}
-									<figure class="illustration {% unless sub.image-position %}{% cycle 'pos-1', 'pos-2', pos-3 %}{% endunless %}" {% if sub.image-size %}style="{% if sub.image-position %}margin-top: {{ sub.image-position }}em;{% endif %} width: {{ sub.image-size }}em; height: {{ sub.image-size }}em; margin-left: {{ sub.image-size | times:-0.5 }}em;"{% endif %}>
-										<a href="/media/{{ sub.image }}" target="image">
-											<img src="/media/{{ sub.image }}" alt="" />
+						{% for node in site.posts  %}
+							{% if node.state == item.label %}
+								{% assign count = count | plus: 1 %}
+								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %}">
+									<p class="step-label{% if node.icon %} icon icon-{{ node.icon }}{% endif %}">
+										<a href="{{ node.url }}" class="link">
+											{{ node.title }}
 										</a>
-									</figure>
-								{% endif %}
-							</li>
+									</p>
+									{% if node.image %}
+										<figure class="illustration {% unless node.image-position %}{% cycle 'pos-1', 'pos-2', pos-3 %}{% endunless %}" {% if node.image-size %}style="{% if node.image-position %}margin-top: {{ node.image-position }}em;{% endif %} width: {{ node.image-size }}em; height: {{ node.image-size }}em; margin-left: {{ node.image-size | times:-0.5 }}em;"{% endif %}>
+											<a href="/media/{{ node.image }}" target="image">
+												<img src="/media/{{ node.image }}" alt="" />
+											</a>
+										</figure>
+									{% endif %}
+								</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
-					
+
 					{% if item.action %}
-						<p class="action">
+						<p class="action {% if item.action_icon %} icon icon-{{ item.action_icon }}{% endif %}">
 						    <a class="link" href="" class="action">
 						    	{{ item.action }}
 						    </a>

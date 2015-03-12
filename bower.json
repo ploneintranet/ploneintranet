@@ -34,7 +34,6 @@
     "pat-content-mirror": "git://github.com/ploneintranet/pat-content-mirror.git",
     "pat-upload": "git://github.com/Patternslib/pat-upload.git#update-on-success",
     "pat-resourcepolling": "git@github.com:ploneintranet/pat-resourcepolling.git",
-    "pat-checklist-picker": "https://github.com/ploneintranet/pat-checklist-picker.git",
     "dropzone": "~3.10.2",
     "requirejs-text": "~2.0.12",
     "pat-date-picker": "*",

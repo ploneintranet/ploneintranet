@@ -66,14 +66,14 @@
                 &:before {
                     border-radius: 50%;
                     display: block;
-                    width: 2em;
-                    height: 2em;
-                    line-height: 1.9em;
+                    width: 1.9em;
+                    height: 1.9em;
+                    line-height: 1.85em;
                     position: absolute;
-                    top: -0.5em;
-                    left: -0.5em;
+                    top: 0.25em;
+                    left: 0.03em;
                     background: white;
-                    border: 0.2em orange solid;
+                    // border: 0.2em orange solid;
                     color: orange;
                     z-index: 2;
                 }
@@ -97,8 +97,8 @@
         }
 
         .step-background {
-            width: 1.5em;
-            min-height: 1.5em;
+            width: 1.7em;
+            min-height: 1.7em;
             float: left;
             position: relative;
             margin-right: 1em;
@@ -160,15 +160,17 @@
                     &:before {
                         border-radius: 50%;
                         display: block;
-                        width: 2em;
-                        height: 2em;
-                        line-height: 2em;
+                        // width: 2em;
+                        // height: 2em;
+                        margin: 0;
+                        line-height: 1.8em;
+                        width: 100%;
                         position: absolute;
-                        top: -0.5em;
-                        left: -0.5em;
-                        background: white;
-                        border: 0.2em orange solid;
-                        color: orange;
+                        // top: 0.1em;
+                        // left: -0.5em;
+                        // background: white;
+                        // border: 0.2em orange solid;
+                        color: white;
                         z-index: 2;
                     }
                 }
@@ -182,7 +184,7 @@
                 width: 3em;
                 position: absolute;
                 right: 0.75em;
-                top: 0.35em;
+                top: 0.55em;
                 z-index: 0;
             }
 
@@ -192,10 +194,10 @@
 
             .step-label {
                 position: absolute;
-                top: 0;
+                top: 0.1em;
                 border-radius: 50%;
-                width: 1.5em;
-                height: 1.5em;
+                width: 1.7em;
+                height: 1.7em;
                 background-color: orange;
                 display: block;
 
@@ -229,6 +231,10 @@
                 &:after {
                     background-color: #23C27E;
                 }
+
+                &:before {
+                    color: #23C27E;
+                }
             }
 
             .step-label {
@@ -239,7 +245,7 @@
 
                     &:before {
                         border-color: #23C27E;
-                        color: #23C27E;
+                        // color: white;
                     }
                 }
             }

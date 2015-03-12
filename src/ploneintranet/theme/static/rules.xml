@@ -47,10 +47,12 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
+  <copy attributes="method id action" css:content="form#searchGadget_form" css:theme="form#global-nav-search" />
+
 <!-- Login Form -->
 <rules css:if-content="body.template-login_form">
   <theme href="generated/index.html" />
-  <copy attributes="method id action" css:content="form#login_form" css:theme="form" />
+  <copy attributes="method id action" css:content="form#login_form" css:theme=".login-panel form" />
   <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
 </rules>
 
