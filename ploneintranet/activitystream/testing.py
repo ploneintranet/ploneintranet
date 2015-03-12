@@ -25,7 +25,7 @@ class PlonesocialActivitystream(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.activitystream:default')
 
-PLONESOCIAL_ACTIVITYSTREAM_FIXTURE = PlonesocialActivitystream()
-PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING = \
-    IntegrationTesting(bases=(PLONESOCIAL_ACTIVITYSTREAM_FIXTURE, ),
+PLONEINTRANET_ACTIVITYSTREAM_FIXTURE = PlonesocialActivitystream()
+PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING = \
+    IntegrationTesting(bases=(PLONEINTRANET_ACTIVITYSTREAM_FIXTURE, ),
                        name="PlonesocialActivitystream:Integration")

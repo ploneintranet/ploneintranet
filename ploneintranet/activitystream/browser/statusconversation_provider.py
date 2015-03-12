@@ -19,7 +19,7 @@ from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStatusConversationProvider
 from .interfaces import IActivityProvider
 
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 
 import logging
 
@@ -50,7 +50,7 @@ class StatusConversationProvider(object):
     __call__ = render
 
     def activities(self):
-        container = PLONESOCIAL.microblog
+        container = PLONEINTRANET.microblog
         if not container:
             return []
 

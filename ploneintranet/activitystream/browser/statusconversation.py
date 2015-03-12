@@ -5,7 +5,7 @@ from plone.app.layout.globals.interfaces import IViewView
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('ploneintranet.activitystream')
@@ -45,8 +45,8 @@ class StatusConversationView(BrowserView):
         return _("Conversation")
 
     def statusconversation_provider(self):
-        container = PLONESOCIAL.microblog
-        if not PLONESOCIAL.microblog or not self.status_id:
+        container = PLONEINTRANET.microblog
+        if not PLONEINTRANET.microblog or not self.status_id:
             return ''
 
         status = container.get(self.status_id)

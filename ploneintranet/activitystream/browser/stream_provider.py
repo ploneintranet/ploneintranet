@@ -25,7 +25,7 @@ from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.activitystream.interfaces import IContentActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 
 import logging
 
@@ -63,7 +63,7 @@ class StreamProvider(object):
         # @@stream and ploneintranet.network:@@author
         # render this optionally with a users filter
         self.users = None
-        self.microblog_context = PLONESOCIAL.context(context)
+        self.microblog_context = PLONEINTRANET.context(context)
 
     def update(self):
         pass
@@ -128,7 +128,7 @@ class StreamProvider(object):
     def _activities_statuses(self):
         if not self.show_microblog:
             raise StopIteration()
-        container = PLONESOCIAL.microblog
+        container = PLONEINTRANET.microblog
         # show_microblog yet no container can happen on microblog uninstall
         if not container:
             raise StopIteration()

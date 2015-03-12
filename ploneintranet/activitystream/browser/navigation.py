@@ -4,7 +4,7 @@ from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 
 
 class PloneSocialNavigation(BrowserView):
@@ -32,7 +32,7 @@ class PloneSocialNavigation(BrowserView):
 
     def items(self):
         menu = []
-        m_context = PLONESOCIAL.context(self.context)
+        m_context = PLONEINTRANET.context(self.context)
         if m_context:
             m_base = m_context.absolute_url() + '/'
             menu.extend([dict(url=m_base + '@@stream',
@@ -43,7 +43,7 @@ class PloneSocialNavigation(BrowserView):
         menu.extend([dict(url=base + '@@stream',
                           title='Explore',
                           state='explore')])
-        if PLONESOCIAL.network:
+        if PLONEINTRANET.network:
             menu.extend([dict(url=base + '@@stream/network',
                               title='My network',
                               state='stream'),

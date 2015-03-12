@@ -19,7 +19,7 @@ from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.activitystream.interfaces import IContentActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 
@@ -277,7 +277,7 @@ class StatusActivityReplyProvider(StatusActivityProvider):
         self.view = self.__parent__ = view
 
     def parent_provider(self):
-        container = PLONESOCIAL.microblog
+        container = PLONEINTRANET.microblog
         if not container:
             return
         parent = container.get(self.context.thread_id)

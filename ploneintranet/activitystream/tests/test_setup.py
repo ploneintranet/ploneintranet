@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import IResourceRegistry
 from ploneintranet.activitystream.testing import (
-    PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING
+    PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING
 )
 from plone import api
 from plone.browserlayer.utils import registered_layers
@@ -17,7 +17,7 @@ CSS = (
 
 class InstallTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING
+    layer = PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -48,7 +48,7 @@ class InstallTestCase(unittest.TestCase):
 
 class UninstallTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING
+    layer = PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
