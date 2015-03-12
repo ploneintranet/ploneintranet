@@ -63,6 +63,7 @@ setup(name='ploneintranet',
           'test': [
               'plone.app.testing',
               'plone.app.robotframework[debug]',
+              'fake-factory',
           ],
           'todo': [
               'rwproperty',
@@ -75,7 +76,7 @@ setup(name='ploneintranet',
               'BeautifulSoup',
           ],
           'simplesharing': [
-            'collective.z3cform.chosen',
+              'collective.z3cform.chosen',
               'plone.directives.form',
           ],
           'pagerank': [
