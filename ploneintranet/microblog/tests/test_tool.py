@@ -12,7 +12,7 @@ from plone.app.testing import TEST_USER_ID, setRoles
 from plone.app.testing import login, logout
 
 from ploneintranet.microblog.testing import \
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 from ploneintranet.microblog.interfaces import IStatusContainer
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -22,7 +22,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 
 class TestMicroblogTool(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -42,7 +42,7 @@ class TestMicroblogTool(unittest.TestCase):
 
 class TestMicroblogToolContextBlacklisting(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

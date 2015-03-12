@@ -10,7 +10,7 @@ from ploneintranet.microblog.interfaces import IStatusContainer
 from ploneintranet.microblog import statuscontainer
 from ploneintranet.microblog import statusupdate
 from ploneintranet.microblog.testing import \
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 
 class UUIDStatusContainer(statuscontainer.BaseStatusContainer):
@@ -131,7 +131,7 @@ class TestStatusContainer(unittest.TestCase):
 
 class TestNestedStatusContainer(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

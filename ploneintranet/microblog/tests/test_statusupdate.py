@@ -8,7 +8,7 @@ from plone.app.testing import TEST_USER_ID, setRoles
 from plone import api
 
 from ploneintranet.microblog.testing import\
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 from ploneintranet.microblog.interfaces import IStatusUpdate
 from ploneintranet.microblog.interfaces import IMicroblogContext
@@ -23,7 +23,7 @@ class StatusUpdate(ploneintranet.microblog.statusupdate.StatusUpdate):
 
 class TestStatusUpdate(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.app = self.layer['app']

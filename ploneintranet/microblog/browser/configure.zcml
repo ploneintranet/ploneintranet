@@ -23,7 +23,7 @@
           name="status-attachments"
           for="Products.CMFCore.interfaces.ISiteRoot"
           class=".attachments.StatusAttachments"
-          layer=".interfaces.IPlonesocialMicroblogLayer"
+          layer=".interfaces.IPloneIntranetMicroblogLayer"
           permission="zope2.View"
           />
   </configure>

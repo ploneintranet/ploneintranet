@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..interfaces import IURLPreview
-from ..testing import PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+from ..testing import PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 from pkg_resources import resource_filename
 from test_statusupdate import StatusUpdate
 from urllib import urlopen
@@ -27,7 +27,7 @@ def request_get(url, timeout=0):
 
 class URLPreviewTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

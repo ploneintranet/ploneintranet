@@ -18,7 +18,7 @@ msgstr ""
 "Domain: ploneintranet.microblog\n"
 
 #: configure.zcml
-msgid "PloneSocial Microblog"
+msgid "PloneIntranet Microblog"
 msgstr ""
 
 #: configure.zcml

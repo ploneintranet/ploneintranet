@@ -27,7 +27,7 @@ from ..interfaces import IMicroblogContext
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
 
-from .interfaces import IPlonesocialMicroblogLayer
+from .interfaces import IPloneIntranetMicroblogLayer
 from .interfaces import IStatusProvider
 
 from zope.i18nmessageid import MessageFactory
@@ -123,7 +123,7 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
 class StatusProvider(object):
     """Re-usable microblog status form provider"""
     implements(IStatusProvider)
-    adapts(Interface, IPlonesocialMicroblogLayer, Interface)
+    adapts(Interface, IPloneIntranetMicroblogLayer, Interface)
 
     form = StatusForm
     index = ViewPageTemplateFile('status.pt')
@@ -200,7 +200,7 @@ class StatusProvider(object):
 class StatusReplyProvider(StatusProvider):
     """status form provider to be used on a statusupdate"""
     implements(IStatusProvider)
-    adapts(IStatusUpdate, IPlonesocialMicroblogLayer, Interface)
+    adapts(IStatusUpdate, IPloneIntranetMicroblogLayer, Interface)
 
     form = StatusForm
     label = _(u"Add a reply")

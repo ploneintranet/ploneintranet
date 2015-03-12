@@ -11,7 +11,7 @@
       title="A tile to add a new post"
       description="A tile to add a new post"
       class=".newpostbox.NewPostBoxTile"
-      layer="..interfaces.IPlonesocialMicroblogLayer"
+      layer="..interfaces.IPloneIntranetMicroblogLayer"
       add_permission="cmf.ManagePortal"
       permission="zope.Public"
       />

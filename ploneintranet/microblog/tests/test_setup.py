@@ -4,7 +4,7 @@ from plone import api
 from plone.browserlayer.utils import registered_layers
 
 from ploneintranet.microblog.testing import\
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 PROJECTNAME = 'ploneintranet.microblog'
 CSS = (
@@ -18,7 +18,7 @@ PERMISSIONS = (
 
 class TestInstall(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -29,7 +29,7 @@ class TestInstall(unittest.TestCase):
 
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertIn('IPlonesocialMicroblogLayer', layers)
+        self.assertIn('IPloneIntranetMicroblogLayer', layers)
 
     def test_permissions(self):
         expected = ['Manager', 'Member', 'Site Administrator']
@@ -47,7 +47,7 @@ class TestInstall(unittest.TestCase):
 
 class TestUninstall(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
@@ -60,7 +60,7 @@ class TestUninstall(unittest.TestCase):
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertNotIn('IPlonesocialMicroblogLayer', layers)
+        self.assertNotIn('IPloneIntranetMicroblogLayer', layers)
 
     def test_cssregistry_removed(self):
         resource_ids = self.portal.portal_css.getResourceIds()

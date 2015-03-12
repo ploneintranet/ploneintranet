@@ -1,5 +1,5 @@
 from Products.Five.browser import BrowserView
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
@@ -48,7 +48,7 @@ class StatusAttachments(BrowserView):
 
         if not self.status_id:
             return self
-        container = PLONESOCIAL.microblog
+        container = PLONEINTRANET.microblog
         status = container.get(self.status_id)
         if not self.attachment_id:
             # do we want to be able to traverse to the status update itself?

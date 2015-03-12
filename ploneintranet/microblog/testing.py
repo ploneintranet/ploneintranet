@@ -29,7 +29,7 @@ def tearDownContainer(container):
             break
 
 
-class PlonesocialMicroblog(PloneSandboxLayer):
+class PloneIntranetMicroblog(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, PLONE_APP_TILES_FIXTURE)
 
@@ -50,18 +50,18 @@ class PlonesocialMicroblog(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.microblog:default')
 
-PLONESOCIAL_MICROBLOG_FIXTURE = PlonesocialMicroblog()
-PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING = \
-    IntegrationTesting(bases=(PLONESOCIAL_MICROBLOG_FIXTURE, ),
-                       name="PlonesocialMicroblog:Integration")
+PLONEINTRANET_MICROBLOG_FIXTURE = PloneIntranetMicroblog()
+PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING = \
+    IntegrationTesting(bases=(PLONEINTRANET_MICROBLOG_FIXTURE, ),
+                       name="PloneIntranetMicroblog:Integration")
 
 
-class PlonesocialMicroblogSubcriber(Layer):
+class PloneIntranetMicroblogSubcriber(Layer):
 
-    defaultBases = (PLONESOCIAL_MICROBLOG_FIXTURE,)
+    defaultBases = (PLONEINTRANET_MICROBLOG_FIXTURE,)
 
     def __init__(self, zcml_file):
-        super(PlonesocialMicroblogSubcriber, self).__init__()
+        super(PloneIntranetMicroblogSubcriber, self).__init__()
         self.zcml_file = zcml_file
 
     def setUp(self):
@@ -79,19 +79,19 @@ class PlonesocialMicroblogSubcriber(Layer):
         del self['configurationContext']
 
 
-PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE = \
-    PlonesocialMicroblogSubcriber('tests/testing_portal_subscriber.zcml')
-PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING = \
+PLONEINTRANET_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE = \
+    PloneIntranetMicroblogSubcriber('tests/testing_portal_subscriber.zcml')
+PLONEINTRANET_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING = \
     IntegrationTesting(
-        bases=(PLONESOCIAL_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE, ),
-        name="PlonesocialMicroblogPortalSubscriber:Integration"
+        bases=(PLONEINTRANET_MICROBLOG_PORTAL_SUBSCRIBER_FIXTURE, ),
+        name="PloneIntranetMicroblogPortalSubscriber:Integration"
     )
 
 
-PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE = \
-    PlonesocialMicroblogSubcriber('tests/testing_request_subscriber.zcml')
-PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING = \
+PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE = \
+    PloneIntranetMicroblogSubcriber('tests/testing_request_subscriber.zcml')
+PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING = \
     IntegrationTesting(
-        bases=(PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE, ),
-        name="PlonesocialMicroblogRequestSubscriber:Integration"
+        bases=(PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE, ),
+        name="PloneIntranetMicroblogRequestSubscriber:Integration"
     )

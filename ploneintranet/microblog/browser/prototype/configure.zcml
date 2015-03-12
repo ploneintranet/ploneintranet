@@ -8,7 +8,7 @@
     <browser:page
         name="upload.html"
         for="*"
-        layer="..interfaces.IPlonesocialMicroblogLayer"
+        layer="..interfaces.IPloneIntranetMicroblogLayer"
         template="upload.html"
         permission="zope.Public"
         />
@@ -16,7 +16,7 @@
     <browser:page
         name="post-well-done.html"
         for="*"
-        layer="..interfaces.IPlonesocialMicroblogLayer"
+        layer="..interfaces.IPloneIntranetMicroblogLayer"
         template="post-well-done.html"
         permission="zope.Public"
         />
@@ -24,7 +24,7 @@
     <browser:page
         name="comment-well-said.html"
         for="*"
-        layer="..interfaces.IPlonesocialMicroblogLayer"
+        layer="..interfaces.IPloneIntranetMicroblogLayer"
         template="comment-well-said.html"
         permission="zope.Public"
         />

@@ -60,8 +60,8 @@ msgid "Installs the ploneintranet.microblog package"
 msgstr "Instala el paquete ploneintranet.microblog"
 
 #: configure.zcml
-msgid "PloneSocial Microblog"
-msgstr "PloneSocial - Microblogging"
+msgid "PloneIntranet Microblog"
+msgstr "PloneIntranet - Microblogging"
 
 #: ./portlets/microblog.py:18
 msgid "Title"

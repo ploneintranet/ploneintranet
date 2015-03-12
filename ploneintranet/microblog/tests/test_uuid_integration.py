@@ -4,7 +4,7 @@ from plone.uuid.interfaces import IUUID
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from ploneintranet.microblog.testing import \
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 from ploneintranet.microblog.statuscontainer import BaseStatusContainer
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog import statusupdate
@@ -33,7 +33,7 @@ class TestUUIDIntegration(unittest.TestCase):
     """Verify plone.app.uuid integration for BaseStatusContainer
     and StatusUpdate"""
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

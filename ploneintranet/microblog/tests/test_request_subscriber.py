@@ -6,7 +6,7 @@ from zope.component import queryUtility
 from plone import api
 
 from ploneintranet.microblog.testing import \
-    PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING
 from ploneintranet.microblog.testing import tearDownContainer
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -35,7 +35,7 @@ request_subscriber = RequestSubscriber()
 
 class TestMicroblogRequestSubscriber(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

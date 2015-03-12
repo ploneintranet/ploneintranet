@@ -6,7 +6,7 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('ploneintranet.microblog')
 
 
-class IPlonesocialMicroblogLayer(Interface):
+class IPloneIntranetMicroblogLayer(Interface):
     """Marker interface to define ZTK browser layer"""
 
 

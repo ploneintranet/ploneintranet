@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from ploneintranet.microblog.browser.interfaces import IPlonesocialMicroblogLayer
+from ploneintranet.microblog.browser.interfaces import IPloneIntranetMicroblogLayer
 from ploneintranet.activitystream.browser.interfaces import (
-    IPlonesocialActivitystreamLayer
+    IPloneIntranetActivitystreamLayer
 )
 from ploneintranet.microblog.tool import MicroblogTool
 from ploneintranet.microblog.testing import (
-    PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 )
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.interface import alsoProvides
@@ -15,13 +15,13 @@ import unittest2 as unittest
 
 class TestSetup(unittest.TestCase):
 
-    layer = PLONESOCIAL_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-        alsoProvides(self.request, IPlonesocialActivitystreamLayer)
-        alsoProvides(self.request, IPlonesocialMicroblogLayer)
+        alsoProvides(self.request, IPloneIntranetActivitystreamLayer)
+        alsoProvides(self.request, IPloneIntranetMicroblogLayer)
 
     def test_newpostbox_tile_on_portal(self):
         ''' This will test the existence of the newpostbox.tile
