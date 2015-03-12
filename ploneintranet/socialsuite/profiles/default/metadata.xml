@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>1004</version>
+  <dependencies>
+    <dependency>profile-ploneintranet.microblog:default</dependency>
+    <dependency>profile-ploneintranet.activitystream:default</dependency>
+    <dependency>profile-ploneintranet.network:default</dependency>
+    <dependency>profile-ploneintranet.messaging:default</dependency>
+    <dependency>profile-ploneintranet.core:default</dependency>
+  </dependencies>
+</metadata>
