@@ -1,4 +1,4 @@
-# -*- encoding: utf8 -*-
+# -*- coding: utf-8 -*-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
@@ -16,6 +16,8 @@ class PloneintranetdocumentviewerLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
+        import ploneintranet.docconv
+        self.loadZCML(package=ploneintranet.docconv.client)
         import ploneintranet.documentviewer
         xmlconfig.file(
             'configure.zcml',
