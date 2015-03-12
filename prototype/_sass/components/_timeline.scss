@@ -8,7 +8,7 @@
     letter-spacing: -0.2em;
     display: block;
     background-color: white;
-    border: #dedede;
+    border: #dedede 1px solid;
     border-radius: 2em;
 
     .section {
@@ -30,9 +30,10 @@
             right: -1.15em;
             bottom: 0.65em;
             border-radius: 50%;
-            width: 2.35em;
-            height: 2.35em;
-            background-color: orange;
+            width: 1.95em;
+            height: 1.95em;
+            background-color: white;
+            border: 0.2em orange solid;
             z-index: 1;
 
             &:after {
@@ -40,11 +41,11 @@
                 display: block;
                 background-color: orange;
                 height: 0.8em;
-                width: 3em;
+                width: 2em;
                 position: absolute;
                 right: 0.75em;
-                top: 0.85em;
-                left: -2.2em;
+                top: 0.59em;
+                left: -2em;
                 z-index: -1;
             }
 
@@ -64,15 +65,15 @@
             &.icon {
 
                 &:before {
-                    border-radius: 50%;
+                    // border-radius: 50%;
                     display: block;
                     width: 1.9em;
                     height: 1.9em;
-                    line-height: 1.85em;
+                    line-height: 1.65em;
                     position: absolute;
                     top: 0.25em;
-                    left: 0.03em;
-                    background: white;
+                    left: -0.17em;
+                    // background: white;
                     // border: 0.2em orange solid;
                     color: orange;
                     z-index: 2;
@@ -194,10 +195,10 @@
 
             .step-label {
                 position: absolute;
-                top: 0.1em;
+                top: 0;
                 border-radius: 50%;
-                width: 1.7em;
-                height: 1.7em;
+                width: 1.8em;
+                height: 1.8em;
                 background-color: orange;
                 display: block;
 
@@ -226,7 +227,7 @@
 
         &.state-finished {
             .action {
-                background-color: #23C27E;
+                border-color: #23C27E;
 
                 &:after {
                     background-color: #23C27E;
