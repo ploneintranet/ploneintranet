@@ -1,5 +1,5 @@
 <layers>
   <layer  name="ploneintranet.core.browser"
-          interface="ploneintranet.core.browser.interfaces.IPlonesocialCoreLayer"
+          interface="ploneintranet.core.browser.interfaces.IPloneIntranetCoreLayer"
           />
 </layers>

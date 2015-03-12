@@ -11,7 +11,7 @@
       name="panel-tags"
       class=".panel_tags.Tags"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
   <browser:view
@@ -19,7 +19,7 @@
       name="panel-users"
       class=".panel_users.Users"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
   <browser:view
@@ -27,7 +27,7 @@
       name="panel-user"
       class=".panel_users.User"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
   <browser:page
@@ -35,7 +35,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".stream.StreamView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
   <!-- styles and javascripts are only active in the "default" profile
@@ -44,12 +44,12 @@
   <browser:resourceDirectory
       name="ploneintranet.core.stylesheets"
       directory="stylesheets"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
   <browser:resourceDirectory
       name="ploneintranet.core.javascripts"
       directory="javascripts"
-      layer=".interfaces.IPlonesocialCoreLayer"
+      layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
 </configure>

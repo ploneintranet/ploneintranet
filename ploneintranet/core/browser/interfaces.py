@@ -2,5 +2,5 @@
 from zope.interface import Interface
 
 
-class IPlonesocialCoreLayer(Interface):
+class IPloneIntranetCoreLayer(Interface):
     """Marker interface to define ZTK browser layer"""

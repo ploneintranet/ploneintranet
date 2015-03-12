@@ -15,7 +15,7 @@ except ImportError:
     HAVE_PLONEINTRANET_NETWORK = False
 
 
-class PlonesocialIntegration(object):
+class PloneIntranetIntegration(object):
     """Provide runtime utility lookup that does not throw
     ImportErrors if some components are not installed."""
 
@@ -39,4 +39,4 @@ class PlonesocialIntegration(object):
         else:
             return None
 
-PLONEINTRANET = PlonesocialIntegration()
+PLONEINTRANET = PloneIntranetIntegration()

@@ -6,7 +6,7 @@ from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from zope.configuration import xmlconfig
 
 
-class PlonesocialCore(PloneSandboxLayer):
+class PloneIntranetCore(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_TILES_FIXTURE,
@@ -24,8 +24,8 @@ class PlonesocialCore(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.core:minimal')
 
-PLONEINTRANET_CORE_FIXTURE = PlonesocialCore()
+PLONEINTRANET_CORE_FIXTURE = PloneIntranetCore()
 PLONEINTRANET_CORE_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEINTRANET_CORE_FIXTURE, ),
-    name='PlonesocialCore:Integration'
+    name='PloneIntranetCore:Integration'
 )
