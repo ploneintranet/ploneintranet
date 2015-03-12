@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      xml:lang="en"
+      tal:omit-tag="">
+
+<div class="news portlet" id="portlet-news">
+  <h2 class="portlet-title">
+    <!-- TODO: make this configurable -->
+    <a href="/news">News</a>
+  </h2>
+  <div class="news-block" id="unread-news">
+    <tal:news repeat="news_item view/latest_news">
+	  <article tal:attributes="class string:item item-${repeat/news_item/number}">
+	    <a href=""
+           tal:attributes="href news_item/absolute_url">
+          <img tal:condition="news_item/image"
+               tal:define="scales news_item/@@images"
+               tal:replace="structure python: scales.tag('image', 'thumb')" />
+		  <h3 class="title" tal:content="news_item/Title">
+		    Air India Joins Star Alliance
+		  </h3>
+		  <p class="description"
+             tal:condition="news_item/Description"
+             tal:content="news_item/Description">
+		    First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market
+		  </p>
+	    </a>
+	    <form action=""
+              class="functions pat-inject"
+              tal:attributes="action string:${news_item/absolute_url}/@@markread#portlet-news">
+		  <button type="submit" class="icon-ok"
+                  i18n:translate="">Mark read</button>
+	    </form>
+	  </article>
+    </tal:news>
+  </div>
+</div>
+
+</html>

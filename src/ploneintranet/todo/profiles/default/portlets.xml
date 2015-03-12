@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<portlets>
+
+ <portlet addview="ploneintranet.todo.latest"
+          title="Latest news"
+          description="" />
+
+</portlets>

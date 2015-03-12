@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.todo">
+
+  <browser:page name="mark_read"
+                for="..behaviors.IMustReadMarker"
+                class=".markread.MarkRead"
+                permission="zope2.View" />
+
+</configure>

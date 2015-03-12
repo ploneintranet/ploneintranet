@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet.readstatus">
+
+  <plone:portlet name="ploneintranet.todo.latest"
+                 interface=".latest.ILatest"
+                 assignment=".latest.Assignment"
+                 view_permission="zope2.View"
+                 edit_permission="cmf.ManagePortal"
+                 renderer=".latest.Renderer"
+                 addview=".latest.AddForm"
+                 editview=".latest.EditForm" />
+</configure>
