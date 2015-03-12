@@ -8,7 +8,7 @@ import unittest
 
 
 tests = (
-    '../../../../README.rst',
+    '../../../README.rst',
 )
 
 
