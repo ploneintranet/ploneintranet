@@ -13,27 +13,24 @@
                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
       <div id="status-tag-selector" class="item-selector mode-">
-        <div id="-functions" class="button-bar functions">
-          <span class="button-cluster select-buttons float-after select-buttons">
-            <button title="Select all" class="select-all">All</button>
-            <button title="Deselect all" class="deselect-all">None</button>
-          </span>
-        </div>
 
         <form tal:attributes="action string:${context/portal_url}/@@panel-tags#postbox-items"
-              method="post"
+              method="post" id="tags-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
             <input type="search" placeholder="Search" name="tagsearch" />
             <button type="submit">Search</button>
           </label>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+          <span id="selected-tags-data"></span>
         </form>
 
         <form id="postbox-items"
               action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit"
-              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_id}-selected-tags">
+
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
+              data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags && source: #selected-tags-data;; target: #selected-tags-data">
           <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
                     class="checklist pat-checklist tags unchecked">
 
@@ -47,6 +44,9 @@
               </a>
             </label>
           </fieldset>
+          <input type="submit" name="Submit" />
+          <tal:block tal:repeat="tag view/selected_tags"
+                ><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
       </div>

@@ -8,6 +8,7 @@ from ploneintranet.core.integration import PLONEINTRANET
 class Tags(BrowserView):
 
     index = ViewPageTemplateFile('panel_tags.pt')
+    selected_tags = []
 
     def tags(self):
         """ Get available tags, both from Plone's keyword index
@@ -26,6 +27,7 @@ class Tags(BrowserView):
         tags = sorted(tags)
 
         search_string = self.request.form.get('tagsearch')
+        self.selected_tags = self.request.form.get('tags', [])
         if search_string:
             search_string = search_string.lower()
             tags = filter(lambda x: search_string in x.lower(),
