@@ -19,7 +19,7 @@
                         {{ item.label }} {% if item.text %}<a href="/{{ item.text }}#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>{% endif %}
                     </h4>
                     {% for ticket in site.posts  %}
-                        {% if ticket.case_state == item.label %}
+                        {% if ticket.workspace_name == page.workspace_name and ticket.case_state == item.label %}
                             <label>
                                 <input type="checkbox" {% if ticket.state == 'complete' or item.transition_state == 'finished' %}checked{% endif %} /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
                             </label>
@@ -33,7 +33,7 @@
                     Unassigned
                 </h4>
                 {% for ticket in site.posts  %}
-                    {% if ticket.case_state == 'unassigned' %}
+                    {% if ticket.workspace_name == page.workspace_name and ticket.case_state == 'unassigned' %}
                         <label>
                             <input type="checkbox" /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
                         </label>
