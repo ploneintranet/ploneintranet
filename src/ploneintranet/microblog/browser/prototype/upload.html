@@ -60,11 +60,14 @@
                 ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
-                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><span
-                id="selected-tags-data"><input
-                name="tags:list" tal:attributes="value tag" /></span></tal:block></tal:tags
+                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
+                name="tags:list" type="hidden" tal:attributes="value tag" /></tal:block
+                ></tal:tags
             ></em>
           </p>
+
+          <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
+                          type="hidden" name="tags:list" tal:attributes="value tag" /></span>
 
           <textarea placeholder="placeholder"
                     class="pat-content-mirror pat-switch"
