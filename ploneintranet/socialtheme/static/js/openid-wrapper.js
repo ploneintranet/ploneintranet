@@ -9,7 +9,7 @@ $(document).ready(function () {
         if (base[base.length-1] != '/') {
             base = base + '/';
         }
-        openid.img_path = base + '++theme++plonesocial.theme/openid-selector/images/';
+        openid.img_path = base + '++theme++ploneintranet.socialtheme/openid-selector/images/';
         openid.init('__ac_identity_url');
         $('#fieldset-openid-login .formControls').hide();
         $('#openid_form h3').text('Please select your OpenID Account Provider:');

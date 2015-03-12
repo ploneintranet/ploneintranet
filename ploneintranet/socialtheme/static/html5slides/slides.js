@@ -10,7 +10,7 @@
   URL: http://code.google.com/p/html5slides/
 */
 
-var PERMANENT_URL_PREFIX = '++theme++plonesocial.theme/html5slides/';
+var PERMANENT_URL_PREFIX = '++theme++ploneintranet.socialtheme/html5slides/';
 
 var SLIDE_CLASSES = ['far-past', 'past', 'current', 'next', 'far-next'];
 

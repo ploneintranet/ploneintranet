@@ -13,7 +13,7 @@
       name="default"
       title="PloneSocial Theme"
       directory="profiles/default"
-      description='Skin overrides for plonesocial.theme'
+      description='Skin overrides for ploneintranet.socialtheme'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
