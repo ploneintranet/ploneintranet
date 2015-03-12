@@ -33,7 +33,6 @@ from ploneintranet.docconv.client.config import (
 from ploneintranet.docconv.client.exceptions import ServerError
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.interfaces import IPreviewFetcher
-from slc.docconv.convert import convert_to_raw
 
 logger = getLogger(__name__)
 
@@ -131,8 +130,13 @@ Content-Type: %(mime)s
 
     def convert_locally(self, payload, datatype):
         try:
+            from slc.docconv.convert import convert_to_raw
             converted = convert_to_raw(
                 self.context.getId(), payload, datatype)
+        except ImportError as e:
+            logger.info('Can not convert locally - install with the "local" '
+                        'extra to activate local conversion')
+            raise ConfigError('slc.docconv not installed')
         except IOError as e:
             if 'docsplit not found' in e:
                 raise ConfigError("docsplit is not available")
