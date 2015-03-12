@@ -21,6 +21,14 @@ workspace_module: tickets
                     Attachments
                 </a>
                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
+                <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                    <label class="pat-select bare" title="Change the workflow state">
+                        <select>
+                            <option>Open</option>
+                            <option>Closed</option>
+                        </select>
+                    </label>
+                </fieldset>
                 <button type="submit" class="icon-floppy" title="Save this document">Save</button>
                 {% for item in page.document_controls %}
                     {% include toolbar-control.html %}
