@@ -14,7 +14,7 @@ document_creator_id: pilz
 
 application: workspace
 application_name: Workspace
-workspace_name: My Case
+workspace_name: My case
 ---
 
 Case task
