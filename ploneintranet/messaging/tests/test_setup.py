@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from ploneintranet.messaging.testing import \
-    PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+    PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
 
 import unittest
 
@@ -20,7 +20,7 @@ CSS = [
 
 class InstallTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
 
     def setUp(self):
         self.app = self.layer['app']
@@ -51,7 +51,7 @@ class InstallTestCase(unittest.TestCase):
 
 class UninstallTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

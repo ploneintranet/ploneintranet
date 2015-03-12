@@ -3,7 +3,7 @@ from datetime import datetime
 from plone.app.testing.helpers import login
 from plone.testing.z2 import Browser
 from ploneintranet.messaging.testing import \
-    PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+    PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
 
 import json
 import plone.api as api
@@ -15,7 +15,7 @@ now = datetime.now()
 
 class TestJsonView(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.app = self.layer['app']
@@ -45,7 +45,7 @@ class TestJsonView(unittest.TestCase):
 
 class TestAjaxViews(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.app = self.layer['app']
@@ -177,7 +177,7 @@ class TestAjaxViews(unittest.TestCase):
 
 class TestYourMessagesView(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
+    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.app = self.layer['app']

@@ -25,12 +25,12 @@ class PlonesocialmessagingLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.messaging:default')
 
 
-PLONESOCIAL_MESSAGING_FIXTURE = PlonesocialmessagingLayer()
-PLONESOCIAL_MESSAGING_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONESOCIAL_MESSAGING_FIXTURE,),
+PLONEINTRANET_MESSAGING_FIXTURE = PlonesocialmessagingLayer()
+PLONEINTRANET_MESSAGING_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(PLONEINTRANET_MESSAGING_FIXTURE,),
     name='PlonesocialmessagingLayer:Integration'
 )
-PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONESOCIAL_MESSAGING_FIXTURE, z2.ZSERVER_FIXTURE),
+PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(PLONEINTRANET_MESSAGING_FIXTURE, z2.ZSERVER_FIXTURE),
     name='PlonesocialmessagingLayer:Functional'
 )

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from ploneintranet.messaging.testing import \
-    PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+    PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
 from zope.interface.verify import verifyClass
 
 import unittest
@@ -12,7 +12,7 @@ now = datetime.now
 
 class ApiTestCase(unittest.TestCase):
 
-    layer = PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
 
     def setUp(self):
         from ploneintranet.messaging.messaging import Inboxes
