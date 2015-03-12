@@ -63,6 +63,7 @@ class NewPostBoxTile(Tile):
     def post_tags(self):
         """ The tags that were added
         """
+        logger.info('Tags: %s' % self.request.form.get('tags', []))
         return self.request.form.get('tags', [])
 
     @property
