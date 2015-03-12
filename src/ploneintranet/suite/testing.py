@@ -8,8 +8,6 @@ from plone.testing import z2
 import ploneintranet
 import collective.workspace
 import collective.z3cform.chosen
-#import slc.docconv
-#import collective.documentviewer
 import collective.documentviewer
 
 
