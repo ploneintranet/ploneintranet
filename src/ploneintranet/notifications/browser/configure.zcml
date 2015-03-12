@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.notifications">
+
+  <browser:page
+      for="*"
+      name="notifications"
+      class=".notifications.NotificationsView"
+      template="notifications.pt"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="ploneintranet.notifications.notifications"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlets.NotificationsViewlet"
+      permission="zope.Public"
+      template="notificationsviewlet.pt"
+      layer=".interfaces.IPloneintranetNotificationsLayer"
+      />
+
+</configure>
