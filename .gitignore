@@ -33,3 +33,5 @@ stamp-bower
 stamp-npm
 uuid.txt
 var/
+.ssh/
+eggs/
