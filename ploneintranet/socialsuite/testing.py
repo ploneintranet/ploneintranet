@@ -22,7 +22,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import ploneintranet.microblog
         import ploneintranet.activitystream
         import ploneintranet.network
-        import ploneintranet.theme
+        import ploneintranet.socialtheme
         import ploneintranet.messaging
         import ploneintranet.core
         xmlconfig.file('meta.zcml',
@@ -41,7 +41,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
                        ploneintranet.network,
                        context=configurationContext)
         xmlconfig.file('configure.zcml',
-                       ploneintranet.theme,
+                       ploneintranet.socialtheme,
                        context=configurationContext)
         xmlconfig.file('configure.zcml',
                        ploneintranet.messaging,
@@ -62,11 +62,12 @@ PLONEINTRANET_SOCIALSUITE_FIXTURE = PloneIntranetSuite()
 
 PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
-                       name="PloneIntranetSuite:Integration")
+                       name="PloneIntranetSocialSuite:Integration")
 
 PLONEINTRANET_SOCIAL_ROBOT_TESTING = FunctionalTesting(
-    bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
-    name="PloneIntranet:Robot")
+    bases=(AUTOLOGIN_LIBRARY_FIXTURE,
+           PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
+    name="PloneIntranetSocialSuite:Robot")
 
 
 from Testing.ZopeTestCase.threadutils import setNumberOfThreads
