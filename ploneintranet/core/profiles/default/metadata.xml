@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>1000</version>
+  <dependencies>
+    <dependency>profile-ploneintranet.core:minimal</dependency>
+    <dependency>profile-plone.app.tiles:default</dependency>
+  </dependencies>
+</metadata>
