@@ -231,11 +231,7 @@ aside.sidebar.left {
   }
 
   #sidebar-content {
-    padding: 1em;
-
-    @include screen-size(small) {  
-      padding: 6%;
-    }
+    padding: 6%;
 
     .tabs-content {
       position: relative;
