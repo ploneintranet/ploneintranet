@@ -1,0 +1,44 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.invitations">
+
+  <i18n:registerTranslations directory="locales" />
+  <five:registerPackage package="." initialize=".initialize" />
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
+  <includeDependencies package="." />
+
+  <utility factory=".token_utility.TokenUtility" />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="ploneintranet.invitations"
+     directory="profiles/default"
+     description="Invite users to a plone site using a unique URL"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
+  <browser:page
+     for="Products.CMFCore.interfaces.ISiteRoot"
+     name="accept-token"
+     class=".views.AcceptToken"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="Products.CMFCore.interfaces.ISiteRoot"
+     name="ploneintranet-invitations-invite-user"
+     class=".invitations.InviteUser"
+     template="invite_user.pt"
+     permission="cmf.ManagePortal"
+     />
+
+  <subscriber
+     for="ploneintranet.invitations.events.ITokenAccepted"
+     handler=".invitations.accept_invitation" />
+
+</configure>
