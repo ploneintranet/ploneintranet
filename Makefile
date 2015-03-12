@@ -47,8 +47,11 @@ stamp-bower: stamp-npm
 clean-stamps::
 	rm -f stamp-npm stamp-bower
 
-clean:: clean-stamps
+clean:: clean-stamps clean-buildout
 	rm -rf node_modules src/bower_components ~/.cache/bower
+
+clean-buildout:
+	rm bin/* .installed.cfg || true
 
 
 ########################################################################
@@ -194,3 +197,17 @@ demo-build:
 	echo "|1|YftEEH4HWPOfSNPY/5DKE9sxj4Q=|UDelHrh+qov24v5GlRh2YCCWcRM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > .ssh/known_hosts
 
 
+# Guido's lazy targets
+
+
+
+devel: bin/buildout
+	bin/buildout -c dev.cfg
+
+bin/buildout: bin/python2.7
+# keep these in sync with config/versions.cfg
+	@bin/pip install setuptools==6.0.2
+	@bin/python bootstrap.py -v 2.2.1
+
+bin/python2.7:
+	@virtualenv --clear -p python2.7 .
