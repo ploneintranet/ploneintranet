@@ -29,9 +29,9 @@
             {% endfor %}
             <fieldset class="task-list pat-checklist">
                 {% assign state = item.state %}
-                <h4 class="section-label">
-                    Unassigned
-                </h4>
+                <h3 class="section-label">
+                    Unassigned Tasks
+                </h3>
                 {% for ticket in site.posts  %}
                     {% if ticket.workspace_name == page.workspace_name and ticket.case_state == 'unassigned' %}
                         <label>
