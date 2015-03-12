@@ -78,7 +78,7 @@
       name="ploneintranet.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".viewlets.NotificationsViewlet"
-      layer=".interfaces.IPlonesocialMessagingstreamLayer"
+      layer=".interfaces.IPloneIntranetMessagingstreamLayer"
       permission="zope.Public"
       />
 

@@ -11,7 +11,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plonesocial Messaging"
+      title="PloneIntranet Messaging"
       directory="profiles/default"
       description="Installs the ploneintranet.messaging package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

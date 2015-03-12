@@ -8,7 +8,7 @@ from plone.testing import z2
 from zope.configuration import xmlconfig
 
 
-class PlonesocialmessagingLayer(PloneSandboxLayer):
+class PloneIntranetmessagingLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
 
@@ -25,12 +25,12 @@ class PlonesocialmessagingLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.messaging:default')
 
 
-PLONEINTRANET_MESSAGING_FIXTURE = PlonesocialmessagingLayer()
+PLONEINTRANET_MESSAGING_FIXTURE = PloneIntranetmessagingLayer()
 PLONEINTRANET_MESSAGING_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEINTRANET_MESSAGING_FIXTURE,),
-    name='PlonesocialmessagingLayer:Integration'
+    name='PloneIntranetmessagingLayer:Integration'
 )
 PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEINTRANET_MESSAGING_FIXTURE, z2.ZSERVER_FIXTURE),
-    name='PlonesocialmessagingLayer:Functional'
+    name='PloneIntranetmessagingLayer:Functional'
 )
