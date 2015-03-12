@@ -11,10 +11,10 @@ case_state: Beschlossen
 icon: money
 document_creator: Guido Stevens
 document_creator_id: gyst
-
+description: Zugeteilten Betrag auf festgelegtem Konto einbuchen.
 application: workspace
 application_name: Workspace
-workspace_name: Minifest
+workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
 ---
 
-Zugeteilten Betrag auf festgelegtem Konto einbuchen.
+

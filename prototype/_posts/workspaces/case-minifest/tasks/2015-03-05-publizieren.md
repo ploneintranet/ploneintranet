@@ -11,10 +11,9 @@ case_state: Beschlossen
 icon: share
 document_creator: Guido Stevens
 document_creator_id: gyst
-
+description: Publizieren des Beschlusses im Web - falls öffentlich.
 application: workspace
 application_name: Workspace
-workspace_name: Minifest
+workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
 ---
 
-Publizieren des Beschlusses im Web - falls öffentlich.

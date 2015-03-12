@@ -11,10 +11,9 @@ case_state: In Bearbeitung
 icon: plus
 document_creator: Alexander Pilz
 document_creator_id: pilz
-
+description: Meinung des Generalvikars zum Umfang der Förderung einholen.
 application: workspace
 application_name: Workspace
-workspace_name: Minifest
+workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
 ---
 
-Meinung des Generalvikars zum Umfang der Förderung einholen.
