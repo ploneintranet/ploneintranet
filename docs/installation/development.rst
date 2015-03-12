@@ -17,8 +17,8 @@ achieved using `install.plone.dependencies`_.
 
 Set-up a development environment::
 
-    git clone https://github.com/ploneintranet/ploneintranet.suite
-    cd ploneintranet.suite
+    git clone https://github.com/ploneintranet/ploneintranet
+    cd ploneintranet
     virtualenv --no-site-packages .
     bin/python2.7 bootstrap.py -c dev.cfg -v 1.6.3  # matching the current version pin!
     bin/buildout -c dev.cfg
@@ -43,8 +43,8 @@ The source codes will live outside the container in your normal home directory,
 so you can easily edit them with your favorite IDE.
 
 1. `Install Docker`_ on your development workstation
-2. `git clone git@github.com:ploneintranet/ploneintranet.suite.git`
-3. `cd ploneintranet.suite`
+2. `git clone git@github.com:ploneintranet/ploneintranet.git`
+3. `cd ploneintranet`
 4. `sudo make docker-build` will prepare the docker image
 5. `sudo make docker-run` will launch the docker image and give you a shell inside
 6. `make devel` will run the development buildout
@@ -78,10 +78,9 @@ the "Standalone Installation" under
 https://github.com/ploneintranet/ploneintranet.theme/blob/master/README.rst
 first.
 
-The theme files need to be created within the egg::
+The theme files need to be created within the main repository::
 
-    cd src/ploneintranet.theme
-    make release
+    make
 
 Once the files are built a directory with static files is created in
 `src/ploneintranet/theme/static/generated`.
@@ -113,16 +112,9 @@ To install the Enchant library on OSX using brew.::
 
 Alternatively see the `stackoverflow article`_ on Enchant and OSX.
 
-The documentation along with its own buildout, is in a separate repository.
-Follow these steps to build it::
+The documentation along with its own buildout, is in the folder ``/docs``
 
-    git clone https://github.com/ploneintranet/ploneintranet.docs.git
-    cd ploneintranet.docs
-    virtualenv .
-    bin/python bootstrap.py
-    bin/buildout
-
-This creates a script in bin to generate the docs::
+The buildout creates a script in bin to generate the docs::
 
    bin/generate-docs
 
