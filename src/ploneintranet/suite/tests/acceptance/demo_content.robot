@@ -5,6 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
+Library  DebugLibrary
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
@@ -33,6 +34,6 @@ I can see an existing user
 
 I can see comment box
     Go To                           ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible   css=textarea[placeholder="Leave a comment"]    timeout=5
+    Wait Until Element Is Visible   css=textarea[placeholder="Leave a comment..."]    timeout=5
     Go To                           ${PLONE_URL}
-    Wait Until Element Is Visible   css=textarea[placeholder="Leave a comment"]    timeout=5
+    Wait Until Element Is Visible   css=textarea[placeholder="Leave a comment..."]    timeout=5

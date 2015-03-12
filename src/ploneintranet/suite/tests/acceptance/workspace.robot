@@ -7,6 +7,8 @@ Resource  ../lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 # Library  DebugLibrary
 
+Variables  variables.py
+
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
@@ -31,10 +33,10 @@ Alice can view sidebar events
     I can see upcoming events
     Older events are hidden
 
-Alice can delete sidebar events
-    given I'm logged in as a 'alice_lindstrom'
-    I can go to the sidebar events tile
-    I can delete an old event
+# Alice can delete sidebar events
+#     given I'm logged in as a 'alice_lindstrom'
+#     I can go to the sidebar events tile
+#     I can delete an old event
 
 Manager can view sidebar tasks
     given I'm logged in as a 'Manager'
@@ -91,6 +93,14 @@ Create structure
     Given I am logged in as the user christian_stoney
       And I go to the Open Market Committee Workspace
      Then I can create a structure
+
+Alice can upload a file
+    Given I am logged in as the user alice_lindstrom
+      And I go to the Open Market Committee Workspace
+      And I select a file to upload
+     Then the file appears in the sidebar
+#TODO      And the upload appears in the stream
+
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -165,6 +175,13 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
+I select a file to upload
+    [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
+    Execute JavaScript  jQuery('.pat-upload.upload .accessibility-options').show()
+    Execute JavaScript  jQuery('.pat-upload.upload').siblings('button').show()
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
+    Click Element  xpath=//button[text()='Upload']
+
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Workspace Settings and about
@@ -191,6 +208,7 @@ I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  The workspace can be explored by outsiders.
 
@@ -292,7 +310,7 @@ I can create a new image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input#form-widgets-image-input
+    Wait Until Page Contains Element  css=#content input.doc-title[value='My Image']
 
 I can create a structure
     Click link  Create folder
@@ -301,11 +319,17 @@ I can create a structure
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
+    # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/another-folder/document-in-subfolder#document-body']
+    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+
+The file appears in the sidebar
+    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
+
