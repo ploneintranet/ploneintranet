@@ -1,0 +1,7 @@
+<div>
+  <a href="#"
+     id="simple-sharing-viewlet"
+     tal:attributes="href string:${context/absolute_url}/simple-sharing">
+    Share
+  </a>
+</div>
