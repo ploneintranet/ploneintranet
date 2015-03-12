@@ -27,6 +27,9 @@ class Base(object):
         return self._for_each_user(outer_add(self.tool, message))
 
     def add(self, message):
+        if not self.tool:
+            # we are most likely not installed
+            return
         assert message.predicate == self.msg_class, \
             'This handler is not responsible for this message, wrong predicate'
         list(self.g_add(message))
