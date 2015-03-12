@@ -35,7 +35,7 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
         # Load ZCML
         import plonesocial.network
         self.loadZCML(package=plonesocial.network)
-        z2.installProduct(app, 'ploneintranet.network')
+        z2.installProduct(app, 'plonesocial.network')
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
         z2.installProduct(app, 'plonesocial.microblog')
@@ -62,7 +62,7 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, 'ploneintranet.network')
+        z2.uninstallProduct(app, 'plonesocial.network')
 
 
 FIXTURE = PloneintranetTodoLayer()
