@@ -5,6 +5,15 @@
     i18n_domain="ploneintranet.theme">
 
   <browser:page
+    name="folder_listing"
+    for="plone.app.contenttypes.interfaces.IFolder"
+    layer="..interfaces.IIntranetContentLayer"
+    template="templates/document_view.pt"
+    class=".content.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
     name="document_view"
     for="plone.app.contenttypes.interfaces.IDocument"
     layer="..interfaces.IIntranetContentLayer"
