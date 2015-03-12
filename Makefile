@@ -181,6 +181,8 @@ docker-run:
                 -v $(HOME)/.gitconfig:/.gitconfig \
                 -v $(HOME)/.gitignore:/.gitignore \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
+		-e LC_ALL=en_US.UTF-8 \
+		-e LANG=en_US.UTF-8 \
                 -v $(PWD):/app -w /app -u app $(PROJECT)
 
 # for development
