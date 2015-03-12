@@ -7,7 +7,7 @@ due_date: 2015-06-01 14:00 GMT+2
 design_title: Rich page
 design_description: Example of a ticket
 parent: minifest
-state: Beschlossen
+case_state: Beschlossen
 icon: share
 document_creator: Guido Stevens
 document_creator_id: gyst
