@@ -8,12 +8,12 @@ long_description = (
     'Contributors\n'
     '============\n'
     + '\n' +
-    open('CHANGES.txt').read()
+    open('CHANGES.rst').read()
     + '\n')
 
-setup(name='ploneintranet.suite',
+setup(name='ploneintranet',
       version=version,
-      description="Pre-integrated Intranet suite for Plone",
+      description="Intranet suite for Plone",
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -22,13 +22,13 @@ setup(name='ploneintranet.suite',
           "Framework :: Plone",
           "Operating System :: OS Independent",
           "Programming Language :: Python",
-          "Programming Language :: Python :: 2.6",
+          "Programming Language :: Python :: 2.7",
           "Topic :: Software Development :: Libraries :: Python Modules",
       ],
       keywords='',
       author='',
       author_email='',
-      url='https://github.com/ploneintranet/ploneintranet.suite',
+      url='https://github.com/ploneintranet/ploneintranet',
       license='gpl',
       packages=find_packages('src'),
       package_dir={'': 'src'},
@@ -40,20 +40,11 @@ setup(name='ploneintranet.suite',
           # -*- Extra requirements: -*-
           'Plone',
           'collective.celery',
-          'ploneintranet.simplesharing',
-          'ploneintranet.workspace',
-          'ploneintranet.theme',
-          'ploneintranet.documentviewer',
-          'ploneintranet.invitations',
-          'ploneintranet.docconv.client[local]',  # XXX is this a good default?
-          'ploneintranet.attachments',
-          'ploneintranet.todo',
-          'ploneintranet.notifications',
-          'plonesocial.microblog',
           'plonesocial.activitystream',
-          'plonesocial.network',
-          'plonesocial.messaging',
           'plonesocial.core',
+          'plonesocial.messaging',
+          'plonesocial.microblog',
+          'plonesocial.network',
       ],
       extras_require={
           'test': [
