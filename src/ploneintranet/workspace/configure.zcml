@@ -10,6 +10,7 @@
 
   <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="Products.CMFPlacefulWorkflow" />
+  <include package="collective.workspace" />
   <include package="five.grok" />
 
   <permission
