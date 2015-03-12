@@ -124,8 +124,8 @@
 
 
     <replace css:theme="#logo" css:content="#portal-logo"/>
-    <replace css:theme-children=".plonesocial-navigation"
-             css:content-children="#plonesocial-navigation" />
+    <replace css:theme-children=".ploneintranet-navigation"
+             css:content-children="#ploneintranet-navigation" />
 
 
 
