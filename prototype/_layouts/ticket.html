@@ -46,6 +46,27 @@ workspace_module: tickets
             <article>
             	{{content}}
             </article>
+            <fieldset class="vertical fancy">
+                <label class="description">
+                    Description <textarea placeholder="Enter a description of the task">{{ page.description }}</textarea>
+                </label>
+                <br>
+                <label class="initiator">
+                    Initiator <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Liz Baker &lt;liz.baker@foo.com&gt;"> {% include /patterns/avatar.html img="/media/avatar-liz-baker.jpg" link="/liz-baker/" %}
+                </label>
+                <br>
+                <label class="assignee">
+                    Assignee <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Hans Mittelmaier &lt;hans.mittelmaier@foo.com&gt;">
+                </label>
+                <br>
+                <label class="date-time">
+                    Due date <input type="date" />
+                </label>
+                <br>
+                <label class="attachments">Attached documents from this workspace 
+                    <input class="pat-autosuggest documents" data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Baggage rules,First delivery presentation,IATA standards 2012,Initial competitive analysis,Market segmentation,Minutes kick-off meeting,Out of the box,Priority bag process,Priority bag tag specification,Waste not want not" type="text" value="Boardbook, Waste not want not">
+                </label>
+            </fieldset>
         </div>
     </div>
 </form>

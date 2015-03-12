@@ -110,6 +110,17 @@
       width: 22px;
     }
 
+    &.landing:before {
+      content: '\e83c';
+
+      @include screen-size(large) {
+        border-bottom: 1px solid white;
+        width: 80%;
+        margin: 0 auto;
+        left: 10%;
+      }
+    }
+
     &.documents:before {
       content: '\E811';
     }

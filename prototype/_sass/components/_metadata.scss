@@ -180,16 +180,16 @@
         }
 
         &[data-option='Private'] {
-          background-color: #d561a4;
-          color: white;
+          // background-color: #d561a4;
+          color: #d561a4;
         }
         &[data-option='Members'] {
           background-color: #f38300;
           color: white;
         }
         &[data-option='Public'] {
-          background-color: #65c981;
-          color: white;
+          // background-color: #65c981;
+          color: #65c981;
         }
         &[data-option='Pending'] {
           background-color: #ff0201;
@@ -205,6 +205,13 @@
         }
         &[data-option='Everyone'] {
           background-color: whitesmoke;
+        }
+        &[data-option='Closed'] {
+          color: $colour-success;
+        }
+        &[data-option='Open'] {
+          background-color: $colour-warning;
+          color: white;
         }
       }
     }

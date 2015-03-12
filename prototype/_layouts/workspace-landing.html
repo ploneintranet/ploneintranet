@@ -1,7 +1,8 @@
 ---
 layout: workspace
 template: generic
-workspace_module: docs
+workspace_module: landing
+sidebar: closed
 ---
 
 
@@ -27,7 +28,7 @@ workspace_module: docs
 								{% assign count = count | plus: 1 %}
 								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %}">
 									<p class="step-label{% if node.icon %} icon icon-{{ node.icon }}{% endif %}">
-										<a href="{{ node.url }}" class="link">
+										<a href="{{ node.url }}" class="link" title="{{ node.title }}">
 											{{ node.title }}
 										</a>
 									</p>
