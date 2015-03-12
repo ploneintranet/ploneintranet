@@ -46,16 +46,13 @@ class TestAttachments(IntegrationTestCase):
 
     def _create_test_temp_attachment(self, token):
         filename = "{0}-test.pdf".format(token)
-        attachment = ATBlob(filename)
-        markAs(attachment, 'File')
-        attachment._setPortalTypeName('File')
-        attachment.initializeArchetype()
+        attachment = create_attachment(filename, '')
         return attachment
 
     def test_create_attachment(self):
         file_field = self._create_test_file_field()
-        att = create_attachment(file_field)
-        self.assertTrue(att.get_size() > 0)
+        att = create_attachment(file_field.filename, file_field.read())
+        self.assertTrue(att.file.size > 0)
         self.assertEquals(att.id, file_field.filename)
 
     def test_temporary_attachment(self):
@@ -68,7 +65,7 @@ class TestAttachments(IntegrationTestCase):
         file_field = self._create_test_file_field()
         res = pop_temporary_attachment(self.workspace, file_field, token)
         self.assertEquals(res.id, attachment.id)
-        self.assertTrue(res.get_size() > 0)
+        self.assertTrue(res.file.size > 0)
 
         clean_up_temporary_attachments(self.workspace, maxage=0)
         self.assertEquals(len(temp_attachments.keys()), 0)

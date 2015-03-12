@@ -22,15 +22,15 @@ class UploadAttachments(BrowserView):
             temp_attachments = IAttachmentStorage(self.context)
             attachment_objs = utils.extract_attachments(attachments)
             for obj in attachment_objs:
-                obj.setId('{0}-{1}'.format(token, obj.getId()))
+                obj.id = '{0}-{1}'.format(token, obj.id)
                 temp_attachments.add(obj)
-                obj = temp_attachments.get(obj.getId())
+                obj = temp_attachments.get(obj.id)
                 if IPreviewFetcher is not None:
                     try:
                         IPreviewFetcher(obj)()
                     except Exception as e:
                         log.warn('Could not get previews for attachment: {0}, '
                                  '{1}: {2}'.format(
-                                     obj.getId(), e.__class__.__name__, e))
+                                     obj.id, e.__class__.__name__, e))
                 self.attachments.append(obj)
         return self.index()
