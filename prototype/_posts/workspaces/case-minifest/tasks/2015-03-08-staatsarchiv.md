@@ -11,10 +11,10 @@ case_state: Archiviert
 icon: folder-open
 document_creator: Guido Stevens
 document_creator_id: gyst
-description: Übermittlung des Geschäfts an das Staatsarchiv über eGovernment Schnittstelle.
+
 application: workspace
 application_name: Workspace
-workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
+workspace_name: Minifest
 ---
 
-
+Übermittlung des Geschäfts an das Staatsarchiv über eGovernment Schnittstelle.

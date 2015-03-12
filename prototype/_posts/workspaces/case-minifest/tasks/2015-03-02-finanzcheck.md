@@ -11,9 +11,10 @@ case_state: In Bearbeitung
 icon: money
 document_creator: Alexander Pilz
 document_creator_id: pilz
-description: Überprüfe wieviel finanzielle Zuwendung in den vergangenen 5 Jahren gewährt wurde.
+
 application: workspace
 application_name: Workspace
-workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
+workspace_name: Minifest
 ---
 
+Überprüfe wieviel finanzielle Zuwendung in den vergangenen 5 Jahren gewährt wurde.
