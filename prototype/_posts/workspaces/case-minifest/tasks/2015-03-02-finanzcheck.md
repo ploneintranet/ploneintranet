@@ -1,20 +1,20 @@
 ---
 layout: ticket
-title: Some Task
+title: "Finanzcheck bzgl. früherer Zuwendungen"
 document_type: ticket
 folderish: false
 due_date: 2015-06-02 14:00 GMT+2
 design_title: Rich page
 design_description: Example of a ticket
-parent: my-case
-state: In bearbeitung
-icon: trash
+parent: minifest
+state: In Bearbeitung
+icon: money
 document_creator: Alexander Pilz
 document_creator_id: pilz
 
 application: workspace
 application_name: Workspace
-workspace_name: My Case
+workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
 ---
 
-Case task
+Überprüfe wieviel finanzielle Zuwendung in den vergangenen 5 Jahren gewährt wurde.

@@ -8,7 +8,7 @@ design_title: Rich page
 design_description: Example of a ticket
 parent: minifest
 state: Neu
-icon: bell
+icon: help-circled
 document_creator: Adrian White
 document_creator_id: white
 

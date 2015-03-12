@@ -1,14 +1,14 @@
 ---
 layout: ticket
-title: "Meinung Generalvikar einholen"
+title: "Hintergrundcheck machen"
 document_type: ticket
 folderish: false
-due_date: 2015-06-02 14:00 GMT+2
+due_date: 2015-06-01 14:00 GMT+2
 design_title: Rich page
 design_description: Example of a ticket
 parent: minifest
 state: In Bearbeitung
-icon: plus
+icon: chart-bar
 document_creator: Alexander Pilz
 document_creator_id: pilz
 
@@ -17,4 +17,4 @@ application_name: Workspace
 workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
 ---
 
-Meinung des Generalvikars zum Umfang der Förderung einholen.
+Hintergrundcheck durchführen ob die Organisation förderungswürdig ist.
