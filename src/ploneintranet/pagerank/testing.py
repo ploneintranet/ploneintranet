@@ -22,8 +22,8 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         # we're loading all of plonesocial so we can
         # use the included demo site for testing
 
-        import plonesocial.suite
-        self.loadZCML(package=plonesocial.suite)
+        # import plonesocial.suite
+        # self.loadZCML(package=plonesocial.suite)
 
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
@@ -35,15 +35,15 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         self.loadZCML(package=plonesocial.network)
 
         # plonesocial.messaging is not required yet
-#        import plonesocial.messaging
-#        self.loadZCML(package=plonesocial.messaging)
+        import plonesocial.messaging
+        self.loadZCML(package=plonesocial.messaging)
 
         # plonesocial.core is not released yet
-#        import plonesocial.core
-#        self.loadZCML(package=plonesocial.core)
+        import plonesocial.core
+        self.loadZCML(package=plonesocial.core)
 
-        import plonesocial.theme
-        self.loadZCML(package=plonesocial.theme)
+        # import plonesocial.theme
+        # self.loadZCML(package=plonesocial.theme)
 
     def setUpPloneSite(self, portal):
         # Installs all the Plone stuff. Workflows etc.

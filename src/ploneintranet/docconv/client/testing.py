@@ -24,10 +24,12 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
         # Load ZCML
         import plone.app.contenttypes
         self.loadZCML(package=plone.app.contenttypes)
-        import collective.documentviewer
-        self.loadZCML(package=collective.documentviewer)
         import slc.docconv
         self.loadZCML(package=slc.docconv)
+        import collective.documentviewer
+        self.loadZCML(package=collective.documentviewer)
+        import ploneintranet.attachments
+        self.loadZCML(package=ploneintranet.attachments)
         import ploneintranet.docconv.client
         self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.docconv.client')

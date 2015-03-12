@@ -22,6 +22,8 @@ class PloneintranetReadstatusLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
+        import plonesocial.activitystream
+        self.loadZCML(package=plonesocial.activitystream)
         import ploneintranet.readstatus
         self.loadZCML(package=ploneintranet.readstatus)
         z2.installProduct(app, 'ploneintranet.readstatus')
@@ -34,7 +36,6 @@ class PloneintranetReadstatusLayer(PloneSandboxLayer):
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        portal.invokeFactory('Folder', 'folder')
 
         # Commit so that the test browser sees these objects
         portal.portal_catalog.clearFindAndRebuild()

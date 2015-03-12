@@ -8,7 +8,8 @@ from plone.testing import z2
 import ploneintranet
 import collective.workspace
 import collective.z3cform.chosen
-import slc.docconv
+#import slc.docconv
+#import collective.documentviewer
 import collective.documentviewer
 
 
@@ -22,20 +23,11 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
-        self.loadZCML(package=collective.workspace)
-        z2.installProduct(app, 'collective.workspace')
-
         self.loadZCML(package=collective.z3cform.chosen)
-
-        self.loadZCML(package=slc.docconv)
-
-        self.loadZCML(package=collective.documentviewer)
 
         # plone social dependencies
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)
-        import plonesocial.activitystream
-        self.loadZCML(package=plonesocial.activitystream)
         import plonesocial.network
         self.loadZCML(package=plonesocial.network)
         import plonesocial.messaging
