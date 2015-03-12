@@ -1,0 +1,85 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet.workspace">
+
+  <include package="plone.tiles" file="meta.zcml" />
+
+  <adapter for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
+                *"
+           factory="Products.CMFPlone.browser.navtree.DefaultNavtreeStrategy"
+           provides="plone.app.layout.navigation.interfaces.INavtreeStrategy" />
+
+  <plone:tile
+      name="navigation.tile"
+      title="Side navigation"
+      description="A tile for the side navigation of a workspace"
+      add_permission="cmf.ManagePortal"
+      class=".navigation.NavigationTile"
+      permission="zope.Public"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      />
+
+  <plone:tile
+    for="*"
+    name="workspaces.tile"
+    title="Workspaces tile"
+    description="A tile showing user workspaces and related activity"
+    class=".workspaces.WorkspacesTile"
+    add_permission="cmf.ManagePortal"
+    permission="zope.Public"
+    />
+
+  <plone:tile
+    name="workspace.tabs.tile"
+    title="Workspace Tabs"
+    description="This tile shows the workspace tabs"
+    add_permission="cmf.ManagePortal"
+    class=".workspace_tabs.WorkspaceTabsTile"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.default"
+    title="Sidebar"
+    description="default tile"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.Sidebar"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.members"
+    title="Sidebar Settings Members"
+    description="Tile to show member roster in Settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsMembers"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.security"
+    title="Sidebar Settings Security"
+    description="Tile to show security controls in Settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsSecurity"
+    permission="zope2.View"
+    for="*"
+    />
+
+  <plone:tile
+    name="sidebar.settings.advanced"
+    title="Sidebar Settings Advanced"
+    description="Tile to show the advanced settings"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsAdvanced"
+    permission="zope2.View"
+    for="*"
+    />
+
+</configure>

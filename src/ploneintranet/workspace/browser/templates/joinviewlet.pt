@@ -1,0 +1,14 @@
+<dl tal:condition="view/visible" class="portalMessage info"
+     i18n:domain="ploneintranet">
+  <dt>Join</dt>
+  <dd>
+    <form method="post" tal:attributes="action view/join_url">
+      <span i18n:translate="">
+        You can become a member of this workspace
+      </span>
+      <input type="submit" name="button.join" 
+             i18n:attributes="value"
+             value="Join now" />
+    </form>
+  </dd>
+</dl>

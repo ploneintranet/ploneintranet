@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="ploneintranet_workflow"
+             title="Ploneintranet Workflow"
+             description="The ploneintranet workflow."
+             state_variable="review_state"
+             initial_state="draft"
+             manager_bypass="False">
+
+  <permission>Access contents information</permission>
+  <permission>List folder contents</permission>
+  <permission>Modify portal content</permission>
+  <permission>View</permission>
+
+  <state state_id="draft"
+         title="Draft">
+    <description>Only visible to me.</description>
+    <exit-transition transition_id="submit"/>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="pending"
+         title="Pending">
+    <description>Visible to reviewers.</description>
+    <exit-transition transition_id="publish"/>
+    <exit-transition transition_id="send_back"/>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Reviewer</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Reviewer</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Reviewer</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="published"
+         title="Published">
+    <description>Shared with my team.</description>
+    <exit-transition transition_id="retract"/>
+    <exit-transition transition_id="publish_public"/>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Guest</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Guest</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="public"
+         title="Public">
+    <description>Shared with all Intranet users.</description>
+    <exit-transition transition_id="restrict"/>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>Reader</permission-role>
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+  </state>
+
+  <transition transition_id="submit"
+              title="Admin submits content"
+              new_state="pending"
+              trigger="USER" before_script="" after_script="">
+    <description>Submitting the item sends it for review.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=submit"
+            category="workflow" icon="">Submit</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="publish"
+              title="Publishes content"
+              new_state="published"
+              trigger="USER" before_script="" after_script="">
+    <description>Publishes the item for members.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=publish"
+            category="workflow" icon="">Publish</action>
+    <guard>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="publish_public"
+              title="Publishes content to all users"
+              new_state="public"
+              trigger="USER" before_script="" after_script="">
+    <description>Publishes the item to all users.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=publish_public"
+            category="workflow" icon="">Publish Public</action>
+    <guard>
+      <guard-permission>Review portal content</guard-permission>
+      <guard-expression>python: here.restrictedTraverse('@@ploneintranet_workspace_state').state() == 'private'</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="restrict"
+              title="Restricts content"
+              new_state="published"
+              trigger="USER" before_script="" after_script="">
+    <description>Restricts content to workspace members.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=restrict"
+            category="workflow" icon="">Restrict</action>
+    <guard>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="send_back"
+              title="Sends content back to draft"
+              new_state="draft"
+              trigger="USER" before_script="" after_script="">
+    <description>Sends content back to draft.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=send_back"
+            category="workflow" icon="">Send back</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="retract"
+              title="Retracts content to draft"
+              new_state="draft"
+              trigger="USER" before_script="" after_script="">
+    <description>Retracts content back draft.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=retract"
+            category="workflow" icon="">Retract</action>
+    <guard>
+      <guard-permission>Modify portal content</guard-permission>
+    </guard>
+  </transition>
+
+</dc-workflow>

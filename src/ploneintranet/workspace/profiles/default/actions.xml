@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <object name="object" meta_type="CMF Action Category">
+
+   <!-- hide the sharing tab on our workspace -->
+  <object name="local_roles" meta_type="CMF Action" i18n:domain="plone">
+   <property name="available_expr">not:nocall:context/@@team-roster|nothing</property>
+  </object>
+
+  <!-- hide default collective.workspace roster tab -->
+  <object name="team-roster" meta_type="CMF Action" i18n:domain="plone">
+    <property name="visible">False</property>
+  </object>
+
+  <!-- Add settings tab on our workspace -->
+  <object name="ws_policies" meta_type="CMF Action" i18n:domain="plone">
+    <property name="title" i18n:translate="ws_policies_tab">Policies</property>
+    <property name="url_expr">string:${context/absolute_url}/policies</property>
+    <property name="available_expr">python:context.portal_type == "ploneintranet.workspace.workspacefolder"</property>
+    <property name="permissions">
+      <element value="ploneintranet.workspace: Manage workspace"/>
+    </property>
+  </object>
+
+ </object>
+</object>

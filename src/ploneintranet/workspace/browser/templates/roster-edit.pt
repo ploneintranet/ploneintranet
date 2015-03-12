@@ -1,0 +1,203 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+  <head>
+  </head>
+
+  <body>
+    <metal:main fill-slot="main"
+		tal:define="context_state context/@@plone_context_state;
+			    user_cannot_manage python:
+			    not view.can_manage_workspace();
+			    can_manage_workspace view/can_manage_workspace;
+			    can_remove_users can_manage_workspace;
+			    can_add_users view/can_add_users;
+			    admin_managed_workspace view/admin_managed_workspace;
+			    ">
+
+      <h1 class="documentFirstHeading"
+          i18n:translate="heading_edit_roster">
+        Roster for
+        <q tal:content="context/Title" i18n:name="folder">title</q>
+      </h1>
+
+      <div tal:replace="structure provider:plone.abovecontentbody"
+	   tal:condition="not:ajax_load" />
+
+      <div id="content-core">
+        <form method="post"
+	      tal:condition="python:
+			     can_manage_workspace
+			     or
+			     not admin_managed_workspace"
+              tal:attributes="action string:${context/absolute_url}/@@edit-roster">
+
+          <input type="hidden" name="form.submitted:boolean" value="True" />
+
+          <div class="field">
+            <input type="text"
+                   id="edit-roster-user-search"
+                   size="30"
+                   name="search_term"
+                   title="Search for a user"
+                   placeholder="Search for a user"
+                   i18n:attributes="title; placeholder"
+                   tal:attributes="value request/search_term|nothing"
+                   class="searchField"
+                   value=""
+                   />
+            <input type="submit"
+                   id="edit-roster-search-button"
+                   name="form.button.SearchUsers"
+                   value="Search users"
+                   class="searchButton allowMultiSubmit"
+                   i18n:attributes="value label_search"
+                   />
+          </div>
+	</form>
+
+	<form method="post"
+              tal:attributes="action string:${context/absolute_url}/@@update_roster">
+          <div id="edit-roster-container">
+            <table metal:define-macro="edit-roster" id="edit-roster"
+		   class="listing"
+		   summary="Current users"
+		   tal:define="users view/users;"
+		   i18n:attributes="summary rostered-users;">
+
+              <thead metal:define-macro="edit-roster-head" id="edit-roster-head">
+                <tr>
+                  <th i18n:translate="label_name">Name</th>
+                  <th class="nosort">Member</th>
+                  <th class="nosort">Workspace Admin</th>
+                </tr>
+              </thead>
+
+              <tbody metal:define-macro="edit-roster-settings" id="edit-roster-settings">
+                <tal:entries repeat="user users">
+                  <tr tal:define="oddrow repeat/user/odd;
+                                  is_admin user/admin | nothing;
+                                  is_member user/member | nothing;
+				  is_user_removable python:
+				  can_remove_users and not is_admin;"
+                      tal:attributes="class python:oddrow and 'odd' or 'even'">
+                    <td>
+                      <a tal:content="user/title" 
+                         tal:attributes="href 
+                                         string:${portal_url}/author/${user/id}" 
+                         />
+                      <input
+                         type="hidden"
+                         name="entries.id:records"
+                         tal:attributes="value user/id"
+                         />
+                      <input
+                         type="hidden"
+                         name="entries.type:records"
+                         value="user"
+                         />
+                    </td>
+                    <td class="listingCheckbox">
+                      <input class="noborder"
+                             type="checkbox"
+                             value="1"
+                             name="entries.member:records"
+			     tal:condition="python:
+					    (can_add_users and is_user_removable)
+					    or
+					    (can_add_users and not is_member)"
+                             tal:attributes="checked is_member;
+                                             disabled is_admin"
+                             />
+		      <tal:disabled condition="python:
+					       not is_user_removable
+					       and is_member">
+			<input type="hidden"
+                               name="entries.member:records"
+                               value="1"
+			       />
+			<img src="confirm_icon.png" />
+		      </tal:disabled>
+                    </td>
+                    <td class="listingCheckbox">
+                      <input class="noborder"
+                             type="checkbox"
+                             value="1"
+                             name="entries.admin:records"
+			     tal:condition="not: user_cannot_manage"
+                             tal:attributes="checked is_admin;
+					     disabled user_cannot_manage;"
+                             />
+		      <tal:disabled condition="python:
+					       user_cannot_manage
+					       and is_admin">
+			<input type="hidden"
+                               name="entries.admin:records"
+                               value="1"
+			       />
+			<img src="confirm_icon.png"
+			     />
+		      </tal:disabled>
+                    </td>
+                  </tr>
+                </tal:entries>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            <input id="edit-roster-save-button"
+		   class="context allowMultiSubmit"
+		   type="submit"
+		   name="form.button.Save" value="Save"
+		   tal:condition="python:
+				  can_manage_workspace
+				  or not admin_managed_workspace"
+		   i18n:attributes="value label_save" />
+            <input tal:replace="structure context/@@authenticator/authenticator" />
+          </p>
+
+        </form>
+
+        <tal:admin condition="can_manage_workspace">
+          <hr />
+          <h2>Advanced</h2>
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@invite" 
+               class="pat-modal">
+              Invite users to this workspace (via email)
+            </a>
+          </p>
+
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@transfer" 
+               class="pat-modal">
+              Transfer members to another workspace.
+            </a>
+          </p>
+
+          <p>
+            <a tal:attributes="href string:${context/absolute_url}/@@sharing">
+              Advanced permissions
+            </a>
+          </p>
+        </tal:admin>
+
+        <script type="text/javascript">
+          jQuery(document).ready(function(){
+          jQuery('.pat-modal')
+          .prepOverlay({
+          subtype: 'ajax',
+          filter: common_content_filter,
+          formselector: '#form',
+          noform: 'reload'
+          });
+          });
+        </script>
+        
+      </div>
+    </metal:main>
+  </body>
+</html>

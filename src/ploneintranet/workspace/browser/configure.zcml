@@ -1,0 +1,120 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet.workspace">
+
+  <include package="plone.app.portlets" />
+  <include package="collective.workspace" />
+
+  <browser:page
+      name="view"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class="..workspace.WorkspaceView"
+      permission="zope2.View"
+      template="templates/workspace.pt"
+      />
+
+  <browser:page
+      name="transfer"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".forms.TransferMembershipForm"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="invite"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".forms.InviteForm"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="sharing"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".views.SharingView"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <browser:page
+      name="updateSharingInfo"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".views.SharingView"
+      attribute="updateSharingInfo"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <browser:page
+      name="add_content"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddContent"
+      template="templates/add_content.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:page
+      name="add_folder"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddFolder"
+      template="templates/add_folder.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:viewlet
+      name="ploneintranet.workspace.sharinginfo"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      class=".viewlets.SharingViewlet"
+      template="templates/sharingviewlet.pt"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
+  <plone:portlet
+      name="portlets.RosterPortlet"
+      interface=".portlets.IRosterPortlet"
+      assignment=".portlets.Assignment"
+      renderer=".portlets.Renderer"
+      addview=".portlets.AddForm"
+      editview=".portlets.EditForm"
+      />
+
+   <browser:page
+     name="joinme"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".views.JoinView"
+     permission="zope2.View"
+     />
+
+   <browser:page
+     name="update_roster"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+     class=".roster.EditRoster"
+     attribute="update_roster"
+     permission="collective.workspace.ViewRoster"
+     />
+
+   <browser:viewlet
+     name="ploneintranet.workspace.join"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     class=".viewlets.JoinViewlet"
+     template="templates/joinviewlet.pt"
+     permission="zope2.View"
+     view="plone.app.layout.globals.interfaces.IViewView"
+     />
+
+    <browser:page
+      name="workspaceFileUpload"
+      for="Products.CMFCore.interfaces._content.IFolderish"
+      class=".views.FileUploadView"
+      permission="cmf.AddPortalContent"
+      />
+
+   <include package=".tiles" />
+
+
+
+</configure>

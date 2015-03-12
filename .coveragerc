@@ -1,0 +1,12 @@
+[report]
+omit =
+    /home/*/.buildout/eggs/*
+    /home/*/buildout-cache/eggs/*
+    /usr/*
+    bin/test
+    buildout-cache/eggs/*
+    eggs/*
+    parts/*
+    src/collective.workspace/*
+    src/ploneintranet.invitations/*
+    src/plone.api/*
