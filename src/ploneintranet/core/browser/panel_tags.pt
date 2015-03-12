@@ -31,8 +31,7 @@
 
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
               data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags && source: #selected-tags-data;; target: #selected-tags-data">
-          <fieldset data-pat-checklist="select: #status-tag-selector .select-all; deselect: #status-tag-selector .deselect-all"
-                    class="checklist pat-checklist tags unchecked">
+          <fieldset class="checklist pat-checklist tags unchecked">
 
             <label class="item tag unchecked"
                    tal:repeat="tag view/tags">
