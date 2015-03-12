@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    <include package=".async"/>
+    <include package=".attachments"/>
+    <include package=".docconv.client"/>
+    <include package=".documentviewer"/>
+    <include package=".invitations"/>
+    <include package=".notifications"/>
+    <include package=".pagerank"/>
+    <include package=".readstatus"/>
+    <include package=".simplesharing"/>
+    <include package=".suite"/>
+    <include package=".theme"/>
+    <include package=".todo"/>
+    <include package=".workspace"/>
+</configure>
