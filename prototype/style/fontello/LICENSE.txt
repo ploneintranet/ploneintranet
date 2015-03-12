@@ -73,6 +73,15 @@ Font license info
    Homepage:  http://designmodo.com/linecons-free/
 
 
+## Maki
+
+   Copyright (C) Mapbox, LCC
+
+   Author:    Mapbox
+   License:   BSD (https://github.com/mapbox/maki/blob/gh-pages/LICENSE.txt)
+   Homepage:  http://mapbox.com/maki/
+
+
 ## Fontelico
 
    Copyright (C) 2012 by Fontello project
