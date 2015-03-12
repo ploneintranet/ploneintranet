@@ -28,7 +28,7 @@ class InstallTestCase(unittest.TestCase):
 
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertIn('IPlonesocialActivitystreamLayer', layers)
+        self.assertIn('IPloneIntranetActivitystreamLayer', layers)
 
     def test_cssregistry(self):
         bundles = getUtility(IRegistry).collectionOfInterface(
@@ -61,7 +61,7 @@ class UninstallTestCase(unittest.TestCase):
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertNotIn('IPlonesocialActivitystreamLayer', layers)
+        self.assertNotIn('IPloneIntranetActivitystreamLayer', layers)
 
     @unittest.skip('Bug in Plone 5')
     def test_cssregistry_removed(self):

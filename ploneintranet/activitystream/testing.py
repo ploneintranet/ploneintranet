@@ -6,7 +6,7 @@ from plone.app.testing import applyProfile
 from zope.configuration import xmlconfig
 
 
-class PlonesocialActivitystream(PloneSandboxLayer):
+class PloneIntranetActivitystream(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
 
@@ -25,7 +25,7 @@ class PlonesocialActivitystream(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.activitystream:default')
 
-PLONEINTRANET_ACTIVITYSTREAM_FIXTURE = PlonesocialActivitystream()
+PLONEINTRANET_ACTIVITYSTREAM_FIXTURE = PloneIntranetActivitystream()
 PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_ACTIVITYSTREAM_FIXTURE, ),
-                       name="PlonesocialActivitystream:Integration")
+                       name="PloneIntranetActivitystream:Integration")

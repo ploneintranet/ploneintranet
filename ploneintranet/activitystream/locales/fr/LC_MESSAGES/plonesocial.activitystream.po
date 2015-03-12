@@ -57,10 +57,10 @@ msgstr ""
 msgid "Number of updates to display"
 msgstr "Nombre de messages à afficher"
 
-#. Default: "PloneSocial Activitystream"
+#. Default: "PloneIntranet Activitystream"
 #: ./configure.zcml
-msgid "PloneSocial Activitystream"
-msgstr "Flux d'activité PloneSocial"
+msgid "PloneIntranet Activitystream"
+msgstr "Flux d'activité PloneIntranet"
 
 #: ./browser/interfaces.py:84
 msgid "Show content creation"

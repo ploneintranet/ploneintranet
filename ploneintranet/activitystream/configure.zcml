@@ -28,7 +28,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="PloneSocial Activitystream"
+      title="PloneIntranet Activitystream"
       directory="profiles/default"
       description="Installs the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -37,7 +37,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="PloneSocial Activitystream: Uninstall"
+      title="PloneIntranet Activitystream: Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

@@ -15,7 +15,7 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('ploneintranet.activitystream')
 
 
-class IPlonesocialActivitystreamLayer(Interface):
+class IPloneIntranetActivitystreamLayer(Interface):
     """Marker interface to define ZTK browser layer"""
 
 
@@ -48,11 +48,11 @@ class IStatusConversationProvider(IContentProvider):
     """Helper to render status conversations"""
 
 
-class IPlonesocialActivitystreamViewlets(IViewletManager):
+class IPloneIntranetActivitystreamViewlets(IViewletManager):
     """A viewlet manager for the activity stream view."""
 
 
-class IPlonesocialActivitystreamPortlets(IPortletManager, IColumn):
+class IPloneIntranetActivitystreamPortlets(IPortletManager, IColumn):
     """A portlet manager for the activity stream view"""
 
 

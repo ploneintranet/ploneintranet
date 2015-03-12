@@ -9,7 +9,7 @@
         for="*"
         permission="zope.Public"
         template="activity-stream.html"
-        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />
 
     <browser:page
@@ -17,7 +17,7 @@
         for="*"
         permission="zope.Public"
         template="avatar.html"
-        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />
 
     <browser:page
@@ -25,7 +25,7 @@
         for="*"
         permission="zope.Public"
         template="post.html"
-        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />
 
     <browser:page
@@ -33,7 +33,7 @@
         for="*"
         permission="zope.Public"
         template="comment.html"
-        layer="..interfaces.IPlonesocialActivitystreamLayer"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />
 
 </configure>

@@ -7,7 +7,7 @@ from zope.component import getMultiAdapter
 from ploneintranet.core.integration import PLONEINTRANET
 
 
-class PloneSocialNavigation(BrowserView):
+class PloneIntranetNavigation(BrowserView):
     """Provide toplevel navigation that spans ploneintranet.activitystream
     and ploneintranet.network.
     """

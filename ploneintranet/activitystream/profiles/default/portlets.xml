@@ -3,7 +3,7 @@
    i18n:domain="plone">
  <portletmanager
     name="ploneintranet.activitystream.portletmanager"
-    type="ploneintranet.activitystream.browser.interfaces.IPlonesocialActivitystreamPortlets"
+    type="ploneintranet.activitystream.browser.interfaces.IPloneIntranetActivitystreamPortlets"
  />
 
  <portlet

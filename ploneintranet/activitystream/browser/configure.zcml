@@ -17,9 +17,9 @@
   <browser:viewlet zcml:condition="installed ploneintranet.microblog"
       name="ploneintranet.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-      class=".navigation.PloneSocialNavigation"
+      class=".navigation.PloneIntranetNavigation"
       permission="ploneintranet.microblog.ViewStatusUpdate"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <adapter zcml:condition="installed ploneintranet.microblog"
@@ -61,7 +61,7 @@
       class=".stream.StreamTile"
       permission="zope.Public"
       for="*"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <browser:page zcml:condition="installed ploneintranet.microblog"
@@ -69,7 +69,7 @@
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".statusconversation.StatusConversationView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <browser:page zcml:condition="installed ploneintranet.microblog"
@@ -77,7 +77,7 @@
       for="ploneintranet.microblog.interfaces.IMicroblogContext"
       class="ploneintranet.core.browser.stream.StreamView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <!-- complex portlet-based view separated out for clear config -->
@@ -87,13 +87,13 @@
   <browser:resourceDirectory
       name="ploneintranet.activitystream.stylesheets"
       directory="stylesheets"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <browser:resourceDirectory
       name="ploneintranet.activitystream.javascripts"
       directory="javascripts"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
 </configure>

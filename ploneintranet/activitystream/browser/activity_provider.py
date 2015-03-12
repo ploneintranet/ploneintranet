@@ -12,7 +12,7 @@ from plone import api
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from .interfaces import IPlonesocialActivitystreamLayer
+from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IActivityProvider
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
@@ -201,7 +201,7 @@ class StatusActivityProvider(AbstractActivityProvider):
     """Render an IStatusActivity"""
 
     implements(IActivityProvider)
-    adapts(IStatusActivity, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IStatusActivity, IPloneIntranetActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/statusactivity_provider.pt")
 
@@ -264,7 +264,7 @@ class StatusActivityProvider(AbstractActivityProvider):
 
 class StatusActivityReplyProvider(StatusActivityProvider):
     """ Renders a StatusActivity reply in """
-    adapts(IStatusActivityReply, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IStatusActivityReply, IPloneIntranetActivitystreamLayer, Interface)
     index = ViewPageTemplateFile("templates/statusactivityreply_provider.pt")
 
     def __init__(self, context, request, view):
@@ -309,7 +309,7 @@ class ContentActivityProvider(AbstractActivityProvider):
     """Render an IBrainActivity"""
 
     implements(IActivityProvider)
-    adapts(IContentActivity, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IContentActivity, IPloneIntranetActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
 
@@ -331,7 +331,7 @@ class DiscussionActivityProvider(AbstractActivityProvider):
     """Render an IDicussionCommentActivity"""
 
     implements(IActivityProvider)
-    adapts(IDiscussionActivity, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IDiscussionActivity, IPloneIntranetActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
 

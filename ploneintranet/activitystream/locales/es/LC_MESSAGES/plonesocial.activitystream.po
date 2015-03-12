@@ -62,10 +62,10 @@ msgstr "Mi perfil"
 msgid "Number of updates to display"
 msgstr "Número de actualizaciones a mostrar"
 
-#. Default: "PloneSocial Activitystream"
+#. Default: "PloneIntranet Activitystream"
 #: ./configure.zcml
-msgid "PloneSocial Activitystream"
-msgstr "PloneSocial - Actividades recientes"
+msgid "PloneIntranet Activitystream"
+msgstr "PloneIntranet - Actividades recientes"
 
 #: ./browser/interfaces.py:84
 msgid "Show content creation"

@@ -55,7 +55,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".activitystream_portal.PortalView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
   <!-- register activitystream_portal view on siteroot -->
   <browser:menuItem
@@ -64,7 +64,7 @@
       action="@@activitystream_portal"
       title="Activity Portal"
       description="Social activity stream portal view with manageable portlets"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       i18n:attributes="title; description"
       />
 
@@ -75,7 +75,7 @@
       for="ploneintranet.microblog.interfaces.IMicroblogContext"
       class=".activitystream_portal.PortalView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
   <browser:menuItem
       zcml:condition="installed ploneintranet.microblog"
@@ -84,7 +84,7 @@
       action="@@activitystream_portal"
       title="Activity Portal"
       description="Social activity stream portal view with manageable portlets"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       i18n:attributes="title; description"
       />
 
@@ -92,10 +92,10 @@
   <!-- custom viewletmanager, only used in activitystream_portal view -->
   <browser:viewletManager
       name="ploneintranet.activitystream.viewletmanager"
-      provides=".interfaces.IPlonesocialActivitystreamViewlets"
+      provides=".interfaces.IPloneIntranetActivitystreamViewlets"
       class="plone.app.viewletmanager.manager.OrderedViewletManager"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <!-- a single portletmanager viewlet in the viewletmanager
@@ -105,10 +105,10 @@
   -->
   <browser:viewlet
       name="ploneintranet.activitystream.portletmanager"
-      manager=".interfaces.IPlonesocialActivitystreamViewlets"
+      manager=".interfaces.IPloneIntranetActivitystreamViewlets"
       class=".activitystream_portal.PortletManagerViewlet"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />        
   <!-- helper view to manage the portlets -->
   <browser:page
@@ -117,7 +117,7 @@
       class="plone.app.portlets.browser.manage.ManageContextualPortlets"
       template="templates/activitystream_portletmanager_view.pt"
       permission="plone.app.portlets.ManagePortlets" 
-      layer=".interfaces.IPlonesocialActivitystreamLayer"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
   
   <!-- activitystream portlet

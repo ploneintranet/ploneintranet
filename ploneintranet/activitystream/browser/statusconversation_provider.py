@@ -15,7 +15,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.microblog.interfaces import IStatusUpdate
 
-from .interfaces import IPlonesocialActivitystreamLayer
+from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IStatusConversationProvider
 from .interfaces import IActivityProvider
 
@@ -30,7 +30,7 @@ class StatusConversationProvider(object):
     """Render a thread of IStatusUpdates
     """
     implements(IStatusConversationProvider)
-    adapts(IStatusUpdate, IPlonesocialActivitystreamLayer, Interface)
+    adapts(IStatusUpdate, IPloneIntranetActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/statusconversation_provider.pt")
 

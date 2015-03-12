@@ -16,7 +16,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from ploneintranet.activitystream.interfaces import IActivity
 
-from .interfaces import IPlonesocialActivitystreamLayer
+from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
 
@@ -48,7 +48,7 @@ class StreamProvider(object):
     ploneintranet.networking @@author
     """
     implements(IStreamProvider)
-    adapts(Interface, IPlonesocialActivitystreamLayer, Interface)
+    adapts(Interface, IPloneIntranetActivitystreamLayer, Interface)
 
     index = ViewPageTemplateFile("templates/stream_provider.pt")
 
