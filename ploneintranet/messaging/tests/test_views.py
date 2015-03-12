@@ -2,7 +2,7 @@
 from datetime import datetime
 from plone.app.testing.helpers import login
 from plone.testing.z2 import Browser
-from plonesocial.messaging.testing import \
+from ploneintranet.messaging.testing import \
     PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
 
 import json
@@ -23,13 +23,13 @@ class TestJsonView(unittest.TestCase):
         self.request = self.layer['request']
 
     def test_set_contenttype(self):
-        from plonesocial.messaging.browser.messaging import JsonView
+        from ploneintranet.messaging.browser.messaging import JsonView
         view = JsonView(None, self.request)
         self.assertEqual(
             view.request.response.headers['content-type'], 'application/json')
 
     def test_json_error(self):
-        from plonesocial.messaging.browser.messaging import JsonView
+        from ploneintranet.messaging.browser.messaging import JsonView
         view = JsonView(None, self.request)
         content_string = view.error(500, 'Error Message')
 
@@ -63,12 +63,12 @@ class TestAjaxViews(unittest.TestCase):
         transaction.commit()
 
     def _create_message(self, from_, to, text, created=now):
-        inboxes = self.portal.plonesocial_messaging
+        inboxes = self.portal.ploneintranet_messaging
         inboxes.send_message(from_, to, text, created=created)
         transaction.commit()
 
     def _conversations(self, username):
-        inboxes = self.portal.plonesocial_messaging
+        inboxes = self.portal.ploneintranet_messaging
         return [c for c in inboxes[username].get_conversations()]
 
     def _login(self, username, password):
@@ -100,7 +100,7 @@ class TestAjaxViews(unittest.TestCase):
     def test_delete_message_no_testbrowser(self):
         self._create_message(
             'testuser1', 'testuser2', 'Message Text', created=now)
-        inbox = self.portal.plonesocial_messaging['testuser1']
+        inbox = self.portal.ploneintranet_messaging['testuser1']
         message_id = inbox['testuser2'].keys()[0]
         self.request.form = {
             'user': 'testuser2',
@@ -122,7 +122,7 @@ class TestAjaxViews(unittest.TestCase):
     def test_delete_message(self):
         self._create_message(
             'testuser1', 'testuser2', 'Message Text', created=now)
-        inbox = self.portal.plonesocial_messaging['testuser1']
+        inbox = self.portal.ploneintranet_messaging['testuser1']
         message_id = inbox['testuser2'].keys()[0]
         self._login('testuser1', 'testuser1')
         self.browser.open(self.portal_url +
@@ -195,7 +195,7 @@ class TestYourMessagesView(unittest.TestCase):
         transaction.commit()
 
     def _create_message(self, from_, to, text, created=now):
-        inboxes = self.portal.plonesocial_messaging
+        inboxes = self.portal.ploneintranet_messaging
         inboxes.send_message(from_, to, text, created=created)
         transaction.commit()
 

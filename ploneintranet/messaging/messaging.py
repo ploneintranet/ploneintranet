@@ -4,12 +4,12 @@ from BTrees.OOBTree import OOBTree
 from Persistence import Persistent
 from datetime import datetime
 from plone import api
-from plonesocial.messaging.events import MessageSendEvent
-from plonesocial.messaging.interfaces import IConversation
-from plonesocial.messaging.interfaces import IInbox
-from plonesocial.messaging.interfaces import IInboxes
-from plonesocial.messaging.interfaces import IMessage
-from plonesocial.messaging.interfaces import IMessagingLocator
+from ploneintranet.messaging.events import MessageSendEvent
+from ploneintranet.messaging.interfaces import IConversation
+from ploneintranet.messaging.interfaces import IInbox
+from ploneintranet.messaging.interfaces import IInboxes
+from ploneintranet.messaging.interfaces import IMessage
+from ploneintranet.messaging.interfaces import IMessagingLocator
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
@@ -270,4 +270,4 @@ class MessagingLocator(object):
     """A utility used to locate conversations and messages."""
 
     def get_inboxes(self):
-        return api.portal.get_tool('plonesocial_messaging')
+        return api.portal.get_tool('ploneintranet_messaging')

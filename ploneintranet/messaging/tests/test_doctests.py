@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.testing import layered
-from plonesocial.messaging.testing import \
+from ploneintranet.messaging.testing import \
     PLONESOCIAL_MESSAGING_FUNCTIONAL_TESTING
 
 import doctest

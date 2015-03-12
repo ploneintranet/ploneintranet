@@ -1,7 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="plonesocial.messaging">
+    i18n_domain="ploneintranet.messaging">
 
   <browser:page
       for="*"
@@ -60,22 +60,22 @@
       />
 
   <browser:resource
-      name="plonesocial.messaging.messages.png"
+      name="ploneintranet.messaging.messages.png"
       file="images/messages.png"
       />
 
   <browser:resource
-      name="plonesocial.messaging.messaging.js"
+      name="ploneintranet.messaging.messaging.js"
       file="javascript/messaging.js"
       />
 
   <browser:resource
-      name="plonesocial.messaging.messaging.css"
+      name="ploneintranet.messaging.messaging.css"
       file="stylesheets/messaging.css"
       />
 
   <browser:viewlet
-      name="plonesocial.messaging.notifications"
+      name="ploneintranet.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".viewlets.NotificationsViewlet"
       layer=".interfaces.IPlonesocialMessagingstreamLayer"

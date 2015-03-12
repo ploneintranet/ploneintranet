@@ -3,7 +3,7 @@
 
     <stylesheet
         cacheable="False" compression="none" cookable="True" enabled="True"
-        id="++resource++plonesocial.messaging.messaging.css"
+        id="++resource++ploneintranet.messaging.messaging.css"
         />
 
 </object>

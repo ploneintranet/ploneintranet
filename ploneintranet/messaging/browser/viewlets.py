@@ -2,7 +2,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.layout.viewlets.common import ViewletBase
-from plonesocial.messaging.interfaces import IMessagingLocator
+from ploneintranet.messaging.interfaces import IMessagingLocator
 from zope.component import getUtility
 
 

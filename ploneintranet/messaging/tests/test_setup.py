@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plonesocial.messaging.testing import \
+from ploneintranet.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 
 import unittest
 
-PROJECTNAME = 'plonesocial.messaging'
+PROJECTNAME = 'ploneintranet.messaging'
 
 JS = [
-    ('plone.resources/resource-plonesocial-messaging-messaging-js.js',
-     '++resource++plonesocial.messaging.messaging.js'),
+    ('plone.resources/resource-ploneintranet-messaging-messaging-js.js',
+     '++resource++ploneintranet.messaging.messaging.js'),
 ]
 
 CSS = [
-    ('plone.resources/resource-plonesocial-messaging-messaging-css.css',
-     '++resource++plonesocial.messaging.messaging.css'),
+    ('plone.resources/resource-ploneintranet-messaging-messaging-css.css',
+     '++resource++ploneintranet.messaging.messaging.css'),
 ]
 
 

@@ -5,10 +5,10 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.z3cform.fieldsets import extensible
-from plonesocial.core.browser.utils import link_tags
-from plonesocial.core.browser.utils import link_users
-from plonesocial.messaging.interfaces import IMessage
-from plonesocial.messaging.interfaces import IMessagingLocator
+from ploneintranet.core.browser.utils import link_tags
+from ploneintranet.core.browser.utils import link_users
+from ploneintranet.messaging.interfaces import IMessage
+from ploneintranet.messaging.interfaces import IMessagingLocator
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -18,7 +18,7 @@ from zope.i18nmessageid import MessageFactory
 import datetime
 import json
 
-_ = MessageFactory('plonesocial.microblog')
+_ = MessageFactory('ploneintranet.microblog')
 
 
 class MessageForm(extensible.ExtensibleForm, form.Form):

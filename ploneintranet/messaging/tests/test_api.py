@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from plonesocial.messaging.testing import \
+from ploneintranet.messaging.testing import \
     PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 from zope.interface.verify import verifyClass
 
@@ -15,7 +15,7 @@ class ApiTestCase(unittest.TestCase):
     layer = PLONESOCIAL_MESSAGING_INTEGRATION_TESTING
 
     def setUp(self):
-        from plonesocial.messaging.messaging import Inboxes
+        from ploneintranet.messaging.messaging import Inboxes
         self.inboxes = Inboxes()
 
     def _create_inbox(self, username='testuser'):
@@ -24,7 +24,7 @@ class ApiTestCase(unittest.TestCase):
     def _create_conversation(self, inbox_user='testuser',
                              other_user='otheruser',
                              created=None):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         if created is None:
             created = now()
         inbox = self._create_inbox(username=inbox_user)
@@ -34,12 +34,12 @@ class ApiTestCase(unittest.TestCase):
 class TestInboxes(ApiTestCase):
 
     def test_inboxes_interface(self):
-        from plonesocial.messaging.interfaces import IInboxes
-        from plonesocial.messaging.messaging import Inboxes
+        from ploneintranet.messaging.interfaces import IInboxes
+        from ploneintranet.messaging.messaging import Inboxes
         verifyClass(IInboxes, Inboxes)
 
     def test_inboxes_add_inbox(self):
-        from plonesocial.messaging.messaging import Inbox
+        from ploneintranet.messaging.messaging import Inbox
         self.assertEqual(list(self.inboxes.keys()), [])
         new_inbox = self.inboxes.add_inbox('testuser')
         self.assertEqual(list(self.inboxes.keys()), ['testuser'])
@@ -51,19 +51,19 @@ class TestInboxes(ApiTestCase):
         self.assertIs(inbox.__parent__, self.inboxes)
 
     def test_inboxes_dictapi_add_inbox(self):
-        from plonesocial.messaging.messaging import Inbox
+        from ploneintranet.messaging.messaging import Inbox
         inbox = Inbox('testuser')
         self.inboxes['testuser'] = inbox
         self.assertIs(self.inboxes['testuser'], inbox)
 
     def test_inboxes_dictapi_add_inbox_assigns_parent(self):
-        from plonesocial.messaging.messaging import Inbox
+        from ploneintranet.messaging.messaging import Inbox
         inbox = Inbox('testuser')
         self.inboxes['testuser'] = inbox
         self.assertIs(inbox.__parent__, self.inboxes)
 
     def test_inboxes_dictapi_add_inbox_checks_key(self):
-        from plonesocial.messaging.messaging import Inbox
+        from ploneintranet.messaging.messaging import Inbox
         inbox = Inbox('testuser')
         with self.assertRaises(KeyError):
             self.inboxes['brokenkey'] = inbox
@@ -105,7 +105,7 @@ class TestInboxes(ApiTestCase):
         self.assertIsNot(sender_message, recipient_message)
 
     def test_send_message_fires_event(self):
-        from plonesocial.messaging.events import IMessageSendEvent
+        from ploneintranet.messaging.events import IMessageSendEvent
         from zope.component import getGlobalSiteManager
 
         send_events = []
@@ -125,12 +125,12 @@ class TestInboxes(ApiTestCase):
 class TestInbox(ApiTestCase):
 
     def test_inbox_interface(self):
-        from plonesocial.messaging.interfaces import IInbox
-        from plonesocial.messaging.messaging import Inbox
+        from ploneintranet.messaging.interfaces import IInbox
+        from ploneintranet.messaging.messaging import Inbox
         verifyClass(IInbox, Inbox)
 
     def test_inbox_provides_iinbox(self):
-        from plonesocial.messaging.interfaces import IInbox
+        from ploneintranet.messaging.interfaces import IInbox
         new_inbox = self.inboxes.add_inbox('testuser')
         self.assertTrue(IInbox.providedBy(new_inbox))
 
@@ -139,7 +139,7 @@ class TestInbox(ApiTestCase):
         self.assertEqual(list(inbox.get_conversations()), [])
 
     def test_inbox_get_conversations(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         inbox.add_conversation(Conversation('otheruser', now()))
         inbox.add_conversation(Conversation('thirduser', now()))
@@ -150,35 +150,35 @@ class TestInbox(ApiTestCase):
         self.assertNotEqual(conversations[0], conversations[1])
 
     def test_inbox_add_conversation(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox.add_conversation(conversation)
         self.assertIs(conversation, inbox[conversation.username])
 
     def test_inbox_add_conversation_adds_parent(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox.add_conversation(conversation)
         self.assertIs(conversation.__parent__, inbox)
 
     def test_inbox_dictapi_add_conversation(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox[conversation.username] = conversation
         self.assertIs(conversation, inbox[conversation.username])
 
     def test_inbox_dictapi_add_conversation_adds_parent(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         inbox[conversation.username] = conversation
         self.assertIs(conversation.__parent__, inbox)
 
     def test_inbox_dictapi_add_conversation_checks_key(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         conversation = Conversation('otheruser', now())
         with self.assertRaises(KeyError):
@@ -197,7 +197,7 @@ class TestInbox(ApiTestCase):
             inbox['otheruser'] = conversation
 
     def test_inbox_dictapi_add_conversation_checks_users(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox('testuser')
         conversation = Conversation('testuser', now())
         with self.assertRaises(ValueError) as cm:
@@ -206,7 +206,7 @@ class TestInbox(ApiTestCase):
         self.assertEqual(cm.exception.message, "You can't speak to yourself")
 
     def test_inbox_delete_conversation(self):
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.messaging import Conversation
         inbox = self._create_inbox()
         inbox.add_conversation(Conversation('otheruser', now()))
         conversations = inbox.get_conversations()
@@ -234,8 +234,8 @@ class TestInbox(ApiTestCase):
 class TestConversation(ApiTestCase):
 
     def test_conversation_interface(self):
-        from plonesocial.messaging.interfaces import IConversation
-        from plonesocial.messaging.messaging import Conversation
+        from ploneintranet.messaging.interfaces import IConversation
+        from ploneintranet.messaging.messaging import Conversation
         verifyClass(IConversation, Conversation)
 
     def test_conversation_initially_has_no_message(self):
@@ -247,7 +247,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(conversation.new_messages_count, 0)
 
     def test_conversation_add_message(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
@@ -255,7 +255,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(list(messages), [message])
 
     def test_conversation_add_message_increases_unread_count(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         self.assertEqual(conversation.new_messages_count, 0)
 
@@ -265,7 +265,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(conversation.new_messages_count, 1)
 
     def test_conversation_dictapi_delete_message(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
 
         message = Message('inbox_user', 'other_user', 'test', now())
@@ -276,7 +276,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(list(conversation.get_messages()), [])
 
     def test_conversation_delete_message_decreases_unread_count(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('inbox_user', 'other_user', 'test', now())
         uid = conversation.add_message(message)
@@ -286,7 +286,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(conversation.new_messages_count, 0)
 
     def test_conversation_add_message_increases_inbox_unread_count(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         inbox = conversation.__parent__
         self.assertEqual(inbox.new_messages_count, 0)
@@ -296,7 +296,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(inbox.new_messages_count, 1)
 
     def test_conversation_delete_message_decreases_inbox_unread_count(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         inbox = conversation.__parent__
         message = Message('inbox_user', 'other_user', 'test', now())
@@ -307,7 +307,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(inbox.new_messages_count, 0)
 
     def test_conversation_mark_read(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
@@ -318,7 +318,7 @@ class TestConversation(ApiTestCase):
         self.assertEqual(message.new, False)
 
     def test_conversation_mark_read_updates_inbox_new_messages_count(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         inbox = conversation.__parent__
         message = Message('inbox_user', 'other_user', 'test', now())
@@ -333,12 +333,12 @@ class TestConversation(ApiTestCase):
 class TestMessage(ApiTestCase):
 
     def test_message_interface(self):
-        from plonesocial.messaging.interfaces import IMessage
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.interfaces import IMessage
+        from ploneintranet.messaging.messaging import Message
         verifyClass(IMessage, Message)
 
     def test_message_attributes(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         _now = now()
         message = Message('sender', 'recipient', 'text', _now)
         self.assertEqual(message.sender, 'sender')
@@ -347,7 +347,7 @@ class TestMessage(ApiTestCase):
         self.assertEqual(message.created, _now)
 
     def test_message_asserts_created(self):
-        from plonesocial.messaging.messaging import Message
+        from ploneintranet.messaging.messaging import Message
         not_a_date = 'not a date'
         with self.assertRaises(ValueError):
             Message('sender', 'recipient', 'text', not_a_date)

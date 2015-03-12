@@ -14,15 +14,15 @@ class PlonesocialmessagingLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import plonesocial.messaging
+        import ploneintranet.messaging
         xmlconfig.file(
             'configure.zcml',
-            plonesocial.messaging,
+            ploneintranet.messaging,
             context=configurationContext
         )
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plonesocial.messaging:default')
+        applyProfile(portal, 'ploneintranet.messaging:default')
 
 
 PLONESOCIAL_MESSAGING_FIXTURE = PlonesocialmessagingLayer()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from plonesocial.messaging.interfaces import IMessageSendEvent
+from ploneintranet.messaging.interfaces import IMessageSendEvent
 
 from zope.interface import implementer
 
