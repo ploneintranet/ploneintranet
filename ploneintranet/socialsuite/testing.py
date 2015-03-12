@@ -58,14 +58,14 @@ class PlonesocialSuite(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.socialsuite:demo')
 
 
-PLONESOCIAL_SUITE_FIXTURE = PlonesocialSuite()
+PLONEINTRANET_SOCIALSUITE_FIXTURE = PlonesocialSuite()
 
-PLONESOCIAL_SUITE_INTEGRATION_TESTING = \
-    IntegrationTesting(bases=(PLONESOCIAL_SUITE_FIXTURE, ),
+PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
+    IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
                        name="PlonesocialSuite:Integration")
 
 PLONESOCIAL_ROBOT_TESTING = FunctionalTesting(
-    bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONESOCIAL_SUITE_FIXTURE, z2.ZSERVER),
+    bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
     name="PloneSocial:Robot")
 
 
