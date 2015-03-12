@@ -1,6 +1,7 @@
 *.egg-info
 .installed.cfg
 .mr.developer.cfg
+*.pyc
 bin/
 develop-eggs/
 docs/Makefile
