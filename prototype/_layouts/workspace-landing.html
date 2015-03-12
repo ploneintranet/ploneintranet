@@ -42,7 +42,7 @@ workspace_module: docs
 					</ul>
 					
 					{% if item.action %}
-						<p class="action">
+						<p class="action {% if item.action_icon %} icon icon-{{ item.action_icon }}{% endif %}">
 						    <a class="link" href="" class="action">
 						    	{{ item.action }}
 						    </a>
