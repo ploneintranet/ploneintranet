@@ -7,7 +7,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="PloneSocial Suite"
+      title="PloneIntranet Suite"
       directory="profiles/default"
       description="Installs the suite of all ploneintranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -22,7 +22,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="PloneSocial Suite: Uninstall"
+      title="PloneIntranet Suite: Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls ploneintranet.socialsuite (but not the other ploneintranet.* packages)"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -37,7 +37,7 @@
 
   <genericsetup:registerProfile
       name="demo"
-      title="PloneSocial Suite (Demo)"
+      title="PloneIntranet Suite (Demo)"
       directory="profiles/demo"
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
       provides="Products.GenericSetup.interfaces.EXTENSION"

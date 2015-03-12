@@ -35,12 +35,12 @@ msgid "Microblog"
 msgstr "Microblog"
 
 #: ./configure.zcml:
-msgid "PloneSocial Suite"
-msgstr "PloneSocial - Suite"
+msgid "PloneIntranet Suite"
+msgstr "PloneIntranet - Suite"
 
 #: ./configure.zcml:
-msgid "PloneSocial Suite (Demo)"
-msgstr "PloneSocial - Suite (Demostración)"
+msgid "PloneIntranet Suite (Demo)"
+msgstr "PloneIntranet - Suite (Demostración)"
 
 #: ./browser/navigation.pt:4
 msgid "explore"

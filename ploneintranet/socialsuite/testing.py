@@ -11,7 +11,7 @@ from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from zope.configuration import xmlconfig
 
 
-class PlonesocialSuite(PloneSandboxLayer):
+class PloneIntranetSuite(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
 
@@ -58,15 +58,15 @@ class PlonesocialSuite(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.socialsuite:demo')
 
 
-PLONEINTRANET_SOCIALSUITE_FIXTURE = PlonesocialSuite()
+PLONEINTRANET_SOCIALSUITE_FIXTURE = PloneIntranetSuite()
 
 PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
-                       name="PlonesocialSuite:Integration")
+                       name="PloneIntranetSuite:Integration")
 
-PLONESOCIAL_ROBOT_TESTING = FunctionalTesting(
+PLONEINTRANET_SOCIAL_ROBOT_TESTING = FunctionalTesting(
     bases=(AUTOLOGIN_LIBRARY_FIXTURE, PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
-    name="PloneSocial:Robot")
+    name="PloneIntranet:Robot")
 
 
 from Testing.ZopeTestCase.threadutils import setNumberOfThreads
