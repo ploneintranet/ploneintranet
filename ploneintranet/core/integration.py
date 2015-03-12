@@ -4,15 +4,15 @@ from zope.component import queryUtility
 try:
     from ploneintranet.microblog.interfaces import IMicroblogTool
     from ploneintranet.microblog.utils import get_microblog_context
-    HAVE_PLONESOCIAL_MICROBLOG = True
+    HAVE_PLONEINTRANET_MICROBLOG = True
 except ImportError:
-    HAVE_PLONESOCIAL_MICROBLOG = False
+    HAVE_PLONEINTRANET_MICROBLOG = False
 
 try:
     from ploneintranet.network.interfaces import INetworkTool
-    HAVE_PLONESOCIAL_NETWORK = True
+    HAVE_PLONEINTRANET_NETWORK = True
 except ImportError:
-    HAVE_PLONESOCIAL_NETWORK = False
+    HAVE_PLONEINTRANET_NETWORK = False
 
 
 class PlonesocialIntegration(object):
@@ -21,22 +21,22 @@ class PlonesocialIntegration(object):
 
     @property
     def microblog(self):
-        if HAVE_PLONESOCIAL_MICROBLOG:
+        if HAVE_PLONEINTRANET_MICROBLOG:
             return queryUtility(IMicroblogTool)
         else:
             return None
 
     @property
     def network(self):
-        if HAVE_PLONESOCIAL_NETWORK:
+        if HAVE_PLONEINTRANET_NETWORK:
             return queryUtility(INetworkTool)
         else:
             return None
 
     def context(self, context):
-        if HAVE_PLONESOCIAL_MICROBLOG:
+        if HAVE_PLONEINTRANET_MICROBLOG:
             return get_microblog_context(context)
         else:
             return None
 
-PLONESOCIAL = PlonesocialIntegration()
+PLONEINTRANET = PlonesocialIntegration()

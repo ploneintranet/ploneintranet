@@ -2,7 +2,7 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 
 
 class Tags(BrowserView):
@@ -19,7 +19,7 @@ class Tags(BrowserView):
         tags = set(catalog.uniqueValuesFor('Subject'))
 
         # TODO: Check if the user is actually allowed to view these tags
-        tool = PLONESOCIAL.microblog
+        tool = PLONEINTRANET.microblog
         if tool:
             tags.update(tool._tag_mapping.keys())
 

@@ -5,7 +5,7 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.layout.globals.interfaces import IViewView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONEINTRANET
 from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
@@ -39,7 +39,7 @@ class StreamBase(object):
             return provider()
 
         # valid user context -> filter on following
-        following = list(PLONESOCIAL.network.get_following(viewer_id))
+        following = list(PLONEINTRANET.network.get_following(viewer_id))
         following.append(viewer_id)  # show own updates in stream
         provider.users = following
         return provider()
@@ -88,7 +88,7 @@ class StreamView(StreamBase, BrowserView):
 
     @property
     def title(self):
-        m_context = PLONESOCIAL.context(self.context)
+        m_context = PLONEINTRANET.context(self.context)
         if m_context:
             return m_context.Title() + ' updates'
         elif self.explore:

@@ -24,8 +24,8 @@ class PlonesocialCore(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.core:minimal')
 
-PLONESOCIAL_CORE_FIXTURE = PlonesocialCore()
-PLONESOCIAL_CORE_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONESOCIAL_CORE_FIXTURE, ),
+PLONEINTRANET_CORE_FIXTURE = PlonesocialCore()
+PLONEINTRANET_CORE_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(PLONEINTRANET_CORE_FIXTURE, ),
     name='PlonesocialCore:Integration'
 )
