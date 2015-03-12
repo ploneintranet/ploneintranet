@@ -1,6 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 
-PROJECTNAME = 'plonesocial.activitystream'
+PROJECTNAME = 'ploneintranet.activitystream'
 
 
 def uninstall(portal, reinstall=False):

@@ -5,10 +5,10 @@ from plone.app.layout.globals.interfaces import IViewView
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONESOCIAL
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('plonesocial.activitystream')
+_ = MessageFactory('ploneintranet.activitystream')
 
 
 class StatusConversationView(BrowserView):
@@ -55,5 +55,5 @@ class StatusConversationView(BrowserView):
 
         provider = getMultiAdapter(
             (status, self.request, self),
-            name="plonesocial.activitystream.statusconversation_provider")
+            name="ploneintranet.activitystream.statusconversation_provider")
         return provider()

@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plonesocial.activitystream">
+      i18n:domain="ploneintranet.activitystream">
 
 <body>
 
@@ -12,7 +12,7 @@
     <metal:main-macro define-macro="content">
       <div id="content">
 
-        <div class="plonesocial activitystream">
+        <div class="ploneintranet activitystream">
           <h1 class="documentFirstHeading" i18n:translate=""
               tal:content="view/title">Conversation</h1>
 

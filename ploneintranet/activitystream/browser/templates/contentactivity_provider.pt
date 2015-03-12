@@ -1,4 +1,4 @@
-<div  i18n:domain="plonesocial.activitystream"
+<div  i18n:domain="ploneintranet.activitystream"
       tal:attributes="class string:post ${view/render_type} item">
 
   <div class="post-header">

@@ -14,18 +14,18 @@ from zExceptions import NotFound
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.activitystream.interfaces import IActivity
+from ploneintranet.activitystream.interfaces import IActivity
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStreamProvider
 from .interfaces import IActivityProvider
 
-from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.activitystream.interfaces import IStatusActivityReply
-from plonesocial.activitystream.interfaces import IContentActivity
-from plonesocial.activitystream.interfaces import IDiscussionActivity
+from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet.activitystream.interfaces import IStatusActivityReply
+from ploneintranet.activitystream.interfaces import IContentActivity
+from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
-from plonesocial.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONESOCIAL
 
 import logging
 
@@ -45,7 +45,7 @@ class StreamProvider(object):
 
     This is the core rendering logic that powers
     @@stream and @@activitystream_portal, and also
-    plonesocial.networking @@author
+    ploneintranet.networking @@author
     """
     implements(IStreamProvider)
     adapts(Interface, IPlonesocialActivitystreamLayer, Interface)
@@ -60,7 +60,7 @@ class StreamProvider(object):
         self.portlet_data = None
         # @@stream renders this optionally with a tag filter
         self.tag = None
-        # @@stream and plonesocial.network:@@author
+        # @@stream and ploneintranet.network:@@author
         # render this optionally with a users filter
         self.users = None
         self.microblog_context = PLONESOCIAL.context(context)
@@ -135,7 +135,7 @@ class StreamProvider(object):
 
         # filter on users OR context, not both
         if self.users:
-            # support plonesocial.network integration
+            # support ploneintranet.network integration
             activities = container.user_values(self.users,
                                                limit=self.count,
                                                tag=self.tag)

@@ -1,4 +1,4 @@
-<div  i18n:domain="plonesocial.activitystream"
+<div  i18n:domain="ploneintranet.activitystream"
       tal:define="portal_url context/@@plone_portal_state/portal_url"
       class="comment">
 

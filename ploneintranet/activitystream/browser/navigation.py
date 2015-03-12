@@ -4,12 +4,12 @@ from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 
-from plonesocial.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONESOCIAL
 
 
 class PloneSocialNavigation(BrowserView):
-    """Provide toplevel navigation that spans plonesocial.activitystream
-    and plonesocial.network.
+    """Provide toplevel navigation that spans ploneintranet.activitystream
+    and ploneintranet.network.
     """
     implements(IViewlet)
 

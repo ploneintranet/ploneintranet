@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import IResourceRegistry
-from plonesocial.activitystream.testing import (
+from ploneintranet.activitystream.testing import (
     PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING
 )
 from plone import api
@@ -9,9 +9,9 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 import unittest2 as unittest
 
-PROJECTNAME = 'plonesocial.activitystream'
+PROJECTNAME = 'ploneintranet.activitystream'
 CSS = (
-    '++resource++plonesocial.activitystream.stylesheets/activitystream.css',
+    '++resource++ploneintranet.activitystream.stylesheets/activitystream.css',
 )
 
 
@@ -33,7 +33,7 @@ class InstallTestCase(unittest.TestCase):
     def test_cssregistry(self):
         bundles = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
-        bundle = bundles['resource-plonesocial-activitystream-stylesheets']
+        bundle = bundles['resource-ploneintranet-activitystream-stylesheets']
 
         for id in CSS:
             self.assertIn(id, bundle.css, '{0} not installed'.format(id))
@@ -67,7 +67,7 @@ class UninstallTestCase(unittest.TestCase):
     def test_cssregistry_removed(self):
         bundles = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
-        bundle = bundles['resource-plonesocial-activitystream-stylesheets']
+        bundle = bundles['resource-ploneintranet-activitystream-stylesheets']
         for id in CSS:
             self.assertNotIn(id, bundle.css, '{0} not removed'.format(id))
 

@@ -14,22 +14,22 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IActivityProvider
-from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.activitystream.interfaces import IStatusActivityReply
-from plonesocial.activitystream.interfaces import IContentActivity
-from plonesocial.activitystream.interfaces import IDiscussionActivity
+from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet.activitystream.interfaces import IStatusActivityReply
+from ploneintranet.activitystream.interfaces import IContentActivity
+from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
-from plonesocial.core.integration import PLONESOCIAL
-from plonesocial.core.browser.utils import link_tags
-from plonesocial.core.browser.utils import link_users
+from ploneintranet.core.integration import PLONESOCIAL
+from ploneintranet.core.browser.utils import link_tags
+from ploneintranet.core.browser.utils import link_users
 
 try:
-    from plonesocial.attachments.attachments import IAttachmentStoragable
-    from plonesocial.attachments.utils import IAttachmentStorage
+    from ploneintranet.attachments.attachments import IAttachmentStoragable
+    from ploneintranet.attachments.utils import IAttachmentStorage
 except ImportError:
     IAttachmentStoragable = None
 try:
-    from plonesocial.docconv.client.interfaces import IDocconv
+    from ploneintranet.docconv.client.interfaces import IDocconv
 except ImportError:
     IDocconv = None
 
@@ -228,12 +228,12 @@ class StatusActivityProvider(AbstractActivityProvider):
         #     return
         provider = getMultiAdapter(
             (self.status, self.request, self),
-            name="plonesocial.microblog.statusreply_provider")
+            name="ploneintranet.microblog.statusreply_provider")
         provider.update()
         return provider()
 
     def reply_providers(self):
-        name = "plonesocial.activitystream.statusactivityinlinereply_provider"
+        name = "ploneintranet.activitystream.statusactivityinlinereply_provider"
         for reply in self.context.replies():
             provider = getMultiAdapter(
                 (reply, self.request, self),

@@ -6,10 +6,10 @@ from Products.CMFCore.interfaces import IContentish
 from Acquisition import aq_inner, aq_parent
 
 from plone import api
-from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.activitystream.interfaces import IContentActivity
-from plonesocial.activitystream.interfaces import IDiscussionActivity
-from plonesocial.activitystream.interfaces import IActivity
+from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet.activitystream.interfaces import IContentActivity
+from ploneintranet.activitystream.interfaces import IDiscussionActivity
+from ploneintranet.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):

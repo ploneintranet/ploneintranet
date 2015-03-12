@@ -12,7 +12,7 @@ from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 
 
-_ = MessageFactory('plonesocial.activitystream')
+_ = MessageFactory('ploneintranet.activitystream')
 
 PLONE4 = getFSVersionTuple()[0] <= 4
 
@@ -105,7 +105,7 @@ class Renderer(base.Renderer):
     def stream_provider(self):
         provider = getMultiAdapter(
             (self.context, self.request, self.view),
-            name="plonesocial.core.stream_provider")
+            name="ploneintranet.core.stream_provider")
         provider.portlet_data = self.data
         return provider()
 

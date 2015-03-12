@@ -1,5 +1,5 @@
 <dl class="portlet portletActivitystream"
-    i18n:domain="plonesocial.activitystream"
+    i18n:domain="ploneintranet.activitystream"
     tal:define="renderclass python:view.compact and 'compact' or 'full'"
     tal:attributes="class string:portlet portletActivitystream ${renderclass}">
 

@@ -15,7 +15,7 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonesocial.activitystream\n"
+"Domain: ploneintranet.activitystream\n"
 
 #: ./browser/interfaces.py:64
 msgid "A title for this portlet"
@@ -38,9 +38,9 @@ msgstr ""
 msgid "Hide portlet header and footer"
 msgstr ""
 
-#. Default: "Installs the plonesocial.activitystream package"
+#. Default: "Installs the ploneintranet.activitystream package"
 #: ./configure.zcml
-msgid "Installs the plonesocial.activitystream package"
+msgid "Installs the ploneintranet.activitystream package"
 msgstr ""
 
 #: ./browser/interfaces.py:70

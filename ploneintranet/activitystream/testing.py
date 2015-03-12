@@ -17,13 +17,13 @@ class PlonesocialActivitystream(PloneSandboxLayer):
                        context=configurationContext)
 
         # Load ZCML for this package
-        import plonesocial.activitystream
+        import ploneintranet.activitystream
         xmlconfig.file('configure.zcml',
-                       plonesocial.activitystream,
+                       ploneintranet.activitystream,
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plonesocial.activitystream:default')
+        applyProfile(portal, 'ploneintranet.activitystream:default')
 
 PLONESOCIAL_ACTIVITYSTREAM_FIXTURE = PlonesocialActivitystream()
 PLONESOCIAL_ACTIVITYSTREAM_INTEGRATION_TESTING = \

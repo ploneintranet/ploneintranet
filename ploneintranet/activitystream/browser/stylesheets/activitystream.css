@@ -1,4 +1,4 @@
-#content div.plonesocial dl.portlet {
+#content div.ploneintranet dl.portlet {
     font-size: 100%;
 }
 
@@ -85,16 +85,16 @@ div.activityDate {
     line-height: 1em;
 }
 
-#plonesocialsuite-navigation {
+#ploneintranetsuite-navigation {
     float: right;
     font-size: 80%;
     background: none repeat scroll #ddd;
     margin: 0;
 }
-#plonesocialsuite-navigation li {
+#ploneintranetsuite-navigation li {
     text-align: center;
 }
-#plonesocialsuite-navigation li a {
+#ploneintranetsuite-navigation li a {
     display: inline-block;
     background-color: #ddd;
     border-left: solid white 0.1em;
@@ -102,14 +102,14 @@ div.activityDate {
     padding: 0.5em 1em;
     white-space: normal;
 }
-#plonesocialsuite-navigation li a:hover {
+#ploneintranetsuite-navigation li a:hover {
     color: white;
     background-color: #205c90;
 }
 
-.plonesocial-navigation {
+.ploneintranet-navigation {
   display:inline;
 }
-.plonesocial-navigation li {
+.ploneintranet-navigation li {
   display:inline  !important; //need this to overrides plone sunburst
 }

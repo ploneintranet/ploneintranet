@@ -12,14 +12,14 @@ from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plonesocial.activitystream.interfaces import IStatusActivity
-from plonesocial.microblog.interfaces import IStatusUpdate
+from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet.microblog.interfaces import IStatusUpdate
 
 from .interfaces import IPlonesocialActivitystreamLayer
 from .interfaces import IStatusConversationProvider
 from .interfaces import IActivityProvider
 
-from plonesocial.core.integration import PLONESOCIAL
+from ploneintranet.core.integration import PLONESOCIAL
 
 import logging
 

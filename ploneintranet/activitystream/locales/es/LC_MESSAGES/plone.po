@@ -2,7 +2,7 @@
 # Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: plonesocial.activitystream\n"
+"Project-Id-Version: ploneintranet.activitystream\n"
 "POT-Creation-Date: 2014-02-02 10:46+0000\n"
 "PO-Revision-Date: 2012-11-20 17:31-0430\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"

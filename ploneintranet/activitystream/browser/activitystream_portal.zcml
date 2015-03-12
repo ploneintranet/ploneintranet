@@ -4,7 +4,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="plonesocial.activitystream">
+    i18n_domain="ploneintranet.activitystream">
 
   <include package="plone.app.contentmenu" />
 
@@ -18,12 +18,12 @@
 
        +~~ @@activitystream_portal browser view ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+
        |                                                                        |
-       |   +~~ plonesocial.activitystream.viewletmanager ~~~~~~~~~~~~~~~~~~~+   |
+       |   +~~ ploneintranet.activitystream.viewletmanager ~~~~~~~~~~~~~~~~~~~+   |
        |   |                                                                |   |
        |   |  +~~ portletmanager viewlet = ...portlets ~~~~~~~~~~~~~~~~~~+  |   |
        |   |  |                                                          |  |   |
        |   |  |                                                          |  |   |
-       |   |  |   +~~ (microblog portlet from plonesocial.microblog) +   |  |   |
+       |   |  |   +~~ (microblog portlet from ploneintranet.microblog) +   |  |   |
        |   |  |   |                                                  |   |  |   |
        |   |  |   +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+   |  |   |
        |   |  |                                                          |  |   |
@@ -70,16 +70,16 @@
 
   <!-- register portal view for IMicroblogContext as well -->
   <browser:page
-      zcml:condition="installed plonesocial.microblog"
+      zcml:condition="installed ploneintranet.microblog"
       name="activitystream_portal"
-      for="plonesocial.microblog.interfaces.IMicroblogContext"
+      for="ploneintranet.microblog.interfaces.IMicroblogContext"
       class=".activitystream_portal.PortalView"
       permission="zope2.View"
       layer=".interfaces.IPlonesocialActivitystreamLayer"
       />
   <browser:menuItem
-      zcml:condition="installed plonesocial.microblog"
-      for="plonesocial.microblog.interfaces.IMicroblogContext"
+      zcml:condition="installed ploneintranet.microblog"
+      for="ploneintranet.microblog.interfaces.IMicroblogContext"
       menu="plone_displayviews"
       action="@@activitystream_portal"
       title="Activity Portal"
@@ -91,7 +91,7 @@
 
   <!-- custom viewletmanager, only used in activitystream_portal view -->
   <browser:viewletManager
-      name="plonesocial.activitystream.viewletmanager"
+      name="ploneintranet.activitystream.viewletmanager"
       provides=".interfaces.IPlonesocialActivitystreamViewlets"
       class="plone.app.viewletmanager.manager.OrderedViewletManager"
       permission="zope2.View"
@@ -104,7 +104,7 @@
        e.g. plone.app.layout.viewlets.interfaces.IAboveContentTitle
   -->
   <browser:viewlet
-      name="plonesocial.activitystream.portletmanager"
+      name="ploneintranet.activitystream.portletmanager"
       manager=".interfaces.IPlonesocialActivitystreamViewlets"
       class=".activitystream_portal.PortletManagerViewlet"
       permission="zope2.View"
@@ -121,10 +121,10 @@
       />
   
   <!-- activitystream portlet
-       (the microblog portlet is implemented elsewhere in plonesocial.microblog)
+       (the microblog portlet is implemented elsewhere in ploneintranet.microblog)
   -->
    <plone:portlet
-        name="plonesocial.activitystream.portlet"
+        name="ploneintranet.activitystream.portlet"
         interface=".activitystream_portal.IActivitystreamPortlet"
         assignment=".activitystream_portal.Assignment"
         renderer=".activitystream_portal.Renderer"

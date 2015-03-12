@@ -15,7 +15,7 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonesocial.activitystream\n"
+"Domain: ploneintranet.activitystream\n"
 
 
 #. Default: "Activity Portal"
@@ -33,9 +33,9 @@ msgstr ""
 msgid "PloneSocial Activitystream"
 msgstr ""
 
-#. Default: "Installs the plonesocial.activitystream package"
+#. Default: "Installs the ploneintranet.activitystream package"
 #: ./configure.zcml
-msgid "Installs the plonesocial.activitystream package"
+msgid "Installs the ploneintranet.activitystream package"
 msgstr ""
 
 #. Default: "My profile"

@@ -4,7 +4,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="plonesocial.activitystream">
+    i18n_domain="ploneintranet.activitystream">
 
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
@@ -12,9 +12,9 @@
   <include package=".browser" />
   <!-- portlet is included in browser -->
 
-  <adapter zcml:condition="installed plonesocial.microblog"
+  <adapter zcml:condition="installed ploneintranet.microblog"
 	   factory=".adapters.StatusActivity"
-	   for="plonesocial.microblog.interfaces.IStatusUpdate"
+	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
 	   />
   <adapter factory=".adapters.ContentActivity"
 	   />
@@ -23,14 +23,14 @@
 
   <adapter factory=".adapters.brainActivityFactory"
     for="Products.ZCatalog.interfaces.ICatalogBrain"
-    provides="plonesocial.activitystream.interfaces.IActivity"
+    provides="ploneintranet.activitystream.interfaces.IActivity"
        />
 
   <genericsetup:registerProfile
       name="default"
       title="PloneSocial Activitystream"
       directory="profiles/default"
-      description="Installs the plonesocial.activitystream package"
+      description="Installs the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />
@@ -39,7 +39,7 @@
       name="uninstall"
       title="PloneSocial Activitystream: Uninstall"
       directory="profiles/uninstall"
-      description="Uninstalls the plonesocial.activitystream package"
+      description="Uninstalls the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />

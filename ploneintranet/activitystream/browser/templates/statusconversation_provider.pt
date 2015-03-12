@@ -1,4 +1,4 @@
-<tal:block i18n:domain="plonesocial.activitystream">
+<tal:block i18n:domain="ploneintranet.activitystream">
     <div class="conversation">
       <tal:loop tal:repeat="activity_provider view/activity_providers">
         <div tal:attributes="class python: 'highlight-' + str(activity_provider.highlight())">

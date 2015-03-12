@@ -9,10 +9,10 @@ from plone.app.portlets.interfaces import IColumn
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.CMFPlone import PloneMessageFactory as PMF
 
-from plonesocial.activitystream.interfaces import IActivity
+from ploneintranet.activitystream.interfaces import IActivity
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('plonesocial.activitystream')
+_ = MessageFactory('ploneintranet.activitystream')
 
 
 class IPlonesocialActivitystreamLayer(Interface):

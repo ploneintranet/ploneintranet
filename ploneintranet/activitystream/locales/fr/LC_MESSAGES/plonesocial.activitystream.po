@@ -35,10 +35,10 @@ msgstr ""
 msgid "Hide portlet header and footer"
 msgstr "Masque l'entête et le pied de la portlet"
 
-#. Default: "Installs the plonesocial.activitystream package"
+#. Default: "Installs the ploneintranet.activitystream package"
 #: ./configure.zcml
-msgid "Installs the plonesocial.activitystream package"
-msgstr "Installe le package plonesocial.activitystream"
+msgid "Installs the ploneintranet.activitystream package"
+msgstr "Installe le package ploneintranet.activitystream"
 
 #: ./browser/interfaces.py:70
 msgid "Maximum number of updates to show"

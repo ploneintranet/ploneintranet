@@ -1,4 +1,4 @@
-# Spanish l10n plonesocial.activitystream domain.
+# Spanish l10n ploneintranet.activitystream domain.
 # Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
 msgid ""
 msgstr ""
@@ -14,7 +14,7 @@ msgstr ""
 "Language-Code: es\n"
 "Language-Name: Español\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: plonesocial.activitystream\n"
+"Domain: ploneintranet.activitystream\n"
 "Language: es\n"
 "X-Generator: Virtaal 0.7.1\n"
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
@@ -40,10 +40,10 @@ msgstr ""
 msgid "Hide portlet header and footer"
 msgstr "Ocultar encabezado y pie de pagina del portlet"
 
-#. Default: "Installs the plonesocial.activitystream package"
+#. Default: "Installs the ploneintranet.activitystream package"
 #: ./configure.zcml
-msgid "Installs the plonesocial.activitystream package"
-msgstr "Instala el paquete plonesocial.activitystream"
+msgid "Installs the ploneintranet.activitystream package"
+msgstr "Instala el paquete ploneintranet.activitystream"
 
 #: ./browser/interfaces.py:70
 msgid "Maximum number of updates to show"

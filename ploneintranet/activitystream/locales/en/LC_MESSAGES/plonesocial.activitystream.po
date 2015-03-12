@@ -35,9 +35,9 @@ msgstr ""
 msgid "Hide portlet header and footer"
 msgstr ""
 
-#. Default: "Installs the plonesocial.activitystream package"
+#. Default: "Installs the ploneintranet.activitystream package"
 #: ./configure.zcml
-msgid "Installs the plonesocial.activitystream package"
+msgid "Installs the ploneintranet.activitystream package"
 msgstr ""
 
 #: ./browser/interfaces.py:70
