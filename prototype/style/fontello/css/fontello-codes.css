@@ -117,6 +117,8 @@
 .icon-fork:before { content: '\e84e'; } /* '' */
 .icon-magic:before { content: '\e84f'; } /* '' */
 .icon-book:before { content: '\e850'; } /* '' */
+.icon-bookmark:before { content: '\e851'; } /* '' */
+.icon-stage:before { content: '\e852'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */

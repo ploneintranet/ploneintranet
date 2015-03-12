@@ -13,7 +13,8 @@ form {
       > .attachments,
       > .assignee,
       > .initiator,
-      > .description {
+      > .description,
+      > .stage {
         padding-left: 4.5rem;
         position: relative;
 
@@ -32,8 +33,14 @@ form {
         }
       }
 
+      
+
       .location:before {
         content: "\e82d";
+      }
+
+      .stage:before {
+        content: "\e852";
       }
 
       .organiser:before {

@@ -91,6 +91,20 @@
       ]
     },
     {
+      "uid": "449bd13a6661e06df81b592a6f7c36ee",
+      "css": "stage",
+      "code": 59474,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M1000 390.6H770.7C727.9 282 621.9 205.1 498 205.1S268.2 282 225.4 390.6H0V609.4H227C270.7 716 375.6 791 498 791S725.2 716 769.1 609.4H1000V390.6Z",
+        "width": 1000
+      },
+      "search": [
+        "stage"
+      ]
+    },
+    {
       "uid": "5d2d07f112b8de19f2c0dbfec3e42c05",
       "css": "spin",
       "code": 59448,
@@ -238,6 +252,12 @@
       "uid": "a3f89e106175a5c5c4e9738870b12e55",
       "css": "tags",
       "code": 59149,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f04a5d24e9e659145b966739c4fde82a",
+      "css": "bookmark",
+      "code": 59473,
       "src": "fontawesome"
     },
     {

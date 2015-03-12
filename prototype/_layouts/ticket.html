@@ -48,7 +48,7 @@ workspace_module: tickets
             </article>
             <fieldset class="vertical fancy">
                 <label class="description">
-                    Description <textarea placeholder="Enter a description of the task">{{ page.description }}</textarea>
+                    Description <textarea placeholder="Enter a description of the task" rows="6">{{ page.description }}</textarea>
                 </label>
                 <br>
                 <label class="initiator">
@@ -61,6 +61,20 @@ workspace_module: tickets
                 <br>
                 <label class="date-time">
                     Due date <input type="date" />
+                </label>
+                <br>
+                <label class="stage">
+                    Stage this task belongs to 
+                    <select name="" id="">
+                        <option value="">Neu</option>
+                        <option value="">In Bearbeitung</option>
+                        <option value="">Fertig stellen</option>
+                        <option value="">Vollständig</option>
+                        <option value="">Antrag</option>
+                        <option value="">Beschlossen</option>
+                        <option value="">Abgeschlossen</option>
+                        <option value="">Archiviert</option>
+                    </select>
                 </label>
                 <br>
                 <label class="attachments">Attached documents from this workspace 
