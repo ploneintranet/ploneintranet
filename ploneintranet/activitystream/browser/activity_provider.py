@@ -24,12 +24,12 @@ from plonesocial.core.browser.utils import link_tags
 from plonesocial.core.browser.utils import link_users
 
 try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import IAttachmentStorage
+    from plonesocial.attachments.attachments import IAttachmentStoragable
+    from plonesocial.attachments.utils import IAttachmentStorage
 except ImportError:
     IAttachmentStoragable = None
 try:
-    from ploneintranet.docconv.client.interfaces import IDocconv
+    from plonesocial.docconv.client.interfaces import IDocconv
 except ImportError:
     IDocconv = None
 
