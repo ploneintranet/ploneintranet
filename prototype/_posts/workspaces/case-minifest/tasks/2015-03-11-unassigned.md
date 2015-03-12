@@ -14,7 +14,7 @@ document_creator_id: gyst
 
 application: workspace
 application_name: Workspace
-workspace_name: My case
+workspace_name: Minifest
 ---
 
 Case task - unassigned
