@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<tool-setup>
- <required tool_id="plonesocial_microblog"
-           class="plonesocial.microblog.tool.MicroblogTool"/>
-</tool-setup>

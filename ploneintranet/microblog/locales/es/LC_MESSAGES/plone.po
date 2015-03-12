@@ -1,0 +1,29 @@
+# Spanish l10n plone domain.
+# Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ploneintranet.microblog\n"
+"POT-Creation-Date: 2014-02-02 10:53+0000\n"
+"PO-Revision-Date: 2012-11-20 16:40-0430\n"
+"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"Language-Team: Leonardo J. Caballero G.\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Code: es\n"
+"Language-Name: Español\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+"Language: es\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
+
+#: profiles/default/portlets.xml
+msgid "A portlet which shows the space for write a simple tweet."
+msgstr "Un portlet el cual muestra el espacio para escribir un simple tweet."
+
+#: profiles/default/portlets.xml
+msgid "Microblog"
+msgstr "Microblog"
+

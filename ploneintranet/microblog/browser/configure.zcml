@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ploneintranet.microblog">
+
+  <include package=".prototype" />
+  <include package=".tiles" />
+
+  <adapter
+      name="ploneintranet.microblog.status_provider"
+      factory=".status.StatusProvider"
+      />
+
+  <adapter
+      name="ploneintranet.microblog.statusreply_provider"
+      factory=".status.StatusReplyProvider"
+      />
+
+  <configure zcml:condition="installed ploneintranet.attachments">
+      <browser:page
+          name="status-attachments"
+          for="Products.CMFCore.interfaces.ISiteRoot"
+          class=".attachments.StatusAttachments"
+          layer=".interfaces.IPlonesocialMicroblogLayer"
+          permission="zope2.View"
+          />
+  </configure>
+
+</configure>
