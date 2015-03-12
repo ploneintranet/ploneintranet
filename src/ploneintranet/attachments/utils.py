@@ -2,6 +2,10 @@ import logging
 from Acquisition import aq_base
 from datetime import datetime, timedelta
 from plone.app.contenttypes.content import File
+from plone.dexterity.interfaces import IDexterityFTI
+from zope.component import createObject
+from zope.component import queryUtility
+from plone.namedfile import NamedBlobFile
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.container.interfaces import DuplicateIDError
 
@@ -28,23 +32,36 @@ def extract_attachments(file_upload, workspace=None, token=None):
 
 
 def pop_temporary_attachment(workspace, file_field, token):
+    """
+    Replace a temporary attachment on the workspace with
+    the uploaded data
+    """
     temp_attachments = IAttachmentStorage(workspace)
     temp_id = '{0}-{1}'.format(token, file_field.filename)
     if temp_id in temp_attachments.keys():
         temp_att = aq_base(temp_attachments.get(temp_id))
         temp_att.id = file_field.filename
-        temp_att.update_data(file_field.read())
+        temp_att.file = NamedBlobFile(
+            data=file_field.read(),
+            filename=file_field.filename.decode('utf-8'),
+        )
         temp_attachments.remove(temp_id)
         return temp_att
     return None
 
 
 def create_attachment(filename, data):
+    """ Set up a contextless dexterity file to hold the attachment data """
     if not isinstance(filename, unicode):
         filename = filename.decode('utf-8')
-    thefile = File()
-    thefile.file = data
-    thefile.id = filename
+    namedfile = NamedBlobFile(
+        data=data,
+        filename=filename,
+    )
+    fti = queryUtility(IDexterityFTI, name='File')
+    thefile = createObject(fti.factory,
+                           id=filename,
+                           file=namedfile)
     return thefile
 
 
