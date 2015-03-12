@@ -160,7 +160,7 @@
                         display: block;
                         width: 2em;
                         height: 2em;
-                        line-height: 1.9em;
+                        line-height: 2em;
                         position: absolute;
                         top: -0.5em;
                         left: -0.5em;
@@ -217,6 +217,35 @@
 
             .text {
                   font-size: small;
+            }
+        }
+
+        &.state-finished {
+            .action {
+                background-color: #23C27E;
+
+                &:after {
+                    background-color: #23C27E;
+                }
+            }
+
+            .step-label {
+                background-color: #23C27E;
+
+                &.icon {
+                    // font-weight: bold;
+
+                    &:before {
+                        border-color: #23C27E;
+                        color: #23C27E;
+                    }
+                }
+            }
+
+            .step-background {
+                &:after {
+                    background-color: #23C27E;
+                }
             }
         }
     }
