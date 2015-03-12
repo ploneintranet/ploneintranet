@@ -14,7 +14,7 @@ document_creator_id: gyst
 description: Zugeteilten Betrag auf festgelegtem Konto einbuchen.
 application: workspace
 application_name: Workspace
-workspace_name: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"
+workspace_name: Minifest
 ---
 
 
