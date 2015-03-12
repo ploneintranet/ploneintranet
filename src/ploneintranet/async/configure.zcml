@@ -11,7 +11,7 @@
 
   <includeDependencies package="." />
 
-  <include package=".demo" />
+  <!--<include package=".demo" /> -->
 
   <genericsetup:registerProfile
      name="default"
