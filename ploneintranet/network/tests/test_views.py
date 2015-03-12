@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ploneintranet.network.browser.author import AuthorView
-from ploneintranet.network.browser.interfaces import IPlonesocialNetworkLayer
+from ploneintranet.network.browser.interfaces import IPloneIntranetNetworkLayer
 from ploneintranet.network.testing import IntegrationTestCase
 from zope.interface import directlyProvides
 
@@ -10,7 +10,7 @@ class TestViews(IntegrationTestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-        directlyProvides(self.request, IPlonesocialNetworkLayer)
+        directlyProvides(self.request, IPloneIntranetNetworkLayer)
 
     def test_author(self):
         ''' We have to be sure that we get our custom author zope view and

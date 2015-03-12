@@ -21,7 +21,7 @@ class TestInstall(IntegrationTestCase):
 
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertIn('IPlonesocialNetworkLayer', layers)
+        self.assertIn('IPloneIntranetNetworkLayer', layers)
 
     def test_cssregistry(self):
         resource_ids = api.portal.get_registry_record(REGISTRY_ID)
@@ -41,7 +41,7 @@ class TestUninstall(IntegrationTestCase):
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
-        self.assertNotIn('IPlonesocialNetworkLayer', layers)
+        self.assertNotIn('IPloneIntranetNetworkLayer', layers)
 
     def test_cssregistry_removed(self):
         self.assertRaises(

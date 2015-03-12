@@ -49,8 +49,8 @@ msgid "Nothing here"
 msgstr ""
 
 #: ./configure.zcml
-msgid "PloneSocial Network"
-msgstr "PloneSocial Network"
+msgid "PloneIntranet Network"
+msgstr "PloneIntranet Network"
 
 #: ./ploneintranet/network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"

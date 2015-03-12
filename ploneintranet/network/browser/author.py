@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .interfaces import IAuthorProvider
-from .interfaces import IPlonesocialNetworkLayer
+from .interfaces import IPloneIntranetNetworkLayer
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -125,7 +125,7 @@ class AbstractAuthorProvider(AbstractAuthor):
 class MaxiAuthorProvider(AbstractAuthorProvider):
 
     implements(IAuthorProvider)
-    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+    adapts(Interface, IPloneIntranetNetworkLayer, Interface)
 
     index = ViewPageTemplateFile('templates/maxiauthor_provider.pt')
 
@@ -133,7 +133,7 @@ class MaxiAuthorProvider(AbstractAuthorProvider):
 class MiniAuthorProvider(AbstractAuthorProvider):
 
     implements(IAuthorProvider)
-    adapts(Interface, IPlonesocialNetworkLayer, Interface)
+    adapts(Interface, IPloneIntranetNetworkLayer, Interface)
 
     index = ViewPageTemplateFile('templates/miniauthor_provider.pt')
 

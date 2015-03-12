@@ -11,7 +11,7 @@ from plone.app.testing import applyProfile
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.testing import z2
-from ploneintranet.network.browser.interfaces import IPlonesocialNetworkLayer
+from ploneintranet.network.browser.interfaces import IPloneIntranetNetworkLayer
 from zope.interface import alsoProvides
 
 import unittest2 as unittest
@@ -23,7 +23,7 @@ def set_browserlayer(request):
     We have to set the browserlayer manually, since importing the profile alone
     doesn't do it in tests.
     """
-    alsoProvides(request, IPlonesocialNetworkLayer)
+    alsoProvides(request, IPloneIntranetNetworkLayer)
 
 
 class PloneintranetTodoLayer(PloneSandboxLayer):

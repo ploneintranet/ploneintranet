@@ -51,7 +51,7 @@ msgid "Nothing here"
 msgstr ""
 
 #: configure.zcml
-msgid "PloneSocial Network"
+msgid "PloneIntranet Network"
 msgstr ""
 
 #: ./browser/templates/author.pt:29

@@ -12,7 +12,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".author.AuthorView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialNetworkLayer"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
   <adapter
@@ -30,7 +30,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".graph.FollowingView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialNetworkLayer"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
   <browser:page
@@ -38,7 +38,7 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".graph.FollowersView"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialNetworkLayer"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
   <browser:page
@@ -46,13 +46,13 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".likes.ToggleLike"
       permission="zope2.View"
-      layer=".interfaces.IPlonesocialNetworkLayer"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
   <browser:resourceDirectory
       name="ploneintranet.network.stylesheets"
       directory="stylesheets"
-      layer=".interfaces.IPlonesocialNetworkLayer"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
 </configure>
