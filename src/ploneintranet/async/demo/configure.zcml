@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.async">
+
+  <browser:page
+      name="create_test_content"
+      for="*"
+      permission="zope.Public"
+      class=".views.CreateContentView"
+      />
+
+  <browser:page
+      name="task_result"
+      for="*"
+      permission="zope.Public"
+      class=".views.TaskResultPoll"
+      />
+
+</configure>
