@@ -13,12 +13,12 @@ Test Teardown  Close all browsers
 *** Test Cases ***
 
 Anonymous get redirected to login page
-    Comment  Disabled because the manager user remains logged in from previous tests and visiting logout or plone-root-logout do not help
-#     Given I open the Dashboard
-#      then I am on the login page
-#      Do login as  allan_neece
-#      Wait Until Element Is visible  css=#portlet-news  timeout=5
-#      I see the Dashboard
+    Disable autologin
+    Given I open the Dashboard
+     then I am on the login page
+     Do login as  allan_neece
+     Wait Until Element Is visible  css=#portlet-news  timeout=5
+     I see the Dashboard
 
 *** Keywords ***
 
