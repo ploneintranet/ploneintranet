@@ -135,8 +135,8 @@ def demo(context):
             text += " #%s" % random.choice(tags)
         if userid in workspace_users:
             # workspace
-            text += ' #girlspace'
-            status = StatusUpdate(text, context=portal.workspace)
+            status = StatusUpdate(text, context=portal.workspace,
+                                  tags=['girlspace'])
         else:
             # global
             status = StatusUpdate(text)
@@ -155,7 +155,7 @@ def demo(context):
           'Local activitystreams show only local status updates. '
           'Microblog updates will show globally only for users who '
           'have the right permissions. This demo has a #girlspace workspace.')
-    s0 = StatusUpdate(t0, context=portal.workspace)
+    s0 = StatusUpdate(t0, context=portal.workspace, tags=['girlspace'])
     s0.userid = workspace_users[0]  # clare
     s0.creator = " ".join([x.capitalize() for x in s0.userid.split("_")])
     microblog.add(s0)
@@ -172,7 +172,7 @@ def demo(context):
     s2.creator = " ".join([x.capitalize() for x in s2.userid.split("_")])
     microblog.add(s2)
     t3 = 'The #demo hashtag demonstrates that you can filter on topic'
-    s3 = StatusUpdate(t3)
+    s3 = StatusUpdate(t3, tags=['demo'])
     s3.userid = s2.userid  # kurt
     s3.creator = s2.creator
     microblog.add(s3)
