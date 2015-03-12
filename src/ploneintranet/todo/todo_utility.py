@@ -179,15 +179,16 @@ class TodoUtility(object):
         storage = self._get_storage()
 
         for userid in userids:
-            users_actions = storage[userid]
-            action, users_actions = self._get_action_for_user(
-                content_uid,
-                verb,
-                users_actions
-            )
-            action.mark_complete()
-            users_actions.append(action)
-            storage[userid] = users_actions
+            if userid in storage:
+                users_actions = storage[userid]
+                action, users_actions = self._get_action_for_user(
+                    content_uid,
+                    verb,
+                    users_actions
+                )
+                action.mark_complete()
+                users_actions.append(action)
+                storage[userid] = users_actions
 
     def remove_action(self, content_uid, verb, userids=None):
         """
