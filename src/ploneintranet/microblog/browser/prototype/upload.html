@@ -13,6 +13,8 @@
           form_id form_id|request/form_id|string:post-box;
           thread_id thread_id|nothing;
           is_posting is_posting|nothing;
+          tags request/tags|nothing;
+          users request/users|nothing;
         ">
       <form id="post-box" method="post"
             class="pat-inject update-social status-inactive"
@@ -48,7 +50,7 @@
 
 
         <fieldset>
-          <p class="content-mirror" tal:define="tags request/tags|nothing; users request/users|nothing"
+          <p class="content-mirror"
             ><span class="text"
               ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
@@ -58,7 +60,9 @@
                 ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
-                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block></tal:tags
+                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><span
+                id="selected-tags-data"><input
+                name="tags:list" tal:attributes="value tag" /></span></tal:block></tal:tags
             ></em>
           </p>
 
