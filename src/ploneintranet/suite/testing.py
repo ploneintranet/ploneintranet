@@ -5,6 +5,12 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.testing import z2
 
+import ploneintranet
+import collective.workspace
+import collective.z3cform.chosen
+import slc.docconv
+import collective.documentviewer
+
 
 class PloneIntranetSuite(PloneSandboxLayer):
 
@@ -12,38 +18,18 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import ploneintranet.suite
-        self.loadZCML(package=ploneintranet.suite)
+        self.loadZCML(package=ploneintranet)
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
-        # dependencies
-        import ploneintranet.workspace
-        self.loadZCML(package=ploneintranet.workspace)
-
-        import collective.workspace
         self.loadZCML(package=collective.workspace)
         z2.installProduct(app, 'collective.workspace')
 
-        import ploneintranet.simplesharing
-        self.loadZCML(package=ploneintranet.simplesharing)
-        import collective.z3cform.chosen
         self.loadZCML(package=collective.z3cform.chosen)
 
-        import ploneintranet.documentviewer
-        self.loadZCML(package=ploneintranet.documentviewer)
-        import collective.documentviewer
-        self.loadZCML(package=collective.documentviewer)
-        import slc.docconv
         self.loadZCML(package=slc.docconv)
-        import ploneintranet.docconv.client
-        self.loadZCML(package=ploneintranet.docconv.client)
-        import ploneintranet.attachments
-        self.loadZCML(package=ploneintranet.attachments)
-        import ploneintranet.invitations
-        self.loadZCML(package=ploneintranet.invitations)
-        import ploneintranet.theme
-        self.loadZCML(package=ploneintranet.theme)
+
+        self.loadZCML(package=collective.documentviewer)
 
         # plone social dependencies
         import plonesocial.microblog
@@ -60,8 +46,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
-        self.applyProfile(portal, 'ploneintranet.workspace:default')
-        self.applyProfile(portal, 'ploneintranet.theme:default')
 
     def tearDownZope(self, app):
         # Uninstall product
