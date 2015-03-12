@@ -1,5 +1,4 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-    <include package=".async"/>
     <include package=".attachments"/>
     <include package=".docconv.client"/>
     <include package=".documentviewer"/>
