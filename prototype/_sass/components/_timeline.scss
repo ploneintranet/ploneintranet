@@ -220,7 +220,7 @@
                     transform-origin: 0 center;
                     background-color: white;
                     z-index: 1;
-                    width: 15.5em;
+                    max-width: 15.5em;
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
