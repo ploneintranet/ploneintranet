@@ -10,8 +10,17 @@
   <!-- Include configuration for dependencies listed in setup.py -->
   <includeDependencies package="." />
 
-  <!-- XXX: For some reason autoinclude doesn't load this, so doing it manually -->
+  <include package="ploneintranet.attachments"/>
   <include package="ploneintranet.docconv.client"/>
+  <include package="ploneintranet.documentviewer"/>
+  <include package="ploneintranet.invitations"/>
+  <include package="ploneintranet.notifications"/>
+  <include package="ploneintranet.pagerank"/>
+  <include package="ploneintranet.readstatus"/>
+  <include package="ploneintranet.simplesharing"/>
+  <include package="ploneintranet.theme"/>
+  <include package="ploneintranet.todo"/>
+  <include package="ploneintranet.workspace"/>
 
   <genericsetup:registerProfile
       name="default"
