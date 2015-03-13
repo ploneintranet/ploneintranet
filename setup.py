@@ -66,6 +66,7 @@ setup(name='ploneintranet',
               'plone.app.testing',
               'plone.app.robotframework[debug]',
               'fake-factory',
+              'plonesocial.suite',
           ],
           'todo': [
               'rwproperty',
