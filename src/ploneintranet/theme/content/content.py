@@ -19,8 +19,8 @@ class ContentView(BrowserView):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
-        # TODO: check for edit-permissions
-        if title or description or tags:
+        self.can_edit = api.user.has_permission('Edit', obj=context)
+        if self.can_edit and title or description or tags:
             modified = False
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
