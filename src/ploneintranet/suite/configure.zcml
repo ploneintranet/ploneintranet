@@ -15,7 +15,6 @@
   <include package="ploneintranet.invitations"/>
   <include package="ploneintranet.notifications"/>
   <include package="ploneintranet.pagerank"/>
-  <include package="ploneintranet.readstatus"/>
   <include package="ploneintranet.simplesharing"/>
   <include package="ploneintranet.theme"/>
   <include package="ploneintranet.todo"/>
