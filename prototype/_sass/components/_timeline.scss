@@ -63,6 +63,12 @@
                 -webkit-transform-origin: 0 center;
                 transform: rotate(-45deg);
                 transform-origin: 0 center;
+                color: black;
+                cursor: default;
+
+                &:hover {
+                    text-decoration: none;
+                }
             }
 
             &.icon {

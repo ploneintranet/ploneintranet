@@ -483,6 +483,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "aa0d9175a3919a260a4012d560e9f01e",
+      "css": "right-hand",
+      "code": 59442,
+      "src": "fontawesome"
+    },
+    {
       "uid": "d407a4707f719b042ed2ad28d2619d7e",
       "css": "signal",
       "code": 59463,
@@ -582,6 +588,12 @@
       "uid": "ff70f7b3228702e0d590e60ed3b90bea",
       "css": "magic",
       "code": 59471,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "dec0ce0476433f7e49e096526cf89465",
+      "css": "hammer",
+      "code": 59476,
       "src": "fontawesome"
     },
     {
