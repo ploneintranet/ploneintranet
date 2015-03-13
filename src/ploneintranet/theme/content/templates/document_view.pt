@@ -52,7 +52,7 @@
                                     </select>
                                 </label>
                             </fieldset>
-                            <button type="submit" class="icon-floppy">Save</button>
+                            <button type="submit" tal:attributes="disabled python:can_edit" class="icon-floppy">Save</button>
 
                         </div>
                     </div>
@@ -95,7 +95,7 @@
 
                     <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                         <figure>
-                        <img tal:replace="structure view/image_preview_tag" />
+                        <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
                         </figure>
                     </article>
 
