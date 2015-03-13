@@ -2,6 +2,7 @@
 *.mo
 *.pyc
 .cache/
+.dbus/
 .installed.cfg
 .mozilla/
 .mr.developer.cfg
