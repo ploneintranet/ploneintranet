@@ -94,7 +94,7 @@
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      class=".roster.EditRoster"
      attribute="update_roster"
-     permission="zope2.View"
+     permission="collective.workspace.ViewRoster"
      />
 
    <browser:viewlet
