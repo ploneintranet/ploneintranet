@@ -15,5 +15,7 @@ description: Meinung des Generalvikars zum Umfang der Förderung einholen.
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+assignee: liz-baker
+due: 2 Mar
 ---
 

@@ -15,5 +15,7 @@ description: Hintergrundcheck durchführen ob die Organisation förderungswürdi
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+assignee: liz-baker
+due: 12 Feb
 ---
 
