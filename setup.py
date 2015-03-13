@@ -75,6 +75,9 @@ setup(name='ploneintranet',
               'plone.tiles',
               'plone.app.blocks',
           ],
+          'core': [
+              'plone.app.tiles',
+          ],
           'microblog': [
               'requests',
               'plone.tiles',
