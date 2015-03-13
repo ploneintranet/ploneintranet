@@ -65,7 +65,7 @@
                 </p>
             </fieldset>
         {% else %}
-            <h3>Workspace Tasks</h3>
+            <h3>General tasks</h3>
             <fieldset class="task-list pat-checklist">
                 {% for ticket in site.posts  %}
                     {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
@@ -78,14 +78,11 @@
                     {% endif %}
                     {% assign count = count | plus: 1 %}
                 {% endfor %}
-                <p class="button-bar">
-                    <a href="" class="icon-plus-circle small button">Create new task</a>
-                </p>
             </fieldset>
         {% endif %}
         <div class="button-bar create-buttons">
             <a href="/panel-add-task.html#document-content" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
-            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add case</a>
+            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add Phase</a>
         </div>
     </div>
     <div id="workspace-events">
