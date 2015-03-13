@@ -216,6 +216,11 @@ bin/python2.7:
 # inspect robot traceback:
 # bin/robot-server ploneintranet.socialsuite.testing.PLONEINTRANET_SOCIAL_ROBOT_TESTING^
 # firefox localhost:55001/plone
-xtest:
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -s ploneintranet.activitystream -s ploneintranet.core -s ploneintranet.network -s ploneintranet.messaging -s ploneintranet.microblog -s ploneintranet.socialsuite || true
+test-robot:
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot''
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
+
+test-norobot:
+	bin/test -t '!robot'
+
+test: test-norobot test-robot
