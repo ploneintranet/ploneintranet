@@ -1,0 +1,115 @@
+#content div.ploneintranet dl.portlet {
+    font-size: 100%;
+}
+
+#content dl.portlet.compact dd.portletItem,
+dl.portlet.compact dd.portletItem,
+#content dl.portlet.compact dd.portletFooter,
+dl.portlet.compact dd.portletFooter {
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+dl.portletActivitystream dd.portletFooter {
+    text-align: center;
+}
+
+#content dl.portlet.compact,
+dl.portlet.compact {
+    margin: 0;
+}
+.conversation,
+div.activityItem {
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    box-shadow: 0 0 0.5em 0 #888888;
+    margin: 0.5em 0.5em 1em 0;
+    padding: 0.5em 1em;
+    background-color: #fafafa;
+}
+
+div.activityAvatar {
+    float: left;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    padding: 0;
+
+}
+div.activityAvatar img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+div.activityBody {
+    min-height: 50px;
+    margin-left: 60px;
+}
+div.activityByLine {
+    color: #666666;
+    display: block;
+    font-size: 85%;
+    line-height: 1em;
+    margin: 0.1em 0;
+}
+#content div.activityByLine a,
+div.activityByLine a {
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+}
+#content div.activityBody a.creator,
+div.activityBody a.creator {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    border: 0;
+}
+#content div.activityByLine a,
+div.activityByLine a {
+    font-weight: normal;
+}
+div.activityText {
+    margin: 0.25em 0;
+}
+#content div.activityText a,
+div.activityText a {
+    border: 0;
+    text-decoration: none;
+}
+
+div.activityDate {
+    display: inline-block;
+    color: #76797C;
+    font-size: 85%;
+    line-height: 1em;
+}
+
+#ploneintranetsuite-navigation {
+    float: right;
+    font-size: 80%;
+    background: none repeat scroll #ddd;
+    margin: 0;
+}
+#ploneintranetsuite-navigation li {
+    text-align: center;
+}
+#ploneintranetsuite-navigation li a {
+    display: inline-block;
+    background-color: #ddd;
+    border-left: solid white 0.1em;
+    min-width: 6em;
+    padding: 0.5em 1em;
+    white-space: normal;
+}
+#ploneintranetsuite-navigation li a:hover {
+    color: white;
+    background-color: #205c90;
+}
+
+.ploneintranet-navigation {
+  display:inline;
+}
+.ploneintranet-navigation li {
+  display:inline  !important; //need this to overrides plone sunburst
+}

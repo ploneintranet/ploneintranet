@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-01-20 16:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: Guido Stevens <guido.stevens@cosent.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./browser/interfaces.py:64
+msgid "A title for this portlet"
+msgstr "Een titel voor deze portlet"
+
+#. Default: "Activity Portal"
+#: ./browser/activitystream_portal.zcml:65
+msgid "Activity Portal"
+msgstr "Activiteiten Portal"
+
+#: ./browser/interfaces.py:74
+msgid "Compact rendering"
+msgstr "Compacte weergave"
+
+#: ./browser/statusconversation.py:45
+msgid "Conversation"
+msgstr "Conversatie"
+
+#: ./browser/interfaces.py:75
+msgid "Hide portlet header and footer"
+msgstr "Verberg portlet kopregel en voetregel"
+
+#. Default: "Installs the ploneintranet.activitystream package"
+#: ./configure.zcml
+msgid "Installs the ploneintranet.activitystream package"
+msgstr "Installeer ploneintranet.activitystream"
+
+#: ./browser/interfaces.py:70
+msgid "Maximum number of updates to show"
+msgstr "Maximale aantal updates om te tonen"
+
+#: ./browser/templates/activitystream_portlet.pt:30
+msgid "More updates..."
+msgstr "Meer updates..."
+
+#. Default: "My profile"
+#: ./browser/navigation.py:51
+msgid "My profile"
+msgstr ""
+
+#: ./browser/interfaces.py:69
+msgid "Number of updates to display"
+msgstr "Aantal weer te geven statusberichten"
+
+#. Default: "PloneIntranet Activitystream"
+#: ./configure.zcml
+msgid "PloneIntranet Activitystream"
+msgstr ""
+
+#: ./browser/interfaces.py:84
+msgid "Show content creation"
+msgstr "Toon content aanmaakdatum"
+
+#: ./browser/interfaces.py:85
+msgid "Show creation of new content"
+msgstr "Toon nieuwe content"
+
+#: ./browser/interfaces.py:89
+msgid "Show discussion"
+msgstr "Toon discussies"
+
+#: ./browser/interfaces.py:90
+msgid "Show discussion replies"
+msgstr "Toon discussie replies"
+
+#: ./browser/interfaces.py:79
+msgid "Show microblog"
+msgstr "Toon microblog"
+
+#: ./browser/interfaces.py:80
+msgid "Show microblog status updates"
+msgstr "Toon microblog status updates"
+
+#. Default: "Social activity stream portal view with manageable portlets"
+#: ./browser/activitystream_portal.zcml:66
+msgid "Social activity stream portal view with manageable portlets"
+msgstr ""
+
+#: ./browser/templates/stream.pt:24
+msgid "Updates tagged #${tag}"
+msgstr ""
+
+#: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
+msgid "View portlet management screen"
+msgstr ""
+
+#. Default: "commented on"
+#: ./browser/templates/discussionactivity_provider.pt:17
+msgid "label_commented_on"
+msgstr "reageerde op"
+
+#. Default: "created"
+#: ./browser/templates/contentactivity_provider.pt:18
+msgid "label_created"
+msgstr "maakte"
+
+#. Default: "says:"
+#: ./browser/templates/statusactivity_provider.pt:18
+msgid "label_says"
+msgstr "zegt:"
+
+#. Default: "Manage activity stream portlets"
+#: ./browser/templates/activitystream_portletmanager_view.pt:10
+#: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
+msgid "manage_activitystream_portlets"
+msgstr "Activiteiten stroom portlets beheren"
+
+#. Default: "See more..."
+#: ./browser/templates/contentactivity_provider.pt:62
+msgid "see_more_link"
+msgstr ""
+

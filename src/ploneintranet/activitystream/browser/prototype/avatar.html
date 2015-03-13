@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      >
+<body>
+
+  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/patterns/avatar.html -->
+  <metal:macro define-macro="main">
+    <tal:define define="
+            has_link avatar_link|nothing;
+      ">
+        <tal:link condition="has_link">
+            <a href="avatar_link" class="pat-avatar ${avatar_class|nothing}" tal:attributes="avatar_attributes|python:{}" id="${avatar_id|nothing}">
+                <img src="${avatar_img}" alt="${avatar_name|nothing}">
+            </a>
+        </tal:link>
+        <tal:nolink condition="not:has_link">
+            <img src="${avatar_img}" alt="${avatar_name|nothing}" class="pat-avatar ${avatar_class|nothing}" tal:attributes="avatar_attributes|python:{};" id="${avatar_id|nothing}">
+        </tal:nolink>
+    </tal:define>
+  </metal:macro>
+
+</body>
+</html>

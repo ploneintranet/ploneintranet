@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      >
+<body>
+
+  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/activity-stream.html -->
+  <metal:macro define-macro="main">
+    <tal:define define="
+        newpostbox_view nocall:here/@@newpostbox.tile;
+        toLocalizedTime nocall:toLocalizedTime|here/@@plone/toLocalizedTime;
+      ">
+      <tal:loop tal:repeat="activity_provider activity_providers|view/activity_providers">
+        <metal:block use-macro="here/@@post.html/main" />
+      </tal:loop>
+    </tal:define>
+  </metal:macro>
+
+</body>
+</html>
