@@ -5,7 +5,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.testing import z2
 
-import ploneintranet
 import collective.workspace
 import collective.z3cform.chosen
 import slc.docconv
@@ -18,7 +17,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        self.loadZCML(package=ploneintranet)
+        import ploneintranet.suite
+        self.loadZCML(package=ploneintranet.suite)
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
