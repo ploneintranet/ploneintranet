@@ -10,20 +10,24 @@
 Introduction
 ------------
 
+Used to be split into various packages (plonesocial.*). Now part of ploneintranet.
+
 Packages
 ========
 
-* plonesocial.microblog
+* microblog
 
     Creation and storage of status-updates and content-updates
 
-* plonesocial.activitystream
+* activitystream
 
     Display of status- and content-updates
 
-* plonesocial.core
+* core
 
     Helper views (tags, mentions)
+
+XXX there are more packages which might or might not be used currently by ploneintranet.
 
 
 Philosophy
@@ -47,10 +51,9 @@ Current problems
 Architecture
 ------------
 
-
 All templates that are copied over directly from the prototype are located inside a directory named ``prototype``. All of them are macros.
 
-Creating a post
+Tile "New post"
 ===============
 
 Central class is ``NewPostBoxTile`` from microblog/browser/tiles/newpostbox.py and it associated template. It is used for two cases:
@@ -66,6 +69,9 @@ The template for ``NewPostBoxTile`` is just a switch that distinguishes between 
 * The tile is handling the input of a status update and needs to include the macro for `displaying a new post`_.
 * The tile is handling the input of a reply on a status update and needs to include the macro for `displaying a new comment`_,
 
+Creating a post
+---------------
+
 The template used is ``upload.html`` from plonesocial.microblog
 
 .. note::
@@ -75,7 +81,7 @@ The template used is ``upload.html`` from plonesocial.microblog
 Its main purpose is rendering the form for creating a post.
 
 Structure of the template
--------------------------
+_________________________
 
 * Since a new post form can be present multiple times on a page the ``id`` of the form needs to be unique. It defaults to "new-post" for the stand-alone version and contains the thread_id in case it's displayed under an existing post.
 * In case it's displayed under an existing post, this ``thread_id`` also needs to be handed over in a hidden field.
@@ -86,7 +92,7 @@ Structure of the template
 * Finally a ``div`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
 
 Interactions
-------------
+____________
 
 * The form itself uses ``pat-inject`` with the following settings::
 
@@ -97,7 +103,9 @@ Interactions
 
 
 Displaying a new post
-=====================
+---------------------
+
+This template gets shown as a reply
 
 The template "post-well-done.html" does two things:
 * It includes the macro for `Creating a post`_ so that a fresh new form gets rendered that ``pat-inject`` can pick up.
@@ -105,38 +113,57 @@ The template "post-well-done.html" does two things:
 
 
 Displaying a new comment
-========================
+------------------------
 
-
-z
+The template "comment-well-said.html" does two things:
+* It includes the macro for `Displaying a comment`_ - so that ``pat-inject`` can use it to replace the comment trail with the new comment
+* Below that it includes the macro for `Creating a post`_
 
 Tagging
 =======
 
+The link "Add tags" in "upload.html" uses ``pat-tooltip`` with the helper view "@@panel-tags" as target. Via the ``href`` attribute the current ``thread_id`` is passed to the tag select form ("@@panel-tags"). This is important so that the panel select form knows into which post box the tags need to be injected, since there might be more than one on the current page.
+
+Tag select form
+---------------
+
+As mentioned above, this is the helper view ``panel_tags`` from core/browser that opens in a tooltip.
+
+It contains **two separate forms**:
+
+* A form to search for tags.
+* A form that displays the list of tags provided by the view: either all tags in the site, or if a search was done all tags matching the search. The search text entered by the user is always part of the results, so that new tags can be added this way.
+
+Interactions
+____________
+
+The form with id "postbox-items" lists all available tags as ``input`` fields with ``type="checkbox"``. It uses ``pat-autosubmit`` so that any action to select or de-select a tag causes a submit. And it uses ``pat-inject`` for placing the selected tags into the content-mirror in the form on the original page that is used for creating the post.
+
+
 Mentioning
 ==========
 
-The activity stream
-===================
+Tile "activity stream"
+======================
 
 The activity stream is defined in plonesocial/activitystream/browser/stream.py in class ``StreamTile``. It has a helper method ``activity_providers`` that returns a list of activity providers. The associated template includes the macro "activity-stream.html" that  iterates over this list of activity providers. However, a variable named ``activity_providers`` can also be passed in to this macro; this is used in the case of `Displaying a new post`_.
 
 Displaying a post
-=================
+-----------------
 
 For every activity provider, the macro "post.html" is called.
 
 XXX more details needed on the structure, basically:
 
 * Section "post-header" with avatar (macro "avatar.html") and byline
-* Section "post-content"; the ``getText`` method of the activity provider assembles text, mentions and tags
+* Section "post-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
 * Section "preview", for attachment previews
 * Section "functions" for Share and Like
 * Section "comments": It iterates over all reply providers that the current activity provider defines and calls the macro for `Displaying a comment`_. It has a unique ``id`` that consists of the word "comments-" and the ``thread_id``.
 * Finally, the macro for `Creating a post`_ is shown under the comments, so that a new new comment can be added to the comment trail.
 
 Interactions
-------------
+____________
 
 * The form for creating a new comment uses the same macro as for creating a new post. But `pat-inject` uses different parameters::
 
@@ -150,8 +177,11 @@ At the moment, the reply only contains the newly added comment. That means ``pat
 
 
 Displaying a comment
-====================
+--------------------
 
+For every activity reply provider on a post, the macro "comment.html" is called.
 
-
+* Section "comment-header" with avatar (macro "avatar.html") and byline
+* Section "comment-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
+* Section "preview", for attachment previews
 
