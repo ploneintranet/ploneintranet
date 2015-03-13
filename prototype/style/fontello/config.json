@@ -585,12 +585,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "f279f25007794fa6837ff78fe94b216e",
-      "css": "money",
-      "code": 59442,
-      "src": "fontawesome"
-    },
-    {
       "uid": "8c0ffa714cecbf5144e022d9c3df4a1f",
       "css": "bank",
       "code": 59468,
@@ -810,6 +804,12 @@
       "uid": "uaps3vfayj05q7h4rvb10m890xvaequb",
       "css": "bell",
       "code": 59412,
+      "src": "modernpics"
+    },
+    {
+      "uid": "fhpup8jff2yw9kmuwavhyqxogczcbbhj",
+      "css": "money",
+      "code": 59475,
       "src": "modernpics"
     },
     {
