@@ -10,7 +10,7 @@
   <i18n:registerTranslations directory="locales" />
   <five:registerPackage package="." initialize=".initialize" />
 
-  <includeDependencies package="." />
+  <include package="ploneintranet.docconv"/>
 
   <browser:page
     name="document_preview"

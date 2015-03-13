@@ -10,8 +10,13 @@
     <!-- Zope2 initialization -->
     <five:registerPackage package="." initialize=".initialize" />
 
-    <!-- Include configuration for dependencies listed in setup.py -->
-    <includeDependencies package="." />
+    <include package="Products.UserAndGroupSelectionWidget" />
+    <include package="five.grok" />
+    <include package="plone.app.discussion" />
+    <include package="plone.dexterity" />
+    <include package="slc.mailrouter" />
+    <include package="slc.stickystatusmessages" />
+    <include package="slc.underflow" />
 
     <!-- Include sub-packages that use their own configure.zcml files. -->
     <include package=".browser" />

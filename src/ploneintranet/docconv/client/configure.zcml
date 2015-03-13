@@ -10,8 +10,10 @@
     <!-- Zope2 initialization -->
     <five:registerPackage package="." initialize=".initialize" />
 
-    <!-- Include configuration for dependencies listed in setup.py -->
-    <includeDependencies package="." />
+    <include package="collective.documentviewer"/>
+    <include package="plone.app.contenttypes"/>
+    <include package="ploneintranet.attachments"/>
+    <include package="slc.docconv"/>
 
     <!-- Include sub-packages that use their own configure.zcml files. -->
     <!--include package=".browser" /-->

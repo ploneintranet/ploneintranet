@@ -12,6 +12,10 @@
   <include package="Products.CMFPlacefulWorkflow" />
   <include package="collective.workspace" />
   <include package="five.grok" />
+  <include package="ploneintranet.invitations" />
+  <include package="ploneintranet.theme" />
+  <include package="plonesocial.activitystream" />
+  <include package="plonesocial.microblog" />
 
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
