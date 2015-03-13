@@ -10,6 +10,7 @@ run apt-get install -y python-gdbm python-tk
 run apt-get install -y graphicsmagick poppler-utils poppler-data ghostscript pdftk libreoffice
 run ln -s /usr/bin/nodejs /usr/local/bin/node
 run gem install bundler
+run gem install docsplit
 run locale-gen en_US.UTF-8
 run useradd -m -d /app app
 run mkdir /.npm && chown app.app /.npm
