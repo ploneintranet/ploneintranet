@@ -1,7 +1,5 @@
 from email import message_from_string
 import unittest
-from Products.CMFPlone.tests.utils import MockMailHost
-from Products.MailHost.interfaces import IMailHost
 from plone import api
 from zope.component import getMultiAdapter
 from ploneintranet.invitations.testing import \
@@ -19,6 +17,10 @@ class TestInviteUser(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         # Mock the mail host so we can test sending the email
+        # NEVER EVER IMPORT MOCKMAILHOST OUTSIDE OF SETUP!
+        # IT WILL BREAK YOUR TEST_ISOLATION AND KILL YOUR FIRSTBORN
+        from Products.CMFPlone.tests.utils import MockMailHost
+        from Products.MailHost.interfaces import IMailHost
         mockmailhost = MockMailHost('MailHost')
 
         if not hasattr(mockmailhost, 'smtp_host'):
