@@ -352,6 +352,10 @@ fieldset {
     @include clear-fix();
   }
 
+  > br {
+    display: none;
+  }
+
   .pat-checklist {
     label {
       margin-bottom: 0;
