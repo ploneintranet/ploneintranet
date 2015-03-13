@@ -7,6 +7,14 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
+  <include package="plone.tiles" />
+  <include package="ploneintranet.microblog" />
+  <include package="ploneintranet.activitystream" />
+  <include package="ploneintranet.network" />
+  <include package="ploneintranet.socialtheme" />
+  <include package="ploneintranet.messaging" />
+  <include package="ploneintranet.core" />
+
   <include file="profiles.zcml" />
 
   <!-- -*- extra stuff goes here -*- -->

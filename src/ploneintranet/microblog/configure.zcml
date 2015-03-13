@@ -9,6 +9,9 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
+  <include package="ploneintranet.activitystream" />
+  <include package="ploneintranet.attachments" />
+
   <include package=".browser" />
   <include package=".portlets" />
   <include file="permissions.zcml" />

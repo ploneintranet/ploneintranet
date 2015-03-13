@@ -10,6 +10,12 @@
   <!-- Include configuration for dependencies listed in setup.py -->
   <includeDependencies package="." />
 
+  <include package="ploneintranet.activitystream"/>
+  <include package="ploneintranet.core"/>
+  <include package="ploneintranet.messaging"/>
+  <include package="ploneintranet.microblog"/>
+  <include package="ploneintranet.network"/>
+
   <include package="ploneintranet.attachments"/>
   <include package="ploneintranet.docconv.client"/>
   <include package="ploneintranet.invitations"/>
