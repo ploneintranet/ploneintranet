@@ -1,0 +1,18 @@
+<rolemap>
+  <permissions>
+    <permission
+        name="Plone Social: Add Microblog Status Update"
+        acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Member" />
+    </permission>
+    <permission
+        name="Plone Social: View Microblog Status Update"
+        acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Member" />
+    </permission>
+  </permissions>
+</rolemap>

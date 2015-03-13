@@ -1,0 +1,25 @@
+# Héctor Velarde <hector.velarde@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2013-07-07 18:51+0000\n"
+"PO-Revision-Date: 2014-03-10 15:33-0300\n"
+"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+"Project-Id-Version: \n"
+
+#: profiles/default/portlets.xml
+msgid "A portlet which shows the space for write a simple tweet."
+msgstr "Um portlet que exibe um espaço para escrever uma mensagem."
+
+#: profiles/default/portlets.xml
+msgid "Microblog"
+msgstr "Microblog"
+
