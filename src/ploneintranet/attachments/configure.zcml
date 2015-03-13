@@ -14,8 +14,6 @@
     <include package="five.grok" />
     <include package="plone.app.discussion" />
     <include package="plone.dexterity" />
-    <include package="slc.mailrouter" />
-    <include package="slc.underflow" />
 
     <!-- Include sub-packages that use their own configure.zcml files. -->
     <include package=".browser" />
