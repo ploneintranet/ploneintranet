@@ -16,10 +16,10 @@
                 <form action="./#{{ include.id }}-items" class="pat-inject pat-autosubmit">
                     <label class="pat-select bare">Group by
                         <select name="browse-mode">
-                            <option value="case">Phase</option>
+                            <option value="case_state">Milestone</option>
                             <option value="assignee">Assignee</option>
                             <option value="initiator">Initiator</option>
-                            <option value="state">State</option>
+                            <option value="task_state">Task state</option>
                         </select>
                     </label>
                 </form>
@@ -82,7 +82,7 @@
         {% endif %}
         <div class="button-bar create-buttons">
             <a href="/panel-add-task.html#document-content" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
-            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add Phase</a>
+            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add milestone</a>
         </div>
     </div>
     <div id="workspace-events">
