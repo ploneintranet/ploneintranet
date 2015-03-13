@@ -22,8 +22,8 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         # we're loading all of plonesocial so we can
         # use the included demo site for testing
 
-        import plonesocial.suite
-        self.loadZCML(package=plonesocial.suite)
+        import ploneintranet.socialsuite
+        self.loadZCML(package=ploneintranet.socialsuite)
 
         import plonesocial.microblog
         self.loadZCML(package=plonesocial.microblog)

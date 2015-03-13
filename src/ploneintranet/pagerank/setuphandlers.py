@@ -13,7 +13,7 @@ def setup_testing(context):
 
     site = context.getSite()
 
-    # replace randomized plonesocial.suite demo network
+    # replace randomized ploneintranet.socialsuite demo network
     # with a deterministic social network
     graph = queryUtility(INetworkGraph)
     graph.clear()

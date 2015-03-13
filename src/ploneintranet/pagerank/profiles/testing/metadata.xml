@@ -3,6 +3,6 @@
   <version>0001</version>
   <dependencies>
     <dependency>profile-ploneintranet.pagerank:default</dependency>
-    <dependency>profile-plonesocial.suite:demo</dependency>
+    <dependency>profile-ploneintranet.socialsuite:demo</dependency>
   </dependencies>
 </metadata>
