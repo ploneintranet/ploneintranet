@@ -15,3 +15,7 @@
 - body: "Document shared"
   id: document-shared
   type: banner
+
+- body: "This task is now set from 'Open' to 'Closed'."
+  id: ticket-open-closed
+  type: banner
