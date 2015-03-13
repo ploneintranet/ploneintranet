@@ -25,8 +25,8 @@ Set-up a development environment::
 
 Note for virtualenvwrapper users:
 Running bootstrap will place the buildout script in your virtulenv's ``bin/`` directory.
-So if your virtualenv was created with ``mkvirtualenv``, most likely you won't find the
-buildout script where you expect it.
+So if your virtualenv was created with ``mkvirtualenv`` or ``mkproject``,
+most likely you won't find the buildout script where you expect it.
 
 
 Build using the Plone 5 coredev
