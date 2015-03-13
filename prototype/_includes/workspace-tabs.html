@@ -4,7 +4,7 @@
             {% assign workspace = node %}
         {% endif %}
     {% endfor %}
-    <a href="{{ workspace.url }}#document-body" title="Workspace landing page" class="pat-inject {% if page.workspace_module == 'landing' %}current{% endif %} landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed">{{ workspace.workspace_name }}</a>
+    <a href="{{ workspace.url }}#document-body" title="Workspace landing page" class="pat-inject {% if page.workspace_module == 'landing' %}current{% endif %} landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document">{{ workspace.workspace_name }}</a>
     {% assign workspace = false %}
     <a class="documents pat-switch {% if page.workspace_module == 'docs' %}current{% endif %}" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title=
     "Documents">Documents</a>

@@ -24,7 +24,7 @@
         .panel-content {
             border-bottom: 0.2em solid $colour-base;
             background-color: white;
-            padding: 3.5em 1em 2em;
+            padding: 6% 1em 2em;
 
             font-size: 1.2em;
 
@@ -33,6 +33,10 @@
             box-sizing: border-box;
 
             box-shadow: 0 0 0.5em rgba(0,0,0,0.2);
+
+            > .menu {
+                margin-top: 3em
+            }
         }
     }
 
