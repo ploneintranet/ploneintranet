@@ -34,6 +34,10 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # plone social dependencies
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
+
+        # Force microblog to disable async mode !!!
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
         import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
         import ploneintranet.network
