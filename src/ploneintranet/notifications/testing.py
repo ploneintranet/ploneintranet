@@ -26,6 +26,7 @@ class PloneintranetNotificationsLayer(PloneSandboxLayer):
             ploneintranet.microblog,
             context=configurationContext
         )
+
     def tearDownZope(self, app):
         pass
 
