@@ -66,7 +66,7 @@
   <replace css:content-children="#social-messages" css:theme="#document-content" />
 </rules>
 
-<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image">
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder">
   <theme href="generated/open-market-committee/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <drop css:theme-children="#content" />

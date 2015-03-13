@@ -16,10 +16,10 @@
                 <form action="./#{{ include.id }}-items" class="pat-inject pat-autosubmit">
                     <label class="pat-select bare">Group by
                         <select name="browse-mode">
-                            <option value="case">Phase</option>
+                            <option value="case_state">Milestone</option>
                             <option value="assignee">Assignee</option>
                             <option value="initiator">Initiator</option>
-                            <option value="state">State</option>
+                            <option value="task_state">Task state</option>
                         </select>
                     </label>
                 </form>
@@ -82,7 +82,7 @@
         {% endif %}
         <div class="button-bar create-buttons">
             <a href="/panel-add-task.html#document-content" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
-            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add Phase</a>
+            <a href="/panel-add-case.html#document-content" class="button right icon-phase pat-modal" data-pat-modal="class: large">Add milestone</a>
         </div>
     </div>
     <div id="workspace-events">
@@ -192,6 +192,41 @@
                         </label>
                     </fieldset>
                 </fieldset>
+
+                <!-- Case fields start here -->
+				
+				{% if page.type == 'case' %}
+					<fieldset class="vertical">
+						<label>
+							Name of applicant <input type="text" />
+						</label>
+
+						<br>
+
+						<label>
+							Address of applicant <textarea name="" id="" cols="80" rows="4"></textarea>
+						</label>
+
+						<br>
+
+						<label>
+							Responsible <input type="text" />
+						</label>
+
+						<br>
+
+						<label>
+							Type of businesscase
+							<select name="" id="">
+								<option value="motion">Motion</option>
+								<option value="petition">Petition</option>
+								<option value="request">Request</option>
+								<option value="interpellation">Interpellation</option>
+								<option value="written_request">Written request</option>
+							</select>
+						</label>
+					</fieldset>
+				{% endif %}
             </form>
         </div>
     </div>

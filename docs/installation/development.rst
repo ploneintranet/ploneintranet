@@ -20,7 +20,7 @@ Set-up a development environment::
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
     virtualenv --no-site-packages .
-    bin/python2.7 bootstrap.py -c dev.cfg -v 1.6.3  # matching the current version pin!
+    bin/python2.7 bootstrap.py
     bin/buildout -c dev.cfg
 
 

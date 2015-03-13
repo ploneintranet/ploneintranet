@@ -34,18 +34,17 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         import ploneintranet.network
         self.loadZCML(package=ploneintranet.network)
 
-        # ploneintranet.messaging is not required yet
-#        import ploneintranet.messaging
-#        self.loadZCML(package=ploneintranet.messaging)
-
-        # ploneintranet.core is not released yet
-#        import ploneintranet.core
-#        self.loadZCML(package=ploneintranet.core)
+        import plone.app.contenttypes
+        self.loadZCML(
+            'configure.zcml',
+            package=plone.app.contenttypes,
+        )
 
         import ploneintranet.socialtheme
         self.loadZCML(package=ploneintranet.socialtheme)
 
     def setUpPloneSite(self, portal):
+        self.applyProfile(portal, 'plone.app.contenttypes:default')
         # Installs all the Plone stuff. Workflows etc.
         self.applyProfile(portal, 'Products.CMFPlone:testfixture')
         # Install into Plone site using portal_setup

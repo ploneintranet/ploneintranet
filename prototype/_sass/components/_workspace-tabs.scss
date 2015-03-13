@@ -4,6 +4,35 @@
   background-color: #DE7F00;
 }
 
+.sidebar-left-open {
+  .workspace-tabs {
+    a.current {
+
+      &.landing {
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.sidebar-left-closed {
+  .workspace-tabs {
+    a.current {
+      &:after {
+        display: none;
+      }
+
+      &.landing {
+        &:after {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
 .workspace-tabs {
   position: absolute;
   left: 0;
@@ -25,6 +54,16 @@
     width: 50px;
     top: 0;
     height: auto;
+    padding-top: 1em;
+
+    hr {
+      width: 80%;
+      margin: 0.8em auto;
+      display: block;
+      border: none;
+      background-color: white;
+      height: 1px;
+    }
 
     &:after {
       content: " ";
@@ -39,7 +78,7 @@
   }
 
   a {
-    float: left;
+    display: block;
     text-indent: -10000px;
     position: relative;
     padding: 0;
@@ -51,6 +90,11 @@
 
       &.current {
         cursor: default;
+
+        &.landing.current:after {
+          border-right: 8px solid $colour-base;
+        }
+
         &:after {
           content: " ";
           display: block;
@@ -102,23 +146,12 @@
       text-align: center;
     }
 
-    &:hover {
-      background-color: rgba(46, 46, 46, 0.1);
-    }
-
     sup.counter.digit-3 {
       width: 22px;
     }
 
     &.landing:before {
       content: '\e83c';
-
-      @include screen-size(large) {
-        border-bottom: 1px solid white;
-        width: 80%;
-        margin: 0 auto;
-        left: 10%;
-      }
     }
 
     &.documents:before {
@@ -141,8 +174,10 @@
       content: '\E819';
     }
 
-    &.settings:before {
-      content: '\e804';
+    &.settings {
+      &:before {
+        content: '\e804';
+      }
     }
   }
 }

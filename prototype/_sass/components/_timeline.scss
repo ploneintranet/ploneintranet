@@ -15,7 +15,7 @@
         letter-spacing: 0em;
         display: inline-block;
         padding-top: 14em;
-        padding-bottom: 1em;
+        padding-bottom: 5em;
         border-left: 0.1em dotted silver;
         border-right: 0.1em dotted silver;
         margin-right: -0.1em;
@@ -28,7 +28,7 @@
         .action {
             position: absolute;
             right: -1.15em;
-            bottom: 0.65em;
+            bottom: 4.65em;
             border-radius: 50%;
             width: 1.95em;
             height: 1.95em;
@@ -223,6 +223,41 @@
                     max-width: 15.5em;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                }
+            }
+
+            .step-assignee {
+                position: absolute;
+                top: 1.9em;
+                left: -0.4em;
+                width: 2.5em;
+                padding-bottom: 1em;
+                padding-top: 0.7em;
+                text-align: center;
+
+                &:before {
+                    width: 1px;
+                    height: 0.7em;
+                    background-color: silver;
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 1.25em;
+                    // z-index: -1;
+                    content: " ";
+                }
+
+                .pat-avatar {
+                    margin: 0 auto;
+                    width: 2.5em;
+                    height: 2.5em;
+                }
+
+                .date {
+                    display: block;
+                    font-size: 0.6em;
+                    color: gray;
+                    line-height: 1em;
                 }
             }
 

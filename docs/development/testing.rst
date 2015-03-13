@@ -21,6 +21,13 @@ In order to run additional tests you should specify the package::
 
     ./bin/test -s ploneintranet.workspace
 
+Skip robot tests
+~~~~~~~~~~~~~~~~
+
+Robot tests can be skipped by using -t '!robot' (note: single quotes, not double quotes)::
+
+    ./bin/test -t '!robot'
+
 
 Faster robot testing with robot-server
 ======================================
