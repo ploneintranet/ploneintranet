@@ -2,14 +2,14 @@
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
-from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
+from plone.app.testing import PLONE_FIXTURE
 from zope.configuration import xmlconfig
 
 
 class PloneIntranetCore(PloneSandboxLayer):
 
     defaultBases = (
-        PLONE_APP_TILES_FIXTURE,
+        PLONE_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
