@@ -12,14 +12,15 @@ Continuous integration tests
 
 There is a dedicated `jenkins instance <http://jenkins.ploneintranet.net>`_ which runs tests on pull requests as well as the major branches.
 
+If you are interested how we configure our jenkins, have a look at its `documentation <http://github.com/ploneintranet/ploneintranet.jenkins>`_ on github:
+
 
 Testing locally
 ===============
 
-The dev.cfg buildout includes a test runner, but by default it will only run the Robot tests.
-In order to run additional tests you should specify the package::
+The dev.cfg buildout includes a test runner. It will run most tests and can be executed with this command::
 
-    ./bin/test -s ploneintranet.workspace
+    ./bin/test
 
 Skip robot tests
 ~~~~~~~~~~~~~~~~
