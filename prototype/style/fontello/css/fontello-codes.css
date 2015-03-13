@@ -86,7 +86,6 @@
 .icon-clock:before { content: '\e82f'; } /* '' */
 .icon-globe:before { content: '\e830'; } /* '' */
 .icon-plus-1:before { content: '\e831'; } /* '' */
-.icon-money:before { content: '\e832'; } /* '' */
 .icon-religious-jewish:before { content: '\e833'; } /* '' */
 .icon-religious-islam:before { content: '\e834'; } /* '' */
 .icon-religious-christian:before { content: '\e835'; } /* '' */
@@ -119,6 +118,7 @@
 .icon-book:before { content: '\e850'; } /* '' */
 .icon-bookmark:before { content: '\e851'; } /* '' */
 .icon-stage:before { content: '\e852'; } /* '' */
+.icon-money:before { content: '\e853'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
