@@ -2,10 +2,11 @@ from Products.ATContentTypes.content import file
 from Products.ATContentTypes.content import image
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
-from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zExceptions import NotFound
 from zope.component import createObject
+from zope.interface import directlyProvides
 from zope.container.interfaces import DuplicateIDError
 
 from ploneintranet.attachments.testing import IntegrationTestCase
@@ -15,16 +16,11 @@ class TestAttachmentStorage(IntegrationTestCase):
     """ Test the IAttachmentStorage adapter
     """
 
-    def test_storageable(self):
-        comment = createObject('plone.Comment')
-        self.assertTrue(IAttachmentStoragable.providedBy(comment))
-        question = createObject('slc.underflow.question')
-        self.assertTrue(IAttachmentStoragable.providedBy(question))
-
     def test_add(self):
         """ """
-        comment1 = createObject('plone.Comment')
-        attachments = IAttachmentStorage(comment1)
+        doc1 = createObject('Document')
+        directlyProvides(doc1, IAttachmentStoragable)
+        attachments = IAttachmentStorage(doc1)
         self.assertEqual(len(attachments.keys()), 0)
         self.assertEqual(len(attachments.values()), 0)
         f = file.ATFile('data.dat')
@@ -45,7 +41,8 @@ class TestAttachmentStorage(IntegrationTestCase):
 
     def test_remove(self):
         """ """
-        question = createObject('slc.underflow.question')
+        question = createObject('Document')
+        directlyProvides(question, IAttachmentStoragable)
         attachments = IAttachmentStorage(question)
         self.assertEqual(len(attachments.keys()), 0)
         self.assertEqual(len(attachments.values()), 0)
@@ -78,10 +75,11 @@ class TestAttachmentTraverse(IntegrationTestCase):
 
     def test_traverse(self):
         id = self.workspace.invokeFactory(
-            'slc.underflow.question',
+            'Document',
             'question',
             title=u'Question')
         question = self.workspace._getOb(id)
+        directlyProvides(question, IAttachmentStoragable)
         attachments = IAttachmentStorage(question)
         f = file.ATFile('data1.dat')
         attachments.add(f)
@@ -100,10 +98,11 @@ class TestAttachmentTraverse(IntegrationTestCase):
 
     def test_path(self):
         id = self.workspace.invokeFactory(
-            'slc.underflow.question',
+            'Document',
             'question',
             title=u'Question')
         question = self.workspace._getOb(id)
+        directlyProvides(question, IAttachmentStoragable)
         attachments = IAttachmentStorage(question)
         f = file.ATFile('data1.dat')
         attachments.add(f)
