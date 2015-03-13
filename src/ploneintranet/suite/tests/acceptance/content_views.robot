@@ -75,26 +75,26 @@ Alice can tag a file
     And I view the file
     Then the document has the new tag
 
-Alice can change the title of a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I change the title
-    And I view the folder
-    Then the document has the new title
+# Alice can change the title of a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I change the title
+#     And I view the folder
+#     Then the document has the new title
 
-Alice can change the description of a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I change the description
-    And I view the folder
-    Then the document has the new description
+# Alice can change the description of a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I change the description
+#     And I view the folder
+#     Then the document has the new description
 
-Alice can tag a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I tag the description
-    And I view the folder
-    Then the document has the new tag
+# Alice can tag a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I tag the description
+#     And I view the folder
+#     Then the document has the new tag
 
 *** Keywords ***
 I browse to a workspace
