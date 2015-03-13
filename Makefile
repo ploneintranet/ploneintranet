@@ -217,12 +217,12 @@ bin/python2.7:
 # bin/robot-server ploneintranet.socialsuite.testing.PLONEINTRANET_SOCIAL_ROBOT_TESTING^
 # firefox localhost:55001/plone
 test-robot:
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot'
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot' -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 test-norobot:
-	bin/test -t '!robot'
+	bin/test -t '!robot' -x
 
 test: 
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
