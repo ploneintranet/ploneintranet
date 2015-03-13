@@ -11,7 +11,7 @@ from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from zope.configuration import xmlconfig
 
 
-class PloneIntranetSuite(PloneSandboxLayer):
+class PloneIntranetSocialSuite(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
 
@@ -58,7 +58,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.socialsuite:demo')
 
 
-PLONEINTRANET_SOCIALSUITE_FIXTURE = PloneIntranetSuite()
+PLONEINTRANET_SOCIALSUITE_FIXTURE = PloneIntranetSocialSuite()
 
 PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
