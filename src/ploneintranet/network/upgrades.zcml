@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.network">
+
+    <genericsetup:upgradeStep
+        title="Install Likes Tool"
+        description="Upgrade to make the new Likes Tool available"
+        source="*"
+        destination="0002"
+        handler=".upgrades.upgrade_to_0002"
+        profile="ploneintranet.network:default" />
+
+</configure>

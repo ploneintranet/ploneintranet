@@ -1,0 +1,58 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ploneintranet.network">
+
+
+  <!-- This view Will override the author.cpt in the skins folder -->
+  <browser:page
+      name="author"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".author.AuthorView"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
+  <adapter
+      name="ploneintranet.network.maxiauthor_provider"
+      factory=".author.MaxiAuthorProvider"
+      />
+
+  <adapter
+      name="ploneintranet.network.miniauthor_provider"
+      factory=".author.MiniAuthorProvider"
+      />
+
+  <browser:page
+      name="following"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".graph.FollowingView"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
+  <browser:page
+      name="followers"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".graph.FollowersView"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
+  <browser:page
+      name="toggle_like"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".likes.ToggleLike"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
+  <browser:resourceDirectory
+      name="ploneintranet.network.stylesheets"
+      directory="stylesheets"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
+</configure>

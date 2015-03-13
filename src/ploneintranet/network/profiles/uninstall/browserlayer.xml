@@ -1,0 +1,3 @@
+<layers>
+  <layer name="ploneintranet.network.browser" remove="true" />
+</layers>
