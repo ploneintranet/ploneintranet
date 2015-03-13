@@ -213,3 +213,7 @@ bin/buildout: bin/python2.7
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
+
+xtest:
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -s ploneintranet.activitystream -s ploneintranet.core -s ploneintranet.network -s ploneintranet.messaging -s ploneintranet.microblog -s ploneintranet.socialsuite || true
+	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
