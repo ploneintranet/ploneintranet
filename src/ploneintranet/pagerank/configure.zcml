@@ -7,7 +7,7 @@
 
   <five:registerPackage package="." initialize=".initialize" />
   
-  <include package="plonesocial.suite"/>
+  <!-- <include package="plonesocial.suite"/> -->
   <include package="plonesocial.microblog"/>
   <include package="plonesocial.activitystream"/>
   <include package="plonesocial.network"/>
