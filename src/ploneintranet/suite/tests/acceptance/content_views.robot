@@ -99,6 +99,7 @@ Alice can tag a folder
 *** Keywords ***
 I browse to a workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Documents
     Click Link  link=Manage Information
 
 I browse to a document
