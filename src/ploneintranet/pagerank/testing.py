@@ -42,8 +42,8 @@ class PloneIntranetPagerank(PloneSandboxLayer):
 #        import plonesocial.core
 #        self.loadZCML(package=plonesocial.core)
 
-        import plonesocial.theme
-        self.loadZCML(package=plonesocial.theme)
+        import ploneintranet.socialtheme
+        self.loadZCML(package=ploneintranet.socialtheme)
 
     def setUpPloneSite(self, portal):
         # Installs all the Plone stuff. Workflows etc.
