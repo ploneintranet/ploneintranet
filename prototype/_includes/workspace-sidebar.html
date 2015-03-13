@@ -192,6 +192,41 @@
                         </label>
                     </fieldset>
                 </fieldset>
+
+                <!-- Case fields start here -->
+				
+				{% if page.type == 'case' %}
+					<fieldset class="vertical">
+						<label>
+							Name of applicant <input type="text" />
+						</label>
+
+						<br>
+
+						<label>
+							Address of applicant <textarea name="" id="" cols="80" rows="4"></textarea>
+						</label>
+
+						<br>
+
+						<label>
+							Responsible <input type="text" />
+						</label>
+
+						<br>
+
+						<label>
+							Type of businesscase
+							<select name="" id="">
+								<option value="motion">Motion</option>
+								<option value="petition">Petition</option>
+								<option value="request">Request</option>
+								<option value="interpellation">Interpellation</option>
+								<option value="written_request">Written request</option>
+							</select>
+						</label>
+					</fieldset>
+				{% endif %}
             </form>
         </div>
     </div>
