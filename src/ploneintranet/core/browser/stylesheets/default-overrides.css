@@ -1,0 +1,17 @@
+/* colours.css and screen.css is taken from ploneintranet.theme
+
+   These overrides fixup that stuff to some initial sanity.
+   For reference implementation of the design, see ploneintranet.theme.
+*/
+
+body {
+  overflow: auto;
+}
+
+body #content {
+  position: relative;
+}
+
+body label.pat-select.visibility:before {
+  content: none;
+}
