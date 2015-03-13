@@ -11,8 +11,26 @@
         {% include item-selector.html mode="docs" id="selector" listitems="follow" title=include.title searchresult="/feedback/workspace-search-results-min.html" toggle="true" action="/feedback/batch-rename.html#content" %}
     </div>
     <div id="workspace-tickets">
+        <div class="button-bar functions" id="{{ include.id }}-functions">
+            <div class="contextual buttons float-before" id="{{ include.id }}-contextual-functions">
+                <form action="./#{{ include.id }}-items" class="pat-inject pat-autosubmit">
+                    <label class="pat-select bare">Group by
+                        <select name="browse-mode">
+                            <option value="case">Phase</option>
+                            <option value="assignee">Assignee</option>
+                            <option value="initiator">Initiator</option>
+                            <option value="state">State</option>
+                        </select>
+                    </label>
+                </form>
+            </div>
+
+            <div class="quick-functions">
+                <a title="Create new document" href="/panel-create-task.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
+            </div>
+        </div>
         {% if page.type == 'case' %}
-            <h3>Case Tasks</h3>
+            <!-- <h3>Case Tasks</h3> -->
             {% for item in page.case_states %}
                 <fieldset class="task-list pat-checklist">
                     <h4 class="section-label state-{{ item.transition_state }}">
@@ -32,9 +50,9 @@
             {% endfor %}
             <fieldset class="task-list pat-checklist">
                 {% assign state = item.state %}
-                <h3 class="section-label">
-                    Tasks
-                </h3>
+                <h4 class="section-label">
+                    Unassigned
+                </h4>
                 {% for ticket in site.posts  %}
                     {% if ticket.workspace_name == page.workspace_name and ticket.case_state == 'unassigned' %}
                         <label>
@@ -71,6 +89,11 @@
         </div>
     </div>
     <div id="workspace-events">
+        <div class="button-bar functions" id="{{ include.id }}-functions">
+            <div class="quick-functions">
+                <a title="Create new document" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
+            </div>
+        </div>
 
         <div class="content">
             <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
