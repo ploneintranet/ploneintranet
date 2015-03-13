@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<object name="Document">
+ <property name="allow_discussion">True</property>
+</object>

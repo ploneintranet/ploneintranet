@@ -1,0 +1,6 @@
+<layers>
+  <layer  name="ploneintranet.socialsuite.browser"
+          interface="ploneintranet.socialsuite.browser.interfaces.IPloneIntranetSuiteLayer"
+          remove="True"
+          />
+</layers>
