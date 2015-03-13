@@ -7,7 +7,6 @@
         <dependency>profile-ploneintranet.theme:default</dependency>
         <dependency>profile-ploneintranet.docconv.client:default</dependency>
         <dependency>profile-ploneintranet.attachments:default</dependency>
-        <dependency>profile-ploneintranet.documentviewer:default</dependency>
         <dependency>profile-ploneintranet.invitations:default</dependency>
         <dependency>profile-ploneintranet.notifications:default</dependency>
         <dependency>profile-ploneintranet.todo:default</dependency>
