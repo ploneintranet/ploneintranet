@@ -8,7 +8,9 @@
 
   <body>
 
-    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog">
+    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog"
+          tal:define="thread_id request/thread_id|nothing;
+                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
       <div id="status-user-selector" class="item-selector mode-">
         <div id="-functions" tal:attributes="id string:${view/panel_type}-functions" class="button-bar functions">
@@ -18,18 +20,20 @@
           </span>
         </div>
 
-        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#items"
+        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-items"
               method="post"
               class="search-box pat-inject pat-autosubmit">
           <label>
             <input type="search" placeholder="Search" name="usersearch" />
             <button type="submit">Search</button>
           </label>
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
 
-        <form id="items"
+        <form id="postbox-items"
               tal:attributes="action view/action"
-              class="search-result users pat-inject pat-autosubmit">
+              class="search-result users pat-inject pat-autosubmit"
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_id}-selected-users">
           <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all"
                     class="checklist pat-checklist users unchecked">
             <label class="item user unchecked"
@@ -51,7 +55,7 @@
               </a>
             </label>
           </fieldset>
-
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
       </div>
 
