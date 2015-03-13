@@ -25,6 +25,7 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
         import ploneintranet.socialtheme
         import ploneintranet.messaging
         import ploneintranet.core
+        import ploneintranet.docconv.client
         xmlconfig.file('meta.zcml',
                        plone.tiles,
                        context=configurationContext)
@@ -48,6 +49,9 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
                        context=configurationContext)
         xmlconfig.file('configure.zcml',
                        ploneintranet.core,
+                       context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       ploneintranet.docconv.client,
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
