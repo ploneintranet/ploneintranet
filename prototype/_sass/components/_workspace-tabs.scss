@@ -6,11 +6,27 @@
 
 .sidebar-left-open {
   .workspace-tabs {
-    a {
+    a.current {
 
-      &.landing.current {
+      &.landing {
         &:after {
           display: none;
+        }
+      }
+    }
+  }
+}
+
+.sidebar-left-closed {
+  .workspace-tabs {
+    a.current {
+      &:after {
+        display: none;
+      }
+
+      &.landing {
+        &:after {
+          display: block;
         }
       }
     }
