@@ -7,6 +7,7 @@ run apt-get install -y jed firefox xvfb
 run apt-get update && apt-get install -y npm nodejs ruby ruby-dev
 run apt-get install -y libenchant-dev
 run apt-get install -y python-gdbm python-tk
+run apt-get install -y graphicsmagick poppler-utils poppler-data ghostscript pdftk libreoffice
 run ln -s /usr/bin/nodejs /usr/local/bin/node
 run gem install bundler
 run locale-gen en_US.UTF-8
