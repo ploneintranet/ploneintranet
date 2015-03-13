@@ -66,7 +66,7 @@
 
   <section class="preview">
 
-      <figure tal:repeat="preview view/previews">
+      <figure tal:repeat="preview view/attachments">
           <a href="/incredibly-boring-document" tal:attributes="href context/context/absolute_url">
               <img src="/media/preview_thumb_1.jpg" alt=""
                     tal:attributes="src preview">
