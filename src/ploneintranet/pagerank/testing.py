@@ -19,28 +19,28 @@ class PloneIntranetPagerank(PloneSandboxLayer):
 
         # dependencies
 
-        # we're loading all of plonesocial so we can
+        # we're loading all of ploneintranet so we can
         # use the included demo site for testing
 
         import ploneintranet.socialsuite
         self.loadZCML(package=ploneintranet.socialsuite)
 
-        import plonesocial.microblog
-        self.loadZCML(package=plonesocial.microblog)
+        import ploneintranet.microblog
+        self.loadZCML(package=ploneintranet.microblog)
 
-        import plonesocial.activitystream
-        self.loadZCML(package=plonesocial.activitystream)
+        import ploneintranet.activitystream
+        self.loadZCML(package=ploneintranet.activitystream)
 
-        import plonesocial.network
-        self.loadZCML(package=plonesocial.network)
+        import ploneintranet.network
+        self.loadZCML(package=ploneintranet.network)
 
-        # plonesocial.messaging is not required yet
-#        import plonesocial.messaging
-#        self.loadZCML(package=plonesocial.messaging)
+        # ploneintranet.messaging is not required yet
+#        import ploneintranet.messaging
+#        self.loadZCML(package=ploneintranet.messaging)
 
-        # plonesocial.core is not released yet
-#        import plonesocial.core
-#        self.loadZCML(package=plonesocial.core)
+        # ploneintranet.core is not released yet
+#        import ploneintranet.core
+#        self.loadZCML(package=ploneintranet.core)
 
         import ploneintranet.socialtheme
         self.loadZCML(package=ploneintranet.socialtheme)

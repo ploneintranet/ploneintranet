@@ -2,7 +2,7 @@ import networkx as nx
 from plone import api
 from zope.component import queryUtility
 
-from plonesocial.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkGraph
 
 
 class Graphs(object):
@@ -55,10 +55,10 @@ class Graphs(object):
             create_using=nx.DiGraph())
 
     def social_following(self):
-        # FIXME: add proper site context to plonesocial.network graph
+        # FIXME: add proper site context to ploneintranet.network graph
         graph = queryUtility(INetworkGraph)
         result = []
-        # FIXME: add proper API accessor to plonesocial.network graph
+        # FIXME: add proper API accessor to ploneintranet.network graph
         for user in graph._following.keys():
             for following in graph.get_following(user):
                 result.append((user, following))

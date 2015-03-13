@@ -10,10 +10,10 @@
         <dependency>profile-ploneintranet.invitations:default</dependency>
         <dependency>profile-ploneintranet.notifications:default</dependency>
         <dependency>profile-ploneintranet.todo:default</dependency>
-        <dependency>profile-plonesocial.microblog:default</dependency>
-        <dependency>profile-plonesocial.activitystream:default</dependency>
-        <dependency>profile-plonesocial.network:default</dependency>
-        <dependency>profile-plonesocial.messaging:default</dependency>
-        <dependency>profile-plonesocial.core:minimal</dependency>
+        <dependency>profile-ploneintranet.microblog:default</dependency>
+        <dependency>profile-ploneintranet.activitystream:default</dependency>
+        <dependency>profile-ploneintranet.network:default</dependency>
+        <dependency>profile-ploneintranet.messaging:default</dependency>
+        <dependency>profile-ploneintranet.core:minimal</dependency>
   </dependencies>
 </metadata>

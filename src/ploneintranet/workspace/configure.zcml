@@ -14,8 +14,8 @@
   <include package="five.grok" />
   <include package="ploneintranet.invitations" />
   <include package="ploneintranet.theme" />
-  <include package="plonesocial.activitystream" />
-  <include package="plonesocial.microblog" />
+  <include package="ploneintranet.activitystream" />
+  <include package="ploneintranet.microblog" />
 
   <permission
       id="ploneintranet.workspace.ManageWorkspace"

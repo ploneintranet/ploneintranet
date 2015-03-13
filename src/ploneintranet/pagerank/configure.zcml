@@ -8,9 +8,9 @@
   <five:registerPackage package="." initialize=".initialize" />
   
   <!-- <include package="ploneintranet.socialsuite"/> -->
-  <include package="plonesocial.microblog"/>
-  <include package="plonesocial.activitystream"/>
-  <include package="plonesocial.network"/>
+  <include package="ploneintranet.microblog"/>
+  <include package="ploneintranet.activitystream"/>
+  <include package="ploneintranet.network"/>
 
   <genericsetup:registerProfile
       name="default"

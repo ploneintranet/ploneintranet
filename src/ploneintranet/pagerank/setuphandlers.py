@@ -1,7 +1,7 @@
 import transaction
 from zope.component import queryUtility
 
-from plonesocial.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkGraph
 
 from ploneintranet.pagerank.testing_config import SOCIAL_GRAPH
 

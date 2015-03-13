@@ -38,9 +38,9 @@
   <replace css:theme-children="#home-tabs"
            css:content-children="#portal-globalnav li" />
 
-  <!-- inject plonesocial navigation -->
+  <!-- inject ploneintranet navigation -->
   <append css:theme="#home-tabs"
-          css:content-children="#plonesocial-navigation li" />
+          css:content-children="#ploneintranet-navigation li" />
 
   <drop css:theme="#buddies-toggle"
         css:if-not-content="#buddies-toggle" />

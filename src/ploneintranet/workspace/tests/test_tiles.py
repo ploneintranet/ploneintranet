@@ -2,8 +2,8 @@
 from DateTime import DateTime
 from plone import api
 from ploneintranet.workspace.tests.test_views import BaseViewTest
-from plonesocial.microblog.interfaces import IMicroblogTool
-from plonesocial.microblog.statusupdate import StatusUpdate
+from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.component import queryUtility
 
 

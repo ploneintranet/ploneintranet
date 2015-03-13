@@ -11,7 +11,7 @@
   <include package=".browser" />
   <include package=".events" />
 
-  <class class="plonesocial.microblog.statusupdate.StatusUpdate">
+  <class class="ploneintranet.microblog.statusupdate.StatusUpdate">
     <implements interface=".interfaces.INotifiable" />
   </class>
 

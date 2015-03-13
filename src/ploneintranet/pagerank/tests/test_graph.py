@@ -17,7 +17,7 @@ class TestGraph(unittest.TestCase):
         self.graphs = Graphs()
 
     def test_social_following(self):
-        """Get the social graph from plonesocial.network
+        """Get the social graph from ploneintranet.network
         """
         self.assertEqual(set(self.graphs.social_following().edges()),
                          config.SOCIAL_GRAPH)

@@ -4,7 +4,7 @@ from BTrees.OOBTree import OOBTree
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
-from plonesocial.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.interfaces import IMicroblogTool
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.component import queryUtility

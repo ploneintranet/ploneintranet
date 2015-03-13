@@ -9,8 +9,8 @@ from ploneintranet.notifications.testing import \
     PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 from ploneintranet.notifications.testing import \
     PLONEINTRANET_NOTIFICATIONS_FUNCTIONAL_TESTING
-from plonesocial.microblog.statusupdate import StatusUpdate
-from plonesocial.microblog.testing import tearDownContainer
+from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.microblog.testing import tearDownContainer
 import unittest
 
 
@@ -85,7 +85,7 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         transaction.commit()
 
     def tearDown(self):
-        container = api.portal.get_tool('plonesocial_microblog')
+        container = api.portal.get_tool('ploneintranet_microblog')
         tearDownContainer(container)
 
     def test_status_update(self):
@@ -93,7 +93,7 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         '''
         with api.env.adopt_user('test_user_adapters_'):
             su = StatusUpdate(u'Test à')
-            pm = api.portal.get_tool('plonesocial_microblog')
+            pm = api.portal.get_tool('ploneintranet_microblog')
             pm.add(su)
 
         pin = api.portal.get_tool('ploneintranet_notifications')
@@ -126,7 +126,7 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         in a separate thread)
         '''
         with api.env.adopt_user('test_user_adapters_'):
-            pm = api.portal.get_tool('plonesocial_microblog')
+            pm = api.portal.get_tool('ploneintranet_microblog')
             # HIC SUNT LEONES
             #
             # The problem here is threaded queue flushing from the

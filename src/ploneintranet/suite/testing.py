@@ -32,16 +32,16 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=collective.documentviewer)
 
         # plone social dependencies
-        import plonesocial.microblog
-        self.loadZCML(package=plonesocial.microblog)
-        import plonesocial.activitystream
-        self.loadZCML(package=plonesocial.activitystream)
-        import plonesocial.network
-        self.loadZCML(package=plonesocial.network)
-        import plonesocial.messaging
-        self.loadZCML(package=plonesocial.messaging)
-        import plonesocial.core
-        self.loadZCML(package=plonesocial.core)
+        import ploneintranet.microblog
+        self.loadZCML(package=ploneintranet.microblog)
+        import ploneintranet.activitystream
+        self.loadZCML(package=ploneintranet.activitystream)
+        import ploneintranet.network
+        self.loadZCML(package=ploneintranet.network)
+        import ploneintranet.messaging
+        self.loadZCML(package=ploneintranet.messaging)
+        import ploneintranet.core
+        self.loadZCML(package=ploneintranet.core)
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup

@@ -10,8 +10,8 @@ from zope.configuration import xmlconfig
 
 import ploneintranet.workspace
 import collective.workspace
-import plonesocial.microblog
-import plonesocial.activitystream
+import ploneintranet.microblog
+import ploneintranet.activitystream
 import ploneintranet.invitations
 import Products.CMFPlacefulWorkflow
 import ploneintranet.theme
@@ -45,13 +45,13 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
         xmlconfig.file(
             'configure.zcml',
-            plonesocial.microblog,
+            ploneintranet.microblog,
             context=configurationContext
         )
 
         xmlconfig.file(
             'configure.zcml',
-            plonesocial.activitystream,
+            ploneintranet.activitystream,
             context=configurationContext
         )
 

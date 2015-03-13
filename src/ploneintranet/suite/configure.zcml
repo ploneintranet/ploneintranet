@@ -46,7 +46,7 @@
 
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
-    <implements interface="plonesocial.microblog.interfaces.IMicroblogContext"/>
+    <implements interface="ploneintranet.microblog.interfaces.IMicroblogContext"/>
   </class>
 
   <!-- -*- extra stuff goes here -*- -->

@@ -17,9 +17,9 @@ from plone.namedfile.file import NamedBlobFile
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.utils import create_attachment
-from plonesocial.network.interfaces import INetworkGraph
-from plonesocial.microblog.interfaces import IMicroblogTool
-from plonesocial.microblog.statusupdate import StatusUpdate
+from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.statusupdate import StatusUpdate
 
 
 def decode(value):
