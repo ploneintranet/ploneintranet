@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object>
+  <order manager="plone.portalheader" skinname="Plone Default">
+    <viewlet name="ploneintranet.messaging.notifications" insert-before="plone.personal_bar" />
+  </order>
+</object>

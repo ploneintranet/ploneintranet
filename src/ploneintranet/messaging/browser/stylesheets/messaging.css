@@ -1,0 +1,23 @@
+#buddies-toggle {
+    margin-right: 15px;
+}
+
+#inbox-messages {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.update-social fieldset {
+   border-style: inherit !important;
+   margin: inherit !important;
+}
+.update-social p.content-mirror {
+    margin-bottom: -100% !important;
+}
+
+.update-social textarea {
+    font: inherit !important;
+}
+.update-social .attachment-previews {
+    margin: inherit !important;
+}

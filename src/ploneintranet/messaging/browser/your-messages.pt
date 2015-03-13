@@ -1,0 +1,21 @@
+
+<tal:c tal:condition="view/your_messages">
+    <tal:def tal:define="messages view/your_messages">
+        <tal:c tal:condition="not:messages/request">
+            <div id="your-messages-icon">
+                <div id="number-of-messages"
+                    tal:condition="messages/unread"
+                    tal:content="messages/unread">
+                </div>
+            </div>
+            <div id="your-messages">
+                <div class="messages"></div>
+            </div>
+        </tal:c>
+        <tal:c tal:condition="messages/request">
+            <tal:block
+                tal:condition="messages/unread"
+                tal:content="messages/unread" />
+        </tal:c>
+    </tal:def>
+</tal:c>

@@ -1,0 +1,85 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.messaging">
+
+  <browser:page
+      for="*"
+      name="messaging-send"
+      class=".messaging.MessageForm"
+      template="send-message.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
+      name="messaging-messages"
+      class=".messaging.MessagingView"
+      attribute="messages"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="delete-message"
+      class=".messaging.MessagingView"
+      attribute="delete_message"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="messaging-conversations"
+      class=".messaging.MessagingView"
+      attribute="conversations"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="social-inbox"
+      class=".messaging.YourMessagesView"
+      template="your-inbox.pt"
+      permission="zope.Public"
+      />
+
+    <browser:page
+      for="*"
+      name="delete-conversation"
+      class=".messaging.MessagingView"
+      attribute="delete_conversation"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="your-messages"
+      class=".messaging.YourMessagesView"
+      template="your-messages.pt"
+      permission="zope2.View"
+      />
+
+  <browser:resource
+      name="ploneintranet.messaging.messages.png"
+      file="images/messages.png"
+      />
+
+  <browser:resource
+      name="ploneintranet.messaging.messaging.js"
+      file="javascript/messaging.js"
+      />
+
+  <browser:resource
+      name="ploneintranet.messaging.messaging.css"
+      file="stylesheets/messaging.css"
+      />
+
+  <browser:viewlet
+      name="ploneintranet.messaging.notifications"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlets.NotificationsViewlet"
+      layer=".interfaces.IPloneIntranetMessagingstreamLayer"
+      permission="zope.Public"
+      />
+
+</configure>

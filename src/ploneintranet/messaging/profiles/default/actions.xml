@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <object name="user" meta_type="CMF Action Category">
+  <object name="plone_social_menu" meta_type="CMF Action" i18n:domain="plone" insert-after="preferences">
+   <property name="title" i18n:translate="">Inbox</property>
+   <property name="description" i18n:translate="">Plone social messaging inbox</property>
+   <property name="url_expr">string:${portal_url}/@@social-inbox</property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">python:member is not None</property>
+   <property name="permissions">
+    <element value="View"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+ </object>
+
+</object>
