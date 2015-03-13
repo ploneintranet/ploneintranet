@@ -23,6 +23,11 @@ Set-up a development environment::
     bin/python2.7 bootstrap.py -c dev.cfg -v 1.6.3  # matching the current version pin!
     bin/buildout -c dev.cfg
 
+Note for virtualenvwrapper users:
+Running bootstrap will place the buildout script in your virtulenv's ``bin/`` directory.
+So if your virtualenv was created with ``mkvirtualenv`` or ``mkproject``,
+most likely you won't find the buildout script where you expect it.
+
 
 Build using the Plone 5 coredev
 -------------------------------
