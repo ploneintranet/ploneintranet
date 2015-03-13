@@ -6,7 +6,6 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import login
-from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -29,16 +28,6 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         self.loadZCML(package=five.grok)
         import plone.dexterity
         self.loadZCML(package=plone.dexterity)
-        # TODO: use a content type from ploneintranet instead of the
-        # slc.underflow Question and get rid of all these extra packages
-        import Products.UserAndGroupSelectionWidget
-        self.loadZCML(package=Products.UserAndGroupSelectionWidget)
-        import slc.stickystatusmessages
-        self.loadZCML(package=slc.stickystatusmessages)
-        import slc.mailrouter
-        self.loadZCML(package=slc.mailrouter)
-        import slc.underflow
-        self.loadZCML(package=slc.underflow)
 
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)
@@ -48,7 +37,6 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.discussion:default')
-        applyProfile(portal, 'slc.underflow:default')
         applyProfile(portal, 'ploneintranet.attachments:default')
 
         # Login and create some test content
