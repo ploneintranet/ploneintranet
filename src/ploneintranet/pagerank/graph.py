@@ -32,7 +32,7 @@ class Graphs(object):
             # TODO: add reference links
             # TODO: add text links
 
-            for author in context.Creators():
+            for author in context.creators:
                 # authorship is a bidirectional relationship
                 content_authors.append((context_path, 'user:%s' % author))
                 content_authors.append(('user:%s' % author, context_path))
