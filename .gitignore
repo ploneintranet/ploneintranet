@@ -1,7 +1,9 @@
 *.egg-info
 *.mo
 *.pyc
+.cache/
 .installed.cfg
+.mozilla/
 .mr.developer.cfg
 .ssh/
 bin/
