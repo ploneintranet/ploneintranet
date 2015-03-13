@@ -21,10 +21,6 @@ try:
     from plone.app.discussion.comment import Comment
 except ImportError:
     Comment = None
-try:
-    from slc.underflow.question import Question
-except ImportError:
-    Question = None
 
 ANNOTATION_KEY = 'ploneintranet.attachments:attachments'
 
@@ -37,8 +33,6 @@ interface.classImplements(PloneSite, IAttachmentStoragable)
 if Comment is not None:
     interface.classImplements(Comment, IAttributeAnnotatable)
     interface.classImplements(Comment, IAttachmentStoragable)
-if Question is not None:
-    interface.classImplements(Question, IAttachmentStoragable)
 
 
 class IAttachmentStorage(interface.Interface):

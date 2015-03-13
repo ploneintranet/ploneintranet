@@ -3,9 +3,7 @@ from io import BytesIO
 
 from ZPublisher.HTTPRequest import ZopeFieldStorage, FileUpload
 from plone import api
-from plone.app.blob.content import ATBlob
 from plone.app.contenttypes.content import Folder
-from plone.app.blob.markings import markAs
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from zope.interface import classImplements
@@ -15,7 +13,6 @@ from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.testing import IntegrationTestCase
 from ploneintranet.attachments.utils import clean_up_temporary_attachments
 from ploneintranet.attachments.utils import create_attachment
-from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.attachments.utils import pop_temporary_attachment
 
 classImplements(Folder, IAttachmentStoragable)
@@ -32,10 +29,6 @@ class TestAttachments(IntegrationTestCase):
             type='Folder',
             title=u"Test Workspace",
             container=portal)
-        self.question = api.content.create(
-            type='slc.underflow.question',
-            title=u"Test Question",
-            container=self.workspace)
 
     def _create_test_file_field(self):
         field_storage = ZopeFieldStorage()
@@ -69,30 +62,3 @@ class TestAttachments(IntegrationTestCase):
 
         clean_up_temporary_attachments(self.workspace, maxage=0)
         self.assertEquals(len(temp_attachments.keys()), 0)
-
-    def test_extract_and_add_attachments(self):
-        file_field = self._create_test_file_field()
-        extract_and_add_attachments(file_field, self.question)
-        attachments = IAttachmentStorage(self.question)
-        self.assertEquals(len(attachments.values()), 1)
-        res = attachments.get(file_field.filename)
-        self.assertEquals(res.id, file_field.filename)
-
-    def test_extract_and_add_attachments_with_token(self):
-        token = "{0}-{1}".format(
-            TEST_USER_ID,
-            datetime.utcnow().strftime('%Y%m%d%H%M%S%f'))
-        temp_attachment = self._create_test_temp_attachment(token)
-        temp_attachments = IAttachmentStorage(self.workspace)
-        temp_attachments.add(temp_attachment)
-        file_field = self._create_test_file_field()
-        extract_and_add_attachments(
-            file_field, self.question, self.workspace, token)
-        attachments = IAttachmentStorage(self.question)
-        self.assertEquals(len(attachments.values()), 1)
-        self.assertTrue(file_field.filename in attachments.keys())
-        res = attachments.get(file_field.filename)
-        self.assertEquals(res.id, file_field.filename)
-        self.assertTrue(
-            '/'.join(res.getPhysicalPath()).startswith(
-                '/'.join(self.workspace.getPhysicalPath())))
