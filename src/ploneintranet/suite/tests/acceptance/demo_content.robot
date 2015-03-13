@@ -26,6 +26,7 @@ Comments are enabled on activity stream
 
 I can see an existing workspace
     Go To                           ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  Documents
     Wait Until Element Is visible   xpath=//a/strong[text()='Manage Information']   timeout=5
 
 I can see an existing user
