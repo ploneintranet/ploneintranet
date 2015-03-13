@@ -36,6 +36,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.microblog)
 
         # Force microblog to disable async mode !!!
+        import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
         import ploneintranet.activitystream
