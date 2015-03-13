@@ -3,12 +3,11 @@ from io import BytesIO
 
 from ZPublisher.HTTPRequest import ZopeFieldStorage, FileUpload
 from plone import api
-from plone.app.blob.content import ATBlob
 from plone.app.contenttypes.content import Folder
-from plone.app.blob.markings import markAs
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from zope.interface import classImplements
+from zope.interface import directlyProvides
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.attachments import IAttachmentStorage
@@ -32,10 +31,11 @@ class TestAttachments(IntegrationTestCase):
             type='Folder',
             title=u"Test Workspace",
             container=portal)
-        self.question = api.content.create(
-            type='slc.underflow.question',
-            title=u"Test Question",
+        self.document = api.content.create(
+            type='Document',
+            title=u"Test document",
             container=self.workspace)
+        directlyProvides(self.document, IAttachmentStoragable)
 
     def _create_test_file_field(self):
         field_storage = ZopeFieldStorage()
@@ -72,8 +72,8 @@ class TestAttachments(IntegrationTestCase):
 
     def test_extract_and_add_attachments(self):
         file_field = self._create_test_file_field()
-        extract_and_add_attachments(file_field, self.question)
-        attachments = IAttachmentStorage(self.question)
+        extract_and_add_attachments(file_field, self.document)
+        attachments = IAttachmentStorage(self.document)
         self.assertEquals(len(attachments.values()), 1)
         res = attachments.get(file_field.filename)
         self.assertEquals(res.id, file_field.filename)
@@ -87,8 +87,8 @@ class TestAttachments(IntegrationTestCase):
         temp_attachments.add(temp_attachment)
         file_field = self._create_test_file_field()
         extract_and_add_attachments(
-            file_field, self.question, self.workspace, token)
-        attachments = IAttachmentStorage(self.question)
+            file_field, self.document, self.workspace, token)
+        attachments = IAttachmentStorage(self.document)
         self.assertEquals(len(attachments.values()), 1)
         self.assertTrue(file_field.filename in attachments.keys())
         res = attachments.get(file_field.filename)
