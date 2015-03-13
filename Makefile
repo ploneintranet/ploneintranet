@@ -207,9 +207,7 @@ devel: bin/buildout
 	bin/buildout -c dev.cfg
 
 bin/buildout: bin/python2.7
-# keep these in sync with config/versions.cfg
-	@bin/pip install setuptools==6.0.2
-	@bin/python bootstrap.py -v 2.2.1
+	@bin/python bootstrap.py
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
