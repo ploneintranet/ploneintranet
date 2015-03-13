@@ -121,7 +121,8 @@ I view the image
 I browse to a file
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
-    Click Link  xpath=//a[contains(@href, 'minutes')]
+    Debug
+    Click Link  xpath=//a[contains(@href, 'minutes/view')]
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
