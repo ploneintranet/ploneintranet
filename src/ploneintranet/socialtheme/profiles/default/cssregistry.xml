@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_css">
+
+ <!-- Set conditions on stylesheets we don't want to pull in -->
+ <stylesheet
+     expression="python: (not request.get('HTTP_X_THEME_ENABLED', None)) or '@@theming-controlpanel' in request.getURL()"
+     id="public.css"
+     />
+
+</object>

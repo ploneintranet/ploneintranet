@@ -1,0 +1,281 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> 
+<html class="no-js" lang="en"> <!--<![endif]-->
+   <head>
+      <meta charset="utf-8"/>
+
+      <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+      More info: h5bp.com/b/378 -->
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+      <title></title>
+      <meta name="description" content=""/>
+      <meta name="author" content=""/>
+
+      <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+      <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+      <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+      <!-- CSS: implied media=all -->
+      <!-- CSS concatenated and minified via ant build script-->
+      <link rel="stylesheet" href="css/public.css"/>
+      <link rel="stylesheet" href="css/reset.css"/>
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+      <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css" media="screen"/>
+
+      <link rel="stylesheet" href="openid-selector/css/openid.css"/>
+      <link rel="stylesheet" href="css/theme.css"/>
+      <link rel="stylesheet" href="jqueryui/css/eggplant/jquery-ui-1.8.5.custom.css"/>
+      <!-- end CSS-->
+
+      <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+         <!-- All JavaScript at the bottom, except for Modernizr / Respond.
+         Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+         For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+         <script src="js/libs/modernizr-2.0.6.min.js"></script>
+
+      </head>
+
+      <body>
+
+         <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+               <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse"
+                   data-target="#topnav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </a>
+               <a class="brand" href="/dashboard"><img src="img/home.png"/></a>
+
+
+               <div class="nav-collapse" id="topnav-collapse">
+                  <ul id="nav" class="nav">
+                     <li><a href="#about">About</a></li>
+                     <li class="dropdown" data-dropdown='dropdown'>
+                     <a href="#" class="dropdown-toggle">Services</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="#item1">Plone Development</a></li>
+                     </ul>
+                     </li>
+                     <li><a href="#contact">Contact</a></li>
+                  </ul>
+                  <ul id="secondary-nav" class="nav pull-right">
+                     <li class="dropdown" data-dropdown="dropdown">
+                     <a class="dropdown-toggle" href="#">
+                        <span id="personaltool-menuheader">User</span>
+                        <b class="caret"></b></a>
+                     <ul class="dropdown-menu" id="personaltool-menu">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Logout</a></li>
+                     </ul>
+                     </li>
+                  </ul>
+                  <form id="topsearchbox" class="navbar-search pull-right">
+                     <input class="search-query" name="SearchableText" placeholder="Search"/>
+                  </form>
+               </div>
+               </div>
+            </div>
+
+         </div>
+
+         <div id="container" class="container">
+            <div id="header">
+               <img id="logo" src="img/logo.png"/>
+               <ul class="nav nav-tabs ploneintranet-navigation">
+               </ul>
+            </div>
+
+            <div id="main" role="main" class="icons-on">
+               <div>
+                  <ul class="breadcrumb">
+                     <li><a href="#">Home</a><span class="divider">/</span></li>
+                     <li class="active">Plone</li>
+                  </ul>
+               </div>
+               <div id="content-columns">
+                  <div class="row">
+                     <div id="left-column" class="span3">
+                        <div id="left-column-content">
+                        <section>
+                           <h4 class="portlet-header">Navigation</h4>
+                           <div>
+                              <ul class="navTree navTreeLevel0">
+                                 <li class="navTreeItem navTreeTopNode">
+                                 <div>
+                                    <a title="" class="contenttype-plone-site " href="#">
+                                       Home
+                                    </a>
+                                 </div>
+                                 </li>
+                                 <li class="navTreeItem visualNoMarker navTreeFolderish section-news">
+                                 <a title="Site News" class="state-published navTreeFolderish contenttype-folder" href="#">
+                                    <span>News</span>
+                                 </a>
+                                 </li>
+                                 <li class="navTreeItem visualNoMarker navTreeCurrentNode navTreeFolderish section-events">
+                                 <a title="Site Events" class="state-published navTreeCurrentItem navTreeCurrentNode navTreeFolderish contenttype-folder" href="#">
+                                    <span>Events</span>
+                                 </a>
+                                 <ul class="navTree navTreeLevel1">
+                                    <li class="navTreeItem visualNoMarker section-fedora-activity-day">
+                                    <a title="" class="state-private contenttype-event" href="#">
+                                       <span>Fedora Activity Day</span>
+                                    </a>
+                                    </li>
+                                 </ul>
+                                 </li>
+                                 <li class="navTreeItem visualNoMarker navTreeFolderish section-members">
+                                 <a title="Site Users" class="state-published navTreeFolderish contenttype-folder" href="#">
+                                    <span>Users</span>
+                                 </a>
+                                 </li>
+                                 <li class="navTreeItem visualNoMarker navTreeFolderish section-services">
+                                 <a title="" class="state-private navTreeFolderish contenttype-folder" href="#">
+                                    <span>Services</span>
+                                 </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </section>
+                        </div>
+                     </div>
+                     <div id="center-column">
+                        <div id="center-column-content">
+                        <article>
+                           <div id="content">
+                              <!-- Example row of columns -->
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis erat dolor,
+                              ut tristique ante. Ut rutrum diam et odio interdum luctus. Curabitur convallis
+                              dolor non lacus auctor vitae varius odio dignissim. Pellentesque aliquam
+                              condimentum magna, et placerat orci pretium et. Cras et erat sit amet elit
+                              ultrices scelerisque. Etiam vehicula mauris ac tortor convallis id mollis urna
+                              egestas. Proin lobortis diam sit amet diam ultrices facilisis vitae volutpat
+                              ligula. Quisque nec tellus ac libero pellentesque viverra. Cras at elit justo.
+                              Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+                              turpis egestas. Maecenas leo erat, ullamcorper eget venenatis eu, porttitor nec
+                              orci. Praesent rhoncus auctor nulla. Nulla dictum semper ornare.</p>
+                              <p>
+                              Vestibulum volutpat scelerisque accumsan. Aliquam euismod felis eu erat
+                              lobortis vestibulum. Nullam accumsan, orci non dignissim tempus, risus erat
+                              porta dolor, at viverra magna sapien non lacus. Aliquam scelerisque varius
+                              erat, ac placerat felis ultricies quis. Nunc vel imperdiet lorem. Curabitur
+                              consectetur urna in ipsum mollis elementum. Praesent vitae metus justo.
+                              Vestibulum eu ipsum nec justo semper posuere at id lectus. Quisque nulla augue,
+                              congue vitae hendrerit id, euismod nec orci. Class aptent taciti sociosqu ad
+                              litora torquent per conubia nostra, per inceptos himenaeos. Sed feugiat massa
+                              varius libero sodales eget lacinia odio ultrices. Vestibulum ante ipsum primis
+                              in faucibus orci luctus et ultrices posuere cubilia Curae; Duis accumsan
+                              egestas metus id iaculis. Aliquam ut diam massa. Morbi viverra tortor non massa
+                              congue facilisis.</p>
+                              <p>
+                              Suspendisse id condimentum mauris. Curabitur suscipit diam enim, vel
+                              consectetur mi. Curabitur quis est a justo malesuada condimentum laoreet et
+                              orci. Nullam commodo, libero et ultrices interdum, tellus tellus ultrices elit,
+                              id condimentum sapien nisi id nibh. Quisque mattis lectus eget dui ornare eget
+                              eleifend lectus ornare. </p>
+                           </div>
+                        </article>
+                        </div>
+                     </div>
+                     <div id="right-column" class="span3">
+                        <div id="right-column-content">
+                        <section>
+                           <h4 class="portlet-header">Calendar</h4>
+                           <div>
+                              <table summary="Calendar" class="ploneCalendar">
+                                 <caption
+                                    class="hiddenStructure">November</caption>
+                                 <thead>
+                                    <tr
+                                       class="weekdays"><th
+                                          scope="col">Su</th><th
+                                          scope="col">Mo</th><th
+                                          scope="col">Tu</th><th
+                                          scope="col">We</th><th
+                                          scope="col">Th</th><th
+                                          scope="col">Fr</th><th
+                                          scope="col">Sa</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+                                    </tr>
+                                    <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+                                    </tr>
+                                    <tr><td>13</td><td>14</td><td>15</td><td>16</td><td
+                                          class="todaynoevent"><strong>17</strong></td><td>18</td><td>19</td>
+                                    </tr>
+                                    <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+                                    </tr>
+                                    <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td>
+                                    </tr>
+                                 </tbody>
+
+                              </table>
+                           </div>
+                        </section>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            <div style="clear:both">&nbsp;</div>
+
+            </div>
+
+            <div style="clear:both">&nbsp;</div>
+            <div class="footer container">
+              <div id="portal-colophon">
+                <p>
+                  <a href="http://github.com/cosent/ploneintranet.suite">Plone Social</a>
+                  is brought to you by <a href="http://cosent.nl">Cosent</a>,
+                  using the <a href="http://plone.org">Plone<sup>®</sup> Open Source CMS/WCM</a>
+                </p>
+              </div>
+            </div>
+         </div> <!--! end of #container -->
+
+
+         <!-- JavaScript at the bottom for fast page loading -->
+
+         <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline 
+         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+         <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+            -->
+
+
+            <script src="bootstrap/js/bootstrap.js"></script>
+            <script>
+               $(document).ready(function () {
+                  $('.dropdown-toggle').dropdown();
+               });
+            </script>
+            <script defer src="js/plugins.js"></script>
+            <script defer src="openid-selector/js/openid-jquery.js"></script>
+            <script defer src="js/openid-providers.js"></script>
+            <script defer src="js/openid-wrapper.js"></script>
+            <script defer src="js/script.js"></script>
+            <div id="site-scripts"></div>
+
+            <!-- end scripts-->
+
+
+            <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+            chromium.org/developers/how-tos/chrome-frame-getting-started -->
+            <!--[if lt IE 7 ]>
+            <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+            <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+            <![endif]-->
+
+         </body>
+      </html>

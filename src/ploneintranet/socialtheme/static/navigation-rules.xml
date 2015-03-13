@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:if test="*"
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    >
+
+    <xsl:if test="not(ul)">
+        <li><xsl:attribute name="class">
+                <xsl:if test="contains(@class,'selected')">
+                    active
+                </xsl:if>
+            </xsl:attribute>
+            <xsl:copy-of select="a[node()]"/>
+        </li>
+    </xsl:if>
+    <xsl:if test="ul">
+        <li class="dropdown" data-dropdown="dropdown">
+            <a class="dropdown-toggle" href="#"><xsl:copy-of select="a/node()"/>
+                <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <xsl:copy-of select="ul/node()"/>
+            </ul>
+        </li>
+    </xsl:if>
+</xsl:if>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    >
+    <replace theme="/html/head/title" content="/html/head/title" />
+
+    <theme href="base.html" css:if-content="#visual-portal-wrapper"/>
+    <theme href="dialog.html" css:if-content="#content.dialog-wrapper"/>
+    <drop css:content="meta[http-equiv='X-UA-Compatible']"/>
+    <rules css:if-content="#content.dialog-wrapper">
+        <prepend theme="/html/head" content="/html/head/base"/>
+        <after css:theme="meta[http-equiv='X-UA-Compatible']" 
+            content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
+        <replace theme="/html/body"
+            content="/html/body"/>
+    </rules>
+    <theme href="html5slides/template/index.html" css:if-content=".presentation"/>
+    <rules css:if-content=".presentation">
+         <replace css:theme-children="section">
+            <xsl:for-each css:select=".slide">
+                <article><xsl:attribute name="class">
+                        <xsl:if test="position()=1">
+                            slide-firstpage
+                        </xsl:if>
+                    </xsl:attribute>
+                    <xsl:copy-of select="current()"/>
+                </article>
+            </xsl:for-each>
+         </replace>
+    </rules>
+
+    <!--    
+    <notheme if-content="html/head/link[@href='/manage_page_style.css']"/>
+    <notheme css:if-content="#content.dialog-wrapper"/>
+    <notheme css:if-content="body.popup"/>
+    -->
+    <rules css:if-content="#visual-portal-wrapper">
+   
+   
+    <prepend theme="/html/head" content="/html/head/base"/>
+
+    <replace theme="//*[@id='logo']/h1" content="//*[@id='content']/h1"/>
+
+    <after css:theme="meta[http-equiv='X-UA-Compatible']" 
+        content="/html/head/link | /html/head/style | /html/head/script | /html/head/meta" />
+
+
+    <copy css:theme="#topsearchbox" css:content="#portal-searchbox form" attributes="action"/>
+    <replace css:theme="#center-column">
+        <div id="center-column"><xsl:attribute name="class">
+                <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-3:4")'>
+                    twocolumns span9
+                </xsl:if>
+                <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-1:2")'>
+                    threecolumns span6
+                </xsl:if>
+                <xsl:if test='contains(//*[@id="portal-column-content"]/@class,"width-full")'>
+                    nocolumns span12
+                </xsl:if>
+            </xsl:attribute>
+            <div id="#viewlet-above-content">
+                <xsl:for-each css:select="#viewlet-above-content > *">
+                    <xsl:if test="@id">
+                    <xsl:if test="@id!='portlets-above' and
+                                  @id!='portal-breadcrumbs'">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="not(@id)">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+            <article>
+                <xsl:copy-of css:select="#kssPortalMessage"/>
+                <xsl:copy-of css:select=".portalMessage"/>
+                <div id="action-bar">
+                    <ul class="nav nav-tabs">
+                    <xsl:for-each css:select="#content-views > li">
+                        <xi:include href="navigation-rules.xml"/>
+                    </xsl:for-each>
+                    <xsl:for-each css:select="#contentActionMenus > li">
+                        <li class="dropdown pull-right" data-dropdown="dropdown">
+                            <a class="dropdown-toggle" href="#"><xsl:attribute name="href">
+                                    <xsl:value-of select="dl/dt/a/@href"/>
+                                </xsl:attribute>
+                                <xsl:copy-of select="dl/dt/a/span"/>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="min-width:150px;">
+                                <xsl:for-each css:select=".actionMenuContent > ul > li">
+                                    <xsl:copy-of select="current()"/>
+                                </xsl:for-each>
+                            </ul>
+                        </li>
+                    </xsl:for-each>
+                    </ul>
+                </div>
+
+                <xsl:apply-templates css:select="#content"/>
+            </article>
+            <div class="visualClear"/>
+            <div id="#viewlet-below-content">
+                <xsl:for-each css:select="#viewlet-below-content > *">
+                    <xsl:if test="@id">
+                    <xsl:if test="@id!='portlets-below'">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="not(@id)">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </div>
+    </replace>
+    <drop css:content="#enable_cookies_message"/>
+    <drop css:theme=".hero-unit" css:if-not-content=".section-front-page"/>
+    <drop css:theme="#left-column" css:if-not-content="#portal-column-one"/>
+    <drop css:theme="#right-column" css:if-not-content="#portal-column-two"/>
+
+
+    <replace css:theme="#logo" css:content="#portal-logo"/>
+    <replace css:theme-children=".ploneintranet-navigation"
+             css:content-children="#ploneintranet-navigation" />
+
+
+
+    <replace css:theme-children="#nav">
+        <xsl:for-each css:select="#portal-globalnav > li">
+            <xi:include href="navigation-rules.xml"/>
+        </xsl:for-each>
+    </replace>
+    <replace css:theme-children="#personaltool-menu" 
+        css:content-children="#portal-personaltools"/>
+           
+    <replace css:theme-children="#personaltool-menuheader" 
+        css:content-children="#portal-personaltools .actionMenuHeader a"/>
+    <replace css:theme-children="#secondary-nav" css:if-content="#anon-personalbar">
+        <li><xsl:copy-of css:select="#personaltools-login"/></li>
+    </replace>
+
+    <copy css:theme=".navbar-fixed-top .brand" css:content="#portal-logo" attributes="href"/>
+    <replace css:theme-children=".breadcrumb">
+        <xsl:for-each css:select="#portal-breadcrumbs > span">
+            <li>
+                <xsl:copy-of select="node()"/>
+            </li>
+        </xsl:for-each>
+    </replace>
+
+<!--
+    <append css:theme=".footer" css:content-children="#portal-footer"/>
+    <append css:theme=".footer" css:content="#portal-colophon"/>
+-->
+    <append css:theme=".footer" css:content="div#visual-portal-wrapper > div.row > script"/>
+
+    <append css:theme="#left-column-content"
+        css:content="#portletmanager-plone-leftcolumn"/>
+    <replace css:theme-children="#left-column-content">
+        <div>
+            <xsl:for-each css:select="#portal-column-one .portletWrapper">
+                <xi:include href="portlet-rules.xml"/>
+            </xsl:for-each>
+            <xsl:copy-of css:select="#portal-column-one .managePortletsLink"/>
+        </div>
+    </replace>
+
+    <append css:theme="#right-column-content"
+        css:content="#portletmanager-plone-rightcolumn"/>
+    <replace css:theme-children="#right-column-content">
+        <div>
+            <xsl:for-each css:select="#portal-column-two .portletWrapper">
+                <xi:include href="portlet-rules.xml"/>
+            </xsl:for-each>
+            <xsl:copy-of css:select="#portal-column-two .managePortletsLink"/>
+        </div>
+    </replace>
+
+
+    <xi:include href="facetednavigation-rules.xml"/>
+    <append css:theme="#site-scripts" css:content="#portal-footer-wrapper > div > script"/>
+    </rules>
+</rules>

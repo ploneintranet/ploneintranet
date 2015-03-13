@@ -1,0 +1,67 @@
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    >
+
+    <!--
+   <replace css:content="#faceted-top-column .faceted-widget:first-child">
+        <div class="well" id="main_search">
+             <xsl:copy-of select="current()"/>
+        </div>
+    </replace>-->
+    <replace css:content-children="#faceted-form">
+        <xsl:copy-of select="div[@id='faceted-sections-buttons']"/>
+        <div class="row-fluid">
+            <div class="span12">
+                <xsl:for-each select="div[@id='top-area']/div/div/*">
+                    <xsl:if test="contains(@class, 'faceted-text-widget')">
+                        <div class="faceted-top-search well">
+                             <xsl:copy-of select="current()"/>
+                        </div>
+                    </xsl:if>
+                    <xsl:if test="not(contains(@class, 'faceted-text-widget'))">
+                        <xsl:copy-of select="current()"/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <xsl:if test="div[@id='center-and-left-area']/div[@id='left-area']/div/div/node()">
+            <div class="span3">
+                <xsl:copy-of select="div[@id='center-and-left-area']/div[@id='left-area']/div/node()"/>
+            </div>
+            </xsl:if>
+            <div><xsl:attribute name="class">
+                    <xsl:if test="div[@id='center-and-left-area']/div[@id='left-area']/div/div/node() 
+                        and div[@id='right-area']/div/div/node()">
+                    span6
+                    </xsl:if>
+                    <xsl:if test="not(div[@id='center-and-left-area']/div[@id='left-area']/div/div/node() 
+                                                and div[@id='right-area']/div/div/node())">
+                        <xsl:if test="div[@id='center-and-left-area']/div[@id='left-area']/div/div/node() 
+                            or div[@id='right-area']/div/div/node()">
+                            span9
+                        </xsl:if>
+                        <xsl:if test="not(div[@id='center-and-left-area']/div[@id='left-area']/div/div/node() 
+                                                        or div[@id='right-area']/div/div/node())">
+                            span12
+                        </xsl:if>
+                    </xsl:if>
+                </xsl:attribute>
+                <xsl:copy-of select="div[@id='center-and-left-area']/div[@id='center-area']/div/node()"/>
+            </div>
+            <xsl:if test="div[@id='right-area']/div/div/node()">
+            <div class="span3">
+                <xsl:copy-of select="div[@id='right-area']/div/node()"/>
+            </div>
+            </xsl:if>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <xsl:copy-of select="div[@id='bottom-area']"/>
+            </div>
+        </div>
+    </replace>
+</rules>
