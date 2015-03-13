@@ -1,11 +1,14 @@
 *.egg-info
+*.mo
+*.pyc
 .installed.cfg
 .mr.developer.cfg
-*.pyc
+.ssh/
 bin/
 develop-eggs/
 docs/Makefile
 docs/make.bat
+eggs/
 include/
 lib/
 node_modules/
@@ -21,11 +24,6 @@ src/bower_components/
 src/collective.celery/
 src/plone.app.blocks/
 src/ploneintranet/theme/static/generated/
-src/plonesocial.activitystream/
-src/plonesocial.core/
-src/plonesocial.messaging/
-src/plonesocial.microblog/
-src/plonesocial.network/
 src/slc.docconv/
 src/sphinx.themes.plone/
 src/zope.testrunner/
@@ -33,5 +31,3 @@ stamp-bower
 stamp-npm
 uuid.txt
 var/
-.ssh/
-eggs/
