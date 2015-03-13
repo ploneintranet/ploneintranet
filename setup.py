@@ -39,6 +39,7 @@ setup(name='ploneintranet',
           'setuptools',
           # -*- Extra requirements: -*-
           'requests',
+          'loremipsum',
           'slc.docconv',
           'z3c.jbot',
           'five.grok',
@@ -65,6 +66,9 @@ setup(name='ploneintranet',
               'plone.app.testing',
               'plone.app.robotframework[debug]',
               'fake-factory',
+          ],
+          'socialsuite': [
+              'loremipsum',
           ],
           'suite': [
               'requests',
