@@ -7,7 +7,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="PloneIntranet Suite"
+      title="Plone Intranet Social Suite"
       directory="profiles/default"
       description="Installs the suite of all ploneintranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -16,13 +16,13 @@
 
   <genericsetup:importStep
       name="ploneintranet.socialsuite.importVarious"
-      title="Various setup handling"
+      title="Plone Intranet Social Suite: Various setup handling"
       description=""
       handler="ploneintranet.socialsuite.setuphandlers.importVarious" />
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="PloneIntranet Suite: Uninstall"
+      title="Plone Intranet Social Suite: Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls ploneintranet.socialsuite (but not the other ploneintranet.* packages)"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -31,13 +31,13 @@
 
   <genericsetup:importStep
       name="ploneintranet.socialsuite.uninstallVarious"
-      title="Various uninstall handling"
+      title="Plone Intranet Social Suite: Various uninstall handling"
       description=""
       handler="ploneintranet.socialsuite.setuphandlers.uninstallVarious" />
 
   <genericsetup:registerProfile
       name="demo"
-      title="PloneIntranet Suite (Demo)"
+      title="Plone Intranet Social Suite (Demo)"
       directory="profiles/demo"
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -46,10 +46,8 @@
 
   <genericsetup:importStep
       name="ploneintranet.demo"
-      title="Setup demo data"
+      title="Plone Intranet Social Suite (Set up demo data)"
       description=""
       handler="ploneintranet.socialsuite.setuphandlers.demo" />
 
-  <!-- -*- extra stuff goes here -*- -->
-  
 </configure>
