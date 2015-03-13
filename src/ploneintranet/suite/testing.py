@@ -35,10 +35,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
 
-        # Force microblog to disable async mode !!!
-        import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
-
         import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
         import ploneintranet.network
@@ -47,12 +43,18 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.messaging)
         import ploneintranet.core
         self.loadZCML(package=ploneintranet.core)
+        # Force microblog to disable async mode !!!
+        import ploneintranet.microblog.statuscontainer
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
 
     def tearDownZope(self, app):
+        # reset sync mode
+        import ploneintranet.microblog.statuscontainer
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
 
