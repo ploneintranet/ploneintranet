@@ -564,7 +564,7 @@ class QueuedStatusContainer(BaseStatusContainer):
             # block autoflush
             self._mtime = int(time.time() * 1000)
             # cancel scheduled flush
-            if not MAX_QUEUE_AGE > 0 and self._v_timer is not None:
+            if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
                 # logger.info("Cancelling timer")
                 self._v_timer.cancel()
                 self._v_timer = None
