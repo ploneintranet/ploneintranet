@@ -5,7 +5,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.testing import z2
 
-import ploneintranet
 import collective.workspace
 import collective.z3cform.chosen
 import slc.docconv
@@ -18,7 +17,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        self.loadZCML(package=ploneintranet)
+        import ploneintranet.suite
+        self.loadZCML(package=ploneintranet.suite)
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
@@ -34,6 +34,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # plone social dependencies
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
+
         import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
         import ploneintranet.network
@@ -42,12 +43,18 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.messaging)
         import ploneintranet.core
         self.loadZCML(package=ploneintranet.core)
+        # Force microblog to disable async mode !!!
+        import ploneintranet.microblog.statuscontainer
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
 
     def tearDownZope(self, app):
+        # reset sync mode
+        import ploneintranet.microblog.statuscontainer
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
 
