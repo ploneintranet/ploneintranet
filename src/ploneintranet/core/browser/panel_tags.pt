@@ -31,22 +31,23 @@
 
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
               data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags && source: #selected-tags-data;; target: #selected-tags-data">
-          <fieldset class="checklist pat-checklist tags unchecked">
-
-            <label class="item tag unchecked"
-                   tal:repeat="tag view/tags">
+          <fieldset class="checklist pat-checklist tags unchecked" tal:define="tags view/tags">
+            <tal:tags repeat="tag tags">
+            <label class="item tag">
               <input type="checkbox" name="tags:list"
-                     tal:attributes="value tag"/>
+                     tal:attributes="value tag;
+                                     checked python:tag in view.selected_tags and 'checked' or ''"/>
               <a class="follow">
                 <strong class="title icon-tag"
                         tal:content="tag" />
               </a>
             </label>
+            </tal:tags>
+            <input type="submit" name="Submit" hidden />
+            <tal:block tal:repeat="tag view/selected_tags"
+                ><input type="hidden" name="tags:list" tal:attributes="value tag" tal:condition="python:tag not in tags" /></tal:block>
+            <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
           </fieldset>
-          <input type="submit" name="Submit" hidden />
-          <tal:block tal:repeat="tag view/selected_tags"
-                ><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block>
-          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
       </div>
 

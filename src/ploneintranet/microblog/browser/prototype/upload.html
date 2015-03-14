@@ -66,6 +66,8 @@
             ></em>
           </p>
 
+          <!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
+              tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
           <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
                           type="hidden" name="tags:list" tal:attributes="value tag" /></span>
 

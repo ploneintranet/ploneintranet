@@ -24,10 +24,10 @@ class Tags(BrowserView):
         if tool:
             tags.update(tool._tag_mapping.keys())
 
-        tags = sorted(tags)
-
         search_string = self.request.form.get('tagsearch')
         self.selected_tags = self.request.form.get('tags', [])
+        tags.update(self.selected_tags)
+        tags = sorted(tags)
         if search_string:
             search_string = search_string.lower()
             tags = filter(lambda x: search_string in x.lower(),
