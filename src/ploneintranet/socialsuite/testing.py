@@ -68,7 +68,7 @@ PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
                        name="PloneIntranetSocialSuite:Integration")
 
-PLONEINTRANET_SOCIAL_ROBOT_TESTING = FunctionalTesting(
+PLONEINTRANET_SOCIAL_ROBOT = FunctionalTesting(
     bases=(AUTOLOGIN_LIBRARY_FIXTURE,
            PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
     name="PloneIntranetSocialSuite:Robot")
