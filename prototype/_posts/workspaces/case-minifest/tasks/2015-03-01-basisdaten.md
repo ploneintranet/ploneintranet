@@ -15,5 +15,7 @@ description: Erfassung der Basis-Absenderdaten
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+assignee: guido-stevens
+due: 2 Jan
 ---
 

@@ -28,15 +28,22 @@ sidebar: closed
 								{% assign count = count | plus: 1 %}
 								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %}">
 									<p class="step-label{% if node.icon %} icon icon-{{ node.icon }}{% endif %}">
-										<a href="{{ node.url }}" class="link" title="{{ node.title }}">
+										<a href="{{ node.url }}/#document-body" class="link pat-inject" title="{{ node.title }}" data-pat-inject="history: record">
 											{{ node.title }}
 										</a>
 									</p>
 
-									<p class="step-assignee">
-										{% include patterns/avatar.html link="/liz-baker/" img="/media/avatar-liz-baker.jpg" %}
-										<time class="date" datetime="2017-02-14">14 Feb</time>
-									</p>
+									{% if node.assignee or node.due %}
+										<p class="step-assignee">
+											{% if node.assignee %}
+												{% capture assignee %}/media/avatar-{{ node.assignee }}.jpg{% endcapture %}
+											    {% include patterns/avatar.html link="" img=assignee %}
+											{% endif %}
+											{% if node.due %}
+											    <time class="date" datetime="2017-02-14">{{ node.due }}</time>
+											{% endif %}
+										</p>
+									{% endif %}
 								</li>
 							{% endif %}
 						{% endfor %}

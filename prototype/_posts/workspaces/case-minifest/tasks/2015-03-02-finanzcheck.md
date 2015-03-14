@@ -15,5 +15,7 @@ description: Überprüfe wieviel finanzielle Zuwendung in den vergangenen 5 Jahr
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+assignee: cornelis-kolbach
+due: 14 Feb
 ---
 

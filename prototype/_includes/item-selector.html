@@ -325,6 +325,11 @@
                 <li>
                     <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
                 </li>
+                {% unless page.parent != 'root' %}
+                    <li>
+                        <a href="/panel-rename-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Change folder name or&nbsp;description</a>
+                    </li>
+                {% endunless %}
                 <li>
                     <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
                 </li>
