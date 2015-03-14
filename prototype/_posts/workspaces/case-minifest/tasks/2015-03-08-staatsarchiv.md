@@ -15,6 +15,5 @@ description: Übermittlung des Geschäfts an das Staatsarchiv über eGovernment 
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
-
-

@@ -17,5 +17,5 @@ application_name: Workspace
 workspace_name: Minifest
 assignee: liz-baker
 due: 2 Mar
+state: closed
 ---
-

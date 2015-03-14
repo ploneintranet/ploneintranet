@@ -17,5 +17,5 @@ application_name: Workspace
 workspace_name: Minifest
 assignee: cornelis-kolbach
 due: 14 Feb
+state: closed
 ---
-
