@@ -8,6 +8,7 @@ mkdir -p buildout-cache/downloads || exit 1
 # console_scripts have been created in ./bin to avoid running into the
 # problem where the shabang is > 127 characters long.
 virtualenv --relocatable .
+. bin/activate
 ./bin/python bootstrap.py || exit 1
 virtualenv --relocatable .
 ./bin/buildout -N -t 3 -c jenkins.cfg || exit 1
