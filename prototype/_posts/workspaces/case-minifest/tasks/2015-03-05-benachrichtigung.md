@@ -15,4 +15,5 @@ description: Mitteilungen an DAMP, David Rüegsegger, Leiter der Arbeitsstelle, 
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
