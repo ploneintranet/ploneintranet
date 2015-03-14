@@ -207,13 +207,22 @@ devel: bin/buildout
 	bin/buildout -c dev.cfg
 
 bin/buildout: bin/python2.7
-# keep these in sync with config/versions.cfg
-	@bin/pip install setuptools==6.0.2
-	@bin/python bootstrap.py -v 2.2.1
+	@bin/python bootstrap.py
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
-xtest:
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -s ploneintranet.activitystream -s ploneintranet.core -s ploneintranet.network -s ploneintranet.messaging -s ploneintranet.microblog -s ploneintranet.socialsuite || true
+
+# inspect robot traceback:
+# bin/robot-server ploneintranet.socialsuite.testing.PLONEINTRANET_SOCIAL_ROBOT_TESTING^
+# firefox localhost:55001/plone
+test-robot:
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot' -x
+	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
+
+test-norobot:
+	bin/test -t '!robot' -x
+
+test: 
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null

@@ -20,6 +20,12 @@ class PloneintranetNotificationsLayer(PloneSandboxLayer):
             ploneintranet.notifications,
             context=configurationContext
         )
+        import ploneintranet.microblog
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.microblog,
+            context=configurationContext
+        )
 
     def tearDownZope(self, app):
         pass

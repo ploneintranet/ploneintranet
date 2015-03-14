@@ -12,13 +12,12 @@ design_description: Exmple of a ticket
 document_creator: Guido Stevens
 document_creator_id: gyst
 parent: open-market-committee
-
----
-
-Be early at the venue to prepare everything for the staff christmas get-together.
+description: "Be early at the venue to prepare everything for the staff christmas get-together.
 Remember:
 * Decoration
 * Gifts
 * Get a toast master to organise the speeches
 * Projector for the annual retrospect
-* Cables and Adapters
+* Cables and Adapters"
+---
+
