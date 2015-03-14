@@ -6,13 +6,9 @@ from plone import api
 
 class Users(BrowserView):
 
-    action = '#selected-users'
-    button_deselect_all = True
-    button_select_all = True
     index = ViewPageTemplateFile('panel_users.pt')
     input_name = 'users:list'
     input_type = 'checkbox'
-    is_multiselect = True
     panel_id = 'panel-users'
     panel_type = 'mentions'
 
@@ -30,18 +26,13 @@ class Users(BrowserView):
                 lambda x: search_string in x.getProperty('fullname').lower(),
                 users
             )
-
         return users
 
 
 class User(Users):
 
-    action = '#selected-user'
-    button_deselect_all = False
-    button_select_all = False
     index = ViewPageTemplateFile('panel_users.pt')
     input_name = 'user'
     input_type = 'radio'
-    is_multiselect = False
     panel_id = 'panel-user'
     panel_type = 'user'
