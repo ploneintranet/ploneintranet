@@ -52,8 +52,10 @@ class ContentView(BrowserView):
         if docconv.has_previews():
             return docconv.get_number_of_pages()
 
-    def image_url(self):
-        """The img-url used to construct the img-tag."""
+    def image_preview_tag(self):
+        """The img-tag used to render an image."""
         context = aq_inner(self.context)
-        if getattr(context, 'image', None) is not None:
-            return '{}/@@images/image'.format(context.absolute_url())
+        images_view = api.content.get_view('images', context, self.request)
+        scale = images_view.scale(fieldname='image', scale='large')
+        if scale:
+            return scale.tag(css_class='page')

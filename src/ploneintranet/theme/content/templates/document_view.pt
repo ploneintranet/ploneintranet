@@ -10,8 +10,7 @@
   <metal:content fill-slot="content"
     tal:define="workspace python:view.workspace;
                 workspace_url python:workspace.absolute_url();
-                workspace_id python:workspace.id;
-                read_only python:not view.can_edit">
+                workspace_id python:workspace.id">
 
     <h1 id="workspace-name">
         <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
@@ -27,7 +26,7 @@
                         <h1 class="doc-title" id="document-title">
                             ${context/title}
                         </h1>
-                        <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                        <input name="title" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                         <div class="quick-functions">
                             <a href="#confirm-delete" class="icon-trash iconified">
                                 Delete
@@ -52,16 +51,16 @@
                                     </select>
                                 </label>
                             </fieldset>
-                            <button type="submit" tal:attributes="disabled read_only" class="icon-floppy">Save</button>
+                            <button type="submit" class="icon-floppy">Save</button>
 
                         </div>
                     </div>
                     <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                         <fieldset class="bar">
-                            <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
+                            <input type="text" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
                         </fieldset>
                         <fieldset class="bar description">
-                            <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                            <textarea name="description" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
                          </fieldset>
 
                         <!-- <fieldset class="bar versioning">
@@ -95,7 +94,7 @@
 
                     <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                         <figure>
-                        <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                        <img tal:replace="structure view/image_preview_tag" />
                         </figure>
                     </article>
 
