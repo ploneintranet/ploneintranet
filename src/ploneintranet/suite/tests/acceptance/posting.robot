@@ -54,15 +54,24 @@ Esmeralda can reply to a reply
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 
+# Jesse can add tags to a status update
+#     Given I'm logged in as a 'jesse_shaik'
+#     when I open the Dashboard
+#     and I write a status update    ${MESSAGE3}
+
 *** Keywords ***
 
-I post a status update
+I write a status update
     [arguments]  ${message}
     Wait Until Element Is visible  css=textarea.pat-content-mirror
     Element should not be visible  css=button[name='form.buttons.statusupdate']
     Click element  css=textarea.pat-content-mirror
     Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
     Input Text  css=textarea.pat-content-mirror  ${message}
+
+I post a status update
+    [arguments]  ${message}
+    I write a status update    ${message}
     Click button  css=button[name='form.buttons.statusupdate']
 
 
