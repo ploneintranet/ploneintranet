@@ -40,6 +40,44 @@ aside.sidebar.left {
     margin-bottom: 1em;
   }
 
+  .pat-collapsible.task-list {
+    border: 1px silver solid;
+    background-color: #efefef;
+    border-radius: 0.5em;
+
+    .panel-content {
+      padding: 1em 4% 0 4%;
+    }
+
+    .collapsible-closed,
+    .collapsible-open {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+
+      padding: 3% 4%;
+
+      cursor: default;
+
+      &:before {
+        content: "\e852";
+        display: inline-block;
+        margin-right: 0.3em;
+        font-family: fontello;
+      }
+
+      &:after {
+        font-family: fontello;
+        content: "\e855";
+        float: right;
+      }
+    }
+
+    .collapsible-closed:after {
+      content: "\e856";
+    }
+  }
+
   .functions {
       text-align: center;
       position: relative;

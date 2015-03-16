@@ -37,7 +37,7 @@
         {% if workspace.type == 'case' %}
             <!-- <h3>Case Tasks</h3> -->
             {% for item in workspace.case_states %}
-                <fieldset class="task-list pat-checklist">
+                <fieldset id="milestone-{{ item.label | replace: ' ' '-' }}" class="task-list pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-{{ item.transition_state }}">
                         {{ item.label }} {% if item.text %}<a href="/{{ item.text }}#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>{% endif %}
                     </h4>
