@@ -3,7 +3,7 @@ layout: panel
 title: Create document
 action: "/open-market-committee/#sidebar"
 inject: ""
-buttons: 
+buttons:
   - label: Create
     class: 'icon-ok-circle close-panel'
     type: submit
@@ -19,20 +19,20 @@ design_description: Dialogue box for creating a new document.
 
 <fieldset class="icon-tabs">
     <label class="icon-doc-text">
-        <input checked="checked" name="document-type" value="rich" type="radio"> Rich text
+        <input checked="checked" name="portal_type" value="Document" type="radio"> Rich text
     </label>
     <label class="icon-slides">
-        <input name="document-type" value="slideshow" type="radio"> Slideshow
+        <input name="portal_type" value="Slideshow" type="radio"> Slideshow
     </label>
 <!--     <label class="icon-calendar">
-        <input name="document-type" value="event" type="radio"> Event
+        <input name="portal_type" value="event" type="radio"> Event
     </label> -->
     <label class="icon-file-image">
-        <input name="document-type" value="image" type="radio"> Image
+        <input name="portal_type" value="Image" type="radio"> Image
     </label>
 </fieldset>
 <fieldset class="vertical">
-    <input type="text" placeholder="Document title" autofocus />
-    <input type="file" class="image pat-depends" name="image" data-pat-depends="document-type=image" />
+    <input type="text" name="title" placeholder="Document title" autofocus />
+    <input type="file" name="image" class="image pat-depends" data-pat-depends="portal_type=Image" />
     <textarea name="description" rows="6" placeholder="Description for search results (Optional)"></textarea>
 </fieldset>

@@ -11,9 +11,6 @@
         <label class="icon-slides">
             <input name="portal_type" value="Slideshow" type="radio"> Slideshow
         </label>
-        <label class="icon-calendar">
-            <input name="portal_type" value="Event" type="radio"> Event
-        </label>
         <label class="icon-file-image">
             <input name="portal_type" value="Image" type="radio"> Image
         </label>
