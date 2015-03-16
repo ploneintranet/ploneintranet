@@ -5,38 +5,19 @@
   <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/comment-well-said.html -->
   <metal:macro define-macro="main">
     <tal:define define="
-          post newpostbox_view/post;
-          activity_provider nocall:newpostbox_view/activity_provider;
-        ">
-      <div id="comment-trail">
-        <div class="comment">
-          <div class="comment-header">
-            <a href="${here/portal_url}/author/${post/creator}"
-               tal:define="
-                 avatar_img string:${here/portal_url}/portal_memberdata/portraits/${post/creator};
-               ">
-              <metal:block use-macro="here/@@avatar.html/main" />
-              <h4 class="name">${python:view.userid2fullname(post.creator)}</h4>
-              <time class="date" tal:define="toLocalizedTime nocall:toLocalizedTime|context/@@plone/toLocalizedTime">${python:toLocalizedTime(post.date)}</time>
-            </a>
-          </div>
-          <section class="comment-content">
-            <p tal:content="structure activity_provider/getText"></p>
-          </section>
+        portal_url here/portal_url;
+        attachment_previews_id string:attachment-previews-${thread_id};
+        action string:${here/absolute_url}/@@newpostbox.tile;
+      ">
+        <div tal:attributes="id string:comment-trail-${thread_id}">
+          <tal:loop tal:repeat="provider newpostbox_view/activity_providers">
+            <metal:block use-macro="here/@@comment.html/main" />
+          </tal:loop>
         </div>
-      </div>
 
-        <tal:define define="
-          newpostbox_view nocall:newpostbox_view|here/newpostbox.tile;
-          thread_id newpostbox_view/thread_id;
-          attachment_previews_id string:attachment-previews-${thread_id};
-          action string:${here/absolute_url}/@@newpostbox.tile;
-          placeholder activity_provider/placeholder;
-        ">
-          <metal:block use-macro="here/@@upload.html/main" />
-        </tal:define>
-
+        <metal:block use-macro="here/@@upload.html/main" />
     </tal:define>
+
   </metal:macro>
 </body>
 
