@@ -15,5 +15,5 @@ description: Publizieren des Beschlusses im Web - falls öffentlich.
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
-

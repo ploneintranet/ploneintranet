@@ -44,7 +44,7 @@
                     {% for ticket in site.posts  %}
                         {% if ticket.workspace_name == workspace.workspace_name and ticket.case_state == item.label %}
                             <label>
-                                <input type="checkbox" {% if ticket.state == 'complete' or item.transition_state == 'finished' %}checked{% endif %} /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}#workspace-tickets">{{ ticket.title }}</a>
+                                <input type="checkbox" {% if ticket.state == 'closed' or item.transition_state == 'finished' %}checked{% endif %} /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}#workspace-tickets">{{ ticket.title }}</a>
                             </label>
                         {% endif %}
                     {% endfor %}

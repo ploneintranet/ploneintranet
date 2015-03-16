@@ -15,6 +15,5 @@ description: Zugeteilten Betrag auf festgelegtem Konto einbuchen.
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
-
-

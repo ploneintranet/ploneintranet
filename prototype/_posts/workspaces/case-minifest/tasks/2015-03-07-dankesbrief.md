@@ -15,6 +15,5 @@ description: Dankesbrief ablegen.
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
-
-
