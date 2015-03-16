@@ -24,8 +24,8 @@ workspace_module: tickets
                 <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #ticket-open-closed::element;">
                     <label class="pat-select bare" title="Change the workflow state">
                         <select>
-                            <option>Open</option>
-                            <option>Closed</option>
+                            <option {% if page.state == 'open' %}selected{% endif %}>Open</option>
+                            <option {% if page.state == 'closed' %}selected{% endif %}>Closed</option>
                         </select>
                     </label>
                 </fieldset>
@@ -64,7 +64,7 @@ workspace_module: tickets
                 </label>
                 <br>
                 <label class="stage milestone">
-                    Milestone this task belongs to 
+                    Milestone this task belongs to
                     <select name="" id="">
                         <option value="">Neu</option>
                         <option value="">In Bearbeitung</option>
@@ -77,7 +77,7 @@ workspace_module: tickets
                     </select>
                 </label>
                 <br>
-                <label class="attachments">Attached documents from this workspace 
+                <label class="attachments">Attached documents from this workspace
                     <input class="pat-autosuggest documents" data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Baggage rules,First delivery presentation,IATA standards 2012,Initial competitive analysis,Market segmentation,Minutes kick-off meeting,Out of the box,Priority bag process,Priority bag tag specification,Waste not want not" type="text" value="Boardbook, Waste not want not">
                 </label>
             </fieldset>

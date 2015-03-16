@@ -94,6 +94,12 @@ workspace_module: docs
                     <img src="{{ preview.url }}" alt="" class="page" />
                 {% endfor %}
             </article>
+        {% elsif page.document_type == 'image' %}
+            <article class="document preview">
+                {% for preview in page.previews %}
+                    <img src="{{ preview.url }}" alt="" class="page" />
+                {% endfor %}
+            </article>
         {% endif %}
     </div>
 </form>

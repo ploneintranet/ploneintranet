@@ -28,7 +28,7 @@ sidebar: closed
 								{% assign count = count | plus: 1 %}
 								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %}">
 									<p class="step-label{% if node.icon %} icon icon-{{ node.icon }}{% endif %}">
-										<a href="{{ node.url }}/#document-body" class="link pat-inject" title="{{ node.title }}" data-pat-inject="history: record">
+										<a href="{{ node.url }}#workspace-tickets" class="link" title="{{ node.title }}" data-pat-inject="history: record">
 											{{ node.title }}
 										</a>
 									</p>
