@@ -29,17 +29,22 @@
                 <a title="Create new document" href="/panel-create-task.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
             </div>
         </div>
-        {% if page.type == 'case' %}
+        {% for node in site.posts %}
+            {% if node.layout == "workspace-landing" and node.workspace_name == page.workspace_name %}
+                {% assign workspace = node %}
+            {% endif %}
+        {% endfor %}
+        {% if workspace.type == 'case' %}
             <!-- <h3>Case Tasks</h3> -->
-            {% for item in page.case_states %}
+            {% for item in workspace.case_states %}
                 <fieldset class="task-list pat-checklist">
                     <h4 class="section-label state-{{ item.transition_state }}">
                         {{ item.label }} {% if item.text %}<a href="/{{ item.text }}#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>{% endif %}
                     </h4>
                     {% for ticket in site.posts  %}
-                        {% if ticket.workspace_name == page.workspace_name and ticket.case_state == item.label %}
+                        {% if ticket.workspace_name == workspace.workspace_name and ticket.case_state == item.label %}
                             <label>
-                                <input type="checkbox" {% if ticket.state == 'closed' or item.transition_state == 'finished' %}checked{% endif %} /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
+                                <input type="checkbox" {% if ticket.state == 'closed' or item.transition_state == 'finished' %}checked{% endif %} /> <a title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}#workspace-tickets">{{ ticket.title }}</a>
                             </label>
                         {% endif %}
                     {% endfor %}
@@ -54,7 +59,7 @@
                     Unassigned
                 </h4>
                 {% for ticket in site.posts  %}
-                    {% if ticket.workspace_name == page.workspace_name and ticket.case_state == 'unassigned' %}
+                    {% if ticket.workspace_name == workspace.workspace_name and ticket.case_state == 'unassigned' %}
                         <label>
                             <input type="checkbox" /> <a class="pat-inject" title="{{ ticket.excerpt | strip_html }}" href="{{ticket.url}}" data-pat-inject="source: #document-body; target: #document-body; history: record">{{ ticket.title }}</a>
                         </label>
@@ -68,7 +73,7 @@
             <h3>General tasks</h3>
             <fieldset class="task-list pat-checklist">
                 {% for ticket in site.posts  %}
-                    {% if ticket.layout == 'ticket' and ticket.workspace_name == page.workspace_name %}
+                    {% if ticket.layout == 'ticket' and ticket.workspace_name == workspace.workspace_name %}
                         {% if count >= 1 %}
                             <br/>
                         {% endif %}
@@ -184,7 +189,7 @@
                         <textarea rows="4" placeholder="Workspace brief description">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
                     <fieldset class="pat-checklist">
-<!--                         <label>
+                        <!-- <label>
                             <input type="checkbox" checked> Visible workspace
                         </label> -->
                         <label>
