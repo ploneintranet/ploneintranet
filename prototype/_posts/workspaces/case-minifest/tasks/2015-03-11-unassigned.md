@@ -15,6 +15,7 @@ document_creator_id: gyst
 application: workspace
 application_name: Workspace
 workspace_name: Minifest
+state: open
 ---
 
 Case task - unassigned

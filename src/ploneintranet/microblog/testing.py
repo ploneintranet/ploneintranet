@@ -1,6 +1,5 @@
 import time
 import Queue
-from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
@@ -31,7 +30,7 @@ def tearDownContainer(container):
 
 class PloneIntranetMicroblog(PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, PLONE_APP_TILES_FIXTURE)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package
@@ -58,7 +57,7 @@ PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING = \
 
 class PloneIntranetMicroblogSubcriber(Layer):
 
-    defaultBases = (PLONEINTRANET_MICROBLOG_FIXTURE,)
+    defaultBases = (PLONEINTRANET_MICROBLOG_FIXTURE, )
 
     def __init__(self, zcml_file):
         super(PloneIntranetMicroblogSubcriber, self).__init__()

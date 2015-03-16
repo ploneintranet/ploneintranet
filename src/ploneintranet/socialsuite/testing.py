@@ -25,6 +25,7 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
         import ploneintranet.socialtheme
         import ploneintranet.messaging
         import ploneintranet.core
+        import ploneintranet.docconv.client
         xmlconfig.file('meta.zcml',
                        plone.tiles,
                        context=configurationContext)
@@ -49,6 +50,9 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        ploneintranet.core,
                        context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       ploneintranet.docconv.client,
+                       context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # Installs all the Plone stuff. Workflows etc.
@@ -64,7 +68,7 @@ PLONEINTRANET_SOCIALSUITE_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_SOCIALSUITE_FIXTURE, ),
                        name="PloneIntranetSocialSuite:Integration")
 
-PLONEINTRANET_SOCIAL_ROBOT_TESTING = FunctionalTesting(
+PLONEINTRANET_SOCIAL_ROBOT = FunctionalTesting(
     bases=(AUTOLOGIN_LIBRARY_FIXTURE,
            PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
     name="PloneIntranetSocialSuite:Robot")

@@ -1,7 +1,10 @@
 *.egg-info
 *.mo
 *.pyc
+.cache/
+.dbus/
 .installed.cfg
+.mozilla/
 .mr.developer.cfg
 .ssh/
 bin/
@@ -11,6 +14,7 @@ docs/make.bat
 eggs/
 include/
 lib/
+libreoffice/
 node_modules/
 parts/
 prototype/.bundle/config
