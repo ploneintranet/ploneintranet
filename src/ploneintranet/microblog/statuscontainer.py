@@ -144,7 +144,7 @@ class BaseStatusContainer(Persistent, Explicit):
         """
         if status.tags is None:
             return
-        for tag in [unicode(tag) for tag in status.tags]:
+        for tag in [tag.decode('utf-8') for tag in status.tags]:
             # If the key was already in the collection, there is no change
             # create tag treeset if not already present
             self._tag_mapping.insert(tag, LLBTree.LLTreeSet())
