@@ -204,25 +204,25 @@
 				{% if page.type == 'case' %}
 					<fieldset class="vertical">
 						<label>
-							Name of applicant <input type="text" />
+							Antragsteller <input type="text" />
 						</label>
 
 						<br>
 
 						<label>
-							Address of applicant <textarea name="" id="" cols="80" rows="4"></textarea>
+							Adresse <textarea name="" id="" cols="80" rows="4"></textarea>
 						</label>
 
 						<br>
 
 						<label>
-							Responsible <input type="text" />
+							Verantwortlicher <input type="text" />
 						</label>
 
 						<br>
 
 						<label>
-							Type of businesscase
+							Geschäftstyp
 							<select name="" id="">
 								<option value="motion">Motion</option>
 								<option value="petition">Petition</option>
@@ -231,6 +231,23 @@
 								<option value="written_request">Written request</option>
 							</select>
 						</label>
+
+                        <br>
+
+                        <label>
+                            Ressort
+                            <select name="" id="">
+                                <option value="kanzlei">Kanzlei</option>
+                                <option value="kommunikation">Kommunikation</option>
+                                <option value="sozialesbildungmedien">Soziales, Bildung und Medien</option>
+                                <option value="spezialseelsorge">Spezialseelsorge</option>
+                                <option value="migrantenseelsorge">Migrantenseelsorge</option>
+                                <option value="Personal">Personal</option>
+                                <option value="Finanzen">Finanzen</option>
+                                <option value="Zentrale Dienste">Zentrale Dienste</option>
+                            </select>
+                        </label>
+
 					</fieldset>
 				{% endif %}
             </form>
