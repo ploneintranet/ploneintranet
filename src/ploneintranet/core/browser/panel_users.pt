@@ -14,7 +14,7 @@
 
       <div id="status-user-selector" class="item-selector mode-">
 
-        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-items"
+        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-users"
               method="post"
               id="users-search"
               class="search-box pat-inject pat-autosubmit">
@@ -26,7 +26,7 @@
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
 
-        <form id="postbox-items"
+        <form id="postbox-users"
               tal:attributes="action view/action"
               class="search-result users pat-inject pat-autosubmit"
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
