@@ -55,6 +55,7 @@
                 </dfn>
               </a>
             </label>
+          <input type="submit" name="Submit" hidden />
           <tal:block tal:repeat="user view/selected_users"
               ><input type="hidden" name="users:list" tal:attributes="value user/id" tal:condition="python:user.id not in view.user_ids" /></tal:block>
           </fieldset>
