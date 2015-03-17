@@ -184,7 +184,7 @@ I select a file to upload
 
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Wait Until Page Contains  General
     Wait Until Page Contains  Workspace title
     Wait Until Page Contains  Workspace brief description
@@ -195,12 +195,12 @@ I can go to the sidebar events tile
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
 I can open the workspace security settings tab
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Click link  link=Security
     Wait until page contains  Workspace policy
 
 I can open the workspace member settings tab
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Click link  link=Members
     Wait until page contains  Members
 
