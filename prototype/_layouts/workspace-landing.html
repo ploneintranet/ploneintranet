@@ -26,7 +26,7 @@ sidebar: closed
 						{% for node in site.posts  %}
 							{% if node.case_state == item.label %}
 								{% assign count = count | plus: 1 %}
-								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %}">
+								<li id="item-{{ count }}" class="step-background {%  if node.image %} illustrated{% endif %} state-{{ node.state }} ">
 									<p class="step-label{% if node.icon %} icon icon-{{ node.icon }}{% endif %}">
 										<a href="{{ node.url }}#workspace-tickets" class="link" title="{{ node.title }}" data-pat-inject="history: record">
 											{{ node.title }}
