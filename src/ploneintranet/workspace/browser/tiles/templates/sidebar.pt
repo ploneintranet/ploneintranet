@@ -41,7 +41,13 @@
                     </form>
                 </div>
 
-                <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                <div class="quick-functions">
+                    <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                    <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" tal:attributes="href string:${context/absolute_url}/add_content">Create document</a>
+                    
+                    <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                    
+                </div>
             </div>
 
             <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
