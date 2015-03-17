@@ -23,7 +23,7 @@
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
                     <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                    <form action="./#items" class="pat-inject pat-autosubmit">
+                    <form action="./#items" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #items; target: #items">
                         <label class="pat-select bare">Group by
                             <select name="browse-mode">
                                 <option value="folder">folder</option>
