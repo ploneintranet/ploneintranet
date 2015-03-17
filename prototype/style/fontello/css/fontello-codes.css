@@ -121,6 +121,8 @@
 .icon-stage:before { content: '\e852'; } /* '' */
 .icon-money:before { content: '\e853'; } /* '' */
 .icon-hammer:before { content: '\e854'; } /* '' */
+.icon-up-open:before { content: '\e855'; } /* '' */
+.icon-down-open:before { content: '\e856'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
