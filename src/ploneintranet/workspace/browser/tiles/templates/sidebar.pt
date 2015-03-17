@@ -227,7 +227,7 @@
 
 
 
-    <div id="workspace-tasks" tal:define="tasks view/tasks">
+    <div id="workspace-tickets" tal:define="tasks view/tasks">
         <tal:no-tasks condition="not: tasks">
             <p i18n:translate="no-task-found">No tasks created yet</p>
         </tal:no-tasks>
