@@ -136,6 +136,8 @@ class AbstractActivityProvider(object):
     def text(self):
         url = api.portal.get().absolute_url()
         text = self.context.text
+        if not isinstance(text, unicode):
+            text = text.decode('utf8')
         status = getattr(self, 'status', None)
         tags = getattr(status, 'tags', None)
         mentions = getattr(status, 'mentions', None)
