@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.utils import safe_unicode
 from plone import api
 
 import re
@@ -10,10 +11,10 @@ USERRE = re.compile('(@\S+)')
 
 def link_tags(url='', tags=None):
     if tags:
-        tmpl = ' <a href="%s/@@stream/tag/%s" class="tag tag-%s">#%s</a>'
-        text = ' &mdash;'
+        tmpl = u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">#{tag}</a>'
+        text = u' &mdash;'
         for tag in tags:
-            text += tmpl % (url, tag, tag, tag)
+            text += tmpl.format(url=url, tag=safe_unicode(tag))
         return text
     return ''
 
