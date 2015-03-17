@@ -16,24 +16,29 @@
 
         <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-items"
               method="post"
+              id="users-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
             <input type="search" placeholder="Search" name="usersearch" />
             <button type="submit">Search</button>
           </label>
+          <span id="selected-users-data"></span>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
 
         <form id="postbox-items"
               tal:attributes="action view/action"
               class="search-result users pat-inject pat-autosubmit"
-              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile#${form_id}-selected-users">
-          <fieldset class="checklist pat-checklist users">
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
+                              data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users && source: #selected-users-data;; target: #selected-users-data">
+          <fieldset class="checklist pat-checklist users"
+              tal:define="users view/users">
             <label class="item user has-description"
-                   tal:repeat="user view/users">
+                   tal:repeat="user users">
               <input tal:attributes="value user/id;
                                      type view/input_type;
-                                     name view/input_name"/>
+                                     name view/input_name;
+                                     checked python:user.id in view.selected_user_ids and 'checked' or ''"/>
               <a class="follow"
                 tal:define="userid user/id;
                             avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
@@ -50,6 +55,8 @@
                 </dfn>
               </a>
             </label>
+          <tal:block tal:repeat="user view/selected_users"
+              ><input type="hidden" name="users:list" tal:attributes="value user/id" tal:condition="python:user.id not in view.user_ids" /></tal:block>
           </fieldset>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>

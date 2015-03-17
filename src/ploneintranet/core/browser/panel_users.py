@@ -12,13 +12,19 @@ class Users(BrowserView):
     panel_id = 'panel-users'
     panel_type = 'mentions'
 
+    user_ids = []
+    selected_users = []
+    selected_user_ids = []
+
     def users(self):
         '''Get users.
 
         Applies very basic user name searching
         '''
         users = api.user.get_users()
-
+        self.selected_users = [
+            api.user.get(uid) for uid in self.request.form.get('mentions', [])]
+        self.selected_user_ids = [user.id for user in self.selected_users]
         search_string = self.request.form.get('usersearch')
         if search_string:
             search_string = search_string.lower()
@@ -26,6 +32,7 @@ class Users(BrowserView):
                 lambda x: search_string in x.getProperty('fullname').lower(),
                 users
             )
+        self.user_ids = [user.id for user in users]
         return users
 
 
