@@ -33,7 +33,9 @@
                               data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users && source: #selected-users-data;; target: #selected-users-data">
           <fieldset class="checklist pat-checklist users"
               tal:define="users view/users">
-            <label class="item user has-description"
+            <label tal:define="status python:user.getProperty('status', '');
+                      description_class python:status and 'has-description' or 'has-no-description'"
+                   class="item user ${description_class}"
                    tal:repeat="user users">
               <input tal:attributes="value user/id;
                                      type view/input_type;
@@ -47,11 +49,8 @@
                 <strong class="title"
                     tal:content="fullname" >Full name</strong>
                 <br>
-                <dfn class="byline">
-                  <tal:loop tal:repeat="role user/getRoles" >
-                    <tal:item tal:content="role">Developer</tal:item>
-                    <span tal:condition="not: repeat/role/end"> | </span>
-                  </tal:loop>
+                <dfn class="byline" tal:condition="status">
+                    <tal:item tal:content="status">This is my status</tal:item>
                 </dfn>
               </a>
             </label>
