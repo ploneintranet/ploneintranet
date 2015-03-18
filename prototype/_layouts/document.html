@@ -14,7 +14,7 @@ workspace_module: docs
             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
             <input type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="{{ page.title }}" />
             <div class="quick-functions">
-                <a href="#confirm-delete" class="icon-trash iconified" title="Delete this document">
+                <a href="/feedback/panel-delete.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
                     Delete
                 </a>
                 <a href="" class="icon-copy iconified" title="Copy this document">
@@ -89,6 +89,12 @@ workspace_module: docs
                 {% endif %}
             </article>
         {% elsif page.document_type == 'file' or page.document_type == 'word' or page.document_type == 'excel' or page.document_type == 'pdf'  %}
+            <article class="document preview">
+                {% for preview in page.previews %}
+                    <img src="{{ preview.url }}" alt="" class="page" />
+                {% endfor %}
+            </article>
+        {% elsif page.document_type == 'image' %}
             <article class="document preview">
                 {% for preview in page.previews %}
                     <img src="{{ preview.url }}" alt="" class="page" />

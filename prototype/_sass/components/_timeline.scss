@@ -63,6 +63,12 @@
                 -webkit-transform-origin: 0 center;
                 transform: rotate(-45deg);
                 transform-origin: 0 center;
+                color: black;
+                cursor: default;
+
+                &:hover {
+                    text-decoration: none;
+                }
             }
 
             &.icon {
@@ -190,6 +196,16 @@
                 right: 0.75em;
                 top: 0.55em;
                 z-index: 0;
+            }
+
+            &.state-closed {
+                .step-label {
+                    background-color: #23C27E;
+                }
+
+                &:after {
+                    background-color: #23C27E;
+                }
             }
 
             &#item-1:after {

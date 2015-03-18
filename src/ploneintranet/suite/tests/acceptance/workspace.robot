@@ -184,7 +184,7 @@ I select a file to upload
 
 I can go to the sidebar info tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Wait Until Page Contains  General
     Wait Until Page Contains  Workspace title
     Wait Until Page Contains  Workspace brief description
@@ -195,12 +195,12 @@ I can go to the sidebar events tile
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
 I can open the workspace security settings tab
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Click link  link=Security
     Wait until page contains  Workspace policy
 
 I can open the workspace member settings tab
-    Click Link  link=Workspace Settings and about
+    Click Link  link=Workspace settings and about
     Click link  link=Members
     Wait until page contains  Members
 
@@ -265,6 +265,7 @@ The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
 
 I can enter the Manage Information Folder
+    Click Link  link=Documents
 	Page Should Contain  Manage Information
 	Click Element  xpath=//form[@id='items']/fieldset/label[1]/a
 	Wait Until Page Contains  Preparation of Records
@@ -285,6 +286,7 @@ I can search for items
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
 I can create a new document
+    Click link  Documents
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
@@ -293,6 +295,7 @@ I can create a new document
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
 I can create a new folder
+    Click link  Documents
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
@@ -303,6 +306,7 @@ I can create a new folder
     Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents']
 
 I can create a new image
+    Click link  Documents
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
@@ -313,6 +317,7 @@ I can create a new image
     Wait Until Page Contains Element  css=#content input.doc-title[value='My Image']
 
 I can create a structure
+    Click link  Documents
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Another Folder
@@ -320,6 +325,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
+    Click link  Documents
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder

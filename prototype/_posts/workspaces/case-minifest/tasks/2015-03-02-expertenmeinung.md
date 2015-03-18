@@ -8,7 +8,7 @@ design_title: Rich page
 design_description: Example of a ticket
 parent: minifest
 case_state: In Bearbeitung
-icon: plus
+icon: religious-christian
 document_creator: Alexander Pilz
 document_creator_id: pilz
 description: Meinung des Generalvikars zum Umfang der Förderung einholen.
@@ -17,5 +17,5 @@ application_name: Workspace
 workspace_name: Minifest
 assignee: liz-baker
 due: 2 Mar
+state: closed
 ---
-

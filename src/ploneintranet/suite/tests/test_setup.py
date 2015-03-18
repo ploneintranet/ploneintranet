@@ -3,11 +3,12 @@ import unittest2 as unittest
 from Products.CMFCore.utils import getToolByName
 
 from ploneintranet.suite.testing import\
-    PLONEINTRANET_SUITE_INTEGRATION
+    PLONEINTRANET_SUITE_FUNCTIONAL
+
 
 class TestExample(unittest.TestCase):
 
-    layer = PLONEINTRANET_SUITE_INTEGRATION
+    layer = PLONEINTRANET_SUITE_FUNCTIONAL
 
     def setUp(self):
         self.app = self.layer['app']

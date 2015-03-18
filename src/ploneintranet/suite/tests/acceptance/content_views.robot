@@ -75,26 +75,26 @@ Alice can tag a file
     And I view the file
     Then the document has the new tag
 
-Alice can change the title of a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I change the title
-    And I view the folder
-    Then the document has the new title
+# Alice can change the title of a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I change the title
+#     And I view the folder
+#     Then the document has the new title
 
-Alice can change the description of a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I change the description
-    And I view the folder
-    Then the document has the new description
+# Alice can change the description of a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I change the description
+#     And I view the folder
+#     Then the document has the new description
 
-Alice can tag a folder
-    Given I'm logged in as a 'alice_lindstrom'
-    And I view the folder
-    And I tag the description
-    And I view the folder
-    Then the document has the new tag
+# Alice can tag a folder
+#     Given I'm logged in as a 'alice_lindstrom'
+#     And I view the folder
+#     And I tag the description
+#     And I view the folder
+#     Then the document has the new tag
 
 *** Keywords ***
 I browse to a workspace
@@ -121,7 +121,7 @@ I view the image
 I browse to a file
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
-    Click Link  xpath=//a[contains(@href, 'minutes')]
+    Click Link  xpath=//a[contains(@href, 'minutes/view')]
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
