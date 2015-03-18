@@ -5,7 +5,7 @@
       is_posting view/is_posting">
 
       <tal:not_posting tal:condition="not:is_posting">
-        <metal:block use-macro="here/upload.html/main" />
+        <metal:block use-macro="here/update-social.html/main" />
       </tal:not_posting>
 
       <tal:posting tal:condition="is_posting" tal:define="is_comment request/thread_id|nothing">

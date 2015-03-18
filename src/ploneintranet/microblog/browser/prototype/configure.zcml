@@ -6,10 +6,10 @@
     i18n_domain="ploneintranet.microblog">
 
     <browser:page
-        name="upload.html"
+        name="update-social.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
-        template="upload.html"
+        template="update-social.html"
         permission="zope.Public"
         />
 
