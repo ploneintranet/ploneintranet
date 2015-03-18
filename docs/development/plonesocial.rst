@@ -76,13 +76,7 @@ The template for ``NewPostBoxTile`` is just a switch that distinguishes between 
 Creating a post
 ---------------
 
-The template used is ``upload.html`` from microblog
-
-.. note::
-
-  The prototype calls this template "update-social.html". For consistency, the template "upload.html" should be renamed accordingly.
-
-Its main purpose is rendering the form for creating a post.
+The template used is ``update-social.html`` from microblog. Its main purpose is rendering the form for creating a post.
 
 Structure of the template
 _________________________

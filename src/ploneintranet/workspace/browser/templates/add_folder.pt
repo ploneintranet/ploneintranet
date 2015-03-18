@@ -1,7 +1,7 @@
 <h1>
     Create folder
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #sidebar-content; target: #sidebar-content">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #workspace-documents; target: #workspace-documents">
   <div class="panel-body">
     <fieldset class="vertical">
         <input type="hidden" name="portal_type" value="Folder" />
