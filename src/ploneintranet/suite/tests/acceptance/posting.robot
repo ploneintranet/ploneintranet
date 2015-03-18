@@ -54,11 +54,6 @@ Esmeralda can reply to a reply
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 
-# Jesse can add tags to a status update
-#     Given I'm logged in as a 'jesse_shaik'
-#     when I open the Dashboard
-#     and I write a status update    ${MESSAGE3}
-
 *** Keywords ***
 
 I write a status update
