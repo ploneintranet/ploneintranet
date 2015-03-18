@@ -22,6 +22,7 @@ define([
     "pat-checkedflag",
     "pat-checklist",
     "pat-chosen",
+    "pat-clone",
     "pat-collapsible",
     "pat-depends",
     "pat-depends_parse",
