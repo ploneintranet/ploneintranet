@@ -1,8 +1,6 @@
 # from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from ploneintranet.workspace.utils import TYPE_MAP
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.utils import existing_users
+from ploneintranet.workspace import utils
 from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
 from ploneintranet.workspace.policies import JOIN_POLICY
 from ploneintranet.workspace.policies import PARTICIPANT_POLICY
@@ -12,12 +10,23 @@ from plone import api
 from plone.i18n.normalizer import idnormalizer
 from plone.app.contenttypes.interfaces import IEvent
 from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.workspace import config
+from ploneintranet.workspace.interfaces import IGroupingStorage
 from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import getAdapter
+from zope.component.interfaces import ComponentLookupError
+from zope.component import queryUtility
+from zope.schema.interfaces import IVocabularyFactory
+
+import logging
+
+log = logging.getLogger(__name__)
+
 
 FOLDERISH_TYPES = ['folder']
 
@@ -42,7 +51,7 @@ class BaseTile(BrowserView):
         return m
 
     def my_workspace(self):
-        return parent_workspace(self)
+        return utils.parent_workspace(self)
 
 
 class SidebarSettingsMembers(BaseTile):
@@ -74,7 +83,7 @@ class SidebarSettingsMembers(BaseTile):
 
     @memoize
     def existing_users(self):
-        return existing_users(self.my_workspace())
+        return utils.existing_users(self.my_workspace())
 
     def can_manage_workspace(self):
         """
@@ -244,7 +253,7 @@ class Sidebar(BaseTile):
                 or 'has-no-description'
             )
 
-            content_type = TYPE_MAP.get(item['portal_type'], 'none')
+            content_type = utils.TYPE_MAP.get(item['portal_type'], 'none')
 
             mime_type = ''  # XXX: will be needed later for grouping by mimetyp
             # typ can be user, folder, date and mime typish
@@ -280,7 +289,7 @@ class Sidebar(BaseTile):
                 'title': item['Title'],
                 'description': item['Description'],
                 'url': url,
-                'type': TYPE_MAP.get(item['portal_type'], 'none'),
+                'type': utils.TYPE_MAP.get(item['portal_type'], 'none'),
                 'mime-type': mime_type,
                 'dpi': dpi})
         return items
@@ -306,7 +315,7 @@ class Sidebar(BaseTile):
 
     def events(self):
         catalog = api.portal.get_tool("portal_catalog")
-        workspace = parent_workspace(self.context)
+        workspace = utils.parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
         now = DateTime()
 
@@ -324,3 +333,110 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {"upcoming": upcoming_events, "older": older_events}
+
+    # Grouping code
+    def set_show_extra_cookie(self):
+        utils.set_show_extra_cookie(self.request, self.section)
+
+    def set_grouping_cookie(self):
+        grouping = self.request.get('grouping', 'label')
+        member = api.user.get_current()
+        cookie_name = '%s-group-by-%s' % (self.section, member.getId())
+        utils.set_cookie(self.request, cookie_name, grouping)
+
+    def set_sorting_cookie(self):
+        sorting = self.request.get('sorting', 'modified')
+        member = api.user.get_current()
+        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+        utils.set_cookie(self.request, cookie_name, sorting)
+
+    def get_from_request_or_cookie(self, key, cookie_name, default):
+        if key in self.request:
+            return self.request.get(key)
+        if cookie_name in self.request:
+            return self.request.get(cookie_name)
+        return default
+
+    @property
+    def grouping(self):
+        member = api.user.get_current()
+        cookie_name = '%s-group-by-%s' % (self.section, member.getId())
+        return self.get_from_request_or_cookie(
+            "grouping", cookie_name, "label_custom")
+
+    @property
+    def sorting(self):
+        member = api.user.get_current()
+        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+        return self.get_from_request_or_cookie(
+            "sorting", cookie_name, "modified")
+
+    @property
+    def show_extra(self):
+        cookie_name = '%s-show-extra-%s' % (
+            self.section, api.user.get_current().getId())
+        return self.request.get(cookie_name, '').split('|')
+
+    def group_headers(self):
+        """ Return the headers (i.e. values) under a particular grouping
+            (e.g. label, author, type).
+        """
+        # workspace can also be a contract, get_workspace_or_contract
+        # handles both
+        workspace = utils.get_workspace_or_contract(self.context)
+        # if the user may not view the workspace, don't bother with
+        # getting groups
+        user = api.user.get_current()
+        if not user.has_permission('View', workspace):
+            return []
+        grouping = self.grouping
+        if grouping == 'period':
+            headings = ['Today', 'Last Week', 'Last Month', 'All Time']
+            return [dict(heading=x) for x in headings]
+        try:
+            storage = getAdapter(workspace, IGroupingStorage)
+        except ComponentLookupError:
+            # This happens if objects are loaded outside of an actual workspace
+            # This is possible because we still have old content left which
+            # star has not moved into workspaces yet - or cms
+            # Examples: stardesk/projects-and-activities,
+            # stardesk/boards-committees, stardesk/about-the-company
+            # Changing logging to info, as no action is required from us
+            log.info("Could not load GroupStorage for: %s"
+                     % workspace.absolute_url())
+            return []
+
+        if grouping.endswith('_custom'):
+            headers = storage.get_order_for(
+                grouping.split('_')[0],
+                include_archived='archived_tags' in self.show_extra,
+            )
+        else:
+            headers = storage.get_order_for(
+                grouping,
+                include_archived='archived_tags' in self.show_extra,
+                alphabetical=True
+            )
+
+        if grouping in ('label', 'label_custom'):
+            headers.append(dict(heading='Untagged', archived=False))
+        elif grouping == 'author':
+            # If we are grouping by 'author', but the filter is for documents
+            # only by the current user, then we return only the current user as
+            # a grouping.
+            if 'my_documents' in self.show_extra:
+                username = user.getId()
+                return [dict(heading=username)]
+        elif grouping == 'type':
+            # Return the human readable titles.
+            vocab = queryUtility(IVocabularyFactory,
+                                 name=config.DOCUMENT_TYPE)(self)
+            headers = [
+                dict(heading=vocab.getTermByToken(h['heading']).title,
+                     value=vocab.getTermByToken(h['heading']).value)
+                for h in headers]
+            headers.append(dict(heading='Other', value='none'))
+            return headers
+        else:
+            return [dict(heading='Ungrouped')]
+        return headers
