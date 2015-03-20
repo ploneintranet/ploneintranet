@@ -174,7 +174,7 @@ def create_news_items(newscontent):
         # api.content.transition(obj=obj, transition='publish')
 
         obj.setEffectiveDate(newsitem['publication_date'])
-        obj.reindexObject(idxs=['effective', ])
+        obj.reindexObject(idxs=['effective', 'Subject', ])
 
 
 def create_tasks(todos):
