@@ -26,8 +26,8 @@
                     <time class="date" tal:content="python:toLocalizedTime(provider.date)">1 hour ago</time>
                 </a>
             </div>
-            <section class="comment-content" tal:content="structure provider/text">
-                <p>
+            <section class="comment-content">
+                <p tal:content="structure provider/text">
                     The text of the comment
                 </p>
             </section>
