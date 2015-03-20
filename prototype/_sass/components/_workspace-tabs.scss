@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.type-case .workspace-tabs {
+.workspace-type-case .workspace-tabs {
   background-color: #DE7F00;
 }
 
@@ -41,7 +41,7 @@
   padding: 0;
   background-color: $colour-workspace-default;
 
-  @include screen-size(small) {  
+  @include screen-size(small) {
     right: 0;
     bottom: 0;
     height: 49px;
@@ -50,7 +50,7 @@
     border-top: 1px silver solid;
   }
 
-  @include screen-size(large) {  
+  @include screen-size(large) {
     width: 50px;
     top: 0;
     height: auto;
@@ -83,7 +83,7 @@
     position: relative;
     padding: 0;
 
-    @include screen-size(large) { 
+    @include screen-size(large) {
       height: 50px;
       width: 50px;
       color: rgba(255,255,255,0.8);
@@ -110,7 +110,7 @@
       }
     }
 
-    @include screen-size(small) { 
+    @include screen-size(small) {
       height: 49px;
       width: 25%;
       color: rgba(255,255,255,0.6);
@@ -125,14 +125,14 @@
       font-family: fontello;
       position: absolute;
 
-      @include screen-size(small) { 
+      @include screen-size(small) {
         height: 49px;
         width: 100%;
         line-height: 49px;
         font-size: 26px;
       }
 
-      @include screen-size(large) { 
+      @include screen-size(large) {
         height: 50px;
         width: 50px;
         line-height: 49px;

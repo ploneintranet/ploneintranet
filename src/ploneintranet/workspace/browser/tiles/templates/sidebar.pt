@@ -23,7 +23,7 @@
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
                     <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                    <form action="./#items" class="pat-inject pat-autosubmit">
+                    <form action="./#items" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #items; target: #items">
                         <label class="pat-select bare">Group by
                             <select name="browse-mode">
                                 <option value="folder">folder</option>
@@ -41,7 +41,13 @@
                     </form>
                 </div>
 
-                <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                <div class="quick-functions">
+                    <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                    <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" tal:attributes="href string:${context/absolute_url}/add_content">Create document</a>
+                    
+                    <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                    
+                </div>
             </div>
 
             <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
@@ -227,7 +233,7 @@
 
 
 
-    <div id="workspace-tasks" tal:define="tasks view/tasks">
+    <div id="workspace-tickets" tal:define="tasks view/tasks">
         <tal:no-tasks condition="not: tasks">
             <p i18n:translate="no-task-found">No tasks created yet</p>
         </tal:no-tasks>

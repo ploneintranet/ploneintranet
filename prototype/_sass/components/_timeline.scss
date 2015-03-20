@@ -198,6 +198,16 @@
                 z-index: 0;
             }
 
+            &.state-closed {
+                .step-label {
+                    background-color: #23C27E;
+                }
+
+                &:after {
+                    background-color: #23C27E;
+                }
+            }
+
             &#item-1:after {
                 display: none;
             }
