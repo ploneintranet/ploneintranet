@@ -67,7 +67,7 @@ class NewPostBoxTile(Tile):
 
     @property
     def post_mentions(self):
-        """ The tags that were added
+        """ The mentions that were added
         """
         return self.request.form.get('mentions', [])
 
