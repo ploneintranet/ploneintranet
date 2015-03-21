@@ -78,6 +78,7 @@
         "pat-checkedflag":           "bower_components/patternslib/src/pat/checkedflag",
         "pat-checklist":             "bower_components/patternslib/src/pat/checklist",
         "pat-chosen":                "bower_components/patternslib/src/pat/chosen",
+        "pat-clone":                "bower_components/patternslib/src/pat/clone",
         "pat-collapsible":           "bower_components/patternslib/src/pat/collapsible",
         "pat-content-mirror":        "bower_components/pat-content-mirror/src/pat-content-mirror",
         "pat-depends":               "bower_components/patternslib/src/pat/depends",

@@ -60,7 +60,9 @@
                 ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
-                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input type="hidden" name="tags:list" tal:attributes="value tag" /></tal:block></tal:tags
+                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
+                name="tags:list" type="hidden" tal:attributes="value tag" /></tal:block
+                ></tal:tags
             ></em>
           </p>
 
@@ -68,6 +70,10 @@
           users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
           <span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
           type="hidden" name="mentions:list" tal:attributes="value user" /></span>
+          <!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
+              tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
+          <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
+                          type="hidden" name="tags:list" tal:attributes="value tag" /></span>
 
           <textarea placeholder="placeholder"
                     class="pat-content-mirror pat-switch"

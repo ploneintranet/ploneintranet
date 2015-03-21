@@ -66,7 +66,7 @@
 
   <section class="post-content">
 
-    <span tal:replace="structure activity_provider/getText" />
+    <p tal:content="structure activity_provider/getText">Comment text</p>
 
   </section>
 
@@ -106,7 +106,7 @@
           action string:${here/absolute_url}/@@newpostbox.tile;
           placeholder activity_provider/placeholder;
         ">
-          <metal:block use-macro="here/@@upload.html/main" />
+          <metal:block use-macro="here/@@update-social.html/main" />
         </tal:define>
       </div>
   </tal:commentable>

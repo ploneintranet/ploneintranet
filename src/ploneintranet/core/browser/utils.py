@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.utils import safe_unicode
 
 
 def link_tags(url='', tags=None):
     if tags:
-        tmpl = u' <a href="%s/@@stream/tag/%s" class="tag tag-%s">#%s</a>'
+        tmpl = u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">#{tag}</a>'
         text = u' &mdash;'
         for tag in tags:
-            text += tmpl % (url, tag, tag, tag)
+            text += tmpl.format(url=url, tag=safe_unicode(tag))
         return text
     return u''
 

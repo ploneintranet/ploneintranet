@@ -6,6 +6,7 @@ from zope.component.hooks import getSite
 
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from plone import api
@@ -135,9 +136,7 @@ class AbstractActivityProvider(object):
     @property
     def text(self):
         url = api.portal.get().absolute_url()
-        text = self.context.text
-        if not isinstance(text, unicode):
-            text = text.decode('utf8')
+        text = safe_unicode(self.context.text)
         status = getattr(self, 'status', None)
         tags = getattr(status, 'tags', None)
         mentions = getattr(status, 'mentions', None)
