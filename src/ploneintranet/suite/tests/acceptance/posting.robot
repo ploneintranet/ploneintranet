@@ -27,14 +27,14 @@ Manager can post a status update
     and The status update only appears once    ${MESSAGE1}
 
 Alice can post a status update
-    Given I'm logged in as a 'alice_lindstrom'
+    Given I am logged in as the user alice_lindstrom
     when I open the Dashboard
     and I post a status update    ${MESSAGE2}
     then The message is visible as new status update    ${MESSAGE2}
     and The message is visibile after a reload    ${MESSAGE2}
 
 Allan can post a reply
-    Given I'm logged in as a 'allan_neece'
+    Given I am logged in as the user allan_neece
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
@@ -43,8 +43,19 @@ Allan can post a reply
     and The reply is visible after a reload    ${MESSAGE1}    ${MESSAGE2}
 
 Esmeralda can reply to a reply
-    Given I'm logged in as a 'esmeralda_claassen'
+    Given I am logged in as the user esmeralda_claassen
     when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    then The message is visible as new status update    ${MESSAGE1}
+    When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
+    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
+
+Esmeralda can reply to a reply in a workspace
+    Given I am logged in as the user esmeralda_claassen
+    when I go to the Open Market Committee Workspace
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
