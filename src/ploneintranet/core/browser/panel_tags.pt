@@ -14,7 +14,7 @@
 
       <div id="status-tag-selector" class="item-selector mode-">
 
-        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#postbox-items"
+        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#postbox-tags"
               method="post" id="tags-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
@@ -22,18 +22,20 @@
             <button type="submit">Search</button>
           </label>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+          <input type="hidden" name="search_active" value="search-active" />
           <span id="selected-tags-data"></span>
         </form>
 
-        <form id="postbox-items"
+        <form id="postbox-tags"
               action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit"
 
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
               data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags && source: #selected-tags-data;; target: #selected-tags-data">
-          <fieldset class="checklist pat-checklist tags unchecked" tal:define="tags view/tags">
+          <fieldset class="checklist pat-checklist tags unchecked" tal:define="tags view/tags" id="tag-entries"
+            tal:attributes="class string:${attrs/class} ${request/search_active|nothing} ">
             <tal:tags repeat="tag tags">
-            <label class="item tag">
+            <label class="item tag pat-switch" data-pat-switch="#tag-entries search-active">
               <input type="checkbox" name="tags:list"
                      tal:attributes="value tag;
                                      checked python:tag in view.selected_tags and 'checked' or ''"/>
