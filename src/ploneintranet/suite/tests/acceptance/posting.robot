@@ -17,6 +17,8 @@ ${MESSAGE2}    Living next door to Alice
 ${MESSAGE3}    You know nothing, Jon Snow!
 ${USERNAME1}   Alice Lindström
 ${USERNAME2}   Silvio De Paoli
+${TAG1}        Rain
+${TAG2}        Sun
 
 
 *** Test Cases ***
@@ -83,6 +85,23 @@ Rosalinda can mention a user found by searching
     then The message is visible as new status update that mentions the user    ${MESSAGE3}  ${USERNAME1}
     then The message is visible as new status update that mentions the user    ${MESSAGE3}  ${USERNAME2}
 
+Neil can tag a post
+    Given I am logged in as the user neil_wichmann
+    when I open the Dashboard
+    and I write a status update    ${MESSAGE2}
+    then I can add a tag    ${TAG1}
+    When I submit the status update
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
+
+Neil can tag a post by searching for a tag
+    Given I am logged in as the user neil_wichmann
+    when I go to the Open Market Committee Workspace
+    and I write a status update    ${MESSAGE2}
+    then I can add a tag and search for a tag    ${TAG1}  ${TAG2}
+    When I submit the status update
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
+
 *** Keywords ***
 
 I write a status update
@@ -110,6 +129,11 @@ The message is visible as new status update that mentions the user
     [arguments]  ${message}  ${username}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '@${username}')][1]  2
+
+The message is visible as new status update and includes the tag
+    [arguments]  ${message}  ${tag}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '#${tag}')][1]  2
 
 The status update only appears once
     [arguments]  ${message}
@@ -145,6 +169,24 @@ Both replies are visible after a reload
     Go to    ${location}
     The reply is visibile as a comment  ${message}  ${reply_message1}
     The reply is visibile as a comment  ${message}  ${reply_message2}
+
+I can add a tag
+    [arguments]  ${tag}
+    Click link    link=Add tags
+    Click link    link=${tag}
+    Sleep  1
+    Click element    css=textarea.pat-content-mirror
+
+I can add a tag and search for a tag
+    [arguments]  ${tag1}  ${tag2}
+    Click link    link=Add tags
+    Click link    link=${tag1}
+    Sleep  1
+    Click element    css=input[name=tagsearch]
+    Input text    css=input[name=tagsearch]  ${tag2}
+    Sleep  1
+    Click link    link=${tag2}
+    Click element    css=textarea.pat-content-mirror
 
 I can mention the user
     [arguments]  ${username}
