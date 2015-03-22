@@ -158,9 +158,6 @@ Alice can upload a file
 
 *** Keywords ***
 
-I am logged in as the user ${userid}
-    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
-
 I can create a new workspace
     Go To  ${PLONE_URL}/workspaces.html
     Click Link  link=Create Workspace
@@ -169,11 +166,6 @@ I can create a new workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
-
-I go to the Open Market Committee Workspace
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Open Market Committee
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here

@@ -6,6 +6,9 @@ I'm logged in as a '${ROLE}'
 I am logged in as site administrator
     Element should be visible  css=body.userrole-site-administrator
 
+I am logged in as the user ${userid}
+    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
+
 # add content keyword that supports
 # both dexterity and archetypes
 Add content item
@@ -39,3 +42,8 @@ Maneuver to
 
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
+
+I go to the Open Market Committee Workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Open Market Committee
