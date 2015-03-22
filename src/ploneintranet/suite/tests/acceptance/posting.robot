@@ -15,6 +15,8 @@ Test Teardown  Close all browsers
 ${MESSAGE1}    I am so excited, this is super!
 ${MESSAGE2}    Living next door to Alice
 ${MESSAGE3}    You know nothing, Jon Snow!
+${USERNAME1}   Alice Lindström
+${USERNAME2}   Silvio De Paoli
 
 
 *** Test Cases ***
@@ -64,6 +66,22 @@ Esmeralda can reply to a reply in a workspace
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
+Rosalinda can mention a user
+    Given I am logged in as the user rosalinda_roache
+    when I go to the Open Market Committee Workspace
+    and I write a status update    ${MESSAGE1}
+    then I can mention the user    ${USERNAME1}
+    When I submit the status update
+    then The message is visible as new status update that mentions the user    ${MESSAGE1}  ${USERNAME1}
+
+Rosalinda can mention a user found by searching
+    Given I am logged in as the user rosalinda_roache
+    when I go to the Open Market Committee Workspace
+    and I write a status update    ${MESSAGE3}
+    then I can mention a user and search for a user    ${USERNAME1}  ${USERNAME2}
+    When I submit the status update
+    then The message is visible as new status update that mentions the user    ${MESSAGE3}  ${USERNAME1}
+    then The message is visible as new status update that mentions the user    ${MESSAGE3}  ${USERNAME2}
 
 *** Keywords ***
 
@@ -78,12 +96,20 @@ I write a status update
 I post a status update
     [arguments]  ${message}
     I write a status update    ${message}
+    I submit the status update
+
+I submit the status update
     Click button  css=button[name='form.buttons.statusupdate']
 
 
 The message is visible as new status update
     [arguments]  ${message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
+
+The message is visible as new status update that mentions the user
+    [arguments]  ${message}  ${username}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '@${username}')][1]  2
 
 The status update only appears once
     [arguments]  ${message}
@@ -119,3 +145,21 @@ Both replies are visible after a reload
     Go to    ${location}
     The reply is visibile as a comment  ${message}  ${reply_message1}
     The reply is visibile as a comment  ${message}  ${reply_message2}
+
+I can mention the user
+    [arguments]  ${username}
+    Click link    link=Mention people
+    Click link    link=${username}
+    Sleep  1
+    Click element    css=textarea.pat-content-mirror
+
+I can mention a user and search for a user
+    [arguments]  ${username1}  ${username2}
+    Click link    link=Mention people
+    Click link    link=${username1}
+    Sleep  1
+    Click element    css=input[name=usersearch]
+    Input text    css=input[name=usersearch]  ${username2}
+    Sleep  1
+    Click link    link=${username2}
+    Click element    css=textarea.pat-content-mirror
