@@ -10,7 +10,7 @@ Plonesocial
 Introduction
 ------------
 
-This stack of functionality used to be split into various packages (plonesocial.*). Now the packages part of ploneintranet, but still under their original folder names (e.g. ploneintranet.microblog)
+This stack of functionality used to be split into various packages (plonesocial.*). Now the packages are part of ploneintranet, but still under their original folder names (e.g. ploneintranet.microblog).
 
 Packages
 ========
@@ -86,7 +86,7 @@ _________________________
 * The section guarded with ``condition="newpostbox_view/direct"`` is currently not used. It was just copied over from the prototype
 * In the outer ``<fieldset>`` the first section is a ``<p>`` with class "content-mirror". It is used for storing data for the Pattern of the same name. Apart from the actual text, it also holds tags and mentions. See `Tagging`_ and `Mentioning`_ for details.
 * There's the actual ``textarea`` in which the user enters text.
-* There's an inner ``fieldset`` for adding attachments. XXX needs more explanation
+* There's an inner ``fieldset`` for `Adding an attachment`_.
 * Finally a ``div`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
 
 Interactions
@@ -156,6 +156,16 @@ The search form uses ``pat-inject`` too, but its action is the panel-tags helper
 Mentioning
 ==========
 
+Mentioning works very similar to tagging. The same kind of template structure is used ("panel-users" for the tooltip). Also, the same interactions as with tagging (pat-inject magic and handover of selected values) are present.
+
+Only difference: for mentions, we distinguish between a user's name (shown for example inside the post box preceded by an "@") and a user's id (used internally in the storage).
+
+
+Adding an attachment
+====================
+
+XXX: To be done
+
 Tile "activity stream"
 ======================
 
@@ -172,7 +182,7 @@ Displaying a post
 
 For every activity provider, the macro "post.html" is called.
 
-XXX more details needed on the structure, basically:
+Here's a quick overview of the structure:
 
 * Section "post-header" with avatar (macro "avatar.html") and byline
 * Section "post-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
