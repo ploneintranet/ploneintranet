@@ -41,15 +41,6 @@
 
                 </div>
 
-                <label class="item user-group has-description">
-                  <input name="" type="checkbox" />
-                  <a class="follow pat-inject" href="/board" data-pat-inject="source: #document-body; target: #document-body">
-                    <strong class="title">The board</strong>
-                    <br />
-                    <dfn class="byline">25 Members</dfn>
-                  </a>
-                </label>
-
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
