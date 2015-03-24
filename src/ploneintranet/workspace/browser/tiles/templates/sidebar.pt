@@ -281,7 +281,7 @@
                        tal:content="event/Title"/>
                   </h4>
 
-                  <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="Description" />
+                  <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
 
                   <ul class="details">
                     <li>Starts <time class="start"
