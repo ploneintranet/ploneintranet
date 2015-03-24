@@ -1,11 +1,10 @@
-from five import grok
-
 from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope import schema
 from zope.event import notify
+from zope.interface import implements
 
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace import MessageFactory
@@ -32,7 +31,7 @@ class WorkspaceFolder(Container):
     """
     A WorkspaceFolder users can collaborate in
     """
-    grok.implements(IWorkspaceFolder)
+    implements(IWorkspaceFolder)
 
     # Block local role acquisition so that users
     # must be given explicit access to the workspace
