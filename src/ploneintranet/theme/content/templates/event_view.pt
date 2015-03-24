@@ -62,7 +62,7 @@
                 </fieldset -->
                 <!--
  -->
-                <button type="submit" class="icon-floppy" title="Save this document">Save</button>
+                <button type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document">Save</button>
 
             </div>
         </div>
