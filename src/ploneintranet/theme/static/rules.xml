@@ -66,8 +66,17 @@
   <replace css:content-children="#social-messages" css:theme="#document-content" />
 </rules>
 
-<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder">
+<rules css:if-content="body.portaltype-ploneintranet-workspace-workspacefolder.template-view">
   <theme href="generated/open-market-committee/index.html" />
+  <!-- Main content rule: Put plone content into theme content -->
+  <drop css:theme-children="#content" />
+  <append css:content="#workspace-name" css:theme="#content" />
+  <append css:content="#application-body" css:theme="#content" />
+  <append css:content="#workspace-tabs" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder">
+  <theme href="generated/public-bodies-reform/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <drop css:theme-children="#content" />
   <append css:content="#workspace-name" css:theme="#content" />
