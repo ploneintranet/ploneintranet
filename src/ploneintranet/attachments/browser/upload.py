@@ -2,10 +2,10 @@ from Products.Five.browser import BrowserView
 
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.docconv.client.interfaces import IDocconv
 import logging
 
 log = logging.getLogger(__name__)
-
 try:
     from ploneintranet.docconv.client.interfaces import IPreviewFetcher
 except ImportError:
@@ -13,6 +13,24 @@ except ImportError:
 
 
 class UploadAttachments(BrowserView):
+
+    def get_thumbs_urls(self, attachment):
+        ''' This will return the URL for the thumbs of the attachment
+        '''
+        docconv = IDocconv(attachment, None)
+        if not docconv:
+            return []
+        base_url = '%s/docconv_image_thumb.jpg?page=' % (
+            attachment.absolute_url()
+        )
+
+        pages = docconv.get_number_of_pages()
+        if pages <= 0:  # It can be 0 or -1
+            return []
+        else:
+            return [
+                (base_url + str(i+1)) for i in range(pages)
+            ]
 
     def __call__(self):
         token = self.request.get('attachment-form-token')
@@ -33,4 +51,5 @@ class UploadAttachments(BrowserView):
                                  '{1}: {2}'.format(
                                      obj.id, e.__class__.__name__, e))
                 self.attachments.append(obj)
+
         return self.index()

@@ -27,6 +27,9 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
 
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)
+
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.attachments')
 
     def setUpPloneSite(self, portal):

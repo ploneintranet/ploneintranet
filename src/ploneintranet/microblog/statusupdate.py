@@ -122,6 +122,16 @@ class StatusUpdate(Persistent):
     def getId(self):
         return self.id
 
+    def getCharset(self):
+        ''' Return the charset for this file
+
+        BBB: This is a bit weird.
+        This method is here because the _prepare_imagedata
+        method wants it.
+
+        See https://github.com/ploneintranet/ploneintranet/blob/251c8cf9f1e69c38030b6b6ac2f7c93c86ae1e60/src/ploneintranet/microblog/browser/attachments.py#L45  # noqa
+        '''
+        return 'utf8'
 
 try:
     from ploneintranet.attachments.attachments import IAttachmentStoragable
