@@ -54,10 +54,10 @@
             ><span class="text"
               ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
-              ><tal:users tal:condition="users"> — <tal:block tal:repeat="user request/users|nothing"
-                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname')"
-                tal:content="string:@${fullname|user}" tal:attributes="data-user-id user"/
-                ><tal:space condition="not:repeat/user/end"> </tal:space></tal:block></tal:users
+              ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
+                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
+                display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
+                ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
               ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
                 ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
@@ -66,6 +66,10 @@
             ></em>
           </p>
 
+          <!-- This is a deliberate duplication of hidden inputs with name mentions. This one is used for handing over selected
+          users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
+          <span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
+          type="hidden" name="mentions:list" tal:attributes="value user" /></span>
           <!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
               tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
           <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
@@ -103,7 +107,7 @@
           <div class="button-bar">
             <a class="iconified icon-user-add pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: mentions;"
-               tal:attributes="href string:${portal_url}/@@panel-users#status-user-selector::element"
+               tal:attributes="href string:${portal_url}/@@panel-users?thread_id=${thread_id}#status-user-selector::element"
                href="/feedback/panel-mentions.html#content">Mention people</a>
 
             <a class="iconified icon-tags pat-tooltip"

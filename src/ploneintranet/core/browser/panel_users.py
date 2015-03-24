@@ -6,15 +6,15 @@ from plone import api
 
 class Users(BrowserView):
 
-    action = '#selected-users'
-    button_deselect_all = True
-    button_select_all = True
     index = ViewPageTemplateFile('panel_users.pt')
     input_name = 'users:list'
     input_type = 'checkbox'
-    is_multiselect = True
     panel_id = 'panel-users'
     panel_type = 'mentions'
+
+    user_ids = []
+    selected_users = []
+    selected_user_ids = []
 
     def users(self):
         '''Get users.
@@ -22,7 +22,9 @@ class Users(BrowserView):
         Applies very basic user name searching
         '''
         users = api.user.get_users()
-
+        self.selected_users = [
+            api.user.get(uid) for uid in self.request.form.get('mentions', [])]
+        self.selected_user_ids = [user.id for user in self.selected_users]
         search_string = self.request.form.get('usersearch')
         if search_string:
             search_string = search_string.lower()
@@ -30,18 +32,14 @@ class Users(BrowserView):
                 lambda x: search_string in x.getProperty('fullname').lower(),
                 users
             )
-
+        self.user_ids = [user.id for user in users]
         return users
 
 
 class User(Users):
 
-    action = '#selected-user'
-    button_deselect_all = False
-    button_select_all = False
     index = ViewPageTemplateFile('panel_users.pt')
     input_name = 'user'
     input_type = 'radio'
-    is_multiselect = False
     panel_id = 'panel-user'
     panel_type = 'user'
