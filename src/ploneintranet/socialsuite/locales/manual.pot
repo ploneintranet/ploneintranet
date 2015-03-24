@@ -18,7 +18,7 @@ msgstr ""
 "Domain: ploneintranet.socialsuite\n"
 
 #: ./configure.zcml:
-msgid "PloneIntranet Suite"
+msgid "Plone Intranet Suite"
 msgstr ""
 
 #: ./configure.zcml:
@@ -26,7 +26,7 @@ msgid "Installs the suite of all ploneintranet packages"
 msgstr ""
 
 #: ./configure.zcml:
-msgid "PloneIntranet Suite (Demo)"
+msgid "Plone Intranet Suite (Demo)"
 msgstr ""
 
 #: ./configure.zcml:

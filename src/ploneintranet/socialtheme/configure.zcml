@@ -11,7 +11,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="PloneIntranet Theme"
+      title="Plone Intranet Social Theme"
       directory="profiles/default"
       description='Skin overrides for ploneintranet.socialtheme'
       provides="Products.GenericSetup.interfaces.EXTENSION"
