@@ -249,7 +249,8 @@
         "context": "workspaces/parliamentary-papers-guidance",
         "text": "Impedit animi repellat iusto incidunt quas. Ullam distinctio quidem quasi qui. Porro error fugit dolorum qui tempore.",
         "timestamp": -5,
-        "user": "jesse_shaik"
+        "user": "jesse_shaik",
+        "likes": ["jorge_primavera"]
     },
     {
         "context": "workspaces/parliamentary-papers-guidance",
@@ -569,7 +570,8 @@
         "context": "workspaces/open-market-committee",
         "text": "Iste officiis aut dignissimos iste. Quod sequi enim velit nesciunt ea. Deleniti consequatur ullam esse nam aut in nostrum repudiandae. Laudantium sit dignissimos alias eum est.",
         "timestamp": -5,
-        "user": "admin"
+        "user": "admin",
+        "likes": ["guy_hackey", "esmeralda_claassen"]
     },
     {
         "context": null,
@@ -741,7 +743,8 @@
         "context": "workspaces/parliamentary-papers-guidance",
         "text": "On Wednesday 24 May there will be a #meeting with Fernandes S.A. to discuss illo dicta qui enim. @jamie_jacko you'll get further details from #hr for your travel to Badalzungen",
         "timestamp": 0,
-        "user": "jorge_primavera"
+        "user": "jorge_primavera",
+        "likes": ["neil_wichmann", "francois_gast"]
     },
     {
         "context": "workspaces/parliamentary-papers-guidance",
