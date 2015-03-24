@@ -17,13 +17,20 @@ class UploadAttachments(BrowserView):
     def get_thumbs_urls(self, attachment):
         ''' This will return the URL for the thumbs of the attachment
         '''
+        docconv = IDocconv(attachment, None)
+        if not docconv:
+            return []
         base_url = '%s/docconv_image_thumb.jpg?page=' % (
             attachment.absolute_url()
         )
-        thumbs = IDocconv(attachment).get_thumbs()
-        return [
-            (base_url + str(i+1)) for i, thumb in enumerate(thumbs)
-        ]
+
+        pages = docconv.get_number_of_pages()
+        if pages <= 0:  # It can be 0 or -1
+            return []
+        else:
+            return [
+                (base_url + str(i+1)) for i in range(pages)
+            ]
 
     def __call__(self):
         token = self.request.get('attachment-form-token')

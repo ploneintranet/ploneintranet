@@ -122,6 +122,10 @@ class StatusUpdate(Persistent):
     def getId(self):
         return self.id
 
+    def getCharset(self):
+        ''' Return the charset for this file
+        '''
+        return 'utf8'
 
 try:
     from ploneintranet.attachments.attachments import IAttachmentStoragable
