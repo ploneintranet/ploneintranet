@@ -227,10 +227,13 @@ def create_workspaces(workspaces):
 def create_ws_content(parent, contents):
     for content in contents:
         sub_contents = content.pop('contents', None)
+        state = content.pop('state', None)
         obj = api.content.create(
             container=parent,
             **content
         )
+        if state is not None:
+            api.content.transition(obj, to_state=state)
         if sub_contents is not None:
             create_ws_content(obj, sub_contents)
 
@@ -439,7 +442,8 @@ def testing(context):
                                     'information, records and knowledge is a '
                                     'key part of any Machinery of Government '
                                     'change.',
-                     'type': 'Document'},
+                     'type': 'Document',
+                     'state': 'published'},
                     {'title': 'Repurchase Agreements',
                      'description': 'A staff presentation outlined several '
                                     'approaches to raising shortterm interest '

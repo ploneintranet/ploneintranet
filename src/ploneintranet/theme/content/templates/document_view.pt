@@ -52,7 +52,7 @@
                                     </select>
                                 </label>
                             </fieldset>
-                            <button type="submit" tal:attributes="disabled read_only" class="icon-floppy">Save</button>
+                            <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
 
                         </div>
                     </div>

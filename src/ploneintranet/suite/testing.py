@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -48,6 +49,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
     def setUpPloneSite(self, portal):
+        # setup the default workflow
+        portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
 
