@@ -168,7 +168,7 @@ class InviteForm(form.SchemaForm):
             optional = "%s%s\n\n" % (optional, given_message)
             given_message = optional
 
-        msg_footer = """
+        msg_footer = u"""
 The following is a unique URL tied to your email address ({email}).
 
 Following the link will make you a member of the {workspace} workspace
