@@ -9,6 +9,7 @@ from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
 from ploneintranet.docconv.client.interfaces import (
     IPloneintranetDocconvClientLayer
 )
+from re import compile
 from zope.interface import alsoProvides
 
 
@@ -53,23 +54,33 @@ class TestUpload(IntegrationTestCase):
             self.portal,
             self.request,
         )
+        # Test objects that have no preview
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.portal),
             [],
         )
+
+        # Test objects that have a docconv generated preview
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.pdf),
             ['http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1']
         )
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.image),
-            []
+
+        # Test image previews
+        urls = upload_view.get_thumbs_urls(self.image)
+        self.assertTrue(len(urls) == 1)
+        self.assertRegexpMatches(
+            urls[0],
+            'http://nohost/plone/test-image/@@images/(.*).jpeg'
         )
 
-    def test_url_traversable(self):
-        ''' In the previous test we returned this URL
+    def test_docconv_url_traversable(self):
+        ''' In the previous test we returned a URL similar to this:
+         - http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1
+        in the case of a docconv generated URL
 
-        I don't want anybody to break it!
+        This test will protect the method that generates the urls
+        from changes in the docconv module
         '''
         request = self.request.clone()
         request['page'] = 1
@@ -78,5 +89,4 @@ class TestUpload(IntegrationTestCase):
             self.pdf,
             request,
         )
-
         self.assertIsInstance(view(), BlobStreamIterator)
