@@ -22,7 +22,7 @@
             </tal:workspace>
         </ul>
         <p class="portlet-footer">
-            <a href="#">All workspace activities…</a>
+            <a href="${here/portal_url}/workspaces.html">All workspace activities…</a>
         </p>
     </div>
 </body>
