@@ -267,9 +267,9 @@ class Sidebar(BaseTile):
             if portal_type in FOLDERISH_TYPES:
                 dpi = (
                     "source: #workspace-documents; "
-                    "target: #workspace-documents"
+                    "target: #workspace-documents; "
+                    "url: %s/@@sidebar.default#workspace-documents" % url
                 )
-                url = url + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
                 if portal_type in view_action_types:
