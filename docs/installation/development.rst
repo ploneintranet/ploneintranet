@@ -101,9 +101,7 @@ Create a new Plone instance, under `Add-ons`, choose the package
 Running tests
 -------------
 
-To run the tests::
-
-    ./bin/test
+See :doc:`../development/testing`
 
 
 Building the Documentation
