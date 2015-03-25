@@ -102,3 +102,15 @@ Then re-create the virtualenv but now use the site-packages::
     rm bin/python*
     virtualenv --system-site-packages --clear -p python2.7 .
     make devel
+
+This, however, causes this error on startup of the robot server::
+
+    15:34:41 [ wait ] Starting Zope 2 server
+    15:34:49 [ wait ] Watchdog is watching for changes in src
+    2015-03-25 15:34 python[85243] (FSEvents.framework) FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-21)
+    15:34:49 [ wait ] Fork loop now starting on parent process 85243
+    15:34:49 [ wait ] Fork loop forked a new child process 85246
+    The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+    Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
+
+A solution is not yet available.
