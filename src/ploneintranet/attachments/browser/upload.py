@@ -23,16 +23,17 @@ class UploadAttachments(BrowserView):
         docconv = IDocconv(attachment, None)
         if not docconv:
             return []
-        base_url = '%s/docconv_image_thumb.jpg?page=' % (
-            docconv.context.absolute_url()
-        )
+
         pages = docconv.get_number_of_pages()
         if pages <= 0:  # we have no previews when pages is 0 or -1
             return []
-        else:
-            return [
-                (base_url + str(i+1)) for i in range(pages)
-            ]
+
+        base_url = '%s/docconv_image_thumb.jpg?page=' % (
+            attachment.absolute_url()
+        )
+        return [
+            (base_url + str(i+1)) for i in range(pages)
+        ]
 
     def get_image_thumbs_urls(self, image):
         '''
