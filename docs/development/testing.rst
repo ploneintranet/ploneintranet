@@ -71,5 +71,9 @@ A wrapper script is handy for this (robot_remote.sh)::
 After starting robot-server in the container, you can then run robot tests on the host::
 
     ./robot_remote.sh -t "*events*" src/ploneintranet/suite/tests/acceptance/workspace.robot
-  
 
+
+Debugging robot tests
+---------------------
+
+See http://docs.plone.org/external/plone.app.robotframework/docs/source/debugging.html
