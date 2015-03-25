@@ -98,6 +98,14 @@ Create a new Plone instance, under `Add-ons`, choose the package
 .. _`stackoverflow article`: http://stackoverflow.com/questions/3683181/cannot-install-pyenchant-on-osx
 
 
+Running tests
+-------------
+
+To run the tests::
+
+    ./bin/test
+
+
 Building the Documentation
 --------------------------
 
@@ -119,8 +127,3 @@ The buildout creates a script in bin to generate the docs::
    bin/generate-docs
 
 The docs are generated in docs/html.
-
-Specials:
----------
-
-Currently I have to deactivate simplesharing.js as it throws an error on non-existing dom element and effectively deactivates the other js.
