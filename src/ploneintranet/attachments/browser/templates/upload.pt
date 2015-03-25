@@ -12,10 +12,6 @@
     <tal:for repeat="attachment attachments">
         <img tal:repeat="url python:view.get_thumbs_urls(attachment)" src="${url}" />
     </tal:for>
-    <img
-      tal:condition="not:attachments"
-      data-comment="BBB: dirty hack to make injection working"
-    />
   </p>
 </body>
 </html>

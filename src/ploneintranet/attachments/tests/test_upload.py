@@ -74,7 +74,7 @@ class TestUpload(IntegrationTestCase):
         # Test objects that have no preview
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.portal),
-            [],
+            upload_view.fallback_thumbs_urls,
         )
 
         # Test objects that have a docconv generated preview
@@ -100,7 +100,7 @@ class TestUpload(IntegrationTestCase):
         )
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.empty),
-            []
+            upload_view.fallback_thumbs_urls
         )
 
     def test_docconv_url_traversable(self):

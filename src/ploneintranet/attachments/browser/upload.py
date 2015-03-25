@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
 from plone import api
+from plone.memoize.view import memoize
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from ploneintranet.attachments import utils
@@ -15,6 +16,19 @@ except ImportError:
 
 
 class UploadAttachments(BrowserView):
+
+    @property
+    @memoize
+    def fallback_thumbs_urls(self):
+        ''' Return a dummy image thumbnails
+
+        BBB: Ask for a better image :)
+        '''
+        url = '/'.join((
+            api.portal.get().absolute_url(),
+            '++theme++ploneintranet.theme/generated/media/logo.svg'
+        ))
+        return [url]
 
     def get_docconv_thumbs_urls(self, attachment):
         '''
@@ -35,7 +49,7 @@ class UploadAttachments(BrowserView):
                 (base_url + str(i+1)) for i in range(pages)
             ]
 
-    def get_image_thumbs_urls(self, image, image_field="image"):
+    def get_image_thumbs_urls(self, image):
         '''
         If we have an Image or a File object,
         we ask the Plone scale machinery for a URL
@@ -46,9 +60,9 @@ class UploadAttachments(BrowserView):
             self.request,
         )
         try:
-            urls = [images.scale(image_field, 'preview').absolute_url()]
+            urls = [images.scale(scale='preview').absolute_url()]
         except:
-            log.exception('Preview url generation failed')
+            log.error('Preview url generation failed')
             urls = []
         return urls
 
@@ -62,14 +76,13 @@ class UploadAttachments(BrowserView):
             return urls
 
         # If we have an image we return the usual preview url
-        if isinstance(attachment, Image):
-            return self.get_image_thumbs_urls(attachment)
+        if isinstance(attachment, (Image, File)):
+            urls = self.get_image_thumbs_urls(attachment)
+        if urls:
+            return urls
 
-        # If we have a file it can contain an image: we try before aborting
-        if isinstance(attachment, File):
-            return self.get_image_thumbs_urls(attachment, 'file')
-
-        return []
+        # If every other method fails return a fallback
+        return self.fallback_thumbs_urls
 
     def __call__(self):
         token = self.request.get('attachment-form-token')
