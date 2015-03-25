@@ -15,6 +15,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IActivityProvider
+from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.activitystream.interfaces import IContentActivity
@@ -236,7 +237,9 @@ class StatusActivityProvider(AbstractActivityProvider):
         return provider()
 
     def reply_providers(self):
-        name = "ploneintranet.activitystream.statusactivityinlinereply_provider"
+        name = (
+            "ploneintranet.activitystream.statusactivityinlinereply_provider"
+        )
         for reply in self.context.replies():
             provider = getMultiAdapter(
                 (reply, self.request, self),
@@ -247,22 +250,44 @@ class StatusActivityProvider(AbstractActivityProvider):
     @property
     def attachments(self):
         """ Get preview images for status update attachments """
-        if all([
-            self.is_attachment_supported(),
-            self.is_preview_supported(),
-                IAttachmentStoragable.providedBy(self.status),
-        ]):
-            storage = IAttachmentStorage(self.status)
-            attachments = storage.values()
-            for attachment in attachments:
-                docconv = IDocconv(attachment)
-                if docconv.has_thumbs():
-                    url = api.portal.get().absolute_url()
-                    yield ('{portal_url}/@@status-attachments/{status_id}/'
-                           '{attachment_id}/thumb').format(
-                               portal_url=url,
-                               status_id=self.status.getId(),
-                               attachment_id=attachment.getId())
+        if not self.is_attachment_supported():
+            return []
+        if not self.is_preview_supported():
+            return []
+        if not IAttachmentStoragable.providedBy(self.status):
+            return []
+
+        storage = IAttachmentStorage(self.status)
+        items = storage.values()
+        if not items:
+            return []
+
+        attachments = []
+        portal_url = api.portal.get().absolute_url()
+        base_url = '{portal_url}/@@status-attachments/{status_id}'.format(
+            portal_url=portal_url,
+            status_id=self.status.getId(),
+        )
+        for item in items:
+            docconv = IDocconv(item)
+            if docconv.has_thumbs():
+                url = '/'.join((base_url, item.getId(), 'thumb'))
+            elif isinstance(item, Image):
+                images = api.content.get_view(
+                    'images',
+                    item.aq_base,
+                    self.request,
+                )
+                url = '/'.join((
+                    base_url,
+                    item.getId(),
+                    images.scale(scale='preview').url.lstrip('/')
+                ))
+            else:
+                url = ''
+            if url:
+                attachments.append(url)
+        return attachments
 
 
 class StatusActivityReplyProvider(StatusActivityProvider):
