@@ -44,6 +44,17 @@ class WorkspaceFolder(Container):
         """
         return self
 
+    def can_manage_workspace(self):
+        """
+        does this user have permission to manage the workspace
+        """
+        return api.user.has_permission(
+            "ploneintranet.workspace: Manage workspace",
+            obj=self,
+        )
+
+
+
     @property
     def external_visibility(self):
         return api.content.get_state(self)

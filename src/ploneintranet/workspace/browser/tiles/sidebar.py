@@ -14,7 +14,6 @@ from ploneintranet.workspace import MessageFactory as _
 from plone.memoize.instance import memoize
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
-from Products.CMFCore.utils import _checkPermission as checkPermission
 from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -74,15 +73,6 @@ class SidebarSettingsMembers(BaseTile):
     @memoize
     def existing_users(self):
         return existing_users(self.my_workspace())
-
-    def can_manage_workspace(self):
-        """
-        does this user have permission to manage the workspace
-        """
-        return checkPermission(
-            "ploneintranet.workspace: Manage workspace",
-            self.context,
-        )
 
 
 class SidebarSettingsSecurity(BaseTile):
