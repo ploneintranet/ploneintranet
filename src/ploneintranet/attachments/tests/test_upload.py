@@ -9,7 +9,6 @@ from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
 from ploneintranet.docconv.client.interfaces import (
     IPloneintranetDocconvClientLayer
 )
-from re import compile
 from zope.interface import alsoProvides
 
 
