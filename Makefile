@@ -168,12 +168,12 @@ clean::
 PROJECT=ploneintranet
 
 docker-build: .ssh/known_hosts
-	docker build -t $(PROJECT) .
+	docker.io build -t $(PROJECT) .
 
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:
-	docker run -i -t \
+	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v /var/tmp:/var/tmp \
