@@ -14,6 +14,8 @@ Test Teardown  Close all browsers
 
 Alice can attach a file to a post
     Given I am logged in as the user alice_lindstrom
+   Import library  Dialogs
+   Pause execution
       And I open the Dashboard
       And I see the Dashboard
 
