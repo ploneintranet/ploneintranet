@@ -300,7 +300,7 @@ def create_stream(context, stream, files_dir):
         status_obj.userid = status['user']
         status_obj.creator = api.user.get(
             username=status['user']
-        ).getProperty('fullname')
+        ).getUserName()
         offset_time = status['timestamp'] * 60
         status_obj.id -= int(offset_time * 1e6)
         status_obj.date = DateTime(time.time() - offset_time)
