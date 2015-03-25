@@ -1,4 +1,5 @@
 from Products.Five.browser import BrowserView
+from plone import api
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zExceptions import NotFound
@@ -48,6 +49,7 @@ class StatusAttachments(BrowserView):
 
         if not self.status_id:
             return self
+
         container = PLONEINTRANET.microblog
         status = container.get(self.status_id)
         if not self.attachment_id:
@@ -74,6 +76,17 @@ class StatusAttachments(BrowserView):
                 if docconv.has_previews():
                     return self._prepare_imagedata(
                         attachment, docconv.get_previews()[0])
+            elif self.preview_type == '@@images':
+                images = api.content.get_view(
+                    'images',
+                    attachment.aq_base,
+                    self.request,
+                )
+                return self._prepare_imagedata(
+                    attachment,
+                    str(images.scale(scale='preview').data.data)
+                )
+
         raise NotFound
 
     def publishTraverse(self, request, name):

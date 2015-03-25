@@ -1,4 +1,21 @@
-<p id="attachments" class="attachments upload-previews">
-    <img tal:repeat="attachment view/attachments" src="http://lorempixel.com/600/240/abstract" 
-         tal:attributes="src attachment/@@document_preview/get_preview_url" alt="" />
-</p>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  >
+
+<body>
+  <p id="attachments"
+    class="attachments upload-previews"
+    tal:define="attachments view/attachments"
+    >
+    <tal:for repeat="attachment attachments">
+        <img tal:repeat="url python:view.get_thumbs_urls(attachment)" src="${url}" />
+    </tal:for>
+    <img
+      tal:condition="not:attachments"
+      data-comment="BBB: dirty hack to make injection working"
+    />
+  </p>
+</body>
+</html>

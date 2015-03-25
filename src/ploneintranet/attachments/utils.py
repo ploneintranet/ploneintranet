@@ -58,10 +58,16 @@ def create_attachment(filename, data):
         data=data,
         filename=filename,
     )
-    fti = queryUtility(IDexterityFTI, name='File')
-    thefile = createObject(fti.factory,
-                           id=filename,
-                           file=namedfile)
+    if namedfile.contentType.startswith('image'):
+        fti = queryUtility(IDexterityFTI, name='Image')
+        thefile = createObject(fti.factory,
+                               id=filename,
+                               image=namedfile)
+    else:
+        fti = queryUtility(IDexterityFTI, name='File')
+        thefile = createObject(fti.factory,
+                               id=filename,
+                               file=namedfile)
     return thefile
 
 
