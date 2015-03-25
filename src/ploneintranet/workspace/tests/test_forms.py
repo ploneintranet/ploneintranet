@@ -98,7 +98,7 @@ class TestTransferForm(BaseTestCase):
             )
 
         # subtracting admin from members list
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
+        self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
 
         other_ws = api.content.create(
             self.portal,
@@ -152,7 +152,7 @@ class TestTransferForm(BaseTestCase):
         self.assertEqual(len(errors), 0)
 
         self.assertEqual(0, len(list(IWorkspace(other_ws).members)))
-        self.assertEqual(len(names), len(list(IWorkspace(ws).members))-1)
+        self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
 
 
 class TestInvitationFormValidation(BaseTestCase):
@@ -256,7 +256,7 @@ class TestInvitationFormValidation(BaseTestCase):
         self.create_user(name='vladislav', email=email)
         self.add_user_to_workspace('vladislav', self.ws)
         # there should be one user minus admin
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
@@ -349,7 +349,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             password='whatever',
         )
         # there shouldn't be any minus admin user in workspace
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
@@ -382,7 +382,7 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.assertIn('userrole-authenticated', browser.contents,
                       'User was not authenticated after accepting token')
         # check that user is added to workspace
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
 
     def test_invitation_message_is_sent(self):
         email = "vlad@example.org"
@@ -444,7 +444,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             password='whatever',
         )
         # there shouldn't be any minus admin user in workspace
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)
 
         request = self.make_request(username=username)
         form = api.content.get_view(
@@ -481,7 +481,7 @@ class TestInvitationFormEmailing(BaseTestCase):
         self.assertIn('userrole-authenticated', browser.contents,
                       'User was not authenticated after accepting token')
         # check that user is added to workspace
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
         self.assertIn(
             "Oh boy, oh boy, you are already a member",
             browser.contents)

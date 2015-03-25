@@ -165,7 +165,7 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
             su = StatusUpdate(u'Test à FIRST')
             pm.add(su)
             for i in xrange(0, 10):
-                su = StatusUpdate(u'Test à {}'.format(unicode(i+1)))
+                su = StatusUpdate(u'Test à {}'.format(unicode(i + 1)))
                 pm.add(su)
             time.sleep(2)
             if getattr(pm, '_v_timer', None) is not None:
@@ -178,5 +178,5 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         for i, message in enumerate(messages[-10:]):
             self.assertEqual(message.predicate, 'STATUS_UPDATE')
             self.assertEqual(message.obj['title'], u'Test à {}'.format(
-                unicode(i+1)
+                unicode(i + 1)
             ))
