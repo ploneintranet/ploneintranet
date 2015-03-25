@@ -14,7 +14,8 @@ class Mixin(object):
 
     def get_images(self):
         catalog = api.portal.get_tool('portal_catalog')
-        return catalog(portal_type='Image', path=self.context.getPhysicalPath())
+        return catalog(portal_type='Image',
+                       path=self.context.getPhysicalPath())
 
 
 class ExampleDragAndDropUpload(BrowserView):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from ploneintranet.microblog.browser.interfaces import IPloneIntranetMicroblogLayer
+from ploneintranet.microblog.browser.interfaces \
+    import IPloneIntranetMicroblogLayer
 from ploneintranet.activitystream.browser.interfaces import (
     IPloneIntranetActivitystreamLayer
 )

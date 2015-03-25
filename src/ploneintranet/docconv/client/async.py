@@ -107,10 +107,18 @@ class RecursiveQueueJob(grok.View):
 
         URL Parameters:
 
-        * *dryrun*:         don't really queue jobs, just show what would be done
-        * *force*:          overwrite existing previews/thumbs
-        * *minresolution*:  overwrite if existing previews are smaller than this
-        * *modified*:       only consider objects modified after this date, or between these dates if a tuple/list is given (not even counted as skipped)
+        * *dryrun*:
+           don't really queue jobs, just show what would be done
+
+        * *force*:
+           overwrite existing previews/thumbs
+
+        * *minresolution*:
+           overwrite if existing previews are smaller than this
+
+        * *modified*:
+          only consider objects modified after this date, or between these
+          dates if a tuple/list is given (not even counted as skipped)
 
         Examples:
 

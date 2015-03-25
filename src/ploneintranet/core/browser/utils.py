@@ -4,7 +4,7 @@ from Products.CMFPlone.utils import safe_unicode
 
 def link_tags(url='', tags=None):
     if tags:
-        tmpl = u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">#{tag}</a>'
+        tmpl = u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">#{tag}</a>'  # flake8:noqa
         text = u' &mdash;'
         for tag in tags:
             text += tmpl.format(url=url, tag=safe_unicode(tag))
