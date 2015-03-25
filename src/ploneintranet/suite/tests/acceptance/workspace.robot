@@ -99,7 +99,7 @@ Alice can upload a file
       And I go to the Open Market Committee Workspace
       And I select a file to upload
      Then the file appears in the sidebar
-#TODO      And the upload appears in the stream
+      And the upload appears in the stream
 
 
 # XXX: The following tests derive from ploneintranet.workspace and still
@@ -331,3 +331,5 @@ I can create a structure
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
 
+The upload appears in the stream
+    Wait until Page contains Element  xpath=//*[@id='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
