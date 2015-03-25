@@ -98,6 +98,14 @@ Create a new Plone instance, under `Add-ons`, choose the package
 .. _`stackoverflow article`: http://stackoverflow.com/questions/3683181/cannot-install-pyenchant-on-osx
 
 
+Running tests
+-------------
+
+To run the tests::
+
+    ./bin/test
+
+
 Building the Documentation
 --------------------------
 
