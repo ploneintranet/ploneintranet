@@ -1,4 +1,3 @@
-from plone import api
 from plone.tiles import Tile
 from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile

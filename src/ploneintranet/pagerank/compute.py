@@ -1,7 +1,7 @@
 import logging
 import mincemeat
 import networkx as nx
-from multiprocessing import Pool, Process
+from multiprocessing import Process
 
 from ploneintranet.pagerank.graph import Graphs
 
