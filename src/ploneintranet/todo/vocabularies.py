@@ -13,4 +13,3 @@ todo_priority = SimpleVocabulary(
      SimpleTerm(value=1, title=_(u'Normal')),
      SimpleTerm(value=2, title=_(u'High'))]
 )
-

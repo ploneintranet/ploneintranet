@@ -7,6 +7,7 @@ from ploneintranet.todo.behaviors import ITodo
 import zope.event
 from zope.lifecycleevent import ObjectModifiedEvent
 
+
 class TestTodo(IntegrationTestCase):
     """Test Todo content type"""
 
@@ -27,4 +28,3 @@ class TestTodo(IntegrationTestCase):
             'Assignee',
             api.user.get_roles(username=TEST_USER_ID, obj=todo)
         )
-

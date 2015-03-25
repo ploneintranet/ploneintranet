@@ -52,14 +52,14 @@ class ITodo(form.Schema):
     status = Choice(
         title=_(u"Status"),
         required=True,
-        default=u'tbd', 
+        default=u'tbd',
         vocabulary=todo_status,
     )
 
     priority = Choice(
         title=_(u"Priority"),
         required=True,
-        default=1, 
+        default=1,
         vocabulary=todo_priority,
     )
 

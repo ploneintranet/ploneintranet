@@ -5,6 +5,7 @@ from plone import api
 
 from ploneintranet.todo.behaviors import IMustRead
 
+
 class TestBehavior(IntegrationTestCase):
     """Test MustRead behavior."""
 
@@ -19,4 +20,3 @@ class TestBehavior(IntegrationTestCase):
         behavior = IMustRead(news)
         behavior.mustread = True
         self.assertTrue(behavior.mustread)
-
