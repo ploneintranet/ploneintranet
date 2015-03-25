@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready 
+ :target: https://waffle.io/ploneintranet/ploneintranet
+ :alt: 'Stories in Ready'
 Plone Intranet
 ==============
 

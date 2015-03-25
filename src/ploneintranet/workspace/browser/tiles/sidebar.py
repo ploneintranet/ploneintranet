@@ -20,6 +20,7 @@ from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 
 FOLDERISH_TYPES = ['folder']
+BLACKLISTED_TYPES = ['Event', 'simpletodo']
 
 
 class BaseTile(BrowserView):
@@ -228,20 +229,28 @@ class Sidebar(BaseTile):
         current_path = '/'.join(self.context.getPhysicalPath())
 
         sidebar_search = self.request.get('sidebar-search', None)
+        query = {}
+        allowed_types = [i for i in api.portal.get_tool('portal_types')
+                         if i not in BLACKLISTED_TYPES]
+        query['portal_type'] = allowed_types
         if sidebar_search:
-            st = '%s*' % sidebar_search  # XXX plone only allows * as postfix.
+            # XXX plone only allows * as postfix.
+            query['SearchableText'] = '%s*' % sidebar_search
+            query['path'] = current_path
             # With solr we might want to do real substr
-            results = catalog.searchResults(SearchableText=st,
-                                            path=current_path)
+            results = catalog.searchResults(query)
         else:
-            results = self.context.getFolderContents()
+            query['sort_on'] = 'sortable_title'
+            results = self.context.getFolderContents(query)
 
         for item in results:
+            if item.portal_type in BLACKLISTED_TYPES:
+                continue
+
             # Do some checks to set the right classes for icons and candy
             desc = (
-                item['Description']
-                and 'has-description'
-                or 'has-no-description'
+                'has-description' if item['Description']
+                else 'has-no-description'
             )
 
             content_type = TYPE_MAP.get(item['portal_type'], 'none')
