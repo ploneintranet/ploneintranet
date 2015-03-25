@@ -71,5 +71,34 @@ A wrapper script is handy for this (robot_remote.sh)::
 After starting robot-server in the container, you can then run robot tests on the host::
 
     ./robot_remote.sh -t "*events*" src/ploneintranet/suite/tests/acceptance/workspace.robot
-  
 
+
+Debugging robot tests
+---------------------
+
+See http://docs.plone.org/external/plone.app.robotframework/docs/source/debugging.html
+
+Troubleshooting
+---------------
+
+No module named _tkinter
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you get::
+
+    Importing test library 'Dialogs' failed: ImportError: No module named _tkinter
+    Traceback (most recent call last):
+      File "/Users/kees/.buildout/eggs/robotframework-2.8.4-py2.7.egg/robot/libraries/Dialogs.py", line 38, in <module>
+        from dialogs_py import MessageDialog, PassFailDialog, InputDialog, SelectionDialog
+      File "/Users/kees/.buildout/eggs/robotframework-2.8.4-py2.7.egg/robot/libraries/dialogs_py.py", line 17, in <module>
+        from Tkinter import (Tk, Toplevel, Frame, Listbox, Label, Button, Entry,
+      File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Tkinter.py", line 39, in <module>
+        import _tkinter # If this fails your Python may not be configured for Tk
+
+Install ``python-tk`` (Ubuntu), ``py-tkinter`` (OSX port) or similar.
+
+Then re-create the virtualenv but now use the site-packages::
+
+    rm bin/python*
+    virtualenv --system-site-packages --clear -p python2.7 .
+    make devel
