@@ -41,7 +41,7 @@ class ExampleFilePreview(BrowserPage):
     """
 
     def __call__(self, *args, **kw):
-        seconds = 10;
+        seconds = 10
         context = aq_inner(self.context)
         if not hasattr(context, '_v_wait'):
             context._v_wait = datetime.now() + timedelta(seconds=seconds)
