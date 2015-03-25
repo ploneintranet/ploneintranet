@@ -1,4 +1,3 @@
-# from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace.utils import TYPE_MAP
 from ploneintranet.workspace.utils import parent_workspace
