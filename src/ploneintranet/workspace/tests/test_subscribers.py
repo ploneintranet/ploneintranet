@@ -56,7 +56,7 @@ class TestUserDeletion(BaseTestCase):
             email="user@example.org",
             username=username,
             password="doesntmatter",
-            )
+        )
 
         # there shouldn't be any minus admin user in workspace
         self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)

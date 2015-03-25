@@ -233,7 +233,7 @@ class TestInvitationFormValidation(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
         form.update()
         data, errors = form.extractData()
         self.assertEqual(len(errors), 1)
@@ -244,7 +244,7 @@ class TestInvitationFormValidation(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         form.update()
         data, errors = form.extractData()
@@ -263,14 +263,14 @@ class TestInvitationFormValidation(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         form.update()
         error_msg = "User is already a member of this workspace"
         self.assertEqual(
             error_msg,
             form.widgets['user'].error.message
-            )
+        )
 
     def test_our_event_handler_doesnt_handle_not_our_events(self):
         # shouldn't happen anything, especially there shouldn't be
@@ -347,7 +347,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             email=email,
             username=username,
             password='whatever',
-            )
+        )
         # there shouldn't be any minus admin user in workspace
         self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
@@ -356,7 +356,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         form.update()
         data, errors = form.extractData()
@@ -391,7 +391,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             email=email,
             username=username,
             password='whatever',
-            )
+        )
 
         message = u'Hello and join my wörkspace'
         request = self.make_request(username=username, message=message)
@@ -399,7 +399,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         form.update()
         form.extractData()
@@ -417,14 +417,14 @@ class TestInvitationFormEmailing(BaseTestCase):
             email=email,
             username=username,
             password='whatever',
-            )
+        )
 
         request = self.make_request(username=username)
         form = api.content.get_view(
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         optional = u'Here is the message from %s\n\n' % username
         form.update()
@@ -442,7 +442,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             email=email,
             username=username,
             password='whatever',
-            )
+        )
         # there shouldn't be any minus admin user in workspace
         self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
 
@@ -451,7 +451,7 @@ class TestInvitationFormEmailing(BaseTestCase):
             'invite',
             context=self.ws,
             request=request,
-            )
+        )
 
         form.update()
         data, errors = form.extractData()

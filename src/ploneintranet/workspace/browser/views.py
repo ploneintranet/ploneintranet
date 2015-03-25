@@ -52,7 +52,7 @@ class SharingView(BaseSharingView):
             x["id"].endswith(uid),
             x["id"] == "AuthenticatedUsers",
             x["id"] == INTRANET_USERS_GROUP_ID,
-            ))
+        ))
         return filter(filter_func, result)
 
     def user_search_results(self):
