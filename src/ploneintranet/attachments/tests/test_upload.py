@@ -9,6 +9,7 @@ from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
 from ploneintranet.docconv.client.interfaces import (
     IPloneintranetDocconvClientLayer
 )
+from re import compile
 from zope.interface import alsoProvides
 
 
@@ -23,12 +24,7 @@ class TestUpload(IntegrationTestCase):
         alsoProvides(self.request, IPloneintranetAttachmentsLayer)
         alsoProvides(self.request, IPloneintranetDocconvClientLayer)
 
-        self.image = api.content.create(
-            container=self.portal,
-            type='Image',
-            id='test-image',
-            image=dummy_image(),
-        )
+        # Docconv: will generate previews for this
         self.pdf = api.content.create(
             container=self.portal,
             type='File',
@@ -43,6 +39,28 @@ class TestUpload(IntegrationTestCase):
                 ),
                 filename=u'plone.pdf'
             ),
+        )
+        # This will be skipped by docconv: no need for preview generation
+        self.image = api.content.create(
+            container=self.portal,
+            type='Image',
+            id='test-image',
+            image=dummy_image(),
+        )
+        # We also need a file that contains an image :)
+        # This will be also skipped by docconv
+        self.fileimage = api.content.create(
+            container=self.portal,
+            type='File',
+            id='test-image-file',
+            file=dummy_image(),
+        )
+        # We finally try with an empty file
+        # This will be also skipped by docconv
+        self.empty = api.content.create(
+            container=self.portal,
+            type='File',
+            id='test-empty',
         )
 
     def test_get_thumbs_urls(self):
@@ -71,6 +89,18 @@ class TestUpload(IntegrationTestCase):
         self.assertRegexpMatches(
             urls[0],
             'http://nohost/plone/test-image/@@images/(.*).jpeg'
+        )
+
+        # Test a File instance that contains an image
+        urls = upload_view.get_thumbs_urls(self.fileimage)
+        self.assertTrue(len(urls) == 1)
+        self.assertRegexpMatches(
+            urls[0],
+            'http://nohost/plone/test-image-file/@@images/(.*).jpeg'
+        )
+        self.assertListEqual(
+            upload_view.get_thumbs_urls(self.empty),
+            []
         )
 
     def test_docconv_url_traversable(self):

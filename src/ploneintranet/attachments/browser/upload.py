@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
 from plone import api
+from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
@@ -34,19 +35,22 @@ class UploadAttachments(BrowserView):
                 (base_url + str(i+1)) for i in range(pages)
             ]
 
-    def get_image_thumbs_urls(self, image):
+    def get_image_thumbs_urls(self, image, image_field="image"):
         '''
-        If we have an image object,
-        we ask the scale machinaery for a URL
+        If we have an Image or a File object,
+        we ask the Plone scale machinery for a URL
         '''
         images = api.content.get_view(
             'images',
             image,
             self.request,
         )
-        return [
-            images.scale('image', 'preview').absolute_url()
-        ]
+        try:
+            urls = [images.scale(image_field, 'preview').absolute_url()]
+        except:
+            log.exception('Preview url generation failed')
+            urls = []
+        return urls
 
     def get_thumbs_urls(self, attachment):
         ''' This will return the URL for the thumbs of the attachment
@@ -60,6 +64,10 @@ class UploadAttachments(BrowserView):
         # If we have an image we return the usual preview url
         if isinstance(attachment, Image):
             return self.get_image_thumbs_urls(attachment)
+
+        # If we have a file it can contain an image: we try before aborting
+        if isinstance(attachment, File):
+            return self.get_image_thumbs_urls(attachment, 'file')
 
         return []
 
