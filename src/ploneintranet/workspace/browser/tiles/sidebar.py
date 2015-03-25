@@ -1,21 +1,22 @@
+from DateTime import DateTime
+from plone import api
+from plone.app.contenttypes.interfaces import IEvent
+from plone.i18n.normalizer import idnormalizer
+from plone.memoize.instance import memoize
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from ploneintranet.workspace.utils import TYPE_MAP
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.utils import existing_users
+from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import getMultiAdapter
+from zope.publisher.browser import BrowserView
+
+from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
 from ploneintranet.workspace.policies import JOIN_POLICY
 from ploneintranet.workspace.policies import PARTICIPANT_POLICY
-from zope.publisher.browser import BrowserView
-from zope.component import getMultiAdapter
-from plone import api
-from plone.i18n.normalizer import idnormalizer
-from plone.app.contenttypes.interfaces import IEvent
-from ploneintranet.workspace import MessageFactory as _
-from plone.memoize.instance import memoize
-from DateTime import DateTime
-from Products.CMFPlone.utils import safe_unicode
-from ploneintranet.todo.behaviors import ITodo
-from Products.statusmessages.interfaces import IStatusMessage
+from ploneintranet.workspace.utils import existing_users
+from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import TYPE_MAP
 
 FOLDERISH_TYPES = ['folder']
 
