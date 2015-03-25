@@ -19,7 +19,7 @@ from Products.CMFCore.utils import _checkPermission as checkPermission
 from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 
-FOLDERISH_TYPES = ['folder']
+FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'simpletodo']
 
 
@@ -244,7 +244,8 @@ class Sidebar(BaseTile):
             results = self.context.getFolderContents(query)
 
         for item in results:
-            if item.portal_type in BLACKLISTED_TYPES:
+            portal_type = item['portal_type']
+            if portal_type in BLACKLISTED_TYPES:
                 continue
 
             # Do some checks to set the right classes for icons and candy
@@ -253,26 +254,25 @@ class Sidebar(BaseTile):
                 else 'has-no-description'
             )
 
-            content_type = TYPE_MAP.get(item['portal_type'], 'none')
-
-            mime_type = ''  # XXX: will be needed later for grouping by mimetyp
-            # typ can be user, folder, date and mime typish
-            typ = 'folder'  # XXX: This needs to get dynamic later
+            # XXX: will be needed later for grouping by mimetyp
+            mime_type = ''
+            # typ can be user, folder, date and mime-typish
+            typ = TYPE_MAP.get(portal_type, 'none')
             url = item.getURL()
 
             ptool = api.portal.get_tool('portal_properties')
             view_action_types = \
                 ptool.site_properties.typesUseViewActionInListings
 
-            if content_type in FOLDERISH_TYPES:
+            if portal_type in FOLDERISH_TYPES:
                 dpi = (
                     "source: #workspace-documents; "
-                    "target: #workspace-documents"
+                    "target: #workspace-documents; "
+                    "url: %s/@@sidebar.default#workspace-documents" % url
                 )
-                url = url + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
-                if item['portal_type'] in view_action_types:
+                if portal_type in view_action_types:
                     url = "%s/view" % url
                 dpi = (
                     "target: #document-body; "
