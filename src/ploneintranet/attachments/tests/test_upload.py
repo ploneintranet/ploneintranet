@@ -72,7 +72,7 @@ class TestUpload(IntegrationTestCase):
         I don't want anybody to break it!
         '''
         request = self.request.clone()
-        request['page']=1
+        request['page'] = 1
         view = api.content.get_view(
             'docconv_image_thumb.jpg',
             self.pdf,
