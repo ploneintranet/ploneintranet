@@ -101,7 +101,7 @@ def get_workspace_activities(brain, limit=1):
     results = []
     for item in items:
         user_data = mtool.getMemberInfo(item.creator)
-        creator = user_data.get('fullname', item.creator)
+        creator = user_data.get('fullname') if user_data else item.creator
         results.append(dict(
             subject=creator,
             verb='published',
