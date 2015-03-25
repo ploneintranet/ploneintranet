@@ -269,9 +269,10 @@ class StatusActivityProvider(AbstractActivityProvider):
             status_id=self.status.getId(),
         )
         for item in items:
+            item_url = '/'.join((base_url, item.getId()))
             docconv = IDocconv(item)
             if docconv.has_thumbs():
-                url = '/'.join((base_url, item.getId(), 'thumb'))
+                url = '/'.join((item_url, 'thumb'))
             elif isinstance(item, (File, Image)):
                 images = api.content.get_view(
                     'images',
@@ -279,14 +280,13 @@ class StatusActivityProvider(AbstractActivityProvider):
                     self.request,
                 )
                 url = '/'.join((
-                    base_url,
-                    item.getId(),
+                    item_url,
                     images.scale(scale='preview').url.lstrip('/')
                 ))
             else:
                 url = ''
             if url:
-                attachments.append(url)
+                attachments.append(dict(img_src=url, link=item_url))
         return attachments
 
 
@@ -351,8 +351,10 @@ class ContentActivityProvider(AbstractActivityProvider):
         if self.is_preview_supported():
             docconv = IDocconv(self.context.context)
             if docconv.has_thumbs():
-                return [self.context.context.absolute_url() +
-                        '/docconv_image_thumb.jpg']
+                base_url = self.context.context.absolute_url()
+                return [dict(
+                    img_src="{0}/docconv_image_thumb.jpg".format(base_url),
+                    link=base_url)]
 
 
 class DiscussionActivityProvider(AbstractActivityProvider):

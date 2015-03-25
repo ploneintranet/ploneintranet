@@ -29,6 +29,7 @@ Alice can submit a post with a file attachment
       And I can see the file preview in the post box
       And I submit the new post
      Then I can see the file preview in the stream
+      And I can open the file from the stream preview
 
 
 *** Keywords ***
@@ -52,3 +53,7 @@ I submit the new post
 I can see the file preview in the stream
     Wait Until Element Is visible   css=#activity-stream .preview img[src$='/basic.txt/thumb']
 
+I can open the file from the stream preview
+   Wait Until Element Is visible   css=#activity-stream .preview a[href$='/basic.txt']
+   Click Link  css=#activity-stream .preview a[href$='/basic.txt']
+   Wait until page contains  Proin at congue nisl

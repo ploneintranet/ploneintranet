@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
 from plone import api
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zExceptions import NotFound
@@ -59,13 +60,16 @@ class StatusAttachments(BrowserView):
         attachments = IAttachmentStorage(status)
         attachment = attachments.get(self.attachment_id)
         if not self.preview_type:
+            primary_field = IPrimaryFieldInfo(attachment).value
+            mimetype = primary_field.contentType
+            data = primary_field.data
             self.request.response.setHeader(
-                'content-type', attachment.getContentType())
+                'content-type', mimetype)
             self.request.response.setHeader(
                 'content-disposition', 'inline; '
                 'filename="{0}"'.format(
                     self.attachment_id.encode('utf8')))
-            return attachment
+            return data
         if IDocconv is not None:
             docconv = IDocconv(attachment)
             if self.preview_type == 'thumb':
