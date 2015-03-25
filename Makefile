@@ -47,9 +47,10 @@ stamp-bower: stamp-npm
 clean-stamps::
 	rm -f stamp-npm stamp-bower
 
-clean:: clean-stamps clean-buildout
+clean:: clean-stamps
 	rm -rf node_modules src/bower_components ~/.cache/bower
 
+cleanall: clean clean-buildout
 clean-buildout:
 	rm bin/* .installed.cfg || true
 
@@ -168,12 +169,12 @@ clean::
 PROJECT=ploneintranet
 
 docker-build: .ssh/known_hosts
-	docker build -t $(PROJECT) .
+	docker.io build -t $(PROJECT) .
 
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:
-	docker run -i -t \
+	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v /var/tmp:/var/tmp \
