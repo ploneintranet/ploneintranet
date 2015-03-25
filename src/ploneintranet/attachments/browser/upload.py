@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
-
+from plone import api
+from plone.app.contenttypes.content import Image
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.interfaces import IDocconv
@@ -14,23 +15,53 @@ except ImportError:
 
 class UploadAttachments(BrowserView):
 
-    def get_thumbs_urls(self, attachment):
-        ''' This will return the URL for the thumbs of the attachment
+    def get_docconv_thumbs_urls(self, attachment):
+        '''
+        If we have a IDocconv adapted object,
+        we ask docconv for thumbs urls
         '''
         docconv = IDocconv(attachment, None)
         if not docconv:
             return []
         base_url = '%s/docconv_image_thumb.jpg?page=' % (
-            attachment.absolute_url()
+            docconv.context.absolute_url()
         )
-
         pages = docconv.get_number_of_pages()
-        if pages <= 0:  # It can be 0 or -1
+        if pages <= 0:  # we have no previews when pages is 0 or -1
             return []
         else:
             return [
                 (base_url + str(i+1)) for i in range(pages)
             ]
+
+    def get_image_thumbs_urls(self, image):
+        '''
+        If we have an image object,
+        we ask the scale machinaery for a URL
+        '''
+        images = api.content.get_view(
+            'images',
+            image,
+            self.request,
+        )
+        return [
+            images.scale('image', 'preview').absolute_url()
+        ]
+
+    def get_thumbs_urls(self, attachment):
+        ''' This will return the URL for the thumbs of the attachment
+
+        '''
+        # We first ask docconv for a URL
+        urls = self.get_docconv_thumbs_urls(attachment)
+        if urls:
+            return urls
+
+        # If we have an image we return the usual preview url
+        if isinstance(attachment, Image):
+            return self.get_image_thumbs_urls(attachment)
+
+        return []
 
     def __call__(self):
         token = self.request.get('attachment-form-token')
