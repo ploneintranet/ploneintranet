@@ -234,14 +234,14 @@ class Sidebar(BaseTile):
             results = catalog.searchResults(SearchableText=st,
                                             path=current_path)
         else:
-            results = self.context.getFolderContents()
+            results = self.context.getFolderContents(
+                {'sort_on': 'sortable_title'})
 
         for item in results:
             # Do some checks to set the right classes for icons and candy
             desc = (
-                item['Description']
-                and 'has-description'
-                or 'has-no-description'
+                'has-description' if item['Description']
+                else 'has-no-description'
             )
 
             content_type = TYPE_MAP.get(item['portal_type'], 'none')
