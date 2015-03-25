@@ -47,9 +47,10 @@ stamp-bower: stamp-npm
 clean-stamps::
 	rm -f stamp-npm stamp-bower
 
-clean:: clean-stamps clean-buildout
+clean:: clean-stamps
 	rm -rf node_modules src/bower_components ~/.cache/bower
 
+cleanall: clean clean-buildout
 clean-buildout:
 	rm bin/* .installed.cfg || true
 
