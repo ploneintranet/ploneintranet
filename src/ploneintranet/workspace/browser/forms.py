@@ -116,7 +116,7 @@ class IInviteForm(form.Schema):
         title=_(u"Message"),
         default=u"",
         required=False,
-        )
+    )
 
 
 class InviteForm(form.SchemaForm):

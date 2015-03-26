@@ -121,6 +121,6 @@ def user_deleted_from_site_event(event):
     workspaces = [
         IWorkspace(b._unrestrictedGetObject())
         for b in catalog.unrestrictedSearchResults(query)
-        ]
+    ]
     for workspace in workspaces:
         workspace.remove_from_team(userid)

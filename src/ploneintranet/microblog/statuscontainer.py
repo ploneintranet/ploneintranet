@@ -329,8 +329,8 @@ class BaseStatusContainer(Persistent, Explicit):
         keyset_mention = self._keys_tag(mention, keyset_tag)
 
         # calculate the tag+mention+uuid intersection for each uuid context
-        keyset_uuids = [self._keys_uuid(uuid, keyset_mention)
-                        for uuid in nested_uuids]
+        keyset_uuids = [self._keys_uuid(_uuid, keyset_mention)
+                        for _uuid in nested_uuids]
 
         # merge the intersections
         merged_set = LLBTree.multiunion(keyset_uuids)

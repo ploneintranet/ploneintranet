@@ -44,7 +44,7 @@ class TestPortlet(IntegrationTestCase):
         for i in xrange(0, 10):
             news_item = api.content.create(
                 type='News Item',
-                title=u'News {}'.format(i+1),
+                title=u'News {}'.format(i + 1),
                 container=self.folder,
                 text=u'<p>Hello <em>World</em>!</p>',
                 image=NamedBlobImage(LOGO, filename=u'zpt.gif')

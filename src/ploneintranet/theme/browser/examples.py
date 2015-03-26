@@ -14,7 +14,8 @@ class Mixin(object):
 
     def get_images(self):
         catalog = api.portal.get_tool('portal_catalog')
-        return catalog(portal_type='Image', path=self.context.getPhysicalPath())
+        return catalog(portal_type='Image',
+                       path=self.context.getPhysicalPath())
 
 
 class ExampleDragAndDropUpload(BrowserView):
@@ -40,7 +41,7 @@ class ExampleFilePreview(BrowserPage):
     """
 
     def __call__(self, *args, **kw):
-        seconds = 10;
+        seconds = 10
         context = aq_inner(self.context)
         if not hasattr(context, '_v_wait'):
             context._v_wait = datetime.now() + timedelta(seconds=seconds)

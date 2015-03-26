@@ -56,17 +56,17 @@ class TestUserDeletion(BaseTestCase):
             email="user@example.org",
             username=username,
             password="doesntmatter",
-            )
+        )
 
         # there shouldn't be any minus admin user in workspace
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)
 
         # lets add one user
         self.add_user_to_workspace(username, self.ws)
-        self.assertEqual(1, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(1, len(list(IWorkspace(self.ws).members)) - 1)
 
         # now lets remove a user from the site
         api.user.delete(username)
 
         # and this user should be gone from workspace as well
-        self.assertEqual(0, len(list(IWorkspace(self.ws).members))-1)
+        self.assertEqual(0, len(list(IWorkspace(self.ws).members)) - 1)

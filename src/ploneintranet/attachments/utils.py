@@ -1,7 +1,6 @@
 import logging
 from Acquisition import aq_base
 from datetime import datetime, timedelta
-from plone.app.contenttypes.content import File
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility

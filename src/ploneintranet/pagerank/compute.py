@@ -1,7 +1,7 @@
 import logging
 import mincemeat
 import networkx as nx
-from multiprocessing import Pool, Process
+from multiprocessing import Process
 
 from ploneintranet.pagerank.graph import Graphs
 
@@ -58,7 +58,7 @@ class ComputeMapReduce(Compute):
         for _ in xrange(clients):
             c = mincemeat.Client()
             c.password = "changeme"
-            p = Process(target=c.conn,  args=("", mincemeat.DEFAULT_PORT))
+            p = Process(target=c.conn, args=("", mincemeat.DEFAULT_PORT))
             p.start()
 
         s = mincemeat.Server()

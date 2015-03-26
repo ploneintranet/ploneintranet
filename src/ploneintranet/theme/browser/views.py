@@ -35,7 +35,8 @@ class DexterityFormMixin(object):
                 return field.get(context)
 
         if not silent:
-            raise KeyError('Could not get key %s in the request or context' % key)
+            raise KeyError('Could not get key %s in the request or context'
+                           % key)
 
 
 class IsThemeEnabled(BrowserView):
@@ -43,5 +44,3 @@ class IsThemeEnabled(BrowserView):
     def __call__(self):
         """ """
         return IThemeSpecific.providedBy(self.request)
-
-

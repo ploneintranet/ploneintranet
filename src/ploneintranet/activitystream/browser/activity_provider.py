@@ -236,7 +236,8 @@ class StatusActivityProvider(AbstractActivityProvider):
         return provider()
 
     def reply_providers(self):
-        name = "ploneintranet.activitystream.statusactivityinlinereply_provider"
+        name = ("ploneintranet.activitystream.statusactivityinlinereply_"
+                "provider")
         for reply in self.context.replies():
             provider = getMultiAdapter(
                 (reply, self.request, self),

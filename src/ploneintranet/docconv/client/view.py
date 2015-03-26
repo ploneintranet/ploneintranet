@@ -1,7 +1,7 @@
 from five import grok
 from zope.interface import Interface
 
-from ploneintranet.docconv.client.interfaces import IPloneintranetDocconvClientLayer
+from .interfaces import IPloneintranetDocconvClientLayer
 from ploneintranet.docconv.client.interfaces import IDocconv
 
 grok.templatedir("templates")

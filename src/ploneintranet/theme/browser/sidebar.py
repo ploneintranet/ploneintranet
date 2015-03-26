@@ -1,4 +1,3 @@
-from plone import api
 from plone.tiles import Tile
 from zope.publisher.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -10,7 +9,8 @@ class Sidebar(BrowserView):
     """
 
     """ The tiles below are dummy tiles.
-         Please do NOT implement "real" tiles here, put them in another package.
+         Please do NOT implement "real" tiles here,
+         put them in another package.
          We want to keep the theme simple and devoid of business logic
     """
 
