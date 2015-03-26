@@ -26,11 +26,14 @@ BUNDLENAME      = ploneintranet
 BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
 
-all:: bundle.js diazo
+all:: bundle.js diazo rubygems
 default: all
 
 ########################################################################
 ## Install dependencies
+
+rubygems:
+	bundle install --path vendor/bundle --binstubs
 
 stamp-npm: package.json
 	npm install
