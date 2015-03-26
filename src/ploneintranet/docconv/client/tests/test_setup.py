@@ -29,8 +29,8 @@ class TestInstall(IntegrationTestCase):
     # browserlayer.xml
     def test_browserlayer(self):
         """Test that IPloneintranetDocconv.clientLayer is registered."""
-        from ploneintranet.docconv.client.interfaces import \
-            IPloneintranetDocconvClientLayer
+        from ploneintranet.docconv.client.interfaces import (
+            IPloneintranetDocconvClientLayer)
         from plone.browserlayer import utils
         self.failUnless(IPloneintranetDocconvClientLayer in
                         utils.registered_layers())
