@@ -28,9 +28,9 @@ msgstr ""
 msgid "Social activity stream portal view with manageable portlets"
 msgstr ""
 
-#. Default: "PloneIntranet Activitystream"
+#. Default: "Plone Intranet Activitystream"
 #: ./configure.zcml
-msgid "PloneIntranet Activitystream"
+msgid "Plone Intranet Activitystream"
 msgstr ""
 
 #. Default: "Installs the ploneintranet.activitystream package"

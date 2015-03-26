@@ -1,25 +1,26 @@
-from datetime import datetime, timedelta
+# -*- coding: utf-8 -*-
 from DateTime import DateTime
-import os
-import csv
-import logging
-import json
-import time
-import mimetypes
-from DateTime import DateTime
-from zope.component import queryUtility
-from collective.workspace.interfaces import IWorkspace
-from plone import api
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
+from collective.workspace.interfaces import IWorkspace
+from datetime import datetime, timedelta
+from plone import api
 from plone.namedfile.file import NamedBlobImage
-from plone.namedfile.file import NamedBlobFile
-from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.attachments.utils import create_attachment
-from ploneintranet.network.interfaces import INetworkGraph
+from plone.uuid.interfaces import IUUID
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.network.interfaces import ILikesTool
+from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.todo.behaviors import ITodo
+from zope.component import getUtility
+from zope.component import queryUtility
+
+import csv
+import json
+import logging
+import mimetypes
+import os
+import time
 
 
 def decode(value):
@@ -143,6 +144,7 @@ def create_as(userid, *args, **kwargs):
 
 def create_news_items(newscontent):
     portal = api.portal.get()
+    like_tool = getUtility(ILikesTool)
 
     if 'news' not in portal:
         news_folder = api.content.create(
@@ -174,7 +176,10 @@ def create_news_items(newscontent):
         # api.content.transition(obj=obj, transition='publish')
 
         obj.setEffectiveDate(newsitem['publication_date'])
-        obj.reindexObject(idxs=['effective', ])
+        obj.reindexObject(idxs=['effective', 'Subject', ])
+        if 'likes' in newsitem:
+            for user_id in newsitem['likes']:
+                like_tool.like(item_id=IUUID(obj), user_id=user_id)
 
 
 def create_tasks(todos):
@@ -227,10 +232,13 @@ def create_workspaces(workspaces):
 def create_ws_content(parent, contents):
     for content in contents:
         sub_contents = content.pop('contents', None)
+        state = content.pop('state', None)
         obj = api.content.create(
             container=parent,
             **content
         )
+        if state is not None:
+            api.content.transition(obj, to_state=state)
         if sub_contents is not None:
             create_ws_content(obj, sub_contents)
 
@@ -278,6 +286,7 @@ class FakeFileField(object):
 def create_stream(context, stream, files_dir):
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
+    like_tool = getUtility(ILikesTool)
     microblog.clear()
     for status in stream:
         kwargs = {}
@@ -291,7 +300,7 @@ def create_stream(context, stream, files_dir):
         status_obj.userid = status['user']
         status_obj.creator = api.user.get(
             username=status['user']
-        ).getProperty('fullname')
+        ).getUserName()
         offset_time = status['timestamp'] * 60
         status_obj.id -= int(offset_time * 1e6)
         status_obj.date = DateTime(time.time() - offset_time)
@@ -311,6 +320,14 @@ def create_stream(context, stream, files_dir):
         #     attachment_obj = create_attachment(fake_field)
         #     attachments = IAttachmentStorage(status_obj)
         #     attachments.add(attachment_obj)
+
+        # like some status-updates
+        if 'likes' in status:
+            for user_id in status['likes']:
+                like_tool.like(
+                    item_id=str(status_obj.id),
+                    user_id=user_id,
+                )
 
 
 def testing(context):
@@ -365,7 +382,8 @@ def testing(context):
          'description': 'Weak network in growing Indian aviation market',
          'tags': [tags[0]],
          'publication_date': publication_date[0],
-         'creator': 'alice_lindstrom'},
+         'creator': 'alice_lindstrom',
+         'likes': ['guy_hackey', 'esmeralda_claassen']},
 
         {'title': 'BNB and Randomize to codeshare',
          'description': 'Starting September 10, BNB passengers will be'
@@ -439,7 +457,8 @@ def testing(context):
                                     'information, records and knowledge is a '
                                     'key part of any Machinery of Government '
                                     'change.',
-                     'type': 'Document'},
+                     'type': 'Document',
+                     'state': 'published'},
                     {'title': 'Repurchase Agreements',
                      'description': 'A staff presentation outlined several '
                                     'approaches to raising shortterm interest '
@@ -459,9 +478,7 @@ def testing(context):
                      'description': u'Meeting Minutes',
                      'file': minutes_file,
                      'type': 'File',
-                     },
-                   ]
-              },
+                     }]},
               {'title': 'Projection Materials',
                'type': 'Folder',
                'contents':

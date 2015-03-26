@@ -57,9 +57,9 @@ msgstr ""
 msgid "Number of updates to display"
 msgstr ""
 
-#. Default: "PloneIntranet Activitystream"
+#. Default: "Plone Intranet Activitystream"
 #: ./configure.zcml
-msgid "PloneIntranet Activitystream"
+msgid "Plone Intranet Activitystream"
 msgstr ""
 
 #: ./browser/interfaces.py:84

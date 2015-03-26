@@ -23,7 +23,7 @@ class TestAllChannel(unittest.TestCase):
 
     def create_test_messages(self):
         for i in range(5):
-            obj = {'title': 'Message {}'.format(i+1)}
+            obj = {'title': 'Message {}'.format(i + 1)}
             self.queue.append(Message(actors=[], predicate='test', obj=obj))
 
     def test_queue_empty(self):

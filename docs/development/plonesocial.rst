@@ -10,7 +10,7 @@ Plonesocial
 Introduction
 ------------
 
-Used to be split into various packages (plonesocial.*). Now part of ploneintranet.
+This stack of functionality used to be split into various packages (plonesocial.*). Now the packages are part of ploneintranet, but still under their original folder names (e.g. ploneintranet.microblog).
 
 Packages
 ========
@@ -76,13 +76,7 @@ The template for ``NewPostBoxTile`` is just a switch that distinguishes between 
 Creating a post
 ---------------
 
-The template used is ``upload.html`` from microblog
-
-.. note::
-
-  The prototype calls this template "update-social.html". For consistency, the template "upload.html" should be renamed accordingly.
-
-Its main purpose is rendering the form for creating a post.
+The template used is ``update-social.html`` from microblog. Its main purpose is rendering the form for creating a post.
 
 Structure of the template
 _________________________
@@ -92,7 +86,7 @@ _________________________
 * The section guarded with ``condition="newpostbox_view/direct"`` is currently not used. It was just copied over from the prototype
 * In the outer ``<fieldset>`` the first section is a ``<p>`` with class "content-mirror". It is used for storing data for the Pattern of the same name. Apart from the actual text, it also holds tags and mentions. See `Tagging`_ and `Mentioning`_ for details.
 * There's the actual ``textarea`` in which the user enters text.
-* There's an inner ``fieldset`` for adding attachments. XXX needs more explanation
+* There's an inner ``fieldset`` for `Adding an attachment`_.
 * Finally a ``div`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
 
 Interactions
@@ -143,17 +137,34 @@ It contains **two separate forms**:
 Interactions
 ____________
 
-The form with id "postbox-items" lists all available tags as ``input`` fields with ``type="checkbox"``. It uses ``pat-autosubmit`` so that any action to select or de-select a tag causes a submit. And it uses ``pat-inject`` for placing the selected tags into the content-mirror in the form on the original page that is used for creating the post::
+The form with id "postbox-tags" lists all available tags as ``input`` fields with ``type="checkbox"``. It uses ``pat-autosubmit`` so that any action to select or de-select a tag causes a submit. And it uses ``pat-inject`` for writing the selected tag back to the original post-box; there are 2 different source-target statements for the injection::
 
-  class="pat-autosubmit pat-inject" action="@@newpostbox.tile#post-box-selected-tags"
+  class="pat-autosubmit pat-inject"
+  action="@@newpostbox.tile"
+  data-pat-inject="source: #post-box-selected-tags; target:#post-box-selected-tags &&
+                   source: #selected-tags-data; target: #selected-tags-data"
+
+The first replacemement is done in the "update-social" template inside the ``content-mirror``. It causes the *text* of the tag to be written into the content-mirror (thereby appearing as visible inside the text-area to the user), and it causes the *value* of the tag to be placed into a hidden input field with the id ``tags:list``. It is from this input that the handling method of "newpostbox.py" takes the tag(s) that will be added to the status update.
+
+The second replacement done by ``pat-inject`` targets a span with the id "selected-tags-data", also in the "update-social" template, that is filled with hidden inputs for every tag. But *those* inputs land, via injection, in the form that lets the user search for tags in the *current* "panel-tags". Since searching for and selecting tags is handled in two separate forms, this is how we hand-over already selected tags to the search form.
 
 The search form uses ``pat-inject`` too, but its action is the panel-tags helper view itself. The target that gets replaced is the form mentioned above::
 
-  class="pat-autosubmit pat-inject" action="@@panel-tags#postbox-items"
+  class="pat-autosubmit pat-inject" action="@@panel-tags#postbox-tags"
 
 
 Mentioning
 ==========
+
+Mentioning works very similar to tagging. The same kind of template structure is used ("panel-users" for the tooltip). Also, the same interactions as with tagging (pat-inject magic and handover of selected values) are present.
+
+Only difference: for mentions, we distinguish between a user's name (shown for example inside the post box preceded by an "@") and a user's id (used internally in the storage).
+
+
+Adding an attachment
+====================
+
+XXX: To be done
 
 Tile "activity stream"
 ======================
@@ -171,7 +182,7 @@ Displaying a post
 
 For every activity provider, the macro "post.html" is called.
 
-XXX more details needed on the structure, basically:
+Here's a quick overview of the structure:
 
 * Section "post-header" with avatar (macro "avatar.html") and byline
 * Section "post-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags

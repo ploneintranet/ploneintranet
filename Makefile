@@ -26,11 +26,14 @@ BUNDLENAME      = ploneintranet
 BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
 
-all:: bundle.js diazo
+all:: bundle.js diazo rubygems
 default: all
 
 ########################################################################
 ## Install dependencies
+
+rubygems:
+	bundle install --path vendor/bundle --binstubs
 
 stamp-npm: package.json
 	npm install
@@ -47,9 +50,10 @@ stamp-bower: stamp-npm
 clean-stamps::
 	rm -f stamp-npm stamp-bower
 
-clean:: clean-stamps clean-buildout
+clean:: clean-stamps
 	rm -rf node_modules src/bower_components ~/.cache/bower
 
+cleanall: clean clean-buildout
 clean-buildout:
 	rm bin/* .installed.cfg || true
 
@@ -98,7 +102,7 @@ jsrelease: bundle.js
 	mkdir -p release
 	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js release
 	tar cfz release/$(BUNDLENAME)-$(RELEASE).js.tar.gz -C release $(BUNDLENAME)-$(RELEASE).js
-	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&:action=file_upload'
+	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&action=file_upload'
 	rm release/$(BUNDLENAME)-$(RELEASE).js.tar.gz
 	echo "Upload done."
 	echo "$(RELEASE)" > LATEST
@@ -168,12 +172,12 @@ clean::
 PROJECT=ploneintranet
 
 docker-build: .ssh/known_hosts
-	docker build -t $(PROJECT) .
+	docker.io build -t $(PROJECT) .
 
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:
-	docker run -i -t \
+	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v /var/tmp:/var/tmp \

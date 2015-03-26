@@ -28,13 +28,13 @@ Manager can view sidebar info
     I can go to the sidebar info tile
 
 Alice can view sidebar events
-    given I'm logged in as a 'alice_lindstrom'
+    given I am logged in as the user alice_lindstrom
     I can go to the sidebar events tile
     I can see upcoming events
     Older events are hidden
 
 # Alice can delete sidebar events
-#     given I'm logged in as a 'alice_lindstrom'
+#     given I am logged in as the user alice_lindstrom
 #     I can go to the sidebar events tile
 #     I can delete an old event
 
@@ -99,7 +99,7 @@ Alice can upload a file
       And I go to the Open Market Committee Workspace
       And I select a file to upload
      Then the file appears in the sidebar
-#TODO      And the upload appears in the stream
+      And the upload appears in the stream
 
 
 # XXX: The following tests derive from ploneintranet.workspace and still
@@ -158,9 +158,6 @@ Alice can upload a file
 
 *** Keywords ***
 
-I am logged in as the user ${userid}
-    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
-
 I can create a new workspace
     Go To  ${PLONE_URL}/workspaces.html
     Click Link  link=Create Workspace
@@ -169,11 +166,6 @@ I can create a new workspace
     Input Text  name=form.widgets.IBasic.description  text=A new Workspace
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
-
-I go to the Open Market Committee Workspace
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Open Market Committee
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
@@ -339,3 +331,5 @@ I can create a structure
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
 
+The upload appears in the stream
+    Wait until Page contains Element  xpath=//*[@id='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s

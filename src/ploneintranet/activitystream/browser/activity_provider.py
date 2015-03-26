@@ -6,6 +6,7 @@ from zope.component.hooks import getSite
 
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from plone import api
@@ -135,9 +136,11 @@ class AbstractActivityProvider(object):
     @property
     def text(self):
         url = api.portal.get().absolute_url()
-        text = link_users(self.context.text, url)
+        text = safe_unicode(self.context.text)
         status = getattr(self, 'status', None)
         tags = getattr(status, 'tags', None)
+        mentions = getattr(status, 'mentions', None)
+        text += link_users(url, mentions)
         text += link_tags(url, tags)
         return text
 
@@ -233,7 +236,8 @@ class StatusActivityProvider(AbstractActivityProvider):
         return provider()
 
     def reply_providers(self):
-        name = "ploneintranet.activitystream.statusactivityinlinereply_provider"
+        name = ("ploneintranet.activitystream.statusactivityinlinereply_"
+                "provider")
         for reply in self.context.replies():
             provider = getMultiAdapter(
                 (reply, self.request, self),

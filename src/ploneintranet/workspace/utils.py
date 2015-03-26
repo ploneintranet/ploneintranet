@@ -97,17 +97,20 @@ def get_workspace_activities(brain, limit=1):
     """
     mb = queryUtility(IMicroblogTool)
     items = mb.context_values(brain.getObject(), limit=limit)
-    return [
-        {
-            'subject': item.creator,
-            'verb': 'published',
-            'object': item.text,
-            'time': {
+    mtool = api.portal.get_tool('portal_membership')
+    results = []
+    for item in items:
+        user_data = mtool.getMemberInfo(item.creator)
+        creator = user_data.get('fullname') if user_data else item.creator
+        results.append(dict(
+            subject=creator,
+            verb='published',
+            object=item.text,
+            time={
                 'datetime': item.date.strftime('%Y-%m-%d'),
-                'title': item.date.strftime('%d %B %Y, %H:%M'),
-            }
-        } for item in items
-    ]
+                'title': item.date.strftime('%d %B %Y, %H:%M')}
+        ))
+    return results
 
 
 def my_workspaces(context):

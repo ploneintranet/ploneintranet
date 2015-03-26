@@ -97,16 +97,20 @@ Content-Type: %(mime)s
                             basetype,
                             self.context.getId())
                         )
-            annotations[PREVIEW_MESSAGE_KEY] = 'There is no preview for this file type'
+            annotations[PREVIEW_MESSAGE_KEY] = ('There is no preview for this '
+                                                'file type')
             return
 
         try:
             converted = self.convert_on_server(payload, mimetype)
         except ServerError as e:
             if e.args and e.args[0].startswith("Error connecting"):
-                annotations[PREVIEW_MESSAGE_KEY] = 'Could not contact conversion server'
+                annotations[PREVIEW_MESSAGE_KEY] = (
+                    'Could not contact conversion server')
             else:
-                annotations[PREVIEW_MESSAGE_KEY] = 'Sorry, this document type cannot be converted. There is no preview available.'
+                annotations[PREVIEW_MESSAGE_KEY] = (
+                    'Sorry, this document type cannot be converted. There is '
+                    'no preview available.')
             return
         except ConfigError:
             converted = self.convert_locally(payload, mimetype)
@@ -163,7 +167,8 @@ Content-Type: %(mime)s
             key=lambda x: int(x.split('.')[0].split('_')[-1]))
         converted = {
             'pdfs': [fzip.read(pdfs[0])],
-            'thumbnails': [fzip.read(filename) for filename in thumbnails[:20]],
+            'thumbnails': [fzip.read(filename)
+                           for filename in thumbnails[:20]],
             'previews': [fzip.read(filename) for filename in previews[:20]],
         }
         fzip.close()

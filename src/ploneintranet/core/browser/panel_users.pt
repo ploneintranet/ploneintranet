@@ -8,50 +8,59 @@
 
   <body>
 
-    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog">
+    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog"
+          tal:define="thread_id request/thread_id|nothing;
+                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
       <div id="status-user-selector" class="item-selector mode-">
-        <div id="-functions" tal:attributes="id string:${view/panel_type}-functions" class="button-bar functions">
-          <span class="button-cluster select-buttons float-after select-buttons">
-            <button title="Select all" class="select-all" tal:condition="view/button_select_all">All</button>
-            <button title="Deselect all" class="deselect-all" tal:condition="view/button_deselect_all">None</button>
-          </span>
-        </div>
 
-        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#items"
+        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-users"
               method="post"
+              id="users-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
             <input type="search" placeholder="Search" name="usersearch" />
             <button type="submit">Search</button>
           </label>
+          <span id="selected-users-data"></span>
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+          <input type="hidden" name="search_active" value="search-active" />
         </form>
 
-        <form id="items"
+        <form id="postbox-users"
               tal:attributes="action view/action"
-              class="search-result users pat-inject pat-autosubmit">
-          <fieldset data-pat-checklist="select: #status-user-selector .select-all; deselect: #status-user-selector .deselect-all"
-                    class="checklist pat-checklist users unchecked">
-            <label class="item user unchecked"
-                   tal:repeat="user view/users">
+              class="search-result users pat-inject pat-autosubmit"
+              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
+                              data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users && source: #selected-users-data;; target: #selected-users-data">
+          <fieldset class="checklist pat-checklist users" tal:define="users view/users" id="user-entries"
+              tal:attributes="class string:${attrs/class} ${request/search_active|nothing}">
+            <label tal:define="status python:user.getProperty('status', '');
+                      description_class python:status and 'has-description' or 'has-no-description'"
+                   class="item user pat-switch ${description_class}"
+                   data-pat-switch="#user-entries search-active"
+                   tal:repeat="user users">
               <input tal:attributes="value user/id;
                                      type view/input_type;
-                                     name view/input_name"/>
-              <a class="follow">
-                <img tal:replace="structure user/getPersonalPortrait"/>
-                <strong class="title icon-user"
-                    tal:content="python:user.getProperty('fullname')" >Full name</strong>
+                                     name view/input_name;
+                                     checked python:user.id in view.selected_user_ids and 'checked' or ''"/>
+              <a class="follow"
+                tal:define="userid user/id;
+                            avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
+                            fullname python:user.getProperty('fullname')">
+                <img src="${avatar_img}" alt="${fullname}" class="avatar" />
+                <strong class="title"
+                    tal:content="fullname" >Full name</strong>
                 <br>
-                <dfn class="byline">
-                  <tal:loop tal:repeat="role user/getRoles" >
-                    <tal:item tal:content="role">Developer</tal:item>
-                    <span tal:condition="not: repeat/role/end"> | </span>
-                  </tal:loop>
+                <dfn class="byline" tal:condition="status">
+                    <tal:item tal:content="status">This is my status</tal:item>
                 </dfn>
               </a>
             </label>
+          <input type="submit" name="Submit" hidden />
+          <tal:block tal:repeat="user view/selected_users"
+              ><input type="hidden" name="users:list" tal:attributes="value user/id" tal:condition="python:user.id not in view.user_ids" /></tal:block>
           </fieldset>
-
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
         </form>
       </div>
 

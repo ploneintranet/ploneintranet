@@ -48,4 +48,4 @@ def todo_set_role(obj, evt):
     todo = ITodo(obj)
     assignee = todo.assignee
     if assignee:
-        obj.manage_addLocalRoles(assignee, ["Assignee",])
+        obj.manage_addLocalRoles(assignee, ["Assignee", ])

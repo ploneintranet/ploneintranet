@@ -28,7 +28,8 @@ import logging
 log = logging.getLogger(__name__)
 
 
-FOLDERISH_TYPES = ['folder']
+FOLDERISH_TYPES = ['Folder']
+BLACKLISTED_TYPES = ['Event', 'simpletodo']
 
 
 class BaseTile(BrowserView):
@@ -237,42 +238,50 @@ class Sidebar(BaseTile):
         current_path = '/'.join(self.context.getPhysicalPath())
 
         sidebar_search = self.request.get('sidebar-search', None)
+        query = {}
+        allowed_types = [i for i in api.portal.get_tool('portal_types')
+                         if i not in BLACKLISTED_TYPES]
+        query['portal_type'] = allowed_types
         if sidebar_search:
-            st = '%s*' % sidebar_search  # XXX plone only allows * as postfix.
+            # XXX plone only allows * as postfix.
+            query['SearchableText'] = '%s*' % sidebar_search
+            query['path'] = current_path
             # With solr we might want to do real substr
-            results = catalog.searchResults(SearchableText=st,
-                                            path=current_path)
+            results = catalog.searchResults(query)
         else:
-            results = self.context.getFolderContents()
+            query['sort_on'] = 'sortable_title'
+            results = self.context.getFolderContents(query)
 
         for item in results:
+            portal_type = item['portal_type']
+            if portal_type in BLACKLISTED_TYPES:
+                continue
+
             # Do some checks to set the right classes for icons and candy
             desc = (
-                item['Description']
-                and 'has-description'
-                or 'has-no-description'
+                'has-description' if item['Description']
+                else 'has-no-description'
             )
 
-            content_type = utils.TYPE_MAP.get(item['portal_type'], 'none')
-
-            mime_type = ''  # XXX: will be needed later for grouping by mimetyp
-            # typ can be user, folder, date and mime typish
-            typ = 'folder'  # XXX: This needs to get dynamic later
+            # XXX: will be needed later for grouping by mimetyp
+            mime_type = ''
+            # typ can be user, folder, date and mime-typish
+            typ = TYPE_MAP.get(portal_type, 'none')
             url = item.getURL()
 
             ptool = api.portal.get_tool('portal_properties')
             view_action_types = \
                 ptool.site_properties.typesUseViewActionInListings
 
-            if content_type in FOLDERISH_TYPES:
+            if portal_type in FOLDERISH_TYPES:
                 dpi = (
                     "source: #workspace-documents; "
-                    "target: #workspace-documents"
+                    "target: #workspace-documents; "
+                    "url: %s/@@sidebar.default#workspace-documents" % url
                 )
-                url = url + '/@@sidebar.default#workspace-documents'
                 content_type = 'group'
             else:
-                if item['portal_type'] in view_action_types:
+                if portal_type in view_action_types:
                     url = "%s/view" % url
                 dpi = (
                     "target: #document-body; "

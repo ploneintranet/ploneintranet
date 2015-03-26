@@ -1,39 +1,25 @@
 # -*- coding: utf-8 -*-
-from plone import api
-
-import re
-
-
-TAGRE = re.compile('(#(\S+))')
-USERRE = re.compile('(@\S+)')
+from Products.CMFPlone.utils import safe_unicode
 
 
 def link_tags(url='', tags=None):
     if tags:
-        tmpl = ' <a href="%s/@@stream/tag/%s" class="tag tag-%s">#%s</a>'
-        text = ' &mdash;'
+        tmpl = (u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">'
+                u'#{tag}</a>')
+        text = u' &mdash;'
         for tag in tags:
-            text += tmpl % (url, tag, tag, tag)
+            text += tmpl.format(url=url, tag=safe_unicode(tag))
         return text
-    return ''
+    return u''
 
 
-def link_users(text, url=''):
-    user_tmpl = u'<a href="{0}/@@author/{1}" class="user user-{1}">@{2}</a>'
-    user_marks = USERRE.findall(text)
-    for user_mark in user_marks:
-        user_id = user_mark[1:]
-        user = api.user.get(username=user_id)
-        if user:
-            user_fullname = user.getProperty('fullname', '') or user_id
-            if not isinstance(user_fullname, unicode):
-                user_fullname = user_fullname.decode('utf8')
-            text = re.sub(
-                user_mark,
-                user_tmpl.format(
-                    url,
-                    user_id,
-                    user_fullname),
-                text
-            )
-    return text
+def link_users(url='', mentions=None):
+    if mentions:
+        tmpl = u' <a href="{0}/@@author/{1}" class="user user-{1}">@{2}</a>'
+        text = u' &mdash;'
+        for user_id, fullname in mentions.items():
+            if not isinstance(fullname, unicode):
+                fullname = fullname.decode('utf8')
+            text += tmpl.format(url, user_id, fullname)
+        return text
+    return u''

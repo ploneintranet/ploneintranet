@@ -25,7 +25,7 @@ class TestTiles(BaseViewTest):
             }
         )
         su.id = 123456789L
-        su.creator = 'Charlotte Holzer'
+        su.creator = 'charlotte_holzer'
         su.date = DateTime('2008/02/14 18:43')
         mb = queryUtility(IMicroblogTool)
         mb.add(su)
@@ -39,7 +39,7 @@ class TestTiles(BaseViewTest):
             activities[0],
             {
                 'object': 'Proposal draft V1.0 # This is a mock!!!',
-                'subject': 'Charlotte Holzer',
+                'subject': 'charlotte_holzer',
                 'time': {
                     'datetime': '2008-02-14',
                     'title': '14 February 2008, 18:43'

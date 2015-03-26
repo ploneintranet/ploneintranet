@@ -30,7 +30,8 @@ class TestInstall(IntegrationTestCase):
     @unittest.skip("Not implemented yet")
     def test_browserlayer(self):
         """Test that IPloneintranetAttachmentsLayer is registered."""
-        from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
+        from ploneintranet.attachments.interfaces import (
+            IPloneintranetAttachmentsLayer)
         from plone.browserlayer import utils
         self.failUnless(
             IPloneintranetAttachmentsLayer in utils.registered_layers())

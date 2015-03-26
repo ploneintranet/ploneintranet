@@ -24,8 +24,9 @@ class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
         return super(AddForm, self).update()
 
     def extractData(self, setErrors=True):
-        exclude_from_nav_id = 'form.widgets.IExcludeFromNavigation.exclude_from_nav'
-        if not exclude_from_nav_id in self.request:
+        exclude_from_nav_id = ('form.widgets.IExcludeFromNavigation.exclude_'
+                               'from_nav')
+        if exclude_from_nav_id not in self.request:
             # XXX: This is a required field, but not in the form. Not yet sure
             # what the right approach to deal with it is.
             # Either we deal with it here, or add a hidden field in the

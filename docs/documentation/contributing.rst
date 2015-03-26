@@ -1,6 +1,6 @@
-==================================
- Contributing to the documentation
-==================================
+=================================
+Contributing to the documentation
+=================================
 
 .. admonition:: Description
 

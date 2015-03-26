@@ -18,7 +18,7 @@ msgstr ""
 "Domain: ploneintranet.network\n"
 
 #: ./configure.zcml
-msgid "PloneIntranet Network"
+msgid "Plone Intranet Network"
 msgstr ""
 
 #: ./configure.zcml

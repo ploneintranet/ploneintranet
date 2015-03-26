@@ -2,6 +2,7 @@
 from plone import api
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 import os
+import unittest
 
 
 class TestAddContent(FunctionalBaseTestCase):
@@ -45,6 +46,7 @@ class TestAddContent(FunctionalBaseTestCase):
         self.assertEqual(new.title, u'Some Title')
         self.assertEqual(new.description, u'My Desc')
 
+    @unittest.skip('For now events are not added using this view.')
     def test_add_content_event(self):
         self.browser_login_as_site_administrator()
         self.browser.open('%s/@@add_content' % self.workspace.absolute_url())

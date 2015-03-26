@@ -12,14 +12,15 @@ Continuous integration tests
 
 There is a dedicated `jenkins instance <http://jenkins.ploneintranet.net>`_ which runs tests on pull requests as well as the major branches.
 
+If you are interested how we configure our jenkins, have a look at its `documentation <http://github.com/ploneintranet/ploneintranet.jenkins>`_ on github:
+
 
 Testing locally
 ===============
 
-The dev.cfg buildout includes a test runner, but by default it will only run the Robot tests.
-In order to run additional tests you should specify the package::
+The dev.cfg buildout includes a test runner. It will run most tests and can be executed with this command::
 
-    ./bin/test -s ploneintranet.workspace
+    ./bin/test
 
 Skip robot tests
 ~~~~~~~~~~~~~~~~
@@ -70,5 +71,46 @@ A wrapper script is handy for this (robot_remote.sh)::
 After starting robot-server in the container, you can then run robot tests on the host::
 
     ./robot_remote.sh -t "*events*" src/ploneintranet/suite/tests/acceptance/workspace.robot
-  
 
+
+Debugging robot tests
+---------------------
+
+See http://docs.plone.org/external/plone.app.robotframework/docs/source/debugging.html
+
+Troubleshooting
+---------------
+
+No module named _tkinter
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you get::
+
+    Importing test library 'Dialogs' failed: ImportError: No module named _tkinter
+    Traceback (most recent call last):
+      File "/Users/kees/.buildout/eggs/robotframework-2.8.4-py2.7.egg/robot/libraries/Dialogs.py", line 38, in <module>
+        from dialogs_py import MessageDialog, PassFailDialog, InputDialog, SelectionDialog
+      File "/Users/kees/.buildout/eggs/robotframework-2.8.4-py2.7.egg/robot/libraries/dialogs_py.py", line 17, in <module>
+        from Tkinter import (Tk, Toplevel, Frame, Listbox, Label, Button, Entry,
+      File "/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Tkinter.py", line 39, in <module>
+        import _tkinter # If this fails your Python may not be configured for Tk
+
+Install ``python-tk`` (Ubuntu), ``py-tkinter`` (OSX port) or similar.
+
+Then re-create the virtualenv but now use the site-packages::
+
+    rm bin/python*
+    virtualenv --system-site-packages --clear -p python2.7 .
+    make devel
+
+This, however, causes this error on startup of the robot server::
+
+    15:34:41 [ wait ] Starting Zope 2 server
+    15:34:49 [ wait ] Watchdog is watching for changes in src
+    2015-03-25 15:34 python[85243] (FSEvents.framework) FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-21)
+    15:34:49 [ wait ] Fork loop now starting on parent process 85243
+    15:34:49 [ wait ] Fork loop forked a new child process 85246
+    The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+    Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
+
+A solution is not yet available.

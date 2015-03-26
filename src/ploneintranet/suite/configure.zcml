@@ -32,7 +32,7 @@
       name="default"
       title="Plone Intranet: Suite"
       directory="profiles/default"
-      description="Installs the full suite of PloneIntranet packages"
+      description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

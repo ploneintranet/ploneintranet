@@ -19,7 +19,9 @@ class ContentView(BrowserView):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
-        self.can_edit = api.user.has_permission('Edit', obj=context)
+        self.can_edit = api.user.has_permission(
+            'Modify portal content',
+            obj=context)
         if self.can_edit and title or description or tags:
             modified = False
             if title and safe_unicode(title) != context.title:
@@ -52,10 +54,8 @@ class ContentView(BrowserView):
         if docconv.has_previews():
             return docconv.get_number_of_pages()
 
-    def image_preview_tag(self):
-        """The img-tag used to render an image."""
+    def image_url(self):
+        """The img-url used to construct the img-tag."""
         context = aq_inner(self.context)
-        images_view = api.content.get_view('images', context, self.request)
-        scale = images_view.scale(fieldname='image', scale='large')
-        if scale:
-            return scale.tag(css_class='page')
+        if getattr(context, 'image', None) is not None:
+            return '{}/@@images/image'.format(context.absolute_url())
