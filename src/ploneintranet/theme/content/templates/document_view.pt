@@ -21,7 +21,7 @@
 
         <div id="document-body">
 
-	  <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
+	  <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#document-body" enctype="multipart/form-data">
 	    <div class="metadata pat-bumper" id="meta">
 	      <div class="meta-bar">
 		<h1 class="doc-title" id="document-title">
@@ -53,6 +53,7 @@
 		    </label>
 		  </fieldset>
 		  <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+		  <button type="reset" tal:condition="not:read_only" class="icon-floppy">Cancel</button>
 
 		</div>
 	      </div>
@@ -89,42 +90,18 @@
 		<!-- <a href="change-workflow.html"
 		     class="pat-tooltip" data-pat-tooltip="trigger: click; source: ajax" id="workflow-state" alt="Change Workflow">Private</a> -->
 
-		<form id="rich-document-edit" class="pat-form-state" action="${context/absolute_url}/view" method="post" enctype="multipart/form-data" >
-
-		  
 		  <!--section class="page"-->
 
 		  <textarea class="pat-raptor" rows="10" cols="100" name="text"
 			    data-pat-raptor="toolbar-external: #editor-toolbar; buttons: textBold, textItalic, textUnderline, textStrike, listOrdered, listUnordered, linkCreate, linkRemove, alignLeft, alignCenter, alignJustify, alignRight, hrCreate, tableCreate, historyUndo, historyRedo;" tal:content="python: context.text.raw if context.text else ''">
 		    Content of the textarea
 		  </textarea>
-		</form>
 
 		<div class="pat-bumper">
 		  <span id="editor-toolbar"/>
 		</div>
 
-		<button type="submit" class="icon-floppy">Save</button>
 
-	      </article>
-
-              <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
-                <tal:previews tal:repeat="preview python:range(number_of_file_previews)">
-                  <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
-                </tal:previews>
-              </article>
-
-              <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
-                <figure>
-                  <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
-                </figure>
-              </article>
-
-	    </div>
-
-          </form>
-
-        </div>
 
 <style>
 /*
@@ -4557,6 +4534,29 @@ Form Style
   min-height: 200px;
 }
 </style>
+
+
+	      </article>
+
+              <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
+                <tal:previews tal:repeat="preview python:range(number_of_file_previews)">
+                  <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+                </tal:previews>
+              </article>
+
+              <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
+                <figure>
+                  <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                </figure>
+              </article>
+
+	    </div>
+
+          </form>
+
+        </div>
+
+
 
 
         <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">

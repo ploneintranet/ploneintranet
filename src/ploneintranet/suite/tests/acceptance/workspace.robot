@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
-# Library  DebugLibrary
+Library  DebugLibrary
 
 Variables  variables.py
 
@@ -186,6 +186,7 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Security
@@ -286,6 +287,8 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
+
+
 I can create a new folder
     Click link  Documents
     Click link  Create folder
@@ -295,7 +298,7 @@ I can create a new folder
     Click Button  css=#form-buttons-create
     # We cannot jet test the folders existence without reloading
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents']
+    Wait Until Element Is Visible  xpath=//a[contains(@data-pat-inject,'/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents')]
 
 I can create a new image
     Click link  Documents
@@ -315,7 +318,7 @@ I can create a structure
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
+    Click Element  xpath=//a[contains(@data-pat-inject,'/open-market-committee/another-folder/@@sidebar.default#workspace-documents')]
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
     Click link  Documents
     Click link  Create document
@@ -324,12 +327,16 @@ I can create a structure
     Click Button  css=#form-buttons-create
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
+    Debug
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Debug
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
+    Debug
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
 
 The upload appears in the stream
-    Wait until Page contains Element  xpath=//*[@id='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
+    Debug
+    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
