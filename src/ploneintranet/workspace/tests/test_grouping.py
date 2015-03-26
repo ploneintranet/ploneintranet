@@ -1,7 +1,6 @@
 # coding=utf-8
 from plone import api
 from plone.app.linkintegrity.info import IUUID
-from plone.app.testing import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from ploneintranet.workspace.interfaces import IGroupingStorage
@@ -38,7 +37,7 @@ class TestGroupingStorage(BaseTestCase):
 
     def test_groupings(self):
         """ """
-        login(self.layer['app'], SITE_OWNER_NAME)
+        self.login(SITE_OWNER_NAME)
         self.assertEqual(
             sorted([k for k in self.groupings.keys()]),
             sorted(['label', 'author', 'type']))
@@ -96,15 +95,16 @@ class TestGroupingStorage(BaseTestCase):
     def test_author_groupings(self):
         """ Test that IGroupingStorage's author info is correctly updated
         """
-        self.assertEqual(len(self.groupings['author'].keys()), 0)
-
+        existing_keys = len(self.groupings['author'].keys())
         tid = self.workspace.invokeFactory('File', 'File1', title='File')
         obj1 = self.workspace._getOb(tid)
         obj1.setSubject('foo')
         self.storage.update_groupings(obj1)  # Update IGroupingStorage
-        self.assertEqual(
-            [f for f in self.groupings['author'].keys()],
-            [SITE_OWNER_NAME])
+        import pdb; pdb.set_trace()
+        self.assertTrue(SITE_OWNER_NAME in
+                        [f for f in self.groupings['author'].keys()])
+        self.assertTrue(len(self.groupings['author'].keys()) ==
+                        (existing_keys + 1))
 
     def test_type_groupings(self):
         """ Test that IGroupingStorage's type info is correctly updated
@@ -121,7 +121,6 @@ class TestGroupingStorage(BaseTestCase):
         """ Groupings can be ordered arbitrarily by users. Test that this
             works.
         """
-        self.assertEqual(len(self.groupings['author'].keys()), 0)
         self.assertEqual(self.storage.get_order_for('label'), [])
 
         tid = self.workspace.invokeFactory('File', 'File', title='File')
