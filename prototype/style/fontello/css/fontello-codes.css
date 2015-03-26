@@ -95,7 +95,7 @@
 .icon-spin:before { content: '\e838'; } /* '' */
 .icon-bell-alt:before { content: '\e839'; } /* '' */
 .icon-thumbs-up-alt:before { content: '\e83a'; } /* '' */
-.icon-link-1:before { content: '\e83b'; } /* '' */
+.icon-link:before { content: '\e83b'; } /* '' */
 .icon-home-1:before { content: '\e83c'; } /* '' */
 .icon-search-1:before { content: '\e83d'; } /* '' */
 .icon-glass:before { content: '\e83e'; } /* '' */
@@ -123,6 +123,24 @@
 .icon-hammer:before { content: '\e854'; } /* '' */
 .icon-up-open:before { content: '\e855'; } /* '' */
 .icon-down-open:before { content: '\e856'; } /* '' */
+.icon-align-left:before { content: '\e857'; } /* '' */
+.icon-align-center:before { content: '\e858'; } /* '' */
+.icon-align-right:before { content: '\e859'; } /* '' */
+.icon-align-justify:before { content: '\e85a'; } /* '' */
+.icon-list-bullet:before { content: '\e85b'; } /* '' */
+.icon-list-numbered:before { content: '\e85c'; } /* '' */
+.icon-strike:before { content: '\e85d'; } /* '' */
+.icon-underline:before { content: '\e85e'; } /* '' */
+.icon-superscript:before { content: '\e85f'; } /* '' */
+.icon-subscript:before { content: '\e860'; } /* '' */
+.icon-paragraph:before { content: '\e861'; } /* '' */
+.icon-bold:before { content: '\e862'; } /* '' */
+.icon-italic:before { content: '\e863'; } /* '' */
+.icon-table:before { content: '\e864'; } /* '' */
+.icon-ellipsis-1:before { content: '\e865'; } /* '' */
+.icon-cw:before { content: '\e866'; } /* '' */
+.icon-ccw:before { content: '\e867'; } /* '' */
+.icon-unlink:before { content: '\e868'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
@@ -137,5 +155,5 @@
 .icon-search:before { content: '🔍'; } /* '\1f50d' */
 .icon-lock:before { content: '🔒'; } /* '\1f512' */
 .icon-lock-open:before { content: '🔓'; } /* '\1f513' */
-.icon-link:before { content: '🔗'; } /* '\1f517' */
+.icon-link-alternative:before { content: '🔗'; } /* '\1f517' */
 .icon-wrench:before { content: '🔧'; } /* '\1f527' */

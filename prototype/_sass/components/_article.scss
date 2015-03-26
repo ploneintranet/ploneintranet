@@ -6,18 +6,25 @@ article {
 		margin-bottom: 2rem;
 	}
 
-	ul,ol {
+	ul {
 		li {
 			 margin-left: 0;
-			 padding-left: 1em;
+			 padding-left: 1.5em;
 
 			 &:before {
 			 	content: "•";
 			 	float: left;
-				margin-left: -1em;
+				margin-left: -1.5em;
 			 }
 		}
 
+	}
+
+	ol {
+		li {
+			margin-left: 1.5em;
+			list-style: decimal;
+		}
 	}
 
 	h1 {

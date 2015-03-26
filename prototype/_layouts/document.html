@@ -44,6 +44,11 @@ workspace_module: docs
                 {% endfor %}
             </div>
         </div>
+        {% if page.editable == true %}
+            <div id="editor-toolbar" class="bar">
+                <p class="loader">Loading…</p>
+            </div>
+        {% endif %}
         <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
             <fieldset class="bar">
                 <input type="text" class="pat-autosuggest" placeholder="Tags" />
@@ -69,18 +74,13 @@ workspace_module: docs
             </fieldset> -->
         </fieldset>
     </div>
-    {% if document.editable == "true" %}
-        <div id="editor-toolbar" class="pat-bumper">
-            <p>Loading…</p>
-        </div>
-    {% endif %}
     <div id="document-content">
         {% if page.document_type == 'rich' %}
             <article class="document {% if page.document_type == 'rich' %}rich{% endif %}">
-                {% if document.editable == "true" %}
+                {% if page.editable == true %}
                     <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
                       <!--section class="page"-->
-                        <textarea class="pat-redactor" data-pat-redactor="toolbar-external: #editor-toolbar">
+                        <textarea class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader">
                             {{ content }}
                         </textarea>
                     </form>
