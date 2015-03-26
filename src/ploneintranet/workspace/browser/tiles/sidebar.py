@@ -22,7 +22,7 @@ from zope.component import getAdapter
 from zope.component.interfaces import ComponentLookupError
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
-
+import urllib
 import logging
 
 log = logging.getLogger(__name__)
@@ -171,6 +171,7 @@ class Sidebar(BaseTile):
     """
 
     index = ViewPageTemplateFile("templates/sidebar.pt")
+    section = "documents"
 
     def __call__(self):
         """ write attributes, if any, set state, render
@@ -221,15 +222,6 @@ class Sidebar(BaseTile):
 
     # ContentItems
 
-    def parent(self):
-        if self.context.portal_type == \
-                "ploneintranet.workspace.workspacefolder":
-            return None
-        parent = self.context.aq_parent
-        return {'id': parent.getId(),
-                'title': parent.Title(),
-                'url': parent.absolute_url() + '/@@sidebar.default'}
-
     def children(self):
         """ returns a list of dicts of items in the current context
         """
@@ -266,7 +258,7 @@ class Sidebar(BaseTile):
             # XXX: will be needed later for grouping by mimetyp
             mime_type = ''
             # typ can be user, folder, date and mime-typish
-            typ = TYPE_MAP.get(portal_type, 'none')
+            typ = utils.TYPE_MAP.get(portal_type, 'none')
             url = item.getURL()
 
             ptool = api.portal.get_tool('portal_properties')
@@ -348,16 +340,16 @@ class Sidebar(BaseTile):
         utils.set_show_extra_cookie(self.request, self.section)
 
     def set_grouping_cookie(self):
-        grouping = self.request.get('grouping', 'label')
+        grouping = self.request.get('grouping', 'folder')
         member = api.user.get_current()
         cookie_name = '%s-group-by-%s' % (self.section, member.getId())
         utils.set_cookie(self.request, cookie_name, grouping)
 
-    def set_sorting_cookie(self):
-        sorting = self.request.get('sorting', 'modified')
-        member = api.user.get_current()
-        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
-        utils.set_cookie(self.request, cookie_name, sorting)
+    # def set_sorting_cookie(self):
+    #     sorting = self.request.get('sorting', 'modified')
+    #     member = api.user.get_current()
+    #     cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+    #     utils.set_cookie(self.request, cookie_name, sorting)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
         if key in self.request:
@@ -366,19 +358,18 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
-    @property
     def grouping(self):
         member = api.user.get_current()
-        cookie_name = '%s-group-by-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
         return self.get_from_request_or_cookie(
-            "grouping", cookie_name, "label_custom")
+            "grouping", cookie_name, "folder")
 
-    @property
-    def sorting(self):
-        member = api.user.get_current()
-        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
-        return self.get_from_request_or_cookie(
-            "sorting", cookie_name, "modified")
+    # @property
+    # def sorting(self):
+    #     member = api.user.get_current()
+    #     cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+    #     return self.get_from_request_or_cookie(
+    #         "sorting", cookie_name, "modified")
 
     @property
     def show_extra(self):
@@ -386,20 +377,25 @@ class Sidebar(BaseTile):
             self.section, api.user.get_current().getId())
         return self.request.get(cookie_name, '').split('|')
 
+    def urlquote(self, value):
+        """ Encodes values to be used as URL pars
+        """
+        return urllib.quote(value)
+
     def group_headers(self):
         """ Return the headers (i.e. values) under a particular grouping
             (e.g. label, author, type).
         """
         # workspace can also be a contract, get_workspace_or_contract
         # handles both
-        workspace = utils.get_workspace_or_contract(self.context)
+        workspace = utils.parent_workspace(self.context)
         # if the user may not view the workspace, don't bother with
         # getting groups
         user = api.user.get_current()
         if not user.has_permission('View', workspace):
             return []
-        grouping = self.grouping
-        if grouping == 'period':
+        grouping = self.grouping()
+        if grouping == 'date':
             headings = ['Today', 'Last Week', 'Last Month', 'All Time']
             return [dict(heading=x) for x in headings]
         try:
@@ -415,19 +411,13 @@ class Sidebar(BaseTile):
                      % workspace.absolute_url())
             return []
 
-        if grouping.endswith('_custom'):
-            headers = storage.get_order_for(
-                grouping.split('_')[0],
-                include_archived='archived_tags' in self.show_extra,
-            )
-        else:
-            headers = storage.get_order_for(
-                grouping,
-                include_archived='archived_tags' in self.show_extra,
-                alphabetical=True
-            )
+        headers = storage.get_order_for(
+            grouping,
+            include_archived='archived_tags' in self.show_extra,
+            alphabetical=True
+        )
 
-        if grouping in ('label', 'label_custom'):
+        if grouping in ('label',):
             headers.append(dict(heading='Untagged', archived=False))
         elif grouping == 'author':
             # If we are grouping by 'author', but the filter is for documents

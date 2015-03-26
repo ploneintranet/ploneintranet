@@ -11,31 +11,30 @@
   </div>
 
   <div id="sidebar-content" class="pat-stacks">
-    <div id="workspace-documents">
+    <div id="workspace-documents" tal:define="grouping view/grouping; ws view/my_workspace; ws_url ws/absolute_url" >
         <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
                 <div class="contextual buttons float-before" id="selector-contextual-functions">
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
                    data-pat-inject="source: #workspace-documents; target: #workspace-documents"
-                   tal:define="parent view/parent"
-                   tal:condition="parent"
-                   tal:attributes="href parent/url"
-                   tal:content="parent/title">Open Market Committee</a>
+                   tal:condition="python: context != ws"
+                   tal:attributes="href ws_url"
+                   tal:content="ws/Title">Open Market Committee</a>
                     <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                    <form action="./#items" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #items; target: #items">
+                    <form action="./#items" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents">
                         <label class="pat-select bare">Group by
-                            <select name="browse-mode">
-                                <option value="folder">folder</option>
-                                <option value="label">tag</option>
+                            <select name="grouping">
+                                <option value="folder" tal:attributes="checked python:grouping == 'folder'">folder</option>
+                                <option value="label" tal:attributes="checked python:grouping == 'label'">tag</option>
                                 <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
-                                <option value="type">document type</option>
+                                <option value="type" tal:attributes="checked python:grouping == 'type'">document type</option>
                                 <!-- When the groups are author names, the author avatar is used as an icon. -->
-                                <option value="author">author</option>
+                                <option value="author" tal:attributes="checked python:grouping == 'author'">author</option>
                                 <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
-                                <option value="date">date</option>
+                                <option value="date" tal:attributes="checked python:grouping == 'date'">date</option>
                                 <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
-                                <option value="letter">first letter</option>
+                                <option value="first_letter" tal:attributes="checked python:grouping == 'first_letter'">first letter</option>
                             </select>
                         </label>
                     </form>
@@ -152,8 +151,43 @@
                     - type-pdf
 
                     -->
+                    <tal:get condition="python: grouping != 'folder'" define="group_headers view/group_headers;">
 
-                    <tal:block repeat="item view/children">
+                        <tal:groupings repeat="group_header group_headers">
+
+                        <div class=""
+                              tal:define="num repeat/group_header/number;
+                                          status python:num>0 and 'closed' or 'open';
+                                          grouping_value group_header/value | group_header/heading;
+                                          quoted_grouping_value python:view.urlquote(grouping_value)"
+                              tal:attributes="class string:pat-collapsible $status sortable-item sidebar-group;
+                              id string:grouping-header-${ws/getId}-${quoted_grouping_value};
+                                              data-pat-collapsible string:load-content: ${ws_url}/sidebar-group.html?grouping=${grouping}&groupname=${quoted_grouping_value}#panel-content;; store: local">
+                          <h3 tal:attributes="id string:group-${num}; class python:group_header.get('archived') and 'archived' or ''">
+                              <tal:header content="python:group_header['heading']"/>
+                              <a tal:condition="python:grouping in ('label', ) and 'Untagged' != group_header['heading']"
+                                  class="icon-cog pat-tooltip" data-pat-tooltip="trigger: click; source: ajax"
+                                  href="@@context-settings-label#settings"
+                                  tal:attributes="href string:${ws_url}/@@context-settings-label?label=$quoted_grouping_value#settings">Edit…</a>
+                          </h3>
+                          <input type="hidden" name="tags_order:list" style="display:none" tal:attributes="value group_header/heading">
+                        </div>
+                      </tal:groupings>
+
+                      <div class="label-group-template" tal:attributes="class string:label-group-template grouping-$grouping " style="display: none">
+                          <div tal:attributes="data-pat-collapsible string:load-content: ${ws_url}/sidebar-group.html?grouping=${grouping}&groupname=QUOTED_LABEL#panel-content">
+                          <h3>LABEL
+                              <a class="icon-cog pat-tooltip" data-pat-tooltip="trigger: click; source: ajax"
+                                  href="@@context-settings-label#settings"
+                                  tal:attributes="href string:${ws_url}/@@context-settings-label?label=QUOTED_LABEL#settings">Edit…</a>
+                          </h3>
+                          </div>
+                      </div>
+                    </tal:get>
+
+
+
+                    <tal:block condition="python: grouping == 'folder'" repeat="item view/children">
                     <label class="item document type-event has-description"
                             tal:attributes="class item/cls">
                         <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />

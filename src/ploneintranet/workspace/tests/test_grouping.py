@@ -1,36 +1,40 @@
+# coding=utf-8
+from plone import api
 from plone.app.linkintegrity.info import IUUID
 from plone.app.testing import login
 from plone.app.testing.interfaces import TEST_USER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_NAME
-from staralliance.theme.groupings import IGroupingStorage
-from staralliance.theme.testing import STARALLIANCE_THEME_INTEGRATION_TESTING
-import unittest2 as unittest
+from ploneintranet.workspace.interfaces import IGroupingStorage
+from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.testing import \
+    PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
 
 
-class TestGroupingStorage(unittest.TestCase):
+class TestGroupingStorage(BaseTestCase):
     """ Test the IGroupingStorage adapter
     """
-    layer = STARALLIANCE_THEME_INTEGRATION_TESTING
+    layer = PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
+
+    def create_workspace(self):
+        """ returns adapted workspace folder"""
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='Welcome to my workspace'
+        )
+        return workspace_folder
 
     def setUp(self):
         """ """
-        portal = self.layer['portal']
-        login(self.layer['app'], SITE_OWNER_NAME)
-        workspaces = portal.workspaces
-        workspaces.invokeFactory(
-            'staralliance.types.workspace',
-            'workspace',
-            title='Workspace')
-        self.workspace = workspaces._getOb('workspace')
+        super(TestGroupingStorage, self).setUp()
+        self.workspace = self.create_workspace()
         self.storage = IGroupingStorage(self.workspace)
         self.groupings = self.storage.get_groupings()
 
     def tearDown(self):
-        portal = self.layer['portal']
-        login(self.layer['app'], SITE_OWNER_NAME)
-        workspaces = portal.workspaces
-        workspaces.manage_delObjects('workspace')
-        login(portal, TEST_USER_NAME)
+        self.portal.manage_delObjects('example-workspace')
+        super(TestGroupingStorage, self).tearDown()
 
     def test_groupings(self):
         """ """

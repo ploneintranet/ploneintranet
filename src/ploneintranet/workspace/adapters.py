@@ -260,12 +260,10 @@ class GroupingStorage(object):
         self._add_grouping_values('label', obj.Subject(), obj)
 
         # handle documentType
-        if IDexterityContent.providedBy(obj):
-            field = obj.Schema().getField('documentType')
-            if field:
-                types = field.get(obj)
-                self._remove_grouping_values('type', types, obj)
-                self._add_grouping_values('type', types, obj)
+        if IDexterityContent.providedBy(obj) and hasattr(obj, 'documentType'):
+            types = obj.documentType
+            self._remove_grouping_values('type', types, obj)
+            self._add_grouping_values('type', types, obj)
 
         # author
         self._add_grouping_values('author', [obj.Creator()], obj)
