@@ -95,32 +95,3 @@ class FileUploadView(BaseFileUploadView):
             return result
         else:
             self.request.response.redirect(self.context.absolute_url())
-
-
-class WorkspaceView(BrowserView):
-    """
-    Default View of the workspace
-    """
-    implements(IBlocksTransformEnabled)
-
-    def workspace(self):
-        # return the related workspace
-        return parent_workspace(self.context)
-
-
-class WorkspaceState(BrowserView):
-    """
-    Information about the state of the workspace
-    """
-
-    implements(IWorkspaceState)
-
-    @memoize
-    def workspace(self):
-        # Attempt to acquire the current workspace
-        return parent_workspace(self.context)
-
-    @memoize
-    def state(self):
-        if self.workspace() is not None:
-            return api.content.get_state(self.workspace())
