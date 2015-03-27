@@ -38,7 +38,7 @@ class SidebarSettingsMembers(BaseTile):
     """ A view to serve as the member roster in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-members.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
 
     def users(self):
         """Get current users and add in any search results.
@@ -58,7 +58,7 @@ class SidebarSettingsMembers(BaseTile):
         users = existing_users + [x for x in search_results
                                   if x['id'] not in existing_user_ids]
 
-        users.sort(key=lambda x: safe_unicode(x["title"]))
+        users.sort(key=lambda x: safe_unicode(x['title']))
         return users
 
     @memoize
@@ -70,7 +70,7 @@ class SidebarSettingsSecurity(BaseTile):
     """ A view to serve as the security settings in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-security.pt')
 
     def __init__(self, context, request):
         """ set up local copies of the policies for the sidebar template
@@ -93,7 +93,7 @@ class SidebarSettingsSecurity(BaseTile):
             value = field.keys()[index]
 
             if value != getattr(ws, field_name):
-                if field_name == "external_visibility":
+                if field_name == 'external_visibility':
                     ws.set_external_visibility(value)
                 else:
                     setattr(ws, field_name, value)
@@ -103,7 +103,7 @@ class SidebarSettingsSecurity(BaseTile):
                     'success',
                 )
 
-        if self.request.method == "POST" and form:
+        if self.request.method == 'POST' and form:
             for field in [
                 'external_visibility', 'join_policy', 'participant_policy'
             ]:
@@ -117,15 +117,15 @@ class SidebarSettingsAdvanced(BaseTile):
     """ A view to serve as the advanced config in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
 
     def __call__(self):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
 
-        if self.request.method == "POST" and form:
-            ws = self.my_workspace()
+        if self.request.method == 'POST' and form:
+            ws = self.workspace()
 
             if form.get('email') and form.get('email') != ws.email:
                 ws.email = form.get('email').strip()
@@ -142,20 +142,20 @@ class Sidebar(BaseTile):
     """ A view to serve as a sidebar navigation for workspaces
     """
 
-    index = ViewPageTemplateFile("templates/sidebar.pt")
+    index = ViewPageTemplateFile('templates/sidebar.pt')
 
     def __call__(self):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
 
-        if self.request.method == "POST" and form:
+        if self.request.method == 'POST' and form:
             ws = self.my_workspace()
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 
-                catalog = api.portal.get_tool("portal_catalog")
+                catalog = api.portal.get_tool('portal_catalog')
                 brains = catalog(UID={'query': current_tasks,
                                       'operator': 'or'})
                 for brain in brains:
@@ -195,7 +195,7 @@ class Sidebar(BaseTile):
 
     def parent(self):
         if (self.context.portal_type ==
-                "ploneintranet.workspace.workspacefolder"):
+                'ploneintranet.workspace.workspacefolder'):
             return None
         parent = self.context.aq_parent
         return {'id': parent.getId(),
@@ -247,18 +247,18 @@ class Sidebar(BaseTile):
 
             if portal_type in FOLDERISH_TYPES:
                 dpi = (
-                    "source: #workspace-documents; "
-                    "target: #workspace-documents; "
-                    "url: %s/@@sidebar.default#workspace-documents" % url
+                    'source: #workspace-documents; '
+                    'target: #workspace-documents; '
+                    'url: %s/@@sidebar.default#workspace-documents' % url
                 )
                 content_type = 'group'
             else:
                 if portal_type in view_action_types:
-                    url = "%s/view" % url
+                    url = '%s/view' % url
                 dpi = (
-                    "target: #document-body; "
-                    "source: #document-body; "
-                    "history: record"
+                    'target: #document-body; '
+                    'source: #document-body; '
+                    'history: record'
                 )
                 content_type = 'document'
 
@@ -277,7 +277,7 @@ class Sidebar(BaseTile):
 
     def tasks(self):
         items = []
-        catalog = api.portal.get_tool("portal_catalog")
+        catalog = api.portal.get_tool('portal_catalog')
         current_path = '/'.join(self.context.getPhysicalPath())
         ptype = 'simpletodo'
         brains = catalog(path=current_path, portal_type=ptype)
@@ -295,7 +295,7 @@ class Sidebar(BaseTile):
         return items
 
     def events(self):
-        catalog = api.portal.get_tool("portal_catalog")
+        catalog = api.portal.get_tool('portal_catalog')
         workspace = parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
         now = DateTime()
@@ -313,4 +313,4 @@ class Sidebar(BaseTile):
             path=workspace_path,
             end={'query': (now), 'range': 'max'},
         )
-        return {"upcoming": upcoming_events, "older": older_events}
+        return {'upcoming': upcoming_events, 'older': older_events}
