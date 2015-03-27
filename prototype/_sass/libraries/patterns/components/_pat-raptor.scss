@@ -12,8 +12,9 @@
 
 #ui-id-2,
 #ui-id-8,
-#ui-id-10 {
-  display: none;
+#ui-id-10,
+.raptor-layout-element-hover-panel {
+  display: none !important;
 }
 
 #editor-toolbar {
@@ -6793,6 +6794,8 @@ Form Style
   height: 1.5em;
   line-height: 1.5em;
   border: 1px solid #D4D4D4;
+  border-right: none;
+  border-bottom: none;
   padding: 0 0.8em;
   background-color: $colour-notice;
   -webkit-transition: opacity 0.5s;
