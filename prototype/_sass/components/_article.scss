@@ -44,4 +44,29 @@ article {
 		display: block;
 	}
 
+	table {
+		width: 100%;
+		border-top: $colour-accent 1px solid;
+		border-collapse: collapse;
+
+		tr {
+			th,
+			td {
+				border-bottom: $colour-accent 1px solid;
+				padding: 0.1em 0.5em;
+
+				&:nth-child(odd) {
+					background-color: #efefef;
+				}
+			}
+		}
+	}
+
+	pre {
+		background-color: #efefef;
+		padding: 3%;
+		overflow: auto;
+		display: block;
+		font-size: 1em;
+	}
 }

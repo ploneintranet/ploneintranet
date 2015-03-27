@@ -7,9 +7,14 @@
 .raptor-editable-block {
   width: inherit !important;
   padding: 0 !important;
+  display: block !important;
 }
 
-
+#ui-id-2,
+#ui-id-8,
+#ui-id-10 {
+  display: none;
+}
 
 #editor-toolbar {
   .ui-button {  
@@ -116,6 +121,10 @@
 
     &.raptor-ui-text-strike:before {
       content: '\e85d';
+    } 
+
+    &.raptor-ui-text-block-quote:before {
+      content: '\e869';
     } 
   }
   
@@ -6781,15 +6790,11 @@ Form Style
   position: fixed;
   bottom: 0;
   right: 0;
-  height: 30px;
-  line-height: 30px;
+  height: 1.5em;
+  line-height: 1.5em;
   border: 1px solid #D4D4D4;
-  padding-right: 7px;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fffff2), color-stop(100%, #edecbd));
-  background: -webkit-linear-gradient(top, #fffff2, #edecbd);
-  background: -moz-linear-gradient(top, #fffff2, #edecbd);
-  background: -o-linear-gradient(top, #fffff2, #edecbd);
-  background: linear-gradient(top, #fffff2, #edecbd);
+  padding: 0 0.8em;
+  background-color: $colour-notice;
   -webkit-transition: opacity 0.5s;
   -moz-transition: opacity 0.5s;
   -o-transition: opacity 0.5s;
@@ -6797,9 +6802,7 @@ Form Style
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   .ui-icon {
-    display: inline-block;
-    float: left;
-    margin: 8px 5px 0 5px;
+    display: none;
   }
 }
 
