@@ -1,6 +1,6 @@
 <html>
   <body>
-    <div id="sidebar-content" tal:define="ws view/my_workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
+    <div id="sidebar-content" tal:define="ws view/workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
       <div id="workspace-settings">
 
         <div class="tabs-content">
@@ -11,7 +11,8 @@
               <h3 id="member-list-context-title" class="context-title">
                 Members
               </h3>
-              <a class="member-list-toggle-select more-menu-trigger">Functions</a>
+              <a class="member-list-toggle-select more-menu-trigger"
+                 tal:condition="ws/can_manage_workspace">Functions</a>
             </div>
 
             <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">

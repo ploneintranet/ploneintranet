@@ -1,18 +1,20 @@
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from ploneintranet.workspace.utils import TYPE_MAP
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.utils import existing_users
-from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
-from ploneintranet.workspace.policies import JOIN_POLICY
-from ploneintranet.workspace.policies import PARTICIPANT_POLICY
-from zope.publisher.browser import BrowserView
-from zope.component import getMultiAdapter
+from AccessControl import Unauthorized
+from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
-from ploneintranet.workspace import MessageFactory as _
 from plone.memoize.instance import memoize
-from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getMultiAdapter
+from zope.publisher.browser import BrowserView
+
+from ...utils import TYPE_MAP
+from ...utils import parent_workspace
+from ...utils import existing_users
+from ...policies import EXTERNAL_VISIBILITY
+from ...policies import JOIN_POLICY
+from ...policies import PARTICIPANT_POLICY
+from ... import MessageFactory as _
 from ploneintranet.todo.behaviors import ITodo
 
 FOLDERISH_TYPES = ['Folder']
@@ -30,7 +32,9 @@ class BaseTile(BrowserView):
     def __call__(self):
         return self.render()
 
-    def my_workspace(self):
+    def workspace(self):
+        """ Acquire the workspace of the current context
+        """
         return parent_workspace(self)
 
 
@@ -52,7 +56,7 @@ class SidebarSettingsMembers(BaseTile):
         existing_user_ids = [x['id'] for x in existing_users]
 
         # Only add search results that are not already members
-        sharing = getMultiAdapter((self.my_workspace(), self.request),
+        sharing = getMultiAdapter((self.workspace(), self.request),
                                   name='sharing')
         search_results = sharing.user_search_results()
         users = existing_users + [x for x in search_results
@@ -63,7 +67,7 @@ class SidebarSettingsMembers(BaseTile):
 
     @memoize
     def existing_users(self):
-        return existing_users(self.my_workspace())
+        return existing_users(self.workspace())
 
 
 class SidebarSettingsSecurity(BaseTile):
@@ -84,8 +88,7 @@ class SidebarSettingsSecurity(BaseTile):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
-
-        ws = self.my_workspace()
+        ws = self.workspace()
 
         def update_field(field_name):
             index = int(form.get(field_name)) - 1
@@ -103,12 +106,16 @@ class SidebarSettingsSecurity(BaseTile):
                     'success',
                 )
 
-        if self.request.method == 'POST' and form:
-            for field in [
-                'external_visibility', 'join_policy', 'participant_policy'
-            ]:
-                update_field(field)
-                self.form_submitted = True
+        if self.request.method == 'POST':
+            if not ws.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
+            if form:
+                for field in [
+                    'external_visibility', 'join_policy', 'participant_policy'
+                ]:
+                    update_field(field)
 
         return self.render()
 
@@ -148,9 +155,11 @@ class Sidebar(BaseTile):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
+        ws = self.workspace()
 
-        if self.request.method == 'POST' and form:
-            ws = self.my_workspace()
+        if (self.request.method == 'POST'
+                and form
+                and ws.can_manage_workspace()):
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
@@ -189,6 +198,10 @@ class Sidebar(BaseTile):
                                             self.request,
                                             'success')
 
+        elif not ws.can_manage_workspace() and self.request.method == 'POST':
+            msg = _(u'You do not have permission to change the workspace title'
+                    u' or description')
+            raise Unauthorized(msg)
         return self.render()
 
     # ContentItems
