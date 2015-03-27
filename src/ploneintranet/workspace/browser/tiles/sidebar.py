@@ -130,10 +130,13 @@ class SidebarSettingsAdvanced(BaseTile):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
+        ws = self.workspace()
 
-        if self.request.method == 'POST' and form:
-            ws = self.workspace()
-
+        if self.request.method == 'POST':
+            if not ws.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
             if form.get('email') and form.get('email') != ws.email:
                 ws.email = form.get('email').strip()
                 api.portal.show_message(_(u'Email changed'),
@@ -157,9 +160,11 @@ class Sidebar(BaseTile):
         form = self.request.form
         ws = self.workspace()
 
-        if (self.request.method == 'POST'
-                and form
-                and ws.can_manage_workspace()):
+        if self.request.method == 'POST':
+            if not ws.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace title'
+                        u' or description')
+                raise Unauthorized(msg)
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
@@ -198,10 +203,6 @@ class Sidebar(BaseTile):
                                             self.request,
                                             'success')
 
-        elif not ws.can_manage_workspace() and self.request.method == 'POST':
-            msg = _(u'You do not have permission to change the workspace title'
-                    u' or description')
-            raise Unauthorized(msg)
         return self.render()
 
     # ContentItems
