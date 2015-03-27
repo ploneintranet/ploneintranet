@@ -142,6 +142,10 @@
 .icon-ccw:before { content: '\e867'; } /* '' */
 .icon-unlink:before { content: '\e868'; } /* '' */
 .icon-quote-left:before { content: '\e869'; } /* '' */
+.icon-add-column:before { content: '\e86a'; } /* '' */
+.icon-add-row:before { content: '\e86b'; } /* '' */
+.icon-remove-column:before { content: '\e86c'; } /* '' */
+.icon-remove-row:before { content: '\e86d'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */

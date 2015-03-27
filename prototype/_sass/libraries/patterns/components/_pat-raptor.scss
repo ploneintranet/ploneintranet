@@ -108,6 +108,22 @@
       content: '\e864';
     } 
 
+    &.raptor-ui-table-insert-column:before {
+      content: '\e86a';
+    } 
+
+    &.raptor-ui-table-delete-column:before {
+      content: '\e86c';
+    } 
+
+    &.raptor-ui-table-insert-row:before {
+      content: '\e86b';
+    } 
+
+    &.raptor-ui-table-delete-row:before {
+      content: '\e86d';
+    } 
+
     &.raptor-ui-text-bold:before {
       content: '\e862';
     } 
@@ -1951,10 +1967,11 @@ Autocomplete Style
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-size: 0.8em;
+    font-size: 1em;
     cursor: default;
     &.ui-state-hover, 
-    &.ui-state-active {
+    &.ui-state-active,
+    &:hover {
       color: black;
       // padding: 4.8px 8px;
       // font-weight: normal;
