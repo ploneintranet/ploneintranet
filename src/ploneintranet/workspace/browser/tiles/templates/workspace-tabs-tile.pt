@@ -5,8 +5,10 @@
 
 	<a href="{{ workspace.url }}#document-body" title="Workspace landing page" class="pat-inject current landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document" tal:attributes="href string:${ws/absolute_url}#document-body" tal:content="ws/Title">ws name</a>
 
-    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings"
-    title="Workspace settings">Workspace settings and about</a>
+    <tal:settings-button condition="ws/can_manage_workspace">
+        <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings"
+           title="Workspace settings">Workspace settings and about</a>
+    </tal:settings-button>
 
     <hr />
 

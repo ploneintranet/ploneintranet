@@ -1,12 +1,17 @@
-from Products.Five.browser import BrowserView
-from plone import api
-from collective.workspace.interfaces import IWorkspace
 from AccessControl import Unauthorized
+from collective.workspace.interfaces import IWorkspace
+from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.widgets.browser.file import FileUploadView as BaseFileUploadView
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
+from plone.memoize.forever import memoize
+from Products.Five.browser import BrowserView
+from zope.interface import implements
 
 from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.interfaces import IWorkspaceState
+from ploneintranet.workspace.utils import parent_workspace
 
 
 class JoinView(BrowserView):
@@ -90,3 +95,32 @@ class FileUploadView(BaseFileUploadView):
             return result
         else:
             self.request.response.redirect(self.context.absolute_url())
+
+
+class WorkspaceView(BrowserView):
+    """
+    Default View of the workspace
+    """
+    implements(IBlocksTransformEnabled)
+
+    def workspace(self):
+        # return the related workspace
+        return parent_workspace(self.context)
+
+
+class WorkspaceState(BrowserView):
+    """
+    Information about the state of the workspace
+    """
+
+    implements(IWorkspaceState)
+
+    @memoize
+    def workspace(self):
+        # Attempt to acquire the current workspace
+        return parent_workspace(self.context)
+
+    @memoize
+    def state(self):
+        if self.workspace() is not None:
+            return api.content.get_state(self.workspace())

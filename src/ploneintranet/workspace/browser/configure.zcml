@@ -14,7 +14,7 @@
   <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class="..workspace.WorkspaceView"
+      class=".views.WorkspaceView"
       permission="zope2.View"
       template="templates/workspace.pt"
       />
@@ -111,6 +111,14 @@
       for="Products.CMFCore.interfaces._content.IFolderish"
       class=".views.FileUploadView"
       permission="cmf.AddPortalContent"
+      />
+
+    <browser:page
+      name="ploneintranet_workspace_state"
+      for="*"
+      permission="zope.Public"
+      class=".views.WorkspaceState"
+      allowed_interface="..interfaces.IWorkspaceState"
       />
 
    <include package=".tiles" />

@@ -27,14 +27,6 @@
 
   <include package=".browser" />
 
-  <browser:page
-        name="ploneintranet_workspace_state"
-        for="*"
-        permission="zope.Public"
-        class=".workspace.WorkspaceState"
-        allowed_interface=".interfaces.IWorkspaceState"
-        />
-
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           zope.lifecycleevent.interfaces.IObjectAddedEvent"

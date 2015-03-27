@@ -314,7 +314,8 @@
 
 
     <div id="workspace-settings" tal:define="ws view/my_workspace">
-        <nav class="navigation tabs">
+    <tal:ws-settings condition="ws/can_manage_workspace">
+    <nav class="navigation tabs">
             <a href="/open-market-committee/" tal:attributes="href string:${ws/absolute_url}/sidebar.default" class="pat-inject current" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">General</a>
             <a href="/feedback/workspace-settings-members.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.members" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Members</a>
             <a href="/feedback/workspace-settings-security.html" tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Security</a>
@@ -340,6 +341,7 @@
                 </fieldset>
             </form>
         </div>
+    </tal:ws-settings>
     </div>
   </div>
 
