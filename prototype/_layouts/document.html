@@ -80,7 +80,7 @@ workspace_module: docs
                 {% if page.editable == true %}
                     <form id="rich-document-edit" class="pat-form-state" action="#" method="post" enctype="multipart/form-data" >
                       <!--section class="page"-->
-                        <textarea class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader">
+                        <textarea class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, linkCreate, linkRemove, listOrdered, listUnordered, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow, textBlockQuote, textBold, textItalic, textStrike">
                             {{ content }}
                         </textarea>
                     </form>
