@@ -17,11 +17,18 @@ Test Teardown  Close all browsers
 Alice can attach a file to a post
     Given I am logged in as the user alice_lindstrom
       And I open the Dashboard
-      And I see the Dashboard
-      And I create a new post
+     When I create a new post
       And I add a file
-# site works, test fails
-#      And I can see a preview
+     Then I can see the file preview in the post box
+
+Alice can submit a post with a file attachment
+    Given I am logged in as the user alice_lindstrom
+      And I open the Dashboard
+     When I create a new post
+      And I add a file
+      And I can see the file preview in the post box
+      And I submit the new post
+     Then I can see the file preview in the stream
 
 
 *** Keywords ***
@@ -29,15 +36,19 @@ Alice can attach a file to a post
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
 
-I see the Dashboard
-    Element should be visible  css=#portlet-news
-
 I create a new post
     Input Text      css=#microblog textarea  Look at this new doc
 
 I add a file
-    Choose file     css=#microblog input[name='form.widgets.attachments']    ${UPLOADS}/basic.txt
+    Click Element   css=#microblog input[name='form.widgets.attachments']
+    Choose File     css=#microblog input[name='form.widgets.attachments']    ${UPLOADS}/basic.txt
 
-I can see a preview
+I can see the file preview in the post box
     Wait Until Element Is visible   css=#microblog #post-box-attachment-previews img    timeout=60
+
+I submit the new post
+    Click Element  css=button[name='form.buttons.statusupdate']
+
+I can see the file preview in the stream
+    Wait Until Element Is visible   css=#activity-stream .preview img[src$='/basic.txt/thumb']
 
