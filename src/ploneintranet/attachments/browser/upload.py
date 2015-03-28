@@ -23,6 +23,7 @@ class UploadAttachments(BrowserView):
         ''' Return a dummy image thumbnails
 
         BBB: Ask for a better image :)
+        See #122
         '''
         url = '/'.join((
             api.portal.get().absolute_url(),
