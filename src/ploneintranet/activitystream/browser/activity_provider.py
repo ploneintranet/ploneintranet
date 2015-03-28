@@ -15,7 +15,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IActivityProvider
-from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
@@ -273,7 +272,7 @@ class StatusActivityProvider(AbstractActivityProvider):
             docconv = IDocconv(item)
             if docconv.has_thumbs():
                 url = '/'.join((item_url, 'thumb'))
-            elif isinstance(item, (File, Image)):
+            elif isinstance(item, Image):
                 images = api.content.get_view(
                     'images',
                     item.aq_base,
@@ -284,7 +283,10 @@ class StatusActivityProvider(AbstractActivityProvider):
                     images.scale(scale='preview').url.lstrip('/')
                 ))
             else:
-                url = ''
+                # We need a better fallback image. See #See #122
+                url = '/'.join((
+                    api.portal.get().absolute_url(),
+                    '++theme++ploneintranet.theme/generated/media/logo.svg'))
             if url:
                 attachments.append(dict(img_src=url, link=item_url))
         return attachments
