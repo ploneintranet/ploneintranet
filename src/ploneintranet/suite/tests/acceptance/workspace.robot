@@ -298,7 +298,9 @@ I can create a new folder
     Click Button  css=#form-buttons-create
     # We cannot jet test the folders existence without reloading
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  xpath=//a[contains(@data-pat-inject,'/open-market-committee/my-humble-folder/@@sidebar.default#workspace-documents')]
+    # On reload the navbar is closed by default - open it
+    Click link  Documents
+    Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder']
 
 I can create a new image
     Click link  Documents
@@ -320,18 +322,14 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Element  xpath=//a[contains(@data-pat-inject,'/open-market-committee/another-folder/@@sidebar.default#workspace-documents')]
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
-    Click link  Documents
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
-    Debug
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Debug
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.default#workspace-documents']
-    Debug
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
 
 The file appears in the sidebar

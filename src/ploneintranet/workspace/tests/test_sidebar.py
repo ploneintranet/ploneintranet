@@ -92,10 +92,10 @@ class TestSidebar(BaseTestCase):
                       "Folder with that url not found in sidebar navigation")
         dpis = [x['dpi'] for x in children]
         self.assertIn(
-                      'url: http://nohost/plone/example-workspace/myfolder/'
-                      '@@sidebar.default#workspace-documents',
-                      dpis[0],
-                      "inject with that url not found in sidebar navigation")
+            'url: http://nohost/plone/example-workspace/myfolder/'
+            '@@sidebar.default#workspace-documents',
+            dpis[0],
+            "inject with that url not found in sidebar navigation")
         classes = [x['cls'] for x in children]
         self.assertIn('item group type-folder has-no-description',
                       classes,
