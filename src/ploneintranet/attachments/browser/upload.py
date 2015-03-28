@@ -46,7 +46,7 @@ class UploadAttachments(BrowserView):
             return []
         else:
             return [
-                (base_url + str(i+1)) for i in range(pages)
+                (base_url + str(i + 1)) for i in range(pages)
             ]
 
     def get_image_thumbs_urls(self, image):
