@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.rfc822.interfaces import IPrimaryFieldInfo
@@ -34,9 +35,10 @@ class StatusAttachments(BrowserView):
     def _prepare_imagedata(self, obj, imgdata):
         R = self.request.RESPONSE
         R.setHeader('content-type', 'image/jpeg')
-        R.setHeader('content-disposition', 'inline; '
-                    'filename="{0}_preview.jpg"'.format(
-                        self.attachment_id.encode('utf8')))
+        R.setHeader(
+            'content-disposition', 'inline; '
+            'filename="{0}_preview.jpg"'.format(
+                safe_unicode(self.attachment_id).encode('utf8')))
         if isinstance(imgdata, basestring):
             length = len(imgdata)
             R.setHeader('content-length', length)
@@ -68,7 +70,7 @@ class StatusAttachments(BrowserView):
             self.request.response.setHeader(
                 'content-disposition', 'inline; '
                 'filename="{0}"'.format(
-                    self.attachment_id.encode('utf8')))
+                    safe_unicode(self.attachment_id).encode('utf8')))
             return data
         if IDocconv is not None:
             docconv = IDocconv(attachment)

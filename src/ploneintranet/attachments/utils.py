@@ -1,12 +1,15 @@
 import logging
 from Acquisition import aq_base
+from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 from plone.namedfile import NamedBlobFile
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.container.interfaces import DuplicateIDError
+from zope.component import getUtility
 
 log = logging.getLogger(__name__)
 
@@ -36,7 +39,8 @@ def pop_temporary_attachment(workspace, file_field, token):
     the uploaded data
     """
     temp_attachments = IAttachmentStorage(workspace)
-    temp_id = '{0}-{1}'.format(token, file_field.filename)
+    temp_id = getUtility(IURLNormalizer).normalize(
+        u'{0}-{1}'.format(token, safe_unicode(file_field.filename)))
     if temp_id in temp_attachments.keys():
         temp_att = aq_base(temp_attachments.get(temp_id))
         temp_att.id = file_field.filename

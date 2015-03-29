@@ -3,9 +3,11 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.interfaces import IDocconv
+from zope.component import getUtility
 import logging
 
 log = logging.getLogger(__name__)
@@ -88,12 +90,13 @@ class UploadAttachments(BrowserView):
     def __call__(self):
         token = self.request.get('attachment-form-token')
         attachments = self.request.get('form.widgets.attachments')
+        normalizer = getUtility(IURLNormalizer)
         self.attachments = []
         if attachments:
             temp_attachments = IAttachmentStorage(self.context)
             attachment_objs = utils.extract_attachments(attachments)
             for obj in attachment_objs:
-                obj.id = u'{0}-{1}'.format(token, obj.id)
+                obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
                 temp_attachments.add(obj)
                 obj = temp_attachments.get(obj.id)
                 if IPreviewFetcher is not None:
