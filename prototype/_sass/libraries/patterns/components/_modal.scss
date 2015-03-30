@@ -49,7 +49,7 @@ div.pat-modal {
       outline: none;
 
       &:before {
-        content: "\e813";
+        content: "#{$glyph-close}";
         text-indent: 0;
         position: absolute;
         top: 0;

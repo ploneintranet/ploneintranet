@@ -26,6 +26,63 @@ form.search {
     }
 }
 
+#global-search {
+  padding-top: 6%;
+
+  fieldset.search {
+    font-size: 2em;
+    position: relative;
+    
+    label {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 2.15em;
+      float: left;
+
+      input {
+        background-color: white;
+        border: 1px silver solid;
+        border-right: none;
+        padding-left: 0.5em;
+        width: 100%;
+        height: 1.95em;
+        line-height: 1.8em;
+        float: left;
+      }
+    }
+
+    button {
+      width: 2.2em;
+      float: right;
+      text-align: center;
+      margin: 0;
+      line-height: 1.8em;
+      text-indent: -100em;
+
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      height: 2em;
+
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+
+      &:before {
+        content: "\1f50d";
+        font-family: fontello;
+        text-indent: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: block;
+        width: 2.2em;
+        line-height: 2.1em;
+      }
+    }
+  }
+}
+
 #global-header {
   form.search {
     padding-left: 0;
