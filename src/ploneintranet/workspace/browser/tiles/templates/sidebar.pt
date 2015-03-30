@@ -330,7 +330,7 @@
                                data-pat-autosubmit="delay: defocus"
                                tal:attributes="
                                        value ws/Title;
-                                       disabled not: ws/can_manage_workspace"
+                                       disabled not: view/can_manage_workspace"
                                name="title" />
                     </label>
                     <label>
@@ -338,7 +338,7 @@
                         <textarea rows="4"
                                   placeholder="Workspace brief description"
                                   tal:content="ws/Description"
-                                  tal:attributes="disabled not: ws/can_manage_workspace"
+                                  tal:attributes="disabled not: view/can_manage_workspace"
                                   name="description"
                                   data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
@@ -348,7 +348,7 @@
                                    name="calendar_visible"
                                    tal:attributes="
                                            checked python:ws.calendar_visible == True and 'checked' or '';
-                                           disabled not: ws/can_manage_workspace"
+                                           disabled not: view/can_manage_workspace"
                                    data-pat-autosubmit="delay: 100ms"> Workspace calendar visible in central calendar application
                         </label>
                     </fieldset>

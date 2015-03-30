@@ -12,7 +12,7 @@
 			    user_cannot_manage python:
 			    not view.can_manage_workspace();
                 ws view/workspace;
-			    can_manage_workspace ws/can_manage_workspace;
+			    can_manage_workspace view/can_manage_workspace;
 			    can_remove_users can_manage_workspace;
 			    can_add_users view/can_add_users;
 			    admin_managed_workspace view/admin_managed_workspace;

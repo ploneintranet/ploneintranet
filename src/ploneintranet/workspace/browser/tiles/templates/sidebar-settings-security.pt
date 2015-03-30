@@ -25,7 +25,7 @@
                                    name field_name;
                                    value field_value;
                                    max max_values;
-                                   disabled not:ws/can_manage_workspace" />
+                                   disabled not:view/can_manage_workspace" />
                     <span tal:attributes="class python:'{0} slider-labels'.format(numbers[max_values - 1])">
                       <tal:label repeat="label field_info">
                         <tal:number define="number repeat/label/number">

@@ -16,6 +16,15 @@ class BaseWorkspaceView(BrowserView):
         """Acquire the root workspace of the current context"""
         return parent_workspace(self.context)
 
+    def can_manage_workspace(self):
+        """
+        does this user have permission to manage the workspace
+        """
+        return api.user.has_permission(
+            "ploneintranet.workspace: Manage workspace",
+            obj=self,
+        )
+
 
 class WorkspaceView(BaseWorkspaceView):
     """

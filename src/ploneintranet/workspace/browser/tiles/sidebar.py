@@ -37,6 +37,15 @@ class BaseTile(BrowserView):
         """
         return parent_workspace(self)
 
+    def can_manage_workspace(self):
+        """
+        does this user have permission to manage the workspace
+        """
+        return api.user.has_permission(
+            "ploneintranet.workspace: Manage workspace",
+            obj=self,
+        )
+
 
 class SidebarSettingsMembers(BaseTile):
     """ A view to serve as the member roster in the sidebar

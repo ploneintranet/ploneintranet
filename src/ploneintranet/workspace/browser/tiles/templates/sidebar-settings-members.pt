@@ -12,7 +12,7 @@
                 Members
               </h3>
               <a class="member-list-toggle-select more-menu-trigger"
-                 tal:condition="ws/can_manage_workspace">Functions</a>
+                 tal:condition="view/can_manage_workspace">Functions</a>
             </div>
 
             <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
@@ -58,7 +58,7 @@
             </form>
 
             <div class="button-bar create-buttons"
-                 tal:condition="ws/can_manage_workspace">
+                 tal:condition="view/can_manage_workspace">
               <a class="button icon-user-add pat-modal" data-pat-modal="class: large" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
               <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
             </div>
@@ -79,7 +79,7 @@
           </div>
 
           <!-- XXX This is legacy and copied over from the original workspace implementation. It needs to be hooked in somewhere else. Just showing now because we have it :) -->
-          <tal:admin condition="ws/can_manage_workspace">
+          <tal:admin condition="view/can_manage_workspace">
             <hr />
             <h2>Advanced</h2>
             <p>

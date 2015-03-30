@@ -19,7 +19,7 @@
 								   name="email"
 									tal:attributes="
 											value ws/email;
-											disabled not: ws/can_manage_workspace"/>
+											disabled not: view/can_manage_workspace"/>
 						</label>
 					</fieldset>
 			    </form>
