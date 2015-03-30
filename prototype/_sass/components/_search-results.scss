@@ -62,6 +62,23 @@
     background-color: white;
     padding-top: 2%;
 
+    .filters {
+      font-size: 0.9em;
+
+      @include screen-size(small) {
+        display: none;
+      }
+    }
+
+    .document-listing {
+      padding-bottom: 6%;
+
+      @include screen-size(large) {
+        padding-left: 4%;
+        border-left: 1px silver solid;
+      }
+    }
+
     .search-results {
       .title {
         a {
