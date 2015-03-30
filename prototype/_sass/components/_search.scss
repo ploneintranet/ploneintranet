@@ -27,11 +27,17 @@ form.search {
 }
 
 #global-search {
-  padding-top: 6%;
+  padding-top: 4%;
+
+  div.results {
+    background-color: white;
+    padding-top: 4%;
+  }
 
   fieldset.search {
+    width: 80%;
     font-size: 2em;
-    margin-bottom: 0.2em;
+    margin: 0 auto 0.5em;
     position: relative;
     
     label {
