@@ -3,6 +3,10 @@
 #global-search {
   padding-top: 4%;
 
+  .tabs {
+    border-bottom: solid 1px #dedede;
+  }
+
   fieldset.search {
     width: 80%;
     font-size: 2em;
@@ -18,7 +22,7 @@
 
       input {
         background-color: white;
-        border: 1px silver solid;
+        border: 1px #dedede solid;
         border-right: none;
         padding-left: 0.5em;
         width: 100%;
@@ -35,6 +39,7 @@
       margin: 0;
       line-height: 1.8em;
       text-indent: -100em;
+      border-color: #dedede;
 
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -75,7 +80,7 @@
 
       @include screen-size(large) {
         padding-left: 4%;
-        border-left: 1px silver solid;
+        border-left: 1px #dedede solid;
       }
     }
 

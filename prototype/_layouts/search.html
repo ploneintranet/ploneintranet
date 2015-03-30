@@ -81,7 +81,7 @@ layout: generic
 
 								<dd class="description">
 					    			{% if result.layout == 'event' %}
-										<a href="event-amb-fra-2011.html" class="preview event">
+										<a href="{{ result.url }}" class="preview event">
 											<time class="calendar-medium pat-auto-scale">
 												<strong class="day">16</strong>
 												<strong class="month char-count-8">September</strong>
@@ -89,12 +89,12 @@ layout: generic
 											</time>
 										</a>
 									{% elsif result.document_type == 'rich' %}
-										<a href="" class="preview rich">
+										<a href="{{ result.url }}" class="preview rich">
 											{{ result.excerpt }}
 										</a>
 									{% else %}
 										{% if result.previews %}
-											<a href="" class="preview file">
+											<a href="{{ result.url }}" class="preview file">
 												{% for preview in result.previews | limit:1 %}
 													<img src="{{ preview.url }}" alt="" />
 												{% endfor %}
