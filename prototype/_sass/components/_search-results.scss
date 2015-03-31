@@ -86,9 +86,14 @@
         float: left;
         color: gray;
 
+        @include screen-size(small) {
+          width: 100%;
+        }
+
         &:hover {
           color: black;
           text-decoration: none;
+          border-color: black;
         }
 
         figure {
