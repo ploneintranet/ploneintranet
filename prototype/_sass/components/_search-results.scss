@@ -66,12 +66,28 @@
   div.results {
     background-color: white;
     padding-top: 2%;
+    position: relative;
 
     .filters {
       font-size: 0.9em;
 
       @include screen-size(small) {
         display: none;
+      }
+    }
+
+    &.images {
+      .item {
+        width: 25%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0.5em;
+        float: left;
+
+        img {
+          width: 100%;
+        }
       }
     }
 
