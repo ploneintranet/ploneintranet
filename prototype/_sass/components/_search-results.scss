@@ -84,9 +84,26 @@
         box-sizing: border-box;
         padding: 0.5em;
         float: left;
+        color: gray;
 
-        img {
-          width: 100%;
+        &:hover {
+          color: black;
+          text-decoration: none;
+        }
+
+        figure {
+          background-color: white;
+          border: solid 1px #dedede;
+
+          img {
+            width: 100%;
+          }
+          figcaption {
+            font-size: 0.8em;
+            line-height: 1.2em;
+            padding: 0.2em 0 0.4em;
+            text-align: center;
+          }
         }
       }
     }
