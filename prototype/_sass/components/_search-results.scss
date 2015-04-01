@@ -178,6 +178,8 @@
 
     .search-results {
       .title {
+        position: relative;
+
         a {
           color: $colour-accent;
           font-weight: bold;
@@ -220,7 +222,32 @@
             float: left;
           }
 
-          &.user-post {
+          &.post-preview {
+            border: none;
+
+            h4 {
+              display: none;
+            }
+
+            &:before,
+            &:after {
+              color: #dedede;
+              font-size: 10rem;
+              line-height: 7rem;
+            }
+
+            &:before {
+              content: "“";
+              float: right;
+            }
+
+            &:after {
+              content: "”";
+              float: left;
+            }
+          }
+
+          &.user {
             text-align: center;
             padding: 1em;
 
