@@ -31,7 +31,7 @@ layout: generic
 									{% for preview in document.previews | limit:1 %}
 										<img src="{{ preview.url }}" alt="" title="{{ preview.label }}" />
 										<figcaption class="icon-{{ document.document_type }}">
-											{{ preview.label }}
+											{{ document.title }}
 										</figcaption>
 									{% endfor %}
 								</figure>
