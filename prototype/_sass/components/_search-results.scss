@@ -231,9 +231,10 @@
 
             &:before,
             &:after {
-              color: #dedede;
-              font-size: 10rem;
-              line-height: 7rem;
+              color: #efefef;
+              font-size: 14rem;
+              line-height: 0;
+              margin-top: 5rem;
             }
 
             &:before {
