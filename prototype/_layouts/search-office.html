@@ -24,6 +24,7 @@ layout: generic
 			<p>7 items matched your search.</p>
 			<div class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
 				{% for document in site.posts  %}
+					<!-- It would be wonderful if the search engine could also index the contents of office documents and keep the pagination information so that we can the exact page of the office document the search term appears on. If all this is possible, then also display the page number between brackets behind the document title in the figcaption: '<doctitle> (page <pagenr>)' -->
 					{% if document.document_type == 'word' or document.document_type == 'powerpoint' or document.document_type == 'excel' %}
 						{% if document.previews %}
 							<a href="" class="item">
