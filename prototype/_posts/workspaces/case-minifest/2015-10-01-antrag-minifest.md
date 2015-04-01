@@ -2,6 +2,7 @@
 layout: document
 title: Antrag RT Minifest 2014 
 document_type: word
+description: Lorem ipsum dolor sit amet
 application: docs
 folderish: false
 parent: "MinistrantInnen-Fest vom 7. September 2014 in St. Gallen"

@@ -196,44 +196,6 @@
       display: block;
     }
   }
-  
-  .comments {
-    background-color: #f8f8f8;
-    margin: 0 -1em -1em;
-    // padding: 1em;
-
-    .comment {
-      padding-top: 1.2em;
-
-      .pat-avatar {
-        top: 1.6em;
-      }
-
-      &:before {
-        content: " ";
-        display: block;
-        background-color: silver;
-        height: 0.05em;
-        width: 60%;
-        margin: 0 0 0 -30%;
-        position: absolute;
-        left: 50%;
-        top: 0.3em;
-      }
-
-      &:first-child {
-        // padding-top: 0;
-
-        .pat-avatar {
-          // top: 0.2em;
-        }
-
-        &:before {
-          display: none;
-        }
-      }
-    }
-  }
 
   .update-social fieldset {
     margin: 0;

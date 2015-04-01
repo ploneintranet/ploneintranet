@@ -113,6 +113,13 @@ layout: generic
 									<a href="{{ result.url }}" class="link">
 										{{ result.url }}
 									</a>
+									<div class="comments" id="comments-{{mypostUID}}">
+										<div id="comment-trail-{{mypostUID}}">
+											{% for comment in result.comments %}
+												{% include comment.html %}
+											{% endfor %}
+										</div>
+									</div>
 								</dd>
 							{% endif %}
 						{% endfor %}
