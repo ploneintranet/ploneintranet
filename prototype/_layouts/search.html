@@ -2,7 +2,7 @@
 layout: generic
 ---
 
-<form action="search-results.html#results" id="global-search" class="pat-autosubmit pat-inject">
+<form action="search-results.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
 
 	<div class="container input">
 		<fieldset class="search">
@@ -12,11 +12,12 @@ layout: generic
 			<button type="search">Search</button>
 		</fieldset>
 	</div>
-	<p class="tabs navigation">
-		<a class="current" href="/search-results.html">All</a>
-		<a href="/search-results-images.html">Images</a>
-		<a href="/search-results-videos.html">Videos</a>
-		<a href="/search-results-events.html">Events</a>
+	<p class="tabs navigation" id="tabs-nav">
+		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
+		<a class="current" href="/search-results.html?lemma=min">All</a>
+		<a href="/search-results-images.html?lemma=min">Images</a>
+		<a href="/search-results-videos.html?lemma=min">Videos</a>
+		<a href="/search-results-office.html?lemma=min">Office files</a>
 	</p>
 	<div class="results" id="results">
 		<div class="container results">
@@ -71,7 +72,7 @@ layout: generic
 					</fieldset>
 				</div>
 				<div class="nine columns last document-listing" id="listing">
-					<p>87 items matched your search term.</p>
+					<p>87 items matched your search.</p>
 					<dl class="search-results">
 						{% for result in site.posts %}
 							{% if result.title contains 'Min' or result.title contains 'min' %}

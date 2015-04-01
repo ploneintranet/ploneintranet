@@ -1,0 +1,45 @@
+---
+layout: generic
+---
+
+<form action="search-results-images.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
+
+	<div class="container input">
+		<fieldset class="search">
+			<label>
+				<input type="search" name="lemma" placeholder="Search the entire intranet" />
+			</label>
+			<button type="submit">Search</button>
+		</fieldset>
+	</div>
+	<p class="tabs navigation" id="tabs-nav">
+		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
+		<a href="/search-results.html?lemma=min">All</a>
+		<a href="/search-results-images.html?lemma=min">Images</a>
+		<a href="/search-results-videos.html?lemma=min">Videos</a>
+		<a class="current" href="/search-results-office.html?lemma=min">Office files</a>
+	</p>
+	<div class="results" id="results">
+		<div class="container">
+			<p>7 items matched your search.</p>
+			<div class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
+				{% for document in site.posts  %}
+					{% if document.document_type == 'word' or document.document_type == 'powerpoint' or document.document_type == 'excel' %}
+						{% if document.previews %}
+							<a href="" class="item">
+								<figure>
+									{% for preview in document.previews | limit:1 %}
+										<img src="{{ preview.url }}" alt="" title="{{ preview.label }}" />
+										<figcaption class="icon-{{ document.document_type }}">
+											{{ preview.label }}
+										</figcaption>
+									{% endfor %}
+								</figure>
+							</a> 
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</form>

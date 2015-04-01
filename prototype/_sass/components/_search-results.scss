@@ -66,6 +66,7 @@
   div.results {
     background-color: white;
     padding-top: 2%;
+    padding-bottom: 6%;
     position: relative;
 
     .filters {
@@ -76,7 +77,50 @@
       }
     }
 
+    &.office-files {
+      margin-left: -0.5em;
+      margin-right: -0.5em;
+
+      .item {
+        width: 33.3%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0.5em;
+        float: left;
+        color: gray;
+
+        @include screen-size(small) {
+          width: 100%;
+        }
+
+        &:hover {
+          color: black;
+          text-decoration: none;
+          border-color: black;
+        }
+
+        figure {
+          background-color: white;
+          border: solid 1px #dedede;
+
+          img {
+            width: 100%;
+          }
+          figcaption {
+            font-size: 0.8em;
+            line-height: 1.2em;
+            padding: 0.2em 0 0.4em;
+            text-align: center;
+          }
+        }
+      }
+    }
+
     &.images {
+      margin-left: -0.5em;
+      margin-right: -0.5em;
+
       .item {
         width: 25%;
         -webkit-box-sizing: border-box;
