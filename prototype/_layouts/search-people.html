@@ -1,0 +1,81 @@
+---
+layout: generic
+---
+
+<form action="search-results-images.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
+
+	<div class="container input">
+		<fieldset class="search">
+			<label>
+				<input type="search" name="lemma" placeholder="Search the entire intranet" />
+			</label>
+			<button type="submit">Search</button>
+		</fieldset>
+	</div>
+	<p class="tabs navigation" id="tabs-nav">
+		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
+		<a href="/search-results.html?lemma=min">All</a>
+		<a class="current" href="/search-results-people.html?lemma=min">People</a>
+		<a href="/search-results-images.html?lemma=min">Images</a>
+		<a href="/search-results-videos.html?lemma=min">Videos</a>
+		<a href="/search-results-office.html?lemma=min">Office files</a>
+	</p>
+	<div class="results" id="results">
+		<div class="container">
+			<p>4 items matched your search.</p>
+			<div class="row people results pat-equaliser">
+				<div class="item four columns">
+					<div href="" class="user-card">
+						<img src="/media/avatar-charlotte-holzer.jpg" class="pat-avatar" alt="Image of Charlotte Holzer">
+						<a href="">
+							<h4>Minoush Farmer</h4>
+							<p class="byline">This is my latest status.</p>
+						</a>
+						<ul class="data">
+							<li class="mail icon-mail">
+								<a href="mailto:minoush.farmer@organisation.com">minoush.farmer@organisation.com</a>
+							</li>
+							<li class="phone icon-phone">
+								<a href="tel:+34506948294">+34 506 948 294</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="item four columns">
+					<div href="" class="user-card">
+						<img src="/media/avatar-charlotte-holzer.jpg" class="pat-avatar" alt="Image of Charlotte Holzer">
+						<a href="">
+							<h4>Minoush Farmer</h4>
+							<p class="byline">This is my latest status.</p>
+						</a>
+						<ul class="data">
+							<li class="mail icon-mail">
+								<a href="mailto:minoush.farmer@organisation.com">minoush.farmer@organisation.com</a>
+							</li>
+							<li class="phone icon-phone">
+								<a href="tel:+34506948294">+34 506 948 294</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="item four columns">
+					<div href="" class="user-card">
+						<img src="/media/avatar-charlotte-holzer.jpg" class="pat-avatar" alt="Image of Charlotte Holzer">
+						<a href="">
+							<h4>Minoush Farmer</h4>
+							<p class="byline">This is my latest status.</p>
+						</a>
+						<ul class="data">
+							<li class="mail icon-mail">
+								<a href="mailto:minoush.farmer@organisation.com">minoush.farmer@organisation.com</a>
+							</li>
+							<li class="phone icon-phone">
+								<a href="tel:+34506948294">+34 506 948 294</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
