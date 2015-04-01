@@ -15,6 +15,7 @@ layout: generic
 	<p class="tabs navigation" id="tabs-nav">
 		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
 		<a class="current" href="/search-results.html?lemma=min">All</a>
+		<a href="/search-results-people.html?lemma=min">People</a>
 		<a href="/search-results-images.html?lemma=min">Images</a>
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
@@ -74,6 +75,25 @@ layout: generic
 				<div class="nine columns last document-listing" id="listing">
 					<p>87 items matched your search.</p>
 					<dl class="search-results">
+						<!-- One hard coded example of a post as a search result: -->
+						<dt class="title">
+							<a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>
+						</dt>
+						<dd class="description">
+							<a href="/joan-baker" class="preview user-post">
+								<img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar ">   
+								<h4 class="name">
+									Joan Baker
+								</h4>
+							</a>
+							<p class="fragment">
+								To publication deference road. Various forward the set english over and tower, country, or up even time in could is present for to so of touched folks he a knows, different sure tell which remember agreeable. Step, have and gradually make his outlines and way volume a he bed is.
+							</p>
+							<a href="" class="link">
+								/posts/2307540960981987527368
+							</a>
+						</dd>
+						<!-- Next generated search results of various content/mime types: -->
 						{% for result in site.posts %}
 							{% if result.title contains 'Min' or result.title contains 'min' %}
 							    <dt class="title">

@@ -207,17 +207,34 @@
         .preview {
           float: left;
           margin-left: -43%;
+          margin-top: -1.2rem;
           width: 35%;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
-          margin-top: -1.2rem;
           background-color: white;
           border: 1px solid #dedede;
 
           img {
             width: 100%;
             float: left;
+          }
+
+          &.user-post {
+            text-align: center;
+            padding: 1em;
+
+            .name {
+              text-align: center;
+            }
+
+            .pat-avatar {
+              float: none;
+              width: 3em;
+              height: 3em;
+              display: block;
+              margin: 0 auto 0.5em;
+            }
           }
 
           &.event {
