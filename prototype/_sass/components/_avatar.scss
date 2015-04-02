@@ -22,9 +22,12 @@
 #person-timeline {
 	.sidebar {
     figure.user-portrait {
+      padding-top: 1em;
+
       .pat-avatar {
         width: 80%;
         height: auto;
+        margin-bottom: 0.5em;
       }
       .status-message {
         display: block;
