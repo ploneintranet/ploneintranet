@@ -21,9 +21,19 @@
 #person-info,
 #person-timeline {
 	.sidebar {
-		.pat-avatar {
-			width: 80%;
-			height: auto;
-		}
+    figure.user-portrait {
+      .pat-avatar {
+        width: 80%;
+        height: auto;
+      }
+      .status-message {
+        display: block;
+        margin: 0.5em auto 1em;
+        width: 80%;
+        font-size: 1em;
+        color: gray;
+        font-style: italic;
+      }
+    }
 	}
 }

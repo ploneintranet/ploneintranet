@@ -5,24 +5,33 @@ sidebar: closed
 ---
 
 <div id="document-body">
-	<nav class="tabs">
-		<a href="#person-timeline">Timeline</a>
-		<a href="#person-bio">Biography</a>
-		<a href="#person-info">Information</a>
-	</nav>
 	<div id="document-content">
 		<div class="pat-stacks">
 			<div id="person-timeline" class="row document">
 				<aside class="four columns sidebar">
-					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+					<figure class="user-portrait">
+						<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+						{% if page.title == "Liz Baker" %}
+							<textarea name="status-message" id="" cols="30" rows="5" class="status-message">I'm totally in the mood this week!</textarea>
+						{% else %}
+							<figcaption class="status-message">
+								I'm totally in the mood this week!
+							</figcaption>
+						{% endif %}
+					</figure>
 				</aside>
 				<div class="activity-stream eight columns">
-					{% include activity-stream.html src="activity-stream-guido" %}
+					{% include activity-stream.html src="activity-stream-liz" %}
 				</div>
 			</div>
 			<div class="row document rich person" id="person-bio">
 				<aside class="four columns sidebar">
-					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+					<figure class="user-portrait">
+						<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+						<figcaption class="status-message">
+							I'm totally in the mood this week!
+						</figcaption>
+					</figure>
 				</aside>
 				<article class="eight columns">
 					<h1>{{ page.title }}</h1>
@@ -31,7 +40,12 @@ sidebar: closed
 			</div>
 			<div id="person-info" class="document row">
 				<aside class="four columns sidebar">
-					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+					<figure class="user-portrait">
+						<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+						<figcaption class="status-message">
+							I'm totally in the mood this week!
+						</figcaption>
+					</figure>
 				</aside>
 				<article class="eight columns">
 					<p>
