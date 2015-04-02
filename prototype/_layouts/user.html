@@ -1,19 +1,45 @@
 ---
 layout: generic
 template: generic
+sidebar: closed
 ---
 
 <div id="document-body">
+	<nav class="tabs">
+		<a href="#person-timeline">Timeline</a>
+		<a href="#person-bio">Biography</a>
+		<a href="#person-info">Information</a>
+	</nav>
 	<div id="document-content">
-		<article class="row document rich person">
-			<div class="four columns sidebar">
-				<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+		<div class="pat-stacks">
+			<div id="person-timeline" class="row document">
+				<aside class="four columns sidebar">
+					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+				</aside>
+				<div class="activity-stream eight columns">
+					{% include activity-stream.html src="activity-stream-guido" %}
+				</div>
 			</div>
-			<div class="eight columns">
-				<h1>{{ page.title }}</h1>
-				{{ content }}
+			<div class="row document rich person" id="person-bio">
+				<aside class="four columns sidebar">
+					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+				</aside>
+				<article class="eight columns">
+					<h1>{{ page.title }}</h1>
+					{{ content }}
+				</article>
 			</div>
-		</article>
+			<div id="person-info" class="document row">
+				<aside class="four columns sidebar">
+					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
+				</aside>
+				<article class="eight columns">
+					<p>
+						Info goes here
+					</p>
+				</article>
+			</div>
+		</div>
 	</div>
 </div>
 

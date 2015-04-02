@@ -17,10 +17,12 @@
   }
 }
 
-article.rich.person {
+#person-bio,
+#person-info,
+#person-timeline {
 	.sidebar {
 		.pat-avatar {
-			width: 100%;
+			width: 80%;
 			height: auto;
 		}
 	}
