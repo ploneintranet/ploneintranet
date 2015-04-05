@@ -7,7 +7,7 @@
   "dependencies": {
     "AnythingSlider": "1.8.17",
     "almond": "",
-    "chosen": "0.9.11",
+    "chosen": "https://github.com/syslabcom/chosen.git#4371e8fdabe16d4e8aaa3734421edc367e32a296",
     "fullcalendar": "http://arshaw.com/downloads/fullcalendar/fullcalendar-2.0.0.zip",
     "jcrop": "0.9.12",
     "jquery": "1.8.3",
