@@ -585,6 +585,16 @@ disabled look for disabled choices in the results dropdown
     font-family: fontello;
     margin-bottom: -2px;
   }
+  &.skills .select2-choices .select2-search-choice div:before {
+    content: "\1f44d";
+    display: inline-block;
+    margin-right: 4px;
+    margin-left: 7px;
+    top: -1px;
+    position: relative;
+    font-family: fontello;
+    // margin-bottom: -2px;
+  }
   &.users .select2-choices .select2-search-choice.group div:before {
     content: "\1f465";
     display: inline-block;

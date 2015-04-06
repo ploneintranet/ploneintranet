@@ -19,6 +19,16 @@ sidebar: closed
 						</figcaption>
 					{% endif %}
 				</figure>
+				<div class="portlet endorsements">	
+					<h2 class="portlet-title">
+						Endorsements
+					</h2>			
+					<ul class="skill-cloud">
+						<li class="skill">Design <em class="counter">7</em></li>
+						<li class="skill">Presenting <em class="counter">4</em></li>
+						<li class="skill">Business analysis <em class="counter">1</em></li>
+					</ul>
+				</div>
 				<div class="portlet following">
 					<h2 class="portlet-title"><a href="#person-following">Following</a></h2>
 					<nav class="user-cloud">
@@ -55,6 +65,15 @@ sidebar: closed
 				</div>
 			</aside>
 			<div class="eight columns">
+				<form class="endorsement-tagging">
+					<p class="introduction">
+						Please endorse {{ page.title }} for any skills of your choice.
+					</p>
+					<input value="Marketing, Design" type="text" class="pat-autosuggest skills" placeholder="Compose your set set of endorsements for this user	" data-pat-autosuggest="words: Design, Marketing, Communication">
+					<p class="button-bar">
+						<button type="submit">Endorse!</button>
+					</p>
+				</form>
 				<nav class="tabs">
 					<a href="#person-timeline">Timeline</a>
 					<a href="#person-bio">Biography</a>
