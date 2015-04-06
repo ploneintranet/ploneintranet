@@ -12,10 +12,10 @@ sidebar: closed
 				<figure class="user-portrait">
 					<img src="{{ page.image_url }}" class="pat-avatar" alt="Image of {{ page.title }}" />
 					{% if page.title == "Liz Baker" %}
-						<textarea name="status-message" id="" cols="30" rows="3" class="status-message">I'm totally in the mood this week!</textarea>
+						<textarea name="status-message" id="" cols="30" rows="3" class="status-message">{{ page.status }}</textarea>
 					{% else %}
 						<figcaption class="status-message">
-							I'm totally in the mood this week!
+							{{ page.status }}
 						</figcaption>
 					{% endif %}
 				</figure>
@@ -68,15 +68,18 @@ sidebar: closed
 				</div>
 			</aside>
 			<div class="eight columns">
-				<form id="endorsements" class="endorsement-tagging pat-inject" action="/feedback/feedback-endorsement-tagging.html" data-pat-inject="source: #feedback-message; target: #endorsements && source: #portlet-endorsements; target: #portlet-endorsements">
-					<p class="introduction">
-						Please endorse {{ page.title }} for any skills of your choice.
-					</p>
-					<input value="Marketing, Design" type="text" class="pat-autosuggest skills" placeholder="Compose your set set of endorsements for this user	" data-pat-autosuggest="words: Design, Marketing, Communication">
-					<p class="button-bar">
-						<button type="submit">Endorse!</button>
-					</p>
-				</form>
+				{% unless page.title == "Liz Baker" %}
+				    <!-- The following form is hidden when in case the profile page that is shown is the one of the currently logged in user. The form is also not printed when the currently logged in user has already once endorsed the currently displayed user. -->
+					<form id="endorsements" class="endorsement-tagging pat-inject" action="/feedback/feedback-endorsement-tagging.html" data-pat-inject="source: #feedback-message; target: #endorsements && source: #portlet-endorsements; target: #portlet-endorsements">
+						<p class="introduction">
+							Please endorse {{ page.title }} for any skills of your choice.
+						</p>
+						<input value="Marketing, Design" type="text" class="pat-autosuggest skills" placeholder="Compose your set set of endorsements for this user	" data-pat-autosuggest="words: Design, Marketing, Communication">
+						<p class="button-bar">
+							<button type="submit">Endorse!</button>
+						</p>
+					</form>
+				{% endunless %}
 				<nav class="tabs">
 					<a href="#person-timeline">Timeline</a>
 					<a href="#person-bio">Biography</a>
@@ -85,6 +88,7 @@ sidebar: closed
 				</nav>
 				<div class="pat-stacks">
 					<div class="activity-stream" id="person-timeline">
+						<!-- The posts and shares of the user of the currently displayed profile are shown below. -->
 						{% include activity-stream.html src="activity-stream-liz" %}
 					</div>
 					<article id="person-bio">
@@ -92,10 +96,12 @@ sidebar: closed
 						{{ content }}
 					</article>
 					<div id="person-followers">
-						Followers
+						<!-- In this prototype, one or more user groups might be displayed in the following list, but only individual users may be listed. -->
+						{% include item-selector.html mode="users" toggle="false" listitems="follow" id="followers-list" %}
 					</div>
 					<div id="person-following">
-						Following
+						<!-- In this prototype, one or more user groups might be displayed in the following list, but only individual users may be listed. -->
+						{% include item-selector.html mode="users" toggle="false" listitems="follow" id="followees-list" %}
 					</div>
 				</div>
 			</div>
