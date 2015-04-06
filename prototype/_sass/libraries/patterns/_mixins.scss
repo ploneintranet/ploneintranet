@@ -58,7 +58,7 @@
 
     &.success {
         background-color: $colour-success;
-        color: white;
+        color: darken($colour-success, 50%);;
     }
     &.notice {
         background-color: $colour-notice;
