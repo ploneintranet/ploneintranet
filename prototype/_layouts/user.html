@@ -22,6 +22,7 @@ sidebar: closed
 				<div class="portlet following">
 					<h2 class="portlet-title"><a href="#person-following">Following</a></h2>
 					<nav class="user-cloud">
+						<!-- Limit the following list of users to 21 users. -->
 						{% for user in site.posts %}
 							{% if user.layout == 'user' %}	    
 								<a href="{{ user.url }}" class="pat-avatar">
@@ -30,6 +31,7 @@ sidebar: closed
 							{% endif %}
 						{% endfor %}
 					</nav>
+					<!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
 					<p class="portlet-footer">
 						<a href="#person-following">Full list of people {{ page.title }} follows.</a>
 					</p>
@@ -37,6 +39,7 @@ sidebar: closed
 				<div class="portlet followers">
 					<h2 class="portlet-title"><a href="#person-followers">Followers</a></h2>
 					<nav class="user-cloud">
+						<!-- Limit the following list of users to 21 users. -->
 						{% for user in site.posts %}
 							{% if user.layout == 'user' %}	    
 								<a href="{{ user.url }}" class="pat-avatar">
@@ -45,6 +48,7 @@ sidebar: closed
 							{% endif %}
 						{% endfor %}
 					</nav>
+					<!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
 					<p class="portlet-footer">
 						<a href="#person-followers">Full list of followers</a>
 					</p>
