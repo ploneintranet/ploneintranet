@@ -1,5 +1,6 @@
 ---
 layout: generic
+application: user
 template: generic
 sidebar: closed
 ---
@@ -18,11 +19,43 @@ sidebar: closed
 						</figcaption>
 					{% endif %}
 				</figure>
+				<div class="portlet following">
+					<h2 class="portlet-title"><a href="#person-following">Following</a></h2>
+					<nav class="user-cloud">
+						{% for user in site.posts %}
+							{% if user.layout == 'user' %}	    
+								<a href="{{ user.url }}" class="pat-avatar">
+									<img src="{{ user.image_url }}" alt="" title="{{ user.title }}" />
+								</a>
+							{% endif %}
+						{% endfor %}
+					</nav>
+					<p class="portlet-footer">
+						<a href="#person-following">Full list of people {{ page.title }} follows.</a>
+					</p>
+				</div>
+				<div class="portlet followers">
+					<h2 class="portlet-title"><a href="#person-followers">Followers</a></h2>
+					<nav class="user-cloud">
+						{% for user in site.posts %}
+							{% if user.layout == 'user' %}	    
+								<a href="{{ user.url }}" class="pat-avatar">
+									<img src="{{ user.image_url }}" alt="" title="{{ user.title }}" />
+								</a>
+							{% endif %}
+						{% endfor %}
+					</nav>
+					<p class="portlet-footer">
+						<a href="#person-followers">Full list of followers</a>
+					</p>
+				</div>
 			</aside>
 			<div class="eight columns">
 				<nav class="tabs">
 					<a href="#person-timeline">Timeline</a>
 					<a href="#person-bio">Biography</a>
+					<a href="#person-followers">Followers</a>
+					<a href="#person-following">Following</a>
 				</nav>
 				<div class="pat-stacks">
 					<div class="activity-stream" id="person-timeline">
@@ -32,9 +65,15 @@ sidebar: closed
 						<h1>{{ page.title }}</h1>
 						{{ content }}
 					</article>
+					<div id="person-followers">
+						Followers
+					</div>
+					<div id="person-following">
+						Following
+					</div>
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
 </div>
 

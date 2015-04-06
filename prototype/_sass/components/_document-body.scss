@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+.application-user {
+  #document-body {
+    #document-content {
+      font-size: 1em;
+    }
+  }
+}
+
+
 #document-body {
   overflow-x: hidden;
   overflow-y: auto;
