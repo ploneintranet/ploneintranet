@@ -151,43 +151,14 @@
                     - type-pdf
 
                     -->
-                    <tal:get condition="python: grouping != 'folder'" define="group_headers view/group_headers;">
+                            
+                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
 
-                        <tal:groupings repeat="group_header group_headers">
+                
 
-                        <div class=""
-                              tal:define="num repeat/group_header/number;
-                                          status python:num>0 and 'closed' or 'open';
-                                          grouping_value group_header/value | group_header/heading;
-                                          quoted_grouping_value python:view.urlquote(grouping_value)"
-                              tal:attributes="class string:pat-collapsible $status sortable-item sidebar-group;
-                              id string:grouping-header-${ws/getId}-${quoted_grouping_value};
-                                              data-pat-collapsible string:load-content: ${ws_url}/sidebar-group.html?grouping=${grouping}&groupname=${quoted_grouping_value}#panel-content;; store: local">
-                          <h3 tal:attributes="id string:group-${num}; class python:group_header.get('archived') and 'archived' or ''">
-                              <tal:header content="python:group_header['heading']"/>
-                              <a tal:condition="python:grouping in ('label', ) and 'Untagged' != group_header['heading']"
-                                  class="icon-cog pat-tooltip" data-pat-tooltip="trigger: click; source: ajax"
-                                  href="@@context-settings-label#settings"
-                                  tal:attributes="href string:${ws_url}/@@context-settings-label?label=$quoted_grouping_value#settings">Edit…</a>
-                          </h3>
-                          <input type="hidden" name="tags_order:list" style="display:none" tal:attributes="value group_header/heading">
-                        </div>
-                      </tal:groupings>
-
-                      <div class="label-group-template" tal:attributes="class string:label-group-template grouping-$grouping " style="display: none">
-                          <div tal:attributes="data-pat-collapsible string:load-content: ${ws_url}/sidebar-group.html?grouping=${grouping}&groupname=QUOTED_LABEL#panel-content">
-                          <h3>LABEL
-                              <a class="icon-cog pat-tooltip" data-pat-tooltip="trigger: click; source: ajax"
-                                  href="@@context-settings-label#settings"
-                                  tal:attributes="href string:${ws_url}/@@context-settings-label?label=QUOTED_LABEL#settings">Edit…</a>
-                          </h3>
-                          </div>
-                      </div>
-                    </tal:get>
-
-
-
-                    <tal:block condition="python: grouping == 'folder'" repeat="item view/children">
+                    <tal:block repeat="item view/children">
                     <label class="item document type-event has-description"
                             tal:attributes="class item/cls">
                         <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
