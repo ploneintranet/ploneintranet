@@ -8,6 +8,7 @@ design_title: User profile Cornelis Kolbach
 design_description: Example of a user profile
 document_creator: Liz Baker
 document_creator_id: liz
+email: cornelis@cornae.com
 parent: profiles
 folderish: false
 image_url: /media/avatar-cornelis-kolbach.jpg

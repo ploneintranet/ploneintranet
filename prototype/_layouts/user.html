@@ -26,9 +26,9 @@ sidebar: closed
 				</figure>
 				{% unless page.title == "Liz Baker" %}
 					<div class="portlet follow" id="portlet-follow">
-						<form action="">
+						<form action="/feedback/feedback-following.html?action=follow#portlet-follow" class="pat-inject">
 							<fieldset class="button-bar centred">
-								<button class="icon-eye"><strong>Follow</strong> {{ page.title }}</button>
+								<button class="icon-eye" title="Click to follow {{ page.title }}"><strong>Follow</strong> {{ page.title }}</button>
 							</fieldset>
 						</form>
 					</div>
@@ -39,7 +39,7 @@ sidebar: closed
 					</h2>	
 					<ul class="menu">
 						<li class="mail">
-							<a class="icon-mail" title="Mail Mario at mario.minstreel@organisation.com" href="mailto:mario.minstreel@organisation.com">mario.minstreel@organisation.com</a>
+							<a class="icon-mail" title="Mail Mario at mario.minstreel@organisation.com" href="mailto:mario.minstreel@organisation.com">{{ page.email }}</a>
 						</li>
 						<li class="phone">
 							<a class="icon-phone" title="Call Mario at +31 628 343 096" href="tel:+34506948294">+31 628 343 096</a>

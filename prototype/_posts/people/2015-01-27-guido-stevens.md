@@ -8,6 +8,7 @@ design_title: User "profile Guido A. J. Stevens"
 design_description: Example of a user profile
 document_creator: "Guido A. J. Stevens"
 document_creator_id: guido-stevens
+email: guido.stevens@cosent.nl
 parent: profiles
 folderish: false
 image_url: "/media/avatar-guido-stevens.jpg"
