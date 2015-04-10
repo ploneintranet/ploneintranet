@@ -26,6 +26,16 @@
     padding: 0 1.5em;
     position: relative;
 
+    &.injecting:before {
+      display: none;
+    }
+
+    sup {
+      font-size: 0.6em;
+      color: gray;
+      font-weight: bold;
+    }
+
     &.current:after {
       position: absolute;
       content: " ";

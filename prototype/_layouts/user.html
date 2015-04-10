@@ -26,7 +26,7 @@ sidebar: closed
 				</figure>
 				{% unless page.title == "Liz Baker" %}
 					<div class="portlet follow" id="portlet-follow">
-						<form action="/feedback/feedback-following.html?action=follow#portlet-follow" class="pat-inject">
+						<form action="/feedback/feedback-following.html?action=follow#portlet-follow" class="pat-inject" data-pat-inject="#portlet-follow && .link-following">
 							<fieldset class="button-bar centred">
 								<button class="icon-eye" title="Click to follow {{ page.title }}"><strong>Follow</strong> {{ page.title }}</button>
 							</fieldset>
@@ -60,7 +60,9 @@ sidebar: closed
 					<!-- <p>There are no endorsements for {{ page.title }} yet.</p> -->
 				</div>
 				<div class="portlet following" id="portlet-following">
-					<h2 class="portlet-title"><a href="#person-following">Following</a></h2>
+					<h2 class="portlet-title">
+						<a href="#person-following" class="link-following">Following <sup>8</sup></a>
+					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
 						{% for user in site.posts %}
@@ -77,7 +79,9 @@ sidebar: closed
 					</p>
 				</div>
 				<div class="portlet followers" id="portlet-followers">
-					<h2 class="portlet-title"><a href="#person-followers">Followers</a></h2>
+					<h2 class="portlet-title">
+						<a href="#person-followers">Followers</a>
+					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
 						{% for user in site.posts %}
@@ -110,8 +114,8 @@ sidebar: closed
 				<nav class="tabs">
 					<a href="#person-timeline">Timeline</a>
 					<a href="#person-bio">Biography</a>
-					<a href="#person-followers">Followers</a>
-					<a href="#person-following">Following</a>
+					<a href="#person-followers" class="link-followers">Followers <sup>12</sup></a>
+					<a href="#person-following" class="link-following">Following <sup>8</sup></a>
 				</nav>
 				<div class="pat-stacks">
 					<div class="activity-stream" id="person-timeline">
@@ -135,4 +139,3 @@ sidebar: closed
 		</div>
 	</div>
 </div>
-
