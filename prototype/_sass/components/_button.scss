@@ -20,6 +20,11 @@
   padding-right: 1em;
   font-size: 0.98em;
 
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   &.small {
     font-size: 0.8em;
     padding-left: 0.8em;

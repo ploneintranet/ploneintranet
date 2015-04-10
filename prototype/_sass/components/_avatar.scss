@@ -23,7 +23,7 @@
 	.sidebar {
     figure.user-portrait {
       padding-top: 1em;
-      margin-bottom: 2em;
+      margin-bottom: 1em;
 
       .pat-avatar {
         width: 60%;
@@ -34,9 +34,18 @@
         display: block;
         margin: 0.5em auto 1em;
         width: 80%;
-        font-size: 1em;
         color: gray;
         font-style: italic;
+        text-align: center;
+      }
+      h1 {
+        font-size: 1em;
+        text-align: center;
+        font-style: normal;
+        margin-bottom: 0.1em;
+      }
+      p {
+        font-size: 0.8em;
       }
     }
 	}
