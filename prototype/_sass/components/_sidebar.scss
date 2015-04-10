@@ -281,6 +281,10 @@ aside.sidebar.left {
   }
 }
 
+aside.portlets {
+  padding-right: 4%;
+}
+
 @include screen-size(large) {     
   body.application-workspace aside.sidebar.left {
     left: 50px

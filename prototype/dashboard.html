@@ -7,7 +7,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 
 <div class="row">
 	<div class="four columns">
-		<div class="item portlets">
+		<aside class="item portlets">
 			<div class="news portlet" id="portlet-news">
 				<h2 class="portlet-title"><a href="/news.html">News</a></h2>
 				{% assign count = 1 %}
@@ -109,7 +109,7 @@ design_description: The homepage of the intranet that contains a concatinated so
 					</label>
 				</fieldset>
 			</div>
-		</div>
+		</aside>
 	</div>
 	<div class="eight columns">
 		{% include update-social.html placeholder="Post a message…" id="post-box" action="/feedback/post-well-done.html" inject="source: #activity-stream; target: #activity-stream .activities::before && #new-post-box" %}
