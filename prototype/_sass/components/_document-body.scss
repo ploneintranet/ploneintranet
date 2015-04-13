@@ -20,6 +20,10 @@
   padding: 0;
   background-color: $colour-base-light;
 
+  .comments {
+    padding: 6%;
+  }
+
   @include screen-size(small) { 
     top: 48px;
   }

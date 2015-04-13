@@ -103,6 +103,13 @@ workspace_module: docs
         {% endif %}
     </div>
 </form>
+<div class="comments" id="comments-{{mypostUID}}">
+    <div id="comment-trail">
+        {% for comment in page.comments %}
+            {% include comment.html %}
+        {% endfor %}
+    </div>
+</div>
 
 <div id="share-panel" hidden>
     <h2>Share</h2>
