@@ -103,12 +103,13 @@ workspace_module: docs
         {% endif %}
     </div>
 </form>
-<div class="comments" id="comments-{{mypostUID}}">
+<div class="comments" id="comments-document-comments">
     <div id="comment-trail">
         {% for comment in page.comments %}
             {% include comment.html %}
         {% endfor %}
     </div>
+    {% include update-social.html id="my-comments" visibility="false" inject="target: #comments-document-comments" action="/feedback/comment-well-said.html#comment-trail" %}
 </div>
 
 <div id="share-panel" hidden>

@@ -22,6 +22,14 @@
 
   .comments {
     padding: 6%;
+
+    #comment-trail {
+      margin-bottom: 3em;
+    }
+
+    textarea {
+      background-color: white;
+    }
   }
 
   @include screen-size(small) { 
