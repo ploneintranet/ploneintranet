@@ -2,7 +2,7 @@ from Products.Five.browser import BrowserView
 from plone import api
 from collective.workspace.interfaces import IWorkspace
 from AccessControl import Unauthorized
-from plone.app.widgets.browser.file import FileUploadView as BaseFileUploadView
+from plone.app.content.browser.file import FileUploadView as BaseFileUploadView
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 
 from ploneintranet.workspace import MessageFactory as _
