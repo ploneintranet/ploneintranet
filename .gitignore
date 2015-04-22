@@ -1,6 +1,7 @@
 *.egg-info
 *.mo
 *.pyc
+.bundle/
 .cache/
 .dbus/
 .installed.cfg
@@ -12,6 +13,7 @@ develop-eggs/
 docs/Makefile
 docs/make.bat
 eggs/
+Gemfile.lock
 include/
 lib/
 libreoffice/
@@ -35,3 +37,4 @@ stamp-bower
 stamp-npm
 uuid.txt
 var/
+vendor/
