@@ -124,12 +124,12 @@ Put this code into ``./src/pat-colorchanger.js``
         // For example:
         //      <p class="pat-colorchanger" data-pat-colorchanger="color: blue">Hello World</p>
          
-        var parser = new Parser("example");
+        var parser = new Parser("colorchanger");
         parser.add_argument("color", "red"); // A configuration parameter and its default value.
 
         // We now create an object which encapsulates the pattern's methods
         var colorchanger = {
-            name: "example",
+            name: "colorchanger",
             trigger: ".pat-colorchanger",
 
             init: function patExampleInit($el, opts) {
