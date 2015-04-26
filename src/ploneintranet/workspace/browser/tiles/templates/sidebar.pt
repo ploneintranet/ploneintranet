@@ -234,6 +234,12 @@
 
 
     <div id="workspace-tickets" tal:define="tasks context/tasks">
+        <div class="button-bar functions" id="tasks-functions">
+
+            <div class="quick-functions">
+                <a title="Create new task" href="++add++simpletodo#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
+            </div>
+        </div>
         <tal:no-tasks condition="not: tasks">
             <p i18n:translate="no-task-found">No tasks created yet</p>
         </tal:no-tasks>
