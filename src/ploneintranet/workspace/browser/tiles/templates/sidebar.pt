@@ -248,6 +248,7 @@
             tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
             method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
 
+            <h3>General tasks</h3>
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="task-list pat-checklist">
                   <tal:task repeat="task tasks">
@@ -314,6 +315,9 @@
 
             <input type="hidden" name="section" value="task"/>
           </form>
+          <div class="button-bar create-buttons">
+              <a href="++add++simpletodo#document-content" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
+          </div>
         </tal:tasks>
     </div>
 
