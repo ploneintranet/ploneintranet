@@ -101,7 +101,7 @@ jsrelease: bundle.js
 	# version for Designers only
 	mkdir -p release
 	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js release
-	tar cfz release/$(BUNDLENAME)-$(RELEASE).js.tar.gz -C release $(BUNDLENAME)-$(RELEASE).js
+	tar cfz release/$(BUNDLENAME)-$(RELEASE).js.tar.gz -C release $(BUNDLENAME)-$(RELEASE).js $(BUNDLENAME)-$(RELEASE).min.js
 	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&:action=file_upload'
 	rm release/$(BUNDLENAME)-$(RELEASE).js.tar.gz
 	echo "Upload done."
@@ -115,7 +115,9 @@ fetchrelease:
 	curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
 	cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
 	cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	cd prototype/bundles && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
 	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
 
 designerhappy: fetchrelease
 	echo "The latest js bundle has been downloaded to prototype/bundles. You might want to run jekyll. Designer, you can be happy now."
