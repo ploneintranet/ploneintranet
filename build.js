@@ -16,6 +16,7 @@
         "fine-uploader":                          "bower_components/fine-uploader/build/jquery.fineuploader",
         "jcrop":                                  "bower_components/jcrop/js/jquery.Jcrop",
         "jquery":                                 "bower_components/jquery/dist/jquery",
+        "jquery.browser":                         "bower_components/jquery.browser/dist/jquery.browser",
         "jquery-hotkeys":                         "bower_components/jquery.hotkeys/jquery.hotkeys",
         "jquery.anythingslider":                  "bower_components/AnythingSlider/js/jquery.anythingslider",
         "jquery.chosen":                          "bower_components/chosen/chosen/chosen.jquery",

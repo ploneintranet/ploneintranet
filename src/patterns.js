@@ -7,7 +7,9 @@
  * directly in your RequireJS configuration.
  */
 define([
+    "jquery",
     "pat-registry", // Keep separate as first argument to callback
+    "jquery.browser",
 
 //    "modernizr", // replaced that by an inline reference to load it for speed
     "pat-ajax",

@@ -26,7 +26,7 @@ BUNDLENAME      = ploneintranet
 BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
 
-all:: bundle.js diazo rubygems
+all:: diazo
 default: all
 
 ########################################################################
@@ -102,7 +102,7 @@ jsrelease: bundle.js
 	mkdir -p release
 	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js release
 	tar cfz release/$(BUNDLENAME)-$(RELEASE).js.tar.gz -C release $(BUNDLENAME)-$(RELEASE).js
-	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&action=file_upload'
+	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&:action=file_upload'
 	rm release/$(BUNDLENAME)-$(RELEASE).js.tar.gz
 	echo "Upload done."
 	echo "$(RELEASE)" > LATEST
@@ -110,20 +110,19 @@ jsrelease: bundle.js
 	git commit -m "distupload: updated latest file to recent js bundle"
 	git push
 
-designerhappy:
+fetchrelease:
 	mkdir -p prototype/bundles
 	curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
 	cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
 	cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
 	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+
+designerhappy: fetchrelease
 	echo "The latest js bundle has been downloaded to prototype/bundles. You might want to run jekyll. Designer, you can be happy now."
 
 
-gems:
-	cd prototype && mkdir -p .bundle/gemfiles && bundle install --path .bundle/gemfiles
-
-jekyll: gems
-	cd prototype && bundle exec jekyll build
+jekyll: rubygems
+	cd prototype && bundle exec jekyll build 
 
 dev: jekyll
 	# Set up development environment
@@ -132,7 +131,7 @@ dev: jekyll
 	ln -s ../../../src prototype/_site/bundles
 	ln -s src/patterns.js prototype/_site/main.js
 
-diazo release: jekyll bundle.js
+diazo release: fetchrelease jekyll
 	# Bundle all html, css and js into a deployable package.
 	# I assume that all html in _site and js in _site/bundles is built and
 	# ready for upload.
@@ -149,10 +148,10 @@ diazo release: jekyll bundle.js
 	# Cleaning up non mission critical elements
 	rm -f $(RELEASE_DIR)/_site/*-e
 	rm -rf $(RELEASE_DIR)/_site/bundles/*
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js $(RELEASE_DIR)/_site/bundles/
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).min.js $(RELEASE_DIR)/_site/bundles/
-	ln -sf $(BUNDLENAME)-$(RELEASE).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
-	ln -sf $(BUNDLENAME)-$(RELEASE).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
+	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/
+	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/
+	ln -sf $(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
+	ln -sf $(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
 	# replace absolute resource urls with relative
 	sed -i -e "s#http://patterns.cornae.com/#./#" $(RELEASE_DIR)/_site/*.html
 	# copy to the diazo theme dir
