@@ -189,8 +189,11 @@ docker-run:
                 -v $(PWD):/app -w /app -u app $(PROJECT)
 
 # for development
+#
+serve: demo-run
+
 demo-run:
-	cd prototype &&	bundle exec jekyll serve --watch --baseurl ""
+	cd prototype &&	bundle exec jekyll serve --watch --baseurl "" --host 0.0.0.0
 
 # for demo.ploneintranet.net deployment
 demo-build:
