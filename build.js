@@ -155,16 +155,7 @@
         "rangy-cssclassapplier": { "deps": ["rangy"] },
         "rangy-selectionsaverestore": { "deps": ["rangy"] },
         "rangy-serializer": { "deps": ["rangy"] },
-        "raptor": {
-            "deps": [
-                "jquery",
-                "jqueryui",
-                "jquery-hotkeys",
-                "rangy-cssclassapplier",
-                "rangy-selectionsaverestore",
-                "rangy-serializer"
-            ]
-        }
+        "jquery-hotkeys": { "deps": ["jquery"] }
     },
     "optimize": "none"
 }

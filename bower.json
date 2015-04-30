@@ -37,7 +37,7 @@
     "requirejs-text": "~2.0.12",
     "pat-date-picker": "*",
     "underscore": "~1.8.2",
-    "pat-raptor": "https://github.com/Patternslib/pat-raptor.git"
+    "pat-raptor": "0.0.1"
   },
   "resolutions": {
     "jquery": "1.11.1",
