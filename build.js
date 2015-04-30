@@ -11,9 +11,6 @@
 
     "paths": {
         // Externals
-        "Markdown.Converter":                     "bower_components/patternslib/src/legacy/Markdown.Converter",
-        "Markdown.Extra":                         "bower_components/patternslib/src/legacy/Markdown.Extra",
-        "Markdown.Sanitizer":                     "bower_components/patternslib/src/legacy/Markdown.Sanitizer",
         "almond":                                 "bower_components/almond/almond",
         "dropzone":                               "bower_components/dropzone/downloads/dropzone",
         "fine-uploader":                          "bower_components/fine-uploader/build/jquery.fineuploader",
@@ -45,6 +42,10 @@
         "rangy-serializer":                       "bower_components/rangy/rangy-serializer",
         "raptor":                                 "bower_components/pat-raptor/3rdparty/raptor",
         "select2":                                "bower_components/select2/select2.min",
+        "showdown":                               "bower_components/showdown/src/showdown",
+        "showdown-github":                        "bower_components/showdown/src/extensions/github",
+        "showdown-prettify":                      "bower_components/showdown/src/extensions/prettify",
+        "showdown-table":                         "bower_components/showdown/src/extensions/table",
         "spectrum":                               "bower_components/spectrum/spectrum",
         "text":                                   "bower_components/requirejs-text/text",
         "underscore":                             "bower_components/underscore/underscore",
