@@ -7,10 +7,9 @@
  * directly in your RequireJS configuration.
  */
 define([
-    "jquery",
     "pat-registry", // Keep separate as first argument to callback
+    "jquery",
     "jquery.browser",
-
 //    "modernizr", // replaced that by an inline reference to load it for speed
     "pat-ajax",
     "pat-autofocus",
@@ -19,7 +18,9 @@ define([
     "pat-autosuggest",
     "pat-breadcrumbs",
     "pat-bumper",
-    "pat-calendar",
+// Removing that temporarily, we don't use it currently and it includes 
+// jquery.ui which conflicts with pat-raptor
+//    "pat-calendar",
     "pat-carousel",
     "pat-checkedflag",
     "pat-checklist",

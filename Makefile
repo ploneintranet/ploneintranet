@@ -73,7 +73,7 @@ check:: stamp-npm
 ########################################################################
 ## Bundle generation
 
-bundle bundle.js: stamp-bower $(GENERATED) $(SOURCES) build.js jekyll
+bundle bundle.js: stamp-bower $(GENERATED) $(SOURCES) build.js
 	node_modules/.bin/r.js -o build.js optimize=none
 	node_modules/.bin/grunt uglify
 	mkdir -p prototype/bundles
