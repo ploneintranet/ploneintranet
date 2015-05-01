@@ -12,3 +12,4 @@ exclude:
   - Gemfile.lock
   - config.codekit
   - config.rb
+  - vendor
