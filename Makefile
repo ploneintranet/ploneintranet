@@ -124,7 +124,7 @@ designerhappy: fetchrelease
 
 
 jekyll: rubygems
-	cd prototype && bundle exec jekyll build 
+	cd prototype && bundle install --path vendor/bundle && bundle exec jekyll build 
 
 dev: jekyll
 	# Set up development environment
