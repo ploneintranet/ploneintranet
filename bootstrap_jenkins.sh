@@ -13,6 +13,7 @@ virtualenv --relocatable .
 virtualenv --relocatable .
 ./bin/buildout -N -t 3 -c jenkins.cfg || exit 1
 virtualenv --relocatable .
-bundle install --path vendor/bundle --binstubs
+# this should be done by make now
+#bundle install --path vendor/bundle --binstubs
 ./bin/develop up -f || exit 1
-make clean-stamps all || exit 1
+make || exit 1
