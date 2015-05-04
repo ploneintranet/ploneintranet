@@ -2,7 +2,11 @@
 Plonesocial
 ===========
 
-.. contents:: Table of Contents
+.. admonition:: Description
+
+   How creating and displaying "social" status updates works.
+
+.. contents::
     :depth: 2
     :local:
 
