@@ -9,7 +9,7 @@ Developer documentation
     forms
     patterns
     plonesocial
-    testing
     workspace
     invitations
     attachments
+    testing
