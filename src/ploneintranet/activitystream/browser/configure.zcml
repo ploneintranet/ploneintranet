@@ -76,10 +76,6 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <!-- complex portlet-based view separated out for clear config -->
-  <include file="activitystream_portal.zcml" />
-
-
   <browser:resourceDirectory
       name="ploneintranet.activitystream.stylesheets"
       directory="stylesheets"
