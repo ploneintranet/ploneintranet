@@ -18,7 +18,6 @@ from .interfaces import IActivityProvider
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
@@ -332,16 +331,3 @@ class StatusActivityReplyProvider(StatusActivityProvider):
 class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
     template_name = "templates/statusactivityinlinereply_provider.pt"
     index = ViewPageTemplateFile(template_name)
-
-
-class DiscussionActivityProvider(AbstractActivityProvider):
-    """Render an IDicussionCommentActivity"""
-
-    implements(IActivityProvider)
-    adapts(IDiscussionActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)

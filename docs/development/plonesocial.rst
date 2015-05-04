@@ -2,7 +2,11 @@
 Plonesocial
 ===========
 
-.. contents:: Table of Contents
+.. admonition:: Description
+
+   How creating and displaying "social" status updates works.
+
+.. contents::
     :depth: 2
     :local:
 
@@ -10,7 +14,7 @@ Plonesocial
 Introduction
 ------------
 
-This stack of functionality used to be split into various packages (plonesocial.*). Now the packages are part of ploneintranet, but still under their original folder names (e.g. ploneintranet.microblog).
+This stack of functionality used to be split into various packages (plonesocial.*). After the unification, the packages are nowpart of ploneintranet, but still under their original folder names (e.g. `ploneintranet.microblog <https://github.com/ploneintranet/ploneintranet/tree/master/src/ploneintranet/microblog>`_, which used to be plonesocial.microblog).
 
 Packages
 ========
@@ -27,7 +31,9 @@ Packages
 
     Helper views (tags, mentions)
 
-XXX there are more packages which might or might not be used currently by ploneintranet.
+* attachments
+
+    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachments </development/attachments>` on stream items.
 
 
 Philosophy
@@ -85,9 +91,9 @@ _________________________
 * In case it's displayed under an existing post, this ``thread_id`` also needs to be handed over to the handling class via a hidden field.
 * The section guarded with ``condition="newpostbox_view/direct"`` is currently not used. It was just copied over from the prototype
 * In the outer ``<fieldset>`` the first section is a ``<p>`` with class "content-mirror". It is used for storing data for the Pattern of the same name. Apart from the actual text, it also holds tags and mentions. See `Tagging`_ and `Mentioning`_ for details.
-* There's the actual ``textarea`` in which the user enters text.
-* There's an inner ``fieldset`` for `Adding an attachment`_.
-* Finally a ``div`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
+* There's the actual ``<textarea>`` in which the user enters text.
+* There's an inner ``<fieldset>`` with class "attachments" for `Adding an attachment`_.
+* Finally a ``<div>`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
 
 Interactions
 ____________
@@ -164,7 +170,19 @@ Only difference: for mentions, we distinguish between a user's name (shown for e
 Adding an attachment
 ====================
 
-XXX: To be done
+The ``<fieldset>`` with class "attachments" contains an ``<input>`` of type "file" that tells the browser to open a file-picker if clicked. Additionally there's an empty ``<p>`` as a place-holder that will show the preview image (or fallback image) once the user has selected an attachment.
+
+Interactions
+------------
+
+The following patterns are used on the ``<fieldset>``:
+
+* ``pat-subform`` in combination with ``pat-autosubmit`` causes the file data to be sent immediately to the backend (autosubmit), but the request will only contain the file data (and authentication token) and not the complete post (subform).
+* ``pat-inject`` makes sure the request gets sent to the correct View ("@@upload-attachments"). This View handles the correct conversion and storing of the attachments, and returns markup that lists the generated preview images. This markup replaces the ``<p>`` with the id "attachment-previews" via ``pat-inject``. This way, the user sees immediate feedback (preview images or fallback image) while they are composing a status update.
+
+On the ``<label>`` around the file input field ``pat-switch`` is used to set the class "status-attach" on the surrounding ``<form>``. This will cause the previously hidden (via "``height: 0``") section for the attachment previews to be shown.
+
+
 
 Tile "activity stream"
 ======================

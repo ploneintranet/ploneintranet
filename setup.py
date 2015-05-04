@@ -115,7 +115,7 @@ setup(name='ploneintranet',
               'five.grok',
               'Products.UserAndGroupSelectionWidget'
           ],
-          'develop': [],
+          'develop': ['plone.reload', 'iw.debug'],
       },
       entry_points="""
       # -*- Entry points: -*-
