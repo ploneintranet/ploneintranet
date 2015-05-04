@@ -10,3 +10,6 @@ Developer documentation
     patterns
     plonesocial
     testing
+    workspace
+    invitations
+    attachments
