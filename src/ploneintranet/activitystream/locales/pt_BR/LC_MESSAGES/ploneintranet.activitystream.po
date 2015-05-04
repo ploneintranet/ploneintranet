@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2015-01-20 16:39+0000\n"
+"POT-Creation-Date: 2015-05-04 11:21+0000\n"
 "PO-Revision-Date: 2014-03-10 15:32-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr "Exibir as atualizações do microblog"
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Visão do fluxo de atividade social com portlets gerenciáveis"
 
-#: ./browser/templates/stream.pt:24
+#: ./browser/templates/stream.pt:23
 msgid "Updates tagged #${tag}"
 msgstr "Atualizações marcadas #${tag}"
 
@@ -105,13 +105,13 @@ msgstr "Ver tela de gerenciamento de portlet"
 msgid "label_commented_on"
 msgstr "comentado no"
 
-#. Default: "created"
-#: ./browser/templates/contentactivity_provider.pt:18
-msgid "label_created"
-msgstr "criado"
+#. Default: "posted"
+#: ./browser/prototype/post.html:35
+msgid "label_posted"
+msgstr ""
 
 #. Default: "says:"
-#: ./browser/templates/statusactivity_provider.pt:18
+#: ./browser/templates/statusactivity_provider.pt:19
 msgid "label_says"
 msgstr "diz:"
 
@@ -120,9 +120,4 @@ msgstr "diz:"
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
 msgstr "Gerenciar portlets de fluxo de atividade"
-
-#. Default: "See more..."
-#: ./browser/templates/contentactivity_provider.pt:62
-msgid "see_more_link"
-msgstr ""
 
