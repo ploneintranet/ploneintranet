@@ -72,6 +72,7 @@
                             <span class="float-before button-cluster select-buttons">
                                 <button type="button" class="select-all" title="Select all">All</button>
                                 <button type="button" class="deselect-all" title="Deslect all">None</button>
+                                <h1>22222</h1>
                             </span>
                             <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Cancel</button>
                         </div>
@@ -197,9 +198,10 @@
                     <li>
                         <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
                     </li>
-                    <li>
+                    <!-- This is commented until the functionality will be completed -->
+                    <!--li>
                         <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                    </li>
+                    </li-->
                 </ul>
             </div>
 
