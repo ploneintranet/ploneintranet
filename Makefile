@@ -1,6 +1,6 @@
 RELEASE_DIR		= release/prototype
 DIAZO_DIR       = src/ploneintranet/theme/static
-LATEST          = $(shell cat LATEST)
+LATEST          = $(shell cat prototype/LATEST)
 BUNDLENAME      = ploneintranet
 BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
@@ -14,27 +14,28 @@ check-clean:
 ########################################################################
 ## Setup
 
-fetchrelease:
-	mkdir -p prototype/bundles
-	curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	cd prototype/bundles && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
-	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+prototype::
+	@if [ ! -d "prototype" ]; then \
+		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
+		cd prototype&& make; \
+	 fi;
 
-diazo release: fetchrelease
+fetchrelease: prototype
+	@rm -rf prototype/bundles && mkdir -p prototype/bundles
+	@curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
+	@cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
+	@cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	@cd prototype/bundles && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
+	@cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	@cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+	@echo Done. See the new Javascript bundles in prototype/bundles
+
+diazo: fetchrelease
 	# Bundle all html, css and js into a deployable package.
 	# I assume that all html in _site and js in _site/bundles is built and
 	# ready for upload.
-	# CAVE: This is currently work in progress and was used to deploy to deliverance
-	# We will most probably rewrite this to deploy all necessary resources
-	# for diazo into egg format (Yet to be decided how)
-	#
-	@[ -d release/prototype ] || mkdir -p release/prototype
-	# make sure it is empty
-	rm -rf release/prototype/*
-	# test "$$(git status --porcelain)x" = "x" || (git status && false)
+	@cd prototype && make jekyll
+	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
 	cp -R prototype/_site $(RELEASE_DIR)/
 	sed -i -e "s,<script src=\"bundles/$(BUNDLENAME).js\",<script src=\"bundles/$(shell readlink prototype/bundles/$(BUNDLENAME).js)\"," $(RELEASE_DIR)/_site/*.html
 	# Cleaning up non mission critical elements
@@ -44,8 +45,6 @@ diazo release: fetchrelease
 	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/
 	ln -sf $(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
 	ln -sf $(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
-	# replace absolute resource urls with relative
-	sed -i -e "s#http://patterns.cornae.com/#./#" $(RELEASE_DIR)/_site/*.html
 	# copy to the diazo theme dir
 	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
 	cp -R $(RELEASE_DIR)/_site/* $(DIAZO_DIR)/generated/
@@ -107,4 +106,4 @@ test:
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
-.PHONY: all clean check-clean release
+.PHONY: all clean check-clean
