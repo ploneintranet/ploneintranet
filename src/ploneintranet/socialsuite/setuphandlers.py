@@ -5,7 +5,6 @@ import time
 import loremipsum
 import transaction
 
-from Products.CMFPlone.utils import log
 from zope.component import queryUtility
 from zope.interface import directlyProvides
 from OFS.Image import Image
@@ -17,27 +16,6 @@ from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
-
-
-def importVarious(context):
-
-    if context.readDataFile('ploneintranet.socialsuite_various.txt') is None:
-        return
-
-    site = context.getSite()
-    site.layout = "activitystream_portal"
-    site.default_page = "activitystream_portal"
-
-
-def uninstallVarious(context):
-
-    if context.readDataFile('ploneintranet.socialsuite_uninstall.txt') is None:
-        return
-
-    site = context.getSite()
-    site.layout = "folder_listing"
-    site.default_page = "folder_listing"
-    log("Uninstalled ploneintranet.socialsuite")
 
 
 def demo(context):
