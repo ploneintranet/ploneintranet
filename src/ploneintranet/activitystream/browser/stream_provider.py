@@ -4,7 +4,6 @@ from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 
-from Acquisition import aq_inner
 from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
 from zExceptions import NotFound
@@ -20,7 +19,6 @@ from .interfaces import IActivityProvider
 
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
 from ploneintranet.core.integration import PLONEINTRANET
 
@@ -94,9 +92,6 @@ class StreamProvider(object):
     def _activity_visible(self, activity):
         if IStatusActivity.providedBy(activity) and self.show_microblog:
             return True
-        elif IDiscussionActivity.providedBy(activity) and self.show_discussion:
-            return True
-
         return False
 
     def _activities_statuses(self):
@@ -155,13 +150,6 @@ class StreamProvider(object):
         if IStatusActivity.providedBy(activity):
             permission = "Plone Social: View Microblog Status Update"
             return sm.checkPermission(permission, self.context)
-        elif IDiscussionActivity.providedBy(activity):
-            # check both the activity itself and it's page context
-            return sm.checkPermission(
-                'View', aq_inner(activity.context)) \
-                and sm.checkPermission(
-                    'View',
-                    aq_inner(activity.context).__parent__.__parent__)
 
     def is_anonymous(self):
         portal_membership = getToolByName(getSite(),
