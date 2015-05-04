@@ -8,12 +8,12 @@ Workspace
 
 .. contents:: :local:
 
-Introduction
-============
-
 .. note::
 
     Copied from the README of ploneintranet.workspace. Needs to be fleshed out.
+
+Introduction
+============
 
 At its core, it's a Dexterity Container with `collective.workspace <https://github.com/collective/collective.workspace>`_ behavior applied.
 
