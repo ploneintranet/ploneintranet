@@ -18,7 +18,6 @@ from .interfaces import IActivityProvider
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IContentActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
 from ploneintranet.core.integration import PLONEINTRANET
@@ -333,30 +332,6 @@ class StatusActivityReplyProvider(StatusActivityProvider):
 class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
     template_name = "templates/statusactivityinlinereply_provider.pt"
     index = ViewPageTemplateFile(template_name)
-
-
-class ContentActivityProvider(AbstractActivityProvider):
-    """Render an IBrainActivity"""
-
-    implements(IActivityProvider)
-    adapts(IContentActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)
-
-    @property
-    def attachments(self):
-        """ Get preview image for content-related updates"""
-        if self.is_preview_supported():
-            docconv = IDocconv(self.context.context)
-            if docconv.has_thumbs():
-                base_url = self.context.context.absolute_url()
-                return [dict(
-                    img_src="{0}/docconv_image_thumb.jpg".format(base_url),
-                    link=base_url)]
 
 
 class DiscussionActivityProvider(AbstractActivityProvider):

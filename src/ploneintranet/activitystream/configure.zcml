@@ -16,8 +16,7 @@
 	   factory=".adapters.StatusActivity"
 	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
 	   />
-  <adapter factory=".adapters.ContentActivity"
-	   />
+
   <adapter factory=".adapters.DiscussionActivity"
 	   />
 

@@ -36,10 +36,6 @@
       />
 
   <adapter
-      factory=".activity_provider.ContentActivityProvider"
-      />
-
-  <adapter
       factory=".activity_provider.DiscussionActivityProvider"
       />
 

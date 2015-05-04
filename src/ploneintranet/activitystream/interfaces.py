@@ -27,9 +27,5 @@ class IStatusActivityReply(IStatusActivity):
     """ A reply to a IStatusActivity """
 
 
-class IContentActivity(IActivity):
-    """IActivity for a content object"""
-
-
 class IDiscussionActivity(IActivity):
     """IActivity for a discussion comment"""
