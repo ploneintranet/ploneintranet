@@ -20,11 +20,6 @@
   <adapter factory=".adapters.DiscussionActivity"
 	   />
 
-  <adapter factory=".adapters.brainActivityFactory"
-    for="Products.ZCatalog.interfaces.ICatalogBrain"
-    provides="ploneintranet.activitystream.interfaces.IActivity"
-       />
-
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet Activitystream"

@@ -7,7 +7,6 @@ from Acquisition import aq_inner, aq_parent
 from plone import api
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
-from ploneintranet.activitystream.interfaces import IActivity
 
 
 class StatusActivity(object):
@@ -61,7 +60,3 @@ class DiscussionActivity(AbstractContentActivity):
         _contentparent = aq_parent(aq_parent(aq_inner(context)))
         self.title = _contentparent.Title()
         self.text = context.getText()
-
-
-def brainActivityFactory(context):
-    return IActivity(context.getObject())
