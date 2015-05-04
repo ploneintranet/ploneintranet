@@ -11,3 +11,4 @@ Developer documentation
     plonesocial
     testing
     workspace
+    invitations
