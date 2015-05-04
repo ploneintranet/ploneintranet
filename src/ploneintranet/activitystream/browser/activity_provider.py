@@ -341,8 +341,6 @@ class ContentActivityProvider(AbstractActivityProvider):
     implements(IActivityProvider)
     adapts(IContentActivity, IPloneIntranetActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
-
     @property
     def getId(self):
         return api.content.get_uuid(self.context.context)
