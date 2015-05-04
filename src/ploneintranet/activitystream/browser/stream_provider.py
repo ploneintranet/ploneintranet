@@ -1,5 +1,3 @@
-import itertools
-
 from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
@@ -22,7 +20,6 @@ from .interfaces import IActivityProvider
 
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IContentActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
 from ploneintranet.core.integration import PLONEINTRANET
@@ -74,9 +71,7 @@ class StreamProvider(object):
     __call__ = render
 
     def activities(self):
-        brains = self._activities_brains()
-        statuses = self._activities_statuses()
-        items = itertools.chain(brains, statuses)
+        items = self._activities_statuses()
         # see date_key sorting function above
         items = sorted(items, key=date_key, reverse=True)
 
@@ -99,31 +94,10 @@ class StreamProvider(object):
     def _activity_visible(self, activity):
         if IStatusActivity.providedBy(activity) and self.show_microblog:
             return True
-        elif IContentActivity.providedBy(activity) and self.show_content:
-            return True
         elif IDiscussionActivity.providedBy(activity) and self.show_discussion:
             return True
 
         return False
-
-    def _activities_brains(self):
-        if not self.show_content and not self.show_discussion:
-            return []
-        catalog = getToolByName(self.context, 'portal_catalog')
-        # fetch more than we need because of later filtering
-        contentfilter = dict(sort_on='Date',
-                             sort_order='reverse',
-                             sort_limit=self.count * 10)
-        if self.tag:
-            contentfilter["Subject"] = self.tag
-        # filter on users OR context, not both
-        if self.users:
-            contentfilter["Creator"] = self.users
-        elif self.microblog_context:
-            contentfilter['path'] = \
-                '/'.join(self.microblog_context.getPhysicalPath())
-
-        return catalog.searchResults(**contentfilter)
 
     def _activities_statuses(self):
         if not self.show_microblog:
@@ -188,9 +162,6 @@ class StreamProvider(object):
                 and sm.checkPermission(
                     'View',
                     aq_inner(activity.context).__parent__.__parent__)
-        elif IContentActivity.providedBy(activity):
-            return sm.checkPermission('View',
-                                      aq_inner(activity.context))
 
     def is_anonymous(self):
         portal_membership = getToolByName(getSite(),

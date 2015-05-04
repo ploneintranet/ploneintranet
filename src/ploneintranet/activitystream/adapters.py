@@ -2,12 +2,10 @@ from zope.interface import implements
 from zope.component import adapts
 
 from plone.app.discussion.interfaces import IComment
-from Products.CMFCore.interfaces import IContentish
 from Acquisition import aq_inner, aq_parent
 
 from plone import api
 from ploneintranet.activitystream.interfaces import IStatusActivity
-from ploneintranet.activitystream.interfaces import IContentActivity
 from ploneintranet.activitystream.interfaces import IDiscussionActivity
 from ploneintranet.activitystream.interfaces import IActivity
 
@@ -47,20 +45,6 @@ class AbstractContentActivity(object):
         self.portal_type = context.portal_type
         self.Creator = context.Creator()
         self.raw_date = max(context.created(), context.effective())
-
-
-class ContentActivity(AbstractContentActivity):
-    adapts(IContentish)
-    implements(IContentActivity)
-
-    def __init__(self, context):
-        super(ContentActivity, self).__init__(context)
-        self.userid = context.getOwnerTuple()[1]
-        self.render_type = 'item'
-        self.text = context.Description() + self._tags(context.Subject())
-
-    def _tags(self, source):
-        return ' '.join(['#%s' % x for x in source])
 
 
 class DiscussionActivity(AbstractContentActivity):
