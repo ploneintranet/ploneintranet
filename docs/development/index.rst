@@ -10,3 +10,4 @@ Developer documentation
     patterns
     plonesocial
     testing
+    workspace
