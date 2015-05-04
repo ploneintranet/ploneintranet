@@ -1,12 +1,6 @@
-from zope.interface import implements
-from zope.component import adapts
-
-from plone.app.discussion.interfaces import IComment
-from Acquisition import aq_inner, aq_parent
-
 from plone import api
 from ploneintranet.activitystream.interfaces import IStatusActivity
-from ploneintranet.activitystream.interfaces import IDiscussionActivity
+from zope.interface import implements
 
 
 class StatusActivity(object):
@@ -44,19 +38,3 @@ class AbstractContentActivity(object):
         self.portal_type = context.portal_type
         self.Creator = context.Creator()
         self.raw_date = max(context.created(), context.effective())
-
-
-class DiscussionActivity(AbstractContentActivity):
-    adapts(IComment)
-    implements(IDiscussionActivity)
-
-    def __init__(self, context):
-        super(DiscussionActivity, self).__init__(context)
-        self.render_type = 'discussion'
-        self.userid = context.author_username
-        # context: DiscussionItem
-        # parent: Conversation
-        # grandparent: content object
-        _contentparent = aq_parent(aq_parent(aq_inner(context)))
-        self.title = _contentparent.Title()
-        self.text = context.getText()

@@ -17,9 +17,6 @@
 	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
 	   />
 
-  <adapter factory=".adapters.DiscussionActivity"
-	   />
-
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet Activitystream"

@@ -25,7 +25,3 @@ class IStatusActivity(IActivity):
 
 class IStatusActivityReply(IStatusActivity):
     """ A reply to a IStatusActivity """
-
-
-class IDiscussionActivity(IActivity):
-    """IActivity for a discussion comment"""
