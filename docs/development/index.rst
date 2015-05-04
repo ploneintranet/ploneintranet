@@ -12,3 +12,4 @@ Developer documentation
     testing
     workspace
     invitations
+    attachments
