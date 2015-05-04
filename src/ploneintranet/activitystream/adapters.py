@@ -27,14 +27,3 @@ class StatusActivity(object):
 
     def replies(self):
         return map(IStatusActivity, self.context.replies())
-
-
-class AbstractContentActivity(object):
-
-    def __init__(self, context):
-        self.context = context
-        self.title = context.Title()
-        self.url = context.absolute_url()
-        self.portal_type = context.portal_type
-        self.Creator = context.Creator()
-        self.raw_date = max(context.created(), context.effective())
