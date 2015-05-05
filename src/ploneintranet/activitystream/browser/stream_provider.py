@@ -51,8 +51,6 @@ class StreamProvider(object):
         self.context = context
         self.request = request
         self.view = self.__parent__ = view
-        # @@activitystream_portal renders this as a portlet
-        self.portlet_data = None
         # @@stream renders this optionally with a tag filter
         self.tag = None
         # @@stream and ploneintranet.network:@@author
@@ -159,28 +157,10 @@ class StreamProvider(object):
 
     @property
     def count(self):
-        if self.portlet_data:
-            return self.portlet_data.count
         return 15
 
     @property
     def show_microblog(self):
         sm = getSecurityManager()
         permission = "Plone Social: View Microblog Status Update"
-        if not sm.checkPermission(permission, self.context):
-            return False
-        if self.portlet_data:
-            return self.portlet_data.show_microblog
-        return True
-
-    @property
-    def show_content(self):
-        if self.portlet_data:
-            return self.portlet_data.show_content
-        return True
-
-    @property
-    def show_discussion(self):
-        if self.portlet_data:
-            return self.portlet_data.show_discussion
-        return True
+        return sm.checkPermission(permission, self.context)
