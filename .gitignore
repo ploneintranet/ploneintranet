@@ -1,6 +1,7 @@
 *.egg-info
 *.mo
 *.pyc
+.bundle/
 .cache/
 .dbus/
 .installed.cfg
@@ -12,17 +13,13 @@ develop-eggs/
 docs/Makefile
 docs/make.bat
 eggs/
+Gemfile.lock
 include/
 lib/
 libreoffice/
 node_modules/
 parts/
-prototype/.bundle/config
-prototype/.bundle/gemfiles/
-prototype/.sass-cache/
-prototype/Gemfile.lock
-prototype/_site/
-prototype/bundles/
+prototype
 release/
 src/bower_components/
 src/collective.celery/
@@ -35,3 +32,4 @@ stamp-bower
 stamp-npm
 uuid.txt
 var/
+vendor/

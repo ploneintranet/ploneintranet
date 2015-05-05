@@ -15,4 +15,4 @@ virtualenv --relocatable .
 virtualenv --relocatable .
 bundle install --path vendor/bundle --binstubs
 ./bin/develop up -f || exit 1
-make clean-stamps all || exit 1
+make || exit 1

@@ -15,12 +15,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IActivityProvider
-from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IContentActivity
-from ploneintranet.activitystream.interfaces import IDiscussionActivity
 
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
@@ -273,7 +270,7 @@ class StatusActivityProvider(AbstractActivityProvider):
             docconv = IDocconv(item)
             if docconv.has_thumbs():
                 url = '/'.join((item_url, 'thumb'))
-            elif isinstance(item, (File, Image)):
+            elif isinstance(item, Image):
                 images = api.content.get_view(
                     'images',
                     item.aq_base,
@@ -284,7 +281,10 @@ class StatusActivityProvider(AbstractActivityProvider):
                     images.scale(scale='preview').url.lstrip('/')
                 ))
             else:
-                url = ''
+                # We need a better fallback image. See #See #122
+                url = '/'.join((
+                    api.portal.get().absolute_url(),
+                    '++theme++ploneintranet.theme/generated/media/logo.svg'))
             if url:
                 attachments.append(dict(img_src=url, link=item_url))
         return attachments
@@ -331,40 +331,3 @@ class StatusActivityReplyProvider(StatusActivityProvider):
 class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
     template_name = "templates/statusactivityinlinereply_provider.pt"
     index = ViewPageTemplateFile(template_name)
-
-
-class ContentActivityProvider(AbstractActivityProvider):
-    """Render an IBrainActivity"""
-
-    implements(IActivityProvider)
-    adapts(IContentActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)
-
-    @property
-    def attachments(self):
-        """ Get preview image for content-related updates"""
-        if self.is_preview_supported():
-            docconv = IDocconv(self.context.context)
-            if docconv.has_thumbs():
-                base_url = self.context.context.absolute_url()
-                return [dict(
-                    img_src="{0}/docconv_image_thumb.jpg".format(base_url),
-                    link=base_url)]
-
-
-class DiscussionActivityProvider(AbstractActivityProvider):
-    """Render an IDicussionCommentActivity"""
-
-    implements(IActivityProvider)
-    adapts(IDiscussionActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)

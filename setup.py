@@ -24,6 +24,7 @@ setup(name='ploneintranet',
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.7",
           "Topic :: Software Development :: Libraries :: Python Modules",
+          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
       ],
       keywords='',
       author='',
@@ -114,7 +115,7 @@ setup(name='ploneintranet',
               'five.grok',
               'Products.UserAndGroupSelectionWidget'
           ],
-          'develop': [],
+          'develop': ['plone.reload', 'iw.debug'],
       },
       entry_points="""
       # -*- Entry points: -*-

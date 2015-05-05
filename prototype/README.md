@@ -1,2 +1,0 @@
-# Plone white label intranet
-

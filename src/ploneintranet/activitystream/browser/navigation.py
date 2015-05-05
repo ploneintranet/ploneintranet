@@ -39,17 +39,6 @@ class PloneIntranetNavigation(BrowserView):
                               title=m_context.Title() + ' updates',
                               state='localstream')])
 
-        base = self.portal_url() + '/'
-        menu.extend([dict(url=base + '@@stream',
-                          title='Explore',
-                          state='explore')])
-        if PLONEINTRANET.network:
-            menu.extend([dict(url=base + '@@stream/network',
-                              title='My network',
-                              state='stream'),
-                         dict(url=base + '@@author',
-                              title='My profile',
-                              state='profile')])
         for item in menu:
             if self.request.URL == item['url']:
                 item['state'] = 'active'

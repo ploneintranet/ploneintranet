@@ -7,7 +7,7 @@
 
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
 <metal:macro define-macro="main">
-  <tal:block tal:define="portal_url here/portal_url" i18n:domain="plone">
+  <tal:block tal:define="portal_url portal_url|here/portal_url" i18n:domain="plone">
     <div id="microblog" class="ploneintranet"
         tal:define="
           form_id form_id|request/form_id|string:post-box;
@@ -87,7 +87,7 @@
              tal:condition="newpostbox_view/is_attachment_supported"
              class="attachments pat-subform pat-autosubmit pat-inject"
              data-pat-inject="url: @@upload-attachments; source: #attachments;"
-             tal:attributes="data-pat-inject string:url:${context/absolute_url}/@@upload-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
+             tal:attributes="data-pat-inject string:url:${context_url|context/absolute_url}/@@upload-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
             <label class="iconified icon-attach pat-switch"
                    data-pat-switch="#post-box status-* status-attach"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
@@ -113,7 +113,7 @@
             <a class="iconified icon-tags pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: tags;"
                href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
+               tal:attributes="href string:${portal_url|context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
                Add tags</a>
 
             <button
