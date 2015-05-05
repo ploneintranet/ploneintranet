@@ -88,15 +88,12 @@ class StreamProvider(object):
                 i += 1
 
     def _activity_visible(self, activity):
-        if IStatusActivity.providedBy(activity) and self.show_microblog:
+        if IStatusActivity.providedBy(activity):
             return True
         return False
 
     def _activities_statuses(self):
-        if not self.show_microblog:
-            raise StopIteration()
         container = PLONEINTRANET.microblog
-        # show_microblog yet no container can happen on microblog uninstall
         if not container:
             raise StopIteration()
 
@@ -158,9 +155,3 @@ class StreamProvider(object):
     @property
     def count(self):
         return 15
-
-    @property
-    def show_microblog(self):
-        sm = getSecurityManager()
-        permission = "Plone Social: View Microblog Status Update"
-        return sm.checkPermission(permission, self.context)
