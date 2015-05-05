@@ -21,7 +21,7 @@ class StreamTile(StreamBase, Tile):
 
     @property
     def activity_providers(self):
-        ''' Returtn the activity providers
+        ''' Return the activity providers
         '''
         provider = getMultiAdapter(
             (self.context, self.request, self),
