@@ -9,22 +9,16 @@ from zope.annotation import IAnnotations
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
-from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.docconv.client.async import queueDelayedConversionJob
+from ploneintranet.docconv.client.config import PDF_VERSION_KEY
+from ploneintranet.docconv.client.config import PREVIEW_IMAGES_KEY
+from ploneintranet.docconv.client.config import PREVIEW_MESSAGE_KEY
+from ploneintranet.docconv.client.config import THUMBNAIL_KEY
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.fetcher import fetchPreviews
-from ploneintranet.docconv.client.config import (
-    PDF_VERSION_KEY,
-    PREVIEW_IMAGES_KEY,
-    THUMBNAIL_KEY,
-    PREVIEW_MESSAGE_KEY,
-)
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import IAttachmentStorage
-except ImportError:
-    IAttachmentStoragable = None
+from ploneintranet.docconv.client.interfaces import IDocconv
 
 log = logging.getLogger(__name__)
 
@@ -49,13 +43,13 @@ def _update_preview_images(obj, event):
 
 
 def generate_attachment_preview_images(obj):
-    if (IAttachmentStoragable is not None and
-            IAttachmentStoragable.providedBy(obj)):
-        attachment_storage = IAttachmentStorage(obj)
-        for att_id in attachment_storage.keys():
-            docconv = IDocconv(attachment_storage.get(att_id))
-            if not docconv.has_thumbs():
-                docconv.generate_all()
+    if not IAttachmentStoragable.providedBy(obj):
+        return
+    attachment_storage = IAttachmentStorage(obj)
+    for att_id in attachment_storage.keys():
+        docconv = IDocconv(attachment_storage.get(att_id))
+        if not docconv.has_thumbs():
+            docconv.generate_all()
 
 
 @grok.subscribe(IDocument, IObjectAddedEvent)
@@ -76,7 +70,6 @@ def archetype_edited_in_workspace(obj, event):
     _update_preview_images(obj, event)
 
 
-if IAttachmentStoragable is not None:
-    @grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
-    def attachmentstoragable_added(obj, event):
-        generate_attachment_preview_images(obj)
+@grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
+def attachmentstoragable_added(obj, event):
+    generate_attachment_preview_images(obj)

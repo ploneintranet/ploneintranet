@@ -7,17 +7,13 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.activitystream.browser.interfaces import IActivityProvider
 from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import extract_and_add_attachments
-except ImportError:
-    IAttachmentStoragable = None
-    extract_and_add_attachments = None
 
 logger = getLogger('newpostbox')
 
@@ -115,8 +111,6 @@ class NewPostBoxTile(Tile):
 
         If both are True attach the data to the post
         """
-        if IAttachmentStoragable is None:
-            return
         if not IAttachmentStoragable.providedBy(post):
             return
         if not self.post_attachment:
