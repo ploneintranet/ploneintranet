@@ -20,21 +20,13 @@ prototype::
 		cd prototype&& make; \
 	 fi;
 
-fetchrelease: prototype
-	@rm -rf prototype/bundles && mkdir -p prototype/bundles
-	@curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	@cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	@cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	@cd prototype/bundles && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
-	@cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	@cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
-	@echo Done. See the new Javascript bundles in prototype/bundles
+jekyll:
+	@cd prototype && make jekyll
 
-diazo: fetchrelease
+diazo: jekyll
 	# Bundle all html, css and js into a deployable package.
 	# I assume that all html in _site and js in _site/bundles is built and
 	# ready for upload.
-	@cd prototype && make jekyll
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
 	cp -R prototype/_site $(RELEASE_DIR)/
 	sed -i -e "s,<script src=\"bundles/$(BUNDLENAME).js\",<script src=\"bundles/$(shell readlink prototype/bundles/$(BUNDLENAME).js)\"," $(RELEASE_DIR)/_site/*.html
