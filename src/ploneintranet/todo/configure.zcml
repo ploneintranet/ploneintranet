@@ -40,6 +40,14 @@
         factory="plone.behavior.AnnotationStorage"
         marker=".behaviors.ITodoMarker"
         />
+
+    <plone:behavior
+        title="Milestone"
+        description="Milestone this task belongs to"
+        provides=".behaviors.IMilestone"
+        factory="plone.behavior.AnnotationStorage"
+        marker=".behaviors.IMilestoneMarker"
+        />
     
     <include package=".portlets" />
     <include package=".browser" />

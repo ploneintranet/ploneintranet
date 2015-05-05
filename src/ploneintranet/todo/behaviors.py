@@ -70,3 +70,21 @@ class ITodoMarker(Interface):
     """Marker interface that will be provided by instances using the
     ITodo behavior.
     """
+
+
+class IMilestone(form.Schema):
+    """A text field representing the milestone associated with this todo item.
+    For example, the id of the associated workflow state of the container.
+    """
+    milestone = TextLine(
+        title=_(u"Milestone"),
+        required=False,
+    )
+
+alsoProvides(IMilestone, form.IFormFieldProvider)
+
+
+class IMilestoneMarker(Interface):
+    """Marker interface that will be provided by instances using the
+    IMilestone behavior.
+    """
