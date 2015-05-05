@@ -1,6 +1,5 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -12,7 +11,7 @@
   <include package=".browser" />
   <!-- portlet is included in browser -->
 
-  <adapter zcml:condition="installed ploneintranet.microblog"
+  <adapter
 	   factory=".adapters.StatusActivity"
 	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
 	   />
