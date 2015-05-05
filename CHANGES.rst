@@ -8,6 +8,7 @@ Changelog
   prototype. [pilz]
 - Fix the injection when adding a folder. 
   [pilz]
+- Moved the prototype into ploneintranet.prototype
 
 MANY MANY unlisted changes.
 
