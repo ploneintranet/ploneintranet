@@ -83,14 +83,9 @@ class StreamProvider(object):
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
 
-            if self._activity_visible(activity):
+            if IStatusActivity.providedBy(activity):
                 yield activity
                 i += 1
-
-    def _activity_visible(self, activity):
-        if IStatusActivity.providedBy(activity):
-            return True
-        return False
 
     def _activities_statuses(self):
         container = PLONEINTRANET.microblog
