@@ -20,7 +20,7 @@ prototype::
 		cd prototype&& make; \
 	 fi;
 
-jekyll:
+jekyll: prototype
 	@cd prototype && make jekyll
 
 diazo: jekyll
