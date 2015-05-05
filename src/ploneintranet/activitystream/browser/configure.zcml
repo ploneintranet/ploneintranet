@@ -6,8 +6,8 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet.activitystream">
 
-  <include package="plone.tiles" file="meta.zcml" />
   <include package=".prototype" />
+  <include package=".tiles" />
 
   <include  zcml:condition="installed ploneintranet.microblog"
             file="permissions.zcml"
@@ -43,17 +43,6 @@
   <adapter zcml:condition="installed ploneintranet.microblog"
       name="ploneintranet.activitystream.statusconversation_provider"
       factory=".statusconversation_provider.StatusConversationProvider"
-      />
-
-  <plone:tile
-      name="activitystream.tile"
-      title="Activity stream tile"
-      description="Provides an activity stream as a tile"
-      add_permission="cmf.ManagePortal"
-      class=".stream.StreamTile"
-      permission="zope.Public"
-      for="*"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <browser:page zcml:condition="installed ploneintranet.microblog"
