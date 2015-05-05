@@ -197,9 +197,10 @@
                     <li>
                         <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
                     </li>
-                    <li>
+                    <!-- This is commented until the functionality will be completed -->
+                    <!--li>
                         <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                    </li>
+                    </li-->
                 </ul>
             </div>
 

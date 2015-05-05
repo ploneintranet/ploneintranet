@@ -132,4 +132,7 @@
     </field>
     <value/>
   </record>
+  <record name="plone.generate_tabs" interface="plone.app.controlpanel.navigation.INavigationSchema">
+    <value>False</value>
+  </record>
 </registry>
