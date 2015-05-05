@@ -19,12 +19,7 @@ lib/
 libreoffice/
 node_modules/
 parts/
-prototype/.bundle/config
-prototype/.bundle/gemfiles/
-prototype/.sass-cache/
-prototype/Gemfile.lock
-prototype/_site/
-prototype/bundles/
+prototype
 release/
 src/bower_components/
 src/collective.celery/
