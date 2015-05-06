@@ -5,6 +5,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
+from plone import api
 from ploneintranet.network.interfaces import INetworkGraph
 from zope.component import adapts
 from zope.component import getMultiAdapter
@@ -41,7 +42,7 @@ class AbstractAuthor(object):
 
     @property
     def is_anonymous(self):
-        return self.mtool.isAnonymousUser()
+        return api.user.is_anonymous()
 
     @property
     def is_mine(self):
