@@ -84,6 +84,9 @@
 			</div>
 			<div class="nine columns last document-listing" id="listing">
 			    <p><span tal:replace="results/total_results">87</span> items matched your search.</p>
+			    <p tal:condition="results/spell_corrected_search">
+				<em>Did you mean <a href="#" tal:content="results/spell_corrected_search"></a>?</em>
+			    </p>
 			    <dl class="search-results">
 				<!-- One hard coded example of a post as a search result: -->
 				<dt class="title user-post">
