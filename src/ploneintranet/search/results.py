@@ -26,6 +26,16 @@ class SearchResult(object):
     #: The highlighted summary provided by the backend (str)
     highlighted_summary = None
 
+    def _path_to_url(self, physical_path):
+        """
+        Generate an absolute url from a physical path
+        """
+        if physical_path is not None:
+            request = getRequest()
+            return request.physicalPathToURL(physical_path)
+        else:
+            return None
+
     @property
     def url(self):
         """
@@ -33,11 +43,7 @@ class SearchResult(object):
         :return: The absolute URL to the document in Plone
         :rtype: str
         """
-        if self.path is not None:
-            request = getRequest()
-            return request.physicalPathToURL(self.path)
-        else:
-            return None
+        return self._path_to_url(self.path)
 
     @property
     def preview_image_url(self):
@@ -46,11 +52,7 @@ class SearchResult(object):
         :return: The absolute URL to the preview image
         :rtype: str
         """
-        if self.preview_image_path is not None:
-            request = getRequest()
-            return request.physicalPathToURL(self.preview_image_path)
-        else:
-            return None
+        return self._path_to_url(self.preview_image_path)
 
 
 class SearchResponse(object):
