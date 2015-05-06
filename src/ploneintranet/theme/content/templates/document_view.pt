@@ -40,15 +40,11 @@
                             <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
                             <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url};; source: #global-statusmessage">
-                                <label class="pat-select bare">
+                                <label class="pat-select bare workflow" title="Change the workflow state">
+                                    <tal:state replace="view/get_workflow_state"/>
                                     <select>
-                                        <option>Private</option>
-                                        <option>Public</option>
-                                        <option>Members</option>
-                                        <option>Pending</option>
-                                        <option>Logged in</option>
-                                        <option>Internal</option>
-                                        <option>External</option>
+                                        <option tal:repeat="state view/get_workflow_transitions"
+                                            tal:attributes="title state/title" tal:content="state/name">Workflow State</option>
                                     </select>
                                 </label>
                             </fieldset>

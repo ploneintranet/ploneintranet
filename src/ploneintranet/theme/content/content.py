@@ -46,6 +46,14 @@ class ContentView(BrowserView):
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
 
+    def get_workflow_state(self):
+        return api.content.get_state(obj=aq_inner(self.context))
+
+    def get_workflow_transitions(self):
+        context = aq_inner(self.context)
+        wftool = api.portal.get_tool('portal_workflow')
+        return wftool.getTransitionsFor(context)
+
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
         context = aq_inner(self.context)
