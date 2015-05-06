@@ -22,6 +22,14 @@ class SearchResult(object):
     #: The highlighted summary provided by the backend (str)
     highlighted_summary = None
 
+    def __init__(self, title, path, description=None, preview_path=None,
+                 document_type=None):
+        self.title = title
+        self.path = path
+        self.description = description
+        self.preview_image_path = preview_path
+        self.document_type = document_type
+
     def _path_to_url(self, physical_path):
         """
         Generate an absolute url from a physical path
