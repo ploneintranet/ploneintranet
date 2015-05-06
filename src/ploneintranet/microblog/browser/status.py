@@ -161,9 +161,6 @@ class StatusProvider(object):
         is_installed = queryUtility(IMicroblogTool)
         return have_permission and is_installed
 
-    def is_attachment_supported(self):
-        return True
-
     @property
     def compact(self):
         if not self.portlet_data:

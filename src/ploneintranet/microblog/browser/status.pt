@@ -72,7 +72,6 @@
                   data-pat-switch="#post-box status-inactive status-active"
                   name="form.widgets.text"></textarea>
         <fieldset
-           tal:condition="view/is_attachment_supported"
            class="attachments pat-subform pat-autosubmit pat-inject"
            data-pat-inject="url: @@upload-attachments; source: #attachments; target: #post-box-attachment-previews">
           <label class="iconified icon-attach pat-switch"
