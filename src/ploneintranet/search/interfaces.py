@@ -5,7 +5,7 @@ from zope.interface import Interface, Attribute
 from . import _
 
 
-class IGlobalSearch(Interface):
+class ISiteSearch(Interface):
     """
     Interface defining a common global search API for differing backends
     """
@@ -57,7 +57,7 @@ class ISearchResult(Interface):
 class ISearchResponse(Interface):
     """
     Interface defining a common response object
-    parsed from search engine backend    
+    parsed from search engine backend
     :ivar results: An iterable of ISearchResult objects
     :ivar did_you_mean: The search string with any spelling corrections
         replaced
