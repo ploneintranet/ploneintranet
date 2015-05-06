@@ -2,6 +2,7 @@
 Implementations of the ISearchResult and ISearchResponse
 """
 from zope.interface import implements
+from zope.globalrequest import getRequest
 
 from .interfaces import ISearchResult, ISearchResponse
 
@@ -32,7 +33,11 @@ class SearchResult(object):
         :return: The absolute URL to the document in Plone
         :rtype: str
         """
-        return ''
+        if self.path is not None:
+            request = getRequest()
+            return request.physicalPathToURL(self.path)
+        else:
+            return None
 
     @property
     def preview_image_url(self):
@@ -41,7 +46,11 @@ class SearchResult(object):
         :return: The absolute URL to the preview image
         :rtype: str
         """
-        return ''
+        if self.preview_image_path is not None:
+            request = getRequest()
+            return request.physicalPathToURL(self.preview_image_path)
+        else:
+            return None
 
 
 class SearchResponse(object):

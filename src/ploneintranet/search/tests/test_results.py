@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
 """Tests for the search result structures."""
 
+from zope.interface.verify import verifyObject
 from ploneintranet.search.testing import IntegrationTestCase
+from ploneintranet.search.interfaces import ISearchResult
+from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.results import SearchResult
-from plone import api
+from ploneintranet.search.results import SearchResponse
 
 
 class TestResults(IntegrationTestCase):
-    """Test installation of ploneintranet.todo into Plone."""
+    """Test the results structures"""
+
+    def test_search_result(self):
+        result = SearchResult()
+        verifyObject(ISearchResult, result)
 
     def test_search_result_url(self):
         result = SearchResult()
-        portal = api.portal.get()
-        test_path = '{.id}/path/to/foo'.format(portal)
-        result.path = test_path
+        result.path = '/plone/path/to/item'
         self.assertEqual(result.url,
-                         'http://plonesite/path/to/foo')
+                         'http://nohost/plone/path/to/item')
+
+    def test_search_result_preview_image_url(self):
+        result = SearchResult()
+        result.preview_image_path = '/plone/path/to/item/preview'
+        self.assertEqual(result.preview_image_url,
+                         'http://nohost/plone/path/to/item/preview')
+
+    def test_search_response(self):
+        response = SearchResponse()
+        verifyObject(ISearchResponse, response)
