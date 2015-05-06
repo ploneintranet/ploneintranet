@@ -54,7 +54,7 @@ class ExampleSiteSearch(object):
                 )
             )
         response_facets = {
-            'content_type': {x['Type'] for x in brains},
+            'Type': {x['Type'] for x in brains},
             'Subject': {y for x in brains for y in x['Subject']},
         }
         response = SearchResponse(
