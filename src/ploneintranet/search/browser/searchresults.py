@@ -9,4 +9,5 @@ class SearchResultsView(BrowserView):
         fakeresults = []
         response = SearchResponse(fakeresults)
         response.total_results = random.randint(50, 100)
+        response.spell_corrected_search = 'Foo bar egg young'
         return response
