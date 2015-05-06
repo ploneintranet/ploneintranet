@@ -23,7 +23,6 @@ class StreamTile(Tile):
     """Tile view similar to StreamView."""
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
-    view_permission = "Plone Social: View Microblog Status Update"
     count = 15
 
     def __init__(self, context, request):
@@ -35,12 +34,6 @@ class StreamTile(Tile):
     @memoize
     def is_anonymous(self):
         return api.user.is_anonymous()
-
-    @memoize
-    def can_view(self):
-        """Returns true if current user has the 'View' permission.
-        """
-        return api.user.has_permission(self.view_permission, obj=self.context)
 
     @property
     @memoize
@@ -88,9 +81,6 @@ class StreamTile(Tile):
     def activities(self):
         ''' The list of our activities
         '''
-        if not self.can_view():
-            raise StopIteration()
-
         items = self.get_microblog_activities()
         # see date_key sorting function above
         items = sorted(items, key=lambda x: x.date, reverse=True)

@@ -5,10 +5,10 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet.activitystream">
 
+  <include file="permissions.zcml" package="ploneintranet.microblog" />
+
   <include package=".prototype" />
   <include package=".tiles" />
-
-  <include file="permissions.zcml" package="ploneintranet.microblog" />
 
   <browser:viewlet
       name="ploneintranet.suite.navigation"
