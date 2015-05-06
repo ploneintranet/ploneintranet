@@ -29,6 +29,14 @@
         />
 
     <browser:page
+        name="post-v2.html"
+        for="ploneintranet.activitystream.interfaces.IStatusActivity"
+        permission="zope.Public"
+        template="post-v2.html"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
+        />
+
+    <browser:page
         name="comment.html"
         for="*"
         permission="zope.Public"
