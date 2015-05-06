@@ -63,4 +63,3 @@ class ExampleSiteSearch(object):
             facets=response_facets
         )
         return response
-
