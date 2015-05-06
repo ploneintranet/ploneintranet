@@ -36,13 +36,18 @@ class IGlobalSearch(Interface):
         :param count: The maximum number of results to return
         :type count: int
         :returns: The results as a `SearchResponse` object
-        :rtype: `SearchResponse`
+        :rtype: `ISearchResponse`
         """
 
 
 class ISearchResult(Interface):
     """
     Interface defining an individual search result
+    :ivar fields: A dictionary keyed on indexed field name with value of the
+        matching result for that field
+    :ivar highlighted_summary: A string containing a summary of the resulting
+        document with markup highlighting the matching keywords from the search
+        query
     """
     fields = Attribute(_(u'A dictionary of indexed fields and their values'))
     highlighted_summary = Attribute(
@@ -52,7 +57,13 @@ class ISearchResult(Interface):
 class ISearchResponse(Interface):
     """
     Interface defining a common response object
-    parsed from search engine backend
+    parsed from search engine backend    
+    :ivar results: An iterable of ISearchResult objects
+    :ivar did_you_mean: The search string with any spelling corrections
+        replaced
+    :ivar: facets: A dictionary keyed on facet field names with values of the
+        list of available values for each facet
+    :ivar total_results: Count of the total results matching the search query
     """
     results = Attribute(_(u'The SearchResults returned from a query'))
     did_you_mean = Attribute(_(u'Spell corrected search string'))
