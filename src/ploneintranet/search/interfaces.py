@@ -5,9 +5,9 @@ from zope.interface import Interface, Attribute
 from . import _
 
 
-class ISearchApi(Interface):
+class IGlobalSearch(Interface):
     """
-    Interface defining a common search API for differing backends
+    Interface defining a common global search API for differing backends
     """
     def index(obj, attributes=None):
         """
