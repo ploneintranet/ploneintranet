@@ -51,8 +51,8 @@ class ISearchResult(Interface):
 
 class ISearchResponse(Interface):
     """
-    Interface defining a common response object parsed from search engines
-    backends
+    Interface defining a common response object
+    parsed from search engine backend
     """
     results = Attribute(_(u'The SearchResults returned from a query'))
     did_you_mean = Attribute(_(u'Spell corrected search string'))
