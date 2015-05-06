@@ -24,6 +24,7 @@ BLACKLISTED_TYPES = ['Event', 'simpletodo']
 class BaseTile(BrowserView):
 
     index = None
+    form_submitted = False
 
     def render(self):
         return self.index()
@@ -118,6 +119,7 @@ class SidebarSettingsSecurity(BaseTile):
                 'external_visibility', 'join_policy', 'participant_policy'
             ]:
                 update_field(field)
+                self.form_submitted = True
 
         return self.render()
 
@@ -141,6 +143,7 @@ class SidebarSettingsAdvanced(BaseTile):
                 api.portal.show_message(_(u'Email changed'),
                                         self.request,
                                         'success')
+                self.form_submitted = True
 
         return self.render()
 
