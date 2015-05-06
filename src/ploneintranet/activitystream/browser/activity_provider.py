@@ -44,10 +44,7 @@ class AbstractActivityProvider(object):
     __call__ = render
 
     def is_anonymous(self):
-        portal_membership = getToolByName(getSite(),
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
+        return api.user.is_anonymous()
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
