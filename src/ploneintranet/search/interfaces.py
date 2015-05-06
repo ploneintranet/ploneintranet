@@ -43,10 +43,6 @@ class ISiteSearch(Interface):
 class ISearchResult(Interface):
     """
     Interface defining an individual search result
-    :ivar title: String containing the indexed
-    :ivar highlighted_summary: A string containing a summary of the resulting
-        document with markup highlighting the matching keywords from the search
-        query
     """
     title = Attribute(_(u'The title of the indexed document'))
     description = Attribute(_(u'The description of the indexed document'))
