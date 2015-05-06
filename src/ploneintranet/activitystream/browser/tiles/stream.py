@@ -37,12 +37,47 @@ class StreamTile(Tile):
 
     @property
     @memoize
+    def toLocalizedTime(self):
+        ''' Facade for the toLocalizedTime method
+        '''
+        return api.portal.get_tool('translation_service').toLocalizedTime
+
+    @property
+    @memoize
     def microblog_context(self):
         ''' Returns the microblog context
         '''
         return PLONEINTRANET.context(self.context)
 
+    def filter_microblog_activities(self, activities):
+        """ BBB: this should really go in to PLONEINTRANET.microblog!
+
+        We should get the activity already filtered
+        """
+        # For a reply IStatusActivity we render the parent post and then
+        # all the replies are inside that. So, here we filter out reply who's
+        # parent post we already rendered.
+        seen_thread_ids = []
+        good_activities = []
+
+        for activity in activities:
+            if activity.thread_id and activity.thread_id in seen_thread_ids:
+                continue
+            elif activity.id in seen_thread_ids:
+                continue
+
+            if IStatusActivityReply.providedBy(activity):
+                seen_thread_ids.append(activity.thread_id)
+            else:
+                seen_thread_ids.append(activity.id)
+
+            good_activities.append(activity)
+
+        return good_activities
+
     def get_microblog_activities(self):
+        ''' This will return all the StatusActivity which are not replies
+        '''
         container = PLONEINTRANET.microblog
 
         if self.microblog_context:
@@ -58,23 +93,8 @@ class StreamTile(Tile):
                 limit=self.count,
                 tag=self.tag
             )
-
-        # For a reply IStatusActivity we render the parent post and then
-        # all the replies are inside that. So, here we filter out reply who's
-        # parent post we already rendered.
-        seen_thread_ids = []
-        for activity in activities:
-            if (
-                (activity.thread_id and activity.thread_id in seen_thread_ids)
-                or activity.id in seen_thread_ids
-            ):
-                continue
-
-            if IStatusActivityReply.providedBy(activity):
-                seen_thread_ids.append(activity.thread_id)
-            else:
-                seen_thread_ids.append(activity.id)
-            yield activity
+        activities = self.filter_microblog_activities(activities)
+        return activities
 
     @property
     @memoize
@@ -98,22 +118,38 @@ class StreamTile(Tile):
                 continue
 
             if IStatusActivity.providedBy(activity):
-                yield getMultiAdapter(
+                activity_provider = getMultiAdapter(
                     (activity, self.request, self),
                     IActivityProvider
                 )
+                if isinstance(activity_provider, StatusActivityReplyProvider):
+                    activity_provider = activity_provider.parent_provider()
+                yield activity_provider
                 i += 1
 
+    @memoize
     def activity_providers(self):
         ''' Return the activity providers
         '''
-        activity_providers = self.activities
-        # some of the activities are comment replies
-        # in that case we should return the provider of the parent activity
-        real_providers = []
-        for activity_provider in activity_providers:
-            if isinstance(activity_provider, StatusActivityReplyProvider):
-                real_providers.append(activity_provider.parent_provider())
-            else:
-                real_providers.append(activity_provider)
-        return real_providers
+        return tuple(self.activities)
+
+    def activity_as_post(self, activity):
+        ''' BBB: just for testing
+        '''
+        return api.content.get_view(
+            'activity_view',
+            activity.context,
+            self.request
+        ).as_post()
+
+    def activity_views(self):
+        ''' The activity as views
+        '''
+        return [
+            api.content.get_view(
+                'activity_view',
+                activity.context,
+                self.request
+            ).as_post
+            for activity in self.activity_providers()
+        ]
