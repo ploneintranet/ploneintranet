@@ -9,4 +9,13 @@
                 class=".markread.MarkRead"
                 permission="zope2.View" />
 
+  <browser:page
+    name="view"
+    for="..content.simpletodo.ISimpleTodo"
+    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    template="templates/todo_view.pt"
+    class=".todo_view.BaseView"
+    permission="zope2.View"
+    />
+
 </configure>

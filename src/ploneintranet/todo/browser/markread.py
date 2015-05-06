@@ -1,4 +1,4 @@
-from .base_view import BaseView
+from .todo_view import BaseView
 from ..interfaces import MUST_READ
 
 

@@ -74,7 +74,7 @@
   <append css:content="#workspace-tabs" css:theme="#content" />
 </rules>
 
-<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder">
+<rules css:if-content="body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder, body.portaltype-case_todo">
   <theme href="generated/public-bodies-reform/index.html" />
   <!-- Main content rule: Put plone content into theme content -->
   <drop css:theme-children="#content" />

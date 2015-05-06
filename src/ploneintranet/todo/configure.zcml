@@ -45,10 +45,9 @@
         title="Milestone"
         description="Milestone this task belongs to"
         provides=".behaviors.IMilestone"
-        factory="plone.behavior.AnnotationStorage"
-        marker=".behaviors.IMilestoneMarker"
+        for=".behaviors.IMilestoneMarker"
         />
-    
+
     <include package=".portlets" />
     <include package=".browser" />
 
