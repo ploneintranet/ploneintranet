@@ -1,17 +1,13 @@
 """
 Implementations of the ISearchResult and ISearchResponse
 """
-from zope.interface import implements
 from zope.globalrequest import getRequest
-
-from .interfaces import ISearchResult, ISearchResponse
 
 
 class SearchResult(object):
     """
     Data structure containing parsed results from search backend
     """
-    implements(ISearchResult)
 
     #: The title of the indexed document (str)
     title = None
@@ -59,7 +55,6 @@ class SearchResponse(object):
     """
     Data structure containing the parsed response from the search backend
     """
-    implements(ISearchResponse)
 
     #: The list SearchResult objects (list(SearchResult))
     results = None
