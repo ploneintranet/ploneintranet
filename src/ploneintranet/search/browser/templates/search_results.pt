@@ -26,19 +26,23 @@
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
 	    </nav>
-	    <div class="results" id="results" tal:define="results view/results">
+	    <div class="results" id="results" 
+		 tal:define="search_response view/search_response">
 		<div class="container results">
 		    <div class="row pat-equaliser">
 			<div class="three columns filters">
-			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing;">
+			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing;"
+				      tal:condition="search_response">
 				<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
-				<input type="hidden" name="lemma" value="min" />
+				<input type="hidden" name="lemma" 
+				       tal:attributes="value request/lemma|nothing" />
 				<fieldset class="pat-checklist">
 				    <legend>Content types</legend>
 				    <!-- Only list content types in this list that are relevant for this search result. -->
 				    <label 
-					 tal:repeat="ctype results/facets/content_type">
+					 tal:repeat="ctype search_response/facets/Type">
 					<input checked type="checkbox" 
+					       name="Type"
 					       tal:attributes="value ctype" />
 					<span tal:replace="ctype" />
 				    </label>
@@ -46,9 +50,13 @@
 				<fieldset class="pat-checklist">
 				    <legend>Tags</legend>
 				    <!-- Only list tags in this list that are relevant for this search result. -->
-				    <label><input checked type="checkbox" /> Minutes</label>
-				    <label><input checked type="checkbox" /> Meetings</label>
-				    <label><input checked type="checkbox" /> Operations</label>
+				    <label 
+					 tal:repeat="tag search_response/facets/Subject">
+					<input checked type="checkbox" 
+					       name="Subject"
+					       tal:attributes="value tag" />
+					<span tal:replace="tag" />
+				    </label>
 				</fieldset>
 				<label>
 				    Created
@@ -78,10 +86,12 @@
 				</label>
 			    </fieldset>
 			</div>
-			<div class="nine columns last document-listing" id="listing">
-			    <p><span tal:replace="results/total_results">87</span> items matched your search.</p>
-			    <p tal:condition="results/spell_corrected_search">
-				<em>Did you mean <a href="#" tal:content="results/spell_corrected_search"></a>?</em>
+			<div class="nine columns last document-listing" 
+			     id="listing" 
+			     tal:condition="search_response">
+			    <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
+			    <p tal:condition="search_response/spell_corrected_search">
+				<em>Did you mean <a href="#" tal:content="search_response/spell_corrected_search"></a>?</em>
 			    </p>
 			    <dl class="search-results">
 				<!-- One hard coded example of a post as a search result:
@@ -119,7 +129,7 @@
 				    </a>
 				</dd> -->
 				<!-- Next generated search results of various content/mime types: -->
-				<tal:result repeat="result results">
+				<tal:result repeat="result search_response/results">
 				<dt class="title">
 				    <a href="{{ result.url }}"
 				       tal:attributes="href result/url"
