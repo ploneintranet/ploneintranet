@@ -14,7 +14,9 @@ class TestResults(IntegrationTestCase):
 
     def test_search_result(self):
         result = SearchResult()
-        verifyObject(ISearchResult, result)
+        self.assertTrue(
+            verifyObject(ISearchResult, result)
+        )
 
     def test_search_result_url(self):
         result = SearchResult()
@@ -30,4 +32,6 @@ class TestResults(IntegrationTestCase):
 
     def test_search_response(self):
         response = SearchResponse()
-        verifyObject(ISearchResponse, response)
+        self.assertTrue(
+            verifyObject(ISearchResponse, response)
+        )
