@@ -9,7 +9,6 @@ from AccessControl import getSecurityManager
 from zExceptions import NotFound
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from ploneintranet.activitystream.interfaces import IActivity
 
@@ -45,14 +44,10 @@ class StreamProvider(object):
     implements(IStreamProvider)
     adapts(Interface, IPloneIntranetActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/stream_provider.pt")
-
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
         self.view = self.__parent__ = view
-        # @@activitystream_portal renders this as a portlet
-        self.portlet_data = None
         # @@stream renders this optionally with a tag filter
         self.tag = None
         # @@stream and ploneintranet.network:@@author
@@ -62,11 +57,6 @@ class StreamProvider(object):
 
     def update(self):
         pass
-
-    def render(self):
-        return self.index()
-
-    __call__ = render
 
     def activities(self):
         items = self._activities_statuses()
@@ -85,20 +75,12 @@ class StreamProvider(object):
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
 
-            if self._activity_visible(activity):
+            if IStatusActivity.providedBy(activity):
                 yield activity
                 i += 1
 
-    def _activity_visible(self, activity):
-        if IStatusActivity.providedBy(activity) and self.show_microblog:
-            return True
-        return False
-
     def _activities_statuses(self):
-        if not self.show_microblog:
-            raise StopIteration()
         container = PLONEINTRANET.microblog
-        # show_microblog yet no container can happen on microblog uninstall
         if not container:
             raise StopIteration()
 
@@ -159,28 +141,4 @@ class StreamProvider(object):
 
     @property
     def count(self):
-        if self.portlet_data:
-            return self.portlet_data.count
         return 15
-
-    @property
-    def show_microblog(self):
-        sm = getSecurityManager()
-        permission = "Plone Social: View Microblog Status Update"
-        if not sm.checkPermission(permission, self.context):
-            return False
-        if self.portlet_data:
-            return self.portlet_data.show_microblog
-        return True
-
-    @property
-    def show_content(self):
-        if self.portlet_data:
-            return self.portlet_data.show_content
-        return True
-
-    @property
-    def show_discussion(self):
-        if self.portlet_data:
-            return self.portlet_data.show_discussion
-        return True
