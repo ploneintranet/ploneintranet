@@ -21,7 +21,6 @@ logger = getLogger('newpostbox')
 class NewPostBoxTile(Tile):
 
     index = ViewPageTemplateFile('templates/new-post-box-tile.pt')
-    is_attachment_supported = True
 
     input_prefix = 'form.widgets.'
     button_prefix = 'form.buttons.'
