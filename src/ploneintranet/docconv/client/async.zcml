@@ -1,0 +1,12 @@
+<configure
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.docconv.client">
+
+    <browser:page
+        name="convertall"
+        for="*"
+        permission="zope2.View"
+        class=".async.RecursiveQueueJob"
+        />
+
+</configure>

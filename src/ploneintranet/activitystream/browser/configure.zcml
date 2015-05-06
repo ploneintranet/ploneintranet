@@ -5,10 +5,10 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet.activitystream">
 
+  <include file="permissions.zcml" package="ploneintranet.microblog" />
+
   <include package=".prototype" />
   <include package=".tiles" />
-
-  <include file="permissions.zcml" package="ploneintranet.microblog" />
 
   <browser:viewlet
       name="ploneintranet.suite.navigation"
@@ -29,11 +29,6 @@
   <adapter
       factory=".activity_provider.StatusActivityInlineReplyProvider"
       name="ploneintranet.activitystream.statusactivityinlinereply_provider"
-      />
-
-  <adapter
-      name="ploneintranet.core.stream_provider"
-      factory=".stream_provider.StreamProvider"
       />
 
   <adapter
@@ -60,12 +55,6 @@
   <browser:resourceDirectory
       name="ploneintranet.activitystream.stylesheets"
       directory="stylesheets"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <browser:resourceDirectory
-      name="ploneintranet.activitystream.javascripts"
-      directory="javascripts"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 

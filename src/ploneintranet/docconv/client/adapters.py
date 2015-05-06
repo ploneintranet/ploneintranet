@@ -1,7 +1,5 @@
-from five import grok
 from plone import api
 from zope.annotation import IAnnotations
-from zope.interface import Interface
 
 from ploneintranet.docconv.client import is_autoconv_enabled
 from ploneintranet.docconv.client.async import queueConversionJob
@@ -9,17 +7,13 @@ from ploneintranet.docconv.client.config import PDF_VERSION_KEY
 from ploneintranet.docconv.client.config import PREVIEW_IMAGES_KEY
 from ploneintranet.docconv.client.config import PREVIEW_MESSAGE_KEY
 from ploneintranet.docconv.client.config import THUMBNAIL_KEY
-from ploneintranet.docconv.client.interfaces import IDocconv
 
 
-class DocconvAdapter(grok.Adapter):
+class DocconvAdapter(object):
     """ """
-    grok.context(Interface)
-    grok.provides(IDocconv)
-    grok.name('plone.app.async')
 
     def __init__(self, context, request=None):
-        super(DocconvAdapter, self).__init__(context)
+        self.context = context
         if request is not None:
             self.request = request
         elif hasattr(context, 'REQUEST'):
@@ -87,10 +81,3 @@ class DocconvAdapter(grok.Adapter):
 
     def generate_all(self):
         return queueConversionJob(self.context, self.request)
-
-
-class DefaultDocconvAdapter(DocconvAdapter):
-    """ """
-    grok.context(Interface)
-    grok.provides(IDocconv)
-    grok.name('')

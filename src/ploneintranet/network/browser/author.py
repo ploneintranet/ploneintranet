@@ -5,8 +5,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.globals.interfaces import IViewView
+from plone import api
 from ploneintranet.network.interfaces import INetworkGraph
-from zope.component import ComponentLookupError
 from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
@@ -42,7 +42,7 @@ class AbstractAuthor(object):
 
     @property
     def is_anonymous(self):
-        return self.mtool.isAnonymousUser()
+        return api.user.is_anonymous()
 
     @property
     def is_mine(self):
@@ -162,18 +162,6 @@ class AuthorView(BrowserView, AbstractAuthor):
             return None
         else:
             return self.viewer_id
-
-    def stream_provider(self):
-        try:
-            # ploneintranet.activitystream integration is optional
-            provider = getMultiAdapter(
-                (self.context, self.request, self),
-                name='ploneintranet.core.stream_provider')
-            provider.users = self.userid
-            return provider()
-        except ComponentLookupError:
-            # no ploneintranet.activitystream available
-            return ''
 
     def maxiauthor_provider(self, userid):
         provider = getMultiAdapter(
