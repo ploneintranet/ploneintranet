@@ -37,6 +37,14 @@
       />
 
   <browser:page
+      name="activity_view"
+      for="ploneintranet.activitystream.interfaces.IStatusActivity"
+      class=".activity.ActivityView"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
+      />
+
+  <browser:page
       name="status"
       for="Products.CMFCore.interfaces.ISiteRoot"
       class=".statusconversation.StatusConversationView"
