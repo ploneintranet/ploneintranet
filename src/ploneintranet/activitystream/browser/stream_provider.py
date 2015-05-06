@@ -9,7 +9,6 @@ from AccessControl import getSecurityManager
 from zExceptions import NotFound
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from ploneintranet.activitystream.interfaces import IActivity
 
@@ -45,8 +44,6 @@ class StreamProvider(object):
     implements(IStreamProvider)
     adapts(Interface, IPloneIntranetActivitystreamLayer, Interface)
 
-    index = ViewPageTemplateFile("templates/stream_provider.pt")
-
     def __init__(self, context, request, view):
         self.context = context
         self.request = request
@@ -60,11 +57,6 @@ class StreamProvider(object):
 
     def update(self):
         pass
-
-    def render(self):
-        return self.index()
-
-    __call__ = render
 
     def activities(self):
         items = self._activities_statuses()

@@ -1,7 +1,0 @@
-<tal:block i18n:domain="ploneintranet.activitystream">
-
-      <tal:loop tal:repeat="activity_provider view/activity_providers">
-        <div tal:replace="structure activity_provider"></div>
-      </tal:loop>
-
-</tal:block>
