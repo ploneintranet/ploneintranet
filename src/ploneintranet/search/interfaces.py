@@ -19,7 +19,7 @@ class ISiteSearch(Interface):
         :type attributes: `list`
         """
 
-    def query(keywords, facets=None, start=0, count=None):
+    def query(keywords, facets=None, start=0, step=None):
         """
         Perform query against the backend with given keywords and optional
         facet choices.
@@ -33,8 +33,8 @@ class ISiteSearch(Interface):
         :type facets: dict
         :param start: The offset position in results to start from
         :type start: int
-        :param count: The maximum number of results to return
-        :type count: int
+        :param step: The maximum number of results to return
+        :type step: int
         :returns: The results as a `SearchResponse` object
         :rtype: `ISearchResponse`
         """
@@ -59,14 +59,14 @@ class ISearchResponse(Interface):
     Interface defining a common response object
     parsed from search engine backend
     :ivar results: An iterable of ISearchResult objects
-    :ivar did_you_mean: The search string with any spelling corrections
-        replaced
+    :ivar spell_corrected_search: The search string with any spelling
+        corrections replaced
     :ivar: facets: A dictionary keyed on facet field names with values of the
         list of available values for each facet
     :ivar total_results: Count of the total results matching the search query
     """
     results = Attribute(_(u'The SearchResults returned from a query'))
-    did_you_mean = Attribute(_(u'Spell corrected search string'))
+    spell_corrected_search = Attribute(_(u'Spell corrected search string'))
     facets = Attribute(_(u'A dictionary of facets and available values'))
     total_results = Attribute(
         _(u'The total number of results generated from the query'))
