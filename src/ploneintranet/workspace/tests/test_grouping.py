@@ -1,7 +1,6 @@
 # coding=utf-8
 from plone import api
 from plone.app.linkintegrity.info import IUUID
-from plone.app.testing.interfaces import TEST_USER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.tests.base import BaseTestCase
@@ -100,7 +99,6 @@ class TestGroupingStorage(BaseTestCase):
         obj1 = self.workspace._getOb(tid)
         obj1.setSubject('foo')
         self.storage.update_groupings(obj1)  # Update IGroupingStorage
-        import pdb; pdb.set_trace()
         self.assertTrue(SITE_OWNER_NAME in
                         [f for f in self.groupings['author'].keys()])
         self.assertTrue(len(self.groupings['author'].keys()) ==

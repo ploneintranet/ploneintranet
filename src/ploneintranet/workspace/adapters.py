@@ -299,14 +299,14 @@ class GroupingStorage(object):
             order = grouping_obj.getOrdering().idsInOrder()
         if include_archived:
             return [
-                dict(Title=g, 
+                dict(Title=g,
                      Description='',
                      getId='',
                      archived=grouping_obj.get(g).archived) for
                 g in order]
             return order
         return [
-            dict(Title=g, 
+            dict(Title=g,
                  Description='',
                  getId='',
                  archived=False) for g in order if not

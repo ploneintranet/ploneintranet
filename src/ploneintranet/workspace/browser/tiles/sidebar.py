@@ -11,7 +11,6 @@ from plone.i18n.normalizer import idnormalizer
 from plone.uuid.interfaces import IUUID
 from plone.app.contenttypes.interfaces import IEvent
 from ploneintranet.workspace import MessageFactory as _
-from ploneintranet.workspace import config
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from plone.memoize.instance import memoize
 from DateTime import DateTime
@@ -21,8 +20,6 @@ from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component.interfaces import ComponentLookupError
-from zope.component import queryUtility
-from zope.schema.interfaces import IVocabularyFactory
 import urllib
 import logging
 
