@@ -15,15 +15,22 @@ from zope.component.hooks import getSite
 from interfaces import IStatusUpdate
 from utils import get_microblog_context
 
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.core.integration import PLONEINTRANET
+
+from zope.annotation.interfaces import IAttributeAnnotatable
 
 logger = logging.getLogger('ploneintranet.microblog')
 
 
 class StatusUpdate(Persistent):
 
-    implements(IStatusUpdate)
+    implements(
+        IAttachmentStoragable,
+        IAttributeAnnotatable,
+        IStatusUpdate,
+    )
 
     def __init__(self, text, context=None, thread_id=None, mention_ids=None,
                  tags=None):
@@ -132,15 +139,3 @@ class StatusUpdate(Persistent):
         See https://github.com/ploneintranet/ploneintranet/blob/251c8cf9f1e69c38030b6b6ac2f7c93c86ae1e60/src/ploneintranet/microblog/browser/attachments.py#L45  # noqa
         '''
         return 'utf8'
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-except ImportError:
-    IAttachmentStoragable = None
-
-
-if IAttachmentStoragable is not None:
-    from zope import interface
-    from zope.annotation.interfaces import IAttributeAnnotatable
-    interface.classImplements(StatusUpdate, IAttributeAnnotatable)
-    interface.classImplements(StatusUpdate, IAttachmentStoragable)

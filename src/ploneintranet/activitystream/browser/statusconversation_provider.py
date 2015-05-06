@@ -2,14 +2,9 @@ from zope.interface import Interface
 from zope.interface import implements
 from zope.component import adapts
 from zope.component import getMultiAdapter
-try:
-    from zope.component.hooks import getSite
-except ImportError:
-    from zope.app.component.hooks import getSite
 
 from AccessControl import getSecurityManager
 
-from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from ploneintranet.activitystream.interfaces import IStatusActivity
@@ -19,6 +14,7 @@ from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IStatusConversationProvider
 from .interfaces import IActivityProvider
 
+from plone import api
 from ploneintranet.core.integration import PLONEINTRANET
 
 import logging
@@ -71,7 +67,4 @@ class StatusConversationProvider(object):
         return sm.checkPermission(permission, self.context)
 
     def is_anonymous(self):
-        portal_membership = getToolByName(getSite(),
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
+        return api.user.is_anonymous()

@@ -18,20 +18,12 @@ from .interfaces import IActivityProvider
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import IAttachmentStorage
-except ImportError:
-    IAttachmentStoragable = None
-try:
-    from ploneintranet.docconv.client.interfaces import IDocconv
-except ImportError:
-    IDocconv = None
+from ploneintranet.docconv.client.interfaces import IDocconv
 
 
 class AbstractActivityProvider(object):
@@ -144,10 +136,10 @@ class AbstractActivityProvider(object):
         return text
 
     def is_attachment_supported(self):
-        return IAttachmentStoragable is not None
+        return True
 
     def is_preview_supported(self):
-        return IDocconv is not None
+        return True
 
     @property
     def attachments(self):
