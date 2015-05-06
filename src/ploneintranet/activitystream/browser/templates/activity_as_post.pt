@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 <metal:block use-macro="here/@@post.html/main" />
+=======
+<metal:block use-macro="here/@@post-v2.html/main" />
+>>>>>>> Introduce a view to render the activity as a post
