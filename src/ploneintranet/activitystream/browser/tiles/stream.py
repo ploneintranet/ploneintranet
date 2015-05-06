@@ -114,18 +114,20 @@ class StreamTile(Tile):
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
 
-            activity_provider = getMultiAdapter(
-                (activity, self.request, self),
-                IActivityProvider
-            )
-            yield activity_provider
+            yield activity
             i += 1
 
     @memoize
     def activity_providers(self):
         ''' Return the activity providers
         '''
-        return tuple(self.activities)
+        return [
+            getMultiAdapter(
+                (activity, self.request, self),
+                IActivityProvider
+            )
+            for activity in self.activities
+        ]
 
     def activity_as_post(self, activity):
         ''' BBB: just for testing
@@ -142,8 +144,8 @@ class StreamTile(Tile):
         return [
             api.content.get_view(
                 'activity_view',
-                activity.context,
+                activity,
                 self.request
             ).as_post
-            for activity in self.activity_providers()
+            for activity in self.activities
         ]
