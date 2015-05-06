@@ -3,7 +3,7 @@ Plone Intranet Search
 
 This package aims to provide a common API
 for indexing and querying from Plone
-to a 3rd party search engines.
+to 3rd party search engines e.g. Solr
 
 Features
 --------
