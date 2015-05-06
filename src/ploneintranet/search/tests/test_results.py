@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Tests for the search result structures."""
 
-from ploneintranet.search.testing import IntegrationTestCase
-from ploneintranet.search.results import SearchResult
-from ploneintranet.search.results import SearchResponse
+from ..testing import IntegrationTestCase
+from ..results import SearchResult
+from ..results import SearchResponse
 
 
 class TestResults(IntegrationTestCase):
@@ -22,5 +22,7 @@ class TestResults(IntegrationTestCase):
                          'http://nohost/plone/path/to/item/preview')
 
     def test_search_response(self):
-        response = SearchResponse()
-        self.assertEqual(response.total_results, 0)
+        res1 = SearchResult()
+        result_list = [res1]
+        response = SearchResponse(result_list)
+        self.assertEqual(response.results, result_list)
