@@ -10,6 +10,7 @@ from zope.component import getUtility
 from zope.component import queryUtility
 from collective.workspace.interfaces import IWorkspace
 from ploneintranet.workspace import MessageFactory as _
+from urllib2 import urlparse
 
 import logging
 
@@ -166,3 +167,21 @@ def existing_users(context):
         )
 
     return info
+
+
+def set_cookie(request, cookie_name, value):
+    """
+    Set a cookie to store state.
+    This is mainly used by the sidebar to store what grouping was chosen
+    """
+    full_path = urlparse.urlparse(request.getURL()).path
+    if not full_path:  # Test Requests may contain an empty path
+        cookie_path = '/TestInstance'
+    else:
+        cookie_path = '/{0}'.format(full_path.split('/')[1])
+
+    if (cookie_name in request and
+        request.get(cookie_name) != value) or \
+            cookie_name not in request:
+        request.response.setCookie(
+            cookie_name, value, path=cookie_path)

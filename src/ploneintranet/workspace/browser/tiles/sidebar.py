@@ -178,6 +178,7 @@ class Sidebar(BaseTile):
 
         if self.request.method == "POST" and form:
             ws = self.my_workspace()
+            self.set_grouping_cookie()
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
@@ -344,21 +345,11 @@ class Sidebar(BaseTile):
         )
         return {"upcoming": upcoming_events, "older": older_events}
 
-    # Grouping code
-    def set_show_extra_cookie(self):
-        utils.set_show_extra_cookie(self.request, self.section)
-
     def set_grouping_cookie(self):
         grouping = self.request.get('grouping', 'folder')
         member = api.user.get_current()
-        cookie_name = '%s-group-by-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
         utils.set_cookie(self.request, cookie_name, grouping)
-
-    # def set_sorting_cookie(self):
-    #     sorting = self.request.get('sorting', 'modified')
-    #     member = api.user.get_current()
-    #     cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
-    #     utils.set_cookie(self.request, cookie_name, sorting)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
         if key in self.request:
@@ -367,18 +358,12 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
+    @memoize
     def grouping(self):
         member = api.user.get_current()
         cookie_name = '%s-grouping-%s' % (self.section, member.getId())
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
-
-    # @property
-    # def sorting(self):
-    #     member = api.user.get_current()
-    #     cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
-    #     return self.get_from_request_or_cookie(
-    #         "sorting", cookie_name, "modified")
 
     @property
     def show_extra(self):
