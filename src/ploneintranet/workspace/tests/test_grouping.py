@@ -95,6 +95,7 @@ class TestGroupingStorage(BaseTestCase):
         """ Test that IGroupingStorage's author info is correctly updated
         """
         existing_keys = len(self.groupings['author'].keys())
+        self.login(SITE_OWNER_NAME)
         tid = self.workspace.invokeFactory('File', 'File1', title='File')
         obj1 = self.workspace._getOb(tid)
         obj1.setSubject('foo')
@@ -125,14 +126,20 @@ class TestGroupingStorage(BaseTestCase):
         file = self.workspace._getOb(tid)
         file.setSubject('foo')
         self.storage.update_groupings(file)  # Update IGroupingStorage
-        self.assertEqual(self.storage.get_order_for('label'),
-                         [{'archived': False, 'heading': 'foo'}])
+        self.assertEqual(
+            self.storage.get_order_for(
+                'label'),
+            [{'archived': False,
+              'Description': '',
+              'getId': '',
+              'Title': 'foo'}])
 
         file.setSubject(('foo', 'bar'))
         self.storage.update_groupings(file)
         self.assertEqual(
             self.storage.get_order_for('label'),
-            [dict(heading=g, archived=False) for g in ['foo', 'bar']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['foo', 'bar']])
 
         tid = self.workspace.invokeFactory(
             'Document', 'Document', title='Document')
@@ -141,28 +148,33 @@ class TestGroupingStorage(BaseTestCase):
         self.storage.update_groupings(doc)
         self.assertEqual(
             self.storage.get_order_for('label'),
-            [dict(heading=g, archived=False) for g in ['foo', 'bar', 'baz']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['foo', 'bar', 'baz']])
 
         # Set a custom order and test
         self.storage.set_order_for('label', ['bar', 'baz', 'foo'])
         self.assertEqual(
             self.storage.get_order_for('label'),
-            [dict(heading=g, archived=False) for g in ['bar', 'baz', 'foo']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['bar', 'baz', 'foo']])
 
         # Set a custom order and test
         self.storage.set_order_for('label', ['foo', 'bar', 'baz'])
         self.assertEqual(
             self.storage.get_order_for('label'),
-            [dict(heading=g, archived=False) for g in ['foo', 'bar', 'baz']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['foo', 'bar', 'baz']])
 
         self.assertEqual(
             self.storage.get_order_for('label', alphabetical=True),
-            [dict(heading=g, archived=False) for g in ['bar', 'baz', 'foo']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['bar', 'baz', 'foo']])
 
         self.storage.reset_order()  # Resets to alphabetical order
         self.assertEqual(
             self.storage.get_order_for('label'),
-            [dict(heading=g, archived=False) for g in ['bar', 'baz', 'foo']])
+            [dict(Title=g, Description='', getId='', archived=False)
+                for g in ['bar', 'baz', 'foo']])
 
     def test_archiving(self):
         """ In the case of labels (i.e. tags), individual grouping values can
@@ -183,12 +195,11 @@ class TestGroupingStorage(BaseTestCase):
         link = self.workspace._getOb(tid)
         link.setSubject(('baz'))
         self.storage.update_groupings(link)
-
         self.assertEqual(
             self.storage.get_order_for(
                 'label',
                 alphabetical=True),
-            [dict(heading=g, archived=False) for g in
+            [dict(Title=g, Description='', getId='', archived=False) for g in
                 ['bar', 'baz', 'buz', 'foo']])
 
         groupings = self.storage.get_groupings()
@@ -198,7 +209,7 @@ class TestGroupingStorage(BaseTestCase):
             self.storage.get_order_for(
                 'label',
                 alphabetical=True),
-            [dict(heading=g, archived=False) for g in
+            [dict(Title=g, Description='', getId='', archived=False) for g in
                 ['bar', 'baz', 'foo']])
 
         self.assertEqual(
@@ -206,5 +217,5 @@ class TestGroupingStorage(BaseTestCase):
                 'label',
                 include_archived=True,
                 alphabetical=True),
-            [dict(heading=g, archived=g == 'buz') for g in
-                ['bar', 'baz', 'buz', 'foo']])
+            [dict(Title=g, Description='', getId='', archived=g == 'buz')
+                for g in ['bar', 'baz', 'buz', 'foo']])
