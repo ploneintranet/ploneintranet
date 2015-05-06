@@ -12,8 +12,12 @@
         toLocalizedTime nocall:toLocalizedTime|here/@@plone/toLocalizedTime;
       ">
       <tal:loop tal:repeat="activity_provider activity_providers|view/activity_providers">
-        <metal:block use-macro="here/@@post.html/main" />
-        <tal:replace tal:replace="structure python:view.activity_as_post(activity_provider)" />
+        <div style="width:49%;float:left">
+            <metal:block use-macro="here/@@post.html/main" />
+        </div>
+        <div style="width:49%;float:left">
+            <tal:replace tal:replace="structure python:view.activity_as_post(activity_provider)" />
+        </div>
       </tal:loop>
     </tal:define>
   </metal:macro>
