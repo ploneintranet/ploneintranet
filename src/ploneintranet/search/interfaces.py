@@ -54,19 +54,12 @@ class ISearchResult(Interface):
         _(u'The type of content contained in the indexed document'))
     highlighted_summary = Attribute(
         _(u'A highlighted summary provided by the backend'))
-
-    @property
-    def url():
-        """
-        The absolute URL of the indexed document
-        based on the path and the host in the current request
-        """
-
-    @property
-    def preview_image_url():
-        """
-        The absolute URL for a preview image generated for the indexed document
-        """
+    url = Attribute(
+        _(u'The absolute URL of the indexed document '
+          u'based on the path and the host in the current request'))
+    preview_image_url = Attribute(
+        _(u'The absolute URL for a preview image '
+          u'generated for the indexed document'))
 
 
 class ISearchResponse(Interface):
