@@ -97,6 +97,12 @@
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
 
+<rules css:if-content="body.template-search-results-html">
+  <theme href="generated/search-results.html" />
+  <drop css:theme-children="#content" />
+  <append css:content-children="#portal-column-content" css:theme="#content" />
+</rules>
+
 <rules css:if-content="body.template-workspaces-html">
   <theme href="generated/workspaces.html" />
   <drop css:theme-children="div.container" />
