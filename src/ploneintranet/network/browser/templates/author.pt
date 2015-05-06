@@ -29,7 +29,7 @@
         <span i18n:name="fullname" tal:replace="view/data/fullname">name</span>:
         </div>
 
-        <div tal:content="structure view/stream_provider" />
+        <div data-tile="./@@activitystream.tile?network=1"></div>
 
       </div><!-- /content -->
     </metal:main-macro>

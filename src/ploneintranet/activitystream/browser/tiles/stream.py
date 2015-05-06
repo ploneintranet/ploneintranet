@@ -11,7 +11,6 @@ from ploneintranet.activitystream.browser.activity_provider import (
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.core.browser.stream import StreamBase
 from ploneintranet.core.integration import PLONEINTRANET
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
@@ -20,7 +19,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class StreamTile(StreamBase, Tile):
+class StreamTile(Tile):
     """Tile view similar to StreamView."""
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
