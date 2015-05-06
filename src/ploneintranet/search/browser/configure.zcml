@@ -10,6 +10,7 @@
       name="search-results.html"
       for="Products.CMFCore.interfaces.ISiteRoot"
       permission="zope2.View"
+      class=".searchresults.SearchResultsView"
       template="templates/search_results.pt"
       />
 
