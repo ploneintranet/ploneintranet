@@ -22,6 +22,12 @@ class ContentView(BrowserView):
         self.can_edit = api.user.has_permission(
             'Modify portal content',
             obj=context)
+        self.update(title, description, tags)
+        return super(ContentView, self).__call__()
+
+    def update(self, title=None, description=None, tags=[]):
+        """ """
+        context = aq_inner(self.context)
         if self.can_edit and title or description or tags:
             modified = False
             if title and safe_unicode(title) != context.title:
@@ -39,8 +45,6 @@ class ContentView(BrowserView):
             if modified:
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
-
-        return super(ContentView, self).__call__()
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
