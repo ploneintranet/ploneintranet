@@ -1,8 +1,6 @@
 """ Interfaces for search API
 """
-from zope.interface import Interface, Attribute
-
-from . import _
+from zope.interface import Interface
 
 
 class ISiteSearch(Interface):
@@ -36,56 +34,5 @@ class ISiteSearch(Interface):
         :param step: The maximum number of results to return
         :type step: int
         :returns: The results as a `SearchResponse` object
-        :rtype: `ISearchResponse`
+        :rtype: `SearchResponse`
         """
-
-
-class ISearchResult(Interface):
-    """
-    Interface defining an individual search result
-    :ivar title: String containing the indexed
-    :ivar highlighted_summary: A string containing a summary of the resulting
-        document with markup highlighting the matching keywords from the search
-        query
-    """
-    title = Attribute(_(u'The title of the indexed document'))
-    description = Attribute(_(u'The description of the indexed document'))
-    path = Attribute(_(u'The relative path to the canonical document'))
-    preview_image_path = Attribute(
-        _(u'The relative path to the stored preview image of the canonical '
-          u'document'))
-    document_type = Attribute(
-        _(u'The type of content contained in the indexed document'))
-    highlighted_summary = Attribute(
-        _(u'A highlighted summary provided by the backend'))
-
-    @property
-    def url():
-        """
-        The absolute URL of the indexed document
-        based on the path and the host in the current request
-        """
-
-    @property
-    def preview_image_url():
-        """
-        The absolute URL for a preview image generated for the indexed document
-        """
-
-
-class ISearchResponse(Interface):
-    """
-    Interface defining a common response object
-    parsed from search engine backend
-    :ivar results: An iterable of ISearchResult objects
-    :ivar spell_corrected_search: The search string with any spelling
-        corrections replaced
-    :ivar: facets: A dictionary keyed on facet field names with values of the
-        list of available values for each facet
-    :ivar total_results: Count of the total results matching the search query
-    """
-    results = Attribute(_(u'The SearchResults returned from a query'))
-    spell_corrected_search = Attribute(_(u'Spell corrected search string'))
-    facets = Attribute(_(u'A dictionary of facets and available values'))
-    total_results = Attribute(
-        _(u'The total number of results generated from the query'))
