@@ -23,12 +23,5 @@ class IActivityProvider(IContentProvider, IActivity):
     # + all the IActivity accessors
 
 
-class IStreamProvider(IContentProvider):
-    """Helper to render activity streams"""
-
-    tag = Attribute("Optional tag to filter on")
-    userid = Attribute("Optional userid to filter on")
-
-
 class IStatusConversationProvider(IContentProvider):
     """Helper to render status conversations"""

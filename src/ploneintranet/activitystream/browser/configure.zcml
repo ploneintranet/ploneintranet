@@ -32,11 +32,6 @@
       />
 
   <adapter
-      name="ploneintranet.core.stream_provider"
-      factory=".stream_provider.StreamProvider"
-      />
-
-  <adapter
       name="ploneintranet.activitystream.statusconversation_provider"
       factory=".statusconversation_provider.StatusConversationProvider"
       />
