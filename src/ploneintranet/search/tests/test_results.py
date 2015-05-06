@@ -22,5 +22,7 @@ class TestResults(IntegrationTestCase):
                          'http://nohost/plone/path/to/item/preview')
 
     def test_search_response(self):
-        response = SearchResponse()
-        self.assertEqual(response.total_results, 0)
+        res1 = SearchResult()
+        result_list = [res1]
+        response = SearchResponse(result_list)
+        self.assertEqual(response.results, result_list)
