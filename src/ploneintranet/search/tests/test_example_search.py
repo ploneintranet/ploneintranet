@@ -43,7 +43,6 @@ class TestExampleSearch(IntegrationTestCase):
             'stuff',
             facets={'Subject': ['test']}
         )
-        import pdb;pdb.set_trace()
         self.assertEqual(response.total_results, 2)
         self.assertEqual(response.facets['Subject'],
                          {'test', 'my-tag', 'my-other-tag'})
