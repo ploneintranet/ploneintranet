@@ -13,12 +13,18 @@ class SearchResultsView(BrowserView):
         keywords = form.get('lemma')
         if not keywords:
             return None
+        elif isinstance(keywords, list):
+            # Template means that sometimes we get
+            # multiple copies of the text input
+            keywords = keywords[0]
         facets = {}
         for facet in SUPPORTED_FACETS:
             if form.get(facet):
                 facets[facet] = form.get(facet)
 
         search_util = getUtility(ISiteSearch, name='example')
-        response = search_util.query(keywords=keywords,
-                                     facets=facets)
+        response = search_util.query(
+            keywords=keywords,
+            facets=facets,
+        )
         return response
