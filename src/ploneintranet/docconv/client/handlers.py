@@ -1,13 +1,5 @@
 import logging
-from plone.app.contenttypes.interfaces import IDocument
-from plone.app.contenttypes.interfaces import IFile
-from plone.app.contenttypes.interfaces import IImage
-from plone.app.contenttypes.interfaces import ILink
-from plone.app.contenttypes.interfaces import INewsItem
-from five import grok
 from zope.annotation import IAnnotations
-from zope.lifecycleevent.interfaces import IObjectAddedEvent
-from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
@@ -52,24 +44,13 @@ def generate_attachment_preview_images(obj):
             docconv.generate_all()
 
 
-@grok.subscribe(IDocument, IObjectAddedEvent)
-@grok.subscribe(IFile, IObjectAddedEvent)
-@grok.subscribe(IImage, IObjectAddedEvent)
-@grok.subscribe(ILink, IObjectAddedEvent)
-@grok.subscribe(INewsItem, IObjectAddedEvent)
 def archetype_added_in_workspace(obj, event):
     _update_preview_images(obj, event)
 
 
-@grok.subscribe(IDocument, IObjectModifiedEvent)
-@grok.subscribe(IFile, IObjectModifiedEvent)
-@grok.subscribe(IImage, IObjectModifiedEvent)
-@grok.subscribe(ILink, IObjectModifiedEvent)
-@grok.subscribe(INewsItem, IObjectModifiedEvent)
 def archetype_edited_in_workspace(obj, event):
     _update_preview_images(obj, event)
 
 
-@grok.subscribe(IAttachmentStoragable, IObjectAddedEvent)
 def attachmentstoragable_added(obj, event):
     generate_attachment_preview_images(obj)

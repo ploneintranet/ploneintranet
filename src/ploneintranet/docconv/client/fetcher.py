@@ -16,10 +16,8 @@ from plone.app.blob.field import FileField
 from plone.app.blob.field import ImageField
 from plone.app.contenttypes.interfaces import IDocument
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseContent
-from five import grok
 from zope.annotation import IAnnotations
 from zope.component.hooks import getSite
 
@@ -221,9 +219,8 @@ Content-Type: %(mime)s
         return data
 
 
-class PreviewFetcher(BasePreviewFetcher, grok.Adapter):
-    grok.provides(IPreviewFetcher)
-    grok.context(IContentish)
+class PreviewFetcher(BasePreviewFetcher):
+    pass
 
 
 class HtmlPreviewFetcher(BasePreviewFetcher):
@@ -393,11 +390,6 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
                 '/'.join(self.context.getPhysicalPath())))
             return
         return super(HtmlPreviewFetcher, self).__call__()
-
-
-class DocumentPreviewFetcher(HtmlPreviewFetcher, grok.Adapter):
-    grok.provides(IPreviewFetcher)
-    grok.context(IDocument)
 
 
 def fetchPreviews(context, virtual_url_parts=[], vr_path=''):

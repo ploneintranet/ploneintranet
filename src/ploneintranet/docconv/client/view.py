@@ -1,13 +1,8 @@
-from five import grok
-from zope.interface import Interface
-
-from .interfaces import IPloneintranetDocconvClientLayer
+from Products.Five import BrowserView
 from ploneintranet.docconv.client.interfaces import IDocconv
 
-grok.templatedir("templates")
 
-
-class ImageView(object):
+class ImageView(BrowserView):
     """ Base class for views that render docconv related images """
 
     def pages_count(self):
@@ -24,7 +19,7 @@ class ImageView(object):
     def _get_data(self):
         raise NotImplementedError
 
-    def render(self):
+    def __call__(self):
         page = int(self.request.get('page', 1))
 
         previews = self._get_data()
@@ -57,11 +52,7 @@ class ImageView(object):
         return None
 
 
-class PreviewView(ImageView, grok.View):
-    grok.name('docconv_image_preview.jpg')
-    grok.context(Interface)
-    grok.layer(IPloneintranetDocconvClientLayer)
-    grok.require("zope2.View")
+class PreviewView(ImageView):
 
     def _get_data(self):
         return IDocconv(self.context).get_previews()
@@ -73,11 +64,7 @@ class PreviewView(ImageView, grok.View):
         return IDocconv(self.context).conversion_message()
 
 
-class ThumbnailView(ImageView, grok.View):
-    grok.name('docconv_image_thumb.jpg')
-    grok.context(Interface)
-    grok.layer(IPloneintranetDocconvClientLayer)
-    grok.require("zope2.View")
+class ThumbnailView(ImageView):
 
     def _get_data(self):
         return IDocconv(self.context).get_thumbs()
@@ -86,22 +73,13 @@ class ThumbnailView(ImageView, grok.View):
         return IDocconv(self.context).has_thumbs()
 
 
-class PdfNotAvailableView(grok.View):
-    grok.name('pdf-not-available')
-    grok.context(Interface)
-    grok.layer(IPloneintranetDocconvClientLayer)
-    grok.require('zope2.View')
-    grok.template('pdf_not_available')
+class PdfNotAvailableView(BrowserView):
+    pass
 
 
-class PdfRequestView(grok.View):
-    grok.name('request-pdf')
-    grok.context(Interface)
-    grok.layer(IPloneintranetDocconvClientLayer)
-    grok.require('zope2.View')
-    grok.template('pdf_request')
+class PdfRequestView(BrowserView):
 
-    def update(self):
+    def __call__(self):
         docconv = IDocconv(self.context)
         if docconv.generate_all():
             self.message = (
@@ -114,15 +92,12 @@ class PdfRequestView(grok.View):
                 ' and is in preparation. It will be available for download '
                 'shortly. Please select the download button from the gearbox'
                 ' again in a few minutes.')
+        return super(PdfRequestView, self).__call__()
 
 
-class PdfView(grok.View):
-    grok.name('pdf')
-    grok.context(Interface)
-    grok.layer(IPloneintranetDocconvClientLayer)
-    grok.require('zope2.View')
+class PdfView(BrowserView):
 
-    def render(self):
+    def __call__(self):
         docconv = IDocconv(self.context)
         if not docconv.has_pdf():
             return self.request.RESPONSE.redirect(
