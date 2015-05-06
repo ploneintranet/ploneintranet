@@ -1,13 +1,24 @@
 from Products.Five import BrowserView
-from ploneintranet.search.results import SearchResponse
-import random
+from zope.component import getUtility
+
+from ..interfaces import ISiteSearch
+
+SUPPORTED_FACETS = ['Type', 'Subject']
 
 
 class SearchResultsView(BrowserView):
 
-    def results(self):
-        fakeresults = []
-        response = SearchResponse(fakeresults)
-        response.total_results = random.randint(50, 100)
-        response.spell_corrected_search = 'Foo bar egg young'
+    def search_response(self):
+        form = self.request.form
+        keywords = form.get('lemma')
+        if not keywords:
+            return None
+        facets = {}
+        for facet in SUPPORTED_FACETS:
+            if form.get(facet):
+                facets[facet] = form.get(facet)
+
+        search_util = getUtility(ISiteSearch, name='example')
+        response = search_util.query(keywords=keywords,
+                                     facets=facets)
         return response
