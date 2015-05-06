@@ -21,15 +21,25 @@ class ContentView(BrowserView):
         self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
             'Modify portal content',
-            obj=context)
+            obj=context
+        )
         self.update(title, description, tags)
         return super(ContentView, self).__call__()
 
     def update(self, title=None, description=None, tags=[]):
         """ """
         context = aq_inner(self.context)
-        if self.can_edit and title or description or tags:
-            modified = False
+        if not self.can_edit:
+            return
+        modified = False
+        if self.request.get('workflow_action'):
+            modified = True # TODO: not sure if a workflow state change should
+                            # trigger a reindex and ObjectModifiedEvent
+            api.content.transition(
+                obj=context,
+                transition=self.request.get('workflow_action')
+            )
+        if title or description or tags:
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
                 modified = True
@@ -42,9 +52,9 @@ class ContentView(BrowserView):
                 if tags != context.subject:
                     context.subject = tags
                     modified = True
-            if modified:
-                context.reindexObject()
-                notify(ObjectModifiedEvent(context))
+        if modified:
+            context.reindexObject()
+            notify(ObjectModifiedEvent(context))
 
     def get_workflow_state(self):
         return api.content.get_state(obj=aq_inner(self.context))
