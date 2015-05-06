@@ -19,8 +19,15 @@
                    "
                    >
                     <metal:block use-macro="here/@@avatar.html/main" />
+<<<<<<< HEAD
                     <h4 class="name">${here/creator}</h4>
                     <time class="date" tal:content="python:view.toLocalizedTime(here.date)">1 hour ago</time>
+=======
+                    <h4 class="name" tal:content="string:${provider/Creator}">
+                        User Name
+                    </h4>
+                    <time class="date" tal:content="python:view.toLocalizedTime(provider.date)">1 hour ago</time>
+>>>>>>> we can render the activities with a dedicated view now
                 </a>
             </div>
             <section class="comment-content">
