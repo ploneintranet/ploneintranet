@@ -64,3 +64,10 @@ class SearchResponse(object):
     facets = None
     #: Count of the total results available from the query (int)
     total_results = 0
+
+    def __init__(self, results, spell_corrected_search=None, facets=None,
+                 total_results=0):
+        self.results = results
+        self.spell_corrected_search = spell_corrected_search
+        self.facets = facets
+        self.total_results = total_results
