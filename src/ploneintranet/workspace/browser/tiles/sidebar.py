@@ -9,7 +9,6 @@ from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 from zope.publisher.browser import BrowserView
 from zope.component import getMultiAdapter
 from plone import api
-from plone.i18n.normalizer import idnormalizer
 from plone.app.contenttypes.interfaces import IEvent
 from ploneintranet.workspace import MessageFactory as _
 from plone.memoize.instance import memoize
@@ -17,7 +16,6 @@ from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from ploneintranet.todo.behaviors import ITodo
-from Products.statusmessages.interfaces import IStatusMessage
 
 FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'simpletodo']
@@ -32,15 +30,6 @@ class BaseTile(BrowserView):
 
     def __call__(self):
         return self.render()
-
-    def status_messages(self):
-        """ Returns status messages if any
-        """
-        messages = IStatusMessage(self.request)
-        m = messages.show()
-        for item in m:
-            item.id = idnormalizer.normalize(item.message)
-        return m
 
     def my_workspace(self):
         return parent_workspace(self)
