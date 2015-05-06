@@ -33,9 +33,11 @@ class ExampleSiteSearch(object):
         :return: The results with relevant meta data
         :rtype: `SearchResponse`
         """
-        catalog = api.portal.get_tool('portal_catalog')
         if facets is None:
             facets = {}
+        if step is None:
+            step = 100
+        catalog = api.portal.get_tool('portal_catalog')
         facets.update({
             'SearchableText': keywords
         })
