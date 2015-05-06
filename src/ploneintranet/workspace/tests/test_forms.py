@@ -2,27 +2,30 @@
 """
 Tests for ploneintranet.workspace forms
 """
-import re
 
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.MailHost.interfaces import IMailHost
 from collective.workspace.interfaces import IWorkspace
 from email import message_from_string
-from zope.event import notify
-from zope.interface import Interface
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.component import provideAdapter
 from plone import api
+from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
 from ploneintranet.invitations.events import TokenAccepted
-from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.browser.forms import InviteForm
 from ploneintranet.workspace.browser.forms import TransferMembershipForm
-from z3c.form.interfaces import IFormLayer
-from zope.publisher.browser import TestRequest
-from zope.interface import alsoProvides
-from zope.annotation.interfaces import IAttributeAnnotatable
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+from ploneintranet.workspace.tests.base import BaseTestCase
+from z3c.form.interfaces import IFormLayer
+from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.component import getUtility
+from zope.component import provideAdapter
+from zope.event import notify
+from zope.interface import Interface
+from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
+from zope.publisher.interfaces.browser import IBrowserRequest
+import re
 
 
 class TestTransferForm(BaseTestCase):
@@ -314,9 +317,10 @@ class TestInvitationFormEmailing(BaseTestCase):
         sm.registerUtility(component=mockmailhost, provided=IMailHost)
 
         self.mailhost = api.portal.get_tool('MailHost')
-
-        self.portal._updateProperty('email_from_name', 'Portal Owner')
-        self.portal._updateProperty('email_from_address', 'sender@example.org')
+        registry = getUtility(IRegistry)
+        self.mail_settings = registry.forInterface(IMailSchema, prefix="plone")
+        self.mail_settings.email_from_name = u'Portal Owner'
+        self.mail_settings.email_from_address = 'sender@example.org'
 
     def make_request(self, username, message=''):
         """
