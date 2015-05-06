@@ -13,6 +13,7 @@
       ">
       <tal:loop tal:repeat="activity_provider activity_providers|view/activity_providers">
         <metal:block use-macro="here/@@post.html/main" />
+        <tal:replace tal:replace="structure python:view.activity_as_post(activity_provider)" />
       </tal:loop>
     </tal:define>
   </metal:macro>
