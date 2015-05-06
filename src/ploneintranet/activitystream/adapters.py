@@ -1,3 +1,4 @@
+# coding=utf-8
 from plone import api
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from zope.interface import implements
@@ -10,6 +11,7 @@ class StatusActivity(object):
 
     def __init__(self, context):
         self.context = context
+        self.getId = context.getId()
         self.text = context.text
         self.title = ''
         self.url = ''
@@ -26,4 +28,6 @@ class StatusActivity(object):
             self.url = api.portal.get().absolute_url()
 
     def replies(self):
+        """ The replies to this StatusActivity as StatusActivity
+        """
         return map(IStatusActivity, self.context.replies())
