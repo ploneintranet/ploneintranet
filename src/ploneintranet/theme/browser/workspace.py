@@ -1,11 +1,8 @@
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet.workspace.utils import my_workspaces
 from zope.publisher.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-try:
-    from ploneintranet.workspace.utils import my_workspaces
-except ImportError:
-    my_workspaces = lambda x: []
 
 
 class Workspaces(BrowserView):

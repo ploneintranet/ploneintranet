@@ -54,13 +54,13 @@ Editing the documentation on GitHub
 
 This is the recommended way for smaller changes, and for people who are not familiar with Git.
 
-- Go to `Plone Intranet Docs <https://github.com/ploneintranet/ploneintranet.docs>`_ on  GitHub.
+- Go to `Plone Intranet <https://github.com/ploneintranet/ploneintranet>`_ on  GitHub.
 - Press the **Fork** button. This will create your own personal copy of the documentation.
-- **Edit** files in the docs directory using GitHub's text editor in your web browser
+- **Edit** files in the `docs directory <https://github.com/ploneintranet/ploneintranet/tree/master/docs>`_ using GitHub's text editor in your web browser
 - Fill in the **Commit changes**-textbox at the end of the page telling why you did the changes. Press the **Commit changes**-button next to it when done.
 - Then head to the green *New pull request*-button (e.g. by navigating to your fork's root and clicking "Pull requests" on the right menu-bar, or directly via https://github.com/yourGitHubUserName/documentation/pulls), you won't need to fill in any additional text. Just press **New pull request** button, finally click "Send pull request".
-- Your changes are now queued for review under project's `Pull requests <https://github.com/plone/documentation/pulls>`_ tab on Github.
-- For more information about writing documentation please read the :doc:`styleguide </documentation/styleguide>` and also `this <http://docs.plone.org/about/helper_tools.html>`.
+- Your changes are now queued for review under project's `Pull requests <https://github.com/ploneintranet/ploneintranet/pulls>`_ tab on Github.
+- For more information about writing documentation please read the :doc:`styleguide </documentation/styleguide>` and also `this section on recommended tools <http://docs.plone.org/about/helper_tools.html>`_.
 - You will receive a message when your request has been integrated into the documentation. At that moment, feel free to delete the copy of the documentation you created under your account on github. Next time you contribute, just fork again. That way you'll always have a fresh copy of the documentation to work on.
 
 

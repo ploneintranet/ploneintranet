@@ -20,13 +20,14 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         # Load ZCML
         import plone.app.discussion
         self.loadZCML(package=plone.app.discussion)
-        import five.grok
-        self.loadZCML(package=five.grok)
         import plone.dexterity
         self.loadZCML(package=plone.dexterity)
 
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)
+
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.attachments')
 
     def setUpPloneSite(self, portal):

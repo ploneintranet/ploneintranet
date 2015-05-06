@@ -16,10 +16,8 @@ from plone.app.blob.field import FileField
 from plone.app.blob.field import ImageField
 from plone.app.contenttypes.interfaces import IDocument
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseContent
-from five import grok
 from zope.annotation import IAnnotations
 from zope.component.hooks import getSite
 
@@ -33,6 +31,7 @@ from ploneintranet.docconv.client.config import (
 from ploneintranet.docconv.client.exceptions import ServerError
 from ploneintranet.docconv.client.exceptions import ConfigError
 from ploneintranet.docconv.client.interfaces import IPreviewFetcher
+from slc.docconv.convert import convert_to_raw
 
 logger = getLogger(__name__)
 
@@ -134,19 +133,12 @@ Content-Type: %(mime)s
 
     def convert_locally(self, payload, datatype):
         try:
-            from slc.docconv.convert import convert_to_raw
-            converted = convert_to_raw(
-                self.context.getId(), payload, datatype)
-        except ImportError as e:
-            logger.info('Can not convert locally - install with the "local" '
-                        'extra to activate local conversion')
-            raise ConfigError('slc.docconv not installed')
+            return convert_to_raw(self.context.getId(), payload, datatype)
         except IOError as e:
             if 'docsplit not found' in e:
                 raise ConfigError("docsplit is not available")
             else:
                 raise e
-        return converted
 
     def unpack_zipdata(self, zipdata):
         stream = BytesIO(zipdata)
@@ -227,9 +219,8 @@ Content-Type: %(mime)s
         return data
 
 
-class PreviewFetcher(BasePreviewFetcher, grok.Adapter):
-    grok.provides(IPreviewFetcher)
-    grok.context(IContentish)
+class PreviewFetcher(BasePreviewFetcher):
+    pass
 
 
 class HtmlPreviewFetcher(BasePreviewFetcher):
@@ -399,11 +390,6 @@ class HtmlPreviewFetcher(BasePreviewFetcher):
                 '/'.join(self.context.getPhysicalPath())))
             return
         return super(HtmlPreviewFetcher, self).__call__()
-
-
-class DocumentPreviewFetcher(HtmlPreviewFetcher, grok.Adapter):
-    grok.provides(IPreviewFetcher)
-    grok.context(IDocument)
 
 
 def fetchPreviews(context, virtual_url_parts=[], vr_path=''):

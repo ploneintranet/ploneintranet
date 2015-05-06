@@ -1,0 +1,66 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ploneintranet.docconv.client">
+
+    <!-- zope.lifecycleevent.interfaces.IObjectAddedEvent -->
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IDocument
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.INewsItem
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+
+    <!-- zope.lifecycleevent.interfaces.IObjectModifiedEvent -->
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IDocument
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+    <subscriber
+        for="plone.app.contenttypes.interfaces.INewsItem
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".handlers.archetype_added_in_workspace"
+        />
+
+    <!-- ploneintranet.attachments.attachments.IAttachmentStoragable -->
+    <subscriber
+        for="ploneintranet.attachments.attachments.IAttachmentStoragable
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".handlers.attachmentstoragable_added"
+        />
+
+</configure>

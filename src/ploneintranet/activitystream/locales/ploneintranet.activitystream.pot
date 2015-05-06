@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-01-20 16:39+0000\n"
+"POT-Creation-Date: 2015-05-04 11:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgstr ""
 msgid "Social activity stream portal view with manageable portlets"
 msgstr ""
 
-#: ./browser/templates/stream.pt:24
+#: ./browser/templates/stream.pt:23
 msgid "Updates tagged #${tag}"
 msgstr ""
 
@@ -107,13 +107,13 @@ msgstr ""
 msgid "label_commented_on"
 msgstr ""
 
-#. Default: "created"
-#: ./browser/templates/contentactivity_provider.pt:18
-msgid "label_created"
+#. Default: "posted"
+#: ./browser/prototype/post.html:35
+msgid "label_posted"
 msgstr ""
 
 #. Default: "says:"
-#: ./browser/templates/statusactivity_provider.pt:18
+#: ./browser/templates/statusactivity_provider.pt:19
 msgid "label_says"
 msgstr ""
 
@@ -121,10 +121,5 @@ msgstr ""
 #: ./browser/templates/activitystream_portletmanager_view.pt:10
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
-msgstr ""
-
-#. Default: "See more..."
-#: ./browser/templates/contentactivity_provider.pt:62
-msgid "see_more_link"
 msgstr ""
 

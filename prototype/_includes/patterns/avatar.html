@@ -1,7 +1,0 @@
-{% if include.link %}
-	<a href="{{ include.link }}" class="pat-avatar {{ include.class }}" {{ include.attributes }} id="{{ include.id }}">
-		<img src="{{ include.img }}" alt="{{ include.name }}" />
-	</a>    
-{% else %}
-	<img src="{{ include.img }}" alt="{{ include.name }}" class="pat-avatar {{ include.class }}" {{ include.attributes }} id="{{ include.id }}" />   
-{% endif %}

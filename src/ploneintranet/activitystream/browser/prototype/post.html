@@ -5,12 +5,12 @@
       >
 <body>
 
-<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/comment.html -->
+<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/post.html -->
 <metal:macro define-macro="main">
 
 <div i18n:domain="ploneintranet.activitystream"
      tal:define="
-         portal_url here/portal_url;
+         portal_url portal_url|here/@@plone_portal_state/portal_url;
          thread_id thread_id|activity_provider/status_id|nothing;
          id python: thread_id and ('post-%s' % thread_id) or None;
      "
@@ -73,9 +73,9 @@
   <section class="preview">
 
     <figure tal:repeat="attachment activity_provider/attachments">
-      <a href="/incredibly-boring-document" tal:attributes="href attachment">
+      <a href="/incredibly-boring-document" tal:attributes="href attachment/link">
         <img src="/media/preview_thumb_1.jpg" alt=""
-             tal:attributes="src string:${attachment}">
+             tal:attributes="src string:${attachment/img_src}">
       </a>
     </figure>
 
@@ -103,7 +103,7 @@
           newpostbox_view nocall:newpostbox_view|here/newpostbox.tile;
           form_id string:comment_box_${thread_id};
           attachment_previews_id string:attachment-previews-${thread_id};
-          action string:${here/absolute_url}/@@newpostbox.tile;
+          action string:${context_url|here/absolute_url}/@@newpostbox.tile;
           placeholder activity_provider/placeholder;
         ">
           <metal:block use-macro="here/@@update-social.html/main" />

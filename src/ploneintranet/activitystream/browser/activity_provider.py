@@ -15,24 +15,15 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from .interfaces import IPloneIntranetActivitystreamLayer
 from .interfaces import IActivityProvider
+from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.activitystream.interfaces import IContentActivity
-from ploneintranet.activitystream.interfaces import IDiscussionActivity
-
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import IAttachmentStorage
-except ImportError:
-    IAttachmentStoragable = None
-try:
-    from ploneintranet.docconv.client.interfaces import IDocconv
-except ImportError:
-    IDocconv = None
+from ploneintranet.docconv.client.interfaces import IDocconv
 
 
 class AbstractActivityProvider(object):
@@ -53,10 +44,7 @@ class AbstractActivityProvider(object):
     __call__ = render
 
     def is_anonymous(self):
-        portal_membership = getToolByName(getSite(),
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
+        return api.user.is_anonymous()
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
@@ -143,12 +131,6 @@ class AbstractActivityProvider(object):
         text += link_users(url, mentions)
         text += link_tags(url, tags)
         return text
-
-    def is_attachment_supported(self):
-        return IAttachmentStoragable is not None
-
-    def is_preview_supported(self):
-        return IDocconv is not None
 
     @property
     def attachments(self):
@@ -248,22 +230,43 @@ class StatusActivityProvider(AbstractActivityProvider):
     @property
     def attachments(self):
         """ Get preview images for status update attachments """
-        if all([
-            self.is_attachment_supported(),
-            self.is_preview_supported(),
-                IAttachmentStoragable.providedBy(self.status),
-        ]):
-            storage = IAttachmentStorage(self.status)
-            attachments = storage.values()
-            for attachment in attachments:
-                docconv = IDocconv(attachment)
-                if docconv.has_thumbs():
-                    url = api.portal.get().absolute_url()
-                    yield ('{portal_url}/@@status-attachments/{status_id}/'
-                           '{attachment_id}/thumb').format(
-                               portal_url=url,
-                               status_id=self.status.getId(),
-                               attachment_id=attachment.getId())
+        if not IAttachmentStoragable.providedBy(self.status):
+            return []
+
+        storage = IAttachmentStorage(self.status)
+        items = storage.values()
+        if not items:
+            return []
+
+        attachments = []
+        portal_url = api.portal.get().absolute_url()
+        base_url = '{portal_url}/@@status-attachments/{status_id}'.format(
+            portal_url=portal_url,
+            status_id=self.status.getId(),
+        )
+        for item in items:
+            item_url = '/'.join((base_url, item.getId()))
+            docconv = IDocconv(item)
+            if docconv.has_thumbs():
+                url = '/'.join((item_url, 'thumb'))
+            elif isinstance(item, Image):
+                images = api.content.get_view(
+                    'images',
+                    item.aq_base,
+                    self.request,
+                )
+                url = '/'.join((
+                    item_url,
+                    images.scale(scale='preview').url.lstrip('/')
+                ))
+            else:
+                # We need a better fallback image. See #See #122
+                url = '/'.join((
+                    api.portal.get().absolute_url(),
+                    '++theme++ploneintranet.theme/generated/media/logo.svg'))
+            if url:
+                attachments.append(dict(img_src=url, link=item_url))
+        return attachments
 
 
 class StatusActivityReplyProvider(StatusActivityProvider):
@@ -307,38 +310,3 @@ class StatusActivityReplyProvider(StatusActivityProvider):
 class StatusActivityInlineReplyProvider(StatusActivityReplyProvider):
     template_name = "templates/statusactivityinlinereply_provider.pt"
     index = ViewPageTemplateFile(template_name)
-
-
-class ContentActivityProvider(AbstractActivityProvider):
-    """Render an IBrainActivity"""
-
-    implements(IActivityProvider)
-    adapts(IContentActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/contentactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)
-
-    @property
-    def attachments(self):
-        """ Get preview image for content-related updates"""
-        if self.is_preview_supported():
-            docconv = IDocconv(self.context.context)
-            if docconv.has_thumbs():
-                return [self.context.context.absolute_url() +
-                        '/docconv_image_thumb.jpg']
-
-
-class DiscussionActivityProvider(AbstractActivityProvider):
-    """Render an IDicussionCommentActivity"""
-
-    implements(IActivityProvider)
-    adapts(IDiscussionActivity, IPloneIntranetActivitystreamLayer, Interface)
-
-    index = ViewPageTemplateFile("templates/discussionactivity_provider.pt")
-
-    @property
-    def getId(self):
-        return api.content.get_uuid(self.context.context)
