@@ -135,9 +135,6 @@ class AbstractActivityProvider(object):
         text += link_tags(url, tags)
         return text
 
-    def is_preview_supported(self):
-        return True
-
     @property
     def attachments(self):
         """
@@ -236,8 +233,6 @@ class StatusActivityProvider(AbstractActivityProvider):
     @property
     def attachments(self):
         """ Get preview images for status update attachments """
-        if not self.is_preview_supported():
-            return []
         if not IAttachmentStoragable.providedBy(self.status):
             return []
 
