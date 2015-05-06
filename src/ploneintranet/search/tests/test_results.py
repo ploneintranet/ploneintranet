@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Tests for the search result structures."""
 
-from ploneintranet.search.testing import IntegrationTestCase
-from ploneintranet.search.results import SearchResult
-from ploneintranet.search.results import SearchResponse
+from ..testing import IntegrationTestCase
+from ..results import SearchResult
+from ..results import SearchResponse
 
 
 class TestResults(IntegrationTestCase):
