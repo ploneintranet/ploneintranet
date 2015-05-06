@@ -36,16 +36,12 @@
 				<fieldset class="pat-checklist">
 				    <legend>Content types</legend>
 				    <!-- Only list content types in this list that are relevant for this search result. -->
-				    <label><input checked type="checkbox" /> PowerPoint</label>
-				    <label><input checked type="checkbox" /> Word</label>
-				    <label><input checked type="checkbox" /> Excel</label>
-				    <label><input checked type="checkbox" /> PDF</label>
-				    <label><input checked type="checkbox" /> People</label>
-				    <label><input checked type="checkbox" /> Post</label>
-				    <label><input checked type="checkbox" /> Rich pages</label>
-				    <label><input checked type="checkbox" /> Events</label>
-				    <label><input checked type="checkbox" /> Images</label>
-				    <label><input checked type="checkbox" /> Slideshows</label>
+				    <label 
+					 tal:repeat="ctype results/facets/content_type">
+					<input checked type="checkbox" 
+					       tal:attributes="value ctype" />
+					<span tal:replace="ctype" />
+				    </label>
 				</fieldset>
 				<fieldset class="pat-checklist">
 				    <legend>Tags</legend>
@@ -88,7 +84,7 @@
 				<em>Did you mean <a href="#" tal:content="results/spell_corrected_search"></a>?</em>
 			    </p>
 			    <dl class="search-results">
-				<!-- One hard coded example of a post as a search result: -->
+				<!-- One hard coded example of a post as a search result:
 				<dt class="title user-post">
 				    <a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>
 				</dt>
@@ -102,8 +98,8 @@
 				    <a href="" class="link">
 					/posts/2307540960981987527368
 				    </a>
-				</dd>
-				<!-- Next a hard coded example of a person as a search result: -->
+				</dd> -->
+				<!-- Next a hard coded example of a person as a search result: 
 				<dt class="title">
 				    <a href="">Joan Baker</a>
 				</dt>
@@ -121,12 +117,15 @@
 				    <a href="" class="link">
 					/people/joan-baker
 				    </a>
-				</dd>
+				</dd> -->
 				<!-- Next generated search results of various content/mime types: -->
-				{% for result in site.posts %}
-				{% if result.title contains 'Min' or result.title contains 'min' %}
+				<tal:result repeat="result results">
 				<dt class="title">
-				    <a href="{{ result.url }}">{{ result.title }}</a>
+				    <a href="{{ result.url }}"
+				       tal:attributes="href result/url"
+				       tal:content="result/title">
+					{{ result.title }}
+				    </a>
 				</dt>
 
 				<dd class="description">
@@ -152,26 +151,17 @@
 				    {% endif %}
 				    {% endif %}
 
-				    <p class="fragment">
-					{% if result.description %}
-					{{ result.description }}
-					{% else %}
-					{{ result.excerpt }}
-					{% endif %}
+				    <p class="fragment" 
+				       tal:condition="result/description" 
+				       tal:content="result/description">
 				    </p>
-				    <a href="{{ result.url }}" class="link">
+				    <a href="{{ result.url }}" class="link"
+				       tal:attributes="href result/url"
+				       tal:content="result/path">
 					{{ result.url }}
 				    </a>
-				    <div class="comments" id="comments-{{mypostUID}}">
-					<div id="comment-trail-{{mypostUID}}">
-					    {% for comment in result.comments %}
-					    {% include comment.html %}
-					    {% endfor %}
-					</div>
-				    </div>
 				</dd>
-				{% endif %}
-				{% endfor %}
+				</tal:result>
 			    </dl>
 			</div>
 		    </div>
