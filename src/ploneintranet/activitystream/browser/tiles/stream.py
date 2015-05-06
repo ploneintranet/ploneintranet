@@ -5,11 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.activitystream.browser.activity_provider import (
-    StatusActivityReplyProvider
-)
 from ploneintranet.activitystream.interfaces import IActivity
-from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.core.integration import PLONEINTRANET
 from zExceptions import NotFound
@@ -60,6 +56,8 @@ class StreamTile(Tile):
         seen_thread_ids = []
         good_activities = []
 
+        container = PLONEINTRANET.microblog
+
         for activity in activities:
             if activity.thread_id and activity.thread_id in seen_thread_ids:
                 continue
@@ -67,10 +65,9 @@ class StreamTile(Tile):
                 continue
 
             if IStatusActivityReply.providedBy(activity):
-                seen_thread_ids.append(activity.thread_id)
-            else:
-                seen_thread_ids.append(activity.id)
+                activity = container.get(activity.thread_id)
 
+            seen_thread_ids.append(activity.id)
             good_activities.append(activity)
 
         return good_activities
@@ -117,15 +114,12 @@ class StreamTile(Tile):
                 logger.exception("NotFound: %s" % item.getURL())
                 continue
 
-            if IStatusActivity.providedBy(activity):
-                activity_provider = getMultiAdapter(
-                    (activity, self.request, self),
-                    IActivityProvider
-                )
-                if isinstance(activity_provider, StatusActivityReplyProvider):
-                    activity_provider = activity_provider.parent_provider()
-                yield activity_provider
-                i += 1
+            activity_provider = getMultiAdapter(
+                (activity, self.request, self),
+                IActivityProvider
+            )
+            yield activity_provider
+            i += 1
 
     @memoize
     def activity_providers(self):
