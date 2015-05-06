@@ -35,14 +35,21 @@ class TestExampleSearch(IntegrationTestCase):
         response = self.util.query('hopefully')
         self.assertEqual(response.results[0].title, self.doc1.Title())
         self.assertEqual(response.total_results, 1)
-        self.assertEqual(response.facets['content_type'], {'Page'})
+        self.assertEqual(response.facets['Type'], {'Page'})
         self.assertEqual(response.facets['Subject'], {'test', 'my-tag'})
 
     def test_query_facets(self):
         response = self.util.query(
             'stuff',
-            facets={'Subject': ['test']}
         )
         self.assertEqual(response.total_results, 2)
         self.assertEqual(response.facets['Subject'],
                          {'test', 'my-tag', 'my-other-tag'})
+        # Limit search by a tag from one of the docs
+        response = self.util.query(
+            'stuff',
+            facets={'Subject': ['my-other-tag']}
+        )
+        self.assertEqual(response.total_results, 1)
+        self.assertEqual(response.facets['Subject'],
+                         {'test', 'my-other-tag'})
