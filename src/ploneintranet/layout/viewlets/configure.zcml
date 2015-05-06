@@ -2,11 +2,12 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-    <browser:viewletManager
+    <browser:viewlet
         name="plone.globalstatusmessage"
-        provides="plone.app.layout.interfaces.IGlobalStatusMessage"
+        manager="plone.app.layout.viewlets.interfaces.IGlobalStatusMessage"
         class=".globalstatusmessage.GlobalStatusMessage"
         permission="zope2.View"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
 </configure>
