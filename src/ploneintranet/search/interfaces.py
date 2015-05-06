@@ -43,15 +43,34 @@ class ISiteSearch(Interface):
 class ISearchResult(Interface):
     """
     Interface defining an individual search result
-    :ivar fields: A dictionary keyed on indexed field name with value of the
-        matching result for that field
+    :ivar title: String containing the indexed
     :ivar highlighted_summary: A string containing a summary of the resulting
         document with markup highlighting the matching keywords from the search
         query
     """
-    fields = Attribute(_(u'A dictionary of indexed fields and their values'))
+    title = Attribute(_(u'The title of the indexed document'))
+    description = Attribute(_(u'The description of the indexed document'))
+    path = Attribute(_(u'The relative path to the canonical document'))
+    preview_image_path = Attribute(
+        _(u'The relative path to the stored preview image of the canonical '
+          u'document'))
+    document_type = Attribute(
+        _(u'The type of content contained in the indexed document'))
     highlighted_summary = Attribute(
         _(u'A highlighted summary provided by the backend'))
+
+    @property
+    def url():
+        """
+        The absolute URL of the indexed document
+        based on the path and the host in the current request
+        """
+
+    @property
+    def preview_image_url():
+        """
+        The absolute URL for a preview image generated for the indexed document
+        """
 
 
 class ISearchResponse(Interface):
