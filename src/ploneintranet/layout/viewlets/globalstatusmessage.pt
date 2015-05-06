@@ -1,9 +1,3 @@
-<tal:if condition="not: view/messages">
-    <article>
-        <p class="pat-notification" data-pat-notification="type: banner">This is a status message</p>
-    </article>
-</tal:if>
-
 <tal:statusmsg tal:repeat="message view/messages">
 
     <article tal:attributes="id message/id">
