@@ -13,7 +13,7 @@
 	    <div class="container input">
 		<fieldset class="search">
 		    <label>
-			<input type="search" value="min" name="lemma" placeholder="Search the entire intranet" />
+			<input type="search" name="lemma" placeholder="Search the entire intranet" />
 		    </label>
 		    <button type="search">Search</button>
 		</fieldset>
@@ -26,7 +26,7 @@
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
 	    </nav>
-	    <div class="results" id="results">
+	    <div class="results" id="results" tal:define="results view/results">
 		<div class="container results">
 		    <div class="row pat-equaliser">
 			<div class="three columns filters">
@@ -56,26 +56,26 @@
 				</fieldset>
 				<label>
 				    Created
-				    <select name="" id="">
+				    <select name="created" id="">
 					<option value="">
 					    Any creation date
 					</option>
-					<option value="">
+					<option value="today">
 					    Today
 					</option>
-					<option>
+					<option value="yesterday">
 					    Yesterday
 					</option>
-					<option value="">
+					<option value="this-week">
 					    This week
 					</option>
-					<option value="">
+					<option value="last-week">
 					    Last week
 					</option>
-					<option value="">
+					<option value="last-month">
 					    Last month
 					</option>
-					<option value="">
+					<option value="before-last-month">
 					    Before last month
 					</option>
 				    </select>
@@ -83,7 +83,7 @@
 			    </fieldset>
 			</div>
 			<div class="nine columns last document-listing" id="listing">
-			    <p>87 items matched your search.</p>
+			    <p><span tal:replace="results/total_results">87</span> items matched your search.</p>
 			    <dl class="search-results">
 				<!-- One hard coded example of a post as a search result: -->
 				<dt class="title user-post">
