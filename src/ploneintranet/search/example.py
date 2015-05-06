@@ -43,9 +43,14 @@ class ExampleSiteSearch(object):
         })
         results = catalog.searchResults(facets)
         batch = Batch(results, step, start)
+        response_facets = {
+            'content_type': {x.portal_type for x in results},
+            'Subject': {y for x in results for y in x['Subject']},
+        }
         response = SearchResponse(
             batch,
-            total_results=len(results)
+            total_results=len(results),
+            facets=response_facets
         )
         return response
 
