@@ -63,10 +63,4 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <browser:resourceDirectory
-      name="ploneintranet.activitystream.javascripts"
-      directory="javascripts"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
 </configure>
