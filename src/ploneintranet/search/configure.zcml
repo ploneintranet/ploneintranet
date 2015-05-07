@@ -7,12 +7,14 @@
 
   <include package=".browser" />
 
+  <adapter factory=".example.CatalogSearchResult" />
+  <adapter factory=".example.CatalogSearchResponse" />
+
   <utility provides=".interfaces.ISiteSearch"
            factory=".example.ExampleSiteSearch"
            name="example" />
 
-  <adapter
-           name="friendly_type_name"
+  <adapter name="friendly_type_name"
            factory=".indexers.friendly_type_name" />
 
 </configure>
