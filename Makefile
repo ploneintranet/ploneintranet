@@ -4,12 +4,22 @@ LATEST          = $(shell cat prototype/LATEST)
 BUNDLENAME      = ploneintranet
 BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
-all::
+all:: fetchrelease
 default: all
 clean:
 	rm bin/* .installed.cfg || true
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
+
+fetchrelease:
+	# fetch non-git-controlled required javascript resources
+	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
+	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
 
 ########################################################################
 ## Setup
@@ -38,25 +48,14 @@ diazorelease: diazo
 	@sleep 10
 	git commit -a -m "protoype release $(LATEST)"
 
-diazo: jekyll
-
+diazo: jekyll fetchrelease
 	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
 	cp -R prototype/_site/* $(RELEASE_DIR)/
 	# Cleaning up non mission critical elements
 	rm -f $(RELEASE_DIR)/*-e
 	rm -rf $(RELEASE_DIR)/bundles/*
-
-	# --- (2) --- fetch release (see corresponding jsrelease target in prototype/Makefile)
-	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
-	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
-
-	# --- (3) --- refresh diazo static/generated
+	# --- (2) --- refresh diazo static/generated
 	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
 	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
