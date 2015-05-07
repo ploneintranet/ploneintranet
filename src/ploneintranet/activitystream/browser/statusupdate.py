@@ -1,11 +1,14 @@
 # coding=utf-8
 from DateTime import DateTime
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from ploneintranet.attachments.utils import IAttachmentStorage
+from ploneintranet.core.browser.utils import link_tags
+from ploneintranet.core.browser.utils import link_users
 from ploneintranet.docconv.client.interfaces import IDocconv
 
 
@@ -94,12 +97,25 @@ class StatusUpdateView(BrowserView):
 
     @property
     @memoize
+    def decorated_text(self):
+        ''' Use this method to enrich the status update text
+
+        For example we can add mentions and tags
+        '''
+        text = safe_unicode(self.context.text)
+        tags = getattr(self.context, 'tags', None)
+        mentions = getattr(self.context, 'mentions', None)
+        text += link_users(self.portal_url, mentions)
+        text += link_tags(self.portal_url, tags)
+        return text
+
+    @property
+    @memoize
     def attachment_base_url(self):
         ''' This will return the base_url for making attachments
         '''
-        portal_url = api.portal.get().absolute_url()
         base_url = '{portal_url}/@@status-attachments/{status_id}'.format(
-            portal_url=portal_url,
+            portal_url=self.portal_url,
             status_id=self.context.getId(),
         )
         return base_url
