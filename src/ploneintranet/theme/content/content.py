@@ -4,12 +4,13 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.textfield.value import RichTextValue
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
-from plone.app.textfield.value import RichTextValue
+
 
 @implementer(IBlocksTransformEnabled)
 class ContentView(BrowserView):
