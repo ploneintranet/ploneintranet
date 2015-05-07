@@ -11,4 +11,8 @@
            factory=".example.ExampleSiteSearch"
            name="example" />
 
+  <adapter
+           name="friendly_type_name"
+           factory=".indexers.friendly_type_name" />
+
 </configure>
