@@ -29,6 +29,14 @@
         />
 
     <browser:page
+        name="comment-v2.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        template="comment-v2.html"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
+        permission="zope.Public"
+        />
+
+    <browser:page
         name="post-v2.html"
         for="ploneintranet.activitystream.interfaces.IStatusActivity"
         permission="zope.Public"
