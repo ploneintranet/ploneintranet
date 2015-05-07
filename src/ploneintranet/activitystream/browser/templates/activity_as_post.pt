@@ -1,1 +1,1 @@
-<metal:block use-macro="here/@@post-v2.html/main" />
+<metal:block use-macro="here/@@post.html/main" />

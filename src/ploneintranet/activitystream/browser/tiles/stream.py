@@ -1,5 +1,4 @@
 # coding=utf-8
-from ..interfaces import IActivityProvider
 from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
@@ -9,7 +8,6 @@ from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.core.integration import PLONEINTRANET
 from zExceptions import NotFound
-from zope.component import getMultiAdapter
 import logging
 
 logger = logging.getLogger(__name__)
@@ -91,7 +89,7 @@ class StreamTile(Tile):
                 limit=self.count,
                 tag=self.tag
             )
-        statusupdates = self.filter_microblog_activities(statusupdates)
+        statusupdates = self.filter_statusupdates(statusupdates)
         statusupdates.sort(key=lambda x: x.date, reverse=True)
         return statusupdates
 
@@ -116,27 +114,8 @@ class StreamTile(Tile):
             yield activity
             i += 1
 
+    @property
     @memoize
-    def activity_providers(self):
-        ''' Return the activity providers
-        '''
-        return [
-            getMultiAdapter(
-                (activity, self.request, self),
-                IActivityProvider
-            )
-            for activity in self.activities
-        ]
-
-    def activity_as_post(self, activity):
-        ''' BBB: just for testing
-        '''
-        return api.content.get_view(
-            'activity_view',
-            activity.context,
-            self.request
-        ).as_post()
-
     def activity_views(self):
         ''' The activity as views
         '''

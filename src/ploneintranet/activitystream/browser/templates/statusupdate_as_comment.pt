@@ -1,1 +1,1 @@
-<metal:block use-macro="here/@@comment-v2.html/main" />
+<metal:block use-macro="here/@@comment.html/main" />
