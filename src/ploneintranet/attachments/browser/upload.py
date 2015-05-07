@@ -7,14 +7,11 @@ from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet.docconv.client.interfaces import IPreviewFetcher
 from zope.component import getUtility
 import logging
 
 log = logging.getLogger(__name__)
-try:
-    from ploneintranet.docconv.client.interfaces import IPreviewFetcher
-except ImportError:
-    IPreviewFetcher = None
 
 
 class UploadAttachments(BrowserView):
@@ -99,13 +96,12 @@ class UploadAttachments(BrowserView):
                 obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
                 temp_attachments.add(obj)
                 obj = temp_attachments.get(obj.id)
-                if IPreviewFetcher is not None:
-                    try:
-                        IPreviewFetcher(obj)()
-                    except Exception as e:
-                        log.warn('Could not get previews for attachment: {0}, '
-                                 u'{1}: {2}'.format(
-                                     obj.id, e.__class__.__name__, e))
+                try:
+                    IPreviewFetcher(obj)()
+                except Exception as e:
+                    log.warn('Could not get previews for attachment: {0}, '
+                             u'{1}: {2}'.format(
+                                 obj.id, e.__class__.__name__, e))
                 self.attachments.append(obj)
 
         return self.index()

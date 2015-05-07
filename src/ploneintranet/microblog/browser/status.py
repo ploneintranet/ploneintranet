@@ -24,6 +24,8 @@ from ..interfaces import IMicroblogTool
 from ..interfaces import IStatusUpdate
 from ..interfaces import IMicroblogContext
 
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
 
@@ -32,12 +34,6 @@ from .interfaces import IStatusProvider
 
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('ploneintranet.microblog')
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import extract_and_add_attachments
-except ImportError:
-    IAttachmentStoragable = None
 
 
 class StatusForm(extensible.ExtensibleForm, form.Form):
@@ -89,9 +85,7 @@ class StatusForm(extensible.ExtensibleForm, form.Form):
                               thread_id=thread_id)
 
         file_upload = self.request.get('form.widgets.attachments')
-        attachments_supported = (
-            IAttachmentStoragable is not None and
-            IAttachmentStoragable.providedBy(status))
+        attachments_supported = IAttachmentStoragable.providedBy(status)
         if attachments_supported and file_upload:
             token = self.request.get('attachment-form-token')
             extract_and_add_attachments(
@@ -166,9 +160,6 @@ class StatusProvider(object):
             permission, self.context)
         is_installed = queryUtility(IMicroblogTool)
         return have_permission and is_installed
-
-    def is_attachment_supported(self):
-        return IAttachmentStoragable is not None
 
     @property
     def compact(self):

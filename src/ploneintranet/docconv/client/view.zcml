@@ -1,0 +1,43 @@
+<configure
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.docconv.client">
+
+    <browser:page
+        name="docconv_image_preview.jpg"
+        for="*"
+        permission="zope2.View"
+        class=".view.PreviewView"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
+        />
+    <browser:page
+        name="docconv_image_thumb.jpg"
+        for="*"
+        permission="zope2.View"
+        class=".view.ThumbnailView"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
+        />
+    <browser:page
+        name="pdf-not-available"
+        for="*"
+        permission="zope2.View"
+        class=".view.PdfNotAvailableView"
+        template="templates/pdf_not_available.pt"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
+        />
+    <browser:page
+        name="request-pdf"
+        for="*"
+        permission="zope2.View"
+        class=".view.PdfRequestView"
+        template="templates/pdf_request.pt"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
+        />
+    <browser:page
+        name="pdf"
+        for="*"
+        permission="zope2.View"
+        class=".view.PdfView"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
+        />
+
+</configure>

@@ -1,12 +1,12 @@
-from five import grok
-
 from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope import schema
 from zope.event import notify
+from zope.interface import implementer
 
+from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace import MessageFactory
 
@@ -28,11 +28,11 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     )
 
 
+@implementer(IWorkspaceFolder, IAttachmentStoragable)
 class WorkspaceFolder(Container):
     """
     A WorkspaceFolder users can collaborate in
     """
-    grok.implements(IWorkspaceFolder)
 
     # Block local role acquisition so that users
     # must be given explicit access to the workspace
@@ -79,12 +79,3 @@ class WorkspaceFolder(Container):
         new_policy = value
         self._participant_policy = new_policy
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-except ImportError:
-    IAttachmentStoragable = None
-
-if IAttachmentStoragable is not None:
-    from zope import interface
-    interface.classImplements(WorkspaceFolder, IAttachmentStoragable)

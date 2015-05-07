@@ -18,7 +18,7 @@
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
   <merge attributes="class" css:content="body" css:theme="body" />
-  <copy attributes="id dir" css:content="body" css:theme="body" />
+  <copy attributes="id dir data-base-url data-pat-pickadate data-portal-url data-pat-tinymce data-pat-plone-modal data-i18ncatalogurl" css:content="body" css:theme="body" />
 
   <!-- Logo -->
   <replace css:content-children="#portal-logo" css:theme-children="#site-logo" />
@@ -33,6 +33,10 @@
   <!-- Portal Personal Tools -->
   <replace css:content-children="#portal-personaltools-wrapper"
            css:theme="#user-avatar" />
+
+  <!-- adaptation of the global-nav -->
+  <replace css:theme-children="#home-tabs"
+           css:content-children="#portal-globalnav li" />
 
   <drop css:theme="#buddies-toggle"
         css:if-not-content="#buddies-toggle" />

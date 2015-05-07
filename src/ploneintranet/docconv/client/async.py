@@ -7,7 +7,7 @@ from StringIO import StringIO
 from DateTime import DateTime
 from PIL import Image
 from Products.CMFCore.interfaces import ISiteRoot
-from five import grok
+from Products.Five import BrowserView
 from plone.app.async.interfaces import IAsyncService
 from plone.app.async.service import (
     _executeAsUser,
@@ -19,7 +19,6 @@ from zc.async.job import Job
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
-from zope.interface import Interface
 
 from ploneintranet.docconv.client.config import (
     ASYNC_CONVERSION_DELAY,
@@ -98,7 +97,7 @@ def queueDelayedConversionJob(context, request):
     return True
 
 
-class RecursiveQueueJob(grok.View):
+class RecursiveQueueJob(BrowserView):
     """ Queues docconv jobs for the context and everything inside. Default
         behaviour:
 
@@ -144,9 +143,6 @@ class RecursiveQueueJob(grok.View):
         /@@convertall?modified:tuple=20121201T00:00:00%2B00:00&
         modified:tuple=20121202T00:00:00%2B00:00& minresolution:int=1024
         """
-    grok.name('convertall')
-    grok.context(Interface)
-    grok.require("zope2.View")
 
     def mklog(self, use_std_log=False):
         """ helper to prepend a time stamp to the output """

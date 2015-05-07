@@ -18,20 +18,12 @@ from .interfaces import IActivityProvider
 from plone.app.contenttypes.content import Image
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
-
-try:
-    from ploneintranet.attachments.attachments import IAttachmentStoragable
-    from ploneintranet.attachments.utils import IAttachmentStorage
-except ImportError:
-    IAttachmentStoragable = None
-try:
-    from ploneintranet.docconv.client.interfaces import IDocconv
-except ImportError:
-    IDocconv = None
+from ploneintranet.docconv.client.interfaces import IDocconv
 
 
 class AbstractActivityProvider(object):
@@ -52,10 +44,7 @@ class AbstractActivityProvider(object):
     __call__ = render
 
     def is_anonymous(self):
-        portal_membership = getToolByName(getSite(),
-                                          'portal_membership',
-                                          None)
-        return portal_membership.isAnonymousUser()
+        return api.user.is_anonymous()
 
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
@@ -142,12 +131,6 @@ class AbstractActivityProvider(object):
         text += link_users(url, mentions)
         text += link_tags(url, tags)
         return text
-
-    def is_attachment_supported(self):
-        return IAttachmentStoragable is not None
-
-    def is_preview_supported(self):
-        return IDocconv is not None
 
     @property
     def attachments(self):
@@ -247,10 +230,6 @@ class StatusActivityProvider(AbstractActivityProvider):
     @property
     def attachments(self):
         """ Get preview images for status update attachments """
-        if not self.is_attachment_supported():
-            return []
-        if not self.is_preview_supported():
-            return []
         if not IAttachmentStoragable.providedBy(self.status):
             return []
 

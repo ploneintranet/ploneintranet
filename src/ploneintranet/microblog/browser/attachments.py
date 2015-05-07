@@ -2,16 +2,12 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet.docconv.client.interfaces import IDocconv
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
-
-try:
-    from ploneintranet.docconv.client.interfaces import IDocconv
-except ImportError:
-    IDocconv = None
 
 
 @implementer(IPublishTraverse)
@@ -72,26 +68,25 @@ class StatusAttachments(BrowserView):
                 'filename="{0}"'.format(
                     safe_unicode(self.attachment_id).encode('utf8')))
             return data
-        if IDocconv is not None:
-            docconv = IDocconv(attachment)
-            if self.preview_type == 'thumb':
-                if docconv.has_thumbs():
-                    return self._prepare_imagedata(
-                        attachment, docconv.get_thumbs()[0])
-            elif self.preview_type == 'preview':
-                if docconv.has_previews():
-                    return self._prepare_imagedata(
-                        attachment, docconv.get_previews()[0])
-            elif self.preview_type == '@@images':
-                images = api.content.get_view(
-                    'images',
-                    attachment.aq_base,
-                    self.request,
-                )
+        docconv = IDocconv(attachment)
+        if self.preview_type == 'thumb':
+            if docconv.has_thumbs():
                 return self._prepare_imagedata(
-                    attachment,
-                    str(images.scale(scale='preview').data.data)
-                )
+                    attachment, docconv.get_thumbs()[0])
+        elif self.preview_type == 'preview':
+            if docconv.has_previews():
+                return self._prepare_imagedata(
+                    attachment, docconv.get_previews()[0])
+        elif self.preview_type == '@@images':
+            images = api.content.get_view(
+                'images',
+                attachment.aq_base,
+                self.request,
+            )
+            return self._prepare_imagedata(
+                attachment,
+                str(images.scale(scale='preview').data.data)
+            )
 
         raise NotFound
 
