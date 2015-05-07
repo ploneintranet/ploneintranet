@@ -45,12 +45,18 @@ class ExampleSiteSearch(object):
         batch = Batch(brains, step, start)
         results = []
         for brain in batch:
+            if brain['has_thumbs']:
+                preview_path = brain.getPath() + '/docconv_image_thumb.jpg'
+            else:
+                preview_path = None
+
             results.append(
                 SearchResult(
                     brain['Title'],
                     brain.getPath(),
                     description=brain['Description'],
                     document_type=brain['friendly_type_name'],
+                    preview_path=preview_path,
                 )
             )
         response_facets = {
