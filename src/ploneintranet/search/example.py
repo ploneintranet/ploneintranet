@@ -50,11 +50,11 @@ class ExampleSiteSearch(object):
                     brain['Title'],
                     brain.getPath(),
                     description=brain['Description'],
-                    document_type=brain['Type'],
+                    document_type=brain['friendly_type_name'],
                 )
             )
         response_facets = {
-            'Type': {x['Type'] for x in brains},
+            'friendly_type_name': {x['friendly_type_name'] for x in brains},
             'Subject': {y for x in brains for y in x['Subject']},
         }
         response = SearchResponse(

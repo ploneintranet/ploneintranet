@@ -3,7 +3,7 @@ from zope.component import getUtility
 
 from ..interfaces import ISiteSearch
 
-SUPPORTED_FACETS = ['Type', 'Subject']
+SUPPORTED_FACETS = ['friendly_type_name', 'Subject']
 
 
 class SearchResultsView(BrowserView):

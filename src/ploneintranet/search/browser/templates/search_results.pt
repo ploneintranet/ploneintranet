@@ -42,9 +42,9 @@
 				    <legend>Content types</legend>
 				    <!-- Only list content types in this list that are relevant for this search result. -->
 				    <label 
-					 tal:repeat="ctype search_response/facets/Type">
+					 tal:repeat="ctype search_response/facets/friendly_type_name">
 					<input checked type="checkbox" 
-					       name="Type"
+					       name="friendly_type_name"
 					       tal:attributes="value ctype" />
 					<span tal:replace="ctype" />
 				    </label>
