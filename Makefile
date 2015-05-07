@@ -2,6 +2,7 @@ RELEASE_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat prototype/LATEST)
 BUNDLENAME      = ploneintranet
+BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
 all::
 default: all
@@ -12,6 +13,7 @@ check-clean:
 
 ########################################################################
 ## Setup
+## You don't run these rules unless you're a prototype dev
 
 prototype::
 	@if [ ! -d "prototype" ]; then \
@@ -25,40 +27,8 @@ bundle:
 jekyll: prototype
 	@cd prototype && make jekyll
 
-# You normally don't run this rule
-# Unless you're a prototype dev and want to deploy a new prototype release into ploneintranet
-diazo: jekyll
-	# (1) prepare clean release dir
-	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
-	cp -R prototype/_site/* $(RELEASE_DIR)/
-	# Cleaning up non mission critical elements
-	rm -f $(RELEASE_DIR)/*-e
-	rm -rf $(RELEASE_DIR)/bundles/*
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/bundles/
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/bundles/
-	# point js sourcing to registered resource
-	sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/*.html
-	# rewrite all other generated sources to point to diazo dir
-	sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#' $(RELEASE_DIR)/*.html
-
-	# (2) refresh diazo static/generated
-	@[ -d $(DIAZO_DIR)/ ] || mkdir $(DIAZO_DIR)/
-	# html templates referenced in rules.xml
-	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\"`; do \
-		cp $(RELEASE_DIR)/`basename $$file` $(DIAZO_DIR)/; \
-	done
-	# javascript
-	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir $(DIAZO_DIR)/bundles/
-	cp $(RELEASE_DIR)/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/bundles/$(BUNDLENAME).js
-	cp $(RELEASE_DIR)/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/bundles/$(BUNDLENAME).min.js
-	# we want all style elements recursively - and remove old resources not used anymore
-	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
-	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
-	# logo
-	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
-	cp $(RELEASE_DIR)/media/logo.svg $(DIAZO_DIR)/media/
-
-	# (3) commit changes, including removals
+diazorelease: diazo
+	# commit changes, including removals
 	git add --all $(DIAZO_DIR)
 	@echo "=========================="
 	@git status
@@ -67,6 +37,56 @@ diazo: jekyll
 	@echo "^C to abort (10 sec)"
 	@sleep 10
 	git commit -a -m "protoype release $(LATEST)"
+
+diazo: jekyll
+
+	# --- (1) --- prepare clean release dir
+	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
+	cp -R prototype/_site/* $(RELEASE_DIR)/
+	# Cleaning up non mission critical elements
+	rm -f $(RELEASE_DIR)/*-e
+	rm -rf $(RELEASE_DIR)/bundles/*
+
+	# --- (2) --- fetch release (see corresponding jsrelease target in prototype/Makefile)
+	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
+	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+
+	# --- (3) --- refresh diazo static/generated
+	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
+	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
+	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
+		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/; \
+	done
+	# we want all style elements recursively - and remove old resources not used anymore
+	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
+	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
+	# logo
+	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
+	cp $(RELEASE_DIR)/media/logo.svg $(DIAZO_DIR)/media/
+
+# full js development refresh
+jsdev: bundle diazo fastjsdev
+
+# fast replace ploneintranet-dev.js - requires diazo to have run!
+fastjsdev:
+	# replace minfied js bundle with dev bundle, directly in diazo theme dir
+	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
+	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
+
+bundle: prototype
+	cd prototype && make bundle
+
+jsrelease: prototype
+	cd prototype && make jsrelease
+
+
 
 dev-diazo: bundle generate-dev-site copy-dev-files
 diazo: generate-site copy-files
