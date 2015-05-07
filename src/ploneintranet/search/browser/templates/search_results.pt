@@ -141,6 +141,7 @@
 				</dt>
 
 				<dd class="description">
+				    <!--
 				    {% if result.layout == 'event' %}
 				    <a href="{{ result.url }}" class="preview event">
 					<time class="calendar-medium pat-auto-scale">
@@ -154,15 +155,17 @@
 					{{ result.excerpt }}
 				    </a>
 				    {% else %}
-				    {% if result.previews %}
-				    <a href="{{ result.url }}" class="preview file">
-					{% for preview in result.previews | limit:1 %}
-					<img src="{{ preview.url }}" alt="" />
-					{% endfor %}
+				    -->
+				    <tal:preview condition="result/preview_image_url">
+					<a href="{{ result.url }}" 
+					   class="preview file"
+					   tal:attributes="href result/url">
+					    <img src="{{ preview.url }}" 
+						 alt="" 
+						 tal:attributes="src result/preview_image_url" />
 				    </a>
-				    {% endif %}
-				    {% endif %}
-
+				    </tal:preview>
+				    
 				    <p class="fragment" 
 				       tal:condition="result/description" 
 				       tal:content="result/description">
