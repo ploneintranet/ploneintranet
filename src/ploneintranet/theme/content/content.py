@@ -9,13 +9,13 @@ from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
-
+from plone.app.textfield.value import RichTextValue
 
 @implementer(IBlocksTransformEnabled)
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
-    def __call__(self, title=None, description=None, tags=[]):
+    def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
@@ -23,10 +23,10 @@ class ContentView(BrowserView):
             'Modify portal content',
             obj=context
         )
-        self.update(title, description, tags)
+        self.update(title, description, tags, text)
         return super(ContentView, self).__call__()
 
-    def update(self, title=None, description=None, tags=[]):
+    def update(self, title=None, description=None, tags=[], text=None):
         """ """
         context = aq_inner(self.context)
         if not self.can_edit:
@@ -42,6 +42,11 @@ class ContentView(BrowserView):
         if title or description or tags:
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
+                modified = True
+            if text:
+                richtext = RichTextValue(raw=text, mimeType='text/html',
+                                         outputMimeType='text/x-html-safe')
+                context.text = richtext
                 modified = True
             if description:
                 if safe_unicode(description) != context.description:
