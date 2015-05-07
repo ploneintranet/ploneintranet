@@ -48,7 +48,7 @@ class ContentView(BrowserView):
                 modified = True
             if text:
                 richtext = RichTextValue(raw=text, mimeType='text/html',
-                                        outputMimeType='text/x-html-safe')
+                                         outputMimeType='text/x-html-safe')
                 context.text = richtext
                 modified = True
             if description:
