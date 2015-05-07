@@ -32,4 +32,5 @@ XLS = ('application/vnd.ms-excel.addin.macroEnabled.12',
 PDF = ('application/pdf',
        'application/x-pdf',
        'image/pdf')
-ZIP = ('')
+ZIP = ('application/zip',
+       'application/x-zip-compressed')
