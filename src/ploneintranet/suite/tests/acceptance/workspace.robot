@@ -5,7 +5,7 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
-# Library  DebugLibrary
+Library  DebugLibrary
 
 Variables  variables.py
 
@@ -185,6 +185,7 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Security
@@ -285,6 +286,8 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
 
+
+
 I can create a new folder
     Click link  Documents
     Click link  Create folder
@@ -332,3 +335,6 @@ I can create a structure
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
+
+The upload appears in the stream
+    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
