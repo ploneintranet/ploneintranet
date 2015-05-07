@@ -2,6 +2,7 @@
 from Acquisition import aq_inner
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.textfield.value import RichTextValue
@@ -11,6 +12,7 @@ from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
+from ploneintranet.theme import _
 
 
 @implementer(IBlocksTransformEnabled)
@@ -35,9 +37,7 @@ class ContentView(BrowserView):
             return
         modified = False
         if self.request.get('workflow_action'):
-            modified = True
-            # TODO: not sure if a workflow state change should
-            # trigger a reindex and ObjectModifiedEvent
+            # TODO: should we trigger any events or reindex?
             api.content.transition(
                 obj=context,
                 transition=self.request.get('workflow_action')
@@ -60,9 +60,10 @@ class ContentView(BrowserView):
                 if tags != context.subject:
                     context.subject = tags
                     modified = True
-        if modified:
-            context.reindexObject()
-            notify(ObjectModifiedEvent(context))
+            if modified:
+                IStatusMessage(self.request).add(_("Your changes have been saved"))
+                context.reindexObject()
+                notify(ObjectModifiedEvent(context))
 
     @property
     @memoize
