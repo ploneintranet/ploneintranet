@@ -35,8 +35,9 @@
                     <fieldset tal:condition="view/has_workflow" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
                             tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url};; source: #global-statusmessage">
                         <label class="pat-select bare workflow" title="Change the workflow state">
+                            <span tal:replace="view/get_workflow_state" />
                             <select name="workflow_action">
-                                <option tal:content="view/get_workflow_state"></option>
+                                <option></option>
                                 <option tal:repeat="state view/get_workflow_transitions"
                                     tal:attributes="title state/title; value state/id"
                                     tal:content="state/name">Workflow State</option>
