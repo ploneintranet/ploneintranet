@@ -21,6 +21,7 @@ class PloneintranetSearchLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.docconv.client:default')
+        applyProfile(portal, 'ploneintranet.search:default')
 
 
 FIXTURE = PloneintranetSearchLayer()
