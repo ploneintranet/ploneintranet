@@ -150,8 +150,8 @@ class ActivityView(BrowserView):
         return map(self.item2attachments, items)
 
     def statusreply_provider(self):
-        # if not self.highlight():
-        #     return
+        ''' BBB This seems unused
+        '''
         provider = getMultiAdapter(
             (self.status, self.request, self),
             name="ploneintranet.microblog.statusreply_provider"
@@ -159,16 +159,14 @@ class ActivityView(BrowserView):
         provider.update()
         return provider()
 
+    @memoize
     def reply_providers(self):
         ''' Return the way we can reply to this activity
         '''
-        name = (
-            "ploneintranet.activitystream.statusactivityinlinereply_provider"
-        )
-        for reply in self.context.replies():
-            provider = getMultiAdapter(
-                (reply, self.request, self),
-                name=name
-            )
-            provider.update()
-            yield provider
+        return [
+            api.content.get_view(
+                'statusupdate_view',
+                reply,
+                self.request,
+            ).as_reply for reply in self.context.replies()
+        ]
