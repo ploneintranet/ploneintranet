@@ -1,10 +1,9 @@
-RELEASE_DIR		= release/prototype
-DIAZO_DIR       = src/ploneintranet/theme/static
+RELEASE_DIR	= release/prototype/_site
+DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat prototype/LATEST)
 BUNDLENAME      = ploneintranet
-BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
-all:: diazo
+all::
 default: all
 clean:
 	rm bin/* .installed.cfg || true
@@ -17,40 +16,57 @@ check-clean:
 prototype::
 	@if [ ! -d "prototype" ]; then \
 		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
-		cd prototype&& make; \
+		cd prototype && make; \
 	 fi;
 
 bundle:
 	@cd prototype && make bundle
 
-generate-site: prototype
+jekyll: prototype
 	@cd prototype && make jekyll
 
-generate-dev-site:
-	@cd prototype && make dev-jekyll
-
-copy-dev-files:
-	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
-	rm -rf  $(DIAZO_DIR)/generated/bundles
-	cp -R prototype/_site/* $(DIAZO_DIR)/generated/
-
-copy-files: 
-	# Bundle all html, css and js into a deployable package.
-	# I assume that all html in _site and js in _site/bundles is built and
-	# ready for upload.
+# You normally don't run this rule
+# Unless you're a prototype dev and want to deploy a new prototype release into ploneintranet
+diazo: jekyll
+	# (1) prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
-	cp -R prototype/_site $(RELEASE_DIR)/
-	sed -i -e "s,<script src=\"bundles/$(BUNDLENAME).js\",<script src=\"bundles/$(shell readlink prototype/bundles/$(BUNDLENAME).js)\"," $(RELEASE_DIR)/_site/*.html
+	cp -R prototype/_site/* $(RELEASE_DIR)/
 	# Cleaning up non mission critical elements
-	rm -f $(RELEASE_DIR)/_site/*-e
-	rm -rf $(RELEASE_DIR)/_site/bundles/*
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/
-	ln -sf $(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
-	ln -sf $(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
-	# copy to the diazo theme dir
-	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
-	cp -R $(RELEASE_DIR)/_site/* $(DIAZO_DIR)/generated/
+	rm -f $(RELEASE_DIR)/*-e
+	rm -rf $(RELEASE_DIR)/bundles/*
+	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/bundles/
+	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/bundles/
+	# point js sourcing to registered resource
+	sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/*.html
+	# rewrite all other generated sources to point to diazo dir
+	sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#' $(RELEASE_DIR)/*.html
+
+	# (2) refresh diazo static/generated
+	@[ -d $(DIAZO_DIR)/ ] || mkdir $(DIAZO_DIR)/
+	# html templates referenced in rules.xml
+	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\"`; do \
+		cp $(RELEASE_DIR)/`basename $$file` $(DIAZO_DIR)/; \
+	done
+	# javascript
+	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir $(DIAZO_DIR)/bundles/
+	cp $(RELEASE_DIR)/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/bundles/$(BUNDLENAME).js
+	cp $(RELEASE_DIR)/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/bundles/$(BUNDLENAME).min.js
+	# we want all style elements recursively - and remove old resources not used anymore
+	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
+	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
+	# logo
+	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
+	cp $(RELEASE_DIR)/media/logo.svg $(DIAZO_DIR)/media/
+
+	# (3) commit changes, including removals
+	git add --all $(DIAZO_DIR)
+	@echo "=========================="
+	@git status
+	@echo "=========================="
+	@echo 'Ready to do: git commit -a -m "protoype release $(LATEST)"'
+	@echo "^C to abort (10 sec)"
+	@sleep 10
+	git commit -a -m "protoype release $(LATEST)"
 
 dev-diazo: bundle generate-dev-site copy-dev-files
 diazo: generate-site copy-files
