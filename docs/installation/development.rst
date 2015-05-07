@@ -19,9 +19,12 @@ Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
+    make
     virtualenv --no-site-packages .
     bin/python2.7 bootstrap.py
     bin/buildout -c dev.cfg
+
+Please don't forget to run that ``make`` or you'll have a borked installation.
 
 
 Build using the Plone 5 coredev
@@ -47,8 +50,9 @@ so you can easily edit them with your favorite IDE.
 3. `cd ploneintranet`
 4. `sudo make docker-build` will prepare the docker image
 5. `sudo make docker-run` will launch the docker image and give you a shell inside
-6. `make devel` will run the development buildout
-7. `bin/instance fg` will run the Plone instance, which you can access on localhost:8080.
+6. `make` will fetch the ploneintranet compiled javascript bundle
+7. `make devel` will run the development buildout
+8. `bin/instance fg` will run the Plone instance, which you can access on localhost:8080.
 
 This is an experimental setup. YMMV. The provided configs re-use your .bashrc,
 re-use a /var/tmp buildout cache, re-use your ssh agent etc. You might have to
@@ -70,23 +74,7 @@ It's also possible to run this `without sudo`_.
 Prepare the theme
 -----------------
 
-While we are still in development mode and don't have eggs released, you
-have to make the theme explicitly
-
-**Note**: If you don't have node/npm and ruby/bundler/jekyll available, read
-the "Standalone Installation" under
-https://github.com/ploneintranet/ploneintranet.theme/blob/master/README.rst
-first.
-
-The theme files need to be created within the main repository::
-
-    make
-
-Once the files are built a directory with static files is created in
-`src/ploneintranet/theme/static/generated`.
-
-**Note**: Everytime you pull ploneintranet.theme again and expect new javascript or any
-design changes, you probably need to rerun make clean && make.
+This is done by running ``make``.
 
 Create a new Plone instance
 ---------------------------
@@ -102,6 +90,15 @@ Running tests
 -------------
 
 See :doc:`../development/testing`
+
+
+Working on the theme
+--------------------
+
+The theme is derived from a separate package: ploneintranet.prototype.
+
+Documentation TODO.
+https://github.com/ploneintranet/ploneintranet.theme/blob/0ba4c21acd6da8e941fa94d0421491e59228009d/README.rst
 
 
 Building the Documentation
