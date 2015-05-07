@@ -23,8 +23,6 @@ def friendly_type_name(obj):
     # If the object is a file get the friendly name of the mime type
     if IFile.providedBy(obj):
         mtr = api.portal.get_tool(name='mimetypes_registry')
-        if mtr is None:
-            return obj.Type()
 
         primary_field_info = IPrimaryFieldInfo(obj)
         if not primary_field_info.value:
@@ -32,19 +30,18 @@ def friendly_type_name(obj):
 
         if hasattr(primary_field_info.value, "contentType"):
             contenttype = primary_field_info.value.contentType
-        else:
-            return default_name
+            try:
+                mimetypeitem = mtr.lookup(contenttype)
+            except MimeTypeException as msg:
+                logger.warn(
+                    'mimetype lookup failed for %s. Error: %s',
+                    obj.absolute_url(),
+                    str(msg)
+                )
+                return default_name
 
-        try:
-            mimetypeitem = mtr.lookup(contenttype)
-        except MimeTypeException as msg:
-            logger.warn(
-                'mimetype lookup failed for %s. Error: %s',
-                obj.absolute_url(),
-                str(msg)
-            )
-            return default_name
+        mimetype_name = mimetypeitem[0].name()
+        if mimetype_name != contenttype:
+            return mimetype_name
 
-        return mimetypeitem[0].name()
     return default_name
-
