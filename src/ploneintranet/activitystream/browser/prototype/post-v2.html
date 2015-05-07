@@ -64,7 +64,7 @@
 
   <section class="preview">
 
-    <figure tal:repeat="attachment view/attachments">
+    <figure tal:repeat="attachment view/statusupdate_view/attachments">
       <a href="/incredibly-boring-document" tal:attributes="href attachment/link">
         <img src="/media/preview_thumb_1.jpg" alt=""
              tal:attributes="src string:${attachment/img_src}">
