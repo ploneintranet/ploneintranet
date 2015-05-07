@@ -1,4 +1,5 @@
 from AccessControl import Unauthorized
+
 from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
@@ -116,7 +117,7 @@ class SidebarSettingsSecurity(BaseTile):
                 )
 
         if self.request.method == 'POST':
-            if not ws.can_manage_workspace():
+            if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
@@ -142,7 +143,7 @@ class SidebarSettingsAdvanced(BaseTile):
         ws = self.workspace()
 
         if self.request.method == 'POST':
-            if not ws.can_manage_workspace():
+            if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
@@ -170,9 +171,9 @@ class Sidebar(BaseTile):
         ws = self.workspace()
 
         if self.request.method == 'POST':
-            if not ws.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace title'
-                        u' or description')
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'title or description')
                 raise Unauthorized(msg)
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
