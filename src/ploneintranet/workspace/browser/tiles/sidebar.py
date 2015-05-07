@@ -1,6 +1,7 @@
 from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace import utils
+from ploneintranet.workspace import config
 from ploneintranet.workspace.config import SIDEBAR_TYPES
 from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
 from ploneintranet.workspace.policies import JOIN_POLICY
@@ -219,13 +220,114 @@ class Sidebar(BaseTile):
 
         return self.render()
 
+    def logical_parent(self):
+        """
+        Needed for the back button in the sidebar.
+        Depending on the selected grouping, this returns the information
+        needed to get one step back.
+        """
+        grouping = self.grouping()
+        workspace = utils.parent_workspace(self.context)
+
+        if grouping == 'folder':
+            if self.context != workspace:
+                parent = self.request.PARENTS[1]
+                return dict(title=parent.Title(), url=parent.absolute_url())
+            else:
+                return
+        else:
+            if self.request.get('groupname'):
+                if grouping == 'date':
+                    title = 'All Dates'
+                elif grouping == 'label':
+                    title = 'All Tags'
+                elif grouping == 'author':
+                    title = 'All Authors'
+                elif grouping == 'type':
+                    title = 'All Types'
+                else:
+                    title = 'Back'
+                return dict(title=title, url=workspace.absolute_url())
+            else:
+                return
+
     # ContentItems
+    def extract_attrs(self, catalog_results):
+        ptool = api.portal.get_tool('portal_properties')
+        results = []
+        for r in catalog_results:
+            if r['portal_type'] in FOLDERISH_TYPES:
+                structural_type = 'group'
+            else:
+                structural_type = 'item'
+            content_type = utils.TYPE_MAP.get(r['portal_type'],
+                                              'none')
+
+            # If it is a file, we have to check the mime type as well
+            # And the filename is not enough, we need to guess on the content
+            # But that information is not available in the catalog
+            # TODO XXX: Add a mime type metadata to the catalog
+            if content_type == 'file':
+                mime_type = utils.guess_mimetype(r['getId'])
+                if not mime_type:
+                    mime_type = '/'
+                major, minor = mime_type.split('/')
+                if mime_type in config.PDF:
+                    content_type = 'pdf'
+                elif mime_type in config.DOC:
+                    content_type = 'word'
+                elif mime_type in config.PPT:
+                    content_type = 'powerpoint'
+                elif mime_type in config.ZIP:
+                    content_type = 'zip'
+                elif mime_type in config.XLS:
+                    content_type = 'excel'
+                elif major == 'audio':
+                    content_type = 'sound'
+                elif major == 'video':
+                    content_type = 'video'
+                else:
+                    content_type = 'code'
+
+            url = r.getURL()
+            if r['portal_type'] in FOLDERISH_TYPES:
+                # What exactly do we need to inject, and where?
+                dpi = (
+                    "source: #workspace-documents; "
+                    "target: #workspace-documents; "
+                    "url: %s/@@sidebar.default#workspace-documents" %
+                    url
+                )
+            else:
+                # Plone specific:
+                # Does it need to be called with a /view postfix?
+                view_action_types = \
+                    ptool.site_properties.typesUseViewActionInListings
+                if r['portal_type'] in view_action_types:
+                    url = "%s/view" % url
+                # What exactly do we need to inject, and where?
+                dpi = (
+                    "target: #document-body; "
+                    "source: #document-body; "
+                    "history: record"
+                )
+
+            results.append(dict(
+                title=r['Title'],
+                description=r['Description'],
+                id=r.getId,
+                structural_type=structural_type,
+                content_type=content_type,
+                dpi=dpi,
+                url=url
+            ))
+        return results
 
     def children(self):
         """ returns a list of dicts of items in the current context
         """
-        items = []
         catalog = api.portal.get_tool("portal_catalog")
+
         current_path = '/'.join(self.context.getPhysicalPath())
 
         sidebar_search = self.request.get('sidebar-search', None)
@@ -233,77 +335,212 @@ class Sidebar(BaseTile):
         allowed_types = [i for i in api.portal.get_tool('portal_types')
                          if i not in BLACKLISTED_TYPES]
         query['portal_type'] = allowed_types
-        grouping = self.grouping()
 
         # 1. Retrieve the children, depending on the circumstances
 
         if sidebar_search:
             # User has typed a search query
             # XXX plone only allows * as postfix.
+            # With solr we might want to do real substr
             query['SearchableText'] = '%s*' % sidebar_search
             query['path'] = current_path
-            # With solr we might want to do real substr
-            results = catalog.searchResults(query)
-        elif grouping == 'folder':
-            # Group by Folder - list contents
-            query['sort_on'] = 'sortable_title'
-            results = self.context.getFolderContents(query)
+            results = self.extract_attrs(catalog.searchResults(query))
+
+        elif self.request.get('groupname'):
+            results = self.extract_attrs(self.get_children())
         else:
-            # Group by other critieria
-            results = self.group_headers()
+            # Group by critieria
+            results = self.entries_for_grouping()
 
         # 2. Prepare the results for display in the sidebar
 
+        # Each item must be a dict with at least the following attributes:
+        # title, description, id, structural_type, content_type, dpi, url
+        # where:
+        #   * title, description and id are obvious
+        #   * structural_type states if clicking the entry will open it in the
+        #     sidebar or in the content area
+        #   * content_type is a name for the type usable in css classes.
+        #     see utils.TYPE_MAP for a map of plone types to design classes
+        #   * dpi is the config that must go into the data-pat-inject attribute
+        #     for proper injection
+        #   * url is the url that should be called with all params and anchors
+
+        children = []
         for item in results:
-            # Do some checks to set the right classes for icons and candy
-            desc = (
-                'has-description' if item['Description']
+            # Do checks to set the right classes for icons and candy
+
+            # Does the item have a description?
+            # If so, signal that with a class.
+            cls_desc = (
+                'has-description' if item.get('description')
                 else 'has-no-description'
             )
 
             # XXX: will be needed later for grouping by mimetyp
             mime_type = ''
-            # typ can be user, folder, date and mime-typish
-            portal_type = getattr(item, 'portal_type', '')
-            typ = utils.TYPE_MAP.get(portal_type, 'none')
-            if hasattr(item, 'getURL'):
-                url = item.getURL()
-            else:
-                url = ''
 
-            ptool = api.portal.get_tool('portal_properties')
-            view_action_types = \
-                ptool.site_properties.typesUseViewActionInListings
+            cls = 'item %s type-%s %s' % \
+                (item.get('structural_type', 'group'),
+                 item.get('content_type', 'code'),
+                 cls_desc)
 
-            if portal_type in FOLDERISH_TYPES:
-                dpi = (
-                    "source: #workspace-documents; "
-                    "target: #workspace-documents; "
-                    "url: %s/@@sidebar.default#workspace-documents" % url
-                )
-                content_type = 'group'
-            else:
-                if portal_type in view_action_types:
-                    url = "%s/view" % url
-                dpi = (
-                    "target: #document-body; "
-                    "source: #document-body; "
-                    "history: record"
-                )
-                content_type = 'document'
+            item['cls'] = cls
+            item['mime-type'] = mime_type
+            # default to sidebar injection
+            if 'dpi' not in item:
+                if item.get('structural_type', 'item') == 'group':
+                    item['dpi'] = ("source: #workspace-documents; "
+                                   "target: #workspace-documents; "
+                                   "url: %s" % item['url'])
+                else:
+                    item['dpi'] = ("source: #document-documents; "
+                                   "target: #document-documents; "
+                                   "history: record;"
+                                   "url: %s" % item['url'])
+            children.append(item)
 
-            cls = 'item %s type-%s %s' % (content_type, typ, desc)
+        return children
 
-            items.append({
-                'id': item['getId'],
-                'cls': cls,
-                'title': item['Title'],
-                'description': item['Description'],
-                'url': url,
-                'type': typ,
-                'mime-type': mime_type,
-                'dpi': dpi})
-        return items
+    @property
+    def page_idx(self):
+        return int(self.request.form.get('page_idx', 0))
+
+    @property
+    def page_size(self):
+        return int(self.request.form.get('page_size', 18))
+
+    def entries_for_grouping(self):
+        """ Return the entries according to a particular grouping
+            (e.g. label, author, type).
+        """
+        workspace = utils.parent_workspace(self.context)
+        # if the user may not view the workspace, don't bother with
+        # getting groups
+        user = api.user.get_current()
+        if not user.has_permission('View', workspace):
+            return []
+
+        grouping = self.grouping()
+        group_url_tmpl = workspace.absolute_url() + \
+            '/@@sidebar.default?groupname=%s#workspace-documents'
+
+        if grouping == 'folder':
+            # Group by Folder - list contents
+            query = {}
+            allowed_types = [i for i in api.portal.get_tool('portal_types')
+                             if i not in BLACKLISTED_TYPES]
+            query['portal_type'] = allowed_types
+            query['sort_on'] = 'sortable_title'
+            return self.extract_attrs(self.context.getFolderContents(query))
+
+        if grouping == 'date':
+            return [dict(title='Today',
+                         description='Items modified today',
+                         id='today',
+                         structural_type='group',
+                         content_type='date',
+                         url=group_url_tmpl % 'today'),
+                    dict(title='Last Week',
+                         description='Items modified last week',
+                         id='week',
+                         structural_type='group',
+                         content_type='date',
+                         url=group_url_tmpl % 'week'),
+                    dict(title='Last Month',
+                         description='Items modified last month',
+                         id='month',
+                         structural_type='group',
+                         content_type='date',
+                         url=group_url_tmpl % 'month'),
+                    dict(title='All Time',
+                         description='Items since ever',
+                         id='ever',
+                         structural_type='group',
+                         content_type='date',
+                         url=group_url_tmpl % 'ever')]
+
+        try:
+            storage = getAdapter(workspace, IGroupingStorage)
+        except ComponentLookupError:
+            # This happens in the unlikely case when this is called
+            # outside of an actual workspace
+            # which stores the grouping storage. In place as reminder for
+            # the developer.
+            log.info("Could not load GroupStorage for: %s"
+                     % workspace.absolute_url())
+            return []
+
+        # In the grouping storage, all entries are accessible under their
+        # respective grouping headers. Fetch them for the selected grouping.
+        headers = storage.get_order_for(
+            grouping,
+            include_archived='archived_tags' in self.show_extra,
+            alphabetical=True
+        )
+
+        # In case of grouping by label, we also must show all unlabeled entries
+        if grouping == 'label':
+            for header in headers:
+                header['url'] = group_url_tmpl % header['id']
+                header['content_type'] = 'tag'
+            headers.append(dict(title='Untagged',
+                                description='All items without tags',
+                                id='untagged',
+                                url=group_url_tmpl % 'Untagged',
+                                content_type='tag',
+                                archived=False))
+        # If we are grouping by 'author', but the filter is for documents
+        # only by the current user, then we return only the current user as
+        # a grouping.
+        elif grouping == 'author':
+            if 'my_documents' in self.show_extra:
+                username = user.getId()
+                headers = [dict(title=username,
+                                description=user.getProperty('fullname'),
+                                content_type='user',
+                                url=group_url_tmpl % username,
+                                id=username)]
+            for header in headers:
+                header['url'] = group_url_tmpl % header['id']
+                header['content_type'] = 'user'
+
+        # For types, we want to resolve the type to a readable title
+        elif grouping == 'type':
+            # Return the human readable titles.
+            # vocab = queryUtility(IVocabularyFactory,
+            #                      name=config.DOCUMENT_TYPE)(self)
+            # headers = [
+            #     dict(heading=vocab.getTermByToken(h['heading']).title,
+            #          value=vocab.getTermByToken(h['heading']).value)
+            #     for h in headers]
+            headers = [dict(title='Meeting Minutes',
+                            description='Minutes and other notes',
+                            url=group_url_tmpl % 'minutes',
+                            id='minutes'),
+                       dict(title='Request Letter',
+                            description='Letters of request',
+                            url=group_url_tmpl % 'request_letter',
+                            id='request_letter')]
+
+            headers.append(dict(title='Other',
+                                description='All other document types',
+                                url=group_url_tmpl % 'other',
+                                id='none'))
+
+        # The exception case. Should not happen though.
+        else:
+            headers = [dict(title='Ungrouped',
+                            description='Other',
+                            url=group_url_tmpl % '',
+                            content_type='none',
+                            id='none')]
+
+        # All headers here are to be displayed as group
+        for header in headers:
+            header['structural_type'] = 'group'
+
+        return headers
 
     def tasks(self):
         items = []
@@ -365,95 +602,27 @@ class Sidebar(BaseTile):
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
+    @memoize
+    def sorting(self):
+        member = api.user.get_current()
+        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+        return self.get_from_request_or_cookie(
+            "sorting", cookie_name, "modified")
+
     @property
     def show_extra(self):
         cookie_name = '%s-show-extra-%s' % (
             self.section, api.user.get_current().getId())
         return self.request.get(cookie_name, '').split('|')
 
+    def archives_shown(self):
+        # Note: this is only for documents
+        return utils.archives_shown(self.context, self.request, self.section)
+
     def urlquote(self, value):
         """ Encodes values to be used as URL pars
         """
         return urllib.quote(value)
-
-    def group_headers(self):
-        """ Return the headers (i.e. values) under a particular grouping
-            (e.g. label, author, type).
-        """
-        workspace = utils.parent_workspace(self.context)
-        # if the user may not view the workspace, don't bother with
-        # getting groups
-        user = api.user.get_current()
-        if not user.has_permission('View', workspace):
-            return []
-        grouping = self.grouping()
-
-        if grouping == 'date':
-            return [dict(Title='Today',
-                         Description='Items modified today',
-                         getId='today'),
-                    dict(Title='Last Week',
-                         Description='Items modified last week',
-                         getId='week'),
-                    dict(Title='Last Month',
-                         Description='Items modified last month',
-                         getId='month'),
-                    dict(Title='All Time',
-                         Description='Items since ever',
-                         getId='ever')]
-
-        try:
-            storage = getAdapter(workspace, IGroupingStorage)
-        except ComponentLookupError:
-            # This happens if objects are loaded outside of an actual workspace
-            # which stores the grouping storage. In place just in case
-            log.info("Could not load GroupStorage for: %s"
-                     % workspace.absolute_url())
-            return []
-
-        headers = storage.get_order_for(
-            grouping,
-            include_archived='archived_tags' in self.show_extra,
-            alphabetical=True
-        )
-
-        if grouping == 'label':
-            headers.append(dict(Title='Untagged',
-                                Description='All items without tags',
-                                getId='untagged',
-                                archived=False))
-        elif grouping == 'author':
-            # If we are grouping by 'author', but the filter is for documents
-            # only by the current user, then we return only the current user as
-            # a grouping.
-            if 'my_documents' in self.show_extra:
-                username = user.getId()
-                return [dict(Title=username,
-                             Description=user.getProperty('fullname'),
-                             getId=username)]
-        elif grouping == 'type':
-            # Return the human readable titles.
-            # vocab = queryUtility(IVocabularyFactory,
-            #                      name=config.DOCUMENT_TYPE)(self)
-            # headers = [
-            #     dict(heading=vocab.getTermByToken(h['heading']).title,
-            #          value=vocab.getTermByToken(h['heading']).value)
-            #     for h in headers]
-            headers = [dict(Title='Meeting Minutes',
-                            Description='Minutes and other notes',
-                            getId='minutes'),
-                       dict(Title='Request Letter',
-                            Description='Letters of request',
-                            getId='request_letter')]
-            headers.append(dict(Title='Other',
-                                Description='All other document types',
-                                getId='none'))
-            return headers
-        else:
-            return [dict(Title='Ungrouped',
-                         Description='Other',
-                         getId='none')]
-        return headers
 
     def get_items_by(self,
                      grouping,
@@ -463,19 +632,21 @@ class Sidebar(BaseTile):
         """ Return all the documents that have a value $grouping_value for a
             field corresponding to $grouping.
         """
-        # Somehow we missed adding the documentType index to the ZCatalog. It's
+        # Wwe missed adding the documentType index to the ZCatalog. It's
         # there now, but as long as it's not filled with enough values we use
         # solr instead for grouping by type
-        if grouping == 'type':
-            catalog = api.portal.get_tool(name='portal_catalog')
-        else:
-            catalog = api.portal.get_tool(name='portal_catalog')\
-                ._cs_old_searchResults
+        # XXX Check with Netsight what catalog we will have
+        # if grouping == 'type':
+        #     catalog = api.portal.get_tool(name='portal_catalog')
+        # else:
+        #     catalog = api.portal.get_tool(name='portal_catalog')\
+        #         ._cs_old_searchResults
+        catalog = api.portal.get_tool(name='portal_catalog')
 
         # XXX Try doing solr only as we are injecting items via JS anyway,
         # a delay doesn't matter
 
-        workspace = utils.get_workspace_or_contract(self.context)
+        workspace = utils.parent_workspace(self.context)
         context_uid = IUUID(workspace)
         criteria = {
             'path': '/'.join(workspace.getPhysicalPath()),
@@ -498,7 +669,8 @@ class Sidebar(BaseTile):
 
         documents = []
         if grouping in ('label', 'label_custom'):
-            # This is a bit of an exception compared to the other 3 groupings.
+            # This is a bit of an exception compared to the
+            # other 3 groupings.
             # We have to check whether grouping_value is 'Untagged', so we
             # query the catalog here and not at the end of the method.
             if grouping_value != 'Untagged':
@@ -515,27 +687,28 @@ class Sidebar(BaseTile):
                     continue
                 if grouping_value == 'Untagged' and brain.Subject:
                     continue
-                documents.append(self.make_leaf(brain))
+                documents.append(brain)
             return documents
 
         if grouping == 'author':
             if 'my_documents' in self.show_extra and \
                     criteria.get('Creator') != grouping_value:
-                # If the filter is "Documents by me" and the grouping_value is
+                # If the filter is "Documents by me" and the groupingvalue is
                 # not the current user, we don't return any documents.
                 return []
             criteria['Creator'] = grouping_value
 
         elif grouping == 'period':
-            # Show the results grouped by today, the last week, the last month,
+            # Show the results grouped by today, the last week,
+            # the last month,
             # all time. For every grouping, we exclude the previous one. So,
-            # last week won't again include today and "all time" would exclude
+            # last week won't again include today and all time would exclude
             # the last month.
             today_start = DateTime(DateTime().Date())
             today_end = today_start + 1
             week_start = today_start - 6
-            # FIXME: Last month should probably be the last literal month, not
-            # the last 30 days.
+            # FIXME: Last month should probably be the last literal month,
+            # not the last 30 days.
             month_start = today_start - 30
 
             if grouping_value == 'Today':
@@ -560,14 +733,14 @@ class Sidebar(BaseTile):
                         continue
                     if brain.documentType:
                         continue
-                    documents.append(self.make_leaf(brain))
+                    documents.append(brain)
                 return documents
 
         brains = catalog(**criteria)
         for brain in brains:
             if brain is None or brain.UID == context_uid:
                 continue
-            documents.append(self.make_leaf(brain))
+            documents.append(brain)
 
         return documents
 
@@ -575,11 +748,12 @@ class Sidebar(BaseTile):
     def get_children(self, page_idx=None):
         """ Return the children for a certain grouping_value
         """
-        grouping = self.request.get('grouping', None)
-        sorting = self.request.get('sorting', 'modified')
-        grouping_value = self.request.get('groupname', '')
+        grouping = self.grouping()
+        sorting = self.sorting()
+        grouping_value = self.request.get('groupname')
         filter = self.request.get('filter')
-        children = self.get_items_by(grouping, grouping_value, filter, sorting)
+        children = self.get_items_by(grouping, grouping_value, filter,
+                                     sorting)
         if page_idx is None:
             page_idx = self.page_idx
         page_size = self.page_size

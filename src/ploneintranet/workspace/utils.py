@@ -11,7 +11,7 @@ from zope.component import queryUtility
 from collective.workspace.interfaces import IWorkspace
 from ploneintranet.workspace import MessageFactory as _
 from urllib2 import urlparse
-
+import mimetypes
 import logging
 
 log = logging.getLogger(__name__)
@@ -185,3 +185,22 @@ def set_cookie(request, cookie_name, value):
             cookie_name not in request:
         request.response.setCookie(
             cookie_name, value, path=cookie_path)
+
+
+def guess_mimetype(file_name):
+    content_type = mimetypes.guess_type(file_name)[0]
+    # sometimes plone mimetypes registry could be more powerful
+    if not content_type:
+        mtr = api.portal.get_tool('mimetypes_registry')
+        oct = mtr.globFilename(file_name)
+        if oct is not None:
+            content_type = str(oct)
+
+    return content_type
+
+
+def archives_shown(context, request, section="main"):
+    mtool = api.portal.get_tool('portal_membership')
+    username = mtool.getAuthenticatedMember().getId()
+    cookie_name = '%s-show-extra-%s' % (section, username)
+    return 'documents' in request.get(cookie_name, '')
