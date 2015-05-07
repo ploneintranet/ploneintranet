@@ -1,10 +1,9 @@
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
+from ploneintranet.core.integration import PLONEINTRANET
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 from zope.publisher.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import getMultiAdapter
-
-from ploneintranet.core.integration import PLONEINTRANET
 
 
 class PloneIntranetNavigation(BrowserView):
@@ -25,9 +24,11 @@ class PloneIntranetNavigation(BrowserView):
     render = ViewPageTemplateFile("templates/navigation.pt")
 
     def portal_url(self):
-        portal_state = getMultiAdapter(
-            (self.context, self.request),
-            name=u'plone_portal_state')
+        portal_state = api.content.get_view(
+            u'plone_portal_state',
+            self.context,
+            self.request,
+        )
         return portal_state.portal_url()
 
     def items(self):
