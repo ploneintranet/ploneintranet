@@ -8,9 +8,11 @@
 
     <metal:content fill-slot="content">
 
-	<form action="search-results.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
+	<form action="search-results.html" id="global-search" class="pat-autosubmit pat-inject"
+	      data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 
-	    <div class="container input">
+	    <div class="container input pat-subform pat-inject" 
+		 data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 		<fieldset class="search">
 		    <label>
 			<input type="search" name="lemma" placeholder="Search the entire intranet" />
@@ -31,7 +33,7 @@
 		<div class="container results">
 		    <div class="row pat-equaliser">
 			<div class="three columns filters">
-			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing;"
+			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing; history: record;"
 				      tal:condition="search_response">
 				<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
 				<input type="hidden" name="lemma" 
