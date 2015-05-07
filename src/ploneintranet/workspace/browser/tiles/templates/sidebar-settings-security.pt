@@ -3,15 +3,15 @@
     <div id="sidebar-content">
       <div id="workspace-settings">
         <div class="tabs-content">
-          <aside tal:condition="view/form_submitted" id="global-statusmessage">
+          <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
             <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
           </aside>
           <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST"
                 tal:define="workspace view/my_workspace"
-                tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security#global-statusmessage">
+                tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security;
+                                data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 
             <h3>Workspace policy</h3>
-
             <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
               <tal:field_info define="label string: External visibility; field_name string:external_visibility">
