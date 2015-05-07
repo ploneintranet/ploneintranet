@@ -17,6 +17,7 @@ class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
 <<<<<<< HEAD
+<<<<<<< HEAD
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
 
     commentable = True
@@ -24,6 +25,11 @@ class StatusUpdateView(BrowserView):
 
     as_reply = ViewPageTemplateFile('templates/statusupdate_as_reply.pt')
 >>>>>>> Added status update view
+=======
+    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
+
+    commentable = True
+>>>>>>> Replace reply_providers with views on status updates
 
     @property
     @memoize
@@ -174,9 +180,11 @@ class StatusUpdateView(BrowserView):
         provider.update()
         return provider()
 
-    def reply_providers(self):
+    @memoize
+    def comment_views(self):
         ''' Return the way we can reply to this activity
         '''
+<<<<<<< HEAD
         name = (
             "ploneintranet.activitystream.statusactivityinlinereply_provider"
         )
@@ -188,3 +196,12 @@ class StatusUpdateView(BrowserView):
             provider.update()
             yield provider
 >>>>>>> Added status update view
+=======
+        return [
+            api.content.get_view(
+                'statusupdate_view',
+                reply,
+                self.request,
+            ).as_comment for reply in self.context.replies()
+        ]
+>>>>>>> Replace reply_providers with views on status updates

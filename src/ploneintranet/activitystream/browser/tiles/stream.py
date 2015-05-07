@@ -52,35 +52,19 @@ class StreamTile(Tile):
         '''
         seen_thread_ids = set()
         good_statusupdates = []
-
         container = PLONEINTRANET.microblog
 
-<<<<<<< HEAD
         for su in statusupdates:
             if su.thread_id and su.thread_id in seen_thread_ids:
-=======
-        container = PLONEINTRANET.microblog
-
-        for activity in activities:
-            if activity.thread_id and activity.thread_id in seen_thread_ids:
->>>>>>> Get the parent status update as soon as possible
                 continue
             elif su.id in seen_thread_ids:
                 continue
 
-<<<<<<< HEAD
             if IStatusActivityReply.providedBy(su):
                 su = container.get(su.thread_id)
 
             seen_thread_ids.add(su.id)
             good_statusupdates.append(su)
-=======
-            if IStatusActivityReply.providedBy(activity):
-                activity = container.get(activity.thread_id)
-
-            seen_thread_ids.append(activity.id)
-            good_activities.append(activity)
->>>>>>> Get the parent status update as soon as possible
 
         return good_statusupdates
 
