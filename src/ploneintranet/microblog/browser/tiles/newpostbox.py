@@ -12,7 +12,6 @@ from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
 
-
 logger = getLogger('newpostbox')
 
 
