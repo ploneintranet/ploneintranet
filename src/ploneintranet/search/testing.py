@@ -4,8 +4,10 @@ from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 import unittest2 as unittest
 import ploneintranet.search
+import ploneintranet.docconv.client
 
 
 class PloneintranetSearchLayer(PloneSandboxLayer):
@@ -15,6 +17,10 @@ class PloneintranetSearchLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         self.loadZCML(package=ploneintranet.search)
+        self.loadZCML(package=ploneintranet.docconv.client)
+
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
 
 
 FIXTURE = PloneintranetSearchLayer()
