@@ -13,8 +13,9 @@ from zope.component import getMultiAdapter
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
+    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
 
-    as_reply = ViewPageTemplateFile('templates/statusupdate_as_reply.pt')
+    commentable = True
 
     @property
     @memoize
@@ -152,16 +153,14 @@ class StatusUpdateView(BrowserView):
         provider.update()
         return provider()
 
-    def reply_providers(self):
+    @memoize
+    def comment_views(self):
         ''' Return the way we can reply to this activity
         '''
-        name = (
-            "ploneintranet.activitystream.statusactivityinlinereply_provider"
-        )
-        for reply in self.context.replies():
-            provider = getMultiAdapter(
-                (reply, self.request, self),
-                name=name
-            )
-            provider.update()
-            yield provider
+        return [
+            api.content.get_view(
+                'statusupdate_view',
+                reply,
+                self.request,
+            ).as_comment for reply in self.context.replies()
+        ]

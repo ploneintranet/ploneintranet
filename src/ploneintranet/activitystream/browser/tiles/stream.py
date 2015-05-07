@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class StreamTile(Tile):
-    """Tile view similar to StreamView."""
+    '''Tile view similar to StreamView.'''
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
     count = 15
@@ -45,73 +45,72 @@ class StreamTile(Tile):
         '''
         return PLONEINTRANET.context(self.context)
 
-    def filter_microblog_activities(self, activities):
-        """ BBB: this should really go in to PLONEINTRANET.microblog!
+    def filter_statusupdates(self, statusupdates):
+        ''' This method filters the microblog StatusUpdates
 
-        We should get the activity already filtered
-        """
-        # For a reply IStatusActivity we render the parent post and then
-        # all the replies are inside that. So, here we filter out reply who's
-        # parent post we already rendered.
-        seen_thread_ids = []
-        good_activities = []
+        The idea is:
+         - if a StatusUpdate is a comment return the parent StatusUpdate
+         - do not return duplicate statusupdates
+        '''
+        seen_thread_ids = set()
+        good_statusupdates = []
 
         container = PLONEINTRANET.microblog
 
-        for activity in activities:
-            if activity.thread_id and activity.thread_id in seen_thread_ids:
+        for su in statusupdates:
+            if su.thread_id and su.thread_id in seen_thread_ids:
                 continue
-            elif activity.id in seen_thread_ids:
+            elif su.id in seen_thread_ids:
                 continue
 
-            if IStatusActivityReply.providedBy(activity):
-                activity = container.get(activity.thread_id)
+            if IStatusActivityReply.providedBy(su):
+                su = container.get(su.thread_id)
 
-            seen_thread_ids.append(activity.id)
-            good_activities.append(activity)
+            seen_thread_ids.add(su.id)
+            good_statusupdates.append(su)
 
-        return good_activities
+        return good_statusupdates
 
-    def get_microblog_activities(self):
-        ''' This will return all the StatusActivity which are not replies
+    def get_statusupdates(self):
+        ''' This will return all the StatusUpdates which are not comments
+
+        The activity are sorted by reverse chronological order
         '''
         container = PLONEINTRANET.microblog
 
         if self.microblog_context:
             # support collective.local integration
-            activities = container.context_values(
+            statusupdates = container.context_values(
                 self.microblog_context,
                 limit=self.count,
                 tag=self.tag
             )
         else:
             # default implementation
-            activities = container.values(
+            statusupdates = container.values(
                 limit=self.count,
                 tag=self.tag
             )
-        activities = self.filter_microblog_activities(activities)
-        return activities
+        statusupdates = self.filter_microblog_activities(statusupdates)
+        statusupdates.sort(key=lambda x: x.date, reverse=True)
+        return statusupdates
 
     @property
     @memoize
     def activities(self):
         ''' The list of our activities
         '''
-        items = self.get_microblog_activities()
-        # see date_key sorting function above
-        items = sorted(items, key=lambda x: x.date, reverse=True)
-
+        statusupdates = self.get_statusupdates()
         i = 0
-        for item in items:
+        for su in statusupdates:
             if i >= self.count:
                 break
             try:
-                activity = IActivity(item)
+                activity = IActivity(su)
             except Unauthorized:
                 continue
             except NotFound:
-                logger.exception("NotFound: %s" % item.getURL())
+                logger.exception("NotFound: %s" % activity.getURL())
                 continue
 
             yield activity
