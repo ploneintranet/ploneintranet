@@ -31,9 +31,6 @@ prototype::
 		cd prototype && make; \
 	 fi;
 
-bundle:
-	@cd prototype && make bundle
-
 jekyll: prototype
 	@cd prototype && make jekyll
 
@@ -87,10 +84,6 @@ bundle: prototype
 jsrelease: prototype
 	cd prototype && make jsrelease
 
-
-
-dev-diazo: bundle generate-dev-site copy-dev-files
-diazo: generate-site copy-files
 
 ####################################################################
 # docker.io
