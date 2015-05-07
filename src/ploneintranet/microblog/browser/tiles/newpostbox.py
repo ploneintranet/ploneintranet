@@ -8,10 +8,10 @@ from plone.tiles import Tile
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
-from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
-from zope.component import queryUtility
+
 
 logger = getLogger('newpostbox')
 
@@ -38,7 +38,7 @@ class NewPostBoxTile(Tile):
     def post_container(self):
         """ Return the object that will contain the post
         """
-        return queryUtility(IMicroblogTool)
+        return PLONEINTRANET.microblog
 
     @property
     @memoize
