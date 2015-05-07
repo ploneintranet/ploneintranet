@@ -10,32 +10,26 @@
 
 <div i18n:domain="ploneintranet.activitystream"
      tal:define="
-         portal_url portal_url|here/@@plone_portal_state/portal_url;
-         thread_id thread_id|activity_provider/status_id|nothing;
-         id python: thread_id and ('post-%s' % thread_id) or None;
+         thread_id here/getId;
      "
      class="post item"
-     tal:attributes="id id">
+     tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
     <a tal:define="
-        userid activity_provider/userid;
-        avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
-        avatar_name activity_provider/Creator;
+        userid here/userid;
+        avatar_img string:${view/portal_url}/portal_memberdata/portraits/${userid};
+        avatar_name here/Creator;
       "
       tal:condition="userid"
       tal:attributes="
-        href string:${portal_url}/author/${userid};
+        href string:${view/portal_url}/author/${userid};
       ">
       <metal:block use-macro="here/@@avatar.html/main" />
-      <h4 tal:content="activity_provider/Creator" class="name">
-        Poster Name
-      </h4>
+      <h4 class="name">${avatar_name}</h4>
     </a>
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
-      <time tal:content="activity_provider/date">
-        8/23/2001 12:40:44 PM
-      </time> |
+      <time>${view/date}</time> |
       <label class="visibility pat-select bare">
         <select>
           <optgroup>
@@ -65,14 +59,12 @@
   </div>
 
   <section class="post-content">
-
-    <p tal:content="structure activity_provider/getText">Comment text</p>
-
+    <p tal:content="structure view/statusupdate_view/decorated_text">Comment text</p>
   </section>
 
   <section class="preview">
 
-    <figure tal:repeat="attachment activity_provider/attachments">
+    <figure tal:repeat="attachment view/statusupdate_view/attachments">
       <a href="/incredibly-boring-document" tal:attributes="href attachment/link">
         <img src="/media/preview_thumb_1.jpg" alt=""
              tal:attributes="src string:${attachment/img_src}">
@@ -81,30 +73,28 @@
 
   </section>
 
-  <div class="functions" tal:condition="not:activity_provider/is_anonymous">
+  <div class="functions" tal:condition="not:view/is_anonymous">
     <a href="#">Share <sup class="counter">(8)</sup></a>
-    <form href="#" tal:define="toggle_like activity_provider/get_toggle_like_view;" tal:replace="structure python:toggle_like()">
-      <button class="like active" value="like" name="like_button" type="submit">
-        <span>Like</span>
-        <sup class="counter">(4)</sup>
-      </button>
-    </form>
+    <form tal:replace="structure view/toggle_like" />
   </div>
-  <tal:commentable condition="exists:activity_provider/reply_providers">
-      <div class="comments" id="comments"
-        tal:attributes="id string:comments-${thread_id}"
-        tal:define="reply_providers activity_provider/reply_providers">
+  <tal:commentable condition="view/statusupdate_view/commentable">
+      <div class="comments"
+           id="${string:comments-${thread_id}}"
+           talattributes="id string:comments-${thread_id}">
         <div tal:attributes="id string:comment-trail-${thread_id}">
-          <tal:loop tal:repeat="provider reply_providers">
-            <metal:block use-macro="here/@@comment.html/main" />
-          </tal:loop>
+          <tal:loop
+              tal:repeat="comment view/statusupdate_view/comment_views"
+              tal:content="structure comment"
+          />
         </div>
         <tal:define define="
-          newpostbox_view nocall:newpostbox_view|here/newpostbox.tile;
+          newpostbox_view nocall:view/newpostbox_view;
           form_id string:comment_box_${thread_id};
           attachment_previews_id string:attachment-previews-${thread_id};
-          action string:${context_url|here/absolute_url}/@@newpostbox.tile;
-          placeholder activity_provider/placeholder;
+          action string:${view/context_url}/@@newpostbox.tile;
+          placeholder view/newpostbox_placeholder;
+          portal_url view/portal_url;
+          context_url view/context_url;
         ">
           <metal:block use-macro="here/@@update-social.html/main" />
         </tal:define>

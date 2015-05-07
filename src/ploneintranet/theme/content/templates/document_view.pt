@@ -1,10 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  lang="en"
-  metal:use-macro="context/main_template/macros/master"
-  i18n:domain="ploneintranet.theme">
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="ploneintranet.theme">
 
 <body>
     <metal:content fill-slot="content"
@@ -23,9 +23,7 @@
                 data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor">
             <div class="metadata pat-bumper" id="meta">
               <div class="meta-bar">
-                <h1 class="doc-title" id="document-title">
-                  ${context/title}
-                </h1>
+                <h1 class="doc-title" id="document-title">${context/title}</h1>
                 <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                 <div class="quick-functions">
                     <a href="#confirm-delete" class="icon-trash iconified">Delete</a>
