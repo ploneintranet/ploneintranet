@@ -5,6 +5,7 @@ from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.textfield.value import RichTextValue
 from plone.memoize.view import memoize
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
@@ -41,9 +42,14 @@ class ContentView(BrowserView):
                 obj=context,
                 transition=self.request.get('workflow_action')
             )
-        if title or description or tags:
+        if title or description or tags or text:
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
+                modified = True
+            if text:
+                richtext = RichTextValue(raw=text, mimeType='text/html',
+                                        outputMimeType='text/x-html-safe')
+                context.text = richtext
                 modified = True
             if description:
                 if safe_unicode(description) != context.description:
