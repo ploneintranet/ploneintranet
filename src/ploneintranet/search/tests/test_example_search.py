@@ -33,9 +33,11 @@ class TestExampleSearch(IntegrationTestCase):
 
     def test_query_keywords_only(self):
         response = self.util.query('hopefully')
-        self.assertEqual(response.results[0].title, self.doc1.Title())
+        result = response.results.next()
+        self.assertEqual(result.title, self.doc1.Title())
+        self.assertEqual(result.url, self.doc1.absolute_url())
         self.assertEqual(response.total_results, 1)
-        self.assertEqual(response.facets['Type'], {'Page'})
+        self.assertEqual(response.facets['friendly_type_name'], {'Page'})
         self.assertEqual(response.facets['Subject'], {'test', 'my-tag'})
 
     def test_query_facets(self):
