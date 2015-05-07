@@ -3,11 +3,7 @@ from DateTime import DateTime
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
-from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.docconv.client.interfaces import IDocconv
-from zope.component import getMultiAdapter
 
 
 class ActivityView(BrowserView):
@@ -74,6 +70,17 @@ class ActivityView(BrowserView):
 
     @property
     @memoize
+    def statusupdate_view(self):
+        ''' Return the newpostbox.tile view
+        '''
+        return api.content.get_view(
+            'statusupdate_view',
+            self.context.context,
+            self.request,
+        )
+
+    @property
+    @memoize
     def toLocalizedTime(self):
         ''' Facade for the toLocalizedTime method
         '''
@@ -100,64 +107,6 @@ class ActivityView(BrowserView):
             long_format=True,
             time_only=time_only
         )
-
-    @property
-    @memoize
-    def attachment_base_url(self):
-        ''' This will return the base_url for making attachments
-        '''
-        portal_url = api.portal.get().absolute_url()
-        base_url = '{portal_url}/@@status-attachments/{status_id}'.format(
-            portal_url=portal_url,
-            status_id=self.context.getId,
-        )
-        return base_url
-
-    def item2attachments(self, item):
-        ''' Take the attachment sotrage item
-        and transform it into an attachment
-        '''
-        docconv = IDocconv(item)
-        item_url = '/'.join((
-            self.attachment_base_url,
-            item.getId(),
-        ))
-        if docconv.has_thumbs():
-            url = '/'.join((item_url, 'thumb'))
-        elif isinstance(item, Image):
-            images = api.content.get_view(
-                'images',
-                item.aq_base,
-                self.request,
-            )
-            url = '/'.join((
-                item_url,
-                images.scale(scale='preview').url.lstrip('/'),
-            ))
-        else:
-            # We need a better fallback image. See #122
-            url = '/'.join((
-                api.portal.get().absolute_url(),
-                '++theme++ploneintranet.theme/generated/media/logo.svg'
-            ))
-        return {'img_src': url, 'link': item_url}
-
-    def attachments(self):
-        """ Get preview images for status update attachments
-        """
-        storage = IAttachmentStorage(self.context.context, {})
-        items = storage.values()
-        return map(self.item2attachments, items)
-
-    def statusreply_provider(self):
-        ''' BBB This seems unused
-        '''
-        provider = getMultiAdapter(
-            (self.status, self.request, self),
-            name="ploneintranet.microblog.statusreply_provider"
-        )
-        provider.update()
-        return provider()
 
     @memoize
     def reply_providers(self):
