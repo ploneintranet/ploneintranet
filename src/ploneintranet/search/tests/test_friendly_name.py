@@ -3,7 +3,6 @@ from plone import api
 from plone.namedfile import NamedBlobFile
 from zope.component import queryMultiAdapter
 
-from ..indexers import friendly_type_name
 from ..testing import IntegrationTestCase
 
 
@@ -40,4 +39,3 @@ class TestFriendlyName(IntegrationTestCase):
             (self.file1, self.catalog),
             IIndexableObject)
         self.assertEqual(wrapped.friendly_type_name, 'PDF document')
-
