@@ -24,6 +24,7 @@
   <include package="ploneintranet.notifications"/>
   <include package="ploneintranet.pagerank"/>
   <include package="ploneintranet.simplesharing"/>
+  <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
