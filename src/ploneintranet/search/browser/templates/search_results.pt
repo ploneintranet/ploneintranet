@@ -156,14 +156,16 @@
 				    </a>
 				    {% else %}
 				    -->
-				    <tal:preview condition="result/preview_image_url">
+				    <tal:preview>
 					<a href="{{ result.url }}" 
 					   class="preview file"
 					   tal:attributes="href result/url">
 					    <img src="{{ preview.url }}" 
 						 alt="" 
-						 tal:attributes="src result/preview_image_url" />
-				    </a>
+						 tal:attributes="src result/preview_image_url"
+						 tal:condition="result/preview_image_url" />
+					    <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg" tal:condition="not: result/preview_image_url" />
+					</a>
 				    </tal:preview>
 				    
 				    <p class="fragment" 
