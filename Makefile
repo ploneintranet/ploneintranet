@@ -48,7 +48,8 @@ diazorelease: diazo
 	@sleep 10
 	git commit -a -m "protoype release $(LATEST)"
 
-diazo: jekyll fetchrelease
+diazo: jekyll fetchrelease _diazo
+_diazo:
 	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
 	cp -R prototype/_site/* $(RELEASE_DIR)/
@@ -61,7 +62,8 @@ diazo: jekyll fetchrelease
 	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
 		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
-		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/; \
+		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
+		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
 	done
 	# we want all style elements recursively - and remove old resources not used anymore
 	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
@@ -71,10 +73,10 @@ diazo: jekyll fetchrelease
 	cp $(RELEASE_DIR)/media/logo.svg $(DIAZO_DIR)/media/
 
 # full js development refresh
-jsdev: bundle diazo fastjsdev
+jsdev: bundle diazo _jsdev
 
 # fast replace ploneintranet-dev.js - requires diazo to have run!
-fastjsdev:
+_jsdev:
 	# replace minfied js bundle with dev bundle, directly in diazo theme dir
 	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
 	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
