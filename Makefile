@@ -1,6 +1,6 @@
 RELEASE_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
-LATEST          = $(shell cat prototype/LATEST)
+LATEST          = $(shell cat LATEST)
 BUNDLENAME      = ploneintranet
 BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
@@ -12,6 +12,10 @@ check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
 fetchrelease:
+	# update LATEST in case we updated the prototype
+	$(eval LATEST := $(shell cat LATEST))
+	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
+	echo $(BUNDLEURL)
 	# fetch non-git-controlled required javascript resources
 	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
 	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
@@ -28,8 +32,10 @@ fetchrelease:
 prototype::
 	@if [ ! -d "prototype" ]; then \
 		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
-		cd prototype && make; \
-	 fi;
+	else \
+		cd prototype && git pull; \
+	fi;
+	cp prototype/LATEST .
 
 jekyll: prototype
 	@cd prototype && make jekyll
@@ -40,10 +46,10 @@ diazorelease: diazo
 	@echo "=========================="
 	@git status
 	@echo "=========================="
-	@echo 'Ready to do: git commit -a -m "protoype release $(LATEST)"'
+	@echo 'Ready to do: git commit -a -m "protoype release $(shell cat LATEST)"'
 	@echo "^C to abort (10 sec)"
 	@sleep 10
-	git commit -a -m "protoype release $(LATEST)"
+	git commit -a -m "protoype release $(shell cat LATEST)"
 
 diazo: jekyll fetchrelease _diazo
 _diazo:
