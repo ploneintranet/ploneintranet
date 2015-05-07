@@ -7,7 +7,7 @@
     i18n_domain="ploneintranet.search">
 
   <browser:page
-      name="search-results.html"
+      name="search"
       for="Products.CMFCore.interfaces.ISiteRoot"
       permission="zope2.View"
       class=".searchresults.SearchResultsView"
