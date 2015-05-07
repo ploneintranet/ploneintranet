@@ -1,20 +1,22 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:tal="http://xml.zope.org/namespaces/tal" metal:use-macro="context/main_template/macros/master">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    metal:use-macro="context/main_template/macros/master">
 
 <body>
 
   <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/comment-well-said.html -->
   <metal:macro define-macro="main">
     <tal:define define="
-        portal_url here/portal_url;
         attachment_previews_id string:attachment-previews-${thread_id};
         action string:${here/absolute_url}/@@newpostbox.tile;
       ">
-        <div tal:attributes="id string:comment-trail-${thread_id}">
-          <tal:loop tal:repeat="provider newpostbox_view/activity_providers">
-            <metal:block use-macro="here/@@comment.html/main" />
-          </tal:loop>
-        </div>
-
+        <div
+            id="${string:comment-trail-${thread_id}}"
+            tal:define="comment python:view.get_post_as_comment(view.post)"
+            tal:content="structure comment"
+        />
         <metal:block use-macro="here/@@update-social.html/main" />
     </tal:define>
 

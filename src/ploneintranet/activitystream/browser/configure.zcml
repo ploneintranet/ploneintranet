@@ -18,29 +18,19 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <adapter
-      factory=".activity_provider.StatusActivityProvider"
-      />
-
-  <adapter
-      factory=".activity_provider.StatusActivityReplyProvider"
-      />
-
-  <adapter
-      factory=".activity_provider.StatusActivityInlineReplyProvider"
-      name="ploneintranet.activitystream.statusactivityinlinereply_provider"
-      />
-
-  <adapter
-      name="ploneintranet.activitystream.statusconversation_provider"
-      factory=".statusconversation_provider.StatusConversationProvider"
+  <browser:page
+      name="activity_view"
+      for="ploneintranet.activitystream.interfaces.IStatusActivity"
+      class=".activity.ActivityView"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
   <browser:page
-      name="status"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".statusconversation.StatusConversationView"
-      permission="zope2.View"
+      name="statusupdate_view"
+      for="ploneintranet.microblog.interfaces.IStatusUpdate"
+      class=".statusupdate.StatusUpdateView"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
