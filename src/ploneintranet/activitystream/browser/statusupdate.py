@@ -7,29 +7,13 @@ from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.docconv.client.interfaces import IDocconv
-<<<<<<< HEAD
-=======
-from zope.component import getMultiAdapter
->>>>>>> Added status update view
 
 
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
-<<<<<<< HEAD
-<<<<<<< HEAD
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
-
     commentable = True
-=======
-
-    as_reply = ViewPageTemplateFile('templates/statusupdate_as_reply.pt')
->>>>>>> Added status update view
-=======
-    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
-
-    commentable = True
->>>>>>> Replace reply_providers with views on status updates
 
     @property
     @memoize
@@ -156,7 +140,6 @@ class StatusUpdateView(BrowserView):
         items = storage.values()
         return map(self.item2attachments, items)
 
-<<<<<<< HEAD
     @memoize
     def comment_views(self):
         ''' Return the way we can reply to this activity
@@ -168,40 +151,3 @@ class StatusUpdateView(BrowserView):
                 self.request,
             ).as_comment for reply in self.context.replies()
         ]
-=======
-    def statusreply_provider(self):
-        raise Exception('Ciao')
-        # if not self.highlight():
-        #     return
-        provider = getMultiAdapter(
-            (self.status, self.request, self),
-            name="ploneintranet.microblog.statusreply_provider"
-        )
-        provider.update()
-        return provider()
-
-    @memoize
-    def comment_views(self):
-        ''' Return the way we can reply to this activity
-        '''
-<<<<<<< HEAD
-        name = (
-            "ploneintranet.activitystream.statusactivityinlinereply_provider"
-        )
-        for reply in self.context.replies():
-            provider = getMultiAdapter(
-                (reply, self.request, self),
-                name=name
-            )
-            provider.update()
-            yield provider
->>>>>>> Added status update view
-=======
-        return [
-            api.content.get_view(
-                'statusupdate_view',
-                reply,
-                self.request,
-            ).as_comment for reply in self.context.replies()
-        ]
->>>>>>> Replace reply_providers with views on status updates
