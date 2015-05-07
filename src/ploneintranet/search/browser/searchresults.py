@@ -10,7 +10,7 @@ class SearchResultsView(BrowserView):
 
     def search_response(self):
         form = self.request.form
-        keywords = form.get('lemma')
+        keywords = form.get('SearchableText')
         if not keywords:
             return None
         elif isinstance(keywords, list):
