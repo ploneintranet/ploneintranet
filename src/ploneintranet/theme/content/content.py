@@ -61,7 +61,8 @@ class ContentView(BrowserView):
                     context.subject = tags
                     modified = True
             if modified:
-                IStatusMessage(self.request).add(_("Your changes have been saved"))
+                IStatusMessage(self.request).add(_(
+                    "Your changes have been saved"))
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
 
