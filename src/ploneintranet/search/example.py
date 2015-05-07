@@ -26,8 +26,11 @@ class CatalogSearchResult(object):
         self.title = brain['Title']
         self.path = brain.getPath()
         self.description = brain['Description']
-        #self.document_type = brain['friendly_type_name']
+        #  self.document_type = brain['friendly_type_name']
         self.document_type = brain['Type']
+        if brain['has_thumbs']:
+            self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
+                self)
 
     def _path_to_url(self, physical_path):
         """
@@ -74,7 +77,7 @@ class CatalogSearchResponse(object):
         self.results = (ISearchResult(result) for result in batched_results)
         self.total_results = batched_results.sequence_length
         self.facets = {
-            #'friendly_type_name': {x['friendly_type_name'] for x in brains},
+            #  'friendly_type_name': {x['friendly_type_name'] for x in brains},
             'friendly_type_name': {x['Type'] for x in batched_results},
             'Subject': {y for x in batched_results for y in x['Subject']},
         }
