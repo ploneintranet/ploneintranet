@@ -5,6 +5,7 @@ from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.textfield.value import RichTextValue
+from plone.memoize.view import memoize
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
@@ -34,8 +35,9 @@ class ContentView(BrowserView):
             return
         modified = False
         if self.request.get('workflow_action'):
-            modified = True # TODO: not sure if a workflow state change should
-                            # trigger a reindex and ObjectModifiedEvent
+            modified = True
+            # TODO: not sure if a workflow state change should
+            # trigger a reindex and ObjectModifiedEvent
             api.content.transition(
                 obj=context,
                 transition=self.request.get('workflow_action')
@@ -62,13 +64,20 @@ class ContentView(BrowserView):
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
 
+    @property
+    @memoize
+    def wf_tool(self):
+        return api.portal.get_tool('portal_workflow')
+
+    def has_workflow(self):
+        return len(self.wf_tool.getWorkflowsFor(aq_inner(self.context))) > 0
+
     def get_workflow_state(self):
         return api.content.get_state(obj=aq_inner(self.context))
 
     def get_workflow_transitions(self):
         context = aq_inner(self.context)
-        wftool = api.portal.get_tool('portal_workflow')
-        return wftool.getTransitionsFor(context)
+        return self.wf_tool.getTransitionsFor(context)
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
