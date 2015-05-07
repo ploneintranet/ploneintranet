@@ -7,7 +7,6 @@ from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.docconv.client.interfaces import IDocconv
-from zope.component import getMultiAdapter
 
 
 class StatusUpdateView(BrowserView):
@@ -141,17 +140,6 @@ class StatusUpdateView(BrowserView):
         storage = IAttachmentStorage(self.context, {})
         items = storage.values()
         return map(self.item2attachments, items)
-
-    def statusreply_provider(self):
-        raise Exception('Ciao')
-        # if not self.highlight():
-        #     return
-        provider = getMultiAdapter(
-            (self.status, self.request, self),
-            name="ploneintranet.microblog.statusreply_provider"
-        )
-        provider.update()
-        return provider()
 
     @memoize
     def comment_views(self):
