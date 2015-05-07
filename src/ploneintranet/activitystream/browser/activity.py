@@ -107,15 +107,3 @@ class ActivityView(BrowserView):
             long_format=True,
             time_only=time_only
         )
-
-    @memoize
-    def reply_providers(self):
-        ''' Return the way we can reply to this activity
-        '''
-        return [
-            api.content.get_view(
-                'statusupdate_view',
-                reply,
-                self.request,
-            ).as_reply for reply in self.context.replies()
-        ]

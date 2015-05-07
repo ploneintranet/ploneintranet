@@ -77,19 +77,14 @@
     <a href="#">Share <sup class="counter">(8)</sup></a>
     <form tal:replace="structure view/toggle_like" />
   </div>
-  <tal:commentable condition="exists:view/reply_providers">
-      <div class="comments" id="comments"
-        tal:attributes="id string:comments-${thread_id}"
-        tal:define="
-            reply_providers view/reply_providers;
-            portal_url view/portal_url;
-            context_url view/context_url;
-            toLocalizedtime nocall:view/toLocalizedTime;
-        ">
+  <tal:commentable condition="view/statusupdate_view/commentable">
+      <div class="comments"
+           id="${string:comments-${thread_id}}"
+           talattributes="id string:comments-${thread_id}">
         <div tal:attributes="id string:comment-trail-${thread_id}">
           <tal:loop
-              tal:repeat="provider reply_providers"
-              tal:content="structure provider"
+              tal:repeat="comment view/statusupdate_view/comment_views"
+              tal:content="structure comment"
           />
         </div>
         <tal:define define="
@@ -98,6 +93,8 @@
           attachment_previews_id string:attachment-previews-${thread_id};
           action string:${view/context_url}/@@newpostbox.tile;
           placeholder view/newpostbox_placeholder;
+          portal_url view/portal_url;
+          context_url view/context_url;
         ">
           <metal:block use-macro="here/@@update-social.html/main" />
         </tal:define>
