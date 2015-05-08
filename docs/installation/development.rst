@@ -100,25 +100,3 @@ The theme is derived from a separate package: ploneintranet.prototype.
 Documentation TODO.
 https://github.com/ploneintranet/ploneintranet.theme/blob/0ba4c21acd6da8e941fa94d0421491e59228009d/README.rst
 
-
-Building the Documentation
---------------------------
-
-To build the documentation you need to have the `Enchant <http://www.abisource.com/projects/enchant/>`_ library installed on your system.
-To install the Enchant library on Ubuntu::
-
-    sudo apt-get install libenchant-dev
-
-To install the Enchant library on OSX using brew.::
-
-    brew install enchant
-
-Alternatively see the `stackoverflow article`_ on Enchant and OSX.
-
-The documentation along with its own buildout, is in the folder ``/docs``
-
-The buildout creates a script in bin to generate the docs::
-
-   bin/generate-docs
-
-The docs are generated in docs/html.
