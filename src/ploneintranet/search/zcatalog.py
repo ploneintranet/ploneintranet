@@ -4,6 +4,7 @@ from zope.interface import implements
 from zope.globalrequest import getRequest
 from zope.component import adapts
 from Products.ZCatalog.interfaces import ICatalogBrain
+
 from .interfaces import ISiteSearch
 from .interfaces import ISearchResult, ISearchResponse
 
@@ -73,12 +74,13 @@ class ZCatalogSearchResponse(object):
     total_results = None
 
     def __init__(self, batched_results):
+        all_results = batched_results._sequence
         self.results = (ISearchResult(result) for result in batched_results)
         self.total_results = batched_results.sequence_length
         self.facets = {
             'friendly_type_name': {x['friendly_type_name']
-                                   for x in batched_results},
-            'Subject': {y for x in batched_results for y in x['Subject']},
+                                   for x in all_results},
+            'Subject': {y for x in all_results for y in x['Subject']},
         }
 
 
