@@ -5,4 +5,14 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.search">
 
+  <include package=".browser" />
+
+  <utility provides=".interfaces.ISiteSearch"
+           factory=".example.ExampleSiteSearch"
+           name="example" />
+
+  <adapter
+           name="friendly_type_name"
+           factory=".indexers.friendly_type_name" />
+
 </configure>

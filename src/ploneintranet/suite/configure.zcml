@@ -15,6 +15,7 @@
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.search"/>
   <include package="ploneintranet.socialsuite"/>
   <include package="ploneintranet.socialtheme"/>
 

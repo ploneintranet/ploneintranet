@@ -3,7 +3,7 @@ from plone.batching import Batch
 from zope.interface import implements
 
 from .interfaces import ISiteSearch
-from .results import SearchResponse
+from .results import SearchResponse, SearchResult
 
 
 class ExampleSiteSearch(object):
@@ -41,16 +41,31 @@ class ExampleSiteSearch(object):
         facets.update({
             'SearchableText': keywords
         })
-        results = catalog.searchResults(facets)
-        batch = Batch(results, step, start)
+        brains = catalog.searchResults(facets)
+        batch = Batch(brains, step, start)
+        results = []
+        for brain in batch:
+            if brain['has_thumbs']:
+                preview_path = brain.getPath() + '/docconv_image_thumb.jpg'
+            else:
+                preview_path = None
+
+            results.append(
+                SearchResult(
+                    brain['Title'],
+                    brain.getPath(),
+                    description=brain['Description'],
+                    document_type=brain['friendly_type_name'],
+                    preview_path=preview_path,
+                )
+            )
         response_facets = {
-            'content_type': {x.portal_type for x in results},
-            'Subject': {y for x in results for y in x['Subject']},
+            'friendly_type_name': {x['friendly_type_name'] for x in brains},
+            'Subject': {y for x in brains for y in x['Subject']},
         }
         response = SearchResponse(
-            batch,
+            results,
             total_results=len(results),
             facets=response_facets
         )
         return response
-
