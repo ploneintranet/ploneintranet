@@ -169,18 +169,19 @@ class NewPostBoxTile(Tile):
         """ When updating we may want to process the form data and,
         if needed, create a post
         """
+        self.activity_views = []
         if self.is_posting:
             self.post = self.create_post()
-            self.activity_views = [
+        else:
+            self.post = None
+        if self.post:
+            self.activity_views.append(
                 api.content.get_view(
                     'activity_view',
                     IStatusActivity(self.post),
                     self.request
                 ).as_post
-            ]
-        else:
-            self.post = None
-            self.activity_views = []
+            )
 
     def __call__(self, *args, **kwargs):
         """ Call the multiadapter update

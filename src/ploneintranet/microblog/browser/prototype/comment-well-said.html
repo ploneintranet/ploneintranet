@@ -14,9 +14,12 @@
       ">
         <div
             id="${string:comment-trail-${thread_id}}"
-            tal:define="comment python:view.get_post_as_comment(view.post)"
-            tal:content="structure comment"
+            tal:content="structure python:view.get_post_as_comment(view.post)"
+            tal:condition="view/post"
         />
+        <div tal:condition="not:view/post">
+            You added no text!
+        </div>
         <metal:block use-macro="here/@@update-social.html/main" />
     </tal:define>
 
