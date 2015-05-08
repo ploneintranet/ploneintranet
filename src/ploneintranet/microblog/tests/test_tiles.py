@@ -39,7 +39,7 @@ class TestSetup(unittest.TestCase):
         self.assertEqual(tile.post_context, None)
         # we have an attachment form token
         self.assertRegexpMatches(
-            tile.attachment_form_token,
+            tile.attachment_form_token_prefix,
             'test-user-([0-9]*)'
         )
         # we are not posting

@@ -4,6 +4,7 @@ from datetime import datetime
 from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.attachments.attachments import IAttachmentStoragable
@@ -145,14 +146,23 @@ class NewPostBoxTile(Tile):
         return post
 
     @property
-    @memoize
-    def attachment_form_token(self):
-        """ Set up a token used in the attachment form
-        """
+    @memoize_contextless
+    def current_user_username(self):
+        ''' Get the current user username
+        '''
         member = api.user.get_current()
         username = member.getUserName()
+        return username
+
+    @property
+    @memoize
+    def attachment_form_token_prefix(self):
+        """ Set up a token used in the attachment form
+
+        This should be unique for each rendered tile
+        """
         return "{0}-{1}".format(
-            username,
+            self.current_user_username,
             datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
         )
 
