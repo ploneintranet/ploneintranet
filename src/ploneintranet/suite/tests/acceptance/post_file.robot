@@ -49,6 +49,15 @@ Alice can submit a post with a UTF-8 file attachment
      Then I can see the UTF-8 file preview in the stream
       And I can open the UTF-8 file from the stream preview
 
+Alice can submit a post with a file attachment and no text
+    Given I am logged in as the user alice_lindstrom
+      And I open the Dashboard
+     When I add a file
+      And I can see the file preview in the post box
+      And I submit the new post
+    # test injection working
+     Then I can see the file preview in the stream
+
 
 *** Keywords ***
 
