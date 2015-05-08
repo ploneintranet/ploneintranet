@@ -37,15 +37,6 @@ Alice can post a status update
     then The message is visible as new status update    ${MESSAGE2}
     and The message is visibile after a reload    ${MESSAGE2}
 
-# Acceptance test for 176
-# ./bin/test -t "Alice can post an empty status update"
-# Alice can post an empty status update
-#    Given I am logged in as the user alice_lindstrom
-#    when I open the Dashboard
-#     and I submit the status update
-#    then Wait Until Element Is visible  ????
-#
-
 Allan can post a reply
     Given I am logged in as the user allan_neece
     when I open the Dashboard
@@ -54,17 +45,6 @@ Allan can post a reply
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     and The reply is visible after a reload    ${MESSAGE1}    ${MESSAGE2}
-
-# Acceptance test for 176
-# ./bin/test -t "Alice can post an empty status update"
-# Allan can post an empty reply
-#     Given I am logged in as the user allan_neece
-#      when I open the Dashboard
-#       and I post a status update    ${MESSAGE1}
-#      then The message is visible as new status update    ${MESSAGE1}
-#      When I post an empty reply on a status update    ${MESSAGE1}
-#      then Wait Until Element Is visible  ????
-
 
 Esmeralda can reply to a reply
     Given I am logged in as the user esmeralda_claassen
@@ -171,12 +151,6 @@ I post a reply on a status update
     Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
     Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
-    Click button  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
-
-I post an empty reply on a status update
-    [arguments]  ${message}
-    Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
     Click button  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
 
 The reply is visibile as a comment
