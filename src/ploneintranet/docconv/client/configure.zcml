@@ -24,10 +24,6 @@
         name="has_thumbs"
         factory=".indexers.has_thumbs" />
 
-    <adapter
-        name="has_thumbs"
-        factory=".indexers.has_thumbs" />
-
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
