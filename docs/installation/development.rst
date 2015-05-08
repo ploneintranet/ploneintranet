@@ -19,7 +19,6 @@ Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
-    make
     virtualenv --no-site-packages .
     bin/python2.7 bootstrap.py
     bin/buildout -c dev.cfg
@@ -98,6 +97,5 @@ It's also possible to run this `without sudo`_.
 .. _docker.io: https://www.docker.com/
 .. _Install Docker: https://docs.docker.com/installation/#installation
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
-
 
 
