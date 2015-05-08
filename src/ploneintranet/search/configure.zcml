@@ -8,12 +8,12 @@
 
   <include package=".browser" />
 
-  <adapter factory=".example.CatalogSearchResult" />
-  <adapter factory=".example.CatalogSearchResponse" />
+  <adapter factory=".zcatalog.ZCatalogSearchResult" />
+  <adapter factory=".zcatalog.ZCatalogSearchResponse" />
 
   <utility provides=".interfaces.ISiteSearch"
-           factory=".example.ExampleSiteSearch"
-           name="example" />
+           factory=".zcatalog.ZCatalogSiteSearch"
+           name="zcatalog" />
 
   <adapter name="friendly_type_name"
            factory=".indexers.friendly_type_name" />
