@@ -1,7 +1,6 @@
 from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.workspace.interfaces import IWorkspace
 from plone import api
