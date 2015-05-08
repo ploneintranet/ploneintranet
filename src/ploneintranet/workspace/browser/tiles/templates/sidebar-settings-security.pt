@@ -7,7 +7,7 @@
             <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
           </aside>
           <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST"
-                tal:define="ws view/my_workspace"
+                tal:define="ws view/workspace"
                 tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security;
                                 data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 
