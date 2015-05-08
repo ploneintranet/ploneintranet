@@ -2,7 +2,6 @@
 from Acquisition import aq_inner
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from Products.statusmessages.interfaces import IStatusMessage
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.textfield.value import RichTextValue
@@ -42,6 +41,9 @@ class ContentView(BrowserView):
                 obj=context,
                 transition=self.request.get('workflow_action')
             )
+            api.portal.show_message(_(
+                "The workflow state has been changed."), request=self.request,
+                type="info")
         if title or description or tags or text:
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
@@ -61,8 +63,9 @@ class ContentView(BrowserView):
                     context.subject = tags
                     modified = True
             if modified:
-                IStatusMessage(self.request).add(_(
-                    "Your changes have been saved"))
+                api.portal.show_message(_(
+                    "Your changes have been saved."), request=self.request,
+                    type="info")
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))
 
