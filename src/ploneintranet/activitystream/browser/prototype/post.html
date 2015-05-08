@@ -15,22 +15,13 @@
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <a tal:define="
-        userid here/userid;
-        avatar_img string:${view/portal_url}/portal_memberdata/portraits/${userid};
-        avatar_name here/Creator;
-      "
-      tal:condition="userid"
-      tal:attributes="
-        href string:${view/portal_url}/author/${userid};
-      ">
-      <metal:block use-macro="here/@@avatar.html/main" />
-      <h4 class="name">${avatar_name}</h4>
-    </a>
+    <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
-      <time>${view/date}</time> |
-      <label class="visibility pat-select bare">
+      <time>${view/date}</time>
+      <!-- XXX: This is not yet implemented -->
+      <!--label class="visibility pat-select bare">
+      |
         <select>
           <optgroup>
             <option>
@@ -52,9 +43,10 @@
             </option>
           </optgroup>
         </select>
-      </label>
+      </label-->
       <br/>
-      <a href="#" class="iconified icon-cog">Options</a>
+      <!-- XXX: This is not yet implemented -->
+      <!--a href="#" class="iconified icon-cog">Options</a-->
     </p>
   </div>
 
@@ -74,7 +66,8 @@
   </section>
 
   <div class="functions" tal:condition="not:view/is_anonymous">
-    <a href="#">Share <sup class="counter">(8)</sup></a>
+    <!-- XXX: This is not yet implemented -->
+    <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
     <form tal:replace="structure view/toggle_like" />
   </div>
   <tal:commentable condition="view/statusupdate_view/commentable">

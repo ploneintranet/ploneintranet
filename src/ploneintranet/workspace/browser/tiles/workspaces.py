@@ -11,8 +11,8 @@ class WorkspacesTile(Tile):
 
     @memoize
     def workspaces(self):
-        ''' The list of my workspaces
-        '''
+        """ The list of my workspaces
+        """
         return my_workspaces(self.context)
 
     def render(self):

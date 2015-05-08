@@ -1,8 +1,8 @@
 <html>
 <body>
 	<div id="sidebar-content">
-		<div id="workspace-settings" tal:define="ws view/my_workspace">
-
+		<div id="workspace-settings" tal:define="ws view/workspace">
+		    
 			<div class="tabs-content">
                 <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
                     <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
@@ -13,7 +13,13 @@
 			    	<fieldset class="vertical">
 						<label>
 							Workspace e-mail address
-							<input type="email" value="" placeholder="Workspace E-mail Address" name="email" tal:attributes="value ws/email"  />
+							<input type="email"
+								   value=""
+								   placeholder="Workspace E-mail Address"
+								   name="email"
+									tal:attributes="
+											value ws/email;
+											disabled not: view/can_manage_workspace"/>
 						</label>
 					</fieldset>
 			    </form>

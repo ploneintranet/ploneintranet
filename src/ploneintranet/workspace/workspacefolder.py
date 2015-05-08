@@ -41,7 +41,7 @@ class WorkspaceFolder(Container):
     def acquire_workspace(self):
         """
         helper method to acquire the workspace
-        :rtype: ploneintranet.workspace.workspace
+        :rtype: ploneintranet.workspace.WorkspaceFolder
         """
         return self
 

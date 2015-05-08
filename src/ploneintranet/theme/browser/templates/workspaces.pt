@@ -27,7 +27,8 @@
             </div>
             </tal:r>
             <div class="tile workspace four columns add">
-                <a href="${context/absolute_url}/@@workspace-add#content" class="pat-modal">
+                <!-- XXX: this link should lookup for the actual workspace environment and not be hardcoded -->
+                <a href="${context/absolute_url}/workspaces/@@workspace-add#content" class="pat-modal">
                    Create Workspace
                 </a>
             </div>

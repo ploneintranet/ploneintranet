@@ -6,6 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
@@ -16,6 +17,8 @@ class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
+    post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
+    comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
     commentable = True
 
     @property
@@ -80,7 +83,7 @@ class StatusUpdateView(BrowserView):
         '''
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
-        time = self.context.raw_date
+        time = self.context.date
         if hasattr(time, 'isoformat'):
             time = DateTime(self.context.raw_date.isoformat())
 
@@ -89,6 +92,7 @@ class StatusUpdateView(BrowserView):
         else:
             # time_only=False still returns time only
             time_only = None
+
         return self.toLocalizedTime(
             time,
             long_format=True,
@@ -108,6 +112,45 @@ class StatusUpdateView(BrowserView):
         text += link_users(self.portal_url, mentions)
         text += link_tags(self.portal_url, tags)
         return text
+
+    @memoize_contextless
+    def get_avatar_by_userid(
+        self, userid, show_link=False, css='', attributes={}
+    ):
+        ''' Provide informations to display the avatar
+        '''
+        user = api.user.get(self.context.userid)
+
+        if user:
+            fullname = user.getProperty('fullname')
+        else:
+            fullname = userid
+
+        url = u'%s/author/%s' % (
+            self.portal_url,
+            userid,
+        )
+        img = u'%s/portal_memberdata/portraits/%s' % (
+            self.portal_url,
+            userid,
+        )
+        avatar = {
+            'id': userid,
+            'fullname': fullname,
+            'img': img,
+            'url': url,
+            'show_link': show_link,
+            'css': css,
+            'attributes': attributes,
+        }
+        return avatar
+
+    @property
+    @memoize
+    def avatar(self):
+        ''' Provide informations to display the avatar
+        '''
+        return self.get_avatar_by_userid(self.context.userid)
 
     @property
     @memoize

@@ -1,59 +1,95 @@
-RELEASE_DIR		= release/prototype
-DIAZO_DIR       = src/ploneintranet/theme/static
-LATEST          = $(shell cat prototype/LATEST)
+RELEASE_DIR	= release/prototype/_site
+DIAZO_DIR       = src/ploneintranet/theme/static/generated
+LATEST          = $(shell cat LATEST)
 BUNDLENAME      = ploneintranet
-BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
+BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
-all:: diazo
+all:: fetchrelease
 default: all
 clean:
 	rm bin/* .installed.cfg || true
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
+fetchrelease:
+	# update LATEST in case we updated the prototype
+	$(eval LATEST := $(shell cat LATEST))
+	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
+	echo $(BUNDLEURL)
+	# fetch non-git-controlled required javascript resources
+	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
+	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+
 ########################################################################
 ## Setup
+## You don't run these rules unless you're a prototype dev
 
 prototype::
 	@if [ ! -d "prototype" ]; then \
 		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
-		cd prototype&& make; \
-	 fi;
+	else \
+		cd prototype && git pull; \
+	fi;
+	cp prototype/LATEST .
 
-bundle:
-	@cd prototype && make bundle
-
-generate-site: prototype
+jekyll: prototype
 	@cd prototype && make jekyll
 
-generate-dev-site:
-	@cd prototype && make dev-jekyll
+diazorelease: diazo
+	# commit changes, including removals
+	git add --all $(DIAZO_DIR)
+	@echo "=========================="
+	@git status
+	@echo "=========================="
+	@echo 'Ready to do: git commit -a -m "protoype release $(shell cat LATEST)"'
+	@echo "^C to abort (10 sec)"
+	@sleep 10
+	git commit -a -m "protoype release $(shell cat LATEST)"
 
-copy-dev-files:
-	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
-	rm -rf  $(DIAZO_DIR)/generated/bundles
-	cp -R prototype/_site/* $(DIAZO_DIR)/generated/
-
-copy-files: 
-	# Bundle all html, css and js into a deployable package.
-	# I assume that all html in _site and js in _site/bundles is built and
-	# ready for upload.
+diazo: jekyll fetchrelease _diazo
+_diazo:
+	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
-	cp -R prototype/_site $(RELEASE_DIR)/
-	sed -i -e "s,<script src=\"bundles/$(BUNDLENAME).js\",<script src=\"bundles/$(shell readlink prototype/bundles/$(BUNDLENAME).js)\"," $(RELEASE_DIR)/_site/*.html
+	cp -R prototype/_site/* $(RELEASE_DIR)/
 	# Cleaning up non mission critical elements
-	rm -f $(RELEASE_DIR)/_site/*-e
-	rm -rf $(RELEASE_DIR)/_site/bundles/*
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/
-	cp prototype/bundles/$(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/
-	ln -sf $(BUNDLENAME)-$(LATEST).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
-	ln -sf $(BUNDLENAME)-$(LATEST).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
-	# copy to the diazo theme dir
-	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
-	cp -R $(RELEASE_DIR)/_site/* $(DIAZO_DIR)/generated/
+	rm -f $(RELEASE_DIR)/*-e
+	rm -rf $(RELEASE_DIR)/bundles/*
+	# --- (2) --- refresh diazo static/generated
+	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
+	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
+	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
+		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
+		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
+	done
+	# we want all style elements recursively - and remove old resources not used anymore
+	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
+	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
+	# logo
+	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
+	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
 
-dev-diazo: bundle generate-dev-site copy-dev-files
-diazo: generate-site copy-files
+# full js development refresh
+jsdev: bundle diazo _jsdev
+
+# fast replace ploneintranet-dev.js - requires diazo to have run!
+_jsdev:
+	# replace minfied js bundle with dev bundle, directly in diazo theme dir
+	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
+	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
+
+bundle: prototype
+	cd prototype && make bundle
+
+jsrelease: prototype
+	cd prototype && make jsrelease
+
 
 ####################################################################
 # docker.io
@@ -99,7 +135,7 @@ bin/python2.7:
 # Testing
 
 # inspect robot traceback:
-# bin/robot-server ploneintranet.socialsuite.testing.PLONEINTRANET_SOCIAL_ROBOT_TESTING^
+# bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
 test-robot:
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot' -x
