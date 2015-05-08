@@ -1,6 +1,6 @@
-from AccessControl import Unauthorized
 from datetime import datetime
 
+from AccessControl import Unauthorized
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
