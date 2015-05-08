@@ -34,7 +34,6 @@ Create a new Plone instance, under `Add-ons`, choose the package
 `Plone Intranet: Suite`. This activates Plone intranet site.
 
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
-.. _`stackoverflow article`: http://stackoverflow.com/questions/3683181/cannot-install-pyenchant-on-osx
 
 
 Running tests

@@ -26,3 +26,5 @@ The buildout creates a script in bin to generate the docs::
    bin/generate-docs
 
 The docs are generated in docs/html.
+
+.. _`stackoverflow article`: http://stackoverflow.com/questions/3683181/cannot-install-pyenchant-on-osx
