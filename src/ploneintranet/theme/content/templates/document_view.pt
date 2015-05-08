@@ -1,113 +1,87 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-            xmlns:tal="http://xml.zope.org/namespaces/tal"
-            xmlns:metal="http://xml.zope.org/namespaces/metal"
-            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-            lang="en"
-            metal:use-macro="context/main_template/macros/master"
-            i18n:domain="ploneintranet.theme">
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="ploneintranet.theme">
 
 <body>
-  <metal:content fill-slot="content"
-    tal:define="workspace python:view.workspace;
-                workspace_url python:workspace.absolute_url();
-                workspace_id python:workspace.id;
-                read_only python:not view.can_edit">
+    <metal:content fill-slot="content"
+        tal:define="workspace python:view.workspace;
+            here_url context/absolute_url;
+            workspace_url python:workspace.absolute_url();
+            workspace_id python:workspace.id;
+            read_only python:not view.can_edit">
 
     <h1 id="workspace-name">
         <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
     </h1>
-
     <div class="${workspace_id} dark-theme" id="application-body">
-
         <div id="document-body">
-
-            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
-                <div class="metadata pat-bumper" id="meta">
-                    <div class="meta-bar">
-                        <h1 class="doc-title" id="document-title">
-                            ${context/title}
-                        </h1>
-                        <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
-                        <div class="quick-functions">
-                            <a href="#confirm-delete" class="icon-trash iconified">
-                                Delete
-                            </a>
-                            <a href="" class="icon-copy iconified">
-                                Copy
-                            </a>
-                            <a href="#share-panel" class="icon-export iconified pat-modal">
-                                Share
-                            </a>
-                            <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
-                            <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
-                                <label class="pat-select bare">
-                                    <select>
-                                        <option>Private</option>
-                                        <option>Public</option>
-                                        <option>Members</option>
-                                        <option>Pending</option>
-                                        <option>Logged in</option>
-                                        <option>Internal</option>
-                                        <option>External</option>
-                                    </select>
-                                </label>
-                            </fieldset>
-                            <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
-
-                        </div>
-                    </div>
-                    <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-                        <fieldset class="bar">
-                            <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
-                        </fieldset>
-                        <fieldset class="bar description">
-                            <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                         </fieldset>
-
-                        <!-- <fieldset class="bar versioning">
-                            <label>
-                                <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
-                            </label>
-                            <fieldset class="condensed pat-depend new-version-details" data-pat-depend="cmfeditions_save_new_version">
-                                <label>Upload a new file
-                                    <input type="file" name="file_file">
-                                </label>
-                                <label>
-                                    <textarea placeholder="Change notes" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4"></textarea>
-                                </label>
-
-                                <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
-                            </fieldset>
-                        </fieldset> -->
+          <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
+                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor">
+            <div class="metadata pat-bumper" id="meta">
+              <div class="meta-bar">
+                <h1 class="doc-title" id="document-title">${context/title}</h1>
+                <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                <div class="quick-functions">
+                    <a href="#confirm-delete" class="icon-trash iconified">Delete</a>
+                    <a href="" class="icon-copy iconified">Copy</a>
+                    <a href="#share-panel" class="icon-export iconified pat-modal">Share</a>
+                    <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                    <fieldset tal:condition="view/has_workflow" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
+                            tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url};; source: #global-statusmessage">
+                        <label class="pat-select bare workflow" title="Change the workflow state">
+                            <span tal:replace="view/get_workflow_state" />
+                            <select name="workflow_action">
+                                <option></option>
+                                <option tal:repeat="state view/get_workflow_transitions"
+                                    tal:attributes="title state/title; value state/id"
+                                    tal:content="state/name">Workflow State</option>
+                            </select>
+                        </label>
                     </fieldset>
-                </div>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                </div><!-- quick-functions -->
+              </div> <!-- #meta-bar -->
+              <div id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
 
-                <div id="document-content">
-                    <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
-                        ${python: context.text.output if context.text else ''}
-                    </article>
+              <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                <fieldset class="bar">
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
+                </fieldset>
+                <fieldset class="bar description">
+                    <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                </fieldset>
+              </fieldset>
+            </div><!-- pat-bumper -->
 
-                    <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
-                        <tal:previews tal:repeat="preview python:range(number_of_file_previews)">
-                            <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
-                        </tal:previews>
-                    </article>
+            <div id="document-content">
+              <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
+                <textarea name="text" class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, linkCreate, linkRemove, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow" tal:content="python: context.text.raw if context.text else ''">
+                    Content of the textarea
+                </textarea>
+              </article>
 
-                    <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
-                        <figure>
-                        <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
-                        </figure>
-                    </article>
+              <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
+                <tal:previews tal:repeat="preview python:range(number_of_file_previews)">
+                  <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+                </tal:previews>
+              </article>
 
-                </div>
-            </form>
-        </div>
-
+              <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
+                <figure>
+                  <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                </figure>
+              </article>
+            </div><!-- #document-content -->
+          </form>
+        </div><!-- #document-body -->
         <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
-        </aside>
+    </aside>
     </div>
     <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-
-  </metal:content>
+</metal:content>
 </body>
 </html>

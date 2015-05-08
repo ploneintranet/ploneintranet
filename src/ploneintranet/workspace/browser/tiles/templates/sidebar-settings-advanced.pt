@@ -2,9 +2,14 @@
 <body>
 	<div id="sidebar-content">
 		<div id="workspace-settings" tal:define="ws view/my_workspace">
-		    
+
 			<div class="tabs-content">
-			    <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #document-content::before; source: .sidebar-status-message">
+                <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
+                    <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+                </aside>
+			    <form action="#" method="post" class="pat-inject pat-autosubmit"
+                            tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;
+                                            data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 			    	<fieldset class="vertical">
 						<label>
 							Workspace e-mail address
@@ -12,17 +17,8 @@
 						</label>
 					</fieldset>
 			    </form>
-			    <tal:messages define="status_messages view/status_messages" condition="status_messages" >
-			    	<tal:block repeat="message status_messages">
-			    <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
-			        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
-			            Something good happened
-			        </p>
-			    </article>
-					</tal:block>
-			    </tal:messages>
 			</div>
 		</div>
-	</div>	
+	</div>
 </body>
 </html>

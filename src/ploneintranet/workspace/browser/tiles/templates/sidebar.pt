@@ -44,9 +44,8 @@
                 <div class="quick-functions">
                     <a class="selector-toggle-select more-menu-trigger">Functions</a>
                     <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" tal:attributes="href string:${context/absolute_url}/add_content">Create document</a>
-                    
-                    <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                    
+                    <!-- XXX: This is not yet completed -->
+                    <!--a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a-->
                 </div>
             </div>
 
@@ -343,15 +342,6 @@
         </div>
     </div>
   </div>
-
-    <tal:messages define="status_messages view/status_messages" condition="status_messages" repeat="message status_messages">
-    <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
-        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
-            Something good happened
-        </p>
-    </article>
-    </tal:messages>
 </aside>
-
 </body>
 </html>

@@ -1,17 +1,23 @@
 # coding=utf-8
+from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
+from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.activitystream.browser.activity_provider import (
-    StatusActivityReplyProvider
-)
-from ploneintranet.core.browser.stream import StreamBase
-from zope.component import getMultiAdapter
+from ploneintranet.activitystream.interfaces import IActivity
+from ploneintranet.activitystream.interfaces import IStatusActivityReply
+from ploneintranet.core.integration import PLONEINTRANET
+from zExceptions import NotFound
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class StreamTile(StreamBase, Tile):
-    """Tile view similar to StreamView."""
+class StreamTile(Tile):
+    '''Tile view similar to StreamView.'''
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
+    count = 15
 
     def __init__(self, context, request):
         self.context = context
@@ -19,21 +25,104 @@ class StreamTile(StreamBase, Tile):
         self.tag = self.data.get('tag')
         self.explore = 'network' not in self.data
 
+    @memoize
+    def is_anonymous(self):
+        return api.user.is_anonymous()
+
     @property
-    def activity_providers(self):
-        ''' Return the activity providers
+    @memoize
+    def toLocalizedTime(self):
+        ''' Facade for the toLocalizedTime method
         '''
-        provider = getMultiAdapter(
-            (self.context, self.request, self),
-            name="ploneintranet.core.stream_provider"
-        )
-        activity_providers = provider.activity_providers()
-        # some of the activities are comment replies
-        # in that case we should return the provider of the parent activity
-        real_providers = []
-        for activity_provider in activity_providers:
-            if isinstance(activity_provider, StatusActivityReplyProvider):
-                real_providers.append(activity_provider.parent_provider())
-            else:
-                real_providers.append(activity_provider)
-        return real_providers
+        return api.portal.get_tool('translation_service').toLocalizedTime
+
+    @property
+    @memoize
+    def microblog_context(self):
+        ''' Returns the microblog context
+        '''
+        return PLONEINTRANET.context(self.context)
+
+    def filter_statusupdates(self, statusupdates):
+        ''' This method filters the microblog StatusUpdates
+
+        The idea is:
+         - if a StatusUpdate is a comment return the parent StatusUpdate
+         - do not return duplicate statusupdates
+        '''
+        seen_thread_ids = set()
+        good_statusupdates = []
+        container = PLONEINTRANET.microblog
+
+        for su in statusupdates:
+            if su.thread_id and su.thread_id in seen_thread_ids:
+                continue
+            elif su.id in seen_thread_ids:
+                continue
+
+            if IStatusActivityReply.providedBy(su):
+                su = container.get(su.thread_id)
+
+            seen_thread_ids.add(su.id)
+            good_statusupdates.append(su)
+
+        return good_statusupdates
+
+    def get_statusupdates(self):
+        ''' This will return all the StatusUpdates which are not comments
+
+        The activity are sorted by reverse chronological order
+        '''
+        container = PLONEINTRANET.microblog
+
+        if self.microblog_context:
+            # support collective.local integration
+            statusupdates = container.context_values(
+                self.microblog_context,
+                limit=self.count,
+                tag=self.tag
+            )
+        else:
+            # default implementation
+            statusupdates = container.values(
+                limit=self.count,
+                tag=self.tag
+            )
+        statusupdates = self.filter_statusupdates(statusupdates)
+        statusupdates.sort(key=lambda x: x.date, reverse=True)
+        return statusupdates
+
+    @property
+    @memoize
+    def activities(self):
+        ''' The list of our activities
+        '''
+        statusupdates = self.get_statusupdates()
+        i = 0
+        for su in statusupdates:
+            if i >= self.count:
+                break
+            try:
+                activity = IActivity(su)
+            except Unauthorized:
+                continue
+            except NotFound:
+                logger.exception("NotFound: %s" % activity.getURL())
+                continue
+
+            yield activity
+            i += 1
+
+    @property
+    @memoize
+    def activity_views(self):
+        ''' The activity as views
+        '''
+        return [
+            api.content.get_view(
+                'activity_view',
+                activity,
+                self.request
+            ).as_post
+            for activity in self.activities
+        ]

@@ -20,10 +20,21 @@ prototype::
 		cd prototype&& make; \
 	 fi;
 
-jekyll: prototype
+bundle:
+	@cd prototype && make bundle
+
+generate-site: prototype
 	@cd prototype && make jekyll
 
-diazo: jekyll
+generate-dev-site:
+	@cd prototype && make dev-jekyll
+
+copy-dev-files:
+	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
+	rm -rf  $(DIAZO_DIR)/generated/bundles
+	cp -R prototype/_site/* $(DIAZO_DIR)/generated/
+
+copy-files: 
 	# Bundle all html, css and js into a deployable package.
 	# I assume that all html in _site and js in _site/bundles is built and
 	# ready for upload.
@@ -40,6 +51,9 @@ diazo: jekyll
 	# copy to the diazo theme dir
 	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
 	cp -R $(RELEASE_DIR)/_site/* $(DIAZO_DIR)/generated/
+
+dev-diazo: bundle generate-dev-site copy-dev-files
+diazo: generate-site copy-files
 
 ####################################################################
 # docker.io

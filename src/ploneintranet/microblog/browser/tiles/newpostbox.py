@@ -5,15 +5,12 @@ from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.activitystream.browser.interfaces import IActivityProvider
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
-from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
-from zope.component import getMultiAdapter
-from zope.component import queryUtility
 
 logger = getLogger('newpostbox')
 
@@ -21,17 +18,25 @@ logger = getLogger('newpostbox')
 class NewPostBoxTile(Tile):
 
     index = ViewPageTemplateFile('templates/new-post-box-tile.pt')
-    is_attachment_supported = True
 
     input_prefix = 'form.widgets.'
     button_prefix = 'form.buttons.'
+
+    def activity_as_post(self, activity):
+        ''' BBB: just for testing
+        '''
+        return api.content.get_view(
+            'activity_view',
+            activity.context,
+            self.request
+        ).as_post()
 
     @property
     @memoize
     def post_container(self):
         """ Return the object that will contain the post
         """
-        return queryUtility(IMicroblogTool)
+        return PLONEINTRANET.microblog
 
     @property
     @memoize
@@ -151,34 +156,31 @@ class NewPostBoxTile(Tile):
             datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
         )
 
+    def get_post_as_comment(self, post):
+        ''' Transforms a post (aka StatusUpdate) into a renderable comment
+        '''
+        return api.content.get_view(
+            'statusupdate_view',
+            post,
+            self.request,
+        ).as_comment
+
     def update(self):
         """ When updating we may want to process the form data and,
         if needed, create a post
         """
         if self.is_posting:
             self.post = self.create_post()
-            # BBB We're using the ActivityProvider from ps.activitystream
-            # here for rendering the (singular) status post that was just
-            # created. While this enables posting by 1) placing the post into
-            # the post-container and 2) returning the rendered post so that it
-            # can be injected into the page without a reload, fetching this
-            # adapter is overly complex.
-            # Therefore this will be replaced by a browser view that renders
-            # both the form for posting a status update and, conditionally,
-            # the new post itself.
-            self.activity_providers = [
-                getMultiAdapter(
-                    (
-                        IStatusActivity(self.post),
-                        self.request,
-                        self.__parent__.view
-                    ),
-                    IActivityProvider
-                )
+            self.activity_views = [
+                api.content.get_view(
+                    'activity_view',
+                    IStatusActivity(self.post),
+                    self.request
+                ).as_post
             ]
         else:
             self.post = None
-            self.activity_providers = []
+            self.activity_views = []
 
     def __call__(self, *args, **kwargs):
         """ Call the multiadapter update

@@ -12,7 +12,6 @@
   <include package="ploneintranet.attachments" />
 
   <include package=".browser" />
-  <include package=".portlets" />
   <include file="permissions.zcml" />
   <include file="dexterity.zcml" />
 

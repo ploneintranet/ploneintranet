@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <browser:viewlet
+        name="plone.globalstatusmessage"
+        manager="plone.app.layout.viewlets.interfaces.IGlobalStatusMessage"
+        class=".globalstatusmessage.GlobalStatusMessage"
+        permission="zope2.View"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+</configure>

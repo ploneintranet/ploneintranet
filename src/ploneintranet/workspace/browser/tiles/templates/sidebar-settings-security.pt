@@ -3,12 +3,15 @@
     <div id="sidebar-content">
       <div id="workspace-settings">
         <div class="tabs-content">
-          <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST" data-pat-inject="#document-content::before; source: .sidebar-status-message"
+          <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
+            <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+          </aside>
+          <form class="pat-autosubmit pat-inject" id="sidebar-settings-security" method="POST"
                 tal:define="workspace view/my_workspace"
-                tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security">
+                tal:attributes="action string:${workspace/absolute_url}/sidebar.settings.security;
+                                data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 
             <h3>Workspace policy</h3>
-
             <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
               <tal:field_info define="label string: External visibility; field_name string:external_visibility">
@@ -53,14 +56,6 @@
         </div>
       </div>
     </div>
-
-    <tal:messages define="status_messages view/status_messages" condition="status_messages" repeat="message status_messages">
-      <article id="my-feedback-message" tal:attributes="id message/id" class="sidebar-status-message">
-        <p id="my-feedback-message-body" class="pat-notification" data-pat-notification="type: banner" tal:attributes="id string:${message/id}-body; data-pat-notification string:${attrs/data-pat-notification};; class: ${message/type}" tal:content="message/message">
-          Something good happened
-        </p>
-      </article>
-    </tal:messages>
 
   </body>
 </html>

@@ -11,29 +11,26 @@
         <div class="comment">
             <div class="comment-header">
                 <a href="user"
-                   tal:attributes="href string:${portal_url}/author/${provider/userid}"
+                   tal:attributes="href string:${view/portal_url}/author/${here/userid}"
                    tal:define="
-                       userid provider/userid;
-                       avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
+                       userid here/userid;
+                       avatar_img string:${view/portal_url}/portal_memberdata/portraits/${userid};
                        avatar_name userid;
-                       toLocalizedTime nocall:toLocalizedTime|here/@@plone/toLocalizedTime;
                    "
                    >
                     <metal:block use-macro="here/@@avatar.html/main" />
-                    <h4 class="name" tal:content="string:${provider/Creator}">
-                        User Name
-                    </h4>
-                    <time class="date" tal:content="python:toLocalizedTime(provider.date)">1 hour ago</time>
+                    <h4 class="name">${here/creator}</h4>
+                    <time class="date" tal:content="python:view.toLocalizedTime(here.date)">1 hour ago</time>
                 </a>
             </div>
             <section class="comment-content">
-                <p tal:content="structure provider/text">
+                <p tal:content="structure view/decorated_text">
                     The text of the comment
                 </p>
             </section>
 
             <section class="preview">
-                <figure tal:repeat="attachment provider/attachments">
+                <figure tal:repeat="attachment view/attachments">
                     <a href="${attachment/link|attachment}">
                         <img alt="" src="${attachment/img_src|attachment}" alt="" />
                     </a>

@@ -20,7 +20,7 @@ lib/
 libreoffice/
 node_modules/
 parts/
-prototype
+/prototype
 release/
 src/bower_components/
 src/collective.celery/
