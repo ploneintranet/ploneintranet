@@ -1,6 +1,6 @@
-from AccessControl import Unauthorized
+from datetime import datetime
 
-from DateTime import DateTime
+from AccessControl import Unauthorized
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.memoize.instance import memoize
@@ -17,6 +17,7 @@ from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ... import MessageFactory as _
 from ploneintranet.todo.behaviors import ITodo
+
 
 FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'simpletodo']
@@ -322,7 +323,7 @@ class Sidebar(BaseTile):
         catalog = api.portal.get_tool('portal_catalog')
         workspace = parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
-        now = DateTime()
+        now = datetime.now()
 
         # Current and future events
         upcoming_events = catalog.searchResults(
