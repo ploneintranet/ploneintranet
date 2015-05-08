@@ -1,16 +1,16 @@
 """Tests for the example search API"""
 from plone import api
 
-from ..example import ExampleSiteSearch
+from ..zcatalog import ZCatalogSiteSearch
 from ..testing import IntegrationTestCase
 
 
-class TestExampleSearch(IntegrationTestCase):
-    """Test the example search API"""
+class TestZCatalogSearch(IntegrationTestCase):
+    """Test the example zcatalog search API implementation"""
 
     def setUp(self):
         self.portal = api.portal.get()
-        self.util = ExampleSiteSearch()
+        self.util = ZCatalogSiteSearch()
         self.doc1 = api.content.create(
             type='Document',
             title='Test Doc',

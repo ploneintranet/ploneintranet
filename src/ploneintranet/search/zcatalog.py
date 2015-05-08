@@ -8,7 +8,7 @@ from .interfaces import ISiteSearch
 from .interfaces import ISearchResult, ISearchResponse
 
 
-class CatalogSearchResult(object):
+class ZCatalogSearchResult(object):
     """
     Adapts a catalog brain to a search result
     """
@@ -60,7 +60,7 @@ class CatalogSearchResult(object):
         return self._path_to_url(self.preview_image_path)
 
 
-class CatalogSearchResponse(object):
+class ZCatalogSearchResponse(object):
     """
     Adapts a batched catalog search to a search response
     """
@@ -82,7 +82,7 @@ class CatalogSearchResponse(object):
         }
 
 
-class ExampleSiteSearch(object):
+class ZCatalogSiteSearch(object):
     """
     Example implementation of ISiteSearch using the Plone catalog
     """

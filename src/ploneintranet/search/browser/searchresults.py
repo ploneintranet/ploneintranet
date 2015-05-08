@@ -22,7 +22,7 @@ class SearchResultsView(BrowserView):
             if form.get(facet):
                 facets[facet] = form.get(facet)
 
-        search_util = getUtility(ISiteSearch, name='example')
+        search_util = getUtility(ISiteSearch, name='zcatalog')
         response = search_util.query(
             keywords=keywords,
             facets=facets,
