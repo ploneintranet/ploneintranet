@@ -164,7 +164,7 @@ installable via bower and hooked into the build.
 In addition you may want to set up a standalone build for testing and demoing - see
 :ref:`standalone-build` for this.
 
-We manage our bower dependencies in ``ploneintranet.theme``.
+We manage our bower dependencies in :doc:`prototype` - see install instructions there.
 
 Using bower to make the pattern available
 -----------------------------------------
@@ -196,7 +196,7 @@ Note, you need to have bower installed, which you can do with::
 Which of course means you need to have the Node Package manager installed. This
 will be left as an excercise to the reader. :)
 
-Then, navigate to ``ploneintranet.theme``, where we manage our bower
+Then, navigate to ``ploneintranet/prototype``, where we manage our bower
 dependencies, and run::
 
     bower link pat-colorchanger
@@ -214,8 +214,8 @@ Do do that, read the next section below.
 Registering your pattern with bower
 ***********************************
 
-The `bower.json <https://github.com/ploneintranet/ploneintranet.theme/blob/master/bower.json>`_
-file which states these dependencies is inside `ploneintranet.theme <https://github.com/ploneintranet/ploneintranet.theme>`_
+The `bower.json <https://github.com/ploneintranet/ploneintranet.prototype/blob/master/bower.json>`_
+file which states these dependencies is inside `ploneintranet.prototype <https://github.com/ploneintranet/ploneintranet.prototype>`_
 
 To update this file with your new pattern, you first need to register your
 pattern in bower (you'll need the pattern's repository URL)::
@@ -243,14 +243,14 @@ specify the pattern's path, so that `r.js <http://requirejs.org/docs/optimizatio
 (the tool that creates our final JS bundle) will now where it's located.
 
 You want to modify
-`build.js <https://github.com/ploneintranet/ploneintranet.theme/blob/master/build.js>`_ inside
-`ploneintranet.theme <https://github.com/ploneintranet/ploneintranet.theme>`_ and
+`build.js <https://github.com/ploneintranet/ploneintranet.prototype/blob/master/build.js>`_ inside
+`ploneintranet.prototype <https://github.com/ploneintranet/ploneintranet.prototype>`_ and
 in the ``paths`` section add your package and its path.
 
 We then also need to tell ``require.js`` that we actually want to use this
 new pattern as part of our collection of patterns in the site.
 
-You do that by editing `./src/patterns.js <https://github.com/ploneintranet/ploneintranet.theme/blob/master/src/patterns.js>`_
+You do that by editing `./src/patterns.js <https://github.com/ploneintranet/ploneintranet.prototype/blob/master/src/patterns.js>`_
 and adding the new pattern there.
 
 .. note: ./src/patterns.js serves also as a handy references as to which
@@ -423,10 +423,10 @@ Here are some things to check for:
 Release a new Javascript bundle
 -------------------------------
 
-The designers working on the theme use a pinned bundle release. So if we want
+The designers working on the prototype use a pinned bundle release. So if we want
 to make our latest changes available to them, we need to release a new bundle.
 
-Simply run the following commands inside a checkout of `ploneintranet.theme`::
+Simply run the following commands inside a checkout of `ploneintranet.prototype`::
 
     make clean
     make jsrelease
@@ -447,4 +447,12 @@ To fetch the latest bundle (which was released with `make jsrelease`), designers
 
     "`make designerhappy`" fetches the latest bundle from https://products.syslab.com
     and puts it in the `./prototype/bundles` directory.
+
+----------------------
+Update the Diazo theme
+----------------------
+
+The steps described above only load the new bundle into a designer's prototype installation.
+
+To update a developer's Plone installation, see the :doc:`prototype` documentation under *releasing a new version*.
 

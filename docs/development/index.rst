@@ -6,8 +6,9 @@ Developer documentation
     :maxdepth: 2
 
     contributing
-    forms
+    prototype
     patterns
+    forms
     plonesocial
     workspace
     invitations
