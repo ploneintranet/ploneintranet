@@ -24,8 +24,8 @@ class ContentItemsTile(Tile):
         return self.render()
 
     def parent(self):
-        if self.context.portal_type == \
-                "ploneintranet.workspace.workspacefolder":
+        if self.context.portal_type == (
+                "ploneintranet.workspace.workspacefolder"):
             return None
         parent = self.context.aq_parent
         return {'id': parent.getId(),

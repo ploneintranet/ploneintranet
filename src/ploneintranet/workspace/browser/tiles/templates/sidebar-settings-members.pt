@@ -1,6 +1,6 @@
 <html>
   <body>
-    <div id="sidebar-content" tal:define="ws view/my_workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
+    <div id="sidebar-content" tal:define="ws view/workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
       <div id="workspace-settings">
 
         <div class="tabs-content">
@@ -11,7 +11,8 @@
               <h3 id="member-list-context-title" class="context-title">
                 Members
               </h3>
-              <a class="member-list-toggle-select more-menu-trigger">Functions</a>
+              <a class="member-list-toggle-select more-menu-trigger"
+                 tal:condition="view/can_manage_workspace">Functions</a>
             </div>
 
             <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
@@ -41,15 +42,6 @@
 
                 </div>
 
-                <label class="item user-group has-description">
-                  <input name="" type="checkbox" />
-                  <a class="follow pat-inject" href="/board" data-pat-inject="source: #document-body; target: #document-body">
-                    <strong class="title">The board</strong>
-                    <br />
-                    <dfn class="byline">25 Members</dfn>
-                  </a>
-                </label>
-
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
@@ -65,7 +57,8 @@
               </fieldset>
             </form>
 
-            <div class="button-bar create-buttons">
+            <div class="button-bar create-buttons"
+                 tal:condition="view/can_manage_workspace">
               <a class="button icon-user-add pat-modal" data-pat-modal="class: large" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
               <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
             </div>
