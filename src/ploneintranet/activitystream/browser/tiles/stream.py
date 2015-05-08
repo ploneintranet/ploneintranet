@@ -89,7 +89,6 @@ class StreamTile(Tile):
                 tag=self.tag
             )
         statusupdates = self.filter_statusupdates(statusupdates)
-        statusupdates.sort(key=lambda x: x.date, reverse=True)
         return statusupdates
 
     @property
