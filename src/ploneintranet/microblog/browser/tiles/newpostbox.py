@@ -130,9 +130,16 @@ class NewPostBoxTile(Tile):
 
     def create_post(self):
         """ Return the post object or None
+
+        To really proceed in the status update creation we require at least
+        one of these two properties to evaluate to True
+         - post_text
+         - post_attachment
+
+        If not of them evaluates to True we return None
         """
-        if not self.post_text:
-            return None
+        if not (self.post_text or self.post_attachment):
+            return
         post = StatusUpdate(
             text=self.post_text,
             context=self.post_context,
