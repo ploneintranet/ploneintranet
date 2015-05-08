@@ -7,18 +7,23 @@
 
   <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/patterns/avatar.html -->
   <metal:macro define-macro="main">
-    <tal:define define="
-            has_link avatar_link|nothing;
-      ">
-        <tal:link condition="has_link">
-            <a href="avatar_link" class="pat-avatar ${avatar_class|nothing}" tal:attributes="avatar_attributes|python:{}" id="${avatar_id|nothing}">
-                <img src="${avatar_img}" alt="${avatar_name|nothing}">
+        <tal:link condition="avatar/show_link">
+            <a id="${avatar_id|nothing}"
+               href="${avatar/url}"
+               class="pat-avatar ${avatar/css}"
+               tal:attributes="avatar/attributes"
+            >
+                <img src="${avatar/img}" alt="${avatar/fullname}">
             </a>
         </tal:link>
-        <tal:nolink condition="not:has_link">
-            <img src="${avatar_img}" alt="${avatar_name|nothing}" class="pat-avatar ${avatar_class|nothing}" tal:attributes="avatar_attributes|python:{};" id="${avatar_id|nothing}">
-        </tal:nolink>
-    </tal:define>
+        <tal:nolink condition="not:avatar/show_link">
+            <img src="${avatar/img}"
+                 alt="${avatar/fullname}"
+                 class="pat-avatar ${avatar/css}"
+                 tal:attributes="avatar/attributes"
+                 id="${avatar/id}"
+            >
+</tal:nolink>
   </metal:macro>
 
 </body>

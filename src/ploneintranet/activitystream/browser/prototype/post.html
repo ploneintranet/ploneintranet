@@ -15,18 +15,7 @@
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <a tal:define="
-        userid here/userid;
-        avatar_img string:${view/portal_url}/portal_memberdata/portraits/${userid};
-        avatar_name here/Creator;
-      "
-      tal:condition="userid"
-      tal:attributes="
-        href string:${view/portal_url}/author/${userid};
-      ">
-      <metal:block use-macro="here/@@avatar.html/main" />
-      <h4 class="name">${avatar_name}</h4>
-    </a>
+    <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
       <time>${view/date}</time>
