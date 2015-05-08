@@ -57,3 +57,8 @@ class AddContent(BrowserView):
 class AddFolder(AddContent):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
+
+
+class AddTask(AddContent):
+
+    template = ViewPageTemplateFile('templates/add_task.pt')

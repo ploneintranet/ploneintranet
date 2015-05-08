@@ -237,7 +237,7 @@
         <div class="button-bar functions" id="tasks-functions">
 
             <div class="quick-functions">
-                <a title="Create new task" href="++add++simpletodo#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
+                <a title="Create new task" href="add_task" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
             </div>
         </div>
         <tal:no-tasks condition="not: tasks">
@@ -316,7 +316,7 @@
             <input type="hidden" name="section" value="task"/>
           </form>
           <div class="button-bar create-buttons">
-              <a href="++add++simpletodo#document-content" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
+              <a href="add_task" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
           </div>
         </tal:tasks>
     </div>
