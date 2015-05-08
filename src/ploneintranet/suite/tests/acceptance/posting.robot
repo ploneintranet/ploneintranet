@@ -37,6 +37,15 @@ Alice can post a status update
     then The message is visible as new status update    ${MESSAGE2}
     and The message is visibile after a reload    ${MESSAGE2}
 
+# Acceptance test for 176
+# ./bin/test -t "Alice can post an empty status update"
+# Alice can post an empty status update
+#    Given I am logged in as the user alice_lindstrom
+#    when I open the Dashboard
+#     and I submit the status update
+#    and Wait Until Element Is visible  ????
+#
+
 Allan can post a reply
     Given I am logged in as the user allan_neece
     when I open the Dashboard
