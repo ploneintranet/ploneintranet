@@ -104,9 +104,12 @@ class StatusUpdateView(BrowserView):
     def decorated_text(self):
         ''' Use this method to enrich the status update text
 
-        For example we can add mentions and tags
+        For example we can:
+         - replace \n with <br />
+         - add mentions
+         - add tags
         '''
-        text = safe_unicode(self.context.text)
+        text = safe_unicode(self.context.text).replace(u'\n', u'<br />')
         tags = getattr(self.context, 'tags', None)
         mentions = getattr(self.context, 'mentions', None)
         text += link_users(self.portal_url, mentions)
