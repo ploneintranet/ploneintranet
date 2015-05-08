@@ -55,3 +55,17 @@ class TestZCatalogSearch(IntegrationTestCase):
         self.assertEqual(response.total_results, 1)
         self.assertEqual(response.facets['Subject'],
                          {'test', 'my-other-tag'})
+
+    def test_batching_returns_all_tags(self):
+        response = self.util.query(
+            'stuff',
+            step=1,
+        )
+        self.assertEqual(response.total_results, 2)
+        self.assertEqual(
+            len(list(response.results)
+            ),
+            1
+        )
+        self.assertEqual(response.facets['Subject'],
+                         {'test', 'my-tag', 'my-other-tag'})
