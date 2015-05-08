@@ -6,6 +6,7 @@ from ploneintranet.docconv.client.interfaces import IDocconv
 @indexer(IContentish)
 def has_thumbs(obj):
     """
-    Does this item have preview thumbnails?
+    Provides a catalog-indexable boolean value
+    to mark items that have thumbnail previews
     """
     return IDocconv(obj).has_thumbs()
