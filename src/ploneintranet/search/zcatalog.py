@@ -24,6 +24,7 @@ class ZCatalogSearchResult(object):
     highlighted_summary = None
 
     def __init__(self, brain):
+        self._brain = brain
         self.title = brain['Title']
         self.path = brain.getPath()
         self.description = brain['Description']
@@ -49,7 +50,13 @@ class ZCatalogSearchResult(object):
         :return: The absolute URL to the document in Plone
         :rtype: str
         """
-        return self._path_to_url(self.path)
+        portal_props = api.portal.get_tool('portal_properties')
+        site_props = portal_props.site_properties
+        view_types = site_props.getProperty('typesUseViewActionInListings', ())
+        url = self._path_to_url(self.path)
+        if self._brain['portal_type'] in view_types:
+            url = '{0}/view'.format(url)
+        return url
 
     @property
     def preview_image_url(self):
