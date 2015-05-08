@@ -63,8 +63,7 @@ class TestZCatalogSearch(IntegrationTestCase):
         )
         self.assertEqual(response.total_results, 2)
         self.assertEqual(
-            len(list(response.results)
-            ),
+            len(list(response.results)),
             1
         )
         self.assertEqual(response.facets['Subject'],
