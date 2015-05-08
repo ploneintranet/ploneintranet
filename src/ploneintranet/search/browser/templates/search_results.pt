@@ -20,14 +20,15 @@
 		    <button type="search">Search</button>
 		</fieldset>
 	    </div>
+	    <!-- Tabs not yet implemented
 	    <nav class="tabs navigation" id="tabs-nav">
-		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
 		<a class="current" href="/search-results.html?lemma=min">All</a>
 		<a href="/search-results-people.html?lemma=min">People</a>
 		<a href="/search-results-images.html?lemma=min">Images</a>
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
 	    </nav>
+	    -->
 	    <div class="results" id="results" 
 		 tal:define="search_response view/search_response">
 		<div class="container results">
