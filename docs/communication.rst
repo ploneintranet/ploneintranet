@@ -31,11 +31,10 @@ Development Team
 
 Code lives on github, in the
 `Plone Intranet organization <https://github.com/ploneintranet>`_
-and also in the
-`Cosent organization <https://github.com/cosent>`_
-(plonesocial.*)
 
-We track issues and manage our backlog in 
+We manage our long-term roadmap in an internal Assembla tracker.
+
+We manage ongoing sprint tasks in
 `Work Bamboo <https://workbamboo.com>`_
 
 We use the #plone.intranet IRC channel on Freenode:
@@ -70,6 +69,5 @@ inside the
     If you're a team member but lack access,
     please contact info@ploneintranet.org.
 
-We do not use the Assembla tracker to avoid non tech noise there, distracting the developers.
 
 
