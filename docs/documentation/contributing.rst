@@ -90,7 +90,8 @@ advanced users.
 
 * Commit your changes and `create <https://help.github.com/articles/creating-a-pull-request>`_ and open `pull <https://help.github.com/articles/using-pull-requests>`_ request.
 
-For more information about writing documentation please read the :doc:`styleguide </documentation/styleguide>` and also `this <http://docs.plone.org/about/helper_tools.html>`.
+For more information about writing documentation please read the :doc:`styleguide </documentation/styleguide>`.
+See also some `helper tools <http://docs.plone.org/about/helper_tools.html>`_.
 
 
 

@@ -60,27 +60,9 @@ Important Aspects of Plone Intranet
 * Consortium board funds roadmap
 * 100% Open Source - code will be donated to the Plone Foundation
 * NOT a core fork
-* Will port to mockup
+* Compatible with mockup
 * NOT a €€€ conspiracy
-* Plone 5 compatible
-
-Current Roadmap
----------------
-
-* Phase one
-
-  * Activity Streams
-  * Team spaces
-  * Dashboards
-  * Document structures / wiki
-
-* Phase two
-
-  * Calendaring
-  * Search
-  * News hub
-  * Notification center
-
+* Plone 5 based
 
 
 Further reading
