@@ -12,8 +12,15 @@ to do to get yourself set up.
 
 Setting up Your Development Environment
 ---------------------------------------
+
 Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
+
+In addition, for the Plone Intranet file preview functionality, you need docsplit.
+On Ubuntu::
+
+    sudo apt-get install ruby
+    gem install docsplit
 
 Set-up a development environment::
 
