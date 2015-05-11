@@ -121,7 +121,7 @@ docker-run:
 # Guido's lazy targets
 
 devel: bin/buildout
-	bin/buildout -c dev.cfg
+	bin/buildout
 
 bin/buildout: bin/python2.7
 	@bin/python bootstrap.py
