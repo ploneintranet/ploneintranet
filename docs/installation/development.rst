@@ -12,19 +12,23 @@ to do to get yourself set up.
 
 Setting up Your Development Environment
 ---------------------------------------
+
 Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
+
+In addition, for the Plone Intranet file preview functionality, you need docsplit.
+On Ubuntu::
+
+    sudo apt-get install ruby
+    gem install docsplit
 
 Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
-    make
     virtualenv --no-site-packages .
     bin/python2.7 bootstrap.py
-    bin/buildout -c dev.cfg
-
-Please don't forget to run that ``make`` or you'll have a borked installation.
+    bin/buildout -c buildout.cfg
 
 
 Create a new Plone instance
@@ -56,11 +60,11 @@ Instead of the normal procedure listed above, alternative buildout strategies fo
 Build using the Plone 5 coredev
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use ``coredev.cfg`` instead of ``dev.cfg``.
+Use ``coredev.cfg`` instead of ``buildout.cfg``.
 
 The theme currently only works when enabling the development-mode in the resource-registries, then pressing ``develop css`` and ``develop javascript`` for the bundle ``ploneintranet`` and pressing ``Save``.
 
-Due to a limitation of zc.buildout ``coredev.cfg`` has to have a copy of the same checkouts as ``dev.cfg``.
+Due to a limitation of zc.buildout ``coredev.cfg`` has to have a copy of the same checkouts as ``buildout.cfg``.
 
 
 Docker-based development environment
@@ -98,6 +102,5 @@ It's also possible to run this `without sudo`_.
 .. _docker.io: https://www.docker.com/
 .. _Install Docker: https://docs.docker.com/installation/#installation
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
-
 
 

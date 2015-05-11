@@ -15,7 +15,6 @@ fetchrelease:
 	# update LATEST in case we updated the prototype
 	$(eval LATEST := $(shell cat LATEST))
 	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
-	echo $(BUNDLEURL)
 	# fetch non-git-controlled required javascript resources
 	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
 	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
