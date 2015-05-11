@@ -11,6 +11,7 @@ from zope.component import queryUtility
 from collective.workspace.interfaces import IWorkspace
 from ploneintranet.workspace import MessageFactory as _
 from urllib2 import urlparse
+import config
 import mimetypes
 import logging
 
@@ -21,12 +22,7 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 # The type map is used to deduct clear text names for classes and labels
 # from portal types
 TYPE_MAP = {'Event': 'event',
-            'News Item': 'news',
-            'Image': 'image',
-            'File': 'file',
-            'Link': 'link',
             'Folder': 'folder',
-            'Document': 'rich',
             'simpletodo': 'task',
             'ploneintranet.workspace.workspacefolder': 'workspace'}
 
@@ -195,6 +191,48 @@ def guess_mimetype(file_name):
         oct = mtr.globFilename(file_name)
         if oct is not None:
             content_type = str(oct)
+
+    return content_type
+
+
+def map_content_type(mimetype, portal_type=''):
+    """
+    takes a mimetype and returns a content type string as used in the
+    prototype
+    """
+    content_type = ''
+    if portal_type:
+        content_type = TYPE_MAP.get(portal_type)
+
+    if not content_type:
+        if not mimetype or '/' not in mimetype:
+            return content_type
+
+        major, minor = mimetype.split('/')
+
+        if mimetype in config.PDF:
+            content_type = 'pdf'
+        elif mimetype in config.DOC:
+            content_type = 'word'
+        elif mimetype in config.PPT:
+            content_type = 'powerpoint'
+        elif mimetype in config.ZIP:
+            content_type = 'zip'
+        elif mimetype in config.XLS:
+            content_type = 'excel'
+        elif mimetype in config.URI:
+            content_type = 'link'
+        elif mimetype in config.NEWS:
+            content_type = 'news'
+
+        elif major == 'text':
+            content_type = 'rich'
+        elif major == 'audio':
+            content_type = 'sound'
+        elif major == 'video':
+            content_type = 'video'
+        elif major == 'image':
+            content_type = 'image'
 
     return content_type
 

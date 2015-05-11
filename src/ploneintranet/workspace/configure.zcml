@@ -26,7 +26,8 @@
   </permission>
 
   <include package=".browser" />
-
+  <include file="indexers.zcml" />
+  
   <browser:page
         name="ploneintranet_workspace_state"
         for="*"

@@ -1,7 +1,6 @@
 from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace import utils
-from ploneintranet.workspace import config
 from ploneintranet.workspace.config import SIDEBAR_TYPES
 from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
 from ploneintranet.workspace.policies import JOIN_POLICY
@@ -21,6 +20,7 @@ from ploneintranet.todo.behaviors import ITodo
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component.interfaces import ComponentLookupError
+from ...utils import map_content_type
 import urllib
 import logging
 
@@ -260,34 +260,12 @@ class Sidebar(BaseTile):
                 structural_type = 'group'
             else:
                 structural_type = 'item'
-            content_type = utils.TYPE_MAP.get(r['portal_type'],
-                                              'none')
 
             # If it is a file, we have to check the mime type as well
             # And the filename is not enough, we need to guess on the content
             # But that information is not available in the catalog
             # TODO XXX: Add a mime type metadata to the catalog
-            if content_type == 'file':
-                mime_type = utils.guess_mimetype(r['getId'])
-                if not mime_type:
-                    mime_type = '/'
-                major, minor = mime_type.split('/')
-                if mime_type in config.PDF:
-                    content_type = 'pdf'
-                elif mime_type in config.DOC:
-                    content_type = 'word'
-                elif mime_type in config.PPT:
-                    content_type = 'powerpoint'
-                elif mime_type in config.ZIP:
-                    content_type = 'zip'
-                elif mime_type in config.XLS:
-                    content_type = 'excel'
-                elif major == 'audio':
-                    content_type = 'sound'
-                elif major == 'video':
-                    content_type = 'video'
-                else:
-                    content_type = 'code'
+            content_type = map_content_type(r.mimetype, r.portal_type)
 
             url = r.getURL()
             if r['portal_type'] in FOLDERISH_TYPES:
@@ -507,26 +485,20 @@ class Sidebar(BaseTile):
 
         # For types, we want to resolve the type to a readable title
         elif grouping == 'type':
-            # Return the human readable titles.
-            # vocab = queryUtility(IVocabularyFactory,
-            #                      name=config.DOCUMENT_TYPE)(self)
-            # headers = [
-            #     dict(heading=vocab.getTermByToken(h['heading']).title,
-            #          value=vocab.getTermByToken(h['heading']).value)
-            #     for h in headers]
-            headers = [dict(title='Meeting Minutes',
-                            description='Minutes and other notes',
-                            url=group_url_tmpl % 'minutes',
-                            id='minutes'),
-                       dict(title='Request Letter',
-                            description='Letters of request',
-                            url=group_url_tmpl % 'request_letter',
-                            id='request_letter')]
-
+            # headers = [dict(title='Meeting Minutes',
+            #                 description='Minutes and other notes',
+            #                 url=group_url_tmpl % 'minutes',
+            #                 id='minutes'),
+            #            dict(title='Request Letter',
+            #                 description='Letters of request',
+            #                 url=group_url_tmpl % 'request_letter',
+            #                 id='request_letter')]
             headers.append(dict(title='Other',
-                                description='All other document types',
-                                url=group_url_tmpl % 'other',
-                                id='none'))
+                                description='Any other document types',
+                                id='other'))
+            for header in headers:
+                header['url'] = group_url_tmpl % header['id']
+                header['content_type'] = map_content_type(header['id'])
 
         # The exception case. Should not happen though.
         else:
@@ -724,14 +696,14 @@ class Sidebar(BaseTile):
                 criteria['modified'] = {'range': 'max', 'query': month_start}
 
         elif grouping == 'type':
-            if grouping_value != 'none':
-                criteria['documentType'] = grouping_value
+            if grouping_value != 'other':
+                criteria['mimetype'] = grouping_value
             else:
                 brains = catalog(**criteria)
                 for brain in brains:
                     if brain is None or brain.UID == context_uid:
                         continue
-                    if brain.documentType:
+                    if map_content_type(brain.mimetype):
                         continue
                     documents.append(brain)
                 return documents

@@ -34,3 +34,5 @@ PDF = ('application/pdf',
        'image/pdf')
 ZIP = ('application/zip',
        'application/x-zip-compressed')
+URI = ('text/x-uri')
+NEWS = ('message/news')

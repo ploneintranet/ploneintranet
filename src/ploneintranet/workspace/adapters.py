@@ -11,10 +11,10 @@ from Acquisition import Implicit
 from BTrees.OOBTree import OOBTree
 from datetime import datetime
 from plone.folder.ordered import OrderedBTreeFolderBase
+from plone.indexer.wrapper import IndexableObjectWrapper
 from plone.uuid.interfaces import IUUID
 from OFS.owner import Owned
 import persistent
-from plone.dexterity.interfaces import IDexterityContent
 
 
 class PloneIntranetWorkspace(Workspace):
@@ -254,16 +254,15 @@ class GroupingStorage(object):
         """ Update the groupings dict with the values stored on obj.
         """
         context = aq_inner(self.context)
+        catalog = api.portal.get_tool("portal_catalog")
         groupings = context._groupings
         # label
         self._remove_grouping_values('label', obj.Subject(), obj)
         self._add_grouping_values('label', obj.Subject(), obj)
 
-        # handle documentType
-        if IDexterityContent.providedBy(obj) and hasattr(obj, 'documentType'):
-            types = obj.documentType
-            self._remove_grouping_values('type', types, obj)
-            self._add_grouping_values('type', types, obj)
+        mimetype = IndexableObjectWrapper(obj, catalog).mimetype
+        self._remove_grouping_values('type', [mimetype], obj)
+        self._add_grouping_values('type', [mimetype], obj)
 
         # author
         self._add_grouping_values('author', [obj.Creator()], obj)
