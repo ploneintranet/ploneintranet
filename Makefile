@@ -107,6 +107,7 @@ docker-run:
 	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
+                -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
                 -v $(HOME)/.bashrc:/.bashrc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
@@ -124,7 +125,7 @@ docker-run:
 # Guido's lazy targets
 
 devel: bin/buildout
-	bin/buildout -c dev.cfg
+	bin/buildout
 
 bin/buildout: bin/python2.7
 	@bin/python bootstrap.py
