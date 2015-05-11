@@ -130,9 +130,16 @@ class NewPostBoxTile(Tile):
 
     def create_post(self):
         """ Return the post object or None
+
+        To really proceed in the status update creation we require at least
+        one of these two properties to evaluate to True
+         - post_text
+         - post_attachment
+
+        If not of them evaluates to True we return None
         """
-        if not self.post_text:
-            return None
+        if not (self.post_text or self.post_attachment):
+            return
         post = StatusUpdate(
             text=self.post_text,
             context=self.post_context,
@@ -169,18 +176,19 @@ class NewPostBoxTile(Tile):
         """ When updating we may want to process the form data and,
         if needed, create a post
         """
+        self.activity_views = []
         if self.is_posting:
             self.post = self.create_post()
-            self.activity_views = [
+        else:
+            self.post = None
+        if self.post:
+            self.activity_views.append(
                 api.content.get_view(
                     'activity_view',
                     IStatusActivity(self.post),
                     self.request
                 ).as_post
-            ]
-        else:
-            self.post = None
-            self.activity_views = []
+            )
 
     def __call__(self, *args, **kwargs):
         """ Call the multiadapter update

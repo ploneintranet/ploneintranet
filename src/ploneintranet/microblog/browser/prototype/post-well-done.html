@@ -6,7 +6,7 @@
   <metal:macro define-macro="main">
     <metal:block use-macro="here/update-social.html/main" />
     <div id="activity-stream">
-        <metal:block use-macro="here/activity-stream.html/main" />
+        <metal:block tal:condition="view/activity_views" use-macro="here/activity-stream.html/main" />
     </div>
   </metal:macro>
 

@@ -12,11 +12,13 @@
         attachment_previews_id string:attachment-previews-${thread_id};
         action string:${here/absolute_url}/@@newpostbox.tile;
       ">
-        <div
-            id="${string:comment-trail-${thread_id}}"
-            tal:define="comment python:view.get_post_as_comment(view.post)"
-            tal:content="structure comment"
-        />
+        <tal:isposting tal:condition="view/post">
+            <div
+                id="${string:comment-trail-${thread_id}}"
+                tal:define="comment python:view.get_post_as_comment(view.post)"
+                tal:content="structure comment"
+            />
+        </tal:isposting>
         <metal:block use-macro="here/@@update-social.html/main" />
     </tal:define>
 
