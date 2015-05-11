@@ -1,7 +1,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.workspace.utils import my_workspaces
+from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from zope.publisher.browser import BrowserView
 
 

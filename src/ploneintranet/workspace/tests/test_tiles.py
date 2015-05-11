@@ -44,6 +44,6 @@ class TestTiles(BaseViewTest):
                     'datetime': '2008-02-14',
                     'title': '14 February 2008, 18:43'
                 },
-                'verb': 'published'
+                'verb': 'posted'
             }
         )
