@@ -14,6 +14,7 @@ from plone.folder.ordered import OrderedBTreeFolderBase
 from plone.indexer.wrapper import IndexableObjectWrapper
 from plone.uuid.interfaces import IUUID
 from OFS.owner import Owned
+from utils import parent_workspace
 import persistent
 
 
@@ -153,6 +154,11 @@ class GroupingStorage(object):
                 'bar': set([uid, uid, uid]),
                 'baz': set([uid]),
             }
+            'first_letter': {
+                'a': set([uid]),
+                'b': set([uid, uid, uid]),
+                'c': set([uid]),
+            }
         })
         The top-level keys are the groupings.
 
@@ -193,6 +199,7 @@ class GroupingStorage(object):
             'label': OrderedBTreeFolderBase(),
             'author': OrderedBTreeFolderBase(),
             'type': OrderedBTreeFolderBase(),
+            'first_letter': OrderedBTreeFolderBase(),
         })
 
     def _add_grouping_values(self, grouping, values, obj):
@@ -238,9 +245,10 @@ class GroupingStorage(object):
         groupings._p_changed = 1
 
     def _remove_grouping_value(self, grouping, value):
-        """ Remove entry $value under a given $grouping.
+        """
+        Remove entry $value under a given $grouping.
 
-            Can be used for bulk-changes to a grouping (e.g. changing a tag)
+        Can be used for bulk-changes to a grouping (e.g. changing a tag)
         """
         groupings = self.get_groupings()
         if value in groupings[grouping]:
@@ -251,30 +259,46 @@ class GroupingStorage(object):
         return context._groupings
 
     def update_groupings(self, obj):
-        """ Update the groupings dict with the values stored on obj.
+        """
+        Update the groupings dict with the values stored on obj.
         """
         context = aq_inner(self.context)
+        if parent_workspace(obj) == obj:
+            # obj is the workspace, abort
+            return
+
         catalog = api.portal.get_tool("portal_catalog")
         groupings = context._groupings
+
         # label
         self._remove_grouping_values('label', obj.Subject(), obj)
         self._add_grouping_values('label', obj.Subject(), obj)
 
-        mimetype = IndexableObjectWrapper(obj, catalog).mimetype
-        self._remove_grouping_values('type', [mimetype], obj)
-        self._add_grouping_values('type', [mimetype], obj)
+        # mimetype
+        wrapper = IndexableObjectWrapper(obj, catalog)
+        if hasattr(wrapper, 'mimetype'):
+            mimetype = wrapper.mimetype
+            self._remove_grouping_values('type', [mimetype], obj)
+            self._add_grouping_values('type', [mimetype], obj)
 
         # author
         self._add_grouping_values('author', [obj.Creator()], obj)
         self._remove_grouping_values('author', [obj.Creator()], obj)
+
+        # Title / first letter
+        title_or_id = obj.Title() and obj.Title() or obj.id
+        first_letter = title_or_id[0].lower()
+        self._add_grouping_values('first_letter', [first_letter], obj)
+        self._remove_grouping_values('first_letter', [first_letter], obj)
 
         context._groupings = groupings
         context._groupings_modified = datetime.now()
         context._p_changed = 1
 
     def reset_order(self):
-        """ Reset the order for all groupings to default, i.e. same order
-            as the keys of the OOBTree
+        """
+        Reset the order for all groupings to default, i.e. same order
+        as the keys of the OOBTree
         """
         groupings = self.get_groupings()
         for grouping in groupings.keys():
@@ -287,7 +311,9 @@ class GroupingStorage(object):
                       grouping,
                       include_archived=False,
                       alphabetical=False):
-        """ """
+        """
+        Return the keys of the given grouping in order.
+        """
         groupings = self.get_groupings()
         grouping_obj = groupings.get(grouping)
         if not grouping_obj:
@@ -324,6 +350,7 @@ class GroupingStorage(object):
         self._remove_grouping_values('type', [], obj)
         self._remove_grouping_values('label', [], obj)
         self._remove_grouping_values('author', [], obj)
+        self._remove_grouping_values('first_letter', [], obj)
         context = aq_inner(self.context)
         groupings = context._groupings
         context._groupings = groupings

@@ -1,7 +1,7 @@
 from plone import api
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet.workspace import utils
-from ploneintranet.workspace.config import SIDEBAR_TYPES
+# from ploneintranet.workspace.config import SIDEBAR_TYPES
 from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
 from ploneintranet.workspace.policies import JOIN_POLICY
 from ploneintranet.workspace.policies import PARTICIPANT_POLICY
@@ -254,6 +254,8 @@ class Sidebar(BaseTile):
                     title = 'All Authors'
                 elif grouping == 'type':
                     title = 'All Types'
+                elif grouping == 'first_letter':
+                    title = 'All Letters'
                 else:
                     title = 'Back'
                 return dict(title=title, url=workspace.absolute_url())
@@ -510,22 +512,24 @@ class Sidebar(BaseTile):
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 
-        # For types, we want to resolve the type to a readable title
+        # Document types via mimetypes
         elif grouping == 'type':
-            # headers = [dict(title='Meeting Minutes',
-            #                 description='Minutes and other notes',
-            #                 url=group_url_tmpl % 'minutes',
-            #                 id='minutes'),
-            #            dict(title='Request Letter',
-            #                 description='Letters of request',
-            #                 url=group_url_tmpl % 'request_letter',
-            #                 id='request_letter')]
             headers.append(dict(title='Other',
                                 description='Any other document types',
                                 id='other'))
             for header in headers:
+                content_type = map_content_type(header['id'])
+                header['title'] = (content_type and content_type or
+                                   header['title']).capitalize()
                 header['url'] = group_url_tmpl % header['id']
-                header['content_type'] = map_content_type(header['id'])
+                header['content_type'] = content_type
+
+        # title/first_letter
+        elif grouping == 'first_letter':
+            for header in headers:
+                header['title'] = header['title'].upper()
+                header['url'] = group_url_tmpl % header['id']
+                header['content_type'] = 'none'
 
         # The exception case. Should not happen though.
         else:
@@ -657,7 +661,7 @@ class Sidebar(BaseTile):
         """
         catalog = api.portal.get_tool(name='portal_catalog')
         workspace = utils.parent_workspace(self.context)
-        context_uid = IUUID(workspace)
+        workspace_uid = IUUID(workspace)
         criteria = {
             'path': '/'.join(workspace.getPhysicalPath()),
             'fl': 'score Creator Title UID Subject modified outdated '
@@ -665,7 +669,7 @@ class Sidebar(BaseTile):
                   'sortable_title documentType path_string getIcon '
                   'Description',
             'hl': 'false',
-            'portal_type': SIDEBAR_TYPES,
+            # 'portal_type': SIDEBAR_TYPES,
             'sort_on': sorting,
             'sort_order':
             sorting == 'modified' and 'descending' or 'ascending',
@@ -678,6 +682,7 @@ class Sidebar(BaseTile):
             criteria['outdated'] = False
 
         documents = []
+
         if grouping in ('label', 'label_custom'):
             # This is a bit of an exception compared to the
             # other 3 groupings.
@@ -693,7 +698,7 @@ class Sidebar(BaseTile):
 
             brains = catalog(**criteria)
             for brain in brains:
-                if brain is None or brain.UID == context_uid:
+                if brain is None or brain.UID == workspace_uid:
                     continue
                 if grouping_value == 'Untagged' and brain.Subject:
                     continue
@@ -739,16 +744,24 @@ class Sidebar(BaseTile):
             else:
                 brains = catalog(**criteria)
                 for brain in brains:
-                    if brain is None or brain.UID == context_uid:
+                    if brain is None or brain.UID == workspace_uid:
                         continue
                     if map_content_type(brain.mimetype):
                         continue
                     documents.append(brain)
                 return documents
 
+        elif grouping == 'first_letter':
+            gs = IGroupingStorage(workspace)
+            groupings = gs.get_groupings()
+            by_first_letter = groupings.get('first_letter', dict())
+            criteria['UID'] = [
+                x for x in by_first_letter.get(grouping_value, list())]
+            del criteria['path']
+
         brains = catalog(**criteria)
         for brain in brains:
-            if brain is None or brain.UID == context_uid:
+            if brain is None or brain.UID == workspace_uid:
                 continue
             documents.append(brain)
 
