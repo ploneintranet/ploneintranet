@@ -65,7 +65,7 @@ def get_workspace_activities(brain, limit=1):
         creator = user_data.get('fullname') if user_data else item.creator
         results.append(dict(
             subject=creator,
-            verb='published',
+            verb='posted',
             object=item.text,
             time={
                 'datetime': item.date.strftime('%Y-%m-%d'),
@@ -81,5 +81,3 @@ def escape_id_to_class(cid):
         became a utility function.
     """
     return cid.replace('.', '-')
-
-
