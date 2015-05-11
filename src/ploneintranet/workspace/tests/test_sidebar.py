@@ -10,6 +10,8 @@ from zope.component import provideAdapter
 from zope.interface import Interface
 
 from collective.workspace.interfaces import IWorkspace
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
 class TestSidebar(BaseTestCase):
@@ -63,6 +65,10 @@ class TestSidebar(BaseTestCase):
             'example-document',
             title='Some example Rich Text'
         )
+        example_document = getattr(ws, 'example-document')
+        example_document.setSubject((u'foo', u'bar'))
+        notify(ObjectModifiedEvent(example_document))
+
         api.content.create(
             ws,
             'Folder',
@@ -74,8 +80,12 @@ class TestSidebar(BaseTestCase):
             myfolder,
             'Document',
             'example-subdocument',
-            title='Some example nested Rich Text'
+            title='Another example nested Rich Text'
         )
+        example_subdocument = getattr(myfolder, 'example-subdocument')
+        example_subdocument.setSubject((u'bar', u'baz'))
+        notify(ObjectModifiedEvent(example_subdocument))
+
         provideAdapter(Sidebar, (Interface, Interface), IBasicTile,
                        name=u"sidebar.default")
         sidebar = getMultiAdapter((ws, ws.REQUEST), name=u"sidebar.default")
@@ -115,14 +125,139 @@ class TestSidebar(BaseTestCase):
 
         # Check if search works
         from zope.publisher.browser import TestRequest
-        TR = TestRequest(form={'sidebar-search': 'Folder'})
-        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        tr = TestRequest(form={'sidebar-search': 'Folder'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
         children = sidebar.children()
         self.assertEqual(len(children), 1)
         self.assertTrue(children[0]['id'] == 'myfolder')
 
         # Assert that substr works and we find all
-        TR = TestRequest(form={'sidebar-search': 'exampl'})
-        sidebar = getMultiAdapter((ws, TR), name=u"sidebar.default")
+        tr = TestRequest(form={'sidebar-search': 'exampl'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
         children = sidebar.children()
         self.assertEqual(len(children), 3)
+
+        # Test Groupings
+
+        # … by tag
+
+        tr = TestRequest(form={'grouping': 'label'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 4)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['foo', 'bar', 'baz', 'untagged']))
+        self.assertEqual(
+            sidebar.logical_parent(), None)
+
+        # …and step into tag 'bar'
+        tr = TestRequest(form={'grouping': 'label', 'groupname': 'bar'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 2)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['example-document', 'example-subdocument']))
+        self.assertEqual(
+            sidebar.logical_parent()['title'],
+            'All Tags')
+
+        # … by type
+        # XXX
+        tr = TestRequest(form={'grouping': 'type'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(
+            sidebar.logical_parent(), None)
+
+        tr = TestRequest(form={'grouping': 'type', 'groupname': 'text/html'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 2)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['example-document', 'example-subdocument']))
+
+        # …and step into type 'text/html'
+        self.assertEqual(
+            sidebar.logical_parent()['title'],
+            'All Types')
+
+        # … by author
+        # XXX
+        tr = TestRequest(form={'grouping': 'author'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(
+            sidebar.logical_parent(), None)
+
+        # …and step into author admin
+        tr = TestRequest(form={'grouping': 'author', 'groupname': 'admin'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 3)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['example-document', 'example-subdocument', 'myfolder']))
+
+        self.assertEqual(
+            sidebar.logical_parent()['title'],
+            'All Authors')
+
+        # … by date
+        tr = TestRequest(form={'grouping': 'date'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 4)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['ever', 'month', 'today', 'week']))
+        self.assertEqual(
+            sidebar.logical_parent(), None)
+
+        # …and step into date 'today'
+        tr = TestRequest(form={'grouping': 'date', 'groupname': 'today'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 3)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['example-document', 'example-subdocument', 'myfolder']))
+
+        self.assertEqual(
+            sidebar.logical_parent()['title'],
+            'All Dates')
+
+        # … by first_letter
+        tr = TestRequest(form={'grouping': 'first_letter'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 2)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['a', 's']))
+        self.assertEqual(
+            sidebar.logical_parent(), None)
+
+        # …and step into letter 's'
+        tr = TestRequest(form={'grouping': 'first_letter', 'groupname': 'a'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 2)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['example-subdocument', 'myfolder']))
+
+        self.assertEqual(
+            sidebar.logical_parent()['title'],
+            'All Letters')
+
+        # Yet unknown grouping, don't break!
+        tr = TestRequest(form={'grouping': 'theunknown'})
+        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        children = sidebar.children()
+        self.assertEqual(len(children), 1)
+        self.assertEqual(
+            sorted([k['id'] for k in children]),
+            sorted(['none']))

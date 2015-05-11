@@ -39,7 +39,7 @@ class TestGroupingStorage(BaseTestCase):
         self.login(SITE_OWNER_NAME)
         self.assertEqual(
             sorted([k for k in self.groupings.keys()]),
-            sorted(['label', 'author', 'type']))
+            sorted(['label', 'author', 'type', 'first_letter']))
 
     def test_label_groupings(self):
         """ Test that IGroupingStorage is correctly updated when labels change
@@ -92,7 +92,8 @@ class TestGroupingStorage(BaseTestCase):
         self.assertEqual(len(self.groupings['label'].keys()), 0)
 
     def test_author_groupings(self):
-        """ Test that IGroupingStorage's author info is correctly updated
+        """
+        Test that IGroupingStorage's author info is correctly updated
         """
         existing_keys = len(self.groupings['author'].keys())
         self.login(SITE_OWNER_NAME)
@@ -106,15 +107,16 @@ class TestGroupingStorage(BaseTestCase):
                         (existing_keys + 1))
 
     def test_type_groupings(self):
-        """ Test that IGroupingStorage's type info is correctly updated
+        """
+        Test that IGroupingStorage's type info is correctly updated
         """
         self.assertEqual(len(self.groupings['type'].keys()), 0)
 
         tid = self.workspace.invokeFactory('File', 'File1', title='File')
         obj1 = self.workspace._getOb(tid)
-        obj1.documentType = ('baz',)
         self.storage.update_groupings(obj1)  # Update IGroupingStorage
-        self.assertEqual([f for f in self.groupings['type'].keys()], ['baz'])
+        self.assertEqual([f for f in self.groupings['type'].keys()],
+                         ['application/octet-stream'])
 
     def test_ordering(self):
         """ Groupings can be ordered arbitrarily by users. Test that this

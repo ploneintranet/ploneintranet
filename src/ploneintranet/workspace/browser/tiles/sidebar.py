@@ -21,7 +21,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component.interfaces import ComponentLookupError
 from ...utils import map_content_type
-import urllib
+# import urllib
 import logging
 
 log = logging.getLogger(__name__)
@@ -644,11 +644,11 @@ class Sidebar(BaseTile):
         """
         return utils.archives_shown(self.context, self.request, self.section)
 
-    def urlquote(self, value):
-        """
-        Encodes values to be used as URL pars
-        """
-        return urllib.quote(value)
+    # def urlquote(self, value):
+    #     """
+    #     Encodes values to be used as URL pars
+    #     """
+    #     return urllib.quote(value)
 
     def get_items_by(self,
                      grouping,
@@ -698,8 +698,6 @@ class Sidebar(BaseTile):
 
             brains = catalog(**criteria)
             for brain in brains:
-                if brain is None or brain.UID == workspace_uid:
-                    continue
                 if grouping_value == 'Untagged' and brain.Subject:
                     continue
                 documents.append(brain)
@@ -713,7 +711,7 @@ class Sidebar(BaseTile):
                 return []
             criteria['Creator'] = grouping_value
 
-        elif grouping == 'period':
+        elif grouping == 'date':
             # Show the results grouped by today, the last week,
             # the last month,
             # all time. For every grouping, we exclude the previous one. So,
