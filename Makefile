@@ -80,8 +80,7 @@ jsdev: dev-bundle diazo _jsdev
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
 	# replace minfied js bundle with dev bundle, directly in diazo theme dir
-	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
-	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
+	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/ploneintranet.js
 
 dev-bundle: prototype
 	cd prototype && make dev-bundle
