@@ -20,7 +20,7 @@ from ploneintranet.todo.behaviors import ITodo
 
 
 FOLDERISH_TYPES = ['Folder']
-BLACKLISTED_TYPES = ['Event', 'simpletodo']
+BLACKLISTED_TYPES = ['Event', 'todo']
 
 
 class BaseTile(BrowserView):
@@ -304,7 +304,7 @@ class Sidebar(BaseTile):
         items = []
         catalog = api.portal.get_tool('portal_catalog')
         current_path = '/'.join(self.context.getPhysicalPath())
-        ptype = 'simpletodo'
+        ptype = 'todo'
         brains = catalog(path=current_path, portal_type=ptype)
         for brain in brains:
             obj = brain.getObject()
