@@ -42,7 +42,8 @@ class BaseTile(BrowserView):
         return self.render()
 
     def status_messages(self):
-        """ Returns status messages if any
+        """
+        Returns status messages if any
         """
         messages = IStatusMessage(self.request)
         m = messages.show()
@@ -55,13 +56,15 @@ class BaseTile(BrowserView):
 
 
 class SidebarSettingsMembers(BaseTile):
-    """ A view to serve as the member roster in the sidebar
+    """
+    A view to serve as the member roster in the sidebar
     """
 
     index = ViewPageTemplateFile("templates/sidebar-settings-members.pt")
 
     def users(self):
-        """Get current users and add in any search results.
+        """
+        Get current users and add in any search results.
 
         :returns: a list of dicts with keys
          - id
@@ -87,7 +90,7 @@ class SidebarSettingsMembers(BaseTile):
 
     def can_manage_workspace(self):
         """
-        does this user have permission to manage the workspace
+        Soes this user have permission to manage the workspace
         """
         return checkPermission(
             "ploneintranet.workspace: Manage workspace",
@@ -96,13 +99,15 @@ class SidebarSettingsMembers(BaseTile):
 
 
 class SidebarSettingsSecurity(BaseTile):
-    """ A view to serve as the security settings in the sidebar
+    """
+    A view to serve as the security settings in the sidebar
     """
 
     index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
 
     def __init__(self, context, request):
-        """ set up local copies of the policies for the sidebar template
+        """
+        Set up local copies of the policies for the sidebar template
         """
         super(SidebarSettingsSecurity, self).__init__(context, request)
         self.external_visibility = EXTERNAL_VISIBILITY
@@ -110,7 +115,8 @@ class SidebarSettingsSecurity(BaseTile):
         self.participant_policy = PARTICIPANT_POLICY
 
     def __call__(self):
-        """ write attributes, if any, set state, render
+        """
+        Write attributes, if any, set state, render
         """
         form = self.request.form
 
@@ -142,7 +148,8 @@ class SidebarSettingsSecurity(BaseTile):
 
 
 class SidebarSettingsAdvanced(BaseTile):
-    """ A view to serve as the advanced config in the sidebar
+    """
+    A view to serve as the advanced config in the sidebar
     """
 
     index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
@@ -166,14 +173,16 @@ class SidebarSettingsAdvanced(BaseTile):
 
 class Sidebar(BaseTile):
 
-    """ A view to serve as a sidebar navigation for workspaces
+    """
+    A view to serve as a sidebar navigation for workspaces
     """
 
     index = ViewPageTemplateFile("templates/sidebar.pt")
     section = "documents"
 
     def __call__(self):
-        """ write attributes, if any, set state, render
+        """
+        Write attributes, if any, set state, render
         """
         form = self.request.form
 
@@ -253,6 +262,13 @@ class Sidebar(BaseTile):
 
     # ContentItems
     def extract_attrs(self, catalog_results):
+        """
+        The items to show in the sidebar may come from the current folder or
+        a grouping storage for quick access. If they come from the current
+        folder, the brains get converted to the same data structure as used
+        in the grouping storage to allow unified handling. This extracts the
+        attributes from brains and returns dicts
+        """
         ptool = api.portal.get_tool('portal_properties')
         results = []
         for r in catalog_results:
@@ -302,7 +318,11 @@ class Sidebar(BaseTile):
         return results
 
     def children(self):
-        """ returns a list of dicts of items in the current context
+        """
+        This is called in the template and returns a list of dicts of items in
+        the current context.
+        It returns the items based on the selected grouping (and later may
+        take sorting, archiving etc into account)
         """
         catalog = api.portal.get_tool("portal_catalog")
 
@@ -382,15 +402,22 @@ class Sidebar(BaseTile):
 
     @property
     def page_idx(self):
+        """
+        Helper to return the desired page idx
+        """
         return int(self.request.form.get('page_idx', 0))
 
     @property
     def page_size(self):
+        """
+        Helper to return the desired page page_size
+        """
         return int(self.request.form.get('page_size', 18))
 
     def entries_for_grouping(self):
-        """ Return the entries according to a particular grouping
-            (e.g. label, author, type).
+        """
+        Return the entries according to a particular grouping
+        (e.g. label, author, type).
         """
         workspace = utils.parent_workspace(self.context)
         # if the user may not view the workspace, don't bother with
@@ -515,6 +542,9 @@ class Sidebar(BaseTile):
         return headers
 
     def tasks(self):
+        """
+        Show all tasks in the workspace
+        """
         items = []
         catalog = api.portal.get_tool("portal_catalog")
         current_path = '/'.join(self.context.getPhysicalPath())
@@ -534,6 +564,10 @@ class Sidebar(BaseTile):
         return items
 
     def events(self):
+        """
+        Return the events in this workspace
+        to be shown in the events section of the sidebar
+        """
         catalog = api.portal.get_tool("portal_catalog")
         workspace = utils.parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
@@ -555,12 +589,19 @@ class Sidebar(BaseTile):
         return {"upcoming": upcoming_events, "older": older_events}
 
     def set_grouping_cookie(self):
+        """
+        Set the selected grouping as cookie
+        """
         grouping = self.request.get('grouping', 'folder')
         member = api.user.get_current()
         cookie_name = '%s-grouping-%s' % (self.section, member.getId())
         utils.set_cookie(self.request, cookie_name, grouping)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
+        """
+        Helper method to return a value from either request or fallback
+        to cookie
+        """
         if key in self.request:
             return self.request.get(key)
         if cookie_name in self.request:
@@ -569,6 +610,9 @@ class Sidebar(BaseTile):
 
     @memoize
     def grouping(self):
+        """
+        Return the user selected grouping
+        """
         member = api.user.get_current()
         cookie_name = '%s-grouping-%s' % (self.section, member.getId())
         return self.get_from_request_or_cookie(
@@ -576,6 +620,9 @@ class Sidebar(BaseTile):
 
     @memoize
     def sorting(self):
+        """
+        Return the user selected sorting
+        """
         member = api.user.get_current()
         cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
         return self.get_from_request_or_cookie(
@@ -588,11 +635,14 @@ class Sidebar(BaseTile):
         return self.request.get(cookie_name, '').split('|')
 
     def archives_shown(self):
-        # Note: this is only for documents
+        """
+        Tell if we should show archived items or not
+        """
         return utils.archives_shown(self.context, self.request, self.section)
 
     def urlquote(self, value):
-        """ Encodes values to be used as URL pars
+        """
+        Encodes values to be used as URL pars
         """
         return urllib.quote(value)
 
@@ -601,23 +651,11 @@ class Sidebar(BaseTile):
                      grouping_value,
                      filter=None,
                      sorting='modified'):
-        """ Return all the documents that have a value $grouping_value for a
-            field corresponding to $grouping.
         """
-        # Wwe missed adding the documentType index to the ZCatalog. It's
-        # there now, but as long as it's not filled with enough values we use
-        # solr instead for grouping by type
-        # XXX Check with Netsight what catalog we will have
-        # if grouping == 'type':
-        #     catalog = api.portal.get_tool(name='portal_catalog')
-        # else:
-        #     catalog = api.portal.get_tool(name='portal_catalog')\
-        #         ._cs_old_searchResults
+        Return all the documents that have a value $grouping_value for a
+        field corresponding to $grouping.
+        """
         catalog = api.portal.get_tool(name='portal_catalog')
-
-        # XXX Try doing solr only as we are injecting items via JS anyway,
-        # a delay doesn't matter
-
         workspace = utils.parent_workspace(self.context)
         context_uid = IUUID(workspace)
         criteria = {
@@ -718,7 +756,8 @@ class Sidebar(BaseTile):
 
     # @view.memoize
     def get_children(self, page_idx=None):
-        """ Return the children for a certain grouping_value
+        """
+        Return the children for a certain grouping_value
         """
         grouping = self.grouping()
         sorting = self.sorting()
