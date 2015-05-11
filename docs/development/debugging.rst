@@ -1,3 +1,10 @@
+==========================
+Debugging tools and tricks
+==========================
+
+Celery
+======
+
 Celery logging level
 --------------------
 

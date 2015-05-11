@@ -33,7 +33,7 @@ Packages
 
 * attachments
 
-    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachments </development/attachments>` on stream items.
+    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachment previews <filepreviews>` on stream items.
 
 
 Philosophy
@@ -42,7 +42,7 @@ Philosophy
 Design principles
 -----------------
 
-* Follow the structure of the prototype
+* Follow the structure of the :doc:`../frontend/prototype`
 * Avoid duplicating markup
 * Create small template snippets for easy use with ``pat-inject``, and make them macros so that they can be included easily
 
@@ -53,9 +53,40 @@ Current problems
 * Template structure and call flow precedes the prototype
 * Mixture of ZCA abstractions (adapters) and Plone 2 abstractions (TAL macros with variables defined outside)
 
+
+--------------------------------
+Template structure and injection
+--------------------------------
+
+The social functionality heavily relies on ``pat-inject`` for AJAX interactions.
+In combination with nested template re-use the template structure becomes quite a puzzle.
+
+The Plone implementation tries to closely follow the template naming from the :doc:`../frontend/prototype` so that any changes in the prototype can easily be ported to the corresponding TAL template.
+
+This diagram presents an overview of the prototype injection and composition:
+
+.. image:: socialcallflow-prototype.png
+   :alt: Prototype injection and composition overview
+
+The dotted arrows show the AJAX HTTP POST targets for the two types of ``update-social.html`` input forms: the standalone box targets ``post-well-done.html`` whereas the inline reply form targets ``comment-well-said.html``.
+
+Those helper pages are fetched in the background and then ``pat-inject`` inserts the elements as indicated by the colored arrows, always replacing the orginal ``update-social.html`` input box with a new version as returned by the helper view.
+
+The nested colored boxes show how each of the pages and all the elements in there are composed from templates that delegate to sub-templates for inner elements. So ``activity-stream.html`` is composed of posts rendered by ``post.html`` which in turn has comments (``comment.html``) and a reply box ``update-social.html``.
+
 ------------
 Architecture
 ------------
+
+.. error::
+
+   The following documentation is outdated.
+   The code has been drastically refactored.
+
+.. TODO::
+
+   The refactoring is not yet completed.
+   After completion the documentation here will be updated.
 
 All templates that are copied over directly from the prototype are located inside a directory named ``prototype``. All of them are macros.
 
