@@ -22,3 +22,8 @@ class IWorkspaceState(Interface):
         """
         The state of the workspace
         """
+
+
+class ICase(Interface):
+    """A marker interface to differentiate between a Workspace and a Case
+    """

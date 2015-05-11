@@ -63,6 +63,13 @@
       permission="cmf.AddPortalContent"
       />
 
+  <browser:page
+      name="switch_to_case"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.SwitchToCaseView"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      />
+
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"

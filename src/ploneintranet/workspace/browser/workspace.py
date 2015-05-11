@@ -1,10 +1,12 @@
 from Products.Five import BrowserView
+from Products.Five.utilities.marker import mark
 from plone import api
-from plone.memoize.forever import memoize
-from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.memoize.forever import memoize
 from ploneintranet.workspace.interfaces import IWorkspaceState
+from ploneintranet.workspace.interfaces import ICase
 from ploneintranet.workspace.utils import parent_workspace
+from zope.interface import implements
 
 
 class BaseWorkspaceView(BrowserView):
@@ -44,3 +46,12 @@ class WorkspaceState(BaseWorkspaceView):
     def state(self):
         if self.workspace() is not None:
             return api.content.get_state(self.workspace())
+
+
+class SwitchToCaseView(BrowserView):
+    """
+    Set the ICase interface on a Workspace
+    """
+
+    def __call__(self):
+        mark(self.context, ICase)
