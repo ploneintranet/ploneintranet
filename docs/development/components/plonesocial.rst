@@ -33,7 +33,7 @@ Packages
 
 * attachments
 
-    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachments <attachments>` on stream items.
+    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachment previews <filepreviews>` on stream items.
 
 
 Philosophy

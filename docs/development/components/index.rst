@@ -8,5 +8,5 @@ Component Packages
     plonesocial
     workspace
     invitations
-    attachments
+    filepreviews
     pagerank
