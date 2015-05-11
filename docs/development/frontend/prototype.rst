@@ -5,6 +5,34 @@ Ploneintranet Prototype
     :depth: 2
     :local:
 
+Design First
+------------
+
+In Plone Intranet, we take design seriously. *Very* seriously.
+
+We first do the design. Then the design becomes the development specification.
+
+This puts user experience concerns up front and central.
+The whole product is centered on providing the best possible user experience.
+Technical choices and architectures are driven by user experience priorities.
+
+Contrast this with traditional Plone development, in which the backend data
+strutures and form generation constrains much of the user experience.
+
+This design-first philosophy has some very practical consequences:
+
+- All page views implemented in Plone Intranet have been designed first in the 
+  `ploneintranet.prototype <https://github.com/ploneintranet/ploneintranet.prototype>`_
+  clickable design mockup.
+
+- No markup, CSS or Javascript is used in Plone Intranet that does not come from the 
+  `ploneintranet.prototype <https://github.com/ploneintranet/ploneintranet.prototype>`_
+  clickable design mockup.
+
+In other words: any user-visible change cannot be made by a backend developer,
+without first consulting the designer and getting a prototype implementation of
+that change. This provides a major quality assurance on the user experience.
+
 Clickable design mockup
 -----------------------
 

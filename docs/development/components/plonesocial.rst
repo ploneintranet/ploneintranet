@@ -33,7 +33,7 @@ Packages
 
 * attachments
 
-    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachments </development/attachments>` on stream items.
+    This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachments <attachments>` on stream items.
 
 
 Philosophy
@@ -42,7 +42,7 @@ Philosophy
 Design principles
 -----------------
 
-* Follow the structure of the prototype
+* Follow the structure of the :doc:`../frontend/prototype`
 * Avoid duplicating markup
 * Create small template snippets for easy use with ``pat-inject``, and make them macros so that they can be included easily
 
@@ -61,7 +61,7 @@ Template structure and injection
 The social functionality heavily relies on ``pat-inject`` for AJAX interactions.
 In combination with nested template re-use the template structure becomes quite a puzzle.
 
-The Plone implementation tries to closely follow the template naming from the :doc:`prototype` so that any changes in the prototype can easily be ported to the corresponding TAL template.
+The Plone implementation tries to closely follow the template naming from the :doc:`../frontend/prototype` so that any changes in the prototype can easily be ported to the corresponding TAL template.
 
 This diagram presents an overview of the prototype injection and composition:
 
