@@ -75,13 +75,16 @@ _diazo:
 	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
 
 # full js development refresh
-jsdev: bundle diazo _jsdev
+jsdev: dev-bundle diazo _jsdev
 
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
 	# replace minfied js bundle with dev bundle, directly in diazo theme dir
 	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
 	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
+
+dev-bundle: prototype
+	cd prototype && make dev-bundle
 
 bundle: prototype
 	cd prototype && make bundle
