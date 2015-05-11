@@ -13,11 +13,11 @@
                 <div class="four columns">
                     <div class="item portlets">
 
-                        <div id="portlet-news" data-tile="./@@news.tile"></div>
+                        <!--div id="portlet-news" data-tile="./@@news.tile"></div-->
 
                         <div id="portlet-workspaces" data-tile="./@@workspaces.tile"></div>
 
-                        <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
+                        <!--div id="portlet-tasks" data-tile="./@@tasks.tile"></div-->
 
                     </div>
                 </div>
