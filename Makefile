@@ -90,6 +90,7 @@ bundle: prototype
 
 jsrelease: prototype
 	cd prototype && make jsrelease
+	cp prototype/LATEST .
 
 
 ####################################################################
