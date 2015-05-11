@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet.workspace">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content" 
+                   tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
+      <h1 id="workspace-name">
+        <!-- Next link is to lead to landing state of current workspace -->
+        <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
+      </h1>
+
+      <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+
+        <div id="document-body" >
+	      <div class="workspace-header">
+		    <article class="rich">
+			  <p class="description" tal:content="context/description"/>
+		    </article>
+		    <ul class="timeline pat-equaliser"
+                tal:define="mm_seq context/metromap_sequence; tasks context/tasks; task_number python:0">
+			  <li class="section actioned state-unfinished"
+                  tal:repeat="task_state mm_seq"
+                  tal:attributes="title task_state;
+                                  class python:'{0} state-{1}'.format(attrs['class'],'finished' if mm_seq[task_state]['finished'] else 'unfinished')">
+				<h3 class="section-label" tal:content="task_state"/>
+				<ul>
+                  <tal:tasks repeat="task python:tasks[task_state]">
+                    <tal:task_number define="global task_number python:task_number + 1">
+				      <li id="item-1" class="step-background"
+                          tal:attributes="id string:item-${task_number};
+                                          class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
+					    <p class="step-label icon icon-help-circled">
+					      <a class="link" data-pat-inject="history: record"
+                             tal:attributes="href task/url; title task/title"
+                             tal:content="task/title"/>
+					    </p>
+					    <p class="step-assignee">
+	                      <a href="" class="pat-avatar "  id="">
+		                    <img src="/media/avatar-guido-stevens.jpg" alt="" />
+	                      </a>
+					      <time class="date" datetime="2017-02-14">2 Jan</time>
+					    </p>
+				      </li>
+                    </tal:task_number>
+                  </tal:tasks>
+				</ul>
+                <p class="action icon icon-right-hand">
+				  <a href="" class="link"
+                     tal:define="transition_id python:mm_seq[task_state]['transition_id']"
+                     tal:content="transition_id"/>
+				</p>
+
+              </li>
+            </ul>
+            
+          </div>
+          <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
+          <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
+          <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
+        </div>
+
+        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
+        </aside>
+
+      </div>
+      <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+
+    </metal:content>
+  </body>
+</html>

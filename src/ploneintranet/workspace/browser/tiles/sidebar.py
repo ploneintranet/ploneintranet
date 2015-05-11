@@ -300,25 +300,6 @@ class Sidebar(BaseTile):
                 'dpi': dpi})
         return items
 
-    def tasks(self):
-        items = []
-        catalog = api.portal.get_tool('portal_catalog')
-        current_path = '/'.join(self.context.getPhysicalPath())
-        ptype = 'todo'
-        brains = catalog(path=current_path, portal_type=ptype)
-        for brain in brains:
-            obj = brain.getObject()
-            todo = ITodo(obj)
-            data = {
-                'id': brain.UID,
-                'title': brain.Description,
-                'content': brain.Title,
-                'url': brain.getURL(),
-                'checked': todo.status == u'done'
-            }
-            items.append(data)
-        return items
-
     def events(self):
         catalog = api.portal.get_tool('portal_catalog')
         workspace = parent_workspace(self.context)

@@ -1,14 +1,17 @@
+from collections import OrderedDict
+from collections import defaultdict
 from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace import MessageFactory
+from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
+from ploneintranet.workspace.interfaces import ICase
 from zope import schema
 from zope.event import notify
 from zope.interface import implementer
-
-from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
-from ploneintranet.workspace import MessageFactory
 
 
 class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
@@ -53,6 +56,10 @@ class WorkspaceFolder(Container):
         api.content.transition(obj=self, to_state=value)
 
     @property
+    def is_case(self):
+        return ICase.providedBy(self)
+
+    @property
     def join_policy(self):
         try:
             return self._join_policy
@@ -79,3 +86,76 @@ class WorkspaceFolder(Container):
         new_policy = value
         self._participant_policy = new_policy
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
+
+    def tasks(self):
+        items = defaultdict(list) if self.is_case else []
+        catalog = api.portal.get_tool('portal_catalog')
+        current_path = '/'.join(self.getPhysicalPath())
+        ptype = 'todo'
+        brains = catalog(path=current_path, portal_type=ptype)
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            data = {
+                'id': brain.UID,
+                'title': brain.Title,
+                'description': brain.Description,
+                'url': brain.getURL(),
+                'checked': todo.status == u'done'
+            }
+            if self.is_case:
+                milestone = "unassigned"
+                if obj.milestone not in ["", None]:
+                    milestone = obj.milestone
+                items[milestone].append(data)
+            else:
+                items.append(data)
+        return items
+
+    @property
+    def metromap_sequence(self):
+        """An ordered dict with the structure required for displaying tasks in the metromap and in
+        the sidebar of a Case item
+        OrderedDict([
+            ("new", {
+                "enabled": False, "transition_id": "transfer_to_department", "finished": True}),
+            ("in_progress", {
+                 "enabled": False, "transition_id": "transfer_to_department", "finished": True}),
+        ])
+        """
+        wft = api.portal.get_tool("portal_workflow")
+        case_workflows = [
+            i for i in wft.getWorkflowsFor(self)
+            if i.variables.get("metromap_transitions", False)
+        ]
+        if case_workflows == []:
+            return {}
+        # Assume we only have one
+        cwf = case_workflows[0]
+        metromap_transitions = [
+            i.strip()
+            for i in cwf.variables["metromap_transitions"].default_value.split(",")
+        ]
+        initial_state = cwf.initial_state
+        initial_transition = metromap_transitions[0]
+        available_transition_ids = [i["id"] for i in wft.getTransitionsFor(self)]
+        sequence = OrderedDict({
+            initial_state: {
+                "transition_id": initial_transition,
+                "enabled": initial_transition in available_transition_ids,
+            }
+        })
+        for index, transition_id in enumerate(metromap_transitions):
+            transition = cwf.transitions.get(transition_id, "")
+            next_state = transition.new_state_id
+            #new_state_id if new_state_id in cwf.states.objectIds() else "unassigned"
+            next_transition = ""
+            if index + 1 < len(metromap_transitions):
+                next_transition = metromap_transitions[index + 1]
+            sequence[next_state] = {
+                "transition_id": next_transition,
+                "enabled": next_transition in available_transition_ids,
+            }
+        for i in sequence:
+            sequence[i]["finished"] = "unfinished"
+        return sequence
