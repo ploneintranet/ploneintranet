@@ -104,6 +104,7 @@ docker-run:
 	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
+                -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
                 -v $(HOME)/.bashrc:/.bashrc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
