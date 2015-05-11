@@ -22,8 +22,22 @@ The dev.cfg buildout includes a test runner. It will run most tests and can be e
 
     ./bin/test
 
-Skip robot tests
-~~~~~~~~~~~~~~~~
+
+
+Robot tests
+===========
+
+You can run only robot tests::
+
+    ./bin/test -t 'robot'
+
+To not get spammed with many robot test failures, abort on first failure::
+
+    ./bin/test -t 'robot' -x
+
+To not have a gazillion browser windows pop up, run tests in a framebuffer::
+
+    Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot' -x
 
 Robot tests can be skipped by using -t '!robot' (note: single quotes, not double quotes)::
 
@@ -31,7 +45,7 @@ Robot tests can be skipped by using -t '!robot' (note: single quotes, not double
 
 
 Faster robot testing with robot-server
-======================================
+--------------------------------------
 
 You can avoid repeatedly running the test setup phases before running robot tests by using robot-server::
 
@@ -78,11 +92,11 @@ Debugging robot tests
 
 See http://docs.plone.org/external/plone.app.robotframework/docs/source/debugging.html
 
-Troubleshooting
----------------
+Troubleshooting robot tests
+---------------------------
 
 No module named _tkinter
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you get::
 
