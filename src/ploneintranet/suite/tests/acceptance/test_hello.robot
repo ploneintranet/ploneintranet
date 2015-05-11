@@ -20,4 +20,4 @@ Site Administrator can access dashboard
 *** Keywords ***
 
 I see the Dashboard
-    Element should be visible  css=#portlet-news
+    Element should be visible  css=#activity-stream
