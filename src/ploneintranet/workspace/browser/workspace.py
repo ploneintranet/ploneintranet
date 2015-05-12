@@ -3,8 +3,9 @@ from Products.Five.utilities.marker import mark
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.forever import memoize
-from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.interfaces import ICase
+from ploneintranet.workspace.interfaces import IMetroMap
+from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from zope.interface import implements
 
@@ -34,6 +35,13 @@ class WorkspaceView(BaseWorkspaceView):
     """
     implements(IBlocksTransformEnabled)
 
+
+class CaseWorkspaceView(WorkspaceView):
+    """Variant of the WorkspaceView with additional methods for Case Workspaces
+    """
+    @property
+    def metromap_sequence(self):
+        return IMetroMap(self.context).metromap_sequence
 
 class WorkspaceState(BaseWorkspaceView):
     """

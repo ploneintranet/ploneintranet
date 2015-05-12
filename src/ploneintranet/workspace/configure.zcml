@@ -69,6 +69,12 @@
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
      />
 
+  <adapter
+     for=".interfaces.ICase"
+     provides=".interfaces.IMetroMap"
+     factory=".adapters.MetroMap"
+     />
+
   <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile

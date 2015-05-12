@@ -8,7 +8,9 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content" 
-                   tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
+                   tal:define="workspace view/workspace;
+                               workspace_url python:workspace.absolute_url();
+                               mm_seq view/metromap_sequence">
       <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
         <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
@@ -22,7 +24,7 @@
 			  <p class="description" tal:content="context/description"/>
 		    </article>
 		    <ul class="timeline pat-equaliser"
-                tal:define="mm_seq context/metromap_sequence; tasks context/tasks; task_number python:0">
+                tal:define="tasks context/tasks; task_number python:0">
 			  <li class="section actioned state-unfinished"
                   tal:repeat="task_state mm_seq"
                   tal:attributes="title task_state;

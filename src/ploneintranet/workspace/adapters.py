@@ -1,11 +1,15 @@
 from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import IFolderish
 from borg.localrole.default_adapter import DefaultLocalRoleAdapter
 from borg.localrole.interfaces import ILocalRoleProvider
+from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
-from zope.interface import implements
+from ploneintranet.workspace.interfaces import ICase
+from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
+from zope.interface import implements
 
 
 class PloneIntranetWorkspace(Workspace):
@@ -88,3 +92,67 @@ class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
         if 'SelfPublisher' in workspace_roles and 'Owner' in current_roles:
             current_roles.append('Reviewer')
         return current_roles
+
+
+class MetroMap(object):
+    implements(IMetroMap)
+    adapts(IFolderish)
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def metromap_workflow(self):
+        wft = api.portal.get_tool("portal_workflow")
+        metromap_workflows = [
+            i for i in wft.getWorkflowsFor(self.context)
+            if i.variables.get("metromap_transitions", False)
+        ]
+        if metromap_workflows == []:
+            return None
+        # Assume we only have one
+        return metromap_workflows[0]
+
+    @property
+    def metromap_transitions(self):
+        metromap_workflow = self.metromap_workflow
+        if metromap_workflow is None:
+            return []
+        metromap_transitions = [
+            i.strip()
+            for i in metromap_workflow.variables["metromap_transitions"].default_value.split(",")
+        ]
+        return metromap_transitions
+
+    @property
+    def metromap_sequence(self):
+        cwf = self.metromap_workflow
+        wft = api.portal.get_tool("portal_workflow")
+        metromap_transitions = self.metromap_transitions
+        initial_state = cwf.initial_state
+        initial_transition = metromap_transitions[0]
+        available_transition_ids = [i["id"] for i in wft.getTransitionsFor(self.context)]
+        sequence = OrderedDict({
+            initial_state: {
+                "transition_id": initial_transition,
+                "enabled": initial_transition in available_transition_ids,
+            }
+        })
+        for index, transition_id in enumerate(metromap_transitions):
+            transition = cwf.transitions.get(transition_id, "")
+            next_state = transition.new_state_id
+            #new_state_id if new_state_id in cwf.states.objectIds() else "unassigned"
+            next_transition = ""
+            if index + 1 < len(metromap_transitions):
+                next_transition = metromap_transitions[index + 1]
+            sequence[next_state] = {
+                "transition_id": next_transition,
+                "enabled": next_transition in available_transition_ids,
+            }
+        current_state = wft.getInfoFor(self.context, "review_state")
+        finished = True
+        for state in sequence.keys():
+            if state == current_state:
+                finished = False
+            sequence[state]["finished"] = finished
+        return sequence

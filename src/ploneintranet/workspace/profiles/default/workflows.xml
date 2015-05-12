@@ -3,6 +3,7 @@
 
   <object name="ploneintranet_workspace_workflow" meta_type="Workflow"/>
   <object name="ploneintranet_workflow" meta_type="Workflow" />
+  <object name="case_workflow" meta_type="Workflow" />
 
   <bindings>
     <type type_id="ploneintranet.workspace.workspacefolder">
