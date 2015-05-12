@@ -179,8 +179,9 @@ class TestGroupingStorage(BaseTestCase):
                 for g in ['bar', 'baz', 'foo']])
 
     def test_archiving(self):
-        """ In the case of labels (i.e. tags), individual grouping values can
-            be archived.
+        """
+        In the case of labels (i.e. tags), individual grouping values can
+        be archived.
         """
         tid = self.workspace.invokeFactory('File', 'File', title='File')
         file = self.workspace._getOb(tid)

@@ -158,9 +158,7 @@
                             -->
                             <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
 
-                
-
-                    <tal:block repeat="item view/children">
+                    <tal:block repeat="item view/items">
                     <label class="item document type-event has-description"
                             tal:attributes="class item/cls">
                         <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
@@ -172,7 +170,6 @@
                             <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
 
                                 <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
-
                         </a>
                     </label>
                     </tal:block>
