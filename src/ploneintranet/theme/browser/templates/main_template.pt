@@ -57,10 +57,8 @@
       The main navigation
     </div>
 
-    <aside id="global_statusmessage">
+    <aside id="global-statusmessage">
       <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
-      <div metal:define-slot="global_statusmessage">
-      </div>
     </aside>
 
     <section id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" />
@@ -70,7 +68,6 @@
       <metal:block define-slot="content">
 
       <div metal:define-macro="content">
-
 
         <metal:slot define-slot="body">
 

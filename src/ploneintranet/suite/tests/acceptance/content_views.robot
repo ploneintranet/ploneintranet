@@ -137,6 +137,7 @@ I change the title
     Input Text  title  New title ♥
     Wait Until Page Contains  New title ♥
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new title
     Textfield Should Contain  title  New title ♥
@@ -146,6 +147,7 @@ I change the description
     Click Link  link=Toggle extra metadata
     Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new description
     Page Should Contain  New description ☀
@@ -155,6 +157,7 @@ I tag the description
     Click Link  link=Toggle extra metadata
     Input Text  id=s2id_autogen2  NewTag☃,
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new tag
     Click Link  link=Toggle extra metadata

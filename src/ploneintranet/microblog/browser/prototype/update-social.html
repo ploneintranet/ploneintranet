@@ -51,8 +51,8 @@
 
         <fieldset>
           <p class="content-mirror"
-            ><span class="text"
-              ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
+            ><span class="text" id="mirror-${form_id}"
+              ><em class="placeholder">${placeholder|newpostbox_view/placeholder}</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
                 ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');

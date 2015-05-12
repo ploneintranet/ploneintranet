@@ -20,7 +20,7 @@ lib/
 libreoffice/
 node_modules/
 parts/
-prototype
+/prototype
 release/
 src/bower_components/
 src/collective.celery/
@@ -57,7 +57,6 @@ src/plone.i18n/
 src/plone.schemaeditor/
 src/plone.theme/
 src/plonetheme.barceloneta/
-src/ploneintranet/theme/static/generated/
 src/slc.docconv/
 src/sphinx.themes.plone/
 src/zope.testrunner/

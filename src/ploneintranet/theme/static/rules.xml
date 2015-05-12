@@ -15,6 +15,9 @@
   <after theme-children="/html/head" content="/html/head/link | /html/head/style" />
   <after theme-children="/html/head" content="/html/head/script" />
 
+  <!-- Add the globalstatusmessage viewlet. -->
+  <append css:theme="body" css:content="#global-statusmessage" />
+
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
   <merge attributes="class" css:content="body" css:theme="body" />
@@ -100,8 +103,6 @@
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
 
-
-
 <rules css:if-content="#visual-portal-wrapper">
   <theme href="generated/empty.html" />
   <replace css:content-children="#content" css:theme-children="#original-content" />
@@ -109,12 +110,8 @@
 
 <notheme css:if-content="body.diazo-off"/>
 
-
   <!-- Cleanup any demo content that comes with the theme -->
   <!--drop css:theme-children="#content"/-->
-
-
-
 
   <!-- These 3 rules are only needed untill these functionalities will be complete -->
   <drop css:theme="header #buddies-toggle" />

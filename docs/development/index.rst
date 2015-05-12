@@ -6,10 +6,10 @@ Developer documentation
     :maxdepth: 2
 
     contributing
+    frontend/index
     forms
-    patterns
-    plonesocial
-    workspace
-    invitations
-    attachments
+    components/index
     testing
+    debugging
+
+

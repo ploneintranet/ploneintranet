@@ -1,4 +1,0 @@
-<!-- Render the parent post, which includes all replies. -->
-
-<div tal:define="parent_provider view/parent_provider"
-           tal:replace="structure parent_provider" />

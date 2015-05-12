@@ -1,25 +1,29 @@
-from plone import api
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from ploneintranet.workspace import utils
-from ploneintranet.workspace.policies import EXTERNAL_VISIBILITY
-from ploneintranet.workspace.policies import JOIN_POLICY
-from ploneintranet.workspace.policies import PARTICIPANT_POLICY
-from zope.publisher.browser import BrowserView
-from zope.component import getMultiAdapter
-from plone.i18n.normalizer import idnormalizer
-# from plone.uuid.interfaces import IUUID
-from plone.app.contenttypes.interfaces import IEvent
-from ploneintranet.workspace import MessageFactory as _  # noqa
-from ploneintranet.workspace.interfaces import IGroupingStorage
-from plone.memoize.instance import memoize
+from datetime import datetime
+
+from AccessControl import Unauthorized
 from DateTime import DateTime
+from plone import api
+from plone.app.contenttypes.interfaces import IEvent
+from plone.i18n.normalizer import idnormalizer
+from plone.memoize.instance import memoize
 from Products.CMFPlone.utils import safe_unicode
-from Products.CMFCore.utils import _checkPermission as checkPermission
-from ploneintranet.todo.behaviors import ITodo
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
+from zope.component import getMultiAdapter
+from zope.publisher.browser import BrowserView
+
+from ... import MessageFactory as _  # noqa
+from ...interfaces import IGroupingStorage
+from ...policies import EXTERNAL_VISIBILITY
+from ...policies import JOIN_POLICY
+from ...policies import PARTICIPANT_POLICY
+from ...utils import parent_workspace
+from ...utils import existing_users
 from ...utils import map_content_type
-# import urllib
+from ...utils import set_cookie
+from ploneintranet.todo.behaviors import ITodo
+
 import logging
 
 log = logging.getLogger(__name__)
@@ -32,6 +36,7 @@ BLACKLISTED_TYPES = ['Event', 'simpletodo']
 class BaseTile(BrowserView):
 
     index = None
+    form_submitted = False
 
     def render(self):
         return self.index()
@@ -49,8 +54,19 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
-    def my_workspace(self):
-        return utils.parent_workspace(self)
+    def workspace(self):
+        """ Acquire the workspace of the current context
+        """
+        return parent_workspace(self)
+
+    def can_manage_workspace(self):
+        """
+        does this user have permission to manage the workspace
+        """
+        return api.user.has_permission(
+            "ploneintranet.workspace: Manage workspace",
+            obj=self,
+        )
 
 
 class SidebarSettingsMembers(BaseTile):
@@ -58,7 +74,7 @@ class SidebarSettingsMembers(BaseTile):
     A view to serve as the member roster in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-members.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
 
     def users(self):
         """
@@ -73,27 +89,18 @@ class SidebarSettingsMembers(BaseTile):
         existing_user_ids = [x['id'] for x in existing_users]
 
         # Only add search results that are not already members
-        sharing = getMultiAdapter((self.my_workspace(), self.request),
+        sharing = getMultiAdapter((self.workspace(), self.request),
                                   name='sharing')
         search_results = sharing.user_search_results()
         users = existing_users + [x for x in search_results
                                   if x['id'] not in existing_user_ids]
 
-        users.sort(key=lambda x: safe_unicode(x["title"]))
+        users.sort(key=lambda x: safe_unicode(x['title']))
         return users
 
     @memoize
     def existing_users(self):
-        return utils.existing_users(self.my_workspace())
-
-    def can_manage_workspace(self):
-        """
-        Soes this user have permission to manage the workspace
-        """
-        return checkPermission(
-            "ploneintranet.workspace: Manage workspace",
-            self.context,
-        )
+        return existing_users(self.workspace())
 
 
 class SidebarSettingsSecurity(BaseTile):
@@ -101,7 +108,7 @@ class SidebarSettingsSecurity(BaseTile):
     A view to serve as the security settings in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-security.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-security.pt')
 
     def __init__(self, context, request):
         """
@@ -117,8 +124,7 @@ class SidebarSettingsSecurity(BaseTile):
         Write attributes, if any, set state, render
         """
         form = self.request.form
-
-        ws = self.my_workspace()
+        ws = self.workspace()
 
         def update_field(field_name):
             index = int(form.get(field_name)) - 1
@@ -126,7 +132,7 @@ class SidebarSettingsSecurity(BaseTile):
             value = field.keys()[index]
 
             if value != getattr(ws, field_name):
-                if field_name == "external_visibility":
+                if field_name == 'external_visibility':
                     ws.set_external_visibility(value)
                 else:
                     setattr(ws, field_name, value)
@@ -136,11 +142,16 @@ class SidebarSettingsSecurity(BaseTile):
                     'success',
                 )
 
-        if self.request.method == "POST" and form:
-            for field in [
-                'external_visibility', 'join_policy', 'participant_policy'
-            ]:
-                update_field(field)
+        if self.request.method == 'POST':
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
+            if form:
+                for field in [
+                    'external_visibility', 'join_policy', 'participant_policy'
+                ]:
+                    update_field(field)
 
         return self.render()
 
@@ -150,21 +161,25 @@ class SidebarSettingsAdvanced(BaseTile):
     A view to serve as the advanced config in the sidebar
     """
 
-    index = ViewPageTemplateFile("templates/sidebar-settings-advanced.pt")
+    index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
 
     def __call__(self):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
+        ws = self.workspace()
 
-        if self.request.method == "POST" and form:
-            ws = self.my_workspace()
-
+        if self.request.method == 'POST':
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
             if form.get('email') and form.get('email') != ws.email:
                 ws.email = form.get('email').strip()
                 api.portal.show_message(_(u'Email changed'),
                                         self.request,
                                         'success')
+                self.form_submitted = True
 
         return self.render()
 
@@ -175,7 +190,7 @@ class Sidebar(BaseTile):
     A view to serve as a sidebar navigation for workspaces
     """
 
-    index = ViewPageTemplateFile("templates/sidebar.pt")
+    index = ViewPageTemplateFile('templates/sidebar.pt')
     section = "documents"
 
     def __call__(self):
@@ -184,14 +199,18 @@ class Sidebar(BaseTile):
         """
         form = self.request.form
 
-        if self.request.method == "POST" and form:
-            ws = self.my_workspace()
+        if self.request.method == 'POST' and form:
+            ws = self.workspace()
             self.set_grouping_cookie()
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'title or description')
+                raise Unauthorized(msg)
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 
-                catalog = api.portal.get_tool("portal_catalog")
+                catalog = api.portal.get_tool('portal_catalog')
                 brains = catalog(UID={'query': current_tasks,
                                       'operator': 'or'})
                 for brain in brains:
@@ -234,7 +253,7 @@ class Sidebar(BaseTile):
         needed to get one step back.
         """
         grouping = self.grouping()
-        workspace = utils.parent_workspace(self.context)
+        workspace = parent_workspace(self.context)
 
         if grouping == 'folder':
             if self.context != workspace:
@@ -433,7 +452,7 @@ class Sidebar(BaseTile):
         Return the entries according to a particular grouping
         (e.g. label, author, type, first_letter)
         """
-        workspace = utils.parent_workspace(self.context)
+        workspace = parent_workspace(self.context)
         user = api.user.get_current()
         # if the user may not view the workspace, don't bother with
         # getting groups
@@ -569,7 +588,7 @@ class Sidebar(BaseTile):
         field corresponding to $grouping.
         """
         catalog = api.portal.get_tool(name='portal_catalog')
-        workspace = utils.parent_workspace(self.context)
+        workspace = parent_workspace(self.context)
         # workspace_uid = IUUID(workspace)
         criteria = {
             'path': '/'.join(workspace.getPhysicalPath()),
@@ -693,7 +712,7 @@ class Sidebar(BaseTile):
         grouping = self.request.get('grouping', 'folder')
         member = api.user.get_current()
         cookie_name = '%s-grouping-%s' % (self.section, member.getId())
-        utils.set_cookie(self.request, cookie_name, grouping)
+        set_cookie(self.request, cookie_name, grouping)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
         """
@@ -763,7 +782,7 @@ class Sidebar(BaseTile):
         Show all tasks in the workspace
         """
         items = []
-        catalog = api.portal.get_tool("portal_catalog")
+        catalog = api.portal.get_tool('portal_catalog')
         current_path = '/'.join(self.context.getPhysicalPath())
         ptype = 'simpletodo'
         brains = catalog(path=current_path, portal_type=ptype)
@@ -785,10 +804,10 @@ class Sidebar(BaseTile):
         Return the events in this workspace
         to be shown in the events section of the sidebar
         """
-        catalog = api.portal.get_tool("portal_catalog")
-        workspace = utils.parent_workspace(self.context)
+        catalog = api.portal.get_tool('portal_catalog')
+        workspace = parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
-        now = DateTime()
+        now = datetime.now()
 
         # Current and future events
         upcoming_events = catalog.searchResults(
@@ -803,4 +822,4 @@ class Sidebar(BaseTile):
             path=workspace_path,
             end={'query': (now), 'range': 'max'},
         )
-        return {"upcoming": upcoming_events, "older": older_events}
+        return {'upcoming': upcoming_events, 'older': older_events}

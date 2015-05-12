@@ -14,7 +14,7 @@
                                 </strong>
                                 <span class="verb">${activity/verb}</span>
                                 <strong class="object" tal:content="structure activity/object">Object</strong>
-                                <time class="datestamp" tal:attributes="activity/time">2 Hours ago</time>
+                                <time class="datestamp" tal:content="activity/time/title">2 Hours ago</time>
                             </p>
                         </tal:activities>
                     </a>

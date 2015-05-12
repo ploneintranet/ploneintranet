@@ -329,8 +329,11 @@ I can create a structure
     Click Button  css=#form-buttons-create
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Click link  Documents
+    Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
 
 The file appears in the sidebar
