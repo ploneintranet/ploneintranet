@@ -11,10 +11,10 @@
 
   <browser:page
     name="view"
-    for="..content.simpletodo.ISimpleTodo"
+    for="..content.todo.ITodo"
     layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
     template="templates/todo_view.pt"
-    class=".todo_view.BaseView"
+    class=".todo_view.TodoView"
     permission="zope2.View"
     />
 

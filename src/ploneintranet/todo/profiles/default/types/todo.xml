@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<object name="case_todo" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="todo" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Case todo</property>
- <property name="factory">case_todo</property>
+ <property name="title" i18n:translate="">Todo</property>
+ <property name="factory">todo</property>
  <property
     name="add_view_expr">string:${folder_url}/++add++todo</property>
  <property name="link_target"></property>

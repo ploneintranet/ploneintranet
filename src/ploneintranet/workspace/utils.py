@@ -26,7 +26,7 @@ TYPE_MAP = {'Event': 'event',
             'Link': 'link',
             'Folder': 'folder',
             'Document': 'rich',
-            'simpletodo': 'task',
+            'todo': 'task',
             'ploneintranet.workspace.workspacefolder': 'workspace'}
 
 

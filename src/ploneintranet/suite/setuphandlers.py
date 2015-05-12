@@ -196,7 +196,7 @@ def create_tasks(todos):
     for data in todos:
         obj = create_as(
             data['creator'],
-            type='simpletodo',
+            type='todo',
             title=data['title'],
             container=todos_folder)
         todo = ITodo(obj)

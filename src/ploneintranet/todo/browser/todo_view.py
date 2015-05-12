@@ -16,6 +16,14 @@ class BaseView(BrowserView):
         self.current_user_id = api.user.get_current().getId()
         self.content_uid = api.content.get_uuid(self.context)
 
+    def __call__(self):
+        referer = self.request.get('HTTP_REFERER', '').strip()
+        if not referer:
+            referer = self.context.absolute_url()
+        return self.request.response.redirect(referer)
+
+
+class TodoView(BaseView):
     def __call__(self, milestone=None):
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
