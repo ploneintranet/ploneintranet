@@ -62,7 +62,7 @@ _diazo:
 	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
 	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
-		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).min.js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
 		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
 		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
@@ -75,19 +75,22 @@ _diazo:
 	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
 
 # full js development refresh
-jsdev: bundle diazo _jsdev
+jsdev: dev-bundle diazo _jsdev
 
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
-	# replace minfied js bundle with dev bundle, directly in diazo theme dir
-	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/
-	sed -i -e 's#$(BUNDLENAME).min.js#$(BUNDLENAME)-dev.js#' $(DIAZO_DIR)/*.html
+	# replace normal js bundle with dev bundle, directly in diazo theme dir
+	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/ploneintranet.js
+
+dev-bundle: prototype
+	cd prototype && make dev-bundle
 
 bundle: prototype
 	cd prototype && make bundle
 
 jsrelease: prototype
 	cd prototype && make jsrelease
+	cp prototype/LATEST .
 
 
 ####################################################################
