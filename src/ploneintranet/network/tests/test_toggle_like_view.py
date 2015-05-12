@@ -27,21 +27,17 @@ class TestToggleLikeView(IntegrationTestCase):
         self.user_id = api.user.get_current().getId()
 
     def test_show_like(self):
-        view = api.content.get_view('toggle_like', self.portal, self.request)
-        self.assertRaises(KeyError, view)
+        view = api.content.get_view('toggle_like', self.doc1, self.request)
         item_id = api.content.get_uuid(self.doc1)
-        view = view.publishTraverse(self.request, item_id)
         output = view()
         self.assertIn('like_button', output)
-        self.assertIn(item_id, output)
         self.assertFalse(
             self.util.is_item_liked_by_user(self.user_id, item_id))
 
     def test_toggle_like(self):
         self.request.form['like_button'] = 'like'
-        view = api.content.get_view('toggle_like', self.portal, self.request)
+        view = api.content.get_view('toggle_like', self.doc1, self.request)
         item_id = api.content.get_uuid(self.doc1)
-        view = view.publishTraverse(self.request, item_id)
 
         # Toggle like for doc1
         output = view()
@@ -68,8 +64,7 @@ class TestToggleLikeView(IntegrationTestCase):
         comment_id = IUUID(comment)
 
         self.request.form['like_button'] = 'like'
-        view = api.content.get_view('toggle_like', self.portal, self.request)
-        view = view.publishTraverse(self.request, comment_id)
+        view = api.content.get_view('toggle_like', comment, self.request)
 
         # Toggle like for comment
         output = view()
@@ -96,7 +91,9 @@ class TestToggleLikeView(IntegrationTestCase):
         update_id = str(su.id)
 
         self.request.form['like_button'] = 'like'
-        view = api.content.get_view('toggle_like', self.portal, self.request)
+        view = api.content.get_view('toggle_like_statusupdate',
+                                    self.portal, self.request)
+        self.assertRaises(KeyError, view)
         view = view.publishTraverse(self.request, update_id)
 
         # Toggle like for statusupdate
