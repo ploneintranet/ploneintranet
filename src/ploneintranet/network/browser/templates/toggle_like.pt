@@ -8,7 +8,7 @@
                        datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
   <form id="functions-123456"
         action="@@toggle_like"
-        tal:attributes="action string:${portal_url}/@@toggle_like/${item_id};
+        tal:attributes="action view/action;
                         id string:functions-${unique_id};
                         data-pat-inject datapatinject;"
         class="pat-inject pat-autosubmit"
