@@ -7,7 +7,7 @@
 
     <fieldset class="icon-tabs">
         <label class="icon-ok-circle">
-            <input checked="checked" name="portal_type" value="simpletodo" type="radio"> Task
+            <input checked="checked" name="portal_type" value="todo" type="radio"> Task
         </label>
     </fieldset>
     <fieldset class="vertical">
