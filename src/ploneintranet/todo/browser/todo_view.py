@@ -2,6 +2,7 @@ from ..interfaces import ITodoUtility
 from Acquisition import aq_inner
 from Products.Five import BrowserView
 from plone import api
+from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.utils import parent_workspace
 from zope.component import getUtility
 from zope.event import notify
@@ -26,19 +27,15 @@ class BaseView(BrowserView):
 class TodoView(BaseView):
     def __call__(self, milestone=None):
         context = aq_inner(self.context)
-        self.workspace = parent_workspace(context)
-        self.can_edit = api.user.has_permission(
-            'Modify portal content',
-            obj=context)
-        wft = api.portal.get_tool("portal_workflow")
-        workflows = wft.getWorkflowsFor(self.workspace)
-        self.milestones = set()
-        for workflow in workflows:
-            for state in workflow.states.objectValues():
-                self.milestones.add(state)
+        self.can_edit = api.user.has_permission('Modify portal content', obj=context)
 
-        if milestone is not None:
-            context.milestone = milestone
-            context.reindexObject()
-            notify(ObjectModifiedEvent(context))
+        self.workspace = parent_workspace(context)
+        if self.workspace.is_case:
+            if milestone is not None:
+                context.milestone = milestone
+                context.reindexObject()
+                notify(ObjectModifiedEvent(context))
+
+            self.milestones = IMetroMap(self.workspace).metromap_sequence.keys()
+
         return super(BaseView, self).__call__()

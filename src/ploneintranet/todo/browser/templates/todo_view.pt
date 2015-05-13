@@ -76,9 +76,9 @@
                     <select name="milestone">
                       <option></option>
                       <tal:milesstones repeat="milestone view/milestones">
-                        <option tal:attributes="value milestone/id;
-                                                selected python:'selected' if context.milestone == milestone.id else ''"
-                                tal:content="milestone/title"/>
+                        <option tal:attributes="value milestone;
+                                                selected python:'selected' if context.milestone == milestone else ''"
+                                tal:content="milestone"/>
                       </tal:milesstones>
                     </select>
                   </label>
