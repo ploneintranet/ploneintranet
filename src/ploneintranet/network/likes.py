@@ -31,14 +31,7 @@ class LikesContainer(Persistent, Explicit):
         self._user_uuids_mapping[user_id].insert(item_id)
         self._uuid_users_mapping[item_id].insert(user_id)
 
-    def like(self, user_id, item_id):
-        if not isinstance(user_id, list):
-            user_id = [user_id]
-        if not isinstance(item_id, list):
-            item_id = [item_id]
-        for i in item_id:
-            for u in user_id:
-                self.add(u, i)
+    like = add
 
     def remove(self, user_id, item_id):
         assert(user_id == str(user_id))
@@ -53,14 +46,7 @@ class LikesContainer(Persistent, Explicit):
         except KeyError:
             pass
 
-    def unlike(self, user_id, item_id):
-        if not isinstance(user_id, list):
-            user_id = [user_id]
-        if not isinstance(item_id, list):
-            item_id = [item_id]
-        for i in item_id:
-            for u in user_id:
-                self.remove(u, i)
+    unlike = remove
 
     def get(self, user_id):
         assert(user_id == str(user_id))
