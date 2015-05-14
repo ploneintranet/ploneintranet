@@ -30,21 +30,52 @@ class NetworkGraph(Persistent, Explicit):
         Set up storage for personalized data structures.
 
         FOLLOW: users can follow eachother, or content etc.
+        ---------------------------------------------------
 
         _following["user"][userid] = (userid, userid, ...)
         _followers["user"][userid] = (userid, userid, ...)
 
-        LIKE: users can like content or statusupdates
+        Other follow types can be switched on here but
+        are not used anywhere yet.
 
-        _likes["content"][userid] = (contentid, contentid, ...)
-        _liked["content"][contentid] = (userid, userid, ...)
+        LIKE: users can like content or statusupdates
+        ---------------------------------------------
+
+        _likes["content"][userid] = (uuid, uuid, ...)
+        _liked["content"][uuid] = (userid, userid, ...)
 
         _likes["update"][userid] = (statusid, statusid, ...)
         _liked["update"][statusid] = (userid, userid, ...)
 
         TAG: users can apply personal tags on anything.
+        -----------------------------------------------
+
         Not yet implemented, and more complex than following or liking
         since tagging is a 3-way relation (subject, tags, object)
+
+        Endorsements can be implemented as users tagging other users.
+
+        supported_tag_types = ("user", "content", "update")
+
+        Objects tagged by a user:
+        _tagged[userid] = {tag: {type: ids}}
+        _tagged[userid][tag] = {type: ids}
+        _tagged[userid][tag]["user"] = (userid, userid, ...)
+        _tagged[userid][tag]["content"] = (uuid, uuid, ...)
+        _tagged[userid][tag]["update"] = (statusid, statusid, ...)
+
+        Users that tagged an object:
+        _tagger[type][id] = {tag: userids}
+        _tagger["user"][userid][tag] = (userid, userid, ...)
+        _tagger["content"][uuid][tag] = (userid, userid, ...)
+        _tagger["update"][statusid][tag] = (userid, userid, ...)
+
+        Find objects by tag:
+        _alltagged[tag] = {type: ids}
+        _alltagged[tag]["user"] = (userid, userid, ...)
+        _alltagged[tag]["content"] = (uuid, uuid, ...)
+        _alltagged[tag]["update"] = (statusid, statusid)
+
         """
 
         # following
