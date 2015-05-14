@@ -24,6 +24,7 @@ class ToggleLike(BrowserView):
         self.request = request
         self.util = getUtility(ILikesTool)
         self.item_id = api.content.get_uuid(self.context)
+        self.like_type = "content"
 
     def __call__(self):
         """ """
@@ -34,9 +35,10 @@ class ToggleLike(BrowserView):
         if not self.current_user_id:
             return 'No user-id'
 
-        self.is_liked = self.util.is_content_liked_by_user(
-            item_id=self.item_id,
+        self.is_liked = self.util.is_liked(
+            self.like_type,
             user_id=self.current_user_id,
+            item_id=self.item_id,
         )
 
         # toogle like only if the button is clicked
@@ -56,14 +58,16 @@ class ToggleLike(BrowserView):
     def handle_toggle(self):
         """Perform the actual like/unlike action."""
         if not self.is_liked:
-            self.util.like_content(
-                item_id=self.item_id,
+            self.util.like(
+                self.like_type,
                 user_id=self.current_user_id,
+                item_id=self.item_id,
             )
         else:
-            self.util.unlike_content(
-                item_id=self.item_id,
+            self.util.unlike(
+                self.like_type,
                 user_id=self.current_user_id,
+                item_id=self.item_id,
             )
         self.is_liked = not self.is_liked
 
@@ -73,7 +77,8 @@ class ToggleLike(BrowserView):
             return True
 
     def total_likes(self):
-        likes = self.util.get_content_likers(
+        likes = self.util.get_likers(
+            self.like_type,
             item_id=self.item_id,
         )
         return len(likes)
@@ -98,6 +103,7 @@ class ToggleLikeStatusUpdate(ToggleLike):
         self.context = context  # INavigationRoot
         self.request = request
         self.util = getUtility(ILikesTool)
+        self.like_type = "update"
 
     def publishTraverse(self, request, name):
         """Extract self.item_id from URL /@@toggle_like/123456"""
@@ -112,29 +118,7 @@ class ToggleLikeStatusUpdate(ToggleLike):
                 _('No item id given in sub-path. '
                   'Use .../@@toggle_like/123456')
             )
-        # return super(ToggleLikeStatusUpdate, self).__call__()
-        if not self.validate_id(self.item_id):
-            return 'No valid item-id: %s' % self.item_id
-
-        self.current_user_id = api.user.get_current().getId()
-        if not self.current_user_id:
-            return 'No user-id'
-
-        self.is_liked = self.util.is_update_liked_by_user(
-            item_id=self.item_id,
-            user_id=self.current_user_id,
-        )
-
-        # toogle like only if the button is clicked
-        if 'like_button' in self.request:
-            self.handle_toggle()
-
-        if self.is_liked:
-            self.verb = _(u'Unlike')
-        else:
-            self.verb = _(u'Like')
-        self.unique_id = uuid.uuid4().hex
-        return self.index()
+        return super(ToggleLikeStatusUpdate, self).__call__()
 
     def action(self):
         portal_url = api.portal.get().absolute_url()
@@ -148,23 +132,3 @@ class ToggleLikeStatusUpdate(ToggleLike):
             container = PLONEINTRANET.microblog
             if container and int(item_id) in container._status_mapping:
                 return True
-
-    def handle_toggle(self):
-        """Perform the actual like/unlike action."""
-        if not self.is_liked:
-            self.util.like_update(
-                item_id=self.item_id,
-                user_id=self.current_user_id,
-            )
-        else:
-            self.util.unlike_update(
-                item_id=self.item_id,
-                user_id=self.current_user_id,
-            )
-        self.is_liked = not self.is_liked
-
-    def total_likes(self):
-        likes = self.util.get_update_likers(
-            item_id=self.item_id,
-        )
-        return len(likes)

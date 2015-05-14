@@ -83,16 +83,16 @@ class TestLikeContent(unittest.TestCase):
     def test_get_content_likes_empty(self):
         self.assertEqual(self.container.get_content_likes(self.userid), [])
 
-    def test_is_content_liked_by_user(self):
+    def test_is_content_liked(self):
         self.assertFalse(
-            self.container.is_content_liked_by_user(
+            self.container.is_content_liked(
                 self.userid,
                 self.object_uuid))
 
         self._like_content()
 
         self.assertTrue(
-            self.container.is_content_liked_by_user(
+            self.container.is_content_liked(
                 self.userid,
                 self.object_uuid))
 
@@ -165,16 +165,16 @@ class TestLikeUpdate(unittest.TestCase):
     def test_get_update_likes_empty(self):
         self.assertEqual(self.container.get_update_likes(self.userid), [])
 
-    def test_is_update_liked_by_user(self):
+    def test_is_update_liked(self):
         self.assertFalse(
-            self.container.is_update_liked_by_user(
+            self.container.is_update_liked(
                 self.userid,
                 self.statusid))
 
         self._like_update()
 
         self.assertTrue(
-            self.container.is_update_liked_by_user(
+            self.container.is_update_liked(
                 self.userid,
                 self.statusid))
 
@@ -189,3 +189,36 @@ class TestLikeUpdate(unittest.TestCase):
         self.assertEqual(
             self.container.get_update_likers(self.statusid), []
         )
+
+
+class TestLikeMixed(unittest.TestCase):
+
+    def setUp(self):
+        self.userid = 'testperson@test.org'
+        self.object_uuid = '827e65bd826a89790eba679e0c9ff864'
+        self.statusid = long(time.time() * 1e6)
+        self.container = LikesContainer()
+
+    def assertIterEqual(self, iterA, iterB):
+        return self.assertEqual([x for x in iterA],
+                                [x for x in iterB])
+
+    def test_like_mixed(self):
+        self.assertIterEqual(self.container.get_likes(
+            "content", self.userid), [])
+        self.assertIterEqual(self.container.get_likes(
+            "update", self.userid), [])
+
+        self.container.like("content", self.userid, self.object_uuid)
+        self.container.like("update", self.userid, self.statusid)
+        self.assertIterEqual(self.container.get_likes(
+            "content", self.userid), [self.object_uuid])
+        self.assertIterEqual(self.container.get_likes(
+            "update", self.userid), [self.statusid])
+
+        self.container.unlike("content", self.userid, self.object_uuid)
+        self.container.unlike("update", self.userid, self.statusid)
+        self.assertIterEqual(self.container.get_likes(
+            "content", self.userid), [])
+        self.assertIterEqual(self.container.get_likes(
+            "update", self.userid), [])

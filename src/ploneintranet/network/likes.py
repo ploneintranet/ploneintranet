@@ -22,6 +22,46 @@ class LikesContainer(Persistent, Explicit):
         # maps status id to user ids
         self._update_user_mapping = LOBTree.LOBTree()
 
+    # unified interface
+    supported_like_types = ("content", "update")
+
+    def like(self, like_type, user_id, item_id):
+        assert like_type in self.supported_like_types
+        if like_type == "content":
+            self.like_content(user_id, item_id)
+        elif like_type == "update":
+            self.like_update(user_id, item_id)
+
+    def unlike(self, like_type, user_id, item_id):
+        assert like_type in self.supported_like_types
+        if like_type == "content":
+            self.unlike_content(user_id, item_id)
+        elif like_type == "update":
+            self.unlike_update(user_id, item_id)
+
+    def get_likes(self, like_type, user_id):
+        assert like_type in self.supported_like_types
+        if like_type == "content":
+            return self.get_content_likes(user_id)
+        elif like_type == "update":
+            return self.get_update_likes(user_id)
+
+    def get_likers(self, like_type, item_id):
+        assert like_type in self.supported_like_types
+        if like_type == "content":
+            return self.get_content_likers(item_id)
+        elif like_type == "update":
+            return self.get_update_likers(item_id)
+
+    def is_liked(self, like_type, user_id, item_id):
+        assert like_type in self.supported_like_types
+        if like_type == "content":
+            return self.is_content_liked(user_id, item_id)
+        elif like_type == "update":
+            return self.is_update_liked(user_id, item_id)
+
+    # content variants
+
     def like_content(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
@@ -59,7 +99,7 @@ class LikesContainer(Persistent, Explicit):
         except KeyError:
             return []
 
-    def is_content_liked_by_user(self, user_id, item_id):
+    def is_content_liked(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
@@ -112,7 +152,7 @@ class LikesContainer(Persistent, Explicit):
         except KeyError:
             return []
 
-    def is_update_liked_by_user(self, user_id, item_id):
+    def is_update_liked(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(long(item_id))
         item_id = long(item_id)  # support string input
