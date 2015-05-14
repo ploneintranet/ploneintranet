@@ -34,7 +34,7 @@ class ToggleLike(BrowserView):
         if not self.current_user_id:
             return 'No user-id'
 
-        self.is_liked = self.util.is_item_liked_by_user(
+        self.is_liked = self.util.is_content_liked_by_user(
             item_id=self.item_id,
             user_id=self.current_user_id,
         )
@@ -56,12 +56,12 @@ class ToggleLike(BrowserView):
     def handle_toggle(self):
         """Perform the actual like/unlike action."""
         if not self.is_liked:
-            self.util.like(
+            self.util.like_content(
                 item_id=self.item_id,
                 user_id=self.current_user_id,
             )
         else:
-            self.util.unlike(
+            self.util.unlike_content(
                 item_id=self.item_id,
                 user_id=self.current_user_id,
             )
@@ -73,7 +73,7 @@ class ToggleLike(BrowserView):
             return True
 
     def total_likes(self):
-        likes = self.util.get_users_for_item(
+        likes = self.util.get_content_likers(
             item_id=self.item_id,
         )
         return len(likes)

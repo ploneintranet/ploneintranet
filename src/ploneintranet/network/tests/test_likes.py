@@ -34,87 +34,75 @@ class TestLikes(unittest.TestCase):
         self.object_uuid = '827e65bd826a89790eba679e0c9ff864'
         self.container = LikesContainer()
 
-    def _like(self):
-        self.container.like(
+    def _like_content(self):
+        self.container.like_content(
             self.userid, self.object_uuid)
 
-    def test_add(self):
-        self._like()
+    def test_like_content(self):
+        self._like_content()
 
-        liked_items = self.container._user_uuids_mapping[self.userid]
+        liked_items = self.container._user_content_mapping[self.userid]
         self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
 
-        liking_users = self.container._uuid_users_mapping[self.object_uuid]
+        liking_users = self.container._content_user_mapping[self.object_uuid]
         self.assertEqual(sorted(list(liking_users)), [self.userid])
 
-    def test_liked_by_two_users(self):
-        self._like()
-        self.container.like(
+    def test_content_liked_by_two_users(self):
+        self._like_content()
+        self.container.like_content(
             'cyclon@test.org', self.object_uuid)
 
-        liked_items = self.container._user_uuids_mapping[self.userid]
+        liked_items = self.container._user_content_mapping[self.userid]
         self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
-        liked_items = self.container._user_uuids_mapping['cyclon@test.org']
+        liked_items = self.container._user_content_mapping['cyclon@test.org']
         self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
 
-        liking_users = self.container._uuid_users_mapping[self.object_uuid]
+        liking_users = self.container._content_user_mapping[self.object_uuid]
         self.assertEqual(
             sorted(list(liking_users)),
             ['cyclon@test.org', self.userid])
 
-    def test_unlike(self):
-        self._like()
+    def test_unlike_content(self):
+        self._like_content()
 
-        self.container.unlike(self.userid, self.object_uuid)
+        self.container.unlike_content(self.userid, self.object_uuid)
 
-        liked_items = self.container._user_uuids_mapping[self.userid]
+        liked_items = self.container._user_content_mapping[self.userid]
         self.assertEqual(sorted(list(liked_items)), [])
 
-        liking_users = self.container._uuid_users_mapping[self.object_uuid]
+        liking_users = self.container._content_user_mapping[self.object_uuid]
         self.assertEqual(sorted(list(liking_users)), [])
 
-    def test_get(self):
-        self._like()
+    def test_get_content_likes(self):
+        self._like_content()
         self.assertEqual(
-            sorted(list(self.container.get(self.userid))), [self.object_uuid])
+            sorted(list(self.container.get_content_likes(self.userid))),
+            [self.object_uuid])
 
-    def test_get_empty(self):
-        self.assertEqual(self.container.get(self.userid), [])
+    def test_get_content_likes_empty(self):
+        self.assertEqual(self.container.get_content_likes(self.userid), [])
 
-    def test_lookup(self):
-        self._like()
-        self.assertEqual(
-            sorted(list(self.container.lookup(self.object_uuid))),
-            [self.userid]
-        )
-
-    def test_lookup_empty(self):
-        self.assertEqual(
-            self.container.lookup(self.object_uuid), [])
-
-    def test_is_item_liked_by_user(self):
+    def test_is_content_liked_by_user(self):
         self.assertFalse(
-            self.container.is_item_liked_by_user(
+            self.container.is_content_liked_by_user(
                 self.userid,
                 self.object_uuid))
 
-        self._like()
+        self._like_content()
 
         self.assertTrue(
-            self.container.is_item_liked_by_user(
+            self.container.is_content_liked_by_user(
                 self.userid,
                 self.object_uuid))
 
-    def test_get_items_for_user(self):
-        self._like()
-        self.assertIn(
-            self.object_uuid,
-            self.container.get_items_for_user(self.userid)
-        )
-
-    def test_get_users_for_item(self):
-        self._like()
+    def test_get_content_likers(self):
+        self._like_content()
         self.assertIn(
             self.userid,
-            self.container.get_users_for_item(self.object_uuid)
+            self.container.get_content_likers(self.object_uuid)
+        )
+
+    def test_get_content_likers_empty(self):
+        self.assertEqual(
+            self.container.get_content_likers(self.object_uuid), []
         )
