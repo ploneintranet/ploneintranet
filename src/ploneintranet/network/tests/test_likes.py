@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import time
 import unittest2 as unittest
 from plone import api
 from ploneintranet.network.interfaces import ILikesContainer
@@ -26,7 +27,7 @@ class TestLikesTool(IntegrationTestCase):
         self.assertIsNone(tool)
 
 
-class TestLikes(unittest.TestCase):
+class TestLikeContent(unittest.TestCase):
 
     def setUp(self):
         # self.portal = self.layer['portal']
@@ -105,4 +106,86 @@ class TestLikes(unittest.TestCase):
     def test_get_content_likers_empty(self):
         self.assertEqual(
             self.container.get_content_likers(self.object_uuid), []
+        )
+
+
+class TestLikeUpdate(unittest.TestCase):
+
+    def setUp(self):
+        # self.portal = self.layer['portal']
+        self.userid = 'testperson@test.org'
+        self.statusid = long(time.time() * 1e6)
+        self.container = LikesContainer()
+
+    def _like_update(self):
+        self.container.like_update(
+            self.userid, self.statusid)
+
+    def test_like_update(self):
+        self._like_update()
+
+        liked_items = self.container._user_update_mapping[self.userid]
+        self.assertEqual(sorted(list(liked_items)), [self.statusid])
+
+        liking_users = self.container._update_user_mapping[self.statusid]
+        self.assertEqual(sorted(list(liking_users)), [self.userid])
+
+    def test_update_liked_by_two_users(self):
+        self._like_update()
+        self.container.like_update(
+            'cyclon@test.org', self.statusid)
+
+        liked_items = self.container._user_update_mapping[self.userid]
+        self.assertEqual(sorted(list(liked_items)), [self.statusid])
+        liked_items = self.container._user_update_mapping['cyclon@test.org']
+        self.assertEqual(sorted(list(liked_items)), [self.statusid])
+
+        liking_users = self.container._update_user_mapping[self.statusid]
+        self.assertEqual(
+            sorted(list(liking_users)),
+            ['cyclon@test.org', self.userid])
+
+    def test_unlike_update(self):
+        self._like_update()
+
+        self.container.unlike_update(self.userid, self.statusid)
+
+        liked_items = self.container._user_update_mapping[self.userid]
+        self.assertEqual(sorted(list(liked_items)), [])
+
+        liking_users = self.container._update_user_mapping[self.statusid]
+        self.assertEqual(sorted(list(liking_users)), [])
+
+    def test_get_update_likes(self):
+        self._like_update()
+        self.assertEqual(
+            sorted(list(self.container.get_update_likes(self.userid))),
+            [self.statusid])
+
+    def test_get_update_likes_empty(self):
+        self.assertEqual(self.container.get_update_likes(self.userid), [])
+
+    def test_is_update_liked_by_user(self):
+        self.assertFalse(
+            self.container.is_update_liked_by_user(
+                self.userid,
+                self.statusid))
+
+        self._like_update()
+
+        self.assertTrue(
+            self.container.is_update_liked_by_user(
+                self.userid,
+                self.statusid))
+
+    def test_get_update_likers(self):
+        self._like_update()
+        self.assertIn(
+            self.userid,
+            self.container.get_update_likers(self.statusid)
+        )
+
+    def test_get_update_likers_empty(self):
+        self.assertEqual(
+            self.container.get_update_likers(self.statusid), []
         )

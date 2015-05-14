@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import Explicit
 from BTrees import LOBTree
+from BTrees import LLBTree
 from BTrees import OOBTree
 from persistent import Persistent
 from ploneintranet.network.interfaces import ILikesContainer
@@ -31,9 +32,6 @@ class LikesContainer(Persistent, Explicit):
         self._user_content_mapping[user_id].insert(item_id)
         self._content_user_mapping[item_id].insert(user_id)
 
-    # suite temporary backcompat
-    like = like_content
-
     def unlike_content(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
@@ -62,7 +60,64 @@ class LikesContainer(Persistent, Explicit):
             return []
 
     def is_content_liked_by_user(self, user_id, item_id):
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+
         try:
             return user_id in self.get_content_likers(item_id)
+        except KeyError:
+            return False
+
+    # statusupdate variants
+
+    def like_update(self, user_id, item_id):
+        assert(user_id == str(user_id))
+        assert(long(item_id))
+        item_id = long(item_id)  # support string input
+
+        self._user_update_mapping.insert(user_id, LLBTree.LLTreeSet())
+        self._update_user_mapping.insert(item_id, OOBTree.OOTreeSet())
+
+        self._user_update_mapping[user_id].insert(item_id)
+        self._update_user_mapping[item_id].insert(user_id)
+
+    def unlike_update(self, user_id, item_id):
+        assert(user_id == str(user_id))
+        assert(long(item_id))
+        item_id = long(item_id)  # support string input
+
+        try:
+            self._user_update_mapping[user_id].remove(item_id)
+        except KeyError:
+            pass
+        try:
+            self._update_user_mapping[item_id].remove(user_id)
+        except KeyError:
+            pass
+
+    def get_update_likes(self, user_id):
+        assert(user_id == str(user_id))
+
+        try:
+            return self._user_update_mapping[user_id]
+        except KeyError:
+            return []
+
+    def get_update_likers(self, item_id):
+        assert(long(item_id))
+        item_id = long(item_id)  # support string input
+
+        try:
+            return self._update_user_mapping[item_id]
+        except KeyError:
+            return []
+
+    def is_update_liked_by_user(self, user_id, item_id):
+        assert(user_id == str(user_id))
+        assert(long(item_id))
+        item_id = long(item_id)  # support string input
+
+        try:
+            return user_id in self.get_update_likers(item_id)
         except KeyError:
             return False

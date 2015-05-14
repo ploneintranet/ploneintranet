@@ -39,7 +39,7 @@ class TestToggleLikeView(IntegrationTestCase):
         view = api.content.get_view('toggle_like', self.doc1, self.request)
         item_id = api.content.get_uuid(self.doc1)
 
-        # Toggle like for doc1
+        # Toggle like for doc1 on
         output = view()
         self.assertIn('(1)', output)
         self.assertIn('Unlike', output)
@@ -49,7 +49,7 @@ class TestToggleLikeView(IntegrationTestCase):
             self.user_id, item_id))
         self.assertEqual(len(user_likes), 1)
 
-        # Toggle like for doc1
+        # Toggle like for doc1 off
         output = view()
         user_likes = self.util.get_content_likes(self.user_id)
         self.assertEqual(len(user_likes), 0)
@@ -67,7 +67,7 @@ class TestToggleLikeView(IntegrationTestCase):
         self.request.form['like_button'] = 'like'
         view = api.content.get_view('toggle_like', comment, self.request)
 
-        # Toggle like for comment
+        # Toggle like for comment on
         output = view()
         self.assertIn('(1)', output)
         self.assertIn('Unlike', output)
@@ -77,7 +77,7 @@ class TestToggleLikeView(IntegrationTestCase):
             self.util.is_content_liked_by_user(self.user_id, comment_id))
         self.assertEqual(len(user_likes), 1)
 
-        # Toggle like for comment
+        # Toggle like for comment off
         output = view()
         user_likes = self.util.get_content_likes(self.user_id)
         self.assertEqual(len(user_likes), 0)
@@ -97,19 +97,19 @@ class TestToggleLikeView(IntegrationTestCase):
         self.assertRaises(KeyError, view)
         view = view.publishTraverse(self.request, update_id)
 
-        # Toggle like for statusupdate
+        # Toggle like for statusupdate on
         output = view()
         self.assertIn('(1)', output)
         self.assertIn('Unlike', output)
-        user_likes = self.util.get_content_likes(self.user_id)
+        user_likes = self.util.get_update_likes(self.user_id)
 
         self.assertTrue(
-            self.util.is_content_liked_by_user(self.user_id, update_id))
+            self.util.is_update_liked_by_user(self.user_id, update_id))
         self.assertEqual(len(user_likes), 1)
 
-        # Toggle like for statusupdate
+        # Toggle like for statusupdate off
         output = view()
-        user_likes = self.util.get_content_likes(self.user_id)
+        user_likes = self.util.get_update_likes(self.user_id)
         self.assertEqual(len(user_likes), 0)
         self.assertIn('(0)', output)
         self.assertIn('Like', output)

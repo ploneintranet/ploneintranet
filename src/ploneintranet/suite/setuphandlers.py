@@ -179,7 +179,7 @@ def create_news_items(newscontent):
         obj.reindexObject(idxs=['effective', 'Subject', ])
         if 'likes' in newsitem:
             for user_id in newsitem['likes']:
-                like_tool.like(item_id=IUUID(obj), user_id=user_id)
+                like_tool.like_content(item_id=IUUID(obj), user_id=user_id)
 
 
 def create_tasks(todos):
@@ -324,8 +324,8 @@ def create_stream(context, stream, files_dir):
         # like some status-updates
         if 'likes' in status:
             for user_id in status['likes']:
-                like_tool.like(
-                    item_id=str(status_obj.id),
+                like_tool.like_update(
+                    item_id=status_obj.id,
                     user_id=user_id,
                 )
 
