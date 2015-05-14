@@ -7,17 +7,17 @@ class INetworkGraph(Interface):
     following/unfollowing/blocking eachother.
     """
 
-    def set_follow(actor, other):
-        """User <actor> subscribes to user <other>"""
+    def set_follow(follow_type, actor, other):
+        """User <actor> subscribes to <follow_type> <other>"""
 
-    def set_unfollow(actor, other):
-        """User <actor> unsubscribes from user <other>"""
+    def set_unfollow(follow_type, actor, other):
+        """User <actor> unsubscribes from <follow_type> <other>"""
 
-    def get_following(actor):
-        """List all users that <actor> subscribes to"""
+    def get_following(follow_type, actor):
+        """List all <follow_type> that <actor> subscribes to"""
 
-    def get_followers(actor):
-        """List all users that subscribe to <actor>"""
+    def get_followers(follow_type, other):
+        """List all users that subscribe to <follow_type> <other>"""
 
 
 class INetworkTool(INetworkGraph):

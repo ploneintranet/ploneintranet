@@ -10,48 +10,48 @@ class TestNetworkGraph(IntegrationTestCase):
     def test_verify_interface(self):
         self.assertTrue(verifyClass(INetworkGraph, NetworkGraph))
 
-    def test_follow(self):
+    def test_user_follow(self):
         g = NetworkGraph()
-        g.set_follow('alex', 'bernard')
-        self.assertEqual(['bernard'], list(g.get_following('alex')))
+        g.set_follow('user', 'alex', 'bernard')
+        self.assertEqual(['bernard'], list(g.get_following('user', 'alex')))
 
-    def test_follow_following(self):
+    def test_user_follow_following(self):
         g = NetworkGraph()
-        g.set_follow('alex', 'bernard')
-        g.set_follow('alex', 'caroline')
-        g.set_follow('alex', 'dick')
+        g.set_follow('user', 'alex', 'bernard')
+        g.set_follow('user', 'alex', 'caroline')
+        g.set_follow('user', 'alex', 'dick')
         self.assertEqual(['bernard', 'caroline', 'dick'],
-                         sorted(list(g.get_following('alex'))))
+                         sorted(list(g.get_following('user', 'alex'))))
 
-    def test_follow_unfollow_following(self):
+    def test_user_follow_unfollow_following(self):
         g = NetworkGraph()
-        g.set_follow('alex', 'bernard')
-        g.set_follow('alex', 'caroline')
-        g.set_unfollow('alex', 'bernard')
-        self.assertEqual(['caroline'], list(g.get_following('alex')))
+        g.set_follow('user', 'alex', 'bernard')
+        g.set_follow('user', 'alex', 'caroline')
+        g.set_unfollow('user', 'alex', 'bernard')
+        self.assertEqual(['caroline'], list(g.get_following('user', 'alex')))
 
-    def test_follow_followers(self):
+    def test_user_follow_followers(self):
         g = NetworkGraph()
-        g.set_follow('alex', 'bernard')
-        g.set_follow('caroline', 'bernard')
+        g.set_follow('user', 'alex', 'bernard')
+        g.set_follow('user', 'caroline', 'bernard')
         self.assertEqual(['alex', 'caroline'],
-                         sorted(list(g.get_followers('bernard'))))
+                         sorted(list(g.get_followers('user', 'bernard'))))
 
-    def test_follow_unfollow_followers(self):
+    def test_user_follow_unfollow_followers(self):
         g = NetworkGraph()
-        g.set_follow('alex', 'bernard')
-        g.set_follow('caroline', 'bernard')
-        g.set_unfollow('alex', 'bernard')
+        g.set_follow('user', 'alex', 'bernard')
+        g.set_follow('user', 'caroline', 'bernard')
+        g.set_unfollow('user', 'alex', 'bernard')
         self.assertEqual(['caroline'],
-                         sorted(list(g.get_followers('bernard'))))
+                         sorted(list(g.get_followers('user', 'bernard'))))
 
     def test_string_args(self):
         """BTree keys MUST be of same type. Check that the implementation
         enforces this."""
         g = NetworkGraph()
-        self.assertRaises(AssertionError, g.set_follow, 1, '2')
-        self.assertRaises(AssertionError, g.set_follow, '1', 2)
-        self.assertRaises(AssertionError, g.set_unfollow, 1, '2')
-        self.assertRaises(AssertionError, g.set_unfollow, '1', 2)
-        self.assertRaises(AssertionError, g.get_following, 2)
-        self.assertRaises(AssertionError, g.get_followers, 2)
+        self.assertRaises(AssertionError, g.set_follow, 'user', 1, '2')
+        self.assertRaises(AssertionError, g.set_follow, 'user', '1', 2)
+        self.assertRaises(AssertionError, g.set_unfollow, 'user', 1, '2')
+        self.assertRaises(AssertionError, g.set_unfollow, 'user', '1', 2)
+        self.assertRaises(AssertionError, g.get_following, 'user', 2)
+        self.assertRaises(AssertionError, g.get_followers, 'user', 2)
