@@ -4,7 +4,7 @@ from plone.app.discussion.interfaces import IConversation
 from plone.uuid.interfaces import IUUID
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.network.interfaces import ILikesTool
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.testing import IntegrationTestCase
 from ploneintranet.network.testing import set_browserlayer
 from zope.component import createObject
@@ -17,7 +17,7 @@ class TestToggleLikeView(IntegrationTestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         set_browserlayer(self.request)
-        self.util = getUtility(ILikesTool)
+        self.util = getUtility(INetworkTool)
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',

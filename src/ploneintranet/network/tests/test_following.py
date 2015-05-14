@@ -5,7 +5,7 @@ from ploneintranet.network.testing import IntegrationTestCase
 from zope.interface.verify import verifyClass
 
 
-class TestNetworkGraph(IntegrationTestCase):
+class TestFollowing(IntegrationTestCase):
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(INetworkGraph, NetworkGraph))

@@ -5,7 +5,7 @@ from plone import api
 from plone.app.uuid.utils import uuidToCatalogBrain
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.network import _
-from ploneintranet.network.interfaces import ILikesTool
+from ploneintranet.network.interfaces import INetworkTool
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -22,7 +22,7 @@ class ToggleLike(BrowserView):
     def __init__(self, context, request):
         self.context = context  # the item being liked
         self.request = request
-        self.util = getUtility(ILikesTool)
+        self.util = getUtility(INetworkTool)
         self.item_id = api.content.get_uuid(self.context)
         self.like_type = "content"
 
@@ -102,7 +102,7 @@ class ToggleLikeStatusUpdate(ToggleLike):
         """Need to override __init__ to not fetch self.item_id from context"""
         self.context = context  # INavigationRoot
         self.request = request
-        self.util = getUtility(ILikesTool)
+        self.util = getUtility(INetworkTool)
         self.like_type = "update"
 
     def publishTraverse(self, request, name):

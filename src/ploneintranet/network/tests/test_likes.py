@@ -1,30 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 import unittest2 as unittest
-from plone import api
-from ploneintranet.network.interfaces import ILikesContainer
-from ploneintranet.network.interfaces import ILikesTool
-from ploneintranet.network.likes import LikesContainer
-from ploneintranet.network.testing import IntegrationTestCase
-from zope.component import queryUtility
-
-
-class TestLikesTool(IntegrationTestCase):
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-
-    def test_likes_tool_available(self):
-        tool = queryUtility(ILikesTool)
-        self.assertTrue(ILikesContainer.providedBy(tool))
-
-    def test_likes_tool_uninstalled(self):
-        qi = self.portal['portal_quickinstaller']
-        with api.env.adopt_roles(['Manager']):
-            qi.uninstallProducts(products=['ploneintranet.network'])
-        self.assertNotIn('ploneintranet_likes', self.portal)
-        tool = queryUtility(ILikesTool, None)
-        self.assertIsNone(tool)
+from ploneintranet.network.graph import NetworkGraph
 
 
 class TestLikeContent(unittest.TestCase):
@@ -33,7 +10,7 @@ class TestLikeContent(unittest.TestCase):
         # self.portal = self.layer['portal']
         self.userid = 'testperson@test.org'
         self.object_uuid = '827e65bd826a89790eba679e0c9ff864'
-        self.container = LikesContainer()
+        self.container = NetworkGraph()
 
     def _like_content(self):
         self.container.like("content",
@@ -116,7 +93,7 @@ class TestLikeUpdate(unittest.TestCase):
         # self.portal = self.layer['portal']
         self.userid = 'testperson@test.org'
         self.statusid = str(long(time.time() * 1e6))
-        self.container = LikesContainer()
+        self.container = NetworkGraph()
 
     def _like_update(self):
         self.container.like("update",
@@ -200,7 +177,7 @@ class TestLikeMixed(unittest.TestCase):
         self.userid = 'testperson@test.org'
         self.object_uuid = '827e65bd826a89790eba679e0c9ff864'
         self.statusid = str(long(time.time() * 1e6))
-        self.container = LikesContainer()
+        self.container = NetworkGraph()
 
     def assertIterEqual(self, iterA, iterB):
         return self.assertEqual([x for x in iterA],

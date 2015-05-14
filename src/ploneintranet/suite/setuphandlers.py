@@ -9,8 +9,7 @@ from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.network.interfaces import ILikesTool
-from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -83,11 +82,11 @@ def create_users(context, users, avatars_dir):
             )
 
     # setup social network
-    graph = queryUtility(INetworkGraph)
+    graph = queryUtility(INetworkTool)
     graph.clear()
     for user in users:
         for followee in user.get('follows', []):
-            graph.set_follow(userid, decode(followee))
+            graph.set_follow("user", userid, decode(followee))
 
 
 def create_groups(groups):
@@ -144,7 +143,7 @@ def create_as(userid, *args, **kwargs):
 
 def create_news_items(newscontent):
     portal = api.portal.get()
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
 
     if 'news' not in portal:
         news_folder = api.content.create(
@@ -286,7 +285,7 @@ class FakeFileField(object):
 def create_stream(context, stream, files_dir):
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
     microblog.clear()
     for status in stream:
         kwargs = {}
@@ -324,7 +323,8 @@ def create_stream(context, stream, files_dir):
         # like some status-updates
         if 'likes' in status:
             for user_id in status['likes']:
-                like_tool.like_update(
+                like_tool.like(
+                    "update",
                     item_id=status_obj.id,
                     user_id=user_id,
                 )
