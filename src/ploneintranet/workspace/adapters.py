@@ -9,6 +9,7 @@ from zope.component import adapts
 from Acquisition import aq_inner
 from Acquisition import Implicit
 from BTrees.OOBTree import OOBTree
+from BTrees.OOBTree import OOTreeSet
 from datetime import datetime
 from plone.folder.ordered import OrderedBTreeFolderBase
 from plone.indexer.wrapper import IndexableObjectWrapper
@@ -111,7 +112,8 @@ class GroupingStorageValues(
 
     def __init__(self, uids):
         self.archived = False
-        self.uids = set(uids)
+        self.uids = OOTreeSet()
+        self.uids.update(uids)
 
     def __iter__(self):
         return self.uids.__iter__()
@@ -123,10 +125,10 @@ class GroupingStorageValues(
         return len(self.uids)
 
     def add(self, item):
-        self.uids.add(item)
+        self.uids.insert(item)
 
     def discard(self, item):
-        self.uids.discard(item)
+        self.uids.remove(item)
 
     def remove(self, item):
         self.uids.remove(item)
@@ -212,16 +214,9 @@ class GroupingStorage(object):
         groupings = self.get_groupings()
         for value in values:
             if value in groupings[grouping]:
-                if uid in groupings[grouping][value]:
-                    continue
-                else:
-                    groupings[grouping][value].add(uid)
-                    groupings[grouping][value]._p_changed = 1
+                groupings[grouping][value].add(uid)
             else:
                 groupings[grouping][value] = GroupingStorageValues([uid])
-
-        groupings[grouping]._p_changed = 1
-        groupings._p_changed = 1
 
     def _remove_grouping_values(self, grouping, values, obj):
         """ Remove $uid from the list of uids stored under the grouping values
@@ -237,12 +232,7 @@ class GroupingStorage(object):
                 if len(groupings[grouping][value]) == 1:
                     del groupings[grouping][value]
                 else:
-                    groupings[grouping][value].discard(uid)
-                    groupings[grouping][value]._p_changed = 1
-
-            groupings[grouping]._p_changed = 1
-
-        groupings._p_changed = 1
+                    groupings[grouping][value].remove(uid)
 
     def _remove_grouping_value(self, grouping, value):
         """
