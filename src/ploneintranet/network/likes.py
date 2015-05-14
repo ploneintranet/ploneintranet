@@ -21,7 +21,7 @@ class LikesContainer(Persistent, Explicit):
         # maps status id to user ids
         # self._statusid_users_mapping = OOBTree.OOBTree()
 
-    def add(self, user_id, item_id):
+    def like(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
@@ -31,9 +31,7 @@ class LikesContainer(Persistent, Explicit):
         self._user_uuids_mapping[user_id].insert(item_id)
         self._uuid_users_mapping[item_id].insert(user_id)
 
-    like = add
-
-    def remove(self, user_id, item_id):
+    def unlike(self, user_id, item_id):
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
@@ -45,8 +43,6 @@ class LikesContainer(Persistent, Explicit):
             self._uuid_users_mapping[item_id].remove(user_id)
         except KeyError:
             pass
-
-    unlike = remove
 
     def get(self, user_id):
         assert(user_id == str(user_id))
