@@ -15,7 +15,7 @@ clean:
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
-fetchrelease: ## Update LATEST in case we updated the prototype
+fetchrelease: ## Download and install the latest javascript bundle into the theme.
 	$(eval LATEST := $(shell cat LATEST))
 	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
 	# fetch non-git-controlled required javascript resources
@@ -42,7 +42,7 @@ prototype:: ## Get the latest version of the prototype
 jekyll: prototype
 	@cd prototype && make jekyll
 
-diazorelease: diazo ## Commit all changes to the generated theme, including removals
+diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme, including removals
 	git add --all $(DIAZO_DIR)
 	@echo "=========================="
 	@git status
