@@ -292,7 +292,7 @@
                       </tal:task>
                       <p class="button-bar">
                         <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                           tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
+                           tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}">Create new task</a>
                         <a class="small icon-stage success button"
                            tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}'.format(ws.absolute_url(), milestones[milestone]['transition_id']);
                                            class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>

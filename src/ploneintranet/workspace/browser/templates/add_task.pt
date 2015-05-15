@@ -42,7 +42,8 @@
           <select name="milestone" tal:define="ws_view nocall:context/view">
             <option></option>
             <tal:milesstones repeat="milestone ws_view/metromap_sequence">
-              <option tal:attributes="value milestone"
+              <option tal:attributes="value milestone;
+                                      selected python:'selected' if request.form.get('milestone') == milestone else ''"
                       tal:content="milestone"/>
             </tal:milesstones>
           </select>
