@@ -237,7 +237,9 @@
         <div class="button-bar functions" id="tasks-functions">
 
             <div class="quick-functions">
-                <a title="Create new task" href="add_task" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
+              <a title="Create new task"
+                 class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" 
+                 tal:attributes="href string:${ws/absolute_url}/add_task">Create task</a>
             </div>
         </div>
         <tal:no-tasks condition="not: tasks">
@@ -289,7 +291,9 @@
                         </label>
                       </tal:task>
                       <p class="button-bar">
-                        <a class="icon-plus-circle small button" tal:attributes="href string:${ws/absolute_url}/++add++case">Create new task</a>
+                        <!-- icon-plus-circle small button  -->
+                        <a class="pat-modal" data-pat-modal="class: large"
+                           tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
                         <a class="small icon-stage success button"
                            tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}'.format(ws.absolute_url(), milestones[milestone]['transition_id']);
                                            class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>
@@ -307,8 +311,8 @@
                        tal:attributes="href task/url"/>
                   </label>
                   <p class="button-bar">
-                    <a class="icon-plus-circle small button"
-                       tal:attributes="href string:${ws/absolute_url}/++add++case">Create new task</a>
+                    <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" 
+                       tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
                   </p>
                 </fieldset>
 
@@ -317,7 +321,8 @@
             <input type="hidden" name="section" value="task"/>
           </form>
           <div class="button-bar create-buttons">
-              <a href="add_task" class="button icon-plus-circle pat-modal left" data-pat-modal="class: large">Add task</a>
+            <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large"
+               tal:attributes="href string:${ws/absolute_url}/add_task">Add task</a>
           </div>
         </tal:tasks>
     </div>
