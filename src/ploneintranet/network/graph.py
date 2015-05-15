@@ -20,7 +20,15 @@ class NetworkGraph(Persistent, Explicit):
     - users: a stable userid (not a changeable email)
     - tags: merging or renaming tags requires migrating the tag storage
 
-    Return values are BTrees.OOBTree.OOTreeSet iterables.
+    Return values are normally BTrees.OOBTree.OOTreeSet iterables,
+    except in some special cases documented on the accessors below.
+
+    Be aware that if the item_type=="user", both item_id and user_id
+    are user ids. In that case user_id is the actor (subject)
+    and item_id is the target (object).
+
+    So if Alex endorses Bernard with tag 'leadership'
+    item_type='user', item_id='bernard', user_id='alex'.
     """
 
     implements(INetworkGraph)
@@ -81,9 +89,9 @@ class NetworkGraph(Persistent, Explicit):
         _tags[user_id]["content"][uuid] = (tag, tag, ...)
 
         Find objects by tag: (and the users who applied that tag)
-        _all[tag] = {item_type: {item_id: (userid, userid)}
-        _all[tag]["user"][user_id] = (userid, userid, ...)
-        _all[tag]["content"][uuid] = (userid, userid, ...)
+        _bytag[tag] = {item_type: {item_id: (userid, userid)}
+        _bytag[tag]["user"][user_id] = (userid, userid, ...)
+        _bytag[tag]["content"][uuid] = (userid, userid, ...)
 
         """
 
@@ -105,7 +113,7 @@ class NetworkGraph(Persistent, Explicit):
         self._tagged = OOBTree.OOBTree()
         self._tagger = OOBTree.OOBTree()
         self._tags = OOBTree.OOBTree()
-        self._all = OOBTree.OOBTree()
+        self._bytag = OOBTree.OOBTree()
         for item_type in self.supported_tag_types:
             self._tagger[item_type] = OOBTree.OOBTree()
         # more initialization on the fly in self.tag()
@@ -243,12 +251,14 @@ class NetworkGraph(Persistent, Explicit):
                 self._tagged[user_id][tag] = OOBTree.OOBTree()
                 for _type in self.supported_tag_types:
                     self._tagged[user_id][tag][_type] = OOBTree.OOTreeSet()
+
             self._tagged[user_id][tag][item_type].insert(item_id)
 
             if item_id not in self._tagger[item_type]:
                 self._tagger[item_type][item_id] = OOBTree.OOBTree()
             if tag not in self._tagger[item_type][item_id]:
                 self._tagger[item_type][item_id][tag] = OOBTree.OOTreeSet()
+
             self._tagger[item_type][item_id][tag].insert(user_id)
 
             if user_id not in self._tags:
@@ -257,15 +267,17 @@ class NetworkGraph(Persistent, Explicit):
                     self._tags[user_id][_type] = OOBTree.OOBTree()
             if item_id not in self._tags[user_id][item_type]:
                 self._tags[user_id][item_type][item_id] = OOBTree.OOTreeSet()
+
             self._tags[user_id][item_type][item_id].insert(tag)
 
-            if tag not in self._all:
-                self._all[tag] = OOBTree.OOBTree()
+            if tag not in self._bytag:
+                self._bytag[tag] = OOBTree.OOBTree()
                 for _type in self.supported_tag_types:
-                    self._all[tag][_type] = OOBTree.OOBTree()
-                if item_id not in self._all[tag][item_type]:
-                    self._all[tag][item_type][item_id] = OOBTree.OOTreeSet()
-            self._all[tag][item_type][item_id].insert(user_id)
+                    self._bytag[tag][_type] = OOBTree.OOBTree()
+            if item_id not in self._bytag[tag][item_type]:
+                self._bytag[tag][item_type][item_id] = OOBTree.OOTreeSet()
+
+            self._bytag[tag][item_type][item_id].insert(user_id)
 
     def untag(self, item_type, item_id, user_id, *tags):
         """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
@@ -276,15 +288,99 @@ class NetworkGraph(Persistent, Explicit):
         for tag in tags:
             self._tagged[user_id][tag][item_type].remove(item_id)
             self._tagger[item_type][item_id][tag].remove(user_id)
-            self._all[tag][item_type][item_id].remove(user_id)
+            self._tags[user_id][item_type][item_id].remove(tag)
+            self._bytag[tag][item_type][item_id].remove(user_id)
 
-    def get_tagged(self, item_type=None, userid=None, tag=None):
+    def get_tagged(self, item_type=None, user_id=None, tag=None):
         """
         List <item_type> item_ids tagged as <tag> by <user_id>.
-        If item_type==None: returns {item_type: (objectids..)} mapping
-        if userid==None: returns {tag: {item_type: (objectids..)}} mapping
-        If tag==None: returns {tag: {item_type: (objectids..)}} mapping
+
+        If all parameters are given:
+          returns [item_id, item_id]
+
+        If one or more parameters are missing, the resulting
+        data structure differs as follows:
+
+        If item_type==None:
+          returns {item_type: [item_id..]}
+
+        if userid==None:
+          returns {objectid: [user_id..]}
+
+        If tag==None:
+          returns {tag: {item_type: [item_id..]}}
+
+        If only item_type: # user_id==None and tag==None
+          returns {user_id: {tag: [item_id..]}}
+
+        If only user_id:  # item_type==None and tag==None
+          returns {tag: {item_type: [item_id..]}}
+
+        If only tag:  # item_type==None and user_id==None
+          returns {item_type: {item_id: [user_id..]}}
+
+        If all parameters are None:  # dumps the full data structure
+          returns {user_id: {tag: {item_type: [item_id..]}}}
+
+
+        See the test_tags test suite for specific examples of all of the
+        possible return types.
+
         """
+        assert(item_type is None or item_type in self.supported_tag_types)
+        assert(user_id is None or user_id == str(user_id))
+        assert(tag is None or tag == str(tag))
+
+        try:
+
+            if item_type and user_id and tag:  # all
+                return self._tagged[user_id][tag][item_type]
+
+            # at this point at least one parameter is None
+
+            elif user_id and tag:  # no item_type
+                return self.unpack(self._tagged[user_id][tag])
+
+            elif item_type and tag:  # no user_id
+                return self.unpack(self._bytag[tag][item_type])
+
+            elif item_type and user_id:  # no tag
+                base = self.unpack(self._tagged[user_id])
+                retval = {}
+                # keep only the selected item_type
+                # and remove item_type level in dict
+                for tag in base:
+                    retval[tag] = base[tag][item_type]
+                return retval
+
+            # at this point we are dealing with a single parameter
+            # where the other two are set to None
+
+            elif item_type:
+                return self.unpack(self._tagger[item_type])
+
+            elif user_id:
+                return self.unpack(self._tagged[user_id])
+
+            elif tag:
+                return self.unpack(self._bytag[tag])
+
+            # at this point all params are None
+
+            else:
+                return self.unpack(self._tagged)
+
+        except KeyError:
+            return ()
+
+    def unpack(self, btreeish):
+        """Helper method to convert BTrees and TreeSets to normal dict/list
+        structures. Supports recursive unpack.
+        """
+        try:
+            return {k: self.unpack(v) for (k, v) in btreeish.items()}
+        except AttributeError:
+            return [k for k in btreeish]
 
     def get_taggers(self, item_type, item_id, tag=None):
         """

@@ -57,9 +57,9 @@ class INetworkGraph(Interface):
     def get_tagged(item_type=None, userid=None, tag=None):
         """
         List <item_type> item_ids tagged as <tag> by <user_id>.
-        If item_type==None: returns {item_type: (objectids..)} mapping
-        if userid==None: returns {tag: {item_type: (objectids..)}} mapping
-        If tag==None: returns {tag: {item_type: (objectids..)}} mapping
+
+        See implementation docstring and test suite for specifications
+        of return values when one or more parameters are set to None.
         """
 
     def get_taggers(item_type, item_id, tag=None):
