@@ -14,10 +14,10 @@ class INetworkGraph(Interface):
 
     # follow API
 
-    def set_follow(follow_type, actor, other):
+    def follow(follow_type, actor, other):
         """User <actor> subscribes to <follow_type> <other>"""
 
-    def set_unfollow(follow_type, actor, other):
+    def unfollow(follow_type, actor, other):
         """User <actor> unsubscribes from <follow_type> <other>"""
 
     def get_following(follow_type, actor):

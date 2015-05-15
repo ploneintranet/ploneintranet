@@ -105,7 +105,7 @@ class NetworkGraph(Persistent, Explicit):
 
     # following API
 
-    def set_follow(self, follow_type, actor, other):
+    def follow(self, follow_type, actor, other):
         """User <actor> subscribes to <follow_type> <other>"""
         assert(follow_type in self.supported_follow_types)
         assert(actor == str(actor))
@@ -117,7 +117,7 @@ class NetworkGraph(Persistent, Explicit):
         self._following[follow_type][actor].insert(other)
         self._followers[follow_type][other].insert(actor)
 
-    def set_unfollow(self, follow_type, actor, other):
+    def unfollow(self, follow_type, actor, other):
         """User <actor> unsubscribes from <follow_type> <other>"""
         assert(follow_type in self.supported_follow_types)
         assert(actor == str(actor))
