@@ -25,7 +25,7 @@ class NetworkGraph(Persistent, Explicit):
 
     implements(INetworkGraph)
 
-    # These statics define the data storage schema.
+    # These statics define the data storage schema "item_type" axes.
     # If you change them you need to carefully migrate the data storage
     # for existing users
     supported_follow_types = ("user", "content", "tag")
@@ -71,7 +71,7 @@ class NetworkGraph(Persistent, Explicit):
         _tagged[userid][tag]["update"] = (statusid, statusid, ...)
 
         Users that tagged an object:
-        _tagger[type][id] = {tag: userids}
+        _tagger[item_type][id] = {tag: userids}
         _tagger["user"][userid][tag] = (userid, userid, ...)
         _tagger["content"][uuid][tag] = (userid, userid, ...)
         _tagger["update"][statusid][tag] = (userid, userid, ...)
@@ -87,16 +87,16 @@ class NetworkGraph(Persistent, Explicit):
         # following
         self._following = OOBTree.OOBTree()
         self._followers = OOBTree.OOBTree()
-        for follow_type in self.supported_follow_types:
-            self._following[follow_type] = OOBTree.OOBTree()
-            self._followers[follow_type] = OOBTree.OOBTree()
+        for item_type in self.supported_follow_types:
+            self._following[item_type] = OOBTree.OOBTree()
+            self._followers[item_type] = OOBTree.OOBTree()
 
         # like
         self._likes = OOBTree.OOBTree()
         self._liked = OOBTree.OOBTree()
-        for like_type in self.supported_like_types:
-            self._likes[like_type] = OOBTree.OOBTree()
-            self._liked[like_type] = OOBTree.OOBTree()
+        for item_type in self.supported_like_types:
+            self._likes[item_type] = OOBTree.OOBTree()
+            self._liked[item_type] = OOBTree.OOBTree()
 
         # tags todo
 
@@ -105,103 +105,103 @@ class NetworkGraph(Persistent, Explicit):
 
     # following API
 
-    def follow(self, follow_type, actor, other):
-        """User <actor> subscribes to <follow_type> <other>"""
-        assert(follow_type in self.supported_follow_types)
+    def follow(self, item_type, actor, other):
+        """User <actor> subscribes to <item_type> <other>"""
+        assert(item_type in self.supported_follow_types)
         assert(actor == str(actor))
         assert(other == str(other))
         # insert user if not exists
-        self._following[follow_type].insert(actor, OOBTree.OOTreeSet())
-        self._followers[follow_type].insert(other, OOBTree.OOTreeSet())
+        self._following[item_type].insert(actor, OOBTree.OOTreeSet())
+        self._followers[item_type].insert(other, OOBTree.OOTreeSet())
         # add follow subscription
-        self._following[follow_type][actor].insert(other)
-        self._followers[follow_type][other].insert(actor)
+        self._following[item_type][actor].insert(other)
+        self._followers[item_type][other].insert(actor)
 
-    def unfollow(self, follow_type, actor, other):
-        """User <actor> unsubscribes from <follow_type> <other>"""
-        assert(follow_type in self.supported_follow_types)
+    def unfollow(self, item_type, actor, other):
+        """User <actor> unsubscribes from <item_type> <other>"""
+        assert(item_type in self.supported_follow_types)
         assert(actor == str(actor))
         assert(other == str(other))
         try:
-            self._following[follow_type][actor].remove(other)
+            self._following[item_type][actor].remove(other)
         except KeyError:
             pass
         try:
-            self._followers[follow_type][other].remove(actor)
+            self._followers[item_type][other].remove(actor)
         except KeyError:
             pass
 
-    def get_following(self, follow_type, actor):
-        """List all <follow_type> that <actor> subscribes to"""
-        assert(follow_type in self.supported_follow_types)
+    def get_following(self, item_type, actor):
+        """List all <item_type> that <actor> subscribes to"""
+        assert(item_type in self.supported_follow_types)
         assert(actor == str(actor))
         try:
-            return self._following[follow_type][actor]
+            return self._following[item_type][actor]
         except KeyError:
             return ()
 
-    def get_followers(self, follow_type, other):
-        """List all users that subscribe to <follow_type> <other>"""
-        assert(follow_type in self.supported_follow_types)
+    def get_followers(self, item_type, other):
+        """List all users that subscribe to <item_type> <other>"""
+        assert(item_type in self.supported_follow_types)
         assert(other == str(other))
 
         try:
-            return self._followers[follow_type][other]
+            return self._followers[item_type][other]
         except KeyError:
             return ()
 
     # like API
 
-    def like(self, like_type, user_id, item_id):
-        """User <user_id> likes <like_type> <item_id>"""
-        assert(like_type in self.supported_like_types)
+    def like(self, item_type, user_id, item_id):
+        """User <user_id> likes <item_type> <item_id>"""
+        assert(item_type in self.supported_like_types)
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
-        self._likes[like_type].insert(user_id, OOBTree.OOTreeSet())
-        self._liked[like_type].insert(item_id, OOBTree.OOTreeSet())
+        self._likes[item_type].insert(user_id, OOBTree.OOTreeSet())
+        self._liked[item_type].insert(item_id, OOBTree.OOTreeSet())
 
-        self._likes[like_type][user_id].insert(item_id)
-        self._liked[like_type][item_id].insert(user_id)
+        self._likes[item_type][user_id].insert(item_id)
+        self._liked[item_type][item_id].insert(user_id)
 
-    def unlike(self, like_type, user_id, item_id):
-        """User <user_id> unlikes <like_type> <item_id>"""
-        assert(like_type in self.supported_like_types)
+    def unlike(self, item_type, user_id, item_id):
+        """User <user_id> unlikes <item_type> <item_id>"""
+        assert(item_type in self.supported_like_types)
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
         try:
-            self._likes[like_type][user_id].remove(item_id)
+            self._likes[item_type][user_id].remove(item_id)
         except KeyError:
             pass
         try:
-            self._liked[like_type][item_id].remove(user_id)
+            self._liked[item_type][item_id].remove(user_id)
         except KeyError:
             pass
 
-    def get_likes(self, like_type, user_id):
-        """List all <like_type> liked by <user_id>"""
+    def get_likes(self, item_type, user_id):
+        """List all <item_type> liked by <user_id>"""
         assert(user_id == str(user_id))
         try:
-            return self._likes[like_type][user_id]
+            return self._likes[item_type][user_id]
         except KeyError:
             return []
 
-    def get_likers(self, like_type, item_id):
-        """List all userids liking <like_type> <item_id>"""
+    def get_likers(self, item_type, item_id):
+        """List all userids liking <item_type> <item_id>"""
         assert(item_id == str(item_id))
         try:
-            return self._liked[like_type][item_id]
+            return self._liked[item_type][item_id]
         except KeyError:
             return []
 
-    def is_liked(self, like_type, user_id, item_id):
-        """Does <user_id> like <like_type> <item_id>?"""
+    def is_liked(self, item_type, user_id, item_id):
+        """Does <user_id> like <item_type> <item_id>?"""
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
 
         try:
-            return user_id in self.get_likers(like_type, item_id)
+            return user_id in self.get_likers(item_type, item_id)
         except KeyError:
             return False
 
