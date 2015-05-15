@@ -115,7 +115,7 @@ class NetworkGraph(Persistent, Explicit):
 
     # following API
 
-    def follow(self, item_type, user_id, item_id):
+    def follow(self, item_type, item_id, user_id):
         """User <user_id> subscribes to <item_type> <item_id>"""
         assert(item_type in self.supported_follow_types)
         assert(user_id == str(user_id))
@@ -127,7 +127,7 @@ class NetworkGraph(Persistent, Explicit):
         self._following[item_type][user_id].insert(item_id)
         self._followers[item_type][item_id].insert(user_id)
 
-    def unfollow(self, item_type, user_id, item_id):
+    def unfollow(self, item_type, item_id, user_id):
         """User <user_id> unsubscribes from <item_type> <item_id>"""
         assert(item_type in self.supported_follow_types)
         assert(user_id == str(user_id))
@@ -162,7 +162,7 @@ class NetworkGraph(Persistent, Explicit):
 
     # like API
 
-    def like(self, item_type, user_id, item_id):
+    def like(self, item_type, item_id, user_id):
         """User <user_id> likes <item_type> <item_id>"""
         assert(item_type in self.supported_like_types)
         assert(user_id == str(user_id))
@@ -174,7 +174,7 @@ class NetworkGraph(Persistent, Explicit):
         self._likes[item_type][user_id].insert(item_id)
         self._liked[item_type][item_id].insert(user_id)
 
-    def unlike(self, item_type, user_id, item_id):
+    def unlike(self, item_type, item_id, user_id):
         """User <user_id> unlikes <item_type> <item_id>"""
         assert(item_type in self.supported_like_types)
         assert(user_id == str(user_id))
@@ -205,7 +205,7 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return []
 
-    def is_liked(self, item_type, user_id, item_id):
+    def is_liked(self, item_type, item_id, user_id):
         """Does <user_id> like <item_type> <item_id>?"""
         assert(user_id == str(user_id))
         assert(item_id == str(item_id))
@@ -217,7 +217,7 @@ class NetworkGraph(Persistent, Explicit):
 
     # tags API
 
-    def tag(self, item_type, user_id, item_id, *tags):
+    def tag(self, item_type, item_id, user_id, *tags):
         """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
         assert(item_type in self.supported_tag_types)
         assert(user_id == str(user_id))
@@ -256,7 +256,7 @@ class NetworkGraph(Persistent, Explicit):
                     self._all[tag][item_type][item_id] = OOBTree.OOTreeSet()
             self._all[tag][item_type][item_id].insert(user_id)
 
-    def untag(self, item_type, user_id, item_id, *tags):
+    def untag(self, item_type, item_id, user_id, *tags):
         """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
         assert(item_type in self.supported_tag_types)
         assert(user_id == str(user_id))
@@ -288,5 +288,5 @@ class NetworkGraph(Persistent, Explicit):
         """
         return self._tags[user_id][item_type][item_id]
 
-    def is_tagged(self, item_type, user_id, item_id, tag):
+    def is_tagged(self, item_type, item_id, user_id, tag):
         """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""

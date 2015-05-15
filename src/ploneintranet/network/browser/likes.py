@@ -58,17 +58,11 @@ class ToggleLike(BrowserView):
     def handle_toggle(self):
         """Perform the actual like/unlike action."""
         if not self.is_liked:
-            self.util.like(
-                self.like_type,
-                user_id=self.current_user_id,
-                item_id=self.item_id,
-            )
+            self.util.like(self.like_type, self.item_id,
+                           self.current_user_id)
         else:
-            self.util.unlike(
-                self.like_type,
-                user_id=self.current_user_id,
-                item_id=self.item_id,
-            )
+            self.util.unlike(self.like_type, self.item_id,
+                             self.current_user_id)
         self.is_liked = not self.is_liked
 
     def validate_id(self, item_id):

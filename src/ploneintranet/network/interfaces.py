@@ -14,10 +14,10 @@ class INetworkGraph(Interface):
 
     # follow API
 
-    def follow(item_type, user_id, item_id):
+    def follow(item_type, item_id, user_id):
         """User <user_id> subscribes to <item_type> <item_id>"""
 
-    def unfollow(item_type, user_id, item_id):
+    def unfollow(item_type, item_id, user_id):
         """User <user_id> unsubscribes from <item_type> <item_id>"""
 
     def get_following(item_type, user_id):
@@ -28,10 +28,10 @@ class INetworkGraph(Interface):
 
     # like API
 
-    def like(item_type, user_id, item_id):
+    def like(item_type, item_id, user_id):
         """User <user_id> likes <item_type> <item_id>"""
 
-    def unlike(item_type, user_id, item_id):
+    def unlike(item_type, item_id, user_id):
         """User <user_id> unlikes <item_type> <item_id>"""
 
     def get_likes(item_type, user_id):
@@ -40,15 +40,15 @@ class INetworkGraph(Interface):
     def get_likers(item_type, item_id):
         """List all userids liking <item_type> <item_id>"""
 
-    def is_liked(item_type, user_id, item_id):
+    def is_liked(item_type, item_id, user_id):
         """Does <user_id> like <item_type> <item_id>?"""
 
     # tags API
 
-    def tag(item_type, user_id, item_id, *tags):
+    def tag(item_type, item_id, user_id, *tags):
         """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
 
-    def untag(item_type, user_id, item_id, *tags):
+    def untag(item_type, item_id, user_id, *tags):
         """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
 
     def get_tagged(item_type=None, userid=None, tag=None):
@@ -71,7 +71,7 @@ class INetworkGraph(Interface):
         If user_id==None: return {tag: (userids..)} mapping
         """
 
-    def is_tagged(item_type, user_id, item_id, tag):
+    def is_tagged(item_type, item_id, user_id, tag):
         """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
 
 

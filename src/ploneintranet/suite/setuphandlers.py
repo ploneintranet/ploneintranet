@@ -86,7 +86,7 @@ def create_users(context, users, avatars_dir):
     graph.clear()
     for user in users:
         for followee in user.get('follows', []):
-            graph.set_follow("user", userid, decode(followee))
+            graph.follow("user", decode(followee), userid)
 
 
 def create_groups(groups):

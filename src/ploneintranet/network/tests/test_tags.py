@@ -13,6 +13,6 @@ class TestTags(IntegrationTestCase):
     def test_user_tag(self):
         g = NetworkGraph()
         # alex tags bernard with 'leadership'
-        g.tag('user', 'alex', 'bernard', 'leadership')
+        g.tag('user', 'bernard', 'alex', 'leadership')
         self.assertEqual(['leadership'],
                          list(g.get_tags('user', 'bernard', 'alex')))

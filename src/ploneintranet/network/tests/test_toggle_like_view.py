@@ -32,7 +32,7 @@ class TestToggleLikeView(IntegrationTestCase):
         output = view()
         self.assertIn('like_button', output)
         self.assertFalse(
-            self.util.is_liked("content", self.user_id, item_id))
+            self.util.is_liked("content", item_id, self.user_id))
 
     def test_toggle_like(self):
         self.request.form['like_button'] = 'like'
@@ -46,7 +46,7 @@ class TestToggleLikeView(IntegrationTestCase):
         user_likes = self.util.get_likes("content", self.user_id)
 
         self.assertTrue(
-            self.util.is_liked("content", self.user_id, item_id))
+            self.util.is_liked("content", item_id, self.user_id))
         self.assertEqual(len(user_likes), 1)
 
         # Toggle like for doc1 off
@@ -74,7 +74,7 @@ class TestToggleLikeView(IntegrationTestCase):
         user_likes = self.util.get_likes("content", self.user_id)
 
         self.assertTrue(
-            self.util.is_liked("content", self.user_id, comment_id))
+            self.util.is_liked("content", comment_id, self.user_id))
         self.assertEqual(len(user_likes), 1)
 
         # Toggle like for comment off
@@ -104,7 +104,7 @@ class TestToggleLikeView(IntegrationTestCase):
         user_likes = self.util.get_likes("update", self.user_id)
 
         self.assertTrue(
-            self.util.is_liked("update", self.user_id, update_id))
+            self.util.is_liked("update", update_id, self.user_id))
         self.assertEqual(len(user_likes), 1)
 
         # Toggle like for statusupdate off

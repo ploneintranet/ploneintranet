@@ -12,36 +12,36 @@ class TestFollowing(IntegrationTestCase):
 
     def test_user_follow(self):
         g = NetworkGraph()
-        g.follow('user', 'alex', 'bernard')
+        g.follow('user', 'bernard', 'alex')  # alex follows bernard
         self.assertEqual(['bernard'], list(g.get_following('user', 'alex')))
 
     def test_user_follow_following(self):
         g = NetworkGraph()
-        g.follow('user', 'alex', 'bernard')
-        g.follow('user', 'alex', 'caroline')
-        g.follow('user', 'alex', 'dick')
+        g.follow('user', 'bernard', 'alex')
+        g.follow('user', 'caroline', 'alex')
+        g.follow('user', 'dick', 'alex')
         self.assertEqual(['bernard', 'caroline', 'dick'],
                          sorted(list(g.get_following('user', 'alex'))))
 
     def test_user_follow_unfollow_following(self):
         g = NetworkGraph()
-        g.follow('user', 'alex', 'bernard')
-        g.follow('user', 'alex', 'caroline')
-        g.unfollow('user', 'alex', 'bernard')
+        g.follow('user', 'bernard', 'alex')
+        g.follow('user', 'caroline', 'alex')
+        g.unfollow('user', 'bernard', 'alex')
         self.assertEqual(['caroline'], list(g.get_following('user', 'alex')))
 
     def test_user_follow_followers(self):
         g = NetworkGraph()
-        g.follow('user', 'alex', 'bernard')
-        g.follow('user', 'caroline', 'bernard')
+        g.follow('user', 'bernard', 'alex')
+        g.follow('user', 'bernard', 'caroline')
         self.assertEqual(['alex', 'caroline'],
                          sorted(list(g.get_followers('user', 'bernard'))))
 
     def test_user_follow_unfollow_followers(self):
         g = NetworkGraph()
-        g.follow('user', 'alex', 'bernard')
-        g.follow('user', 'caroline', 'bernard')
-        g.unfollow('user', 'alex', 'bernard')
+        g.follow('user', 'bernard', 'alex')
+        g.follow('user', 'bernard', 'caroline')
+        g.unfollow('user', 'bernard', 'alex')
         self.assertEqual(['caroline'],
                          sorted(list(g.get_followers('user', 'bernard'))))
 
@@ -58,14 +58,14 @@ class TestFollowing(IntegrationTestCase):
 
     def test_content_follow_unfollow_following(self):
         g = NetworkGraph()
-        g.follow('content', 'alex', 'doc1')
-        g.follow('content', 'alex', 'doc2')
-        g.unfollow('content', 'alex', 'doc1')
+        g.follow('content', 'doc1', 'alex')
+        g.follow('content', 'doc2', 'alex')
+        g.unfollow('content', 'doc1', 'alex')
         self.assertEqual(['doc2'], list(g.get_following('content', 'alex')))
 
     def test_tag_follow_unfollow_following(self):
         g = NetworkGraph()
-        g.follow('tag', 'alex', 'foo')
-        g.follow('tag', 'alex', 'bar')
-        g.unfollow('tag', 'alex', 'foo')
+        g.follow('tag', 'foo', 'alex')
+        g.follow('tag', 'bar', 'alex')
+        g.unfollow('tag', 'foo', 'alex')
         self.assertEqual(['bar'], list(g.get_following('tag', 'alex')))
