@@ -11,18 +11,24 @@ logger = logging.getLogger('ploneintranet.network')
 
 class NetworkGraph(Persistent, Explicit):
     """Stores a social network graph of users
-    following/unfollowing or liking/unliking
+    following/unfollowing or liking/unliking or tagging/untagging
     other users, content objects, status updates, tags.
 
-    All references are string ids.
+    All references are resolvable, permanently stable, string ids.
+    - StatusUpdates: a str() cast of status.id.
+    - content: a uuid on the content.
+    - users: a stable userid (not a changeable email)
+    - tags: merging or renaming tags requires migrating the tag storage
 
     Return values are BTrees.OOBTree.OOTreeSet iterables.
     """
 
     implements(INetworkGraph)
-    # follow API supports multi follow types: (user, content, update, tag)
-    supported_follow_types = ('user',)  # adding here is enough
-    # like API supports multi like types
+
+    # These statics define the data storage schema.
+    # If you change them you need to carefully migrate the data storage
+    # for existing users
+    supported_follow_types = ("user", "content", "tag")
     supported_like_types = ("content", "update")
 
     def __init__(self, context=None):

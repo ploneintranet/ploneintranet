@@ -55,3 +55,17 @@ class TestFollowing(IntegrationTestCase):
         self.assertRaises(AssertionError, g.set_unfollow, 'user', '1', 2)
         self.assertRaises(AssertionError, g.get_following, 'user', 2)
         self.assertRaises(AssertionError, g.get_followers, 'user', 2)
+
+    def test_content_follow_unfollow_following(self):
+        g = NetworkGraph()
+        g.set_follow('content', 'alex', 'doc1')
+        g.set_follow('content', 'alex', 'doc2')
+        g.set_unfollow('content', 'alex', 'doc1')
+        self.assertEqual(['doc2'], list(g.get_following('content', 'alex')))
+
+    def test_tag_follow_unfollow_following(self):
+        g = NetworkGraph()
+        g.set_follow('tag', 'alex', 'foo')
+        g.set_follow('tag', 'alex', 'bar')
+        g.set_unfollow('tag', 'alex', 'foo')
+        self.assertEqual(['bar'], list(g.get_following('tag', 'alex')))
