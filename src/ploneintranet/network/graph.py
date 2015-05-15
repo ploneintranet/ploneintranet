@@ -12,7 +12,7 @@ logger = logging.getLogger('ploneintranet.network')
 class NetworkGraph(Persistent, Explicit):
     """Stores a social network graph of users
     following/unfollowing or liking/unliking or tagging/untagging
-    other users, content objects, status updates, tags.
+    item_id users, content objects, status updates, tags.
 
     All references are resolvable, permanently stable, string ids.
     - StatusUpdates: a str() cast of status.id.
@@ -60,7 +60,7 @@ class NetworkGraph(Persistent, Explicit):
         Not yet implemented, and more complex than following or liking
         since tagging is a 3-way relation (subject, tags, object)
 
-        Endorsements can be implemented as users tagging other users.
+        Endorsements can be implemented as users tagging item_id users.
 
         supported_tag_types = ("user", "content", "update")
 
@@ -115,48 +115,48 @@ class NetworkGraph(Persistent, Explicit):
 
     # following API
 
-    def follow(self, item_type, actor, other):
-        """User <actor> subscribes to <item_type> <other>"""
+    def follow(self, item_type, user_id, item_id):
+        """User <user_id> subscribes to <item_type> <item_id>"""
         assert(item_type in self.supported_follow_types)
-        assert(actor == str(actor))
-        assert(other == str(other))
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
         # insert user if not exists
-        self._following[item_type].insert(actor, OOBTree.OOTreeSet())
-        self._followers[item_type].insert(other, OOBTree.OOTreeSet())
+        self._following[item_type].insert(user_id, OOBTree.OOTreeSet())
+        self._followers[item_type].insert(item_id, OOBTree.OOTreeSet())
         # add follow subscription
-        self._following[item_type][actor].insert(other)
-        self._followers[item_type][other].insert(actor)
+        self._following[item_type][user_id].insert(item_id)
+        self._followers[item_type][item_id].insert(user_id)
 
-    def unfollow(self, item_type, actor, other):
-        """User <actor> unsubscribes from <item_type> <other>"""
+    def unfollow(self, item_type, user_id, item_id):
+        """User <user_id> unsubscribes from <item_type> <item_id>"""
         assert(item_type in self.supported_follow_types)
-        assert(actor == str(actor))
-        assert(other == str(other))
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
         try:
-            self._following[item_type][actor].remove(other)
+            self._following[item_type][user_id].remove(item_id)
         except KeyError:
             pass
         try:
-            self._followers[item_type][other].remove(actor)
+            self._followers[item_type][item_id].remove(user_id)
         except KeyError:
             pass
 
-    def get_following(self, item_type, actor):
-        """List all <item_type> that <actor> subscribes to"""
+    def get_following(self, item_type, user_id):
+        """List all <item_type> that <user_id> subscribes to"""
         assert(item_type in self.supported_follow_types)
-        assert(actor == str(actor))
+        assert(user_id == str(user_id))
         try:
-            return self._following[item_type][actor]
+            return self._following[item_type][user_id]
         except KeyError:
             return ()
 
-    def get_followers(self, item_type, other):
-        """List all users that subscribe to <item_type> <other>"""
+    def get_followers(self, item_type, item_id):
+        """List all users that subscribe to <item_type> <item_id>"""
         assert(item_type in self.supported_follow_types)
-        assert(other == str(other))
+        assert(item_id == str(item_id))
 
         try:
-            return self._followers[item_type][other]
+            return self._followers[item_type][item_id]
         except KeyError:
             return ()
 

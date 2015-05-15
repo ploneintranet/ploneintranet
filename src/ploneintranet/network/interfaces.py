@@ -14,17 +14,17 @@ class INetworkGraph(Interface):
 
     # follow API
 
-    def follow(item_type, actor, other):
-        """User <actor> subscribes to <item_type> <other>"""
+    def follow(item_type, user_id, item_id):
+        """User <user_id> subscribes to <item_type> <item_id>"""
 
-    def unfollow(item_type, actor, other):
-        """User <actor> unsubscribes from <item_type> <other>"""
+    def unfollow(item_type, user_id, item_id):
+        """User <user_id> unsubscribes from <item_type> <item_id>"""
 
-    def get_following(item_type, actor):
-        """List all <item_type> that <actor> subscribes to"""
+    def get_following(item_type, user_id):
+        """List all <item_type> that <user_id> subscribes to"""
 
-    def get_followers(item_type, other):
-        """List all users that subscribe to <item_type> <other>"""
+    def get_followers(item_type, item_id):
+        """List all users that subscribe to <item_type> <item_id>"""
 
     # like API
 
