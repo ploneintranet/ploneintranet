@@ -45,6 +45,35 @@ class INetworkGraph(Interface):
 
     # tags API
 
+    def tag(item_type, user_id, item_id, *tags):
+        """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
+
+    def untag(item_type, user_id, item_id, *tags):
+        """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
+
+    def get_tagged(item_type=None, userid=None, tag=None):
+        """
+        List <item_type> item_ids tagged as <tag> by <user_id>.
+        If item_type==None: returns {item_type: (objectids..)} mapping
+        if userid==None: returns {tag: {item_type: (objectids..)}} mapping
+        If tag==None: returns {tag: {item_type: (objectids..)}} mapping
+        """
+
+    def get_taggers(item_type, item_id, tag=None):
+        """
+        List user_ids that tagged <item_type> <item_id> with <tag>.
+        If tag==None: returns {tag: (itemids..)} mapping
+        """
+
+    def get_tags(item_type, item_id, user_id=None):
+        """
+        List tags set on <item_type> <item_id> by <user_id>.
+        If user_id==None: return {tag: (userids..)} mapping
+        """
+
+    def is_tagged(item_type, user_id, item_id, tag):
+        """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
+
 
 class INetworkTool(INetworkGraph):
     """Provide INetworkContainer as a site utility."""

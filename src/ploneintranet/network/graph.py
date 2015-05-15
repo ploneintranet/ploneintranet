@@ -30,6 +30,7 @@ class NetworkGraph(Persistent, Explicit):
     # for existing users
     supported_follow_types = ("user", "content", "tag")
     supported_like_types = ("content", "update")
+    supported_tag_types = ("user", "content")
 
     def __init__(self, context=None):
         """
@@ -68,19 +69,21 @@ class NetworkGraph(Persistent, Explicit):
         _tagged[userid][tag] = {type: ids}
         _tagged[userid][tag]["user"] = (userid, userid, ...)
         _tagged[userid][tag]["content"] = (uuid, uuid, ...)
-        _tagged[userid][tag]["update"] = (statusid, statusid, ...)
 
         Users that tagged an object:
         _tagger[item_type][id] = {tag: userids}
         _tagger["user"][userid][tag] = (userid, userid, ...)
         _tagger["content"][uuid][tag] = (userid, userid, ...)
-        _tagger["update"][statusid][tag] = (userid, userid, ...)
 
-        Find objects by tag:
-        _alltagged[tag] = {type: ids}
-        _alltagged[tag]["user"] = (userid, userid, ...)
-        _alltagged[tag]["content"] = (uuid, uuid, ...)
-        _alltagged[tag]["update"] = (statusid, statusid)
+        Tags applied by a user:
+        _tags[user_id] = {item_type: item_id: (tag, tag,...)}
+        _tags[user_id]["user"][userid] = (tag, tag, ...)
+        _tags[user_id]["content"][uuid] = (tag, tag, ...)
+
+        Find objects by tag: (and the users who applied that tag)
+        _all[tag] = {item_type: {item_id: (userid, userid)}
+        _all[tag]["user"][user_id] = (userid, userid, ...)
+        _all[tag]["content"][uuid] = (userid, userid, ...)
 
         """
 
@@ -98,7 +101,14 @@ class NetworkGraph(Persistent, Explicit):
             self._likes[item_type] = OOBTree.OOBTree()
             self._liked[item_type] = OOBTree.OOBTree()
 
-        # tags todo
+        # tags
+        self._tagged = OOBTree.OOBTree()
+        self._tagger = OOBTree.OOBTree()
+        self._tags = OOBTree.OOBTree()
+        self._all = OOBTree.OOBTree()
+        for item_type in self.supported_tag_types:
+            self._tagger[item_type] = OOBTree.OOBTree()
+        # more initialization on the fly in self.tag()
 
     # needed in suite/setuphandlers
     clear = __init__
@@ -205,4 +215,78 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return False
 
-    # tags API todo
+    # tags API
+
+    def tag(self, item_type, user_id, item_id, *tags):
+        """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
+        assert(item_type in self.supported_tag_types)
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+        assert([tag == str(tag) for tag in tags])
+
+        for tag in tags:
+
+            if user_id not in self._tagged:
+                self._tagged[user_id] = OOBTree.OOBTree()
+            if tag not in self._tagged[user_id]:
+                self._tagged[user_id][tag] = OOBTree.OOBTree()
+                for _type in self.supported_tag_types:
+                    self._tagged[user_id][tag][_type] = OOBTree.OOTreeSet()
+            self._tagged[user_id][tag][item_type].insert(item_id)
+
+            if item_id not in self._tagger[item_type]:
+                self._tagger[item_type][item_id] = OOBTree.OOBTree()
+            if tag not in self._tagger[item_type][item_id]:
+                self._tagger[item_type][item_id][tag] = OOBTree.OOTreeSet()
+            self._tagger[item_type][item_id][tag].insert(user_id)
+
+            if user_id not in self._tags:
+                self._tags[user_id] = OOBTree.OOBTree()
+                for _type in self.supported_tag_types:
+                    self._tags[user_id][_type] = OOBTree.OOBTree()
+            if item_id not in self._tags[user_id][item_type]:
+                self._tags[user_id][item_type][item_id] = OOBTree.OOTreeSet()
+            self._tags[user_id][item_type][item_id].insert(tag)
+
+            if tag not in self._all:
+                self._all[tag] = OOBTree.OOBTree()
+                for _type in self.supported_tag_types:
+                    self._all[tag][_type] = OOBTree.OOBTree()
+                if item_id not in self._all[tag][item_type]:
+                    self._all[tag][item_type][item_id] = OOBTree.OOTreeSet()
+            self._all[tag][item_type][item_id].insert(user_id)
+
+    def untag(self, item_type, user_id, item_id, *tags):
+        """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
+        assert(item_type in self.supported_tag_types)
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+        assert([tag == str(tag) for tag in tags])
+        for tag in tags:
+            self._tagged[user_id][tag][item_type].remove(item_id)
+            self._tagger[item_type][item_id][tag].remove(user_id)
+            self._all[tag][item_type][item_id].remove(user_id)
+
+    def get_tagged(self, item_type=None, userid=None, tag=None):
+        """
+        List <item_type> item_ids tagged as <tag> by <user_id>.
+        If item_type==None: returns {item_type: (objectids..)} mapping
+        if userid==None: returns {tag: {item_type: (objectids..)}} mapping
+        If tag==None: returns {tag: {item_type: (objectids..)}} mapping
+        """
+
+    def get_taggers(self, item_type, item_id, tag=None):
+        """
+        List user_ids that tagged <item_type> <item_id> with <tag>.
+        If tag==None: returns {tag: (itemids..)} mapping
+        """
+
+    def get_tags(self, item_type, item_id, user_id=None):
+        """
+        List tags set on <item_type> <item_id> by <user_id>.
+        If user_id==None: return {tag: (userids..)} mapping
+        """
+        return self._tags[user_id][item_type][item_id]
+
+    def is_tagged(self, item_type, user_id, item_id, tag):
+        """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
