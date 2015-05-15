@@ -160,6 +160,17 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return ()
 
+    def is_followed(self, item_type, item_id, user_id):
+        """Does <user_id> follow <item_type> <item_id>?"""
+        assert(item_type in self.supported_follow_types)
+        assert(user_id == str(user_id))
+        assert(item_id == str(item_id))
+
+        try:
+            return user_id in self.get_followers(item_type, item_id)
+        except KeyError:
+            return False
+
     # like API
 
     def like(self, item_type, item_id, user_id):

@@ -26,6 +26,9 @@ class INetworkGraph(Interface):
     def get_followers(item_type, item_id):
         """List all users that subscribe to <item_type> <item_id>"""
 
+    def is_followed(item_type, item_id, user_id):
+        """Does <user_id> follow <item_type> <item_id>?"""
+
     # like API
 
     def like(item_type, item_id, user_id):

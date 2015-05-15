@@ -45,6 +45,14 @@ class TestFollowing(IntegrationTestCase):
         self.assertEqual(['caroline'],
                          sorted(list(g.get_followers('user', 'bernard'))))
 
+    def test_user_is_followed(self):
+        g = NetworkGraph()
+        g.follow('user', 'bernard', 'alex')
+        self.assertTrue(g.is_followed('user', 'bernard', 'alex'))
+        self.assertFalse(g.is_followed('user', 'alex', 'bernard'))
+        self.assertFalse(g.is_followed('user', 'caroline', 'alex'))
+        self.assertFalse(g.is_followed('tag', 'bernard', 'alex'))
+
     def test_string_args(self):
         """BTree keys MUST be of same type. Check that the implementation
         enforces this."""
