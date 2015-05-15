@@ -14,21 +14,23 @@ class NetworkGraph(Persistent, Explicit):
     following/unfollowing or liking/unliking or tagging/untagging
     item_id users, content objects, status updates, tags.
 
-    All references are resolvable, permanently stable, string ids.
+    All parameters with item_id or user_id references are resolvable,
+    permanently stable, string ids.
     - StatusUpdates: a str() cast of status.id.
     - content: a uuid on the content.
     - users: a stable userid (not a changeable email)
     - tags: merging or renaming tags requires migrating the tag storage
 
-    Return values are normally BTrees.OOBTree.OOTreeSet iterables,
-    except in some special cases documented on the accessors below.
-
-    Be aware that if the item_type=="user", both item_id and user_id
+    Be aware that if item_type=="user", both item_id and user_id
     are user ids. In that case user_id is the actor (subject)
     and item_id is the target (object).
+    For example if Alex endorses Bernard with tag 'leadership',
+    then: item_type='user', item_id='bernard', user_id='alex'.
 
-    So if Alex endorses Bernard with tag 'leadership'
-    item_type='user', item_id='bernard', user_id='alex'.
+    Return values are normally BTrees.OOBTree.OOTreeSet iterables,
+    except in some special cases documented on the tags accessors below,
+    where a flattened structure is returned using the unpack()
+    utility method.
     """
 
     implements(INetworkGraph)
@@ -377,6 +379,8 @@ class NetworkGraph(Persistent, Explicit):
         """Helper method to convert BTrees and TreeSets to normal dict/list
         structures. Supports recursive unpack.
         """
+        if btreeish is None:
+            return []
         try:
             return {k: self.unpack(v) for (k, v) in btreeish.items()}
         except AttributeError:
@@ -387,6 +391,10 @@ class NetworkGraph(Persistent, Explicit):
         List user_ids that tagged <item_type> <item_id> with <tag>.
         If tag==None: returns {tag: (itemids..)} mapping
         """
+        if tag:
+            return self._tagger[item_type][item_id][tag]
+        else:
+            return self._tagger[item_type][item_id]
 
     def get_tags(self, item_type, item_id, user_id=None):
         """
@@ -397,3 +405,7 @@ class NetworkGraph(Persistent, Explicit):
 
     def is_tagged(self, item_type, item_id, user_id, tag):
         """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
+        try:
+            return user_id in self.get_taggers(item_type, item_id, tag)
+        except KeyError:
+            return False

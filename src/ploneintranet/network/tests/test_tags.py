@@ -163,3 +163,36 @@ class TestTags(IntegrationTestCase):
                               'negotiations': {'content': ['doc1'],
                                                'user': ['caroline']}}}
         )
+
+    def test_get_taggers(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('user', 'caroline', 'alex', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        # an extra tag here
+        g.tag('user', 'bernard', 'caroline', 'negotiations')
+        taggers = g.unpack(g.get_taggers('user', 'bernard', 'leadership'))
+        self.assertEqual(taggers, ['alex'])
+
+    def test_get_taggers_notag(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('user', 'caroline', 'alex', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        # an extra tag here
+        g.tag('user', 'bernard', 'caroline', 'negotiations')
+        taggers = g.unpack(g.get_taggers('user', 'bernard'))
+        self.assertEqual(taggers,
+                         {'change management': ['alex'],
+                          'leadership': ['alex'],
+                          'negotiations': ['caroline']})
+
+    def test_is_tagged(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        self.assertTrue(
+            g.is_tagged('user', 'bernard', 'alex', 'change management'))
+        self.assertFalse(
+            g.is_tagged('user', 'bernard', 'alex', 'negotiation'))
+        self.assertFalse(
+            g.is_tagged('content', 'doc1', 'alex', 'leadership'))
