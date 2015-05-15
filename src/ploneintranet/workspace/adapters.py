@@ -108,10 +108,24 @@ class MetroMap(object):
             i for i in wft.getWorkflowsFor(self.context)
             if i.variables.get("metromap_transitions", False)
         ]
+        import pdb; pdb.set_trace()
         if metromap_workflows == []:
             return None
         # Assume we only have one
-        return metromap_workflows[0]
+        import pdb; pdb.set_trace()
+        return metromap_workflows
+
+    def get_available_metromap_workflows(self):
+        wft = api.portal.get_tool('portal_workflow')
+        metromap_workflows = [
+            i for i in wft.objectValues()
+            if i.variables.get("metromap_transitions", False)
+        ]
+        import pdb; pdb.set_trace()
+        if metromap_workflows == []:
+            return None
+        # Assume we only have one
+        return metromap_workflows
 
     @property
     def metromap_transitions(self):

@@ -4,7 +4,8 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.namedfile.file import NamedBlobImage
-
+from Products.Five.utilities.marker import mark
+from ploneintranet.workspace.interfaces import ICase
 
 class AddContent(BrowserView):
     """Evaluate simple form and add arbitrary content.
@@ -17,13 +18,18 @@ class AddContent(BrowserView):
             portal_type=None,
             title=None,
             description=None,
-            image=None):
+            image=None,
+            workspace_type=None,
+            workflow=None):
+#        import pdb; pdb.set_trace()
         """Evaluate form and redirect"""
         if title is not None:
-            self.portal_type = portal_type
+            self.portal_type = portal_type.strip()
             self.title = title.strip()
             self.description = description.strip()
             self.image = image
+            self.workspace_type = workspace_type.strip()
+            self.workflow = workflow.strip()
             if self.portal_type in api.portal.get_tool('portal_types'):
                 url = self.create(image)
                 return self.redirect(url)
@@ -31,6 +37,7 @@ class AddContent(BrowserView):
 
     def create(self, image=None):
         """Create content and return url. In case of images add the image."""
+#        import pdb; pdb.set_trace()
         container = self.context
         new = api.content.create(
             container=container,
@@ -46,6 +53,9 @@ class AddContent(BrowserView):
 
         if new:
             new.description = safe_unicode(self.description)
+            if self.workspace_type == 'workspace-workflow':
+                mark(new, ICase)
+            import pdb; pdb.set_trace()
             return new.absolute_url()
 
     def redirect(self, url):

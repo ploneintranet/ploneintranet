@@ -3,7 +3,8 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from zope.publisher.browser import BrowserView
-
+from plone import api
+from ploneintranet.workspace.interfaces import IMetroMap
 
 class Workspaces(BrowserView):
 
@@ -23,7 +24,12 @@ class Workspaces(BrowserView):
 
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
+    def workflows(self):
+        return IMetroMap(self.context).get_available_metromap_workflows()
+#        wftool = api.portal.get_tool('portal_workflow')
+#        return wftool.objectValues()
 
+#        [(x.id, x.title) for x in wftool.objectValues()]
 
 class WorkspaceTabsTile(Tile):
 

@@ -10,14 +10,36 @@
     <div id="content" class="application">
         <h1>Add new workspace</h1>
         <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
-            tal:attributes="action string:${context/absolute_url}/++add++ploneintranet.workspace.workspacefolder" class="wizard-box pat-validate">
+            tal:attributes="action string:${context/absolute_url}/add_content" class="wizard-box pat-validate">
 
+	  
           <div class="panel-body">
             <fieldset class="horizontal">
-              <label>Title <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label>           
-              <label>Description <textarea name="form.widgets.IBasic.description"></textarea></label>
+              <!-- label>Title <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label -->           
+              <label>Title <input type="text" required="required" class="required" name="title" size="60" /></label>           
+              <label>Description <textarea name="description"></textarea></label>
+	      <input type="hidden" name="portal_type" value="ploneintranet.workspace.workspacefolder">
             </fieldset>
+
+            <label data-option="Star GmbH-intern only" class="focus">Workspace type
+
+
+              <select name="workspace_type" class="focus">
+                <option name="workspace_type" value="workspace">workspace</option>
+                <option name="workspace_type" value="workspace-workflow">workspace (with workflow)</option>
+              </select>
+
+    	  <select name="workflow" class="focus pat-depends" data-pat-depends="condition: workspace_type=workspace-workflow">
+	    <tal:r tal:repeat="wf view/workflows">
+              <option value="wf/id" tal:content="wf/title">workflow</option>
+	    </tal:r>
+          </select>
+
+	    </label>
+
           </div>
+
+
 
           <fieldset class="button-bar panel-footer">
             <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative">Save</button>
