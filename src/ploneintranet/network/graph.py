@@ -12,7 +12,7 @@ logger = logging.getLogger('ploneintranet.network')
 class NetworkGraph(Persistent, Explicit):
     """Stores a social network graph of users
     following/unfollowing or liking/unliking or tagging/untagging
-    item_id users, content objects, status updates, tags.
+    other users, content objects, status updates, tags.
 
     All parameters with item_id or user_id references are resolvable,
     permanently stable, string ids.
