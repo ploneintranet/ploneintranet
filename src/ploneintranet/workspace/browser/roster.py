@@ -103,7 +103,7 @@ class EditRoster(BaseWorkspaceView):
         return users
 
     def existing_users(self):
-        return existing_users(self.context)
+        return self.context.existing_users()
 
     def can_manage_workspace(self):
         """
