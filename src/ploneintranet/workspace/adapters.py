@@ -102,7 +102,7 @@ class MetroMap(object):
         self.context = context
 
     @property
-    def metromap_workflow(self):
+    def _metromap_workflow(self):
         wft = api.portal.get_tool("portal_workflow")
         metromap_workflows = [
             i for i in wft.getWorkflowsFor(self.context)
@@ -114,8 +114,8 @@ class MetroMap(object):
         return metromap_workflows[0]
 
     @property
-    def metromap_transitions(self):
-        metromap_workflow = self.metromap_workflow
+    def _metromap_transitions(self):
+        metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
         metromap_transitions = [
@@ -126,9 +126,11 @@ class MetroMap(object):
 
     @property
     def metromap_sequence(self):
-        cwf = self.metromap_workflow
+        cwf = self._metromap_workflow
         wft = api.portal.get_tool("portal_workflow")
-        metromap_transitions = self.metromap_transitions
+        metromap_transitions = self._metromap_transitions
+        if not metromap_transitions:
+            return {}
         initial_state = cwf.initial_state
         initial_transition = metromap_transitions[0]
         available_transition_ids = [i["id"] for i in wft.getTransitionsFor(self.context)]
