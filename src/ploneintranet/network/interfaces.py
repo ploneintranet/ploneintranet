@@ -48,12 +48,3 @@ class INetworkGraph(Interface):
 
 class INetworkTool(INetworkGraph):
     """Provide INetworkContainer as a site utility."""
-
-
-class ILikesContainer(Interface):
-    """Stores likes.
-    """
-
-
-class ILikesTool(ILikesContainer):
-    """Provide ILikesContainer as a site utility."""
