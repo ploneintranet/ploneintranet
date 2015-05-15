@@ -35,17 +35,15 @@
         </select>
       </label>
       <br/>
+
       <label class="stage milestone">
-        Milestone this task belongs to 
-        <select name="" id="">
-          <option value="">Neu</option>
-          <option value="">In Bearbeitung</option>
-          <option value="">Fertig stellen</option>
-          <option value="">Vollständig</option>
-          <option value="">Antrag</option>
-          <option value="">Beschlossen</option>
-          <option value="">Abgeschlossen</option>
-          <option value="">Archiviert</option>
+        Milestone this task belongs to
+        <select name="milestone" tal:define="ws_view nocall:context/view">
+          <option></option>
+          <tal:milesstones repeat="milestone ws_view/metromap_sequence">
+            <option tal:attributes="value milestone"
+                    tal:content="milestone"/>
+          </tal:milesstones>
         </select>
       </label>
       <br/>
