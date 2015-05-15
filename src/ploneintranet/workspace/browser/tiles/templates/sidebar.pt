@@ -238,7 +238,7 @@
 
             <div class="quick-functions">
               <a title="Create new task"
-                 class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" 
+                 class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
                  tal:attributes="href string:${ws/absolute_url}/add_task">Create task</a>
             </div>
         </div>
@@ -291,8 +291,7 @@
                         </label>
                       </tal:task>
                       <p class="button-bar">
-                        <!-- icon-plus-circle small button  -->
-                        <a class="pat-modal" data-pat-modal="class: large"
+                        <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                            tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
                         <a class="small icon-stage success button"
                            tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}'.format(ws.absolute_url(), milestones[milestone]['transition_id']);
@@ -311,7 +310,7 @@
                        tal:attributes="href task/url"/>
                   </label>
                   <p class="button-bar">
-                    <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" 
+                    <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                        tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
                   </p>
                 </fieldset>
@@ -321,7 +320,7 @@
             <input type="hidden" name="section" value="task"/>
           </form>
           <div class="button-bar create-buttons">
-            <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large"
+            <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large" data-pat-inject="source:#content"
                tal:attributes="href string:${ws/absolute_url}/add_task">Add task</a>
           </div>
         </tal:tasks>
