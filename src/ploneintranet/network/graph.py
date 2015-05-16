@@ -67,7 +67,7 @@ class NetworkGraph(Persistent, Explicit):
         TAG: users can apply personal tags on anything.
         -----------------------------------------------
 
-        Not yet implemented, and more complex than following or liking
+        More complex than following or liking
         since tagging is a 3-way relation (subject, tags, object)
 
         Endorsements can be implemented as users tagging item_id users.
