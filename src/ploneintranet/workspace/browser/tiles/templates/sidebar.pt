@@ -63,11 +63,11 @@
                   tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents">
                 <label>
                     <input name="sidebar-search"
-               type="search"
-               placeholder="Search"
-               i18n:attributes="placeholder"
-               tal:attributes="value
-                       request/sidebar-search|nothing" />
+                       type="search"
+                       placeholder="Search"
+                       i18n:attributes="placeholder"
+                       tal:attributes="value
+                               request/sidebar-search|nothing" />
                     <button type="submit" i18n:translate="">Search</button>
                 </label>
             </form>
