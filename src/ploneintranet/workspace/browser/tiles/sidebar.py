@@ -11,7 +11,6 @@ from zope.publisher.browser import BrowserView
 
 from ...utils import TYPE_MAP
 from ...utils import parent_workspace
-from ...utils import existing_users
 from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
