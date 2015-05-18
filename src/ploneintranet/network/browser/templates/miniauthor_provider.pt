@@ -6,7 +6,7 @@
        tal:content="structure view/portrait" />
   </div>
 
-  <div class="personal-info" i18n:domain="ploneintranet.network">
+  <div class="personal-info" i18n:domain="ploneintranet">
 
     <h3 class="username">
       <a tal:attributes="href view/author_url"
