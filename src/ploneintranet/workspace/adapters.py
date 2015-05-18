@@ -102,7 +102,14 @@ class MetroMap(object):
 
     @property
     def _metromap_workflow(self):
-        metromap_workflows = self.get_available_metromap_workflows()
+        """Return the first workflow of this object which has the
+        metromap_transitions variable
+        """
+        wft = api.portal.get_tool('portal_workflow')
+        metromap_workflows = [
+            i for i in wft.getWorkflowsFor(self.context)
+            if i.variables.get("metromap_transitions", False)
+        ]
         if metromap_workflows == []:
             return None
         # Return the first one, we don't have a use case for assigning multiple
@@ -110,6 +117,9 @@ class MetroMap(object):
         return metromap_workflows[0]
 
     def get_available_metromap_workflows(self):
+        """Return all globally available workflows with the
+        metromap_transitions variable
+        """
         wft = api.portal.get_tool('portal_workflow')
         metromap_workflows = [
             i for i in wft.objectValues()
