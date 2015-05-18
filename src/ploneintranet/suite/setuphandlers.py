@@ -243,12 +243,6 @@ def create_caseworkspaces(caseworkspaces):
     else:
         ws_folder = portal['workspaces']
 
-    pwft = api.portal.get_tool("portal_placeful_workflow")
-    if "local_case_workflow" not in pwft.getWorkflowPolicyIds():
-        pwft.manage_addWorkflowPolicy("local_case_workflow")
-    case_policy = pwft.getWorkflowPolicyById("local_case_workflow")
-    case_policy.setChain("ploneintranet.workspace.workspacefolder", "case_workflow")
-
     for w in caseworkspaces:
         contents = w.pop('contents', None)
         members = w.pop('members', [])
@@ -259,7 +253,7 @@ def create_caseworkspaces(caseworkspaces):
         )
         mark(caseworkspace, ICase)
         policy = getattr(caseworkspace, WorkflowPolicyConfig_id)
-        policy.setPolicyIn("local_case_workflow")
+        policy.setPolicyIn("case_workflow")
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)
