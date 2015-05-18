@@ -8,6 +8,7 @@ from plone.app.textfield.value import RichTextValue
 from plone.memoize.view import memoize
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
+from zope import component
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -83,8 +84,45 @@ class ContentView(BrowserView):
         return api.content.get_state(obj=aq_inner(self.context))
 
     def get_workflow_transitions(self):
+        """
+            Return possible workflow transitions and destination state names
+        """
         context = aq_inner(self.context)
-        return self.wf_tool.getTransitionsFor(context)
+        # This check for locked state was copied from star - unclear if needed
+        locking_info = component.queryMultiAdapter(
+            (context, self.request), name='plone_lock_info')
+        if locking_info and locking_info.is_locked_for_current_user():
+            return []
+
+        current_state_id = api.content.get_state(obj=aq_inner(self.context))
+
+        if current_state_id is None:
+            return []
+
+        current_state = self.wf_tool.getTitleForStateOnType(
+            current_state_id, context.portal_type)
+
+        states = [dict(
+            action='',
+            title=current_state,
+            new_state_id='',
+            selected='selected')]
+
+        workflowActions = self.wf_tool.listActionInfos(object=context)
+        for action in workflowActions:
+            if action['category'] != 'workflow':
+                continue
+            new_state_id = action['transition'].new_state_id
+            title = self.wf_tool.getTitleForStateOnType(
+                new_state_id, context.portal_type)
+            states.append(dict(
+                action=action['id'],
+                title=title,
+                new_state_id=new_state_id,
+                selected=None,
+            ))
+        # Todo: enforce a given order?
+        return states
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
