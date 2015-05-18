@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-    WorkflowPolicyConfig_id
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -58,8 +56,9 @@ class AddContent(BrowserView):
             new.description = safe_unicode(self.description)
             if getattr(self, 'workspace_type', '') == 'workspace-workflow':
                 mark(new, ICase)
-                policy = getattr(new, WorkflowPolicyConfig_id)
-                policy.setPolicyIn("case_workflow")
+                pwft = api.portal.get_tool("portal_placeful_workflow")
+                wfconfig = pwft.getWorkflowPolicyConfig(new)
+                wfconfig.setPolicyIn("case_workflow")
             return new.absolute_url()
 
     def redirect(self, url):

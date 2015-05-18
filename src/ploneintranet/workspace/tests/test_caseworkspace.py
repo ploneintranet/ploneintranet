@@ -1,5 +1,3 @@
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-    WorkflowPolicyConfig_id
 from Products.Five.utilities.marker import mark
 from Testing.ZopeTestCase import utils
 from plone import api
@@ -40,8 +38,9 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         mark(self.case, ICase)
 
         # Use the Case workflow for it using CMFPlacefulWorkflow
-        policy = getattr(self.case, WorkflowPolicyConfig_id)
-        policy.setPolicyIn("case_workflow")
+        pwft = api.portal.get_tool("portal_placeful_workflow")
+        wfconfig = pwft.getWorkflowPolicyConfig(self.case)
+        wfconfig.setPolicyIn("case_workflow")
 
     def test_metromap_initial_state(self):
         """A newly created Case is in the first workflow state. It can't be

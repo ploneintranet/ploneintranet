@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
 from OFS.Image import Image
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-    WorkflowPolicyConfig_id
 from Products.Five.utilities.marker import mark
 from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
@@ -244,6 +242,7 @@ def create_caseworkspaces(caseworkspaces):
     else:
         ws_folder = portal['workspaces']
 
+    pwft = api.portal.get_tool("portal_placeful_workflow")
     for w in caseworkspaces:
         contents = w.pop('contents', None)
         members = w.pop('members', [])
@@ -253,8 +252,8 @@ def create_caseworkspaces(caseworkspaces):
             **w
         )
         mark(caseworkspace, ICase)
-        policy = getattr(caseworkspace, WorkflowPolicyConfig_id)
-        policy.setPolicyIn("case_workflow")
+        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
+        wfconfig.setPolicyIn("case_workflow")
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)
