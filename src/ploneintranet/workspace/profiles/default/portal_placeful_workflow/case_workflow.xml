@@ -2,8 +2,8 @@
 <object name="case_workflow" meta_type="WorkflowPolicy">
  <property name="title">Case Workflow</property>
  <bindings>
-  <default>
+  <type type_id="ploneintranet.workspace.workspacefolder">
    <bound-workflow workflow_id="case_workflow"/>
-  </default>
+  </type>
  </bindings>
 </object>
