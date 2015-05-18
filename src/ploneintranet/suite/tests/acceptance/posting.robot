@@ -195,7 +195,6 @@ I can mention the user
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
     Click link    link=${username}
-    Sleep    20000
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
