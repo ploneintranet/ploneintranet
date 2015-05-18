@@ -33,9 +33,8 @@
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                             tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #workflow-menu;; target: #workflow-menu">
                         <label class="pat-select bare workflow" title="Change the workflow state">
-                            <span tal:replace="view/get_workflow_state" />
                             <select name="workflow_action">
-                                <option></option>
+                                <option tal:content="view/get_workflow_state"></option>
                                 <option tal:repeat="state view/get_workflow_transitions"
                                     tal:attributes="title state/title; value state/id"
                                     tal:content="state/name">Workflow State</option>
@@ -77,6 +76,7 @@
                 </figure>
               </article>
             </div><!-- #document-content -->
+            <input type="hidden" name="form.submitted" value="1" />
           </form>
         </div><!-- #document-body -->
         <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">

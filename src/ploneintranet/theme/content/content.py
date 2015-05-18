@@ -35,7 +35,9 @@ class ContentView(BrowserView):
         if not self.can_edit:
             return
         modified = False
-        if self.request.get('workflow_action'):
+        if (
+                self.request.get('workflow_action') and
+                not self.request.get('form.submitted')):
             # TODO: should we trigger any events or reindex?
             api.content.transition(
                 obj=context,
