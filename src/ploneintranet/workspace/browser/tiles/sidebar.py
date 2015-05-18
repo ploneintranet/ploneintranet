@@ -170,6 +170,8 @@ class Sidebar(BaseTile):
     """
 
     index = ViewPageTemplateFile('templates/sidebar.pt')
+    drop_files_label = _(u"drop_files_here",
+                         default=u"Drop files here or click to browse...")
 
     def __call__(self):
         """ write attributes, if any, set state, render

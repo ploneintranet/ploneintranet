@@ -29,18 +29,19 @@
                    tal:content="parent/title">Open Market Committee</a>
                     <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                     <form action="./#items" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #items; target: #items">
-                        <label class="pat-select bare">Group by
+                        <label class="pat-select bare">
+                            <span tal:omit-tag="" i18n:translate="">Group by</span>:
                             <select name="browse-mode">
-                                <option value="folder">folder</option>
-                                <option value="label">tag</option>
+                                <option value="folder" i18n:translate="">folder</option>
+                                <option value="label" i18n:translate="">tag</option>
                                 <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
-                                <option value="type">document type</option>
+                                <option value="type" i18n:translate="">document type</option>
                                 <!-- When the groups are author names, the author avatar is used as an icon. -->
-                                <option value="author">author</option>
+                                <option value="author" i18n:translate="">author</option>
                                 <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
-                                <option value="date">date</option>
+                                <option value="date" i18n:translate="">date</option>
                                 <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
-                                <option value="letter">first letter</option>
+                                <option value="letter" i18n:translate="">first letter</option>
                             </select>
                         </label>
                     </form>
@@ -48,7 +49,9 @@
 
                 <div class="quick-functions">
                     <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                    <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" tal:attributes="href string:${context/absolute_url}/add_content">Create document</a>
+                    <a title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                        tal:attributes="href string:${context/absolute_url}/add_content"
+                        i18n:attributes="title" i18n:translate="">Create document</a>
                     <!-- XXX: This is not yet completed -->
                     <!--a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a-->
                 </div>
@@ -60,11 +63,12 @@
                   tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents">
                 <label>
                     <input name="sidebar-search"
-			   type="search"
-			   placeholder="Search"
-			   tal:attributes="value
-					   request/sidebar-search|nothing" />
-                    <button type="submit">Search</button>
+               type="search"
+               placeholder="Search"
+               i18n:attributes="placeholder"
+               tal:attributes="value
+                       request/sidebar-search|nothing" />
+                    <button type="submit" i18n:translate="">Search</button>
                 </label>
             </form>
 
@@ -74,10 +78,10 @@
                     <div class="batch-functions">
                         <div class="button-bar">
                             <span class="float-before button-cluster select-buttons">
-                                <button type="button" class="select-all" title="Select all">All</button>
-                                <button type="button" class="deselect-all" title="Deslect all">None</button>
+                                <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
+                                <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none" i18n:attributes="title">None</button>
                             </span>
-                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Cancel</button>
+                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Cancel</button>
                         </div>
                         <div class="button-bar">
                             <span class="float-before button-cluster">
@@ -87,6 +91,7 @@
                                         class="float-before icon-cut no-label pat-depends"
                                         data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
                                         formaction="/feedback/banner-notifications#documents-cut"
+                                        i18n:translate="" i18n:attributes="title"
                                         title="Cut">Cut</button>
                                 <button type="submit"
                                         name="batch-function"
@@ -94,6 +99,7 @@
                                         formaction="/feedback/banner-notifications#documents-copied"
                                         class="float-before icon-copy no-label pat-depends"
                                         data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                        i18n:translate="" i18n:attributes="title"
                                         title="Copy">Copy</button>
                                 <button disabled
                                         type="submit"
@@ -101,6 +107,7 @@
                                         value="paste"
                                         formaction="/open-market-committee#items"
                                         class="float-before icon-paste no-label"
+                                        i18n:translate="" i18n:attributes="title"
                                         title="Paste">Paste</button>
                             </span>
                             <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
@@ -110,6 +117,7 @@
                                     value="delete"
                                     class="float-before icon-trash no-label pat-depends"
                                     data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    i18n:translate="" i18n:attributes="title"
                                     title="Delete">Delete</button>
                             <button type="submit"
                                     name="batch-function"
@@ -117,6 +125,7 @@
                                     formaction="/feedback/batch-rename.html#content"
                                     class="float-before icon-rename no-label pat-depends"
                                     data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    i18n:translate="" i18n:attributes="title"
                                     title="Rename">Rename</button>
                             <button formaction="/feedback/batch-tag.html#content"
                                     type="submit"
@@ -124,12 +133,14 @@
                                     value="tag"
                                     class="float-before icon-tags no-label pat-depends"
                                     data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
+                                    i18n:translate="" i18n:attributes="title"
                                     title="Re-tag">Re-tag</button>
                             <button type="submit"
                                     name="batch-function"
                                     value="tag"
                                     class="float-before icon-export pat-depends"
                                     data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                                    i18n:translate="" i18n:attributes="title"
                                     title="Share">Share</button>
                         </div>
                     </div>
@@ -178,11 +189,13 @@
             </form>
 
                 <div class="button-bar create-buttons">
-                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
-                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
+                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                        i18n:translate="">Create document</a>
+                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
+                        i18n:translate="">Create folder</a>
                 </div>
                 <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
-                    <fieldset class="pat-upload" data-pat-upload="label: Drop files here or click to browse…; trigger: auto;" tal:attributes="data-pat-upload string:label: Drop files here or click to browse…;; trigger: auto;">
+                    <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
                         <label class="accessibility-options">
                             <input type="file" name="file" multiple> Upload files
                         </label>
@@ -193,13 +206,13 @@
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
                 <ul class="menu">
                     <li>
-                        <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large">Create document</a>
+                        <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                     </li>
                     <li>
-                        <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
+                        <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                     </li>
                     <li>
-                        <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
+                        <label class=" icon-upload-cloud"><input multiple type="file"> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
                     </li>
                     <!-- This is commented until the functionality will be completed -->
                     <!--li>
