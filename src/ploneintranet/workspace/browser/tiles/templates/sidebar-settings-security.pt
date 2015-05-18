@@ -1,4 +1,10 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
   <body>
     <div id="sidebar-content">
       <div id="workspace-settings">
@@ -11,10 +17,10 @@
                 tal:attributes="action string:${ws/absolute_url}/sidebar.settings.security;
                                 data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 
-            <h3>Workspace policy</h3>
+            <h3 i18n:translate="">Workspace policy</h3>
             <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
-              <tal:field_info define="label string: External visibility; field_name string:external_visibility">
+              <tal:field_info define="label view/external_visibility_label; field_name string:external_visibility">
                 <metal:field_macro define-macro="field_macro"
                                    tal:define="field_info python:getattr(view, field_name);
                                                field_value python:field_info.keys().index(getattr(ws, field_name)) + 1;">
@@ -47,11 +53,11 @@
                 </metal:field_macro>
               </tal:field_info>
 
-              <tal:field_info define="field_name string:join_policy; label string: Join policy">
+              <tal:field_info define="field_name string:join_policy; label view/join_policy_label">
                 <metal:field_macro use-macro="template/macros/field_macro"/>
               </tal:field_info>
 
-              <tal:field_info define="field_name string:participant_policy; label string: Participant policy">
+              <tal:field_info define="field_name string:participant_policy; label view/participant_policy_label">
                 <metal:field_macro use-macro="template/macros/field_macro"/>
               </tal:field_info>
 
