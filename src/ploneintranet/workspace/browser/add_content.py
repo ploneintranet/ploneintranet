@@ -24,7 +24,7 @@ class AddContent(BrowserView):
                 return self.redirect(url)
         return self.template()
 
-    def create(self, image=None):
+    def create(self):
         """Create content and return url. Uses dexterity_update to set the
         appropriate fields after creation.
         """
