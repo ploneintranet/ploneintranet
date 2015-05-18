@@ -30,8 +30,10 @@ class AddContent(BrowserView):
             self.title = title.strip()
             self.description = description.strip()
             self.image = image
-            self.workspace_type = workspace_type.strip()
-            self.workflow = workflow.strip()
+            if workspace_type:
+                self.workspace_type = workspace_type.strip()
+            if workflow:
+                self.workflow = workflow.strip()
             if self.portal_type in api.portal.get_tool('portal_types'):
                 url = self.create(image)
                 return self.redirect(url)
@@ -54,7 +56,7 @@ class AddContent(BrowserView):
 
         if new:
             new.description = safe_unicode(self.description)
-            if self.workspace_type == 'workspace-workflow':
+            if getattr(self, 'workspace_type', '') == 'workspace-workflow':
                 mark(new, ICase)
                 policy = getattr(new, WorkflowPolicyConfig_id)
                 policy.setPolicyIn("case_workflow")
