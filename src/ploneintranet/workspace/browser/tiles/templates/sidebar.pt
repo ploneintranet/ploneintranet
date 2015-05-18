@@ -287,7 +287,7 @@
       <div class="content">
 
         <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
-          <h3>Upcoming events</h3>
+          <h3 i18n:translate="">Upcoming events</h3>
 
           <ul class="cal-events">
             <tal:events repeat="event events/upcoming">
@@ -302,7 +302,7 @@
                   <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
 
                   <ul class="details">
-                    <li>Starts <time class="start"
+                    <li><span tal:omit-tag="" i18n:translate="">Starts</span> <time class="start"
                     tal:attributes="datetime event/start"
                     tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
 
@@ -319,7 +319,7 @@
         </div>
 
         <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
-          <h3>Older events</h3>
+          <h3 i18n:translate="">Older events</h3>
 
           <ul class="cal-events">
             <tal:events repeat="event events/older">
