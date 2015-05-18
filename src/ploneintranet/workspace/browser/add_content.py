@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.utilities.marker import mark
 from plone import api
 from plone.namedfile.file import NamedBlobImage
-from Products.Five.utilities.marker import mark
 from ploneintranet.workspace.interfaces import ICase
 
 class AddContent(BrowserView):
@@ -21,7 +22,6 @@ class AddContent(BrowserView):
             image=None,
             workspace_type=None,
             workflow=None):
-#        import pdb; pdb.set_trace()
         """Evaluate form and redirect"""
         if title is not None:
             self.portal_type = portal_type.strip()
@@ -37,7 +37,6 @@ class AddContent(BrowserView):
 
     def create(self, image=None):
         """Create content and return url. In case of images add the image."""
-#        import pdb; pdb.set_trace()
         container = self.context
         new = api.content.create(
             container=container,
@@ -55,7 +54,8 @@ class AddContent(BrowserView):
             new.description = safe_unicode(self.description)
             if self.workspace_type == 'workspace-workflow':
                 mark(new, ICase)
-            import pdb; pdb.set_trace()
+                policy = getattr(new, WorkflowPolicyConfig_id)
+                policy.setPolicyIn("case_workflow")
             return new.absolute_url()
 
     def redirect(self, url):

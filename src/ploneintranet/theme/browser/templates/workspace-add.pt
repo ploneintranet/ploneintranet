@@ -31,7 +31,7 @@
 
     	  <select name="workflow" class="focus pat-depends" data-pat-depends="condition: workspace_type=workspace-workflow">
 	    <tal:r tal:repeat="wf view/workflows">
-              <option value="wf/id" tal:content="wf/title">workflow</option>
+              <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
 	    </tal:r>
           </select>
 

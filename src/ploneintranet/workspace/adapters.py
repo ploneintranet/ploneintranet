@@ -6,7 +6,6 @@ from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
-from ploneintranet.workspace.interfaces import ICase
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
 from zope.interface import implements
@@ -103,17 +102,12 @@ class MetroMap(object):
 
     @property
     def _metromap_workflow(self):
-        wft = api.portal.get_tool("portal_workflow")
-        metromap_workflows = [
-            i for i in wft.getWorkflowsFor(self.context)
-            if i.variables.get("metromap_transitions", False)
-        ]
-        import pdb; pdb.set_trace()
+        metromap_workflows = self.get_available_metromap_workflows()
         if metromap_workflows == []:
             return None
-        # Assume we only have one
-        import pdb; pdb.set_trace()
-        return metromap_workflows
+        # Return the first one, we don't have a use case for assigning multiple
+        # metromap workflows.
+        return metromap_workflows[0]
 
     def get_available_metromap_workflows(self):
         wft = api.portal.get_tool('portal_workflow')
@@ -121,10 +115,8 @@ class MetroMap(object):
             i for i in wft.objectValues()
             if i.variables.get("metromap_transitions", False)
         ]
-        import pdb; pdb.set_trace()
         if metromap_workflows == []:
             return None
-        # Assume we only have one
         return metromap_workflows
 
     @property
@@ -132,10 +124,9 @@ class MetroMap(object):
         metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
+        transitions_string = metromap_workflow.variables["metromap_transitions"]
         metromap_transitions = [
-            i.strip()
-            for i in metromap_workflow.variables["metromap_transitions"].default_value.split(",")
-        ]
+            i.strip() for i in transitions_string.default_value.split(",")]
         return metromap_transitions
 
     @property
