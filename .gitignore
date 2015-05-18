@@ -60,6 +60,7 @@ src/plonetheme.barceloneta/
 src/slc.docconv/
 src/sphinx.themes.plone/
 src/zope.testrunner/
+src/ploneintranet/theme/static/generated/
 stamp-bower
 stamp-npm
 uuid.txt
