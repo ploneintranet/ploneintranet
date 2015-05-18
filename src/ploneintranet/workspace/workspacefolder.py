@@ -1,4 +1,5 @@
 from collections import defaultdict
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
@@ -6,6 +7,7 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace import MessageFactory
+from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace.interfaces import ICase
 from zope import schema
@@ -110,3 +112,35 @@ class WorkspaceFolder(Container):
             else:
                 items.append(data)
         return items
+
+    def existing_users(self):
+        """
+        Look up the full user details for current workspace members
+        """
+        members = IWorkspace(self).members
+        info = []
+        for userid, details in members.items():
+            user = api.user.get(userid)
+            if user is None:
+                continue
+            user = user.getUser()
+            title = user.getProperty('fullname') or user.getId() or userid
+            # XXX tbd, we don't know what a persons description is, yet
+            description = _(u'Here we could have a nice status of this person')
+            classes = description and 'has-description' or 'has-no-description'
+            portal = api.portal.get()
+            portrait = '%s/portal_memberdata/portraits/%s' % \
+                       (portal.absolute_url(), userid)
+            info.append(
+                dict(
+                    id=userid,
+                    title=title,
+                    description=description,
+                    portrait=portrait,
+                    cls=classes,
+                    member=True,
+                    admin='Admins' in details['groups'],
+                )
+            )
+
+        return info

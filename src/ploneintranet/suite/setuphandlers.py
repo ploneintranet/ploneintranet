@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
 from OFS.Image import Image
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.Five.utilities.marker import mark
 from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
@@ -12,6 +14,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import ILikesTool
 from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace.interfaces import ICase
 from zope.component import getUtility
 from zope.component import queryUtility
 
@@ -227,6 +230,41 @@ def create_workspaces(workspaces):
             create_ws_content(workspace, contents)
         for m in members:
             IWorkspace(workspace).add_to_team(user=m, groups=set([u'Members']))
+
+
+def create_caseworkspaces(caseworkspaces):
+    portal = api.portal.get()
+    if 'workspaces' not in portal:
+        ws_folder = api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
+    else:
+        ws_folder = portal['workspaces']
+
+    pwft = api.portal.get_tool("portal_placeful_workflow")
+    if "local_case_workflow" not in pwft.getWorkflowPolicyIds():
+        pwft.manage_addWorkflowPolicy("local_case_workflow")
+    case_policy = pwft.getWorkflowPolicyById("local_case_workflow")
+    case_policy.setChain("ploneintranet.workspace.workspacefolder", "case_workflow")
+
+    for w in caseworkspaces:
+        contents = w.pop('contents', None)
+        members = w.pop('members', [])
+        caseworkspace = api.content.create(
+            container=ws_folder,
+            type='ploneintranet.workspace.workspacefolder',
+            **w
+        )
+        mark(caseworkspace, ICase)
+        policy = getattr(caseworkspace, WorkflowPolicyConfig_id)
+        policy.setPolicyIn("local_case_workflow")
+
+        if contents is not None:
+            create_ws_content(caseworkspace, contents)
+        for m in members:
+            IWorkspace(caseworkspace).add_to_team(user=m, groups=set([u'Members']))
 
 
 def create_ws_content(parent, contents):
@@ -507,6 +545,46 @@ def testing(context):
          }
     ]
     create_workspaces(workspaces)
+
+    # Create caseworkspaces
+    caseworkspaces = [{
+        'title': 'Minifest',
+        'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
+                       'Finanzielle Unterstützung des MinistrantInnen-Fest '
+                       'vom 7. September 2014 in St. Gallen.',
+        'members': ['christian_stoney', ],
+        'contents': [{
+            'title': 'Basisdatenerfassung',
+            'type': 'todo',
+            'description': 'Erfassung der Basis-Absenderdaten',
+            'milestone': 'new',
+        }, {
+            'title': 'Hintergrundcheck machen',
+            'type': 'todo',
+            'description': 'Hintergrundcheck durchführen ob die Organisation '
+                           'förderungswürdig ist.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
+            'type': 'todo',
+            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
+                           'vergangenen 5 Jahren gewährt wurde.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Meinung Generalvikar einholen',
+            'type': 'todo',
+            'description': 'Meinung des Generalvikars zum Umfang der '
+                           'Förderung einholen.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Protokoll publizieren',
+            'type': 'todo',
+            'description': 'Publizieren des Beschlusses im Web - falls '
+                           'öffentlich.',
+            'milestone': 'decided',
+        }],
+    }]
+    create_caseworkspaces(caseworkspaces)
 
     # Create some events
     tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,

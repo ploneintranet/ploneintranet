@@ -234,6 +234,14 @@
 
 
     <div id="workspace-tickets" tal:define="tasks context/tasks">
+        <div class="button-bar functions" id="tasks-functions">
+
+            <div class="quick-functions">
+              <a title="Create new task"
+                 class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
+                 tal:attributes="href string:${ws/absolute_url}/add_task">Create task</a>
+            </div>
+        </div>
         <tal:no-tasks condition="not: tasks">
             <p i18n:translate="no-task-found">No tasks created yet</p>
         </tal:no-tasks>
@@ -242,6 +250,7 @@
             tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
             method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
 
+            <h3>General tasks</h3>
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="task-list pat-checklist">
                   <tal:task repeat="task tasks">
@@ -264,29 +273,31 @@
               <tal:case_tasks condition="ws/is_case"
                               define="milestones ws_view/metromap_sequence">
                 <tal:milestone repeat="milestone milestones">
-                  <tal:task repeat="task python:tasks[milestone]">
+
                     <fieldset class="task-list pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
                               tal:attributes="id string:milestone-${milestone}">
                       <h4 class="section-label state-finished" tal:content="milestone"/>
-                      <label>
-                        <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
-                        <input type="checkbox" name="active-tasks:list"
-                               tal:attributes="value python: task['id'];
-                                               checked python:'checked' if task['checked'] else ''"
-                               />
-                        <a href="#"
-                           tal:attributes="title python: task['title'];
-                                           href python: task['url']"
-                           tal:content="python:task['title']"></a>
-                      </label>
+                      <tal:task repeat="task python:tasks[milestone]">
+                        <label>
+                          <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
+                          <input type="checkbox" name="active-tasks:list"
+                                 tal:attributes="value python: task['id'];
+                                                 checked python:'checked' if task['checked'] else ''"
+                                 />
+                          <a href="#"
+                             tal:attributes="title python: task['title'];
+                                             href python: task['url']"
+                             tal:content="python:task['title']"></a>
+                        </label>
+                      </tal:task>
                       <p class="button-bar">
-                        <a class="icon-plus-circle small button" tal:attributes="href string:${ws/absolute_url}/++add++case">Create new task</a>
+                        <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
+                           tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}">Create new task</a>
                         <a class="small icon-stage success button"
                            tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}'.format(ws.absolute_url(), milestones[milestone]['transition_id']);
                                            class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>
                       </p>
                     </fieldset>
-                  </tal:task>
                 </tal:milestone>
                 <fieldset class="task-list pat-checklist">
                   <h4 class="section-label">
@@ -299,8 +310,8 @@
                        tal:attributes="href task/url"/>
                   </label>
                   <p class="button-bar">
-                    <a class="icon-plus-circle small button"
-                       tal:attributes="href string:${ws/absolute_url}/++add++case">Create new task</a>
+                    <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
+                       tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
                   </p>
                 </fieldset>
 
@@ -308,6 +319,10 @@
 
             <input type="hidden" name="section" value="task"/>
           </form>
+          <div class="button-bar create-buttons">
+            <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large" data-pat-inject="source:#content"
+               tal:attributes="href string:${ws/absolute_url}/add_task">Add task</a>
+          </div>
         </tal:tasks>
     </div>
 

@@ -103,6 +103,12 @@
   <append css:content-children="#portal-column-content" css:theme="div.container" />
 </rules>
 
+<rules css:if-content="body.template-todo">
+  <theme href="generated/panel-create-task.html" />
+  <drop css:theme-children=".panel-body" />
+  <append css:content-children="#content" css:theme=".panel-body" />
+</rules>
+
 <rules css:if-content="#visual-portal-wrapper">
   <theme href="generated/empty.html" />
   <replace css:content-children="#content" css:theme-children="#original-content" />

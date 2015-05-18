@@ -78,6 +78,13 @@
       template="templates/case.pt"
       />
 
+  <browser:page
+      name="add_task"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddTask"
+      permission="cmf.AddPortalContent"
+      />
+
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"

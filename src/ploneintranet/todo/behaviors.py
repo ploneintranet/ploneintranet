@@ -43,12 +43,6 @@ class ITodo(form.Schema):
         vocabulary="plone.principalsource.Principals"
     )
 
-    workspace = TextLine(
-        title=_(u"Workspace"),
-        description=_(u"The workspace assigned to this task"),
-        required=False,
-    )
-
     status = Choice(
         title=_(u"Status"),
         required=True,

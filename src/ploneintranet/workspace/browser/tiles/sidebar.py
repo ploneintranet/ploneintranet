@@ -78,7 +78,7 @@ class SidebarSettingsMembers(BaseTile):
 
     @memoize
     def existing_users(self):
-        return existing_users(self.workspace())
+        return self.workspace().existing_users()
 
 
 class SidebarSettingsSecurity(BaseTile):
