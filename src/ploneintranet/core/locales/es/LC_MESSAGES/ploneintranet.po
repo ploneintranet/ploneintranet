@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-18 16:12+0000\n"
+"POT-Creation-Date: 2015-05-18 17:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,8 +71,20 @@ msgstr ""
 msgid "Advanced permissions"
 msgstr ""
 
+#: ../notifications/browser/notifications.pt:36
+msgid "All notifications"
+msgstr ""
+
 #: ../todo/behaviors.py:40
 msgid "Assignee"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:75
+msgid "Attach a file"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:75
+msgid "Attach a file (or create a picture)"
 msgstr ""
 
 #: ../microblog/interfaces.py:17
@@ -83,9 +95,9 @@ msgstr ""
 msgid "Calendar visibility changed"
 msgstr ""
 
+#: ../messaging/browser/send-message.pt:97
 #: ../theme/browser/document.py:41
 #: ../workspace/browser/templates/add_content.pt:36
-#: ../workspace/browser/templates/add_folder.pt:23
 msgid "Cancel"
 msgstr ""
 
@@ -182,10 +194,13 @@ msgid "Folder name"
 msgstr ""
 
 #: ../network/browser/graph.py:43
+#: ../network/browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
 msgstr ""
 
 #: ../network/browser/graph.py:28
+#: ../network/browser/templates/maxiauthor_provider.pt:35
+#: ../network/browser/templates/miniauthor_provider.pt:34
 msgid "Following"
 msgstr ""
 
@@ -226,6 +241,10 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
+#: ../messaging/browser/your-inbox.pt:22
+msgid "Inbox"
+msgstr ""
+
 #: ../workspace/browser/templates/sharingviewlet.pt:4
 msgid "Info"
 msgstr ""
@@ -249,6 +268,10 @@ msgstr ""
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:121
+msgid "Leave a comment"
 msgstr ""
 
 #: ../network/browser/likes.py:70
@@ -288,8 +311,29 @@ msgstr ""
 msgid "My network"
 msgstr ""
 
+#: ../messaging/browser/your-inbox.pt:18
+msgid "New Message"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:130
+msgid "No attachments selected."
+msgstr ""
+
 #: ../network/browser/likes.py:36
 msgid "No item id given in sub-path. Use .../@@toggle-like/123456"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:65
+msgid "No messages"
+msgstr ""
+
+#: ../notifications/browser/notifications.pt:33
+msgid "No pending notifications"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:20
+#: ../network/browser/templates/graph.pt:20
+msgid "No such user ${userid}."
 msgstr ""
 
 #: ../invitations/views.py:30
@@ -298,6 +342,15 @@ msgstr ""
 
 #: ../todo/vocabularies.py:13
 msgid "Normal"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:18
+#: ../network/browser/templates/graph.pt:18
+msgid "Nothing here"
+msgstr ""
+
+#: ../notifications/browser/notifications.pt:11
+msgid "Notifications"
 msgstr ""
 
 #: ../todo/portlets/latest.py:22
@@ -334,6 +387,10 @@ msgstr ""
 
 #: ../invitations/invite_user.pt:14
 msgid "Portal status message"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:92
+msgid "Post"
 msgstr ""
 
 #: ../todo/behaviors.py:60
@@ -380,6 +437,8 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: ../core/browser/panel_tags.pt:21
+#: ../workspace/browser/tiles/templates/navigation.pt:41
 #: ../workspace/browser/tiles/templates/sidebar.pt:65
 msgid "Search"
 msgstr ""
@@ -430,6 +489,10 @@ msgstr ""
 
 #: ../todo/behaviors.py:53
 msgid "Status"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:29
+msgid "Status updates by ${fullname}:"
 msgstr ""
 
 #: ../todo/content/simpletodo.py:14
@@ -536,6 +599,11 @@ msgstr ""
 msgid "Upcoming events"
 msgstr ""
 
+#: ../network/browser/templates/author.pt:27
+#: ../network/browser/templates/maxiauthor_provider.pt:21
+msgid "Updates"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:215
 msgid "Upload file(s)"
 msgstr ""
@@ -618,8 +686,16 @@ msgstr ""
 msgid "You do not have permission to change the workspace title or description"
 msgstr ""
 
+#: ../messaging/browser/your-inbox.pt:70
+msgid "Your Inbox"
+msgstr ""
+
 #: ../theme/content/content.py:66
 msgid "Your changes have been saved."
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:65
+msgid "Your message here!"
 msgstr ""
 
 #. Default: "What are you doing?"
@@ -662,6 +738,11 @@ msgstr ""
 msgid "folder"
 msgstr ""
 
+#: ../network/browser/templates/maxiauthor_provider.pt:64
+#: ../network/browser/templates/miniauthor_provider.pt:30
+msgid "follow"
+msgstr ""
+
 #. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
 #: ../invitations/invite_user.pt:23
 msgid "invitation_admin_para_1"
@@ -687,6 +768,11 @@ msgstr ""
 msgid "label_sendmessage"
 msgstr ""
 
+#. Default: "Leave a comment..."
+#: ../activitystream/browser/activity.py:15
+msgid "leave_a_comment"
+msgstr ""
+
 #. Default: "No tasks created yet"
 #: ../workspace/browser/tiles/templates/sidebar.pt:256
 msgid "no-task-found"
@@ -695,6 +781,10 @@ msgstr ""
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:93
 msgid "participant_policy_label"
+msgstr ""
+
+#: ../workspace/browser/tiles/workspaces.py:69
+msgid "posted"
 msgstr ""
 
 #. Default: "This workspace has ${member_count} members."
@@ -726,6 +816,11 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:36
 msgid "tag"
+msgstr ""
+
+#: ../network/browser/templates/maxiauthor_provider.pt:72
+#: ../network/browser/templates/miniauthor_provider.pt:38
+msgid "unfollow"
 msgstr ""
 
 #. Default: "Workspace brief description"

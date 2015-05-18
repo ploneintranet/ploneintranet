@@ -19,7 +19,7 @@
               id="users-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
-            <input type="search" placeholder="Search" name="usersearch" />
+            <input type="search" placeholder="Search" name="usersearch" i18n:attributes="placeholder"/>
             <button type="submit" i18n:translate="">Search</button>
           </label>
           <span id="selected-users-data"></span>
