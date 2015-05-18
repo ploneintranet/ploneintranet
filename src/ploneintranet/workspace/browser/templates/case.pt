@@ -29,34 +29,35 @@
                   tal:repeat="task_state mm_seq"
                   tal:attributes="title task_state;
                                   class python:'{0} state-{1}'.format(attrs['class'],'finished' if mm_seq[task_state]['finished'] else 'unfinished')">
-				<h3 class="section-label" tal:content="task_state"/>
-				<ul>
-                  <tal:tasks repeat="task python:tasks[task_state]">
-                    <tal:task_number define="global task_number python:task_number + 1">
-				      <li id="item-1" class="step-background"
-                          tal:attributes="id string:item-${task_number};
-                                          class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
-					    <p class="step-label icon icon-help-circled">
-					      <a class="link" data-pat-inject="history: record"
-                             tal:attributes="href task/url; title task/title"
-                             tal:content="task/title"/>
-					    </p>
-					    <p class="step-assignee">
-	                      <a href="" class="pat-avatar "  id="">
-		                    <img src="/media/avatar-guido-stevens.jpg" alt="" />
-	                      </a>
-					      <time class="date" datetime="2017-02-14">2 Jan</time>
-					    </p>
-				      </li>
-                    </tal:task_number>
-                  </tal:tasks>
-				</ul>
-                <p class="action icon icon-right-hand">
-				  <a href="" class="link"
-                     tal:define="transition_id python:mm_seq[task_state]['transition_id']"
-                     tal:content="transition_id"/>
-				</p>
-
+                <tal:state_index define="global task_number python:task_number + repeat['task_state'].index">
+				  <h3 class="section-label" tal:content="task_state"/>
+				  <ul>
+                    <tal:tasks repeat="task python:tasks[task_state]">
+                      <tal:task_number define="global task_number python:task_number + 1">
+				        <li id="item-1" class="step-background"
+                            tal:attributes="id string:item-${task_number};
+                                            class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
+					      <p class="step-label icon icon-help-circled">
+					        <a class="link" data-pat-inject="history: record"
+                               tal:attributes="href task/url; title task/title"
+                               tal:content="task/title"/>
+					      </p>
+					      <p class="step-assignee">
+	                        <a href="" class="pat-avatar "  id="">
+		                      <img src="/media/avatar-guido-stevens.jpg" alt="" />
+	                        </a>
+					        <time class="date" datetime="2017-02-14">2 Jan</time>
+					      </p>
+				        </li>
+                      </tal:task_number>
+                    </tal:tasks>
+				  </ul>
+                  <p class="action icon icon-right-hand">
+				    <a href="" class="link"
+                       tal:define="transition_id python:mm_seq[task_state]['transition_id']"
+                       tal:content="transition_id"/>
+				  </p>
+                </tal:state_index>
               </li>
             </ul>
             
