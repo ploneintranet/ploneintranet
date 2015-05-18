@@ -3,8 +3,8 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from zope.publisher.browser import BrowserView
-from plone import api
 from ploneintranet.workspace.interfaces import IMetroMap
+
 
 class Workspaces(BrowserView):
 
@@ -30,6 +30,7 @@ class AddView(BrowserView):
 #        return wftool.objectValues()
 
 #        [(x.id, x.title) for x in wftool.objectValues()]
+
 
 class WorkspaceTabsTile(Tile):
 

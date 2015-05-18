@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+    WorkflowPolicyConfig_id
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -7,6 +8,7 @@ from Products.Five.utilities.marker import mark
 from plone import api
 from plone.namedfile.file import NamedBlobImage
 from ploneintranet.workspace.interfaces import ICase
+
 
 class AddContent(BrowserView):
     """Evaluate simple form and add arbitrary content.

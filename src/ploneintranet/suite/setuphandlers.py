@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
 from OFS.Image import Image
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+    WorkflowPolicyConfig_id
 from Products.Five.utilities.marker import mark
 from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
@@ -258,7 +259,8 @@ def create_caseworkspaces(caseworkspaces):
         if contents is not None:
             create_ws_content(caseworkspace, contents)
         for m in members:
-            IWorkspace(caseworkspace).add_to_team(user=m, groups=set([u'Members']))
+            IWorkspace(
+                caseworkspace).add_to_team(user=m, groups=set([u'Members']))
 
 
 def create_ws_content(parent, contents):

@@ -20,10 +20,12 @@ class TodoView(BaseView):
 
     def __call__(self, milestone=None):
         context = aq_inner(self.context)
-        self.can_edit = api.user.has_permission('Modify portal content', obj=context)
+        self.can_edit = api.user.has_permission(
+            'Modify portal content', obj=context)
 
         if self.workspace().is_case:
-            if self.can_edit and milestone is not None and milestone != context.milestone:
+            if self.can_edit and milestone is not None \
+               and milestone != context.milestone:
                 context.milestone = milestone
                 context.reindexObject()
                 notify(ObjectModifiedEvent(context))

@@ -43,6 +43,7 @@ class CaseWorkspaceView(WorkspaceView):
     def metromap_sequence(self):
         return IMetroMap(self.context).metromap_sequence
 
+
 class WorkspaceState(BaseWorkspaceView):
     """
     Information about the state of the workspace

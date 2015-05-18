@@ -124,7 +124,8 @@ class MetroMap(object):
         metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
-        transitions_string = metromap_workflow.variables["metromap_transitions"]
+        transitions_string = metromap_workflow.variables[
+            "metromap_transitions"]
         metromap_transitions = [
             i.strip() for i in transitions_string.default_value.split(",")]
         return metromap_transitions
@@ -138,7 +139,8 @@ class MetroMap(object):
             return {}
         initial_state = cwf.initial_state
         initial_transition = metromap_transitions[0]
-        available_transition_ids = [i["id"] for i in wft.getTransitionsFor(self.context)]
+        available_transition_ids = [
+            i["id"] for i in wft.getTransitionsFor(self.context)]
         sequence = OrderedDict({
             initial_state: {
                 "transition_id": initial_transition,
@@ -148,7 +150,6 @@ class MetroMap(object):
         for index, transition_id in enumerate(metromap_transitions):
             transition = cwf.transitions.get(transition_id, "")
             next_state = transition.new_state_id
-            #new_state_id if new_state_id in cwf.states.objectIds() else "unassigned"
             next_transition = ""
             if index + 1 < len(metromap_transitions):
                 next_transition = metromap_transitions[index + 1]

@@ -1,4 +1,5 @@
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+    WorkflowPolicyConfig_id
 from Products.Five.utilities.marker import mark
 from Testing.ZopeTestCase import utils
 from plone import api
@@ -25,9 +26,8 @@ def startZServerSSH(local_port, user_at_hostname):
 
 
 class TestCaseWorkspace(FunctionalBaseTestCase):
-    """A Case is a Workspace with some extra features, such as the metromap view and additional
-    fields
-    """
+    """A Case is a Workspace with some extra features, such as the metromap
+    view and additional fields """
 
     def setUp(self):
         self.portal = self.layer["portal"]
@@ -40,16 +40,13 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         mark(self.case, ICase)
 
         # Use the Case workflow for it using CMFPlacefulWorkflow
-        pwft = api.portal.get_tool("portal_placeful_workflow")
-        pwft.manage_addWorkflowPolicy("local_case_workflow")
-        case_policy = pwft.getWorkflowPolicyById("local_case_workflow")
-        case_policy.setChain("ploneintranet.workspace.workspacefolder", "case_workflow")
         policy = getattr(self.case, WorkflowPolicyConfig_id)
-        policy.setPolicyIn("local_case_workflow")
+        policy.setPolicyIn("case_workflow")
 
     def test_metromap_initial_state(self):
-        """A newly created Case is in the first workflow state. It can't be finished and it must be
-        possible to change workflow state to the next state, so the first transition is enabled.
+        """A newly created Case is in the first workflow state. It can't be
+        finished and it must be possible to change workflow state to the next
+        state, so the first transition is enabled.
         """
         mm_seq = IMetroMap(self.case).metromap_sequence
         initial_state_id = mm_seq.keys()[0]
@@ -57,9 +54,9 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         self.assertFalse(mm_seq[initial_state_id]["finished"])
 
     def test_metromap_second_state(self):
-        """After carrying out the first workflow transition, the first state is finished. If the
-        workflow allows for it, the first transition could still be enabled. The second transition
-        should be enabled.
+        """After carrying out the first workflow transition, the first state is
+        finished. If the workflow allows for it, the first transition could
+        still be enabled. The second transition should be enabled.
         """
         mm_seq = IMetroMap(self.case).metromap_sequence
         first_state_id = mm_seq.keys()[0]

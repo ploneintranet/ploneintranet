@@ -73,5 +73,3 @@ def parent_workspace(context):
 
 def in_workspace(context):
     return IWorkspaceFolder.providedBy(parent_workspace(context))
-
-
