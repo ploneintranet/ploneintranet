@@ -38,7 +38,7 @@
         </div>
         <form class="search-box pat-inject pat-autosubmit" action="/feedback/#items">
           <label>
-            <input name="" type="search" placeholder="Search">
+            <input name="" type="search" placeholder="Search" i18n:attributes="placeholder">
             <button type="submit">Search</button>
           </label>
         </form>

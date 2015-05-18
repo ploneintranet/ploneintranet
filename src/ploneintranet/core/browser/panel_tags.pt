@@ -18,7 +18,7 @@
               method="post" id="tags-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
-            <input type="search" placeholder="Search" name="tagsearch" />
+            <input type="search" placeholder="Search" name="tagsearch" i18n:attributes="placeholder"/>
             <button type="submit">Search</button>
           </label>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />

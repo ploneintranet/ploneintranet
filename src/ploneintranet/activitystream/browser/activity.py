@@ -4,6 +4,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class ActivityView(BrowserView):
@@ -11,7 +12,8 @@ class ActivityView(BrowserView):
     '''
 
     as_post = ViewPageTemplateFile('templates/activity_as_post.pt')
-    newpostbox_placeholder = u'Leave a comment...'
+    newpostbox_placeholder = _(u'leave_a_comment',
+                               default=u'Leave a comment...')
 
     @property
     @memoize
