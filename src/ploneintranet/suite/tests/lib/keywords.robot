@@ -1,5 +1,9 @@
 *** Keywords ***
 
+Prepare test browser
+    Open test browser
+    Set window size  1024  900
+
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
 
