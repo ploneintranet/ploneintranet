@@ -37,3 +37,31 @@ You have probably moved Data.fs or edited buildout.cfg.
 
 .. seealso::
     * http://article.gmane.org/gmane.comp.web.zope.plone.setup/3232
+
+Failure in test test_docconv_url_traversable (ploneintranet.attachments.tests.test_upload.TestUpload)
+-----------------------------------------------------------------------------------------------------
+
+**Traceback**::
+
+    Failure in test test_docconv_url_traversable (ploneintranet.attachments.tests.test_upload.TestUpload)
+    Traceback (most recent call last):
+      File "/Users/coen/.buildout/shared-eggs/unittest2-0.5.1-py2.7.egg/unittest2/case.py", line 340, in run
+        testMethod()
+      File "/Users/coen/git/ploneintranet/src/ploneintranet/attachments/tests/test_upload.py", line 120, in test_docconv_url_traversable
+        self.assertIsInstance(view(), BlobStreamIterator)
+      File "/Users/coen/.buildout/shared-eggs/unittest2-0.5.1-py2.7.egg/unittest2/case.py", line 966, in assertIsInstance
+        self.fail(self._formatMessage(msg, standardMsg))
+      File "/Users/coen/.buildout/shared-eggs/unittest2-0.5.1-py2.7.egg/unittest2/case.py", line 415, in fail
+        raise self.failureException(msg)
+    AssertionError: None is not an instance of <class 'plone.app.blob.iterators.BlobStreamIterator'>
+
+**Reason**: During the installation the Docsplit Ruby gem is installed.
+*Docsplit dependencies like GraphicsMagick, Poppler, html2pdb and LibreOffice
+*are missing.
+
+**Solution**: Make sure you have the dependencies installed.
+
+.. seealso::
+
+    * https://documentcloud.github.io/docsplit/
+
