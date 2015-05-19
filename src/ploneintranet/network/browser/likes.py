@@ -4,7 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.uuid.utils import uuidToCatalogBrain
 from ploneintranet.core.integration import PLONEINTRANET
-from ploneintranet.network import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import ILikesTool
 from zope.component import getUtility
 from zope.interface import implementer
@@ -65,9 +65,9 @@ class ToggleLike(BrowserView):
             self.is_liked = not self.is_liked
 
         if self.is_liked:
-            self.verb = _(u'Unlike')
+            self.verb = self.context.translate(_(u'Unlike'))
         else:
-            self.verb = _(u'Like')
+            self.verb = self.context.translate(_(u'Like'))
         self.unique_id = uuid.uuid4().hex
         return self.index()
 

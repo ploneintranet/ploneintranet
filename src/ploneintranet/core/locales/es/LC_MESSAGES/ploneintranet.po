@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-18 17:27+0000\n"
+"POT-Creation-Date: 2015-05-19 08:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -699,6 +699,7 @@ msgid "Your message here!"
 msgstr ""
 
 #. Default: "What are you doing?"
+#: ../microblog/browser/tiles/newpostbox.py:231
 #: ../microblog/interfaces.py:15
 msgid "add_statusupdate_button"
 msgstr ""
