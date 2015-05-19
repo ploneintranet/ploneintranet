@@ -69,8 +69,7 @@ class MessageHandler(sockjs.tornado.SockJSConnection):
         message = json.dumps({'type': msg_type,
                               'user': self.user_id,
                               'msg': '',
-                              'user_list': [{'id': b.user_id,
-                                             'name': b.user_name}
+                              'user_list': [{'id': b.user_id}
                                             for b in broadcasters]})
         if broadcasters:
             broadcasters[0].broadcast(broadcasters, message)
