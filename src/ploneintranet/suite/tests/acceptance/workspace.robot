@@ -208,6 +208,7 @@ I can set the join policy to Admin-Managed
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='join_policy']")[0].value = 1
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Only administrators can add workspace members.
 
@@ -215,6 +216,7 @@ I can set the participant policy to Moderate
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 4
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
 
