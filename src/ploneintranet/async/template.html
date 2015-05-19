@@ -1,10 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head lang="en">
-  <meta charset="UTF-8">
-  <title></title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>{{ title }}</title>
 </head>
-<body>
+<body onload="connect()">
+<h1>{{ title }}</h1>
 
+<p>Enter your message and press the 'Send' button. You may open another browser
+  window and send messages from there.</p>
+
+<form method="POST" action="/send_message" target="_hidden">
+  <input name="message" id="input_message"
+         style="width: 500px;border: 1px solid #CCC;padding: 3px;" value=""
+         placeholder="Enter your message here and press the 'Send' button."/>
+  <input name="from_user" type="hidden" id="input_from_user"/>
+  <select name="to_user" id="select_to_user">
+    <option value="">To All</option>
+  </select>
+  <input type="submit" value="Post"/>
+</form>
+<iframe id="_hidden" name="_hidden" style="display:none"></iframe>
+<h2>Messages</h2>
+<hr/>
+<script type="text/javascript"
+        src="//cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<script>
+  function connect() {
+    function displayMessage(message) {
+      var el = document.createElement('div');
+      el.innerHTML = message;
+      document.body.appendChild(el);
+    }
+
+    var sockJS = new SockJS("//"+location.host+"/sockjs"),
+            userId = 0,
+            users = {};
+
+    sockJS.onopen = function () {
+      displayMessage('Connected.');
+    };
+    sockJS.onmessage = function (event) {
+      event.data = JSON.parse(event.data);
+      var msg = event.data.msg,
+              user = event.data.user,
+              el;
+      switch (event.data.type) {
+        case 'uid':
+          // Remember this user ID
+          document.getElementById('input_from_user').value = user;
+          userId = user;
+          return;
+        case 'pvt':
+          // Handle a private message
+          msg = '<span style="color:green">' + users[user] + ' -> me: ' + msg + '</span>';
+          break;
+        case 'tvp':
+          // Handle a 'reverse' private message (sent to sender)
+          msg = '<span style="color:green">me -> ' + users[user] + ': ' + msg + '</span>';
+          user = userId;
+          break;
+        case 'enters':
+          // Handle a 'user enters the chat' notification
+          users = {};
+          for (var i = 0, j = event.data.user_list.length; i < j; i++) {
+            var u = event.data.user_list[i];
+            if (u.id != userId) {
+              el = document.getElementById('option-' + u.id);
+              if (!el) {
+                var sel = document.getElementById('select_to_user');
+                sel.innerHTML = sel.innerHTML + '<option value="' + u.id + '" id="option-' + u.id + '">' + u.name + '</option>';
+              }
+            }
+            users[u.id] = u.name;
+          }
+          msg = '<span style="color:gray">User ' + users[user] + ' enters the chat</span>';
+          break;
+        case 'leaves':
+          // Handle a 'user leaves the chat' notification
+          el = document.getElementById('option-' + user);
+          if (el) {
+            el.parentElement.removeChild(el);
+          }
+          msg = '<span style="color:gray">User ' + user + ' leaves the chat</span>';
+          break;
+        default:
+          msg = users[user] + ': ' + msg;
+      }
+      // Clear sender's message input
+      el = document.getElementById('input_message');
+      if (el && el.value && user == userId && el.value == event.data.msg) {
+        el.value = '';
+      }
+      displayMessage(msg);
+    };
+    sockJS.onclose = function () {
+      displayMessage("Closed.");
+    };
+  }
+</script>
 </body>
 </html>
