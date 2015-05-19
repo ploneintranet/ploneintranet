@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-05-18 17:27+0000\n"
+"POT-Creation-Date: 2015-05-19 08:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -593,7 +593,7 @@ msgstr "Sposta i membri in un'altra area di lavoro"
 
 #: ../network/browser/likes.py:68
 msgid "Unlike"
-msgstr "Togli mi piace"
+msgstr "Non mi piace più"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:290
 msgid "Upcoming events"
@@ -699,14 +699,15 @@ msgid "Your message here!"
 msgstr ""
 
 #. Default: "What are you doing?"
+#: ../microblog/browser/tiles/newpostbox.py:231
 #: ../microblog/interfaces.py:15
 msgid "add_statusupdate_button"
-msgstr "Cosa stai facendo?"
+msgstr "Di cosa ti stai occupando?"
 
 #. Default: "All workspace activities…"
 #: ../workspace/browser/tiles/templates/workspaces.pt:31
 msgid "all_workspace_activities"
-msgstr "Tutte le attività delle aree di lavoro…"
+msgstr "Tutte le attività dalle aree di lavoro…"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:40
 msgid "author"
