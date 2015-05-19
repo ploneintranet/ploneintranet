@@ -7,6 +7,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
+  <include package="." file="implements.zcml" />
+
   <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="Products.CMFPlacefulWorkflow" />
   <include package="collective.workspace" />
@@ -24,7 +26,8 @@
   </permission>
 
   <include package=".browser" />
-
+  <include file="indexers.zcml" />
+  
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
@@ -68,6 +71,40 @@
   <adapter
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
      />
+
+
+  <!-- grouping storage -->
+  <adapter
+   for="ploneintranet.workspace.interfaces.IGroupingStoragable"
+   provides="ploneintranet.workspace.interfaces.IGroupingStorage"
+   factory=".adapters.GroupingStorage"
+   />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.content_object_added_to_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+     handler=".subscribers.content_object_edited_in_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+     handler=".subscribers.content_object_removed_from_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectMovedEvent"
+     handler=".subscribers.content_object_moved"
+     />
+
+
 
   <i18n:registerTranslations directory="locales" />
 

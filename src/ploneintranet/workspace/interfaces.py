@@ -1,4 +1,5 @@
-from zope.interface import Attribute, Interface
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class IParticipationPolicyChangedEvent(Interface):
@@ -21,4 +22,39 @@ class IWorkspaceState(Interface):
     def state():
         """
         The state of the workspace
+        """
+
+
+class IGroupingStoragable(Interface):
+    """marker interface for things that can have a GroupingStorage
+    """
+
+
+class IGroupingStorage(Interface):
+
+    def update_groupings(obj):
+        """ Update the groupings dict with the values stored on obj.
+        """
+
+    def remove_from_groupings(obj):
+        """ Remove obj's grouping relevant information to its workspace.
+        """
+
+    def reset_order():
+        """ Reset the order for all groupings to default, i.e. same order
+            as the keys of the OOBTree
+        """
+
+    def get_order_for(grouping,
+                      include_archived=False,
+                      alphabetical=False):
+        """ Get order for a given grouping
+        """
+
+    def set_order_for(grouping, order):
+        """ Set order for a given grouping
+        """
+
+    def get_groupings():
+        """ Return groupings
         """

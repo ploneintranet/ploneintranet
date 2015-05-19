@@ -1,0 +1,7 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
+     <implements interface=".interfaces.IGroupingStoragable"/>
+  </class>
+
+ </configure>

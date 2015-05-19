@@ -321,8 +321,10 @@ I can create a structure
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  xpath=//a[contains(@data-pat-inject,'/open-market-committee/another-folder/@@sidebar.default#workspace-documents')]
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
+    Click link  Documents
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
+    Click link  Documents
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
