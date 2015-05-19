@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import uuid
+# import uuid
 import json
 
 import requests
@@ -96,7 +96,9 @@ class MessageHandler(sockjs.tornado.SockJSConnection):
         if resp.status_code == 403:
             self.close()
         # Generate a user ID and name to demonstrate 'private' channels
-        self.user_id = str(uuid.uuid4())[:5]
+        # self.user_id = str(uuid.uuid4())[:5]
+        # Repsonse text should now have only the user id:
+        self.user_id = resp.text
         # Subscribe to 'broadcast' and 'private' message channels
         subscriber.subscribe(['broadcast_channel',
                               'private.{}'.format(self.user_id)],

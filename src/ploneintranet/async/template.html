@@ -53,11 +53,11 @@
           return;
         case 'pvt':
           // Handle a private message
-          msg = '<span style="color:green">' + users[user] + ' -> me: ' + msg + '</span>';
+          msg = '<span style="color:green">' + user + ' -> me: ' + msg + '</span>';
           break;
         case 'tvp':
           // Handle a 'reverse' private message (sent to sender)
-          msg = '<span style="color:green">me -> ' + users[user] + ': ' + msg + '</span>';
+          msg = '<span style="color:green">me -> ' + user + ': ' + msg + '</span>';
           user = userId;
           break;
         case 'enters':
