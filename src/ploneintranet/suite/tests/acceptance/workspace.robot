@@ -352,5 +352,5 @@ The upload appears in the stream
 
 I can submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
-    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[@value='submit']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending review')]
     Wait until page contains  The workflow state has been changed
