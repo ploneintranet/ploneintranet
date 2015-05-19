@@ -61,6 +61,7 @@ setup(name='ploneintranet',
           'fake-factory',
           'tornado',
           'Celery[redis]',
+          'tornado-redis',
       ],
       extras_require={
           'test': [
