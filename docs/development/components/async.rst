@@ -18,7 +18,7 @@ Document preview example
 * The Tornado server authenticates the socket open request against Plone using Jane's __ac cookie.
 * Jane uploads a document to a workspace.
 * Plone Intranet handles the object created event, and adds a docconv task to the queue passing Jane's __ac cookie
-* A simple worker makes an HTTP request to the Plone Worker instance as Jane by using her cookie
+* Celery makes an HTTP request to the Plone Worker instance as Jane by using her cookie
 * Plone Worker instance converts document/generates preview
 * Plone Worker instance adds a "done" message to the queue
 * Tornado server publishes "done" message to Jane's browser together with URL to fetch HTML snippet from
@@ -34,5 +34,7 @@ Technology stack
 
 * Tornado will provide a simple websocket server that authenticates against Plone
 * Redis will provide message queues
-* RQ (Redis Queue) will provide a simple worker to consume tasks from Redis and perform HTTP requests to Plone Worker instances
+* Celery will provide a simple worker to consume tasks from Redis and perform HTTP requests to Plone Worker instances
 * A non web facing Plone instance will provide document conversion and preview generation
+
+As we are using Celery, the message queue can be swapped out per deployment.
