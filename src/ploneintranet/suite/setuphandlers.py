@@ -10,8 +10,7 @@ from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.network.interfaces import ILikesTool
-from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.case import ICase
 from zope.component import getUtility
@@ -85,11 +84,11 @@ def create_users(context, users, avatars_dir):
             )
 
     # setup social network
-    graph = queryUtility(INetworkGraph)
+    graph = queryUtility(INetworkTool)
     graph.clear()
     for user in users:
         for followee in user.get('follows', []):
-            graph.set_follow(userid, decode(followee))
+            graph.follow("user", decode(followee), userid)
 
 
 def create_groups(groups):
@@ -146,7 +145,7 @@ def create_as(userid, *args, **kwargs):
 
 def create_news_items(newscontent):
     portal = api.portal.get()
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
 
     if 'news' not in portal:
         news_folder = api.content.create(
@@ -181,7 +180,7 @@ def create_news_items(newscontent):
         obj.reindexObject(idxs=['effective', 'Subject', ])
         if 'likes' in newsitem:
             for user_id in newsitem['likes']:
-                like_tool.like(item_id=IUUID(obj), user_id=user_id)
+                like_tool.like("content", item_id=IUUID(obj), user_id=user_id)
 
 
 def create_tasks(todos):
@@ -319,7 +318,7 @@ class FakeFileField(object):
 def create_stream(context, stream, files_dir):
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
     microblog.clear()
     for status in stream:
         kwargs = {}
@@ -358,8 +357,10 @@ def create_stream(context, stream, files_dir):
         if 'likes' in status:
             for user_id in status['likes']:
                 like_tool.like(
-                    item_id=str(status_obj.id),
+                    "update",
                     user_id=user_id,
+                    item_id=str(status_obj.id),
+
                 )
 
 

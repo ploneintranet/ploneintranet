@@ -9,7 +9,7 @@ Library  DebugLibrary
 
 Variables  variables.py
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
@@ -188,6 +188,7 @@ I can go to the sidebar events tile
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
+    Wait until page contains  Security
     Click link  link=Security
     Wait until page contains  Workspace policy
 
@@ -208,6 +209,7 @@ I can set the join policy to Admin-Managed
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='join_policy']")[0].value = 1
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Only administrators can add workspace members.
 
@@ -215,6 +217,7 @@ I can set the participant policy to Moderate
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 4
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
 
@@ -319,8 +322,10 @@ I can create a structure
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  xpath=//a[contains(@data-pat-inject,'/open-market-committee/another-folder/@@sidebar.default#workspace-documents')]
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
+    Click link  Documents
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
+    Click link  Documents
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder

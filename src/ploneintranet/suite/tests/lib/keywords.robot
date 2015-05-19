@@ -1,5 +1,9 @@
 *** Keywords ***
 
+Prepare test browser
+    Open test browser
+    Set window size  1024  900
+
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
 
@@ -7,7 +11,10 @@ I am logged in as site administrator
     Element should be visible  css=body.userrole-site-administrator
 
 I am logged in as the user ${userid}
-    Go To  ${PLONE_URL}/login?__ac_name=${userid}&__ac_password=secret&form.submitted=1
+    Go To  ${PLONE_URL}/login
+    Input text  name=__ac_name  ${userid}
+    Input text  name=__ac_password  secret
+    Click button  Login
 
 # add content keyword that supports
 # both dexterity and archetypes

@@ -14,6 +14,13 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
+    <!-- A custom permission allowing us to restrict
+         certain views to logged in users -->
+    <permission
+        id="ploneintranet.viewsite"
+        title="Plone Intranet: View Site"
+        />
+
     <include package=".browser" />
     <include package=".content" />
 

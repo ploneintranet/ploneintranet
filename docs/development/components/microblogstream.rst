@@ -1,6 +1,6 @@
-===========
-Plonesocial
-===========
+=============================
+Microblog and Activity Stream
+=============================
 
 .. admonition:: Description
 

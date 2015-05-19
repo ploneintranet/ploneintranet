@@ -128,3 +128,32 @@ This, however, causes this error on startup of the robot server::
     Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
 
 A solution is not yet available.
+
+
+Troubleshooting jenkins
+-----------------------
+
+Login on jenkins::
+
+  ssh -p 1922 jenkins@ext1.syslab.com
+
+Start robot-server on a non-default port to avoid port conflicts::
+
+  ZSERVER_PORT=55667 bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
+
+On a second terminal, login on jenkins with X forwarding enabled::
+
+  ssh -p 1922 jenkins@ext1.syslab.com
+
+Run the test you want to trace::
+
+  ZSERVER_PORT=55667 bin/pybot -t "Neil can tag a post" src/ploneintranet/suite/tests/acceptance/posting.robot
+
+That should open up the Jenkins firefox on your local machine and play the session.
+
+If you want to dig deeper, add the statement ``Debug`` into the offending robot test.
+In that case the pybot process above will drop you into a debug session, where you 
+can continue the test manually by inserting commands like ``click link  link=Rain``
+which then should step by step update your local firefox display with the test run on Jenkins.
+
+

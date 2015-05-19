@@ -48,7 +48,7 @@ class StatusUpdateView(BrowserView):
         ''' This is used to render the toggle like stuff
         '''
         toggle_like_base = api.content.get_view(
-            'toggle_like',
+            'toggle_like_statusupdate',
             self.portal,
             self.request,
         )

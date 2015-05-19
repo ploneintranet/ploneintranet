@@ -18,7 +18,7 @@ def setup_testing(context):
     graph = queryUtility(INetworkGraph)
     graph.clear()
     for (user, follow) in SOCIAL_GRAPH:
-        graph.set_follow(user, follow)
+        graph.follow("user", follow, user)
 
     site.public.setSubject(('foo', 'bar'))
     site.public.d1.setSubject(('foo', 'nix'))

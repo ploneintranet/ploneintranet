@@ -37,8 +37,8 @@ We manage our long-term roadmap in an internal Assembla tracker.
 We manage ongoing sprint tasks in
 `Work Bamboo <https://workbamboo.com>`_
 
-We use the #plone.intranet IRC channel on Freenode:
-http://webchat.freenode.net/?channels=plone.intranet
+We use the #ploneintranet IRC channel on Freenode:
+http://webchat.freenode.net/?channels=ploneintranet
 
 The canonical place for documentation is http://docs.ploneintranet.org
 
