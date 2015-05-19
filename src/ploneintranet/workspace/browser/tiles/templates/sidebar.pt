@@ -276,7 +276,7 @@
 
                     <fieldset class="task-list pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
                               tal:attributes="id string:milestone-${milestone}">
-                      <h4 class="section-label state-finished" tal:content="milestone"/>
+                      <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
                       <tal:task repeat="task python:tasks[milestone]">
                         <label>
                           <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>

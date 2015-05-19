@@ -44,12 +44,12 @@
         <label class="stage milestone" tal:condition="context/is_case"
                tal:define="ws_view nocall:context/view">
           Milestone this task belongs to
-          <select name="milestone">
+          <select name="milestone" tal:define="mm_seq ws_view/metromap_sequence">
             <option></option>
-            <tal:milesstones repeat="milestone ws_view/metromap_sequence">
+            <tal:milesstones repeat="milestone mm_seq">
               <option tal:attributes="value milestone;
                                       selected python:'selected' if request.form.get('milestone') == milestone else ''"
-                      tal:content="milestone"/>
+                      tal:content="python:mm_seq[milestone]['title']"/>
             </tal:milesstones>
           </select>
         </label>
