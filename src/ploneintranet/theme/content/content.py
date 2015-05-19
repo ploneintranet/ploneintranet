@@ -33,9 +33,8 @@ class ContentView(BrowserView):
     def update(self, title=None, description=None, tags=[], text=None):
         """ """
         context = aq_inner(self.context)
-        if not self.can_edit:
-            return
         modified = False
+
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -47,7 +46,7 @@ class ContentView(BrowserView):
             api.portal.show_message(_(
                 "The workflow state has been changed."), request=self.request,
                 type="info")
-        if title or description or tags or text:
+        if (self.can_edit and (title or description or tags or text)):
             if title and safe_unicode(title) != context.title:
                 context.title = safe_unicode(title)
                 modified = True
