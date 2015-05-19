@@ -21,7 +21,7 @@ class Dashboard(BrowserView):
     def __call__(self):
         portal = api.portal.get()
         if api.user.is_anonymous():
-            self.request.response.redirect(
+            return self.request.response.redirect(
                 '%s/login?%s' % (
                     portal.absolute_url(),
                     urllib.urlencode(
