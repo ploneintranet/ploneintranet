@@ -9,7 +9,7 @@ Library  DebugLibrary
 
 Variables  variables.py
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***

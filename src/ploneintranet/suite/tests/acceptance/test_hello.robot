@@ -6,7 +6,7 @@ Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
