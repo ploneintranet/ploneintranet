@@ -14,6 +14,11 @@
   <include package="ploneintranet.theme" />
   <include package="ploneintranet.activitystream" />
   <include package="ploneintranet.microblog" />
+  <include package="collective.instancebehavior" />
+
+  <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
+     <implements interface="collective.instancebehavior.interfaces.IInstanceBehaviorAssignableContent" />
+  </class>
 
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
@@ -24,6 +29,7 @@
   </permission>
 
   <include package=".browser" />
+  <include package=".behaviors" />
 
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
@@ -70,7 +76,7 @@
      />
 
   <adapter
-     for=".interfaces.ICase"
+     for=".case.ICase"
      provides=".interfaces.IMetroMap"
      factory=".adapters.MetroMap"
      />

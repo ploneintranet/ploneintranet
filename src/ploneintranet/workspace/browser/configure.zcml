@@ -64,16 +64,9 @@
       />
 
   <browser:page
-      name="switch_to_case"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class=".workspace.SwitchToCaseView"
-      permission="ploneintranet.workspace.ManageWorkspace"
-      />
-
-  <browser:page
       name="view"
-      for="ploneintranet.workspace.interfaces.ICase"
-      class=".workspace.CaseWorkspaceView"
+      for="ploneintranet.workspace.case.ICase"
+      class=".case.CaseView"
       permission="zope2.View"
       template="templates/case.pt"
       />

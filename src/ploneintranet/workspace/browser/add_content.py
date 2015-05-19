@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.Five.utilities.marker import mark
 from plone import api
 from ploneintranet.theme import _
 from ploneintranet.theme.utils import dexterity_update
-from ploneintranet.workspace.interfaces import ICase
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
 
 class AddContent(BrowserView):
-    """Evaluate simple form and add arbitrary content.
+    """
+    Evaluate simple form and add arbitrary content.
     """
 
     template = ViewPageTemplateFile('templates/add_content.pt')
@@ -28,7 +27,8 @@ class AddContent(BrowserView):
         return self.template()
 
     def create(self):
-        """Create content and return url. Uses dexterity_update to set the
+        """
+        Create content and return url. Uses dexterity_update to set the
         appropriate fields after creation.
         """
         container = self.context
@@ -41,8 +41,12 @@ class AddContent(BrowserView):
 
         if new:
             form = self.request.form
-            if form.get('workspace_type') == 'workspace-workflow':
-                mark(new, ICase)
+            if self.portal_type == 'ploneintranet.workspace.case':
+                # enable_behaviors(new,
+                #                  (ICASEMETADATA,),
+                #                  (IWorkspaceFolder,))
+                # Add here the enable_behaviors for Tasks
+
                 if form.get('workflow'):
                     pwft = api.portal.get_tool("portal_placeful_workflow")
                     wfconfig = pwft.getWorkflowPolicyConfig(new)
@@ -56,7 +60,7 @@ class AddContent(BrowserView):
 
             if errors:
                 api.portal.show_message(
-                    _("There was an error."),
+                    _("There was a problem: %s." % errors),
                     request=self.request,
                     type="error",
                 )
@@ -64,7 +68,9 @@ class AddContent(BrowserView):
             return new.absolute_url()
 
     def redirect(self, url):
-        """Has its own method to allow overriding"""
+        """
+        Has its own method to allow overriding
+        """
         url = '{}/view'.format(url)
         return self.request.response.redirect(url)
 

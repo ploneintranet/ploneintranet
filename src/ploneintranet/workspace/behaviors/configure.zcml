@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ikath.intranet">
+
+  <plone:behavior
+      title="Case Metadata"
+      description="Adds Case specific Metadata"
+      provides=".case.ICaseMetadata"
+      for="ploneintranet.workspace.case.ICase"
+      />
+
+</configure>

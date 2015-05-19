@@ -7,9 +7,7 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace import MessageFactory
-from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
-from ploneintranet.workspace.interfaces import ICase
 from zope import schema
 from zope.event import notify
 from zope.interface import implementer
@@ -58,7 +56,8 @@ class WorkspaceFolder(Container):
 
     @property
     def is_case(self):
-        return ICase.providedBy(self)
+        """ XXX remove after case refactoring """
+        return False
 
     @property
     def join_policy(self):
@@ -131,7 +130,8 @@ class WorkspaceFolder(Container):
             user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
             # XXX tbd, we don't know what a persons description is, yet
-            description = _(u'Here we could have a nice status of this person')
+            description = MessageFactory(u'Here we could have a nice status of'
+                                         u' this person')
             classes = description and 'has-description' or 'has-no-description'
             portal = api.portal.get()
             portrait = '%s/portal_memberdata/portraits/%s' % \
@@ -149,3 +149,16 @@ class WorkspaceFolder(Container):
             )
 
         return info
+
+
+class IWorkflowWorkspaceFolder(IWorkspaceFolder):
+    """
+    Interface for WorkflowWorkspaceFolder
+    """
+
+
+@implementer(IWorkflowWorkspaceFolder, IAttachmentStoragable)
+class WorkflowWorkspaceFolder(Container):
+    """
+    A WorkspaceFolder with Workflow users can collaborate in
+    """

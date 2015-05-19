@@ -13,7 +13,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import ILikesTool
 from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.workspace.interfaces import ICase
+from ploneintranet.workspace.case import ICase
 from zope.component import getUtility
 from zope.component import queryUtility
 

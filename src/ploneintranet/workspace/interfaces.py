@@ -24,11 +24,6 @@ class IWorkspaceState(Interface):
         """
 
 
-class ICase(Interface):
-    """A marker interface to differentiate between a Workspace and a Case
-    """
-
-
 class IMetroMap(Interface):
     """Methods required to display a metromap
     """
