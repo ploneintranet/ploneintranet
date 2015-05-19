@@ -153,7 +153,10 @@ class MetroMap(object):
             i["id"] for i in wft.getTransitionsFor(self.context)]
         sequence = OrderedDict({
             initial_state: {
+                "title": cwf.states.get(initial_state).title,
                 "transition_id": initial_transition,
+                "transition_title": cwf.transitions.get(
+                    initial_transition).title,
                 "enabled": initial_transition in available_transition_ids,
             }
         })
@@ -163,8 +166,14 @@ class MetroMap(object):
             next_transition = ""
             if index + 1 < len(metromap_transitions):
                 next_transition = metromap_transitions[index + 1]
+            next_transition_title = ""
+            if next_transition != "":
+                next_transition_title = cwf.transitions.get(
+                    next_transition).title
             sequence[next_state] = {
+                "title": cwf.states.get(next_state).title,
                 "transition_id": next_transition,
+                "transition_title": next_transition_title,
                 "enabled": next_transition in available_transition_ids,
             }
         current_state = wft.getInfoFor(self.context, "review_state")
