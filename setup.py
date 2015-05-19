@@ -62,6 +62,7 @@ setup(name='ploneintranet',
           'tornado',
           'Celery[redis]',
           'tornado-redis',
+          'sockjs-tornado',
       ],
       extras_require={
           'test': [
