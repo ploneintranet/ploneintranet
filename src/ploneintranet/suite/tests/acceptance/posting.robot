@@ -174,7 +174,7 @@ I can add a tag
     [arguments]  ${tag}
     Click link    link=Add tags
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click link    link=${tag}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
@@ -182,12 +182,12 @@ I can add a tag and search for a tag
     [arguments]  ${tag1}  ${tag2}
     Click link    link=Add tags
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click link    link=${tag1}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag1}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag1}')][1]  2
     Click element    css=input[name=tagsearch]
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
-    Click link    link=${tag2}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
     Click element    css=textarea.pat-content-mirror
 
 I can mention the user
