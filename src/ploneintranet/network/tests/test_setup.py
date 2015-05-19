@@ -23,10 +23,6 @@ class TestInstall(IntegrationTestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetNetworkLayer', layers)
 
-    def test_cssregistry(self):
-        resource_ids = api.portal.get_registry_record(REGISTRY_ID)
-        self.assertListEqual(EXPECTED_CSS, resource_ids)
-
 
 class TestUninstall(IntegrationTestCase):
 
@@ -42,10 +38,3 @@ class TestUninstall(IntegrationTestCase):
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetNetworkLayer', layers)
-
-    def test_cssregistry_removed(self):
-        self.assertRaises(
-            api.exc.InvalidParameterError,
-            api.portal.get_registry_record,
-            [REGISTRY_ID]
-        )
