@@ -34,15 +34,15 @@ class TodoView(BaseView):
 
         if modified:
             api.portal.show_message(
-                _("Item updated."), request=self.request, type="success")
+                _("Your changes have been saved."),
+                request=self.request,
+                type="success",
+            )
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
 
         if errors:
-                api.portal.show_message(
-                    _("There was an error."),
-                    request=self.request,
-                    type="error",
-                )
+            api.portal.show_message(
+                _("There was an error."), request=self.request, type="error")
 
         return super(TodoView, self).__call__()
