@@ -188,6 +188,7 @@ I can go to the sidebar events tile
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
+    Wait until page contains  Security
     Click link  link=Security
     Wait until page contains  Workspace policy
 
