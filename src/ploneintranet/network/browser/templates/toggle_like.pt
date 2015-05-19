@@ -7,12 +7,15 @@
                        total_likes view/total_likes;
                        datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
   <form id="functions-123456"
+        method="post"
         action="@@toggle_like"
         tal:attributes="action view/action;
                         id string:functions-${unique_id};
                         data-pat-inject datapatinject;"
         class="pat-inject pat-autosubmit"
         data-pat-inject="source: #functions; target: #functions-mypost_1">
+    <input type="hidden" name="item_id" value=""
+           tal:attributes="value item_id" />
     <button class="like active"
             value="like"
             name="like_button"
