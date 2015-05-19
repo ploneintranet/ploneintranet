@@ -90,7 +90,7 @@
                   </label>
                   <br/>
 
-                  <case_todo:tal condition="workspace/is_case">
+                  <tal:case_todo condition="workspace/is_case">
                     <label class="stage milestone">
                       Milestone this task belongs to
                       <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
@@ -103,7 +103,7 @@
                       </select>
                     </label>
                     <br />
-                  </case_todo:tal>
+                  </tal:case_todo>
                 </fieldset>
               </div>
             </div>
