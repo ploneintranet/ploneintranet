@@ -95,21 +95,22 @@
 
   <browser:page
       name="dashboard.html"
-      for="*"
+      for="Products.CMFCore.interfaces.ISiteRoot"
       class=".dashboard.Dashboard"
-      permission="zope2.View"
+      permission="ploneintranet.viewsite"
       template="templates/dashboard.pt"
       layer="..interfaces.IThemeSpecific"
       />
 
   <browser:page
       name="workspaces.html"
-      for="*"
+      for="Products.CMFCore.interfaces.ISiteRoot"
       class=".workspace.Workspaces"
-      permission="zope2.View"
+      permission="ploneintranet.viewsite"
       template="templates/workspaces.pt"
       layer="..interfaces.IThemeSpecific"
       />
+
   <browser:page
       name="workspace-add"
       for="*"
@@ -141,6 +142,7 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
