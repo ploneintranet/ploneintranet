@@ -59,6 +59,8 @@ setup(name='ploneintranet',
           'plone.principalsource',
           'collective.workspace',
           'fake-factory',
+          'tornado',
+          'Celery[redis]',
       ],
       extras_require={
           'test': [
