@@ -102,7 +102,8 @@ class WorkspaceFolder(Container):
                 'title': brain.Title,
                 'description': brain.Description,
                 'url': brain.getURL(),
-                'checked': todo.status == u'done'
+                'checked': todo.status == u'done',
+                'due': obj.due,
             }
             if self.is_case:
                 milestone = "unassigned"

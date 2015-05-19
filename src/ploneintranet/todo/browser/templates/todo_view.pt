@@ -70,27 +70,47 @@
             <div id="document-content">
               <div class="document ticket-details">
 
-                <fieldset class="vertical fancy" tal:condition="workspace/is_case">
-
-                  <label class="stage milestone">
-                    Milestone this task belongs to
-                    <select name="milestone">
-                      <option></option>
-                      <tal:milesstones repeat="milestone workspace_view/metromap_sequence">
-                        <option tal:attributes="value milestone;
-                                                selected python:'selected' if context.milestone == milestone else ''"
-                                tal:content="milestone"/>
-                      </tal:milesstones>
-                    </select>
+                <fieldset class="vertical fancy"
+                          tal:define="formatted_user_list python:['{0} &lt;{1}&gt;'.format(i['title'], i['id']) for i in context.existing_users()];
+                                             auto_suggest_users python:'words: {0}'.format(', '.join(formatted_user_list))">
+                  <label class="initiator">
+                    Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
+                    data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;"
+                    tal:attributes="data-pat-autosuggest auto_suggest_users; value context/initiator"/>
                   </label>
-                  <br />
+                  <br/>
+                  <label class="assignee">
+                    Assignee <input class="pat-autosuggest users" name="assignee"
+                    tal:attributes="data-pat-autosuggest auto_suggest_users; value context/assignee"/>
+                  </label>
+                  <br/>
+                  <label class="date-time">
+                    Due date <input type="date" name="due"
+                    tal:attributes="value context/due"/>
+                  </label>
+                  <br/>
+
+                  <case_todo:tal condition="workspace/is_case">
+                    <label class="stage milestone">
+                      Milestone this task belongs to
+                      <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
+                        <option></option>
+                        <tal:milesstones repeat="milestone mm_seq">
+                          <option tal:attributes="value milestone;
+                                                  selected python:'selected' if context.milestone == milestone else ''"
+                                  tal:content="python:mm_seq[milestone]['title']"/>
+                        </tal:milesstones>
+                      </select>
+                    </label>
+                    <br />
+                  </case_todo:tal>
                 </fieldset>
               </div>
             </div>
           </form>
         </div>
 
-        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
+        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
         </aside>
       </div>
       <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />

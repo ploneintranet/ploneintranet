@@ -37,8 +37,7 @@
         title="Todo"
         description="Todo behavior"
         provides=".behaviors.ITodo"
-        factory="plone.behavior.AnnotationStorage"
-        marker=".behaviors.ITodoMarker"
+        for=".behaviors.ITodoMarker"
         />
 
     <plone:behavior

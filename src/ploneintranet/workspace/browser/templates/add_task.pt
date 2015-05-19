@@ -30,7 +30,7 @@
         </label>
         <br/>
         <label class="date-time">
-          Due date <input type="date" />
+          Due date <input type="date" name="due"/>
         </label>
         <br/>
         <label class="status">

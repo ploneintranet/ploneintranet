@@ -1,6 +1,6 @@
 from plone.directives import form
 from zope.interface import alsoProvides, Interface
-from zope.schema import Bool, Choice, TextLine
+from zope.schema import Bool, Choice, Date, TextLine
 
 from . import _
 from .vocabularies import todo_status, todo_priority
@@ -35,12 +35,16 @@ class IMustReadMarker(Interface):
 class ITodo(form.Schema):
     """Todo schema
     """
+    initiator = TextLine(
+        title=_(u"Initiator"),
+        description=_("The user (or group) who requested this task"),
+        required=False,
+    )
 
-    assignee = Choice(
+    assignee = TextLine(
         title=_(u"Assignee"),
         description=_("A user (or a group) assigned to this task"),
         required=False,
-        vocabulary="plone.principalsource.Principals"
     )
 
     status = Choice(
@@ -56,6 +60,8 @@ class ITodo(form.Schema):
         default=1,
         vocabulary=todo_priority,
     )
+
+    due = Date(title=_(u"Due date"))
 
 alsoProvides(ITodo, form.IFormFieldProvider)
 

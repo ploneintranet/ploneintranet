@@ -47,7 +47,6 @@ class AddContent(BrowserView):
                     pwft = api.portal.get_tool("portal_placeful_workflow")
                     wfconfig = pwft.getWorkflowPolicyConfig(new)
                     wfconfig.setPolicyIn(form.get('workflow'))
-
             modified, errors = dexterity_update(new)
             if modified and not errors:
                 api.portal.show_message(

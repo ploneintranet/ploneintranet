@@ -40,14 +40,17 @@
                                               class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
 					        <p class="step-label icon icon-help-circled">
 					          <a class="link" data-pat-inject="history: record"
-                                 tal:attributes="href task/url; title task/title"
+                                 tal:attributes="href string:${task/url}#workspace-tickets; title task/title"
                                  tal:content="task/title"/>
 					        </p>
-					        <p class="step-assignee">
+					        <p class="step-assignee"
+                               tal:define="due_date python:task['due']">
 	                          <a href="" class="pat-avatar "  id="">
 		                        <img src="/media/avatar-guido-stevens.jpg" alt="" />
 	                          </a>
-					          <time class="date" datetime="2017-02-14">2 Jan</time>
+					          <time class="date" tal:condition="due_date"
+                                    tal:attributes="datetime task/due"
+                                    tal:content="python:due_date.strftime('%d %b')">2 Jan</time>
 					        </p>
 				          </li>
                         </tal:task_number>
