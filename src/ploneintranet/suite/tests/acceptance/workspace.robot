@@ -351,6 +351,6 @@ The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
 
 I can submit the content item
-    Click element    css=select#workflow_action
-    Click Element    css=select#workflow_action option[value='submit']
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[@value='submit']
     Wait until page contains  The workflow state has been changed
