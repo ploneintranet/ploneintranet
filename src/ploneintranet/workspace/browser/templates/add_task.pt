@@ -41,9 +41,10 @@
         </label>
         <br/>
 
-        <label class="stage milestone">
+        <label class="stage milestone" tal:condition="context/is_case"
+               tal:define="ws_view nocall:context/view">
           Milestone this task belongs to
-          <select name="milestone" tal:define="ws_view nocall:context/view">
+          <select name="milestone">
             <option></option>
             <tal:milesstones repeat="milestone ws_view/metromap_sequence">
               <option tal:attributes="value milestone;
