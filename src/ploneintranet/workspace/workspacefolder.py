@@ -112,6 +112,10 @@ class WorkspaceFolder(Container):
                 items[milestone].append(data)
             else:
                 items.append(data)
+        if self.is_case:
+            for milestone in items.keys():
+                # Show the checked tasks before the unchecked tasks
+                items[milestone].sort(key=lambda x: x['checked'] is False)
         return items
 
     def existing_users(self):
