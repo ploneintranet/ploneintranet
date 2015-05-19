@@ -38,3 +38,27 @@ Technology stack
 * A non web facing Plone instance will provide document conversion and preview generation
 
 As we are using Celery, the message queue can be swapped out per deployment.
+
+
+Development setup
+-----------------
+
+This is all very preliminary...
+
+
+Redis
+~~~~~
+
+- Download a tarball from http://redis.io
+
+- Unpack it.
+
+- Optionally read the README
+
+- make
+
+- make test
+
+- run ``bin/redis-server`` from the directory where you unpacked it.
+
+
