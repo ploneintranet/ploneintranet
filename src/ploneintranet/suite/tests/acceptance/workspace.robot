@@ -106,6 +106,13 @@ Christian can submit a document
       And I can create a new document    My awesome document
      Then I can submit the content item
 
+Christian can submit and retract a document
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+      And I can create a new document    My substandard document
+     Then I can submit the content item
+      And I can retract the content item
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 
@@ -353,4 +360,9 @@ The upload appears in the stream
 I can submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending review')]
+    Wait until page contains  The workflow state has been changed
+
+I can retract the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Private')]
     Wait until page contains  The workflow state has been changed
