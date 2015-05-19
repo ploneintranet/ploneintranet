@@ -16,7 +16,7 @@ To reach the Plone Intranet development team for any questions please contact
 
 * `Plone Intranet Developers mailing list <mailto:ploneintranet-dev@groups.io>`_
 
-* *#plone.intranet* IRC channel on irc.freenode.net
+* *#ploneintranet* IRC channel on irc.freenode.net
 
 * The `project manager <mailto:info@ploneintranet.org>`_
 
