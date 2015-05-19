@@ -20,15 +20,19 @@
 		    <button type="search">Search</button>
 		</fieldset>
 	    </div>
-	    <!-- Tabs not yet implemented
 	    <nav class="tabs navigation" id="tabs-nav">
-		<a class="current" href="/search-results.html?lemma=min">All</a>
+		<a class="current" 
+		   href="/search-results.html?lemma=min"
+		   tal:attributes="href string:@@search?SearchableText=${request/SearchableText|nothing}">
+		    All
+		</a>
+		<!-- Tabs not yet implemented
 		<a href="/search-results-people.html?lemma=min">People</a>
 		<a href="/search-results-images.html?lemma=min">Images</a>
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
+		-->
 	    </nav>
-	    -->
 	    <div class="results" id="results" 
 		 tal:define="search_response view/search_response">
 		<div class="container results">
@@ -69,12 +73,6 @@
 					</option>
 					<option value="today">
 					    Today
-					</option>
-					<option value="yesterday">
-					    Yesterday
-					</option>
-					<option value="this-week">
-					    This week
 					</option>
 					<option value="last-week">
 					    Last week

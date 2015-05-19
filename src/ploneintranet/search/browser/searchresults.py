@@ -2,8 +2,7 @@ from Products.Five import BrowserView
 from zope.component import getUtility
 
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from dateutil.relativedelta import MO
+from datetime import timedelta
 from ..interfaces import ISiteSearch
 
 SUPPORTED_FACETS = ['friendly_type_name', 'Subject']
@@ -11,27 +10,28 @@ SUPPORTED_FACETS = ['friendly_type_name', 'Subject']
 
 class SearchResultsView(BrowserView):
 
-    def _daterange_from_string(self, range_name):
+    def _daterange_from_string(self, range_name, now=None):
         """
         Convert from range strings used in the template
         to actual datetimes
         """
-        now = datetime.now()
-        start_of_today = now.replace(hour=0, minute=0)
+        if now is None:
+            now = datetime.now()
+        start_of_today = now.replace(hour=0, minute=0, second=0)
         start = None
         end = None
         if range_name == 'today':
             start = start_of_today
             end = now
-        elif range_name == 'yesterday':
-            start = start_of_today - relativedelta(days=1)
-            end = start_of_today
-        elif range_name == 'this-week':
-            start = start_of_today - relativedelta(weekday=MO(-1))
-            end = now
         elif range_name == 'last-week':
-            start = start_of_today - relativedelta(weekday=MO(-2))
-            end = start_of_today - relativedelta(weekday=MO(-1))
+            start = start_of_today - timedelta(days=7)
+            end = now
+        elif range_name == 'last-month':
+            start = start_of_today - timedelta(days=28)
+            end = now
+        elif range_name == 'before-last-month':
+            start = datetime.min
+            end = start_of_today - timedelta(days=28)
         return start, end
 
     def search_response(self):
