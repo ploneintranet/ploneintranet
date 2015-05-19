@@ -194,7 +194,7 @@ I can mention the user
     [arguments]  ${username}
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click link    link=${username}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
@@ -202,10 +202,10 @@ I can mention a user and search for a user
     [arguments]  ${username1}  ${username2}
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click link    link=${username1}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username1}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username1}')][1]  2
     Click element    css=input[name=usersearch]
     Input text    css=input[name=usersearch]  ${username2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]  2
-    Click link    link=${username2}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
     Click element    css=textarea.pat-content-mirror
