@@ -268,7 +268,7 @@
                              />
                       <a href="#"
                          tal:attributes="title python: task['title'];
-                                         href python: task['url']"
+                                         href python: task['url']+'#workspace-tickets'"
                          tal:content="python:task['title']"></a>
                     </label>
                   </tal:task>
@@ -289,7 +289,7 @@
                                  tal:attributes="value python: task['id'];
                                                  checked python:'checked' if task['checked'] else ''"
                                  />
-                          <a href="#"
+                          <a href="#" class="pat-inject" data-pat-inject="source: #document-body; target: #document-body"
                              tal:attributes="title python: task['title'];
                                              href python: task['url']"
                              tal:content="python:task['title']"></a>
