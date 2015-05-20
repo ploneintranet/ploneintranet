@@ -14,5 +14,4 @@ virtualenv --relocatable .
 ./bin/buildout -N -t 10 -c jenkins.cfg || exit 1
 virtualenv --relocatable .
 bundle install --path vendor/bundle --binstubs
-./bin/pip install coveralls
 ./bin/develop up -f || exit 1
