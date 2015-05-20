@@ -55,6 +55,15 @@
   <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
 </rules>
 
+<rules css:if-content="body.template-stream">
+  <theme href="generated/notifications.html" />
+  <append css:content-children="#content" css:theme="#content" />
+</rules>
+
+<rules css:if-content="body.template-notifications">
+  <theme href="generated/notifications.html" />
+  <replace css:content-children="#social-messages" css:theme="#document-content" />
+</rules>
 <!-- <rules css:if-content="body.template-stream">
   <theme href="generated/notifications.html" />
   <append css:content-children="#content" css:theme="#content" />
@@ -76,6 +85,7 @@
 <rules css:if-content="body.portaltype-event, body.portaltype-ploneintranet-workspace-workspacefolder.template-view, body.portaltype-document, body.portaltype-file, body.portaltype-image, body.portaltype-folder">
   <theme href="generated/empty-workspace.html" />
   <!-- Main content rule: Put plone content into theme content -->
+  <drop css:theme-children="#content" />
   <append css:content-children="#portal-column-content" css:theme="#content" />
 </rules>
 
