@@ -19,19 +19,19 @@ def create_statusupdate(
 ):
     """Create a status update (post).
 
-    :param context: [required] container of the post
-    :type context: Content object
-
     :param text: [required] text of the post
     :type text: Unicode object
+
+    :param context: Container of the post
+    :type context: Content object
 
     :param user: User who should post. By default the current user posts.
     :type user: user object
 
-    :param userid: userid of the user whi should post.
+    :param userid: userid of the user who should post.
     :type userid: string
 
-    :param time: time when the pst shoudl happen. By default the current time.
+    :param time: time when the post should happen. By default the current time.
     :type time: datetime object
 
     :returns: Newly created statusupdate
