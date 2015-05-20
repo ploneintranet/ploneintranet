@@ -70,6 +70,7 @@ setup(name='ploneintranet',
               'fake-factory',
               'mock',
               'plonesocial.suite',
+              'responses',
           ],
           'socialsuite': [
               'loremipsum',
