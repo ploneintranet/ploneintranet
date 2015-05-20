@@ -10,7 +10,6 @@ from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
 from tempfile import mkdtemp
 from zope import event
-from zope.component import getAdapter
 from zope.interface import alsoProvides
 from zope.traversing.interfaces import BeforeTraverseEvent
 import os
@@ -100,11 +99,6 @@ class TestDocconvLocal(IntegrationTestCase):
         self.assertEquals(docconv.get_pdf(), None)
         self.assertEquals(docconv.get_previews(), None)
         self.assertEquals(docconv.get_thumbs(), None)
-
-    def test_named_docconv_adapter(self):
-        alt_docconv = getAdapter(
-            self.testfile, IDocconv, name='plone.app.async')
-        self.assertTrue(isinstance(alt_docconv, DocconvAdapter))
 
     def test_document(self):
         testdoc = api.content.create(
