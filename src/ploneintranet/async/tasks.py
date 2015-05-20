@@ -28,6 +28,5 @@ def generate_and_add_preview(url, cookie):
     resp = requests.get('http://localhost:8000/@@generate-preview',
                         params=params,
                         cookies=cookie)
-    # import ipdb;ipdb.set_trace()
     if resp.status_code != 200:
         raise PreviewGenerationException
