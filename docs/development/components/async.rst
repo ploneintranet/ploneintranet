@@ -40,6 +40,19 @@ Technology stack
 As we are using Celery, the message queue can be swapped out per deployment.
 
 
+pat-inject-async
+----------------
+
+See `https://github.com/ploneintranet/ploneintranet.prototype/issues/75`
+
+Previews that have been generated asynchronously
+get pushed back into the DOM without requiring a refresh of the user's browser.
+
+To do this we generate a HTML snippet of the preview
+which contains the source and target attributes for pat-inject.
+This snippet is sent to the browser over a websocket (described above).
+pat-inject-async attaches an event handler to on_message event of SockJS
+
 Development setup
 -----------------
 
