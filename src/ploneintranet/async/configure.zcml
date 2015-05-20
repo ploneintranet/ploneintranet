@@ -12,11 +12,4 @@
             permission="zope.Public"
             />
 
-    <browser:page
-            name="send-message"
-            for="*"
-            class=".SendMessage"
-            permission="zope.Public"
-            />
-
 </configure>
