@@ -7,6 +7,8 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from ploneintranet.theme import _
+from zope.interface import implementer
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 
 class BaseView(BaseWorkspaceView):
@@ -18,6 +20,7 @@ class BaseView(BaseWorkspaceView):
         self.content_uid = api.content.get_uuid(self.context)
 
 
+@implementer(IBlocksTransformEnabled)
 class TodoView(BaseView):
 
     def __call__(self, milestone=None):
