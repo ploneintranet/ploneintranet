@@ -70,18 +70,18 @@
             <div id="document-content">
               <div class="document ticket-details">
 
-                <fieldset class="vertical fancy"
-                          tal:define="formatted_user_list python:['{0} &lt;{1}&gt;'.format(i['title'], i['id']) for i in context.existing_users()];
-                                             auto_suggest_users python:'words: {0}'.format(', '.join(formatted_user_list))">
+                <fieldset class="vertical fancy">
                   <label class="initiator">
+
                     Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
-                    data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;"
-                    tal:attributes="data-pat-autosuggest auto_suggest_users; value context/initiator"/>
+                    data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1;"
+                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; pre-fill: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, view.member_prefill(attrs['name']));"/>
                   </label>
                   <br/>
                   <label class="assignee">
                     Assignee <input class="pat-autosuggest users" name="assignee"
-                    tal:attributes="data-pat-autosuggest auto_suggest_users; value context/assignee"/>
+                    data-pat-autosuggest="ajax-data-type: json;"
+                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; pre-fill: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, view.member_prefill(attrs['name']))"/>
                   </label>
                   <br/>
                   <label class="date-time">

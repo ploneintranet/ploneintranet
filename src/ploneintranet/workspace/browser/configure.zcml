@@ -19,6 +19,13 @@
       />
 
   <browser:page
+      name="members.json"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.WorkspaceMembersJSONView"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="transfer"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.TransferMembershipForm"

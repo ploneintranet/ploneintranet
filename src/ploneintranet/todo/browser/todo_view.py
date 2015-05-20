@@ -1,14 +1,17 @@
 from ..interfaces import ITodoUtility
 from Acquisition import aq_inner
+from logging import getLogger
 from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from ploneintranet.theme import _
 from ploneintranet.theme.utils import dexterity_update
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
 from zope.component import getUtility
 from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
-from ploneintranet.theme import _
 from zope.interface import implementer
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from zope.lifecycleevent import ObjectModifiedEvent
+
+log = getLogger(__name__)
 
 
 class BaseView(BaseWorkspaceView):
@@ -49,3 +52,17 @@ class TodoView(BaseView):
                 _("There was an error."), request=self.request, type="error")
 
         return super(TodoView, self).__call__()
+
+    def member_prefill(self, field):
+        users = self.workspace().existing_users()
+        field_value = getattr(self.context, field)
+        # log.error("{0}: field_value: {1}".format(field, field_value))
+        if field_value:
+            assigned_users = field_value.split(',')
+            return ", ".join([
+                user['id']
+                for user in users
+                if user['id'] in assigned_users
+            ])
+        else:
+            return ''

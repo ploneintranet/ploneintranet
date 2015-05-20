@@ -6,6 +6,8 @@ from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from zope.interface import implements
 
+import json
+
 
 class BaseWorkspaceView(BrowserView):
     """
@@ -44,3 +46,18 @@ class WorkspaceState(BaseWorkspaceView):
     def state(self):
         if self.workspace() is not None:
             return api.content.get_state(self.workspace())
+
+
+class WorkspaceMembersJSONView(BrowserView):
+    """
+    Return member details in JSON
+    """
+    def __call__(self):
+        users = self.context.existing_users()
+        member_details = []
+        for user in users:
+            member_details.append({
+                'text': user['title'] or user['id'],
+                'id': user['id'],
+            })
+        return json.dumps(member_details)
