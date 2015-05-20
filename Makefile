@@ -159,7 +159,7 @@ docs:
 
 # Re-generate
 api-docs:
-	@cd docs && make api-stubs
+	@bin/sphinx-apidoc -o docs/api src/ploneintranet
 
 docs-clean:
 	rm -rf docs/html

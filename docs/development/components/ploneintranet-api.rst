@@ -9,7 +9,7 @@ ploneintranet.api
 ploneintranet.api.microblog module
 ----------------------------------
 
-.. automodule:: ploneintranet.api.microblog
+.. automodule:: ploneintranet.api.microblog.statusupdate
     :members:
     :undoc-members:
     :show-inheritance:
