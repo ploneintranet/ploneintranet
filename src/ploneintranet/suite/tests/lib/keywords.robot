@@ -50,7 +50,17 @@ Maneuver to
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
 
+I am in a workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Open Market Committee Workspace
+
+I am in a workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Open Market Committee Workspace
+
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
+
+

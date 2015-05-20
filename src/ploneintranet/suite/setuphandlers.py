@@ -215,7 +215,7 @@ def create_workspaces(workspaces):
 
     for w in workspaces:
         contents = w.pop('contents', None)
-        members = w.pop('members', [])
+        members = w.pop('members', {})
         workspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.workspacefolder',
@@ -224,8 +224,8 @@ def create_workspaces(workspaces):
         api.content.transition(obj=workspace, transition='make_open')
         if contents is not None:
             create_ws_content(workspace, contents)
-        for m in members:
-            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Members']))
+        for (m, groups) in members.items():
+            IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
 
 
 def create_ws_content(parent, contents):
@@ -446,6 +446,21 @@ def testing(context):
         {'title': 'Open Market Committee',
          'description': 'The OMC holds eight regularly scheduled meetings '
                         'during the year and other meetings as needed.',
+         'members': {'allan_neece': [u'Members'],
+                     'christian_stoney': [u'Admins', u'Members'],
+                     'neil_wichmann': [u'Members'],
+                     'francois_gast': [u'Members'],
+                     'jaimie_jacko': [u'Members'],
+                     'jesse_shaik': [u'Members'],
+                     'jorge_primavera': [u'Members'],
+                     'silvio_depaoli': [u'Members'],
+                     'lance_stockstill': [u'Members'],
+                     'pearly_whitby': [u'Members'],
+                     'dollie_nocera': [u'Members'],
+                     'esmeralda_claassen': [u'Members'],
+                     'rosalinda_roache': [u'Members'],
+                     'guy_hackey': [u'Members'],
+                     },
          'contents':
              [{'title': 'Manage Information',
                'type': 'Folder',
@@ -494,13 +509,26 @@ def testing(context):
                'start': now + timedelta(days=-7),
                'end': now + timedelta(days=-14)},
               ],
-         'members': ['christian_stoney', ],
          },
         {'title': 'Parliamentary papers guidance',
          'description': '"Parliamentary paper" is a term used to describe a '
                         'document which is laid before Parliament. Most '
                         'government organisations will produce at least one '
                         'parliamentary paper per year.',
+         'members': {'allan_neece': [u'Members'],
+                     'christian_stoney': [u'Admins', u'Members'],
+                     'francois_gast': [u'Members'],
+                     'alice_lindstrom': [u'Members'],
+                     'jaimie_jacko': [u'Members'],
+                     'fernando_poulter': [u'Members'],
+                     'jesse_shaik': [u'Members'],
+                     'jorge_primavera': [u'Members'],
+                     'silvio_depaoli': [u'Members'],
+                     'kurt_weissman': [u'Members'],
+                     'esmeralda_claassen': [u'Members'],
+                     'rosalinda_roache': [u'Members'],
+                     'guy_hackey': [u'Members'],
+                     },
          'contents':
             [{'title': 'Test Document',
               'description': 'A document just for testing',

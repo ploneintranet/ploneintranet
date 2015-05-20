@@ -23,104 +23,100 @@ Alice can create a workspace
     Then I can create a new workspace    My user workspace
 
 Breadcrumbs are not borked
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
+    And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
 Manager can view sidebar info
-    given I'm logged in as a 'Manager'
+    Given I am in a workspace as a workspace admin
     I can go to the sidebar info tile
 
-Alice can view sidebar events
-    given I am logged in as the user alice_lindstrom
-    I can go to the sidebar events tile
-    I can see upcoming events
+Member can view sidebar info
+    Given I am in a workspace as a workspace member
+    I can go to the sidebar info tile
+
+Member can view sidebar events
+    Given I am in a workspace as a workspace member
+     Then I can go to the sidebar events tile
+      And I can see upcoming events
     Older events are hidden
 
-# Alice can delete sidebar events
-#     given I am logged in as the user alice_lindstrom
+#Member can delete sidebar events
+#     Given I am in a workspace as a workspace member
 #     I can go to the sidebar events tile
 #     I can delete an old event
 
 Manager can view sidebar tasks
-    given I'm logged in as a 'Manager'
-    I can go to the sidebar tasks tile
+    Given I am in a workspace as a workspace admin
+    Then I can go to the sidebar tasks tile
+
+Member can view sidebar tasks
+    Given I am in a workspace as a workspace member
+     Then I can go to the sidebar tasks tile
 
 Traverse Folder in sidebar navigation
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    Then I can enter the Manage Information Folder
-    And Go back to the workspace by clicking the parent button
+    Given I am in a workspace as a workspace member
+     Then I can enter the Manage Information Folder
+     And Go back to the workspace by clicking the parent button
 
 Search for objects in sidebar navigation
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    Then I can search for items
+    Given I am in a workspace as a workspace member
+     Then I can search for items
 
 The manager can modify workspace security policies
-    Given I'm logged in as a 'Manager'
-    And add workspace  Policy Workspace
-    And maneuver to  Policy Workspace
-    I can open the workspace security settings tab
-    And I can set the external visibility to Open
-    And I can set the join policy to Admin-Managed
-    And I can set the participant policy to Moderate
+    Given I am in a workspace as a workspace admin
+     Then I can open the workspace security settings tab
+      And I can set the external visibility to Open
+      And I can set the join policy to Admin-Managed
+      And I can set the participant policy to Moderate
 
 The manager can invite Alice to join the Open Market Committee Workspace
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    And I can open the workspace member settings tab
-    I can invite Alice to join the workspace
+    Given I am in a workspace as a workspace admin
+     Then I can open the workspace member settings tab
+      And I can invite Alice to join the workspace
 
 The manager can invite Alice to join the Open Market Committee Workspace from the menu
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    And I can open the workspace member settings tab
-    I can invite Alice to join the workspace from the menu
+    Given I am in a workspace as a workspace admin
+      And I can open the workspace member settings tab
+     Then I can invite Alice to join the workspace from the menu
 
 Create document
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a new document    My Humble document
 
 Create folder
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a new folder
 
 Create image
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a new image
 
 Create structure
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a structure
 
-Alice can upload a file
-    Given I am logged in as the user alice_lindstrom
-      And I go to the Open Market Committee Workspace
+Member can upload a file
+    Given I am in a workspace as a workspace member
       And I select a file to upload
      Then the file appears in the sidebar
 
-Christian can submit a document
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+Member can submit a document
+    Given I am in a workspace as a workspace member
      When I can create a new document    My awesome document
      Then I can edit the document
      When I submit the content item
      Then I cannot edit the document
 
-Christian can submit and retract a document
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+Member can submit and retract a document
+    Given I am in a workspace as a workspace member
      When I can create a new document    My substandard document
      Then I can edit the document
      When I submit the content item
      Then I cannot edit the document
      When I retract the content item
      Then I can edit the document
+
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -196,14 +192,12 @@ I select a file to upload
     Click Element  xpath=//button[text()='Upload']
 
 I can go to the sidebar info tile
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Workspace settings and about
     Wait Until Page Contains  General
     Wait Until Page Contains  Workspace title
     Wait Until Page Contains  Workspace brief description
 
 I can go to the sidebar events tile
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
