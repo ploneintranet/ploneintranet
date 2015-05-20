@@ -4,6 +4,7 @@ from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 
 import collective.workspace
@@ -16,6 +17,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
+        PLONE_APP_TILES_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
