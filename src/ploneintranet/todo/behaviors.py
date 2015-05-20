@@ -61,7 +61,7 @@ class ITodo(form.Schema):
         vocabulary=todo_priority,
     )
 
-    due = Date(title=_(u"Due date"))
+    due = Date(title=_(u"Due date"), required=False)
 
 alsoProvides(ITodo, form.IFormFieldProvider)
 
