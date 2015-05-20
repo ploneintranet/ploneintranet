@@ -104,7 +104,7 @@
 
   <browser:page
       name="workspaces.html"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
       class=".workspace.Workspaces"
       permission="ploneintranet.viewsite"
       template="templates/workspaces.pt"
