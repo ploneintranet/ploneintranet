@@ -57,7 +57,9 @@
                         </tal:task_number>
                       </tal:tasks>
 				    </ul>
+
                     <p class="action icon"
+                       tal:condition="not:repeat/milestone_id/end"
                        tal:define="milestone python:mm_seq[milestone_id]"
                        tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
 				      <a class="link"
