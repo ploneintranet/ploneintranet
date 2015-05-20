@@ -251,7 +251,7 @@
         </tal:no-tasks>
         <tal:tasks condition="tasks">
           <form action="#"
-            tal:define="ws view/my_workspace"
+            tal:define="ws view/workspace"
             tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
             method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
 
