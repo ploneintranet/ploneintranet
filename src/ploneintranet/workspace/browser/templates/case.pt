@@ -10,7 +10,8 @@
     <metal:content fill-slot="content" 
                    tal:define="workspace view/workspace;
                                workspace_url python:workspace.absolute_url();
-                               mm_seq view/metromap_sequence">
+                               mm_seq view/metromap_sequence;
+                               transition_icons view/transition_icons">
       <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
         <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
@@ -56,9 +57,13 @@
                         </tal:task_number>
                       </tal:tasks>
 				    </ul>
-                    <p class="action icon icon-right-hand">
+
+                    <p class="action icon"
+                       tal:condition="not:repeat/milestone_id/end"
+                       tal:define="milestone python:mm_seq[milestone_id]"
+                       tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
 				      <a class="link"
-                         tal:content="python:mm_seq[milestone_id]['transition_title']" />
+                         tal:content="python:milestone['transition_title']" />
 				    </p>
                   </tal:state_index>
                 </li>

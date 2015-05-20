@@ -77,7 +77,7 @@ The manager can invite Alice to join the Open Market Committee Workspace from th
 Create document
     Given I am logged in as the user christian_stoney
       And I go to the Open Market Committee Workspace
-     Then I can create a new document
+     Then I can create a new document    My Humble document
 
 Create folder
     Given I am logged in as the user christian_stoney
@@ -100,6 +100,18 @@ Alice can upload a file
       And I select a file to upload
      Then the file appears in the sidebar
 
+Christian can submit a document
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+      And I can create a new document    My awesome document
+     Then I can submit the content item
+
+Christian can submit and retract a document
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+      And I can create a new document    My substandard document
+     Then I can submit the content item
+      And I can retract the content item
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -281,13 +293,14 @@ I can search for items
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
 I can create a new document
+    [arguments]  ${title}
     Click link  Documents
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  css=.panel-content input[name=title]  text=My Humble Document
+    Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
+    Wait Until Page Contains Element  css=#content input[value="${title}"]
 
 
 
@@ -344,3 +357,13 @@ The file appears in the sidebar
 
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
+
+I can submit the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending review')]
+    Wait until page contains  The workflow state has been changed
+
+I can retract the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Private')]
+    Wait until page contains  The workflow state has been changed
