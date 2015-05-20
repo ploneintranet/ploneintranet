@@ -15,4 +15,3 @@ virtualenv --relocatable .
 virtualenv --relocatable .
 bundle install --path vendor/bundle --binstubs
 ./bin/develop up -f || exit 1
-
