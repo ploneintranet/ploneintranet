@@ -12,12 +12,12 @@ class IProfile(form.Schema):
     """Profile schema."""
 
     first_name = schema.TextLine(
-        title=_("Fullname"),
+        title=_("First name"),
         required=True
     )
 
     last_name = schema.TextLine(
-        title=_("Fullname"),
+        title=_("Last name"),
         required=True
     )
 
