@@ -364,13 +364,13 @@ The upload appears in the stream
 
 I submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
-    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending review')]
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
     Click button  Close
 
 I retract the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
-    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Private')]
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
     Click button  Close
 
