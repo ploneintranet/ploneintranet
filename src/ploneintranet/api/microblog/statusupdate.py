@@ -7,7 +7,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.component import queryUtility
 
 
-def get_statusupdate(status_id):
+def get(status_id):
     """Get a status update by id.
 
     :param status_id: The id of the status update
@@ -19,7 +19,7 @@ def get_statusupdate(status_id):
     return microblog.get(status_id)
 
 
-def create_statusupdate(
+def create(
     text,
     context=None,
     thread_id=None,
