@@ -81,8 +81,12 @@ class ContentView(BrowserView):
     def wf_tool(self):
         return api.portal.get_tool('portal_workflow')
 
+    @memoize
+    def _get_active_workflows(self):
+        return self.wf_tool.getWorkflowsFor(aq_inner(self.context))
+
     def has_workflow(self):
-        return len(self.wf_tool.getWorkflowsFor(aq_inner(self.context))) > 0
+        return len(self._get_active_workflows()) > 0
 
     def get_workflow_state(self):
         return api.content.get_state(obj=aq_inner(self.context))
@@ -103,9 +107,9 @@ class ContentView(BrowserView):
         if current_state_id is None:
             return []
 
-        current_state = self.wf_tool.getTitleForStateOnType(
-            current_state_id, context.portal_type)
+        available_states = self._get_active_workflows()[0].states
 
+        current_state = getattr(available_states, current_state_id).title
         states = [dict(
             action='',
             title=current_state,
@@ -117,8 +121,7 @@ class ContentView(BrowserView):
             if action['category'] != 'workflow':
                 continue
             new_state_id = action['transition'].new_state_id
-            title = self.wf_tool.getTitleForStateOnType(
-                new_state_id, context.portal_type)
+            title = getattr(available_states, new_state_id).title
             states.append(dict(
                 action=action['id'],
                 title=title,
