@@ -26,11 +26,6 @@ class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
-#        wftool = api.portal.get_tool('portal_workflow')
-#        return wftool.objectValues()
-
-#        [(x.id, x.title) for x in wftool.objectValues()]
-
 
 class WorkspaceTabsTile(Tile):
 
