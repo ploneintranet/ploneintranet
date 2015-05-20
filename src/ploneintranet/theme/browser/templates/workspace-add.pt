@@ -4,49 +4,48 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet.theme">
-<head>
-</head>
-<body class="diazo-off">
-    <div id="content" class="application">
-        <h1>Add new workspace</h1>
-        <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
-            tal:attributes="action string:${context/absolute_url}/add_content" class="wizard-box pat-validate">
+    <head>
+    </head>
+    <body class="diazo-off">
+        <div id="content" class="application">
+            <h1>Add new workspace</h1>
+            <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
+                tal:attributes="action string:${context/absolute_url}/add_content" class="wizard-box pat-validate">
 
-	  
-          <div class="panel-body">
-            <fieldset class="horizontal">
-              <!-- label>Title <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label -->           
-              <label>Title <input type="text" required="required" class="required" name="title" size="60" /></label>           
-              <label>Description <textarea name="description"></textarea></label>
-            </fieldset>
+                <div class="panel-body">
+                    <fieldset class="horizontal">
+                        <label>Title <input type="text" required="required" class="required" name="title"/></label>           
+                        <label>Description <textarea name="description"></textarea></label>
 
-            <fieldset class="horizontal">
-              <label class="focus">Type
-                <select name="portal_type" class="focus">
-                  <option name="workspace_type" value="ploneintranet.workspace.workspacefolder">Classic Workspace</option>
-                  <option name="workspace_type" value="ploneintranet.workspace.case">Case</option>
-                </select>
-                </label>
+                        <label class="focus">Type
+                            <select name="portal_type" class="focus">
+                                <option name="workspace_type" value="ploneintranet.workspace.workspacefolder">Classic Workspace</option>
+                                <option name="workspace_type" value="ploneintranet.workspace.case">Case</option>
+                            </select>
+                        </label>
 
-              <label class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">Pick a Workflow
-            	  <select name="workflow" >
-            	    <tal:r tal:repeat="wf view/workflows">
-                    <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
-            	    </tal:r>
-                </select>
-        	    </label>
-          </div>
+                        <label class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case"
+                               tal:define="wfs view/workflows">Pick a Workflow
+                            <select name="workflow" tal:condition="python: len(wfs) > 6">
+                                <tal:r tal:repeat="wf view/workflows">
+                                    <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
+                                </tal:r>
+                            </select>
 
+                            <fieldset class="group pat-checklist radio" tal:condition="python: len(wfs) <=6">
+                                <label><input type="radio" name="workflow" tal:repeat="wf view/workflows" tal:content="wf/title" tal:attributes="value wf/id"/></label>
+                            </fieldset>
+                        </label>
+                    </fieldset>
+                </div>
 
-
-          <fieldset class="button-bar panel-footer">
-            <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative">Save</button>
-          </fieldset>
-          <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
-          <span tal:replace="structure context/@@authenticator/authenticator"/>
-        </form>
-
-    </div>
-</body>
+                <fieldset class="button-bar panel-footer">
+                    <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative">Save</button>
+                </fieldset>
+                <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+                    <span tal:replace="structure context/@@authenticator/authenticator"/>
+            </form>
+        </div>
+    </body>
 </html>
 
