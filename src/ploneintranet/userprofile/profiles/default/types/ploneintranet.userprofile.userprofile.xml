@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<object name="ploneintranet.profiles.profile" meta_type="Dexterity FTI" i18n:domain="ploneintranet.profiles"
+<object name="ploneintranet.userprofile.userprofile" meta_type="Dexterity FTI" i18n:domain="ploneintranet"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Profile</property>
  <property name="description" i18n:translate=""></property>
- <property name="icon_expr">string:${portal_url}/profile_icon.png</property>
- <property name="factory">ploneintranet.profiles.profile</property>
+ <property name="icon_expr">string:${portal_url}/userprofile_icon.png</property>
+ <property name="factory">ploneintranet.userprofile.userprofile</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">False</property>
@@ -16,8 +16,8 @@
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
  <!-- schema and class used for content items -->
- <property name="schema">ploneintranet.profiles.content.profile.IProfile</property>
- <property name="klass">ploneintranet.profiles.content.profile.Profile</property>
+ <property name="schema">ploneintranet.userprofile.content.userprofile.IUserProfile</property>
+ <property name="klass">ploneintranet.userprofile.content.userprofile.UserProfile</property>
  <property name="behaviors">
   <element value="dexterity.membrane.behavior.membraneuser.INameFromFullName" />
   <element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />

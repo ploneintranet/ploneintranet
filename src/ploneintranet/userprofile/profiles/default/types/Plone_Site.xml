@@ -4,6 +4,6 @@
     i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="allowed_content_types"
        purge="False">
-   <element value="ploneintranet.profiles.profilecontainer" />
+   <element value="ploneintranet.userprofile.userprofilecontainer" />
  </property>
 </object>

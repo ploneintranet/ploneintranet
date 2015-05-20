@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 
-from ploneintranet.profiles.tests.base import BaseTestCase
+from ploneintranet.userprofile.tests.base import BaseTestCase
 
 
 class TestAuth(BaseTestCase):
@@ -14,13 +14,13 @@ class TestAuth(BaseTestCase):
         self.login_as_portal_owner()
         self.profiles = api.content.create(
             title="Profiles",
-            type="ploneintranet.profiles.profilecontainer",
+            type="ploneintranet.userprofile.userprofilecontainer",
             container=self.portal)
         self.mtool = api.portal.get_tool('membrane_tool')
 
     def test_profile_is_membrane_type(self):
         self.assertIn(
-            'ploneintranet.profiles.profile',
+            'ploneintranet.userprofile.userprofile',
             self.mtool.listMembraneTypes())
 
     def test_user_login(self):
@@ -32,7 +32,7 @@ class TestAuth(BaseTestCase):
             'confirm_password': 'secret'}
         profile = api.content.create(
             container=self.profiles,
-            type='ploneintranet.profiles.profile',
+            type='ploneintranet.userprofile.userprofile',
             id='johndoe',
             **params)
 

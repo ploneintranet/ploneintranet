@@ -3,13 +3,13 @@ from plone.testing import z2
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing import login
 from plone.app.testing import logout
-from ploneintranet.profiles.testing import \
-    PLONEINTRANET_PROFILES_INTEGRATION_TESTING
+from ploneintranet.userprofile.testing import \
+    PLONEINTRANET_USERPROFILE_INTEGRATION_TESTING
 
 
 class BaseTestCase(unittest.TestCase):
 
-    layer = PLONEINTRANET_PROFILES_INTEGRATION_TESTING
+    layer = PLONEINTRANET_USERPROFILE_INTEGRATION_TESTING
 
     def setUp(self):
         self.app = self.layer['app']

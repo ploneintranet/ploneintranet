@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
-<object name="ploneintranet.profiles.profilecontainer"
+<object name="ploneintranet.userprofile.userprofilecontainer"
    meta_type="Dexterity FTI"
-   i18n:domain="ploneintranet.profiles" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   i18n:domain="ploneintranet.userprofile" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic metadata -->
   <property name="title" i18n:translate="">Profiles Folder</property>
   <property name="description"
-    i18n:translate="">A container for profiles</property>
+    i18n:translate="">A container for userprofile</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
-  <property name="factory">ploneintranet.profiles.profilecontainer</property>
+  <property name="factory">ploneintranet.userprofile.userprofilecontainer</property>
   <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="ploneintranet.profiles.profile" />
+    <element value="ploneintranet.userprofile.userprofile" />
   </property>
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">ploneintranet.profiles.content.profilecontainer.IProfileContainer</property>
-  <property name="klass">ploneintranet.profiles.content.profilecontainer.ProfileContainer</property>
+  <property name="schema">ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer</property>
+  <property name="klass">ploneintranet.userprofile.content.userprofilecontainer.UserProfileContainer</property>
 
   <property name="behaviors">
      <element value="plone.app.content.interfaces.INameFromTitle" />

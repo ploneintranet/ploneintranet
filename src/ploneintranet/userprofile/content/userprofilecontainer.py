@@ -3,14 +3,14 @@ from plone.directives import form
 from zope.interface import implementer
 
 
-class IProfileContainer(form.Schema):
+class IUserProfileContainer(form.Schema):
     """
     Marker interface for Profile
     """
 
 
-@implementer(IProfileContainer)
-class ProfileContainer(Container):
+@implementer(IUserProfileContainer)
+class UserProfileContainer(Container):
     """
     A folder to contain Profile
     """

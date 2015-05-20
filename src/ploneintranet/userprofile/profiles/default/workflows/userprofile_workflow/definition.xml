@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dc-workflow workflow_id="dexterity_membrane_workflow"
+<dc-workflow workflow_id="userprofile_workflow"
              title="Dexterity Membrane Workflow"
              state_variable="review_state"
              initial_state="pending">

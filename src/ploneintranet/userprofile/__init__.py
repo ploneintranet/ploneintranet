@@ -2,7 +2,7 @@
 from zope.i18nmessageid import MessageFactory
 
 
-_ = MessageFactory('ploneintranet.profiles')
+_ = MessageFactory('ploneintranet')
 
 
 def initialize(context):

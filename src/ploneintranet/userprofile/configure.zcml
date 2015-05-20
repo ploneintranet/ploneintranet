@@ -5,11 +5,9 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet.profiles">
+    i18n_domain="ploneintranet">
 
   <five:registerPackage package="." initialize=".initialize" />
-
-  <i18n:registerTranslations directory="locales" />
 
   <include package="dexterity.membrane" />
 
@@ -17,7 +15,7 @@
       name="default"
       title="Plone Intranet Profiles"
       directory="profiles/default"
-      description="Installs the ploneintranet.profiles package"
+      description="Installs the ploneintranet.userprofile package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />

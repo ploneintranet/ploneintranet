@@ -7,10 +7,10 @@ from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
 
-import ploneintranet.profiles
+import ploneintranet.userprofile
 
 
-class PloneintranetprofilesLayer(PloneSandboxLayer):
+class PloneintranetuserprofileLayer(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
@@ -23,14 +23,14 @@ class PloneintranetprofilesLayer(PloneSandboxLayer):
         # Load ZCML
         xmlconfig.file(
             'configure.zcml',
-            ploneintranet.profiles,
+            ploneintranet.userprofile,
             context=configurationContext
         )
         for p in self.products:
             z2.installProduct(app, p)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'ploneintranet.profiles:default')
+        applyProfile(portal, 'ploneintranet.userprofile:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""
@@ -38,13 +38,13 @@ class PloneintranetprofilesLayer(PloneSandboxLayer):
             z2.uninstallProduct(app, p)
 
 
-PLONEINTRANET_PROFILES_FIXTURE = PloneintranetprofilesLayer()
+PLONEINTRANET_USERPROFILE_FIXTURE = PloneintranetuserprofileLayer()
 
-PLONEINTRANET_PROFILES_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONEINTRANET_PROFILES_FIXTURE,),
-    name="PloneintranetprofilesLayer:Integration"
+PLONEINTRANET_USERPROFILE_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(PLONEINTRANET_USERPROFILE_FIXTURE,),
+    name="PloneintranetuserprofileLayer:Integration"
 )
-PLONEINTRANET_PROFILES_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONEINTRANET_PROFILES_FIXTURE, z2.ZSERVER_FIXTURE),
-    name="PloneintranetprofilesLayer:Functional"
+PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(PLONEINTRANET_USERPROFILE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name="PloneintranetuserprofileLayer:Functional"
 )

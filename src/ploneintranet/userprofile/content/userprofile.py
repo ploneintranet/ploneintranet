@@ -4,12 +4,12 @@ from zope.interface import implementer
 from plone.dexterity.content import Container
 from plone.directives import form
 
-from ploneintranet.profiles import _
+from ploneintranet.userprofile import _
 
 
-class IProfile(form.Schema):
+class IUserProfile(form.Schema):
 
-    """Profile schema."""
+    """User profile schema."""
 
     first_name = schema.TextLine(
         title=_("First name"),
@@ -27,9 +27,9 @@ class IProfile(form.Schema):
     )
 
 
-@implementer(IProfile)
-class Profile(Container):
+@implementer(IUserProfile)
+class UserProfile(Container):
 
-    """Profile content type."""
+    """UserProfile content type."""
 
     pass
