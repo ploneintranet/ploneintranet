@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
 from OFS.Image import Image
-from Products.Five.utilities.marker import mark
 from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
@@ -12,7 +11,6 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.workspace.case import ICase
 from zope.component import getUtility
 from zope.component import queryUtility
 
@@ -241,19 +239,14 @@ def create_caseworkspaces(caseworkspaces):
     else:
         ws_folder = portal['workspaces']
 
-    pwft = api.portal.get_tool("portal_placeful_workflow")
     for w in caseworkspaces:
         contents = w.pop('contents', None)
         members = w.pop('members', [])
         caseworkspace = api.content.create(
             container=ws_folder,
-            type='ploneintranet.workspace.workspacefolder',
+            type='ploneintranet.workspace.case',
             **w
         )
-        mark(caseworkspace, ICase)
-        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
-        wfconfig.setPolicyIn("case_workflow")
-
         if contents is not None:
             create_ws_content(caseworkspace, contents)
         for m in members:
