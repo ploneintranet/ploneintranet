@@ -8,8 +8,8 @@ from zope.component import queryUtility
 
 
 def create_statusupdate(
-    context,
     text,
+    context=None,
     thread_id=None,
     mention_ids=None,
     tags=None,
