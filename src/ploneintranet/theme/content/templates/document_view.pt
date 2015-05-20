@@ -60,7 +60,7 @@
                 <textarea tal:condition="not:read_only" name="text" class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, linkCreate, linkRemove, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow" tal:content="python: context.text.raw if context.text else ''">
                     Content of the textarea
                 </textarea>
-                <span tal:condition="read_only" tal:replace="structure context/text/output" />
+                <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
               </article>
 
               <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
