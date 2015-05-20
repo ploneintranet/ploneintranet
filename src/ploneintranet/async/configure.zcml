@@ -12,4 +12,10 @@
             permission="zope.Public"
             />
 
+    <browser:page
+            name="convert-document"
+            for="*"
+            class=".ConvertDocument"
+            permission="zope2.View"
+            />
 </configure>
