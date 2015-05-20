@@ -16,6 +16,7 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamManager</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
@@ -40,12 +41,13 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamMember</permission-role>
-      <permission-role>Authenticated</permission-role>
+      <permission-role>TeamManager</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamManager</permission-role>
       <permission-role>Authenticated</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
@@ -63,12 +65,14 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamManager</permission-role>
       <permission-role>Authenticated</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamManager</permission-role>
       <permission-role>Authenticated</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">

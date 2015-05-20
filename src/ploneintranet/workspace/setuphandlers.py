@@ -22,10 +22,6 @@ def post_install(context):
     # Set up a group to hold all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID) is None:
         api.group.create(groupname=INTRANET_USERS_GROUP_ID)
-        # All users have Reader role on portal root
-        api.group.grant_roles(groupname=INTRANET_USERS_GROUP_ID,
-                              roles=['Reader', ],
-                              obj=portal)
 
     # Set up dynamic groups plugin to put all users into the above group
     pas = api.portal.get_tool('acl_users')
@@ -51,6 +47,7 @@ def post_install(context):
                              disable=['IGroupEnumerationPlugin'])
 
     # Set up the ploneintranet policy for all addable types
+    # Re-run ploneintranet.workspace:default after installing extra types!
     default_types = []
     types = api.portal.get_tool('portal_types')
     for type_info in types.listTypeInfo():
