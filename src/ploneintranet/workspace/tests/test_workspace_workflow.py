@@ -29,7 +29,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         api.content.transition(self.workspace_folder,
                                'make_private')
 
-        # FIXME admin
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.workspace_folder,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view private workspace')
+        self.assertTrue(admin_permissions['Access contents information'],
+                        'Admin cannot access contents of private workspace')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -49,7 +56,6 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertFalse(nonmember_permissions['Access contents information'],
                          'Non-member can access private workspace')
 
-        # An anonymous user should not be able to view or access the workspace
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.workspace_folder,
@@ -66,8 +72,6 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # default state is secret
         self.assertEqual(api.content.get_state(self.workspace_folder),
                          'secret')
-
-        # FIXME admin
 
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
@@ -96,7 +100,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertFalse(nonmember_permissions['Access contents information'],
                          'Non-member can access contents of secret workspace')
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view secret workspace')
+        self.assertFalse(anon_permissions['Access contents information'],
+                         'Anonymous can access contents of secret workspace')
 
     def test_open_workspace(self):
         """
@@ -109,7 +120,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         api.content.transition(self.workspace_folder,
                                'make_open')
 
-        # FIXME admin
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.workspace_folder,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'admin cannot view open workspace')
+        self.assertTrue(admin_permissions['Access contents information'],
+                        'admin cannot access contents of open workspace')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -129,7 +147,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertTrue(nonmember_permissions['Access contents information'],
                         'Non-Member cannot access contents of open workspace')
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view open workspace')
+        self.assertFalse(anon_permissions['Access contents information'],
+                         'Anonymous can access contents of open workspace')
 
     def test_modify_workspace(self):
         """
@@ -164,13 +189,25 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Editor can modify workspace content')
 
         member_permissions = api.user.get_permissions(
-            username='nonmember',
+            username='wsmember',
             obj=self.workspace_folder,
         )
         self.assertFalse(member_permissions['Modify portal content'],
                          'Member can modify workspace')
 
-        # FIXME nonmember, anon
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(nonmember_permissions['Modify portal content'],
+                         'Non-member can modify workspace')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(anon_permissions['Modify portal content'],
+                         'Anon can modify workspace')
 
     def test_manage_workspace(self):
         """
@@ -206,7 +243,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             'Non-Member can manage workspace'
         )
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(
+            anon_permissions['ploneintranet.workspace: Manage workspace'],
+            'Anon can manage workspace'
+        )
 
     def test_workspace_transitions(self):
         """
@@ -241,4 +285,29 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertEqual(api.content.get_state(self.workspace_folder),
                          'secret')
 
-        # FIXME member, nonmember, anon
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(
+            member_permissions['ploneintranet.workspace: Manage workspace'],
+            'Member can manage workspace'
+        )
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(
+            nonmember_permissions['ploneintranet.workspace: Manage workspace'],
+            'Non-member can manage workspace'
+        )
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertFalse(
+            anon_permissions['ploneintranet.workspace: Manage workspace'],
+            'Anon can manage workspace'
+        )

@@ -1,5 +1,6 @@
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from plone.app.testing import logout
 
 
 class TestContentWorkflow(BaseTestCase):
@@ -45,7 +46,7 @@ class TestContentWorkflow(BaseTestCase):
                          wftool.getWorkflowsFor(document_workspace)[0].id)
 
 
-class TestSecretWorkspaceContentWorkflow(BaseTestCase):
+class WorkspaceContentBaseTestCase(BaseTestCase):
 
     def setUp(self):
         BaseTestCase.setUp(self)
@@ -66,6 +67,9 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
             'Document',
             'document1')
 
+
+class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
+
     def test_setup_workflow_state(self):
         self.assertEqual(api.content.get_state(self.workspace_folder),
                          'secret',
@@ -82,8 +86,6 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
         self.assertTrue(admin_permissions['View'],
                         'Admin cannot view draft content')
 
-        # FIXME edit, review EVERYWHERE!
-
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
@@ -98,7 +100,12 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
         self.assertFalse(nonmember_permissions['View'],
                          'Non-member can view draft content')
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view draft content')
 
     def test_pending_state(self):
         """
@@ -128,7 +135,12 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
         self.assertFalse(nonmember_permissions['View'],
                          'nonmember can view pending content')
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view pending content')
 
     def test_published_state(self):
         """
@@ -159,4 +171,147 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
         self.assertFalse(nonmember_permissions['View'],
                          'user can view workspace content')
 
-        # FIXME anon
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view draft content')
+
+
+class TestPrivateWorkspaceContentWorkflow(TestSecretWorkspaceContentWorkflow):
+    """
+    Content in a private workspace should have the same security
+    View protections as content in a secret workspace.
+    Inherit the test.
+    """
+
+    def setUp(self):
+        TestSecretWorkspaceContentWorkflow.setUp(self)
+        api.content.transition(self.workspace_folder,
+                               'make_private')
+
+    def test_setup_workflow_state(self):
+        self.assertEqual(api.content.get_state(self.workspace_folder),
+                         'private',
+                         'workspace is in incorrect state')
+
+
+class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
+    """
+    Content in an open workspace has different View settings.
+    re-implement all test methods.
+    """
+
+    def setUp(self):
+        WorkspaceContentBaseTestCase.setUp(self)
+        api.content.transition(self.workspace_folder,
+                               'make_open')
+
+    def test_setup_workflow_state(self):
+        self.assertEqual(api.content.get_state(self.workspace_folder),
+                         'open',
+                         'workspace is in incorrect state')
+
+    def test_draft_state(self):
+        """
+        draft content can only be viewed by a team manager and owner
+        """
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view draft content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions['View'],
+                         'Member can view draft content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions['View'],
+                         'Non-member can view draft content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view draft content')
+
+    def test_pending_state(self):
+        """
+        team managers should be able to view pending items,
+        team members should not
+        """
+        api.content.transition(self.document, 'submit')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view pending content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions['View'],
+                         'member can view pending content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions['View'],
+                         'nonmember can view pending content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view pending content')
+
+    def test_published_state(self):
+        """
+        all team members should be able to see published content,
+        regular plone users should also
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document, 'publish')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions['View'],
+                        'Admin cannot view published content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertTrue(member_permissions['View'],
+                        'member cannot view published content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertTrue(nonmember_permissions['View'],
+                        'user cannot view workspace content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions['View'],
+                         'Anonymous can view draft content')
