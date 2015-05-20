@@ -1,4 +1,5 @@
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
+from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
@@ -16,6 +17,8 @@ class PloneintranetprofilesLayer(PloneSandboxLayer):
         PLONE_APP_TILES_FIXTURE
     )
 
+    products = ('Products.membrane', )
+
     def setUpZope(self, app, configurationContext):
         # Load ZCML
         xmlconfig.file(
@@ -23,6 +26,16 @@ class PloneintranetprofilesLayer(PloneSandboxLayer):
             ploneintranet.profiles,
             context=configurationContext
         )
+        for p in self.products:
+            z2.installProduct(app, p)
+
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'ploneintranet.profiles:default')
+
+    def tearDownZope(self, app):
+        """Tear down Zope."""
+        for p in reversed(self.products):
+            z2.uninstallProduct(app, p)
 
 
 PLONEINTRANET_PROFILES_FIXTURE = PloneintranetprofilesLayer()

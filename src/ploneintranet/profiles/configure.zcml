@@ -7,4 +7,19 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.profiles">
 
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <i18n:registerTranslations directory="locales" />
+
+  <include package="dexterity.membrane" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet Profiles"
+      directory="profiles/default"
+      description="Installs the ploneintranet.profiles package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
 </configure>
