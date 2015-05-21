@@ -6,18 +6,11 @@ Subpackages
 
 .. toctree::
 
+    ploneintranet.api.microblog
     ploneintranet.api.tests
 
 Submodules
 ----------
-
-ploneintranet.api.microblog module
-----------------------------------
-
-.. automodule:: ploneintranet.api.microblog
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 ploneintranet.api.testing module
 --------------------------------
