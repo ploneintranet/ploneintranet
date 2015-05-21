@@ -1,9 +1,11 @@
 from plone import api
-from plone.app.testing import logout
 from ploneintranet.workspace.tests.base import BaseTestCase
+from plone.app.testing import logout
+
+VIEW = 'View'
 
 
-class TestWorkflow(BaseTestCase):
+class TestContentWorkflow(BaseTestCase):
 
     def test_default_workflow(self):
         """
@@ -23,15 +25,15 @@ class TestWorkflow(BaseTestCase):
         self.login_as_portal_owner()
         wftool = api.portal.get_tool('portal_workflow')
 
-        # Check that a document has the default workflow
-        document = api.content.create(
+        # Check that a self.document has the default workflow
+        self.document = api.content.create(
             self.portal,
             'Document',
-            'document-portal'
+            'self.document-portal'
         )
-        self.assertTrue(wftool.getWorkflowsFor(document))
+        self.assertTrue(wftool.getWorkflowsFor(self.document))
 
-        # A document in the workspace should have the workspace workflow
+        # A self.document in the workspace should have the workspace workflow
         workspace_folder = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacefolder',
@@ -40,259 +42,278 @@ class TestWorkflow(BaseTestCase):
         document_workspace = api.content.create(
             workspace_folder,
             'Document',
-            'document-workspace'
+            'self.document-workspace'
         )
         self.assertEqual('ploneintranet_workflow',
                          wftool.getWorkflowsFor(document_workspace)[0].id)
+
+
+class WorkspaceContentBaseTestCase(BaseTestCase):
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        self.login_as_portal_owner()
+        api.user.create(username='wsadmin', email="admin@test.com")
+        api.user.create(username='wsmember', email="member@test.com")
+        api.user.create(username='nonmember', email="user@test.com")
+        self.workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='Welcome to my workspace')
+        self.add_user_to_workspace('wsmember', self.workspace_folder)
+        self.add_user_to_workspace('wsadmin', self.workspace_folder,
+                                   set(['Admins']))
+        self.document = api.content.create(
+            self.workspace_folder,
+            'Document',
+            'document1')
+
+
+class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
+
+    def test_setup_workflow_state(self):
+        self.assertEqual(api.content.get_state(self.workspace_folder),
+                         'secret',
+                         'workspace is in incorrect state')
 
     def test_draft_state(self):
         """
         draft content can only be viewed by a team manager and owner
         """
-        self.login_as_portal_owner()
-        # add non-member
-        api.user.create(username='nonmember', email="test@test.com")
-        api.user.create(username='wsadmin', email="admin@test.com")
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        self.assertEqual(api.content.get_state(workspace_folder),
-                         'secret',
-                         'workspace is in incorrect state')
-        self.add_user_to_workspace(
-            'wsadmin',
-            workspace_folder,
-            set(['Admins']))
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
-            obj=workspace_folder,
+            obj=self.document,
         )
-        self.assertTrue(admin_permissions['Modify portal content'],
-                        'Admin cannot modify workspace')
+        self.assertTrue(admin_permissions[VIEW],
+                        'Admin cannot view draft content')
 
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[VIEW],
+                         'Member can view draft content')
 
-        # a non-member should not be able to view a draft item
-        permissions = api.user.get_permissions(
+        nonmember_permissions = api.user.get_permissions(
             username='nonmember',
-            obj=document,
+            obj=self.document,
         )
-        self.assertFalse(permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'Non-member can view draft content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view draft content')
 
     def test_pending_state(self):
         """
         team managers should be able to view pending items,
         team members should not
         """
-        self.login_as_portal_owner()
-        api.user.create(username='wsmember', email="member@test.com")
-        api.user.create(username='wsadmin', email="admin@test.com")
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        self.add_user_to_workspace(
-            'wsadmin',
-            workspace_folder,
-            set(['Admins']))
-        self.add_user_to_workspace(
-            'wsmember',
-            workspace_folder)
-
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
-        api.content.transition(document, 'submit')
+        api.content.transition(self.document, 'submit')
 
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
-            obj=document,
+            obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view pending content')
+
         member_permissions = api.user.get_permissions(
             username='wsmember',
-            obj=document,
+            obj=self.document,
         )
-        self.assertFalse(member_permissions['View'],
+        self.assertFalse(member_permissions[VIEW],
                          'member can view pending content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[VIEW],
+                         'nonmember can view pending content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view pending content')
 
     def test_published_state(self):
         """
         all team members should be able to see published content,
         regualar plone user should not
         """
-        self.login_as_portal_owner()
-        api.user.create(username='nonmember', email="user@test.com")
-        api.user.create(username='wsmember', email="member@test.com")
-        api.user.create(username='wsadmin', email="admin@test.com")
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        self.add_user_to_workspace(
-            'wsadmin',
-            workspace_folder,
-            set(['Admins']))
-        self.add_user_to_workspace(
-            'wsmember',
-            workspace_folder)
-
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
-        api.content.transition(document, 'submit')
-        api.content.transition(document, 'publish')
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document, 'publish')
 
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
-            obj=document,
+            obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view published content')
+
         member_permissions = api.user.get_permissions(
             username='wsmember',
-            obj=document,
+            obj=self.document,
         )
-        self.assertTrue(member_permissions['View'],
+        self.assertTrue(member_permissions[VIEW],
                         'member cannot view published content')
-        user_permissions = api.user.get_permissions(
+
+        nonmember_permissions = api.user.get_permissions(
             username='nonmember',
-            obj=document,
+            obj=self.document,
         )
-        self.assertFalse(user_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'user can view workspace content')
-
-    def test_public_state(self):
-        """
-        all authenticated users should be able to see public content
-        anonymous users should not
-        """
-        self.login_as_portal_owner()
-        api.user.create(username='nonmember', email="user@test.com")
-        api.user.create(username='wsmember', email="member@test.com")
-        api.user.create(username='wsadmin', email="admin@test.com")
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
-        api.content.transition(workspace_folder, 'make_private')
-        self.add_user_to_workspace(
-            'wsadmin',
-            workspace_folder,
-            set(['Admins']))
-        self.add_user_to_workspace(
-            'wsmember',
-            workspace_folder)
-
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
-        api.content.transition(document, 'submit')
-        api.content.transition(document, 'publish')
-        api.content.transition(document, 'publish_public')
-
-        admin_permissions = api.user.get_permissions(
-            username='wsadmin',
-            obj=document,
-        )
-        self.assertTrue(admin_permissions['View'],
-                        'Admin cannot view restricted content')
-        self.assertTrue(admin_permissions['Access contents information'],
-                        'Admin cannot access restricted content')
-        member_permissions = api.user.get_permissions(
-            username='wsmember',
-            obj=document,
-        )
-        self.assertTrue(member_permissions['View'],
-                        'member cannot view restricted content')
-        self.assertTrue(member_permissions['Access contents information'],
-                        'member cannot access restricted content')
-        user_permissions = api.user.get_permissions(
-            username='nonmember',
-            obj=document,
-        )
-        self.assertTrue(user_permissions['View'],
-                        'user cannot view restricted workspace content')
-        self.assertTrue(user_permissions['Access contents information'],
-                        'user cannot access restricted workspace content')
 
         logout()
         anon_permissions = api.user.get_permissions(
-            obj=document
+            obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
-                         'anonymous can view restricted workspace content')
-        self.assertFalse(anon_permissions['Access contents information'],
-                         'anonymous can access restricted workspace content')
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view draft content')
 
-    def test_public_transition_private_workspace(self):
-        """
-        it should be possible to transition content to public in a private
-        workspace
-        """
-        self.login_as_portal_owner()
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
 
-        api.content.transition(workspace_folder,
+class TestPrivateWorkspaceContentWorkflow(TestSecretWorkspaceContentWorkflow):
+    """
+    Content in a private workspace should have the same security
+    View protections as content in a secret workspace.
+    Inherit the test.
+    """
+
+    def setUp(self):
+        TestSecretWorkspaceContentWorkflow.setUp(self)
+        api.content.transition(self.workspace_folder,
                                'make_private')
 
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
+    def test_setup_workflow_state(self):
+        self.assertEqual(api.content.get_state(self.workspace_folder),
+                         'private',
+                         'workspace is in incorrect state')
 
-        api.content.transition(document,
-                               'submit')
-        api.content.transition(document,
-                               'publish')
 
-        # Publish to the public
-        api.content.transition(document,
-                               'publish_public')
-        self.assertEqual(api.content.get_state(document),
-                         'public')
+class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
+    """
+    Content in an open workspace has different View settings.
+    re-implement all test methods.
+    """
 
-        # Restrict to workspace members
-        api.content.transition(document,
-                               'restrict')
-        self.assertEqual(api.content.get_state(document),
-                         'published')
+    def setUp(self):
+        WorkspaceContentBaseTestCase.setUp(self)
+        api.content.transition(self.workspace_folder,
+                               'make_open')
 
-    def test_public_transition_secret_workspace(self):
+    def test_setup_workflow_state(self):
+        self.assertEqual(api.content.get_state(self.workspace_folder),
+                         'open',
+                         'workspace is in incorrect state')
+
+    def test_draft_state(self):
         """
-        it should not be possible to make content in a secret workspace public
+        draft content can only be viewed by a team manager and owner
         """
-        self.login_as_portal_owner()
-        workspace_folder = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace')
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[VIEW],
+                        'Admin cannot view draft content')
 
-        document = api.content.create(
-            workspace_folder,
-            'Document',
-            'document1')
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[VIEW],
+                         'Member can view draft content')
 
-        api.content.transition(document,
-                               'submit')
-        api.content.transition(document,
-                               'publish')
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[VIEW],
+                         'Non-member can view draft content')
 
-        # It shouldn't be possible to transition the document to public
-        with self.assertRaises(api.exc.InvalidParameterError):
-            api.content.transition(document, 'publish_public')
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view draft content')
 
-        self.assertEqual(api.content.get_state(document),
-                         'published')
+    def test_pending_state(self):
+        """
+        team managers should be able to view pending items,
+        team members should not
+        """
+        api.content.transition(self.document, 'submit')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[VIEW],
+                        'Admin cannot view pending content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[VIEW],
+                         'member can view pending content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[VIEW],
+                         'nonmember can view pending content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view pending content')
+
+    def test_published_state(self):
+        """
+        all team members should be able to see published content,
+        regular plone users should also
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document, 'publish')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[VIEW],
+                        'Admin cannot view published content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertTrue(member_permissions[VIEW],
+                        'member cannot view published content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertTrue(nonmember_permissions[VIEW],
+                        'user cannot view workspace content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view draft content')

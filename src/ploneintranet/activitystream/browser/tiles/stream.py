@@ -25,10 +25,6 @@ class StreamTile(Tile):
         self.tag = self.data.get('tag')
         self.explore = 'network' not in self.data
 
-    @memoize
-    def is_anonymous(self):
-        return api.user.is_anonymous()
-
     @property
     @memoize
     def toLocalizedTime(self):
