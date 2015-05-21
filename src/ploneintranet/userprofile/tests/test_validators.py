@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from zope.component import getMultiAdapter
-from zope.interface import Interface
 from zope.interface import Invalid
 from z3c.form.interfaces import IValidator
 
@@ -28,7 +27,7 @@ class TestValidators(BaseTestCase):
             type='ploneintranet.userprofile.userprofile',
             id='johndoe',
             **params)
-        self.membrane_tool.reindexObject(profile)
+        plone_api.content.transition(profile, 'approve')
 
         validator = getMultiAdapter(
             (profile, self.request, None, IUserProfile['username'], None),

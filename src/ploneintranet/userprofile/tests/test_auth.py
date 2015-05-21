@@ -29,8 +29,6 @@ class TestAuth(BaseTestCase):
             id='johndoe',
             **params)
 
-        self.membrane_tool.reindexObject(profile)
-
         self.logout()
         self.login('johndoe')
         user = api.user.get_current()
