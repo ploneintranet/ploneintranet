@@ -7,9 +7,21 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.component import queryUtility
 
 
-def create_statusupdate(
-    context,
+def get(status_id):
+    """Get a status update by id.
+
+    :param status_id: The id of the status update
+    :type status_id: int
+    :returns: The matching StatusUpdate
+    :rtype: StatusUpdate
+    """
+    microblog = queryUtility(IMicroblogTool)
+    return microblog.get(status_id)
+
+
+def create(
     text,
+    context=None,
     thread_id=None,
     mention_ids=None,
     tags=None,
@@ -19,19 +31,19 @@ def create_statusupdate(
 ):
     """Create a status update (post).
 
-    :param context: [required] container of the post
-    :type context: Content object
-
     :param text: [required] text of the post
     :type text: Unicode object
+
+    :param context: Container of the post
+    :type context: Content object
 
     :param user: User who should post. By default the current user posts.
     :type user: user object
 
-    :param userid: userid of the user whi should post.
+    :param userid: userid of the user who should post.
     :type userid: string
 
-    :param time: time when the pst shoudl happen. By default the current time.
+    :param time: time when the post should happen. By default the current time.
     :type time: datetime object
 
     :returns: Newly created statusupdate

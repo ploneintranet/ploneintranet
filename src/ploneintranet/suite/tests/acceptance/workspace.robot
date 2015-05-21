@@ -103,15 +103,20 @@ Alice can upload a file
 Christian can submit a document
     Given I am logged in as the user christian_stoney
       And I go to the Open Market Committee Workspace
-      And I can create a new document    My awesome document
-     Then I can submit the content item
+     When I can create a new document    My awesome document
+     Then I can edit the document
+     When I submit the content item
+     Then I cannot edit the document
 
 Christian can submit and retract a document
     Given I am logged in as the user christian_stoney
       And I go to the Open Market Committee Workspace
-      And I can create a new document    My substandard document
-     Then I can submit the content item
-      And I can retract the content item
+     When I can create a new document    My substandard document
+     Then I can edit the document
+     When I submit the content item
+     Then I cannot edit the document
+     When I retract the content item
+     Then I can edit the document
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -358,12 +363,23 @@ The file appears in the sidebar
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
 
-I can submit the content item
+I submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending review')]
     Wait until page contains  The workflow state has been changed
+    Click button  Close
 
-I can retract the content item
+I retract the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Private')]
     Wait until page contains  The workflow state has been changed
+    Click button  Close
+
+I can edit the document
+    Element should be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
+    Element should be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
+I cannot edit the document
+    Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
+    Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+

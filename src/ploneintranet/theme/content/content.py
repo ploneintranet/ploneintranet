@@ -45,6 +45,11 @@ class ContentView(BrowserView):
                 obj=context,
                 transition=self.request.get('workflow_action')
             )
+            # re-calculate can_edit after the workflow state change
+            self.can_edit = api.user.has_permission(
+                'Modify portal content',
+                obj=context
+            )
             api.portal.show_message(_(
                 "The workflow state has been changed."), request=self.request,
                 type="info")

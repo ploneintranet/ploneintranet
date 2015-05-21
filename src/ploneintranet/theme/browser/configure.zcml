@@ -95,10 +95,19 @@
 
   <browser:page
       name="dashboard.html"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".dashboard.Dashboard"
       permission="ploneintranet.viewsite"
       template="templates/dashboard.pt"
+      layer="..interfaces.IThemeSpecific"
+      />
+
+  <browser:page
+      name="workspaces.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".workspace.Workspaces"
+      permission="ploneintranet.viewsite"
+      template="templates/workspaces.pt"
       layer="..interfaces.IThemeSpecific"
       />
 
