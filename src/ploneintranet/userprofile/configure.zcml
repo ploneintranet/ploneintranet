@@ -11,6 +11,8 @@
 
   <include package="dexterity.membrane" />
 
+  <include package=".content" />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet Profiles"

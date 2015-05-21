@@ -25,6 +25,7 @@ class TestAuth(BaseTestCase):
 
     def test_user_login(self):
         params = {
+            'username': 'johndoe',
             'first_name': u'John',
             'last_name': u'Doe',
             'email': "johndoe@example.com",
@@ -39,12 +40,12 @@ class TestAuth(BaseTestCase):
         self.mtool.reindexObject(profile)
 
         self.logout()
-        self.login('johndoe@example.com')
+        self.login('johndoe')
         user = api.user.get_current()
         self.assertEqual(
-            profile.email,
+            profile.username,
             user.getUserName())
 
         self.logout()
         with self.assertRaises(ValueError):
-            self.login('janedoe@example.com')
+            self.login('janedoe')
