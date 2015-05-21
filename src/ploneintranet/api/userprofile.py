@@ -95,5 +95,6 @@ def create(
 
     if approve:
         plone_api.content.transition(profile, 'approve')
+        profile.reindexObject()
 
     return profile

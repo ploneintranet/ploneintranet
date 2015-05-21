@@ -24,6 +24,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         # Force status updates to be immediately written
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
         z2.installProduct(app, 'Products.membrane')
+        z2.installProduct(app, 'collective.indexing')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.userprofile:default')
@@ -33,6 +34,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         # Reset status update queue age
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         z2.uninstallProduct(app, 'Products.membrane')
+        z2.uninstallProduct(app, 'collective.indexing')
 
 
 FIXTURE = PloneintranetApiLayer()
