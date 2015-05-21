@@ -75,7 +75,6 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <permission-role>Reviewer</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
