@@ -2,6 +2,8 @@ from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone.app.testing import logout
 
+VIEW = 'View'
+
 
 class TestContentWorkflow(BaseTestCase):
 
@@ -83,28 +85,28 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view draft content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertFalse(member_permissions['View'],
+        self.assertFalse(member_permissions[VIEW],
                          'Member can view draft content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertFalse(nonmember_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'Non-member can view draft content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
 
     def test_pending_state(self):
@@ -118,28 +120,28 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view pending content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertFalse(member_permissions['View'],
+        self.assertFalse(member_permissions[VIEW],
                          'member can view pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertFalse(nonmember_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'nonmember can view pending content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view pending content')
 
     def test_published_state(self):
@@ -154,28 +156,28 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view published content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertTrue(member_permissions['View'],
+        self.assertTrue(member_permissions[VIEW],
                         'member cannot view published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertFalse(nonmember_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'user can view workspace content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
 
 
@@ -221,28 +223,28 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view draft content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertFalse(member_permissions['View'],
+        self.assertFalse(member_permissions[VIEW],
                          'Member can view draft content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertFalse(nonmember_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'Non-member can view draft content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
 
     def test_pending_state(self):
@@ -256,28 +258,28 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view pending content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertFalse(member_permissions['View'],
+        self.assertFalse(member_permissions[VIEW],
                          'member can view pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertFalse(nonmember_permissions['View'],
+        self.assertFalse(nonmember_permissions[VIEW],
                          'nonmember can view pending content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view pending content')
 
     def test_published_state(self):
@@ -292,26 +294,26 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             username='wsadmin',
             obj=self.document,
         )
-        self.assertTrue(admin_permissions['View'],
+        self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view published content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
             obj=self.document,
         )
-        self.assertTrue(member_permissions['View'],
+        self.assertTrue(member_permissions[VIEW],
                         'member cannot view published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
             obj=self.document,
         )
-        self.assertTrue(nonmember_permissions['View'],
+        self.assertTrue(nonmember_permissions[VIEW],
                         'user cannot view workspace content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
-        self.assertFalse(anon_permissions['View'],
+        self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
