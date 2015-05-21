@@ -234,11 +234,19 @@ def create_workspaces(workspaces):
 def create_ws_content(parent, contents):
     for content in contents:
         sub_contents = content.pop('contents', None)
+        owner = content.pop('owner', None)
         state = content.pop('state', None)
         obj = api.content.create(
             container=parent,
             **content
         )
+        if owner is not None:
+            api.user.grant_roles(
+                username=owner,
+                roles=['Owner'],
+                obj=obj,
+            )
+            obj.reindexObject()
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
@@ -479,7 +487,6 @@ def testing(context):
                'contents':
                    [{'title': 'Preparation of Records',
                      'description': 'How to prepare records',
-                     'state': 'published',
                      'type': 'File'},
                     {'title': 'Public bodies reform',
                      'description': 'Making arrangements for the transfer of '
@@ -494,23 +501,25 @@ def testing(context):
                                     'rates when it becomes appropriate to do '
                                     'so, and to controlling the level of '
                                     'short-term interest rates ',
+                     'owner': 'allan_neece',
                      'type': 'Document'},
                     {'title': u'Budget Proposal',
                      'description': (
                          u'A diagram of the factors impacting the budget and '
                          u'results'
                      ),
+                     'owner': 'allan_neece',
                      'image': budget_proposal_img,
                      'type': 'Image',
                      },
                     {'title': u'Minutes',
+                     'owner': 'allan_neece',
                      'description': u'Meeting Minutes',
                      'file': minutes_file,
                      'type': 'File',
                      }]},
               {'title': 'Projection Materials',
                'type': 'Folder',
-               'state': 'published',
                'contents':
                    [{'title': 'Projection Material',
                      'type': 'File'}]},
