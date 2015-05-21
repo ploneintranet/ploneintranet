@@ -16,7 +16,11 @@ Test Teardown  Close all browsers
 
 Manager can create a workspace
     Given I'm logged in as a 'Manager'
-     Then I can create a new workspace
+     Then I can create a new workspace    My new workspace
+
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+    Then I can create a new workspace    My user workspace
 
 Breadcrumbs are not borked
     Given I'm logged in as a 'Manager'
@@ -175,11 +179,12 @@ Christian can submit and retract a document
 *** Keywords ***
 
 I can create a new workspace
+    [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces.html
     Click Link  link=Create Workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=New Workspace
-    Input Text  name=form.widgets.IBasic.description  text=A new Workspace
+    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=form.widgets.IBasic.description  text=Random description
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
