@@ -113,6 +113,7 @@ docker-run:
                 -v $(HOME)/.bashrc:/.bashrc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
                 -v $(HOME)/.gitignore:/.gitignore \
+                -v $(HOME)/.pypirc:/.pypirc \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
 		-e LC_ALL=en_US.UTF-8 \
 		-e LANG=en_US.UTF-8 \
