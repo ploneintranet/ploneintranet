@@ -41,7 +41,7 @@ def create(
     username,
     email=None,
     password=None,
-    roles=('Member', ),
+    approve=False,
     properties=None
 ):
     """Create a Plone Intranet user profile.
@@ -54,6 +54,9 @@ def create(
     :param password: Password for the new user. If it's not set we generate
         a random 12-char alpha-numeric one.
     :type password: string
+    :param approve: If True, the user profile will be automatically approved
+        and be able to log in.
+    :type approve: boolean
     :param properties: User properties to assign to the new user.
     :type properties: dict
     :returns: Newly created user
@@ -90,5 +93,7 @@ def create(
         password=password,
         **properties)
 
-    # TODO - set roles??
+    if approve:
+        plone_api.content.transition(profile, 'approve')
+
     return profile
