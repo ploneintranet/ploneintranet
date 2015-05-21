@@ -11,6 +11,7 @@
 
   <include package="dexterity.membrane" />
 
+  <include package=".browser" />
   <include package=".content" />
 
   <genericsetup:registerProfile

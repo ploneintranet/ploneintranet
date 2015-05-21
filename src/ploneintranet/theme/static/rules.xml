@@ -79,7 +79,10 @@
 
   <rules css:if-content="body.template-userprofile-view">
     <theme href="generated/liz-baker/index.html" />
-    <append css:content-children="#portal-column-content" css:theme="div.container" />
+    <drop css:theme-children="#person-timeline aside" />
+    <drop css:theme-children="#person-timeline div.columns" />
+    <append css:content-children="#portal-column-content aside" css:theme="aside" />
+    <append css:content-children="#portal-column-content #main" css:theme="div.columns" />
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->
