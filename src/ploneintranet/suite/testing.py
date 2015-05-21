@@ -48,6 +48,8 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
+        z2.installProduct(app, 'Products.membrane')
+
     def setUpPloneSite(self, portal):
         # setup the default workflow
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
@@ -60,6 +62,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
+        z2.uninstallProduct(app, 'Products.membrane')
 
 
 PLONEINTRANET_SUITE = PloneIntranetSuite()
