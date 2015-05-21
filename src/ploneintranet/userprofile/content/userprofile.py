@@ -36,7 +36,7 @@ class IUserProfile(form.Schema):
     )
 
 
-def primaryLocationVocabulary():
+def primaryLocationVocabulary(context):
     # TODO: Locations should be stored in portal_registry for the time being.
     locations = [(u'L', u'London'), (u'P', u'Paris'), (u'B', u'Berlin')]
     terms = []
