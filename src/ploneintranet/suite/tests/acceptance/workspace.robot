@@ -35,24 +35,25 @@ Member can view sidebar info
     Given I am in a workspace as a workspace member
     I can go to the sidebar info tile
 
-Member can view sidebar events
-    Given I am in a workspace as a workspace member
-     Then I can go to the sidebar events tile
-      And I can see upcoming events
-    Older events are hidden
+# Member can view sidebar events
+#     Given I am in a workspace as a workspace member
+#      Then I can go to the sidebar events tile
+#      Debug
+#       And I can see upcoming events
+#     Older events are hidden
 
 #Member can delete sidebar events
 #     Given I am in a workspace as a workspace member
 #     I can go to the sidebar events tile
 #     I can delete an old event
 
-Manager can view sidebar tasks
-    Given I am in a workspace as a workspace admin
-    Then I can go to the sidebar tasks tile
+# Manager can view sidebar tasks
+#     Given I am in a workspace as a workspace admin
+#     Then I can go to the sidebar tasks tile
 
-Member can view sidebar tasks
-    Given I am in a workspace as a workspace member
-     Then I can go to the sidebar tasks tile
+# Member can view sidebar tasks
+#     Given I am in a workspace as a workspace member
+#      Then I can go to the sidebar tasks tile
 
 Traverse Folder in sidebar navigation
     Given I am in a workspace as a workspace member
