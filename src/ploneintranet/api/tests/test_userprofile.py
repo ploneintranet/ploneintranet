@@ -1,3 +1,5 @@
+from zope.interface import Invalid
+
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
@@ -16,6 +18,13 @@ class TestUserProfile(IntegrationTestCase):
         )
 
         self.login('johndoe')
+
+        # Cannot create another with same username
+        with self.assertRaises(Invalid):
+            pi_api.userprofile.create(
+                username='johndoe',
+                email='foobar@doe.com',
+            )
 
     def test_get(self):
         profile = pi_api.userprofile.create(

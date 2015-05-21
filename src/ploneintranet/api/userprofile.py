@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 import string
 import random
+
+from Products.CMFPlone.utils import safe_unicode
+from zope.component import getMultiAdapter
+from z3c.form.interfaces import IValidator
 from plone import api as plone_api
+
+from ploneintranet.userprofile.content.userprofile import IUserProfile
 
 
 def get(username):
@@ -62,13 +68,19 @@ def create(
     :returns: Newly created user
     :rtype: `ploneintranet.userprofile.userprofile` object
     """
+    portal = plone_api.portal.get()
+
+    # We have to manually validate the username
+    validator = getMultiAdapter(
+        (portal, None, None, IUserProfile['username'], None),
+        IValidator)
+    validator.validate(safe_unicode(username))
 
     # Generate a random password
     if not password:
         chars = string.ascii_letters + string.digits
         password = ''.join(random.choice(chars) for x in range(12))
 
-    portal = plone_api.portal.get()
     # Look up the profiles container; Create if none
     try:
         profile_container = portal.contentValues(
