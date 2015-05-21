@@ -1,15 +1,18 @@
-from plone import api as plone_api
-from plone.app.textfield import RichText
-from plone.dexterity.content import Container
-from plone.directives import form
-from plone.namedfile.field import NamedBlobImage
 from z3c.form import validator
 from zope import schema
+from zope.interface import alsoProvides
 from zope.interface import directlyProvides
 from zope.interface import implementer
 from zope.interface import Invalid
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+
+from plone import api as plone_api
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.app.textfield import RichText
+from plone.dexterity.content import Container
+from plone.directives import form
+from plone.namedfile.field import NamedBlobImage
 
 from ploneintranet.userprofile import _
 
@@ -46,43 +49,46 @@ def primaryLocationVocabulary(context):
 directlyProvides(primaryLocationVocabulary, IContextSourceBinder)
 
 
-class IUserProfileDefault(form.Schema):
+class IUserProfileAdditional(form.Schema):
 
-    """User profile default schema."""
+    """Default additional fields for UserProfile."""
 
     telephone = schema.TextLine(
         title=_(u"Telephone Number"),
-        required=True
+        required=False
     )
     mobile = schema.TextLine(
         title=_(u"Mobile Number"),
-        required=True
+        required=False
     )
     time_zone = schema.TextLine(
         title=_(u"Time Zone"),
-        required=True
+        required=False
     )
     primary_location = schema.Choice(
         title=_(u"Primary location"),
         source=primaryLocationVocabulary,
-        required=True
+        required=False
     )
     biography = RichText(
         title=_(u"Biography"),
-        required=True
+        required=False
     )
     photo = NamedBlobImage(
         title=_(u"Photo"),
-        required=True
+        required=False
     )
     job_title = schema.TextLine(
         title=_(u"Job title"),
-        required=True
+        required=False
     )
     department = schema.TextLine(
         title=_(u"Department"),
-        required=True
+        required=False
     )
+
+
+alsoProvides(IUserProfileAdditional, IFormFieldProvider)
 
 
 @implementer(IUserProfile)
