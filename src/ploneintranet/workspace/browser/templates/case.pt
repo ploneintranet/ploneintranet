@@ -11,7 +11,8 @@
                    tal:define="workspace view/workspace;
                                workspace_url python:workspace.absolute_url();
                                mm_seq view/metromap_sequence;
-                               transition_icons view/transition_icons">
+                               transition_icons view/transition_icons;
+                               existing_users_by_id workspace/existing_users_by_id">
       <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
         <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
@@ -45,12 +46,15 @@
                                  tal:content="task/title"/>
 					        </p>
 					        <p class="step-assignee"
-                               tal:define="due_date python:task['due']">
+                               tal:define="due_date task/due;
+                                           user_details python:existing_users_by_id.get(task.get('assignee'))">
 	                          <a href="" class="pat-avatar "  id="">
-		                        <img src="/media/avatar-guido-stevens.jpg" alt="" />
+                                <img tal:attributes="src user_details/portrait;
+                                                     alt user_details/title;
+                                                     title user_details/description"/>
 	                          </a>
 					          <time class="date" tal:condition="due_date"
-                                    tal:attributes="datetime task/due"
+                                    tal:attributes="datetime due_date"
                                     tal:content="python:due_date.strftime('%d %b')">2 Jan</time>
 					        </p>
 				          </li>
@@ -63,7 +67,7 @@
                        tal:define="milestone python:mm_seq[milestone_id]"
                        tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
 				      <a class="link"
-                         tal:content="python:milestone['transition_title']" />
+                         tal:content="milestone/transition_title" />
 				    </p>
                   </tal:state_index>
                 </li>
