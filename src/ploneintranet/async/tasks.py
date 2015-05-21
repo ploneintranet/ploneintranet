@@ -10,7 +10,7 @@ class PreviewGenerationException(Exception):
 
 
 @task
-def generate_and_add_preview(url, cookie):
+def generate_and_add_preview(url, cookies):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
     for the given URL and add it to the object
@@ -25,8 +25,8 @@ def generate_and_add_preview(url, cookie):
         'action': 'add',
         'url': url
     }
-    resp = requests.get('http://localhost:8000/@@generate-preview',
-                        params=params,
-                        cookies=cookie)
+
+    url = url + '/@@convert-document'
+    resp = requests.post(url, params=params, cookies=cookies)
     if resp.status_code != 200:
         raise PreviewGenerationException

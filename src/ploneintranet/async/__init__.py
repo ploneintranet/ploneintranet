@@ -2,10 +2,8 @@ __author__ = 'benc'
 
 from Products.Five import BrowserView
 from plone import api
-from plone.protect import PostOnly
+# from plone.protect import PostOnly
 from plone.protect.interfaces import IDisableCSRFProtection
-from ploneintranet.async.celerytasks import message
-from ploneintranet.docconv.client import handlers
 from zope.interface import alsoProvides
 
 
@@ -30,7 +28,8 @@ class ConvertDocument(BrowserView):
     """
 
     def __call__(self):
-        PostOnly(self.request)
+        # PostOnly(self.request)
         alsoProvides(self.request, IDisableCSRFProtection)
-        handlers._update_preview_images(self.context, event=None)
+        from ploneintranet.docconv.client.interfaces import IPreviewFetcher
+        IPreviewFetcher(self.context)()
         return 'OK'
