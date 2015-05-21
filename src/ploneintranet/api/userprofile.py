@@ -88,7 +88,7 @@ def create(
         container=profile_container,
         type='ploneintranet.userprofile.userprofile',
         id=username,
-        #  username=username,
+        username=username,
         email=email,
         password=password,
         **properties)
