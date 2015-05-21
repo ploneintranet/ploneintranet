@@ -9,12 +9,11 @@ class TestAuth(BaseTestCase):
     def setUp(self):
         super(TestAuth, self).setUp()
         self.login_as_portal_owner()
-        self.mtool = api.portal.get_tool('membrane_tool')
 
     def test_profile_is_membrane_type(self):
         self.assertIn(
             'ploneintranet.userprofile.userprofile',
-            self.mtool.listMembraneTypes())
+            self.membrane_tool.listMembraneTypes())
 
     def test_user_login(self):
         params = {
@@ -30,7 +29,7 @@ class TestAuth(BaseTestCase):
             id='johndoe',
             **params)
 
-        self.mtool.reindexObject(profile)
+        self.membrane_tool.reindexObject(profile)
 
         self.logout()
         self.login('johndoe')
