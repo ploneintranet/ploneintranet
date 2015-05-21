@@ -56,7 +56,6 @@ class TestSetupHandlers(BaseTestCase):
             'Document',
             'Event',
             'File',
-            'Folder',
             'Image',
             'Link',
             'News Item',
