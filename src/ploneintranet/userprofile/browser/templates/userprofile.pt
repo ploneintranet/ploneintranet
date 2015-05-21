@@ -10,22 +10,49 @@
         <metal:content fill-slot="content"
 		       tal:define="is_me view/is_me">
             <aside>
-		<figure class="user-portrait">
-		    <img class="pat-avatar" 
-			 tal:attributes="src view/avatar_url"
-			 src="{{ page.image_url }}" 
-			 alt="Image of {{ page.title }}" />
-		    <figcaption tal:condition="is_me">
-			<textarea name="status-message" id="" cols="30" rows="3" class="status-message">{{ page.status }}</textarea>
-		    </figcaption>
-		    <figcaption class="status-message"
-				tal:condition="not:is_me">
-			<h1>{{ page.title }}</h1>
-			<p>
-			    {{ page.status }}
-			</p>
-		    </figcaption>
-		</figure>
+                <figure class="user-portrait">
+                    <img class="pat-avatar"
+        			 tal:attributes="src view/avatar_url"
+        			 src="{{ page.image_url }}"
+                     alt="Image of {{ page.title }}" />
+                    <figcaption tal:condition="is_me">
+                    <textarea name="status-message" id="" cols="30" rows="3" class="status-message">{{ page.status }}</textarea>
+                    </figcaption>
+                    <figcaption class="status-message"
+                        tal:condition="not:is_me">
+                    <h1 tal:content="context/fullname" />
+                    <p>
+                        {{ page.status }}
+                    </p>
+                    </figcaption>
+        		</figure>
+
+                <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
+                    <form action="/feedback/feedback-following.html?action=follow#portlet-follow" class="pat-inject" data-pat-inject="#portlet-follow && .link-following">
+                        <fieldset class="button-bar centred">
+                            <button class="icon-eye" tal:attributes="title string:Click to follow ${context/fullname}"><strong i18n:translate="">Follow</strong> <span tal:replace="context/fullname" /></button>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="portlet contact" id="portlet-contact">
+                    <h2 class="portlet-title">
+                        <a href="#person-info" i18n:translate="">Contact</a>
+                    </h2>
+                    <ul class="menu">
+                        <li class="mail">
+                            <a class="icon-mail" tal:attributes="title string:Mail ${context/fullname} via ${context/email}" tal:attributes="href string:mailto:${context/email}" tal:content="context/email" />
+                        </li>
+                        <li class="phone" tal:condition="context/mobile|nothing">
+                            <a class="icon-phone" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}"
+                            tal:content="context/mobile"></a>
+                        </li>
+                    </ul>
+                    <p class="portlet-footer">
+                        <a href="#person-info"><i18n:block i18n:translate="">More information about</i18n:block> <span tal:replace="context/fullname" />.</a>
+                    </p>
+                </div>
+
             </aside>
             <div id="main">
                 Timeline and co
