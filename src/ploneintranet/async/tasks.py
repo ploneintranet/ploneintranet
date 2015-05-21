@@ -1,7 +1,7 @@
 from .celerytasks import generate_and_add_preview
 
 
-def queueConversionJob(context, request=None):
+def initiate_preview_generation(context, request=None):
     if request is None:
         request = context.REQUEST
 
