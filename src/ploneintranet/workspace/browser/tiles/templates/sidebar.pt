@@ -276,7 +276,7 @@
               </tal:workspace_tasks>
 
               <tal:case_tasks condition="ws/is_case"
-                              define="milestones ws_view/metromap_sequence">
+                              define="milestones ws_view/metromap_sequence | nothing">
                 <tal:milestone repeat="milestone milestones">
 
                     <fieldset class="task-list pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
