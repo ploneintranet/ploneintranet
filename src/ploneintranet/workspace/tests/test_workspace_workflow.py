@@ -7,6 +7,8 @@ VIEW = 'View'
 ACCESS = 'Access contents information'
 MODIFY = 'Modify portal content'
 MANAGE = 'ploneintranet.workspace: Manage workspace'
+ADD_STATUS = 'Plone Social: Add Microblog Status Update'
+VIEW_STATUS = 'Plone Social: View Microblog Status Update'
 
 
 class TestWorkSpaceWorkflow(BaseTestCase):
@@ -42,6 +44,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Admin cannot view private workspace')
         self.assertTrue(admin_permissions[ACCESS],
                         'Admin cannot access contents of private workspace')
+        self.assertTrue(admin_permissions[ADD_STATUS],
+                        'Admin cannot add status updates')
+        self.assertTrue(admin_permissions[VIEW_STATUS],
+                        'Admin cannot view status updates')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -51,6 +57,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot view private workspace')
         self.assertTrue(member_permissions[ACCESS],
                         'Member cannot access contents of private workspace')
+        self.assertTrue(member_permissions[ADD_STATUS],
+                        'Member cannot add status updates')
+        self.assertTrue(member_permissions[VIEW_STATUS],
+                        'Member cannot view status updates')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -60,6 +70,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Non-member cannot view private workspace')
         self.assertFalse(nonmember_permissions[ACCESS],
                          'Non-member can access private workspace')
+        self.assertFalse(nonmember_permissions[ADD_STATUS],
+                         'Non-member can add status updates')
+        self.assertFalse(nonmember_permissions[VIEW_STATUS],
+                         'Non-member can view status updates')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -69,6 +83,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anonymous can view private workspace')
         self.assertFalse(anon_permissions[ACCESS],
                          'Anonymous can access contents of private workspace')
+        self.assertFalse(anon_permissions[ADD_STATUS],
+                         'Anon can add status updates')
+        self.assertFalse(anon_permissions[VIEW_STATUS],
+                         'Anon can view status updates')
 
     def test_secret_workspace(self):
         """
@@ -86,6 +104,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'admin cannot view secret workspace')
         self.assertTrue(admin_permissions[ACCESS],
                         'admin cannot access contents of secret workspace')
+        self.assertTrue(admin_permissions[ADD_STATUS],
+                        'Admin cannot add status updates')
+        self.assertTrue(admin_permissions[VIEW_STATUS],
+                        'Admin cannot view status updates')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -95,6 +117,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot view secret workspace')
         self.assertTrue(member_permissions[ACCESS],
                         'Member cannot access contents of secret workspace')
+        self.assertTrue(member_permissions[ADD_STATUS],
+                        'Member cannot add status updates')
+        self.assertTrue(member_permissions[VIEW_STATUS],
+                        'Member cannot view status updates')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -104,6 +130,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Non-member can view secret workspace')
         self.assertFalse(nonmember_permissions[ACCESS],
                          'Non-member can access contents of secret workspace')
+        self.assertFalse(nonmember_permissions[ADD_STATUS],
+                         'Non-member can add status updates')
+        self.assertFalse(nonmember_permissions[VIEW_STATUS],
+                         'Non-member can view status updates')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -113,6 +143,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anonymous can view secret workspace')
         self.assertFalse(anon_permissions[ACCESS],
                          'Anonymous can access contents of secret workspace')
+        self.assertFalse(anon_permissions[ADD_STATUS],
+                         'Anon can add status updates')
+        self.assertFalse(anon_permissions[VIEW_STATUS],
+                         'Anon can view status updates')
 
     def test_open_workspace(self):
         """
@@ -133,6 +167,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'admin cannot view open workspace')
         self.assertTrue(admin_permissions[ACCESS],
                         'admin cannot access contents of open workspace')
+        self.assertTrue(admin_permissions[ADD_STATUS],
+                        'Admin cannot add status updates')
+        self.assertTrue(admin_permissions[VIEW_STATUS],
+                        'Admin cannot view status updates')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -142,6 +180,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot view open workspace')
         self.assertTrue(member_permissions[ACCESS],
                         'Member cannot access contents of open workspace')
+        self.assertTrue(member_permissions[ADD_STATUS],
+                        'Member cannot add status updates')
+        self.assertTrue(member_permissions[VIEW_STATUS],
+                        'Member cannot view status updates')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -151,6 +193,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Non-Member cannot view open workspace')
         self.assertTrue(nonmember_permissions[ACCESS],
                         'Non-Member cannot access contents of open workspace')
+        self.assertFalse(nonmember_permissions[ADD_STATUS],
+                         'Non-member can add status updates')
+        self.assertTrue(nonmember_permissions[VIEW_STATUS],
+                        'Non-member cannot view status updates')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -160,6 +206,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anonymous can view open workspace')
         self.assertFalse(anon_permissions[ACCESS],
                          'Anonymous can access contents of open workspace')
+        self.assertFalse(anon_permissions[ADD_STATUS],
+                         'Anon can add status updates')
+        self.assertFalse(anon_permissions[VIEW_STATUS],
+                         'Anon can view status updates')
 
     def test_modify_workspace(self):
         """
