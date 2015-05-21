@@ -35,6 +35,10 @@ Member can view sidebar info
     Given I am in a workspace as a workspace member
     I can go to the sidebar info tile
 
+# The following tests are commented out, since we currently have no concept
+# for adding events in a workspace. Relying on globally available events (the
+# reason why these tests used to be passing) is not valid.
+
 # Member can view sidebar events
 #     Given I am in a workspace as a workspace member
 #      Then I can go to the sidebar events tile
@@ -46,6 +50,10 @@ Member can view sidebar info
 #     Given I am in a workspace as a workspace member
 #     I can go to the sidebar events tile
 #     I can delete an old event
+
+# The following tests are commented out, since we currently have no concept
+# for adding tasks in a workspace. Relying on globally available tasks (the
+# reason why these tests used to be passing) is not valid.
 
 # Manager can view sidebar tasks
 #     Given I am in a workspace as a workspace admin
