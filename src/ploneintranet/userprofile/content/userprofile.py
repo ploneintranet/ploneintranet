@@ -102,14 +102,13 @@ class UsernameValidator(validator.SimpleFieldValidator):
 
     """Two users can't have the same username."""
 
-    def validate(self, value):
-        super(UsernameValidator, self).validate(value)
+    def validate(self, value, force=False):
         membrane_tool = plone_api.portal.get_tool('membrane_tool')
-        brains = membrane_tool.searchResults(
-            username=value,
-            portal_type='ploneintranet.userprofile.userprofile')
-        if brains:
+        usernames = membrane_tool._catalog.uniqueValuesFor('exact_getUserName')
+        if value in usernames:
             raise Invalid(_("A user with this username already exists"))
+
+        return super(UsernameValidator, self).validate(value)
 
 
 validator.WidgetValidatorDiscriminators(

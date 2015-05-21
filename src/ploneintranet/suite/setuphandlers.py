@@ -11,6 +11,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet import api as pi_api
 from zope.component import getUtility
 from zope.component import queryUtility
 
@@ -55,16 +56,15 @@ def create_users(context, users, avatars_dir):
             'location': user.get('location', u"Unknown"),
             'description': user.get('description', u"")
         }
-        try:
-            api.user.create(
-                email=email,
-                username=userid,
-                password='secret',
-                properties=properties
-            )
-        except ValueError:
-            user = api.user.get(username=userid)
-            user.setMemberProperties(properties)
+        profile = pi_api.userprofile.create(
+            username=userid,
+            email=email,
+            password='secret',
+            approve=True,
+            properties=properties,
+        )
+        api.portal.get_tool('membrane_tool').reindexObject(profile)
+
         logger.info('Created user {}'.format(userid))
         portrait_filename = os.path.join(avatars_dir, file_name)
         portrait = context.openDataFile(portrait_filename)

@@ -17,7 +17,7 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
         PLONE_APP_TILES_FIXTURE
     )
 
-    products = ('Products.membrane', )
+    products = ('collective.indexing', 'Products.membrane')
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
