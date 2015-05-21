@@ -1,7 +1,7 @@
 import responses
 
 from ..testing import IntegrationTestCase
-from ..tasks import generate_and_add_preview, PreviewGenerationException
+from ..celerytasks import generate_and_add_preview, PreviewGenerationException
 
 
 class TestAsyncTasks(IntegrationTestCase):

@@ -4,7 +4,7 @@ from zope.annotation import IAnnotations
 from zope.interface import Interface
 
 from ploneintranet.docconv.client import is_autoconv_enabled
-from ploneintranet.docconv.client.async import queueConversionJob
+from ploneintranet.async.tasks import queueConversionJob
 from ploneintranet.docconv.client.config import PDF_VERSION_KEY
 from ploneintranet.docconv.client.config import PREVIEW_IMAGES_KEY
 from ploneintranet.docconv.client.config import PREVIEW_MESSAGE_KEY
