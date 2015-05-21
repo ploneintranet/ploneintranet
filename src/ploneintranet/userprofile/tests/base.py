@@ -1,4 +1,5 @@
 import unittest2 as unittest
+from plone import api as plone_api
 from plone.testing import z2
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing import login
@@ -15,6 +16,10 @@ class BaseTestCase(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.portal.REQUEST
+        self.profiles = plone_api.content.create(
+            title="Profiles",
+            type="ploneintranet.userprofile.userprofilecontainer",
+            container=self.portal)
 
     def login(self, username):
         """

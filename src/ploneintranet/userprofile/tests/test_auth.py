@@ -8,14 +8,7 @@ class TestAuth(BaseTestCase):
 
     def setUp(self):
         super(TestAuth, self).setUp()
-        self.app = self.layer['app']
-        self.portal = self.layer['portal']
-        self.request = self.portal.REQUEST
         self.login_as_portal_owner()
-        self.profiles = api.content.create(
-            title="Profiles",
-            type="ploneintranet.userprofile.userprofilecontainer",
-            container=self.portal)
         self.mtool = api.portal.get_tool('membrane_tool')
 
     def test_profile_is_membrane_type(self):
