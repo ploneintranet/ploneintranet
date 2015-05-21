@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
@@ -11,6 +12,8 @@ from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 from ploneintranet.docconv.client.interfaces import IDocconv
+
+logger = logging.getLogger('ploneintranet.activitystream')
 
 
 class StatusUpdateView(BrowserView):
@@ -29,7 +32,11 @@ class StatusUpdateView(BrowserView):
         (falling back to None=ISiteRoot)
         '''
         add = 'Plone Social: Add Microblog Status Update'
-        return api.user.has_permission(add, self.context.context)
+        try:
+            return api.user.has_permission(add, self.context.context)
+        except api.exc.UserNotFoundError:
+            logger.error("UserNotFoundError while rendering a statusupdate.")
+            return False
 
     @property
     @memoize
