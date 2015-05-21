@@ -1,15 +1,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-            xmlns:tal="http://xml.zope.org/namespaces/tal"
-            xmlns:metal="http://xml.zope.org/namespaces/metal"
-            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-            lang="en"
-            metal:use-macro="context/main_template/macros/master"
-            i18n:domain="ploneintranet">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
 
     <body class="view-secure">
-        <metal:content fill-slot="content">
+        <metal:content fill-slot="content"
+		       tal:define="is_me view/is_me">
             <aside>
-                <h1 tal:content="context/email" />
+		<figure class="user-portrait">
+		    <img class="pat-avatar" 
+			 tal:attributes="src view/avatar_url"
+			 src="{{ page.image_url }}" 
+			 alt="Image of {{ page.title }}" />
+		    <figcaption tal:condition="is_me">
+			<textarea name="status-message" id="" cols="30" rows="3" class="status-message">{{ page.status }}</textarea>
+		    </figcaption>
+		    <figcaption class="status-message"
+				tal:condition="not:is_me">
+			<h1>{{ page.title }}</h1>
+			<p>
+			    {{ page.status }}
+			</p>
+		    </figcaption>
+		</figure>
             </aside>
             <div id="main">
                 Timeline and co
