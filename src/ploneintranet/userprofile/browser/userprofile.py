@@ -1,9 +1,11 @@
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
-
-from plone import api
-from ploneintranet import api as pi_api
 from zExceptions import NotFound
+from plone import api
+
+from ploneintranet import api as pi_api
+from ploneintranet.userprofile.content.userprofile import \
+    primaryLocationVocabulary
 
 
 class UserProfileView(BrowserView):
@@ -21,6 +23,12 @@ class UserProfileView(BrowserView):
             portal_url,
             self.context.username,
         )
+
+    def primary_location(self):
+        """Get context's location using vocabulary."""
+        vocabulary = primaryLocationVocabulary(self.context)
+        token = self.context.primary_location
+        return vocabulary.getTermByToken(token).title
 
 
 class AuthorView(BaseAuthorView):
