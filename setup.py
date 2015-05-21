@@ -121,6 +121,7 @@ setup(name='ploneintranet',
               'pyroma',
               'zest.pocompile',
               'gocept.zestreleaser.customupload',
+              'twine',
               ],
       },
       entry_points="""
