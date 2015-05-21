@@ -34,11 +34,6 @@ class IUserProfile(form.Schema):
         title=_(u"Email"),
         required=True
     )
-    is_active = schema.Bool(
-        title=_(u"Is active"),
-        description=_(u"If a user can login to this intranet."),
-        default=False
-    )
 
 
 def primaryLocationVocabulary():
