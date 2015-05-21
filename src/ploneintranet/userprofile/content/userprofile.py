@@ -101,7 +101,9 @@ class UsernameValidator(validator.SimpleFieldValidator):
         membrane_tool = plone_api.portal.get_tool('membrane_tool')
         usernames = membrane_tool._catalog.uniqueValuesFor('exact_getUserName')
         if value in usernames:
-            raise Invalid(_("A user with this username already exists"))
+            brains = membrane_tool.searchResults(exact_getUserName=value)
+            if brains and self.context != brains[0].getObject():
+                raise Invalid(_("A user with this username already exists"))
 
         return super(UsernameValidator, self).validate(value)
 

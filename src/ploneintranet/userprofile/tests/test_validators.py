@@ -29,10 +29,16 @@ class TestValidators(BaseTestCase):
             **params)
         plone_api.content.transition(profile, 'approve')
 
+        # janedoe is not used
         validator = getMultiAdapter(
             (profile, self.request, None, IUserProfile['username'], None),
             IValidator)
         self.assertIsNone(validator.validate(u'janedoe'))
 
+        # if context is the user that has this value as username, do not raise
+        self.assertIsNone(validator.validate(u'johndoe'))
+
+        # if context is another user, raise Invalid
+        validator.context = self.profiles
         with self.assertRaises(Invalid):
             validator.validate(u'johndoe')
