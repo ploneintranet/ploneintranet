@@ -19,7 +19,17 @@ class StatusUpdateView(BrowserView):
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
     post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
     comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
-    commentable = True
+
+    @property
+    @memoize
+    def commentable(self):
+        '''
+        Check whether the viewing user has the right to comment
+        by resolving the containing workspace IMicroblogContext
+        (falling back to None=ISiteRoot)
+        '''
+        add = 'Plone Social: Add Microblog Status Update'
+        return api.user.has_permission(add, self.context.context)
 
     @property
     @memoize
