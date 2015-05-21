@@ -41,13 +41,14 @@ def get_dexterity_schemas(context=None, portal_type=None):
     return schemas
 
 
-def dexterity_update(obj):
+def dexterity_update(obj, request=None):
     """
     Utility method to update the fields of all the schemas of the Dexterity
     object 'obj'.
     """
     modified = False
-    request = obj.REQUEST
+    if not request:
+        request = obj.REQUEST
     # Call processInputs to decode strings to unicode, otherwise the
     # z3c.form dataconverters complain.
     processInputs(request)
