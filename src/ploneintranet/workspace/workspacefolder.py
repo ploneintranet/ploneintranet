@@ -104,6 +104,7 @@ class WorkspaceFolder(Container):
                 'url': brain.getURL(),
                 'checked': todo.status == u'done',
                 'due': obj.due,
+                'assignee': obj.assignee,
             }
             if self.is_case:
                 milestone = "unassigned"
@@ -150,6 +151,17 @@ class WorkspaceFolder(Container):
             )
 
         return info
+
+    def existing_users_by_id(self):
+        """
+        A dict version of existing_users userid for the keys, to simplify
+        looking up details for a user by id
+        """
+        users = self.existing_users()
+        users_by_id = {}
+        for user in users:
+            users_by_id[user['id']] = user
+        return users_by_id
 
     def member_prefill(self, context, field):
         """
