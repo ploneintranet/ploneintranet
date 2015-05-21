@@ -53,6 +53,10 @@ class IUserProfileAdditional(form.Schema):
 
     """Default additional fields for UserProfile."""
 
+    person_title = schema.TextLine(
+        title=_(u"Person title"),
+        required=False
+    )
     telephone = schema.TextLine(
         title=_(u"Telephone Number"),
         required=False
