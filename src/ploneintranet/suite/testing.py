@@ -48,6 +48,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
+        z2.installProduct(app, 'collective.indexing')
         z2.installProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
@@ -62,6 +63,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
+        z2.uninstallProduct(app, 'collective.indexing')
         z2.uninstallProduct(app, 'Products.membrane')
 
 

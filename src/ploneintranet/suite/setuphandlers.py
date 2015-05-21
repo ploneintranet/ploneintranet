@@ -56,14 +56,13 @@ def create_users(context, users, avatars_dir):
             'location': user.get('location', u"Unknown"),
             'description': user.get('description', u"")
         }
-        profile = pi_api.userprofile.create(
+        pi_api.userprofile.create(
             username=userid,
             email=email,
             password='secret',
             approve=True,
             properties=properties,
         )
-        api.portal.get_tool('membrane_tool').reindexObject(profile)
 
         logger.info('Created user {}'.format(userid))
         portrait_filename = os.path.join(avatars_dir, file_name)
