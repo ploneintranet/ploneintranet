@@ -1,5 +1,6 @@
 from collections import defaultdict
 from collective.workspace.interfaces import IWorkspace
+from json import dumps
 from plone import api
 from plone.dexterity.content import Container
 from plone.directives import form
@@ -149,6 +150,24 @@ class WorkspaceFolder(Container):
             )
 
         return info
+
+    def member_prefill(self, context, field):
+        """
+        Return JSON for pre-filling a pat-autosubmit field with the values for
+        that field
+        """
+        users = self.existing_users()
+        field_value = getattr(context, field)
+        prefill = {}
+        if field_value:
+            assigned_users = field_value.split(',')
+            for user in users:
+                if user['id'] in assigned_users:
+                    prefill[user['id']] = user['title']
+        if prefill:
+            return dumps(prefill)
+        else:
+            return ''
 
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):

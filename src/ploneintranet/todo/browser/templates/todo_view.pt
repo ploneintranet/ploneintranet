@@ -75,13 +75,13 @@
 
                     Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
                     data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1;"
-                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace_view.member_prefill(context, attrs['name']));"/>
+                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']));"/>
                   </label>
                   <br/>
                   <label class="assignee">
                     Assignee <input class="pat-autosuggest users" name="assignee"
                     data-pat-autosuggest="ajax-data-type: json; selection-classes: {};"
-                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace_view.member_prefill(context, attrs['name']))"/>
+                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
                   </label>
                   <br/>
                   <label class="date-time">

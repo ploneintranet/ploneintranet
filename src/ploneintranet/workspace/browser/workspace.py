@@ -1,5 +1,4 @@
 from Products.Five import BrowserView
-from json import dumps
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.forever import memoize
@@ -27,20 +26,6 @@ class BaseWorkspaceView(BrowserView):
             "ploneintranet.workspace: Manage workspace",
             obj=self,
         )
-
-    def member_prefill(self, context, field):
-        users = self.workspace().existing_users()
-        field_value = getattr(context, field)
-        prefill = {}
-        if field_value:
-            assigned_users = field_value.split(',')
-            for user in users:
-                if user['id'] in assigned_users:
-                    prefill[user['id']] = user['title']
-        if prefill:
-            return dumps(prefill)
-        else:
-            return ''
 
 
 class WorkspaceView(BaseWorkspaceView):
