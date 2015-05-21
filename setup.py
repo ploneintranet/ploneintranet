@@ -115,6 +115,12 @@ setup(name='ploneintranet',
               'Products.UserAndGroupSelectionWidget'
           ],
           'develop': ['plone.reload', 'iw.debug'],
+          'release': [
+              'zest.releaser',
+              'check-manifest',
+              'pyroma',
+              'zest.pocompile',
+              ],
       },
       entry_points="""
       # -*- Entry points: -*-
