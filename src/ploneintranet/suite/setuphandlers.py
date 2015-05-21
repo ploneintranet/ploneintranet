@@ -458,6 +458,11 @@ def testing(context):
         filename=minutes_filename
     )
 
+    tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
+                                                 microsecond=0)
+    next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
+                                                    second=0, microsecond=0)
+
     # Create workspaces
     workspaces = [
         {'title': 'Open Market Committee',
@@ -483,10 +488,10 @@ def testing(context):
          'contents':
              [{'title': 'Manage Information',
                'type': 'Folder',
-               'state': 'published',
                'contents':
                    [{'title': 'Preparation of Records',
                      'description': 'How to prepare records',
+                     'state': 'published',
                      'type': 'File'},
                     {'title': 'Public bodies reform',
                      'description': 'Making arrangements for the transfer of '
@@ -517,7 +522,24 @@ def testing(context):
                      'description': u'Meeting Minutes',
                      'file': minutes_file,
                      'type': 'File',
-                     }]},
+                     },
+                    {'title': 'Open Market Day',
+                     'type': 'Event',
+                     'state': 'published',
+                     'start': tomorrow,
+                     'end': tomorrow + timedelta(hours=8)},
+                    {'title': 'Plone Conf',
+                     'type': 'Event',
+                     'state': 'published',
+                     'start': next_month,
+                     'end': next_month + timedelta(days=3, hours=8)},
+                    {'title': "Yesterday's gone",
+                     'type': 'Event',
+                     'state': 'published',
+                     'owner': 'allan_neece',
+                     'start': tomorrow - timedelta(days=3),
+                     'end': tomorrow - timedelta(days=2)},
+                    ]},
               {'title': 'Projection Materials',
                'type': 'Folder',
                'contents':
