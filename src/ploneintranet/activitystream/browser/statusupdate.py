@@ -33,7 +33,7 @@ class StatusUpdateView(BrowserView):
         '''
         add = 'Plone Social: Add Microblog Status Update'
         try:
-            return api.user.has_permission(add, self.context.context)
+            return api.user.has_permission(add, obj=self.context.context)
         except api.exc.UserNotFoundError:
             logger.error("UserNotFoundError while rendering a statusupdate.")
             return False
