@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.1 (unreleased)
-----------------
+0.1.a0 (2015-05-21)
+-------------------
 
 - Updated the markup of workspace tabs and sidebar to match with the current 
   prototype. [pilz]
