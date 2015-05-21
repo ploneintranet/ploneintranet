@@ -12,73 +12,68 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-# All these tests cases are invalid!
-# A member does not have an editing permissions on content they have not created
-# themselves.
-# Commenting out until this gets fixed in the test setup.
+Member can change the title of a document
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    And I change the title
+    And I view the document
+    The document has the new title
 
-# Member can change the title of a document
-#     Given I am in a workspace as a workspace member
-#     And I browse to a document
-#     And I change the title
-#     And I view the document
-#     The document has the new title
+Member can change the description of a document
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    And I change the description
+    And I view the document
+    Then the document has the new description
 
-# Member can change the description of a document
-#     Given I am in a workspace as a workspace member
-#     And I browse to a document
-#     And I change the description
-#     And I view the document
-#     Then the document has the new description
+Member can tag a document
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    And I tag the description
+    And I view the document
+    Then the document has the new tag
 
-# Member can tag a document
-#     Given I am in a workspace as a workspace member
-#     And I browse to a document
-#     And I tag the description
-#     And I view the document
-#     Then the document has the new tag
+Member can change the title of an image
+    Given I am in a workspace as a workspace member
+    And I browse to an image
+    And I change the title
+    And I view the image
+    Then the document has the new title
 
-# Member can change the title of an image
-#     Given I am in a workspace as a workspace member
-#     And I browse to an image
-#     And I change the title
-#     And I view the image
-#     Then the document has the new title
+Member can change the description of an image
+    Given I am in a workspace as a workspace member
+    And I browse to an image
+    And I change the description
+    And I view the image
+    Then the document has the new description
 
-# Member can change the description of an image
-#     Given I am in a workspace as a workspace member
-#     And I browse to an image
-#     And I change the description
-#     And I view the image
-#     Then the document has the new description
+Member can tag an image
+    Given I am in a workspace as a workspace member
+    And I browse to an image
+    And I tag the description
+    And I view the image
+    Then the document has the new tag
 
-# Member can tag an image
-#     Given I am in a workspace as a workspace member
-#     And I browse to an image
-#     And I tag the description
-#     And I view the image
-#     Then the document has the new tag
+Member can change the title of a file
+    Given I am in a workspace as a workspace member
+    And I browse to a file
+    And I change the title
+    And I view the file
+    Then the document has the new title
 
-# Member can change the title of a file
-#     Given I am in a workspace as a workspace member
-#     And I browse to a file
-#     And I change the title
-#     And I view the file
-#     Then the document has the new title
+Member can change the description of a file
+    Given I am in a workspace as a workspace member
+    And I browse to a file
+    And I change the description
+    And I view the file
+    Then the document has the new description
 
-# Member can change the description of a file
-#     Given I am in a workspace as a workspace member
-#     And I browse to a file
-#     And I change the description
-#     And I view the file
-#     Then the document has the new description
-
-# Member can tag a file
-#     Given I am in a workspace as a workspace member
-#     And I browse to a file
-#     And I tag the description
-#     And I view the file
-#     Then the document has the new tag
+Member can tag a file
+    Given I am in a workspace as a workspace member
+    And I browse to a file
+    And I tag the description
+    And I view the file
+    Then the document has the new tag
 
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member
