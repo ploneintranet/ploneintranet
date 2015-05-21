@@ -22,6 +22,11 @@ Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
     Then I can create a new workspace    My user workspace
 
+Non-member cannot see into a workspace
+    Given I am logged in as the user alice_lindstrom
+     when I try go to the Open Market Committee Workspace
+     then I am redirected to the login page
+
 Breadcrumbs are not borked
     Given I am in a workspace as a workspace member
     And I am in a workspace as a workspace member

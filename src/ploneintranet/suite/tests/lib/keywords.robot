@@ -63,4 +63,10 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
+I try go to the Open Market Committee Workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+
+I am redirected to the login page
+    Location Should Contain  require_login
+
 
