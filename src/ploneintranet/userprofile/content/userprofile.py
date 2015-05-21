@@ -64,7 +64,7 @@ class IUserProfileDefault(form.Schema):
     )
     primary_location = schema.Choice(
         title=_(u"Primary location"),
-        schema=primaryLocationVocabulary,
+        source=primaryLocationVocabulary,
         required=True
     )
     biography = RichText(
