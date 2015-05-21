@@ -120,6 +120,7 @@ setup(name='ploneintranet',
               'check-manifest',
               'pyroma',
               'zest.pocompile',
+              'gocept.zestreleaser.customupload',
               ],
       },
       entry_points="""
