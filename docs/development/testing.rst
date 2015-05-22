@@ -163,7 +163,9 @@ Testing scenarios
 Workspaces
 ----------
 
-The `setuphandlers.py` of the workspaces package creates two workspaces with the following settings:
+The top-level workspace container with the id "workspaces" is created on install by the setup-handler of the workspace package.
+
+The setup-handler of the suite creates two workspaces with the following settings:
 
 * "Open Market Committee"
 
