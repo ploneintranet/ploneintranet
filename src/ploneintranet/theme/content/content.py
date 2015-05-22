@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.app.textfield.value import RichTextValue
 from plone.memoize.view import memoize
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
@@ -13,6 +11,7 @@ from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
 from ploneintranet.theme import _
+from ..utils import dexterity_update
 
 
 @implementer(IBlocksTransformEnabled)
@@ -27,18 +26,22 @@ class ContentView(BrowserView):
             'Modify portal content',
             obj=context
         )
-        self.update(title, description, tags, text)
+        # When saving, force to POST
+        if self.request.method == 'POST':
+            self.update()
+
         return super(ContentView, self).__call__()
 
-    def update(self, title=None, description=None, tags=[], text=None):
+    def update(self):
         """ """
         context = aq_inner(self.context)
         modified = False
+        errors = None
+        messages = []
 
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
-            # TODO: should we trigger any events or reindex?
             api.content.transition(
                 obj=context,
                 transition=self.request.get('workflow_action')
@@ -48,33 +51,26 @@ class ContentView(BrowserView):
                 'Modify portal content',
                 obj=context
             )
+            modified = True
+            messages.append("The workflow state has been changed.")
+
+        if self.can_edit:
+            mod, errors = dexterity_update(context)
+            if mod:
+                messages.append("Your changes have been saved.")
+            modified = modified or mod
+
+        if errors:
             api.portal.show_message(_(
-                "The workflow state has been changed."), request=self.request,
-                type="info")
-        if (self.can_edit and (title or description or tags or text)):
-            if title and safe_unicode(title) != context.title:
-                context.title = safe_unicode(title)
-                modified = True
-            if text:
-                richtext = RichTextValue(raw=text, mimeType='text/html',
-                                         outputMimeType='text/x-html-safe')
-                context.text = richtext
-                modified = True
-            if description:
-                if safe_unicode(description) != context.description:
-                    context.description = safe_unicode(description)
-                    modified = True
-            if tags:
-                tags = tuple([safe_unicode(tag) for tag in tags.split(',')])
-                if tags != context.subject:
-                    context.subject = tags
-                    modified = True
-            if modified:
-                api.portal.show_message(_(
-                    "Your changes have been saved."), request=self.request,
-                    type="info")
-                context.reindexObject()
-                notify(ObjectModifiedEvent(context))
+                "There was a problem: %s" % errors), request=self.request,
+                type="error")
+
+        elif modified:
+            api.portal.show_message(_(
+                ' '.join(messages)), request=self.request,
+                type="success")
+            context.reindexObject()
+            notify(ObjectModifiedEvent(context))
 
     @property
     @memoize
