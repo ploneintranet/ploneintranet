@@ -117,8 +117,6 @@
      handler=".subscribers.content_object_moved"
      />
 
-  <i18n:registerTranslations directory="locales" />
-
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: Workspace"
