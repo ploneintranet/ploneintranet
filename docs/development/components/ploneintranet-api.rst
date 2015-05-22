@@ -2,14 +2,20 @@
 ploneintranet.api
 =================
 
-.. admonition:: Description
+This package provides a simple developer API to the most commonly used features of ploneintranet.
 
-    This package provides a simple developer API to the most commonly used features of ploneintranet.
-
-ploneintranet.api.microblog module
-----------------------------------
+Microblogging API
+-----------------
 
 .. automodule:: ploneintranet.api.microblog.statusupdate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+User Profile API
+----------------
+
+.. automodule:: ploneintranet.api.userprofile
     :members:
     :undoc-members:
     :show-inheritance:

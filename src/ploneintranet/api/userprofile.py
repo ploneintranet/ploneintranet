@@ -16,7 +16,7 @@ def get(username):
     :param username: Username of the user profile to be found
     :type username: string
     :returns: User profile matching the given username
-    :rtype: `ploneintranet.userprofile.userprofile` object
+    :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
     mtool = plone_api.portal.get_tool('membrane_tool')
     try:
@@ -33,7 +33,7 @@ def get_current():
     for the current logged-in user
 
     :returns: User profile matching the current logged-in user
-    :rtype: `ploneintranet.userprofile.userprofile` object
+    :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
     if plone_api.user.is_anonymous():
         return None
@@ -66,7 +66,7 @@ def create(
     :param properties: User properties to assign to the new user.
     :type properties: dict
     :returns: Newly created user
-    :rtype: `ploneintranet.userprofile.userprofile` object
+    :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
     portal = plone_api.portal.get()
 
