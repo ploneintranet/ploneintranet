@@ -65,7 +65,7 @@ class TestPermissions(unittest.TestCase):
     def test_read_anon(self):
         setRoles(self.portal, TEST_USER_ID, ())
         container = self.mb_tool
-        self.assertRaises(Unauthorized, container.values)
-        self.assertRaises(Unauthorized, container.items)
-        self.assertRaises(Unauthorized, container.keys)
         self.assertRaises(Unauthorized, container.get, 0)
+        self.assertEqual([x for x in container.values()], [])
+        self.assertEqual([x for x in container.items()], [])
+        self.assertEqual([x for x in container.keys()], [])
