@@ -1,5 +1,6 @@
 from zope.interface import Invalid
 
+from plone import api as plone_api
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
@@ -8,6 +9,7 @@ from ploneintranet.userprofile.content.userprofile import UserProfile
 class TestUserProfile(IntegrationTestCase):
 
     def test_create(self):
+        self.login_as_portal_owner()
         profile = pi_api.userprofile.create(
             username='johndoe',
             email='johndoe@doe.com',
@@ -17,9 +19,22 @@ class TestUserProfile(IntegrationTestCase):
             UserProfile,
         )
 
+        # Should have been added to global members group
+        # and have Member role
+        self.assertIn(
+            'johndoe',
+            plone_api.group.get(groupname='Members').getMemberIds()
+        )
+        self.assertIn(
+            'Member',
+            plone_api.user.get_roles(username='johndoe'),
+        )
+
+        # We can now login
         self.login('johndoe')
 
         # Cannot create another with same username
+        self.login_as_portal_owner()
         with self.assertRaises(Invalid):
             pi_api.userprofile.create(
                 username='johndoe',
@@ -27,6 +42,7 @@ class TestUserProfile(IntegrationTestCase):
             )
 
     def test_get(self):
+        self.login_as_portal_owner()
         profile = pi_api.userprofile.create(
             username='janedoe',
             email='janedoe@doe.com',
@@ -45,6 +61,7 @@ class TestUserProfile(IntegrationTestCase):
         self.assertIsNone(notfound)
 
     def test_get_current(self):
+        self.login_as_portal_owner()
         profile = pi_api.userprofile.create(
             username='janedoe',
             email='janedoe@doe.com',

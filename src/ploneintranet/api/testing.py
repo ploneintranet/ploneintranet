@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
+from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
@@ -56,6 +57,12 @@ class IntegrationTestCase(unittest.TestCase):
 
     def login(self, username):
         login(self.portal, username)
+
+    def login_as_portal_owner(self):
+        """
+        helper method to login as site admin
+        """
+        z2.login(self.app['acl_users'], SITE_OWNER_NAME)
 
 
 class FunctionalTestCase(IntegrationTestCase):
