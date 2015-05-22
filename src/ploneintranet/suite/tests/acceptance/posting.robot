@@ -67,17 +67,15 @@ Member can reply to a reply in a workspace
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
-Rosalinda can mention a user
-    Given I am logged in as the user rosalinda_roache
-    when I am in a workspace as a workspace member
+Member can mention a user
+    Given I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE1}
     then I can mention the user    ${USERNAME1}
     When I submit the status update
     then The message is visible as new status update that mentions the user    ${MESSAGE1}  ${USERNAME1}
 
-Rosalinda can mention a user found by searching
-    Given I am logged in as the user rosalinda_roache
-    when I am in a workspace as a workspace member
+Member can mention a user found by searching
+    Given I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE3}
     then I can mention a user and search for a user    ${USERNAME1}  ${USERNAME2}
     When I submit the status update
