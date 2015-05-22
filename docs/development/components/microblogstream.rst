@@ -14,7 +14,7 @@ Microblog and Activity Stream
 Introduction
 ------------
 
-This stack of functionality used to be split into various packages (plonesocial.*). After the unification, the packages are nowpart of ploneintranet, but still under their original folder names (e.g. `ploneintranet.microblog <https://github.com/ploneintranet/ploneintranet/tree/master/src/ploneintranet/microblog>`_, which used to be plonesocial.microblog).
+This stack of functionality used to be split into various packages (plonesocial.*). After the unification, the packages are now part of ploneintranet, but still under their original folder names (e.g. `ploneintranet.microblog <https://github.com/ploneintranet/ploneintranet/tree/master/src/ploneintranet/microblog>`_, which used to be plonesocial.microblog).
 
 Packages
 ========
