@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
   <body>
     <div id="social-messages"
         metal:fill-slot="main">
@@ -17,9 +17,9 @@
                     <div id="inbox-new-message-full" class="button">
                         <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
                            class="pat-modal float-after button"
-                           data-pat-modal="class: large">New Message</a>
+                           data-pat-modal="class: large" i18n:translate="">New Message</a>
                      </div>
-                    <h1>Inbox</h1>
+                    <h1 i18n:translate="">Inbox</h1>
                 </div>
                 <div id="inbox-messages"
                     tal:attributes="class string:column ${inbox/width-style} ${inbox/view} list-extend"
@@ -29,7 +29,7 @@
                          tal:condition="python: inbox['view'] == 'small'">
                         <a tal:attributes="href string:${context/portal_url}/@@messaging-send#content-core"
                            class="pat-modal float-after button"
-                           data-pat-modal="class: large">New Message</a>
+                           data-pat-modal="class: large" i18n:translate="">New Message</a>
 
                         Inbox
                     </div>
@@ -62,12 +62,12 @@
                     </ul>
                     <ul class="list" tal:condition="not:inbox/conversations">
                         <li class="item empty">
-                            <p>No messages</p>
+                            <p i18n:translate="">No messages</p>
                         </li>
                     </ul>
                     <div id="your-messages-inbox"
                         tal:condition="python: inbox['view'] == 'small'">
-                        <a tal:attributes="href string: ${context/portal_url}/@@social-inbox">
+                        <a tal:attributes="href string: ${context/portal_url}/@@social-inbox" i18n:translate="">
                             Your Inbox</a>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                                         tal:attributes="value inbox/conv_with">
 
                                     <fieldset>
-                                        <p class="content-mirror"><span class="text"><em class="placeholder">Leave a comment</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
+                                        <p class="content-mirror"><span class="text"><em class="placeholder" i18n:translate="">Leave a comment</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em></p>
                                         <textarea
                                             placeholder="Leave a comment"
                                             name="form.widgets.text"
@@ -127,7 +127,7 @@
                                         <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
                                         <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #new-message-attachment-previews">
                                             <label class="iconified icon-attach pat-switch" data-pat-switch="#new-message status-* status-attach"><input multiple="" capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                                            <p class="attachment-previews" id="new-message-attachment-previews">
+                                            <p class="attachment-previews" id="new-message-attachment-previews" i18n:translate="">
                                                 No attachments selected.
                                             </p>
                                             <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
@@ -138,7 +138,7 @@
                                             <a class="iconified icon-tags pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
                                             <br>
                                             <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="submit">Post</button>
-                                            <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="reset">Cancel</button>
+                                            <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="reset" i18n:domain="plone" i18n:translate="">Cancel</button>
                                             <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
 
                                         </div>

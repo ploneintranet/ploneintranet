@@ -4,7 +4,7 @@
             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
             lang="en"
             metal:use-macro="context/main_template/macros/master"
-            i18n:domain="ploneintranet.theme">
+            i18n:domain="ploneintranet">
 
     <body class="view-secure">
         <metal:content fill-slot="content">
@@ -27,7 +27,7 @@
             </div>
             </tal:r>
             <div class="tile workspace four columns add" tal:condition="view/can_add">
-                <a href="${view/target/absolute_url}/@@workspace-add#content" class="pat-modal">
+                <a href="${view/target/absolute_url}/@@workspace-add#content" class="pat-modal" i18n:translate="">
                    Create Workspace
                 </a>
             </div>
