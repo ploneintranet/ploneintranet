@@ -18,7 +18,7 @@ class UUIDStatusContainer(statuscontainer.BaseStatusContainer):
 
     implements(IStatusContainer)
 
-    def _check_permission(self, perm="read"):
+    def _check_add_permission(self, statusupdate):
         pass
 
 

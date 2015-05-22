@@ -13,7 +13,7 @@ from ploneintranet.microblog import statusupdate
 class StatusContainer(BaseStatusContainer):
     """we don't care about permission checks for the uuid integration"""
 
-    def _check_permission(self, perm="read"):
+    def _check_add_permission(self, statusupdate):
         return True
 
 
