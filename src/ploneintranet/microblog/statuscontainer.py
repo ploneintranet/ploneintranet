@@ -93,8 +93,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._mentions_mapping = OOBTree.OOBTree()
 
     def add(self, status):
-        self._check_permission("add")
         self._check_status(status)
+        self._check_add_permission(status)
         self._store(status)
 
     def _store(self, status):
@@ -113,12 +113,11 @@ class BaseStatusContainer(Persistent, Explicit):
         if not IStatusUpdate.providedBy(status):
             raise ValueError("IStatusUpdate interface not provided.")
 
-    def _check_permission(self, perm="read"):
-        if perm == "read":
-            permission = "Plone Social: View Microblog Status Update"
-        else:
-            permission = "Plone Social: Add Microblog Status Update"
-        if not getSecurityManager().checkPermission(permission, self):
+    def _check_add_permission(self, status):
+        permission = "Plone Social: Add Microblog Status Update"
+        check_context = status.context or self  # workspace or tool
+        if not getSecurityManager().checkPermission(
+                permission, check_context):
             raise Unauthorized("You do not have permission <%s>" % permission)
 
     def _notify(self, status):
@@ -211,21 +210,30 @@ class BaseStatusContainer(Persistent, Explicit):
     # primary accessors
 
     def get(self, key):
-        self._check_permission("read")
+        # secure
+        if int(key) in self.allowed_status_keys():
+            return self._get(key)
+        else:
+            raise(Unauthorized("You're not allowed to get status %s'" % key))
+
+    # performance helper to avoid multiple security checks
+    def _get(self, key):
         return self._status_mapping.get(key)
 
     def items(self, min=None, max=None, limit=100, tag=None):
-        return ((key, self.get(key))
+        # secured in keys()
+        return ((key, self._get(key))
                 for key in self.keys(min, max, limit, tag))
 
     def values(self, min=None, max=None, limit=100, tag=None):
-        return (self.get(key)
+        # secured in keys()
+        return (self._get(key)
                 for key in self.keys(min, max, limit, tag))
 
     def keys(self, min=None, max=None, limit=100, tag=None):
-        self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
+        # secure
         mapping = self._keys_tag(tag, self.allowed_status_keys())
         return longkeysortreverse(mapping,
                                   min, max, limit)
@@ -237,30 +245,33 @@ class BaseStatusContainer(Persistent, Explicit):
     # threaded accessors
 
     def thread_items(self, thread_id, min=None, max=None, limit=100):
-        return ((key, self.get(key)) for key
+        # secured by thread_keys
+        return ((key, self._get(key)) for key
                 in self.thread_keys(thread_id, min, max, limit))
 
     def thread_values(self, thread_id, min=None, max=None, limit=100):
-        return (self.get(key) for key
+        # secured by thread_keys
+        return (self._get(key) for key
                 in self.thread_keys(thread_id, min, max, limit))
 
     def thread_keys(self, thread_id, min=None, max=None, limit=100):
         if not thread_id:
             return ()
-        mapping = self._threadid_mapping.get(thread_id)
-        if not mapping:
-            return [thread_id]
+        mapping = self._threadid_mapping.get(thread_id) or [thread_id]
+        mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
                                   min, max, limit, reverse=False)
 
     # user_* accessors
 
     def user_items(self, users, min=None, max=None, limit=100, tag=None):
-        return ((key, self.get(key)) for key
+        # secured by user_keys
+        return ((key, self._get(key)) for key
                 in self.user_keys(users, min, max, limit, tag))
 
     def user_values(self, users, min=None, max=None, limit=100, tag=None):
-        return (self.get(key) for key
+        # secured by user_keys
+        return (self._get(key) for key
                 in self.user_keys(users, min, max, limit, tag))
 
     def user_keys(self, users, min=None, max=None, limit=100, tag=None):
@@ -285,7 +296,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
         # returns unchanged mapping if tag is None
         mapping = self._keys_tag(tag, mapping)
-
+        mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
@@ -293,18 +304,19 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def context_items(self, context,
                       min=None, max=None, limit=100, tag=None, nested=True):
-        return ((key, self.get(key)) for key
+        # secured by context_keys
+        return ((key, self._get(key)) for key
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_values(self, context,
                        min=None, max=None, limit=100, tag=None, nested=True):
-        return (self.get(key) for key
+        # secured by context_keys
+        return (self._get(key) for key
                 in self.context_keys(context, min, max, limit, tag, nested))
 
     def context_keys(self, context,
                      min=None, max=None, limit=100,
                      tag=None, nested=True, mention=None):
-        self._check_permission("read")
         if tag and tag not in self._tag_mapping:
             return ()
 
@@ -334,20 +346,22 @@ class BaseStatusContainer(Persistent, Explicit):
 
         # merge the intersections
         merged_set = LLBTree.multiunion(keyset_uuids)
-
+        merged_set = self.secure(merged_set)
         return longkeysortreverse(merged_set,
                                   min, max, limit)
 
     # mention_* accessors
 
     def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
-        return ((key, self.get(key)) for key
+        # secured by mention_keys
+        return ((key, self._get(key)) for key
                 in self.mention_keys(mentions, min, max, limit, tag))
 
     def mention_values(self, mentions,
                        min=None, max=None, limit=100,
                        tag=None):
-        return (self.get(key) for key
+        # secured by mention_keys
+        return (self._get(key) for key
                 in self.mention_keys(mentions, min, max, limit, tag))
 
     def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
@@ -372,7 +386,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
         # returns unchanged mapping if tag is None
         mapping = self._keys_tag(tag, mapping)
-
+        mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
@@ -406,14 +420,21 @@ class BaseStatusContainer(Persistent, Explicit):
             LLBTree.LLTreeSet(keyset),
             self._uuid_mapping[uuid])
 
+    def secure(self, keyset):
+        """Filter keyset to return only keys the current user may see."""
+        return LLBTree.intersection(
+            LLBTree.LLTreeSet(keyset),
+            LLBTree.LLTreeSet(self.allowed_status_keys()))
+
     def allowed_status_keys(self):
         """Return the subset of IStatusUpdate keys
         that are related to UUIDs of accessible contexts.
         I.e. blacklist all IStatusUpdate that has a context
         which we don't have permission to access.
 
-        This method will be overridden in the tool implementation
-        to filter on requesting user permissions.
+        This method is a noop here.
+        The actual implementation is in tool.py
+        and provides security based on the current user.
         """
         return self._allowed_status_keys()
 
@@ -474,8 +495,8 @@ class QueuedStatusContainer(BaseStatusContainer):
     implements(IStatusContainer)
 
     def add(self, status):
-        self._check_permission("add")
         self._check_status(status)
+        self._check_add_permission(status)
         if MAX_QUEUE_AGE > 0:
             self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)

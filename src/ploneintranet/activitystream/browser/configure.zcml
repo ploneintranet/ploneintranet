@@ -10,6 +10,7 @@
   <include package=".prototype" />
   <include package=".tiles" />
 
+  <!-- FIXME legacy remove -->
   <browser:viewlet
       name="ploneintranet.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
@@ -34,6 +35,7 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
+  <!-- FIXME legacy remove -->
   <browser:page
       name="stream"
       for="ploneintranet.microblog.interfaces.IMicroblogContext"
@@ -42,6 +44,7 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
+  <!-- FIXME legacy remove -->
   <browser:resourceDirectory
       name="ploneintranet.activitystream.stylesheets"
       directory="stylesheets"
