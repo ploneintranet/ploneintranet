@@ -36,6 +36,7 @@ class ContentView(BrowserView):
         """ """
         context = aq_inner(self.context)
         modified = False
+        messages = []
 
         if (
                 self.request.get('workflow_action') and
@@ -50,12 +51,11 @@ class ContentView(BrowserView):
                 obj=context
             )
             modified = True
-            api.portal.show_message(_(
-                "The workflow state has been changed."), request=self.request,
-                type="info")
+            messages.append("The workflow state has been changed.")
 
         if self.can_edit:
             mod, errors = dexterity_update(context)
+            messages.append("Your changes have been saved.")
             modified = modified or mod
 
         if errors:
@@ -63,9 +63,9 @@ class ContentView(BrowserView):
                 "There was a problem: %s" % errors), request=self.request,
                 type="error")
 
-        if modified:
+        elif modified:
             api.portal.show_message(_(
-                "Your changes have been saved."), request=self.request,
+                ' '.join(messages)), request=self.request,
                 type="success")
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
