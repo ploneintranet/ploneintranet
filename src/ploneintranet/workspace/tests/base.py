@@ -67,6 +67,7 @@ class BaseTestCase(unittest.TestCase):
             user=username,
             groups=groups,
         )
+        # purge cache - only needed in tests since we're in same request
         IAnnotations(self.request)[('workspaces', username)] = None
 
 

@@ -124,7 +124,7 @@
       name="workspace-add"
       for="*"
       class=".workspace.AddView"
-      permission="cmf.ManagePortal"
+      permission="cmf.AddPortalContent"
       template="templates/workspace-add.pt"
       layer="..interfaces.IThemeSpecific"
       />

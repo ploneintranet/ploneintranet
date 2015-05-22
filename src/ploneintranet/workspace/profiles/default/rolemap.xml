@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- Here we only define the roles relevant for workspaces. They will only ever
+be assigned as local roles. However, we want to have them globally available in
+Plone for debugging reasons, e.g. to view the permissions assigned to them on a
+specific workflow state. -->
+<rolemap>
+  <roles>
+    <role name="TeamMember"/>
+    <role name="TeamManager"/>
+    <role name="SelfPublisher"/>
+  </roles>
+  <permissions>
+  </permissions>
+</rolemap>

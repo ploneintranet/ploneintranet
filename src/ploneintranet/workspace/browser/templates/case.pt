@@ -47,7 +47,8 @@
 					        </p>
 					        <p class="step-assignee"
                                tal:define="due_date task/due;
-                                           user_details python:existing_users_by_id.get(task.get('assignee'))">
+                                           user_details python:existing_users_by_id.get(task.get('assignee'))"
+                               tal:condition="user_details">
 	                          <a href="" class="pat-avatar "  id="">
                                 <img tal:attributes="src user_details/portrait;
                                                      alt user_details/title;
