@@ -9,6 +9,7 @@ from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
 
@@ -226,7 +227,9 @@ class NewPostBoxTile(Tile):
     @property
     @memoize
     def placeholder(self):
-        return u"What are you doing?"
+        return self.context.translate(
+            _(u"add_statusupdate_button",
+              default=u"What are you doing?"))
 
     def get_pat_inject(self, form_id, thread_id):
         if not thread_id:

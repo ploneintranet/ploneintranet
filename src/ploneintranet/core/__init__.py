@@ -2,4 +2,4 @@
 from zope.i18nmessageid import MessageFactory
 
 
-ploneintranetCoreMessageFactory = MessageFactory('ploneintranet.core')
+ploneintranetCoreMessageFactory = MessageFactory('ploneintranet')
