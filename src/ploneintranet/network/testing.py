@@ -35,6 +35,7 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
         # Load ZCML
         import ploneintranet.network
         self.loadZCML(package=ploneintranet.network)
+        self.loadZCML(package=ploneintranet.userprofile)
         z2.installProduct(app, 'ploneintranet.network')
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
@@ -42,12 +43,15 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
         import plone.app.discussion
         self.loadZCML(package=plone.app.discussion)
         z2.installProduct(app, 'plone.app.discussion')
+        z2.installProduct(app, 'Products.membrane')
+        z2.installProduct(app, 'collective.indexing')
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'ploneintranet.network:default')
         applyProfile(portal, 'ploneintranet.microblog:default')
+        applyProfile(portal, 'ploneintranet.userprofile:default')
         applyProfile(portal, 'plone.app.discussion:default')
 
         # Login and create some test content
@@ -76,6 +80,9 @@ class IntegrationTestCase(unittest.TestCase):
     """Base class for integration tests."""
 
     layer = INTEGRATION_TESTING
+
+    def login(self, username):
+        login(self.portal, username)
 
 
 class FunctionalTestCase(unittest.TestCase):
