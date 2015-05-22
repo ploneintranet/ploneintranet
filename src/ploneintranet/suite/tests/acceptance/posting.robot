@@ -57,9 +57,8 @@ Esmeralda can reply to a reply
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
-Esmeralda can reply to a reply in a workspace
-    Given I am logged in as the user esmeralda_claassen
-    when I go to the Open Market Committee Workspace
+Member can reply to a reply in a workspace
+    Given I am in a workspace as a workspace member
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
@@ -70,7 +69,7 @@ Esmeralda can reply to a reply in a workspace
 
 Rosalinda can mention a user
     Given I am logged in as the user rosalinda_roache
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE1}
     then I can mention the user    ${USERNAME1}
     When I submit the status update
@@ -78,7 +77,7 @@ Rosalinda can mention a user
 
 Rosalinda can mention a user found by searching
     Given I am logged in as the user rosalinda_roache
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE3}
     then I can mention a user and search for a user    ${USERNAME1}  ${USERNAME2}
     When I submit the status update
@@ -95,7 +94,7 @@ Neil can tag a post
 
 Neil can tag a post by searching for a tag
     Given I am logged in as the user neil_wichmann
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE2}
     then I can add a tag and search for a tag    ${TAG1}  ${TAG2}
     When I submit the status update

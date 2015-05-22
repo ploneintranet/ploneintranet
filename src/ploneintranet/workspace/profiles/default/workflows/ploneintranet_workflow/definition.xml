@@ -34,8 +34,8 @@
     <permission-map name="Modify portal content"
                     acquired="False">
       <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
+      <permission-role>Owner</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>Editor</permission-role>
     </permission-map>
@@ -54,6 +54,7 @@
     <description>Visible to reviewers.</description>
     <exit-transition transition_id="publish"/>
     <exit-transition transition_id="send_back"/>
+    <exit-transition transition_id="retract"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -73,10 +74,8 @@
     <permission-map name="Modify portal content"
                     acquired="False">
       <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <permission-role>Editor</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
@@ -92,7 +91,6 @@
          title="Published">
     <description>Shared with my team.</description>
     <exit-transition transition_id="retract"/>
-    <exit-transition transition_id="publish_public"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -115,7 +113,6 @@
     <permission-map name="Modify portal content"
                     acquired="False">
       <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>Editor</permission-role>
@@ -129,49 +126,6 @@
       <permission-role>TeamMember</permission-role>
       <permission-role>Reader</permission-role>
       <permission-role>Guest</permission-role>
-    </permission-map>
-  </state>
-
-  <state state_id="public"
-         title="Public">
-    <description>Shared with all Intranet users.</description>
-    <exit-transition transition_id="restrict"/>
-    <permission-map name="Access contents information"
-                    acquired="False">
-      <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
-      <permission-role>Site Administrator</permission-role>
-      <permission-role>TeamManager</permission-role>
-      <permission-role>TeamMember</permission-role>
-      <permission-role>Reader</permission-role>
-      <permission-role>Authenticated</permission-role>
-    </permission-map>
-    <permission-map name="List folder contents"
-                    acquired="False">
-      <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
-      <permission-role>Site Administrator</permission-role>
-      <permission-role>TeamManager</permission-role>
-      <permission-role>TeamMember</permission-role>
-      <permission-role>Reader</permission-role>
-    </permission-map>
-    <permission-map name="Modify portal content"
-                    acquired="False">
-      <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
-      <permission-role>Site Administrator</permission-role>
-      <permission-role>TeamManager</permission-role>
-      <permission-role>Editor</permission-role>
-    </permission-map>
-    <permission-map name="View"
-                    acquired="False">
-      <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
-      <permission-role>Site Administrator</permission-role>
-      <permission-role>TeamManager</permission-role>
-      <permission-role>TeamMember</permission-role>
-      <permission-role>Reader</permission-role>
-      <permission-role>Authenticated</permission-role>
     </permission-map>
   </state>
 
@@ -183,7 +137,7 @@
     <action url="%(content_url)s/content_status_modify?workflow_action=submit"
             category="workflow" icon="">Submit</action>
     <guard>
-      <guard-permission>Modify portal content</guard-permission>
+      <guard-permission>Request review</guard-permission>
     </guard>
   </transition>
 
@@ -196,19 +150,6 @@
             category="workflow" icon="">Publish</action>
     <guard>
       <guard-permission>Review portal content</guard-permission>
-    </guard>
-  </transition>
-
-  <transition transition_id="publish_public"
-              title="Publishes content to all users"
-              new_state="public"
-              trigger="USER" before_script="" after_script="">
-    <description>Publishes the item to all users.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=publish_public"
-            category="workflow" icon="">Publish Public</action>
-    <guard>
-      <guard-permission>Review portal content</guard-permission>
-      <guard-expression>python: here.restrictedTraverse('@@ploneintranet_workspace_state').state() == 'private'</guard-expression>
     </guard>
   </transition>
 
@@ -244,7 +185,7 @@
     <action url="%(content_url)s/content_status_modify?workflow_action=retract"
             category="workflow" icon="">Retract</action>
     <guard>
-      <guard-permission>Modify portal content</guard-permission>
+      <guard-permission>Request review</guard-permission>
     </guard>
   </transition>
 

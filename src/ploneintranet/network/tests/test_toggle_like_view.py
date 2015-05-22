@@ -36,6 +36,7 @@ class TestToggleLikeView(IntegrationTestCase):
 
     def test_toggle_like(self):
         self.request.form['like_button'] = 'like'
+        self.request["REQUEST_METHOD"] = "POST"
         view = api.content.get_view('toggle_like', self.doc1, self.request)
         item_id = api.content.get_uuid(self.doc1)
 
@@ -65,6 +66,7 @@ class TestToggleLikeView(IntegrationTestCase):
         comment_id = IUUID(comment)
 
         self.request.form['like_button'] = 'like'
+        self.request["REQUEST_METHOD"] = "POST"
         view = api.content.get_view('toggle_like', comment, self.request)
 
         # Toggle like for comment on
@@ -92,6 +94,7 @@ class TestToggleLikeView(IntegrationTestCase):
         update_id = str(su.id)
 
         self.request.form['like_button'] = 'like'
+        self.request["REQUEST_METHOD"] = "POST"
         view = api.content.get_view('toggle_like_statusupdate',
                                     self.portal, self.request)
         self.assertRaises(KeyError, view)
