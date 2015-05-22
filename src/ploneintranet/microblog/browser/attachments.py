@@ -1,3 +1,4 @@
+from AccessControl import Unauthorized
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
@@ -50,7 +51,12 @@ class StatusAttachments(BrowserView):
             return self
 
         container = PLONEINTRANET.microblog
+
+        # FIXME
+        if self.status_id not in container.allowed_status_keys():
+            raise Unauthorized()
         status = container.get(self.status_id)
+
         if not self.attachment_id:
             # do we want to be able to traverse to the status update itself?
             # Returning only the id for now

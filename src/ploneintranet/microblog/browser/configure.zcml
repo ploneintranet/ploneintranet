@@ -9,10 +9,18 @@
 
   <browser:page
       name="status-attachments"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".attachments.StatusAttachments"
       layer=".interfaces.IPloneIntranetMicroblogLayer"
-      permission="zope2.View"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      />
+
+  <browser:page
+      name="status-attachments"
+      for="..interfaces.IMicroblogContext"
+      class=".attachments.StatusAttachments"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       />
 
 </configure>

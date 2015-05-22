@@ -1,6 +1,5 @@
 import ExtensionClass
 from Acquisition import Explicit
-from Acquisition import aq_inner
 from Acquisition import aq_base
 from BTrees.OOBTree import OOBTree
 from OFS.Traversable import Traversable
@@ -8,13 +7,11 @@ from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from Products.CMFPlone.Portal import PloneSite
 from persistent import Persistent
-from zExceptions import NotFound
 from zope import component
 from zope import interface
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.container.interfaces import DuplicateIDError
-from zope.traversing.interfaces import ITraversable
 
 ANNOTATION_KEY = 'ploneintranet.attachments:attachments'
 
@@ -59,7 +56,7 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
         annotation on the object being attached to).
     """
     interface.implements(IAttachmentStorage, IHideFromBreadcrumbs)
-    __allow_access_to_unprotected_subobjects__ = True
+    __allow_access_to_unprotected_subobjects__ = False
 
     def __init__(self, id="++attachments++default"):
         self.id = id
@@ -112,33 +109,4 @@ def AttachmentStorageAdapterFactory(content):
     if isinstance(content, ExtensionClass.Base):
         return attachments.__of__(content)
     else:
-        return attachments
-
-
-class AttachmentsNamespace(object):
-    """ Allows traversal into the attachments storage via the
-        ++attachments++name namespace.
-
-        The name is the name of an adapter from context to
-        IAttachmentStoragable. The special name 'default' will be taken
-        as the default (unnamed) adapter. This is to work around a bug in
-        OFS.Traversable which does not allow traversal to namespaces with
-        an empty string name.
-
-        For example, the file.txt attachment can be accessed via
-        /path/to/object/++attachments++default/file.txt
-    """
-    interface.implements(ITraversable)
-
-    def __init__(self, context, request=None):
-        self.context = aq_inner(context)
-        self.request = request
-
-    def traverse(self, name, ignore):
-        attachments = component.queryAdapter(
-            self.context, IAttachmentStorage)
-
-        if attachments is None:
-            raise NotFound
-
         return attachments
