@@ -56,7 +56,8 @@ class ContentView(BrowserView):
 
         if self.can_edit:
             mod, errors = dexterity_update(context)
-            messages.append("Your changes have been saved.")
+            if mod:
+                messages.append("Your changes have been saved.")
             modified = modified or mod
 
         if errors:
