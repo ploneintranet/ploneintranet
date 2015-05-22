@@ -16,48 +16,10 @@
         <textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea>
       </fieldset>
 
-      <fieldset class="vertical" tal:define="formatted_user_list python:['{0} &lt;{1}&gt;'.format(i['title'], i['id']) for i in context.existing_users()];
-                                             auto_suggest_users python:'words: {0}'.format(', '.join(formatted_user_list))">
-        <label class="initiator">
-          Initiator <input class="pat-autosuggest users"  type="text" value=""
-          data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;"
-          tal:attributes="data-pat-autosuggest auto_suggest_users"/>
-        </label>
-        <br/>
-        <label class="assignee">
-          Assignee <input class="pat-autosuggest users" name="assignee"
-          tal:attributes="data-pat-autosuggest auto_suggest_users"/>
-        </label>
-        <br/>
-        <label class="date-time">
-          Due date <input type="date" name="due"/>
-        </label>
-        <br/>
-        <label class="status">
-          Status
-          <select name="status" id="status">
-            <option value="tbd">Neu</option>
-          </select>
-        </label>
-        <br/>
-
-        <label class="stage milestone" tal:condition="context/is_case"
-               tal:define="ws_view nocall:context/view">
-          Milestone this task belongs to
-          <select name="milestone" tal:define="mm_seq ws_view/metromap_sequence">
-            <option></option>
-            <tal:milesstones repeat="milestone mm_seq">
-              <option tal:attributes="value milestone;
-                                      selected python:'selected' if request.form.get('milestone') == milestone else ''"
-                      tal:content="python:mm_seq[milestone]['title']"/>
-            </tal:milesstones>
-          </select>
-        </label>
-        <br/>
-        <label class="attachments">Attached documents from this workspace 
-        <input class="pat-autosuggest documents" data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Waste not want not" type="text" value=""/>
-        </label>
-        <input type="hidden" name="workspace" tal:attributes="value context/UID"/>
+      <fieldset class="vertical"
+                tal:define="workspace context/acquire_workspace;
+                            workspace_url context/absolute_url;">
+        <metal:task_fields use-macro="context/macros/task_fields"/>
       </fieldset>
 
     </div>

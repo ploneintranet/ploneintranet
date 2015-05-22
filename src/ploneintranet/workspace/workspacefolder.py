@@ -169,7 +169,7 @@ class WorkspaceFolder(Container):
         that field
         """
         users = self.existing_users()
-        field_value = getattr(context, field)
+        field_value = getattr(context, field, None)
         prefill = {}
         if field_value:
             assigned_users = field_value.split(',')

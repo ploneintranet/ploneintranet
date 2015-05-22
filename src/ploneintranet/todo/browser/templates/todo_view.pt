@@ -11,7 +11,6 @@
                    tal:define="workspace python:view.workspace();
                                workspace_url python:workspace.absolute_url();
                                workspace_id python:workspace.id;
-                               workspace_view nocall:workspace/view;
                                read_only python:not view.can_edit">
 
       <h1 id="workspace-name">
@@ -71,39 +70,7 @@
               <div class="document ticket-details">
 
                 <fieldset class="vertical fancy">
-                  <label class="initiator">
-
-                    Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
-                    data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']));"/>
-                  </label>
-                  <br/>
-                  <label class="assignee">
-                    Assignee <input class="pat-autosuggest users" name="assignee"
-                    data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-                    tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
-                  </label>
-                  <br/>
-                  <label class="date-time">
-                    Due date <input type="date" name="due"
-                    tal:attributes="value context/due"/>
-                  </label>
-                  <br/>
-
-                  <tal:case_todo condition="workspace/is_case">
-                    <label class="stage milestone">
-                      Milestone this task belongs to
-                      <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
-                        <option></option>
-                        <tal:milesstones repeat="milestone mm_seq">
-                          <option tal:attributes="value milestone;
-                                                  selected python:'selected' if context.milestone == milestone else ''"
-                                  tal:content="python:mm_seq[milestone]['title']"/>
-                        </tal:milesstones>
-                      </select>
-                    </label>
-                    <br />
-                  </tal:case_todo>
+                  <metal:task_fields use-macro="workspace/macros/task_fields"/>
                 </fieldset>
               </div>
             </div>
