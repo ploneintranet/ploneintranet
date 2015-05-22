@@ -201,6 +201,7 @@ class Sidebar(BaseTile):
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
+            wft = api.portal.get_tool("portal_workflow")
             if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'title or description')
@@ -214,11 +215,13 @@ class Sidebar(BaseTile):
                                       'operator': 'or'})
                 for brain in brains:
                     obj = brain.getObject()
-                    todo = ITodo(obj)
+                    state = wft.getInfoFor(obj, 'review_state')
                     if brain.UID in active_tasks:
-                        todo.status = u'done'
+                        if state in ["open", "planned"]:
+                            api.content.transition(obj, "finish")
                     else:
-                        todo.status = u'tbd'
+                        if state == "done":
+                            obj.reopen()
                 api.portal.show_message(_(u'Changes applied'),
                                         self.request,
                                         'success')
@@ -782,6 +785,7 @@ class Sidebar(BaseTile):
         """
         items = []
         catalog = api.portal.get_tool('portal_catalog')
+        wft = api.portal.get_tool('portal_workflow')
         current_path = '/'.join(self.context.getPhysicalPath())
         ptype = 'simpletodo'
         brains = catalog(path=current_path, portal_type=ptype)
@@ -793,7 +797,7 @@ class Sidebar(BaseTile):
                 'title': brain.Description,
                 'content': brain.Title,
                 'url': brain.getURL(),
-                'checked': todo.status == u'done'
+                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
             }
             items.append(data)
         return items

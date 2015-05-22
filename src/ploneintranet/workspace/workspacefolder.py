@@ -91,6 +91,7 @@ class WorkspaceFolder(Container):
     def tasks(self):
         items = defaultdict(list) if self.is_case else []
         catalog = api.portal.get_tool('portal_catalog')
+        wft = api.portal.get_tool('portal_workflow')
         current_path = '/'.join(self.getPhysicalPath())
         ptype = 'todo'
         brains = catalog(path=current_path, portal_type=ptype)
@@ -102,7 +103,7 @@ class WorkspaceFolder(Container):
                 'title': brain.Title,
                 'description': brain.Description,
                 'url': brain.getURL(),
-                'checked': todo.status == u'done',
+                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
                 'due': obj.due,
                 'assignee': obj.assignee,
             }

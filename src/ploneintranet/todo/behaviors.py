@@ -3,7 +3,7 @@ from zope.interface import alsoProvides, Interface
 from zope.schema import Bool, Choice, Date, TextLine
 
 from . import _
-from .vocabularies import todo_status, todo_priority
+from .vocabularies import todo_priority
 
 
 class IMustRead(form.Schema):
@@ -45,13 +45,6 @@ class ITodo(form.Schema):
         title=_(u"Assignee"),
         description=_("A user (or a group) assigned to this task"),
         required=False,
-    )
-
-    status = Choice(
-        title=_(u"Status"),
-        required=True,
-        default=u'tbd',
-        vocabulary=todo_status,
     )
 
     priority = Choice(
