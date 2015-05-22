@@ -15,17 +15,11 @@
         			 tal:attributes="src view/avatar_url"
         			 src="{{ page.image_url }}"
                      alt="Image of {{ page.title }}" />
-                    <figcaption tal:condition="is_me">
-                    <textarea name="status-message" id="" cols="30" rows="3" class="status-message">{{ page.status }}</textarea>
-                    </figcaption>
                     <figcaption class="status-message"
                         tal:condition="not:is_me">
-                    <h1 tal:content="context/fullname" />
-                    <p>
-                        {{ page.status }}
-                    </p>
+			<h1 tal:content="context/fullname" />
                     </figcaption>
-        		</figure>
+        	</figure>
 
                 <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
                     <form tal:replace="structure context/@@toggle_follow" />
