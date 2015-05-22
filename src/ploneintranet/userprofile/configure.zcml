@@ -11,6 +11,9 @@
 
   <include package="dexterity.membrane" />
 
+  <adapter name="Title" 
+           factory=".indexers.Title" />
+
   <include package=".browser" />
   <include package=".content" />
 
