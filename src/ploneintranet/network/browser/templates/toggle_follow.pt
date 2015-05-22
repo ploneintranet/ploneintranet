@@ -3,7 +3,7 @@
                        is_followed view/is_followed;
                        verb view/verb;
                        unique_id view/unique_id;
-                       datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
+                       datapatinject python:'source: fieldset;; target: #functions-{0} fieldset'.format(unique_id)">
 
   <form id="functions-123456"
         action="@@toggle_follow"
