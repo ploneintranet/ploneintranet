@@ -31,8 +31,9 @@
           <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
             <option></option>
             <tal:milesstones repeat="milestone mm_seq">
-              <option tal:attributes="value milestone;
-                                      selected python:'selected' if context.get(milestone) == milestone else ''"
+              <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
+                  tal:attributes="value milestone;
+                                  selected python:'selected' if current_milestone == milestone else ''"
                       tal:content="python:mm_seq[milestone]['title']"/>
             </tal:milesstones>
           </select>
