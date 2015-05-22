@@ -28,7 +28,10 @@ class UserProfileView(BrowserView):
         """Get context's location using vocabulary."""
         vocabulary = primaryLocationVocabulary(self.context)
         token = self.context.primary_location
-        return vocabulary.getTermByToken(token).title
+        if vocabulary and token:
+            return vocabulary.getTermByToken(token).title
+        else:
+            return ''
 
 
 class AuthorView(BaseAuthorView):
