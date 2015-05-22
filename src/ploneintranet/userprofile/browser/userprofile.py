@@ -1,7 +1,9 @@
+from zope.interface import implements
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
 from zExceptions import Unauthorized
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api
 
 from ploneintranet import api as pi_api
@@ -10,6 +12,7 @@ from ploneintranet.userprofile.content.userprofile import \
 
 
 class UserProfileView(BrowserView):
+    implements(IBlocksTransformEnabled)
 
     """View for user profile."""
 

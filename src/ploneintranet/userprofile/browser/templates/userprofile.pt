@@ -55,7 +55,7 @@
                 <div class="pat-stacks">
                     <div class="activity-stream" id="person-timeline">
                         <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
-                        Activity stream !
+			<div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${context/absolute_url}/@@activitystream.tile" ></div>
                     </div>
                     <article id="person-info">
                         <tal:block condition="view/is_me">
