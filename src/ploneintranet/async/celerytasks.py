@@ -1,15 +1,17 @@
 """
 Celery tasks providing asynchronous jobs for Plone Intranet
 """
-from celery.task import task
+from celery import Celery
 import requests
+
+app = Celery('ploneintranet.tasks', broker='redis://localhost:6379/0')
 
 
 class PreviewGenerationException(Exception):
     """ Raised if preview generation failed for some reason """
 
 
-@task
+@app.task
 def generate_and_add_preview(url, cookies):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
