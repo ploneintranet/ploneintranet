@@ -1,6 +1,7 @@
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
+from zExceptions import Unauthorized
 from plone import api
 
 from ploneintranet import api as pi_api
@@ -36,6 +37,7 @@ class UserProfileView(BrowserView):
 
 class AuthorView(BaseAuthorView):
     """Overrides default author view to link to PI profiles"""
+
     def __call__(self):
         profile = pi_api.userprofile.get(self.username)
 
@@ -44,3 +46,17 @@ class AuthorView(BaseAuthorView):
                 profile.absolute_url()
             )
         raise NotFound
+
+
+class UserActions(BrowserView):
+    """Override the default user actions view to redirect to
+    the current user's profile"""
+
+    def __call__(self):
+        profile = pi_api.userprofile.get_current()
+
+        if profile is not None:
+            return self.request.response.redirect(
+                profile.absolute_url()
+            )
+        raise Unauthorized
