@@ -23,4 +23,20 @@
       layer="..interfaces.IPloneintranetAttachmentsLayer"
       />
 
+  <browser:page
+      name="status-attachments"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".attachments.StatusAttachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+  <browser:page
+      name="status-attachments"
+      for="ploneintranet.microblog.interfaces.IMicroblogContext"
+      class=".attachments.StatusAttachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
 </configure>

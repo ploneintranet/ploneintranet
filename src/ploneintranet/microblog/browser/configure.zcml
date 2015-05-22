@@ -7,20 +7,4 @@
   <include package=".prototype" />
   <include package=".tiles" />
 
-  <browser:page
-      name="status-attachments"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".attachments.StatusAttachments"
-      layer=".interfaces.IPloneIntranetMicroblogLayer"
-      permission="ploneintranet.microblog.ViewStatusUpdate"
-      />
-
-  <browser:page
-      name="status-attachments"
-      for="..interfaces.IMicroblogContext"
-      class=".attachments.StatusAttachments"
-      layer=".interfaces.IPloneIntranetMicroblogLayer"
-      permission="ploneintranet.microblog.ViewStatusUpdate"
-      />
-
 </configure>
