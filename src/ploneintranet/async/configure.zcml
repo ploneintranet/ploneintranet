@@ -5,17 +5,5 @@
         xmlns:plone="http://namespaces.plone.org/plone"
         i18n_domain="ploneintranet">
 
-    <browser:page
-            name="check-auth"
-            for="*"
-            class=".CheckAuth"
-            permission="zope.Public"
-            />
-
-    <browser:page
-            name="convert-document"
-            for="*"
-            class=".ConvertDocument"
-            permission="zope2.View"
-            />
+    <include package=".browser" />
 </configure>
