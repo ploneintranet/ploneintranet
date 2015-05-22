@@ -10,3 +10,5 @@ omit =
     src/collective.workspace/*
     src/ploneintranet.invitations/*
     src/plone.api/*
+    src/zope.testrunner/*
+    src/collective.celery/*

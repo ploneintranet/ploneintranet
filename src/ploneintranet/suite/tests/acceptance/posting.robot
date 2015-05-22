@@ -7,7 +7,7 @@ Resource  ../lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  DebugLibrary
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Variable ***
@@ -57,9 +57,8 @@ Esmeralda can reply to a reply
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
-Esmeralda can reply to a reply in a workspace
-    Given I am logged in as the user esmeralda_claassen
-    when I go to the Open Market Committee Workspace
+Member can reply to a reply in a workspace
+    Given I am in a workspace as a workspace member
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
@@ -70,7 +69,7 @@ Esmeralda can reply to a reply in a workspace
 
 Rosalinda can mention a user
     Given I am logged in as the user rosalinda_roache
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE1}
     then I can mention the user    ${USERNAME1}
     When I submit the status update
@@ -78,7 +77,7 @@ Rosalinda can mention a user
 
 Rosalinda can mention a user found by searching
     Given I am logged in as the user rosalinda_roache
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE3}
     then I can mention a user and search for a user    ${USERNAME1}  ${USERNAME2}
     When I submit the status update
@@ -95,7 +94,7 @@ Neil can tag a post
 
 Neil can tag a post by searching for a tag
     Given I am logged in as the user neil_wichmann
-    when I go to the Open Market Committee Workspace
+    when I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE2}
     then I can add a tag and search for a tag    ${TAG1}  ${TAG2}
     When I submit the status update
@@ -174,7 +173,7 @@ I can add a tag
     [arguments]  ${tag}
     Click link    link=Add tags
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click link    link=${tag}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
@@ -182,19 +181,19 @@ I can add a tag and search for a tag
     [arguments]  ${tag1}  ${tag2}
     Click link    link=Add tags
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click link    link=${tag1}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag1}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag1}')][1]  2
     Click element    css=input[name=tagsearch]
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
-    Click link    link=${tag2}
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
     Click element    css=textarea.pat-content-mirror
 
 I can mention the user
     [arguments]  ${username}
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click link    link=${username}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
@@ -202,10 +201,10 @@ I can mention a user and search for a user
     [arguments]  ${username1}  ${username2}
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click link    link=${username1}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username1}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username1}')][1]  2
     Click element    css=input[name=usersearch]
     Input text    css=input[name=usersearch]  ${username2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]  2
-    Click link    link=${username2}
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
     Click element    css=textarea.pat-content-mirror

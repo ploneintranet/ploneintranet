@@ -20,14 +20,14 @@ class TokenUtility(object):
     """
     implements(ITokenUtility)
 
-    def generate_new_token(self, usage_limit=None, expire_seconds=None,
+    def generate_new_token(self, usage_limit=1, expire_seconds=None,
                            redirect_path=None):
         """
         Get a new unique token
 
         :param usage_limit: The number of times this token is allowed to be
                             consumed before expiring
-        :type usage_limit: int
+        :type usage_limit: int, default 1. None for unlimited use.
         :param expire_seconds: The number of seconds before this token expires
         :type expire_seconds: int
         :param redirect_path: The optional path to redirect to, relative to the
