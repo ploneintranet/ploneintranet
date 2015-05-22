@@ -5,7 +5,7 @@ from zope.interface import Interface
 from plone.uuid.interfaces import IUUIDAware
 
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('ploneintranet.microblog')
+_ = MessageFactory('ploneintranet')
 
 
 class IStatusUpdate(Interface):

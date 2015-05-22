@@ -36,11 +36,12 @@ class ContentView(BrowserView):
         """ """
         context = aq_inner(self.context)
         modified = False
+        errors = None
+        messages = []
 
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
-            # TODO: should we trigger any events or reindex?
             api.content.transition(
                 obj=context,
                 transition=self.request.get('workflow_action')
@@ -50,16 +51,23 @@ class ContentView(BrowserView):
                 'Modify portal content',
                 obj=context
             )
-            api.portal.show_message(_(
-                "The workflow state has been changed."), request=self.request,
-                type="info")
+            modified = True
+            messages.append("The workflow state has been changed.")
 
         if self.can_edit:
-            modified, errors = dexterity_update(context)
+            mod, errors = dexterity_update(context)
+            if mod:
+                messages.append("Your changes have been saved.")
+            modified = modified or mod
 
-        if modified:
+        if errors:
             api.portal.show_message(_(
-                "Your changes have been saved."), request=self.request,
+                "There was a problem: %s" % errors), request=self.request,
+                type="error")
+
+        elif modified:
+            api.portal.show_message(_(
+                ' '.join(messages)), request=self.request,
                 type="success")
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
@@ -104,8 +112,8 @@ class ContentView(BrowserView):
             new_state_id='',
             selected='selected')]
 
-        workflowActions = self.wf_tool.listActionInfos(object=context)
-        for action in workflowActions:
+        workflow_actions = self.wf_tool.listActionInfos(object=context)
+        for action in workflow_actions:
             if action['category'] != 'workflow':
                 continue
             new_state_id = action['transition'].new_state_id

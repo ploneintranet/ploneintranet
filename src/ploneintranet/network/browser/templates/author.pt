@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+<body>
+
+  <div metal:fill-slot="content">
+    <metal:main-macro define-macro="content">
+      <div id="content"
+           tal:define="maxiauthor python:view.maxiauthor_provider(view.userid)">
+
+
+        <div tal:condition="not:maxiauthor">
+          <h2 i18n:translate="">Nothing here</h2>
+          <div tal:condition="view/userid" i18n:translate="">
+            No such user <b i18n:name="userid" tal:content="view/userid" />.
+          </div>
+        </div>
+
+
+    <div tal:content="structure maxiauthor" />
+
+        <h2 i18n:translate="">Updates</h2>
+        <div class="description" i18n:translate="">Status updates by
+        <span i18n:name="fullname" tal:replace="view/data/fullname">name</span>:
+        </div>
+
+        <div data-tile="./@@activitystream.tile?network=1"></div>
+
+      </div><!-- /content -->
+    </metal:main-macro>
+  </div>
+
+</body>
+</html>

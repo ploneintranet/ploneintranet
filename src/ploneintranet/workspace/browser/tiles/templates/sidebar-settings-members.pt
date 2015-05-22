@@ -1,4 +1,10 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
   <body>
     <div id="sidebar-content" tal:define="ws view/workspace; users view/users; mt nocall:context/portal_membership; portrait mt/getPersonalPortrait">
       <div id="workspace-settings">
@@ -8,11 +14,11 @@
           <div class="item-selector mode-follow" id="member-list">
 
             <div class="button-bar functions" id="member-list-functions">
-              <h3 id="member-list-context-title" class="context-title">
+              <h3 id="member-list-context-title" class="context-title" i18n:translate="">
                 Members
               </h3>
               <a class="member-list-toggle-select more-menu-trigger"
-                 tal:condition="view/can_manage_workspace">Functions</a>
+                 tal:condition="view/can_manage_workspace" i18n:translate="">Functions</a>
             </div>
 
             <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
@@ -21,10 +27,12 @@
                 <div class="batch-functions">
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
-                      <button type="button" class="select-all" title="Select all">All</button>
-                      <button type="button" class="deselect-all" title="Deslect all">None</button>
+                      <button type="button" class="select-all" title="Select all" i18n:translate="select_all">All</button>
+                      <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none">None</button>
                     </span>
-                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #member-list; value: mode-select mode-follow">Cancel</button>
+                    <button type="button" class="pat-toggle float-before icon-cancel"
+                        data-pat-toggle="selector: #member-list; value: mode-select mode-follow"
+                        i18n:translate="">Cancel</button>
                   </div>
 
                   <div class="button-bar">
@@ -32,11 +40,13 @@
                             name="batch-function"
                             value="role"
                             class="float-before icon-role"
+                            i18n:translate=""
                             title="Change role of member">Change role</button>
                     <button type="submit"
                             name="batch-function"
                             value="remove"
                             class="float-before icon-role"
+                            i18n:translate=""
                             title="Remove member or group">Remove</button>
                   </div>
 
@@ -59,8 +69,11 @@
 
             <div class="button-bar create-buttons"
                  tal:condition="view/can_manage_workspace">
-              <a class="button icon-user-add pat-modal" data-pat-modal="class: large" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
-              <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large">Add group</a>
+              <a class="button icon-user-add pat-modal" data-pat-modal="class: large"
+                tal:attributes="href string:${ws/absolute_url}/invite#original-content"
+                i18n:translate="">Add user</a>
+              <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large"
+                i18n:translate="">Add group</a>
             </div>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .member-list-toggle-select" id="member-list-more-menu">
@@ -69,10 +82,12 @@
                    </h3> -->
               <ul class="menu">
                 <li>
-                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/invite#original-content">Add user</a>
+                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/invite#original-content"
+                    i18n:translate="">Add user</a>
                 </li>
                 <li>
-                  <a class="pat-toggle icon-ok member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow">Select</a>
+                  <a class="pat-toggle icon-ok member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow"
+                    i18n:translate="">Select</a>
                 </li>
               </ul>
             </div>
@@ -81,21 +96,21 @@
           <!-- XXX This is legacy and copied over from the original workspace implementation. It needs to be hooked in somewhere else. Just showing now because we have it :) -->
           <tal:admin condition="view/can_manage_workspace">
             <hr />
-            <h2>Advanced</h2>
+            <h2 i18n:translate="">Advanced</h2>
             <p>
               <a tal:attributes="href string:${context/absolute_url}/@@invite?diazo.off=1"
-                 class="pat-modal">
+                 class="pat-modal" i18n:translate="">
                 Invite users to this workspace (via email)
               </a>
             </p>
             <p>
               <a tal:attributes="href string:${context/absolute_url}/@@transfer?diazo.off=1"
-                 class="pat-modal">
+                 class="pat-modal" i18n:translate="">
                 Transfer members to another workspace.
               </a>
             </p>
             <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@sharing?diazo.off=1">
+              <a tal:attributes="href string:${context/absolute_url}/@@sharing?diazo.off=1" i18n:translate="">
                 Advanced permissions
               </a>
             </p>

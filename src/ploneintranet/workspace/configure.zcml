@@ -5,7 +5,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet.workspace">
+    i18n_domain="ploneintranet">
 
   <include package="." file="implements.zcml" />
 
@@ -116,8 +116,6 @@
           zope.lifecycleevent.interfaces.IObjectMovedEvent"
      handler=".subscribers.content_object_moved"
      />
-
-  <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
       name="default"

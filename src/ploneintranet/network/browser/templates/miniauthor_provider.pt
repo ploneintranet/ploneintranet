@@ -1,0 +1,45 @@
+<div class="ploneintranet author miniauthor"
+     tal:condition="view/data">
+
+  <div class="portrait">
+    <a tal:attributes="href view/author_url"
+       tal:content="structure view/portrait" />
+  </div>
+
+  <div class="personal-info" i18n:domain="ploneintranet">
+
+    <h3 class="username">
+      <a tal:attributes="href view/author_url"
+         tal:content="view/data/fullname">user name</a>
+    </h3>
+
+    <div class="userid">
+      <a tal:attributes="href view/author_url"
+         tal:content="string: @${view/userid}">@who</a>
+    </div>
+
+    <div class="bio"
+         tal:content="view/data/description">bio</div>
+    <div>
+    </div>
+
+    <div class="subunsub" tal:condition="view/show_subunsub">
+      <form method="post">
+        <input type="hidden" name="userid"
+               tal:attributes="value view/userid" />
+        <input tal:condition="not:view/is_following"
+               type="submit" name="subunsub_follow"
+               i18n:attributes="value"
+               value="follow" />
+        <span tal:condition="view/is_following"
+              class="following" i18n:translate="">
+          Following
+        </span>
+        <input tal:condition="view/is_following"
+               type="submit" name="subunsub_unfollow"
+               i18n:attributes="value"
+               value="unfollow" />
+      </form>
+    </div>
+  </div><!-- /info -->
+</div><!-- /author -->
