@@ -14,20 +14,20 @@ Test Teardown  Close all browsers
 *** Test Cases ***
 
 Members can like status updates
-    Given I'm logged in as a 'Member'
-    when I go to the Open Market Committee Workspace
-    then The first status update is not liked
+   Given I am logged in as the user allan_neece
+     and I go to the Open Market Committee Workspace
+     and The first status update is not liked
     when I toggle like on the first status update
     then The first status update is liked once
 
-    Given I'm logged in as a 'alice_lindstrom'
-    when I go to the Open Market Committee Workspace
-    then The first status update is liked once
+   Given I am logged in as the user jorge_primavera
+     and I go to the Open Market Committee Workspace
+     and The first status update is liked once
     when I toggle like on the first status update
     then The first status update is liked 2 times
 
-    Given I'm logged in as a 'allan_neece'
-    when I go to the Open Market Committee Workspace
+   Given I am logged in as the user dollie_nocera
+     and I go to the Open Market Committee Workspace
     when I toggle like on the first status update
     then The first status update is liked 3 times
     when I toggle like on the first status update
@@ -39,11 +39,6 @@ Members can like status updates
 
 
 *** Keywords ***
-
-I go to the Open Market Committee Workspace
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Open Market Committee
 
 I toggle like on the first status update
     Click element  xpath=//button[contains(@class, 'like')][1]

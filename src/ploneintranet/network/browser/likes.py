@@ -13,6 +13,10 @@ from zope.publisher.interfaces import IPublishTraverse
 import uuid
 
 
+class NotAllowed(Exception):
+    pass
+
+
 class ToggleLike(BrowserView):
     """The view 'toggle_like' callable on a normal context.
     """
@@ -56,7 +60,12 @@ class ToggleLike(BrowserView):
         return "%s/@@toggle_like" % self.context.absolute_url()
 
     def handle_toggle(self):
-        """Perform the actual like/unlike action."""
+        """
+        Perform the actual like/unlike action.
+        Since this does a db write it cannot be called with a GET.
+        """
+        if self.request.get('REQUEST_METHOD') != 'POST':
+            raise NotAllowed("Write on POST only.")
         if not self.is_liked:
             self.util.like(self.like_type, self.item_id,
                            self.current_user_id)
