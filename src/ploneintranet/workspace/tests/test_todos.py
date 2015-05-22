@@ -12,15 +12,6 @@ class TestTodos(BaseTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        obj = api.content.create(
-            type='todo',
-            title='todo1',
-            container=self.portal,
-        )
-        obj.assignee = TEST_USER_ID
-        event = ObjectModifiedEvent(obj)
-        zope.event.notify(event)
-
         workspaces = api.content.create(
             type='ploneintranet.workspace.workspacecontainer',
             title='workspaces',
@@ -70,6 +61,30 @@ class TestTodos(BaseTestCase):
         )
         api.content.transition(case_todo, 'finish')
         case_todo.reopen()
+        self.assertEquals(
+            self.portal.portal_workflow.getInfoFor(case_todo, 'review_state'),
+            'planned'
+        )
+
+    def test_todo_initial_state_open(self):
+        case_todo = api.content.create(
+            type='todo',
+            title='case_todo',
+            container=self.case,
+            milestone='new',
+        )
+        self.assertEquals(
+            self.portal.portal_workflow.getInfoFor(case_todo, 'review_state'),
+            'open'
+        )
+
+    def test_todo_initial_state_planned(self):
+        case_todo = api.content.create(
+            type='todo',
+            title='case_todo',
+            container=self.case,
+            milestone='archived',
+        )
         self.assertEquals(
             self.portal.portal_workflow.getInfoFor(case_todo, 'review_state'),
             'planned'

@@ -187,3 +187,21 @@ def content_object_moved(obj, event):
             path='%s' % cookie_path(request),
             expires='Wed, 31-Dec-97 23:59:59 GMT')
         request['__cp'] = None
+
+
+def update_todo_state(obj, event):
+    """
+    After editing a Todo item, set the workflow state to either Open or Planned
+    depending on the state of the Case.
+    """
+    workspace = parent_workspace(obj)
+    wft = api.portal.get_tool("portal_workflow")
+    state = wft.getInfoFor(obj, "review_state")
+    if state == 'done':
+        return
+    else:
+        # FIXME: we shouldn't finish a task just to open it again
+        api.content.transition(obj, 'finish')
+        obj.reopen()
+        obj.reindexObject()
+

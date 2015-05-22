@@ -37,12 +37,12 @@ class Todo(Item):
             api.content.transition(self, "set_to_open")
         else:
             milestone = self.milestone
-            if not milestone:
-                api.content.transition(self, "set_to_planned")
-            else:
+            if milestone:
                 workspace_state = wft.getInfoFor(workspace, "review_state")
                 mm_seq = IMetroMap(workspace).metromap_sequence.keys()
                 if mm_seq.index(milestone) > mm_seq.index(workspace_state):
                     api.content.transition(self, "set_to_planned")
                 else:
                     api.content.transition(self, "set_to_open")
+            else:
+                api.content.transition(self, "set_to_planned")

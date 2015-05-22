@@ -64,6 +64,18 @@
     handler=".subscribers.user_deleted_from_site_event"
     />
 
+  <subscriber
+      for="ploneintranet.todo.content.todo.ITodo
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.update_todo_state"
+      />
+
+  <subscriber
+      for="ploneintranet.todo.content.todo.ITodo
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscribers.update_todo_state"
+      />
+
   <adapter
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      provides="collective.workspace.interfaces.IWorkspace"
