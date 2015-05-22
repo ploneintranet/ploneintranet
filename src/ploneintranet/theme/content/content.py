@@ -36,6 +36,7 @@ class ContentView(BrowserView):
         """ """
         context = aq_inner(self.context)
         modified = False
+        errors = None
         messages = []
 
         if (
