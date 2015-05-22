@@ -29,18 +29,16 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
 
     def setUp(self):
         self.portal = self.layer["portal"]
-        self.case = api.content.create(
-            type="ploneintranet.workspace.workspacefolder",
-            title="case1",
+        workspaces = api.content.create(
+            type="ploneintranet.workspace.workspacecontainer",
+            title="Workspaces",
             container=self.portal,
         )
-        # Turn a Workspace into a Case
-        mark(self.case, ICase)
-
-        # Use the Case workflow for it using CMFPlacefulWorkflow
-        pwft = api.portal.get_tool("portal_placeful_workflow")
-        wfconfig = pwft.getWorkflowPolicyConfig(self.case)
-        wfconfig.setPolicyIn("case_workflow")
+        self.case = api.content.create(
+            type="ploneintranet.workspace.case",
+            title="case1",
+            container=workspaces,
+        )
 
     def test_metromap_initial_state(self):
         """A newly created Case is in the first workflow state. It can't be
