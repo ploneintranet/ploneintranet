@@ -125,8 +125,8 @@ class TestContentTypes(BaseTestCase):
         api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
+            'test-workspaces',
+            title='Test Workspaces'
         )
         self.assertIn('workspaces', self.portal)
 
@@ -157,8 +157,8 @@ class TestContentTypes(BaseTestCase):
         wsc = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
+            'test-workspaces',
+            title='Test Workspaces'
         )
         api.content.create(
             wsc,
@@ -176,8 +176,8 @@ class TestContentTypes(BaseTestCase):
         wsc = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
+            'test-workspaces',
+            title='Test Workspaces'
         )
         self.assertRaises(
             InvalidParameterError,
@@ -195,8 +195,8 @@ class TestContentTypes(BaseTestCase):
         wsc = api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
+            'test-workspaces',
+            title='Test Workspaces'
         )
         ws = api.content.create(
             wsc,
