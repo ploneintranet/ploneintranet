@@ -87,6 +87,12 @@ class SidebarSettingsSecurity(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-security.pt')
 
+    join_policy_label = _(u'join_policy_label', default=u'Join policy')
+    external_visibility_label = _(u'external_visibility_label',
+                                  default=u'External visibility')
+    participant_policy_label = _(u'participant_policy_label',
+                                 default=u'Participant policy')
+
     def __init__(self, context, request):
         """ set up local copies of the policies for the sidebar template
         """
@@ -164,6 +170,8 @@ class Sidebar(BaseTile):
     """
 
     index = ViewPageTemplateFile('templates/sidebar.pt')
+    drop_files_label = _(u"drop_files_here",
+                         default=u"Drop files here or click to browse...")
 
     def __call__(self):
         """ write attributes, if any, set state, render

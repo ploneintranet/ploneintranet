@@ -126,7 +126,7 @@ class InviteForm(form.SchemaForm):
     schema = IInviteForm
     ignoreContext = True
 
-    label = u"Invitations"
+    label = _(u'invititations', default=u"Invitations")
 
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):

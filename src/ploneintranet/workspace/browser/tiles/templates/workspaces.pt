@@ -1,7 +1,13 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="ploneintranet">
+
 <body tal:define="workspaces view/workspaces">
     <div class="workspaces portlet" id="portlet-workspaces" tal:condition="workspaces">
-        <h2 class="portlet-title"><a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html">Workspaces</a></h2>
+        <h2 class="portlet-title">
+            <a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html"
+                i18n:translate="">Workspaces</a></h2>
         <ul class="links">
             <tal:workspace repeat="workspace workspaces">
                 <li class="workspace" tal:attributes="title workspace/description">
@@ -22,7 +28,8 @@
             </tal:workspace>
         </ul>
         <p class="portlet-footer">
-            <a href="${here/portal_url}/workspaces.html">All workspace activities…</a>
+            <a href="${here/portal_url}/workspaces.html" i18n:translate="all_workspace_activities">
+                All workspace activities…</a>
         </p>
     </div>
 </body>
