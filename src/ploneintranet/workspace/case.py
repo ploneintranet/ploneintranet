@@ -1,7 +1,6 @@
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
 
-import ploneintranet.workspace.workspacefolder
 from .workspacefolder import IWorkspaceFolder
 from .workspacefolder import WorkspaceFolder
 

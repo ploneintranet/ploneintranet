@@ -27,6 +27,7 @@ class AddView(BrowserView):
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
 
+
 class WorkspaceTabsTile(Tile):
 
     index = ViewPageTemplateFile("templates/workspace-tabs-tile.pt")

@@ -30,7 +30,8 @@ def my_workspaces(context):
     """
     pc = api.portal.get_tool('portal_catalog')
     brains = pc(
-        object_provides='ploneintranet.workspace.workspacefolder.IWorkspaceFolder',
+        object_provides=(
+            'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
         sort_on="modified",
         sort_order="reversed",
     )
