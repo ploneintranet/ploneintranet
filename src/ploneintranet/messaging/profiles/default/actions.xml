@@ -11,7 +11,8 @@
    <property name="permissions">
     <element value="View"/>
    </property>
-   <property name="visible">True</property>
+   <!-- Not currently implemented -->
+   <property name="visible">False</property>
   </object>
  </object>
 
