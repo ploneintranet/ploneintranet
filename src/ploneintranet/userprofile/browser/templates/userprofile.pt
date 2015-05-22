@@ -28,11 +28,7 @@
         		</figure>
 
                 <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
-                    <form action="/feedback/feedback-following.html?action=follow#portlet-follow" class="pat-inject" data-pat-inject="#portlet-follow && .link-following">
-                        <fieldset class="button-bar centred">
-                            <button class="icon-eye" i18n:attributes="title" tal:attributes="title string:Click to follow ${context/fullname}"><strong i18n:translate="">Follow</strong> <span tal:replace="context/fullname" /></button>
-                        </fieldset>
-                    </form>
+                    <form tal:replace="structure context/@@toggle_follow" />
                 </div>
 
                 <div class="portlet contact" id="portlet-contact">

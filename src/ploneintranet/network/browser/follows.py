@@ -2,14 +2,24 @@
 from zope.component import getUtility
 
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api as plone_api
 
+from ploneintranet.network import _
 from ploneintranet.network.interfaces import INetworkTool
+
+import uuid
+
+
+class NotAllowed(Exception):
+    pass
 
 
 class ToggleFollow(BrowserView):
 
     """View that toggles follow/unfollow on a context."""
+
+    index = ViewPageTemplateFile('templates/toggle_follow.pt')
 
     def __init__(self, context, request):
         self.context = context  # the item being followed
@@ -17,14 +27,32 @@ class ToggleFollow(BrowserView):
         self.util = getUtility(INetworkTool)
         self.followed_id = self.context.getId()
         self.follow_type = 'user'
+        self.follower = plone_api.user.get_current().getUserName()
+        self.is_followed = self.util.is_followed(
+            self.follow_type, self.followed_id, self.follower)
+        if self.is_followed:
+            self.verb = _(u'Unfollow')
+        else:
+            self.verb = _(u'Follow')
 
     def __call__(self):
-        current_username = plone_api.user.get_current().getUserName()
-        is_followed = self.util.is_followed(
-            self.follow_type, self.followed_id, current_username)
-        if is_followed:
+        self.unique_id = uuid.uuid4().hex
+        if 'follow_button' in self.request:
+            self.toggle_follow()
+
+        return self.index()
+
+    def toggle_follow(self):
+        """Follow/unfollow context."""
+        if self.request.get('REQUEST_METHOD') != 'POST':
+            raise NotAllowed("Write on POST only.")
+
+        if self.is_followed:
             self.util.unfollow(
-                self.follow_type, self.followed_id, current_username)
+                self.follow_type, self.followed_id, self.follower)
         else:
             self.util.follow(
-                self.follow_type, self.followed_id, current_username)
+                self.follow_type, self.followed_id, self.follower)
+
+    def action(self):
+        return "%s/@@toggle_follow" % self.context.absolute_url()
