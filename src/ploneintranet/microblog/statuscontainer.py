@@ -26,7 +26,7 @@ from zope.interface import implements
 
 from plone import api
 from plone.uuid.interfaces import IUUID
-# from plone.memoize.view import memoize_contextless
+from plone.memoize import ram
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
 from interfaces import IMicroblogContext
@@ -39,6 +39,32 @@ STATUSQUEUE = Queue.PriorityQueue()
 
 # max in-memory time in millisec before disk sync
 MAX_QUEUE_AGE = 1000
+
+
+def cache_key(method, self):
+    """
+    Used as ramcache key for the expensive and frequently used
+    allowed_status_keys() results.
+    - cache per user
+    - until a new update is inserted
+    - for maximally 1 second
+
+    The short time interval is needed in case the user's workspace
+    memberships change - this should invalidate the cache but we're
+    not listening to that event directly.
+    One second on the other hand is enough to cache the results for
+    multiple calls during a single page rendering request.
+
+    memoize.ram automatically garbage collects the cache after 24 hours.
+    """
+    try:
+        member = api.user.get_current()
+    except api.exc.CannotGetPortalError:
+        # getSite() fails in integration tests, disable caching
+        raise ram.DontCache
+    return (member.id,
+            self._mtime,  # last write (self is a statuscontainer)
+            time.time() // 1)
 
 
 def getZope2App(*args, **kwargs):
@@ -79,6 +105,7 @@ class BaseStatusContainer(Persistent, Explicit):
     implements(IStatusContainer)
 
     def __init__(self, context=None):
+        # last write stamp in milliseconds
         self._mtime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
@@ -97,6 +124,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_status(status)
         self._check_add_permission(status)
         self._store(status)
+        self._update_mtime()
 
     def _store(self, status):
         # see ZODB/Btree/Interfaces.py
@@ -201,13 +229,7 @@ class BaseStatusContainer(Persistent, Explicit):
             LLBTree.LLTreeSet(keyset),
             LLBTree.LLTreeSet(self.allowed_status_keys()))
 
-    @property
-    def request(self):
-        """Needed for plone.memoize.view.memoize_contextless"""
-        return getRequest()
-
-    # stores cache on request - i.e. per-user transient
-#    @memoize_contextless
+    @ram.cache(cache_key)
     def allowed_status_keys(self):
         """Return the subset of IStatusUpdate keys
         that are related to UUIDs of accessible contexts.
@@ -521,6 +543,11 @@ class BaseStatusContainer(Persistent, Explicit):
             LLBTree.LLTreeSet(keyset),
             self._uuid_mapping[uuid])
 
+    def _update_mtime(self):
+        """Update _mtime on write"""
+        with LOCK:
+            self._mtime = int(time.time() * 1000)
+
 
 class QueuedStatusContainer(BaseStatusContainer):
 
@@ -569,9 +596,10 @@ class QueuedStatusContainer(BaseStatusContainer):
             self._schedule_flush()
             # immediate sync on low traffic (old ._mtime)
             # postpones sync on high traffic (next .add())
-            return self._autoflush()
+            return self._autoflush()  # updates _mtime on write
         else:
             self._store(status)
+            self._update_mtime()
             return 1  # immediate write
 
     def _queue(self, status):
@@ -645,11 +673,9 @@ class QueuedStatusContainer(BaseStatusContainer):
         return 0  # no write
 
     def flush_queue(self):
-        # logger.info("flush_queue")
-
+        # update marker - block autoflush
+        self._update_mtime()
         with LOCK:
-            # block autoflush
-            self._mtime = int(time.time() * 1000)
             # cancel scheduled flush
             if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
                 # logger.info("Cancelling timer")
