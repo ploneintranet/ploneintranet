@@ -19,6 +19,9 @@ class StatusContainer(statuscontainer.BaseStatusContainer):
     def _check_add_permission(self, statusupdate):
         pass
 
+    def _blacklist_microblogcontext_uuids(self):
+        return []
+
 
 class StatusUpdate(statusupdate.StatusUpdate):
     """Override actual implementation with unittest features"""

@@ -43,7 +43,6 @@ class TestMicroblogSecurity(unittest.TestCase):
         # should raise, since Alice is not a member of the workspace
         self.assertRaises(Unauthorized, self.tool.add, su2)
 
-    @unittest.skip("FIXME: Remove VIEW from workspace for non-member")
     def test_nonmember_unauthorized_get(self):
         login(self.portal, 'allan_neece')
         su = StatusUpdate('test #foo', self.workspace)
@@ -53,7 +52,6 @@ class TestMicroblogSecurity(unittest.TestCase):
         # should raise, since Alice is not a member of the workspace
         self.assertRaises(Unauthorized, self.tool.get, su.id)
 
-    @unittest.skip("FIXME: Remove VIEW from workspace for non-member")
     def test_nonmember_secured_read(self):
         login(self.portal, 'allan_neece')
         su = StatusUpdate('test #foo', self.workspace)
@@ -61,4 +59,4 @@ class TestMicroblogSecurity(unittest.TestCase):
         logout()
         login(self.portal, 'alice_lindstrom')
         # silently filters all you're not allowed to see
-        self.assertEqual([x for x in self.tool.keys()], [])
+        self.assertFalse(su.id in self.tool.keys())
