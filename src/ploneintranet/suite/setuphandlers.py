@@ -204,15 +204,7 @@ def create_tasks(todos):
 
 def create_workspaces(workspaces):
     portal = api.portal.get()
-    if 'workspaces' not in portal:
-        ws_folder = api.content.create(
-            container=portal,
-            type='ploneintranet.workspace.workspacecontainer',
-            title='Workspaces'
-        )
-        api.content.transition(obj=ws_folder, transition='publish')
-    else:
-        ws_folder = portal['workspaces']
+    ws_folder = portal['workspaces']
 
     for w in workspaces:
         contents = w.pop('contents', None)
