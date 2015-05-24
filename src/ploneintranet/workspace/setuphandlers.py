@@ -21,12 +21,11 @@ def post_install(context):
     portal = api.portal.get()
 
     if 'workspaces' not in portal:
-        ws_folder = api.content.create(
+        api.content.create(
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
         )
-        api.content.transition(obj=ws_folder, transition='publish')
 
     # Set up a group to hold all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID) is None:

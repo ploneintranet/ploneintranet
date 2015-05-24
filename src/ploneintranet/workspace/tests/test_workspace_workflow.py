@@ -7,6 +7,7 @@ VIEW = 'View'
 ACCESS = 'Access contents information'
 MODIFY = 'Modify portal content'
 MANAGE = 'ploneintranet.workspace: Manage workspace'
+ADD_CONTENT = 'Add portal content'
 ADD_STATUS = 'Plone Social: Add Microblog Status Update'
 VIEW_STATUS = 'Plone Social: View Microblog Status Update'
 
@@ -365,4 +366,83 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertFalse(
             anon_permissions[MANAGE],
             'Anon can manage workspace'
+        )
+
+
+class TestWorkSpaceContainerWorkflow(BaseTestCase):
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        self.login_as_portal_owner()
+        api.user.create(username='normal_user', email="user@test.com")
+        api.user.create(
+            username='contributor', email="contributor@test.com",
+            roles=('Member', 'Contributor'))
+
+    def test_open_workspacecontainer(self):
+        """
+        Check that WorkspaceContainer is by default open: all authenticated
+        members can add content
+        """
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'open-workspaces',
+            title='Open Workspaces'
+        )
+        self.assertIn('open-workspaces', self.portal)
+
+        # Authenticated should have the add content permission
+        authenticated_permissions = api.user.get_permissions(
+            username='normal_user',
+            obj=workspace_folder,
+        )
+        self.assertTrue(
+            authenticated_permissions[ADD_CONTENT],
+            "Authenticated can't add content to an open workspace container"
+        )
+
+    def test_restricted_workspacecontainer(self):
+        """
+        Check that a restricted WorkspaceContainer prevents authenticated from
+        adding content.
+        """
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'restricted-workspaces',
+            title='Restricted Workspaces'
+        )
+        self.assertIn('restricted-workspaces', self.portal)
+        api.content.transition(obj=workspace_folder, transition='restrict')
+
+        # Authenticated should not have the add content permission, but should
+        # be able to view
+        authenticated_permissions = api.user.get_permissions(
+            username='normal_user',
+            obj=workspace_folder,
+        )
+        self.assertFalse(
+            authenticated_permissions[ADD_CONTENT],
+            'Authenticated can add content to a restricted workspace container'
+        )
+        self.assertTrue(
+            authenticated_permissions[VIEW],
+            "Authenticated can't view a restricted workspace container"
+        )
+        self.assertTrue(
+            authenticated_permissions[ACCESS],
+            "Authenticated can't access a restricted workspace container"
+        )
+
+        # Contributor should have the add content permission
+        contributor_permissions = api.user.get_permissions(
+            username='contributor',
+            obj=workspace_folder,
+        )
+        self.assertTrue(
+            contributor_permissions[ADD_CONTENT],
+            "Contributor can't add content to a restricted workspace container"
         )
