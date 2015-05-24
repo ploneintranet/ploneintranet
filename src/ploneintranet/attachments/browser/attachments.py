@@ -12,22 +12,22 @@ from zope.interface import implementer
 
 
 @implementer(IPublishTraverse)
-class StatusAttachments(BrowserView):
+class Attachments(BrowserView):
+    """ Attachments
+    """
+    attachment_id = None
+    preview_type = None
 
-    def __init__(self, context, request):
-        super(StatusAttachments, self).__init__(context, request)
-        self.status_id = self.attachment_id = self.preview_type = None
+    def publishTraverse(self, request, name):
+        # @@attachments/{attachment_id}[/{preview_type}]
+        self.attachment_id = name
 
-        if not request.path:
-            return
-        self.status_id = request.path.pop()
-        self.status_id = int(self.status_id)
-        if not request.path:
-            return
-        self.attachment_id = request.path.pop()
-        if not request.path:
-            return
-        self.preview_type = request.path.pop()
+        stack = request['TraversalRequestNameStack']
+        if stack:
+            self.preview_type = stack.pop()
+
+        request['TraversalRequestNameStack'] = []
+        return self
 
     def _prepare_imagedata(self, obj, imgdata):
         R = self.request.RESPONSE
@@ -46,23 +46,12 @@ class StatusAttachments(BrowserView):
             return imgdata.download(obj, REQUEST=self.request)
 
     def __call__(self):
-
-        if not self.status_id:
-            return self
-
-        container = PLONEINTRANET.microblog
-
         # FIXME
-        if self.status_id not in container.allowed_status_keys():
+        if api.user.is_anonymous():
             raise Unauthorized()
-        status = container.get(self.status_id)
 
-        if not self.attachment_id:
-            # do we want to be able to traverse to the status update itself?
-            # Returning only the id for now
-            return self.status_id
-        attachments = IAttachmentStorage(status)
-        attachment = attachments.get(self.attachment_id)
+        attachments = IAttachmentStorage(self.context)
+        attachment = attachments[self.attachment_id]
         if not self.preview_type:
             primary_field = IPrimaryFieldInfo(attachment).value
             mimetype = primary_field.contentType
@@ -74,6 +63,7 @@ class StatusAttachments(BrowserView):
                 'filename="{0}"'.format(
                     safe_unicode(self.attachment_id).encode('utf8')))
             return data
+
         docconv = IDocconv(attachment)
         if self.preview_type == 'thumb':
             if docconv.has_thumbs():
@@ -96,6 +86,31 @@ class StatusAttachments(BrowserView):
 
         raise NotFound
 
+
+@implementer(IPublishTraverse)
+class StatusAttachments(Attachments):
+    """ Attachments on a statusupdate
+    """
+
+    status_id = None
+
     def publishTraverse(self, request, name):
+        # @@status-attachment/{status_id}/{attachment_id}[/{preview_type}]
+        self.status_id = int(name)
+
+        stack = request['TraversalRequestNameStack']
+        self.attachment_id = stack.pop()
+        if stack:
+            self.preview_type = stack.pop()
+
         request['TraversalRequestNameStack'] = []
         return self
+
+    def __call__(self):
+        container = PLONEINTRANET.microblog
+
+        # FIXME
+        if self.status_id not in container.allowed_status_keys():
+            raise Unauthorized()
+
+        return super(StatusAttachments, self).__call__()

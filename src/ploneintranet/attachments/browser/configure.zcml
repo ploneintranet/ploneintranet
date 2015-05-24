@@ -39,4 +39,12 @@
       layer="..interfaces.IPloneintranetAttachmentsLayer"
       />
 
+  <browser:page
+      name="attachments"
+      for="*"
+      class=".attachments.Attachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
 </configure>

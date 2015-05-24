@@ -58,7 +58,7 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
     interface.implements(IAttachmentStorage, IHideFromBreadcrumbs)
     __allow_access_to_unprotected_subobjects__ = False
 
-    def __init__(self, id="++attachments++default"):
+    def __init__(self, id="@@attachments"):
         self.id = id
         if not shasattr(self, '_attachments'):
             self.init_storage()
@@ -83,7 +83,7 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
                 self._attachments.values()]
 
     def get(self, id):
-        return self._attachments.get(id).__of__(self)
+        return self._attachments[id].__of__(self)
 
     def add(self, attachment):
         if attachment.getId() in self._attachments:
