@@ -7,43 +7,73 @@
 <head>
 </head>
 <body class="diazo-off">
-    <div id="content" class="application">
-        <h1 i18n:translate="">Add new workspace</h1>
-        <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
-              tal:attributes="action string:${context/absolute_url}/add_content" class="wizard-box pat-validate">
+  <div id="content">
 
-          <div class="panel-body">
-            <fieldset class="horizontal">
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Title</span> <input type="text" required="required" class="required" name="title"/></label>           
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Description</span> <textarea name="description"></textarea></label>
-
-              <label class="focus"><span tal:omit-tag="" i18n:translate="">Workspace Type</span>
-                <select name="portal_type" class="focus">
-                  <option name="workspace_type" value="ploneintranet.workspace.workspacefolder">Classic Workspace</option>
-                  <option name="workspace_type" value="ploneintranet.workspace.case">Case</option>
-                </select>
-              </label>
-              <label class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case"
+    <div id="document-content" class="pat-modal">
+      <h1>
+        Create workspace
+      </h1>
+    
+      <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validate" name="workspace-add" id="workspace-add"
+        tal:attributes="action string:${context/absolute_url}/add_content">    
+    
+        <div class="panel-body">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+            </label>
+            <label>
+              <select name="portal_type">
+                <option value="ploneintranet.workspace.workspacefolder">Regular workspace</option>
+                <option value="ploneintranet.workspace.case">Case</option>
+              </select>
+            </label>
+            <label class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case"
                      tal:define="wfs view/workflows"><span tal:omit-tag="" i18n:translate="">Pick a Workflow</span>
-                <select name="workflow" tal:condition="python: len(wfs) > 6">
-                  <tal:r tal:repeat="wf view/workflows">
-                    <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
-                  </tal:r>
-                </select>
+              <select name="workflow" tal:condition="python: len(wfs) > 6">
+                <tal:r tal:repeat="wf view/workflows">
+                  <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
+                </tal:r>
+              </select>
 
-                <fieldset class="group pat-checklist radio" tal:condition="python: len(wfs) <=6">
-                    <label><input type="radio" name="workflow" tal:repeat="wf view/workflows" tal:content="wf/title" tal:attributes="value wf/id"/></label>
-                </fieldset>
-              </label>
+              <fieldset class="group pat-checklist radio" tal:condition="python: len(wfs) <=6">
+                  <label><input type="radio" name="workflow" tal:repeat="wf view/workflows" tal:content="wf/title" tal:attributes="value wf/id"/></label>
+              </fieldset>
+            </label>
+
+
+            <fieldset class="pat-checklist radio">
+              <label><input type="radio" value="secret" name="security-level" /> Locked down, secret workspace</label>
+              <label><input type="radio" value="private" checked name="security-level" /> Self-managed, private teamspace</label>
+              <label><input type="radio" value="open" name="security-level" /> Open community</label>
             </fieldset>
-          </div>
-
-          <fieldset class="button-bar panel-footer">
-            <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative" i18n:translate="" i18n:domain="plone">Save</button>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
+              This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
+              This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
+              This workspace will be visible and accessible to any member of this intranet.
+            </p>
           </fieldset>
-          <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
-          <span tal:replace="structure context/@@authenticator/authenticator"/>
-        </form>
+        </div>
+        
+        <div class="buttons panel-footer">
+                                    
+          <button name="form.buttons.save" type="submit" class="close-panel icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>                    
+          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>                    
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>  
     </div>
 </body>
 </html>
