@@ -9,7 +9,6 @@
   <permission>Add portal content</permission>
   <permission>Access contents information</permission>
   <permission>List folder contents</permission>
-  <permission>Modify portal content</permission>
   <permission>View</permission>
 
   <state state_id="open"
@@ -25,10 +24,6 @@
       <permission-role>Authenticated</permission-role>
     </permission-map>
     <permission-map name="List folder contents"
-                    acquired="False">
-      <permission-role>Authenticated</permission-role>
-    </permission-map>
-    <permission-map name="Modify portal content"
                     acquired="False">
       <permission-role>Authenticated</permission-role>
     </permission-map>
@@ -57,13 +52,6 @@
     <permission-map name="List folder contents"
                     acquired="False">
       <permission-role>Authenticated</permission-role>
-    </permission-map>
-    <permission-map name="Modify portal content"
-                    acquired="False">
-      <permission-role>Manager</permission-role>
-      <permission-role>Owner</permission-role>
-      <permission-role>Editor</permission-role>
-      <permission-role>Site Administrator</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
