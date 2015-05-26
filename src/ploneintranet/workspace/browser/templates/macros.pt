@@ -21,8 +21,13 @@
       </label>
       <br/>
       <label class="date-time">
-        Due date <input type="date" name="due"
-        tal:attributes="value context/due|nothing"/>
+        Deadline
+        <input type="date"
+               name="due"
+               tal:attributes="value context/due|nothing"
+               data-pat-autosubmit="delay: defocus"
+               data-pat-date-picker="behaviour: polyfill; show: date"
+               class="pat-date-picker" placeholder="Set a deadline"/>
       </label>
       <br/>
 
