@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.theme import _
 from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
@@ -83,3 +84,7 @@ class AddFolder(AddContent):
 class AddTask(AddContent):
 
     template = ViewPageTemplateFile('templates/add_task.pt')
+
+    def redirect(self, url):
+        workspace = parent_workspace(self.context)
+        return self.request.response.redirect(workspace.absolute_url())
