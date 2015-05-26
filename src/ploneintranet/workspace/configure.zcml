@@ -76,6 +76,12 @@
       handler=".subscribers.update_todo_state"
       />
 
+  <subscriber
+      for=".case.ICase
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".subscribers.update_todos_state"
+      />
+
   <adapter
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      provides="collective.workspace.interfaces.IWorkspace"
