@@ -128,6 +128,18 @@ Member can submit and retract a document
      When I retract the content item
      Then I can edit the document
 
+Member can publish a document in a Publishers workspace
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My publishing document
+     When I submit the content item
+     Then I can publish the content item
+
+Member cannot publish a document in a Producers workspace
+    Given I am in a Producers workspace as a workspace member
+     When I can create a new document    My non-publishing document
+     When I submit the content item
+     Then I cannot publish the content item
+
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -317,8 +329,6 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
 
-
-
 I can create a new folder
     Click link  Documents
     Click link  Create folder
@@ -384,6 +394,17 @@ I retract the content item
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
     Click button  Close
+
+I can publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+    Wait until page contains  The workflow state has been changed
+    Click button  Close
+
+I cannot publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Element should be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
+    Element should not be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
 
 I can edit the document
     Element should be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
