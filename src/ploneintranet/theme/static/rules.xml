@@ -71,8 +71,7 @@
                          body.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
-    <drop css:theme-children="#content" />
-    <append css:content-children="#portal-column-content" css:theme="#content" />
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
   <rules css:if-content="body.template-dashboard-html, 

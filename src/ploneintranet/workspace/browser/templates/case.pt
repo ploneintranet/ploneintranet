@@ -13,6 +13,7 @@
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
                                existing_users_by_id workspace/existing_users_by_id">
+      <div id="content" class="application page-type-case workspace-type-case">
       <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
         <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
@@ -86,7 +87,7 @@
 
       </div>
       <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-
+      </div>
     </metal:content>
   </body>
 </html>

@@ -7,10 +7,12 @@
             i18n:domain="ploneintranet">
 
     <body class="view-secure">
-        <metal:content fill-slot="content" 
+        <metal:content fill-slot="content"
                         tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
+        <div  id="content" class="application page-type-workspace workspace-type-workspace">
+
             <h1 id="workspace-name">
-                <!-- Next link is to lead to landing state of current workspace -->
+                <!-- Next link is to lead to landing state of current workspace! -->
                 <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
             </h1>
 
@@ -27,7 +29,7 @@
 
             </div>
             <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-
+        </div>
         </metal:content>
     </body>
 </html>

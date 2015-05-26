@@ -21,3 +21,12 @@ class Case(WorkspaceFolder):
     def is_case(self):
         """ XXX remove after case refactoring """
         return True
+
+    @property
+    def ws_type(self):
+        """
+        returns a string for use in a css selector in the templates
+        describing this content type
+        Override in custom workspace types
+        """
+        return "case"

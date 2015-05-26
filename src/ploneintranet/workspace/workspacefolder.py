@@ -61,6 +61,16 @@ class WorkspaceFolder(Container):
         return False
 
     @property
+    def ws_type(self):
+        """
+        returns a string for use in a css selector in the templates
+        describing this content type
+        Override in custom workspace types, if you want to make use of
+        it for custom styling
+        """
+        return "workspace"
+
+    @property
     def join_policy(self):
         try:
             return self._join_policy
