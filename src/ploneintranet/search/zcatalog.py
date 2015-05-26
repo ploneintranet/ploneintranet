@@ -1,3 +1,4 @@
+from datetime import datetime
 from plone import api
 from plone.batching import Batch
 from zope.interface import implements
@@ -103,19 +104,28 @@ class ZCatalogSiteSearch(object):
         """
         pass
 
-    def query(self, keywords, facets=None, start=0, step=None):
+    def query(self, keywords, facets=None, start_date=datetime.min,
+              end_date=datetime.max, start=0, step=None):
         """
         Query the catalog using passing facets as kwargs
-        and keywords against SearchableText
+        and keywords against SearchableText.
+
+        Also limit the search by the date range given by start_date and
+        end_date
+
         :param keywords: The string to pass to SearchableText
         :type keywords: str
-        :param facets: The additional fields to filter catalog query by
+        :param facets: The facets to filter results by
         :type facets: dict
-        :param start: The start offset for results
+        :param start_date: Earliest created date for results
+        :type start_date: datetime.datetime
+        :param end_date: Most recent created date for results
+        :type end_date: datetime.datetime
+        :param start: The offset position in results to start from
         :type start: int
         :param step: The maximum number of results to return
         :type step: int
-        :return: The results with relevant meta data
+        :returns: The results as a `SearchResponse` object
         :rtype: `SearchResponse`
         """
         if facets is None:
@@ -123,8 +133,12 @@ class ZCatalogSiteSearch(object):
         if step is None:
             step = 100
         catalog = api.portal.get_tool('portal_catalog')
+        date_range_query = {'query': (start_date, end_date),
+                            'range': 'min:max'}
+
         facets.update({
-            'SearchableText': keywords
+            'SearchableText': keywords,
+            'created': date_range_query
         })
         brains = catalog.searchResults(facets)
         batch = Batch(brains, step, start)
