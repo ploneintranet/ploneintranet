@@ -7,24 +7,59 @@
 <head>
 </head>
 <body class="diazo-off">
-    <div id="content" class="application">
-        <h1 i18n:translate="">Add new workspace</h1>
-        <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
-            tal:attributes="action string:${context/absolute_url}/++add++ploneintranet.workspace.workspacefolder" class="wizard-box pat-validate">
+  <div id="content">
 
-          <div class="panel-body">
-            <fieldset class="horizontal">
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Title</span> <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label>
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Description</span> <textarea name="form.widgets.IBasic.description"></textarea></label>
+    <div id="document-content" class="pat-modal">
+      <h1>
+        Create workspace
+      </h1>
+    
+      <form action="/workspaces.html#workspaces" method="post" class="wizard-box" name="workspace-add" id="workspace-add"
+        tal:attributes="action string:${context/absolute_url}/++add++ploneintranet.workspace.workspacefolder">    
+    
+        <div class="panel-body">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" class="required" name="form.widgets.IBasic.title" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="form.widgets.IBasic.description"></textarea>
+            </label>
+            <label>
+              <select>
+                <option>Regular workspace</option>
+                <option>Case</option>
+              </select>
+            </label>
+            <fieldset class="pat-checklist radio">
+              <label><input type="radio" value="secret" name="security-level" /> Locked down, secret workspace</label>
+              <label><input type="radio" value="private" checked name="security-level" /> Self-managed, private teamspace</label>
+              <label><input type="radio" value="open" name="security-level" /> Open community</label>
             </fieldset>
-          </div>
-
-          <fieldset class="button-bar panel-footer">
-            <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative" i18n:translate="" i18n:domain="plone">Save</button>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
+              This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
+              This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
+              This workspace will be visible and accessible to any member of this intranet.
+            </p>
           </fieldset>
-          <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
-          <span tal:replace="structure context/@@authenticator/authenticator"/>
-        </form>
+        </div>
+        
+        <div class="buttons panel-footer">
+                                    
+          <button name="form.buttons.save" type="submit" class="close-panel icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>                    
+          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>                    
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>  
 
     </div>
 </body>
