@@ -164,13 +164,13 @@ class WorkspaceFolder(Container):
             users_by_id[user['id']] = user
         return users_by_id
 
-    def member_prefill(self, context, field):
+    def member_prefill(self, context, field, default=None):
         """
         Return JSON for pre-filling a pat-autosubmit field with the values for
         that field
         """
         users = self.existing_users()
-        field_value = getattr(context, field, None)
+        field_value = getattr(context, field, default)
         prefill = {}
         if field_value:
             assigned_users = field_value.split(',')
