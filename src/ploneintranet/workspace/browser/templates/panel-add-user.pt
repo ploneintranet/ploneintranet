@@ -9,6 +9,7 @@
   <body tal:define="context_state context/@@plone_context_state;
                 user_cannot_manage python: not view.can_manage_workspace();
                 ws view/workspace;
+                workspace_url ws/absolute_url;
                 can_manage_workspace view/can_manage_workspace;
                 can_remove_users can_manage_workspace;
                 can_add_users view/can_add_users;
@@ -20,10 +21,12 @@
               Add user
           </h1>
     
-          <form action="/feedback/workspace-settings-members.html" class="wizard-box" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">    
+          <form action="/feedback/workspace-settings-members.html" class="wizard-box" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" method="post">    
       
             <div class="panel-body">
-              <input type="text" class="large pat-autosuggest" placeholder="Search existing users" />
+              <input type="text" name="u" class="large pat-autosuggest" placeholder="Search existing users" 
+                data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false;"
+                tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/allusers.json;; maximum-selection-size: 1'.format(attrs['data-pat-autosuggest'], workspace_url)" />
             </div>
           
             <div class="buttons panel-footer">
@@ -34,7 +37,7 @@
                   Cancel
               </button>                    
             </div>
-
+          <span tal:replace="structure context/@@authenticator/authenticator"/>
           </form>  
 
         </div>

@@ -5,6 +5,7 @@ from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
+from json import dumps
 
 
 class BaseWorkspaceView(BrowserView):
@@ -44,3 +45,23 @@ class WorkspaceState(BaseWorkspaceView):
     def state(self):
         if self.workspace() is not None:
             return api.content.get_state(self.workspace())
+
+
+class AllUsersJSONView(BrowserView):
+    """
+    Return all users in JSON for use in picker
+    """
+    def __call__(self):
+        q = self.request.get('q', '')
+        users = api.user.get_users()
+        member_details = []
+        for user in users:
+            fullname = user.getProperty('fullname')
+            email = user.getProperty('email')
+            uid = user.getProperty('id')
+            if q in fullname or q in email or q in uid:
+                member_details.append({
+                    'text': '%s <%s>' % (fullname, email),
+                    'id': uid,
+                })
+        return dumps(member_details)

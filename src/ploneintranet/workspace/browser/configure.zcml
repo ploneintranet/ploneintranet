@@ -157,6 +157,13 @@
       template="templates/panel-add-user.pt"
       />
 
+    <browser:page
+      name="allusers.json"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.AllUsersJSONView"
+      permission="collective.workspace.ManageRoster"
+      />
+
    <include package=".tiles" />
 
 
