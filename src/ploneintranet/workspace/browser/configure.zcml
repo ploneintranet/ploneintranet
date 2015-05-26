@@ -149,6 +149,14 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+    <browser:page
+      name="panel-add-user"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceMemberPicker"
+      template="templates/panel-add-user.pt"
+      />
+
    <include package=".tiles" />
 
 

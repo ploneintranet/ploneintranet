@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      
+      i18n:domain="plone">
+
+  <head>
+  </head>
+
+  <body tal:define="context_state context/@@plone_context_state;
+                user_cannot_manage python: not view.can_manage_workspace();
+                ws view/workspace;
+                can_manage_workspace view/can_manage_workspace;
+                can_remove_users can_manage_workspace;
+                can_add_users view/can_add_users;
+                admin_managed_workspace view/admin_managed_workspace;
+                ">
+      <div id="content">
+        <div id="document-content" class="pat-modal">
+          <h1>
+              Add user
+          </h1>
+    
+          <form action="/feedback/workspace-settings-members.html" class="wizard-box" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">    
+      
+            <div class="panel-body">
+              <input type="text" class="large pat-autosuggest" placeholder="Search existing users" />
+            </div>
+          
+            <div class="buttons panel-footer">
+              <button type="submit" class="icon-ok-circle close-panel">
+                  Ok
+              </button>                    
+              <button type="button" class="icon-cancel-circle close-panel">
+                  Cancel
+              </button>                    
+            </div>
+
+          </form>  
+
+        </div>
+      </div>
+  </body>
+</html>
