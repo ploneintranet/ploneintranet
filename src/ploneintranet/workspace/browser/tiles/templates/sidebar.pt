@@ -272,7 +272,7 @@
 
             <h3>General tasks</h3>
               <tal:workspace_tasks tal:condition="not: ws/is_case">
-                <fieldset class="task-list pat-checklist">
+                <fieldset class="object-list tasks pat-checklist">
                   <tal:task repeat="task tasks">
                     <br/>
                     <label>
