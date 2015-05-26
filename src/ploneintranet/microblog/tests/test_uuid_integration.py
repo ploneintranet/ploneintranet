@@ -13,8 +13,11 @@ from ploneintranet.microblog import statusupdate
 class StatusContainer(BaseStatusContainer):
     """we don't care about permission checks for the uuid integration"""
 
-    def _check_permission(self, perm="read"):
-        return True
+    def _check_add_permission(self, statusupdate):
+        pass
+
+    def _blacklist_microblogcontext_uuids(self):
+        return []
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
