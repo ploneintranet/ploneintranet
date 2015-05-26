@@ -787,29 +787,6 @@ class Sidebar(BaseTile):
         """
         return int(self.request.form.get('page_size', 18))
 
-    def tasks(self):
-        """
-        Show all tasks in the workspace
-        """
-        items = []
-        catalog = api.portal.get_tool('portal_catalog')
-        wft = api.portal.get_tool('portal_workflow')
-        current_path = '/'.join(self.context.getPhysicalPath())
-        ptype = 'simpletodo'
-        brains = catalog(path=current_path, portal_type=ptype)
-        for brain in brains:
-            obj = brain.getObject()
-            todo = ITodo(obj)
-            data = {
-                'id': brain.UID,
-                'title': brain.Description,
-                'content': brain.Title,
-                'url': brain.getURL(),
-                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
-            }
-            items.append(data)
-        return items
-
     def events(self):
         """
         Return the events in this workspace
