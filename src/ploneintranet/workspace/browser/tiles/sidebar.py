@@ -230,9 +230,11 @@ class Sidebar(BaseTile):
                     else:
                         if state == "done":
                             obj.reopen()
-                api.portal.show_message(_(u'Changes applied'),
-                                        self.request,
-                                        'success')
+                api.portal.show_message(
+                    _(u'Changes applied'), self.request, 'success')
+                msg = ViewPageTemplateFile(
+                    '../templates/globalstatusmessage.pt')
+                return msg(self)
             else:
                 if form.get('title') and form.get('title') != ws.title:
                     ws.title = form.get('title').strip()

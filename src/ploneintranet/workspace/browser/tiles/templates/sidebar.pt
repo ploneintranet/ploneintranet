@@ -266,10 +266,9 @@
             <p i18n:translate="no-task-found">No tasks created yet</p>
         </tal:no-tasks>
         <tal:tasks condition="tasks">
-          <form action="#"
-            tal:define="ws view/workspace"
-            tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
-            method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
+          <form method="post" class="pat-autosubmit pat-inject"
+                tal:define="ws view/workspace"
+                tal:attributes="action string:${ws/absolute_url}/@@sidebar.default#global-statusmessage">
 
             <h3>General tasks</h3>
               <tal:workspace_tasks tal:condition="not: ws/is_case">
@@ -302,13 +301,11 @@
                         <label>
                           <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
                           <input type="checkbox" name="active-tasks:list"
-                                 tal:attributes="value python: task['id'];
+                                 tal:attributes="value task/id;
                                                  checked python:'checked' if task['checked'] else ''"
                                  />
-                          <a href="#" class="pat-inject" data-pat-inject="source: #document-body; target: #document-body"
-                             tal:attributes="title python: task['title'];
-                                             href python: task['url']"
-                             tal:content="python:task['title']"></a>
+                          <a tal:attributes="title task/title; href task/url"
+                             tal:content="task/title"></a>
                         </label>
                       </tal:task>
                       <p class="button-bar">
