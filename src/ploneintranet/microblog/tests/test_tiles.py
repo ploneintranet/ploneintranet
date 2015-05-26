@@ -5,6 +5,7 @@ from ploneintranet.microblog.browser.interfaces import (
 from ploneintranet.activitystream.browser.interfaces import (
     IPloneIntranetActivitystreamLayer
 )
+import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.tool import MicroblogTool
 from ploneintranet.microblog.testing import (
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
@@ -23,6 +24,10 @@ class TestSetup(unittest.TestCase):
         self.request = self.layer['request']
         alsoProvides(self.request, IPloneIntranetActivitystreamLayer)
         alsoProvides(self.request, IPloneIntranetMicroblogLayer)
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
+    def tearDown(self):
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
 
     def test_newpostbox_tile_on_portal(self):
         ''' This will test the existence of the newpostbox.tile
@@ -73,6 +78,6 @@ class TestSetup(unittest.TestCase):
         self.assertEqual(tile.is_posting, True)
         self.assertEqual(tile.post_text, u'Testing post')
         # self.assertEqual(tile.post_attachment, u'No attachments')
-        # calling update does not create a post
+        # calling update creates a post
         tile.update()
         self.assertIsInstance(tile.post, StatusUpdate)

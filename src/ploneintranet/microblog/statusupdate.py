@@ -96,6 +96,11 @@ class StatusUpdate(Persistent):
             return None
         return uuidToObject(self._context_uuid)
 
+# FIXME distinguish between:
+# - context = context object (can be a page)
+# - microblog_context = workspace or None
+# - security_context = workspace or ISiteRoot
+
 #########################################################################
 
     # backward compatibility wrapper

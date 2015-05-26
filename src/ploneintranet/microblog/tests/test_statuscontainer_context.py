@@ -18,8 +18,14 @@ class UUIDStatusContainer(statuscontainer.BaseStatusContainer):
 
     implements(IStatusContainer)
 
-    def _check_permission(self, perm="read"):
+    def _check_add_permission(self, statusupdate):
         pass
+
+    def _blacklist_microblogcontext_uuids(self):
+        try:
+            return self.blacklist
+        except AttributeError:
+            return []
 
 
 class StatusContainer(UUIDStatusContainer):
@@ -52,6 +58,7 @@ class TestStatusContainer(unittest.TestCase):
 
     def setUp(self):
         self.container = StatusContainer()
+        self.container.blacklist = []
         self.su1 = StatusUpdate('test', tags=['foo'])
         self.su1.userid = 'dude'
         self.mockcontext = MockContext()
@@ -117,15 +124,17 @@ class TestStatusContainer(unittest.TestCase):
                   self.container.allowed_status_keys()]
         self.assertEqual([self.su1, self.su2, self.su3, self.su4], values)
 
-        uid_blacklist = [self.container._context2uuid(self.mockcontext)]
+        self.container.blacklist = [
+            self.container._context2uuid(self.mockcontext)]
         values = [self.container.get(i)
-                  for i in self.container._allowed_status_keys(uid_blacklist)]
+                  for i in self.container.allowed_status_keys()]
         self.assertEqual([self.su1, self.su4], values)
 
-        uid_blacklist = [self.container._context2uuid(self.mockcontext),
-                         self.container._context2uuid(self.mockcontext2)]
+        self.container.blacklist = [
+            self.container._context2uuid(self.mockcontext),
+            self.container._context2uuid(self.mockcontext2)]
         values = [self.container.get(i)
-                  for i in self.container._allowed_status_keys(uid_blacklist)]
+                  for i in self.container.allowed_status_keys()]
         self.assertEqual([self.su1], values)
 
 

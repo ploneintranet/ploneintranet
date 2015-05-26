@@ -10,7 +10,6 @@ from ploneintranet.microblog import statusupdate
 
 from ploneintranet.microblog.statuscontainer import STATUSQUEUE
 import ploneintranet.microblog.statuscontainer
-ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 50
 from ploneintranet.microblog.testing import tearDownContainer
 
 
@@ -19,8 +18,11 @@ class StatusContainer(statuscontainer.QueuedStatusContainer):
 
     implements(IStatusContainer)
 
-    def _check_permission(self, perm="read"):
+    def _check_add_permission(self, statusupdate):
         pass
+
+    def _blacklist_microblogcontext_uuids(self):
+        return []
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
@@ -50,9 +52,11 @@ class TestQueueStatusContainer(unittest.TestCase):
         self.container = StatusContainer()
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 50
 
     def tearDown(self):
         tearDownContainer(self.container)
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(IStatusContainer, StatusContainer))

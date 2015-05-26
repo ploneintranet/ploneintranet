@@ -11,8 +11,11 @@ class StatusContainer(statuscontainer.BaseStatusContainer):
 
     implements(IStatusContainer)
 
-    def _check_permission(self, perm="read"):
+    def _check_add_permission(self, statusupdate):
         pass
+
+    def _blacklist_microblogcontext_uuids(self):
+        return []
 
 
 class StatusUpdate(statusupdate.StatusUpdate):
