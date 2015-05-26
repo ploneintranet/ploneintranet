@@ -19,7 +19,8 @@ class ISiteSearch(Interface):
         :type attributes: `list`
         """
 
-    def query(keywords, facets=None, start=0, step=None):
+    def query(keywords, facets=None, start_date=None, end_date=None, start=0,
+              step=None):
         """
         Perform query against the backend with given keywords and optional
         facet choices.
@@ -31,6 +32,10 @@ class ISiteSearch(Interface):
         :type keywords: str
         :param facets: The facets to filter results by
         :type facets: dict
+        :param start_date: Earliest created date for results
+        :type start_date: datetime.datetime
+        :param end_date: Most recent created date for results
+        :type end_date: datetime.datetime
         :param start: The offset position in results to start from
         :type start: int
         :param step: The maximum number of results to return
