@@ -768,7 +768,7 @@ msgstr "Il tuo messaggio qui!"
 #. Default: "What are you doing?"
 #: ../microblog/browser/tiles/newpostbox.py:231 ../microblog/interfaces.py:15
 msgid "add_statusupdate_button"
-msgstr "Cosa stai facendo?"
+msgstr "Di cosa ti stai occupando?"
 
 #. Default: "All workspace activities…"
 #: ../workspace/browser/tiles/templates/workspaces.pt:31
