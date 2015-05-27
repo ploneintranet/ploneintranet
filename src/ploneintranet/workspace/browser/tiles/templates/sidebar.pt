@@ -347,8 +347,12 @@
         </tal:tasks>
     </div>
 
-
-    <div id="workspace-events" tal:define="events view/events">
+    <div id="workspace-events" tal:define="events view/events; ws view/workspace">
+      <div class="button-bar functions" id="-functions">
+        <div class="quick-functions">
+            <a title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+        </div>
+      </div>
       <div class="content">
 
         <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">

@@ -29,7 +29,13 @@
       name="macros"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       permission="zope2.View"
-      template="templates/macros.pt"
+      template="templates/macros.pt" />
+
+  <browser:page
+      name="content_macros"
+      for="*"
+      permission="zope2.View"
+      template="templates/content_macros.pt"
       />
 
   <browser:page
@@ -89,6 +95,13 @@
       name="add_task"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".add_content.AddTask"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:page
+      name="add_event"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddEvent"
       permission="cmf.AddPortalContent"
       />
 
