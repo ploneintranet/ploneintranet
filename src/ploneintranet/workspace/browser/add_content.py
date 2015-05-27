@@ -43,16 +43,13 @@ class AddContent(BrowserView):
         if new:
             form = self.request.form
             if self.portal_type == 'ploneintranet.workspace.case':
-                # enable_behaviors(new,
-                #                  (ICASEMETADATA,),
-                #                  (IWorkspaceFolder,))
-                # Add here the enable_behaviors for Tasks
-
                 if form.get('workflow'):
                     pwft = api.portal.get_tool("portal_placeful_workflow")
                     wfconfig = pwft.getWorkflowPolicyConfig(new)
                     wfconfig.setPolicyIn(form.get('workflow'))
+
             modified, errors = dexterity_update(new)
+
             if modified and not errors:
                 api.portal.show_message(
                     _("Item created."), request=self.request, type="success")
