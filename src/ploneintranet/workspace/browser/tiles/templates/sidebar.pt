@@ -294,7 +294,7 @@
                               define="milestones ws_view/metromap_sequence | nothing">
                 <tal:milestone repeat="milestone milestones">
 
-                    <fieldset class="task-list pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
+                    <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
                               tal:attributes="id string:milestone-${milestone}">
                       <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
                       <tal:task repeat="task python:tasks[milestone]">
