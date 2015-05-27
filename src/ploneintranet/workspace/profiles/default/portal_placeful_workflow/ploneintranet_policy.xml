@@ -2,6 +2,11 @@
 <object name="ploneintranet_policy" meta_type="WorkflowPolicy">
  <property name="title">Plone Intranet Policy</property>
  <bindings>
+
+  <type type_id="todo">
+    <bound-workflow workflow_id="todo_workflow" />
+  </type>
+
   <default>
    <bound-workflow workflow_id="ploneintranet_workflow"/>
   </default>
