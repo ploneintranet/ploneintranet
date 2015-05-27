@@ -50,7 +50,9 @@
       name="ploneintranet.testing"
       title="Setup testing data"
       description=""
-      handler="ploneintranet.suite.setuphandlers.testing" />
+      handler="ploneintranet.suite.setuphandlers.testing">
+      <depends name="ploneintranet.workspace"/>
+  </genericsetup:importStep>
 
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
