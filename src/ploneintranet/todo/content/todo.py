@@ -17,6 +17,8 @@ class ITodo(model.Schema):
 
     title = schema.TextLine(title=_("Task"))
 
+    description = schema.TextLine(title=_("Description"))
+
 
 class Todo(Item):
     implements(ITodo, ITodoMarker)
