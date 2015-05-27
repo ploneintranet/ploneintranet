@@ -26,7 +26,7 @@
             <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
     <div class="metadata pat-bumper" id="meta">
         <div class="meta-bar">
-            <h1 class="doc-title" id="document-title">
+            <h1 class="doc-title" id="document-title" tal:content="context/title">
                 Traces through Time data workshop
             </h1>
             <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
@@ -93,68 +93,9 @@
     </div>
     <div id="document-content">
         <div class="document event-details">
-            <fieldset class="vertical">
-                <label class="location">
-                    Location <input name="location" tal:attributes="disabled read_only" type="text" value="${context/location}">
-                </label>
-                <br>
-                <label class="organiser">
-                    Organiser <input tal:attributes="disabled read_only" class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Janet Northcote &lt;janet.northcote@staralliance.com&gt;">
-                </label>
-                <br>
-                <fieldset class="pat-checklist options">
-                    <label>
-                        <input tal:attributes="checked python:context.whole_day" tal:attributes="disabled read_only" type="checkbox"> All day event
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" tal:attributes="disabled read_only" > Visible on other calendars
-                    </label>
-                </fieldset>
-                <br>
-                <fieldset class="date-time">
-                    <fieldset class="row">
-                            <fieldset class="group six columns">
-                                <legend>From</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="start-day" placeholder="Date" value="${context/start/date}" />
-                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="${context/start/time}" />
-                            </fieldset>
 
-                            <fieldset class="group six columns">
-                                <legend>To</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="end_date-day" placeholder="Date" value="${context/end/date}"/>
-                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="end_date-time" placeholder="Time" value="${context/end/time}"/>
-                            </fieldset>
-                    </fieldset>
+            <metal:task_fields use-macro="context/content_macros/event_fields"/>
 
-                    <label class="timezone">Timezone
-                        <select class="timezone" tal:attributes="disabled read_only" >
-                            <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
-                            <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
-                            <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
-                        </select>
-                    </label>
-
-                </fieldset>
-                    <label class="invitees">Invitees
-                        <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest="words:EPP LDAP Administrator &lt;admin@staralliance.com&gt;,Plone LDAP Administrator &lt;admin@staralliance.com&gt;,Administrator StarDesk &lt;webworkadmin@staralliance.com&gt;,"
-                            data-pat-autosuggest-classes='{"Brett Anderson &lt;brett.anderson@united.com&gt;": ["undecided"], "Steffen Harbarth &lt;steffen.harbarth@dlh.de&gt;": ["confirmed"], "Julie Pepiot &lt;julie.pepiot@swiss.com&gt;": ["tentative"], "Lillian Lautzenheiser-Page &lt;lillian.lautz-page@ual.com&gt;": ["declined"], "G7 &lt;g7@world.com&gt;": ["group"]}'>
-
-
-                        <span class="legend">
-                            <dfn class="undecided">Undecided</dfn>
-                            <dfn class="confirmed">Confirmed</dfn>
-                            <dfn class="tentative">Tentative</dfn>
-                            <dfn class="declined">Declined</dfn>
-                        </span>
-
-                    </label>
-
-                <label class="attachments">Attached documents from this workspace
-                    <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="words:2013 Outline,Bag tag regulations,Baggage rules,First delivery presentation,IATA standards 2012,Initial competitive analysis,Market segmentation,Minutes kick-off meeting,Out of the box,Priority bag process,Priority bag tag specification,Waste not want not" type="text" value="Boardbook, Waste not want not">
-                </label>
-
-            </fieldset>
         </div>
     </div>
 </form>

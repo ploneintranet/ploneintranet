@@ -19,6 +19,13 @@
       />
 
   <browser:page
+      name="content_macros"
+      for="*"
+      permission="zope2.View"
+      template="templates/content_macros.pt"
+      />
+
+  <browser:page
       name="transfer"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.TransferMembershipForm"
@@ -60,6 +67,13 @@
       for="Products.CMFCore.interfaces.IFolderish"
       class=".add_content.AddFolder"
       template="templates/add_folder.pt"
+      permission="cmf.AddPortalContent"
+      />
+
+  <browser:page
+      name="add_event"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddEvent"
       permission="cmf.AddPortalContent"
       />
 
