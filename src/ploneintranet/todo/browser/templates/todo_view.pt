@@ -12,76 +12,79 @@
                                workspace_url python:workspace.absolute_url();
                                workspace_id python:workspace.id;
                                read_only python:not view.can_edit">
+      <div id="content"
+           tal:define="type workspace/ws_type | string:workspace;"
+           tal:attributes="class string:application page-type-${type} workspace-type-${type}">
 
-      <h1 id="workspace-name">
-        <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
-      </h1>
+        <h1 id="workspace-name">
+          <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+        </h1>
 
-      <div class="${workspace_id} dark-theme" id="application-body">
+        <div class="${workspace_id} dark-theme" id="application-body">
 
-        <div id="document-body">
-          <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
-            <div class="metadata pat-bumper" id="meta">
-              <div class="meta-bar">
-                <h1 class="doc-title" id="document-title">
-                  ${context/title}
-                </h1>
-                <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
-                <div class="quick-functions">
-                  <a href="#confirm-delete" class="icon-trash iconified">
-                    Delete
-                  </a>
-                  <a href="" class="icon-copy iconified">
-                    Copy
-                  </a>
-                  <a href="#share-panel" class="icon-export iconified pat-modal">
-                    Share
-                  </a>
-                  <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
-                  <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
-                    <label class="pat-select bare">
-                      <select>
-                        <option>Private</option>
-                        <option>Public</option>
-                        <option>Members</option>
-                        <option>Pending</option>
-                        <option>Logged in</option>
-                        <option>Internal</option>
-                        <option>External</option>
-                      </select>
-                    </label>
+          <div id="document-body">
+            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
+              <div class="metadata pat-bumper" id="meta">
+                <div class="meta-bar">
+                  <h1 class="doc-title" id="document-title">
+                    ${context/title}
+                  </h1>
+                  <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                  <div class="quick-functions">
+                    <a href="#confirm-delete" class="icon-trash iconified">
+                      Delete
+                    </a>
+                    <a href="" class="icon-copy iconified">
+                      Copy
+                    </a>
+                    <a href="#share-panel" class="icon-export iconified pat-modal">
+                      Share
+                    </a>
+                    <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                    <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                      <label class="pat-select bare">
+                        <select>
+                          <option>Private</option>
+                          <option>Public</option>
+                          <option>Members</option>
+                          <option>Pending</option>
+                          <option>Logged in</option>
+                          <option>Internal</option>
+                          <option>External</option>
+                        </select>
+                      </label>
+                    </fieldset>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+
+                  </div>
+                </div>
+                <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                  <fieldset class="bar">
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
                   </fieldset>
-                  <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                  <fieldset class="bar description">
+                    <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                  </fieldset>
 
+                </fieldset>
+              </div>
+
+              <div id="document-content">
+                <div class="document ticket-details">
+
+                  <fieldset class="vertical fancy">
+                    <metal:task_fields use-macro="workspace/macros/task_fields"/>
+                  </fieldset>
                 </div>
               </div>
-              <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-                <fieldset class="bar">
-                  <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
-                </fieldset>
-                <fieldset class="bar description">
-                  <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                </fieldset>
+            </form>
+          </div>
 
-              </fieldset>
-            </div>
-
-            <div id="document-content">
-              <div class="document ticket-details">
-
-                <fieldset class="vertical fancy">
-                  <metal:task_fields use-macro="workspace/macros/task_fields"/>
-                </fieldset>
-              </div>
-            </div>
-          </form>
+          <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
+          </aside>
         </div>
-
-        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
-        </aside>
+        <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
       </div>
-      <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-
     </metal:content>
   </body>
 </html>
