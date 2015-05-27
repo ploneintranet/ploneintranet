@@ -291,7 +291,8 @@
               </tal:workspace_tasks>
 
               <tal:case_tasks condition="ws/is_case"
-                              define="milestones ws_view/metromap_sequence | nothing">
+                              define="milestones ws_view/metromap_sequence | nothing;
+                                      token context/@@authenticator/token;">
                 <tal:milestone repeat="milestone milestones">
 
                     <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
@@ -314,7 +315,7 @@
                         <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                            tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}">Create new task</a>
                         <a class="small icon-stage success button"
-                           tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}'.format(ws.absolute_url(), milestones[milestone]['transition_id']);
+                           tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);
                                            class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>
                       </p>
                     </fieldset>
