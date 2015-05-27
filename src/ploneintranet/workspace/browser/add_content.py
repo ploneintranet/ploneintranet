@@ -85,3 +85,13 @@ class AddTask(AddContent):
     def redirect(self, url):
         workspace = parent_workspace(self.context)
         return self.request.response.redirect(workspace.absolute_url())
+
+
+class AddEvent(AddContent):
+
+    template = ViewPageTemplateFile('templates/add_event.pt')
+
+    def redirect(self, url):
+        workspace = parent_workspace(self.context)
+        return self.request.response.redirect(workspace.absolute_url() +
+                                              '#workspace-events')

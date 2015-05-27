@@ -73,7 +73,7 @@
                 <div class="document ticket-details">
 
                   <fieldset class="vertical fancy">
-                    <metal:task_fields use-macro="workspace/macros/task_fields"/>
+                    <metal:task_fields use-macro="workspace/content_macros/task_fields"/>
                   </fieldset>
                 </div>
               </div>

@@ -1,25 +1,25 @@
 <div id="content">
   <h1>
-    Create task
+    Create event
   </h1>
   <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
     <div class="panel-body">
 
       <fieldset class="icon-tabs">
         <label class="icon-ok-circle">
-          <input checked="checked" name="portal_type" value="todo" type="radio" /> Task
+          <input checked="checked" name="portal_type" value="Event" type="radio" /> Event
         </label>
       </fieldset>
       <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Task title" autofocus />
+        <input type="text" name="title" placeholder="Event title" autofocus />
         <br/>
-        <textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea>
+        <textarea name="description" placeholder="Enter a description of the event" rows="6"></textarea>
       </fieldset>
 
       <fieldset class="vertical"
                 tal:define="workspace context/acquire_workspace;
                             workspace_url context/absolute_url;">
-        <metal:task_fields use-macro="context/content_macros/task_fields"/>
+        <metal:task_fields use-macro="context/content_macros/event_fields"/>
       </fieldset>
 
     </div>

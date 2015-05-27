@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  <body>
+
+    <metal:task_fields define-macro="task_fields">
+      <label class="initiator"
+             tal:define="current_member context/@@plone_portal_state/member;
+                         default_prefill python:request.method == 'GET' and current_member.getId()">
+        Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
+        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));"/>
+      </label>
+      <br/>
+      <label class="assignee">
+        Assignee <input class="pat-autosuggest users" name="assignee"
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
+        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
+      </label>
+      <br/>
+      <label class="date-time">
+        Deadline
+        <input type="date"
+               name="due"
+               tal:attributes="value context/due|nothing"
+               data-pat-autosubmit="delay: defocus"
+               data-pat-date-picker="behaviour: polyfill; show: date"
+               class="pat-date-picker" placeholder="Set a deadline"/>
+      </label>
+      <br/>
+
+      <tal:case_todo condition="workspace/is_case">
+        <label class="stage milestone"
+               tal:define="workspace_view nocall:workspace/view">
+          Milestone this task belongs to
+          <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
+            <option></option>
+            <tal:milesstones repeat="milestone mm_seq">
+              <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
+                  tal:attributes="value milestone;
+                                  selected python:'selected' if current_milestone == milestone else ''"
+                      tal:content="python:mm_seq[milestone]['title']"/>
+            </tal:milesstones>
+          </select>
+        </label>
+        <br />
+      </tal:case_todo>
+    </metal:task_fields>
+
+
+    <metal:event_fields define-macro="event_fields">
+      <fieldset class="vertical" tal:define="read_only python:False">
+                <label class="location">
+                    Location <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing">
+                </label>
+                <br>
+                <label class="organiser">
+                    Organiser <input tal:attributes="disabled read_only" class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="value context/organiser | nothing">
+                </label>
+                <br>
+                <fieldset class="pat-checklist options">
+                    <label>
+                        <input tal:attributes="checked python:context.whole_day" tal:attributes="disabled read_only" type="checkbox"> All day event
+                    </label>
+                    <br>
+                    <label>
+                        <input type="checkbox" tal:attributes="disabled read_only" > Visible on other calendars
+                    </label>
+                </fieldset>
+                <br>
+                <fieldset class="date-time">
+                    <fieldset class="row">
+                            <fieldset class="group six columns">
+                                <legend>From</legend>
+                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="start-day" placeholder="Date" value="" />
+                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="" />
+                            </fieldset>
+
+                            <fieldset class="group six columns">
+                                <legend>To</legend>
+                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="end_date-day" placeholder="Date" value=""/>
+                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="end_date-time" placeholder="Time" value=""/>
+                            </fieldset>
+                    </fieldset>
+
+                    <label class="timezone">Timezone
+                        <select class="timezone" tal:attributes="disabled read_only" >
+                            <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
+                            <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                            <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
+                        </select>
+                    </label>
+
+                </fieldset>
+                    <label class="invitees">Invitees
+                        <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest=""
+                            data-pat-autosuggest-classes=''>
+
+
+                        <span class="legend">
+                            <dfn class="undecided">Undecided</dfn>
+                            <dfn class="confirmed">Confirmed</dfn>
+                            <dfn class="tentative">Tentative</dfn>
+                            <dfn class="declined">Declined</dfn>
+                        </span>
+
+                    </label>
+
+                <label class="attachments">Attached documents from this workspace
+                    <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value="">
+                </label>
+
+            </fieldset>
+    </metal:event_fields>
+
+  </body>
+</html>
