@@ -26,12 +26,6 @@
       />
 
   <browser:page
-      name="macros"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      permission="zope2.View"
-      template="templates/macros.pt" />
-
-  <browser:page
       name="content_macros"
       for="*"
       permission="zope2.View"

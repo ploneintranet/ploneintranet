@@ -6,9 +6,51 @@
   <body>
 
     <metal:task_fields define-macro="task_fields">
+      <label class="initiator"
+             tal:define="current_member context/@@plone_portal_state/member;
+                         default_prefill python:request.method == 'GET' and current_member.getId()">
+        Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
+        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));"/>
+      </label>
+      <br/>
+      <label class="assignee">
+        Assignee <input class="pat-autosuggest users" name="assignee"
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
+        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
+      </label>
+      <br/>
+      <label class="date-time">
+        Deadline
+        <input type="date"
+               name="due"
+               tal:attributes="value context/due|nothing"
+               data-pat-autosubmit="delay: defocus"
+               data-pat-date-picker="behaviour: polyfill; show: date"
+               class="pat-date-picker" placeholder="Set a deadline"/>
+      </label>
+      <br/>
+
+      <tal:case_todo condition="workspace/is_case">
+        <label class="stage milestone"
+               tal:define="workspace_view nocall:workspace/view">
+          Milestone this task belongs to
+          <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
+            <option></option>
+            <tal:milesstones repeat="milestone mm_seq">
+              <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
+                  tal:attributes="value milestone;
+                                  selected python:'selected' if current_milestone == milestone else ''"
+                      tal:content="python:mm_seq[milestone]['title']"/>
+            </tal:milesstones>
+          </select>
+        </label>
+        <br />
+      </tal:case_todo>
     </metal:task_fields>
 
-    <metal:task_fields define-macro="event_fields">
+
+    <metal:event_fields define-macro="event_fields">
       <fieldset class="vertical" tal:define="read_only python:False">
                 <label class="location">
                     Location <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing">
@@ -71,7 +113,7 @@
                 </label>
 
             </fieldset>
-    </metal:task_fields>
+    </metal:event_fields>
 
   </body>
 </html>
