@@ -414,7 +414,6 @@ I can edit the document
     Element should be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
 
 I cannot edit the document
-    Debug
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
 
