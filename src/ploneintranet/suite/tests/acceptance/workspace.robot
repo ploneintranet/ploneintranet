@@ -18,10 +18,9 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-# Normal users cannot currently create workspaces. Commented out until fixed
-# Alice can create a workspace
-#     Given I am logged in as the user alice_lindstrom
-#     Then I can create a new workspace    My user workspace
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+    Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom

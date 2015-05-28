@@ -9,6 +9,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 def post_install(context):
     """
+    - adds the global "workspaces" container
     - sets an acl user group to hold all intranet users
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy
@@ -18,6 +19,13 @@ def post_install(context):
         return
 
     portal = api.portal.get()
+
+    if 'workspaces' not in portal:
+        api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
 
     # Set up a group to hold all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID) is None:
