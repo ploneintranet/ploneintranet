@@ -17,6 +17,14 @@ Test Teardown  Close all browsers
 Manager can create a case workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new case    A case for outer space
+     Then I can delete a case  a-case-for-outer-space
+
+Manager can change the workflow of a case workspace
+    Given I'm logged in as a 'Manager'
+     Then I can create a new case  Workflow case
+     Then I can go to the sidebar tasks tile
+     Then I can close the first milestone
+     Then I can delete a case  workflow-case
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -154,11 +162,17 @@ I can create a new case
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
     Input Text  css=input.required.parsley-validated  text=${title}
-    Input Text  name=description  text=It's time to leave this planet
+    Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
     Select Radio Button  workflow  todo_workflow
     Click Button  Create workspace
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
+
+I can delete a case
+    [arguments]  ${case_id}
+    Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
+    Click Button  Delete
+    Page Should Contain  has been deleted
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
@@ -250,6 +264,11 @@ I can add a new task
     Select From List  milestone  new
     Click Button  Create
     Wait Until Page Contains  Make a plan
+
+I can close the first milestone
+    Click Element  xpath=//h4[text()='New']
+    Click Link  Close milestone
+    Page Should Contain  Item state changed
 
 I can invite Alice to join the workspace
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
