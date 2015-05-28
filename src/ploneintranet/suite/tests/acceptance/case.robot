@@ -56,6 +56,20 @@ Member can view sidebar tasks
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile
 
+Manager can add a new task
+    Given I am in a case workspace as a workspace admin
+     Then I can go to the sidebar tasks tile
+     Then I can add a new task  Make a plan
+
+Manager can mark a new task complete on dashboard
+    Given I am in a case workspace as a workspace admin
+     Then I can go to the sidebar tasks tile
+     Then I can add a new task  Todo soon
+     Then I go to the dashboard
+     Then I mark a new task complete
+     Then I go to the dashboard
+     Then I do not see the completed task is not listed
+
 Traverse Folder in sidebar navigation
     Given I am in a case workspace as a workspace member
      Then I can enter the Supporting Materials Folder
@@ -163,6 +177,15 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+I go to the dashboard
+    Go To  ${PLONE_URL}
+
+I mark a new task complete
+    Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
+    Wait Until Page Contains  Changes applied
+
+I do not see the completed task is not listed
+    Page Should Not Contain  Todo soon
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
@@ -214,9 +237,19 @@ I can delete an old event
     Click Button  Delete
 
 I can go to the sidebar tasks tile
-    Go To  ${PLONE_URL}/workspaces/minifest
     Click Link  link=Tasks
     Wait Until Page Contains  General tasks
+
+I can add a new task
+    [arguments]  ${title}
+    Click Link  Create task
+    Wait Until Page Contains  Create task
+    Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
+    Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
+    Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
+    Select From List  milestone  new
+    Click Button  Create
+    Wait Until Page Contains  Make a plan
 
 I can invite Alice to join the workspace
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
