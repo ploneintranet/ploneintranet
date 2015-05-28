@@ -199,12 +199,12 @@ Member cannot publish a document in a Producers workspace
 
 I can create a new workspace
     [arguments]  ${title}
-    Go To  ${PLONE_URL}/workspaces.html
-    Click Link  link=Create Workspace
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
     Input Text  css=input.required.parsley-validated  text=${title}
-    Input Text  name=form.widgets.IBasic.description  text=Random description
-    Click Element  css=button.icon-ok-circle.confirmative
+    Input Text  name=description  text=Random description
+    Click Button  Create workspace
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I select a file to upload
