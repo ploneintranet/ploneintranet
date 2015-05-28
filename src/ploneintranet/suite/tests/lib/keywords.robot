@@ -54,6 +54,10 @@ I am in a workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Market Committee Workspace
 
+I am in a case workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Minifest
+
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
@@ -62,10 +66,19 @@ I am in a workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Open Market Committee Workspace
 
+I am in a case workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Minifest
+
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
+
+I go to the Minifest
+    Go To  ${PLONE_URL}/workspaces/minifest
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Minifest
 
 I go to the Open Parliamentary Papers Guidance Workspace
     Go To  ${PLONE_URL}/workspaces/parliamentary-papers-guidance

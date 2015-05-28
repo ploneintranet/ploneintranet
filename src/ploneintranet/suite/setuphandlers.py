@@ -645,6 +645,23 @@ def testing(context):
             'description': 'Publizieren des Beschlusses im Web - falls '
                            'öffentlich.',
             'milestone': 'decided',
+        }, {
+            'title': 'Supporting Materials',
+            'type': 'Folder',
+            'contents': [{
+                'title': '',
+                'type': 'File'
+            }]
+        }, {
+            'title': 'Future Council Meeting',
+            'type': 'Event',
+            'start': now + timedelta(days=7),
+            'end': now + timedelta(days=14)
+        }, {
+            'title': 'Past Council Meeting',
+            'type': 'Event',
+            'start': now + timedelta(days=-7),
+            'end': now + timedelta(days=-14)
         }],
     }]
     create_caseworkspaces(caseworkspaces)
