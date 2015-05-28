@@ -3,6 +3,9 @@
  <property name="title">Plone Intranet Policy</property>
  <bindings>
 
+  <!-- The workflow is set to (Default) for most content types in
+       PI.workspace.setuphandlers.post_install. If you need to override a
+       particular content type, it must also be filtered out there. -->
   <type type_id="todo">
     <bound-workflow workflow_id="todo_workflow" />
   </type>
