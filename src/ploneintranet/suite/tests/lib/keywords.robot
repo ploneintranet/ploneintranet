@@ -76,6 +76,9 @@ I go to the Open Parliamentary Papers Guidance Workspace
 I try go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
+I try go to the Minifest
+    Go To  ${PLONE_URL}/workspaces/minifest
+
 I am redirected to the login page
     Location Should Contain  require_login
 
