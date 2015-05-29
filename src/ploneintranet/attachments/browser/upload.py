@@ -108,3 +108,7 @@ class UploadAttachments(BrowserView):
             self.attachments.append(obj)
 
         return self.index()
+
+
+class UploadStatusAttachments(UploadAttachments):
+    """Separate class since it handles permissions differently"""

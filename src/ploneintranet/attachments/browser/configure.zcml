@@ -15,6 +15,15 @@
       />
 
     <browser:page
+      name="upload-statusupdate-attachments"
+      for="*"
+      class=".upload.UploadStatusAttachments"
+      permission="ploneintranet.microblog.AddStatusUpdate"
+      template="templates/upload.pt"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+    <browser:page
       name="attachment-info"
       for="ploneintranet.attachments.attachments.IAttachmentStoragable"
       class=".info.AttachmentInfo"

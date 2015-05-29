@@ -58,8 +58,7 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
     interface.implements(IAttachmentStorage, IHideFromBreadcrumbs)
     __allow_access_to_unprotected_subobjects__ = False
 
-    def __init__(self, id="@@attachments"):
-        self.id = id
+    def __init__(self):
         if not shasattr(self, '_attachments'):
             self.init_storage()
 
@@ -70,7 +69,7 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
     def getId(self):
         """ Get the id of the storage. This is used to construct a URL.
         """
-        return self.id
+        return '@@attachments'  # hardcode for backcompat in devel
 
     def init_storage(self):
         self._attachments = OOBTree()
