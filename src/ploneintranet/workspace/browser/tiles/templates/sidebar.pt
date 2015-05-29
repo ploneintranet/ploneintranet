@@ -259,7 +259,8 @@
             <div class="quick-functions">
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
-                 tal:attributes="href string:${ws/absolute_url}/add_task">Create task</a>
+                 tal:attributes="href string:${ws/absolute_url}/add_task"
+                 tal:condition="view/can_add">Create task</a>
             </div>
         </div>
         <tal:no-tasks condition="python:not ws.is_case and not tasks ">
@@ -313,7 +314,8 @@
                       </tal:task>
                       <p class="button-bar">
                         <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                           tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}">Create new task</a>
+                           tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
+                           tal:condition="view/can_add">Create new task</a>
                         <a class="small icon-stage success button"
                            tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);
                                            class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>
@@ -332,7 +334,8 @@
                   </label>
                   <p class="button-bar">
                     <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                       tal:attributes="href string:${ws/absolute_url}/add_task">Create new task</a>
+                       tal:attributes="href string:${ws/absolute_url}/add_task"
+                       tal:condition="view/can_add">Create new task</a>
                   </p>
                 </fieldset>
 
@@ -342,7 +345,8 @@
           </form>
           <div class="button-bar create-buttons">
             <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large" data-pat-inject="source:#content"
-               tal:attributes="href string:${ws/absolute_url}/add_task">Add task</a>
+               tal:attributes="href string:${ws/absolute_url}/add_task"
+               tal:condition="view/can_add">Add task</a>
           </div>
         </tal:tasks>
     </div>

@@ -813,3 +813,6 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def can_add(self):
+        return api.user.has_permission('Add portal content', obj=self.context)
