@@ -46,11 +46,11 @@ class Attachments(BrowserView):
             return imgdata.download(obj, REQUEST=self.request)
 
     def __call__(self):
-        # FIXME
-        if api.user.is_anonymous():
-            raise Unauthorized()
-
+        # requires View on self.context
         attachments = IAttachmentStorage(self.context)
+        return self.render_attachments(attachments)
+
+    def render_attachments(self, attachments):
         attachment = attachments[self.attachment_id]
         if not self.preview_type:
             primary_field = IPrimaryFieldInfo(attachment).value
@@ -108,9 +108,7 @@ class StatusAttachments(Attachments):
 
     def __call__(self):
         container = PLONEINTRANET.microblog
-
-        # FIXME
-        if self.status_id not in container.allowed_status_keys():
-            raise Unauthorized()
-
-        return super(StatusAttachments, self).__call__()
+        # requires ViewStatusUpdate on the statusupdate returned
+        statusupdate = container.get(self.status_id)
+        attachments = IAttachmentStorage(statusupdate)
+        return self.render_attachments(attachments)
