@@ -4,20 +4,14 @@ from plone.supermodel import model
 from ploneintranet.workspace.adapters import IMetroMap
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import parent_workspace
-from zope import schema
 from zope.interface import implements
 
-from .. import _
 from ..behaviors import ITodoMarker
 
 
 class ITodo(model.Schema):
     """A todo content type
     """
-
-    title = schema.TextLine(title=_("Task"))
-
-    description = schema.TextLine(title=_("Description"))
 
 
 class Todo(Item):
