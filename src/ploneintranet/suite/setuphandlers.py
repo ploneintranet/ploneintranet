@@ -210,6 +210,7 @@ def create_workspaces(workspaces):
             type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
         )
+        api.content.transition(ws_folder, 'publish')
     else:
         ws_folder = portal['workspaces']
 
@@ -239,6 +240,7 @@ def create_caseworkspaces(caseworkspaces):
             type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
         )
+        api.content.transition(ws_folder, 'publish')
     else:
         ws_folder = portal['workspaces']
 
