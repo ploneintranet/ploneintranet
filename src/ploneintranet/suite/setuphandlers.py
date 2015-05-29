@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 from plone import api
 from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
-from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.attachments.utils import create_attachment
+# from ploneintranet.attachments.attachments import IAttachmentStorage
+# from ploneintranet.attachments.utils import create_attachment
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
