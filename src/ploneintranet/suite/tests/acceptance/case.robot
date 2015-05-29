@@ -26,6 +26,21 @@ Manager can change the workflow of a case workspace
      Then I can close the first milestone
      Then I can delete a case  workflow-case
 
+Manager can toggle the state of a task
+    Given I'm logged in as a 'Manager'
+     Then I try go to the Minifest
+     Then I can go to the sidebar tasks tile
+     Then I can toggle a milestone  New
+     Then I select the task check box  Basisdatenerfassung
+     Then I try go to the Minifest
+     Then I can go to the sidebar tasks tile
+     Then I see a task is complete  Basisdatenerfassung
+     Then I unselect the task check box  Basisdatenerfassung
+     Then I try go to the Minifest
+     Then I can go to the sidebar tasks tile
+     Then I see a task is open  Basisdatenerfassung
+     Then I can toggle a milestone  New
+
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
      when I try go to the Minifest
@@ -198,6 +213,24 @@ I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
     Wait Until Page Contains  Changes applied
 
+I select the task check box
+    [arguments]  ${title}
+    Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait Until Page Contains  Changes applied
+
+I unselect the task check box
+    [arguments]  ${title}
+    Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait Until Page Contains  Changes applied
+
+I see a task is complete
+    [arguments]  ${title}
+    Checkbox Should Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+
+I see a task is open
+    [arguments]  ${title}
+    Checkbox Should Not Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon
 
@@ -269,6 +302,10 @@ I can close the first milestone
     Click Element  xpath=//h4[text()='New']
     Click Link  Close milestone
     Page Should Contain  Item state changed
+
+I can toggle a milestone
+    [arguments]  ${milestone}
+    Click Element  xpath=//h4[text()='${milestone}']
 
 I can invite Alice to join the workspace
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
