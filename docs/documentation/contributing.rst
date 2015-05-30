@@ -17,7 +17,7 @@ To reach the Plone Intranet team for any questions please contact
 
 * `Plone Intranet mailing list <mailto:ploneintranet@netsight.co.uk>`_
 
-* *#plone.intranet* IRC channel on irc.freenode.net
+* *#ploneintranet* IRC channel on irc.freenode.net
 
 
 License
@@ -42,7 +42,7 @@ Please  **DO NOT** commit to master directly. Even for the smallest and most tri
 
 Your pull requests may be checked for spelling, and clarity. So don't hesitate to contribute also if English is not your first language, we will try to be helpful in corrections without being annoying.
 
-If you don't get feedback on your pull request in a day please come to #plone.intranet and ask.
+If you don't get feedback on your pull request in a day please come to #ploneintranet and ask.
 
 The main goal of this process is not to annoy you. On the contrary, we **love** your contributions.
 

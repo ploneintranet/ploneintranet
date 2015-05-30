@@ -22,6 +22,12 @@ On Ubuntu::
     sudo apt-get install ruby
     gem install docsplit
 
+You will need some other tools installed for docsplit.  See the
+`docsplit installation instructions`_.  Note that Libre Office is
+mentioned as optional there, but in Plone Intranet we require it.
+
+.. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
+
 Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet

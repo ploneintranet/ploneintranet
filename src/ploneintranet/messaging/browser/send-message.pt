@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 <body>
   <div id="social-messages"
     metal:fill-slot="main">
@@ -72,7 +72,7 @@
                 class="attachments pat-subform pat-autosubmit pat-inject"
                 data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #new-post-box-attachment-previews">
                 <label class="iconified icon-attach pat-switch"
-                  data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+                  data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
                 <p class="attachment-previews"
                 id="new-post-box-attachment-previews">
                 No attachments selected.
@@ -93,11 +93,11 @@
                   class="pat-switch"
                   data-pat-switch="#new-post-box status-* status-inactive"
                   type="submit"
-                  name="form.buttons.send">Post</button>
+                  name="form.buttons.send" i18n:translate="">Post</button>
                 <button
                   class="pat-switch"
                   data-pat-switch="#new-post-box status-* status-inactive"
-                  type="reset">Cancel</button>
+                  type="reset" i18n:translate="">Cancel</button>
               </div>
             </fieldset>
           </form>

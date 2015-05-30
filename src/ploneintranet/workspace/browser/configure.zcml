@@ -14,8 +14,15 @@
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.WorkspaceView"
-      permission="zope2.View"
+      permission="zope2.AccessContentsInformation"
       template="templates/workspace.pt"
+      />
+
+  <browser:page
+      name="content_macros"
+      for="*"
+      permission="zope2.View"
+      template="templates/content_macros.pt"
       />
 
   <browser:page
@@ -63,6 +70,13 @@
       permission="cmf.AddPortalContent"
       />
 
+  <browser:page
+      name="add_event"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddEvent"
+      permission="cmf.AddPortalContent"
+      />
+
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
@@ -85,7 +99,7 @@
      name="joinme"
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      class=".views.JoinView"
-     permission="zope2.View"
+     permission="zope2.AccessContentsInformation"
      />
 
    <browser:page
@@ -101,7 +115,7 @@
      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
      class=".viewlets.JoinViewlet"
      template="templates/joinviewlet.pt"
-     permission="zope2.View"
+     permission="zope2.AccessContentsInformation"
      view="plone.app.layout.globals.interfaces.IViewView"
      />
 

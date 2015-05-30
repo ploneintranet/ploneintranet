@@ -75,10 +75,19 @@ class TestInviteUser(unittest.TestCase):
             'Incorrect user authenticated after accepting token',
         )
 
-        # Logout and try an invalid token
+        # Logout
         self.browser.open('%s/logout' % (
             self.portal.absolute_url(),
         ))
+
+        # A token is valid only one time.
+        self.browser.open(token_url)
+
+        # We should NOT be authenticated
+        self.assertIn('userrole-anonymous', self.browser.contents,
+                      'User was authenticated')
+
+        # Try an invalid token
         self.browser.open('%s/@@accept-token/thisisnotatoken' % (
             self.portal.absolute_url(),
         ))

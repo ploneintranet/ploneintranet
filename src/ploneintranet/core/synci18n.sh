@@ -13,7 +13,7 @@
 
 # Assume the product name is the current folder name
 CURRENT_PATH=`pwd`
-CATALOGNAME="ploneintranet.core"
+CATALOGNAME="ploneintranet"
 
 # List of languages
 LANGUAGES="en nl es fr it pt_BR"
@@ -25,7 +25,7 @@ for lang in $LANGUAGES; do
 done
 
 # Rebuild .pot
-i18ndude rebuild-pot --pot locales/$CATALOGNAME.pot --merge locales/manual.pot --create $CATALOGNAME .
+i18ndude rebuild-pot --exclude="generated prototype examples" --pot locales/$CATALOGNAME.pot --merge locales/manual.pot --create $CATALOGNAME ..
 
 # Compile po files
 for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do

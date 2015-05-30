@@ -1,4 +1,4 @@
-<ul id="ploneintranet-navigation" i18n:domain="ploneintranet.activitystream">
+<ul id="ploneintranet-navigation" i18n:domain="ploneintranet">
   <li tal:repeat="item view/items"
       tal:attributes="class item/state"><a tal:attributes="href item/url"
                                       i18n:translate=""

@@ -148,8 +148,20 @@ test-robot: ## Run robot tests with a virtual X server
 test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot' -x
 
-test: ## Run all tests, including robot tests with a virtual X server
+test:: ## Run all tests, including robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
-.PHONY: all clean check-clean
+####################################################################
+# Documentation
+docs:
+	@cd docs && make html
+
+# Re-generate
+api-docs:
+	@bin/sphinx-apidoc -o docs/api src/ploneintranet
+
+docs-clean:
+	rm -rf docs/html
+
+.PHONY: all docs api-docs docs-clean clean check-clean

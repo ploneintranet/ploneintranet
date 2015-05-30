@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
@@ -12,6 +13,8 @@ from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 from ploneintranet.docconv.client.interfaces import IDocconv
 
+logger = logging.getLogger('ploneintranet.activitystream')
+
 
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
@@ -19,7 +22,21 @@ class StatusUpdateView(BrowserView):
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
     post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
     comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
-    commentable = True
+
+    @property
+    @memoize
+    def commentable(self):
+        '''
+        Check whether the viewing user has the right to comment
+        by resolving the containing workspace IMicroblogContext
+        (falling back to None=ISiteRoot)
+        '''
+        add = 'Plone Social: Add Microblog Status Update'
+        try:
+            return api.user.has_permission(add, obj=self.context.context)
+        except api.exc.UserNotFoundError:
+            logger.error("UserNotFoundError while rendering a statusupdate.")
+            return False
 
     @property
     @memoize
@@ -48,7 +65,7 @@ class StatusUpdateView(BrowserView):
         ''' This is used to render the toggle like stuff
         '''
         toggle_like_base = api.content.get_view(
-            'toggle_like',
+            'toggle_like_statusupdate',
             self.portal,
             self.request,
         )

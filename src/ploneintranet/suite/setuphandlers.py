@@ -9,8 +9,7 @@ from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.network.interfaces import ILikesTool
-from ploneintranet.network.interfaces import INetworkGraph
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -83,11 +82,11 @@ def create_users(context, users, avatars_dir):
             )
 
     # setup social network
-    graph = queryUtility(INetworkGraph)
+    graph = queryUtility(INetworkTool)
     graph.clear()
     for user in users:
         for followee in user.get('follows', []):
-            graph.set_follow(userid, decode(followee))
+            graph.follow("user", decode(followee), userid)
 
 
 def create_groups(groups):
@@ -144,7 +143,7 @@ def create_as(userid, *args, **kwargs):
 
 def create_news_items(newscontent):
     portal = api.portal.get()
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
 
     if 'news' not in portal:
         news_folder = api.content.create(
@@ -179,7 +178,7 @@ def create_news_items(newscontent):
         obj.reindexObject(idxs=['effective', 'Subject', ])
         if 'likes' in newsitem:
             for user_id in newsitem['likes']:
-                like_tool.like(item_id=IUUID(obj), user_id=user_id)
+                like_tool.like("content", item_id=IUUID(obj), user_id=user_id)
 
 
 def create_tasks(todos):
@@ -205,38 +204,42 @@ def create_tasks(todos):
 
 def create_workspaces(workspaces):
     portal = api.portal.get()
-    if 'workspaces' not in portal:
-        ws_folder = api.content.create(
-            container=portal,
-            type='ploneintranet.workspace.workspacecontainer',
-            title='Workspaces'
-        )
-    else:
-        ws_folder = portal['workspaces']
+    ws_folder = portal['workspaces']
 
     for w in workspaces:
         contents = w.pop('contents', None)
-        members = w.pop('members', [])
+        members = w.pop('members', {})
+        transition = w.pop('transition', 'make_private')
+        participant_policy = w.pop('participant_policy', 'consumers')
         workspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.workspacefolder',
             **w
         )
-        api.content.transition(obj=workspace, transition='make_open')
+        api.content.transition(obj=workspace, transition=transition)
+        workspace.participant_policy = participant_policy
         if contents is not None:
             create_ws_content(workspace, contents)
-        for m in members:
-            IWorkspace(workspace).add_to_team(user=m, groups=set([u'Members']))
+        for (m, groups) in members.items():
+            IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
 
 
 def create_ws_content(parent, contents):
     for content in contents:
         sub_contents = content.pop('contents', None)
+        owner = content.pop('owner', None)
         state = content.pop('state', None)
         obj = api.content.create(
             container=parent,
             **content
         )
+        if owner is not None:
+            api.user.grant_roles(
+                username=owner,
+                roles=['Owner'],
+                obj=obj,
+            )
+            obj.reindexObject()
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
@@ -286,7 +289,7 @@ class FakeFileField(object):
 def create_stream(context, stream, files_dir):
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
-    like_tool = getUtility(ILikesTool)
+    like_tool = getUtility(INetworkTool)
     microblog.clear()
     for status in stream:
         kwargs = {}
@@ -325,8 +328,10 @@ def create_stream(context, stream, files_dir):
         if 'likes' in status:
             for user_id in status['likes']:
                 like_tool.like(
-                    item_id=str(status_obj.id),
+                    "update",
                     user_id=user_id,
+                    item_id=str(status_obj.id),
+
                 )
 
 
@@ -349,23 +354,27 @@ def testing(context):
             users.append(user)
     create_users(context, users, 'avatars')
 
-    groups_csv_file = os.path.join(context._profile_path, 'groups.csv')
-    groups = []
-    with open(groups_csv_file, 'rb') as groups_csv_data:
-        reader = csv.DictReader(groups_csv_data)
-        for group in reader:
-            group = {
-                k: v.decode('utf-8') for k, v in group.iteritems()
-            }
-            group['roles'] = [r for r in group['roles'].split('|') if r]
-            group['parentgroups'] = [
-                g for g in group['parentgroups'].split(' ') if g
-            ]
-            group['members'] = [
-                u for u in group['members'].split(' ') if u
-            ]
-            groups.append(group)
-    create_groups(groups)
+    # Important!
+    # We do not want to have users with global roles such as Editor or
+    # Contributor in out test setup.
+    # groups_csv_file = os.path.join(context._profile_path, 'groups.csv')
+    # groups = []
+    # with open(groups_csv_file, 'rb') as groups_csv_data:
+    #     reader = csv.DictReader(groups_csv_data)
+    #     for group in reader:
+    #         group = {
+    #             k: v.decode('utf-8') for k, v in group.iteritems()
+    #         }
+    #         group['roles'] = [r for r in group['roles'].split('|') if r]
+    #         group['parentgroups'] = [
+    #             g for g in group['parentgroups'].split(' ') if g
+    #         ]
+    #         group['members'] = [
+    #             u for u in group['members'].split(' ') if u
+    #         ]
+    #         groups.append(group)
+    #
+    # create_groups(groups)
 
     # We use following fixed tags
     tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
@@ -401,29 +410,31 @@ def testing(context):
     ]
     create_news_items(news_content)
 
+    # Commented out for the moment, since there's no concept at the moment
+    # for globally created todos
     # Create tasks
-    todos_content = [{
-        'title': 'Inquire after References',
-        'creator': 'alice_lindstrom',
-        'assignee': 'employees',
-    }, {
-        'title': 'Finalize budget',
-        'creator': 'christian_stoney',
-        'assignee': 'employees',
-    }, {
-        'title': 'Write SWOT analysis',
-        'creator': 'pearlie_whitby',
-        'assignee': 'employees',
-    }, {
-        'title': 'Prepare sales presentation',
-        'creator': 'lance_stockstill',
-        'assignee': 'lance_stockstill',
-    }, {
-        'title': 'Talk to HR about vacancy',
-        'creator': 'allan_neece',
-        'assignee': 'allan_neece',
-    }]
-    create_tasks(todos_content)
+    # todos_content = [{
+    #     'title': 'Inquire after References',
+    #     'creator': 'alice_lindstrom',
+    #     'assignee': 'employees',
+    # }, {
+    #     'title': 'Finalize budget',
+    #     'creator': 'christian_stoney',
+    #     'assignee': 'employees',
+    # }, {
+    #     'title': 'Write SWOT analysis',
+    #     'creator': 'pearlie_whitby',
+    #     'assignee': 'employees',
+    # }, {
+    #     'title': 'Prepare sales presentation',
+    #     'creator': 'lance_stockstill',
+    #     'assignee': 'lance_stockstill',
+    # }, {
+    #     'title': 'Talk to HR about vacancy',
+    #     'creator': 'allan_neece',
+    #     'assignee': 'allan_neece',
+    # }]
+    # create_tasks(todos_content)
 
     now = datetime.now()
 
@@ -440,17 +451,40 @@ def testing(context):
         filename=minutes_filename
     )
 
+    tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
+                                                 microsecond=0)
+    next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
+                                                    second=0, microsecond=0)
+
     # Create workspaces
     workspaces = [
         {'title': 'Open Market Committee',
          'description': 'The OMC holds eight regularly scheduled meetings '
                         'during the year and other meetings as needed.',
+         'transition': 'make_private',
+         'participant_policy': 'publishers',
+         'members': {'allan_neece': [u'Members'],
+                     'christian_stoney': [u'Admins', u'Members'],
+                     'neil_wichmann': [u'Members'],
+                     'francois_gast': [u'Members'],
+                     'jaimie_jacko': [u'Members'],
+                     'jesse_shaik': [u'Members'],
+                     'jorge_primavera': [u'Members'],
+                     'silvio_depaoli': [u'Members'],
+                     'lance_stockstill': [u'Members'],
+                     'pearly_whitby': [u'Members'],
+                     'dollie_nocera': [u'Members'],
+                     'esmeralda_claassen': [u'Members'],
+                     'rosalinda_roache': [u'Members'],
+                     'guy_hackey': [u'Members'],
+                     },
          'contents':
              [{'title': 'Manage Information',
                'type': 'Folder',
                'contents':
                    [{'title': 'Preparation of Records',
                      'description': 'How to prepare records',
+                     'state': 'published',
                      'type': 'File'},
                     {'title': 'Public bodies reform',
                      'description': 'Making arrangements for the transfer of '
@@ -465,20 +499,40 @@ def testing(context):
                                     'rates when it becomes appropriate to do '
                                     'so, and to controlling the level of '
                                     'short-term interest rates ',
+                     'owner': 'allan_neece',
                      'type': 'Document'},
                     {'title': u'Budget Proposal',
                      'description': (
                          u'A diagram of the factors impacting the budget and '
                          u'results'
                      ),
+                     'owner': 'allan_neece',
                      'image': budget_proposal_img,
                      'type': 'Image',
                      },
                     {'title': u'Minutes',
+                     'owner': 'allan_neece',
                      'description': u'Meeting Minutes',
                      'file': minutes_file,
                      'type': 'File',
-                     }]},
+                     },
+                    {'title': 'Open Market Day',
+                     'type': 'Event',
+                     'state': 'published',
+                     'start': tomorrow,
+                     'end': tomorrow + timedelta(hours=8)},
+                    {'title': 'Plone Conf',
+                     'type': 'Event',
+                     'state': 'published',
+                     'start': next_month,
+                     'end': next_month + timedelta(days=3, hours=8)},
+                    {'title': "Yesterday's gone",
+                     'type': 'Event',
+                     'state': 'published',
+                     'owner': 'allan_neece',
+                     'start': tomorrow - timedelta(days=3),
+                     'end': tomorrow - timedelta(days=2)},
+                    ]},
               {'title': 'Projection Materials',
                'type': 'Folder',
                'contents':
@@ -493,13 +547,27 @@ def testing(context):
                'start': now + timedelta(days=-7),
                'end': now + timedelta(days=-14)},
               ],
-         'members': ['christian_stoney', ],
          },
         {'title': 'Parliamentary papers guidance',
          'description': '"Parliamentary paper" is a term used to describe a '
                         'document which is laid before Parliament. Most '
                         'government organisations will produce at least one '
                         'parliamentary paper per year.',
+         'transition': 'make_private',
+         'participant_policy': 'producers',
+         'members': {'allan_neece': [u'Members'],
+                     'christian_stoney': [u'Admins', u'Members'],
+                     'francois_gast': [u'Members'],
+                     'jaimie_jacko': [u'Members'],
+                     'fernando_poulter': [u'Members'],
+                     'jesse_shaik': [u'Members'],
+                     'jorge_primavera': [u'Members'],
+                     'silvio_depaoli': [u'Members'],
+                     'kurt_weissman': [u'Members'],
+                     'esmeralda_claassen': [u'Members'],
+                     'rosalinda_roache': [u'Members'],
+                     'guy_hackey': [u'Members'],
+                     },
          'contents':
             [{'title': 'Test Document',
               'description': 'A document just for testing',
@@ -508,22 +576,24 @@ def testing(context):
     ]
     create_workspaces(workspaces)
 
+    # Commented out for the moment, since there's no concept at the moment
+    # for globally created events
     # Create some events
-    tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
-                                                 microsecond=0)
-    next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
-                                                    second=0, microsecond=0)
-    events = [
-        {'title': 'Open Market Day',
-         'creator': 'allan_neece',
-         'start': tomorrow,
-         'end': tomorrow + timedelta(hours=8)},
-        {'title': 'Plone Conf',
-         'creator': 'alice_lindstrom',
-         'start': next_month,
-         'end': next_month + timedelta(days=3, hours=8)}
-    ]
-    create_events(events)
+    # tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
+    #                                              microsecond=0)
+    # next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
+    #                                                 second=0, microsecond=0)
+    # events = [
+    #     {'title': 'Open Market Day',
+    #      'creator': 'allan_neece',
+    #      'start': tomorrow,
+    #      'end': tomorrow + timedelta(hours=8)},
+    #     {'title': 'Plone Conf',
+    #      'creator': 'alice_lindstrom',
+    #      'start': next_month,
+    #      'end': next_month + timedelta(days=3, hours=8)}
+    # ]
+    # create_events(events)
 
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:

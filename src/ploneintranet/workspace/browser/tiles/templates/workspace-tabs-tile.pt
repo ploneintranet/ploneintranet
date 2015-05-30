@@ -1,18 +1,26 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
 <body>
 
 <nav class="navigation workspace-tabs" id="workspace-tabs" tal:define="ws view/workspace">
 
-	<a href="{{ workspace.url }}#document-body" title="Workspace landing page" class="pat-inject current landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document" tal:attributes="href string:${ws/absolute_url}#document-body" tal:content="ws/Title">ws name</a>
+    <a href="{{ workspace.url }}#document-body" title="Workspace landing page" i18n:attributes="title workspace_landing_page" class="pat-inject current landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document" tal:attributes="href string:${ws/absolute_url}#document-body" tal:content="ws/Title">ws name</a>
 
     <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings"
-       title="Workspace settings">Workspace settings and about</a>
+       title="Workspace settings" i18n:attributes="title workspace_settings">Workspace settings and about</a>
 
     <hr />
 
-    <a class="documents pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title="Documents">Documents</a>
-    <a class="events pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-events" title="Events">Events</a>
-    <a class="todos pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-tickets" title="Tasks">Tasks</a>
+    <a class="documents pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title="Documents"
+        i18n:translate="" i18n:attributes="title">Documents</a>
+    <a class="events pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-events" title="Events"
+        i18n:translate="" i18n:attributes="title">Events</a>
+    <a class="todos pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-tickets" title="Tasks"
+        i18n:translate="" i18n:attributes="title">Tasks</a>
 
 </nav>
 </body>

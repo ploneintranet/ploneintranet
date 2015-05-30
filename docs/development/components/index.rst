@@ -5,8 +5,10 @@ Component Packages
 .. toctree::
     :maxdepth: 2
 
-    plonesocial
+    ploneintranet-api
+    microblogstream
     workspace
     invitations
     filepreviews
+    network
     pagerank

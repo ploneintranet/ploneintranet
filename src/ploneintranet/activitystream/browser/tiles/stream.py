@@ -25,10 +25,6 @@ class StreamTile(Tile):
         self.tag = self.data.get('tag')
         self.explore = 'network' not in self.data
 
-    @memoize
-    def is_anonymous(self):
-        return api.user.is_anonymous()
-
     @property
     @memoize
     def toLocalizedTime(self):
@@ -76,7 +72,7 @@ class StreamTile(Tile):
         container = PLONEINTRANET.microblog
 
         if self.microblog_context:
-            # support collective.local integration
+            # support ploneintranet.workspace integration
             statusupdates = container.context_values(
                 self.microblog_context,
                 limit=self.count,
@@ -96,6 +92,9 @@ class StreamTile(Tile):
     def activities(self):
         ''' The list of our activities
         '''
+        # FIXME this try/except loop and the counting it necessitates
+        # is a workaround because the filtering on View is currently inadequate
+
         statusupdates = self.get_statusupdates()
         i = 0
         for su in statusupdates:
@@ -104,6 +103,7 @@ class StreamTile(Tile):
             try:
                 activity = IActivity(su)
             except Unauthorized:
+                logger.error("Unauthorized. FIXME. This should not happen.")
                 continue
             except NotFound:
                 logger.exception("NotFound: %s" % activity.getURL())

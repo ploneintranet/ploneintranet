@@ -1,30 +1,37 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
 <body>
-	<div id="sidebar-content">
-		<div id="workspace-settings" tal:define="ws view/workspace">
-		    
-			<div class="tabs-content">
+    <div id="sidebar-content">
+        <div id="workspace-settings" tal:define="ws view/workspace">
+
+            <div class="tabs-content">
                 <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
                     <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
                 </aside>
-			    <form action="#" method="post" class="pat-inject pat-autosubmit"
+                <form action="#" method="post" class="pat-inject pat-autosubmit"
                             tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;
                                             data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
-			    	<fieldset class="vertical">
-						<label>
-							Workspace e-mail address
-							<input type="email"
-								   value=""
-								   placeholder="Workspace E-mail Address"
-								   name="email"
-									tal:attributes="
-											value ws/email;
-											disabled not: view/can_manage_workspace"/>
-						</label>
-					</fieldset>
-			    </form>
-			</div>
-		</div>
-	</div>
+                    <fieldset class="vertical">
+                        <label>
+                            <span tal:omit-tag="" i18n:translate="workspace_email_address">
+                                Workspace e-mail address</span>
+                            <input type="email"
+                                   value=""
+                                   placeholder="Workspace e-mail address"
+                                   i18n:attributes="placeholder workspace_email_address"
+                                   name="email"
+                                    tal:attributes="
+                                            value ws/email;
+                                            disabled not: view/can_manage_workspace"/>
+                        </label>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <object name="ploneintranet.workspace.workspacecontainer"
    meta_type="Dexterity FTI"
-   i18n:domain="ploneintranet.workspace" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="ploneintranet">
 
   <!-- Basic metadata -->
   <property name="title" i18n:translate="">Workspace Folder</property>
@@ -33,7 +34,7 @@
    <element value="view"/>
   </property>
   <property name="default_view_fallback">False</property>
-  <property name="add_permission">cmf.AddPortalContent</property>
+  <property name="add_permission">cmf.ManagePortal</property>
 
 
   <!-- Method aliases -->

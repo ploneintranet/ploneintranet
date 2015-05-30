@@ -6,52 +6,19 @@
     i18n_domain="ploneintranet.network">
 
 
-  <!-- This view Will override the author.cpt in the skins folder -->
-  <browser:page
-      name="author"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".author.AuthorView"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetNetworkLayer"
-      />
-
-  <adapter
-      name="ploneintranet.network.maxiauthor_provider"
-      factory=".author.MaxiAuthorProvider"
-      />
-
-  <adapter
-      name="ploneintranet.network.miniauthor_provider"
-      factory=".author.MiniAuthorProvider"
-      />
-
-  <browser:page
-      name="following"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".graph.FollowingView"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetNetworkLayer"
-      />
-
-  <browser:page
-      name="followers"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".graph.FollowersView"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetNetworkLayer"
-      />
-
   <browser:page
       name="toggle_like"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      for="*"
       class=".likes.ToggleLike"
       permission="zope2.View"
       layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
-  <browser:resourceDirectory
-      name="ploneintranet.network.stylesheets"
-      directory="stylesheets"
+  <browser:page
+      name="toggle_like_statusupdate"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".likes.ToggleLikeStatusUpdate"
+      permission="zope2.View"
       layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 

@@ -21,9 +21,9 @@ Generating the documentation
 
 The documentation is in the folder ``/docs``
 
-The buildout creates a script in bin to generate the docs::
+To regenerate the docs::
 
-   bin/generate-docs
+   make docs
 
 The docs are generated in docs/html.
 

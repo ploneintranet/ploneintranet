@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from collective.workspace.interfaces import IWorkspace
 from collective.workspace.vocabs import UsersSource
 from plone import api
@@ -126,7 +127,7 @@ class InviteForm(form.SchemaForm):
     schema = IInviteForm
     ignoreContext = True
 
-    label = u"Invitations"
+    label = _(u'invititations', default=u"Invitations")
 
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):
@@ -134,6 +135,7 @@ class InviteForm(form.SchemaForm):
         given_username = data.get("user", "").strip()
         given_message = data.get("message", "") or ""
         given_message = given_message.strip()
+        workspace_title = safe_unicode(self.context.title)
         if not given_username:
             return
 
@@ -159,9 +161,10 @@ class InviteForm(form.SchemaForm):
         inviter = current_user.getProperty("fullname", None)
         if not inviter:
             inviter = current_user.getUserName()
+        inviter = safe_unicode(inviter)
 
-        msg_header = "You have been invited to join %s by %s" % (
-            self.context.title, inviter)
+        msg_header = u"You have been invited to join %s by %s" % (
+            workspace_title, inviter)
 
         if given_message:
             optional = "Here is the message from %s\n\n" % inviter
@@ -178,7 +181,7 @@ automatically.
 
 """.format(
             email=email,
-            workspace=self.context.title,
+            workspace=workspace_title,
             token_url=token_url)
 
         message = u"{header}\n\n{optional}{footer}".format(
@@ -187,7 +190,7 @@ automatically.
             footer=msg_footer,
         )
 
-        subject = 'You are invited to join "%s"' % self.context.title
+        subject = u'You are invited to join "%s"' % workspace_title
 
         send_email(email, subject, message)
         api.portal.show_message(

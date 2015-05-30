@@ -59,8 +59,8 @@ class Graphs(object):
         graph = queryUtility(INetworkGraph)
         result = []
         # FIXME: add proper API accessor to ploneintranet.network graph
-        for user in graph._following.keys():
-            for following in graph.get_following(user):
+        for user in graph._following["user"].keys():
+            for following in graph.get_following("user", user):
                 result.append((user, following))
         return nx.from_edgelist(result,
                                 create_using=nx.DiGraph())

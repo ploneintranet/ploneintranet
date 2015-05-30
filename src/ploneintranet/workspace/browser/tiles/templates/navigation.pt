@@ -1,5 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
       i18n:domain="ploneintranet">
+
   <body>
     <div id="workspace-documents" class="visible">
       <div class="item-selector mode-follow" id="selector">
@@ -7,7 +12,8 @@
           <div class="contextual buttons float-before" id="selector-contextual-functions">
             <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
             <form action="./#items" class="pat-inject pat-autosubmit">
-              <label class="pat-select bare" data-option="folder">Group by
+              <label class="pat-select bare" data-option="folder">
+                <span tal:omit-tag="" i18n:translate="">Group by</span>
                 <select name="browse-mode">
                   <option value="folder">folder</option>
                   <option value="label">label</option>
@@ -32,7 +38,7 @@
         </div>
         <form class="search-box pat-inject pat-autosubmit" action="/feedback/#items">
           <label>
-            <input name="" type="search" placeholder="Search">
+            <input name="" type="search" placeholder="Search" i18n:attributes="placeholder">
             <button type="submit">Search</button>
           </label>
         </form>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+ <rolemap>
+   <permissions>
+     <permission name="Plone Intranet: View Site" acquire="False">
+       <role name="Authenticated" />
+     </permission>
+   </permissions>
+ </rolemap>

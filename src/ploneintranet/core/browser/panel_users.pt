@@ -4,11 +4,11 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
   <body>
 
-    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog"
+    <div metal:fill-slot="main"
           tal:define="thread_id request/thread_id|nothing;
                       form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
@@ -19,8 +19,8 @@
               id="users-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
-            <input type="search" placeholder="Search" name="usersearch" />
-            <button type="submit">Search</button>
+            <input type="search" placeholder="Search" name="usersearch" i18n:attributes="placeholder"/>
+            <button type="submit" i18n:translate="">Search</button>
           </label>
           <span id="selected-users-data"></span>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
@@ -49,7 +49,7 @@
                             fullname python:user.getProperty('fullname')">
                 <img src="${avatar_img}" alt="${fullname}" class="avatar" />
                 <strong class="title"
-                    tal:content="fullname" >Full name</strong>
+                    tal:content="fullname">Full name</strong>
                 <br>
                 <dfn class="byline" tal:condition="status">
                     <tal:item tal:content="status">This is my status</tal:item>

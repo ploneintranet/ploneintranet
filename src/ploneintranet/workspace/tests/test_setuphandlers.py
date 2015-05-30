@@ -22,16 +22,6 @@ class TestSetupHandlers(BaseTestCase):
         self.assertIn(INTRANET_USERS_GROUP_ID,
                       user_group_ids)
 
-        # should have 'reader' on the portal
-        group_roles = api.group.get_roles(groupname=INTRANET_USERS_GROUP_ID,
-                                          obj=self.portal)
-        self.assertIn('Reader', group_roles)
-
-        # as should our test user
-        user_roles = api.user.get_roles(username='testuser',
-                                        obj=self.portal)
-        self.assertIn('Reader', user_roles)
-
     def test_workspace_groups_hidden(self):
         """ collective.workspace groups should be hidden when enumerating """
         self.login_as_portal_owner()
@@ -66,7 +56,6 @@ class TestSetupHandlers(BaseTestCase):
             'Document',
             'Event',
             'File',
-            'Folder',
             'Image',
             'Link',
             'News Item',

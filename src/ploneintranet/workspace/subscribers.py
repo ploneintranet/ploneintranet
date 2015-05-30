@@ -4,8 +4,17 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
 from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.workspace.interfaces import IGroupingStoragable
+from ploneintranet.workspace.interfaces import IGroupingStorage
+from OFS.interfaces import IObjectWillBeRemovedEvent
+from zope.component import getAdapter
+from zope.lifecycleevent.interfaces import IObjectRemovedEvent
+from Acquisition import aq_base
+from OFS.CopySupport import cookie_path
+
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
@@ -124,3 +133,57 @@ def user_deleted_from_site_event(event):
     ]
     for workspace in workspaces:
         workspace.remove_from_team(userid)
+
+
+def _update_workspace_groupings(obj, event):
+    """ If the relevant object is inside a workspace, the workspace grouping
+        parameters (for the sidebar) need to be updated.
+    """
+    parent = parent_workspace(obj)
+    if parent is None or not IGroupingStoragable.providedBy(parent):
+        return
+
+    storage = getAdapter(parent, IGroupingStorage)
+    if IObjectRemovedEvent.providedBy(event) or \
+            IObjectWillBeRemovedEvent.providedBy(event):
+        storage.remove_from_groupings(obj)
+    else:
+        storage.update_groupings(obj)
+
+
+def content_object_added_to_workspace(obj, event):
+    _update_workspace_groupings(obj, event)
+
+
+def content_object_edited_in_workspace(obj, event):
+    _update_workspace_groupings(obj, event)
+
+
+def content_object_removed_from_workspace(obj, event):
+    _update_workspace_groupings(obj, event)
+
+
+def content_object_moved(obj, event):
+    # ignore if oldParent or newParent is None or if obj has just
+    # been created or removed
+    if event.oldParent is None or event.newParent is None:
+        return
+    if aq_base(event.oldParent) is aq_base(event.newParent):
+        return
+    if IGroupingStoragable.providedBy(event.oldParent):
+        old_storage = getAdapter(event.oldParent, IGroupingStorage)
+        old_storage.remove_from_groupings(obj)
+    if IGroupingStoragable.providedBy(event.newParent):
+        new_storage = getAdapter(event.newParent, IGroupingStorage)
+        new_storage.update_groupings(obj)
+    # Since OFS.CopySupport.manage_pasteObjects is called without a REQUEST
+    # parameter, cb_dataValid() will still be true, because __cp will not
+    # be reset. We do that manually here, so that the "paste" action will
+    # disappear from the action list.
+    request = getattr(obj, 'REQUEST', None)
+    if request:
+        request['RESPONSE'].setCookie(
+            '__cp', 'deleted',
+            path='%s' % cookie_path(request),
+            expires='Wed, 31-Dec-97 23:59:59 GMT')
+        request['__cp'] = None

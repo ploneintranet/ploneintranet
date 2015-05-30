@@ -9,96 +9,135 @@ Library  DebugLibrary
 
 Variables  variables.py
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
 
 Manager can create a workspace
     Given I'm logged in as a 'Manager'
-     Then I can create a new workspace
+     Then I can create a new workspace    My new workspace
+
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+    Then I can create a new workspace    My user workspace
+
+Non-member cannot see into a workspace
+    Given I am logged in as the user alice_lindstrom
+     when I try go to the Open Market Committee Workspace
+     then I am redirected to the login page
 
 Breadcrumbs are not borked
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
+    And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
 Manager can view sidebar info
-    given I'm logged in as a 'Manager'
+    Given I am in a workspace as a workspace admin
     I can go to the sidebar info tile
 
-Alice can view sidebar events
-    given I am logged in as the user alice_lindstrom
-    I can go to the sidebar events tile
-    I can see upcoming events
+Member can view sidebar info
+    Given I am in a workspace as a workspace member
+    I can go to the sidebar info tile
+
+Member can view sidebar events
+    Given I am in a workspace as a workspace member
+     Then I can go to the sidebar events tile
+      And I can see upcoming events
     Older events are hidden
 
-# Alice can delete sidebar events
-#     given I am logged in as the user alice_lindstrom
-#     I can go to the sidebar events tile
-#     I can delete an old event
+Owner can delete sidebar events
+    Comment  In the test setup, we made the workspace member allen_neece owner of an old event
+    Given I am in a workspace as a workspace member
+    I can go to the sidebar events tile
+    I can delete an old event
 
-Manager can view sidebar tasks
-    given I'm logged in as a 'Manager'
-    I can go to the sidebar tasks tile
+# The following tests are commented out, since we currently have no concept
+# for adding tasks in a workspace. Relying on globally available tasks (the
+# reason why these tests used to be passing) is not valid.
+
+# Manager can view sidebar tasks
+#     Given I am in a workspace as a workspace admin
+#     Then I can go to the sidebar tasks tile
+
+# Member can view sidebar tasks
+#     Given I am in a workspace as a workspace member
+#      Then I can go to the sidebar tasks tile
 
 Traverse Folder in sidebar navigation
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    Then I can enter the Manage Information Folder
-    And Go back to the workspace by clicking the parent button
+    Given I am in a workspace as a workspace member
+     Then I can enter the Manage Information Folder
+     And Go back to the workspace by clicking the parent button
 
 Search for objects in sidebar navigation
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    Then I can search for items
+    Given I am in a workspace as a workspace member
+     Then I can search for items
 
 The manager can modify workspace security policies
-    Given I'm logged in as a 'Manager'
-    And add workspace  Policy Workspace
-    And maneuver to  Policy Workspace
-    I can open the workspace security settings tab
-    And I can set the external visibility to Open
-    And I can set the join policy to Admin-Managed
-    And I can set the participant policy to Moderate
+    Given I am in a workspace as a workspace admin
+     Then I can open the workspace security settings tab
+      And I can set the external visibility to Open
+      And I can set the join policy to Admin-Managed
+      And I can set the participant policy to Moderate
 
 The manager can invite Alice to join the Open Market Committee Workspace
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    And I can open the workspace member settings tab
-    I can invite Alice to join the workspace
+    Given I am in a workspace as a workspace admin
+     Then I can open the workspace member settings tab
+      And I can invite Alice to join the workspace
 
 The manager can invite Alice to join the Open Market Committee Workspace from the menu
-    Given I'm logged in as a 'Manager'
-    And I go to the Open Market Committee Workspace
-    And I can open the workspace member settings tab
-    I can invite Alice to join the workspace from the menu
+    Given I am in a workspace as a workspace admin
+      And I can open the workspace member settings tab
+     Then I can invite Alice to join the workspace from the menu
 
 Create document
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
-     Then I can create a new document
+    Given I am in a workspace as a workspace member
+     Then I can create a new document    My Humble document
 
 Create folder
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a new folder
 
 Create image
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a new image
 
 Create structure
-    Given I am logged in as the user christian_stoney
-      And I go to the Open Market Committee Workspace
+    Given I am in a workspace as a workspace member
      Then I can create a structure
 
-Alice can upload a file
-    Given I am logged in as the user alice_lindstrom
-      And I go to the Open Market Committee Workspace
+Member can upload a file
+    Given I am in a workspace as a workspace member
       And I select a file to upload
      Then the file appears in the sidebar
+
+Member can submit a document
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My awesome document
+     Then I can edit the document
+     When I submit the content item
+     Then I cannot edit the document
+
+Member can submit and retract a document
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My substandard document
+     Then I can edit the document
+     When I submit the content item
+     Then I cannot edit the document
+     When I retract the content item
+     Then I can edit the document
+
+Member can publish a document in a Publishers workspace
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My publishing document
+     When I submit the content item
+     Then I can publish the content item
+
+Member cannot publish a document in a Producers workspace
+    Given I am in a Producers workspace as a workspace member
+     When I can create a new document    My non-publishing document
+     When I submit the content item
+     Then I cannot publish the content item
 
 
 # XXX: The following tests derive from ploneintranet.workspace and still
@@ -158,11 +197,12 @@ Alice can upload a file
 *** Keywords ***
 
 I can create a new workspace
+    [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces.html
     Click Link  link=Create Workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=New Workspace
-    Input Text  name=form.widgets.IBasic.description  text=A new Workspace
+    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=form.widgets.IBasic.description  text=Random description
     Click Element  css=button.icon-ok-circle.confirmative
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
@@ -174,20 +214,19 @@ I select a file to upload
     Click Element  xpath=//button[text()='Upload']
 
 I can go to the sidebar info tile
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Workspace settings and about
     Wait Until Page Contains  General
     Wait Until Page Contains  Workspace title
     Wait Until Page Contains  Workspace brief description
 
 I can go to the sidebar events tile
-    Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
+    Wait until page contains  Security
     Click link  link=Security
     Wait until page contains  Workspace policy
 
@@ -208,6 +247,7 @@ I can set the join policy to Admin-Managed
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='join_policy']")[0].value = 1
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Only administrators can add workspace members.
 
@@ -215,11 +255,12 @@ I can set the participant policy to Moderate
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 4
     Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
 
 I can see upcoming events
-    Page Should Contain Element  xpath=//a[.='Future Event']
+    Page Should Contain Element  xpath=//a[.='Plone Conf']
 
 Older events are hidden
     Element should not be visible  jquery=div#older-events a
@@ -278,15 +319,14 @@ I can search for items
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
 I can create a new document
+    [arguments]  ${title}
     Click link  Documents
     Click link  Functions
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
-    Input Text  css=.panel-content input[name=title]  text=My Humble Document
+    Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input[value="My Humble Document"]
-
-
+    Wait Until Page Contains Element  css=#content input[value="${title}"]
 
 I can create a new folder
     Click link  Documents
@@ -319,8 +359,10 @@ I can create a structure
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
-    Click Element  xpath=//a[contains(@data-pat-inject,'/open-market-committee/another-folder/@@sidebar.default#workspace-documents')]
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee/@@sidebar.default']
+    Click link  Documents
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
+    Click link  Documents
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
@@ -339,3 +381,36 @@ The file appears in the sidebar
 
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
+
+I submit the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
+    Wait until page contains  The workflow state has been changed
+    Click button  Close
+
+I retract the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
+    Wait until page contains  The workflow state has been changed
+    Click button  Close
+
+I can publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+    Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
+    Click button  Close
+
+I cannot publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Element should be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
+    Element should not be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+
+I can edit the document
+    Element should be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
+    Element should be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
+I cannot edit the document
+    Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
+    Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
