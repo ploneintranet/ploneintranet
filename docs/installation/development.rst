@@ -6,6 +6,9 @@ Development Install
 
     This document describes how to get a source checkout running to be able to develop for Plone Intranet.
 
+.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready 
+ :target: https://waffle.io/ploneintranet/ploneintranet
+ :alt: 'Stories in Ready'
 
 We assume you want to do some work on ploneintranet. Here is what you need
 to do to get yourself set up.
@@ -36,14 +39,16 @@ Set-up a development environment::
     bin/python2.7 bootstrap.py
     bin/buildout -c buildout.cfg
 
+.. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
+
 
 Create a new Plone instance
 ---------------------------
 
-Create a new Plone instance, under `Add-ons`, choose the package
-`Plone Intranet: Suite`. This activates Plone intranet site.
-
-.. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
+Create a new Plone instance.
+In the ZMI, go to portal_setup > import.
+Select `Plone Intranet: Suite : Create Testing Content`.
+This activates Plone Intranet and sets up some demo users and workspaces so you can see what's possible.
 
 
 Running tests
