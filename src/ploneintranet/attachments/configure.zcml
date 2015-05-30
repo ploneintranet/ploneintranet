@@ -19,7 +19,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="ploneintranet.attachments"
+        title="Plone Intranet: -- (Attachments)"
         directory="profiles/default"
         description="Extension profile for ploneintranet.attachments."
         provides="Products.GenericSetup.interfaces.EXTENSION"

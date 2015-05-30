@@ -31,7 +31,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: Suite"
+      title="Plone Intranet:  Suite"
       directory="profiles/default"
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -39,7 +39,7 @@
 
   <genericsetup:registerProfile
       name="testing"
-      title="Plone Intranet: Suite : Create Testing Content"
+      title="Plone Intranet:  Suite : Create Testing Content"
       directory="profiles/testing"
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -56,6 +56,11 @@
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
     <implements interface="ploneintranet.microblog.interfaces.IMicroblogContext"/>
   </class>
+
+  <utility
+    factory=".hiddenprofiles.HiddenProfiles"
+    name="ploneintranet"
+  />
 
   <!-- -*- extra stuff goes here -*- -->
 

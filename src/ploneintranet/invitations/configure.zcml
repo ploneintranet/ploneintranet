@@ -16,7 +16,7 @@
 
   <genericsetup:registerProfile
      name="default"
-     title="ploneintranet.invitations"
+     title="Plone Intranet: -- (Invitations)"
      directory="profiles/default"
      description="Invite users to a plone site using a unique URL"
      provides="Products.GenericSetup.interfaces.EXTENSION"
