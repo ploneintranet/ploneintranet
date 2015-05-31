@@ -26,6 +26,7 @@
   <include package="ploneintranet.pagerank"/>
   <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
+  <include package="ploneintranet.themeswitcher"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
 
