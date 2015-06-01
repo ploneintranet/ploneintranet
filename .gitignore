@@ -30,6 +30,7 @@ src/Products.CMFPlone/
 src/Products.PlonePAS/
 src/Products.ResourceRegistries/
 src/mockup/
+src/plone.api/
 src/plone.app.blocks/
 src/plone.app.blob/
 src/plone.app.caching/
