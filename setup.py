@@ -128,5 +128,8 @@ setup(name='ploneintranet',
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
       target = plone
+
+      [zest.releaser.releaser.after_checkout]
+      add_files_to_release = ploneintranet.core.release:add_files_to_release
       """,
       )
