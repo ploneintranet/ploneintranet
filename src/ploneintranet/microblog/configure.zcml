@@ -17,7 +17,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet Microblog"
+      title="Plone Intranet: -- (Microblog)"
       directory="profiles/default"
       description="Installs the ploneintranet.microblog package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

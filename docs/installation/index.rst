@@ -15,5 +15,5 @@ Pick the development option if you want to develop for Plone Intranet.
 .. toctree::
     :maxdepth: 2
 
-    quickstart
+    mercury
     development

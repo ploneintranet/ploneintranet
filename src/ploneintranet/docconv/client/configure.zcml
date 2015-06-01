@@ -23,7 +23,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="ploneintranet.docconv.client"
+        title="Plone Intranet: -- (Docconv Client)"
         directory="profiles/default"
         description="Extension profile for ploneintranet.docconv.client."
         provides="Products.GenericSetup.interfaces.EXTENSION"
