@@ -23,15 +23,6 @@
       class=".forms.SimpleSharing"
       />
 
-  <browser:viewlet
-      name="ploneintranet.simplesharing.share"
-      for="Products.CMFCore.interfaces.IContentish"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-      class=".viewlets.SimpleSharingViewlet"
-      permission="cmf.ModifyPortalContent"
-      view="plone.app.layout.globals.interfaces.IViewView"
-      />
-
   <browser:resourceDirectory
       name="ploneintranet.simplesharing.js"
       directory="js"
