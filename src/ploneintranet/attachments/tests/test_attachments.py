@@ -1,11 +1,7 @@
-import unittest
 from Products.ATContentTypes.content import file
 from Products.ATContentTypes.content import image
-from plone.app.testing import setRoles
-from plone.app.testing.interfaces import TEST_USER_ID
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from zExceptions import NotFound
 from zope.component import createObject
 from zope.interface import directlyProvides
 from zope.container.interfaces import DuplicateIDError
