@@ -64,6 +64,7 @@ setup(name='ploneintranet',
           'collective.celery',
           'collective.workspace',
           'fake-factory',
+          'collective.externaleditor',
       ],
       extras_require={
           'test': [
