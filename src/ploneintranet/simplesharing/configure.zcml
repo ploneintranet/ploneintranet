@@ -39,7 +39,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="ploneintranet.simplesharing"
+      title="Plone Intranet: -- (Simple Sharing)"
       directory="profiles/default"
       description="Installs the ploneintranet.simplesharing package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

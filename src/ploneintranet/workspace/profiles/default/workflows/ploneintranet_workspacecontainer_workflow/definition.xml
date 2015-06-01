@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="ploneintranet_workspacecontainer_workflow"
+             title="Ploneintranet Workspace Container Workflow"
+             description="- Workspace Container Workflow"
+             state_variable="review_state"
+             initial_state="open"
+             manager_bypass="False">
+
+  <permission>Add portal content</permission>
+  <permission>Access contents information</permission>
+  <permission>List folder contents</permission>
+  <permission>View</permission>
+
+  <state state_id="open"
+         title="Open">
+    <description>Viewing and content created open for all authenticated members.</description>
+    <exit-transition transition_id="restrict"/>
+    <permission-map name="Add portal content"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="restricted"
+         title="Restricted">
+    <description>Visible to all authenticated, adding only for Editors and Contributors.</description>
+    <exit-transition transition_id="make_open"/>
+    <permission-map name="Add portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Contributor</permission-role>
+      <permission-role>Site Administrator</permission-role>
+    </permission-map>
+    <permission-map name="Access contents information"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="List folder contents"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+    <permission-map name="View"
+                    acquired="False">
+      <permission-role>Authenticated</permission-role>
+    </permission-map>
+  </state>
+
+
+
+  <transition transition_id="restrict"
+              title="Admin restricts workspace container"
+              new_state="restricted"
+              trigger="USER" before_script="" after_script="">
+    <description>Only Editors and Contributors will be able to create workspaces.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=restrict"
+            category="workflow" icon="">Restrict</action>
+    <guard>
+      <guard-permission>Manage portal</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="make_open"
+              title="Admin makes workspace container open"
+              new_state="open"
+              trigger="USER" before_script="" after_script="">
+    <description>All authenticated members will be able to create workspaces.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=open"
+            category="workflow" icon="">Make Open</action>
+    <guard>
+      <guard-permission>Manage portal</guard-permission>
+    </guard>
+  </transition>
+
+</dc-workflow>

@@ -4,6 +4,7 @@
   <object name="ploneintranet_workspace_workflow" meta_type="Workflow"/>
   <object name="ploneintranet_workflow" meta_type="Workflow" />
   <object name="case_workflow" meta_type="Workflow" />
+  <object name="ploneintranet_workspacecontainer_workflow" meta_type="Workflow"/>
 
   <bindings>
     <type type_id="ploneintranet.workspace.workspacefolder">
@@ -14,6 +15,9 @@
   <bindings>
     <type type_id="ploneintranet.workspace.case">
       <bound-workflow workflow_id="case_workflow" />
+    </type>
+    <type type_id="ploneintranet.workspace.workspacecontainer">
+      <bound-workflow workflow_id="ploneintranet_workspacecontainer_workflow" />
     </type>
   </bindings>
 

@@ -113,6 +113,7 @@ docker-run:
                 -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
                 -v $(HOME)/.bashrc:/.bashrc \
+                -v $(HOME)/.pypirc:/.pypirc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
                 -v $(HOME)/.gitignore:/.gitignore \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \

@@ -18,10 +18,9 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-# Normal users cannot currently create workspaces. Commented out until fixed
-# Alice can create a workspace
-#     Given I am logged in as the user alice_lindstrom
-#     Then I can create a new workspace    My user workspace
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+    Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -383,16 +382,20 @@ The file appears in the sidebar
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
 
+# The self-healing Close messages below are a source of Heisenbugs in the test
+
 I submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
     Click button  Close
 
 I retract the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
     Click button  Close
 
 I can publish the content item
