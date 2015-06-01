@@ -7,6 +7,12 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
+    <!-- override plone.app.theming policy adapter -->
+    <adapter
+        factory=".policy.SwitchableThemingPolicy"
+        for="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
+        />
+
    <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- (Themeswitcher)"
