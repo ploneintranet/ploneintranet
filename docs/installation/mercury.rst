@@ -74,8 +74,8 @@ Create a new Plone instance
 - Goto the Zope Management Interface at http://localhost:8080.
 - Create a new Plone instance.
 - In the Zope Management Interface, go to `portal_setup > import`_.
-- Select `Plone Intranet: Suite : Create Testing Content`.
-- Scroll down and hit the button "Import all steps" - make sure "Include dependencies" is checked.
+- Select Profile `Plone Intranet: Suite : Create Testing Content`.
+- Scroll down to the bottom of the page and hit the button "Import all steps" - make sure "Include dependencies" is checked.
 
 This activates Plone Intranet and sets up some demo users and workspaces so you can see what's possible.
 
