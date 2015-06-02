@@ -10,7 +10,7 @@
         <metal:content fill-slot="content">
 
     <div class="container">
-        <div class="tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+        <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
             <div class="grid-sizer four columns"></div>
 
             <tal:r repeat="w view/workspaces">
