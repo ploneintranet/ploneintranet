@@ -95,9 +95,11 @@ class TestFunctional(FunctionalTestCase):
     def test_hostname_layer_marking(self):
         request = self.request
         request['HTTP_HOST'] = 'cms.localhost:8080'
+        # bust the layer cache
+        request.set('ploneintranet.themeswitcher.marker', False)
         policy = theming_policy(request)
         policy.filter_layers()
-        active = [x for x in directlyProvidedBy(self.request)]
+        active = [x for x in directlyProvidedBy(request)]
         self.assertFalse(IThemeASpecific in active)
 
     def test_hostname_switching_registry(self):
@@ -115,6 +117,8 @@ class TestFunctional(FunctionalTestCase):
         policy = theming_policy(self.request)
         switchersettings = policy.getSwitcherSettings()
         switchersettings.hostname_switchlist.append(u"nohost")
+        # import transaction
+        # transaction.commit()
         view = api.content.get_view(
             context=self.portal,
             request=self.request,
@@ -129,8 +133,8 @@ class TestFunctional(FunctionalTestCase):
         policy = theming_policy(self.request)
         switchersettings = policy.getSwitcherSettings()
         switchersettings.hostname_switchlist.append(u"nohost")
-        import transaction
-        transaction.commit()
+        # import transaction
+        # transaction.commit()
         browser = Browser(self.app)
         browser.open(self.testurl)
         self.assertFalse('testthemeA title' in browser.contents)

@@ -21,7 +21,7 @@ class SwitchableRecordsProxy(object):
     """
 
     def __init__(self, realproxy, **overrides):
-        # skip __setattr_
+        # skip __setattr__
         self.__dict__['realproxy'] = realproxy
         self.__dict__['overrides'] = overrides
 
@@ -40,20 +40,25 @@ class SwitchableThemingPolicy(DefaultPolicy):
     """Enhance the p.a.theming ThemingPolicy with theme switching
     based on hostname and browser cookie.
 
-    The switch is made in getSettings().
+    The switch to the fallback theme is made in getSettings().
     No override of getCurrentTheme() is necessary.
-    """
 
-    def __init__(self, request):
-        DefaultPolicy.__init__(self, request)
-        # beforetraverse event handler is not enough
-        self.filter_layers()
+    This adapter only gets called for a real request marked with
+    ploneintranet.themeswitcher.interfaces.IThemeSwitcher.
+
+    Calls without a request, or with a request without that browser layer,
+    get routed to plone.app.theming.policy.ThemingPolicy by the ZCA.
+    """
 
     def getSettings(self):
         """
         Choose between the default theme (aka ploneintranet)
         and the fallback theme (aka barceloneta) and return
-        either a normal RecordsProxy or a SwitchableRecordsProxy.
+        either a normal RecordsProxy (for the default theme)
+        or a SwitchableRecordsProxy (for the fallback).
+
+        This switch in settings drives the rest of the theming
+        machinery to use the theme indicated in the settings.
         """
         defaults = self.getDefaultSettings()
         if not self.isFallbackActive():
@@ -68,8 +73,8 @@ class SwitchableThemingPolicy(DefaultPolicy):
             return SwitchableRecordsProxy(defaults, **overrides)
 
     def isFallbackActive(self):
-        """Whether we want to fall back"""
-        defaults = self.getDefaultSettings()
+        """Decide whether to switch to the fallback theme, or not."""
+        defaults = self.getDefaultSettings()  # avoid circular getSettings loop
         switcher = self.getSwitcherSettings()
         if not defaults.enabled:
             return False
@@ -87,7 +92,7 @@ class SwitchableThemingPolicy(DefaultPolicy):
         return False
 
     def getDefaultSettings(self):
-        """Raw registry access without switching logic."""
+        """Raw registry access without switching logic for theming config."""
         registry = queryUtility(IRegistry)
         if registry is None:
             return None
@@ -98,7 +103,7 @@ class SwitchableThemingPolicy(DefaultPolicy):
         return settings
 
     def getSwitcherSettings(self):
-        """Raw registry access."""
+        """Registry access for theme switcher configuration."""
         registry = queryUtility(IRegistry)
         if registry is None:
             return None
@@ -109,6 +114,7 @@ class SwitchableThemingPolicy(DefaultPolicy):
         return settings
 
     def getHostname(self):
+        """Extract hostname from request."""
         host = self.request.get('HTTP_HOST')
         if not host:  # fallback is ''
             host = self.request.get('SERVER_NAME')
@@ -120,19 +126,14 @@ class SwitchableThemingPolicy(DefaultPolicy):
         fully fall back to the underlying configured theme,
         typically barceloneta.
         """
-        print(self.request.get('ACTUAL_URL'))
-
         # if self.request.get('ploneintranet.themeswitcher.marker'):
-        #     print "already marked"
         #     return
+        # # manipulate the same request only once
         # self.request.set('ploneintranet.themeswitcher.marker', True)
-        # print "added marker"
+
         if not self.isFallbackActive():
-            print "fallback is NOT active"
-            # if self.request.get('ACTUAL_URL').endswith('sitemap'):
-            #     import pdb; pdb.set_trace()
             return
-        print "filtering layers"
+
         # only on fallback, remove current theme browser layer(s)
         switch_settings = self.getSwitcherSettings()
         remove_layers = [resolveDottedName(x)
@@ -143,7 +144,8 @@ class SwitchableThemingPolicy(DefaultPolicy):
 
 
 def filter_layers(site, event):
-    """Remove browser layer(s) when switching theme
+    """Remove browser layer(s) when needed.
+    Called on INavigationRoot traversal.
     """
     # avoid sites where this product is not installed
     if IThemeSwitcher.providedBy(event.request):
