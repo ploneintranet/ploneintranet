@@ -24,13 +24,13 @@
             tal:define="selected_tab python:view.selected_portal_tab">
             <tal:tabs tal:repeat="tab portal_tabs">
               <li tal:define="tid tab/id"
-                  tal:attributes="id string:portaltab-${tid};
-                                  class python:selected_tab==tid and 'selected' or nothing">
+                  tal:attributes="id string:portaltab-${tid}">
                   <a href=""
                      tal:content="tab/name"
                      tal:attributes="href tab/url;
                                      title tab/description|nothing;
-                                     target tab/link_target|nothing;">
+                                     target tab/link_target|nothing;
+                                     class python:selected_tab==tid and 'current' or nothing">
                     Tab Name
                   </a>
               </li>
