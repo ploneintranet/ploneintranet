@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry>
+    <records
+        interface="ploneintranet.themeswitcher.interfaces.IThemeSwitcherSettings">
+      <value key="enabled">True</value>
+      <value key="fallback_theme">barceloneta</value>
+      <value key="hostname_switchlist">
+        <element>cms.localhost</element>
+      </value>
+      <value key="browserlayer_filterlist">
+        <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+      </value>
+    </records>
+</registry>

@@ -44,3 +44,13 @@ class TestFunctional(FunctionalTestCase):
         policy = theming_policy(request)
         themename = policy.getCurrentTheme()
         self.assertEqual(themename, u'barceloneta')
+
+    def test_hostname_switching_registry(self):
+        request = self.request
+        policy = theming_policy(request)
+        themename = policy.getCurrentTheme()
+        self.assertEqual(themename, u'ploneintranet.themeswitcher.testthemeA')
+        switchersettings = policy.getSwitcherSettings()
+        switchersettings.hostname_switchlist.append(u"nohost")
+        themename = policy.getCurrentTheme()
+        self.assertEqual(themename, u'barceloneta')
