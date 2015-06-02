@@ -61,6 +61,11 @@ class TestFunctional(FunctionalTestCase):
         self.request = self.layer['request']
         # avoid CSRF error on homepage redirect
         self.testurl = "%s/sitemap" % self.portal.absolute_url()
+        self.bust_request_caches()  # polluted by test layer setup
+
+    def bust_request_caches(self):
+        self.request.set('ploneintranet.themeswitcher.settings', None)
+        self.request.set('ploneintranet.themeswitcher.marker', None)
 
     def test_verifysetup(self):
         """Verify that testthemeA is loaded"""
@@ -95,8 +100,7 @@ class TestFunctional(FunctionalTestCase):
     def test_hostname_layer_marking(self):
         request = self.request
         request['HTTP_HOST'] = 'cms.localhost:8080'
-        # bust the layer cache
-        request.set('ploneintranet.themeswitcher.marker', False)
+        self.bust_request_caches()
         policy = theming_policy(request)
         policy.filter_layers()
         active = [x for x in directlyProvidedBy(request)]
@@ -109,6 +113,7 @@ class TestFunctional(FunctionalTestCase):
         self.assertEqual(themename, u'ploneintranet.themeswitcher.testthemeA')
         switchersettings = policy.getSwitcherSettings()
         switchersettings.hostname_switchlist.append(u"nohost")
+        self.bust_request_caches()
         themename = policy.getCurrentTheme()
         self.assertEqual(themename, u'barceloneta')
 

@@ -60,9 +60,14 @@ class SwitchableThemingPolicy(DefaultPolicy):
         This switch in settings drives the rest of the theming
         machinery to use the theme indicated in the settings.
         """
+        # calculate settings only once per request
+        settings = self.request.get('ploneintranet.themeswitcher.settings')
+        if settings:
+            return settings
+
         defaults = self.getDefaultSettings()
         if not self.isFallbackActive():
-            return defaults
+            settings = defaults
         else:
             switcher = self.getSwitcherSettings()
             overrides = dict(
@@ -70,7 +75,13 @@ class SwitchableThemingPolicy(DefaultPolicy):
                 rules=switcher.fallback_rules,
                 absolutePrefix=switcher.fallback_absoluteprefix,
             )
-            return SwitchableRecordsProxy(defaults, **overrides)
+            settings = SwitchableRecordsProxy(defaults, **overrides)
+
+        self.request.set('ploneintranet.themeswitcher.settings', settings)
+        return settings
+
+    # all below are helper methods not part of the IThemingPolicy contact
+    # and only called once per request by the first uncached getSettings()
 
     def isFallbackActive(self):
         """Decide whether to switch to the fallback theme, or not."""
@@ -120,16 +131,19 @@ class SwitchableThemingPolicy(DefaultPolicy):
             host = self.request.get('SERVER_NAME')
         return host.split(':')[0]  # ignore port
 
+    # special helper that is called many times on traversal
+    # and manages it's own request cache
+
     def filter_layers(self):
         """Remove the 'normal' theme layer from the request
         to disable the diazo transform of that theme and
         fully fall back to the underlying configured theme,
         typically barceloneta.
         """
-        # if self.request.get('ploneintranet.themeswitcher.marker'):
-        #     return
-        # # manipulate the same request only once
-        # self.request.set('ploneintranet.themeswitcher.marker', True)
+        if self.request.get('ploneintranet.themeswitcher.marker'):
+            return
+        # manipulate the same request only once
+        self.request.set('ploneintranet.themeswitcher.marker', True)
 
         if not self.isFallbackActive():
             return
@@ -142,6 +156,8 @@ class SwitchableThemingPolicy(DefaultPolicy):
                          if x not in remove_layers]
         directlyProvides(self.request, *active_layers)
 
+
+# traversal event handler
 
 def filter_layers(site, event):
     """Remove browser layer(s) when needed.
