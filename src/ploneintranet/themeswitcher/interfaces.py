@@ -15,14 +15,13 @@ class IThemeASpecific(IDefaultPloneLayer):
 
 
 class IThemeSwitcherSettings(Interface):
-    """Make it easy to change theme switching behavior without
-    changing policy code."""
+    """Configure the theme switching."""
 
     enabled = schema.Bool(
-        title=u"Enabled",
+        title=u"Theme switching enabled",
         description=u"Use this option to enable or disable theme switching. ",
         required=True,
-        default=True,
+        default=False,
     )
 
     fallback_theme = schema.TextLine(
@@ -32,12 +31,26 @@ class IThemeSwitcherSettings(Interface):
         default=u"barceloneta",
     )
 
+    fallback_rules = schema.TextLine(
+        title=u"Fallback rules",
+        description=u"Fallback theme rules resource path.",
+        required=True,
+        default=u"/++theme++barceloneta/rules.xml",
+    )
+
+    fallback_absoluteprefix = schema.TextLine(
+        title=u"Fallback path",
+        description=u"Fallback theme resource path.",
+        required=True,
+        default=u"/++theme++barceloneta",
+    )
+
     hostname_switchlist = schema.List(
         title=u"Fallback themed host names",
         description=u"List of host names which will use the fallback theme.",
         value_type=schema.TextLine(),
         required=False,
-        default=[u"cms.localhost"],
+        default=[],
     )
 
     browserlayer_filterlist = schema.List(
@@ -47,5 +60,5 @@ class IThemeSwitcherSettings(Interface):
                      u"but should NOT remove the themeswitcher policy. "),
         value_type=schema.TextLine(),
         required=False,
-        default=[u"ploneintranet.theme.interfaces.IThemeSpecific"],
+        default=[],
     )

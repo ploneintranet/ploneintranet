@@ -4,13 +4,11 @@
         interface="ploneintranet.themeswitcher.interfaces.IThemeSwitcherSettings">
       <value key="enabled">True</value>
       <value key="fallback_theme">barceloneta</value>
-      <value key="fallback_rules">/++theme++barceloneta/rules.xml</value>
-      <value key="fallback_absoluteprefix">/++theme++barceloneta</value>
       <value key="hostname_switchlist">
         <element>cms.localhost</element>
       </value>
-      <value key="browserlayer_filterlist">
-        <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+      <value key="browserlayer_filterlist" purge="True">
+        <element>ploneintranet.themeswitcher.interfaces.IThemeASpecific</element>
       </value>
     </records>
 </registry>

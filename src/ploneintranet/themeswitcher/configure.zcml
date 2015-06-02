@@ -13,6 +13,13 @@
         for="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
         />
 
+    <!-- remove browser layers if necessary -->
+    <subscriber
+        for="plone.app.layout.navigation.interfaces.INavigationRoot
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".policy.filter_layers"
+        />
+
    <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- (Themeswitcher)"
