@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 
 class SwitchableRecordsProxy(object):
     """Replace the normal recordsproxy with a wrapper that
-    is switchable and does not write to registry records.
+    is switchable and does not write overrides to registry records.
     """
 
     def __init__(self, realproxy, **overrides):
@@ -32,7 +32,10 @@ class SwitchableRecordsProxy(object):
             return getattr(self.realproxy, name)
 
     def __setattr__(self, name, value):
-        raise AttributeError("SwitchableRecordsProxy is read-only")
+        if name in self.overrides:
+            return setattr(self.overrides, name, value)
+        else:
+            return setattr(self.realproxy, name, value)
 
 
 @implementer(IThemingPolicy)
