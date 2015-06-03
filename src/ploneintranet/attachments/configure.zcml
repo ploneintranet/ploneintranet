@@ -19,26 +19,12 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="ploneintranet.attachments"
+        title="Plone Intranet: -- (Attachments)"
         directory="profiles/default"
         description="Extension profile for ploneintranet.attachments."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
     <adapter factory=".attachments.AttachmentStorageAdapterFactory" />
-
-    <adapter
-        name="attachments"
-        for="zope.interface.Interface zope.publisher.interfaces.browser.IBrowserRequest"
-        provides="zope.traversing.interfaces.ITraversable"
-        factory="ploneintranet.attachments.attachments.AttachmentsNamespace"
-        />
-
-    <adapter
-        name="attachments"
-        for="zope.interface.Interface"
-        provides="zope.traversing.interfaces.ITraversable"
-        factory="ploneintranet.attachments.attachments.AttachmentsNamespace"
-        />
 
 </configure>

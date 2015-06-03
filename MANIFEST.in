@@ -4,5 +4,5 @@ prune src/collective.celery
 prune src/slc.docconv
 prune src/sphinx.themes.plone
 prune src/zope.testrunner
-include *rst Contributors
+include *rst
 global-exclude *.pyc

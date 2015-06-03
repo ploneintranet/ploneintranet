@@ -11,6 +11,7 @@
       for="collective.workspace.interfaces.IHasWorkspace"
       class=".browser.roster.EditRoster"
       permission="collective.workspace.ViewRoster"
+      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
       />
 
 </configure>
