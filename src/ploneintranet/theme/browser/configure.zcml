@@ -25,6 +25,7 @@
       name="edit"
       class=".document.EditView"
       permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IThemeSpecific"
       />
   <!-- END Custom Content Type views -->
 
