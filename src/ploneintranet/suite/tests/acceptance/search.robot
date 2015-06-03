@@ -19,7 +19,28 @@ Allan can see the search button in header
 Allan can search and find the Budget Proposal
     Given I am logged in as the user allan_neece
     I can search in the site header for Budget
-    And I can find the search result Budget Proposal
+    And I can see the search result Budget Proposal
+    And I can follow the search result Budget Proposal
+
+Allan can search and find multiple documents
+    Given I am logged in as the user allan_neece
+    I can search in the site header for minutes
+    And I can see the search result Minutes Overview
+    And I can see the search result Minutes
+
+Allan can search and filter by facet
+    Given I am logged in as the user allan_neece
+    I can search in the site header for minutes
+    Then I can toggle the facet Page
+    And I can see the search result Minutes
+    And I cannot see the search result Minutes Overview
+
+Allan can search and filter by date
+    Given I am logged in as the user allan_neece
+    I can search in the site header for minutes
+    Then I can set the date range to before-last-month
+    And I can see the search result Minutes Overview
+    And I cannot see the search result Minutes
 
 *** Keywords ***
 
@@ -30,8 +51,20 @@ I can search in the site header for ${SEARCH_STRING}
     Input text  css=#global-header input.search  ${SEARCH_STRING}
     Submit Form  css=#global-header form#searchGadget_form
 
-I can find the search result ${SEARCH_RESULT_TITLE}
+I can see the search result ${SEARCH_RESULT_TITLE}
     Element should be visible  link=${SEARCH_RESULT_TITLE}
+
+I cannot see the search result ${SEARCH_RESULT_TITLE}
+    Element should not be visible  link=${SEARCH_RESULT_TITLE}
+
+I can follow the search result ${SEARCH_RESULT_TITLE}
     Click Link  link=${SEARCH_RESULT_TITLE}
-    Location Should Contain  /workspaces/open-market-committee/manage-information/budget-proposal
     Page should contain  ${SEARCH_RESULT_TITLE}
+
+I can toggle the facet ${FACET_VALUE}
+    Click Element  css=input[type="checkbox"][value="${FACET_VALUE}"]
+    Wait Until Page Contains Element  css=.search-results
+
+I can set the date range to ${DATE_RANGE_VALUE}
+    Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
+    Wait Until Element is Visible  css=.search-results
