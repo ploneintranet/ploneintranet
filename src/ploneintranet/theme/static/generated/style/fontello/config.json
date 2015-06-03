@@ -293,6 +293,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "e35de5ea31cd56970498e33efbcb8e36",
+      "css": "external",
+      "code": 59440,
+      "src": "fontawesome"
+    },
+    {
       "uid": "5b0772e9484a1a11646793a82edd622a",
       "css": "pin",
       "code": 128204,
@@ -785,6 +791,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "032bd8bbd70adf90ead98b6813bfe446",
+      "css": "newspaper-1",
+      "code": 59504,
+      "src": "fontawesome"
+    },
+    {
       "uid": "50fbbd926b2a64fcaf384788056c0e43",
       "css": "gwallet",
       "code": 59469,
@@ -917,6 +929,12 @@
       "src": "entypo"
     },
     {
+      "uid": "da0fd38d651815e3a12f6c030ff1fe5b",
+      "css": "newspaper",
+      "code": 59456,
+      "src": "entypo"
+    },
+    {
       "uid": "96ea1be71f597a5bdfc8f791ada4f651",
       "css": "archive",
       "code": 59407,
@@ -944,6 +962,30 @@
       "uid": "ff9a85aa20950dcc0615a2707a2b3f8e",
       "css": "right-dir",
       "code": 9656,
+      "src": "entypo"
+    },
+    {
+      "uid": "78944e4652d6f9b8b506eaef331308cd",
+      "css": "down-bold",
+      "code": 59505,
+      "src": "entypo"
+    },
+    {
+      "uid": "0222089fb4194cc714dcc1ffd2525c11",
+      "css": "left-bold",
+      "code": 59506,
+      "src": "entypo"
+    },
+    {
+      "uid": "1a90b06af8614b12d8c8a5b90cc19ab3",
+      "css": "right-bold",
+      "code": 59507,
+      "src": "entypo"
+    },
+    {
+      "uid": "8c8f768607b8fc4c92c0f85b488e87e8",
+      "css": "up-bold",
+      "code": 59508,
       "src": "entypo"
     },
     {
@@ -1004,6 +1046,12 @@
       "uid": "fhpup8jff2yw9kmuwavhyqxogczcbbhj",
       "css": "money",
       "code": 59475,
+      "src": "modernpics"
+    },
+    {
+      "uid": "a58a5236139282f6c7f906634233157a",
+      "css": "squares",
+      "code": 59503,
       "src": "modernpics"
     },
     {
