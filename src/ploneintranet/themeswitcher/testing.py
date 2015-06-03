@@ -58,3 +58,34 @@ class FunctionalTestCase(unittest.TestCase):
     """Base class for functional tests."""
 
     layer = FUNCTIONAL_TESTING
+
+
+# --- extra setup that switches theme for 'nohost' ---
+
+
+from plone.registry.interfaces import IRegistry
+from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
+from zope.component import queryUtility
+
+
+class PloneintranetThemeswitcherLayer2(PloneintranetThemeswitcherLayer):
+
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'ploneintranet.themeswitcher:testing')
+        # add 'nohost' to testing switchlist, so we can browser test switching
+        registry = queryUtility(IRegistry)
+        switcher = registry.forInterface(IThemeSwitcherSettings)
+        switcher.hostname_switchlist.append(u"nohost")
+
+
+FIXTURE2 = PloneintranetThemeswitcherLayer2()
+FUNCTIONAL_TESTING2 = FunctionalTesting(
+    bases=(FIXTURE2,), name="PloneintranetThemeswitcherLayer:Functional2")
+
+
+class FunctionalTestCase2(unittest.TestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL_TESTING2

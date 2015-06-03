@@ -9,6 +9,7 @@ from ploneintranet.themeswitcher.policy import SwitchableRecordsProxy
 
 from ploneintranet.themeswitcher.testing import IntegrationTestCase
 from ploneintranet.themeswitcher.testing import FunctionalTestCase
+from ploneintranet.themeswitcher.testing import FunctionalTestCase2
 
 
 class TestSwitchableRecordsProxy(unittest.TestCase):
@@ -117,13 +118,25 @@ class TestFunctional(FunctionalTestCase):
         themename = policy.getCurrentTheme()
         self.assertEqual(themename, u'barceloneta')
 
-    @unittest.skip("registry settings not picked up")
+
+class TestFunctional2(FunctionalTestCase2):
+    """Uses a special test setup where 'nohost' is on the switching list.
+    That configuration needs to be done in the layer fixture, doing it
+    in the test itself doesn't stick."""
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        # avoid CSRF error on homepage redirect
+        self.testurl = "%s/sitemap" % self.portal.absolute_url()
+        self.bust_request_caches()  # polluted by test layer setup
+
+    def bust_request_caches(self):
+        self.request.set('ploneintranet.themeswitcher.settings', None)
+        self.request.set('ploneintranet.themeswitcher.marker', None)
+
     def test_hostname_switching_view(self):
-        policy = theming_policy(self.request)
-        switchersettings = policy.getSwitcherSettings()
-        switchersettings.hostname_switchlist.append(u"nohost")
-        # import transaction
-        # transaction.commit()
         view = api.content.get_view(
             context=self.portal,
             request=self.request,
@@ -133,13 +146,7 @@ class TestFunctional(FunctionalTestCase):
         self.assertFalse(IThemeASpecific in active)
         self.assertFalse('testthemeA title' in html)
 
-    @unittest.skip("registry settings not picked up")
     def test_hostname_switching_browser(self):
-        policy = theming_policy(self.request)
-        switchersettings = policy.getSwitcherSettings()
-        switchersettings.hostname_switchlist.append(u"nohost")
-        # import transaction
-        # transaction.commit()
         browser = Browser(self.app)
         browser.open(self.testurl)
         self.assertFalse('testthemeA title' in browser.contents)
