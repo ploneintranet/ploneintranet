@@ -2,6 +2,10 @@ from zope.interface import Interface, Attribute
 from ploneintranet.invitations import MessageFactory as _
 
 
+class IPloneintranetInvitationsLayer(Interface):
+    """Marker interface that defines a Zope 3 browser layer."""
+
+
 class ITokenUtility(Interface):
     """ Interface for the TokenUtility
     """

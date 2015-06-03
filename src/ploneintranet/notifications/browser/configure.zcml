@@ -9,6 +9,7 @@
       class=".notifications.NotificationsView"
       template="notifications.pt"
       permission="zope2.View"
+      layer=".interfaces.IPloneintranetNotificationsLayer"
       />
 
   <browser:viewlet

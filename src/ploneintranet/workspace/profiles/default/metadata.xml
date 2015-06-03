@@ -7,5 +7,6 @@
     <dependency>profile-ploneintranet.microblog:default</dependency>
     <dependency>profile-ploneintranet.activitystream:default</dependency>
     <dependency>profile-ploneintranet.todo:default</dependency>
+    <dependency>profile-ploneintranet.invitations:default</dependency>
   </dependencies>
 </metadata>

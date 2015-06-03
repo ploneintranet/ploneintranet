@@ -2,6 +2,10 @@ from zope.interface import Attribute
 from zope.interface import Interface
 
 
+class IPloneintranetWorkspaceLayer(Interface):
+    """Marker interface that defines a Zope 3 browser layer."""
+
+
 class IParticipationPolicyChangedEvent(Interface):
     """ Event, which is fired once the participation policy
     of the workspace has changed

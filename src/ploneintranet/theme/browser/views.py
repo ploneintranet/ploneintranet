@@ -1,5 +1,3 @@
-from zope.publisher.browser import BrowserView
-from ploneintranet.theme.interfaces import IThemeSpecific
 from z3c.form.interfaces import IAddForm
 from Products.Archetypes.utils import shasattr
 from Acquisition import aq_inner
@@ -37,10 +35,3 @@ class DexterityFormMixin(object):
         if not silent:
             raise KeyError('Could not get key %s in the request or context'
                            % key)
-
-
-class IsThemeEnabled(BrowserView):
-
-    def __call__(self):
-        """ """
-        return IThemeSpecific.providedBy(self.request)

@@ -23,7 +23,7 @@
                     <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                     <a href="/open-market-committee"
                        class="button icon-left-open pat-inject"
-                       data-pat-inject="source: #workspace-documents; target: #workspace-documents"
+                       data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs"
                        tal:define="parent view/logical_parent"
                        tal:condition="parent"
                        tal:attributes="href parent/url"

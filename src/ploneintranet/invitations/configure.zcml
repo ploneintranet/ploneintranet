@@ -27,6 +27,7 @@
      name="accept-token"
      class=".views.AcceptToken"
      permission="zope2.View"
+     layer=".interfaces.IPloneintranetInvitationsLayer"
      />
 
   <browser:page
@@ -35,6 +36,7 @@
      class=".invitations.InviteUser"
      template="invite_user.pt"
      permission="cmf.ManagePortal"
+     layer=".interfaces.IPloneintranetInvitationsLayer"
      />
 
   <subscriber

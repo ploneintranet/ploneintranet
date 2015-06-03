@@ -1,0 +1,6 @@
+<layers>
+  <layer
+    name="ploneintranet.todo.browser"
+    interface="ploneintranet.todo.browser.interfaces.IPloneintranetTodoLayer"
+  />
+</layers>

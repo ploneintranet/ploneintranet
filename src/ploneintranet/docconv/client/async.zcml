@@ -7,6 +7,7 @@
         for="*"
         permission="zope2.View"
         class=".async.RecursiveQueueJob"
+        layer=".interfaces.IPloneintranetDocconvClientLayer"
         />
 
 </configure>
