@@ -10,7 +10,7 @@
         <element>cms.localhost</element>
       </value>
       <value key="browserlayer_filterlist">
-        <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+        <!-- ploneintranet layer filter defined in suite:default registry.xml -->
       </value>
     </records>
 </registry>
