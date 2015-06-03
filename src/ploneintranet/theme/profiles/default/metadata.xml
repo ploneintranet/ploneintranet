@@ -4,5 +4,6 @@
     <dependencies>
         <dependency>profile-plone.app.theming:default</dependency>
         <dependency>profile-plone.app.blocks:default</dependency>
+        <dependency>profile-ploneintranet.themeswitcher:default</dependency>
     </dependencies>
 </metadata>
