@@ -1,6 +1,6 @@
 <layers>
   <layer
     name="ploneintranet.messaging.browser"
-    interface="ploneintranet.messaging.browser.interfaces.IPloneIntranetMessagingstreamLayer"
+    interface="ploneintranet.messaging.browser.interfaces.IPloneintranetMessagingLayer"
   />
 </layers>

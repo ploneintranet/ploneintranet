@@ -15,7 +15,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="ploneintranet.todo"
+        title="Plone Intranet: -- (Todo)"
         directory="profiles/default"
         description="Extension profile for ploneintranet.todo."
         provides="Products.GenericSetup.interfaces.EXTENSION"

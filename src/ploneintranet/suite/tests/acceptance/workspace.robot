@@ -18,10 +18,9 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-# Normal users cannot currently create workspaces. Commented out until fixed
-# Alice can create a workspace
-#     Given I am logged in as the user alice_lindstrom
-#     Then I can create a new workspace    My user workspace
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+    Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -127,6 +126,18 @@ Member can submit and retract a document
      Then I cannot edit the document
      When I retract the content item
      Then I can edit the document
+
+Member can publish a document in a Publishers workspace
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My publishing document
+     When I submit the content item
+     Then I can publish the content item
+
+Member cannot publish a document in a Producers workspace
+    Given I am in a Producers workspace as a workspace member
+     When I can create a new document    My non-publishing document
+     When I submit the content item
+     Then I cannot publish the content item
 
 
 # XXX: The following tests derive from ploneintranet.workspace and still
@@ -317,8 +328,6 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
 
-
-
 I can create a new folder
     Click link  Documents
     Click link  Create folder
@@ -373,17 +382,33 @@ The file appears in the sidebar
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
 
+# The self-healing Close messages below are a source of Heisenbugs in the test
+
 I submit the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
     Click button  Close
 
 I retract the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
     Click button  Close
+
+I can publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+    Wait until page contains  The workflow state has been changed
+    Wait until page contains  Close
+    Click button  Close
+
+I cannot publish the content item
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Element should be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
+    Element should not be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
 
 I can edit the document
     Element should be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']

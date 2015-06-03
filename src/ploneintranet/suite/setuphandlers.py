@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 from plone import api
 from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
+# from ploneintranet.attachments.attachments import IAttachmentStorage
+# from ploneintranet.attachments.utils import create_attachment
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
@@ -215,14 +217,7 @@ def create_tasks(todos):
 
 def create_workspaces(workspaces):
     portal = api.portal.get()
-    if 'workspaces' not in portal:
-        ws_folder = api.content.create(
-            container=portal,
-            type='ploneintranet.workspace.workspacecontainer',
-            title='Workspaces'
-        )
-    else:
-        ws_folder = portal['workspaces']
+    ws_folder = portal['workspaces']
 
     for w in workspaces:
         contents = w.pop('contents', None)
@@ -325,22 +320,15 @@ def create_stream(context, stream, files_dir):
         offset_time = status['timestamp'] * 60
         status_obj.id -= int(offset_time * 1e6)
         status_obj.date = DateTime(time.time() - offset_time)
-        microblog.add(status_obj)
-        # THIS BREAKS BECAUSE DOCCONV. FIX DOCCONV, UNCOMMENT
+        # THIS BREAKS BECAUSE docconv.client.async.queueConversionJob FIXME
         # if 'attachment' in status:
-        #     attachment_definition = status['attachment']
-        #     attachment_filename = os.path.join(
-        #         files_dir,
-        #         attachment_definition['filename']
-        #     )
-        #     attachment = context.openDataFile(attachment_filename)
-        #     fake_field = FakeFileField(
-        #         attachment_definition['filename'],
-        #         attachment
-        #     )
-        #     attachment_obj = create_attachment(fake_field)
+        #     _definition = status['attachment']
+        #     _filename = os.path.join(files_dir, _definition['filename'])
+        #     _data = context.readDataFile(_filename)
+        #     attachment_obj = create_attachment(_filename, _data)
         #     attachments = IAttachmentStorage(status_obj)
         #     attachments.add(attachment_obj)
+        microblog.add(status_obj)
 
         # like some status-updates
         if 'likes' in status:

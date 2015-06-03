@@ -21,7 +21,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="ploneintranet notifications"
+      title="Plone Intranet: -- (Notifications)"
       directory="profiles/default"
       description="Installs the ploneintranet.notifications package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -29,7 +29,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="ploneintranet notifications Uninstall"
+      title="Plone Intranet: -- (Notifications: Uninstall)"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.notifications package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

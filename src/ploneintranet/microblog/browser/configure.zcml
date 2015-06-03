@@ -7,12 +7,4 @@
   <include package=".prototype" />
   <include package=".tiles" />
 
-  <browser:page
-      name="status-attachments"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".attachments.StatusAttachments"
-      layer=".interfaces.IPloneIntranetMicroblogLayer"
-      permission="zope2.View"
-      />
-
 </configure>

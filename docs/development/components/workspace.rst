@@ -123,6 +123,10 @@ What can members of the workspace do?
   - Members can create, edit and publish their own content
     *and* content created by others.
 
+.. note::
+
+  Unless the policy is set to *Moderators*, Members will only see the content created by others if it has been published.
+
 Policy Scenarios
 ----------------
 

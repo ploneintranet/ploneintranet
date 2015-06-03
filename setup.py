@@ -5,8 +5,7 @@ version = '0.1'
 long_description = (
     open('README.rst').read()
     + '\n' +
-    'Contributors\n'
-    '============\n'
+    open('CONTRIBUTORS.rst').read()
     + '\n' +
     open('CHANGES.rst').read()
     + '\n')
@@ -18,15 +17,19 @@ setup(name='ploneintranet',
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
+          "Development Status :: 3 - Alpha",
           "Environment :: Web Environment",
           "Framework :: Plone",
+          "Framework :: Plone :: 5.0",
+          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
           "Operating System :: OS Independent",
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.7",
+          "Topic :: Office/Business",
+          "Topic :: Office/Business :: Groupware",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
       ],
-      keywords='intranet social activitystream',
+      keywords='intranet social activitystream collaboration groupware',
       author='Plone Intranet Consortium',
       author_email='info@ploneintranet.org',
       url='https://github.com/ploneintranet/ploneintranet',
@@ -129,5 +132,8 @@ setup(name='ploneintranet',
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
       target = plone
+
+      [zest.releaser.releaser.after_checkout]
+      add_files_to_release = ploneintranet.core.release:add_files_to_release
       """,
       )

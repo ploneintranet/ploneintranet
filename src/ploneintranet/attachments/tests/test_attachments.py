@@ -1,10 +1,7 @@
 from Products.ATContentTypes.content import file
 from Products.ATContentTypes.content import image
-from plone.app.testing import setRoles
-from plone.app.testing.interfaces import TEST_USER_ID
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from zExceptions import NotFound
 from zope.component import createObject
 from zope.interface import directlyProvides
 from zope.container.interfaces import DuplicateIDError
@@ -58,63 +55,3 @@ class TestAttachmentStorage(IntegrationTestCase):
         self.assertTrue('data2.dat' in attachments.keys())
         attachments.remove('data2.dat')
         self.assertEqual(len(attachments.keys()), 0)
-
-
-class TestAttachmentTraverse(IntegrationTestCase):
-    """ Test the ++attachment++ traversal namespace.
-    """
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ('Manager',))
-        id = self.portal.invokeFactory(
-            'Folder',
-            'workspace1',
-            title=u"Workspace 1")
-        self.workspace = self.portal._getOb(id)
-
-    def test_traverse(self):
-        id = self.workspace.invokeFactory(
-            'Document',
-            'question',
-            title=u'Question')
-        question = self.workspace._getOb(id)
-        directlyProvides(question, IAttachmentStoragable)
-        attachments = IAttachmentStorage(question)
-        f = file.ATFile('data1.dat')
-        attachments.add(f)
-
-        response = self.portal.restrictedTraverse(
-            '%s/++attachments++default/data1.dat'
-            % ('/'.join(question.getPhysicalPath())))
-        self.assertEqual(f, response)
-
-        # Test traversal to a non-existing attachment
-        self.assertRaises(
-            NotFound,
-            self.portal.restrictedTraverse,
-            '%s/++attachments++default/non-existing.dat'
-            % ('/'.join(question.getPhysicalPath())))
-
-    def test_path(self):
-        id = self.workspace.invokeFactory(
-            'Document',
-            'question',
-            title=u'Question')
-        question = self.workspace._getOb(id)
-        directlyProvides(question, IAttachmentStoragable)
-        attachments = IAttachmentStorage(question)
-        f = file.ATFile('data1.dat')
-        attachments.add(f)
-        attachment_path = attachments.get('data1.dat').getPhysicalPath()
-
-        self.assertEquals(
-            '/'.join(attachment_path),
-            '%s/++attachments++default/data1.dat'
-            % ('/'.join(question.getPhysicalPath())))
-
-        response = self.portal.restrictedTraverse(attachment_path)
-
-        self.assertEqual(
-            '/'.join(response.getPhysicalPath()),
-            '/'.join(attachment_path))

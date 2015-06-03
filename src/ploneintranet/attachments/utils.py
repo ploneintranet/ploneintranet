@@ -89,6 +89,12 @@ def add_attachments(attachments, attachment_storage):
 
 
 def clean_up_temporary_attachments(workspace, maxage=1):
+    """Garbage collect temporary attachments on a workspace
+    -- these are used while creating a statusupdate but already
+    removed when storing the statusupdate.
+    This method removes any remaining temp attachments.
+    maxage is age in days beyond which attachments are removed.
+    """
     temp_attachments = IAttachmentStorage(workspace)
     for key in temp_attachments.keys():
         keyparts = key.split('-')

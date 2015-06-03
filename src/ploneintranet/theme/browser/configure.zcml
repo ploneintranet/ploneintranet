@@ -16,53 +16,6 @@
     layer="..interfaces.IThemeSpecific"
   />
 
-<!-- BEGIN Example views (used to document and show patterns usage) -->
-  <browser:page
-      name="dnd-upload-example"
-      for="Products.CMFCore.interfaces.IFolderish"
-      class=".examples.ExampleDragAndDropUpload"
-      permission="cmf.ModifyPortalContent"
-      template="templates/examples/dnd-upload-example.pt"
-      />
-    <!-- layer="..interfaces.IThemeSpecific" -->
-
-  <browser:page
-      name="pat-equaliser-example"
-      for="Products.CMFCore.interfaces.IFolderish"
-      class=".examples.ExampleEqualiser"
-      permission="zope2.View"
-      template="templates/examples/pat-equaliser-example.pt"
-      />
-      <!-- layer="..interfaces.IThemeSpecific" -->
-
-  <browser:page
-      name="resource-polling-example"
-      for="Products.CMFCore.interfaces.IFolderish"
-      class=".examples.ExampleResourcePolling"
-      permission="zope2.View"
-      template="templates/examples/resource-polling-example.pt"
-      />
-  <!-- layer="..interfaces.IThemeSpecific" -->
-
-  <browser:page
-      name="file-preview-example.jpg"
-      for="plone.app.contenttypes.interfaces.IImage"
-      class=".examples.ExampleFilePreview"
-      permission="zope2.View"
-      />
-  <!-- layer="..interfaces.IThemeSpecific" -->
-
-  <!-- END Example views -->
-
-  <!-- Helper view that allows us to disable CSS based on whether the Plone
-       Intranet theme is enabled or not. -->
-  <browser:page
-      for="*"
-      name="is_plone_intranet_theme_enabled"
-      class=".views.IsThemeEnabled"
-      permission="zope.Public"
-      />
-
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".templates.layout_factory" />
 

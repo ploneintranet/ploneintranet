@@ -20,6 +20,7 @@
       class=".navigation.NavigationTile"
       permission="zope.Public"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <plone:tile
@@ -30,6 +31,7 @@
     class=".workspaces.WorkspacesTile"
     add_permission="cmf.ManagePortal"
     permission="zope.Public"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
   <plone:tile
@@ -39,7 +41,8 @@
     add_permission="cmf.ManagePortal"
     class=".workspace_tabs.WorkspaceTabsTile"
     permission="zope2.View"
-    for="*"
+    for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
   <plone:tile
@@ -50,6 +53,7 @@
     class=".sidebar.Sidebar"
     permission="zope2.View"
     for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
   <plone:tile
@@ -60,6 +64,7 @@
     class=".sidebar.SidebarSettingsMembers"
     permission="zope2.View"
     for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
   <plone:tile
@@ -70,6 +75,7 @@
     class=".sidebar.SidebarSettingsSecurity"
     permission="zope2.View"
     for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
   <plone:tile
@@ -80,6 +86,7 @@
     class=".sidebar.SidebarSettingsAdvanced"
     permission="zope2.View"
     for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
 </configure>

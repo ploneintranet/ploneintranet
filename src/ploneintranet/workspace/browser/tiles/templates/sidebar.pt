@@ -4,396 +4,401 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-<body>
-<aside class="sidebar left tagging-off" id="sidebar" >
+  <body>
+    <aside class="sidebar left tagging-off" id="sidebar" >
 
-  <div hidden id="more-menu">
-    <ul class="menu">
-      <li>
-        <a class="icon-document" href="#">Paste document(s)</a>
-      </li>
-    </ul>
-  </div>
+      <div hidden="hidden" id="more-menu">
+        <ul class="menu">
+          <li>
+            <a class="icon-document" href="#">Paste document(s)</a>
+          </li>
+        </ul>
+      </div>
 
-  <div id="sidebar-content" class="pat-stacks">
-    <div id="workspace-documents" tal:define="ws view/workspace; ws_url ws/absolute_url" >
-        <div class="item-selector mode-follow" id="selector">
+      <div id="sidebar-content" class="pat-stacks">
+        <div id="workspace-documents" tal:define="ws view/workspace; ws_url ws/absolute_url" >
+          <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
-                <div class="contextual buttons float-before" id="selector-contextual-functions">
-                    <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-                    <a href="/open-market-committee"
-                       class="button icon-left-open pat-inject"
-                       data-pat-inject="source: #workspace-documents; target: #workspace-documents"
-                       tal:define="parent view/logical_parent"
-                       tal:condition="parent"
-                       tal:attributes="href parent/url"
-                       tal:content="parent/title">Open Market Committee</a>
-                    <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
-                        <label class="pat-select bare">Group by
-                            <select name="grouping">
-                                <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
-                                <option value="label" tal:attributes="selected python:grouping == 'label' and 'selected' or ''" i18n:translate="">tag</option>
-                                <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
-                                <option value="type" tal:attributes="selected python:grouping == 'type' and 'selected' or ''" i18n:translate="">document type</option>
-                                <!-- When the groups are author names, the author avatar is used as an icon. -->
-                                <option value="author" tal:attributes="selected python:grouping == 'author' and 'selected' or ''" i18n:translate="">author</option>
-                                <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
-                                <option value="date" tal:attributes="selected python:grouping == 'date' and 'selected' or ''" i18n:translate="">date</option>
-                                <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
-                                <option value="first_letter" tal:attributes="selected python:grouping == 'first_letter' and 'selected' or ''" i18n:translate="">first letter</option>
-                            </select>
-                        </label>
-                    </form>
-                </div>
+              <div class="contextual buttons float-before" id="selector-contextual-functions">
+                <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+                <a href="/open-market-committee"
+                   class="button icon-left-open pat-inject"
+                   data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs"
+                   tal:define="parent view/logical_parent"
+                   tal:condition="parent"
+                   tal:attributes="href parent/url"
+                   tal:content="parent/title">Open Market Committee</a>
+                <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
+                  <label class="pat-select bare">Group by
+                  <select name="grouping">
+                    <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
+                    <option value="label" tal:attributes="selected python:grouping == 'label' and 'selected' or ''" i18n:translate="">tag</option>
+                    <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                    <option value="type" tal:attributes="selected python:grouping == 'type' and 'selected' or ''" i18n:translate="">document type</option>
+                    <!-- When the groups are author names, the author avatar is used as an icon. -->
+                    <option value="author" tal:attributes="selected python:grouping == 'author' and 'selected' or ''" i18n:translate="">author</option>
+                    <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                    <option value="date" tal:attributes="selected python:grouping == 'date' and 'selected' or ''" i18n:translate="">date</option>
+                    <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                    <option value="first_letter" tal:attributes="selected python:grouping == 'first_letter' and 'selected' or ''" i18n:translate="">first letter</option>
+                  </select>
+                  </label>
+                </form>
+              </div>
 
-                <div class="quick-functions">
-                    <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                    <a title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                        tal:attributes="href string:${context/absolute_url}/add_content"
-                        i18n:attributes="title" i18n:translate="">Create document</a>
-                    <!-- XXX: This is not yet completed -->
-                    <!--a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a-->
-                </div>
+              <div class="quick-functions">
+                <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                <a title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                   tal:attributes="href string:${context/absolute_url}/add_content"
+                   i18n:attributes="title" i18n:translate="">Create document</a>
+                <!-- XXX: This is not yet completed -->
+                <!--a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a-->
+              </div>
             </div>
 
             <form class="search-box pat-inject pat-autosubmit" id="sidebar-search-form"
                   action="/feedback/workspace-search-results-min.html#items"
                   data-pat-inject="source: #items; target: #items"
                   tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents">
-                <label>
-                    <input name="sidebar-search"
+              <label>
+                <input name="sidebar-search"
                        type="search"
                        placeholder="Search"
                        i18n:attributes="placeholder"
                        tal:attributes="value
-                               request/sidebar-search|nothing" />
-                    <button type="submit" i18n:translate="">Search</button>
-                </label>
+                                       request/sidebar-search|nothing" />
+                <button type="submit" i18n:translate="">Search</button>
+              </label>
             </form>
 
             <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
-                <fieldset class="checklist pat-checklist docs ">
+              <fieldset class="checklist pat-checklist docs ">
 
-                    <div class="batch-functions">
-                        <div class="button-bar">
-                            <span class="float-before button-cluster select-buttons">
-                                <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
-                                <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none" i18n:attributes="title">None</button>
-                            </span>
-                            <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Cancel</button>
-                        </div>
-                        <div class="button-bar">
-                            <span class="float-before button-cluster">
-                                <button type="submit"
-                                        name="batch-function"
-                                        value="cut"
-                                        class="float-before icon-cut no-label pat-depends"
-                                        data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                                        formaction="/feedback/banner-notifications#documents-cut"
-                                        i18n:translate="" i18n:attributes="title"
-                                        title="Cut">Cut</button>
-                                <button type="submit"
-                                        name="batch-function"
-                                        value="copy"
-                                        formaction="/feedback/banner-notifications#documents-copied"
-                                        class="float-before icon-copy no-label pat-depends"
-                                        data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                                        i18n:translate="" i18n:attributes="title"
-                                        title="Copy">Copy</button>
-                                <button disabled
-                                        type="submit"
-                                        name="batch-function"
-                                        value="paste"
-                                        formaction="/open-market-committee#items"
-                                        class="float-before icon-paste no-label"
-                                        i18n:translate="" i18n:attributes="title"
-                                        title="Paste">Paste</button>
-                            </span>
-                            <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                            <button formaction="/feedback/batch-delete.html#content"
-                                    type="submit"
-                                    name="batch-function"
-                                    value="delete"
-                                    class="float-before icon-trash no-label pat-depends"
-                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                                    i18n:translate="" i18n:attributes="title"
-                                    title="Delete">Delete</button>
-                            <button type="submit"
-                                    name="batch-function"
-                                    value="rename"
-                                    formaction="/feedback/batch-rename.html#content"
-                                    class="float-before icon-rename no-label pat-depends"
-                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                                    i18n:translate="" i18n:attributes="title"
-                                    title="Rename">Rename</button>
-                            <button formaction="/feedback/batch-tag.html#content"
-                                    type="submit"
-                                    name="batch-function"
-                                    value="tag"
-                                    class="float-before icon-tags no-label pat-depends"
-                                    data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
-                                    i18n:translate="" i18n:attributes="title"
-                                    title="Re-tag">Re-tag</button>
-                            <button type="submit"
-                                    name="batch-function"
-                                    value="tag"
-                                    class="float-before icon-export pat-depends"
-                                    data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                                    i18n:translate="" i18n:attributes="title"
-                                    title="Share">Share</button>
-                        </div>
-                    </div>
+                <div class="batch-functions">
+                  <div class="button-bar">
+                    <span class="float-before button-cluster select-buttons">
+                      <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
+                      <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none" i18n:attributes="title">None</button>
+                    </span>
+                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Cancel</button>
+                  </div>
+                  <div class="button-bar">
+                    <span class="float-before button-cluster">
+                      <button type="submit"
+                              name="batch-function"
+                              value="cut"
+                              class="float-before icon-cut no-label pat-depends"
+                              data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                              formaction="/feedback/banner-notifications#documents-cut"
+                              i18n:translate="" i18n:attributes="title"
+                              title="Cut">Cut</button>
+                      <button type="submit"
+                              name="batch-function"
+                              value="copy"
+                              formaction="/feedback/banner-notifications#documents-copied"
+                              class="float-before icon-copy no-label pat-depends"
+                              data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                              i18n:translate="" i18n:attributes="title"
+                              title="Copy">Copy</button>
+                      <button disabled="disabled"
+                              type="submit"
+                              name="batch-function"
+                              value="paste"
+                              formaction="/open-market-committee#items"
+                              class="float-before icon-paste no-label"
+                              i18n:translate="" i18n:attributes="title"
+                              title="Paste">Paste</button>
+                    </span>
+                    <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
+                    <button formaction="/feedback/batch-delete.html#content"
+                            type="submit"
+                            name="batch-function"
+                            value="delete"
+                            class="float-before icon-trash no-label pat-depends"
+                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            i18n:translate="" i18n:attributes="title"
+                            title="Delete">Delete</button>
+                    <button type="submit"
+                            name="batch-function"
+                            value="rename"
+                            formaction="/feedback/batch-rename.html#content"
+                            class="float-before icon-rename no-label pat-depends"
+                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            i18n:translate="" i18n:attributes="title"
+                            title="Rename">Rename</button>
+                    <button formaction="/feedback/batch-tag.html#content"
+                            type="submit"
+                            name="batch-function"
+                            value="tag"
+                            class="float-before icon-tags no-label pat-depends"
+                            data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
+                            i18n:translate="" i18n:attributes="title"
+                            title="Re-tag">Re-tag</button>
+                    <button type="submit"
+                            name="batch-function"
+                            value="tag"
+                            class="float-before icon-export pat-depends"
+                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            i18n:translate="" i18n:attributes="title"
+                            title="Share">Share</button>
+                  </div>
+                </div>
 
-                    <!-- Each document has a class name on the label element that indicates the document type.
+                <!-- Each document has a class name on the label element that indicates the document type.
 
-                    Supported types include (class names):
+Supported types include (class names):
 
-                    - type-presentation
-                    - type-slide
-                    - type-date
-                    - type-event
-                    - type-user
-                    - type-tag
-                    - type-powerpoint
-                    - type-word
-                    - type-zip
-                    - type-video
-                    - type-excel
-                    - type-sound
-                    - type-image
-                    - type-code
-                    - type-rich
-                    - type-pdf
+- type-presentation
+- type-slide
+- type-date
+- type-event
+- type-user
+- type-tag
+- type-powerpoint
+- type-word
+- type-zip
+- type-video
+- type-excel
+- type-sound
+- type-image
+- type-code
+- type-rich
+- type-pdf
 
-                    -->
-                            
-                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynamic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
-                            -->
-                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                -->
+                
+                <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynamic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                -->
+                <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
 
-                    <tal:block repeat="item view/items">
-                    <label class="item document type-event has-description"
-                            tal:attributes="class item/cls">
-                        <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
-                        <a href="/event-traces-through-time#document-body"
-                           class="pat-inject follow"
-                           data-pat-inject="target: #document-body"
-                           tal:attributes="href string:${item/url};
-                                           data-pat-inject item/dpi | nothing">
-                            <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
+                <tal:block repeat="item view/items">
+                  <label class="item document type-event has-description"
+                         tal:attributes="class item/cls">
+                    <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
+                    <a href="/event-traces-through-time#document-body"
+                       class="pat-inject follow"
+                       data-pat-inject="target: #document-body"
+                       tal:attributes="href string:${item/url};
+                                       data-pat-inject item/dpi | nothing">
+                      <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
 
-                                <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
-                        </a>
-                    </label>
-                    </tal:block>
+                      <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
+                    </a>
+                  </label>
+                </tal:block>
 
-                </fieldset>
+              </fieldset>
             </form>
 
-                <div class="button-bar create-buttons">
-                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                        i18n:translate="">Create document</a>
-                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                        i18n:translate="">Create folder</a>
-                </div>
-                <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
-                    <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
-                        <label class="accessibility-options">
-                            <input type="file" name="file" multiple> Upload files
-                        </label>
-                    </fieldset>
-                    <button type="submit" hidden>Upload</button>
-                </form>
+            <div class="button-bar create-buttons">
+              <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                 i18n:translate="">Create document</a>
+              <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
+                 i18n:translate="">Create folder</a>
+            </div>
+            <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
+              <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
+                <label class="accessibility-options">
+                  <input type="file" name="file" multiple="multiple"/> Upload files
+                </label>
+              </fieldset>
+              <button type="submit" hidden="hidden">Upload</button>
+            </form>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
-                <ul class="menu">
-                    <li>
-                        <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
-                    </li>
-                    <li>
-                        <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
-                    </li>
-                    <li>
-                        <label class=" icon-upload-cloud"><input multiple type="file"> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
-                    </li>
-                    <!-- This is commented until the functionality will be completed -->
-                    <!--li>
-                        <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                    </li-->
-                </ul>
-            </div>
-
-            <div hidden id="selector-create-menu">
-                <ul class="menu">
-                    <li>
-                        <a class="icon-document" href="#">Text document</a>
-                    </li>
-
-                    <li>
-                        <a class="icon-slides">Slideshow</a>
-                    </li>
-
-                    <li>
-                        <a class="icon-calendar">Event</a>
-                    </li>
-
-
-                    <li>
-                        <a class="icon-linkdd">Weblink</a>
-                    </li>
-
-                    <li>
-                        <a class="icon-upload" href="#">Upload file(s)</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <div id="workspace-tickets" tal:define="tasks view/tasks">
-        <tal:no-tasks condition="not: tasks">
-            <p i18n:translate="no-task-found">No tasks created yet</p>
-        </tal:no-tasks>
-        <tal:tasks condition="tasks">
-          <form action="#"
-            tal:define="ws view/my_workspace"
-            tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
-            method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
-            <fieldset class="task-list pat-checklist">
-              <tal:task repeat="task tasks">
-                <br/>
-                <label>
-                  <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
-                  <input type="checkbox" name="active-tasks:list"
-                    tal:attributes="value python: task['id']"
-                    tal:condition="python: task['checked']" checked="checked"/>
-                  <input type="checkbox" name="active-tasks:list"
-                    tal:attributes="value python: task['id']"
-                    tal:condition="python: not task['checked']"/>
-                  <a href="#"
-                      tal:attributes="title python: task['title'];
-                                      href python: task['url']"
-                      tal:content="python:task['content']"></a>
-                </label>
-              </tal:task>
-            </fieldset>
-            <input type="hidden" name="section" value="task">
-          </form>
-        </tal:tasks>
-    </div>
-
-    <div id="workspace-events" tal:define="events view/events">
-      <div class="content">
-
-        <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
-          <h3 i18n:translate="">Upcoming events</h3>
-
-          <ul class="cal-events">
-            <tal:events repeat="event events/upcoming">
-              <metal:event define-macro="eventdetails">
-                <li class="cal-event">
-                  <h4 class="title">
-                    <a class="pat-inject"
-                       tal:attributes="href string:${event/getURL}#document-body"
-                       tal:content="event/Title"/>
-                  </h4>
-
-                  <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
-
-                  <ul class="details">
-                    <li><span tal:omit-tag="" i18n:translate="">Starts</span> <time class="start"
-                    tal:attributes="datetime event/start"
-                    tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
-
-                    <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
-                  </ul>
-
-                  <form tal:attributes="action string:${event/getURL}/delete_confirmation">
-                    <button class="iconified icon-trash" type="submit">Delete event</button>
-                  </form>
+              <ul class="menu">
+                <li>
+                  <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                 </li>
-              </metal:event>
-            </tal:events>
-          </ul>
+                <li>
+                  <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                </li>
+                <li>
+                  <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                </li>
+                <!-- This is commented until the functionality will be completed -->
+                <!--li>
+                    <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                    </li-->
+              </ul>
+            </div>
+
+            <div hidden="hidden" id="selector-create-menu">
+              <ul class="menu">
+                <li>
+                  <a class="icon-document" href="#">Text document</a>
+                </li>
+
+                <li>
+                  <a class="icon-slides">Slideshow</a>
+                </li>
+
+                <li>
+                  <a class="icon-calendar">Event</a>
+                </li>
+
+
+                <li>
+                  <a class="icon-linkdd">Weblink</a>
+                </li>
+
+                <li>
+                  <a class="icon-upload" href="#">Upload file(s)</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
-          <h3 i18n:translate="">Older events</h3>
 
-          <ul class="cal-events">
-            <tal:events repeat="event events/older">
-              <metal:event use-macro="template/macros/eventdetails" />
-            </tal:events>
-          </ul>
+
+
+        <div id="workspace-tickets" tal:define="tasks view/tasks">
+          <tal:no-tasks condition="not: tasks">
+            <p i18n:translate="no-task-found">No tasks created yet</p>
+          </tal:no-tasks>
+          <tal:tasks condition="tasks">
+            <form action="#"
+                  tal:define="ws view/workspace"
+                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
+                  method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
+              <fieldset class="object-list tasks pat-checklist">
+                <tal:task repeat="task tasks">
+                  <br/>
+                  <label>
+                    <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
+                    <input type="checkbox" name="active-tasks:list"
+                           tal:attributes="value python: task['id']"
+                           tal:condition="python: task['checked']" checked="checked"/>
+                    <input type="checkbox" name="active-tasks:list"
+                           tal:attributes="value python: task['id']"
+                           tal:condition="python: not task['checked']"/>
+                    <a href="#"
+                       tal:attributes="title python: task['title'];
+                                       href python: task['url']"
+                       tal:content="python:task['content']"></a>
+                  </label>
+                </tal:task>
+              </fieldset>
+              <input type="hidden" name="section" value="task"/>
+            </form>
+          </tal:tasks>
         </div>
-      </div>
-    </div>
+
+        <div id="workspace-events" tal:define="events view/events; ws view/workspace">
+          <div class="button-bar functions" id="-functions">
+            <div class="quick-functions">
+              <a title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+            </div>
+          </div>
+          <div class="content">
+
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+              <h3 i18n:translate="">Upcoming events</h3>
+
+              <ul class="cal-events">
+                <tal:events repeat="event events/upcoming">
+                  <metal:event define-macro="eventdetails">
+                    <li class="cal-event">
+                      <h4 class="title">
+                        <a class="pat-inject"
+                           tal:attributes="href string:${event/getURL}#document-body"
+                           tal:content="event/Title"/>
+                      </h4>
+
+                      <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+
+                      <ul class="details">
+                        <li><span tal:omit-tag="" i18n:translate="">Starts</span> <time class="start"
+                        tal:attributes="datetime event/start"
+                        tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
+
+                        <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
+                      </ul>
+
+                      <form tal:attributes="action string:${event/getURL}/delete_confirmation">
+                        <button class="iconified icon-trash" type="submit">Delete event</button>
+                      </form>
+                    </li>
+                  </metal:event>
+                </tal:events>
+              </ul>
+            </div>
+
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+              <h3 i18n:translate="">Older events</h3>
+
+              <ul class="cal-events">
+                <tal:events repeat="event events/older">
+                  <metal:event use-macro="template/macros/eventdetails" />
+                </tal:events>
+              </ul>
+            </div>
+          </div>
+        </div>
 
 
-    <div id="workspace-settings" tal:define="ws view/workspace">
-    <nav class="navigation tabs">
+        <div id="workspace-settings" tal:define="ws view/workspace">
+          <nav class="navigation tabs">
             <a href="/open-market-committee/"
-                tal:attributes="href string:${ws/absolute_url}/sidebar.default" class="pat-inject current"
-                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
-                i18n:translate="">General</a>
+               tal:attributes="href string:${ws/absolute_url}/sidebar.default" class="pat-inject current"
+               data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+               i18n:translate="">General</a>
             <a href="/feedback/workspace-settings-members.html"
-                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.members" class="pat-inject"
-                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
-                i18n:translate="">Members</a>
+               tal:attributes="href string:${ws/absolute_url}/sidebar.settings.members" class="pat-inject"
+               data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+               i18n:translate="">Members</a>
             <a href="/feedback/workspace-settings-security.html"
-                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject"
-                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
-                i18n:translate="">Security</a>
+               tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject"
+               data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+               i18n:translate="">Security</a>
             <a href="/feedback/workspace-settings-advanced.html"
-                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject"
-                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
-                i18n:translate="">Advanced</a>
-        </nav>
-        <div class="tabs-content">
+               tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject"
+               data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+               i18n:translate="">Advanced</a>
+          </nav>
+          <div class="tabs-content">
             <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #document-content::before; source: .sidebar-status-message">
-                <fieldset class="vertical">
-                    <label>
-                        <span tal:omit-tag="" i18n:translate="workspace_title">
-                            Workspace title</span>
-                        <input type="text" value="{{ page.workspace_name }}"
-                               placeholder="Workspace title"
-                               i18n:attributes="placeholder workspace_title"
-                               data-pat-autosubmit="delay: defocus"
-                               tal:attributes="
-                                       value ws/Title;
-                                       disabled not: view/can_manage_workspace"
-                               name="title" />
-                    </label>
-                    <label>
-                        <span tal:omit-tag="" i18n:translate="workspace_brief_description">
-                            Workspace brief description</span>
-                        <textarea rows="4"
-                                  placeholder="Workspace brief description"
-                                  tal:content="ws/Description"
-                                  tal:attributes="disabled not: view/can_manage_workspace"
-                                  name="description"
-                                  i18n:attributes="placeholder workspace_brief_description"
-                                  data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
-                    </label>
-                    <fieldset class="pat-checklist">
-                        <label>
-                            <input type="checkbox"
-                                   name="calendar_visible"
-                                   tal:attributes="
+              <fieldset class="vertical">
+                <label>
+                  <span tal:omit-tag="" i18n:translate="workspace_title">
+                  Workspace title</span>
+                  <input type="text" value="{{ page.workspace_name }}"
+                         placeholder="Workspace title"
+                         i18n:attributes="placeholder workspace_title"
+                         data-pat-autosubmit="delay: defocus"
+                         tal:attributes="
+                                         value ws/Title;
+                                         disabled not: view/can_manage_workspace"
+                         name="title" />
+                </label>
+                <label>
+                  <span tal:omit-tag="" i18n:translate="workspace_brief_description">
+                  Workspace brief description</span>
+                  <textarea rows="4"
+                            placeholder="Workspace brief description"
+                            tal:content="ws/Description"
+                            tal:attributes="disabled not: view/can_manage_workspace"
+                            name="description"
+                            i18n:attributes="placeholder workspace_brief_description"
+                            data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
+                </label>
+                <fieldset class="pat-checklist">
+                  <label>
+                    <input type="checkbox"
+                           name="calendar_visible"
+                           tal:attributes="
                                            checked python:ws.calendar_visible == True and 'checked' or '';
                                            disabled not: view/can_manage_workspace"
-                                   data-pat-autosubmit="delay: 100ms">
-                            <span tal:omit-tag="" i18n:translate="">Workspace calendar visible in central calendar application</span>
-                        </label>
-                    </fieldset>
+                           data-pat-autosubmit="delay: 100ms"/>
+                    <span tal:omit-tag="" i18n:translate="">Workspace calendar visible in central calendar application</span>
+                  </label>
                 </fieldset>
+              </fieldset>
             </form>
+          </div>
         </div>
-    </div>
-  </div>
-</aside>
-</body>
+      </div>
+    </aside>
+  </body>
 </html>

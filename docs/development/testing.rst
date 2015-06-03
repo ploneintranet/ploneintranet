@@ -152,8 +152,36 @@ Run the test you want to trace::
 That should open up the Jenkins firefox on your local machine and play the session.
 
 If you want to dig deeper, add the statement ``Debug`` into the offending robot test.
-In that case the pybot process above will drop you into a debug session, where you 
+In that case the pybot process above will drop you into a debug session, where you
 can continue the test manually by inserting commands like ``click link  link=Rain``
 which then should step by step update your local firefox display with the test run on Jenkins.
 
+
+Testing scenarios
+=================
+
+Workspaces
+----------
+
+The top-level workspace container with the id "workspaces" is created on install by the setup-handler of the workspace package.
+
+The setup-handler of the suite creates two workspaces with the following settings:
+
+* "Open Market Committee"
+
+  * **External visibility**: Private
+  * **Participation policy**: Publishers
+  * **Admin**: christian_stoney
+  * **Member**: allan_neece (and others)
+  * **Non-Member**: alice_lindstrom
+
+  A document, a file and an image are created in sub-folder "Manage Information" with allan_neece as the owner, so that he will be abler to manipulate them in robot tests.
+
+* "Parliamentary papers guidance"
+
+  * **External visibility**: Private
+  * **Participation policy**: Producers
+  * **Admin**: christian_stoney
+  * **Member**: allan_neece (and others)
+  * **Non-Member**: alice_lindstrom
 
