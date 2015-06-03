@@ -5,6 +5,10 @@ from zope.interface import Attribute
 from . import _
 
 
+class IPloneintranetSearchLayer(Interface):
+    """Marker interface that defines a Zope 3 browser layer."""
+
+
 class ISiteSearch(Interface):
     """
     Interface defining a common global search API for differing backends
