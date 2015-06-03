@@ -35,19 +35,26 @@ class SearchResultsView(BrowserView):
         return start, end
 
     def search_response(self):
+        """
+        Takes options from the search page request
+        and returns the relevant response from the backend
+        """
         form = self.request.form
-        keywords = form.get('SearchableText')
-        if not keywords:
-            return None
-        elif isinstance(keywords, list):
-            # Template means that sometimes we get
-            # multiple copies of the text input
-            keywords = keywords[0]
-
         facets = {}
-        for facet in SUPPORTED_FACETS:
-            if form.get(facet):
-                facets[facet] = form.get(facet)
+
+        if form.get('SearchableText'):
+            # This means that the main search form was submitted,
+            # so we start a new keyword-only search
+            keywords = form.get('SearchableText')
+        elif form.get('SearchableText_faceted'):
+            # This means that the facets were changed, so
+            # we refine an existing search
+            keywords = form.get('SearchableText_faceted')
+            for facet in SUPPORTED_FACETS:
+                if form.get(facet):
+                    facets[facet] = form.get(facet)
+        else:
+            return []
 
         if form.get('created'):
             start, end = self._daterange_from_string(form.get('created'))

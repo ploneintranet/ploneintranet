@@ -19,15 +19,15 @@
 		    <button type="search">Search</button>
 		</fieldset>
 	    </div>
-	    <!-- Tabs not yet implemented
 	    <nav class="tabs navigation" id="tabs-nav">
-		<a class="current" href="/search-results.html?lemma=min">All</a>
+		<a class="current" href="@@search?SearchableText=${request/SearchableText|nothing}">All</a>
+	    <!-- Tabs not yet implemented
 		<a href="/search-results-people.html?lemma=min">People</a>
 		<a href="/search-results-images.html?lemma=min">Images</a>
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
-	    </nav>
 	    -->
+	    </nav>
 	    <div class="results" id="results" 
 		 tal:define="search_response view/search_response">
 		<div class="container results">
@@ -36,7 +36,8 @@
 			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing; history: record;"
 				      tal:condition="search_response">
 				<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
-				<input type="hidden" name="SearchableText" 
+				<input type="hidden" 
+				       name="SearchableText_faceted" 
 				       tal:attributes="value request/SearchableText|nothing" />
 				<fieldset class="pat-checklist">
 				    <legend>Content types</legend>
@@ -44,12 +45,13 @@
 				    <label 
 					 tal:repeat="ctype search_response/facets/friendly_type_name">
 					<input checked type="checkbox" 
-					       name="friendly_type_name"
+					       name="friendly_type_name:list"
 					       tal:attributes="value ctype" />
 					<span tal:replace="ctype" />
 				    </label>
 				</fieldset>
-				<fieldset class="pat-checklist">
+				<fieldset class="pat-checklist"
+					  tal:condition="search_response/facets/Subject">
 				    <legend>Tags</legend>
 				    <!-- Only list tags in this list that are relevant for this search result. -->
 				    <label 
@@ -68,12 +70,6 @@
 					</option>
 					<option value="today">
 					    Today
-					</option>
-					<option value="yesterday">
-					    Yesterday
-					</option>
-					<option value="this-week">
-					    This week
 					</option>
 					<option value="last-week">
 					    Last week
