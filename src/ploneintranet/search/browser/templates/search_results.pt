@@ -4,15 +4,14 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet.search">
+      i18n:domain="ploneintranet">
 
     <metal:content fill-slot="content">
 
 	<form action="@@search" id="global-search" class="pat-autosubmit pat-inject"
 	      data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 
-	    <div class="container input pat-subform pat-inject" 
-		 data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
+	    <div class="container input">
 		<fieldset class="search">
 		    <label>
 			<input type="search" name="SearchableText" placeholder="Search the entire intranet" tal:attributes="value request/SearchableText|nothing" />

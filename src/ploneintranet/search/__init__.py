@@ -1,3 +1,3 @@
 from zope.i18nmessageid import MessageFactory
 
-_ = MessageFactory('ploneintranet.search')
+_ = MessageFactory('ploneintranet')
