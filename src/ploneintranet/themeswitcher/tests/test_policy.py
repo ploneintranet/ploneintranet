@@ -34,6 +34,11 @@ class TestIntegration(IntegrationTestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
 
+    def tearDown(self):
+        policy = theming_policy(self.request)
+        # static class attribute is cached across test runs
+        policy.invalidateCache()
+
     def test_custom_policy(self):
         """Verify that our custom adapter is loaded"""
         from ploneintranet.themeswitcher.policy import SwitchableThemingPolicy
@@ -68,6 +73,9 @@ class TestFunctional(FunctionalTestCase):
 
     def tearDown(self):
         Globals.DevelopmentMode = False
+        policy = theming_policy(self.request)
+        # static class attribute is cached across test runs
+        policy.invalidateCache()
 
     def bust_request_caches(self):
         self.request.set('ploneintranet.themeswitcher.settings', None)
@@ -146,6 +154,11 @@ class TestFunctional2(FunctionalTestCase2):
         # avoid CSRF error on homepage redirect
         self.testurl = "%s/sitemap" % self.portal.absolute_url()
         self.bust_request_caches()  # polluted by test layer setup
+
+    def tearDown(self):
+        policy = theming_policy(self.request)
+        # static class attribute is cached across test runs
+        policy.invalidateCache()
 
     def bust_request_caches(self):
         self.request.set('ploneintranet.themeswitcher.settings', None)
