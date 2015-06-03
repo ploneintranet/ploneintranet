@@ -1,7 +1,14 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="ploneintranet.messaging">
+    i18n_domain="ploneintranet">
+
+  <!-- this is secure but in a yukkie way
+
+       The backend checks for api.user.get_current() which is great
+       but the view permissions should be configured right also.
+       This should be a custom permission instead of Zope2.View.
+  -->
 
   <browser:page
       for="*"
@@ -9,6 +16,7 @@
       class=".messaging.MessageForm"
       template="send-message.pt"
       permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:page
@@ -16,7 +24,8 @@
       name="messaging-messages"
       class=".messaging.MessagingView"
       attribute="messages"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:page
@@ -24,7 +33,8 @@
       name="delete-message"
       class=".messaging.MessagingView"
       attribute="delete_message"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:page
@@ -32,7 +42,8 @@
       name="messaging-conversations"
       class=".messaging.MessagingView"
       attribute="conversations"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:page
@@ -40,7 +51,8 @@
       name="social-inbox"
       class=".messaging.YourMessagesView"
       template="your-inbox.pt"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
     <browser:page
@@ -48,7 +60,8 @@
       name="delete-conversation"
       class=".messaging.MessagingView"
       attribute="delete_conversation"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:page
@@ -57,29 +70,33 @@
       class=".messaging.YourMessagesView"
       template="your-messages.pt"
       permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:resource
       name="ploneintranet.messaging.messages.png"
       file="images/messages.png"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:resource
       name="ploneintranet.messaging.messaging.js"
       file="javascript/messaging.js"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:resource
       name="ploneintranet.messaging.messaging.css"
       file="stylesheets/messaging.css"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
   <browser:viewlet
       name="ploneintranet.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".viewlets.NotificationsViewlet"
-      layer=".interfaces.IPloneIntranetMessagingstreamLayer"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
 </configure>

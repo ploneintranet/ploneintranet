@@ -14,18 +14,19 @@
   <include package="plone.behavior" file="meta.zcml"/>
   <include package="plone.directives.form" file="meta.zcml"/>
   <include package="plone.directives.form"/>
-  <include package="ploneintranet.simplesharing"/>
 
   <browser:page
       name="simple-sharing"
       for="Products.CMFCore.interfaces.IContentish"
       permission="zope2.View"
       class=".forms.SimpleSharing"
+      layer=".interfaces.IPloneintranetSimplesharingLayer"
       />
 
   <browser:resourceDirectory
       name="ploneintranet.simplesharing.js"
       directory="js"
+      layer=".interfaces.IPloneintranetSimplesharingLayer"
       />
 
   <genericsetup:registerProfile

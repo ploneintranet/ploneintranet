@@ -16,6 +16,7 @@
       class=".workspace.WorkspaceView"
       permission="zope2.AccessContentsInformation"
       template="templates/workspace.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -23,6 +24,7 @@
       for="*"
       permission="zope2.View"
       template="templates/content_macros.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -30,6 +32,7 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.TransferMembershipForm"
       permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -37,6 +40,7 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.InviteForm"
       permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -44,6 +48,7 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".views.SharingView"
       permission="ploneintranet.workspace.ManageWorkspace"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -52,6 +57,7 @@
       class=".views.SharingView"
       attribute="updateSharingInfo"
       permission="ploneintranet.workspace.ManageWorkspace"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -60,6 +66,7 @@
       class=".add_content.AddContent"
       template="templates/add_content.pt"
       permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -68,6 +75,7 @@
       class=".add_content.AddFolder"
       template="templates/add_folder.pt"
       permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:page
@@ -75,6 +83,7 @@
       for="Products.CMFCore.interfaces.IFolderish"
       class=".add_content.AddEvent"
       permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <browser:viewlet
@@ -84,6 +93,7 @@
       class=".viewlets.SharingViewlet"
       template="templates/sharingviewlet.pt"
       permission="ploneintranet.workspace.ManageWorkspace"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
   <plone:portlet
@@ -100,6 +110,7 @@
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      class=".views.JoinView"
      permission="zope2.AccessContentsInformation"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
      />
 
    <browser:page
@@ -108,6 +119,7 @@
      class=".roster.EditRoster"
      attribute="update_roster"
      permission="collective.workspace.ViewRoster"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
      />
 
    <browser:viewlet
@@ -117,6 +129,7 @@
      template="templates/joinviewlet.pt"
      permission="zope2.AccessContentsInformation"
      view="plone.app.layout.globals.interfaces.IViewView"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
      />
 
     <browser:page
@@ -124,6 +137,7 @@
       for="Products.CMFCore.interfaces._content.IFolderish"
       class=".views.FileUploadView"
       permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
     <browser:page
@@ -132,6 +146,7 @@
       permission="zope.Public"
       class=".workspace.WorkspaceState"
       allowed_interface="..interfaces.IWorkspaceState"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
    <include package=".tiles" />
