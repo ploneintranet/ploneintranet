@@ -5,6 +5,9 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.attachments">
 
+    <include package="ploneintranet.microblog"  
+             file="permissions.zcml" />
+
     <browser:page
       name="upload-attachments"
       for="*"
