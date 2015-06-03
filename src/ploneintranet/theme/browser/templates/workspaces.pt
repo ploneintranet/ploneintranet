@@ -40,11 +40,7 @@
               </a>
             </div>
           </tal:r>
-          <div class="tile workspace four columns add" tal:condition="view/can_add">
-            <a href="${view/target/absolute_url}/@@workspace-add#content" class="pat-modal" i18n:translate="">
-              Create Workspace
-            </a>
-          </div>
+          <div class="tile four columns"></div>
 
         </div>
       </div>
