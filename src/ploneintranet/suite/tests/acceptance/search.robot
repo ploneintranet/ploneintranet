@@ -12,12 +12,12 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Alice can see the search button in header
-    given I am logged in as the user alice_lindstrom
+Allan can see the search button in header
+    Given I am logged in as the user allan_neece
     Then I can see the site search button
 
-Alice can search and find the Budget Proposal
-    given I am logged in as the user alice_lindstrom
+Allan can search and find the Budget Proposal
+    Given I am logged in as the user allan_neece
     I can search in the site header for Budget
     And I can find the search result Budget Proposal
 
