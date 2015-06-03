@@ -1,3 +1,4 @@
+import Globals
 import unittest
 from plone import api
 from plone.testing.z2 import Browser
@@ -63,6 +64,10 @@ class TestFunctional(FunctionalTestCase):
         # avoid CSRF error on homepage redirect
         self.testurl = "%s/sitemap" % self.portal.absolute_url()
         self.bust_request_caches()  # polluted by test layer setup
+        Globals.DevelopmentMode = True
+
+    def tearDown(self):
+        Globals.DevelopmentMode = False
 
     def bust_request_caches(self):
         self.request.set('ploneintranet.themeswitcher.settings', None)
@@ -117,6 +122,16 @@ class TestFunctional(FunctionalTestCase):
         self.bust_request_caches()
         themename = policy.getCurrentTheme()
         self.assertEqual(themename, u'barceloneta')
+
+    def test_noswitching_browser(self):
+        browser = Browser(self.app)
+        browser.open(self.testurl)
+        self.assertTrue('testthemeA title' in browser.contents)
+
+    def test_getarg_switching_browser(self):
+        browser = Browser(self.app)
+        browser.open(self.testurl + '?themeswitcher.fallback=1')
+        self.assertFalse('testthemeA title' in browser.contents)
 
 
 class TestFunctional2(FunctionalTestCase2):

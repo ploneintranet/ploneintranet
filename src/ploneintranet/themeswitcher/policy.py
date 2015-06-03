@@ -1,3 +1,4 @@
+import Globals
 import logging
 from plone.app.theming.interfaces import IThemingPolicy
 from plone.app.theming.interfaces import IThemeSettings
@@ -95,11 +96,16 @@ class SwitchableThemingPolicy(DefaultPolicy):
         if not switcher.enabled:
             return False
 
-        # cookie switching todo - takes precedence over hostname switching
+        # cookie switching will not do - a nightmare with http caches
 
         # hostname switching
         switch_hosts = switcher.hostname_switchlist
         if self.getHostname() in switch_hosts:
+            return True
+
+        DevelopmentMode = Globals.DevelopmentMode
+        debug = self.request.get('themeswitcher.fallback', '').lower()
+        if (DevelopmentMode and debug in ('1', 'y', 'yes', 't', 'true')):
             return True
 
         # default to not switching
