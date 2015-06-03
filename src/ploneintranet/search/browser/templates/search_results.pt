@@ -88,8 +88,12 @@
 			     id="listing" 
 			     tal:condition="search_response">
 			    <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
-			    <p tal:condition="search_response/spell_corrected_search">
-				<em>Did you mean <a href="#" tal:content="search_response/spell_corrected_search"></a>?</em>
+			    <p class="did-you-mean"
+			       tal:define="corrected search_response/spell_corrected_search"
+			       tal:condition="corrected">
+				Did you mean 
+				<a href="@@search?SearchableText=${corrected}" 
+				   tal:content="corrected"></a>?
 			    </p>
 			    <dl class="search-results">
 				<!-- One hard coded example of a post as a search result:
