@@ -140,17 +140,20 @@ Member cannot publish a document in a Producers workspace
      Then I cannot publish the content item
 
 
+Site Administrator can add example user as member of workspace
+    Given I'm logged in as a 'Site Administrator'
+     Add workspace  Example Workspace
+     Maneuver to  Example Workspace
+     Click Link  Workspace settings and about
+     Click Link  Members
+     Click Link  Add user
+     Input Text  css=li.select2-search-field input  alice
+     Click Element  css=span.select2-match
+     Click Button  Ok
+     Wait Until Page Contains  Alice
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
-
-# Site Administrator can add example user as member of workspace
-#     Given I'm logged in as a 'Site Administrator'
-#      Add workspace  Example Workspace
-#      Maneuver to  Example Workspace
-#      Click Link  jquery=a:contains('View full Roster')
-#      Input text  edit-roster-user-search  Example User
-#      Click button  Search users
-
 # Site Administrator can edit roster
 #     Log in as site owner
 #     Add workspace  Example Workspace
