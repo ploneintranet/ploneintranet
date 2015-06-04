@@ -27,10 +27,6 @@
                 </li>
             </tal:workspace>
         </ul>
-        <p class="portlet-footer">
-            <a href="${here/portal_url}/workspaces.html" i18n:translate="all_workspace_activities">
-                All workspace activities…</a>
-        </p>
     </div>
 </body>
 </html>

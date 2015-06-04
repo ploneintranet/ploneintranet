@@ -5,7 +5,7 @@
     i18n_domain="ploneintranet.theme">
 
   <browser:page
-    name="folder_listing"
+    name="listing_view"
     for="plone.app.contenttypes.interfaces.IFolder"
     layer="..interfaces.IIntranetContentLayer"
     template="templates/document_view.pt"

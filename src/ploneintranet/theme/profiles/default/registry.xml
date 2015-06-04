@@ -1,138 +1,35 @@
 <registry>
-  <record name="plone.bundles/ploneintranet.compile" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="compile">
-    <field type="plone.registry.field.Bool">
-      <default>True</default>
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">If its true and you modify this bundle you need to build it before production</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Does your bundle contains any RequireJS or LESS file?</title>
-    </field>
-    <value>True</value>
-  </record>
-  <record name="plone.bundles/ploneintranet.conditionalcomment" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="conditionalcomment">
-    <field type="plone.registry.field.ASCIILine">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">In case you want to render this resource on conditional comment</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Conditional comment</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.bundles/ploneintranet.csscompilation" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="csscompilation">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">URL of the last css compilation</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.bundles/ploneintranet.depends" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="depends">
-    <field type="plone.registry.field.ASCIILine">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">In case you want to be the last: *, in case its the first should be empty</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Depends on another bundle</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.bundles/ploneintranet.enabled" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="enabled">
-    <field type="plone.registry.field.Bool">
-      <default>True</default>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">It's enabled?</title>
-    </field>
-    <value>True</value>
-  </record>
-  <record name="plone.bundles/ploneintranet.expression" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="expression">
-    <field type="plone.registry.field.ASCIILine">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">In case its a bundle we can have a condition to render it</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Expression to render</title>
-    </field>
-    <value>python:not request.HTTP_HOST.startswith('127.0.0.1')</value>
-  </record>
-  <record name="plone.bundles/ploneintranet.jscompilation" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="jscompilation">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">URL of the last js compilation</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.bundles/ploneintranet.last_compilation" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="last_compilation">
-    <field type="plone.registry.field.Datetime">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Date time of the last compilation of this bundle</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Last compiled date</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.bundles/ploneintranet.resources" interface="Products.CMFPlone.interfaces.resources.IBundleRegistry" field="resources">
-    <field type="plone.registry.field.List">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">The resources that is going to be loaded on this bundle in order</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Loaded resources</title>
-      <value_type type="plone.registry.field.ASCIILine">
-        <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Resource name</title>
-      </value_type>
-    </field>
-    <value>
+
+  <records prefix="plone.resources/ploneintranet"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="url"></value>
+      <value key="js">++theme++ploneintranet.theme/generated/bundles/ploneintranet.js</value>
+      <value key="css">
+        <element>++theme++ploneintranet.theme/generated/style/screen.css</element>
+      </value>
+      <value key="init"></value>
+      <value key="deps"></value>
+      <value key="export"></value>
+      <value key="conf"></value>
+  </records>
+
+  <records prefix="plone.bundles/ploneintranet"
+            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="depends"></value>
+    <value key="jscompilation">++theme++ploneintranet.theme/generated/bundles/ploneintranet.min.js</value>
+    <value key="csscompilation">++theme++ploneintranet.theme/generated/style/screen.css</value>
+    <value key="last_compilation"></value>
+    <value key="expression">python:not request.HTTP_HOST.startswith('127.0.0.1')</value>
+    <value key="conditionalcomment"></value>
+    <value key="resources" purge="false">
       <element>ploneintranet</element>
     </value>
-  </record>
-  <record name="plone.resources/ploneintranet.conf" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="conf">
-    <field type="plone.registry.field.Text">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Should be accessible on @@getWCconfig?id=name</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Configuration in JSON for the widget</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.resources/ploneintranet.css" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="css">
-    <field type="plone.registry.field.List">
-      <default/>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">CSS/LESS files</title>
-      <value_type type="plone.registry.field.ASCIILine">
-        <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">URL</title>
-      </value_type>
-    </field>
-    <value>
-      <element>++theme++ploneintranet.theme/generated/style/screen.css</element>
-    </value>
-  </record>
-  <record name="plone.resources/ploneintranet.deps" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="deps">
-    <field type="plone.registry.field.ASCIILine">
-      <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Coma separated values of resource for shim</description>
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Dependencies for shim</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.resources/ploneintranet.export" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="export">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Export vars for shim</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.resources/ploneintranet.init" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="init">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Init instruction for shim</title>
-    </field>
-    <value/>
-  </record>
-  <record name="plone.resources/ploneintranet.js" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="js">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Main js file</title>
-    </field>
-    <value>++theme++ploneintranet.theme/generated/bundles/ploneintranet.js</value>
-  </record>
-  <record name="plone.resources/ploneintranet.url" interface="Products.CMFPlone.interfaces.resources.IResourceRegistry" field="url">
-    <field type="plone.registry.field.ASCIILine">
-      <required>False</required>
-      <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="plone" ns0:translate="">Resources base URL</title>
-    </field>
-    <value/>
-  </record>
+    <value key="enabled">True</value>
+    <value key="compile">True</value>
+  </records>
+
   <record name="plone.generate_tabs" interface="plone.app.controlpanel.navigation.INavigationSchema">
     <value>False</value>
   </record>
+
 </registry>

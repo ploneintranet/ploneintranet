@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.workspace"
+    interface="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+  />
+</layers>

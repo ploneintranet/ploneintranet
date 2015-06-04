@@ -125,10 +125,10 @@ class TestContentTypes(BaseTestCase):
         api.content.create(
             self.portal,
             'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
+            'test-workspaces',
+            title='Test Workspaces'
         )
-        self.assertIn('workspaces', self.portal)
+        self.assertIn('test-workspaces', self.portal)
 
     def test_cannot_add_workspacecontainer_inside_workspace(self):
         """
@@ -151,15 +151,11 @@ class TestContentTypes(BaseTestCase):
 
     def test_can_add_workspace_inside_workspacecontainer(self):
         """
-        Check that workspaces can be added inside workspace container
+        Check that workspaces can be added inside workspace container.
+        The workspace container is already being added in the setuphandler.
         """
         self.login_as_portal_owner()
-        wsc = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
-        )
+        wsc = getattr(self.portal, 'workspaces')
         api.content.create(
             wsc,
             'ploneintranet.workspace.workspacefolder',
@@ -173,12 +169,7 @@ class TestContentTypes(BaseTestCase):
         Check that *only* workspaces can be added inside workspace container
         """
         self.login_as_portal_owner()
-        wsc = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
-        )
+        wsc = getattr(self.portal, 'workspaces')
         self.assertRaises(
             InvalidParameterError,
             api.content.create,
@@ -192,12 +183,7 @@ class TestContentTypes(BaseTestCase):
         Check that we can access and set the attributes
         """
         self.login_as_portal_owner()
-        wsc = api.content.create(
-            self.portal,
-            'ploneintranet.workspace.workspacecontainer',
-            'workspaces',
-            title='Workspaces'
-        )
+        wsc = getattr(self.portal, 'workspaces')
         ws = api.content.create(
             wsc,
             'ploneintranet.workspace.workspacefolder',

@@ -411,10 +411,13 @@ class Sidebar(BaseTile):
                 else 'has-no-description'
             )
 
-            cls = 'item %s type-%s %s' % \
-                (item.get('structural_type', 'group'),
-                 item.get('content_type', 'code'),
-                 cls_desc)
+            ctype = item.get('content_type', 'code')
+            if ctype == '':
+                ctype = 'document'
+            else:
+                ctype = "type-{0}".format(ctype)
+            cls = 'item %s %s %s' % (
+                item.get('structural_type', 'group'), ctype, cls_desc)
 
             item['cls'] = cls
             item['mime-type'] = ''

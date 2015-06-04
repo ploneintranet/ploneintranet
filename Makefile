@@ -111,9 +111,11 @@ docker-run:
                 -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
                 -v $(HOME)/.bashrc:/.bashrc \
+                -v $(HOME)/.pypirc:/.pypirc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
                 -v $(HOME)/.gitignore:/.gitignore \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
+		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
 		-e LC_ALL=en_US.UTF-8 \
 		-e LANG=en_US.UTF-8 \
                 -v $(PWD):/app -w /app -u app $(PROJECT)

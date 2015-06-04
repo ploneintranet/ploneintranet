@@ -1,14 +1,7 @@
 Changelog
 =========
 
-0.1 (unreleased)
+0.1 (2015-06-01)
 ----------------
 
-- Updated the markup of workspace tabs and sidebar to match with the current 
-  prototype. [pilz]
-- Fix the injection when adding a folder. 
-  [pilz]
-- Moved the prototype into ploneintranet.prototype
-
-MANY MANY unlisted changes.
-
+Initial Mercury Technology Preview release: 49 contributors, 4581 commits, 520 tests, 89% test coverage.

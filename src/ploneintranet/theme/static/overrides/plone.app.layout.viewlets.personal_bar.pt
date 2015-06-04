@@ -4,6 +4,10 @@
 <!-- Note: the pat-tooltip is deactivated by a temporary rename to xpat-tooltip.
 Reason: for now, we just want to show the user's avatar. Once the personal profiles have
 been built, the tooltip needs be become activated again -->
+<a href="#portal-personaltools" class="pat-avatar xpat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
+    <img tal:define="mt nocall:context/portal_membership; portrait mt/getPersonalPortrait"
+         tal:attributes="src portrait/absolute_url; title view/user_name|nothing" />
+</a>
 
 <tal:block condition="not: view/anonymous">
   <a href="#portal-personaltools" class="pat-avatar xpat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
