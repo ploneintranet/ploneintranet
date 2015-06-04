@@ -37,13 +37,16 @@
               <label><input type="radio" value="open" name="security-level" /> Open community</label>
             </fieldset>
             <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
-              This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
+              The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
             </p>
             <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
-              This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
+              The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
             </p>
             <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
-              This workspace will be visible and accessible to any member of this intranet.
+              Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+            </p>
+            <p class="pat-well notice">
+              You can always change these settings later via the security control panel in the workspace.
             </p>
           </fieldset>
         </div>
