@@ -7,6 +7,7 @@ from ploneintranet.theme.utils import dexterity_update
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from ..policies import EXTERNAL_VISIBILITY
 
 
 class AddContent(BrowserView):
@@ -38,6 +39,13 @@ class AddContent(BrowserView):
         )
 
         if new:
+            form = self.request.form
+            if self.portal_type == 'ploneintranet.workspace.workspacefolder':
+                if 'external_visibility' in form:
+                    index = int(form['external_visibility']) - 1
+                    value = EXTERNAL_VISIBILITY.keys()[index]
+                    new.set_external_visibility(value)
+
             modified, errors = dexterity_update(new)
             if modified and not errors:
                 api.portal.show_message(
