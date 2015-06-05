@@ -17,8 +17,12 @@
               <h3 id="member-list-context-title" class="context-title" i18n:translate="">
                 Members
               </h3>
-              <a class="member-list-toggle-select more-menu-trigger"
-                 tal:condition="view/can_manage_workspace" i18n:translate="">Functions</a>
+              <div class="quick-functions">
+                
+                <a title="Show functions" class="member-list-toggle-select more-menu-trigger">Functions</a>
+                
+                <a class="toggle-select-mode pat-toggle member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow">Select</a>
+              </div>
             </div>
 
             <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
@@ -70,7 +74,7 @@
             <div class="button-bar create-buttons"
                  tal:condition="view/can_manage_workspace">
               <a class="button icon-user-add pat-modal" data-pat-modal="class: large"
-                tal:attributes="href string:${ws/absolute_url}/invite#original-content"
+                tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
                 i18n:translate="">Add user</a>
               <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large"
                 i18n:translate="">Add group</a>
@@ -82,7 +86,7 @@
                    </h3> -->
               <ul class="menu">
                 <li>
-                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/invite#original-content"
+                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
                     i18n:translate="">Add user</a>
                 </li>
                 <li>

@@ -140,17 +140,20 @@ Member cannot publish a document in a Producers workspace
      Then I cannot publish the content item
 
 
+Site Administrator can add example user as member of workspace
+    Given I'm logged in as a 'Site Administrator'
+     Add workspace  Example Workspace
+     Maneuver to  Example Workspace
+     Click Link  Workspace settings and about
+     Click Link  Members
+     Click Link  Add user
+     Input Text  css=li.select2-search-field input  alice
+     Click Element  css=span.select2-match
+     Click Button  Ok
+     Wait Until Page Contains  Alice
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
-
-# Site Administrator can add example user as member of workspace
-#     Given I'm logged in as a 'Site Administrator'
-#      Add workspace  Example Workspace
-#      Maneuver to  Example Workspace
-#      Click Link  jquery=a:contains('View full Roster')
-#      Input text  edit-roster-user-search  Example User
-#      Click button  Search users
-
 # Site Administrator can edit roster
 #     Log in as site owner
 #     Add workspace  Example Workspace
@@ -279,19 +282,20 @@ I can go to the sidebar tasks tile
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
+    Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
+    Wait Until Page Contains Element  link=Functions
     Click Link  link=Functions
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until page contains  Invitations
-    Input Text  css=#form-widgets-user-widgets-query  Alice
-    Click Button  Ok
-    Select Radio Button  form.widgets.user  alice_lindstrom
+    Wait until page contains  Add user
+    Input Text  css=li.select2-search-field input  alice
+    Click Element  css=span.select2-match
     Click Button  Ok
 
 The breadcrumbs show the name of the workspace
