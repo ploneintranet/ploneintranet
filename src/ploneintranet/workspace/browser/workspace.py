@@ -1,6 +1,6 @@
 from Products.Five import BrowserView
 from plone import api
-from plone.memoize.forever import memoize
+from plone.memoize.view import memoize
 from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from ploneintranet.workspace.interfaces import IWorkspaceState
