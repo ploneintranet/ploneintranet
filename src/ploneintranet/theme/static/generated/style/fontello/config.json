@@ -209,12 +209,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "31972e4e9d080eaa796290349ae6c1fd",
-      "css": "users-1",
-      "code": 59456,
-      "src": "fontawesome"
-    },
-    {
       "uid": "c2314ed1d2314b89f9285c53bcbf2548",
       "css": "child",
       "code": 59458,
@@ -296,6 +290,12 @@
       "uid": "1dcd2b2148b7f086a4eb47f6a746bdee",
       "css": "unlink",
       "code": 59496,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e35de5ea31cd56970498e33efbcb8e36",
+      "css": "external",
+      "code": 59440,
       "src": "fontawesome"
     },
     {
@@ -600,7 +600,7 @@
     },
     {
       "uid": "197375a3cea8cb90b02d06e4ddf1433d",
-      "css": "globe-1",
+      "css": "globe",
       "code": 59460,
       "src": "fontawesome"
     },
@@ -779,9 +779,21 @@
       "src": "fontawesome"
     },
     {
+      "uid": "3d1e04316a48ace4e2b81be58343a41c",
+      "css": "building",
+      "code": 59502,
+      "src": "fontawesome"
+    },
+    {
       "uid": "8c0ffa714cecbf5144e022d9c3df4a1f",
       "css": "bank",
       "code": 59468,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "032bd8bbd70adf90ead98b6813bfe446",
+      "css": "newspaper-1",
+      "code": 59504,
       "src": "fontawesome"
     },
     {
@@ -917,6 +929,12 @@
       "src": "entypo"
     },
     {
+      "uid": "da0fd38d651815e3a12f6c030ff1fe5b",
+      "css": "newspaper",
+      "code": 59456,
+      "src": "entypo"
+    },
+    {
       "uid": "96ea1be71f597a5bdfc8f791ada4f651",
       "css": "archive",
       "code": 59407,
@@ -944,6 +962,30 @@
       "uid": "ff9a85aa20950dcc0615a2707a2b3f8e",
       "css": "right-dir",
       "code": 9656,
+      "src": "entypo"
+    },
+    {
+      "uid": "78944e4652d6f9b8b506eaef331308cd",
+      "css": "down-bold",
+      "code": 59505,
+      "src": "entypo"
+    },
+    {
+      "uid": "0222089fb4194cc714dcc1ffd2525c11",
+      "css": "left-bold",
+      "code": 59506,
+      "src": "entypo"
+    },
+    {
+      "uid": "1a90b06af8614b12d8c8a5b90cc19ab3",
+      "css": "right-bold",
+      "code": 59507,
+      "src": "entypo"
+    },
+    {
+      "uid": "8c8f768607b8fc4c92c0f85b488e87e8",
+      "css": "up-bold",
+      "code": 59508,
       "src": "entypo"
     },
     {
@@ -1007,6 +1049,12 @@
       "src": "modernpics"
     },
     {
+      "uid": "a58a5236139282f6c7f906634233157a",
+      "css": "squares",
+      "code": 59503,
+      "src": "modernpics"
+    },
+    {
       "uid": "7f8b6c0519d85119a6f41fa3c5794806",
       "css": "religious-christian",
       "code": 59445,
@@ -1029,12 +1077,6 @@
       "css": "calendar",
       "code": 59408,
       "src": "elusive"
-    },
-    {
-      "uid": "1e89103762be72b0720eda0468e62b90",
-      "css": "globe",
-      "code": 59440,
-      "src": "linecons"
     },
     {
       "uid": "baa375529925294ea0a2bc889c93ba2d",
