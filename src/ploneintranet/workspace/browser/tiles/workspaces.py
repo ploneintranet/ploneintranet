@@ -8,6 +8,8 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import queryUtility
 from zExceptions import Unauthorized
 
+import arrow
+
 
 class WorkspacesTile(Tile):
 
@@ -24,6 +26,12 @@ class WorkspacesTile(Tile):
         """ The list of my workspaces
         """
         return my_workspaces(self.context)
+
+    def relative_date(self, date):
+        lang = self.request.get('LANGUAGE', 'en')
+        arrow_date = arrow.get(date)
+        relative_date = arrow_date.humanize(locale=lang)
+        return relative_date
 
 
 def my_workspaces(context):
@@ -74,9 +82,7 @@ def get_workspace_activities(brain, limit=1):
             subject=creator,
             verb=_(u'posted'),
             object=item.text,
-            time={
-                'datetime': item.date.strftime('%Y-%m-%d'),
-                'title': item.date.strftime('%d %B %Y, %H:%M')}
+            date=item.date,
         ))
     return results
 
