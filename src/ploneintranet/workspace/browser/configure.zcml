@@ -155,6 +155,7 @@
       permission="collective.workspace.ManageRoster"
       class=".roster.WorkspaceMemberPicker"
       template="templates/panel-add-user.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
     <browser:page
@@ -162,6 +163,7 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.AllUsersJSONView"
       permission="collective.workspace.ManageRoster"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
    <include package=".tiles" />
