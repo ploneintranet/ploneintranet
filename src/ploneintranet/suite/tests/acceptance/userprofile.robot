@@ -26,10 +26,10 @@ Allan can view Alice's profile
 
 I can open the personal tools menu
     Click Element  css=header #user-avatar
-    Wait Until Element Is Visible  css=#user-name
+    Wait Until Element Is Visible  css=.tooltip-container #portal-personaltools a#user-name
 
 I can follow the link to my profile
-    Click Element  css=#user-name
+    Click Element  css=.tooltip-container #portal-personaltools a#user-name
 
 I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
