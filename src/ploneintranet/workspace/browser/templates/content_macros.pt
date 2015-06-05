@@ -6,6 +6,9 @@
   <body>
 
     <metal:task_fields define-macro="task_fields">
+      <label class="description">
+          Description <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description">${context/description}</textarea>
+      </label>
       <label class="initiator"
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
