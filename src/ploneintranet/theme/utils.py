@@ -1,7 +1,5 @@
 from Products.CMFPlone.utils import safe_unicode
-from plone.autoform.interfaces import WIDGETS_KEY
 from plone.dexterity.utils import getAdditionalSchemata
-from plone.dexterity.utils import resolveDottedName
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform.z2 import processInputs
 from z3c.form.error import MultipleErrors
@@ -56,14 +54,8 @@ def dexterity_update(obj, request=None):
     for schema in get_dexterity_schemas(context=obj):
         for name in getFieldNames(schema):
             field = schema[name]
-            autoform_widgets = schema.queryTaggedValue(WIDGETS_KEY, default={})
-            if name in autoform_widgets:
-                widgetclass = resolveDottedName(autoform_widgets[name])
-                widget = widgetclass(field, request)
-            else:
-                widget = component.getMultiAdapter(
-                    (field, request), IFieldWidget)
-
+            widget = component.getMultiAdapter(
+                (field, request), IFieldWidget)
             widget.context = obj
             value = field.missing_value
             widget.update()

@@ -22,6 +22,8 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.app.discussion)
         import plone.dexterity
         self.loadZCML(package=plone.dexterity)
+        import ploneintranet.microblog
+        self.loadZCML(package=ploneintranet.microblog)
 
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)

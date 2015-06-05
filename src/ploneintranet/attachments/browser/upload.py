@@ -86,22 +86,29 @@ class UploadAttachments(BrowserView):
 
     def __call__(self):
         token = self.request.get('attachment-form-token')
-        attachments = self.request.get('form.widgets.attachments')
+        uploaded_attachments = self.request.get('form.widgets.attachments')
+        if not uploaded_attachments:
+            return self.index()
+
         normalizer = getUtility(IURLNormalizer)
         self.attachments = []
-        if attachments:
-            temp_attachments = IAttachmentStorage(self.context)
-            attachment_objs = utils.extract_attachments(attachments)
-            for obj in attachment_objs:
-                obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
-                temp_attachments.add(obj)
-                obj = temp_attachments.get(obj.id)
-                try:
-                    IPreviewFetcher(obj)()
-                except Exception as e:
-                    log.warn('Could not get previews for attachment: {0}, '
-                             u'{1}: {2}'.format(
-                                 obj.id, e.__class__.__name__, e))
-                self.attachments.append(obj)
+        attachments = IAttachmentStorage(self.context)
+
+        attachment_objs = utils.extract_attachments(uploaded_attachments)
+        for obj in attachment_objs:
+            obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
+            attachments.add(obj)
+            obj = attachments.get(obj.id)
+            try:
+                IPreviewFetcher(obj)()
+            except Exception as e:
+                log.warn('Could not get previews for attachment: {0}, '
+                         u'{1}: {2}'.format(
+                             obj.id, e.__class__.__name__, e))
+            self.attachments.append(obj)
 
         return self.index()
+
+
+class UploadStatusAttachments(UploadAttachments):
+    """Separate class since it handles permissions differently"""

@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from email import message_from_string
-import unittest
 from plone import api
-from zope.component import getMultiAdapter
+from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+from plone.registry.interfaces import IRegistry
+from plone.testing.z2 import Browser
 from ploneintranet.invitations.testing import \
     PLONEINTRANET_INVITATIONS_FUNCTIONAL_TESTING
-from plone.testing.z2 import Browser
-from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+import unittest
 
 
 class TestInviteUser(unittest.TestCase):
@@ -31,9 +35,10 @@ class TestInviteUser(unittest.TestCase):
         sm.registerUtility(component=mockmailhost, provided=IMailHost)
 
         self.mailhost = api.portal.get_tool('MailHost')
-
-        self.portal._updateProperty('email_from_name', 'Portal Owner')
-        self.portal._updateProperty('email_from_address', 'sender@example.org')
+        registry = getUtility(IRegistry)
+        self.mail_settings = registry.forInterface(IMailSchema, prefix="plone")
+        self.mail_settings.email_from_name = u'Portal Owner'
+        self.mail_settings.email_from_address = 'sender@example.org'
 
         self.browser = Browser(self.app)
         self.browser.handleErrors = False

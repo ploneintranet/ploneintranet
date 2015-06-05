@@ -2,12 +2,12 @@ from AccessControl import Unauthorized
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
-from ploneintranet.api.testing import IntegrationTestCase
+from ploneintranet.api.testing import FunctionalTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.microblog.statusupdate import StatusUpdate
 
 
-class TestStatusUpdate(IntegrationTestCase):
+class TestStatusUpdate(FunctionalTestCase):
 
     def setUp(self):
         self.app = self.layer['app']
