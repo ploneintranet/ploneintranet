@@ -42,6 +42,7 @@ setup(name='ploneintranet',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'arrow',
           'requests',
           'loremipsum',
           'slc.docconv',

@@ -6,6 +6,8 @@ from plone import api
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
+import arrow
+
 
 class ActivityView(BrowserView):
     ''' This view renders an activity
@@ -91,21 +93,11 @@ class ActivityView(BrowserView):
     @property
     @memoize
     def date(self):
-        ''' The date of our context object
+        ''' The relative date of our context object e.g. '2 minutes ago',
+        'last year'
         '''
-        # We have to transform Python datetime into Zope DateTime
-        # before we can call toLocalizedTime.
-        time = self.context.raw_date
-        if hasattr(time, 'isoformat'):
-            time = DateTime(self.context.raw_date.isoformat())
+        lang = self.request.get('LANGUAGE', 'en')
+        arrow_date = arrow.get(self.context.raw_date)
+        relative_date = arrow_date.humanize(locale=lang)
+        return relative_date
 
-        if DateTime().Date() == time.Date():
-            time_only = True
-        else:
-            # time_only=False still returns time only
-            time_only = None
-        return self.toLocalizedTime(
-            time,
-            long_format=True,
-            time_only=time_only
-        )

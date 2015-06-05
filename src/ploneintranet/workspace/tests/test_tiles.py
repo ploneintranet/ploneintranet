@@ -40,10 +40,7 @@ class TestTiles(BaseViewTest):
             {
                 'object': 'Proposal draft V1.0 # This is a mock!!!',
                 'subject': 'charlotte_holzer',
-                'time': {
-                    'datetime': '2008-02-14',
-                    'title': '14 February 2008, 18:43'
-                },
+                'date': DateTime('2008/02/14 18:43:00 UTC'),
                 'verb': 'posted'
             }
         )
