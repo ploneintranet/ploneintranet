@@ -26,7 +26,7 @@ Allan can view Alice's profile
 
 I can open the personal tools menu
     Click Element  css=header #user-avatar
-    Wait Until Element Is Visibile  css=#user-name
+    Wait Until Element Is Visible  css=#user-name
 
 I can follow the link to my profile
     Click Element  css=#user-name
