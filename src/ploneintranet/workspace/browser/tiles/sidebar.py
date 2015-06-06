@@ -318,9 +318,10 @@ class Sidebar(BaseTile):
                 # What exactly do we need to inject, and where?
                 dpi = (
                     "source: #workspace-documents; "
-                    "target: #workspace-documents; "
-                    "url: %s/@@sidebar.default#workspace-documents" %
-                    url
+                    "target: #workspace-documents "
+                    "&& "
+                    "source: nav.breadcrumbs; "
+                    "target: nav.breadcrumbs; "
                 )
             else:
                 # Plone specific:

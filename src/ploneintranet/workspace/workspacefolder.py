@@ -104,7 +104,10 @@ class WorkspaceFolder(Container):
         wft = api.portal.get_tool('portal_workflow')
         current_path = '/'.join(self.getPhysicalPath())
         ptype = 'todo'
-        brains = catalog(path=current_path, portal_type=ptype)
+        brains = catalog(
+            path=current_path,
+            portal_type=ptype,
+            sort_on='due')
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)

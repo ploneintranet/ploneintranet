@@ -43,12 +43,15 @@ class TasksTile(Tile):
         {'workspace1': {'title': 'WS1', 'url': '...', 'tasks':[<brain>, ...]}}
         """
         pc = api.portal.get_tool('portal_catalog')
-        tasks = pc(portal_type='todo', review_state='open', sort_order='due')
+        me = api.user.get_current().getId()
+        tasks = pc(portal_type='todo',
+                   review_state='open',
+                   assignee=me,
+                   sort_on='due')
         self.grouped_tasks = {}
         for task in tasks:
             obj = task.getObject()
             workspace = parent_workspace(obj)
-            workspace_title = workspace.title
             if workspace.id not in self.grouped_tasks:
                 self.grouped_tasks[workspace.id] = {
                     'title': workspace.title,
