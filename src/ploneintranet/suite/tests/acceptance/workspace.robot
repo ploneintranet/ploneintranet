@@ -202,12 +202,12 @@ Site Administrator can add example user as member of workspace
 
 I can create a new workspace
     [arguments]  ${title}
-    Go To  ${PLONE_URL}/workspaces.html
+    Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
-    Click Element  css=button.icon-ok-circle
+    Click Button  Create workspace
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I select a file to upload
