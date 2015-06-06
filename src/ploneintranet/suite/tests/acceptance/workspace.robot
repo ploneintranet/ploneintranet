@@ -207,7 +207,7 @@ I can create a new workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
-    Click Element  css=button.icon-ok-circle.confirmative
+    Click Element  css=button.icon-ok-circle
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I select a file to upload
