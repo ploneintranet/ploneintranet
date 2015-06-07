@@ -16,12 +16,12 @@ class AddContent(BrowserView):
 
     template = ViewPageTemplateFile('templates/add_content.pt')
 
-    def __call__(self, portal_type=None, title=None):
+    def __call__(self, portal_type='', title=None):
         """Evaluate form and redirect"""
         if title is not None:
             self.portal_type = portal_type.strip()
             self.title = title.strip()
-
+            import pdb; pdb.set_trace()
             if self.portal_type in api.portal.get_tool('portal_types'):
                 url = self.create()
                 return self.redirect(url)

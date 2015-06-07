@@ -5,7 +5,7 @@
       i18n:domain="plone">
   <body>
 
-    <metal:task_fields define-macro="task_fields">
+    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False">
       <label class="description">
           Description <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description">${context/description}</textarea>
       </label>
@@ -54,7 +54,7 @@
 
 
     <metal:event_fields define-macro="event_fields">
-      <fieldset class="vertical" tal:define="read_only python:False">
+      <fieldset class="vertical"  tal:define="read_only python:False">
                 <label class="location">
                     Location <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing">
                 </label>
@@ -89,7 +89,7 @@
                     </fieldset>
 
                     <label class="timezone">Timezone
-                        <select class="timezone" tal:attributes="disabled read_only" >
+                        <select class="timezone">
                             <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
                             <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
                             <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
@@ -111,7 +111,7 @@
 
                     </label>
 
-                <label class="attachments">Attached documents from this workspace
+                <label class="attachments"  tal:define="read_only python:False">Attached documents from this workspace
                     <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value="">
                 </label>
 
