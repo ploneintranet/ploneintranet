@@ -271,7 +271,6 @@ Supported types include (class names):
                   tal:define="ws view/workspace"
                   tal:attributes="action string:${ws/absolute_url}/@@sidebar.default#global-statusmessage">
 
-              <h3>General tasks</h3>
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="object-list tasks pat-checklist">
                   <tal:task repeat="task tasks">
@@ -343,11 +342,7 @@ Supported types include (class names):
 
               <input type="hidden" name="section" value="task"/>
             </form>
-            <div class="button-bar create-buttons">
-              <a class="button icon-plus-circle pat-modal left" data-pat-modal="class: large" data-pat-inject="source:#content"
-                 tal:attributes="href string:${ws/absolute_url}/add_task"
-                 tal:condition="view/can_add">Add task</a>
-            </div>
+
           </tal:tasks>
         </div>
 
