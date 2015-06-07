@@ -21,7 +21,6 @@ class AddContent(BrowserView):
         if title is not None:
             self.portal_type = portal_type.strip()
             self.title = title.strip()
-            import pdb; pdb.set_trace()
             if self.portal_type in api.portal.get_tool('portal_types'):
                 url = self.create()
                 return self.redirect(url)
