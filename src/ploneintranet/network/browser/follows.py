@@ -15,30 +15,30 @@ class NotAllowed(Exception):
     pass
 
 
-class ToggleFollow(BrowserView):
+class ToggleFollowUser(BrowserView):
 
-    """View that toggles follow/unfollow on a context."""
+    """View that toggles follow/unfollow on a User."""
 
     index = ViewPageTemplateFile('templates/toggle_follow.pt')
 
-    def __init__(self, context, request):
-        self.context = context  # the item being followed
-        self.request = request
+    def __call__(self):
         self.util = getUtility(INetworkTool)
-        self.followed_id = self.context.getId()
+        self.followed_id = self.context.username
         self.follow_type = 'user'
         self.follower = plone_api.user.get_current().getUserName()
+
         self.is_followed = self.util.is_followed(
             self.follow_type, self.followed_id, self.follower)
+
+        if 'follow_button' in self.request:
+            self.toggle_follow()
+
         if self.is_followed:
             self.verb = _(u'Unfollow')
         else:
             self.verb = _(u'Follow')
 
-    def __call__(self):
         self.unique_id = uuid.uuid4().hex
-        if 'follow_button' in self.request:
-            self.toggle_follow()
 
         return self.index()
 
@@ -53,6 +53,7 @@ class ToggleFollow(BrowserView):
         else:
             self.util.follow(
                 self.follow_type, self.followed_id, self.follower)
+        self.is_followed = not self.is_followed
 
     def action(self):
         return "%s/@@toggle_follow" % self.context.absolute_url()
