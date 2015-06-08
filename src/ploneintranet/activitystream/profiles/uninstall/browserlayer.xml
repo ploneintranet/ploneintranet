@@ -2,5 +2,6 @@
   <layer
     name="ploneintranet.activitystream.browser"
     interface="ploneintranet.activitystream.browser.interfaces.IPloneIntranetActivitystreamLayer"
+    remove="True"
     />
 </layers>
