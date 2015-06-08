@@ -55,6 +55,8 @@
         factory=".todo_utility.TodoUtility"
         />
 
+    <adapter name="due" factory=".indexers.due" />
+
     <subscriber for=".behaviors.IMustReadMarker
                      zope.lifecycleevent.interfaces.IObjectModifiedEvent"
                 handler=".handlers.mark" />
