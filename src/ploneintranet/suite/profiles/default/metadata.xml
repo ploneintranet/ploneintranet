@@ -16,5 +16,6 @@
         <dependency>profile-ploneintranet.messaging:default</dependency>
         <dependency>profile-ploneintranet.userprofile:default</dependency>
         <dependency>profile-ploneintranet.core:minimal</dependency>
+        <dependency>profile-ploneintranet.search:default</dependency>
   </dependencies>
 </metadata>

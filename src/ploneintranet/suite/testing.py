@@ -48,12 +48,16 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.messaging)
         import ploneintranet.core
         self.loadZCML(package=ploneintranet.core)
+
         # Force microblog to disable async mode !!!
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
         z2.installProduct(app, 'collective.indexing')
         z2.installProduct(app, 'Products.membrane')
+
+        import ploneintranet.search
+        self.loadZCML(package=ploneintranet.search)
 
     def setUpPloneSite(self, portal):
         # setup the default workflow

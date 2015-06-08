@@ -9,6 +9,7 @@ Component Packages
     userprofiles
     microblogstream
     workspace
+    search
     invitations
     filepreviews
     network
