@@ -26,4 +26,12 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- (Search uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstall Search for PloneIntranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>
