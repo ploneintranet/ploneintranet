@@ -24,7 +24,7 @@
       </label>
       <br/>
       <label class="date-time">
-        Deadline
+        Due date
         <input type="date"
                name="due"
                tal:attributes="value context/due|nothing"

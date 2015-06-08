@@ -3,9 +3,11 @@ from Acquisition import aq_inner
 from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.memoize.view import memoize
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import map_content_type
 from zope import component
 from zope.event import notify
 from zope.interface import implementer
@@ -144,3 +146,13 @@ class ContentView(BrowserView):
         context = aq_inner(self.context)
         if getattr(context, 'image', None) is not None:
             return '{}/@@images/image'.format(context.absolute_url())
+
+    def icon_class(self):
+        """Gets the icon class for the primary field of this content"""
+        primary_field_info = IPrimaryFieldInfo(self.context)
+        if hasattr(primary_field_info.value, "contentType"):
+            contenttype = primary_field_info.value.contentType
+            icon_name = map_content_type(contenttype)
+            if icon_name:
+                return 'icon-file-{0}'.format(icon_name)
+        return 'icon-file-code'

@@ -230,11 +230,12 @@ class Sidebar(BaseTile):
             ws = self.workspace()
             self.set_grouping_cookie()
             wft = api.portal.get_tool("portal_workflow")
-            if not self.can_manage_workspace():
+            section = self.request.form.get('section', None)
+            if section != 'task' and not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'title or description')
                 raise Unauthorized(msg)
-            if self.request.form.get('section', None) == 'task':
+            elif section == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 

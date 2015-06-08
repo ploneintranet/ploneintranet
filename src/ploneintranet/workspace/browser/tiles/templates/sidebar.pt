@@ -331,11 +331,6 @@ Supported types include (class names):
                        tal:content="task/title"
                        tal:attributes="href task/url"/>
                   </label>
-                  <p class="button-bar">
-                    <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                       tal:attributes="href string:${ws/absolute_url}/add_task"
-                       tal:condition="view/can_add">Create new task</a>
-                  </p>
                 </fieldset>
 
               </tal:case_tasks>
