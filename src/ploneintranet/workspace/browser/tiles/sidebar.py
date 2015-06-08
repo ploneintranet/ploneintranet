@@ -233,6 +233,7 @@ class Sidebar(BaseTile):
                 msg = _(u'You do not have permission to change the workspace '
                         u'title or description')
                 raise Unauthorized(msg)
+            do_reindex = False
             if self.request.form.get('section', None) == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
@@ -251,18 +252,22 @@ class Sidebar(BaseTile):
                                         self.request,
                                         'success')
             else:
-                if form.get('title') and form.get('title') != ws.title:
-                    ws.title = form.get('title').strip()
-                    api.portal.show_message(_(u'Title changed'),
-                                            self.request,
-                                            'success')
-
-                if form.get('description') and \
-                   form.get('description') != ws.description:
-                    ws.description = form.get('description').strip()
-                    api.portal.show_message(_(u'Description changed'),
-                                            self.request,
-                                            'success')
+                if form.get('title'):
+                    title = safe_unicode(form.get('title')).strip()
+                    if title != ws.title:
+                        ws.title = title.strip()
+                        do_reindex = True
+                        api.portal.show_message(_(u'Title changed'),
+                                                self.request,
+                                                'success')
+                if form.get('description'):
+                    description = safe_unicode(form.get('description')).strip()
+                    if ws.description != description:
+                        ws.description = description
+                        do_reindex = True
+                        api.portal.show_message(_(u'Description changed'),
+                                                self.request,
+                                                'success')
 
                 calendar_visible = not not form.get('calendar_visible')
                 if calendar_visible != ws.calendar_visible:
@@ -270,7 +275,8 @@ class Sidebar(BaseTile):
                     api.portal.show_message(_(u'Calendar visibility changed'),
                                             self.request,
                                             'success')
-
+            if do_reindex:
+                ws.reindexObject()
         return self.render()
 
     def logical_parent(self):
