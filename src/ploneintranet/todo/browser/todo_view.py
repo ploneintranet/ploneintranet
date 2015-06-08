@@ -57,7 +57,8 @@ class TodoView(BaseView):
 
     def update(self):
         """ """
-        if 'task_action' in self.request:
+        if ('task_action' in self.request and
+                not self.request.get('form.submitted')):
             task_action = self.request.get('task_action')
             if task_action == 'close':
                 api.content.transition(
