@@ -6,6 +6,7 @@ from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
+from ploneintranet.workspace import MessageFactory
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
 from zope.interface import implements
@@ -164,10 +165,10 @@ class MetroMap(object):
             i["id"] for i in wft.getTransitionsFor(self.context)]
         sequence = OrderedDict({
             initial_state: {
-                "title": cwf.states.get(initial_state).title,
+                "title": MessageFactory(cwf.states.get(initial_state).title),
                 "transition_id": initial_transition,
-                "transition_title": cwf.transitions.get(
-                    initial_transition).title,
+                "transition_title": MessageFactory(cwf.transitions.get(
+                    initial_transition).title),
                 "enabled": initial_transition in available_transition_ids,
             }
         })
@@ -182,9 +183,9 @@ class MetroMap(object):
                 next_transition_title = cwf.transitions.get(
                     next_transition).title
             sequence[next_state] = {
-                "title": cwf.states.get(next_state).title,
+                "title": MessageFactory(cwf.states.get(next_state).title),
                 "transition_id": next_transition,
-                "transition_title": next_transition_title,
+                "transition_title": MessageFactory(next_transition_title),
                 "enabled": next_transition in available_transition_ids,
             }
         current_state = wft.getInfoFor(self.context, "review_state")
