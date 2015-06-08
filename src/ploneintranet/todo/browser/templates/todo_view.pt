@@ -57,7 +57,7 @@
                 </div>
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
-                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="tags" placeholder="Tags" value="${python:','.join(context.subject)}" />
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" />
                   </fieldset>
 
                 </fieldset>
