@@ -95,7 +95,12 @@
 				<a href="@@search?SearchableText=${corrected}" 
 				   tal:content="corrected"></a>?
 			    </p>
-			    <dl class="search-results">
+			    <!-- We encode the search string into the results div
+				 so that we can check when the search results 
+				 have been loaded via ajax
+			      -->
+			    <dl class="search-results"
+				data-search-string="${request/QUERY_STRING|nothing}">
 				<!-- One hard coded example of a post as a search result:
 				<dt class="title user-post">
 				    <a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>
