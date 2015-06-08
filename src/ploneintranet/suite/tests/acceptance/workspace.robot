@@ -401,8 +401,7 @@ I retract the content item
 I can publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
-    Wait until page contains  The workflow state has been changed
-    Wait until page contains  Close
+    Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
     Click button  Close
 
 I cannot publish the content item
