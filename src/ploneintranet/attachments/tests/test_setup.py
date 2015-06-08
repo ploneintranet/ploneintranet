@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setup/installation tests for this package."""
-
-import unittest2 as unittest
-from ploneintranet.attachments.testing import IntegrationTestCase
 from plone import api
+from plone.browserlayer.utils import registered_layers
+from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
+from ploneintranet.attachments.testing import IntegrationTestCase
 
 
 class TestInstall(IntegrationTestCase):
@@ -25,13 +25,8 @@ class TestInstall(IntegrationTestCase):
         self.installer.uninstallProducts(['ploneintranet.attachments'])
         self.assertFalse(
             self.installer.isProductInstalled('ploneintranet.attachments'))
+        self.assertNotIn(IPloneintranetAttachmentsLayer, registered_layers())
 
-    # browserlayer.xml
-    @unittest.skip("Not implemented yet")
     def test_browserlayer(self):
         """Test that IPloneintranetAttachmentsLayer is registered."""
-        from ploneintranet.attachments.interfaces import (
-            IPloneintranetAttachmentsLayer)
-        from plone.browserlayer import utils
-        self.failUnless(
-            IPloneintranetAttachmentsLayer in utils.registered_layers())
+        self.assertIn(IPloneintranetAttachmentsLayer, registered_layers())
