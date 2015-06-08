@@ -22,7 +22,7 @@
                          tal:attributes="value task/UID;
                                          checked python: 'checked' if task['review_state'] == 'done' else ''"
                          />
-                  <a tal:attributes="title task/Title; href task/getURL"
+                  <a tal:attributes="title task/Title; href string:${task/getURL}#workspace-tickets"
                      tal:content="task/Title"/>
                 </label>
                 <br/>
