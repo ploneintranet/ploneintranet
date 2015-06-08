@@ -26,6 +26,13 @@ class BaseWorkspaceView(BrowserView):
             obj=self,
         )
 
+    def can_add_status_updates(self):
+        """
+        Does this user have the permission to add status updates
+        """
+        return api.user.has_permission(
+            "Plone Social: Add Microblog Status Update", obj=self)
+
 
 class WorkspaceView(BaseWorkspaceView):
     """
