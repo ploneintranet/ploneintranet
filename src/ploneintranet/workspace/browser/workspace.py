@@ -1,12 +1,11 @@
 from Products.Five import BrowserView
 from plone import api
+from plone.memoize.view import memoize
+from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.memoize.forever import memoize
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
-from zope.interface import implements
-
-import json
+from json import dumps
 
 
 class BaseWorkspaceView(BrowserView):
@@ -51,6 +50,8 @@ class WorkspaceState(BaseWorkspaceView):
 class WorkspaceMembersJSONView(BrowserView):
     """
     Return member details in JSON
+
+    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
     """
     def __call__(self):
         users = self.context.existing_users()
@@ -60,4 +61,25 @@ class WorkspaceMembersJSONView(BrowserView):
                 'text': user['title'] or user['id'],
                 'id': user['id'],
             })
-        return json.dumps(member_details)
+        return dumps(member_details)
+
+
+class AllUsersJSONView(BrowserView):
+    """
+    Return all users in JSON for use in picker
+    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
+    """
+    def __call__(self):
+        q = self.request.get('q', '')
+        users = api.user.get_users()
+        member_details = []
+        for user in users:
+            fullname = user.getProperty('fullname')
+            email = user.getProperty('email')
+            uid = user.getProperty('id')
+            if q in fullname or q in email or q in uid:
+                member_details.append({
+                    'text': '%s <%s>' % (fullname, email),
+                    'id': uid,
+                })
+        return dumps(member_details)

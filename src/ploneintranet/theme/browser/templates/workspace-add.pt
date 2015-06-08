@@ -31,35 +31,39 @@
                 <option value="ploneintranet.workspace.case">Case</option>
               </select>
             </label>
-            <label class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case"
-                     tal:define="wfs view/workflows"><span tal:omit-tag="" i18n:translate="">Pick a Workflow</span>
-              <select name="workflow" tal:condition="python: len(wfs) > 6">
-                <tal:r tal:repeat="wf view/workflows">
-                  <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
-                </tal:r>
-              </select>
-
-              <fieldset class="group pat-checklist radio" tal:condition="python: len(wfs) <=6">
-                  <label><input type="radio" name="workflow" tal:repeat="wf view/workflows" tal:content="wf/title" tal:attributes="value wf/id"/></label>
-              </fieldset>
-            </label>
-
-
-            <fieldset class="pat-checklist radio">
-              <label><input type="radio" value="secret" name="security-level" /> Locked down, secret workspace</label>
-              <label><input type="radio" value="private" checked name="security-level" /> Self-managed, private teamspace</label>
-              <label><input type="radio" value="open" name="security-level" /> Open community</label>
             </fieldset>
-            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
-              This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
-            </p>
-            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
-              This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
-            </p>
-            <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
-              This workspace will be visible and accessible to any member of this intranet.
-            </p>
-          </fieldset>
+            <fieldset tal:define="wfs view/workflows" class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
+              <label >
+                <span tal:omit-tag="" i18n:translate="">Pick a Workflow</span>
+                <select name="workflow" tal:condition="python: len(wfs) > 6">
+                  <tal:r tal:repeat="wf view/workflows">
+                    <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
+                  </tal:r>
+                </select>
+
+                <fieldset class="group pat-checklist radio" tal:condition="python: len(wfs) <=6">
+                    <label tal:repeat="wf view/workflows"><input type="radio" name="workflow"  checked="checked" tal:content="wf/title" tal:attributes="value wf/id"/></label>
+                </fieldset>
+              </label>
+            </fieldset>
+
+            <fieldset class="pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
+              <fieldset class="pat-checklist radio pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
+                <label><input type="radio" value="secret" name="security-level" /> Locked down, secret workspace</label>
+                <label><input type="radio" value="private" checked name="security-level" /> Self-managed, private teamspace</label>
+                <label><input type="radio" value="open" name="security-level" /> Open community</label>
+              </fieldset>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
+                This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
+                This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
+                This workspace will be visible and accessible to any member of this intranet.
+              </p>
+            </fieldset>
+
         </div>
         
         <div class="buttons panel-footer">

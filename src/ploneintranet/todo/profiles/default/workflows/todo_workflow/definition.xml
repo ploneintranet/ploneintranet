@@ -52,14 +52,6 @@
     <guard >
     </guard>
   </variable>
-  <variable variable_id="metromap_transitions" for_catalog="False" for_status="True" update_always="True" >
-    <description>A comma separated sequence of transition ids, used for the metromap</description>
-    <default>
-      <value type="string">transfer_to_department,finalise,submit,decide,close,archive</value>
-    </default>
-    <guard >
-    </guard>
-  </variable>
   <variable variable_id="review_history" for_catalog="False" for_status="False" update_always="False" >
     <description>Provides access to workflow history</description>
     <default>

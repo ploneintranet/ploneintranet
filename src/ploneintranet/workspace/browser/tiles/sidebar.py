@@ -2,6 +2,7 @@ from datetime import datetime
 
 from AccessControl import Unauthorized
 from DateTime import DateTime
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.i18n.normalizer import idnormalizer
@@ -100,6 +101,25 @@ class SidebarSettingsMembers(BaseTile):
     @memoize
     def existing_users(self):
         return self.workspace().existing_users()
+
+    def __call__(self):
+        form = self.request.form
+        ws = self.workspace()
+        user_id = form.get('user_id')
+        if user_id:
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
+            else:
+                IWorkspace(ws).add_to_team(user=user_id)
+                api.portal.show_message(
+                    _(u'Member added'),
+                    self.request,
+                    'success',
+                )
+        return self.render()
+
 
 
 class SidebarSettingsSecurity(BaseTile):
