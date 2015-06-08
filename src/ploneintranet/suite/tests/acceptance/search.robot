@@ -64,11 +64,8 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
 I can exclude content of type ${CONTENT_TYPE}
     Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
     Select From List By Value  css=select[name="created"]  today
-    Wait Until Element is Visible  css=.search-results
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=today"]
 
 I can set the date range to ${DATE_RANGE_VALUE}
     Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
-    # We currently do this twice to get around timing issues with
-    # the ajax request that is generated
-    Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
-    Wait Until Element is Visible  css=.search-results
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=${DATE_RANGE_VALUE}"]
