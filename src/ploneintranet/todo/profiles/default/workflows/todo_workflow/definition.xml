@@ -1,28 +1,30 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="todo_workflow" title="Todo Workflow" description="Workflow for Tasks / Todo items" state_variable="review_state"         initial_state="open" manager_bypass="True" >
   <permission>Modify portal content</permission>
-  <state state_id="done" title="" >
-    <exit-transition transition_id="finish" />
+  <state state_id="done" title="Done" >
     <exit-transition transition_id="set_to_open" />
     <exit-transition transition_id="set_to_planned" />
   </state>
-  <state state_id="open" title="" >
+  <state state_id="open" title="Open" >
     <exit-transition transition_id="finish" />
     <exit-transition transition_id="set_to_planned" />
   </state>
-  <state state_id="planned" title="" >
+  <state state_id="planned" title="Planned" >
     <exit-transition transition_id="finish" />
     <exit-transition transition_id="set_to_open" />
   </state>
-  <transition transition_id="finish" title="" new_state="done" trigger="USER" before_script="" after_script="" >
+  <transition transition_id="finish" title="Finish" new_state="done" trigger="USER" before_script="" after_script="" >
+    <action url="%(content_url)s/content_status_modify?workflow_action=finish" category="workflow" icon="">Finish</action>
     <guard >
     </guard>
   </transition>
-  <transition transition_id="set_to_open" title="" new_state="open" trigger="USER" before_script="" after_script="" >
+  <transition transition_id="set_to_open" title="Set to Open" new_state="open" trigger="USER" before_script="" after_script="" >
+    <action url="%(content_url)s/content_status_modify?workflow_action=set_to_open" category="workflow" icon="">Set to Open</action>
     <guard >
     </guard>
   </transition>
-  <transition transition_id="set_to_planned" title="" new_state="planned" trigger="USER" before_script="" after_script="" >
+  <transition transition_id="set_to_planned" title="Set to Planned" new_state="planned" trigger="USER" before_script="" after_script="" >
+    <action url="%(content_url)s/content_status_modify?workflow_action=set_to_planned" category="workflow" icon="">Set to Planned</action>
     <guard >
     </guard>
   </transition>

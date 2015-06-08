@@ -108,7 +108,7 @@ class ContentView(BrowserView):
         current_state = getattr(available_states, current_state_id).title
         states = [dict(
             action='',
-            title=current_state,
+            title=current_state or current_state_id,
             new_state_id='',
             selected='selected')]
 

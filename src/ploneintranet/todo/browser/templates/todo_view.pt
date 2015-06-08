@@ -8,7 +8,7 @@
 
   <body>
     <metal:content fill-slot="content"
-                   tal:define="workspace python:view.workspace();
+                   tal:define="workspace python:view.workspace;
                                workspace_url python:workspace.absolute_url();
                                workspace_id python:workspace.id;
                                read_only python:not view.can_edit">
@@ -31,7 +31,7 @@
                   </h1>
                   <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
-                    <a href="#confirm-delete" class="icon-trash iconified">
+                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified">
                       Delete
                     </a>
                     <a href="" class="icon-copy iconified">
@@ -41,18 +41,15 @@
                       Share
                     </a>
                     <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
-                    <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
+                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
                       <label class="pat-select bare">
-                        <select>
-                          <option>Private</option>
-                          <option>Public</option>
-                          <option>Members</option>
-                          <option>Pending</option>
-                          <option>Logged in</option>
-                          <option>Internal</option>
-                          <option>External</option>
+                        <select name="task_action" id="workflow_action">
+                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}">Open</option>
+                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}">Done</option>
                         </select>
                       </label>
+                      <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
                     <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
 
