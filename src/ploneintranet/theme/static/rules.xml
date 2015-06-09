@@ -78,7 +78,11 @@
     <append css:content-children="#portal-column-content" css:theme="div.container" />
   </rules>
 
-  <rules css:if-content="body.template-search">
+  <rules css:if-content="body.template-search,
+                         body.template-search_images,
+                         body.template-search_people,
+                         body.template-search_files,
+                         body.template-search_videos">
     <theme href="generated/search-results.html" />
     <drop css:theme-children="#content" />
     <append css:content-children="#portal-column-content" css:theme="#content" />
