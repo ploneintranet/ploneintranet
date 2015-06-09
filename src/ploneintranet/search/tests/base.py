@@ -1,6 +1,5 @@
 import abc
 import collections
-import unittest
 from functools import partial
 
 from plone import api
@@ -9,13 +8,6 @@ from zope.interface.verify import verifyObject
 
 from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
 from ..testing import login_session, TEST_USER_1_NAME
-from ..base import FEATURE_NOT_IMPLEMENTED
-
-
-class TestNotImplementedFeature(unittest.TestCase):
-
-    def runTest(self):
-        self.assertFalse(FEATURE_NOT_IMPLEMENTED)
 
 
 class SiteSearchTestBaseMixin(object):

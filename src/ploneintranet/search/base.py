@@ -14,7 +14,6 @@ def _field_names_from_iface(iface):
 FEATURE_NOT_IMPLEMENTED = type(
     'FeatureNotImplemented',
     (object,), {
-        '__repr__'
         '__nonzero__': lambda self: False
     }
 )()
