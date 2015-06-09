@@ -1,8 +1,6 @@
 <configure
         xmlns="http://namespaces.zope.org/zope"
         xmlns:browser="http://namespaces.zope.org/browser"
-        xmlns:five="http://namespaces.zope.org/five"
-        xmlns:plone="http://namespaces.plone.org/plone"
         i18n_domain="ploneintranet">
     <browser:page
             name="check-auth"
@@ -12,9 +10,9 @@
             />
 
     <browser:page
-            name="convert-document"
+            name="generate-previews"
             for="*"
-            class=".docconv.ConvertDocument"
+            class=".docconv.GeneratePreviewImages"
             permission="zope2.View"
             />
 </configure>

@@ -1,11 +1,12 @@
 import logging
-from pathlib import Path
 import subprocess
 
+from pathlib import Path
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.Five import BrowserView
 from zope.interface import alsoProvides
+
 import os
 
 logger = logging.getLogger(__name__)
@@ -29,58 +30,19 @@ def _parse_cmd_output(cmd):
     return output.decode('utf-8').splitlines()
 
 
-class ConvertDocument(BrowserView):
-    """Convert a document to pdf and preview images.
-
-    Meant to be called from a Celery task.
-
-    Note that we explicitly disable CSRF protection.  There is no form
-    that we can fill in, so there is no authenticator token that we
-    could check.  Alternative: create such a form anyway, GET it from
-    a Celery task, parse the html to get the authenticator token, and
-    POST to the form again.  Seems overkill.
-    """
+class BaseDocConvView(BrowserView):
     bin_name = 'docsplit'
 
-    def __call__(self):
-        alsoProvides(self.request, IDisableCSRFProtection)
-
+    def input_file(self):
         # Get the file data of the context object
         primary_field = IPrimaryFieldInfo(self.context).value
         data = bytes(primary_field.data)
-
-        # Create the temporary storage location if it doesn't exist
-        # TODO: This should probably configurable (registry)
-        storage_dir = Path('/tmp/ploneintranet-docconv')
-        if not storage_dir.exists():
-            storage_dir.mkdir(parents=True)
-
         # Write file data to temporary file
-        input_file = storage_dir.joinpath('{}.tmp'.format(self.context.id))
+        input_file = self.storage_dir.joinpath(
+            '{}.tmp'.format(self.context.id))
         with open(str(input_file)) as fd:
             fd.write(data)
-
-        output_dir = storage_dir.joinpath(
-            '{}-converted'.format(self.context.id))
-        if not output_dir.exists():
-            output_dir.mkdir(parents=True)
-
-        # Generate the image previews
-        # TODO: Sizes might want to be configurable
-        # TODO: Page count might want to be configurable
-        cmd = [
-            self.binary,
-            'images', input_file,
-            '--size', '180,700,1000',
-            '--format', 'png',
-            '--rolling',
-            '--output', output_dir,
-            '--pages', '1-20']
-        cmd_output = _parse_cmd_output(cmd)
-
-        # Attach the previews to the context as annotations
-
-        return cmd_output
+        return input_file
 
     def _find_binary(self):
         """
@@ -96,3 +58,73 @@ class ConvertDocument(BrowserView):
                 return str(fullname)
 
         return self.bin_name
+
+    @property
+    def storage_dir(self):
+        # Create the temporary storage location if it doesn't exist
+        # TODO: This should probably configurable (registry)
+        storage_dir = Path('/tmp/ploneintranet-docconv')
+        if not storage_dir.exists():
+            storage_dir.mkdir(parents=True)
+
+        return storage_dir
+
+    @property
+    def output_dir(self):
+        output_dir = self.storage_dir.joinpath(
+            '{}-converted'.format(self.context.id))
+        if not output_dir.exists():
+            output_dir.mkdir(parents=True)
+
+        return output_dir
+
+
+class GeneratePreviewImages(BaseDocConvView):
+    """Generate preview images for a piece of content
+
+    Meant to be called from a Celery task.
+
+    Note that we explicitly disable CSRF protection.  There is no form
+    that we can fill in, so there is no authenticator token that we
+    could check.  Alternative: create such a form anyway, GET it from
+    a Celery task, parse the html to get the authenticator token, and
+    POST to the form again.  Seems overkill.
+    """
+
+    def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+
+        # TODO: Sizes might want to be configurable
+        # TODO: Page count might want to be configurable
+        cmd = [
+            self._find_binary(),
+            'images', self.input_file(),
+            '--size', '180,700,1000',
+            '--format', 'png',
+            '--rolling',
+            '--output', self.output_dir,
+            '--pages', '1-20',
+        ]
+        cmd_output = _parse_cmd_output(cmd)
+
+        # TODO: Attach the previews to the context as annotations
+        return cmd_output
+
+
+class GeneratePDF(BaseDocConvView):
+    """Generate PDFs of a piece of content
+
+    Meant to be called by a Celery task
+    """
+
+    def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+
+        cmd = [
+            self._find_binary(),
+            'pdf', self.input_file(),
+            '--output', self.output_dir,
+        ]
+        cmd_output = _parse_cmd_output(cmd)
+
+        return cmd_output
