@@ -33,4 +33,13 @@
        layer="..interfaces.IPloneintranetSearchLayer"
        />
 
+    <browser:page
+       name="search_files"
+       for="plone.app.layout.navigation.interfaces.INavigationRoot"
+       permission="zope2.View"
+       class=".searchresults.SearchResultsView"
+       template="templates/file_results.pt"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
+
 </configure>

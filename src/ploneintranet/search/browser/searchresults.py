@@ -75,7 +75,7 @@ class SearchResultsView(BrowserView):
         """
         form = self.request.form
         keywords = form.get('SearchableText')
-        facets = {'friendly_type_name': type_name}
+        facets = {'portal_type': type_name}
 
         search_util = getUtility(ISiteSearch, name='zcatalog')
         response = search_util.query(
@@ -86,3 +86,6 @@ class SearchResultsView(BrowserView):
 
     def search_images(self):
         return self.search_by_type('Image')
+
+    def search_files(self):
+        return self.search_by_type('File')
