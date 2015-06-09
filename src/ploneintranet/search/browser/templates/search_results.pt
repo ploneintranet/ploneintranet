@@ -4,14 +4,15 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+      i18n:domain="ploneintranet.search">
 
     <metal:content fill-slot="content">
 
 	<form action="@@search" id="global-search" class="pat-autosubmit pat-inject"
 	      data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 
-	    <div class="container input">
+	    <div class="container input pat-subform pat-inject" 
+		 data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 		<fieldset class="search">
 		    <label>
 			<input type="search" name="SearchableText" placeholder="Search the entire intranet" tal:attributes="value request/SearchableText|nothing" />
@@ -19,15 +20,15 @@
 		    <button type="search">Search</button>
 		</fieldset>
 	    </div>
-	    <nav class="tabs navigation" id="tabs-nav">
-		<a class="current" href="@@search?SearchableText=${request/SearchableText|nothing}">All</a>
 	    <!-- Tabs not yet implemented
+	    <nav class="tabs navigation" id="tabs-nav">
+		<a class="current" href="/search-results.html?lemma=min">All</a>
 		<a href="/search-results-people.html?lemma=min">People</a>
 		<a href="/search-results-images.html?lemma=min">Images</a>
 		<a href="/search-results-videos.html?lemma=min">Videos</a>
 		<a href="/search-results-office.html?lemma=min">Office files</a>
-	    -->
 	    </nav>
+	    -->
 	    <div class="results" id="results" 
 		 tal:define="search_response view/search_response">
 		<div class="container results">
@@ -36,8 +37,7 @@
 			    <fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing; history: record;"
 				      tal:condition="search_response">
 				<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
-				<input type="hidden" 
-				       name="SearchableText_faceted" 
+				<input type="hidden" name="SearchableText" 
 				       tal:attributes="value request/SearchableText|nothing" />
 				<fieldset class="pat-checklist">
 				    <legend>Content types</legend>
@@ -45,13 +45,12 @@
 				    <label 
 					 tal:repeat="ctype search_response/facets/friendly_type_name">
 					<input checked type="checkbox" 
-					       name="friendly_type_name:list"
+					       name="friendly_type_name"
 					       tal:attributes="value ctype" />
 					<span tal:replace="ctype" />
 				    </label>
 				</fieldset>
-				<fieldset class="pat-checklist"
-					  tal:condition="search_response/facets/Subject">
+				<fieldset class="pat-checklist">
 				    <legend>Tags</legend>
 				    <!-- Only list tags in this list that are relevant for this search result. -->
 				    <label 
@@ -71,6 +70,12 @@
 					<option value="today">
 					    Today
 					</option>
+					<option value="yesterday">
+					    Yesterday
+					</option>
+					<option value="this-week">
+					    This week
+					</option>
 					<option value="last-week">
 					    Last week
 					</option>
@@ -88,19 +93,10 @@
 			     id="listing" 
 			     tal:condition="search_response">
 			    <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
-			    <p class="did-you-mean"
-			       tal:define="corrected search_response/spell_corrected_search"
-			       tal:condition="corrected">
-				Did you mean 
-				<a href="@@search?SearchableText=${corrected}" 
-				   tal:content="corrected"></a>?
+			    <p tal:condition="search_response/spell_corrected_search">
+				<em>Did you mean <a href="#" tal:content="search_response/spell_corrected_search"></a>?</em>
 			    </p>
-			    <!-- We encode the search string into the results div
-				 so that we can check when the search results 
-				 have been loaded via ajax
-			      -->
-			    <dl class="search-results"
-				data-search-string="${request/QUERY_STRING|nothing}">
+			    <dl class="search-results">
 				<!-- One hard coded example of a post as a search result:
 				<dt class="title user-post">
 				    <a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>

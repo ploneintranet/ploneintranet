@@ -1,33 +1,73 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting ploneintranet.search"""
+from contextlib import contextmanager
+
+import pkg_resources
+
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import IntegrationTesting
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
+from plone.app import testing
+from plone import api
 import unittest2 as unittest
 import ploneintranet.search
 import ploneintranet.docconv.client
 
 
-class PloneintranetSearchLayer(PloneSandboxLayer):
+TEST_USER_1_NAME = 'icarus'
+
+TEST_USER_1_EMAIL = 'icarus@ploneintranet.org'
+
+
+@contextmanager
+def login_session(username):
+    """Temporarily login as another user.
+
+    Re-loggin the previous user after exiting the context.
+    """
+    portal = api.portal.get()
+    prev_login = None
+    try:
+        if not api.user.is_anonymous():
+            prev_login = api.user.get_current().getUserName()
+        testing.logout()
+        testing.login(portal, username)
+        yield username
+    finally:
+        testing.logout()
+        if prev_login:
+            testing.login(portal, prev_login)
+
+
+class PloneintranetSearchLayer(testing.PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
-        """Set up Zope."""
         self.loadZCML(package=ploneintranet.search)
+        # self.loadZCML(name='testing.zcml',
+        #               package=ploneintranet.search)
+        from zope.configuration.xmlconfig import testxmlconfig
+        path = pkg_resources.resource_filename('ploneintranet.search',
+                                               'testing.zcml')
+        with open(path) as fp:
+            testxmlconfig(fp)
         self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'ploneintranet.docconv.client:default')
-        applyProfile(portal, 'ploneintranet.search:default')
+        self.applyProfile(portal, 'ploneintranet.docconv.client:default')
+        self.applyProfile(portal, 'ploneintranet.search:default')
+        with login_session(testing.TEST_USER_NAME):
+            api.user.create(username=TEST_USER_1_NAME, email=TEST_USER_1_EMAIL)
+
+    def tearDownPloneSite(self, portal):
+        with api.env.adopt_roles(roles=['Manager']):
+            api.user.delete(username=TEST_USER_1_NAME)
+        super(PloneintranetSearchLayer, self).tearDownPloneSite(portal)
 
 
 FIXTURE = PloneintranetSearchLayer()
-INTEGRATION_TESTING = IntegrationTesting(
+INTEGRATION_TESTING = testing.IntegrationTesting(
     bases=(FIXTURE,), name="PloneintranetSearchLayer:Integration")
-FUNCTIONAL_TESTING = FunctionalTesting(
+FUNCTIONAL_TESTING = testing.FunctionalTesting(
     bases=(FIXTURE,), name="PloneintranetSearchLayer:Functional")
 
 
@@ -35,6 +75,29 @@ class IntegrationTestCase(unittest.TestCase):
     """Base class for integration tests."""
 
     layer = INTEGRATION_TESTING
+
+    def _create_content(self, **kw):
+        obj = api.content.create(**kw)
+        self._created.append(obj)
+        return obj
+
+    def _delete_content(self, obj):
+        api.content.delete(obj=obj)
+
+    def _transistion_content(self, obj):
+        api.content.transition()
+
+    def setUp(self):
+        self._created = []
+        super(IntegrationTestCase, self).setUp()
+
+    def tearDown(self):
+        super(IntegrationTestCase, self).tearDown()
+        for obj in self._created:
+            obj_id = obj.getId()
+            if obj_id in self.layer['portal']:
+                with api.env.adopt_roles(roles=['Manager']):
+                    self._delete_content(obj)
 
 
 class FunctionalTestCase(unittest.TestCase):

@@ -9,6 +9,7 @@
 .mr.developer.cfg
 .ssh/
 .Python
+pip-selfcheck.json
 bin/
 develop-eggs/
 docs/Makefile
@@ -18,6 +19,7 @@ Gemfile.lock
 include/
 lib/
 libreoffice/
+local/
 node_modules/
 parts/
 /prototype

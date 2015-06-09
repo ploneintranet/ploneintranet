@@ -1,7 +1,8 @@
 """ Interfaces for search API
 """
-from zope.interface import Interface
-from zope.interface import Attribute
+from zope.interface import taggedValue, Interface
+from zope import schema
+
 from . import _
 
 
@@ -10,71 +11,89 @@ class IPloneintranetSearchLayer(Interface):
 
 
 class ISiteSearch(Interface):
-    """
-    Interface defining a common global search API for differing backends
-    """
-    def index(obj, attributes=None):
-        """
-        Index an object with backend API.
+    """Defines a common API for a site search utility."""
 
-        :param obj: The Plone object to be indexed
-        :type obj: A Plone object
-        :param attributes: Optional list of attributes to index from the object
-        :type attributes: `list`
-        """
-
-    def query(keywords, facets=None, start_date=None, end_date=None, start=0,
+    def query(phrase,
+              filters=None,
+              start_date=None,
+              end_date=None,
+              start=0,
               step=None):
         """
-        Perform query against the backend with given keywords and optional
+        Perform query against the backend with given phrase and optional
         facet choices.
 
         Facets parameter must be given as a dictionary keyed on facet name with
         value being a list of chosen values for that facet.
 
-        :param keywords: The keywords to search for
-        :type keywords: str
-        :param facets: The facets to filter results by
-        :type facets: dict
-        :param start_date: Earliest created date for results
+        :param phrase: The phrase to search for.
+        :type phrase: str
+        :param filters: A mapping of names and values to filter results by.
+        :type filters: dict
+        :param start_date: Earliest created date for results.
         :type start_date: datetime.datetime
-        :param end_date: Most recent created date for results
+        :param end_date: Most recent created date for results.
         :type end_date: datetime.datetime
-        :param start: The offset position in results to start from
+        :param start: The offset position in results to start from.
         :type start: int
-        :param step: The maximum number of results to return
+        :param step: The maximum number of results to return.
         :type step: int
-        :returns: The results as a `SearchResponse` object
+        :returns: The results as a `SearchResponse` object.
         :rtype: `SearchResponse`
         """
 
 
 class ISearchResult(Interface):
-    """
-    Interface defining an individual search result
-    """
-    title = Attribute(_(u'The title of the indexed document'))
-    description = Attribute(_(u'The description of the indexed document'))
-    path = Attribute(_(u'The relative path to the canonical document'))
-    preview_image_path = Attribute(
-        _(u'The relative path to the stored preview image of the canonical '
-          u'document'))
-    document_type = Attribute(
-        _(u'The type of content contained in the indexed document'))
-    highlighted_summary = Attribute(
-        _(u'A highlighted summary provided by the backend'))
-    url = Attribute(
-        _(u'The absolute URL of the indexed document '
-          u'based on the path and the host in the current request'))
-    preview_image_url = Attribute(
-        _(u'The absolute URL for a preview image '
-          u'generated for the indexed document'))
+    """Defines a common API for search results."""
+
+    title = schema.TextLine(title=_(u'The title of the indexed document'))
+
+    description = schema.TextLine(
+        title=_(u'The description of the indexed document'))
+
+    friendly_type_name = schema.TextLine(
+        title=_(u'The friendly type name of content of the indexed document'))
+
+    highlighted_summary = schema.Text(
+        title=_(u'A highlighted summary provided by the backend'))
+
+    preview_image_url = schema.ASCIILine(
+        title=_(u'The absolute URL for a preview image '
+                u'generated for the indexed document'))
+
+    preview_image_path = schema.ASCIILine(
+        title=_(u'The relative path to the stored preview image of'
+                u'the canonical document'))
+
+    path = schema.ASCIILine(
+        title=_(u'The relative path to the canonical document'))
+
+    url = schema.ASCIILine(
+        title=_(u'The absolute URL of the indexed document '
+                u'based on the path and the host in the current request'))
+
+    taggedValue('index_names', dict(Title='title',
+                                    Description='description'))
+
+
+class IQueryFilterFields(Interface):
+    """Fields which can be used to filter a query."""
+
+    friendly_type_name = schema.ASCIILine(title=_(u'Friendly type'))
+
+    tags = schema.ASCIILine(title=_(u'Tags'))
+
+
+class IFacetFields(IQueryFilterFields):
+    """Attributes that will be faceted."""
 
 
 class ISearchResponse(Interface):
-    """
-    Interface defining a common response object
-    parsed from search engine backend
+    """Defines a common API for search query responses.
+
+    Iterating over this object will yield search result objects
+    conforming to `ISearchResult`.
+
     :ivar results: An iterable of ISearchResult objects
     :ivar spell_corrected_search: The search string with any spelling
         corrections replaced
@@ -82,8 +101,27 @@ class ISearchResponse(Interface):
         list of available values for each facet
     :ivar total_results: Count of the total results matching the search query
     """
-    results = Attribute(_(u'The SearchResults returned from a query'))
-    spell_corrected_search = Attribute(_(u'Spell corrected search string'))
-    facets = Attribute(_(u'A dictionary of facets and available values'))
-    total_results = Attribute(
-        _(u'The total number of results generated from the query'))
+
+    results = schema.Iterable(
+        title=_(u'The SearchResults returned from a query'))
+
+    spell_corrected_search = schema.TextLine(
+        title=_(u'Spell corrected search string'))
+
+    facets = schema.Dict(
+        title=_(u'A dictionary of facets and available values'))
+
+    total_results = schema.Int(
+        title=_(u'The total number of results generated from the query'))
+
+    def __iter__():
+        """Search responses should implement the `Iterable` protocol.
+
+        Iteratating over this object should yield search results.
+        """
+
+
+class IServerTool(Interface):
+
+    commands = schema.List(
+        description=u'Return the `click` command objects runnable.')

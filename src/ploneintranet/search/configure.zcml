@@ -1,26 +1,26 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="ploneintranet">
+    i18n_domain="ploneintranet.search">
 
   <include package=".browser" />
 
-  <adapter factory=".zcatalog.ZCatalogSearchResult" />
-  <adapter factory=".zcatalog.ZCatalogSearchResponse" />
+  <include zcml:condition="installed scorched"
+           package=".solr" />
 
-  <utility provides=".interfaces.ISiteSearch"
-           factory=".zcatalog.ZCatalogSiteSearch"
-           name="zcatalog" />
+  <include zcml:condition="not-installed scorched"
+           file="zcatalog.zcml" />
 
   <adapter name="friendly_type_name"
            factory=".indexers.friendly_type_name" />
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Search)"
+      title="Plone Intranet: Search"
       directory="profiles/default"
       description="Search for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"

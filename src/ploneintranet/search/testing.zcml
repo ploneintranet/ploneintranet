@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:solr="http://namespaces.ploneintranet.org/search/solr"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ploneintranet.search.solr.tests">
+
+
+  <!-- Configure the test solr connection in all cases.
+       This is here so other backends tests do not fail
+       due to collective.indexing triggering the solr indexer.
+       (the p.i.solr package is currently configured to be the
+       defualt search backened. -->
+  <configure zcml:condition="installed scorched">
+    <include package="ploneintranet.search.solr"
+             file="meta.zcml" />
+    <solr:connection host="localhost"
+                     port="8984"
+                     basepath="/solr"
+                     core="core1" />
+  </configure>
+  
+</configure>
