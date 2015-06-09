@@ -41,6 +41,8 @@ class SearchResultsView(BrowserView):
         """
         form = self.request.form
         facets = {}
+        start = None
+        end = None
 
         if form.get('SearchableText'):
             # This means that the main search form was submitted,
@@ -53,14 +55,10 @@ class SearchResultsView(BrowserView):
             for facet in SUPPORTED_FACETS:
                 if form.get(facet):
                     facets[facet] = form.get(facet)
+            if form.get('created'):
+                start, end = self._daterange_from_string(form.get('created'))
         else:
             return []
-
-        if form.get('created'):
-            start, end = self._daterange_from_string(form.get('created'))
-        else:
-            start = None
-            end = None
 
         search_util = getUtility(ISiteSearch, name='zcatalog')
         response = search_util.query(
