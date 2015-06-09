@@ -11,11 +11,20 @@ def _field_names_from_iface(iface):
     return tuple(dict(iface.namesAndDescriptions(True)))
 
 
+FEATURE_NOT_IMPLEMENTED = type(
+    'FeatureNotImplemented',
+    (object,), {
+        '__repr__'
+        '__nonzero__': lambda self: False
+    }
+)()
+
+
 class SearchResult(object):
     """Abstract search result implementation."""
 
     preview_image_path = None
-    highlighted_summary = NotImplemented
+    highlighted_summary = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context):
         super(SearchResult, self).__init__()
@@ -91,8 +100,8 @@ class SearchResult(object):
 class SearchResponse(collections.Iterable):
     """Base search response object"""
 
-    total_results = NotImplemented
-    spell_corrected_search = NotImplemented
+    total_results = FEATURE_NOT_IMPLEMENTED
+    spell_corrected_search = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context):
         super(SearchResponse, self).__init__()

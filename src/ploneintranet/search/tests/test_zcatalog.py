@@ -3,6 +3,7 @@ from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 
 from . import base as base_tests
 from .. import testing
+from ..base import FEATURE_NOT_IMPLEMENTED
 import ploneintranet.search
 
 
@@ -39,7 +40,7 @@ class TestSiteSearch(IntegrationTestsMixin,
     def test_spell_corrected_search(self):
         util = self._make_utility()
         response = util.query('spelling beans')
-        self.assertIs(response.spell_corrected_search, NotImplemented)
+        self.assertIs(response.spell_corrected_search, FEATURE_NOT_IMPLEMENTED)
 
 
 class TestSiteSearchPermissions(IntegrationTestsMixin,
