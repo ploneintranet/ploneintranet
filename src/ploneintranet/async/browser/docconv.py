@@ -9,6 +9,7 @@ from zope.interface import alsoProvides
 
 import os
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -26,7 +27,11 @@ def _parse_cmd_output(cmd):
     except subprocess.CalledProcessError as e:
         logger.error('Failed to pass command %s', ' '.join(cmd))
         logger.error('Output was %s', e.output)
-        raise
+        raise e
+    except OSError as e:
+        logger.exception('Failed to pass command %s', ' '.join(cmd))
+        logger.exception('Exception was %s', e)
+        raise e
     return output.decode('utf-8').splitlines()
 
 

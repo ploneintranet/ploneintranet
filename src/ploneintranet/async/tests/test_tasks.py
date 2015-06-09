@@ -19,10 +19,11 @@ class TestAsyncTasks(IntegrationTestCase):
         Test that a 200 response doesn't raise
         """
         responses.add(
-            responses.GET,
-            'http://localhost:8000/@@generate-preview',
+            responses.POST,
+            'http://localhost:1234/path/to/obj/@@convert-document',
             body='',
-            status=200)
+            status=200
+        )
         generate_and_add_preview(
             'http://localhost:1234/path/to/obj',
             {'__ac': 'ABC123'}
@@ -33,11 +34,12 @@ class TestAsyncTasks(IntegrationTestCase):
         """
         Test that a 403 response raises
         """
-        responses.add(responses.GET,
-                      'http://localhost:8000/@@generate-preview',
-                      body='',
-                      status=403,
-                      )
+        responses.add(
+            responses.POST,
+            'http://localhost:1234/path/to/obj/@@convert-document',
+            body='',
+            status=403,
+        )
         with self.assertRaises(PreviewGenerationException):
             generate_and_add_preview(
                 'http://localhost:1234/path/to/obj',
