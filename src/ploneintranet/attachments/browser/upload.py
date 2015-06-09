@@ -1,13 +1,12 @@
+import logging
+
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.memoize.view import memoize
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
-from plone.i18n.normalizer.interfaces import IURLNormalizer
-from ploneintranet.attachments import utils
-from ploneintranet.attachments.attachments import IAttachmentStorage
-from zope.component import getUtility
-import logging
+
+from ploneintranet import api as pi_api
 
 log = logging.getLogger(__name__)
 
@@ -73,24 +72,15 @@ class UploadAttachments(BrowserView):
         return self.fallback_thumbs_urls
 
     def __call__(self):
-        token = self.request.get('attachment-form-token')
         uploaded_attachments = self.request.get('form.widgets.attachments')
         if not uploaded_attachments:
             return self.index()
 
-        normalizer = getUtility(IURLNormalizer)
-        self.attachments = []
-        attachments = IAttachmentStorage(self.context)
-
-        attachment_objs = utils.extract_attachments(uploaded_attachments)
-        for obj in attachment_objs:
-            obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
-            attachments.add(obj)
-            obj = attachments.get(obj.id)
-            # TODO: Fetch the image previews and add them to self.attchments
-            # This relied on the IPreviewFetcher abstraction in docconv,
-            # which is gone
-            self.attachments.append(obj)
+        for file_field in uploaded_attachments:
+            pi_api.attachments.add(
+                self.context,
+                file_field.filename,
+                file_field.read())
 
         return self.index()
 
