@@ -34,10 +34,14 @@ class BaseDocConvView(BrowserView):
     bin_name = 'docsplit'
 
     def input_file(self):
-        # Get the file data of the context object
+        """Extract the contents of the object to be converted, and save to a
+        temporary file
+
+        :return: The temporary file
+        :rtype: file
+        """
         primary_field = IPrimaryFieldInfo(self.context).value
         data = bytes(primary_field.data)
-        # Write file data to temporary file
         input_file = self.storage_dir.joinpath(
             '{}.tmp'.format(self.context.id))
         with open(str(input_file)) as fd:
@@ -61,7 +65,11 @@ class BaseDocConvView(BrowserView):
 
     @property
     def storage_dir(self):
-        # Create the temporary storage location if it doesn't exist
+        """Find or create temporary directory to be used by docsplit
+
+        :return: The temporary directory
+        :rtype: pathlib.Path
+        """
         # TODO: This should probably configurable (registry)
         storage_dir = Path('/tmp/ploneintranet-docconv')
         if not storage_dir.exists():
@@ -71,6 +79,11 @@ class BaseDocConvView(BrowserView):
 
     @property
     def output_dir(self):
+        """Find or create an output directory
+
+        :return: The output directory
+        :rtype: pathlib.Path
+        """
         output_dir = self.storage_dir.joinpath(
             '{}-converted'.format(self.context.id))
         if not output_dir.exists():
