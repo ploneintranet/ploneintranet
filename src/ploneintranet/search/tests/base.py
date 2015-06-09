@@ -208,31 +208,32 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self._check_spellcheck_response(u"Reining cots n' dags",
                                         u"Raining cats n' dogs")
 
-    def check_date_range_query(self, expected_total_results, *args, **kw):
-        util = self._make_utility()
-        response = util.query('Test', **kw)
-        self.assertEqual(response.total_results, expected_total_results)
-
     def test_date_range_query(self):
         util = self._make_utility()
         query = util.query
         phrase = u'document'
         (min_dt, max_dt) = (datetime.datetime.min, datetime.datetime.max)
+
         # Start date in the future yields no results
         response = query(phrase, start_date=max_dt)
         self.assertEqual(response.total_results, 0)
 
-        # Same start and end date in the future, no results
-        response = query(phrase, start_date=max_dt, end_date=max_dt)
-        self.assertEqual(response.total_results, 0)
-
+        # Start in the future, no results
         response = query(phrase, start_date=max_dt)
         self.assertEqual(response.total_results, 0)
 
-        response = query('Dreaming', start_date=min_dt, end_date=max_dt)
+        # Same start and end date in the future yields no results
+        response = query(phrase, start_date=max_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        # Same start and end date in the past yields no results
+        response = query(phrase, start_date=min_dt, end_date=min_dt)
+        self.assertEqual(response.total_results, 0)
+
+        response = query(u'Dreaming', start_date=min_dt, end_date=max_dt)
         self.assertEqual(response.total_results, 1)
         result = next(iter(response))
-        self.assertEqual(result.title, 'Lucid Dreaming')
+        self.assertEqual(result.title, u'Lucid Dreaming')
 
         response = query(phrase, start_date=min_dt, end_date=max_dt)
         self.assertEqual(response.total_results, 2)
