@@ -21,7 +21,7 @@
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
   <merge attributes="class" css:content="body" css:theme="body" />
-  <copy attributes="id dir data-base-url data-pat-pickadate data-portal-url data-pat-tinymce data-pat-plone-modal data-i18ncatalogurl" 
+  <copy attributes="id dir data-base-url data-pat-pickadate data-portal-url data-pat-tinymce data-pat-plone-modal data-i18ncatalogurl"
         css:content="body" css:theme="body" />
 
   <!-- Logo -->
@@ -48,8 +48,8 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
-  <copy attributes="method id action" 
-        css:content="form#searchGadget_form" 
+  <copy attributes="method id action"
+        css:content="form#searchGadget_form"
         css:theme="form#global-nav-search" />
 
   <!-- Login Form -->
@@ -59,11 +59,11 @@
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
   </rules>
 
-  <rules css:if-content="body.portaltype-event, 
-                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
-                         body.portaltype-document, 
-                         body.portaltype-file, 
-                         body.portaltype-image, 
+  <rules css:if-content="body.portaltype-event,
+                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view,
+                         body.portaltype-document,
+                         body.portaltype-file,
+                         body.portaltype-image,
                          body.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
@@ -71,7 +71,7 @@
     <append css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
-  <rules css:if-content="body.template-dashboard-html, 
+  <rules css:if-content="body.template-dashboard-html,
                          body.template-workspaces-html,
                          body.template-login_success">
     <theme href="generated/empty-home.html" />
@@ -85,10 +85,10 @@
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->
-  <theme href="generated/empty.html" 
+  <theme href="generated/empty.html"
          css:if-content="#visual-portal-wrapper" />
-  <replace css:content-children="#content" 
-           css:theme-children="#original-content" 
+  <replace css:content-children="#content"
+           css:theme-children="#original-content"
            css:if-content="#visual-portal-wrapper" />
 
 
