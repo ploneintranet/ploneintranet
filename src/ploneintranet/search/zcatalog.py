@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from plone import api
 from plone.batching import Batch
 from zope.component import adapter
@@ -16,52 +14,46 @@ from .interfaces import ISearchResult
 class SiteSearch(base.SiteSearch):
     """Example implementation of ISiteSearch using the Plone catalog."""
 
-    def query(self, phrase, filters=None, start_date=datetime.min,
-              end_date=datetime.max, start=0, step=None):
-        """
-        Query the catalog using passing filters as kwargs
-        and phrase against SearchableText.
+    def _apply_facets(self, query):
+        return query
 
-        Also limit the search by the date range given by start_date and
-        end_date
+    def _apply_ordering(self, query):
+        return query
 
-        :param phrase: The string to pass to SearchableText
-        :type phrase: str
-        :param filters: The filters to filter results by
-        :type filters: dict
-        :param start_date: Earliest created date for results
-        :type start_date: datetime.datetime
-        :param end_date: Most recent created date for results
-        :type end_date: datetime.datetime
-        :param start: The offset position in results to start from
-        :type start: int
-        :param step: The maximum number of results to return
-        :type step: int
-        :returns: The results as a `SearchResponse` object
-        :rtype: `SearchResponse`
-        """
-        query = {}
+    def _build_filtered_phrase_query(self, phrase, filters=None):
+        query = {'SearchableText': phrase}
         if filters is None:
             filters = {}
         self._validate_query_fields(filters, IQueryFilterFields)
         tags = filters.get('tags')
         if tags is not None:
             query['Subject'] = filters.pop('tags')
-        if step is None:
-            step = 100
-        catalog = api.portal.get_tool('portal_catalog')
-        date_range_query = {
-            'query': (start_date, end_date),
-            'range': 'min:max'
-        }
-        query.update({
-            'SearchableText': phrase,
-            'created': date_range_query
-        })
         query.update(filters)
+        return query
+
+    def _apply_date_range(self, query, start_date=None, end_date=None):
+        query = dict(query, created=dict.fromkeys(('query', 'range')))
+        created = query['created']
+        if all((start_date, end_date)):
+            created['query'] = (start_date, end_date)
+            created['range'] = 'min:max'
+        elif start_date is not None:
+            created['query'] = start_date
+            created['range'] = 'min'
+        else:
+            created['query'] = end_date
+            created['range'] = 'max'
+        return query
+
+    def _paginate(self, query, start, step):
+        return dict(query, batch_start=start, batch_step=step)
+
+    def _execute(self, query, debug=False, **kw):
+        start = query.pop('batch_start', 0)
+        step = query.pop('batch_step', 100)
+        catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.searchResults(query)
-        batch = Batch(brains, step, start)
-        return ISearchResponse(batch)
+        return Batch(brains, step, start)
 
 
 @implementer(ISearchResponse)
