@@ -9,7 +9,7 @@
 
     <metal:content fill-slot="content">
 
-    <form action="@@search" id="global-search" class="pat-autosubmit pat-inject"
+    <form action="${view/__name__}" id="global-search" class="pat-autosubmit pat-inject"
           data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
 
         <div class="container input">
