@@ -1,12 +1,12 @@
-Ploneintranet Translations
+UI Translations
 ==========================
 
 .. contents:: Table of Contents
     :depth: 2
     :local:
 
-Translation of the UI elements
-------------------------------
+General thoughts on translation and UI term quality
+---------------------------------------------------
 
 **We aim at a professional market. We need a professional translation.**
 
@@ -48,7 +48,7 @@ Benefits of the glossary
    Get a transifex account and issue a join request.
 
 Translation Workflow
-===================
+--------------------
 
 - Go to the Transifex project mainpage at <https://www.transifex.com/projects/p/plone-intranet/>`_
 - If not already done join the team for a language.
@@ -61,9 +61,9 @@ Translation Workflow
 - Start from the top of the sentence translation list.
 - Open the glossary view in another tab.
 
-.. tipp:: To just search for existing terms in the glossary or "translationmemory" (TM in translators jargon) use the **CONCORDANCE SEARCH** button in the translation view at the top. It opens an overlay view at the bottom of the page.
+.. note:: To just search for existing terms in the glossary or "translationmemory" (TM in translators jargon) use the **CONCORDANCE SEARCH** button in the translation view at the top. It opens an overlay view at the bottom of the page.
 
-.. tipp:: there is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
+.. note:: there is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
 
 
 Adding terms to the glossary
@@ -78,8 +78,8 @@ Adding terms to the glossary
 
     - Use the filter search to find it.
 
-There are some challenges when translating
-==========================================
+Challenges when translating
+---------------------------
 
 - What if I find a second occurrence of a similar term in different context and I am not sure if this needs consistence or differentiation?
 
@@ -105,41 +105,39 @@ There are some challenges when translating
    - Finally mark the issue as resolved.
 
 Expected Workflow for derivative languages
-==========================================
+------------------------------------------
 
 Example Germany vs. Switzerland, Austria
-----------------------------------------
+++++++++++++++++++++++++++++++++++++++++
 
 Beside the currencies there is a need to split the german translations for Germany vs. Switzerland (and Austria) because e.g. of the double s issue for Switzerland and serious different wordings for some usual terms. Currently the German version uses the Switzerland way of avoiding the "ß" and using the "ss". We should ask austrian and suisse native writers (not speaker) to take care for a review.
 
 .. note:: There is maybe also a need on demand for e.g. the "de-br" translation for Belgium since German is one of the official languages! The same for de-it for Tirol. The Plone Community is well known to take care of these details.
 
-Expected Workflow for derivative languages
-------------------------------------------
 
-Example "DE"
-++++++++++++
+Workflow from main to variants
+++++++++++++++++++++++++++++++
 
 - Finish the main review of cases in doubt marked as issues in the leading "de" translation first
 - Distribute the 100% complete current "de" version to the (currently not complete) "de-de" version.
 - Then the "de-ch", "de-at" versions should get touchup.
 
-Releases
-========
+Translations and Releases
+-------------------------
 
 Versioning inside of transifex
-------------------------------
+++++++++++++++++++++++++++++++
 
 .. todo:: Check the history functions of Transifex. There seem to exist no commit messages, so using the issue/comment trick is the only way to document the purpose of a change.
 
 
 Checking in a translation into the Plone Intranet GIT repo
-----------------------------------------------------------
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. todo:: To be added later by the release manager...
 
 
 Generation and updating of the pot files in Transifex
-=====================================================
++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. todo:: To be added later by the translations manager...
