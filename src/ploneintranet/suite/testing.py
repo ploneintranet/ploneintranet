@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import PLONE_FIXTURE
+from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 
 import collective.workspace
@@ -14,7 +15,10 @@ import collective.documentviewer
 
 class PloneIntranetSuite(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (
+        PLONE_APP_CONTENTTYPES_FIXTURE,
+        PLONE_APP_TILES_FIXTURE,
+    )
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
@@ -44,9 +48,13 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.messaging)
         import ploneintranet.core
         self.loadZCML(package=ploneintranet.core)
+
         # Force microblog to disable async mode !!!
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
+        import ploneintranet.search
+        self.loadZCML(package=ploneintranet.search)
 
     def setUpPloneSite(self, portal):
         # setup the default workflow

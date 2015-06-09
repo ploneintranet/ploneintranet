@@ -2,19 +2,16 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet.activitystream">
 
-  <include package="plone.tiles" file="meta.zcml" />
+  <include file="permissions.zcml" package="ploneintranet.microblog" />
+
   <include package=".prototype" />
+  <include package=".tiles" />
 
-  <include  zcml:condition="installed ploneintranet.microblog"
-            file="permissions.zcml"
-            package="ploneintranet.microblog"
-            />
-
-  <browser:viewlet zcml:condition="installed ploneintranet.microblog"
+  <!-- FIXME legacy remove -->
+  <browser:viewlet
       name="ploneintranet.suite.navigation"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".navigation.PloneIntranetNavigation"
@@ -22,57 +19,24 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <adapter zcml:condition="installed ploneintranet.microblog"
-      factory=".activity_provider.StatusActivityProvider"
-      />
-
-  <adapter zcml:condition="installed ploneintranet.microblog"
-      factory=".activity_provider.StatusActivityReplyProvider"
-      />
-
-  <adapter zcml:condition="installed ploneintranet.microblog"
-      factory=".activity_provider.StatusActivityInlineReplyProvider"
-      name="ploneintranet.activitystream.statusactivityinlinereply_provider"
-      />
-
-  <adapter
-      factory=".activity_provider.ContentActivityProvider"
-      />
-
-  <adapter
-      factory=".activity_provider.DiscussionActivityProvider"
-      />
-
-  <adapter
-      name="ploneintranet.core.stream_provider"
-      factory=".stream_provider.StreamProvider"
-      />
-
-  <adapter zcml:condition="installed ploneintranet.microblog"
-      name="ploneintranet.activitystream.statusconversation_provider"
-      factory=".statusconversation_provider.StatusConversationProvider"
-      />
-
-  <plone:tile
-      name="activitystream.tile"
-      title="Activity stream tile"
-      description="Provides an activity stream as a tile"
-      add_permission="cmf.ManagePortal"
-      class=".stream.StreamTile"
-      permission="zope.Public"
-      for="*"
+  <browser:page
+      name="activity_view"
+      for="ploneintranet.activitystream.interfaces.IStatusActivity"
+      class=".activity.ActivityView"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <browser:page zcml:condition="installed ploneintranet.microblog"
-      name="status"
-      for="Products.CMFCore.interfaces.ISiteRoot"
-      class=".statusconversation.StatusConversationView"
-      permission="zope2.View"
+  <browser:page
+      name="statusupdate_view"
+      for="ploneintranet.microblog.interfaces.IStatusUpdate"
+      class=".statusupdate.StatusUpdateView"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <browser:page zcml:condition="installed ploneintranet.microblog"
+  <!-- FIXME legacy remove -->
+  <browser:page
       name="stream"
       for="ploneintranet.microblog.interfaces.IMicroblogContext"
       class="ploneintranet.core.browser.stream.StreamView"
@@ -80,19 +44,10 @@
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
-  <!-- complex portlet-based view separated out for clear config -->
-  <include file="activitystream_portal.zcml" />
-
-
+  <!-- FIXME legacy remove -->
   <browser:resourceDirectory
       name="ploneintranet.activitystream.stylesheets"
       directory="stylesheets"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <browser:resourceDirectory
-      name="ploneintranet.activitystream.javascripts"
-      directory="javascripts"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 

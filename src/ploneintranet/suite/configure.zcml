@@ -16,6 +16,7 @@
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.search"/>
   <include package="ploneintranet.socialsuite"/>
   <include package="ploneintranet.socialtheme"/>
 
@@ -25,13 +26,14 @@
   <include package="ploneintranet.notifications"/>
   <include package="ploneintranet.pagerank"/>
   <include package="ploneintranet.simplesharing"/>
+  <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: Suite"
+      title="Plone Intranet:  Suite"
       directory="profiles/default"
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -39,7 +41,7 @@
 
   <genericsetup:registerProfile
       name="testing"
-      title="Plone Intranet: Suite : Create Testing Content"
+      title="Plone Intranet:  Suite : Create Testing Content"
       directory="profiles/testing"
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -56,6 +58,11 @@
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
     <implements interface="ploneintranet.microblog.interfaces.IMicroblogContext"/>
   </class>
+
+  <utility
+    factory=".hiddenprofiles.HiddenProfiles"
+    name="ploneintranet"
+  />
 
   <!-- -*- extra stuff goes here -*- -->
 

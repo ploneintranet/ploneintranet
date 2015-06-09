@@ -1,21 +1,28 @@
-<h1>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+<h1 i18n:translate="">
     Create folder
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #workspace-documents; target: #workspace-documents">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs">
   <div class="panel-body">
     <fieldset class="vertical">
         <input type="hidden" name="portal_type" value="Folder" />
-        <input type="text" name="title" placeholder="Folder name" autofocus />
-        <textarea name="description" rows="6" placeholder="Description for search results (Optional)"></textarea>
+        <input type="text" name="title" placeholder="Folder name" i18n:attributes="placeholder" autofocus />
+        <textarea name="description" rows="6" placeholder="Description for search results (Optional)" i18n:attributes="placeholder"></textarea>
     </fieldset>
   </div>
   <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle close-panel focus">
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle close-panel focus">
           Create
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel">
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">
           Cancel
       </button>
   </div>
 </form>
+</html>

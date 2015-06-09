@@ -4,13 +4,15 @@ from BTrees.OOBTree import OOBTree
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
-from ploneintranet.microblog.interfaces import IMicroblogTool
+
 from zope.annotation import IAnnotations
 from zope.component import getUtility
-from zope.component import queryUtility
+
 from collective.workspace.interfaces import IWorkspace
 from ploneintranet.workspace import MessageFactory as _
-
+from urllib2 import urlparse
+import config
+import mimetypes
 import logging
 
 log = logging.getLogger(__name__)
@@ -20,12 +22,7 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 # The type map is used to deduct clear text names for classes and labels
 # from portal types
 TYPE_MAP = {'Event': 'event',
-            'News Item': 'news',
-            'Image': 'image',
-            'File': 'file',
-            'Link': 'link',
             'Folder': 'folder',
-            'Document': 'rich',
             'simpletodo': 'task',
             'ploneintranet.workspace.workspacefolder': 'workspace'}
 
@@ -77,64 +74,6 @@ def in_workspace(context):
     return IWorkspaceFolder.providedBy(parent_workspace(context))
 
 
-def escape_id_to_class(cid):
-    """ We use workspace ids as classes to style them.
-        if a workspace has dots in its name, this is not usable as a class
-        name. We have to escape that. We might need to do more to them, so this
-        became a utility function.
-    """
-    return cid.replace('.', '-')
-
-
-def get_workspace_activities(brain, limit=1):
-    """ Return the workspace activities sorted by reverse chronological
-    order
-
-    Regarding the time value:
-     - the datetime value contains the time in international format
-       (machine readable)
-     - the title value contains the absolute date and time of the post
-    """
-    mb = queryUtility(IMicroblogTool)
-    items = mb.context_values(brain.getObject(), limit=limit)
-    mtool = api.portal.get_tool('portal_membership')
-    results = []
-    for item in items:
-        user_data = mtool.getMemberInfo(item.creator)
-        creator = user_data.get('fullname') if user_data else item.creator
-        results.append(dict(
-            subject=creator,
-            verb='published',
-            object=item.text,
-            time={
-                'datetime': item.date.strftime('%Y-%m-%d'),
-                'title': item.date.strftime('%d %B %Y, %H:%M')}
-        ))
-    return results
-
-
-def my_workspaces(context):
-    """ The list of my workspaces
-    """
-    pc = api.portal.get_tool('portal_catalog')
-    brains = pc(
-        portal_type="ploneintranet.workspace.workspacefolder",
-        sort_on="modified",
-        sort_order="reversed",
-    )
-    workspaces = [
-        {
-            'id': brain.getId,
-            'title': brain.Title,
-            'description': brain.Description,
-            'url': brain.getURL(),
-            'activities': get_workspace_activities(brain),
-            'class': escape_id_to_class(brain.getId),
-        } for brain in brains
-    ]
-    return workspaces
-
-
 def existing_users(context):
     """
     Look up the full user details for current workspace members
@@ -166,3 +105,82 @@ def existing_users(context):
         )
 
     return info
+
+
+def set_cookie(request, cookie_name, value):
+    """
+    Set a cookie to store state.
+    This is mainly used by the sidebar to store what grouping was chosen
+    """
+    full_path = urlparse.urlparse(request.getURL()).path
+    if not full_path:  # Test Requests may contain an empty path
+        cookie_path = '/TestInstance'
+    else:
+        cookie_path = '/{0}'.format(full_path.split('/')[1])
+
+    if (cookie_name in request and
+        request.get(cookie_name) != value) or \
+            cookie_name not in request:
+        request.response.setCookie(
+            cookie_name, value, path=cookie_path)
+
+
+def guess_mimetype(file_name):
+    content_type = mimetypes.guess_type(file_name)[0]
+    # sometimes plone mimetypes registry could be more powerful
+    if not content_type:
+        mtr = api.portal.get_tool('mimetypes_registry')
+        oct = mtr.globFilename(file_name)
+        if oct is not None:
+            content_type = str(oct)
+
+    return content_type
+
+
+def map_content_type(mimetype, portal_type=''):
+    """
+    takes a mimetype and returns a content type string as used in the
+    prototype
+    """
+    content_type = ''
+    if portal_type:
+        content_type = TYPE_MAP.get(portal_type)
+
+    if not content_type:
+        if not mimetype or '/' not in mimetype:
+            return content_type
+
+        major, minor = mimetype.split('/')
+
+        if mimetype in config.PDF:
+            content_type = 'pdf'
+        elif mimetype in config.DOC:
+            content_type = 'word'
+        elif mimetype in config.PPT:
+            content_type = 'powerpoint'
+        elif mimetype in config.ZIP:
+            content_type = 'zip'
+        elif mimetype in config.XLS:
+            content_type = 'excel'
+        elif mimetype in config.URI:
+            content_type = 'link'
+        elif mimetype in config.NEWS:
+            content_type = 'news'
+
+        elif major == 'text':
+            content_type = 'rich'
+        elif major == 'audio':
+            content_type = 'sound'
+        elif major == 'video':
+            content_type = 'video'
+        elif major == 'image':
+            content_type = 'image'
+
+    return content_type
+
+
+def archives_shown(context, request, section="main"):
+    mtool = api.portal.get_tool('portal_membership')
+    username = mtool.getAuthenticatedMember().getId()
+    cookie_name = '%s-show-extra-%s' % (section, username)
+    return 'documents' in request.get(cookie_name, '')

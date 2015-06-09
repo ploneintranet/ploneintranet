@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-01-20 16:39+0000\n"
+"POT-Creation-Date: 2015-05-04 11:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,7 +91,7 @@ msgstr "Afficher les messages de microblog"
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Écran du flux d'activité du portail avec des portlets configurables"
 
-#: ./browser/templates/stream.pt:24
+#: ./browser/templates/stream.pt:23
 msgid "Updates tagged #${tag}"
 msgstr "Messages tagués #${tag}"
 
@@ -104,13 +104,13 @@ msgstr "Afficher l'écran de configuration des portlets"
 msgid "label_commented_on"
 msgstr "a commenté"
 
-#. Default: "created"
-#: ./browser/templates/contentactivity_provider.pt:18
-msgid "label_created"
-msgstr "a créé"
+#. Default: "posted"
+#: ./browser/prototype/post.html:35
+msgid "label_posted"
+msgstr ""
 
 #. Default: "says:"
-#: ./browser/templates/statusactivity_provider.pt:18
+#: ./browser/templates/statusactivity_provider.pt:19
 msgid "label_says"
 msgstr "a dit :"
 
@@ -119,9 +119,4 @@ msgstr "a dit :"
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
 msgstr "Configurer les portlets du flux d'activité"
-
-#. Default: "See more..."
-#: ./browser/templates/contentactivity_provider.pt:62
-msgid "see_more_link"
-msgstr ""
 

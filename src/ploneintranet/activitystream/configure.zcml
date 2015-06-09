@@ -1,6 +1,5 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -12,23 +11,14 @@
   <include package=".browser" />
   <!-- portlet is included in browser -->
 
-  <adapter zcml:condition="installed ploneintranet.microblog"
+  <adapter
 	   factory=".adapters.StatusActivity"
 	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
 	   />
-  <adapter factory=".adapters.ContentActivity"
-	   />
-  <adapter factory=".adapters.DiscussionActivity"
-	   />
-
-  <adapter factory=".adapters.brainActivityFactory"
-    for="Products.ZCatalog.interfaces.ICatalogBrain"
-    provides="ploneintranet.activitystream.interfaces.IActivity"
-       />
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet Activitystream"
+      title="Plone Intranet: -- (Activitystream)"
       directory="profiles/default"
       description="Installs the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -37,7 +27,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet Activitystream: Uninstall"
+      title="Plone Intranet: -- (Activitystream: Uninstall)"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

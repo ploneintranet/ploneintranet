@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ploneintranet.activitystream">
+
+  <include package="plone.tiles" file="meta.zcml" />
+
+  <plone:tile
+      name="activitystream.tile"
+      title="Activity stream tile"
+      description="Provides an activity stream as a tile"
+      add_permission="cmf.ManagePortal"
+      class=".stream.StreamTile"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      for="*"
+      layer="..interfaces.IPloneIntranetActivitystreamLayer"
+      />
+
+</configure>

@@ -1,51 +1,14 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.layout.globals.interfaces import IViewView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.core.integration import PLONEINTRANET
-from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 
-class StreamBase(object):
-
-    '''Base for View and Tile'''
-
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
-
-    def stream_provider(self):
-        provider = getMultiAdapter(
-            (self.context, self.request, self),
-            name='ploneintranet.core.stream_provider'
-        )
-        provider.tag = self.tag
-
-        # explore or tag -> no user filter
-        if self.explore or self.tag:
-            return provider()
-
-        # no valid user context -> no user filter
-        mtool = api.portal.get_tool('portal_membership')
-        viewer_id = mtool.getAuthenticatedMember().getId()
-        if mtool.isAnonymousUser() or not viewer_id:
-            return provider()
-
-        # valid user context -> filter on following
-        following = list(PLONEINTRANET.network.get_following(viewer_id))
-        following.append(viewer_id)  # show own updates in stream
-        provider.users = following
-        return provider()
-
-
-class StreamView(StreamBase, BrowserView):
+class StreamView(BrowserView):
 
     '''Standalone view, providing
     - microblog input
@@ -58,8 +21,6 @@ class StreamView(StreamBase, BrowserView):
     '''
 
     implements(IPublishTraverse, IViewView, IBlocksTransformEnabled)
-
-    index = ViewPageTemplateFile('templates/stream.pt')
 
     def __init__(self, context, request):
         self.context = context

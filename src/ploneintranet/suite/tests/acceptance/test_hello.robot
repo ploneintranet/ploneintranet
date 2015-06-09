@@ -6,7 +6,7 @@ Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
@@ -20,4 +20,4 @@ Site Administrator can access dashboard
 *** Keywords ***
 
 I see the Dashboard
-    Element should be visible  css=#portlet-news
+    Element should be visible  css=#activity-stream

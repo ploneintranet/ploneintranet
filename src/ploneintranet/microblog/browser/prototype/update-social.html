@@ -2,12 +2,14 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:use-macro="context/main_template/macros/master"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet"
       >
     <body>
 
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
 <metal:macro define-macro="main">
-  <tal:block tal:define="portal_url here/portal_url" i18n:domain="plone">
+  <tal:block tal:define="portal_url portal_url|here/portal_url">
     <div id="microblog" class="ploneintranet"
         tal:define="
           form_id form_id|request/form_id|string:post-box;
@@ -51,8 +53,8 @@
 
         <fieldset>
           <p class="content-mirror"
-            ><span class="text"
-              ><em class="placeholder" tal:attributes="id string:mirror-${form_id}" tal:content="placeholder|newpostbox_view/placeholder">What are you doing?</em></span
+            ><span class="text" id="mirror-${form_id}"
+              ><em class="placeholder">${placeholder|newpostbox_view/placeholder}</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
                 ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
@@ -84,14 +86,13 @@
                     name="form.widgets.text"></textarea>
 
           <fieldset
-             tal:condition="newpostbox_view/is_attachment_supported"
              class="attachments pat-subform pat-autosubmit pat-inject"
-             data-pat-inject="url: @@upload-attachments; source: #attachments;"
-             tal:attributes="data-pat-inject string:url:${context/absolute_url}/@@upload-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
+             data-pat-inject="url: @@upload-statusupdate-attachments; source: #attachments;"
+             tal:attributes="data-pat-inject string:url:${context_url|context/absolute_url}/@@upload-statusupdate-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
             <label class="iconified icon-attach pat-switch"
                    data-pat-switch="#post-box status-* status-attach"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
-                   ><input multiple capture="camera" type="file" title="Attach a file" name="form.widgets.attachments"> Attach a file (or create a picture)</label>
+                   ><input multiple capture="camera" type="file" title="Attach a file" name="form.widgets.attachments" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
             <p class="attachment-previews"
                id="post-box-attachment-previews"
                tal:attributes="id string:${form_id}-attachment-previews">
@@ -113,7 +114,7 @@
             <a class="iconified icon-tags pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: tags;"
                href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
+               tal:attributes="href string:${portal_url|context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
                Add tags</a>
 
             <button
@@ -121,12 +122,12 @@
                data-pat-switch="#post-box status-* status-inactive"
                tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
                type="submit"
-               name="form.buttons.statusupdate">Post</button>
+               name="form.buttons.statusupdate" i18n:translate="">Post</button>
             <button
                class="pat-switch close-panel"
                data-pat-switch="#post-box status-* status-inactive"
                tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
-               type="reset">Cancel</button>
+               type="reset" i18n:translate="">Cancel</button>
 
           <!-- The proto conditionally includes the visibility selection in this place. Since
             there's no design for it yet in PI, the markup has not been copied. -->

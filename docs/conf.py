@@ -28,6 +28,7 @@ import sys, os
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
     #'collective.sphinx.autoatschema',
     #'collective.sphinx.includedoc'
     #'sphinxcontrib.contributors',

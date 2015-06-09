@@ -1,0 +1,900 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-05-22 09:43+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
+msgid "A Workspace users can collaborate in"
+msgstr ""
+
+#: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
+msgid "A container for workspaces"
+msgstr ""
+
+#: ../microblog/interfaces.py:14
+msgid "A longint unique status id"
+msgstr ""
+
+#: ../todo/behaviors.py:41
+msgid "A user (or a group) assigned to this task"
+msgstr ""
+
+#: ../messaging/browser/messaging.py:28
+msgid "Add a comment"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:75
+msgid "Add group"
+msgstr ""
+
+#: ../todo/portlets/latest.py:75
+msgid "Add latest news portlet"
+msgstr ""
+
+#: ../theme/browser/templates/workspace-add.pt:11
+msgid "Add new workspace"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:72
+msgid "Add user"
+msgstr ""
+
+#: ../workspace/policies.py:33
+msgid "Admin-Managed"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:99
+#: ../workspace/browser/tiles/templates/sidebar.pt:350
+msgid "Advanced"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:113
+msgid "Advanced permissions"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:279
+msgid "All Authors"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:275
+msgid "All Dates"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:283
+msgid "All Letters"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:277
+msgid "All Tags"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:503
+msgid "All Time"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:281
+msgid "All Types"
+msgstr ""
+
+#: ../notifications/browser/notifications.pt:36
+msgid "All notifications"
+msgstr ""
+
+#: ../todo/behaviors.py:40
+msgid "Assignee"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:75
+msgid "Attach a file"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:75
+msgid "Attach a file (or create a picture)"
+msgstr ""
+
+#: ../microblog/interfaces.py:17
+msgid "Author name (for display)"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:285
+msgid "Back"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:251
+msgid "Calendar visibility changed"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:97
+#: ../theme/browser/document.py:41
+#: ../workspace/browser/templates/add_content.pt:36
+msgid "Cancel"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:39
+msgid "Change role"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:231
+msgid "Changes applied"
+msgstr ""
+
+#: ../workspace/policies.py:49
+msgid "Consume"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:95
+msgid "Copy"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:33
+#: ../workspace/browser/templates/add_folder.pt:20
+msgid "Create"
+msgstr ""
+
+#: ../theme/browser/templates/workspaces.pt:30
+msgid "Create Workspace"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:8
+#: ../workspace/browser/tiles/templates/sidebar.pt:51
+msgid "Create document"
+msgstr ""
+
+#: ../workspace/browser/templates/add_folder.pt:7
+#: ../workspace/browser/tiles/templates/sidebar.pt:196
+msgid "Create folder"
+msgstr ""
+
+#: ../microblog/interfaces.py:19
+msgid "Creation date"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:87
+msgid "Cut"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:113
+msgid "Delete"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:244
+msgid "Description changed"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:27
+#: ../workspace/browser/templates/add_folder.pt:15
+msgid "Description for search results (Optional)"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:81
+msgid "Deslect all"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:25
+msgid "Document title"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:18
+msgid "Documents"
+msgstr ""
+
+#: ../todo/vocabularies.py:8
+msgid "Done"
+msgstr ""
+
+#: ../todo/portlets/latest.py:87
+msgid "Edit latest news portlet"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:185
+msgid "Email changed"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:20
+msgid "Events"
+msgstr ""
+
+#: ../core/browser/stream.py:56
+msgid "Explore"
+msgstr ""
+
+#: ../workspace/browser/templates/add_folder.pt:14
+msgid "Folder name"
+msgstr ""
+
+#: ../network/browser/templates/maxiauthor_provider.pt:28
+msgid "Followers"
+msgstr ""
+
+#: ../network/browser/templates/maxiauthor_provider.pt:35
+#: ../network/browser/templates/miniauthor_provider.pt:34
+msgid "Following"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
+msgid "Functions"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:338
+msgid "General"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/navigation.pt:16
+msgid "Group by"
+msgstr ""
+
+#: ../workspace/utils.py:90
+msgid "Here we could have a nice status of this person"
+msgstr ""
+
+#: ../todo/vocabularies.py:14
+msgid "High"
+msgstr ""
+
+#: ../todo/portlets/latest.py:23
+msgid "How many items to list."
+msgstr ""
+
+#: ../workspace/browser/forms.py:63
+msgid "If checked, users will be removed from workspace"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:21
+msgid "Image"
+msgstr ""
+
+#: ../todo/vocabularies.py:7
+msgid "In progress"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:22
+msgid "Inbox"
+msgstr ""
+
+#: ../workspace/browser/templates/sharingviewlet.pt:4
+msgid "Info"
+msgstr ""
+
+#: ../invitations/invitations.py:75
+msgid "Invitation sent to %s"
+msgstr ""
+
+#: ../invitations/invite_user.pt:21
+#: ../invitations/profiles/default/controlpanel.xml
+msgid "Invitations"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:101
+msgid "Invite users to this workspace (via email)"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:498
+msgid "Items modified last month"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:492
+msgid "Items modified last week"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:486
+msgid "Items modified today"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:504
+msgid "Items since ever"
+msgstr ""
+
+#: ../workspace/browser/templates/joinviewlet.pt:9
+msgid "Join now"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:497
+msgid "Last Month"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:491
+msgid "Last Week"
+msgstr ""
+
+#: ../todo/portlets/latest.py:39
+msgid "Latest news"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:121
+msgid "Leave a comment"
+msgstr ""
+
+#: ../network/browser/likes.py:55
+msgid "Like"
+msgstr ""
+
+#: ../todo/vocabularies.py:12
+msgid "Low"
+msgstr ""
+
+#: ../todo/behaviors.py:21
+msgid "Mark the content as \"Must read\" for all users."
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:17
+#: ../workspace/browser/tiles/templates/sidebar.pt:342
+msgid "Members"
+msgstr ""
+
+#: ../workspace/browser/forms.py:116
+msgid "Message"
+msgstr ""
+
+#: ../workspace/policies.py:70
+msgid "Moderate"
+msgstr ""
+
+#: ../workspace/browser/forms.py:62
+msgid "Move"
+msgstr ""
+
+#: ../todo/behaviors.py:20
+msgid "Must read"
+msgstr ""
+
+#: ../core/browser/stream.py:58
+msgid "My network"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:18
+msgid "New Message"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:130
+msgid "No attachments selected."
+msgstr ""
+
+#: ../network/browser/likes.py:121
+msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:65
+msgid "No messages"
+msgstr ""
+
+#: ../notifications/browser/notifications.pt:33
+msgid "No pending notifications"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:20
+#: ../network/browser/templates/graph.pt:20
+msgid "No such user ${userid}."
+msgstr ""
+
+#: ../invitations/views.py:30
+msgid "No token id given in sub-path.Use .../@@accept-token/tokenid"
+msgstr ""
+
+#: ../todo/vocabularies.py:13
+msgid "Normal"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:18
+#: ../network/browser/templates/graph.pt:18
+msgid "Nothing here"
+msgstr ""
+
+#: ../notifications/browser/notifications.pt:11
+msgid "Notifications"
+msgstr ""
+
+#: ../todo/portlets/latest.py:22
+msgid "Number of items to display"
+msgstr ""
+
+#: ../workspace/subscribers.py:109
+msgid "Oh boy, oh boy, you are already a member"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:324
+msgid "Older events"
+msgstr ""
+
+#: ../workspace/policies.py:34
+msgid "Only administrators can add workspace members."
+msgstr ""
+
+#: ../workspace/policies.py:23
+msgid "Open"
+msgstr ""
+
+#: ../workspace/policies.py:43
+msgid "Outsiders can self-join becoming a workspace member."
+msgstr ""
+
+#: ../docconv/client/templates/pdf_not_available.pt:5
+msgid "PDF not generated yet"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:103
+msgid "Paste"
+msgstr ""
+
+#: ../invitations/invite_user.pt:14
+msgid "Portal status message"
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:92
+msgid "Post"
+msgstr ""
+
+#: ../todo/behaviors.py:60
+msgid "Priority"
+msgstr ""
+
+#: ../workspace/policies.py:16
+msgid "Private"
+msgstr ""
+
+#: ../workspace/policies.py:56
+msgid "Produce"
+msgstr ""
+
+#: ../workspace/policies.py:63
+msgid "Publish"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:129
+msgid "Re-tag"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
+msgid "Remove"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:121
+msgid "Rename"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:15
+msgid "Rich text"
+msgstr ""
+
+#: ../workspace/browser/templates/roster_portlet.pt:5
+msgid "Roster"
+msgstr ""
+
+#: ../workspace/browser/roster.py:37
+msgid "Roster updated."
+msgstr ""
+
+#: ../theme/browser/document.py:37
+msgid "Save"
+msgstr ""
+
+#: ../core/browser/panel_tags.pt:21
+#: ../workspace/browser/tiles/templates/navigation.pt:41
+#: ../workspace/browser/tiles/templates/sidebar.pt:64
+msgid "Search"
+msgstr ""
+
+#: ../workspace/policies.py:9
+msgid "Secret"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:346
+msgid "Security"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:89
+msgid "Select"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:80
+msgid "Select all"
+msgstr ""
+
+#: ../workspace/browser/forms.py:57
+msgid "Select workspace"
+msgstr ""
+
+#: ../workspace/policies.py:42
+msgid "Self-Managed"
+msgstr ""
+
+#: ../invitations/invite_user.pt:38
+msgid "Send email invite to:"
+msgstr ""
+
+#: ../todo/behaviors.py:15
+msgid "Settings"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:137
+msgid "Share"
+msgstr ""
+
+#: ../workspace/browser/templates/add_content.pt:18
+msgid "Slideshow"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:307
+msgid "Starts"
+msgstr ""
+
+#: ../todo/behaviors.py:53
+msgid "Status"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:29
+msgid "Status updates by ${fullname}:"
+msgstr ""
+
+#: ../todo/content/simpletodo.py:14
+msgid "Task"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
+msgid "Tasks"
+msgstr ""
+
+#: ../workspace/policies.py:37
+msgid "Team-Managed"
+msgstr ""
+
+#: ../todo/interfaces.py:17
+msgid "The UID of the content that needs actioning"
+msgstr ""
+
+#: ../invitations/interfaces.py:22
+msgid "The UUID of this token"
+msgstr ""
+
+#: ../todo/interfaces.py:18
+msgid "The action to be taken on the content"
+msgstr ""
+
+#: ../todo/interfaces.py:20
+msgid "The datetime this ContentAction was completed"
+msgstr ""
+
+#: ../todo/interfaces.py:19
+msgid "The datetime this ContentAction was created"
+msgstr ""
+
+#: ../todo/interfaces.py:21
+msgid "The datetime this ContentAction was triggered"
+msgstr ""
+
+#: ../invitations/interfaces.py:24
+msgid "The datetime this token expires"
+msgstr ""
+
+#: ../invitations/events.py:9
+msgid "The id of the Token that was consumed"
+msgstr ""
+
+#: ../invitations/interfaces.py:23
+msgid "The number of uses for this token before it expires"
+msgstr ""
+
+#: ../invitations/invitations.py:92
+msgid "The token has expired."
+msgstr ""
+
+#: ../todo/interfaces.py:16
+msgid "The userid this action is for"
+msgstr ""
+
+#: ../theme/content/content.py:51
+msgid "The workflow state has been changed."
+msgstr ""
+
+#: ../todo/behaviors.py:48
+msgid "The workspace assigned to this task"
+msgstr ""
+
+#: ../workspace/policies.py:24
+msgid "The workspace can be explored by outsiders. Outsiders can browse but not actively participate."
+msgstr ""
+
+#: ../workspace/policies.py:10
+msgid "The workspace is hidden from outsiders. Only workspace members know it exists."
+msgstr ""
+
+#: ../workspace/policies.py:17
+msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
+msgstr ""
+
+#: ../todo/portlets/latest.py:76
+msgid "This portlet displays the latest news that must be read."
+msgstr ""
+
+#: ../workspace/browser/forms.py:23
+msgid "This user doesn't have an email associated with their account."
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:237
+msgid "Title changed"
+msgstr ""
+
+#: ../todo/vocabularies.py:6
+msgid "To be done"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:485
+msgid "Today"
+msgstr ""
+
+#: ../invitations/views.py:46
+msgid "Token no longer valid"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:107
+msgid "Transfer members to another workspace."
+msgstr ""
+
+#: ../network/browser/likes.py:53
+msgid "Unlike"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:292
+msgid "Upcoming events"
+msgstr ""
+
+#: ../network/browser/templates/author.pt:27
+#: ../network/browser/templates/maxiauthor_provider.pt:21
+msgid "Updates"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:217
+msgid "Upload file(s)"
+msgstr ""
+
+#: ../microblog/interfaces.py:18
+msgid "Userid"
+msgstr ""
+
+#: ../workspace/browser/templates/roster_portlet.pt:21
+msgid "View full Roster"
+msgstr ""
+
+#: ../workspace/subscribers.py:116
+msgid "Welcome to our family, Stranger"
+msgstr ""
+
+#: ../todo/behaviors.py:47
+#: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
+msgid "Workspace"
+msgstr ""
+
+#: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
+msgid "Workspace Folder"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:389
+msgid "Workspace calendar visible in central calendar application"
+msgstr ""
+
+#: ../workspace/browser/views.py:19
+msgid "Workspace join policy doesn't allow self join"
+msgstr ""
+
+#: ../workspace/policies.py:38
+msgid "Workspace members can add outsiders as a workspace member."
+msgstr ""
+
+#: ../workspace/policies.py:71
+msgid "Workspace members can do everything: read, add, publish and edit content."
+msgstr ""
+
+#: ../workspace/policies.py:57
+msgid "Workspace members can read and add content. They can neither publish nor edit content."
+msgstr ""
+
+#: ../workspace/policies.py:50
+msgid "Workspace members can read content. They cannot add, publish or edit content."
+msgstr ""
+
+#: ../workspace/policies.py:64
+msgid "Workspace members can read, add and publish content. They cannot edit other member's content."
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:20
+msgid "Workspace policy"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:146
+msgid "Workspace security policy changes saved"
+msgstr ""
+
+#: ../theme/profiles/default/actions.xml
+#: ../workspace/browser/tiles/templates/workspaces.pt:9
+msgid "Workspaces"
+msgstr ""
+
+#: ../workspace/browser/views.py:28
+msgid "You are a member of this workspace now"
+msgstr ""
+
+#: ../workspace/browser/templates/joinviewlet.pt:6
+msgid "You can become a member of this workspace"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:153
+msgid "You do not have permission to change the workspace policy"
+msgstr ""
+
+#: ../workspace/browser/tiles/sidebar.py:214
+msgid "You do not have permission to change the workspace title or description"
+msgstr ""
+
+#: ../messaging/browser/your-inbox.pt:70
+msgid "Your Inbox"
+msgstr ""
+
+#: ../theme/content/content.py:73
+msgid "Your changes have been saved."
+msgstr ""
+
+#: ../messaging/browser/send-message.pt:65
+msgid "Your message here!"
+msgstr ""
+
+#. Default: "What are you doing?"
+#: ../microblog/browser/tiles/newpostbox.py:231
+#: ../microblog/interfaces.py:15
+msgid "add_statusupdate_button"
+msgstr ""
+
+#. Default: "All workspace activities…"
+#: ../workspace/browser/tiles/templates/workspaces.pt:31
+msgid "all_workspace_activities"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:39
+msgid "author"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:41
+msgid "date"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:37
+msgid "document type"
+msgstr ""
+
+#. Default: "Drop files here or click to browse..."
+#: ../workspace/browser/tiles/sidebar.py:200
+msgid "drop_files_here"
+msgstr ""
+
+#. Default: "External visibility"
+#: ../workspace/browser/tiles/sidebar.py:114
+msgid "external_visibility_label"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:43
+msgid "first letter"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:34
+msgid "folder"
+msgstr ""
+
+#: ../network/browser/templates/maxiauthor_provider.pt:64
+#: ../network/browser/templates/miniauthor_provider.pt:30
+msgid "follow"
+msgstr ""
+
+#. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
+#: ../invitations/invite_user.pt:23
+msgid "invitation_admin_para_1"
+msgstr ""
+
+#. Default: "When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Finally the token URL will be invalidated."
+#: ../invitations/invite_user.pt:29
+msgid "invitation_admin_para_2"
+msgstr ""
+
+#. Default: "Invitations"
+#: ../workspace/browser/forms.py:129
+msgid "invititations"
+msgstr ""
+
+#. Default: "Join policy"
+#: ../workspace/browser/tiles/sidebar.py:113
+msgid "join_policy_label"
+msgstr ""
+
+#. Default: "Send Message"
+#: ../messaging/browser/messaging.py:36
+msgid "label_sendmessage"
+msgstr ""
+
+#. Default: "Leave a comment..."
+#: ../activitystream/browser/activity.py:15
+msgid "leave_a_comment"
+msgstr ""
+
+#. Default: "No tasks created yet"
+#: ../workspace/browser/tiles/templates/sidebar.pt:258
+msgid "no-task-found"
+msgstr ""
+
+#. Default: "Participant policy"
+#: ../workspace/browser/tiles/sidebar.py:116
+msgid "participant_policy_label"
+msgstr ""
+
+#: ../workspace/browser/tiles/workspaces.py:75
+msgid "posted"
+msgstr ""
+
+#. Default: "This workspace has ${member_count} members."
+#: ../workspace/browser/templates/roster_portlet.pt:18
+msgid "roster_member_count"
+msgstr ""
+
+#. Default: "The roster view is not available outside of a workspace."
+#: ../workspace/browser/templates/roster_portlet.pt:12
+msgid "roster_not_available"
+msgstr ""
+
+#. Default: "All"
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:30
+#: ../workspace/browser/tiles/templates/sidebar.pt:80
+msgid "select_all"
+msgstr ""
+
+#. Default: "None"
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:31
+#: ../workspace/browser/tiles/templates/sidebar.pt:81
+msgid "select_none"
+msgstr ""
+
+#. Default: "The participation policy of this workspace is ${policy_name}"
+#: ../workspace/browser/templates/sharingviewlet.pt:7
+msgid "sharing_policy_description"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:35
+msgid "tag"
+msgstr ""
+
+#: ../network/browser/templates/maxiauthor_provider.pt:72
+#: ../network/browser/templates/miniauthor_provider.pt:38
+msgid "unfollow"
+msgstr ""
+
+#. Default: "Workspace brief description"
+#: ../workspace/browser/tiles/templates/sidebar.pt:371
+msgid "workspace_brief_description"
+msgstr ""
+
+#. Default: "Workspace e-mail address"
+#: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:20
+msgid "workspace_email_address"
+msgstr ""
+
+#. Default: "Workspace landing page"
+#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:11
+msgid "workspace_landing_page"
+msgstr ""
+
+#. Default: "Workspace settings"
+#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:13
+msgid "workspace_settings"
+msgstr ""
+
+#. Default: "Workspace title"
+#: ../workspace/browser/tiles/templates/sidebar.pt:359
+msgid "workspace_title"
+msgstr ""
+

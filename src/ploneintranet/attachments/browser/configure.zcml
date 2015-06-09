@@ -5,6 +5,9 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.attachments">
 
+    <include package="ploneintranet.microblog"  
+             file="permissions.zcml" />
+
     <browser:page
       name="upload-attachments"
       for="*"
@@ -15,11 +18,44 @@
       />
 
     <browser:page
+      name="upload-statusupdate-attachments"
+      for="*"
+      class=".upload.UploadStatusAttachments"
+      permission="ploneintranet.microblog.AddStatusUpdate"
+      template="templates/upload.pt"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+    <browser:page
       name="attachment-info"
       for="ploneintranet.attachments.attachments.IAttachmentStoragable"
       class=".info.AttachmentInfo"
       allowed_interface="..interfaces.IAttachmentInfo"
       permission="zope2.View"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+  <browser:page
+      name="status-attachments"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".attachments.StatusAttachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+  <browser:page
+      name="status-attachments"
+      for="ploneintranet.microblog.interfaces.IMicroblogContext"
+      class=".attachments.StatusAttachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer="..interfaces.IPloneintranetAttachmentsLayer"
+      />
+
+  <browser:page
+      name="attachments"
+      for="*"
+      class=".attachments.Attachments"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       layer="..interfaces.IPloneintranetAttachmentsLayer"
       />
 

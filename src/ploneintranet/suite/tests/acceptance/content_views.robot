@@ -7,90 +7,90 @@ Resource  ../lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  DebugLibrary
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Alice can change the title of a document
-    Given I am logged in as the user alice_lindstrom
+Member can change the title of a document
+    Given I am in a workspace as a workspace member
     And I browse to a document
     And I change the title
     And I view the document
     The document has the new title
 
-Alice can change the description of a document
-    Given I am logged in as the user alice_lindstrom
+Member can change the description of a document
+    Given I am in a workspace as a workspace member
     And I browse to a document
     And I change the description
     And I view the document
     Then the document has the new description
 
-Alice can tag a document
-    Given I am logged in as the user alice_lindstrom
+Member can tag a document
+    Given I am in a workspace as a workspace member
     And I browse to a document
     And I tag the description
     And I view the document
     Then the document has the new tag
 
-Alice can change the title of an image
-    Given I am logged in as the user alice_lindstrom
+Member can change the title of an image
+    Given I am in a workspace as a workspace member
     And I browse to an image
     And I change the title
     And I view the image
     Then the document has the new title
 
-Alice can change the description of an image
-    Given I am logged in as the user alice_lindstrom
+Member can change the description of an image
+    Given I am in a workspace as a workspace member
     And I browse to an image
     And I change the description
     And I view the image
     Then the document has the new description
 
-Alice can tag an image
-    Given I am logged in as the user alice_lindstrom
+Member can tag an image
+    Given I am in a workspace as a workspace member
     And I browse to an image
     And I tag the description
     And I view the image
     Then the document has the new tag
 
-Alice can change the title of a file
-    Given I am logged in as the user alice_lindstrom
+Member can change the title of a file
+    Given I am in a workspace as a workspace member
     And I browse to a file
     And I change the title
     And I view the file
     Then the document has the new title
 
-Alice can change the description of a file
-    Given I am logged in as the user alice_lindstrom
+Member can change the description of a file
+    Given I am in a workspace as a workspace member
     And I browse to a file
     And I change the description
     And I view the file
     Then the document has the new description
 
-Alice can tag a file
-    Given I am logged in as the user alice_lindstrom
+Member can tag a file
+    Given I am in a workspace as a workspace member
     And I browse to a file
     And I tag the description
     And I view the file
     Then the document has the new tag
 
-# Alice can change the title of a folder
-#     Given I am logged in as the user alice_lindstrom
+# Member can change the title of a folder
+#     Given I am in a workspace as a workspace member
 #     And I view the folder
 #     And I change the title
 #     And I view the folder
 #     Then the document has the new title
 
-# Alice can change the description of a folder
-#     Given I am logged in as the user alice_lindstrom
+# Member can change the description of a folder
+#     Given I am in a workspace as a workspace member
 #     And I view the folder
 #     And I change the description
 #     And I view the folder
 #     Then the document has the new description
 
-# Alice can tag a folder
-#     Given I am logged in as the user alice_lindstrom
+# Member can tag a folder
+#     Given I am in a workspace as a workspace member
 #     And I view the folder
 #     And I tag the description
 #     And I view the folder
@@ -137,6 +137,7 @@ I change the title
     Input Text  title  New title ♥
     Wait Until Page Contains  New title ♥
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new title
     Textfield Should Contain  title  New title ♥
@@ -146,6 +147,7 @@ I change the description
     Click Link  link=Toggle extra metadata
     Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new description
     Page Should Contain  New description ☀
@@ -155,6 +157,7 @@ I tag the description
     Click Link  link=Toggle extra metadata
     Input Text  id=s2id_autogen2  NewTag☃,
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
 
 The document has the new tag
     Click Link  link=Toggle extra metadata

@@ -9,6 +9,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 def post_install(context):
     """
+    - adds the global "workspaces" container
     - sets an acl user group to hold all intranet users
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy
@@ -19,13 +20,16 @@ def post_install(context):
 
     portal = api.portal.get()
 
+    if 'workspaces' not in portal:
+        api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
+
     # Set up a group to hold all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID) is None:
         api.group.create(groupname=INTRANET_USERS_GROUP_ID)
-        # All users have Reader role on portal root
-        api.group.grant_roles(groupname=INTRANET_USERS_GROUP_ID,
-                              roles=['Reader', ],
-                              obj=portal)
 
     # Set up dynamic groups plugin to put all users into the above group
     pas = api.portal.get_tool('acl_users')
@@ -51,6 +55,7 @@ def post_install(context):
                              disable=['IGroupEnumerationPlugin'])
 
     # Set up the ploneintranet policy for all addable types
+    # Re-run ploneintranet.workspace:default after installing extra types!
     default_types = []
     types = api.portal.get_tool('portal_types')
     for type_info in types.listTypeInfo():
@@ -58,6 +63,8 @@ def post_install(context):
             default_types.append(type_info.getId())
 
     if default_types:
+        # Folders should be state-less!
+        default_types = [x for x in default_types if x not in ('Folder', )]
         pwftool = api.portal.get_tool('portal_placeful_workflow')
         policy = pwftool['ploneintranet_policy']
         policy.setChainForPortalTypes(default_types, ('(Default)',))

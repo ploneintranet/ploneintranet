@@ -5,7 +5,6 @@ import time
 import loremipsum
 import transaction
 
-from Products.CMFPlone.utils import log
 from zope.component import queryUtility
 from zope.interface import directlyProvides
 from OFS.Image import Image
@@ -17,27 +16,6 @@ from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
-
-
-def importVarious(context):
-
-    if context.readDataFile('ploneintranet.socialsuite_various.txt') is None:
-        return
-
-    site = context.getSite()
-    site.layout = "activitystream_portal"
-    site.default_page = "activitystream_portal"
-
-
-def uninstallVarious(context):
-
-    if context.readDataFile('ploneintranet.socialsuite_uninstall.txt') is None:
-        return
-
-    site = context.getSite()
-    site.layout = "folder_listing"
-    site.default_page = "folder_listing"
-    log("Uninstalled ploneintranet.socialsuite")
 
 
 def demo(context):
@@ -78,10 +56,10 @@ def demo(context):
     graph = queryUtility(INetworkGraph)
     graph.clear()
     testusers = ['clare_presler', 'kurt_silvio']
-    graph.set_follow(testusers[1], testusers[0])
+    graph.follow("user", testusers[0], testusers[1])
     # give clare som extra followers
     for fan in ['christian_stoner', 'guy_hachey', 'jamie_jacko']:
-        graph.set_follow(fan, testusers[0])
+        graph.follow("user", testusers[0], fan)
     # fully random followers
     for i in xrange(100):
         followee = random.choice(users)
@@ -90,7 +68,7 @@ def demo(context):
                 or followee == follower:
             continue
         else:
-            graph.set_follow(follower, followee)
+            graph.follow("user", followee, follower)
 
     # setup publicly accessible folder and document
     portal.invokeFactory('Folder', 'public', title=u"Public Folder")

@@ -21,19 +21,20 @@
         />
 
     <browser:page
+        name="comment.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        template="comment.html"
+        layer="..interfaces.IPloneIntranetActivitystreamLayer"
+        permission="zope.Public"
+        />
+
+    <browser:page
         name="post.html"
-        for="*"
+        for="ploneintranet.activitystream.interfaces.IStatusActivity"
         permission="zope.Public"
         template="post.html"
         layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />
 
-    <browser:page
-        name="comment.html"
-        for="*"
-        permission="zope.Public"
-        template="comment.html"
-        layer="..interfaces.IPloneIntranetActivitystreamLayer"
-        />
 
 </configure>

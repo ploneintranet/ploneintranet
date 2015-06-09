@@ -1,3 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="ploneintranet"
+    tal:omit-tag="">
+
 <tal:block tal:define="portal_state context/@@plone_portal_state;
                        portal_url portal_state/portal_url;
                        unique_id view/unique_id;
@@ -7,8 +13,9 @@
                        total_likes view/total_likes;
                        datapatinject python:'source: form;; target: #functions-{0}'.format(unique_id)">
   <form id="functions-123456"
+        method="post"
         action="@@toggle_like"
-        tal:attributes="action string:${portal_url}/@@toggle_like/${item_id};
+        tal:attributes="action view/action;
                         id string:functions-${unique_id};
                         data-pat-inject datapatinject;"
         class="pat-inject pat-autosubmit"
@@ -18,8 +25,10 @@
             name="like_button"
             type="submit"
             tal:attributes="class python:'like active' if is_liked else 'like'">
-      <span tal:replace="verb" i18n:translate="">Like</span>
+      <span tal:replace="verb">Like</span>
       <sup class="counter">(<span tal:replace="total_likes">4</span>)</sup>
     </button>
   </form>
 </tal:block>
+
+</html>

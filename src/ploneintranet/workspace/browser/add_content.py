@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.namedfile.file import NamedBlobImage
+from ploneintranet.theme import _
+from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.utils import parent_workspace
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
 class AddContent(BrowserView):
@@ -12,25 +15,20 @@ class AddContent(BrowserView):
 
     template = ViewPageTemplateFile('templates/add_content.pt')
 
-    def __call__(
-            self,
-            portal_type=None,
-            title=None,
-            description=None,
-            image=None):
+    def __call__(self, portal_type=None, title=None):
         """Evaluate form and redirect"""
         if title is not None:
             self.portal_type = portal_type
             self.title = title.strip()
-            self.description = description.strip()
-            self.image = image
             if self.portal_type in api.portal.get_tool('portal_types'):
-                url = self.create(image)
+                url = self.create()
                 return self.redirect(url)
         return self.template()
 
-    def create(self, image=None):
-        """Create content and return url. In case of images add the image."""
+    def create(self):
+        """Create content and return url. Uses dexterity_update to set the
+        appropriate fields after creation.
+        """
         container = self.context
         new = api.content.create(
             container=container,
@@ -38,14 +36,22 @@ class AddContent(BrowserView):
             title=self.title,
             safe_id=True,
         )
-        if image:
-            namedblobimage = NamedBlobImage(
-                data=image.read(),
-                filename=safe_unicode(image.filename))
-            new.image = namedblobimage
 
         if new:
-            new.description = safe_unicode(self.description)
+            modified, errors = dexterity_update(new)
+            if modified and not errors:
+                api.portal.show_message(
+                    _("Item created."), request=self.request, type="success")
+                new.reindexObject()
+                notify(ObjectModifiedEvent(new))
+
+            if errors:
+                api.portal.show_message(
+                    _("There was an error."),
+                    request=self.request,
+                    type="error",
+                )
+
             return new.absolute_url()
 
     def redirect(self, url):
@@ -57,3 +63,13 @@ class AddContent(BrowserView):
 class AddFolder(AddContent):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
+
+
+class AddEvent(AddContent):
+
+    template = ViewPageTemplateFile('templates/add_event.pt')
+
+    def redirect(self, url):
+        workspace = parent_workspace(self.context)
+        return self.request.response.redirect(workspace.absolute_url() +
+                                              '#workspace-events')

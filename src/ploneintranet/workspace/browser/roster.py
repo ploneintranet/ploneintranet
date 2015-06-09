@@ -1,7 +1,6 @@
 from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.workspace.interfaces import IWorkspace
 from plone import api
@@ -9,10 +8,11 @@ from plone.memoize.instance import clearafter
 from plone.protect import CheckAuthenticator, PostOnly
 from ploneintranet.workspace import MessageFactory as _
 from zope.component import getMultiAdapter
+from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
 from ploneintranet.workspace.utils import existing_users
 
 
-class EditRoster(BrowserView):
+class EditRoster(BaseWorkspaceView):
     """Roster management page.
 
     Based on the @@sharing tab from plone.app.workflow
@@ -130,3 +130,9 @@ class EditRoster(BrowserView):
         is this workspace admin managed?
         """
         return self.context.join_policy == 'admin'
+
+
+class WorkspaceMemberPicker(EditRoster):
+    """
+    A modal with a user picker to select new members
+    """

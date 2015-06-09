@@ -20,12 +20,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   communication
+   about/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   about/index
+   development/index
 
 .. toctree::
    :maxdepth: 2
@@ -35,15 +35,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   development/index
-
-.. toctree::
-   :maxdepth: 2
-
    appendices/index
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    license
 
@@ -51,7 +46,6 @@ Contents:
 
 .. todo::
 
-    * update installation instructions to actually work!
     * include heroku deploy button by nejc under install/quickstart
     * Add a design/concept section
     * Collect current error messages and add them to the error refs doc

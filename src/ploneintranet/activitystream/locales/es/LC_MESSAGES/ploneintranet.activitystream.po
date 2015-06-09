@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-01-20 16:39+0000\n"
+"POT-Creation-Date: 2015-05-04 11:21+0000\n"
 "PO-Revision-Date: 2014-03-07 18:40-0300\n"
 "Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
 "Language-Team: Leonardo J. Caballero G.\n"
@@ -96,7 +96,7 @@ msgstr "Mostrar actualizaciones de estado de microblog "
 msgid "Social activity stream portal view with manageable portlets"
 msgstr "Vista de la actividad social del portal con portlets administrables"
 
-#: ./browser/templates/stream.pt:24
+#: ./browser/templates/stream.pt:23
 msgid "Updates tagged #${tag}"
 msgstr "Actualizaciones etiquetadas con #${tag}"
 
@@ -109,13 +109,13 @@ msgstr "Ver pantalla de administración de portlets"
 msgid "label_commented_on"
 msgstr "comentado en"
 
-#. Default: "created"
-#: ./browser/templates/contentactivity_provider.pt:18
-msgid "label_created"
-msgstr "creado"
+#. Default: "posted"
+#: ./browser/prototype/post.html:35
+msgid "label_posted"
+msgstr ""
 
 #. Default: "says:"
-#: ./browser/templates/statusactivity_provider.pt:18
+#: ./browser/templates/statusactivity_provider.pt:19
 msgid "label_says"
 msgstr "dice:"
 
@@ -124,9 +124,4 @@ msgstr "dice:"
 #: ./browser/templates/activitystream_portletmanager_viewlet.pt:10
 msgid "manage_activitystream_portlets"
 msgstr "Administrar portlets de actividad de usuario"
-
-#. Default: "See more..."
-#: ./browser/templates/contentactivity_provider.pt:62
-msgid "see_more_link"
-msgstr ""
 

@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <div id="activity-stream"
+             class="activity-stream">
+
+          <h2 tal:condition="view/tag" i18n:translate="">Updates tagged
+          #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
+          </h2>
+          <div class="activities" tal:define="
+              stream_macros nocall:here/activity-stream.html|here/context/activity-stream.html;
+              context_url here/absolute_url|here/context/absolute_url;
+            ">
+            <metal:block use-macro="stream_macros/main" />
+          </div>
+        </div>
+    </body>
+</html>

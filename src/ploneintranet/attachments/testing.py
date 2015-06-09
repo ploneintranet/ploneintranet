@@ -20,10 +20,10 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         # Load ZCML
         import plone.app.discussion
         self.loadZCML(package=plone.app.discussion)
-        import five.grok
-        self.loadZCML(package=five.grok)
         import plone.dexterity
         self.loadZCML(package=plone.dexterity)
+        import ploneintranet.microblog
+        self.loadZCML(package=ploneintranet.microblog)
 
         import ploneintranet.attachments
         self.loadZCML(package=ploneintranet.attachments)

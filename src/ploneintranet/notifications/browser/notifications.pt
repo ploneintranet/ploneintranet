@@ -4,11 +4,11 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 <body>
   <div id="social-messages" metal:fill-slot="main">
 
-      <h1>
+      <h1 i18n:translate="">
         Notifications
       </h1>
 
@@ -30,10 +30,10 @@
             <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/obj/message_last_modification_date">Just now</time>
           </li>
         </ul>
-        <div tal:condition="not: notifications">No pending notifications</div>
+        <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
 
         <p class="all-notifications">
-          <a tal:attributes="href string:${portal_url}/notifications">All notifications</a>
+          <a tal:attributes="href string:${portal_url}/notifications" i18n:translate="">All notifications</a>
         </p>
       </div>
 

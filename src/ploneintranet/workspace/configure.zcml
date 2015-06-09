@@ -4,14 +4,14 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:grok="http://namespaces.zope.org/grok"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet.workspace">
+    i18n_domain="ploneintranet">
+
+  <include package="." file="implements.zcml" />
 
   <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="Products.CMFPlacefulWorkflow" />
   <include package="collective.workspace" />
-  <include package="five.grok" />
   <include package="ploneintranet.invitations" />
   <include package="ploneintranet.theme" />
   <include package="ploneintranet.activitystream" />
@@ -26,15 +26,8 @@
   </permission>
 
   <include package=".browser" />
-
-  <browser:page
-        name="ploneintranet_workspace_state"
-        for="*"
-        permission="zope.Public"
-        class=".workspace.WorkspaceState"
-        allowed_interface=".interfaces.IWorkspaceState"
-        />
-
+  <include file="indexers.zcml" />
+  
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
@@ -79,11 +72,40 @@
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
      />
 
-  <i18n:registerTranslations directory="locales" />
+  <!-- grouping storage -->
+  <adapter
+   for="ploneintranet.workspace.interfaces.IGroupingStoragable"
+   provides="ploneintranet.workspace.interfaces.IGroupingStorage"
+   factory=".adapters.GroupingStorage"
+   />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.content_object_added_to_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+     handler=".subscribers.content_object_edited_in_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+     handler=".subscribers.content_object_removed_from_workspace"
+     />
+
+  <subscriber
+     for=" plone.dexterity.interfaces.IDexterityContent
+          zope.lifecycleevent.interfaces.IObjectMovedEvent"
+     handler=".subscribers.content_object_moved"
+     />
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: Workspace"
+      title="Plone Intranet: -- (Workspace)"
       directory="profiles/default"
       description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"

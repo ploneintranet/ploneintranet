@@ -1,170 +1,98 @@
-BOWER 		?= node_modules/.bin/bower
-JSHINT 		?= node_modules/.bin/jshint
-PEGJS		?= node_modules/.bin/pegjs
-PHANTOMJS	?= node_modules/.bin/phantomjs
-
-PATTERNS	= src/bower_components/patternslib
-SOURCES		= $(wildcard $(PATTERNS)/src/*.js) $(wildcard $(PATTERNS)/src/pat/*.js) $(wildcard $(PATTERNS)/src/lib/*.js)
-BUNDLES		= bundles/patterns.js bundles/patterns.min.js
-
-GENERATED	= $(PATTERNS)/src/lib/depends_parse.js
-
-JSHINTEXCEPTIONS = $(GENERATED) \
-		   $(PATTERNS)/src/lib/dependshandler.js \
-		   $(PATTERNS)/src/lib/htmlparser.js \
-		   $(PATTERNS)/src/pat/skeleton.js
-CHECKSOURCES	= $(filter-out $(JSHINTEXCEPTIONS),$(SOURCES))
-
-RELEASE         = $(shell git describe --tags)
-RELEASE_DIR		= release/prototype
-RELEASE_TARBALL = release/prototype-$(RELEASE).tar.gz
-
-DIAZO_DIR   = src/ploneintranet/theme/static
-
+RELEASE_DIR	= release/prototype/_site
+DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
 BUNDLENAME      = ploneintranet
-BUNDLEURL		= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
+BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
+# Add help text after each target name starting with ' \#\# '
+help:
+	@grep " ## " $(MAKEFILE_LIST) | grep -v MAKEFILE_LIST | sed 's/\([^:]*\).*##/\1\t/'
 
-all:: bundle.js diazo rubygems
+all:: fetchrelease
 default: all
-
-########################################################################
-## Install dependencies
-
-rubygems:
-	bundle install --path vendor/bundle --binstubs
-
-stamp-npm: package.json
-	npm install
-	touch stamp-npm
-
-stamp-bower: stamp-npm
-	$(BOWER) install
-	touch stamp-bower
-
-
-#patterns:
-#	if test -d src/Patterns; then cd src/Patterns && git pull && cd ../..; else git clone https://github.com/Patternslib/Patterns.git src/Patterns; fi
-
-clean-stamps::
-	rm -f stamp-npm stamp-bower
-
-clean:: clean-stamps
-	rm -rf node_modules src/bower_components ~/.cache/bower
-
-cleanall: clean clean-buildout
-clean-buildout:
+clean:
 	rm bin/* .installed.cfg || true
-
-
-########################################################################
-## Tests
-
-check:: jshint test-bundle
-jshint: stamp-npm
-	$(JSHINT) --config jshintrc $(CHECKSOURCES) build.js
-
-
-check:: stamp-npm
-	$(PHANTOMJS) node_modules/phantom-jasmine/lib/run_jasmine_test.coffee tests/TestRunner.html
-
-
-########################################################################
-## Bundle generation
-
-bundle bundle.js: stamp-bower $(GENERATED) $(SOURCES) build.js jekyll
-	node_modules/.bin/r.js -o build.js optimize=none
-	node_modules/.bin/grunt uglify
-	mkdir -p prototype/bundles
-	mv bundle.js prototype/bundles/$(BUNDLENAME)-$(RELEASE).js
-	ln -sf $(BUNDLENAME)-$(RELEASE).js prototype/bundles/$(BUNDLENAME).js
-	mkdir -p prototype/_site/bundles
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js prototype/_site/bundles/$(BUNDLENAME).js
-	mv bundle.min.js prototype/bundles/$(BUNDLENAME)-$(RELEASE).min.js
-	ln -sf $(BUNDLENAME)-$(RELEASE).min.js prototype/bundles/$(BUNDLENAME).min.js
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).min.js prototype/_site/bundles/$(BUNDLENAME).min.js
-
-test-bundle test-bundle.js: stamp-bower $(GENERATED) $(SOURCES) test-build.js
-	node_modules/.bin/r.js -o test-build.js
-
-
-$(PATTERNS)/src/lib/depends_parse.js: $(PATTERNS)/src/lib/depends_parse.pegjs stamp-npm
-	$(PEGJS) $<
-	sed -i~ -e '1s/.*/define(function() {/' -e '$$s/()//' $@ || rm -f $@
-
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
-jsrelease: bundle.js
-	# This one is used by developers only and can be used separately to do a
-	# version for Designers only
-	mkdir -p release
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js release
-	tar cfz release/$(BUNDLENAME)-$(RELEASE).js.tar.gz -C release $(BUNDLENAME)-$(RELEASE).js
-	curl -X POST -F 'content=@release/$(BUNDLENAME)-$(RELEASE).js.tar.gz' 'https://products.syslab.com/?name=$(BUNDLENAME)&version=$(RELEASE)&action=file_upload'
-	rm release/$(BUNDLENAME)-$(RELEASE).js.tar.gz
-	echo "Upload done."
-	echo "$(RELEASE)" > LATEST
-	git add LATEST
-	git commit -m "distupload: updated latest file to recent js bundle"
-	git push
+fetchrelease: ## Download and install the latest javascript bundle into the theme.
+	$(eval LATEST := $(shell cat LATEST))
+	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
+	# fetch non-git-controlled required javascript resources
+	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
+	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
 
-designerhappy:
-	mkdir -p prototype/bundles
-	curl $(BUNDLEURL) -o prototype/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	cd prototype/bundles && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	cd prototype/bundles && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	cd prototype/bundles && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	echo "The latest js bundle has been downloaded to prototype/bundles. You might want to run jekyll. Designer, you can be happy now."
+########################################################################
+## Setup
+## You don't run these rules unless you're a prototype dev
 
+prototype:: ## Get the latest version of the prototype
+	@if [ ! -d "prototype" ]; then \
+		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
+	else \
+		cd prototype && git pull; \
+	fi;
+	cp prototype/LATEST .
 
-gems:
-	cd prototype && mkdir -p .bundle/gemfiles && bundle install --path .bundle/gemfiles
+jekyll: prototype
+	@cd prototype && make jekyll
 
-jekyll: gems
-	cd prototype && bundle exec jekyll build
+diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme, including removals
+	git add --all $(DIAZO_DIR)
+	@echo "=========================="
+	@git status
+	@echo "=========================="
+	@echo 'Ready to do: git commit -a -m "protoype release $(shell cat LATEST)"'
+	@echo "^C to abort (10 sec)"
+	@sleep 10
+	git commit -a -m "protoype release $(shell cat LATEST)"
 
-dev: jekyll
-	# Set up development environment
-	# install a require.js config
-	cp src/bower_components/requirejs/require.js prototype/_site/bundles/$(BUNDLENAME)-modular.js
-	ln -s ../../../src prototype/_site/bundles
-	ln -s src/patterns.js prototype/_site/main.js
-
-diazo release: jekyll bundle.js
-	# Bundle all html, css and js into a deployable package.
-	# I assume that all html in _site and js in _site/bundles is built and
-	# ready for upload.
-	# CAVE: This is currently work in progress and was used to deploy to deliverance
-	# We will most probably rewrite this to deploy all necessary resources
-	# for diazo into egg format (Yet to be decided how)
-	#
-	@[ -d release/prototype ] || mkdir -p release/prototype
-	# make sure it is empty
-	rm -rf release/prototype/*
-	# test "$$(git status --porcelain)x" = "x" || (git status && false)
-	cp -R prototype/_site $(RELEASE_DIR)/
-	sed -i -e "s,<script src=\"bundles/$(BUNDLENAME).js\",<script src=\"bundles/$(shell readlink prototype/bundles/$(BUNDLENAME).js)\"," $(RELEASE_DIR)/_site/*.html
+diazo: jekyll fetchrelease _diazo ## Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
+_diazo:
+	# --- (1) --- prepare clean release dir
+	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
+	cp -R prototype/_site/* $(RELEASE_DIR)/
 	# Cleaning up non mission critical elements
-	rm -f $(RELEASE_DIR)/_site/*-e
-	rm -rf $(RELEASE_DIR)/_site/bundles/*
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).js $(RELEASE_DIR)/_site/bundles/
-	cp prototype/bundles/$(BUNDLENAME)-$(RELEASE).min.js $(RELEASE_DIR)/_site/bundles/
-	ln -sf $(BUNDLENAME)-$(RELEASE).js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).js
-	ln -sf $(BUNDLENAME)-$(RELEASE).min.js $(RELEASE_DIR)/_site/bundles/$(BUNDLENAME).min.js
-	# replace absolute resource urls with relative
-	sed -i -e "s#http://patterns.cornae.com/#./#" $(RELEASE_DIR)/_site/*.html
-	# copy to the diazo theme dir
-	@[ -d $(DIAZO_DIR)/generated/ ] || mkdir $(DIAZO_DIR)/generated/
-	cp -R $(RELEASE_DIR)/_site/* $(DIAZO_DIR)/generated/
+	rm -f $(RELEASE_DIR)/*-e
+	rm -rf $(RELEASE_DIR)/bundles/*
+	# --- (2) --- refresh diazo static/generated
+	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
+	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
+	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
+		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
+		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
+	done
+	# we want all style elements recursively - and remove old resources not used anymore
+	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
+	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
+	# logo
+	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
+	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
 
-clean::
-	rm -f bundle.js
-	rm -rf prototype/bundles/*
+jsdev: dev-bundle diazo _jsdev ## full js development refresh
 
+# fast replace ploneintranet-dev.js - requires diazo to have run!
+_jsdev:
+	# replace normal js bundle with dev bundle, directly in diazo theme dir
+	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/ploneintranet.js
 
-.PHONY: all bundle clean check jshint tests check-clean release
+dev-bundle: prototype
+	cd prototype && make dev-bundle
+
+bundle: prototype
+	cd prototype && make bundle
+
+jsrelease: prototype
+	cd prototype && make jsrelease
+	cp prototype/LATEST .
+
 
 ####################################################################
 # docker.io
@@ -180,35 +108,27 @@ docker-run:
 	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
+                -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
                 -v $(HOME)/.bashrc:/.bashrc \
+                -v $(HOME)/.pypirc:/.pypirc \
                 -v $(HOME)/.gitconfig:/.gitconfig \
                 -v $(HOME)/.gitignore:/.gitignore \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
+		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
 		-e LC_ALL=en_US.UTF-8 \
 		-e LANG=en_US.UTF-8 \
                 -v $(PWD):/app -w /app -u app $(PROJECT)
-
-# for development
-demo-run:
-	cd prototype &&	bundle exec jekyll serve --watch --baseurl ""
-
-# for demo.ploneintranet.net deployment
-demo-build:
-	cd prototype &&	bundle exec jekyll build
-
 
 .ssh/known_hosts:
 	mkdir -p .ssh
 	echo "|1|YftEEH4HWPOfSNPY/5DKE9sxj4Q=|UDelHrh+qov24v5GlRh2YCCWcRM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > .ssh/known_hosts
 
-
+####################################################################
 # Guido's lazy targets
 
-
-
 devel: bin/buildout
-	bin/buildout -c dev.cfg
+	bin/buildout
 
 bin/buildout: bin/python2.7
 	@bin/python bootstrap.py
@@ -217,16 +137,33 @@ bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
 
+####################################################################
+# Testing
+
 # inspect robot traceback:
-# bin/robot-server ploneintranet.socialsuite.testing.PLONEINTRANET_SOCIAL_ROBOT_TESTING^
+# bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
-test-robot:
+test-robot: ## Run robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot' -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
-test-norobot:
+test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot' -x
 
-test: 
+test:: ## Run all tests, including robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
+
+####################################################################
+# Documentation
+docs:
+	@cd docs && make html
+
+# Re-generate
+api-docs:
+	@bin/sphinx-apidoc -o docs/api src/ploneintranet
+
+docs-clean:
+	rm -rf docs/html
+
+.PHONY: all docs api-docs docs-clean clean check-clean

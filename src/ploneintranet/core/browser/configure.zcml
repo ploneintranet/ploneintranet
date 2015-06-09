@@ -36,6 +36,7 @@
       class=".stream.StreamView"
       permission="zope2.View"
       layer=".interfaces.IPloneIntranetCoreLayer"
+      template="templates/stream.pt"
       />
 
   <!-- styles and javascripts are only active in the "default" profile

@@ -4,11 +4,11 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
 <body>
 
-  <div metal:fill-slot="content" i18n:domain="ploneintranet.network">
+  <div metal:fill-slot="content">
     <metal:main-macro define-macro="content">
       <div id="content"
            tal:define="maxiauthor python:view.maxiauthor_provider(view.userid)">
@@ -29,7 +29,7 @@
         <span i18n:name="fullname" tal:replace="view/data/fullname">name</span>:
         </div>
 
-        <div tal:content="structure view/stream_provider" />
+        <div data-tile="./@@activitystream.tile?network=1"></div>
 
       </div><!-- /content -->
     </metal:main-macro>

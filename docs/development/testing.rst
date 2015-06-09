@@ -22,8 +22,22 @@ The dev.cfg buildout includes a test runner. It will run most tests and can be e
 
     ./bin/test
 
-Skip robot tests
-~~~~~~~~~~~~~~~~
+
+
+Robot tests
+===========
+
+You can run only robot tests::
+
+    ./bin/test -t 'robot'
+
+To not get spammed with many robot test failures, abort on first failure::
+
+    ./bin/test -t 'robot' -x
+
+To not have a gazillion browser windows pop up, run tests in a framebuffer::
+
+    Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot' -x
 
 Robot tests can be skipped by using -t '!robot' (note: single quotes, not double quotes)::
 
@@ -31,7 +45,7 @@ Robot tests can be skipped by using -t '!robot' (note: single quotes, not double
 
 
 Faster robot testing with robot-server
-======================================
+--------------------------------------
 
 You can avoid repeatedly running the test setup phases before running robot tests by using robot-server::
 
@@ -78,11 +92,11 @@ Debugging robot tests
 
 See http://docs.plone.org/external/plone.app.robotframework/docs/source/debugging.html
 
-Troubleshooting
----------------
+Troubleshooting robot tests
+---------------------------
 
 No module named _tkinter
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you get::
 
@@ -114,3 +128,60 @@ This, however, causes this error on startup of the robot server::
     Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
 
 A solution is not yet available.
+
+
+Troubleshooting jenkins
+-----------------------
+
+Login on jenkins::
+
+  ssh -p 1922 jenkins@ext1.syslab.com
+
+Start robot-server on a non-default port to avoid port conflicts::
+
+  ZSERVER_PORT=55667 bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
+
+On a second terminal, login on jenkins with X forwarding enabled::
+
+  ssh -p 1922 jenkins@ext1.syslab.com
+
+Run the test you want to trace::
+
+  ZSERVER_PORT=55667 bin/pybot -t "Neil can tag a post" src/ploneintranet/suite/tests/acceptance/posting.robot
+
+That should open up the Jenkins firefox on your local machine and play the session.
+
+If you want to dig deeper, add the statement ``Debug`` into the offending robot test.
+In that case the pybot process above will drop you into a debug session, where you
+can continue the test manually by inserting commands like ``click link  link=Rain``
+which then should step by step update your local firefox display with the test run on Jenkins.
+
+
+Testing scenarios
+=================
+
+Workspaces
+----------
+
+The top-level workspace container with the id "workspaces" is created on install by the setup-handler of the workspace package.
+
+The setup-handler of the suite creates two workspaces with the following settings:
+
+* "Open Market Committee"
+
+  * **External visibility**: Private
+  * **Participation policy**: Publishers
+  * **Admin**: christian_stoney
+  * **Member**: allan_neece (and others)
+  * **Non-Member**: alice_lindstrom
+
+  A document, a file and an image are created in sub-folder "Manage Information" with allan_neece as the owner, so that he will be abler to manipulate them in robot tests.
+
+* "Parliamentary papers guidance"
+
+  * **External visibility**: Private
+  * **Participation policy**: Producers
+  * **Admin**: christian_stoney
+  * **Member**: allan_neece (and others)
+  * **Non-Member**: alice_lindstrom
+

@@ -1,0 +1,6 @@
+<tal:avatar define="avatar view/avatar">
+  <a href="${avatar/url}">
+    <metal:block use-macro="here/@@avatar.html/main" />
+    <h4 class="name">${avatar/fullname}</h4>
+  </a>
+</tal:avatar>

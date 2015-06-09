@@ -4,11 +4,11 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
   <body>
 
-    <div metal:fill-slot="main" i18n:domain="ploneintranet.microblog"
+    <div metal:fill-slot="main"
          tal:define="thread_id request/thread_id|nothing;
                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
@@ -18,7 +18,7 @@
               method="post" id="tags-search"
               class="search-box pat-inject pat-autosubmit">
           <label>
-            <input type="search" placeholder="Search" name="tagsearch" />
+            <input type="search" placeholder="Search" name="tagsearch" i18n:attributes="placeholder"/>
             <button type="submit">Search</button>
           </label>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />

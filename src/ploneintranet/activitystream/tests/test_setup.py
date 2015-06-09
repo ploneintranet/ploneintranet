@@ -38,13 +38,6 @@ class InstallTestCase(unittest.TestCase):
         for id in CSS:
             self.assertIn(id, bundle.css, '{0} not installed'.format(id))
 
-    def test_activitystream_portal_view_registered(self):
-        types = self.portal['portal_types']
-        site_views = types['Plone Site'].view_methods
-        folder_views = types['Folder'].view_methods
-        self.assertIn('activitystream_portal', site_views)
-        self.assertIn('activitystream_portal', folder_views)
-
 
 class UninstallTestCase(unittest.TestCase):
 
@@ -70,10 +63,3 @@ class UninstallTestCase(unittest.TestCase):
         bundle = bundles['resource-ploneintranet-activitystream-stylesheets']
         for id in CSS:
             self.assertNotIn(id, bundle.css, '{0} not removed'.format(id))
-
-    def test_activitystream_portal_view_removed(self):
-        types = self.portal['portal_types']
-        site_views = types['Plone Site'].view_methods
-        folder_views = types['Folder'].view_methods
-        self.assertNotIn('activitystream_portal', site_views)
-        self.assertNotIn('activitystream_portal', folder_views)

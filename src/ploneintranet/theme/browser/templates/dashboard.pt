@@ -4,7 +4,7 @@
             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
             lang="en"
             metal:use-macro="context/main_template/macros/master"
-            i18n:domain="ploneintranet.theme">
+            i18n:domain="ploneintranet">
 
     <body class="view-secure">
         <metal:content fill-slot="content">
@@ -13,11 +13,11 @@
                 <div class="four columns">
                     <div class="item portlets">
 
-                        <div id="portlet-news" data-tile="./@@news.tile"></div>
+                        <!--div id="portlet-news" data-tile="./@@news.tile"></div-->
 
                         <div id="portlet-workspaces" data-tile="./@@workspaces.tile"></div>
 
-                        <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
+                        <!--div id="portlet-tasks" data-tile="./@@tasks.tile"></div-->
 
                     </div>
                 </div>
