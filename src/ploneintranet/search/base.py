@@ -22,6 +22,36 @@ FEATURE_NOT_IMPLEMENTED = type(
 )()
 
 
+class NoOpQueryMethod(object):
+    """A non-data descriptor that indicates a query feature is not applicable.
+
+    This could either be because a given feature is not supported,
+    or that the back-end in use already supports the operation in some
+    other way.
+
+    Assigning an instance of this class to a method name which usually
+    forms part of an abstract API will result in a `pass through` call.
+    """
+
+    def __init__(self, reason='Not supported backend'):
+        self._reason = reason
+
+    def __get__(self, obj, type=None):
+        reason = self._reason
+        if not reason.rstrip().endswith(':'):
+            self._reason = reason.format(obj.__module__)
+        return self._no_op
+
+    def __repr__(self):
+        return '{0.__class__.__name__}(0._reason)'.format(self)
+
+    def __str__(self):
+        return self._reason
+
+    def _no_op(self, query, *args, **kw):
+        return query
+
+
 class SearchResult(object):
     """Abstract search result implementation."""
 
@@ -122,44 +152,48 @@ class SearchResponse(collections.Iterable):
         return self.context
 
 
-class SiteSearch(object):
-    """Base class for SiteSearch implementations."""
+class SiteSearchProtocol:
+    """Abstact site search query protocol.
 
-    _filter_fields = _field_names_from_iface(IQueryFilterFields)
-    _facet_fields = _field_names_from_iface(IFacetFields)
+    Implementations of ISiteSearch should register themselves
+    with this abc:
 
-    def _validate_query_fields(self, mapping, iface):
-        valid = set(iface)
-        requested = set(mapping)
-        invalid = requested ^ requested & valid
-        if invalid:
-            invalid_names = u', '.join(map(repr, invalid))
-            msg = u'Invalid {qtype}: {names}'
-            qtype = iface.__identifier__.rsplit('.')[-1]
-            msg = msg.format(qtype=qtype, names=invalid_names)
-            raise LookupError(msg)
+        SiteSearchProtocol.register(MySiteSearchImplementation)
 
-    def _apply_spellchecking(self, phrase, query):
-        """Optionally apply paramters such that the query is spellchecked.
+    Should an implementation not be able to implement one of the abstract
+    methods defined here, it should explicitly declare so.
 
-        Return a copy of the modified `query`.
-        """
-        return query
+    Example:
 
-    def _apply_debugging(self, phrase, query):
-        """Add debugging flags to the query.
+        @implementer(ISiteSearch)
+        class MySiteSearch(object):
 
-        Return a copy of the modified `query`.
-        """
-        return query
+            _apply_spellchecking = QueryOperationNotApplicable()
+
+    """
+
+    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def _build_filtered_phrase_query(self, phrase, filters=None):
+    def _create_query_object(self, phrase):
+        """Return the query object to be executed from the given `phrase`."""
+
+    @abc.abstractmethod
+    def _apply_security(self, query):
+        """Apply a security filter to the query.
+
+        This should Plone's `allowedRolesAndUsers` index into account.
+        Return a copy of the query object with the security filter applied.
+        """
+
+    @abc.abstractmethod
+    def _apply_filters(self, query, filters=None):
         """Build a filtered phrase query.
 
         Return a quick object that can be further filtered.
         """
 
+    @abc.abstractmethod
     def _apply_facets(self, query):
         """Apply parameters such that the query response will be faceted.
 
@@ -183,6 +217,7 @@ class SiteSearch(object):
         paramters applied.
         """
 
+    @abc.abstractmethod
     def _apply_ordering(self, query):
         """Return a copy of the query with ordering paramters applied."""
 
@@ -193,6 +228,21 @@ class SiteSearch(object):
         Return an object that can be adapted to ISearchResponse.
         """
 
+    @abc.abstractmethod
+    def _apply_spellchecking(self, query, phrase):
+        """Optionally apply paramters such that the query is spellchecked.
+
+        Return a copy of the modified `query`.
+        """
+
+    @abc.abstractmethod
+    def _apply_debugging(self, phrase, query):
+        """Add debugging flags to the query.
+
+        Return a copy of the modified `query`.
+        """
+
+    @abc.abstractmethod
     def query(self,
               phrase,
               filters=None,
@@ -201,13 +251,47 @@ class SiteSearch(object):
               start=0,
               step=None,
               debug=False):
-        """Main query engine.
+        """Implement a site search query algorithm.
 
+        :seealso: ploneintranet.search.interfaces.ISearchResponse
         :seealso: ploneintranet.search.interfaces.ISiteSearch.query
         """
-        query = self._build_filtered_phrase_query(phrase, filters)
+
+
+class SiteSearch(object):
+    """Defines the default SiteSearch query implementation.
+
+    Implementors should sub-class this abstract class
+    in order to implememnt the default site search algorithm.
+    """
+
+    _filter_fields = _field_names_from_iface(IQueryFilterFields)
+    _facet_fields = _field_names_from_iface(IFacetFields)
+
+    def _validate_query_fields(self, mapping, iface):
+        valid = set(iface)
+        requested = set(mapping)
+        invalid = requested ^ requested & valid
+        if invalid:
+            invalid_names = u', '.join(map(repr, invalid))
+            msg = u'Invalid {qtype}: {names}'
+            qtype = iface.__identifier__.rsplit('.')[-1]
+            msg = msg.format(qtype=qtype, names=invalid_names)
+            raise LookupError(msg)
+
+    def query(self,
+              phrase,
+              filters=None,
+              start_date=None,
+              end_date=None,
+              start=0,
+              step=None,
+              debug=False):
+        query = self._create_query_object(phrase)
+        if filters is not None:
+            query = self._apply_filters(query, filters)
         query = self._apply_facets(query)
-        query = self._apply_spellchecking(phrase, query)
+        query = self._apply_spellchecking(query, phrase)
         if any((start_date, end_date)):
             query = self._apply_date_range(query, start_date, end_date)
         if step is not None:
@@ -215,6 +299,7 @@ class SiteSearch(object):
         query = self._apply_ordering(query)
         if debug:
             query = self._add_debuging(query)
+        query = self._apply_security(query)
         response = self._execute(query,
                                  phrase=phrase,
                                  start_date=start_date,
@@ -223,3 +308,5 @@ class SiteSearch(object):
                                  step=step,
                                  debug=debug)
         return ISearchResponse(response)
+
+SiteSearchProtocol.register(SiteSearch)

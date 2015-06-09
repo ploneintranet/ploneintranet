@@ -62,7 +62,8 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
-                u'which may leave the casual reader perplexed.')
+                u'which may leave the casual reader perplexed. '
+                u'Nothing to do with the weather.')
         )
         self.doc3.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
@@ -72,6 +73,13 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
         self.doc4.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+
+        self.doc5 = create_doc(
+            title=u'Sorted and indexed.',
+            description=u'Not relevent',
+            subject=(u'solr', u'boost', u'values')
+        )
+        self.doc5.creation_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
@@ -241,6 +249,14 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         result_titles = list(result.title for result in response)
         expected_titles = [doc.Title() for doc in (self.doc2, self.doc1)]
         self.assertEqual(result_titles, expected_titles)
+
+    def test_relevency(self):
+        util = self._make_utility()
+        query = util.query
+        response = query(u'weather')
+        expected_order = [self.doc4.Title(), self.doc3.Title()]
+        actual_order = [result.title for result in response]
+        self.assertEqual(actual_order, expected_order)
 
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
