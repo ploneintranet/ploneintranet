@@ -49,7 +49,7 @@ def my_workspaces(context):
             })
         except Unauthorized:
             # the query above should actually filter on *my* workspaces
-            # i.e. workspaces I'm a member of. This is just a stopgap
+            # i.e. workspaces I'm am allowed to view. This is just a stopgap
             pass
     return workspaces
 
