@@ -83,6 +83,8 @@ class IQueryFilterFields(Interface):
 
     tags = schema.ASCIILine(title=_(u'Tags'))
 
+    portal_type = schema.ASCIILine(title=_(u'Portal type'))
+
 
 class IFacetFields(IQueryFilterFields):
     """Attributes that will be faceted."""
