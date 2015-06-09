@@ -17,7 +17,7 @@
 
   <browser:page
       name="search"
-      for="Products.CMFCore.interfaces.ISiteRoot"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       permission="zope2.View"
       class=".searchresults.SearchResultsView"
       template="templates/all_results.pt"
