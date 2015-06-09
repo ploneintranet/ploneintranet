@@ -7,6 +7,7 @@
   <permission>Access contents information</permission>
   <permission>View</permission>
   <permission>Modify portal content</permission>
+  <permission>Add portal content</permission>
   <permission>Plone Social: Add Microblog Status Update</permission>
   <permission>Plone Social: View Microblog Status Update</permission>
 
@@ -30,6 +31,13 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Contributor</permission-role>
     </permission-map>
     <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
       <permission-role>Manager</permission-role>
@@ -67,6 +75,13 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Contributor</permission-role>
     </permission-map>
     <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
       <permission-role>Manager</permission-role>
@@ -104,6 +119,13 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Contributor</permission-role>
     </permission-map>
     <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
       <permission-role>Manager</permission-role>
