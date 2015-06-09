@@ -80,9 +80,11 @@ class SearchResponse(base.SearchResponse):
         self.total_results = batched_results.sequence_length
         self.facets = {
             'friendly_type_name': {
-                x['friendly_type_name'] for x in all_results
+                x['friendly_type_name']
+                for x in all_results
+                if x['friendly_type_name']
             },
-            'tags': {y for x in all_results for y in x['Subject']},
+            'tags': {y for x in all_results for y in x['Subject'] if y},
         }
 
 
