@@ -19,7 +19,7 @@
                             <img tal:define="spacer python:result.description and ' - ' or ' '"
                                  tal:attributes="src result/preview_image_url;
                                                  title string:${result/title}${spacer}${result/description} "/>
-                            <figcaption tal:attributes="class string:icon-${result/document_type}">
+                            <figcaption tal:attributes="class string:icon-file">
                                 <tal:title tal:replace="result/title" />
                             </figcaption>
                         </figure>
