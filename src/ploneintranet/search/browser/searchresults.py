@@ -36,26 +36,27 @@ class SearchResultsView(BrowserView):
 
     def search_response(self):
         form = self.request.form
-        keywords = form.get('SearchableText')
-        if not keywords:
-            return None
-        elif isinstance(keywords, list):
-            # Template means that sometimes we get
-            # multiple copies of the text input
-            keywords = keywords[0]
-
         facets = {}
-        for facet in SUPPORTED_FACETS:
-            if form.get(facet):
-                facets[facet] = form.get(facet)
+        start = None
+        end = None
 
-        if form.get('created'):
-            start, end = self._daterange_from_string(form.get('created'))
+        if form.get('SearchableText'):
+            # This means that the main search form was submitted,
+            # so we start a new keyword-only search
+            keywords = form.get('SearchableText')
+        elif form.get('SearchableText_faceted'):
+            # This means that the facets were changed, so
+            # we refine an existing search
+            keywords = form.get('SearchableText_faceted')
+            for facet in SUPPORTED_FACETS:
+                if form.get(facet):
+                    facets[facet] = form.get(facet)
+            if form.get('created'):
+                start, end = self._daterange_from_string(form.get('created'))
         else:
-            start = None
-            end = None
+            return []
 
-        search_util = getUtility(ISiteSearch)
+        search_util = getUtility(ISiteSearch, name='zcatalog')
         response = search_util.query(
             keywords,
             facets=facets,
@@ -63,3 +64,24 @@ class SearchResultsView(BrowserView):
             end_date=end,
         )
         return response
+
+    def search_by_type(self, type_name):
+        """
+        Search for specific content types
+        """
+        form = self.request.form
+        keywords = form.get('SearchableText')
+        facets = {'portal_type': type_name}
+
+        search_util = getUtility(ISiteSearch, name='zcatalog')
+        response = search_util.query(
+            keywords,
+            facets=facets,
+        )
+        return response
+
+    def search_images(self):
+        return self.search_by_type('Image')
+
+    def search_files(self):
+        return self.search_by_type('File')

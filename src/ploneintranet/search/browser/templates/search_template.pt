@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      metal:define-macro="search"
+      i18n:domain="ploneintranet">
+
+    <metal:content fill-slot="content">
+
+    <form action="@@search" id="global-search" class="pat-autosubmit pat-inject"
+          data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
+
+        <div class="container input">
+        <fieldset class="search">
+            <label>
+            <input type="search" name="SearchableText" placeholder="Search the entire intranet" tal:attributes="value request/SearchableText|nothing" />
+            </label>
+            <button type="search">Search</button>
+        </fieldset>
+        </div>
+        <nav class="tabs navigation" id="tabs-nav">
+        <a class="current" href="@@search?SearchableText=${request/SearchableText|nothing}">All</a>
+        <a href="@@search_images?SearchableText=${request/SearchableText|nothing}">Images</a>
+        <a href="@@search_files?SearchableText=${request/SearchableText|nothing}">Files</a>
+
+        <!-- Tabs not yet implemented
+        <a href="/search-results-people.html?lemma=min">People</a>
+        <a href="/search-results-videos.html?lemma=min">Videos</a>
+        <a href="/search-results-office.html?lemma=min">Office files</a>
+        -->
+        </nav>
+
+        <div class="results" id="results">
+            <metal:results metal:define-slot="results" />
+        </div>
+    </form>
+
+    </metal:content>
+
+</html>
