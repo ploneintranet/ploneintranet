@@ -14,8 +14,10 @@ class TestDocconv(IntegrationTestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-        self.view = getMultiAdapter((self.portal, self.request),
-                                    name='convert-document')
+        self.view = getMultiAdapter(
+            (self.portal, self.request),
+            name='generate-previews'
+        )
 
     def test__parse_cmd_output(self):
         cmd = ['uname', '-a']
