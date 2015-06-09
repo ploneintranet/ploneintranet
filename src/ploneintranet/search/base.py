@@ -34,6 +34,9 @@ class SearchResult(object):
         if context['has_thumbs']:
             self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
                 self)
+        elif self.friendly_type_name == 'Image':
+            self.preview_image_path = '{.path}/@@images/image/preview'.format(
+                self)
 
     def __repr__(self):
         clsnam = type(self).__name__
