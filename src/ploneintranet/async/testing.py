@@ -26,10 +26,6 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         import ploneintranet.attachments
 
         self.loadZCML(package=ploneintranet.async)
-
-        import ploneintranet.docconv.client
-
-        self.loadZCML(package=ploneintranet.docconv.client)
         z2.installProduct(app, 'ploneintranet.async')
 
     def setUpPloneSite(self, portal):

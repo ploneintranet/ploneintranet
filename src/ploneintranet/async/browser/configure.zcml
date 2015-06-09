@@ -7,14 +7,14 @@
     <browser:page
             name="check-auth"
             for="*"
-            class=".CheckAuth"
+            class=".auth.CheckAuth"
             permission="zope.Public"
             />
 
     <browser:page
             name="convert-document"
             for="*"
-            class=".ConvertDocument"
+            class=".docconv.ConvertDocument"
             permission="zope2.View"
             />
 </configure>
