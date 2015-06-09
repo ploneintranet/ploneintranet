@@ -56,7 +56,7 @@ class SearchResultsView(BrowserView):
         else:
             return []
 
-        search_util = getUtility(ISiteSearch, name='zcatalog')
+        search_util = getUtility(ISiteSearch)
         response = search_util.query(
             keywords,
             filters=filters,
@@ -73,7 +73,7 @@ class SearchResultsView(BrowserView):
         keywords = form.get('SearchableText')
         filters = {'portal_type': type_name}
 
-        search_util = getUtility(ISiteSearch, name='zcatalog')
+        search_util = getUtility(ISiteSearch)
         response = search_util.query(
             keywords,
             filters=filters,
