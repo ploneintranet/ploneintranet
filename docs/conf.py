@@ -37,6 +37,10 @@ extensions = [
     'sphinxcontrib.spelling',
     ]
 
+autodoc_default_flags = [
+    'private-members',
+]
+
 todo_include_todos = True
 
 # Spellcheck
@@ -86,7 +90,10 @@ release = '0.1.0alpha'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = []
+exclude_patterns = [
+    '**/testing.rst',
+    '**/tests*.rst'
+]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
