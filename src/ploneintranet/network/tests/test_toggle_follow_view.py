@@ -18,7 +18,6 @@ class TestToggleFollowView(IntegrationTestCase):
         self.util = getUtility(INetworkTool)
 
     def test_toggle_follow(self):
-        self.request.form['follow_button'] = 'follow'
         self.request["REQUEST_METHOD"] = "POST"
         johndoe = pi_api.userprofile.create(
             username='johndoe',
@@ -38,13 +37,17 @@ class TestToggleFollowView(IntegrationTestCase):
         self.login('johndoe')
         view = plone_api.content.get_view(
             'toggle_follow', janedoe, self.request)
+        view()
         self.assertEqual(view.verb, u"Follow")
+
+        self.request.form['follow_button'] = 'follow'
         view()
         self.assertIn('johndoe', self.util.get_followers('user', 'janedoe'))
         self.assertIn('janedoe', self.util.get_following('user', 'johndoe'))
+        self.assertEqual(view.verb, u"Unfollow")
+
         view = plone_api.content.get_view(
             'toggle_follow', janedoe, self.request)
-        self.assertEqual(view.verb, u"Unfollow")
         view()
         self.assertNotIn('johndoe', self.util.get_followers('user', 'janedoe'))
         self.assertNotIn('janedoe', self.util.get_following('user', 'johndoe'))
