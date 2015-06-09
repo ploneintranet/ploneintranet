@@ -188,6 +188,14 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+    <browser:page
+      name="case_workflow_guard"
+      for="*"
+      class=".workspace.CaseWorkflowGuardView"
+      permission="zope.Public"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
    <include package=".tiles" />
 
 
