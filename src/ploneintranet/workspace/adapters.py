@@ -1,5 +1,7 @@
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+    WorkflowPolicyConfig_id
 from borg.localrole.default_adapter import DefaultLocalRoleAdapter
 from borg.localrole.interfaces import ILocalRoleProvider
 from collections import OrderedDict
@@ -114,19 +116,20 @@ class MetroMap(object):
 
     @property
     def _metromap_workflow(self):
-        """Return the first workflow of this object which has the
-        metromap_transitions variable
+        """All Case Workspaces should have a placeful workflow. Get that
+        workflow after ensuring that it has metromap_transistions variable,
+        which is required for rendering the metromap.
         """
+        pwft = api.portal.get_tool('portal_placeful_workflow')
+        policy_conf = self.context.get(WorkflowPolicyConfig_id)
+        if policy_conf is None:
+            return
+        policy = policy_conf.getPolicyIn()
+        policy_id = policy.getId()
         wft = api.portal.get_tool('portal_workflow')
-        metromap_workflows = [
-            i for i in wft.getWorkflowsFor(self.context)
-            if i.variables.get("metromap_transitions", False)
-        ]
-        if metromap_workflows == []:
-            return None
-        # Return the first one, we don't have a use case for assigning multiple
-        # metromap workflows.
-        return metromap_workflows[0]
+        workflow = wft.getWorkflowById(policy_id)
+        if workflow and workflow.variables.get("metromap_transitions", False):
+            return workflow
 
     def get_available_metromap_workflows(self):
         """Return all globally available workflows with the
