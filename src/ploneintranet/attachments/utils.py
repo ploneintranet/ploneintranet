@@ -1,15 +1,18 @@
 import logging
 from Acquisition import aq_base
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
+
+from Products.CMFPlone.utils import safe_unicode
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 from plone.namedfile import NamedBlobFile
 from plone.i18n.normalizer.interfaces import IURLNormalizer
-from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.container.interfaces import DuplicateIDError
 from zope.component import getUtility
+
+from ploneintranet import api
+from ploneintranet.attachments.attachments import IAttachmentStorage
 
 log = logging.getLogger(__name__)
 
@@ -120,9 +123,8 @@ def extract_and_add_attachments(file_upload, obj, workspace=None, token=None):
         return
     if not isinstance(file_upload, list):
         file_upload = [file_upload, ]
-    attachment_storage = IAttachmentStorage(obj)
-    attachments = extract_attachments(
-        file_upload, workspace=workspace, token=token)
-    add_attachments(attachments, attachment_storage)
-    if workspace:
-        clean_up_temporary_attachments(workspace)
+    for file_field in file_upload:
+        api.attachments.add(
+            obj,
+            file_field.filename,
+            file_field.read())
