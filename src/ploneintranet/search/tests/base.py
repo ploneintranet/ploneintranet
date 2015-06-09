@@ -1,5 +1,6 @@
 import abc
 import collections
+import datetime
 from functools import partial
 
 from plone import api
@@ -39,30 +40,38 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
                              type='Document',
                              container=container,
                              safe_id=False)
+
         self.doc1 = create_doc(
             title=u'Test Doc 1',
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
-            subject=(u'test', u'my-tag',),
+            subject=(u'test', u'my-tag'),
             safe_id=False
         )
+        self.doc1.creation_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
+
         self.doc2 = create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
                          u'Please let some stuff be indexed.'),
-            subject=(u'test', u'my-other-tag',),
+            subject=(u'test', u'my-other-tag'),
         )
+        self.doc2.creation_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
+
         self.doc3 = create_doc(
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
-                u'which may leave the casual reader perplexed.'),
+                u'which may leave the casual reader perplexed.')
         )
+        self.doc3.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+
         self.doc4 = create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
+        self.doc4.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
@@ -80,7 +89,7 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         result = next(iter(response), None)
         self.assertIsNotNone(result)
 
-    def test_reponse_iterable(self):
+    def test_response_iterable(self):
         util = self._make_utility()
         response = util.query('hopefully')
         self._check_type_iterable(response)
@@ -198,6 +207,39 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self._check_spellcheck_response(u'Perplaxed', u'Perplexed')
         self._check_spellcheck_response(u"Reining cots n' dags",
                                         u"Raining cats n' dogs")
+
+    def check_date_range_query(self, expected_total_results, *args, **kw):
+        util = self._make_utility()
+        response = util.query('Test', **kw)
+        self.assertEqual(response.total_results, expected_total_results)
+
+    def test_date_range_query(self):
+        util = self._make_utility()
+        query = util.query
+        phrase = u'document'
+        (min_dt, max_dt) = (datetime.datetime.min, datetime.datetime.max)
+        # Start date in the future yields no results
+        response = query(phrase, start_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        # Same start and end date in the future, no results
+        response = query(phrase, start_date=max_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        response = query(phrase, start_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        response = query('Dreaming', start_date=min_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 1)
+        result = next(iter(response))
+        self.assertEqual(result.title, 'Lucid Dreaming')
+
+        response = query(phrase, start_date=min_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 2)
+
+        result_titles = list(result.title for result in response)
+        expected_titles = [doc.Title() for doc in (self.doc2, self.doc1)]
+        self.assertEqual(result_titles, expected_titles)
 
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):

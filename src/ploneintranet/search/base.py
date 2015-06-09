@@ -4,7 +4,10 @@ import collections
 from plone import api
 from zope import globalrequest
 
-from .interfaces import IFacetFields, IQueryFilterFields, ISearchResult
+from .interfaces import IFacetFields
+from .interfaces import IQueryFilterFields
+from .interfaces import ISearchResult
+from .interfaces import ISearchResponse
 
 
 def _field_names_from_iface(iface):
@@ -43,9 +46,10 @@ class SearchResult(object):
         state = vars(self)
         attrs = {
             name: state.get(name)
-            for name in set(ISearchResult.namesAndDescriptions())
+            for name in dict(ISearchResult.namesAndDescriptions())
         }
-        attr_state = ', '.join('{name}={value}'.format(name=name, value=value)
+        format_item = '{name}={value!r}'.format
+        attr_state = ', '.join(format_item(name=name, value=value)
                                for (name, value) in attrs.items())
         return '{clsnam}({attrs})'.format(clsnam=clsnam, attrs=attr_state)
 
@@ -134,3 +138,88 @@ class SiteSearch(object):
             qtype = iface.__identifier__.rsplit('.')[-1]
             msg = msg.format(qtype=qtype, names=invalid_names)
             raise LookupError(msg)
+
+    def _apply_spellchecking(self, phrase, query):
+        """Optionally apply paramters such that the query is spellchecked.
+
+        Return a copy of the modified `query`.
+        """
+        return query
+
+    def _apply_debugging(self, phrase, query):
+        """Add debugging flags to the query.
+
+        Return a copy of the modified `query`.
+        """
+        return query
+
+    @abc.abstractmethod
+    def _build_filtered_phrase_query(self, phrase, filters=None):
+        """Build a filtered phrase query.
+
+        Return a quick object that can be further filtered.
+        """
+
+    def _apply_facets(self, query):
+        """Apply parameters such that the query response will be faceted.
+
+        Return a copy of the modified `query`.
+        """
+
+    @abc.abstractmethod
+    def _apply_date_range(self, query, start_date=None, end_date=None):
+        """Optionally apply a date range filter to the query.
+
+        `start_date` and `end_date` will never both be `None`.
+
+        Return a copy of the query with date range applied.
+        """
+
+    @abc.abstractmethod
+    def _paginate(self, query, start, step):
+        """Paginate the query object.
+
+        Return a copy of the query object with `start` and `step` pagination
+        paramters applied.
+        """
+
+    def _apply_ordering(self, query):
+        """Return a copy of the query with ordering paramters applied."""
+
+    @abc.abstractmethod
+    def _execute(self, query, **kw):
+        """Execute the query.
+
+        Return an object that can be adapted to ISearchResponse.
+        """
+
+    def query(self,
+              phrase,
+              filters=None,
+              start_date=None,
+              end_date=None,
+              start=0,
+              step=None,
+              debug=False):
+        """Main query engine.
+
+        :seealso: ploneintranet.search.interfaces.ISiteSearch.query
+        """
+        query = self._build_filtered_phrase_query(phrase, filters)
+        query = self._apply_facets(query)
+        query = self._apply_spellchecking(phrase, query)
+        if any((start_date, end_date)):
+            query = self._apply_date_range(query, start_date, end_date)
+        if step is not None:
+            query = self._paginate(query, start, step)
+        query = self._apply_ordering(query)
+        if debug:
+            query = self._add_debuging(query)
+        response = self._execute(query,
+                                 phrase=phrase,
+                                 start_date=start_date,
+                                 end_date=end_date,
+                                 start=start,
+                                 step=step,
+                                 debug=debug)
+        return ISearchResponse(response)
