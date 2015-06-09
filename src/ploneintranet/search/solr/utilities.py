@@ -1,5 +1,4 @@
 import collections
-import datetime
 import logging
 import urlparse
 
@@ -11,7 +10,6 @@ from zope.interface import implementer
 from .. import base
 from ..interfaces import IQueryFilterFields
 from ..interfaces import ISiteSearch
-from ..interfaces import ISearchResponse
 from .adapters import SearchResult
 from .interfaces import IConnectionConfig
 from .interfaces import IConnection
@@ -126,7 +124,8 @@ class SiteSearch(base.SiteSearch):
         for name in query_spec.required:
             params[name] = bucket[name]
         for name in query_spec.optional:
-            params[name] = bucket[name]
+            if name in bucket:
+                params[name] = bucket[name]
         return params
 
     def _allowed_roles_and_users_query(self, interface):
@@ -191,28 +190,39 @@ class SiteSearch(base.SiteSearch):
         lucene_query &= self._allowed_roles_and_users_query(interface)
         return lucene_query
 
-    def query(self,
-              phrase,
-              filters=None,
-              start_date=datetime.datetime.min,
-              end_date=None,
-              start=0,
-              step=None,
-              debug=False):
-        """Main query engine.
-
-        :seealso: ploneintranet.search.interfaces.ISiteSearch.query
-        """
+    def _build_filtered_phrase_query(self, phrase, filters=None):
         interface = IConnection(getUtility(IConnectionConfig))
         lucene_query = self._generate_lucene_query(interface, phrase, filters)
         query = self._query(interface, lucene_query)
-        query = query.facet_by(fields=self._facet_fields)
-        if isinstance(step, int):
-            query = query.paginate(start=start, rows=step)
-        query = query.spellcheck(q=phrase, collate=True, maxCollations=1)
-        if debug:
-            query = query.debug()
+        return query
+
+    def _apply_facets(self, query):
+        return query.facet_by(fields=self._facet_fields)
+
+    def _apply_date_range(self, query, start_date, end_date):
+        filter_query = query.query
+        if start_date and end_date:
+            query = filter_query(created__range=(start_date, end_date))
+        elif end_date is not None:
+            query = filter_query(created__lt=end_date)
+        else:
+            query = filter_query(created__gt=start_date)
+        return query
+
+    def _apply_spellchecking(self, phrase, query):
+        return query.spellcheck(q=phrase, collate=True, maxCollations=1)
+
+    def _paginate(self, query, start, step):
+        return query.paginate(start=start, rows=step)
+
+    def _apply_ordering(self, query):
+        return query.sort_by('-created')
+
+    def _execute(self, query, debug=False, **kw):
         response = query.execute(constructor=SearchResult.from_indexed_result)
-        query_params = self.__collect_query_params(ISiteSearch, dict(locals()))
+        query_params = self.__collect_query_params(ISiteSearch, dict(kw))
         response.query_params = query_params
-        return ISearchResponse(response)
+        return response
+
+    def _apply_debugging(self, query):
+        return query.debug()
