@@ -14,16 +14,16 @@ from .interfaces import ISearchResult
 class SiteSearch(base.SiteSearch):
     """Example implementation of ISiteSearch using the Plone catalog."""
 
-    def _apply_facets(self, query):
-        return query
+    _apply_facets = base.NoOpQueryMethod()
+    _apply_ordering = base.NoOpQueryMethod()
+    _apply_spellchecking = base.NoOpQueryMethod()
+    _apply_security = base.NoOpQueryMethod()
 
-    def _apply_ordering(self, query):
-        return query
+    def _create_query_object(self, phrase):
+        return dict(SearchableText=phrase)
 
-    def _build_filtered_phrase_query(self, phrase, filters=None):
-        query = {'SearchableText': phrase}
-        if filters is None:
-            filters = {}
+    def _apply_filters(self, query, filters):
+        query = dict(query)
         self._validate_query_fields(filters, IQueryFilterFields)
         tags = filters.get('tags')
         if tags is not None:

@@ -108,7 +108,17 @@ class Maintenance(object):
 class SiteSearch(base.SiteSearch):
     """A Site search utility using SOLR as the engine.
 
-    This implementation uses the `scorched` bindings.
+    This implementation uses the `scorched` bindings to
+    generate the lucene query used to deliver site search results.
+
+    This logic combining the query and filter parameters to the query.
+
+    The resulting logical query is similar to the following:
+
+        ((Title == VALUE OR Description == VALUE OR SearchableText == VALUE)
+        AND (FILTER1 == VALUE OR FILTER)
+        AND (allowedRolesAndUsers=... OR allowedRolesAndUsers=..) ...
+
     """
 
     def __collect_query_params(self, iface, bucket):
@@ -128,79 +138,43 @@ class SiteSearch(base.SiteSearch):
                 params[name] = bucket[name]
         return params
 
-    def _allowed_roles_and_users_query(self, interface):
-        """Returns a lucene query for the `allowedRolesAndUsers` index.
+    def _create_query_object(self, phrase):
+        """Create the query object given the search `phrase`.
 
-        :param interface: the interface to SOLR.
-        :type interface: ploneintranet.search.solr.search.Search
+        :param phrase: The phrase to query SOLR with.
+        :type phrase: sr
+        :returns: A query object.
+        :rtype query: ploneintranet.search.solr.search.Search
         """
-        aru_q = interface.Q()
+        interface = IConnection(getUtility(IConnectionConfig))
+        phrase_query = interface.Q()
+        query_params = dict.fromkeys(tuple(IQueryFields), phrase)
+        for query_param in query_params.items():
+            phrase_query |= interface.Q(**dict([query_param]))
+        return IQuery(interface).query(phrase_query)
+
+    def _apply_filters(self, query, filters):
+        interface = query.interface
+        self._validate_query_fields(filters, IQueryFilterFields)
+        return query.filter(interface.Q(**filters))
+
+    def _apply_security(self, query):
+        Q = query.interface.Q
         user = api.user.get_current()
         catalog = api.portal.get_tool(name='portal_catalog')
         arau = catalog._listAllowedRolesAndUsers(user)
         data = dict(allowedRolesAndUsers=arau)
         prepare_data(data)
+        arau_q = Q()
         for entry in data.pop('allowedRolesAndUsers'):
-            aru_q |= interface.Q(allowedRolesAndUsers=entry)
-        return interface.Q(aru_q)
-
-    def _query(self, interface, *args, **kw):
-        """Return query object for the SOLR `interface`.
-
-        All other arguments passed to the query are the same as for:
-
-             `scorched.search.Search.query`
-
-        :param interface: the interface to SOLR.
-        :type interface: ploneintranet.search.solr.search.Search
-        :returns: A `scorched` query object.
-        :rtype query: ploneintranet.search.solr.search.Search
-        """
-        q = IQuery(interface)
-        if args or kw:
-            return q.query(*args, **kw)
-        return q
-
-    def _generate_lucene_query(self, interface, phrase, filters=None):
-        """Generate the lucene query used to deliver site search results.
-
-        This defines the logic combinng the query and filter paramters to
-        the query.
-
-        The logic is similar to:
-
-        (
-            (Title == VALUE OR Description == VALUE OR SearchableText == VALUE)
-            AND
-            (FILTER1 == VALUE OR FILTER
-        )
-        AND
-        (allowedRolesAndUsers=... OR allowedRolesAndUsers=..) ...
-
-        :param interface: the interface to SOLR.
-        :type interface: ploneintranet.search.solr.search.Search
-        """
-        lucene_query = interface.Q()
-        query_params = dict.fromkeys(tuple(IQueryFields), phrase)
-        for query_param in query_params.items():
-            lucene_query |= interface.Q(**dict([query_param]))
-        if filters is not None:
-            self._validate_query_fields(filters, IQueryFilterFields)
-            lucene_query &= interface.Q(**filters)
-        lucene_query &= self._allowed_roles_and_users_query(interface)
-        return lucene_query
-
-    def _build_filtered_phrase_query(self, phrase, filters=None):
-        interface = IConnection(getUtility(IConnectionConfig))
-        lucene_query = self._generate_lucene_query(interface, phrase, filters)
-        query = self._query(interface, lucene_query)
-        return query
+            arau_q |= Q(allowedRolesAndUsers=entry)
+        return query.filter(arau_q)
 
     def _apply_facets(self, query):
         return query.facet_by(fields=self._facet_fields)
 
     def _apply_date_range(self, query, start_date, end_date):
-        filter_query = query.query
+        filter_query = query.filter
         if start_date and end_date:
             query = filter_query(created__range=(start_date, end_date))
         elif end_date is not None:
@@ -209,7 +183,7 @@ class SiteSearch(base.SiteSearch):
             query = filter_query(created__gt=start_date)
         return query
 
-    def _apply_spellchecking(self, phrase, query):
+    def _apply_spellchecking(self, query, phrase):
         return query.spellcheck(q=phrase, collate=True, maxCollations=1)
 
     def _paginate(self, query, start, step):
@@ -218,11 +192,11 @@ class SiteSearch(base.SiteSearch):
     def _apply_ordering(self, query):
         return query.sort_by('-created')
 
+    def _apply_debugging(self, query):
+        return query.debug()
+
     def _execute(self, query, debug=False, **kw):
         response = query.execute(constructor=SearchResult.from_indexed_result)
         query_params = self.__collect_query_params(ISiteSearch, dict(kw))
         response.query_params = query_params
         return response
-
-    def _apply_debugging(self, query):
-        return query.debug()
