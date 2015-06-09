@@ -6,8 +6,6 @@ from plone.app.contenttypes.content import Image
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.docconv.client.interfaces import IPreviewFetcher
 from zope.component import getUtility
 import logging
 
@@ -31,23 +29,13 @@ class UploadAttachments(BrowserView):
         return [url]
 
     def get_docconv_thumbs_urls(self, attachment):
+        '''Returns the URLs of all the rendered pages of the document.
         '''
-        If we have a IDocconv adapted object,
-        we ask docconv for thumbs urls
-        '''
-        docconv = IDocconv(attachment, None)
-        if not docconv:
-            return []
-        base_url = '%s/docconv_image_thumb.jpg?page=' % (
-            docconv.context.absolute_url()
-        )
-        pages = docconv.get_number_of_pages()
-        if pages <= 0:  # we have no previews when pages is 0 or -1
-            return []
-        else:
-            return [
-                (base_url + str(i + 1)) for i in range(pages)
-            ]
+        # TODO: actually implement this.
+        # The previous implementation relied heavily
+        # on the IDocconv abstraction layer
+        # which is now gone after async refactoring.
+        return []
 
     def get_image_thumbs_urls(self, image):
         '''
@@ -99,12 +87,9 @@ class UploadAttachments(BrowserView):
             obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
             attachments.add(obj)
             obj = attachments.get(obj.id)
-            try:
-                IPreviewFetcher(obj)()
-            except Exception as e:
-                log.warn('Could not get previews for attachment: {0}, '
-                         u'{1}: {2}'.format(
-                             obj.id, e.__class__.__name__, e))
+            # TODO: Fetch the image previews and add them to self.attchments
+            # This relied on the IPreviewFetcher abstraction in docconv,
+            # which is gone
             self.attachments.append(obj)
 
         return self.index()

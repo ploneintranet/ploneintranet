@@ -11,7 +11,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
-from ploneintranet.docconv.client.interfaces import IDocconv
+
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
@@ -184,17 +184,17 @@ class StatusUpdateView(BrowserView):
         return base_url
 
     def item2attachments(self, item):
-        ''' Take the attachment sotrage item
+        ''' Take the attachment storage item
         and transform it into an attachment
         '''
-        docconv = IDocconv(item)
         item_url = '/'.join((
             self.attachment_base_url,
             item.getId(),
         ))
-        if docconv.has_thumbs():
-            url = '/'.join((item_url, 'thumb'))
-        elif isinstance(item, Image):
+        # TODO: fetch preview images via docconv (if there are any)
+        # This was removed because it relied on the now gone
+        # IDocconv abstraction
+        if isinstance(item, Image):
             images = api.content.get_view(
                 'images',
                 item.aq_base,

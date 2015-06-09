@@ -4,7 +4,6 @@ from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
-from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from zope import component
 from zope.event import notify
@@ -128,16 +127,14 @@ class ContentView(BrowserView):
         return states
 
     def number_of_file_previews(self):
-        """The number of previews generated for a file."""
+        """The number of previews generated for a file.
+        """
         context = aq_inner(self.context)
         if context.portal_type != 'File':
             return
-        try:
-            docconv = IDocconv(self.context)
-        except TypeError:  # TODO: prevent this form happening in tests
-            return
-        if docconv.has_previews():
-            return docconv.get_number_of_pages()
+        # TODO: check if it has previews and return the number of pages
+        # This functionality was implemented by using the now gone
+        # IDocconv abstraction
 
     def image_url(self):
         """The img-url used to construct the img-tag."""
