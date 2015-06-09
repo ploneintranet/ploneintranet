@@ -64,12 +64,6 @@ class ConvertDocument(BrowserView):
             '{}-converted'.format(self.context.id))
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
-        # XXX; This is possibly not needed, as all we're interested in is the
-        # preview images. Keeping it commented for now, just in case.
-        # Generate the PDFs
-        # cmd = [self.binary, 'pdf', input_file,
-        #        '--output', output_dir]
-        # pdf_cmd_output = self._parse_cmd_output(cmd)
 
         # Generate the image previews
         # TODO: Sizes might want to be configurable
