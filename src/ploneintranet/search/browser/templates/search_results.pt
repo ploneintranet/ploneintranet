@@ -39,7 +39,12 @@
 				<input type="hidden" 
 				       name="SearchableText_faceted" 
 				       tal:attributes="value request/SearchableText|nothing" />
-				<fieldset class="pat-checklist">
+				<fieldset class="pat-checklist"
+					  id="content-types">
+				    <span class="small button-cluster">
+					<button type="button" class="pat-button select-all">All</button>
+					<button type="button" class="pat-button deselect-all">None</button>
+				    </span>
 				    <legend>Content types</legend>
 				    <!-- Only list content types in this list that are relevant for this search result. -->
 				    <label 
@@ -51,7 +56,12 @@
 				    </label>
 				</fieldset>
 				<fieldset class="pat-checklist"
+					  id="tags"
 					  tal:condition="search_response/facets/Subject">
+				    <span class="small button-cluster">
+					<button type="button" class="pat-button select-all">All</button>
+					<button type="button" class="pat-button deselect-all">None</button>
+				    </span>
 				    <legend>Tags</legend>
 				    <!-- Only list tags in this list that are relevant for this search result. -->
 				    <label 
