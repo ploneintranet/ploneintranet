@@ -148,6 +148,7 @@ Site Administrator can add example user as member of workspace
      Click Link  Members
      Click Link  Add user
      Input Text  css=li.select2-search-field input  alice
+     Wait Until Element Is Visible  css=span.select2-match
      Click Element  css=span.select2-match
      Click Button  Ok
      Wait Until Page Contains  Alice
@@ -295,6 +296,7 @@ I can invite Alice to join the workspace from the menu
 I can invite Alice to the workspace
     Wait until page contains  Add user
     Input Text  css=li.select2-search-field input  alice
+    Wait Until Element Is Visible  css=span.select2-match
     Click Element  css=span.select2-match
     Click Button  Ok
 
