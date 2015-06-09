@@ -24,5 +24,13 @@
       layer="..interfaces.IPloneintranetSearchLayer"
       />
 
+   <browser:page
+       name="search_images"
+       for="plone.app.layout.navigation.interfaces.INavigationRoot"
+       permission="zope2.View"
+       class=".searchresults.SearchImageResultsView"
+       template="templates/image_results.pt"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
 
 </configure>

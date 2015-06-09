@@ -68,3 +68,18 @@ class SearchResultsView(BrowserView):
             end_date=end,
         )
         return response
+
+
+class SearchImageResultsView(SearchResultsView):
+
+    def search_response(self):
+        form = self.request.form
+        keywords = form.get('SearchableText')
+        facets = {'friendly_type_name': 'Image'}
+
+        search_util = getUtility(ISiteSearch, name='zcatalog')
+        response = search_util.query(
+            keywords,
+            facets=facets,
+        )
+        return response
