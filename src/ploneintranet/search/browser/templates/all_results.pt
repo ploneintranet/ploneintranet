@@ -15,7 +15,7 @@
                       tal:condition="search_response">
                 <!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
                 <input type="hidden"
-                       name="SearchableText_faceted"
+                       name="SearchableText_filtered"
                        tal:attributes="value request/SearchableText|nothing" />
                 <fieldset class="pat-checklist"
                       id="content-types">
@@ -35,7 +35,7 @@
                 </fieldset>
                 <fieldset class="pat-checklist"
                       id="tags"
-                      tal:condition="search_response/facets/Subject">
+                      tal:condition="search_response/facets/tags">
                     <span class="small button-cluster">
                     <button type="button" class="pat-button select-all">All</button>
                     <button type="button" class="pat-button deselect-all">None</button>
@@ -43,9 +43,9 @@
                     <legend>Tags</legend>
                     <!-- Only list tags in this list that are relevant for this search result. -->
                     <label
-                     tal:repeat="tag search_response/facets/Subject">
+                     tal:repeat="tag search_response/facets/tags">
                     <input checked type="checkbox"
-                           name="Subject"
+                           name="tags"
                            tal:attributes="value tag" />
                     <span tal:replace="tag" />
                     </label>
