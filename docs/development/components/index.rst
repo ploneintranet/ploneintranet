@@ -7,6 +7,7 @@ Component Packages
 
     ploneintranet-api
     microblogstream
+    notifications
     workspace
     search
     invitations
