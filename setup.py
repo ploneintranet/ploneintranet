@@ -44,7 +44,6 @@ setup(name='ploneintranet',
           # -*- Extra requirements: -*-
           'requests',
           'loremipsum',
-          'slc.docconv',
           'z3c.jbot',
           'plone.tiles',
           'plone.app.tiles',
@@ -66,6 +65,7 @@ setup(name='ploneintranet',
           'Celery[redis]',
           'tornado-redis',
           'sockjs-tornado',
+          'pathlib',
       ],
       extras_require={
           'test': [
@@ -104,10 +104,6 @@ setup(name='ploneintranet',
               'rwproperty',
               'plone.directives.dexterity',
               'plone.principalsource',
-          ],
-          'docconv': [
-              'slc.docconv',
-              'BeautifulSoup',
           ],
           'simplesharing': [
               'collective.z3cform.chosen',
