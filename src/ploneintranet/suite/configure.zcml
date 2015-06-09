@@ -21,7 +21,6 @@
   <include package="ploneintranet.socialtheme"/>
 
   <include package="ploneintranet.attachments"/>
-  <include package="ploneintranet.docconv.client"/>
   <include package="ploneintranet.invitations"/>
   <include package="ploneintranet.notifications"/>
   <include package="ploneintranet.pagerank"/>
