@@ -8,7 +8,7 @@
 
     <metal:results fill-slot="results">
         <div class="container results"
-             tal:define="search_response view/search_response">
+             tal:define="search_response view/search_images">
 
             <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
 

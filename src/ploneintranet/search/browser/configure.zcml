@@ -28,7 +28,7 @@
        name="search_images"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"
        permission="zope2.View"
-       class=".searchresults.SearchImageResultsView"
+       class=".searchresults.SearchResultsView"
        template="templates/image_results.pt"
        layer="..interfaces.IPloneintranetSearchLayer"
        />
