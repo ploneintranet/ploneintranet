@@ -70,8 +70,17 @@ class SearchResultsView(BrowserView):
         Search for specific content types
         """
         form = self.request.form
-        keywords = form.get('SearchableText')
+        keywords = ''
         filters = {'portal_type': type_name}
+
+        if form.get('SearchableText'):
+            # This means that the main search form was submitted,
+            # so we start a new keyword-only search
+            keywords = form.get('SearchableText')
+        elif form.get('SearchableText_filtered'):
+            # This means that the filters were changed, so
+            # we refine an existing search
+            keywords = form.get('SearchableText_filtered')
 
         search_util = getUtility(ISiteSearch, name='zcatalog')
         response = search_util.query(
@@ -85,3 +94,7 @@ class SearchResultsView(BrowserView):
 
     def search_files(self):
         return self.search_by_type('File')
+
+    def search_people(self):
+        # TODO: Check correct type to use for user profiles
+        return self.search_by_type('UserProfile')
