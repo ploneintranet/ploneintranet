@@ -72,6 +72,21 @@ Redis
 
 - make test
 
-- run ``bin/redis-server`` from the directory where you unpacked it.
+- run ``bin/redis-server`` from the directory where you unpacked it:
+  Redis should be active while developing async stuff.
 
+
+Docsplit
+~~~~~~~~
+
+See instructions at https://documentcloud.github.io/docsplit/
+
+
+Celery worker
+~~~~~~~~~~~~~
+
+In order for async to work, you need to have a celery worker running.
+To start it run::
+
+  $ bin/celery -A ploneintranet.async.celerytasks worker
 
