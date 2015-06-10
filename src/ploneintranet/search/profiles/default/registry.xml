@@ -24,6 +24,7 @@
     <value>
       <element>tags</element>
       <element>friendly_type_name</element>
+      <element>portal_type</element>
     </value>
   </record>
 
