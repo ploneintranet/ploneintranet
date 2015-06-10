@@ -210,4 +210,3 @@ def update_todos_state(obj, event):
         obj = brain.getObject()
         obj.set_appropriate_state()
         obj.reindexObject()
-

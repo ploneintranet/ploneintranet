@@ -22,7 +22,6 @@ from ...policies import PARTICIPANT_POLICY
 from ...utils import parent_workspace
 from ...utils import map_content_type
 from ...utils import set_cookie
-from ploneintranet.todo.behaviors import ITodo
 
 import logging
 
@@ -119,7 +118,6 @@ class SidebarSettingsMembers(BaseTile):
                     'success',
                 )
         return self.render()
-
 
 
 class SidebarSettingsSecurity(BaseTile):

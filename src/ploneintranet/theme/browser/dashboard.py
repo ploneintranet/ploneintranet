@@ -1,5 +1,4 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collections import defaultdict
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.tiles import Tile
@@ -61,5 +60,3 @@ class TasksTile(Tile):
             else:
                 self.grouped_tasks[workspace.id]['tasks'].append(task)
         return self.render()
-
-

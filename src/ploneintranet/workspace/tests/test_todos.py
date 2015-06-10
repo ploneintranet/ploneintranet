@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from plone import api
-from plone.app.testing import TEST_USER_ID
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
-
-import zope.event
 
 
 class TestTodos(BaseTestCase):
@@ -14,6 +11,7 @@ class TestTodos(BaseTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        pwft = api.portal.get_tool("portal_placeful_workflow")
         self.workspaces = api.content.create(
             type='ploneintranet.workspace.workspacecontainer',
             title='workspaces',
@@ -24,6 +22,8 @@ class TestTodos(BaseTestCase):
             title='case',
             container=self.workspaces,
         )
+        wfconfig = pwft.getWorkflowPolicyConfig(self.case)
+        wfconfig.setPolicyIn('case_workflow')
         api.content.transition(self.case, 'transfer_to_department')
 
     def test_todo_reopen_earlier_milestone(self):
@@ -121,18 +121,24 @@ class TestTodos(BaseTestCase):
         )
 
     def test_update_todo_state_when_case_state_is_changed(self):
+        wft = self.portal.portal_workflow
+        pwft = api.portal.get_tool("portal_placeful_workflow")
+
         case2 = api.content.create(
             type='ploneintranet.workspace.case',
             title='case',
             container=self.workspaces,
         )
+        wfconfig = pwft.getWorkflowPolicyConfig(case2)
+        wfconfig.setPolicyIn('case_workflow')
+
         case_todo = api.content.create(
             type='todo',
             title='case_todo',
             container=case2,
             milestone='in_progress',
         )
-        wft = self.portal.portal_workflow
+
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'planned')
         api.content.transition(case2, 'transfer_to_department')
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')

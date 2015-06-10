@@ -120,7 +120,6 @@ class MetroMap(object):
         workflow after ensuring that it has metromap_transistions variable,
         which is required for rendering the metromap.
         """
-        pwft = api.portal.get_tool('portal_placeful_workflow')
         policy_conf = self.context.get(WorkflowPolicyConfig_id)
         if policy_conf is None:
             return

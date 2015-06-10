@@ -9,6 +9,7 @@ from plone.protect import CheckAuthenticator, PostOnly
 from ploneintranet.workspace import MessageFactory as _
 from zope.component import getMultiAdapter
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
+from ploneintranet.workspace.utils import existing_users
 
 
 class EditRoster(BaseWorkspaceView):

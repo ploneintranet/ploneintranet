@@ -1,7 +1,5 @@
-from Products.Five.utilities.marker import mark
 from Testing.ZopeTestCase import utils
 from plone import api
-from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 from zope.component import queryAdapter
