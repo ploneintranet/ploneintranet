@@ -27,6 +27,7 @@
     <description>Gathering of basic data is complete. The case is handled by the responsible department.</description>
     <exit-transition transition_id="finalise"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="reset"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -37,6 +38,7 @@
   <state state_id="complete" title="Content Complete">
     <description>The case has been fully handled by the responsible department and is ready for verification.</description>
     <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="transfer_to_department"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Central Services</permission-role>
@@ -48,6 +50,7 @@
     <exit-transition transition_id="reject"/>
     <exit-transition transition_id="rework"/>
     <exit-transition transition_id="decide"/>
+    <exit-transition transition_id="finalise"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Council</permission-role>
@@ -57,6 +60,7 @@
   <state state_id="decided" title="Decided">
     <description>The decision has been made by the council.</description>
     <exit-transition transition_id="close"/>
+    <exit-transition transition_id="submit"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -67,6 +71,7 @@
   <state state_id="closed" title="Closed">
     <description>All handling of the case is complete, including payment, thank you letter, etc.</description>
     <exit-transition transition_id="archive"/>
+    <exit-transition transition_id="decide"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -75,6 +80,7 @@
   </state>
 
   <state state_id="archived" title="Archived">
+    <exit-transition transition_id="close"/>
     <description>The case is done and filed away.</description>
     <permission-map name="Modify portal content" acquired="False">
     </permission-map>
@@ -84,65 +90,55 @@
   <transition transition_id="reject" title="Reject" new_state="rejected" trigger="USER" before_script="" after_script="">
     <description>Reject the case before any official decision is made.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Reject</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
+  </transition>
+
+  <transition transition_id="reset" title="Reset" new_state="open" trigger="USER" before_script="" after_script="">
+    <description>Reset to the initial state.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reject</action>
+    <guard />
   </transition>
 
   <transition transition_id="transfer_to_department" title="Transfer To Department" new_state="in_progress" trigger="USER" before_script="" after_script="">
     <description>Transfer the case to the responsible department.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=transfer_to_department" category="workflow" icon="">Transfer To Department</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
     <description>Finish handling by the department and mark as ready for verification.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="submit" title="Submit" new_state="request" trigger="USER" before_script="" after_script="">
     <description>Submit the case for decision by the council.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
     <description>Accept or deny the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
     <description>Mark the case as done and file away.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=archive" category="workflow" icon="">Archive</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
   <transition transition_id="rework" title="Rework" new_state="in_progress" trigger="USER" before_script="" after_script="">
     <description>Rework the case and then re-submit.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=rework" category="workflow" icon="">Rework</action>
-    <guard >
-      <guard-expression>here/case_workflow_guard</guard-expression>
-    </guard>
+    <guard />
   </transition>
 
 
