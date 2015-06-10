@@ -228,6 +228,8 @@ def create_workspaces(workspaces):
 
 def create_caseworkspaces(caseworkspaces):
     portal = api.portal.get()
+    pwft = api.portal.get_tool("portal_placeful_workflow")
+
     if 'workspaces' not in portal:
         ws_folder = api.content.create(
             container=portal,
@@ -246,6 +248,9 @@ def create_caseworkspaces(caseworkspaces):
             type='ploneintranet.workspace.case',
             **w
         )
+        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
+        wfconfig.setPolicyIn('case_workflow')
+
         if contents is not None:
             create_ws_content(caseworkspace, contents)
         for m in members:
