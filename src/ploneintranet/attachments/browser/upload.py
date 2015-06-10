@@ -16,11 +16,11 @@ class UploadAttachments(BrowserView):
     @property
     @memoize
     def fallback_thumbs_urls(self):
-        ''' Return a dummy image thumbnails
+        """ Return a dummy image thumbnails
 
         BBB: Ask for a better image :)
         See #122
-        '''
+        """
         url = '/'.join((
             api.portal.get().absolute_url(),
             '++theme++ploneintranet.theme/generated/media/logo.svg'
@@ -28,8 +28,8 @@ class UploadAttachments(BrowserView):
         return [url]
 
     def get_docconv_thumbs_urls(self, attachment):
-        '''Returns the URLs of all the rendered pages of the document.
-        '''
+        """Returns the URLs of all the rendered pages of the document.
+        """
         # TODO: actually implement this.
         # The previous implementation relied heavily
         # on the IDocconv abstraction layer
@@ -37,10 +37,10 @@ class UploadAttachments(BrowserView):
         return []
 
     def get_image_thumbs_urls(self, image):
-        '''
+        """
         If we have an Image or a File object,
         we ask the Plone scale machinery for a URL
-        '''
+        """
         images = api.content.get_view(
             'images',
             image,
@@ -54,9 +54,9 @@ class UploadAttachments(BrowserView):
         return urls
 
     def get_thumbs_urls(self, attachment):
-        ''' This will return the URL for the thumbs of the attachment
+        """ This will return the URL for the thumbs of the attachment
 
-        '''
+        """
         # We first ask docconv for a URL
         urls = self.get_docconv_thumbs_urls(attachment)
         if urls:
