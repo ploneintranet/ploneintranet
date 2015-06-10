@@ -384,9 +384,11 @@ I can add a new task
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
+    Input Text  css=label.assignee li.select2-search-field input  stoney
+    Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
     Select From List  milestone  new
     Click Button  Create
-    Wait Until Page Contains  Make a plan
+    Wait Until Page Contains  ${title}
 
 I can close the first milestone
     Click Element  xpath=//h4[text()='New']

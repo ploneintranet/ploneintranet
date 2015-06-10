@@ -29,15 +29,15 @@ Manager can change the workflow of a case workspace
 Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
      Then I try go to the Minifest
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
      Then I can toggle a milestone  New
      Then I select the task check box  Basisdatenerfassung
      Then I try go to the Minifest
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
      Then I see a task is complete  Basisdatenerfassung
      Then I unselect the task check box  Basisdatenerfassung
      Then I try go to the Minifest
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
      Then I see a task is open  Basisdatenerfassung
      Then I can toggle a milestone  New
 
@@ -56,20 +56,20 @@ Member can view sidebar info
 
 Manager can view sidebar tasks
     Given I am in a case workspace as a workspace admin
-    Then I can go to the sidebar tasks tile
+    Then I can go to the sidebar tasks tile of my case
 
 Member can view sidebar tasks
     Given I am in a case workspace as a workspace member
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
 
 Manager can add a new task
     Given I am in a case workspace as a workspace admin
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Make a plan
 
 Manager can mark a new task complete on dashboard
     Given I am in a case workspace as a workspace admin
-     Then I can go to the sidebar tasks tile
+     Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Todo soon
      Then I go to the dashboard
      Then I mark a new task complete
