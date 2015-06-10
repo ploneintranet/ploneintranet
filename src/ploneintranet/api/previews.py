@@ -13,7 +13,8 @@ def get(obj):
 
 
 def create(obj, request):
-    """Generate the preview images for the given content object
+    """Generate the preview images and preview thumbnail for the given content
+    object
 
     :param obj: The Plone object to get previews for
     :type obj: A Plone content object
@@ -21,3 +22,34 @@ def create(obj, request):
     :type request: HTTPRequest
     """
     pass
+
+
+def get_thumb(obj):
+    """Get the thumnail preview image for the given object
+
+    If there are no previews None will be returned
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: The preview thumbnail
+    :rtype: NamedBlobFile ??
+    """
+    return None
+
+
+def has_thumb(obj):
+    """Does this item have a preview thumbnail
+
+    :return: Whether or not the given content object has a preview thumbnail
+    :rtype: bool
+    """
+    return bool(get_thumb(obj))
+
+
+def has_previews(obj):
+    """Does this item have preview images
+
+    :return: Whether or not the given content object has preview thumbnails
+    :rtype: bool
+    """
+    return bool(get(obj))
