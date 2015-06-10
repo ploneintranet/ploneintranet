@@ -25,6 +25,7 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
 
         import ploneintranet.attachments
 
+        self.loadZCML(package=ploneintranet.attachments)
         self.loadZCML(package=ploneintranet.async)
         z2.installProduct(app, 'ploneintranet.async')
 

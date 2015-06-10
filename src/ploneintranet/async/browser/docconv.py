@@ -49,7 +49,7 @@ class BaseDocConvView(BrowserView):
         data = bytes(primary_field.data)
         input_file = self.storage_dir.joinpath(
             '{}.tmp'.format(self.context.id))
-        with open(str(input_file)) as fd:
+        with open(str(input_file), 'wb') as fd:
             fd.write(data)
         return input_file
 
