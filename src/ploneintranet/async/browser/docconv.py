@@ -8,7 +8,7 @@ from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.Five import BrowserView
 from zope.interface import alsoProvides
 
-
+from ploneintranet import api as pi_api
 
 logger = logging.getLogger(__name__)
 
@@ -124,8 +124,13 @@ class GeneratePreviewImages(BaseDocConvView):
             '--pages', '1-20',
         ]
         cmd_output = _parse_cmd_output(cmd)
+        for image in self.output_dir.iterdir():
+            with open(str(image)) as fd:
+                pi_api.attachments.add(
+                    self.context,
+                    image.name,
+                    fd.read())
 
-        # TODO: Attach the previews to the context as annotations
         return cmd_output
 
 
