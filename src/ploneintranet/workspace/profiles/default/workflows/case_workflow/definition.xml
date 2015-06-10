@@ -93,9 +93,9 @@
     <guard />
   </transition>
 
-  <transition transition_id="reset" title="Reset" new_state="open" trigger="USER" before_script="" after_script="">
+  <transition transition_id="reset" title="Reset" new_state="new" trigger="USER" before_script="" after_script="">
     <description>Reset to the initial state.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reject</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
     <guard />
   </transition>
 
@@ -190,9 +190,17 @@
   </variable>
 
   <variable variable_id="metromap_transitions" for_catalog="False" for_status="True" update_always="True">
-    <description>A comma separated sequence of transition ids, used for the metromap</description>
+    <description>A list of dicts which order the workflow states along with the next transition in the sequence, used for the metromap</description>
     <default>
-      <value>transfer_to_department,finalise,submit,decide,close,archive</value>
+      <expression>python:[
+      {'state': 'new', 'next_transition': 'transfer_to_department', 'reopen_transition': 'reset'},
+      {'state': 'in_progress', 'next_transition':'finalise', 'reopen_transition': 'transfer_to_department'},
+      {'state': 'complete', 'next_transition': 'submit', 'reopen_transition': 'finalise'},
+      {'state': 'request', 'next_transition': 'decide', 'reopen_transition': 'submit'},
+      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 'decide'},
+      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 'close'},
+      {'state': 'archived'}
+      ]</expression>
     </default>
     <guard>
     </guard>

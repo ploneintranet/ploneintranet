@@ -1,3 +1,4 @@
+from Products.CMFCore.Expression import getExprContext
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
@@ -145,57 +146,108 @@ class MetroMap(object):
 
     @property
     def _metromap_transitions(self):
+        """A data structure is stored as a TAL expression on a workflow which
+        determines the sequence of workflow states used to render the metromap.
+
+        We need to evaluate the expression and returns the data structure.
+
+        It consists of a list of dicts each with the workflow state, the
+        transition to the next workflow state in the metromap, and the
+        transition required to return to the state:
+        [{
+          'state': 'new',
+          'next_transition': 'finalise',
+          'reopen_transition': 'reset'
+        }, {
+          'state': 'complete',
+          'next_transition': 'archive',
+          'reopen_transition': 'finalise'
+        }, {
+          'state': 'archived'}
+        ]
+        """
         metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
-        transitions_string = metromap_workflow.variables[
-            "metromap_transitions"]
-        metromap_transitions = [
-            i.strip() for i in transitions_string.default_value.split(",")]
+        mmap = metromap_workflow.variables["metromap_transitions"]
+        tal_expr = mmap.default_expr
+        expr_context = getExprContext(self.context)
+        metromap_transitions = tal_expr(expr_context)
         return metromap_transitions
 
     @property
     def metromap_sequence(self):
+        """Return the data structure required for displaying the metromap,
+        derived from the configuration in the metromap_transitions variable of
+        the associated workflow.
+
+        An OrderedDict is used to provide details such as whether a milestone
+        has already been finished, the transition required to close the current
+        milestone, and the transition required to reopen the previous
+        milestone.
+
+        In the 'complete' workflow state / milestone it returns the following:
+        OrderedDict([(
+          'new', {
+            'transition_title': u'Transfer To Department',
+            'title': u'New',
+            'finished': True,  # This milestone has been finished
+            'enabled': False,  # Don't show the [Close milestone] button
+            'reopen_transition': 'reset',  # For [Reopen milestone]
+            'transition_id': 'transfer_to_department'
+          }), (
+          'complete', {
+            'transition_title': u'Submit',
+            'title': u'Content Complete',
+            'finished': False,  # This milestone isn't finished yet
+            'enabled': True,    # Show [Close milestone]
+            'reopen_transition': False,
+            'transition_id': 'submit'
+          }), (
+          'archived', {
+            'transition_title': '',
+            'title': u'Archived',
+            'enabled': False,
+            'finished': False,
+            'reopen_transition': False,
+            'transition_id': None
+          })
+        ])
+
+        """
         cwf = self._metromap_workflow
         wft = api.portal.get_tool("portal_workflow")
-        metromap_transitions = self._metromap_transitions
-        if not metromap_transitions:
+        metromap_list = self._metromap_transitions
+        if not metromap_list:
             return {}
-        initial_state = cwf.initial_state
-        initial_transition = metromap_transitions[0]
-        available_transition_ids = [
-            i["id"] for i in wft.getTransitionsFor(self.context)]
-        sequence = OrderedDict({
-            initial_state: {
-                "title": MessageFactory(cwf.states.get(initial_state).title),
-                "transition_id": initial_transition,
-                "transition_title": MessageFactory(cwf.transitions.get(
-                    initial_transition).title),
-                "enabled": initial_transition in available_transition_ids,
-            }
-        })
-        for index, transition_id in enumerate(metromap_transitions):
-            transition = cwf.transitions.get(transition_id, "")
-            next_state = transition.new_state_id
-            next_transition = ""
-            if index + 1 < len(metromap_transitions):
-                next_transition = metromap_transitions[index + 1]
-            next_transition_title = ""
-            if next_transition != "":
-                next_transition_title = cwf.transitions.get(
-                    next_transition).title
-            sequence[next_state] = {
-                "title": MessageFactory(cwf.states.get(next_state).title),
-                "transition_id": next_transition,
-                "transition_title": MessageFactory(next_transition_title),
-                "enabled": next_transition in available_transition_ids,
-            }
+
         current_state = wft.getInfoFor(self.context, "review_state")
+        next_available_transition = [
+            i.get('next_transition') for i in metromap_list
+            if i['state'] == current_state and 'next_transition' in i
+        ]
         finished = True
-        for state in sequence.keys():
+        sequence = OrderedDict()
+        for index, mmap in enumerate(metromap_list):
+            state = mmap['state']
             if state == current_state:
                 finished = False
-            sequence[state]["finished"] = finished
+            next_transition = mmap.get('next_transition')
+            reopen = False
+            if index + 1 < len(metromap_list):
+                next_state = metromap_list[index + 1]["state"]
+                reopen = next_state == current_state
+            sequence[state] = {
+                'title': MessageFactory(cwf.states.get(state).title),
+                'transition_id': next_transition,
+                'transition_title': '',
+                'reopen_transition': reopen and mmap['reopen_transition'],
+                'enabled': next_transition in next_available_transition,
+                'finished': finished,
+            }
+            if next_transition:
+                sequence[state]['transition_title'] = MessageFactory(
+                    cwf.transitions.get(next_transition).title)
         return sequence
 
 

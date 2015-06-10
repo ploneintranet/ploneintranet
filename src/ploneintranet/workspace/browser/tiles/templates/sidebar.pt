@@ -316,8 +316,11 @@ Supported types include (class names):
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
                          tal:condition="view/can_add">Create new task</a>
                       <a class="small icon-stage success button"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);
-                                         class python:'{0}{1}'.format(attrs['class'], '' if ws_view.metromap_sequence[milestone]['enabled'] else ' disabled')">Close milestone</a>
+                         tal:condition="python:ws_view.metromap_sequence[milestone]['enabled']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);">Close milestone</a>
+                      <a class="small icon-stage success button"
+                         tal:condition="python:ws_view.metromap_sequence[milestone]['reopen_transition']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);">Reopen milestone</a>
                     </p>
                   </fieldset>
                 </tal:milestone>
