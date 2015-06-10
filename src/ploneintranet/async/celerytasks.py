@@ -28,7 +28,7 @@ def generate_and_add_preview(url, cookies):
         'url': url
     }
 
-    url = url + '/@@generate-previews'
+    url += '/@@generate-previews'
     resp = requests.post(url, data=params, cookies=cookies)
     if resp.status_code != 200:
         raise PreviewGenerationException
