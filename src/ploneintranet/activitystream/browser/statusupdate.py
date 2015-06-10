@@ -17,8 +17,8 @@ logger = logging.getLogger('ploneintranet.activitystream')
 
 
 class StatusUpdateView(BrowserView):
-    ''' This view renders a status update
-    '''
+    """ This view renders a status update
+    """
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
     post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
     comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
@@ -26,11 +26,11 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def commentable(self):
-        '''
+        """
         Check whether the viewing user has the right to comment
         by resolving the containing workspace IMicroblogContext
         (falling back to None=ISiteRoot)
-        '''
+        """
         add = 'Plone Social: Add Microblog Status Update'
         try:
             return api.user.has_permission(add, obj=self.context.context)
@@ -41,29 +41,29 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def portal(self):
-        ''' Return the portal object
-        '''
+        """ Return the portal object
+        """
         return api.portal.get()
 
     @property
     @memoize
     def portal_url(self):
-        ''' Return the portal object url
-        '''
+        """ Return the portal object url
+        """
         return self.portal.absolute_url()
 
     @property
     @memoize
     def context_url(self):
-        ''' Return the context url
-        '''
+        """ Return the context url
+        """
         return self.portal_url
 
     @property
     @memoize
     def toggle_like(self):
-        ''' This is used to render the toggle like stuff
-        '''
+        """ This is used to render the toggle like stuff
+        """
         toggle_like_base = api.content.get_view(
             'toggle_like_statusupdate',
             self.portal,
@@ -78,8 +78,8 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def newpostbox_view(self):
-        ''' Return the newpostbox.tile view
-        '''
+        """ Return the newpostbox.tile view
+        """
         return api.content.get_view(
             'newpostbox.tile',
             self.portal,
@@ -89,15 +89,15 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def toLocalizedTime(self):
-        ''' Facade for the toLocalizedTime method
-        '''
+        """ Facade for the toLocalizedTime method
+        """
         return api.portal.get_tool('translation_service').toLocalizedTime
 
     @property
     @memoize
     def date(self):
-        ''' The date of our context object
-        '''
+        """ The date of our context object
+        """
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
         time = self.context.date
@@ -119,13 +119,13 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def decorated_text(self):
-        ''' Use this method to enrich the status update text
+        """ Use this method to enrich the status update text
 
         For example we can:
          - replace \n with <br />
          - add mentions
          - add tags
-        '''
+        """
         text = safe_unicode(self.context.text).replace(u'\n', u'<br />')
         tags = getattr(self.context, 'tags', None)
         mentions = getattr(self.context, 'mentions', None)
@@ -137,8 +137,8 @@ class StatusUpdateView(BrowserView):
     def get_avatar_by_userid(
         self, userid, show_link=False, css='', attributes={}
     ):
-        ''' Provide informations to display the avatar
-        '''
+        """ Provide informations to display the avatar
+        """
         user = api.user.get(self.context.userid)
 
         if user:
@@ -168,15 +168,15 @@ class StatusUpdateView(BrowserView):
     @property
     @memoize
     def avatar(self):
-        ''' Provide informations to display the avatar
-        '''
+        """ Provide informations to display the avatar
+        """
         return self.get_avatar_by_userid(self.context.userid)
 
     @property
     @memoize
     def attachment_base_url(self):
-        ''' This will return the base_url for making attachments
-        '''
+        """ This will return the base_url for making attachments
+        """
         base_url = '{portal_url}/@@status-attachments/{status_id}'.format(
             portal_url=self.portal_url,
             status_id=self.context.getId(),
@@ -184,9 +184,9 @@ class StatusUpdateView(BrowserView):
         return base_url
 
     def item2attachments(self, item):
-        ''' Take the attachment storage item
+        """ Take the attachment storage item
         and transform it into an attachment
-        '''
+        """
         item_url = '/'.join((
             self.attachment_base_url,
             item.getId(),
@@ -221,8 +221,8 @@ class StatusUpdateView(BrowserView):
 
     @memoize
     def comment_views(self):
-        ''' Return the way we can reply to this activity
-        '''
+        """ Return the way we can reply to this activity
+        """
         return [
             api.content.get_view(
                 'statusupdate_view',
