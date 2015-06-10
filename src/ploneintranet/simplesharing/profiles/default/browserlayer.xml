@@ -1,6 +1,0 @@
-<layers>
-  <layer
-    name="ploneintranet.simplesharing"
-    interface="ploneintranet.simplesharing.interfaces.IPloneintranetSimplesharingLayer"
-  />
-</layers>
