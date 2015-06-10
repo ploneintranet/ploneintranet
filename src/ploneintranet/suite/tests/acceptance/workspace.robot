@@ -139,6 +139,9 @@ Member cannot publish a document in a Producers workspace
      When I submit the content item
      Then I cannot publish the content item
 
+Member cannot create content in a Consumers workspace
+    Given I am in a Consumers workspace as a workspace member
+     Then I cannot create a new document
 
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
@@ -331,6 +334,13 @@ I can create a new document
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
+
+I cannot create a new document
+    Click link  Documents
+    Wait until page contains  Test Document
+    Page Should Not Contain   Create document
+    Click link  Functions
+    Page Should Not Contain   Create document
 
 I can create a new folder
     Click link  Documents
