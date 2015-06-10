@@ -23,7 +23,7 @@ class BaseWorkspaceView(BrowserView):
         """
         return api.user.has_permission(
             "ploneintranet.workspace: Manage workspace",
-            obj=self,
+            obj=self.context,
         )
 
     def can_add_status_updates(self):
@@ -31,7 +31,8 @@ class BaseWorkspaceView(BrowserView):
         Does this user have the permission to add status updates
         """
         return api.user.has_permission(
-            "Plone Social: Add Microblog Status Update", obj=self)
+            "Plone Social: Add Microblog Status Update",
+            obj=self.context)
 
 
 class WorkspaceView(BaseWorkspaceView):
