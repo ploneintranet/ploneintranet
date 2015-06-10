@@ -14,7 +14,7 @@
       <property name="i18n_domain">ploneintranet</property>
       <property name="description"></property>
       <property
-          name="url_expr">string:${globals_view/navigationRootUrl}/workspaces.html</property>
+          name="url_expr">string:${globals_view/navigationRootUrl}/workspaces</property>
       <property name="link_target"></property>
       <property name="icon_expr"></property>
       <property name="available_expr"></property>
