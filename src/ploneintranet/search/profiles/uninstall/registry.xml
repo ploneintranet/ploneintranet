@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<records>
+  <record name="ploneintranet.search.sortby_fields" remove="true" />
+  <record name="ploneintranet.search.phrase_fields" remove="true" />
+  <record name="ploneintranet.search.filter_fields" remove="true" />
+  <record name="ploneintranet.search.solr.phrase_field_boosts" remove="true" />
+</records>
