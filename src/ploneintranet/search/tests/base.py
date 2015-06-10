@@ -36,12 +36,12 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
         container = self.layer['portal']
-        create_doc = partial(self._create_content,
-                             type='Document',
-                             container=container,
-                             safe_id=False)
+        self.create_doc = partial(self._create_content,
+                                  type='Document',
+                                  container=container,
+                                  safe_id=False)
 
-        self.doc1 = create_doc(
+        self.doc1 = self.create_doc(
             title=u'Test Doc 1',
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
@@ -50,7 +50,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc1.creation_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
-        self.doc2 = create_doc(
+        self.doc2 = self.create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
                          u'Please let some stuff be indexed.'),
@@ -58,7 +58,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc2.creation_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
 
-        self.doc3 = create_doc(
+        self.doc3 = self.create_doc(
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
@@ -67,21 +67,21 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc3.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc4 = create_doc(
+        self.doc4 = self.create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
         self.doc4.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc5 = create_doc(
+        self.doc5 = self.create_doc(
             title=u'Sorted and indexed.',
             description=u'Not relevant',
             subject=(u'solr', u'boost', u'values')
         )
         self.doc5.creation_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
 
-        self.doc6 = create_doc(
+        self.doc6 = self.create_doc(
             title=u'Another relevant title',
             description=u'Is Test Doc 2 Sorted and indexed?',
             subject=(u'abra', u'cad', u'abra')
@@ -144,6 +144,41 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         expected_facets = {u'test', u'my-tag', u'my-other-tag'}
         self.assertSetEqual(response.facets['tags'], expected_facets)
         self.assertSetEqual(response.facets['friendly_type_name'], {'Page'})
+
+    def test_query_filter_by_friendly_type(self):
+        self.image1 = self.create_doc(
+            title=u'A Test image',
+            type='Image',
+            description=u'Info about this image',
+        )
+        util = self._make_utility()
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Image', ]}
+        )
+        self.assertEqual(response.total_results, 1)
+        result = next(iter(response))
+        self.assertEqual(result.title, self.image1.title)
+
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Page', ]}
+        )
+        self.assertEqual(response.total_results, 3)
+        self.assertEqual(
+            set([x.friendly_type_name for x in response]),
+            {'Page'},
+        )
+
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Image', 'Page', ]}
+        )
+        self.assertEqual(response.total_results, 4)
+        self.assertEqual(
+            set([x.friendly_type_name for x in response]),
+            {'Page', 'Image', },
+        )
 
     def test_query_facets_invalid(self):
         util = self._make_utility()
