@@ -76,10 +76,17 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
 
         self.doc5 = create_doc(
             title=u'Sorted and indexed.',
-            description=u'Not relevent',
+            description=u'Not relevant',
             subject=(u'solr', u'boost', u'values')
         )
         self.doc5.creation_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
+
+        self.doc6 = create_doc(
+            title=u'Another relevant title',
+            description=u'Is Test Doc 2 Sorted and indexed?',
+            subject=(u'abra', u'cad', u'abra')
+        )
+        self.doc6.creation_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
@@ -186,9 +193,10 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             response = self._query(util, u'Another')
             self.assertEqual(response.total_results, expected_count)
 
-        query_check_total_results(1)
+        query_check_total_results(2)
         with api.env.adopt_roles(roles=['Manager']):
             self._delete_content(self.doc2)
+            self._delete_content(self.doc6)
         assert self.doc2.getId() not in self.layer['portal'].keys()
         query_check_total_results(0)
 
@@ -250,13 +258,21 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         expected_titles = [doc.Title() for doc in (self.doc2, self.doc1)]
         self.assertEqual(result_titles, expected_titles)
 
-    def test_relevency(self):
+    def test_relevancy(self):
         util = self._make_utility()
         query = util.query
         response = query(u'weather')
         expected_order = [self.doc4.Title(), self.doc3.Title()]
         actual_order = [result.title for result in response]
         self.assertEqual(actual_order, expected_order)
+
+        response = query(u'Test Doc 2')
+        expected_order = [self.doc5.Title(), self.doc6.Title()]
+        actual_order = [result.title for result in response]
+
+        response = query(u'Relevant')
+        expected_order = [self.doc5.Title(), self.doc6.Title()]
+        actual_order = [result.title for result in response]
 
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
