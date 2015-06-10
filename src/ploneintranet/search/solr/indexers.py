@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Read collective.solr's source code and weep."""
+"""Index Plone contnet in Solr."""
 import logging
 
 from collective.indexing.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
 from plone.indexer import indexer
 from plone.indexer.interfaces import IIndexableObject
-from zope.component import queryMultiAdapter, getUtility
+from zope.component import queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
 import requests
 
@@ -177,7 +177,7 @@ class ContentIndexer(object):
 
     @property
     def _solr_conf(self):
-        return getUtility(IConnectionConfig)
+        return queryUtility(IConnectionConfig)
 
     @property
     def _solr(self):

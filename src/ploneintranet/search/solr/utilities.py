@@ -8,14 +8,12 @@ from zope.component import getUtility
 from zope.interface import implementer
 
 from .. import base
-from ..interfaces import IQueryFilterFields
 from ..interfaces import ISiteSearch
 from .adapters import SearchResult
 from .interfaces import IConnectionConfig
 from .interfaces import IConnection
 from .interfaces import IMaintenance
 from .interfaces import IQuery
-from .interfaces import IQueryFields
 
 
 logger = logging.getLogger(__name__)
@@ -148,14 +146,13 @@ class SiteSearch(base.SiteSearch):
         """
         interface = IConnection(getUtility(IConnectionConfig))
         phrase_query = interface.Q()
-        query_params = dict.fromkeys(tuple(IQueryFields), phrase)
+        query_params = dict.fromkeys(self.phrase_fields, phrase)
         for query_param in query_params.items():
             phrase_query |= interface.Q(**dict([query_param]))
         return IQuery(interface).query(phrase_query)
 
     def _apply_filters(self, query, filters):
         interface = query.interface
-        self._validate_query_fields(filters, IQueryFilterFields)
         return query.filter(interface.Q(**filters))
 
     def _apply_security(self, query):
@@ -171,7 +168,7 @@ class SiteSearch(base.SiteSearch):
         return query.filter(arau_q)
 
     def _apply_facets(self, query):
-        return query.facet_by(fields=self._facet_fields)
+        return query.facet_by(fields=self.facet_fields)
 
     def _apply_date_range(self, query, start_date, end_date):
         filter_query = query.filter

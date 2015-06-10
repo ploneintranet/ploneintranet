@@ -1,0 +1,8 @@
+* Relevancy (boosts)
+* SearchResult
+** Hightligt summary
+* Maintenence views
+** sync (with portal_catalog)
+* Admin UI ?
+** Set registry values ?
+** Link to the Solr Admin

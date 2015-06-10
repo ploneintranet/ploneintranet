@@ -4,7 +4,6 @@ from zope.component import adapter
 from zope.interface import implementer
 
 from . import base
-from .interfaces import IQueryFilterFields
 from .interfaces import ISiteSearch
 from .interfaces import ISearchResponse
 from .interfaces import ISearchResult
@@ -24,7 +23,6 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_filters(self, query, filters):
         query = dict(query)
-        self._validate_query_fields(filters, IQueryFilterFields)
         tags = filters.get('tags')
         if tags is not None:
             query['Subject'] = filters.pop('tags')

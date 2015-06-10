@@ -1,6 +1,6 @@
-""" Interfaces for search API
-"""
-from zope.interface import taggedValue, Interface
+# -*- coding: utf-8 -*-
+"""Interfaces for search API."""
+from zope.interface import Interface
 from zope import schema
 
 from . import _
@@ -19,12 +19,10 @@ class ISiteSearch(Interface):
               end_date=None,
               start=0,
               step=None):
-        """
-        Perform query against the backend with given phrase and optional
-        facet choices.
+        """Perform a query with the given `phase` and options.
 
-        Facets parameter must be given as a dictionary keyed on facet name with
-        value being a list of chosen values for that facet.
+        `filters` parameter must be given as a mapping keyed on
+        filter name with values being a list of chosen values for that filter.
 
         :param phrase: The phrase to search for.
         :type phrase: str
@@ -72,23 +70,6 @@ class ISearchResult(Interface):
         title=_(u'The absolute URL of the indexed document '
                 u'based on the path and the host in the current request'))
 
-    taggedValue('index_names', dict(Title='title',
-                                    Description='description'))
-
-
-class IQueryFilterFields(Interface):
-    """Fields which can be used to filter a query."""
-
-    friendly_type_name = schema.ASCIILine(title=_(u'Friendly type'))
-
-    tags = schema.ASCIILine(title=_(u'Tags'))
-
-    portal_type = schema.ASCIILine(title=_(u'Portal type'))
-
-
-class IFacetFields(IQueryFilterFields):
-    """Attributes that will be faceted."""
-
 
 class ISearchResponse(Interface):
     """Defines a common API for search query responses.
@@ -121,9 +102,3 @@ class ISearchResponse(Interface):
 
         Iteratating over this object should yield search results.
         """
-
-
-class IServerTool(Interface):
-
-    commands = schema.List(
-        description=u'Return the `click` command objects runnable.')
