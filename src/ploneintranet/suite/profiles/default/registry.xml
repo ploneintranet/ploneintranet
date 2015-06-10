@@ -11,20 +11,6 @@
       </value>
       <value key="browserlayer_filterlist">
         <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
-        <element>ploneintranet.theme.interfaces.IIntranetContentLayer</element>
-        <element>ploneintranet.theme.interfaces.IPloneIntranetFormLayer</element>
-        <element>ploneintranet.activitystream.browser.interfaces.IPloneIntranetActivitystreamLayer</element>
-        <element>ploneintranet.attachments.interfaces.IPloneintranetAttachmentsLayer</element>
-        <element>ploneintranet.core.browser.interfaces.IPloneIntranetCoreLayer</element>
-        <element>ploneintranet.docconv.client.interfaces.IPloneintranetDocconvClientLayer</element>
-        <element>ploneintranet.invitations.interfaces.IPloneintranetInvitationsLayer</element>
-        <element>ploneintranet.messaging.browser.interfaces.IPloneintranetMessagingLayer</element>
-        <element>ploneintranet.microblog.browser.interfaces.IPloneIntranetMicroblogLayer</element>
-        <element>ploneintranet.network.browser.interfaces.IPloneIntranetNetworkLayer</element>
-        <element>ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer</element>
-        <element>ploneintranet.simplesharing.interfaces.IPloneintranetSimplesharingLayer</element>
-        <element>ploneintranet.todo.browser.interfaces.IPloneintranetTodoLayer</element>
-        <element>ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer</element>
       </value>
       <value key="fallback_enabled_bundles"></value>
       <value key="fallback_disabled_bundles">
