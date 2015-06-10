@@ -19,7 +19,7 @@
     <value key="jscompilation">++theme++ploneintranet.theme/generated/bundles/ploneintranet.min.js</value>
     <value key="csscompilation">++theme++ploneintranet.theme/generated/style/screen.css</value>
     <value key="last_compilation"></value>
-    <value key="expression">python:portal.restrictedTraverse('@@is_theme_enabled')('ploneintranet.theme.interfaces.IThemeSpecific')</value>
+    <value key="expression">python:not request.HTTP_HOST.startswith('127.0.0.1')</value>
     <value key="conditionalcomment"></value>
     <value key="resources" purge="false">
       <element>ploneintranet</element>
