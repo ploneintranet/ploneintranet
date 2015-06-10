@@ -62,3 +62,23 @@ class IThemeSwitcherSettings(Interface):
         required=False,
         default=[],
     )
+
+    fallback_enabled_bundles = schema.List(
+        title=u"Resource bundles to activate on fallback",
+        description=(u"List of extra resource bundle keys to activate when "
+                     u"using the fallback theme. Should re-add bundles that "
+                     u"were deactivated by your main theme. "),
+        value_type=schema.TextLine(),
+        required=False,
+        default=[],
+    )
+
+    fallback_disabled_bundles = schema.List(
+        title=u"Resource bundles to de-activate on fallback",
+        description=(u"List of resource bundle keys to de-activate when "
+                     u"using the fallback theme. Typically should list "
+                     u"bundles added by your main theme. "),
+        value_type=schema.TextLine(),
+        required=False,
+        default=[],
+    )

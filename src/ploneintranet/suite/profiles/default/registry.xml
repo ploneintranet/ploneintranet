@@ -26,5 +26,9 @@
         <element>ploneintranet.todo.browser.interfaces.IPloneintranetTodoLayer</element>
         <element>ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer</element>
       </value>
+      <value key="fallback_enabled_bundles"></value>
+      <value key="fallback_disabled_bundles">
+        <element>ploneintranet</element>
+      </value>
     </records>
 </registry>

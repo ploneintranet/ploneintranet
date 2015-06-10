@@ -10,5 +10,9 @@
       <value key="browserlayer_filterlist" purge="True">
         <element>ploneintranet.themeswitcher.interfaces.IThemeASpecific</element>
       </value>
+      <value key="fallback_enabled_bundles"></value>
+      <value key="fallback_disabled_bundles">
+        <element>themeAbundle</element>
+      </value>
     </records>
 </registry>

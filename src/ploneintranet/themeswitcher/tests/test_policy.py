@@ -111,14 +111,22 @@ class TestFunctional(FunctionalTestCase):
         self.assertEqual(settings.currentTheme, u'barceloneta')
         self.assertEqual(settings.rules, u'/++theme++barceloneta/rules.xml')
 
-    def test_hostname_layer_marking(self):
+    def test_hostname_layer_filtering(self):
         request = self.request
         request['HTTP_HOST'] = 'cms.localhost:8080'
         self.bust_request_caches()
         policy = theming_policy(request)
-        policy.filter_layers()
+        policy.filter_request()
         active = [x for x in directlyProvidedBy(request)]
         self.assertFalse(IThemeASpecific in active)
+
+    def test_hostname_bundle_filtering(self):
+        request = self.request
+        request['HTTP_HOST'] = 'cms.localhost:8080'
+        self.bust_request_caches()
+        policy = theming_policy(request)
+        policy.filter_request()
+        self.assertTrue('themeAbundle' in request.disabled_bundles)
 
     def test_hostname_switching_registry(self):
         request = self.request

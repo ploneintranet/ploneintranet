@@ -143,11 +143,17 @@ class SwitchableThemingPolicy(DefaultPolicy):
     # special helper that is called many times on traversal
     # and manages it's own request cache
 
-    def filter_layers(self):
-        """Remove the 'normal' theme layer from the request
-        to disable the diazo transform of that theme and
-        fully fall back to the underlying configured theme,
-        typically barceloneta.
+    def filter_request(self):
+        """
+        Manipulate the request to support the fallback theme:
+
+        - Remove the 'normal' theme layer from the request
+          to disable the diazo transform of that theme and
+          fully fall back to the underlying configured theme,
+          typically barceloneta.
+
+        - Enable/disable resource bundles to restore the fallback theme.
+          Typically involves removing the 'normal' theme bundle(s).
         """
         if self.request.get('ploneintranet.themeswitcher.marker'):
             return
@@ -158,21 +164,30 @@ class SwitchableThemingPolicy(DefaultPolicy):
             return
 
         # only on fallback, remove current theme browser layer(s)
-        switch_settings = self.getSwitcherSettings()
+        switcher = self.getSwitcherSettings()
         remove_layers = [resolveDottedName(x)
-                         for x in switch_settings.browserlayer_filterlist]
+                         for x in switcher.browserlayer_filterlist]
         active_layers = [x for x in directlyProvidedBy(self.request)
                          if x not in remove_layers]
         directlyProvides(self.request, *active_layers)
 
+        # CMFPlone/resource/browser/resource
+        # supports enable/disable bundles directly on the request
+        if switcher.fallback_enabled_bundles:
+            self.request.enabled_bundles = switcher.fallback_enabled_bundles
+        if switcher.fallback_disabled_bundles:
+            self.request.disabled_bundles = switcher.fallback_disabled_bundles
+        else:
+            log.warn("NO bundles disabled on fallback. That's weird.")
+
 
 # traversal event handler
 
-def filter_layers(site, event):
-    """Remove browser layer(s) when needed.
+def filter_request(site, event):
+    """Remove browser layer(s) and bundles when needed.
     Called on INavigationRoot traversal.
     """
     # avoid sites where this product is not installed
     if IThemeSwitcher.providedBy(event.request):
         # delegate to policy adapter above
-        IThemingPolicy(event.request).filter_layers()
+        IThemingPolicy(event.request).filter_request()
