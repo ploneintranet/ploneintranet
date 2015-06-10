@@ -117,9 +117,12 @@ class MetroMap(object):
 
     @property
     def _metromap_workflow(self):
-        """All Case Workspaces should have a placeful workflow. Get that
-        workflow after ensuring that it has metromap_transistions variable,
-        which is required for rendering the metromap.
+        """All Case Workspaces should have a placeful workflow. In order to
+        render the metromap, this workflow needs to have a metromap_transitions
+        variable which determines the order of the milestones (states) and the
+        transitions between them.
+
+        Return the workflow required to render the metromap.
         """
         policy_conf = self.context.get(WorkflowPolicyConfig_id)
         if policy_conf is None:
@@ -133,7 +136,7 @@ class MetroMap(object):
 
     def get_available_metromap_workflows(self):
         """Return all globally available workflows with the
-        metromap_transitions variable
+        metromap_transitions variable.
         """
         wft = api.portal.get_tool('portal_workflow')
         metromap_workflows = [
@@ -147,13 +150,14 @@ class MetroMap(object):
     @property
     def _metromap_transitions(self):
         """A data structure is stored as a TAL expression on a workflow which
-        determines the sequence of workflow states used to render the metromap.
+        determines the sequence of workflow states/milestones used to render
+        the metromap.
 
         We need to evaluate the expression and returns the data structure.
 
         It consists of a list of dicts each with the workflow state, the
-        transition to the next workflow state in the metromap, and the
-        transition required to return to the state:
+        transition to the next milestone in the metromap, and the
+        transition required to return to the milestone:
         [{
           'state': 'new',
           'next_transition': 'finalise',
