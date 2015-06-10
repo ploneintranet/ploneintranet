@@ -2,7 +2,7 @@
   <h1>
     Create task
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
+  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets">
     <div class="panel-body">
 
       <fieldset class="vertical">
@@ -21,7 +21,7 @@
     </div>
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus">
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel">
         Create
       </button>
       <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel">
