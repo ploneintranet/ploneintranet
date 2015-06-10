@@ -13,7 +13,7 @@
             <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
 
             <div class="images results pat-masonry images" data-pat-masonry="column-width: .item; gutter: 0;">
-                <tal:result repeat="result search_response/results">
+                <tal:result repeat="result search_response">
                     <a tal:attributes="href result/url" class="item">
                         <figure>
                             <img tal:define="spacer python:result.description and ' - ' or ' '"

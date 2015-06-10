@@ -77,16 +77,12 @@ class ISearchResponse(Interface):
     Iterating over this object will yield search result objects
     conforming to `ISearchResult`.
 
-    :ivar results: An iterable of ISearchResult objects
     :ivar spell_corrected_search: The search string with any spelling
         corrections replaced
     :ivar: facets: A dictionary keyed on facet field names with values of the
         list of available values for each facet
     :ivar total_results: Count of the total results matching the search query
     """
-
-    results = schema.Iterable(
-        title=_(u'The SearchResults returned from a query'))
 
     spell_corrected_search = schema.TextLine(
         title=_(u'Spell corrected search string'))
