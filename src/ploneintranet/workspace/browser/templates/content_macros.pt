@@ -5,9 +5,9 @@
       i18n:domain="plone">
   <body>
 
-    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False">
+    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False; value python: context.portal_type=='todo' and context.description or ''">
       <label class="description">
-          Description <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description">${context/description}</textarea>
+          Description <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description">${value}</textarea>
       </label>
       <label class="initiator"
              tal:define="current_member context/@@plone_portal_state/member;
