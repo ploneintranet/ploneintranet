@@ -9,7 +9,6 @@ from zope.interface import implementer
 
 from .. import base
 from ..interfaces import ISiteSearch
-from .adapters import SearchResult
 from .interfaces import IConnectionConfig
 from .interfaces import IConnection
 from .interfaces import IMaintenance
@@ -189,6 +188,7 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_spellchecking(self, query, phrase):
+        query = query.highlight('Description')
         return query.spellcheck(q=phrase, collate=True, maxCollations=1)
 
     def _paginate(self, query, start, step):
@@ -203,7 +203,7 @@ class SiteSearch(base.SiteSearch):
         return query.debug()
 
     def _execute(self, query, debug=False, **kw):
-        response = query.execute(constructor=SearchResult.from_indexed_result)
+        response = query.execute()
         query_params = self.__collect_query_params(ISiteSearch, dict(kw))
         response.query_params = query_params
         return response

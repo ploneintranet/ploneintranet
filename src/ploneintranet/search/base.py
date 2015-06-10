@@ -66,14 +66,21 @@ class NoOpQueryMethod(object):
 
 
 class SearchResult(object):
-    """Abstract search result implementation."""
+    """Abstract search result implementation.
+
+    Builds a Search result from a generic search result
+    and an ISearchResponse.
+    This allows result objects to access extra data from
+    the ISearchResponse when necessary.
+    """
 
     preview_image_path = None
     highlighted_summary = FEATURE_NOT_IMPLEMENTED
 
-    def __init__(self, context):
+    def __init__(self, context, response):
         super(SearchResult, self).__init__()
         self.context = context
+        self.response = response
         self.title = context['Title']
         self.description = context['Description']
         self.friendly_type_name = context['friendly_type_name']
@@ -135,15 +142,6 @@ class SearchResult(object):
         :rtype: str
         """
         return self._path_to_url(self.preview_image_path)
-
-    @classmethod
-    def from_indexed_result(cls, **kw):
-        """Initialize from the keywords of any indexed result.
-
-        :returns: A new search result object.
-        :rtype: `SearchResult`
-        """
-        return cls(kw)
 
 
 class SearchResponse(collections.Iterable):

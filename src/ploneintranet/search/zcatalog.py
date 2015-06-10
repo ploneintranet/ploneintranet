@@ -70,7 +70,7 @@ class SearchResponse(base.SearchResponse):
     def __init__(self, batched_results):
         all_results = batched_results._sequence
         super(SearchResponse, self).__init__(
-            (ISearchResult(result) for result in batched_results)
+            (SearchResult(result, self) for result in batched_results)
         )
         self.total_results = batched_results.sequence_length
         self.facets = {
@@ -85,7 +85,9 @@ class SearchResponse(base.SearchResponse):
 
 @implementer(ISearchResult)
 class SearchResult(base.SearchResult):
-    """Adapter for a ZCatalog search result."""
+    """Build a Search result from a ZCatalog brain
+    and an ISearchResponse
+    """
 
     @property
     def path(self):

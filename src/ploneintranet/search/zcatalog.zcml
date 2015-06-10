@@ -3,9 +3,6 @@
            xmlns:zcml="http://namespaces.zope.org/zcml"
            i18n_domain="ploneintranet.search">
 
-  <adapter for="Products.ZCatalog.interfaces.ICatalogBrain"
-           factory=".zcatalog.SearchResult" />
-  
   <adapter factory=".zcatalog.SearchResponse" />
 
   <utility provides=".interfaces.ISiteSearch"
