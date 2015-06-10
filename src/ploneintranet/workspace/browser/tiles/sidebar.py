@@ -69,6 +69,15 @@ class BaseTile(BrowserView):
             obj=self,
         )
 
+    def can_add(self):
+        """
+        Is this user allowed to add content?
+        """
+        return api.user.has_permission(
+            "Add portal content",
+            obj=self,
+        )
+
 
 class SidebarSettingsMembers(BaseTile):
     """
