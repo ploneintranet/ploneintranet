@@ -6,15 +6,21 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
-
 import collective.workspace
 import collective.z3cform.chosen
-import slc.docconv
-import collective.documentviewer
+
+import ploneintranet.suite
+import ploneintranet.microblog
+import ploneintranet.activitystream
+import ploneintranet.network
+import ploneintranet.messaging
+import ploneintranet.core
+import ploneintranet.microblog.statuscontainer
+import ploneintranet.search
+import ploneintranet.microblog.statuscontainer
 
 
 class PloneIntranetSuite(PloneSandboxLayer):
-
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
         PLONE_APP_TILES_FIXTURE,
@@ -22,7 +28,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
-        import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
@@ -32,28 +37,17 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
         self.loadZCML(package=collective.z3cform.chosen)
 
-        self.loadZCML(package=slc.docconv)
-
-        self.loadZCML(package=collective.documentviewer)
-
         # plone social dependencies
-        import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
 
-        import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
-        import ploneintranet.network
         self.loadZCML(package=ploneintranet.network)
-        import ploneintranet.messaging
         self.loadZCML(package=ploneintranet.messaging)
-        import ploneintranet.core
         self.loadZCML(package=ploneintranet.core)
 
         # Force microblog to disable async mode !!!
-        import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
-        import ploneintranet.search
         self.loadZCML(package=ploneintranet.search)
 
     def setUpPloneSite(self, portal):
@@ -64,7 +58,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
 
     def tearDownZope(self, app):
         # reset sync mode
-        import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
@@ -73,11 +66,11 @@ class PloneIntranetSuite(PloneSandboxLayer):
 PLONEINTRANET_SUITE = PloneIntranetSuite()
 
 PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
-    bases=(PLONEINTRANET_SUITE, ),
+    bases=(PLONEINTRANET_SUITE,),
     name="PLONEINTRANET_SUITE_INTEGRATION")
 
 PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
-    bases=(PLONEINTRANET_SUITE, ),
+    bases=(PLONEINTRANET_SUITE,),
     name="PLONEINTRANET_SUITE_FUNCTIONAL")
 
 PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
