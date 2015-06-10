@@ -5,6 +5,7 @@
 	     state_variable="review_state" initial_state="new" manager_bypass="True">
 
   <permission>Modify portal content</permission>
+  <permission>View</permission>
 
   <state state_id="new" title="New">
     <description>Basic data is being gathered and added to the case.</description>
@@ -14,6 +15,12 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
