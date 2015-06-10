@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from datetime import datetime
 from logging import getLogger
+
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
+
 from plone.tiles import Tile
+
 from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.utils import get_microblog_context
+from ploneintranet import api as pi_api
 
 logger = getLogger('newpostbox')
 
@@ -121,12 +124,10 @@ class NewPostBoxTile(Tile):
             return
         if not self.post_attachment:
             return
-        token = self.request.get('attachment-form-token')
-        extract_and_add_attachments(
-            self.post_attachment,
+        pi_api.attachments.add(
             post,
-            workspace=self.context,
-            token=token
+            self.post_attachment.filename,
+            self.post_attachment.read()
         )
 
     def create_post(self):
