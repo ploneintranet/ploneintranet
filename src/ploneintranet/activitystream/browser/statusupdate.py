@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
@@ -8,9 +9,10 @@ from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
-from ploneintranet.attachments.utils import IAttachmentStorage
+
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
+from ploneintranet import api as pi_api
 
 
 logger = logging.getLogger('ploneintranet.activitystream')
@@ -215,8 +217,7 @@ class StatusUpdateView(BrowserView):
     def attachments(self):
         """ Get preview images for status update attachments
         """
-        storage = IAttachmentStorage(self.context, {})
-        items = storage.values()
+        items = pi_api.previews.get(self)
         return map(self.item2attachments, items)
 
     @memoize
