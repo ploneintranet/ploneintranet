@@ -66,6 +66,14 @@ I am in a workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Open Market Committee Workspace
 
+I am in an open workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Service Announcements Workspace
+
+I am in an open workspace as a non-member
+    I am logged in as the user alice_lindstrom
+    I go to the Service Announcements Workspace
+
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Element Is Visible  css=h1#workspace-name
@@ -80,6 +88,11 @@ I go to the Shareholder Information Workspace
     Go To  ${PLONE_URL}/workspaces/shareholder-information
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Shareholder information
+
+I go to the Service Announcements Workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Service announcements
 
 I try go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee

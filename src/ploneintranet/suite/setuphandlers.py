@@ -599,6 +599,33 @@ def testing(context):
               'type': 'Document',
               'state': 'published'}]
          },
+        {'title': u'Service announcements',
+         'description': u'Public service announcements can be found here.',
+         'transition': 'make_open',
+         'participant_policy': 'consumers',
+         'members': {'allan_neece': [u'Members'],
+                     'christian_stoney': [u'Admins', u'Members'],
+                     'francois_gast': [u'Members'],
+                     'jaimie_jacko': [u'Members'],
+                     'fernando_poulter': [u'Members'],
+                     'jesse_shaik': [u'Members'],
+                     'jorge_primavera': [u'Members'],
+                     'silvio_depaoli': [u'Members'],
+                     'kurt_weissman': [u'Members'],
+                     'esmeralda_claassen': [u'Members'],
+                     'rosalinda_roache': [u'Members'],
+                     'guy_hackey': [u'Members'],
+                     },
+         'contents':
+            [{'title': 'Terms and conditions',
+              'description': 'A document just for testing',
+              'type': 'Document',
+              'state': 'published'},
+             {'title': 'Customer satisfaction survey',
+              'description': 'A private document',
+              'type': 'Document'},
+             ]
+         },
     ]
     create_workspaces(workspaces)
 

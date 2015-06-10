@@ -143,6 +143,11 @@ Member cannot create content in a Consumers workspace
     Given I am in a Consumers workspace as a workspace member
      Then I cannot create a new document
 
+Non-Member can view published content in an open workspace
+    Given I am in an open workspace as a non-member
+     Then I can see the document  Terms and conditions
+      And I cannot see the document  Customer satisfaction survey
+
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
      Add workspace  Example Workspace
@@ -431,3 +436,12 @@ I cannot edit the document
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
 
+I can see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should contain  ${title}
+
+I cannot see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should not contain  ${title}

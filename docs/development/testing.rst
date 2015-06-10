@@ -165,7 +165,7 @@ Workspaces
 
 The top-level workspace container with the id "workspaces" is created on install by the setup-handler of the workspace package.
 
-The setup-handler of the suite creates three workspaces with the following settings:
+The setup-handler of the suite creates four workspaces with the following settings:
 
 * "Open Market Committee"
 
@@ -193,3 +193,10 @@ The setup-handler of the suite creates three workspaces with the following setti
   * **Member**: allan_neece (and others)
   * **Non-Member**: alice_lindstrom
 
+* "Service announcements"
+
+  * **External visibility**: Open
+  * **Participation policy**: Consumers
+  * **Admin**: christian_stoney
+  * **Member**: allan_neece (and others)
+  * **Non-Member**: alice_lindstrom
