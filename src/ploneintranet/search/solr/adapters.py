@@ -92,3 +92,11 @@ class SearchResult(base.SearchResult):
     @property
     def path(self):
         return self.context['path_string']
+
+    @property
+    def highlighted_summary(self):
+        uid = self.context['UID']
+        highlighting = self.response.context.highlighting.get(uid)
+
+        if highlighting is not None and 'SearchableText' in highlighting:
+            return highlighting['SearchableText'][0]

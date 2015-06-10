@@ -188,7 +188,7 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_spellchecking(self, query, phrase):
-        query = query.highlight('Description')
+        query = query.highlight('SearchableText')
         return query.spellcheck(q=phrase, collate=True, maxCollations=1)
 
     def _paginate(self, query, start, step):
