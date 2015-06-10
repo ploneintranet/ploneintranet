@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from plone import api
+
 from ploneintranet.async.celerytasks import generate_and_add_preview
 
 
@@ -64,3 +66,21 @@ def has_previews(obj):
     :rtype: bool
     """
     return bool(get(obj))
+
+
+def get_preview_urls(obj):
+    """Get URLs to the preview images to the given content object
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: List of URLs to the preview images
+    :rtype: list
+    """
+    previews = get(obj)
+    images = api.content.get_view(
+        'images',
+        previews[0],
+        obj.request,
+    )
+    urls = [images.scale(scale='preview').absolute_url()]
+    return urls
