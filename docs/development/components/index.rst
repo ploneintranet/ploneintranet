@@ -14,3 +14,4 @@ Component Packages
     filepreviews
     network
     pagerank
+    themeswitcher
