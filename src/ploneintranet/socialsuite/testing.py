@@ -1,14 +1,25 @@
+import time
+
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import applyProfile
-
 from plone.testing import z2
-
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
-
 from zope.configuration import xmlconfig
+import plone.tiles
+from Testing.ZopeTestCase.threadutils import setNumberOfThreads
+from Testing.ZopeTestCase.threadutils import QuietThread, zserverRunner
+
+import ploneintranet.socialsuite
+import ploneintranet.microblog
+import ploneintranet.activitystream
+import ploneintranet.network
+import ploneintranet.socialtheme
+import ploneintranet.messaging
+import ploneintranet.core
+import ploneintranet.async
 
 
 class PloneIntranetSocialSuite(PloneSandboxLayer):
@@ -17,15 +28,6 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package
-        import plone.tiles
-        import ploneintranet.socialsuite
-        import ploneintranet.microblog
-        import ploneintranet.activitystream
-        import ploneintranet.network
-        import ploneintranet.socialtheme
-        import ploneintranet.messaging
-        import ploneintranet.core
-        import ploneintranet.docconv.client
         xmlconfig.file('meta.zcml',
                        plone.tiles,
                        context=configurationContext)
@@ -51,7 +53,7 @@ class PloneIntranetSocialSuite(PloneSandboxLayer):
                        ploneintranet.core,
                        context=configurationContext)
         xmlconfig.file('configure.zcml',
-                       ploneintranet.docconv.client,
+                       ploneintranet.async,
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
@@ -72,11 +74,6 @@ PLONEINTRANET_SOCIAL_ROBOT = FunctionalTesting(
     bases=(AUTOLOGIN_LIBRARY_FIXTURE,
            PLONEINTRANET_SOCIALSUITE_FIXTURE, z2.ZSERVER),
     name="PloneIntranetSocialSuite:Robot")
-
-
-from Testing.ZopeTestCase.threadutils import setNumberOfThreads
-from Testing.ZopeTestCase.threadutils import QuietThread, zserverRunner
-import time
 
 
 def startZServer(host='127.0.0.1', number_of_threads=1, log=None):
