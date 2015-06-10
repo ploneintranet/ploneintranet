@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 
 from pathlib import Path
@@ -7,7 +8,6 @@ from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.Five import BrowserView
 from zope.interface import alsoProvides
 
-import os
 
 
 logger = logging.getLogger(__name__)
