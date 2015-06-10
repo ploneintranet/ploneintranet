@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from ploneintranet.async.celerytasks import generate_and_add_preview
+
+
 def get(obj):
     """Get the preview images for the given object
 
@@ -21,7 +24,15 @@ def create(obj, request):
     :param request: The Plone request object
     :type request: HTTPRequest
     """
-    pass
+    kwargs = dict(
+        url=obj.absolute_url(),
+        cookies=request.cookies
+    )
+
+    generate_and_add_preview.apply_async(
+        countdown=10,
+        kwargs=kwargs,
+    )
 
 
 def get_thumb(obj):
