@@ -1,9 +1,19 @@
 <configure
         xmlns="http://namespaces.zope.org/zope"
-        xmlns:browser="http://namespaces.zope.org/browser"
-        xmlns:five="http://namespaces.zope.org/five"
-        xmlns:plone="http://namespaces.plone.org/plone"
+        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
         i18n_domain="ploneintranet">
 
     <include package=".browser" />
+
+    <adapter
+            name="has_thumbs"
+            factory=".indexers.has_thumbs"/>
+
+    <genericsetup:registerProfile
+            name="default"
+            title="Plone Intranet: -- (Async)"
+            directory="profiles/default"
+            description="Extension profile for ploneintranet.async."
+            provides="Products.GenericSetup.interfaces.EXTENSION"
+            />
 </configure>

@@ -6,8 +6,9 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 import unittest2 as unittest
+
 import ploneintranet.search
-import ploneintranet.docconv.client
+import ploneintranet.async
 
 
 class PloneintranetSearchLayer(PloneSandboxLayer):
@@ -17,10 +18,10 @@ class PloneintranetSearchLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         self.loadZCML(package=ploneintranet.search)
-        self.loadZCML(package=ploneintranet.docconv.client)
+        self.loadZCML(package=ploneintranet.async)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'ploneintranet.docconv.client:default')
+        applyProfile(portal, 'ploneintranet.async:default')
         applyProfile(portal, 'ploneintranet.search:default')
 
 
