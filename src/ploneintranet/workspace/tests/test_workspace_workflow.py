@@ -71,7 +71,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             obj=self.workspace_folder,
         )
         self.assertFalse(nonmember_permissions[VIEW],
-                         'Non-member cannot view private workspace')
+                         'Non-member can view private workspace')
         self.assertFalse(nonmember_permissions[ACCESS],
                          'Non-member can access private workspace')
         self.assertFalse(nonmember_permissions[ADD_STATUS],

@@ -66,7 +66,7 @@ class BaseTile(BrowserView):
         """
         return api.user.has_permission(
             "ploneintranet.workspace: Manage workspace",
-            obj=self,
+            obj=self.context,
         )
 
     def can_add(self):
@@ -75,7 +75,7 @@ class BaseTile(BrowserView):
         """
         return api.user.has_permission(
             "Add portal content",
-            obj=self,
+            obj=self.context,
         )
 
 
