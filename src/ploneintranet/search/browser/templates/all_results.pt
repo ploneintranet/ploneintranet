@@ -161,10 +161,18 @@
                     </a>
                     </tal:preview>
 
-                    <p class="fragment"
-                       tal:condition="result/description"
-                       tal:content="result/description">
-                    </p>
+		    <tal:highlights condition="result/highlighted_summary">
+			<p class="fragment"
+			   tal:content="structure result/highlighted_summary">
+			</p>
+		    </tal:highlights>
+		    <tal:nohighlights 
+			 condition="not: result/highlighted_summary">
+			<p class="fragment"
+			   tal:condition="result/description"
+			   tal:content="result/description">
+			</p>
+		    </tal:nohighlights>
                     <a href="{{ result.url }}" class="link"
                        tal:attributes="href result/url"
                        tal:content="result/path">
