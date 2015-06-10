@@ -1,11 +1,12 @@
 import logging
 
 from Products.CMFCore.interfaces import IContentish
-from plone import api
 from Products.MimetypesRegistry import MimeTypeException
+from plone import api
 from plone.app.contenttypes.interfaces import IFile
 from plone.indexer import indexer
 from plone.rfc822.interfaces import IPrimaryFieldInfo
+
 
 logger = logging.getLogger(__name__)
 
