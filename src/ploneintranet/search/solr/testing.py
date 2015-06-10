@@ -96,19 +96,18 @@ class SolrLayer(Layer):
         super(SolrLayer, self).tearDown()
         self._solr_cmd('stop')
 
+
 SOLR_FIXTURE = SolrLayer()
 
+
 NamedBaseLayers = collections.namedtuple(
-    'NamedBaseLayers', ('solr', 'pisearch')
+    'NamedBaseLayers', ('pisearch', 'solr')
 )
 
 
 class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
 
-    defaultBases = NamedBaseLayers(
-        solr=SOLR_FIXTURE,
-        pisearch=testing.FIXTURE
-    )
+    defaultBases = NamedBaseLayers(testing.FIXTURE, SOLR_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
         super(PloneIntranetSearchSolrLayer, self).setUpZope(
