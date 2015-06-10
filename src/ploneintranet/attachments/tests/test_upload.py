@@ -1,27 +1,24 @@
 # -*- coding: utf-8 -*-
-from pkg_resources import resource_string
 from plone import api
 from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.namedfile.file import NamedBlobFile
+from zope.interface import alsoProvides
+
+from pkg_resources import resource_string
 from ploneintranet.attachments.testing import IntegrationTestCase
 from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
-from ploneintranet.docconv.client.interfaces import (
-    IPloneintranetDocconvClientLayer
-)
-from zope.interface import alsoProvides
 
 
 class TestUpload(IntegrationTestCase):
-    ''' Test that the upload view is functional
-    '''
+    """ Test that the upload view is functional
+    """
     def setUp(self):
-        ''' define some helper variables here
-        '''
+        """ define some helper variables here
+        """
         self.portal = self.layer['portal']
         self.request = self.layer['request'].clone()
         alsoProvides(self.request, IPloneintranetAttachmentsLayer)
-        alsoProvides(self.request, IPloneintranetDocconvClientLayer)
 
         # Docconv: will generate previews for this
         self.pdf = api.content.create(
@@ -63,8 +60,8 @@ class TestUpload(IntegrationTestCase):
         )
 
     def test_get_thumbs_urls(self):
-        ''' Given an attachment we should have the urls to see its thumbnails
-        '''
+        """ Given an attachment we should have the urls to see its thumbnails
+        """
         upload_view = api.content.get_view(
             'upload-attachments',
             self.portal,
@@ -103,13 +100,13 @@ class TestUpload(IntegrationTestCase):
         )
 
     def test_docconv_url_traversable(self):
-        ''' In the previous test we returned a URL similar to this:
+        """ In the previous test we returned a URL similar to this:
          - http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1
         in the case of a docconv generated URL
 
         This test will protect the method that generates the urls
         from changes in the docconv module
-        '''
+        """
         request = self.request.clone()
         request['page'] = 1
         view = api.content.get_view(
