@@ -21,6 +21,11 @@ class SiteSearch(base.SiteSearch):
     def _create_query_object(self, phrase):
         return dict(SearchableText=phrase)
 
+    def _apply_debug(self, query):
+        from pprint import pprint
+        pprint(query)
+        return query
+
     def _apply_filters(self, query, filters):
         query = dict(query)
         tags = filters.get('tags')

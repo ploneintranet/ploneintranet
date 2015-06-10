@@ -119,6 +119,9 @@ class SiteSearch(base.SiteSearch):
 
     """
 
+    phrase_field_boosts = base.RegistryProperty('phrase_field_boosts',
+                                                prefix=__package__)
+
     def __collect_query_params(self, iface, bucket):
         """Collect original query paramters for debugging purposes.
 
@@ -145,11 +148,16 @@ class SiteSearch(base.SiteSearch):
         :rtype query: ploneintranet.search.solr.search.Search
         """
         interface = IConnection(getUtility(IConnectionConfig))
-        phrase_query = interface.Q()
-        query_params = dict.fromkeys(self.phrase_fields, phrase)
-        for query_param in query_params.items():
-            phrase_query |= interface.Q(**dict([query_param]))
-        return IQuery(interface).query(phrase_query)
+        Q = interface.Q
+        phrase_query = Q()
+        boosts = self.phrase_field_boosts
+        for phrase_field in self.phrase_fields:
+            phrase_q = Q(**{phrase_field: phrase})
+            boost = boosts.get(phrase_field)
+            if boost is not None:
+                phrase_q **= boost
+            phrase_query |= phrase_q
+        return IQuery(interface).query(Q(phrase_query))
 
     def _apply_filters(self, query, filters):
         interface = query.interface
@@ -187,9 +195,11 @@ class SiteSearch(base.SiteSearch):
         return query.paginate(start=start, rows=step)
 
     def _apply_ordering(self, query):
-        return query.sort_by('-created')
+        for sortby_field in self.sortby_fields:
+            query = query.sort_by(sortby_field)
+        return query
 
-    def _apply_debugging(self, query):
+    def _apply_debug(self, query):
         return query.debug()
 
     def _execute(self, query, debug=False, **kw):

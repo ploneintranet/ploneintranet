@@ -283,6 +283,7 @@ class SiteSearch(object):
     facet_fields = RegistryProperty('facet_fields')
     filter_fields = RegistryProperty('filter_fields')
     phrase_fields = RegistryProperty('phrase_fields')
+    sortby_fields = RegistryProperty('sortby_fields')
 
     def __apply_filters(self, query, filters):
         filter_fields = set(self.filter_fields)
