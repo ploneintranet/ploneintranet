@@ -186,13 +186,14 @@ I can invite Alice to join the workspace
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
-    Wait Until Page Contains Element  link=Functions
-    Click Link  link=Functions
+    Wait Until Page Contains Element  css=a.member-list-toggle-select.more-menu-trigger.collapsible-closed
+    Click Link  css=a.member-list-toggle-select.more-menu-trigger.collapsible-closed
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
     Wait until page contains  Add user
+    Click Link  Add user
     Wait Until Page Contains Element  css=li.select2-search-field input
     Input Text  css=li.select2-search-field input  alice
     Click Element  css=span.select2-match

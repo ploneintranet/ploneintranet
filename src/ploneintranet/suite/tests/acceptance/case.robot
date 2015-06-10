@@ -86,26 +86,6 @@ The manager can invite Alice to join the Minifest from the menu
       And I can open the workspace member settings tab
      Then I can invite Alice to join the workspace from the menu
 
-Create document
-    Given I am in a case workspace as a workspace member
-     Then I can create a new document    My Humble document
-
-Create folder
-    Given I am in a case workspace as a workspace member
-     Then I can create a new folder
-
-Create image
-    Given I am in a case workspace as a workspace member
-     Then I can create a new image
-
-Create structure
-    Given I am in a case workspace as a workspace member
-     Then I can create a structure
-
-Member can upload a file
-    Given I am in a case workspace as a workspace member
-      And I select a file to upload
-     Then the file appears in the sidebar
 
 *** Keywords ***
 

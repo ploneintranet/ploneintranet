@@ -253,9 +253,9 @@ def create_caseworkspaces(caseworkspaces):
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)
-        for m in members:
+        for (m, groups) in members.items():
             IWorkspace(
-                caseworkspace).add_to_team(user=m, groups=set([u'Members']))
+                caseworkspace).add_to_team(user=m, groups=set(groups))
 
 
 def create_ws_content(parent, contents):
@@ -609,7 +609,8 @@ def testing(context):
         'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
                        'Finanzielle Unterstützung des MinistrantInnen-Fest '
                        'vom 7. September 2014 in St. Gallen.',
-        'members': ['christian_stoney', ],
+        'members': {'allan_neece': [u'Members'],
+                    'christian_stoney': [u'Admins', u'Members']},
         'contents': [{
             'title': 'Basisdatenerfassung',
             'type': 'todo',
