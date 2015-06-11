@@ -13,6 +13,7 @@
       class=".userprofile.UserProfileView"
       permission="zope2.View"
       template="templates/userprofile.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
   <browser:page
@@ -29,6 +30,7 @@
       class=".userprofile.UserActions"
       permission="zope2.View"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
 </configure>
