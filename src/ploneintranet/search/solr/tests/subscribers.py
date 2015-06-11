@@ -9,7 +9,12 @@ def on_tests_modify_content(obj, event):
 
 def on_tests_delete_content(obj, event):
     """Required to force Solr indexing object deletions."""
-    on_tests_modify_content(obj, event)
+    transaction.commit()
+
+
+def on_tests_add_content(obj, event):
+    """Required to force Solr indexing object additions."""
+    transaction.commit()
 
 
 def on_tests_transition_content(obj, event):

@@ -19,6 +19,12 @@
   
   <subscriber
       for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".tests.subscribers.on_tests_add_content"
+      />
+  
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
       handler=".tests.subscribers.on_tests_transition_content"
       />
