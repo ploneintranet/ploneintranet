@@ -21,15 +21,6 @@
       name="author"
       class=".userprofile.AuthorView"
       permission="zope2.View"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-     />
-
-  <browser:page
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      name="useractions"
-      class=".userprofile.UserActions"
-      permission="zope2.View"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 

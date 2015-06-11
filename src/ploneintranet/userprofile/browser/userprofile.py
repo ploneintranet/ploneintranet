@@ -2,7 +2,6 @@ from zope.interface import implements
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
-from zExceptions import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api
 
@@ -49,17 +48,3 @@ class AuthorView(BaseAuthorView):
                 profile.absolute_url()
             )
         raise NotFound
-
-
-class UserActions(BrowserView):
-    """Override the default user actions view to redirect to
-    the current user's profile"""
-
-    def __call__(self):
-        profile = pi_api.userprofile.get_current()
-
-        if profile is not None:
-            return self.request.response.redirect(
-                profile.absolute_url()
-            )
-        raise Unauthorized
