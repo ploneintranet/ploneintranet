@@ -65,6 +65,7 @@ setup(name='ploneintranet',
           'collective.celery',
           'collective.workspace',
           'fake-factory',
+          'collective.externaleditor >= 1.0.2',
       ],
       extras_require={
           'test': [
@@ -106,10 +107,6 @@ setup(name='ploneintranet',
               'slc.docconv',
               'plone.async',
               'BeautifulSoup',
-          ],
-          'simplesharing': [
-              'collective.z3cform.chosen',
-              'plone.directives.form',
           ],
           'pagerank': [
               'networkx',

@@ -2,7 +2,7 @@
 <metadata>
   <version>0002</version>
   <dependencies>
-        <dependency>profile-ploneintranet.simplesharing:default</dependency>
+        <dependency>profile-collective.externaleditor:default</dependency>
         <dependency>profile-ploneintranet.workspace:default</dependency>
         <dependency>profile-ploneintranet.theme:default</dependency>
         <dependency>profile-ploneintranet.docconv.client:default</dependency>
