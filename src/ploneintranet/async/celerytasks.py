@@ -4,7 +4,10 @@ Celery tasks providing asynchronous jobs for Plone Intranet
 from celery import Celery
 import requests
 
+from ploneintranet.async import celeryconfig
+
 app = Celery('ploneintranet.tasks', broker='redis://localhost:6379/0')
+app.config_from_object(celeryconfig)
 
 
 class PreviewGenerationException(Exception):
