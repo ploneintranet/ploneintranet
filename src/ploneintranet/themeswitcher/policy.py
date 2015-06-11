@@ -1,5 +1,7 @@
 import Globals
 import logging
+from Products.CMFPlone.resources import add_bundle_on_request
+from Products.CMFPlone.resources import remove_bundle_on_request
 from plone.app.theming.interfaces import IThemingPolicy
 from plone.app.theming.interfaces import IThemeSettings
 from plone.app.theming.policy import ThemingPolicy as DefaultPolicy
@@ -154,6 +156,9 @@ class SwitchableThemingPolicy(DefaultPolicy):
 
         - Enable/disable resource bundles to restore the fallback theme.
           Typically involves removing the 'normal' theme bundle(s).
+          Some control panels add a bundle to the request on rendering,
+          and we make sure to play nice with that and extend rather than
+          replace such request bundle settings.
         """
         if self.request.get('ploneintranet.themeswitcher.marker'):
             return
@@ -174,9 +179,11 @@ class SwitchableThemingPolicy(DefaultPolicy):
         # CMFPlone/resource/browser/resource
         # supports enable/disable bundles directly on the request
         if switcher.fallback_enabled_bundles:
-            self.request.enabled_bundles = switcher.fallback_enabled_bundles
+            for bundle in switcher.fallback_enabled_bundles:
+                add_bundle_on_request(self.request, bundle)
         if switcher.fallback_disabled_bundles:
-            self.request.disabled_bundles = switcher.fallback_disabled_bundles
+            for bundle in switcher.fallback_disabled_bundles:
+                remove_bundle_on_request(self.request, bundle)
         else:
             log.warn("NO bundles disabled on fallback. That's weird.")
 
