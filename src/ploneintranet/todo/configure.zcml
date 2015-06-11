@@ -21,6 +21,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- (Todo uninstall)"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.todo."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <include package="plone.behavior" file="meta.zcml" />
     <include package="plone.directives.form" />
     <include package="plone.directives.form" file="meta.zcml" />
@@ -40,7 +48,7 @@
         factory="plone.behavior.AnnotationStorage"
         marker=".behaviors.ITodoMarker"
         />
-    
+
     <include package=".portlets" />
     <include package=".browser" />
 
@@ -60,7 +68,7 @@
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectModifiedEvent"
                 handler=".handlers.todo_set_role" />
-                
+
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectAddedEvent"
                 handler=".handlers.todo_set_role" />
