@@ -419,7 +419,7 @@ I can add a new task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
-    Wait Until Element Is visible  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div[text()='Christian Stoney']
+    Wait Until Page Contains  Christian Stoney
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
     Input Text  css=label.assignee li.select2-search-field input  stoney
     Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
