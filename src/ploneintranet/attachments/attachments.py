@@ -45,6 +45,9 @@ class IAttachmentStorage(interface.Interface):
     def remove(id):
         """ """
 
+    def items():
+        """ """
+
 
 class AttachmentStorage(Traversable, Persistent, Explicit):
     """ The attachment storage is a container for all attachments on content
@@ -91,6 +94,9 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
 
     def remove(self, id):
         del self._attachments[id]
+
+    def items(self):
+        return self._attachments.items()
 
 
 @interface.implementer(IAttachmentStorage)
