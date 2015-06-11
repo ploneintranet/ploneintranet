@@ -1,5 +1,7 @@
 from Products.Five import BrowserView
+
 from ploneintranet import api as pi_api
+
 
 class ImageView(BrowserView):
     """ Base class for views that render preview related images """
@@ -26,9 +28,11 @@ class ImageView(BrowserView):
             imgdata = previews[page - 1]
             R = self.request.RESPONSE
             R.setHeader('content-type', 'image/jpeg')
-            R.setHeader('content-disposition', 'inline; '
-                                               'filename="{0}_preview.jpg"'.format(
-                self.context.getId().encode('utf8')))
+            R.setHeader(
+                'content-disposition',
+                'inline; filename="{0}_preview.jpg"'.format(
+                    self.context.getId().encode('utf8'))
+            )
             if isinstance(imgdata, basestring):
                 length = len(imgdata)
                 R.setHeader('content-length', length)
@@ -51,6 +55,7 @@ class PreviewView(ImageView):
     """
 
     """
+
     def _get_data(self):
         return pi_api.previews.get(self.context)
 
