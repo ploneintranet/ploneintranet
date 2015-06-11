@@ -52,6 +52,9 @@ class TestUninstall(unittest.TestCase):
             self.installer.isProductInstalled('ploneintranet.suite'))
 
     def test_dependencies_are_uninstalled(self):
+        """Test if deps from the ploneintranet-namespace are uninstalled.
+        Also some additional deps should be uninstalled.
+        """
         dependencies = []
         qi = self.installer
         install_profile = qi.getInstallProfile('ploneintranet.suite')
@@ -60,6 +63,15 @@ class TestUninstall(unittest.TestCase):
             dependency = dependency.split(':')[0]
             dependencies.append(str(dependency))
         for dependency in dependencies:
-            self.assertFalse(qi.isProductInstalled(dependency))
+            if dependency.startswith('ploneintranet.'):
+                self.assertFalse(
+                    qi.isProductInstalled(dependency),
+                    '%s is still installed' % dependency)
+            elif dependency not in ADDITIONAL_DEPENDENCIES:
+                self.assertTrue(
+                    qi.isProductInstalled(dependency),
+                    '%s should not be uninstalled' % dependency)
         for depdendency in ADDITIONAL_DEPENDENCIES:
-            self.assertFalse(qi.isProductInstalled(dependency))
+            self.assertFalse(
+                qi.isProductInstalled(dependency),
+                '%s is still installed' % dependency)
