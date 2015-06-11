@@ -11,6 +11,7 @@ import plone.dexterity
 
 import ploneintranet.microblog
 import ploneintranet.attachments
+import ploneintranet.async
 
 
 class PloneintranetAttachmentsLayer(PloneSandboxLayer):
@@ -24,6 +25,7 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.dexterity)
         self.loadZCML(package=ploneintranet.microblog)
         self.loadZCML(package=ploneintranet.attachments)
+        self.loadZCML(package=ploneintranet.async)
 
         z2.installProduct(app, 'ploneintranet.attachments')
 
