@@ -92,6 +92,8 @@ class SearchResultsView(BrowserView):
         """
         form = self.request.form
         keywords = form.get('SearchableText')
+        if not keywords:
+            return []
         filters = {'portal_type': type_name}
 
         search_util = getUtility(ISiteSearch)
