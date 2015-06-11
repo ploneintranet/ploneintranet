@@ -23,3 +23,14 @@ def uninstall(context):
     pas = api.portal.get_tool('acl_users')
     if DYNAMIC_GROUPS_PLUGIN_ID in pas.objectIds():
         pas.manage_delObjects([DYNAMIC_GROUPS_PLUGIN_ID])
+
+    # Delete roles
+    portal = api.portal.get()
+    valid_roles = portal.valid_roles()
+    portal_role_manager = pas.portal_role_manager
+    roles = portal_role_manager.listRoleIds()
+    for role in ['TeamMember', 'TeamManager', 'SelfPublisher', 'Assignee']:
+        if role in roles:
+            portal_role_manager.removeRole(role)
+        if role in valid_roles:
+            portal._delRoles([role, ])

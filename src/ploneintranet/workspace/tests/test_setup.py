@@ -94,6 +94,14 @@ class TestUninstall(unittest.TestCase):
         pas = api.portal.get_tool('acl_users')
         self.assertNotIn(DYNAMIC_GROUPS_PLUGIN_ID, pas.objectIds())
 
+    def test_roles_removed(self):
+        valid_roles = self.portal.valid_roles()
+        pas = api.portal.get_tool('acl_users')
+        roles = pas.portal_role_manager.listRoleIds()
+        for role in ['TeamMember', 'TeamManager', 'SelfPublisher']:
+            self.assertNotIn(role, valid_roles)
+            self.assertNotIn(role, roles)
+
     def test_actions_reset(self):
         actions = api.portal.get_tool('portal_actions')
         object_actions = actions.get('object')

@@ -51,3 +51,11 @@ class TestUninstall(IntegrationTestCase):
         fti = portal_types.get('News Item', None)
         self.assertNotIn(
             'ploneintranet.todo.behaviors.IMustRead', fti.behaviors)
+
+    def test_roles_removed(self):
+        valid_roles = self.portal.valid_roles()
+        pas = api.portal.get_tool('acl_users')
+        roles = pas.portal_role_manager.listRoleIds()
+        for role in ['Assignee']:
+            self.assertNotIn(role, valid_roles)
+            self.assertNotIn(role, roles)
