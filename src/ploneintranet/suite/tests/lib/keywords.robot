@@ -380,7 +380,7 @@ I can go to the sidebar tasks tile of my case
 I can add a new task
     [arguments]  ${title}
     Click Link  Create task
-    Wait Until Page Contains  Create task
+    Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
