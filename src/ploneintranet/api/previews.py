@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from plone.memoize.view import memoize
 
 from ploneintranet.async.celerytasks import generate_and_add_preview
 
 
+@memoize
 def get(obj):
     """Get the preview images for the given object
 
