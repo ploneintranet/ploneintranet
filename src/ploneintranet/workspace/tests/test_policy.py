@@ -134,7 +134,7 @@ class TestPolicy(BaseTestCase):
         workspace = getattr(self.portal, 'scenario-3')
         self.assertEqual(workspace.external_visibility, 'open')
         self.assertEqual(workspace.join_policy, 'self')
-        self.assertEqual(workspace.participant_policy, 'moderators')
+        self.assertEqual(workspace.participant_policy, 'publishers')
 
         request.form['scenario'] = 'X'
         add_form = AddContent(self.portal, request)

@@ -52,7 +52,7 @@ class AddContent(BrowserView):
                     elif form['scenario'] == '3':
                         external_visibility = 'open'
                         join_policy = 'self'
-                        participant_policy = 'moderators'
+                        participant_policy = 'publishers'
                     else:
                         raise AttributeError
 
