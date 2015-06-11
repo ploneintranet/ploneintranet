@@ -80,21 +80,13 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
-        xmlconfig.file(
-            'configure.zcml',
-            collective.externaleditor,
-            context=configurationContext
-        )
-
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
-        z2.installProduct(app, 'collective.externaleditor')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
 
     def tearDownZope(self, app):
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
-        z2.uninstallProduct(app, 'collective.externaleditor')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
 
     def setUpPloneSite(self, portal):
