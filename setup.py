@@ -105,10 +105,6 @@ setup(name='ploneintranet',
               'plone.directives.dexterity',
               'plone.principalsource',
           ],
-          'simplesharing': [
-              'collective.z3cform.chosen',
-              'plone.directives.form',
-          ],
           'pagerank': [
               'networkx',
               'mincemeat',

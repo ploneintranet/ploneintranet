@@ -70,16 +70,16 @@
     <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
     <form tal:replace="structure view/toggle_like" />
   </div>
-  <tal:commentable condition="view/statusupdate_view/commentable">
-      <div class="comments"
-           id="${string:comments-${thread_id}}"
-           talattributes="id string:comments-${thread_id}">
-        <div tal:attributes="id string:comment-trail-${thread_id}">
-          <tal:loop
-              tal:repeat="comment view/statusupdate_view/comment_views"
-              tal:content="structure comment"
-          />
-        </div>
+  <div class="comments"
+       id="${string:comments-${thread_id}}"
+       talattributes="id string:comments-${thread_id}">
+    <div tal:attributes="id string:comment-trail-${thread_id}">
+      <tal:loop
+          tal:repeat="comment view/statusupdate_view/comment_views"
+          tal:content="structure comment"
+      />
+    </div>
+    <tal:commentable condition="view/statusupdate_view/commentable">
         <tal:define define="
           newpostbox_view nocall:view/newpostbox_view;
           form_id string:comment_box_${thread_id};
@@ -91,8 +91,8 @@
         ">
           <metal:block use-macro="here/@@update-social.html/main" />
         </tal:define>
-      </div>
-  </tal:commentable>
+    </tal:commentable>
+  </div>
 
 </div>
 </metal:macro>

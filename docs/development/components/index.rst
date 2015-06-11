@@ -6,6 +6,7 @@ Component Packages
     :maxdepth: 2
 
     microblogstream
+    notifications
     workspace
     invitations
     filepreviews

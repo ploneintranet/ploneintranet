@@ -94,7 +94,12 @@ class StatusUpdate(Persistent):
     def context(self):
         if not self.context_uuid:
             return None
-        return uuidToObject(self._context_uuid)
+        context = uuidToObject(self._context_uuid)
+        if context is None:
+            raise AttributeError(
+                "Microblog context with uuid {0} could not be "
+                "retrieved".format(self.context_uuid))
+        return context
 
 # FIXME distinguish between:
 # - context = context object (can be a page)
