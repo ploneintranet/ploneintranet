@@ -18,9 +18,10 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-Alice can create a workspace
-    Given I am logged in as the user alice_lindstrom
-    Then I can create a new workspace    My user workspace
+# FIXME #430
+# Alan can create a workspace
+#     Given I am logged in as the user alice_lindstrom
+#     Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -209,12 +210,12 @@ Site Administrator can add example user as member of workspace
 
 I can create a new workspace
     [arguments]  ${title}
-    Go To  ${PLONE_URL}/workspaces.html
-    Click Link  link=Create Workspace
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
-    Input Text  name=form.widgets.IBasic.description  text=Random description
-    Click Element  css=button.icon-ok-circle.confirmative
+    Input Text  xpath=//input[@name='title']  text=${title}
+    Input Text  xpath=//textarea[@name='description']  text=Random description
+    Click Button  Create workspace
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
 I select a file to upload

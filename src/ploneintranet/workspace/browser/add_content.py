@@ -38,6 +38,28 @@ class AddContent(BrowserView):
         )
 
         if new:
+            form = self.request.form
+            if self.portal_type == 'ploneintranet.workspace.workspacefolder':
+                if 'scenario' in form:
+                    if form['scenario'] == '1':
+                        external_visibility = 'secret'
+                        join_policy = 'admin'
+                        participant_policy = 'producers'
+                    elif form['scenario'] == '2':
+                        external_visibility = 'private'
+                        join_policy = 'team'
+                        participant_policy = 'moderators'
+                    elif form['scenario'] == '3':
+                        external_visibility = 'open'
+                        join_policy = 'self'
+                        participant_policy = 'publishers'
+                    else:
+                        raise AttributeError
+
+                    new.set_external_visibility(external_visibility)
+                    new.join_policy = join_policy
+                    new.participant_policy = participant_policy
+
             modified, errors = dexterity_update(new)
             if modified and not errors:
                 api.portal.show_message(
