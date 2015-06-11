@@ -15,4 +15,18 @@
             class=".docconv.GeneratePreviewImages"
             permission="zope2.View"
             />
+    <!-- TODO: A layer is needed here -->
+    <browser:page
+            name="docconv_image_preview.jpg"
+            for="*"
+            permission="zope2.View"
+            class=".previews.PreviewView"
+            />
+    <!-- TODO: A layer is needed here -->
+    <browser:page
+            name="docconv_image_thumb.jpg"
+            for="*"
+            permission="zope2.View"
+            class=".previews.ThumbnailView"
+            />
 </configure>
