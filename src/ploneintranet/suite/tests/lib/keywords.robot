@@ -215,6 +215,7 @@ I can invite Alice to join the workspace from the menu
 I can invite Alice to the workspace
     Wait until page contains  Add user
     Input Text  css=li.select2-search-field input  alice
+    Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
     Click Button  Ok
 
@@ -420,6 +421,7 @@ I can add a new task
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
     Input Text  css=label.assignee li.select2-search-field input  stoney
+    Wait Until Element Is visible  css=span.select2-match
     Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
     Select From List  milestone  new
     Click Button  Create
