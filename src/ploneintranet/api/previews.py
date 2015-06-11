@@ -40,7 +40,7 @@ def create(obj, request):
 def get_thumb(obj):
     """Get the thumnail preview image for the given object
 
-    If there are no previews None will be returned
+    If there is no thumbnail None will be returned
 
     :param obj: The Plone object to get previews for
     :type obj: A Plone content object
