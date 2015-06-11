@@ -229,10 +229,6 @@ class SiteSearchProtocol:
         """
 
     @abc.abstractmethod
-    def _apply_ordering(self, query):
-        """Return a copy of the query with ordering parameters applied."""
-
-    @abc.abstractmethod
     def _execute(self, query, **kw):
         """Execute the query.
 
@@ -281,7 +277,6 @@ class SiteSearch(object):
     facet_fields = RegistryProperty('facet_fields')
     filter_fields = RegistryProperty('filter_fields')
     phrase_fields = RegistryProperty('phrase_fields')
-    sortby_fields = RegistryProperty('sortby_fields')
 
     def __apply_filters(self, query, filters):
         filter_fields = set(self.filter_fields)
@@ -312,7 +307,6 @@ class SiteSearch(object):
             query = self._apply_date_range(query, start_date, end_date)
         if step is not None:
             query = self._paginate(query, start, step)
-        query = self._apply_ordering(query)
         if debug:
             query = self._apply_debug(query)
         query = self._apply_security(query)

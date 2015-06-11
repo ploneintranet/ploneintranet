@@ -1,20 +1,6 @@
 <?xml version="1.0"?>
 <records>
 
-  <record name="ploneintranet.search.sortby_fields">
-    <field type="plone.registry.field.Tuple">
-      <title>Fallback sort fields for searches.</title>
-      <description>
-        The names of fields used to sort search resultss.
-        Each name may optionally prefixed with a hyphen to indicate descending order.
-      </description>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>-created</element>
-    </value>
-  </record>
-
   <record name="ploneintranet.search.filter_fields">
     <field type="plone.registry.field.Tuple">
       <title>Filter fields</title>

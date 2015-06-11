@@ -291,7 +291,8 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
 
         result_titles = list(result.title for result in response)
         expected_titles = [doc.Title() for doc in (self.doc2, self.doc1)]
-        self.assertEqual(result_titles, expected_titles)
+        self.assertEqual(set(result_titles),
+                         set(expected_titles))
 
     def test_relevancy(self):
         util = self._make_utility()

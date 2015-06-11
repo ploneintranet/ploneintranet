@@ -203,11 +203,6 @@ class SiteSearch(base.SiteSearch):
     def _paginate(self, query, start, step):
         return query.paginate(start=start, rows=step)
 
-    def _apply_ordering(self, query):
-        for sortby_field in self.sortby_fields:
-            query = query.sort_by(sortby_field)
-        return query
-
     def _apply_debug(self, query):
         return query.debug()
 

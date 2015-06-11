@@ -14,7 +14,6 @@ class SiteSearch(base.SiteSearch):
     """Example implementation of ISiteSearch using the Plone catalog."""
 
     _apply_facets = base.NoOpQueryMethod()
-    _apply_ordering = base.NoOpQueryMethod()
     _apply_spellchecking = base.NoOpQueryMethod()
     _apply_security = base.NoOpQueryMethod()
 
