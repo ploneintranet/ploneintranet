@@ -56,31 +56,28 @@ pat-inject-async attaches an event handler to on_message event of SockJS
 Development setup
 -----------------
 
-This is all very preliminary...
+The default buildout sets up Celery in ALWAYS_EAGER mode.
+This means you do not need to run the Celery worker or the broker (redis).
 
-
-Redis
-~~~~~
-
-- Download a tarball from http://redis.io
-
-- Unpack it.
-
-- Optionally read the README
-
-- make
-
-- make test
-
-- run ``bin/redis-server`` from the directory where you unpacked it:
-  Redis should be active while developing async stuff.
-
+For development and testing this set up is ideal (preview generation will run synchronously for example)
+but in production/staging you should follow the instruction below to set up a full async stack
 
 Docsplit
 ~~~~~~~~
 
+Docsplit is a 3rd party Ruby executable that provides preview generation of documents
+
 See instructions at https://documentcloud.github.io/docsplit/
 
+Production/Staging setup
+------------------------
+
+In order to deploy Plone Intranet to a staging/testing or production environment
+you will need to do the following:
+
+* Ensure the buildout config you are using overrides CELERY_ALWAYS_EAGER environment variable to be false
+* Your supervisor (or other process management) config starts the Celery work (see below)
+* Redis is installed and running as a system service (do not run redis under supervisor for security reasons)
 
 Celery worker
 ~~~~~~~~~~~~~
