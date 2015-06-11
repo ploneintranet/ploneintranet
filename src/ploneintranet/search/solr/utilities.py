@@ -160,7 +160,16 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_filters(self, query, filters):
         interface = query.interface
-        return query.filter(interface.Q(**filters))
+        for key, value in filters.items():
+            if isinstance(value, list):
+                # create an OR subquery for this filter
+                subquery = interface.Q()
+                for item in value:
+                    subquery |= interface.Q(**{key: item})
+                query = query.filter(subquery)
+            else:
+                query = query.filter(interface.Q(**{key: value}))
+        return query
 
     def _apply_security(self, query):
         Q = query.interface.Q
