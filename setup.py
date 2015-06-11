@@ -108,10 +108,6 @@ setup(name='ploneintranet',
               'plone.async',
               'BeautifulSoup',
           ],
-          'simplesharing': [
-              'collective.z3cform.chosen',
-              'plone.directives.form',
-          ],
           'pagerank': [
               'networkx',
               'mincemeat',

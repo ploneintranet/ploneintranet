@@ -64,7 +64,16 @@ class BaseTile(BrowserView):
         """
         return api.user.has_permission(
             "ploneintranet.workspace: Manage workspace",
-            obj=self,
+            obj=self.context,
+        )
+
+    def can_add(self):
+        """
+        Is this user allowed to add content?
+        """
+        return api.user.has_permission(
+            "Add portal content",
+            obj=self.context,
         )
 
 
@@ -100,6 +109,24 @@ class SidebarSettingsMembers(BaseTile):
     @memoize
     def existing_users(self):
         return self.workspace().existing_users()
+
+    def __call__(self):
+        form = self.request.form
+        ws = self.workspace()
+        user_id = form.get('user_id')
+        if user_id:
+            if not self.can_manage_workspace():
+                msg = _(u'You do not have permission to change the workspace '
+                        u'policy')
+                raise Unauthorized(msg)
+            else:
+                IWorkspace(ws).add_to_team(user=user_id)
+                api.portal.show_message(
+                    _(u'Member added'),
+                    self.request,
+                    'success',
+                )
+        return self.render()
 
     def __call__(self):
         form = self.request.form
@@ -229,6 +256,7 @@ class Sidebar(BaseTile):
             self.set_grouping_cookie()
             wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
+            do_reindex = False
             if section != 'task' and not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'title or description')
@@ -255,18 +283,22 @@ class Sidebar(BaseTile):
                     '../templates/globalstatusmessage.pt')
                 return msg(self)
             else:
-                if form.get('title') and form.get('title') != ws.title:
-                    ws.title = form.get('title').strip()
-                    api.portal.show_message(_(u'Title changed'),
-                                            self.request,
-                                            'success')
-
-                if form.get('description') and \
-                   form.get('description') != ws.description:
-                    ws.description = form.get('description').strip()
-                    api.portal.show_message(_(u'Description changed'),
-                                            self.request,
-                                            'success')
+                if form.get('title'):
+                    title = safe_unicode(form.get('title')).strip()
+                    if title != ws.title:
+                        ws.title = title.strip()
+                        do_reindex = True
+                        api.portal.show_message(_(u'Title changed'),
+                                                self.request,
+                                                'success')
+                if form.get('description'):
+                    description = safe_unicode(form.get('description')).strip()
+                    if ws.description != description:
+                        ws.description = description
+                        do_reindex = True
+                        api.portal.show_message(_(u'Description changed'),
+                                                self.request,
+                                                'success')
 
                 calendar_visible = not not form.get('calendar_visible')
                 if calendar_visible != ws.calendar_visible:
@@ -274,7 +306,8 @@ class Sidebar(BaseTile):
                     api.portal.show_message(_(u'Calendar visibility changed'),
                                             self.request,
                                             'success')
-
+            if do_reindex:
+                ws.reindexObject()
         return self.render()
 
     def logical_parent(self):

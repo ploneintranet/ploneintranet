@@ -18,9 +18,10 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-Alice can create a workspace
-    Given I am logged in as the user alice_lindstrom
-    Then I can create a new workspace    My user workspace
+# FIXME #430
+# Alan can create a workspace
+#     Given I am logged in as the user alice_lindstrom
+#     Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -139,18 +140,29 @@ Member cannot publish a document in a Producers workspace
      When I submit the content item
      Then I cannot publish the content item
 
+Member cannot create content in a Consumers workspace
+    Given I am in a Consumers workspace as a workspace member
+     Then I cannot create a new document
+
+Non-Member can view published content in an open workspace
+    Given I am in an open workspace as a non-member
+     Then I can see the document  Terms and conditions
+      And I cannot see the document  Customer satisfaction survey
+
+Site Administrator can add example user as member of workspace
+    Given I'm logged in as a 'Site Administrator'
+     Add workspace  Example Workspace
+     Maneuver to  Example Workspace
+     Click Link  Workspace settings and about
+     Click Link  Members
+     Click Link  Add user
+     Input Text  css=li.select2-search-field input  alice
+     Click Element  css=span.select2-match
+     Click Button  Ok
+     Wait Until Page Contains  Alice
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
-
-# Site Administrator can add example user as member of workspace
-#     Given I'm logged in as a 'Site Administrator'
-#      Add workspace  Example Workspace
-#      Maneuver to  Example Workspace
-#      Click Link  jquery=a:contains('View full Roster')
-#      Input text  edit-roster-user-search  Example User
-#      Click button  Search users
-
 # Site Administrator can edit roster
 #     Log in as site owner
 #     Add workspace  Example Workspace

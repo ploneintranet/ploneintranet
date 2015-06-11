@@ -62,6 +62,10 @@ I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
 
+I am in a Consumers workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+
 I am in a workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Open Market Committee Workspace
@@ -69,6 +73,14 @@ I am in a workspace as a workspace admin
 I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Minifest
+
+I am in an open workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Service Announcements Workspace
+
+I am in an open workspace as a non-member
+    I am logged in as the user alice_lindstrom
+    I go to the Service Announcements Workspace
 
 I go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -85,6 +97,15 @@ I go to the Open Parliamentary Papers Guidance Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Parliamentary papers guidance
 
+I go to the Shareholder Information Workspace
+    Go To  ${PLONE_URL}/workspaces/shareholder-information
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Shareholder information
+
+I go to the Service Announcements Workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Wait Until Element Is Visible  css=h1#workspace-name
+    Wait Until Page Contains  Service announcements
 
 I try go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -103,8 +124,8 @@ I can create a new workspace
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
-    Input Text  name=description  text=Random description
+    Input Text  xpath=//input[@name='title']  text=${title}
+    Input Text  xpath=//textarea[@name='description']  text=Random description
     Click Button  Create workspace
     Wait Until Element Is visible  css=div#activity-stream  timeout=10
 
@@ -186,15 +207,13 @@ I can invite Alice to join the workspace
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
-    Wait Until Page Contains Element  css=a.member-list-toggle-select.more-menu-trigger.collapsible-closed
-    Click Link  css=a.member-list-toggle-select.more-menu-trigger.collapsible-closed
+    Wait Until Page Contains Element  link=Functions
+    Click Link  link=Functions
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
     Wait until page contains  Add user
-    Click Link  Add user
-    Wait Until Page Contains Element  css=li.select2-search-field input
     Input Text  css=li.select2-search-field input  alice
     Click Element  css=span.select2-match
     Click Button  Ok
@@ -232,6 +251,13 @@ I can create a new document
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
+
+I cannot create a new document
+    Click link  Documents
+    Wait until page contains  Test Document
+    Page Should Not Contain   Create document
+    Click link  Functions
+    Page Should Not Contain   Create document
 
 I can create a new folder
     Click link  Documents
@@ -306,9 +332,8 @@ I retract the content item
 I can publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
-    Wait until page contains  The workflow state has been changed
-#     Wait until page contains  Close
-    Click Element  css=#pat-notification-banners button   # The close button on the note
+    Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
+    Click button  Close
 
 I cannot publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
@@ -322,6 +347,16 @@ I can edit the document
 I cannot edit the document
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
+I can see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should contain  ${title}
+
+I cannot see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should not contain  ${title}
 
 
 # *** case related keywords ***

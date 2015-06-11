@@ -31,6 +31,7 @@
                 <option value="ploneintranet.workspace.case">Case</option>
               </select>
             </label>
+<<<<<<< HEAD
             </fieldset>
             <fieldset tal:define="wfs view/workflows" class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
               <label >
@@ -49,26 +50,28 @@
 
             <fieldset class="pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
               <fieldset class="pat-checklist radio pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
-                <label><input type="radio" value="secret" name="security-level" /> Locked down, secret workspace</label>
-                <label><input type="radio" value="private" checked name="security-level" /> Self-managed, private teamspace</label>
-                <label><input type="radio" value="open" name="security-level" /> Open community</label>
+                <label><input type="radio" value="1" name="scenario" /> Locked down, secret workspace</label>
+                <label><input type="radio" value="2" checked name="scenario" /> Self-managed, private teamspace</label>
+                <label><input type="radio" value="3" name="scenario" /> Open community</label>
               </fieldset>
-              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=secret">
-                This workspace will be only accessible by you and it won't be visible to others on the workspaces screen.
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=1">
+                The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
               </p>
-              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=private">
-                This workspace will be visible to others on the workspaces overview page, but can only be accessed by you.
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=2">
+                The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
               </p>
-              <p class="pat-depends pat-well notice" data-pat-depends="condition:security-level=open">
-                This workspace will be visible and accessible to any member of this intranet.
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=3">
+                Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+              </p>
+              <p class="pat-well notice">
+                You can always change these settings later via the security control panel in the workspace.
               </p>
             </fieldset>
-
         </div>
         
         <div class="buttons panel-footer">
                                     
-          <button name="form.buttons.save" type="submit" class="icon-ok-circle" i18n:translate="">
+          <button name="save" type="submit" class="icon-ok-circle" i18n:translate="">
               Create workspace
           </button>                    
           <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">

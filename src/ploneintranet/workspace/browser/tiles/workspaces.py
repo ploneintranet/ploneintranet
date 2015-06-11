@@ -6,7 +6,6 @@ from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import queryUtility
-from zExceptions import Unauthorized
 
 
 class WorkspacesTile(Tile):
@@ -42,19 +41,15 @@ def my_workspaces(context):
         css_class = escape_id_to_class(brain.getId)
         if brain.portal_type == 'ploneintranet.workspace.case':
             css_class = 'type-case ' + css_class
-        try:
-            workspaces.append({
-                'id': brain.getId,
-                'title': brain.Title,
-                'description': brain.Description,
-                'url': brain.getURL(),
-                'activities': get_workspace_activities(brain),
-                'class': css_class,
-            })
-        except Unauthorized:
-            # the query above should actually filter on *my* workspaces
-            # i.e. workspaces I'm a member of. This is just a stopgap
-            pass
+        workspaces.append({
+            'id': brain.getId,
+            'title': brain.Title,
+            'description': brain.Description,
+            'url': brain.getURL(),
+            'activities': get_workspace_activities(brain),
+            'class': css_class,
+        })
+
     return workspaces
 
 
