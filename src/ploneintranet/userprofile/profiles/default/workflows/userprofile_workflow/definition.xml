@@ -15,25 +15,19 @@
    <exit-transition transition_id="decline" />
    <permission-map name="View" acquired="False">
     <permission-role>Reader</permission-role>
-    <permission-role>Reviewer</permission-role>
-    <permission-role>Editor</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Access contents information" acquired="False">
     <permission-role>Reader</permission-role>
-    <permission-role>Reviewer</permission-role>
-    <permission-role>Editor</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Modify portal content" acquired="False">
-    <permission-role>Editor</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Change portal events" acquired="False">
-    <permission-role>Reviewer</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
@@ -43,26 +37,20 @@
    <exit-transition transition_id="disable" />
    <permission-map name="View" acquired="False">
     <permission-role>Authenticated</permission-role>
-    <permission-role>Reader</permission-role>
-    <permission-role>Member</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Access contents information" acquired="False">
     <permission-role>Authenticated</permission-role>
-    <permission-role>Reader</permission-role>
-    <permission-role>Member</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Modify portal content" acquired="False">
     <permission-role>Owner</permission-role>
-    <permission-role>Editor</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Change portal events" acquired="False">
-    <permission-role>Reviewer</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
@@ -72,23 +60,19 @@
    <exit-transition transition_id="enable" />
    <permission-map name="View" acquired="False">
     <permission-role>Reader</permission-role>
-    <permission-role>Reviewer</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Access contents information" acquired="False">
     <permission-role>Reader</permission-role>
-    <permission-role>Reviewer</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Modify portal content" acquired="False">
-    <permission-role>Editor</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
    <permission-map name="Change portal events" acquired="False">
-    <permission-role>Reviewer</permission-role>
     <permission-role>Manager</permission-role>
     <permission-role>Site Administrator</permission-role>
    </permission-map>
@@ -102,7 +86,7 @@
    <action url="%(content_url)s/content_status_modify?workflow_action=approve"
            category="workflow">Approve This Member</action>
    <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Add portal member</guard-permission>
    </guard>
   </transition>
 
@@ -113,7 +97,7 @@
    <action url="%(content_url)s/content_status_modify?workflow_action=decline"
            category="workflow">Decline This Member</action>
    <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Add portal member</guard-permission>
    </guard>
   </transition>
 
@@ -124,7 +108,7 @@
    <action url="%(content_url)s/content_status_modify?workflow_action=disable"
            category="workflow">Disable This Member</action>
    <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Add portal member</guard-permission>
    </guard>
   </transition>
 
@@ -135,7 +119,7 @@
    <action url="%(content_url)s/content_status_modify?workflow_action=enable"
            category="workflow">Enable This Member</action>
    <guard>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Add portal member</guard-permission>
    </guard>
   </transition>
 
@@ -174,7 +158,7 @@
    </default>
    <guard>
     <guard-permission>Request review</guard-permission>
-    <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Add portal member</guard-permission>
    </guard>
   </variable>
 

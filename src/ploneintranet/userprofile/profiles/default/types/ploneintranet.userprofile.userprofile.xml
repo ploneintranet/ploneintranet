@@ -14,7 +14,7 @@
   <element value="userprofile-view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="add_permission">cmf.AddPortalMember</property>
  <!-- schema and class used for content items -->
  <property name="schema">ploneintranet.userprofile.content.userprofile.IUserProfile</property>
  <property name="klass">ploneintranet.userprofile.content.userprofile.UserProfile</property>
