@@ -31,8 +31,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
 
     def test_private_workspace(self):
         """
-        Private workspaces should be visible to all,
-        but only accessible to members
+        Private workspaces should be visible and accessible
+        only to members.
+        NOTE: Non-members should be able to request access. Therefore they need
+        limited access to some attributes of the workspace like Title.
+        This scenario is NOT tested here yet.
         """
         api.content.transition(self.workspace_folder,
                                'make_private')
@@ -67,8 +70,8 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             username='nonmember',
             obj=self.workspace_folder,
         )
-        self.assertTrue(nonmember_permissions[VIEW],
-                        'Non-member cannot view private workspace')
+        self.assertFalse(nonmember_permissions[VIEW],
+                         'Non-member can view private workspace')
         self.assertFalse(nonmember_permissions[ACCESS],
                          'Non-member can access private workspace')
         self.assertFalse(nonmember_permissions[ADD_STATUS],

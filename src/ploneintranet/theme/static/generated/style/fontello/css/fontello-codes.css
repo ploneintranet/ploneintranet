@@ -84,7 +84,7 @@
 .icon-location:before { content: '\e82d'; } /* '' */
 .icon-back-in-time:before { content: '\e82e'; } /* '' */
 .icon-clock:before { content: '\e82f'; } /* '' */
-.icon-globe:before { content: '\e830'; } /* '' */
+.icon-external:before { content: '\e830'; } /* '' */
 .icon-plus-1:before { content: '\e831'; } /* '' */
 .icon-right-hand:before { content: '\e832'; } /* '' */
 .icon-religious-jewish:before { content: '\e833'; } /* '' */
@@ -100,11 +100,11 @@
 .icon-search-1:before { content: '\e83d'; } /* '' */
 .icon-glass:before { content: '\e83e'; } /* '' */
 .icon-music:before { content: '\e83f'; } /* '' */
-.icon-users-1:before { content: '\e840'; } /* '' */
+.icon-newspaper:before { content: '\e840'; } /* '' */
 .icon-video:before { content: '\e841'; } /* '' */
 .icon-child:before { content: '\e842'; } /* '' */
 .icon-sun:before { content: '\e843'; } /* '' */
-.icon-globe-1:before { content: '\e844'; } /* '' */
+.icon-globe:before { content: '\e844'; } /* '' */
 .icon-inbox:before { content: '\e845'; } /* '' */
 .icon-award:before { content: '\e846'; } /* '' */
 .icon-signal:before { content: '\e847'; } /* '' */
@@ -146,6 +146,13 @@
 .icon-add-row:before { content: '\e86b'; } /* '' */
 .icon-remove-column:before { content: '\e86c'; } /* '' */
 .icon-remove-row:before { content: '\e86d'; } /* '' */
+.icon-building:before { content: '\e86e'; } /* '' */
+.icon-squares:before { content: '\e86f'; } /* '' */
+.icon-newspaper-1:before { content: '\e870'; } /* '' */
+.icon-down-bold:before { content: '\e871'; } /* '' */
+.icon-left-bold:before { content: '\e872'; } /* '' */
+.icon-right-bold:before { content: '\e873'; } /* '' */
+.icon-up-bold:before { content: '\e874'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */

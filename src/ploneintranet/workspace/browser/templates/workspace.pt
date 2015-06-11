@@ -7,7 +7,7 @@
             i18n:domain="ploneintranet">
 
     <body class="view-secure">
-        <metal:content fill-slot="content" 
+        <metal:content fill-slot="content"
                         tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
             <h1 id="workspace-name">
                 <!-- Next link is to lead to landing state of current workspace -->
@@ -18,7 +18,7 @@
 
                 <div id="document-body">
                     <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
-                    <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
+                    <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
                     <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
                 </div>
 

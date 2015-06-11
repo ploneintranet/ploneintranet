@@ -102,8 +102,8 @@ class TestSidebar(BaseTestCase):
                       "Folder with that url not found in sidebar navigation")
         dpis = [x['dpi'] for x in items]
         self.assertIn(
-            'url: http://nohost/plone/example-workspace/myfolder/'
-            '@@sidebar.default#workspace-documents',
+            "source: #workspace-documents; target: #workspace-documents "
+            "&& source: nav.breadcrumbs; target: nav.breadcrumbs;",
             dpis[0],
             "inject with that url not found in sidebar navigation")
         classes = [x['cls'] for x in items]

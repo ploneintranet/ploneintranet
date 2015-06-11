@@ -139,18 +139,29 @@ Member cannot publish a document in a Producers workspace
      When I submit the content item
      Then I cannot publish the content item
 
+Member cannot create content in a Consumers workspace
+    Given I am in a Consumers workspace as a workspace member
+     Then I cannot create a new document
+
+Non-Member can view published content in an open workspace
+    Given I am in an open workspace as a non-member
+     Then I can see the document  Terms and conditions
+      And I cannot see the document  Customer satisfaction survey
+
+Site Administrator can add example user as member of workspace
+    Given I'm logged in as a 'Site Administrator'
+     Add workspace  Example Workspace
+     Maneuver to  Example Workspace
+     Click Link  Workspace settings and about
+     Click Link  Members
+     Click Link  Add user
+     Input Text  css=li.select2-search-field input  alice
+     Click Element  css=span.select2-match
+     Click Button  Ok
+     Wait Until Page Contains  Alice
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
-
-# Site Administrator can add example user as member of workspace
-#     Given I'm logged in as a 'Site Administrator'
-#      Add workspace  Example Workspace
-#      Maneuver to  Example Workspace
-#      Click Link  jquery=a:contains('View full Roster')
-#      Input text  edit-roster-user-search  Example User
-#      Click button  Search users
-
 # Site Administrator can edit roster
 #     Log in as site owner
 #     Add workspace  Example Workspace
@@ -279,19 +290,20 @@ I can go to the sidebar tasks tile
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
 I can invite Alice to join the workspace
+    Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
+    Wait Until Page Contains Element  link=Functions
     Click Link  link=Functions
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until page contains  Invitations
-    Input Text  css=#form-widgets-user-widgets-query  Alice
-    Click Button  Ok
-    Select Radio Button  form.widgets.user  alice_lindstrom
+    Wait until page contains  Add user
+    Input Text  css=li.select2-search-field input  alice
+    Click Element  css=span.select2-match
     Click Button  Ok
 
 The breadcrumbs show the name of the workspace
@@ -327,6 +339,13 @@ I can create a new document
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
+
+I cannot create a new document
+    Click link  Documents
+    Wait until page contains  Test Document
+    Page Should Not Contain   Create document
+    Click link  Functions
+    Page Should Not Contain   Create document
 
 I can create a new folder
     Click link  Documents
@@ -401,8 +420,8 @@ I retract the content item
 I can publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
-    Wait until page contains  The workflow state has been changed
-    Click Element  css=#pat-notification-banners button
+    Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
+    Click button  Close
 
 I cannot publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
@@ -417,3 +436,12 @@ I cannot edit the document
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
 
+I can see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should contain  ${title}
+
+I cannot see the document
+    [arguments]  ${title}
+    Click link  Documents
+    Page should not contain  ${title}

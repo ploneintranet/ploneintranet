@@ -214,8 +214,12 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def _check_add_permission(self, status):
         permission = "Plone Social: Add Microblog Status Update"
-        # FIXME use StatusUpdate.security_context
-        check_context = status.context or self  # workspace or tool
+        try:
+            check_context = status.context
+            if check_context is None:
+                check_context = self  # Fall back to tool
+        except AttributeError:
+            raise Unauthorized("You do not have permission <%s>" % permission)
         if not api.user.has_permission(
                 permission,
                 obj=check_context):

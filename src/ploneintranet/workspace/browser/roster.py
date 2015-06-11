@@ -130,3 +130,9 @@ class EditRoster(BaseWorkspaceView):
         is this workspace admin managed?
         """
         return self.context.join_policy == 'admin'
+
+
+class WorkspaceMemberPicker(EditRoster):
+    """
+    A modal with a user picker to select new members
+    """
