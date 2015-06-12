@@ -419,9 +419,6 @@ I can add a new task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
-    Wait Until Page Contains Element  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div[text()='Christian Stoney']
-    # This is only to try to confirm that the test breakage on jenkins is a timing issue. I know that the value is there for prefill but doesn't show in the screenshots. This should solely confirm that waiting for something would help. Will be removed again in next commit.
-    Sleep 3
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
     Input Text  css=label.assignee li.select2-search-field input  stoney
     Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
