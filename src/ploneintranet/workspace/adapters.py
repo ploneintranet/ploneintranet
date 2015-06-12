@@ -90,6 +90,11 @@ class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
         # check we are not on the workspace itself
         if IHasWorkspace.providedBy(context):
             return current_roles
+
+        # ignore if we are not Owner
+        if 'Owner' not in current_roles:
+            return current_roles
+
         # otherwise we should acquire the workspace and check out roles
         workspace = getattr(context, 'acquire_workspace', lambda: None)()
         if workspace is None:
@@ -98,6 +103,7 @@ class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
         workspace_roles = api.user.get_roles(obj=workspace)
         if 'SelfPublisher' in workspace_roles and 'Owner' in current_roles:
             current_roles.append('Reviewer')
+
         return current_roles
 
 
