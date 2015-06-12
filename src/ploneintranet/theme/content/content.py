@@ -38,9 +38,8 @@ class ContentView(BrowserView):
         errors = None
         messages = []
 
-        if (
-                self.request.get('workflow_action') and
-                not self.request.get('form.submitted')):
+        if (self.request.get('workflow_action') and
+            not self.request.get('form.submitted')):
             api.content.transition(
                 obj=context,
                 transition=self.request.get('workflow_action')
