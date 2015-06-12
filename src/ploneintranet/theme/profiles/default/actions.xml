@@ -3,19 +3,6 @@
         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         i18n:domain="ploneintranet">
 
-  <!-- Hide user actions not implemented -->
-  <object name="user" meta_type="CMF Action Category">
-    <object name="preferences" meta_type="CMF Action" i18n:domain="plone">
-      <property name="visible">False</property>
-    </object>
-    <object name="plone_setup" meta_type="CMF Action" i18n:domain="plone">
-      <property name="visible">False</property>
-    </object>
-    <object name="review-comments" meta_type="CMF Action" i18n:domain="plone">
-      <property name="visible">False</property>
-    </object>
-  </object>
-
   <object name="portal_tabs" meta_type="CMF Action Category">
     <property name="title"></property>
     <object name="index_html" meta_type="CMF Action" i18n:domain="plone">
