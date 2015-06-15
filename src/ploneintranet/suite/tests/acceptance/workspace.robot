@@ -322,7 +322,7 @@ I can enter the Manage Information Folder
 Go back to the workspace by clicking the parent button
 	Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
 	Click Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
-	Page Should Contain  Projection Materials
+	Wait Until Page Contains  Projection Materials
 
 I can search for items
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
