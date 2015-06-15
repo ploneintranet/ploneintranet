@@ -2,6 +2,7 @@ from zope.interface import implements
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
+from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api
 
@@ -48,3 +49,16 @@ class AuthorView(BaseAuthorView):
                 profile.absolute_url()
             )
         raise NotFound
+
+
+class MyProfileView(BaseAuthorView):
+    """Helper view to redirect to current user's profile page"""
+
+    def __call__(self):
+        profile = pi_api.userprofile.get_current()
+
+        if profile is not None:
+            return self.request.response.redirect(
+                profile.absolute_url()
+            )
+        raise Unauthorized

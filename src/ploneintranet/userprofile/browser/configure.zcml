@@ -24,4 +24,12 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="my-profile"
+      class=".userprofile.MyProfileView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
 </configure>

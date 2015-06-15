@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from zExceptions import NotFound
+from AccessControl import Unauthorized
 from plone import api
 
 from ploneintranet.userprofile.tests.base import BaseTestCase
 from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import AuthorView
+from ploneintranet.userprofile.browser.userprofile import MyProfileView
 
 
 class TestUserProfileBase(BaseTestCase):
@@ -72,3 +74,21 @@ class TestAuthorView(TestUserProfileBase):
                                     'not-a-username')
         with self.assertRaises(NotFound):
             author_view()
+
+
+class TestMyProfileView(TestUserProfileBase):
+
+    def test_call(self):
+        self.login(self.profile2.username)
+        myprofile_view = MyProfileView(self.portal, self.request)
+
+        redirect_url = myprofile_view()
+        self.assertEqual(
+            redirect_url,
+            self.profile2.absolute_url(),
+        )
+
+        self.logout()
+
+        with self.assertRaises(Unauthorized):
+            myprofile_view()

@@ -11,7 +11,7 @@
       <ul class="actionMenu deactivated" id="portal-personaltools">
 	  <li class="actionMenuHeader">
               <a id="user-name"
-		 tal:attributes="href view/homelink_url"
+		 tal:attributes="href string:${view/portal_url}/@@my-profile"
 		 tal:content="view/user_name">
 		  John
               </a>
