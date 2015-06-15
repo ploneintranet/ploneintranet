@@ -19,7 +19,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet Profiles"
+      title="Plone Intranet User Profiles"
       directory="profiles/default"
       description="Installs the ploneintranet.userprofile package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
