@@ -4,6 +4,7 @@ from zope.component import getUtility
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api as plone_api
+from plone.protect import PostOnly
 
 from ploneintranet.network import _
 from ploneintranet.network.interfaces import INetworkTool
@@ -44,8 +45,7 @@ class ToggleFollowUser(BrowserView):
 
     def toggle_follow(self):
         """Follow/unfollow context."""
-        if self.request.get('REQUEST_METHOD') != 'POST':
-            raise NotAllowed("Write on POST only.")
+        PostOnly(self.request)
 
         if self.is_followed:
             self.util.unfollow(
