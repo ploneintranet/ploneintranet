@@ -78,6 +78,14 @@
     <append css:content-children="#portal-column-content" css:theme="div.container" />
   </rules>
 
+  <rules css:if-content="body.template-userprofile-view">
+    <theme href="generated/liz-baker/index.html" />
+    <drop css:theme-children="#person-timeline aside" />
+    <drop css:theme-children="#person-timeline div.columns" />
+    <append css:content-children="#portal-column-content aside" css:theme="aside" />
+    <append css:content-children="#portal-column-content #main" css:theme="div.columns" />
+  </rules>
+
   <rules css:if-content="body.template-search">
     <theme href="generated/search-results.html" />
     <drop css:theme-children="#content" />

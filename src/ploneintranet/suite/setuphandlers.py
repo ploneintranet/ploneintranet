@@ -13,8 +13,10 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet import api as pi_api
 from zope.component import getUtility
 from zope.component import queryUtility
+from zope.interface import Invalid
 
 import csv
 import json
@@ -52,22 +54,31 @@ def create_users(context, users, avatars_dir):
         email = decode(user['email'])
         userid = decode(user['userid'])
         file_name = '{}.jpg'.format(userid)
+        fullname = user.get('fullname', u"Anon Ymous {}".format(i))
+        firstname, lastname = fullname.split(' ', 1)
         properties = {
-            'fullname': user.get('fullname', u"Anon Ymous {}".format(i)),
+            'fullname': fullname,
+            'first_name': firstname,
+            'last_name': lastname,
             'location': user.get('location', u"Unknown"),
             'description': user.get('description', u"")
         }
         try:
-            api.user.create(
-                email=email,
+            pi_api.userprofile.create(
                 username=userid,
+                email=email,
                 password='secret',
-                properties=properties
+                approve=True,
+                properties=properties,
             )
-        except ValueError:
-            user = api.user.get(username=userid)
-            user.setMemberProperties(properties)
-        logger.info('Created user {}'.format(userid))
+            logger.info('Created user {}'.format(userid))
+        except Invalid:
+            # Already exists - update
+            profile = pi_api.userprofile.get(userid)
+            for key, value in properties.items():
+                setattr(profile, key, value)
+            logger.info('Updated user {}'.format(userid))
+
         portrait_filename = os.path.join(avatars_dir, file_name)
         portrait = context.openDataFile(portrait_filename)
         if portrait:

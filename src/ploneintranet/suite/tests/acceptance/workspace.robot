@@ -157,6 +157,7 @@ Site Administrator can add example user as member of workspace
      Click Link  Members
      Click Link  Add user
      Input Text  css=li.select2-search-field input  alice
+     Wait Until Element Is Visible  css=span.select2-match
      Click Element  css=span.select2-match
      Click Button  Ok
      Wait Until Page Contains  Alice
@@ -304,6 +305,7 @@ I can invite Alice to join the workspace from the menu
 I can invite Alice to the workspace
     Wait until page contains  Add user
     Input Text  css=li.select2-search-field input  alice
+    Wait Until Element Is Visible  css=span.select2-match
     Click Element  css=span.select2-match
     Click Button  Ok
 
@@ -320,7 +322,7 @@ I can enter the Manage Information Folder
 Go back to the workspace by clicking the parent button
 	Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
 	Click Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
-	Page Should Contain  Projection Materials
+	Wait Until Page Contains  Projection Materials
 
 I can search for items
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
