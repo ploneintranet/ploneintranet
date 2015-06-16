@@ -39,5 +39,6 @@ class HiddenProfiles(object):
             'ploneintranet.socialtheme:default',
             'ploneintranet.theme:uninstall',
             'ploneintranet.todo:uninstall',
+            'ploneintranet.userprofile:uninstall',
             'ploneintranet.workspace:uninstall',
         ]
