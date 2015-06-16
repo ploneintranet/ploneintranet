@@ -157,6 +157,7 @@ Site Administrator can add example user as member of workspace
      Click Link  Members
      Click Link  Add user
      Input Text  css=li.select2-search-field input  alice
+     Wait Until Element Is Visible  css=span.select2-match
      Click Element  css=span.select2-match
      Click Button  Ok
      Wait Until Page Contains  Alice
@@ -209,3 +210,4 @@ Site Administrator can add example user as member of workspace
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace related keywords"
+

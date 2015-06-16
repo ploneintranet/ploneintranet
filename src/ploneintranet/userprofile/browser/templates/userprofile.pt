@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content"
+		       tal:define="is_me view/is_me">
+            <aside>
+                <figure class="user-portrait">
+                    <img class="pat-avatar"
+        			 tal:attributes="src view/avatar_url"
+        			 src="{{ page.image_url }}"
+                     alt="Image of {{ page.title }}" />
+                    <figcaption class="status-message"
+                        tal:condition="not:is_me">
+			<h1 tal:content="context/fullname" />
+                    </figcaption>
+        	</figure>
+
+                <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
+                    <form tal:replace="structure context/@@toggle_follow" />
+                </div>
+
+                <div class="portlet contact" id="portlet-contact">
+                    <h2 class="portlet-title">
+                        <a href="#person-info" i18n:translate="">Contact</a>
+                    </h2>
+                    <ul class="menu">
+                        <li class="mail">
+                            <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}" tal:attributes="href string:mailto:${context/email}" tal:content="context/email" />
+                        </li>
+                        <li class="phone" tal:condition="context/mobile|nothing">
+                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}"
+                            tal:content="context/mobile"></a>
+                        </li>
+                    </ul>
+                    <p class="portlet-footer">
+                        <a href="#person-info"><i18n:block i18n:translate="">More information about</i18n:block> <span tal:replace="context/fullname" />.</a>
+                    </p>
+                </div>
+
+            </aside>
+            <div id="main">
+                <nav class="tabs">
+                    <a href="#person-timeline" class="current">Timeline</a>
+                    <a href="#person-info">Info</a>
+                    <a href="#person-followers" class="link-followers">Followers <sup>12</sup></a>
+                    <a href="#person-following" class="link-following">Following <sup>8</sup></a>
+                    <a href="#person-groups" class="link-group">Groups <sup>3</sup></a>
+                </nav>
+                <div class="pat-stacks">
+                    <div class="activity-stream" id="person-timeline">
+                        <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
+			<div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${context/absolute_url}/@@activitystream.tile" ></div>
+                    </div>
+                    <article id="person-info">
+                        <tal:block condition="view/is_me">
+                            <!-- {% include /patterns/form.html src="user-data-form" layout="horizontal" %} -->
+                        </tal:block>
+                        <tal:block condition="not:view/is_me">
+                            <dl class="pat-grid-list">
+                                <dt class="icon-user" i18n:translate="">
+                                    Name
+                                </dt>
+                                <dd>
+                                    <em class="title" tal:condition="context/person_title|nothing" tal:content="context/person_title" /> <span tal:replace="context/fullname" />
+                                </dd>
+
+                                <dt class="icon-mail" i18n:translate="">
+                                    E-mail
+                                </dt>
+                                <dd>
+                                    <a i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}; href string:mailto:${context/email}" tal:content="context/email" />
+                                </dd>
+
+                                <dt class="icon-phone" i18n:translate="">
+                                    Phone number
+                                </dt>
+                                <dd>
+                                    <a i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/telephone}; href string:tel:${context/telephone}" tal:content="context/telephone"></a>
+                                </dd>
+
+                                <dt class="icon-phone" i18n:translate="">
+                                    Mobile phone number
+                                </dt>
+                                <dd>
+                                    <a i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}" tal:content="context/mobile"></a>
+                                </dd>
+
+                                <dt class="icon-clock" i18n:translate="">
+                                    Time zone
+                                </dt>
+                                <dd tal:content="context/time_zone">
+                                </dd>
+
+                                <dt class="icon-globe" i18n:translate="">
+                                    Primary location
+                                </dt>
+                                <dd tal:define="primary_location view/primary_location">
+                                    <a target="new" tal:attributes="href string:https://www.google.com/maps/place/${primary_location}" tal:content="primary_location" />
+                                </dd>
+
+                                <dt class="icon-right-open" i18n:translate="">
+                                    Job title
+                                </dt>
+                                <dd tal:content="context/job_title" />
+
+                                <dt class="icon-building" i18n:translate="">
+                                    Department
+                                </dt>
+                                <dd tal:content="context/department" />
+                            </dl>
+                        </tal:block>
+
+                            <article class="pat-rich"tal:content="context/biography" />
+
+                    </article>
+                </div>
+            </div>
+
+        </metal:content>
+    </body>
+</html>

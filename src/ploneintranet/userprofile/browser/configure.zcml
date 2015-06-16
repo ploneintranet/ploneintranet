@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <browser:page
+      name="userprofile-view"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileView"
+      permission="zope2.View"
+      template="templates/userprofile.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="author"
+      class=".userprofile.AuthorView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="my-profile"
+      class=".userprofile.MyProfileView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+</configure>

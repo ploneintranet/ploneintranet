@@ -1,0 +1,26 @@
+<tal:block tal:define="portal_state context/@@plone_portal_state;
+                       portal_url portal_state/portal_url;
+                       is_followed view/is_followed;
+                       verb view/verb;
+                       unique_id view/unique_id;
+                       datapatinject python:'source: fieldset;; target: #functions-{0} fieldset'.format(unique_id)">
+
+  <form id="functions-123456"
+        action="@@toggle_follow"
+        method="post"
+        class="pat-inject"
+        tal:attributes="action view/action;
+                        id string:functions-${unique_id};
+                        data-pat-inject datapatinject;">
+    <fieldset class="button-bar centred">
+      <button type="submit"
+              name="follow_button"
+              class="icon-eye"
+              i18n:attributes="title"
+              tal:attributes="title string:Click to follow ${context/fullname};
+                              class python:'icon-eye active' if is_followed else 'icon-eye'">
+                <strong tal:content="verb">Follow</strong> <span tal:replace="context/fullname" /></button>
+    </fieldset>
+  </form>
+
+</tal:block>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>1</version>
+  <dependencies>
+    <dependency>profile-plone.app.referenceablebehavior:default</dependency>
+    <dependency>profile-Products.membrane:default</dependency>
+    <dependency>profile-dexterity.membrane:default</dependency>
+  </dependencies>
+</metadata>
