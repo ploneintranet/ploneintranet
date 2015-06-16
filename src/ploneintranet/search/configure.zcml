@@ -9,11 +9,7 @@
 
   <include package=".browser" />
 
-  <include zcml:condition="installed scorched"
-           package=".solr" />
-
-  <include zcml:condition="not-installed scorched"
-           file="zcatalog.zcml" />
+  <include file="zcatalog.zcml" />
 
   <adapter name="friendly_type_name"
            factory=".indexers.friendly_type_name" />

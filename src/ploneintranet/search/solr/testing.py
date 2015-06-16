@@ -128,6 +128,7 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
             configuration_context
         )
         import ploneintranet.search.solr
+        self.loadZCML(package=ploneintranet.search.solr)
         self.loadZCML(package=ploneintranet.search.solr,
                       name='testing.zcml')
         # Make sure collective.indexing patches get applied
