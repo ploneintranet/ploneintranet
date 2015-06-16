@@ -331,6 +331,8 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
     def test_review_state_changes(self):
         """Does the search respect view permissions?"""
         api.content.transition(obj=self.doc2, transition='publish')
+        self.doc2.reindexObject()
+
         testing.logout()
         util = self._make_utility()
 
