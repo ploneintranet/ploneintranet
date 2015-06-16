@@ -31,7 +31,7 @@
                 <option value="ploneintranet.workspace.case">Case</option>
               </select>
             </label>
-<<<<<<< HEAD
+
             </fieldset>
             <fieldset tal:define="wfs view/workflows" class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
               <label >
