@@ -26,7 +26,7 @@ class HiddenProfiles(object):
                 'ploneintranet.notifications',
                 'ploneintranet.network',
                 'ploneintranet.pagerank',
-                'ploneintranet.simplesharing',
+                'ploneintranet.userprofile',
                 'ploneintranet.socialsuite',
                 'ploneintranet.socialtheme',
                 'ploneintranet.theme',

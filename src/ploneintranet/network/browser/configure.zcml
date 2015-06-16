@@ -22,4 +22,12 @@
       layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
+  <browser:page
+      name="toggle_follow"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".follows.ToggleFollowUser"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
 </configure>

@@ -2,6 +2,7 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.protect import PostOnly
 from plone.app.uuid.utils import uuidToCatalogBrain
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -64,8 +65,8 @@ class ToggleLike(BrowserView):
         Perform the actual like/unlike action.
         Since this does a db write it cannot be called with a GET.
         """
-        if self.request.get('REQUEST_METHOD') != 'POST':
-            raise NotAllowed("Write on POST only.")
+        PostOnly(self.request)
+
         if not self.is_liked:
             self.util.like(self.like_type, self.item_id,
                            self.current_user_id)

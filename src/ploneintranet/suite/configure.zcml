@@ -15,6 +15,7 @@
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
   <include package="ploneintranet.socialsuite"/>
   <include package="ploneintranet.socialtheme"/>
@@ -24,7 +25,6 @@
   <include package="ploneintranet.invitations"/>
   <include package="ploneintranet.notifications"/>
   <include package="ploneintranet.pagerank"/>
-  <include package="ploneintranet.simplesharing"/>
   <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
   <include package="ploneintranet.todo"/>

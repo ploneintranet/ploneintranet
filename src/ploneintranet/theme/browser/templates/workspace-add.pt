@@ -7,24 +7,62 @@
 <head>
 </head>
 <body class="diazo-off">
-    <div id="content" class="application">
-        <h1 i18n:translate="">Add new workspace</h1>
-        <form action="#" method="post" enctype="multipart/form-data" name="workspace-add" id="workspace-add"
-            tal:attributes="action string:${context/absolute_url}/++add++ploneintranet.workspace.workspacefolder" class="wizard-box pat-validate">
+  <div id="content">
 
-          <div class="panel-body">
-            <fieldset class="horizontal">
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Title</span> <input type="text" required="required" class="required" name="form.widgets.IBasic.title" size="60" /></label>
-              <label><span tal:omit-tag="" i18n:translate="" i18n:domain="plone">Description</span> <textarea name="form.widgets.IBasic.description"></textarea></label>
+    <div id="document-content" class="pat-modal">
+      <h1>
+        Create workspace
+      </h1>
+    
+      <form action="/workspaces.html#workspaces" method="post" class="wizard-box" name="workspace-add" id="workspace-add"
+        tal:attributes="action string:${context/absolute_url}/add_content">    
+    
+        <div class="panel-body">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+            </label>
+            <label>
+              <select name="portal_type">
+                <option value="ploneintranet.workspace.workspacefolder">Regular workspace</option>
+                <option value="ploneintranet.workspace.case">Case</option>
+              </select>
+            </label>
+            <fieldset class="pat-checklist radio">
+              <label><input type="radio" value="1" name="scenario" /> Locked down, secret workspace</label>
+              <label><input type="radio" value="2" checked name="scenario" /> Self-managed, private teamspace</label>
+              <label><input type="radio" value="3" name="scenario" /> Open community</label>
             </fieldset>
-          </div>
-
-          <fieldset class="button-bar panel-footer">
-            <button type="submit" name="form.buttons.save" value="submit" class="icon-ok-circle confirmative" i18n:translate="" i18n:domain="plone">Save</button>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=1">
+              The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=2">
+              The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
+            </p>
+            <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=3">
+              Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+            </p>
+            <p class="pat-well notice">
+              You can always change these settings later via the security control panel in the workspace.
+            </p>
           </fieldset>
-          <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
-          <span tal:replace="structure context/@@authenticator/authenticator"/>
-        </form>
+        </div>
+        
+        <div class="buttons panel-footer">
+                                    
+          <button name="save" type="submit" class="icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>                    
+          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>                    
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>  
 
     </div>
 </body>
