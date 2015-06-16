@@ -8,6 +8,7 @@ from plone import api
 import unittest2 as unittest
 import ploneintranet.search
 import ploneintranet.docconv.client
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 
 TEST_USER_1_NAME = 'icarus'
@@ -37,12 +38,11 @@ def login_session(username):
 
 class PloneintranetSearchLayer(testing.PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,
+                    PLONEINTRANET_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=ploneintranet.search)
-        self.loadZCML(name='testing.zcml',
-                      package=ploneintranet.search)
         self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):

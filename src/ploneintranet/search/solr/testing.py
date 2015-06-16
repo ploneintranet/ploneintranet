@@ -7,7 +7,6 @@ import time
 
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 from plone.testing import Layer
-from plone.testing import z2
 from zope.component import getUtility
 import pkg_resources
 import requests
@@ -127,15 +126,15 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
             app,
             configuration_context
         )
+        if not SOLR_ENABLED:
+            return
+
         import ploneintranet.search.solr
         self.loadZCML(package=ploneintranet.search.solr)
         self.loadZCML(package=ploneintranet.search.solr,
                       name='testing.zcml')
-        # Make sure collective.indexing patches get applied
-        z2.installProduct(app, 'collective.indexing')
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'collective.indexing')
         super(PloneIntranetSearchSolrLayer, self).tearDownZope(app)
 
     def testTearDown(self):

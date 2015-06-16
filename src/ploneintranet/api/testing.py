@@ -10,6 +10,7 @@ from plone.app.testing import login
 from plone.testing import z2
 import unittest2 as unittest
 
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 import ploneintranet.userprofile
 import ploneintranet.microblog
 import ploneintranet.microblog.statuscontainer
@@ -17,7 +18,8 @@ import ploneintranet.microblog.statuscontainer
 
 class PloneintranetApiLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,
+                    PLONEINTRANET_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=ploneintranet.userprofile)
@@ -25,7 +27,6 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         # Force status updates to be immediately written
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
         z2.installProduct(app, 'Products.membrane')
-        z2.installProduct(app, 'collective.indexing')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.userprofile:default')
@@ -35,7 +36,6 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         # Reset status update queue age
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         z2.uninstallProduct(app, 'Products.membrane')
-        z2.uninstallProduct(app, 'collective.indexing')
 
 
 FIXTURE = PloneintranetApiLayer()
