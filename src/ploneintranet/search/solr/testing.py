@@ -14,6 +14,13 @@ import requests
 
 from .. import testing
 
+try:
+    # Skip all SOLR tests and layers if SOLR has not been activated
+    # (by checking availability of 'scorched' package)
+    pkg_resources.get_distribution('scorched')
+    SOLR_ENABLED = True
+except pkg_resources.DistributionNotFound:
+    SOLR_ENABLED = False
 
 _DIST = pkg_resources.get_distribution('ploneintranet')
 
@@ -62,6 +69,9 @@ class SolrLayer(Layer):
         """Start Solr and poll until it is up and running.
         """
         super(SolrLayer, self).setUp()
+        if not SOLR_ENABLED:
+            return
+
         self._solr_cmd('start')
         # Poll Solr until it is up and running
         solr_ping_url = '{0}/admin/ping'.format(self.solr_url)
@@ -94,6 +104,9 @@ class SolrLayer(Layer):
         """Stop Solr.
         """
         super(SolrLayer, self).tearDown()
+        if not SOLR_ENABLED:
+            return
+
         self._solr_cmd('stop')
 
 
@@ -125,6 +138,9 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
         super(PloneIntranetSearchSolrLayer, self).tearDownZope(app)
 
     def testTearDown(self):
+        if not SOLR_ENABLED:
+            return
+
         from .interfaces import IMaintenance
         getUtility(IMaintenance).purge()
 
@@ -140,6 +156,11 @@ INTEGRATION_TESTING = IntegrationTesting(
 class IntegrationTestCase(testing.IntegrationTestCase):
 
     _last_response = NotImplemented
+
+    def setUp(self):
+        super(IntegrationTestCase, self).setUp()
+        if not SOLR_ENABLED:
+            self.skipTest('Skipping SOLR tests - SOLR not enabled')
 
     def failureException(self, msg):
         if isinstance(self._last_response, str):
