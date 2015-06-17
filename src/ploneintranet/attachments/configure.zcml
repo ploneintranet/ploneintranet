@@ -25,6 +25,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- (Attachments uninstall)"
+        directory="profiles/uninstall"
+        description="Uninstalls the ploneintranet.attachments package."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <adapter factory=".attachments.AttachmentStorageAdapterFactory" />
 
 </configure>

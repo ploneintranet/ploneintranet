@@ -33,12 +33,26 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- (Theme uninstall)"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.theme."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <genericsetup:importStep
         name="ploneintranet.theme.configureFrontPage"
         title="Delete default frontpage and configure dashboard as default"
         description=""
         handler="ploneintranet.theme.setuphandlers.configureFrontPage">
     </genericsetup:importStep>
+
+    <genericsetup:importStep
+        name="ploneintranet.theme.uninstall"
+        title="Plone Intranet Theme: uninstall steps"
+        description="Various uninstall steps that are not handled by GS import/export handlers."
+        handler="ploneintranet.theme.uninstall.uninstall" />
 
     <plone:static
         directory="static"

@@ -33,4 +33,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- (Docconv Client uninstall)"
+        directory="profiles/uninstall"
+        description="Uninstalls ploneintranet.docconv.client."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
 </configure>

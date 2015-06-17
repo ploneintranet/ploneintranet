@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets.url" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-javascripts.url" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-core-stylesheets-minimal.url" remove="true" />
+</registry>
