@@ -1,5 +1,6 @@
-from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.workspace.config import DYNAMIC_GROUPS_PLUGIN_ID
+from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from plone import api
 
 from Products.PluggableAuthService.plugins.DynamicGroupsPlugin \
@@ -25,6 +26,13 @@ def post_install(context):
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
             title='Workspaces'
+        )
+    if TEMPLATES_FOLDER not in portal:
+        api.content.create(
+            container=portal,
+            id=TEMPLATES_FOLDER,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Templates'
         )
 
     # Set up a group to hold all intranet users

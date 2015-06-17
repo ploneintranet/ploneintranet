@@ -13,6 +13,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet import api as pi_api
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -237,11 +238,11 @@ def create_workspaces(workspaces):
             IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
 
 
-def create_caseworkspaces(caseworkspaces):
+def create_caseworkspaces(caseworkspaces, container='workspaces'):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
-    if 'workspaces' not in portal:
+    if container not in portal:
         ws_folder = api.content.create(
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
@@ -249,7 +250,7 @@ def create_caseworkspaces(caseworkspaces):
         )
         api.content.transition(ws_folder, 'publish')
     else:
-        ws_folder = portal['workspaces']
+        ws_folder = portal[container]
 
     for w in caseworkspaces:
         contents = w.pop('contents', None)
@@ -259,6 +260,8 @@ def create_caseworkspaces(caseworkspaces):
             type='ploneintranet.workspace.case',
             **w
         )
+        caseworkspace.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
         wfconfig.setPolicyIn('case_workflow')
 
@@ -729,6 +732,43 @@ def testing(context):
         }],
     }]
     create_caseworkspaces(caseworkspaces)
+
+    case_templates = [{
+        'title': 'Case Template',
+        'description': 'A Template Case Workspace, pre-populated with tasks',
+        'members': {},
+        'contents': [{
+            'title': 'Basisdatenerfassung',
+            'type': 'todo',
+            'description': 'Erfassung der Basis-Absenderdaten',
+            'milestone': 'new',
+        }, {
+            'title': 'Hintergrundcheck machen',
+            'type': 'todo',
+            'description': 'Hintergrundcheck durchführen ob die Organisation '
+                           'förderungswürdig ist.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
+            'type': 'todo',
+            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
+                           'vergangenen 5 Jahren gewährt wurde.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Meinung Generalvikar einholen',
+            'type': 'todo',
+            'description': 'Meinung des Generalvikars zum Umfang der '
+                           'Förderung einholen.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Protokoll publizieren',
+            'type': 'todo',
+            'description': 'Publizieren des Beschlusses im Web - falls '
+                           'öffentlich.',
+            'milestone': 'decided',
+        }],
+    }]
+    create_caseworkspaces(case_templates, container=TEMPLATES_FOLDER)
 
     # Commented out for the moment, since there's no concept at the moment
     # for globally created events
