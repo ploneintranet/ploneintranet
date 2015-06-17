@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<object name="Folder"
-   meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<object name="Folder">
  <property name="view_methods" purge="False">
   <element value="activitystream_portal" remove="True" />
  </property>

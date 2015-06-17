@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.notifications.browser"
+    interface="ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer"
+    remove="True"
+  />
+</layers>

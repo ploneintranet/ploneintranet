@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Setup/installation tests for this package."""
-
+from ploneintranet.docconv.client.interfaces import (
+    IPloneintranetDocconvClientLayer)
+from plone.browserlayer.utils import registered_layers
 from ploneintranet.docconv.client.testing import IntegrationTestCase
 from plone import api
 
@@ -20,17 +22,20 @@ class TestInstall(IntegrationTestCase):
         self.assertTrue(self.installer.isProductInstalled(
             'ploneintranet.docconv.client'))
 
+    def test_catalog(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        self.assertIn('has_thumbs', catalog.schema())
+
     def test_uninstall(self):
         """Test if ploneintranet.docconv.client is cleanly uninstalled."""
         self.installer.uninstallProducts(['ploneintranet.docconv.client'])
         self.assertFalse(self.installer.isProductInstalled(
             'ploneintranet.docconv.client'))
+        self.assertNotIn(IPloneintranetDocconvClientLayer, registered_layers())
+        catalog = api.portal.get_tool('portal_catalog')
+        self.assertNotIn('has_thumbs', catalog.schema())
+        self.assertNotIn(IPloneintranetDocconvClientLayer, registered_layers())
 
-    # browserlayer.xml
     def test_browserlayer(self):
         """Test that IPloneintranetDocconv.clientLayer is registered."""
-        from ploneintranet.docconv.client.interfaces import (
-            IPloneintranetDocconvClientLayer)
-        from plone.browserlayer import utils
-        self.failUnless(IPloneintranetDocconvClientLayer in
-                        utils.registered_layers())
+        self.assertIn(IPloneintranetDocconvClientLayer, registered_layers())

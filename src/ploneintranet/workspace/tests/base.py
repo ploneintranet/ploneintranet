@@ -1,17 +1,17 @@
+# -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
-import unittest2 as unittest
-from plone.testing import z2
-from plone.testing.z2 import Browser
-from plone.app.testing.interfaces import SITE_OWNER_NAME
-from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.app.testing import login
 from plone.app.testing import logout
-from Products.CMFCore.utils import getToolByName
-from ploneintranet.workspace.testing import \
-    PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
+from plone.app.testing.interfaces import SITE_OWNER_NAME
+from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
+from plone.testing import z2
+from plone.testing.z2 import Browser
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
+from ploneintranet.workspace.testing import \
+    PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
 from zope.annotation.interfaces import IAnnotations
+import unittest2 as unittest
 
 
 class BaseTestCase(unittest.TestCase):
@@ -21,7 +21,6 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
-        self.qi_tool = getToolByName(self.portal, 'portal_quickinstaller')
         self.request = self.portal.REQUEST
 
     def login(self, username):
