@@ -26,6 +26,11 @@
                         </figure>
                     </a>
                 </tal:result>
+		<p tal:define="next_url python: 
+			       view.next_page_url(search_response.total_results)"
+		   tal:condition="next_url">
+		    <a href="${next_url}">More results</a>
+		</p>
             </div>
         </div>
     </metal:results>

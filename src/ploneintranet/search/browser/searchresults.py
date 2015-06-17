@@ -1,4 +1,5 @@
 from Products.Five import BrowserView
+from ZTUtils import make_query
 from zope.component import getUtility
 
 from datetime import datetime
@@ -36,6 +37,7 @@ class SearchResultsView(BrowserView):
         return start_date, end_date
 
     def page_number(self):
+        """Get current page number from the request"""
         try:
             page = int(self.request.form.get('page', 1))
         except ValueError:
@@ -43,11 +45,26 @@ class SearchResultsView(BrowserView):
         return page
 
     def next_page_number(self, total_results):
+        """Get page number for next page of search results"""
         page = self.page_number()
         if page * RESULTS_PER_PAGE < total_results:
             return page + 1
         else:
             return None
+
+    def next_page_url(self, total_results):
+        """Get url for the next page of results"""
+        next_page_number = self.next_page_number(total_results)
+        if not next_page_number:
+            return
+        new_query = make_query(
+            self.request.form.copy(),
+            {'page': next_page_number}
+        )
+        return '{url}?{qs}'.format(
+            url=self.request.ACTUAL_URL,
+            qs=new_query
+        )
 
     def search_response(self):
         form = self.request.form
