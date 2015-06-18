@@ -35,4 +35,10 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:importStep
+      name="ploneintranet.notifications.uninstall"
+      title="Plone Intranet Notifications: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.notifications.uninstall.uninstall" />
+
 </configure>

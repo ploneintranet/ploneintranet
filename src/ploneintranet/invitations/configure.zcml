@@ -22,6 +22,14 @@
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
 
+  <genericsetup:registerProfile
+     name="uninstall"
+     title="Plone Intranet: -- (Invitations uninstall)"
+     directory="profiles/uninstall"
+     description="Uninstall the ploneintranet.invitations package"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
   <browser:page
      for="Products.CMFCore.interfaces.ISiteRoot"
      name="accept-token"

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.interfaces import IResourceRegistry
 from plone import api
+from plone.registry.interfaces import IRegistry
 from ploneintranet.messaging.testing import \
     PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+from zope.component import getUtility
 
 import unittest
 
@@ -48,6 +51,9 @@ class InstallTestCase(unittest.TestCase):
         user_actions = self.portal['portal_actions'].user
         self.assertIn('plone_social_menu', user_actions)
 
+    def test_tool_installed(self):
+        self.assertIn('ploneintranet_messaging', self.portal)
+
 
 class UninstallTestCase(unittest.TestCase):
 
@@ -76,3 +82,14 @@ class UninstallTestCase(unittest.TestCase):
     def test_user_actions_removed(self):
         user_actions = self.portal['portal_actions'].user
         self.assertNotIn('plone_social_menu', user_actions)
+
+    def test_tool_removed(self):
+        self.assertNotIn('ploneintranet_messaging', self.portal)
+
+    def test_resources_removed(self):
+        bundles = getUtility(IRegistry).collectionOfInterface(
+            IResourceRegistry, prefix="plone.resources")
+        self.assertNotIn(
+            'resource-ploneintranet-messaging-messaging-css', bundles)
+        self.assertNotIn(
+            'resource-ploneintranet-messaging-messaging-js', bundles)
