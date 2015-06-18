@@ -1,5 +1,6 @@
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.browser.workspace import WorkspaceView
+from ploneintranet.workspace.config import TRANSITION_ICONS
 
 
 class CaseView(WorkspaceView):
@@ -8,14 +9,7 @@ class CaseView(WorkspaceView):
 
     @property
     def transition_icons(self):
-        return {
-            'transfer_to_department': 'icon-right-hand',
-            'finalise': 'icon-pin',
-            'submit': 'icon-right-circle',
-            'decide': 'icon-hammer',
-            'close': 'icon-cancel-circle',
-            'archive': 'icon-archive',
-        }
+        return TRANSITION_ICONS
 
     @property
     def metromap_sequence(self):

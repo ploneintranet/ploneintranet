@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet.workspace">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content">
+      <div class="application-case-manager" id="content">
+        <div id="document-body">
+		  <div id="document-content" class="cases-overview">
+            
+            <div class="case-mat"
+                 tal:repeat="case view/cases">
+	          <article class="summary row">
+		        <h2 class="case-title twelve columns">
+			      <a href="${case/url}" >${case/title}</a>
+		        </h2>
+		        <p class="description four columns">
+                  ${case/description}
+		        </p>
+		        <div class="eight columns stats">
+			      <p class="stat">
+				    <strong class="value">${case/percent_complete}</strong> 
+				    <em class="name">Tasks finished</em>
+			      </p>
+			      <p class="stat">
+				    <strong class="value">${case/days_running}</strong> 
+				    <em class="name">Days running</em>
+			      </p>
+			      <p class="stat">
+				    <strong class="value">${case/recent_modifications}</strong> 
+				    <em class="name">Modifications past 7 days</em>
+			      </p>
+		        </div>
+	          </article>
+
+              <tal:timeline define="workspace_url case/url;
+                                    mm_seq case/mm_seq;
+                                    transition_icons view/transition_icons;
+                                    existing_users_by_id case/existing_users_by_id;
+                                    tasks case/tasks;
+                                    case_view nocall:case/view">
+                <metal:timeline use-macro="case_view/macros/timeline"/>
+              </tal:timeline>
+              
+            </div>
+            
+		  </div>
+        </div>
+        <aside class="sidebar left" id="sidebar-news-cms">
+	      <div id="sidebar-content" class="mode-follow">
+	        <form id="case-filters" class="pat-inject" data-pat-inject="target: body::after" data-pat-collapsible="store: local">
+	          <fieldset class="vertical">
+	            <label>
+	        	  <select>
+	        	    <option>Only cases that I manage</option>
+	        	    <option>All cases that I'm involved with</option>
+	        	    <option>All cases that I have access to</option>
+	        	  </select>
+	            </label>
+	          </fieldset>
+	          More filters will be designed here.
+	  	    </form>
+	      </div>
+        </aside>
+      </div>
+    </metal:content>
+  </body>
+</html>
