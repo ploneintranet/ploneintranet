@@ -4,7 +4,7 @@
   <record name="ploneintranet.search.filter_fields">
     <field type="plone.registry.field.Tuple">
       <title>Filter fields</title>
-      <descrpition>Fields that will be used to filter query responses in searches</descrpition>
+      <description>Fields that will be used to filter query responses in searches</description>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
@@ -17,7 +17,7 @@
   <record name="ploneintranet.search.facet_fields">
     <field type="plone.registry.field.Tuple">
       <title>Facet field</title>
-      <descrpition>A field that will be used to facet query responses</descrpition>
+      <description>A field that will be used to facet query responses</description>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
@@ -29,7 +29,7 @@
   <record name="ploneintranet.search.phrase_fields">
     <field type="plone.registry.field.Tuple">
       <title>Phrase fields</title>
-      <descrpition>Fields to which the main search phrase will be applied</descrpition>
+      <description>Fields to which the main search phrase will be applied</description>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
@@ -42,7 +42,7 @@
   <record name="ploneintranet.search.solr.phrase_field_boosts">
     <field type="plone.registry.field.Dict">
       <title>Phrase query field and associated boost values</title>
-      <description>Solr Booust values used to compute relevency for queries.</description>
+      <description>Solr Boost values used to compute relevency for queries.</description>
       <key_type type="plone.registry.field.TextLine" />
       <value_type type="plone.registry.field.Int">
         <min>1</min>
