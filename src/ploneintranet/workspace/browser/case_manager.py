@@ -37,11 +37,34 @@ class CaseManagerView(BrowserView):
 
     def cases(self):
         pc = api.portal.get_tool('portal_catalog')
-        brains = pc(
-            portal_type='ploneintranet.workspace.case',
-            sort_on="modified",
-            sort_order="reversed",
-        )
+        form = self.request.form
+
+        query = {
+            'portal_type': 'ploneintranet.workspace.case',
+            'sort_on': 'modified',
+            'sort_order': 'reversed',
+        }
+
+        for date in ['created', 'modified', 'deadline']:
+            if form.get('earliest_'+date) and form.get('latest_'+date):
+                query[date] = {
+                    'query': (
+                        DateTime(form.get('earliest_'+date)),
+                        DateTime(form.get('latest_'+date))
+                    ),
+                    'range': 'min:max',
+                }
+            elif form.get('earliest_'+date):
+                query[date] = {
+                    'query': DateTime(form.get('earliest_'+date)),
+                    'range': 'min',
+                }
+            elif form.get('latest_'+date):
+                query[date] = {
+                    'query': DateTime(form.get('latest_'+date)),
+                    'range': 'max',
+                }
+        brains = pc(query)
         cases = []
         for brain in brains:
             obj = brain.getObject()
