@@ -89,7 +89,7 @@
                     </fieldset>
 
                     <label class="timezone">Timezone
-                        <select class="timezone">
+                        <select class="timezone"  tal:attributes="disabled read_only" >
                             <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
                             <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
                             <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
