@@ -55,13 +55,13 @@ class ISearchResult(Interface):
     highlighted_summary = schema.Text(
         title=_(u'A highlighted summary provided by the backend'))
 
-    preview_image_url = schema.ASCIILine(
-        title=_(u'The absolute URL for a preview image '
-                u'generated for the indexed document'))
-
     preview_image_path = schema.ASCIILine(
         title=_(u'The relative path to the stored preview image of'
                 u'the canonical document'))
+
+    preview_image_url = schema.ASCIILine(
+        title=_(u'The absolute URL for a preview image '
+                u'generated for the indexed document'))
 
     path = schema.ASCIILine(
         title=_(u'The relative path to the canonical document'))
