@@ -72,17 +72,7 @@ class ISearchResult(Interface):
 
 
 class ISearchResponse(Interface):
-    """Defines a common API for search query responses.
-
-    Iterating over this object will yield search result objects
-    conforming to `ISearchResult`.
-
-    :ivar spell_corrected_search: The search string with any spelling
-        corrections replaced
-    :ivar: facets: A dictionary keyed on facet field names with values of the
-        list of available values for each facet
-    :ivar total_results: Count of the total results matching the search query
-    """
+    """Defines a common API for search query responses."""
 
     spell_corrected_search = schema.TextLine(
         title=_(u'Spell corrected search string'))
