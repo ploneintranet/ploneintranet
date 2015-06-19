@@ -20,6 +20,13 @@
       />
 
   <browser:page
+      name="members.json"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.WorkspaceMembersJSONView"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="content_macros"
       for="*"
       permission="zope2.View"
@@ -76,6 +83,21 @@
       template="templates/add_folder.pt"
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="view"
+      for="ploneintranet.workspace.case.ICase"
+      class=".case.CaseView"
+      permission="zope2.View"
+      template="templates/case.pt"
+      />
+
+  <browser:page
+      name="add_task"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddTask"
+      permission="cmf.AddPortalContent"
       />
 
   <browser:page
@@ -163,6 +185,14 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.AllUsersJSONView"
       permission="collective.workspace.ManageRoster"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="case_workflow_guard"
+      for="*"
+      class=".workspace.CaseWorkflowGuardView"
+      permission="zope.Public"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 

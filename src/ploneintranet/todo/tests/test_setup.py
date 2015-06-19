@@ -23,8 +23,8 @@ class TestInstall(IntegrationTestCase):
 
     def test_type_installed(self):
         portal_types = api.portal.get_tool('portal_types')
-        fti = portal_types.get('simpletodo', None)
-        self.assertEqual(fti.id, 'simpletodo')
+        fti = portal_types.get('todo', None)
+        self.assertEqual(fti.id, 'todo')
 
 
 class TestUninstall(IntegrationTestCase):
@@ -43,7 +43,7 @@ class TestUninstall(IntegrationTestCase):
 
     def test_type_removed(self):
         portal_types = api.portal.get_tool('portal_types')
-        fti = portal_types.get('simpletodo', None)
+        fti = portal_types.get('todo', None)
         self.assertIsNone(fti)
 
     def test_behavior_removed(self):
