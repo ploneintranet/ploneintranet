@@ -110,12 +110,12 @@ class ContentView(BrowserView):
         current_state = getattr(available_states, current_state_id).title
         states = [dict(
             action='',
-            title=current_state,
+            title=current_state or current_state_id,
             new_state_id='',
             selected='selected')]
 
-        workflowActions = self.wf_tool.listActionInfos(object=context)
-        for action in workflowActions:
+        workflow_actions = self.wf_tool.listActionInfos(object=context)
+        for action in workflow_actions:
             if action['category'] != 'workflow':
                 continue
             new_state_id = action['transition'].new_state_id

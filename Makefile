@@ -12,6 +12,8 @@ all:: fetchrelease
 default: all
 clean:
 	rm bin/* .installed.cfg || true
+clean-proto:
+	cd prototype && make clean
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
@@ -76,7 +78,7 @@ _diazo:
 	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
 	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
 
-jsdev: dev-bundle diazo _jsdev ## full js development refresh
+jsdev: clean-proto dev-bundle diazo _jsdev ## full js development refresh
 
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:

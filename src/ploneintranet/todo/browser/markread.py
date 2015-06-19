@@ -1,4 +1,4 @@
-from .base_view import BaseView
+from .todo_view import BaseView
 from ..interfaces import MUST_READ
 
 
@@ -10,4 +10,3 @@ class MarkRead(BaseView):
             verb=MUST_READ,
             userids=self.current_user_id
         )
-        return super(MarkRead, self).__call__()

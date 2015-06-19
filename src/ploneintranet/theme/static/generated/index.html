@@ -18,6 +18,7 @@
 	<nav class="tabs navigation pat-bumper" id="home-tabs">
 		<a href="/dashboard.html" >Dashboard</a>
 		<a href="/news.html" >News</a>
+		<a href="/library.html" >Library</a>
 		<a href="/workspaces.html" >Workspaces</a>
 		<a href="#" >Messages</a>
 		<a href="/apps.html" >Apps</a>
@@ -31,11 +32,17 @@
 			<img src="media/logo-pi.svg" alt="Plone Intranet" />
 		</p>
 		<fieldset class="vertical">
-			<input type="text" name="__ac_name" id="__ac_name" placeholder="E-mail address">
-			<input type="password" id="__ac_password" name="__ac_password" placeholder="Password"><br>
-			<fieldset class="button-bar">
+			<label>
+				<input type="text" name="__ac_name" id="__ac_name" placeholder="E-mail address">
+			</label>
+			<br/>
+			<label>
+				<input type="password" id="__ac_password" name="__ac_password" placeholder="Password">
+			</label>
+			<br/>
+			<p class="button-bar">
 				<button type="submit">Login</button>
-			</fieldset>
+			</p>
 		</fieldset>
 	</form>
 </div>
