@@ -1,24 +1,7 @@
-from Testing.ZopeTestCase import utils
 from plone import api
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 from zope.component import queryAdapter
-
-import transaction
-
-
-def startZServerSSH(local_port, user_at_hostname):
-    """ startZServerSSH(9999, "star@eithniu")
-    starts the ZServer and prints:
-    ssh -L 9999:localhost:55017 star@eithniu
-    (which you run from a terminal)
-    """
-    transaction.commit()
-    host, port = utils.startZServer()
-    print "\n\nssh -L %s:localhost:%s %s\n\n" % (
-        local_port, port, user_at_hostname)
-    import pdb
-    pdb.set_trace()
 
 
 class TestCaseWorkspace(FunctionalBaseTestCase):
