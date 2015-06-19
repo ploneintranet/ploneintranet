@@ -51,6 +51,7 @@ src/plone.app.portlets/
 src/plone.app.querystring/
 src/plone.app.testing/
 src/plone.app.theming/
+src/plone.app.themingplugins/
 src/plone.app.users/
 src/plone.app.viewletmanager/
 src/plone.app.z3cform/

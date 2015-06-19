@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<layers>
+  <layer name="ploneintranet.themeswitcher.themeA"
+         interface="ploneintranet.themeswitcher.interfaces.IThemeASpecific"/>
+</layers>
