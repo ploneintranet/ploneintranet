@@ -139,20 +139,20 @@ def avatar_url(username, size='stream'):
     :returns: absolute url for the avatar image
     :rtype: string
     """
-    profile = get(username)
-
-    portal = plone_api.portal.get()
-    imaging = plone_api.content.get_view(
-        request=portal.REQUEST,
-        context=profile,
-        name='images')
-
     if size not in AVATAR_SIZES:
         raise InvalidParameterError(
             "Invalid size for avatar url. Valid sizes are: {}".format(
                 AVATAR_SIZES.keys()
             )
         )
+
+    profile = get(username)
+    portal = plone_api.portal.get()
+    imaging = plone_api.content.get_view(
+        request=portal.REQUEST,
+        context=profile,
+        name='images')
+
     width = AVATAR_SIZES.get(size)
 
     try:
