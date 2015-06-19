@@ -48,6 +48,8 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
+
+
   <copy attributes="method id action" 
         css:content="form#searchGadget_form" 
         css:theme="form#global-nav-search" />
@@ -61,14 +63,19 @@
 
   <rules css:if-content="body.portaltype-event, 
                          body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
+                         body.portaltype-ploneintranet-workspace-case.template-view, 
                          body.portaltype-document, 
                          body.portaltype-file, 
                          body.portaltype-image, 
                          body.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
-    <drop css:theme-children="#content" />
-    <append css:content-children="#portal-column-content" css:theme="#content" />
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+  <rules css:if-content="body.portaltype-todo">
+      <theme href="generated/basisdaten/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
   <rules css:if-content="body.template-dashboard-html, 
@@ -76,6 +83,13 @@
                          body.template-login_success">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />
+  </rules>
+
+  <!-- XXX Do we really need that explicitly? -->
+  <rules css:if-content="body.template-todo">
+    <theme href="generated/panel-create-task.html" />
+    <drop css:theme-children=".panel-body" />
+    <append css:content-children="#content" css:theme=".panel-body" />
   </rules>
 
   <rules css:if-content="body.template-userprofile-view">

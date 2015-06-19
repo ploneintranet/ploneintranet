@@ -51,8 +51,14 @@
         title="Todo"
         description="Todo behavior"
         provides=".behaviors.ITodo"
-        factory="plone.behavior.AnnotationStorage"
-        marker=".behaviors.ITodoMarker"
+        for=".behaviors.ITodoMarker"
+        />
+
+    <plone:behavior
+        title="Milestone"
+        description="Milestone this task belongs to"
+        provides=".behaviors.IMilestone"
+        for=".behaviors.IMilestoneMarker"
         />
 
     <include package=".portlets" />
@@ -62,6 +68,8 @@
         provides="ploneintranet.todo.interfaces.ITodoUtility"
         factory=".todo_utility.TodoUtility"
         />
+
+    <adapter name="due" factory=".indexers.due" />
 
     <subscriber for=".behaviors.IMustReadMarker
                      zope.lifecycleevent.interfaces.IObjectModifiedEvent"

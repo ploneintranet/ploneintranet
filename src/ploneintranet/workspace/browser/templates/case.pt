@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet.workspace">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content" 
+                   tal:define="workspace view/workspace;
+                               workspace_url python:workspace.absolute_url();
+                               mm_seq view/metromap_sequence;
+                               transition_icons view/transition_icons;
+                               existing_users_by_id workspace/existing_users_by_id">
+      <div id="content" class="application page-type-case workspace-type-case">
+      <h1 id="workspace-name">
+        <!-- Next link is to lead to landing state of current workspace -->
+        <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
+      </h1>
+
+      <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+
+        <div id="document-body" >
+	      <div class="workspace-header">
+		    <article class="rich">
+			  <p class="description" tal:content="context/description"/>
+		    </article>
+		    <ul class="timeline pat-equaliser"
+                tal:define="tasks context/tasks; task_number python:0; milestones python:mm_seq.keys()">
+              <tal:milestone repeat="milestone_id milestones">
+			    <li class="section actioned state-unfinished"
+                    tal:define="milestone_title python:mm_seq[milestone_id]['title']"
+                    tal:attributes="title milestone_title;
+                                    class python:'{0} state-{1}'.format(attrs['class'],'finished' if mm_seq[milestone_id]['finished'] else 'unfinished')">
+                  <tal:state_index define="global task_number python:task_number + repeat['milestone_id'].index">
+				    <h3 class="section-label" tal:content="milestone_title"/>
+				    <ul>
+                      <li class="step-background"
+                          tal:condition="python:milestone_id in (milestones[0], milestones[-1]) and tasks[milestone_id] == []"
+                          tal:attributes="id python:'item-{0}'.format(task_number + 1);">
+                        <p class="step-label icon"/>
+                      </li>
+                      <tal:tasks repeat="task python:tasks[milestone_id]">
+                        <tal:task_number define="global task_number python:task_number + 1">
+				          <li class="step-background"
+                              tal:attributes="id string:item-${task_number};
+                                              class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
+					        <p class="step-label icon icon-help-circled">
+					          <a class="link" data-pat-inject="history: record"
+                                 tal:attributes="href string:${task/url}#workspace-tickets; title task/title"
+                                 tal:content="task/title"/>
+					        </p>
+					        <p class="step-assignee"
+                               tal:define="due_date task/due;
+                                           user_details python:existing_users_by_id.get(task.get('assignee'))"
+                               tal:condition="user_details">
+	                          <a href="" class="pat-avatar "  id="">
+                                <img tal:attributes="src user_details/portrait;
+                                                     alt user_details/title;
+                                                     title user_details/description"/>
+	                          </a>
+					          <time class="date" tal:condition="due_date"
+                                    tal:attributes="datetime due_date"
+                                    tal:content="python:due_date.strftime('%d %b')">2 Jan</time>
+					        </p>
+				          </li>
+                        </tal:task_number>
+                      </tal:tasks>
+				    </ul>
+
+                    <p class="action icon"
+                       tal:condition="not:repeat/milestone_id/end"
+                       tal:define="milestone python:mm_seq[milestone_id]"
+                       tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
+				      <a class="link"
+                         tal:content="milestone/transition_title" />
+				    </p>
+                  </tal:state_index>
+                </li>
+              </tal:milestone>
+            </ul>
+            
+          </div>
+          <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
+          <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
+          <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
+        </div>
+
+        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
+        </aside>
+
+      </div>
+      <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+      </div>
+    </metal:content>
+  </body>
+</html>

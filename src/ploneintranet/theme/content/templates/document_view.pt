@@ -1,30 +1,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/main_template/macros/master"
-    i18n:domain="ploneintranet">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
 
-<body>
+  <body>
     <metal:content fill-slot="content"
-        tal:define="workspace python:view.workspace;
-            here_url context/absolute_url;
-            workspace_url python:workspace.absolute_url();
-            workspace_id python:workspace.id">
+                   tal:define="workspace python:view.workspace;
+                               here_url context/absolute_url;
+                               workspace_url python:workspace.absolute_url();
+                               workspace_id python:workspace.id">
 
-    <h1 id="workspace-name">
-        <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
-    </h1>
-    <div class="${workspace_id} dark-theme" id="application-body" tal:define="read_only python:not view.can_edit">
-        <div id="document-body">
-          <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
-                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor && source: #application-body; target: #application-body">
-            <div class="metadata pat-bumper" id="meta">
-              <div class="meta-bar">
-                <h1 class="doc-title" id="document-title">${context/title}</h1>
-                <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
-                <div class="quick-functions">
+      <div id="content"
+           tal:define="type workspace/ws_type | string:workspace;"
+           tal:attributes="class string:application page-type-${type} workspace-type-${type}">
+
+        <h1 id="workspace-name">
+          <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+        </h1>
+        <div class="${workspace_id} dark-theme" id="application-body" tal:define="read_only python:not view.can_edit">
+          <div id="document-body">
+            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
+                  data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor && source: #application-body; target: #application-body">
+              <div class="metadata pat-bumper" id="meta">
+                <div class="meta-bar">
+                  <h1 class="doc-title" id="document-title">${context/title}</h1>
+                  <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                  <div class="quick-functions">
                     <a href="${context/absolute_url}/external_edit"
                        tal:condition="context/externalEditorEnabled/available"
                        class="${view/icon_class} iconified">Open in External Editor</a>
@@ -33,58 +37,58 @@
                     <a href="#share-panel" class="icon-export iconified pat-modal">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
-                            tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #application-body;; target: #application-body">
-                        <label class="pat-select bare workflow" title="Change the workflow state">
-                            <select name="workflow_action" id="workflow_action">
-                                <option tal:repeat="state view/get_workflow_transitions"
-                                    tal:attributes="title state/title; value state/action; selected state/selected|nothing"
-                                    tal:content="state/title">Workflow State</option>
-                            </select>
-                        </label>
-                        <span tal:replace="structure context/@@authenticator/authenticator"/>
+                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #application-body;; target: #application-body">
+                      <label class="pat-select bare workflow" title="Change the workflow state">
+                        <select name="workflow_action" id="workflow_action">
+                          <option tal:repeat="state view/get_workflow_transitions"
+                                  tal:attributes="title state/title; value state/action; selected state/selected|nothing"
+                                  tal:content="state/title">Workflow State</option>
+                        </select>
+                      </label>
+                      <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
                     <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
-                </div><!-- quick-functions -->
-              </div> <!-- #meta-bar -->
-              <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
+                  </div><!-- quick-functions -->
+                </div> <!-- #meta-bar -->
+                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
 
-              <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-                <fieldset class="bar">
+                <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                  <fieldset class="bar">
                     <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" />
-                </fieldset>
-                <fieldset class="bar description">
+                  </fieldset>
+                  <fieldset class="bar description">
                     <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                  </fieldset>
                 </fieldset>
-              </fieldset>
-            </div><!-- pat-bumper -->
+              </div><!-- pat-bumper -->
 
-            <div id="document-content">
-              <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
-                <textarea tal:condition="not:read_only" name="text" class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow" tal:content="python: context.text.raw if context.text else ''">
+              <div id="document-content">
+                <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
+                  <textarea tal:condition="not:read_only" name="text" class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow" tal:content="python: context.text.raw if context.text else ''">
                     Content of the textarea
-                </textarea>
-                <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
-              </article>
+                  </textarea>
+                  <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
+                </article>
+                <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
+                  <tal:previews tal:repeat="preview python:range(1, number_of_file_previews + 1)">
+                    <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+                  </tal:previews>
+                </article>
 
-              <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
-                <tal:previews tal:repeat="preview python:range(1, number_of_file_previews+1)">
-                  <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
-                </tal:previews>
-              </article>
-
-              <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
-                <figure>
-                  <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
-                </figure>
-              </article>
-            </div><!-- #document-content -->
-            <input type="hidden" name="form.submitted" value="1" />
-          </form>
-        </div><!-- #document-body -->
-        <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
-    </aside>
-    </div>
-    <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-</metal:content>
-</body>
+                <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
+                  <figure>
+                    <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                  </figure>
+                </article>
+              </div><!-- #document-content -->
+              <input type="hidden" name="form.submitted" value="1" />
+            </form>
+          </div><!-- #document-body -->
+          <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
+          </aside>
+        </div>
+        <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+      </div>
+    </metal:content>
+  </body>
 </html>

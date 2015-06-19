@@ -31,19 +31,23 @@ def my_workspaces(context):
     """
     pc = api.portal.get_tool('portal_catalog')
     brains = pc(
-        portal_type="ploneintranet.workspace.workspacefolder",
+        object_provides=(
+            'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
         sort_on="modified",
         sort_order="reversed",
     )
     workspaces = []
     for brain in brains:
+        css_class = escape_id_to_class(brain.getId)
+        if brain.portal_type == 'ploneintranet.workspace.case':
+            css_class = 'type-case ' + css_class
         workspaces.append({
             'id': brain.getId,
             'title': brain.Title,
             'description': brain.Description,
             'url': brain.getURL(),
             'activities': get_workspace_activities(brain),
-            'class': escape_id_to_class(brain.getId),
+            'class': css_class,
         })
 
     return workspaces
