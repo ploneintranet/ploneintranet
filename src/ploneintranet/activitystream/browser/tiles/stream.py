@@ -1,9 +1,11 @@
 # coding=utf-8
+from zope.component import queryUtility
 from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.core.integration import PLONEINTRANET
@@ -73,7 +75,7 @@ class StreamTile(Tile):
         container = PLONEINTRANET.microblog
 
         if self.microblog_context:
-            # support ploneintranet.workspace integration
+            # Get all updates in this context
             statusupdates = container.context_values(
                 self.microblog_context,
                 limit=self.count,
@@ -87,8 +89,14 @@ class StreamTile(Tile):
                 tag=self.tag
             )
         else:
-            # default implementation
-            statusupdates = container.values(
+            # Default implementation
+            # (users that I follow)
+            userid = api.user.get_current().getId()
+            graph = queryUtility(INetworkTool)
+            users_followed = graph.get_following('user', userid)
+
+            statusupdates = container.user_values(
+                users=users_followed,
                 limit=self.count,
                 tag=self.tag
             )
