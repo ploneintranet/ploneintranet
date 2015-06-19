@@ -9,6 +9,7 @@ from plone.testing import z2
 from plone.testing import zca
 
 from zope.configuration import xmlconfig
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 
 def tearDownContainer(container):
@@ -30,7 +31,8 @@ def tearDownContainer(container):
 
 class PloneIntranetMicroblog(PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, )
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,
+                    PLONEINTRANET_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML for this package

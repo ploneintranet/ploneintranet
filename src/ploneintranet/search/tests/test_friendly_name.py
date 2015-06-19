@@ -3,21 +3,22 @@ from plone import api
 from plone.namedfile import NamedBlobFile
 from zope.component import queryMultiAdapter
 
-from ..testing import IntegrationTestCase
+from .. import testing
 
 
-class TestFriendlyName(IntegrationTestCase):
-    """ Test the friendly type name generator """
+class TestFriendlyName(testing.IntegrationTestCase):
+    """Test the friendly type name generator."""
 
     def setUp(self):
+        super(TestFriendlyName, self).setUp()
         self.portal = api.portal.get()
         self.catalog = api.portal.get_tool(name='portal_catalog')
-        self.doc1 = api.content.create(
+        self.doc1 = self._create_content(
             type='Document',
             title='Test Doc',
             container=self.portal,
         )
-        self.file1 = api.content.create(
+        self.file1 = self._create_content(
             type='File',
             title='Test File',
             container=self.portal,
@@ -29,13 +30,9 @@ class TestFriendlyName(IntegrationTestCase):
         )
 
     def test_default_type(self):
-        wrapped = queryMultiAdapter(
-            (self.doc1, self.catalog),
-            IIndexableObject)
-        self.assertEqual(wrapped.friendly_type_name, 'Page')
+        iobj = queryMultiAdapter((self.doc1, self.catalog), IIndexableObject)
+        self.assertEqual(iobj.friendly_type_name, 'Page')
 
     def test_file_type(self):
-        wrapped = queryMultiAdapter(
-            (self.file1, self.catalog),
-            IIndexableObject)
-        self.assertEqual(wrapped.friendly_type_name, 'PDF document')
+        iobj = queryMultiAdapter((self.file1, self.catalog), IIndexableObject)
+        self.assertEqual(iobj.friendly_type_name, 'PDF document')

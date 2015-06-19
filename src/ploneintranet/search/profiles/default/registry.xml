@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<records>
+
+  <record name="ploneintranet.search.filter_fields">
+    <field type="plone.registry.field.Tuple">
+      <title>Filter fields</title>
+      <description>Fields that will be used to filter query responses in searches</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>tags</element>
+      <element>friendly_type_name</element>
+      <element>portal_type</element>
+    </value>
+  </record>
+
+  <record name="ploneintranet.search.facet_fields">
+    <field type="plone.registry.field.Tuple">
+      <title>Facet field</title>
+      <description>A field that will be used to facet query responses</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>tags</element>
+      <element>friendly_type_name</element>
+    </value>
+  </record>
+
+  <record name="ploneintranet.search.phrase_fields">
+    <field type="plone.registry.field.Tuple">
+      <title>Phrase fields</title>
+      <description>Fields to which the main search phrase will be applied</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>Title</element>
+      <element>Description</element>
+      <element>SearchableText</element>
+    </value>
+  </record>
+
+  <record name="ploneintranet.search.solr.phrase_field_boosts">
+    <field type="plone.registry.field.Dict">
+      <title>Phrase query field and associated boost values</title>
+      <description>Solr Boost values used to compute relevency for queries.</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.Int">
+        <min>1</min>
+      </value_type>
+    </field>
+    <value>
+      <element key="Title">5</element>
+      <element key="Description">3</element>
+      <element key="SearchableText">2</element>
+    </value>
+  </record>
+
+  <record name="ploneintranet.search.solr.spellchecker.accuracy">
+    <field type="plone.registry.field.Dict">
+      <title>Solr spellchecking settings</title>
+      <description>Various spelling checking properties</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.Int">
+        <min>1</min>
+      </value_type>
+    </field>
+  </record>
+
+</records>

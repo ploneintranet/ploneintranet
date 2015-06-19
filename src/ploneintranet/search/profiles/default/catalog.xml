@@ -4,6 +4,7 @@
   <index name="friendly_type_name" meta_type="KeywordIndex">
     <indexed_attr value="friendly_type_name"/>
   </index>
+
   <column value="friendly_type_name"/>
 
 </object>

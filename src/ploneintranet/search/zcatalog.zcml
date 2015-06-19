@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           i18n_domain="ploneintranet.search">
+
+  <adapter factory=".zcatalog.SearchResponse" />
+
+  <utility provides=".interfaces.ISiteSearch"
+           factory=".zcatalog.SiteSearch" />
+  
+</configure>
