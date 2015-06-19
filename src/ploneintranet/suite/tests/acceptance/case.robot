@@ -28,22 +28,22 @@ Manager can change the workflow of a case workspace
 
 Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
-     Then I try go to the Minifest
+     Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
      Then I can toggle a milestone  New
      Then I select the task check box  Basisdatenerfassung
-     Then I try go to the Minifest
+     Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
      Then I see a task is complete  Basisdatenerfassung
      Then I unselect the task check box  Basisdatenerfassung
-     Then I try go to the Minifest
+     Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
      Then I see a task is open  Basisdatenerfassung
      Then I can toggle a milestone  New
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
-     when I try go to the Minifest
+     when I can go to the Minifest
      then I am redirected to the login page
 
 Manager can view sidebar info

@@ -107,10 +107,10 @@ I go to the Service Announcements Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Service announcements
 
-I try go to the Open Market Committee Workspace
+I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I try go to the Minifest
+I can go to the Minifest
     Go To  ${PLONE_URL}/workspaces/minifest
 
 I am redirected to the login page
