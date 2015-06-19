@@ -11,8 +11,8 @@ from plone.api.exc import InvalidParameterError
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 
 AVATAR_SIZES = {
-    'profile': 30,
-    'stream': 60,
+    'profile': 200,
+    'stream': 50,
 }
 
 
