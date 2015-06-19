@@ -25,6 +25,9 @@
                 <h1 class="doc-title" id="document-title">${context/title}</h1>
                 <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                 <div class="quick-functions">
+                    <a href="${context/absolute_url}/external_edit"
+                       tal:condition="context/externalEditorEnabled/available"
+                       class="${view/icon_class} iconified">Open in External Editor</a>
                     <a href="#confirm-delete" class="icon-trash iconified">Delete</a>
                     <a href="" class="icon-copy iconified">Copy</a>
                     <a href="#share-panel" class="icon-export iconified pat-modal">Share</a>

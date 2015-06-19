@@ -8,7 +8,6 @@
     <object name="index_html" meta_type="CMF Action" i18n:domain="plone">
       <property name="title" i18n:translate="">Dashboard</property>
     </object>
-
     <object name="workspaces" meta_type="CMF Action">
       <property name="title" i18n:translate="">Workspaces</property>
       <property name="i18n_domain">ploneintranet</property>

@@ -15,6 +15,7 @@
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
   <include package="ploneintranet.socialsuite"/>
   <include package="ploneintranet.socialtheme"/>
@@ -39,6 +40,20 @@
       />
 
   <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: Uninstall"
+      directory="profiles/uninstall"
+      description="Uninstalls the Ploneintranet Suite"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="ploneintranet.suite.uninstall"
+      title="Plone Intranet: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.suite.uninstall.uninstall" />
+
+  <genericsetup:registerProfile
       name="testing"
       title="Plone Intranet:  Suite : Create Testing Content"
       directory="profiles/testing"
@@ -59,9 +74,12 @@
   </class>
 
   <utility
+    factory=".hiddenprofiles.HiddenProducts"
+    name="ploneintranet" />
+
+  <utility
     factory=".hiddenprofiles.HiddenProfiles"
-    name="ploneintranet"
-  />
+    name="ploneintranet" />
 
   <!-- -*- extra stuff goes here -*- -->
 

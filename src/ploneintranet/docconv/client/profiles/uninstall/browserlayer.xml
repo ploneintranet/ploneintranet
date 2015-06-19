@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.docconv.client"
+    interface="ploneintranet.docconv.client.interfaces.IPloneintranetDocconvClientLayer"
+    remove="True"
+  />
+</layers>

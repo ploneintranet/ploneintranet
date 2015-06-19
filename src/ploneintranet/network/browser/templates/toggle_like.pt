@@ -18,8 +18,8 @@
         tal:attributes="action view/action;
                         id string:functions-${unique_id};
                         data-pat-inject datapatinject;"
-        class="pat-inject pat-autosubmit"
-        data-pat-inject="source: #functions; target: #functions-mypost_1">
+        class="pat-inject" data-pat-inject="source: #functions; target: #functions-mypost_1">
+
     <button class="like active"
             value="like"
             name="like_button"

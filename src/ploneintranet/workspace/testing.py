@@ -85,6 +85,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.theme:default')
+        applyProfile(portal, 'collective.externaleditor:default')
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 

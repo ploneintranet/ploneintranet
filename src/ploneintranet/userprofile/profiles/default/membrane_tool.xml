@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+ <membrane-type name="ploneintranet.userprofile.userprofile"/>
+ <query_index_map>
+   <index name="fullname">Title</index>
+ </query_index_map>
+</object>

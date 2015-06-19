@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body>
+  <body tal:define="can_add view/can_add">
     <aside class="sidebar left tagging-off" id="sidebar" >
 
       <div hidden="hidden" id="more-menu">
@@ -48,7 +48,7 @@
 
               <div class="quick-functions">
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                <a title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
                 <!-- XXX: This is not yet completed -->
@@ -166,7 +166,7 @@ Supported types include (class names):
 - type-pdf
 
                 -->
-                
+
                 <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynamic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                 -->
                 <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
@@ -190,38 +190,43 @@ Supported types include (class names):
               </fieldset>
             </form>
 
-            <div class="button-bar create-buttons">
-              <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                 i18n:translate="">Create document</a>
-              <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                 i18n:translate="">Create folder</a>
-            </div>
-            <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
-              <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
-                <label class="accessibility-options">
-                  <input type="file" name="file" multiple="multiple"/> Upload files
-                </label>
-              </fieldset>
-              <button type="submit" hidden="hidden">Upload</button>
-            </form>
+            <tal:can_add condition="can_add">
+              <div class="button-bar create-buttons">
+                <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                   i18n:translate="">Create document</a>
+                <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
+                   i18n:translate="">Create folder</a>
+              </div>
+              <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
+                <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
+                  <label class="accessibility-options">
+                    <input type="file" name="file" multiple="multiple"/> Upload files
+                  </label>
+                </fieldset>
+                <button type="submit" hidden="hidden">Upload</button>
+              </form>
+            </tal:can_add>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
               <ul class="menu">
-                <li>
-                  <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
-                </li>
-                <li>
-                  <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
-                </li>
-                <li>
-                  <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
-                </li>
+                <tal:can_add condition="can_add">
+                  <li>
+                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
+                  </li>
+                  <li>
+                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                  </li>
+                  <li>
+                    <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                  </li>
+                </tal:can_add>
                 <!-- This is commented until the functionality will be completed -->
                 <!--li>
                     <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
                     </li-->
               </ul>
             </div>
+
 
             <div hidden="hidden" id="selector-create-menu">
               <ul class="menu">
@@ -288,7 +293,7 @@ Supported types include (class names):
         <div id="workspace-events" tal:define="events view/events; ws view/workspace">
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
-              <a title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>
           <div class="content">

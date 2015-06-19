@@ -1,0 +1,44 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <include package="dexterity.membrane" />
+
+  <adapter name="Title"
+           factory=".indexers.Title" />
+
+  <include package=".browser" />
+  <include package=".content" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- (User Profiles)"
+      directory="profiles/default"
+      description="Installs the ploneintranet.userprofile package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- (User Profiles uninstall)"
+      directory="profiles/uninstall"
+      description="Installs the ploneintranet.userprofile package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:importStep
+      name="ploneintranet.userprofile.uninstall"
+      title="Plone Intranet User Profiles: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.userprofile.uninstall.uninstall" />
+
+</configure>
