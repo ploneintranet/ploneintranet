@@ -55,9 +55,27 @@ class WorkspaceState(BaseWorkspaceView):
             return api.content.get_state(self.workspace())
 
 
+class WorkspaceMembersJSONView(BrowserView):
+    """
+    Return member details in JSON
+
+    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
+    """
+    def __call__(self):
+        users = self.context.existing_users()
+        member_details = []
+        for user in users:
+            member_details.append({
+                'text': user['title'] or user['id'],
+                'id': user['id'],
+            })
+        return dumps(member_details)
+
+
 class AllUsersJSONView(BrowserView):
     """
     Return all users in JSON for use in picker
+    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
     """
     def __call__(self):
         q = self.request.get('q', '')
@@ -73,3 +91,22 @@ class AllUsersJSONView(BrowserView):
                     'id': uid,
                 })
         return dumps(member_details)
+
+
+class CaseWorkflowGuardView(BrowserView):
+    """Enable transition to the next workflow state when there are no open
+    tasks
+    """
+
+    @memoize
+    def __call__(self):
+        context = self.context
+        catalog = api.portal.get_tool('portal_catalog')
+        current_path = '/'.join(context.getPhysicalPath())
+        brains = catalog(
+            path=current_path,
+            portal_type='todo',
+            review_state='open',
+        )
+        has_no_open_tasks = len(brains) == 0
+        return has_no_open_tasks

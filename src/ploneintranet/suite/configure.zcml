@@ -65,7 +65,7 @@
       name="ploneintranet.testing"
       title="Setup testing data"
       description=""
-      handler="ploneintranet.suite.setuphandlers.testing" />
+      handler="ploneintranet.suite.setuphandlers.testing"/>
 
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">

@@ -187,3 +187,26 @@ def content_object_moved(obj, event):
             path='%s' % cookie_path(request),
             expires='Wed, 31-Dec-97 23:59:59 GMT')
         request['__cp'] = None
+
+
+def update_todo_state(obj, event):
+    """
+    After editing a Todo item, set the workflow state to either Open or Planned
+    depending on the state of the Case.
+    """
+    obj.set_appropriate_state()
+    obj.reindexObject()
+
+
+def update_todos_state(obj, event):
+    """
+    Update the workflow state of Todo items in a Case, when the workflow state
+    of the Case is changed.
+    """
+    pc = api.portal.get_tool('portal_catalog')
+    current_path = '/'.join(obj.getPhysicalPath())
+    brains = pc(path=current_path, portal_type='todo')
+    for brain in brains:
+        obj = brain.getObject()
+        obj.set_appropriate_state()
+        obj.reindexObject()

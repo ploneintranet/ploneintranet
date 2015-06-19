@@ -26,6 +26,8 @@
   </permission>
 
   <include package=".browser" />
+  <include package=".behaviors" />
+
   <include file="indexers.zcml" />
 
   <subscriber
@@ -62,6 +64,24 @@
     handler=".subscribers.user_deleted_from_site_event"
     />
 
+  <subscriber
+      for="ploneintranet.todo.content.todo.ITodo
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.update_todo_state"
+      />
+
+  <subscriber
+      for="ploneintranet.todo.content.todo.ITodo
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscribers.update_todo_state"
+      />
+
+  <subscriber
+      for=".case.ICase
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".subscribers.update_todos_state"
+      />
+
   <adapter
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
      provides="collective.workspace.interfaces.IWorkspace"
@@ -70,6 +90,18 @@
 
   <adapter
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
+     />
+
+  <adapter
+     for=".case.ICase"
+     provides=".interfaces.IMetroMap"
+     factory=".adapters.MetroMap"
+     />
+
+  <adapter
+     for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+     provides=".interfaces.IMetroMap"
+     factory=".adapters.MetroMap"
      />
 
   <!-- grouping storage -->
