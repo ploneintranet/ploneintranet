@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+
+  <index name="friendly_type_name" meta_type="KeywordIndex" remove="True">
+    <indexed_attr value="friendly_type_name"/>
+  </index>
+  <column value="friendly_type_name" remove="True"/>
+
+</object>

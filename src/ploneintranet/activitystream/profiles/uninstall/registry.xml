@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-activitystream-stylesheets.url" remove="true" />
+</registry>

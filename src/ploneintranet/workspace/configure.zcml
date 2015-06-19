@@ -27,7 +27,7 @@
 
   <include package=".browser" />
   <include file="indexers.zcml" />
-  
+
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
@@ -119,5 +119,19 @@
       i18n:translate="title description">
       <depends name="placeful_workflow" />
    </genericsetup:importStep>
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- (Workspace uninstall)"
+      directory="profiles/uninstall"
+      description="Workspace for PloneIntranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="ploneintranet.workspace.uninstall"
+      title="Plone Intranet Workspace: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.workspace.uninstall.uninstall" />
 
 </configure>

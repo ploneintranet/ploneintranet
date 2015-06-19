@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layers>
+  <layer name="ploneintranet.theme" interface="ploneintranet.theme.interfaces.IThemeSpecific"
+    remove="True" />
+  <layer name="ploneintranet.content" interface="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    remove="True" />
+  <layer name="ploneintranet.form" interface="ploneintranet.theme.interfaces.IPloneIntranetFormLayer"
+    remove="True" />
+</layers>

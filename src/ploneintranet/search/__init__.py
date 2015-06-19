@@ -1,1 +1,3 @@
-"""Watch this space"""
+from zope.i18nmessageid import MessageFactory
+
+_ = MessageFactory('ploneintranet')

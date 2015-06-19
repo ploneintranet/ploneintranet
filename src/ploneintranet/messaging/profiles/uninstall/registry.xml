@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-css.url" remove="true" />
+
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.conf" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.css" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.deps" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.export" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.init" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.js" remove="true" />
+  <record name="plone.resources/resource-ploneintranet-messaging-messaging-js.url" remove="true" />
+</registry>

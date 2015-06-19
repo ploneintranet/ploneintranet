@@ -7,6 +7,7 @@ from plone.tiles import Tile
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet.userprofile.content.userprofile import IUserProfile
 from zExceptions import NotFound
 import logging
 
@@ -75,6 +76,13 @@ class StreamTile(Tile):
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
                 self.microblog_context,
+                limit=self.count,
+                tag=self.tag
+            )
+        elif IUserProfile.providedBy(self.context):
+            # Get the updates for this user
+            statusupdates = container.user_values(
+                self.context.username,
                 limit=self.count,
                 tag=self.tag
             )

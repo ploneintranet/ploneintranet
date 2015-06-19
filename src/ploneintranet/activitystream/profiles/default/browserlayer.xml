@@ -1,5 +1,6 @@
 <layers>
-  <layer  name="ploneintranet.activitystream.browser"
-          interface="ploneintranet.activitystream.browser.interfaces.IPloneIntranetActivitystreamLayer"
-          />
+  <layer
+    name="ploneintranet.activitystream.browser"
+    interface="ploneintranet.activitystream.browser.interfaces.IPloneIntranetActivitystreamLayer"
+    />
 </layers>

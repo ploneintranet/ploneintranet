@@ -9,6 +9,8 @@
   <body class="view-secure">
     <metal:content fill-slot="content">
 
+    <div class="container">
+        <!--form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces" -->
         <form class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #content; target: #content" method="POST">
             <label class="bare pat-select">
                 <select name="sort">
@@ -21,7 +23,6 @@
            <span tal:replace="structure context/@@authenticator/authenticator"/>
          </form>
 
-      <div class="container">
         <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
           <div class="grid-sizer four columns"></div>
           <tal:r repeat="w view/workspaces">
@@ -31,18 +32,13 @@
               <a href="/open-market-committee" class="link"
                  tal:attributes="href w/url">
                 <h3 tal:content="w/title">Open Market Committee</h3>
-
                 <p class="description" tal:content="w/description">
-                  The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                    The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
                 </p>
               </a>
             </div>
           </tal:r>
-          <div class="tile workspace four columns add" tal:condition="view/can_add">
-            <a href="${view/target/absolute_url}/@@workspace-add#content" class="pat-modal" i18n:translate="">
-              Create Workspace
-            </a>
-          </div>
+
 
         </div>
       </div>

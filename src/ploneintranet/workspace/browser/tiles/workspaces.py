@@ -6,7 +6,6 @@ from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import queryUtility
-from zExceptions import Unauthorized
 
 
 class WorkspacesTile(Tile):
@@ -50,19 +49,15 @@ def my_workspaces(context, request=None):
     )
     workspaces = []
     for brain in brains:
-        try:
-            workspaces.append({
-                'id': brain.getId,
-                'title': brain.Title,
-                'description': brain.Description,
-                'url': brain.getURL(),
-                'activities': get_workspace_activities(brain),
-                'class': escape_id_to_class(brain.getId),
-            })
-        except Unauthorized:
-            # the query above should actually filter on *my* workspaces
-            # i.e. workspaces I'm a member of. This is just a stopgap
-            pass
+        workspaces.append({
+            'id': brain.getId,
+            'title': brain.Title,
+            'description': brain.Description,
+            'url': brain.getURL(),
+            'activities': get_workspace_activities(brain),
+            'class': escape_id_to_class(brain.getId),
+        })
+
     return workspaces
 
 

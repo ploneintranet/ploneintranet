@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="Plone Site"
+	meta_type="Factory-based Type Information with dynamic views"
+	i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="allowed_content_types"
+	   purge="False">
+   <element value="ploneintranet.workspace.workspacefolder" remove="True" />
+   <element value="ploneintranet.workspace.workspacecontainer" remove="True" />
+ </property>
+</object>

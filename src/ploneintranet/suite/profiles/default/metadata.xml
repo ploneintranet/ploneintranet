@@ -2,7 +2,7 @@
 <metadata>
   <version>0002</version>
   <dependencies>
-        <dependency>profile-ploneintranet.simplesharing:default</dependency>
+        <dependency>profile-collective.externaleditor:default</dependency>
         <dependency>profile-ploneintranet.workspace:default</dependency>
         <dependency>profile-ploneintranet.theme:default</dependency>
         <dependency>profile-ploneintranet.docconv.client:default</dependency>
@@ -14,6 +14,8 @@
         <dependency>profile-ploneintranet.activitystream:default</dependency>
         <dependency>profile-ploneintranet.network:default</dependency>
         <dependency>profile-ploneintranet.messaging:default</dependency>
+        <dependency>profile-ploneintranet.userprofile:default</dependency>
         <dependency>profile-ploneintranet.core:minimal</dependency>
+        <dependency>profile-ploneintranet.search:default</dependency>
   </dependencies>
 </metadata>
