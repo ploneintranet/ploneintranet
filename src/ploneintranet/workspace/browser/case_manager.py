@@ -45,7 +45,7 @@ class CaseManagerView(BrowserView):
             'sort_order': 'reversed',
         }
 
-        for date in ['created', 'modified', 'deadline']:
+        for date in ['created', 'modified', 'due']:
             if form.get('earliest_'+date) and form.get('latest_'+date):
                 query[date] = {
                     'query': (
@@ -64,6 +64,17 @@ class CaseManagerView(BrowserView):
                     'query': DateTime(form.get('latest_'+date)),
                     'range': 'max',
                 }
+
+        # FIXME: make configurable and default to the core PI case fields
+        for field in [
+            'applicant_name',
+            'case_type',
+            'department',
+            'scheduled_session',
+            'staff',
+        ]:
+            if form.get(field):
+                query[field] = form.get(field)
         brains = pc(query)
         cases = []
         for brain in brains:
@@ -91,3 +102,11 @@ class CaseManagerView(BrowserView):
             })
 
         return cases
+
+    def case_types(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        case_types = [
+            i for i in catalog._catalog.getIndex('case_type').uniqueValues()
+            if i is not None
+        ]
+        return case_types

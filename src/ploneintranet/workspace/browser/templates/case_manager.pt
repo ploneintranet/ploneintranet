@@ -15,59 +15,62 @@
             <div class="row">
 
               <aside class="four columns pat-bumper case-filters">
-			    <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats">
+			    <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
+                      tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
 			      <fieldset class="vertical">
+                    <!-- To be defined -->
+			        <!-- <label> -->
+			        <!--   Role filter -->
+			        <!--   <select> -->
+			        <!-- 	<option>Only cases that I manage</option> -->
+			        <!-- 	<option>All cases that I'm involved with</option> -->
+			        <!-- 	<option>All cases that I have access to</option> -->
+			        <!--   </select> -->
+			        <!-- </label> -->
 			        <label>
-			          Role filter
-			          <select>
-			        	<option>Only cases that I manage</option>
-			        	<option>All cases that I'm involved with</option>
-			        	<option>All cases that I have access to</option>
-			          </select>
+                      Bearbeitende Einheit
+                      <select name="department">
+                        <option value="">Bearbeitende Einheit auswählen</option>
+                        <tal:r tal:repeat="department sidebar_tile/departments">
+                          <option value="department"
+                                  tal:attributes="value department/value"
+                                  tal:content="department/title"/>
+                        </tal:r>
+                      </select>
 			        </label>
 			        <label>
-			          Bearbeitende Einheit
-			          <select>
-			        	<option>All departments</option>
-			        	<option>Präsidiales</option>
-			        	<option>Jugend- und Spezialseelsorge</option>
-			          </select>
+                      Gesuchsteller
+                      <input type="text"
+                             name="applicant_name"
+                             data-pat-autosuggest="ajax-data-type: json; ajax-url: ${context/absolute_url}/applicants.json"
+                             class="pat-autosuggest"
+                             placeholder="Namen des Gesuchstellers eintragen"/>
 			        </label>
 			        <label>
-			          Applicant
-			          <select>
-			        	<option>Any applicant</option>
-			        	<option>Liz Baker</option>
-			        	<option>John Doe</option>
-			          </select>
-			        </label>
+                      Sachbearbeiter
+                      <input type="text"
+                             name="staff"
+                             data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/absolute_url}/allusers.json"
+                             class="pat-autosuggest"
+                             placeholder="Sachbearbeiter wählen" />
+                    </label>
 			        <label>
-			          Assigned user
-			          <select>
-			        	<option>Any user</option>
-			        	<option>Liz Baker</option>
-			        	<option>John Doe</option>
-			          </select>
-			        </label>
-			        <label>
-			          Type of case
-			          <select>
-			        	<option>All case types</option>
-			        	<option>Motion</option>
-			        	<option>Petition</option>
-		                <option>Interpellation</option>
-			          </select>
+                      Geschäftstyp
+                      <select name="case_type" class="focus">
+                        <option value="">Geschäftstyp auswählen</option>
+                        <tal:r tal:repeat="case_type view/case_types">
+                          <option value="${case_type}">${case_type}</option>
+                        </tal:r>
+                      </select>
 			        </label>
 
 			        <label>
-			          Assigned to event
-			          <select>
-			        	<option>Any or no event assigned</option>
-			        	<option>Synodal Council Session - 15.7.2015</option>
-		                <option>Synodal Council Session - 30.7.2015</option>
-		                <option>Synodal Council Session - 16.8.2015</option>
-		                <option>Synodal Session - 12.11.2015</option>
-			          </select>
+                      Entscheidtermin
+                      <input type="text"
+                             name="scheduled_session"
+                             class="pat-autosuggest"
+                             data-pat-autosuggest="ajax-data-type: json; allow-new-words: false; ajax-url: ${context/absolute_url}/scheduled_sessions.json"
+                             placeholder="Wählen Sie einen Termin aus."/>
 			        </label>
 
 			        <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
@@ -92,10 +95,10 @@
 
 		        	<fieldset class="group row date-range">
 		        	  <label class="six columns">
-		        		Earliest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_deadline"/>
+		        		Earliest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due"/>
 		        	  </label>
 		        	  <label class="six columns">
-		        		Latest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_deadline"/>
+		        		Latest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due"/>
 		        	  </label>
 		        	</fieldset>
 		          </fieldset>
