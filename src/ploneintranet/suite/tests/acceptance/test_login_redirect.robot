@@ -36,4 +36,4 @@ Do login as
     Page should contain element  __ac_name
     Input text  __ac_name  ${username}
     Input text  __ac_password  secret
-    Click Button  css=fieldset.button-bar button[type='submit']
+    Click Button  css=fieldset p.button-bar button[type='submit']
