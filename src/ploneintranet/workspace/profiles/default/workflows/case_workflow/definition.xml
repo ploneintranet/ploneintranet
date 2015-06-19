@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="case_workflow"
+	     title="Case Workflow"
+	     description="Workflow for Business Cases (Geschäfte)"
+	     state_variable="review_state" initial_state="new" manager_bypass="True">
+
+  <permission>Modify portal content</permission>
+  <permission>View</permission>
+
+  <state state_id="new" title="New">
+    <description>Basic data is being gathered and added to the case.</description>
+    <exit-transition transition_id="transfer_to_department"/>
+    <exit-transition transition_id="reject"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="rejected" title="Rejected Before Decision">
+    <description>The case has been rejected before an official decision was made and is not treated any further.</description>
+    <permission-map name="Modify portal content" acquired="False">
+    </permission-map>
+  </state>
+
+  <state state_id="in_progress" title="In Progress">
+    <description>Gathering of basic data is complete. The case is handled by the responsible department.</description>
+    <exit-transition transition_id="finalise"/>
+    <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="reset"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="complete" title="Content Complete">
+    <description>The case has been fully handled by the responsible department and is ready for verification.</description>
+    <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="transfer_to_department"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Central Services</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="request" title="Request">
+    <description>The case is ready for a decision by the council.</description>
+    <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="rework"/>
+    <exit-transition transition_id="decide"/>
+    <exit-transition transition_id="finalise"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Council</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="decided" title="Decided">
+    <description>The decision has been made by the council.</description>
+    <exit-transition transition_id="close"/>
+    <exit-transition transition_id="submit"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="closed" title="Closed">
+    <description>All handling of the case is complete, including payment, thank you letter, etc.</description>
+    <exit-transition transition_id="archive"/>
+    <exit-transition transition_id="decide"/>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="archived" title="Archived">
+    <exit-transition transition_id="close"/>
+    <description>The case is done and filed away.</description>
+    <permission-map name="Modify portal content" acquired="False">
+    </permission-map>
+  </state>
+
+
+  <transition transition_id="reject" title="Reject" new_state="rejected" trigger="USER" before_script="" after_script="">
+    <description>Reject the case before any official decision is made.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Reject</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="reset" title="Reset" new_state="new" trigger="USER" before_script="" after_script="">
+    <description>Reset to the initial state.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="transfer_to_department" title="Transfer To Department" new_state="in_progress" trigger="USER" before_script="" after_script="">
+    <description>Transfer the case to the responsible department.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=transfer_to_department" category="workflow" icon="">Transfer To Department</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
+    <description>Finish handling by the department and mark as ready for verification.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="submit" title="Submit" new_state="request" trigger="USER" before_script="" after_script="">
+    <description>Submit the case for decision by the council.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
+    <description>Accept or deny the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
+    <description>Close the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
+    <description>Mark the case as done and file away.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=archive" category="workflow" icon="">Archive</action>
+    <guard />
+  </transition>
+
+  <transition transition_id="rework" title="Rework" new_state="in_progress" trigger="USER" before_script="" after_script="">
+    <description>Rework the case and then re-submit.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=rework" category="workflow" icon="">Rework</action>
+    <guard />
+  </transition>
+
+
+  <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
+    <description>Previous transition</description>
+    <default>
+      <expression>transition/getId|nothing</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+
+  <variable variable_id="actor" for_catalog="False" for_status="True" update_always="True">
+    <description>The ID of the user who performed the previous transition</description>
+    <default>
+      <expression>user/getId</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+
+  <variable variable_id="comments" for_catalog="False" for_status="True" update_always="True">
+    <description>Comment about the last transition</description>
+    <default>
+      <expression>python:state_change.kwargs.get('comment', '')</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+
+  <variable variable_id="review_history" for_catalog="False" for_status="False" update_always="False">
+    <description>Provides access to workflow history</description>
+    <default>
+      <expression>state_change/getHistory</expression>
+    </default>
+    <guard>
+      <guard-permission>Request review</guard-permission>
+      <guard-permission>Review portal content</guard-permission>
+    </guard>
+  </variable>
+
+  <variable variable_id="time" for_catalog="False" for_status="True" update_always="True">
+    <description>When the previous transition was performed</description>
+    <default>
+      <expression>state_change/getDateTime</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+
+  <variable variable_id="metromap_transitions" for_catalog="False" for_status="True" update_always="True">
+    <description>A list of dicts which order the workflow states along with the next transition in the sequence, used for the metromap</description>
+    <default>
+      <expression>python:[
+      {'state': 'new', 'next_transition': 'transfer_to_department', 'reopen_transition': 'reset'},
+      {'state': 'in_progress', 'next_transition':'finalise', 'reopen_transition': 'transfer_to_department'},
+      {'state': 'complete', 'next_transition': 'submit', 'reopen_transition': 'finalise'},
+      {'state': 'request', 'next_transition': 'decide', 'reopen_transition': 'submit'},
+      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 'decide'},
+      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 'close'},
+      {'state': 'archived'}
+      ]</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+
+</dc-workflow>

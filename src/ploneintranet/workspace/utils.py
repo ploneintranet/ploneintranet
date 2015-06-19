@@ -23,7 +23,8 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 # from portal types
 TYPE_MAP = {'Event': 'event',
             'Folder': 'folder',
-            'simpletodo': 'task',
+            'Document': 'rich',
+            'todo': 'task',
             'ploneintranet.workspace.workspacefolder': 'workspace'}
 
 

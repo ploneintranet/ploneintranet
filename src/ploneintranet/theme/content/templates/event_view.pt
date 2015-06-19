@@ -14,6 +14,9 @@
                     workspace_url python:workspace.absolute_url();
                     workspace_id python:workspace.id;
                     read_only python:not view.can_edit">
+    <div id="content" 
+         tal:define="type workspace/ws_type | string:workspace;" 
+         tal:attributes="class string:application page-type-${type} workspace-type-${type}">
 
         <h1 id="workspace-name">
             <!-- Next link is to lead to landing state of current workspace -->
@@ -107,7 +110,7 @@
         </div>
 
         <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
-
+    </div>
 
     </metal:content>
 </body>

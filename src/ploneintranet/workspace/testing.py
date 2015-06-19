@@ -15,6 +15,7 @@ import ploneintranet.activitystream
 import ploneintranet.invitations
 import Products.CMFPlacefulWorkflow
 import ploneintranet.theme
+import collective.externaleditor
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
@@ -73,6 +74,12 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.todo,
+            context=configurationContext
+        )
+
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
@@ -84,6 +91,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
+        applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
 
