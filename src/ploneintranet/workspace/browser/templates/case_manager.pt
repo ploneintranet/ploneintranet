@@ -111,7 +111,7 @@
                 <tal:cases repeat="case cases">
 	              <article class="summary row">
 		            <h2 class="case-title twelve columns">
-			          <a href="${case/url}" >${case/title}</a>
+			          <a target="case" href="${case/url}">${case/title}</a>
 		            </h2>
 		            <p class="description four columns">
                       ${case/description}
@@ -137,13 +137,14 @@
                                         transition_icons view/transition_icons;
                                         existing_users_by_id case/existing_users_by_id;
                                         tasks case/tasks;
-                                        case_view nocall:case/view">
+                                        case_view nocall:case/view;
+                                        target string:case">
                     <metal:timeline use-macro="case_view/macros/timeline" />
                   </tal:timeline>
                 </tal:cases>
               </div>
 
-              
+
 		    </div>
 
           </div>

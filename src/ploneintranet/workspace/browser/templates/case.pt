@@ -13,7 +13,8 @@
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
                                existing_users_by_id workspace/existing_users_by_id;
-                               tasks context/tasks;">
+                               tasks context/tasks;
+                               target nothing">
       <div id="content" class="application page-type-case workspace-type-case">
       <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
@@ -52,7 +53,9 @@
                                                 class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
 					          <p class="step-label icon icon-help-circled">
 					            <a class="link" data-pat-inject="history: record"
-                                   tal:attributes="href string:${task/url}#workspace-tickets; title task/title"
+                                   tal:attributes="href string:${task/url}#workspace-tickets;
+                                                   title task/title;
+                                                   target target;"
                                    tal:content="task/title"/>
 					          </p>
 					          <p class="step-assignee"
