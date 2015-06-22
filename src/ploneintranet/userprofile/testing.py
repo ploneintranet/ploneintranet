@@ -3,10 +3,10 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
 
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 import ploneintranet.userprofile
 
 
@@ -14,10 +14,10 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
-        PLONE_APP_TILES_FIXTURE
+        PLONEINTRANET_FIXTURE
     )
 
-    products = ('collective.indexing', 'Products.membrane')
+    products = ('Products.membrane', )
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML

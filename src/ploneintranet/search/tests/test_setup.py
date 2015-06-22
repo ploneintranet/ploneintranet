@@ -9,6 +9,7 @@ PROJECTNAME = 'ploneintranet.search'
 class TestInstall(IntegrationTestCase):
 
     def setUp(self):
+        super(TestInstall, self).setUp()
         self.portal = self.layer['portal']
 
     def test_product_is_installed(self):
@@ -28,6 +29,7 @@ class TestInstall(IntegrationTestCase):
 class TestUninstall(IntegrationTestCase):
 
     def setUp(self):
+        super(TestUninstall, self).setUp()
         self.portal = self.layer['portal']
         self.qi = self.portal['portal_quickinstaller']
         with api.env.adopt_roles(['Manager']):

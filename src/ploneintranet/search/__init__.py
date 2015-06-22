@@ -1,3 +1,4 @@
 from zope.i18nmessageid import MessageFactory
 
-_ = MessageFactory('ploneintranet')
+
+_ = MessageFactory(__package__)
