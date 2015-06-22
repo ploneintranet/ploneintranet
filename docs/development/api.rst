@@ -1,8 +1,8 @@
-=================
-ploneintranet.api
-=================
+==================
+Plone Intranet API
+==================
 
-This package provides a simple developer API to the most commonly used features of ploneintranet.
+The ``ploneintranet.api`` package provides a simple developer API to the most commonly used features of ploneintranet.
 
 Microblogging API
 -----------------
