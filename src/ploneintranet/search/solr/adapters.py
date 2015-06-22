@@ -39,9 +39,6 @@ class SearchResponse(base.SearchResponse):
     _spelling_suggestion = None
     _facets = None
 
-    def __init__(self, context):
-        super(SearchResponse, self).__init__(context)
-
     def __iter__(self):
         for doc in self.context:
             yield SearchResult(doc, self)
