@@ -16,7 +16,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: Search"
+      title="Plone Intranet: -- (Search)"
       directory="profiles/default"
       description="Search for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
