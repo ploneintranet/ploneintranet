@@ -9,7 +9,6 @@
   <body class="view-secure">
 
     <metal:content fill-slot="content">
-      <div id="portal-column-content">
         <div class="application-case-manager" id="content">
           <div id="document-body">
             <div id="document-content" class="cases-overview">
@@ -154,7 +153,6 @@
             </div>
           </div>
         </div>
-      </div>
     </metal:content>
   </body>
 </html>
