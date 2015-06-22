@@ -8,7 +8,9 @@
 
     <body class="view-secure">
         <metal:content fill-slot="content"
-		       tal:define="is_me view/is_me">
+		       tal:define="is_me view/is_me;
+                           following view/following;
+                           followers view/followers">
             <aside>
                 <figure class="user-portrait">
                     <img class="pat-avatar"
@@ -42,7 +44,44 @@
                         <a href="#person-info"><i18n:block i18n:translate="">More information about</i18n:block> <span tal:replace="context/fullname" />.</a>
                     </p>
                 </div>
-
+                <div class="portlet following" id="portlet-following"
+                     tal:condition="following">
+					<h2 class="portlet-title">
+						<a href="#person-following" class="link-following">Following <sup tal:content="python: len(following)">8</sup></a>
+					</h2>
+					<nav class="user-cloud">
+						<!-- Limit the following list of users to 21 users. -->
+                        <tal:user repeat="user following">
+						  <a href="${user/url}" class="pat-avatar">
+							<img src="${user/avatar_url}" alt=""
+                                 title="${user/title}" />
+						  </a>
+                        </tal:user>
+					</nav>
+					<!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
+					<p class="portlet-footer">
+						<a href="#person-following">Full list of people {{ page.title }} follows.</a>
+					</p>
+				</div>
+				<div class="portlet followers" id="portlet-followers"
+                     tal:condition="followers">
+					<h2 class="portlet-title">
+						<a href="#person-followers">Followers <sup tal:content="python: len(followers)">12</sup></a>
+					</h2>
+					<nav class="user-cloud">
+						<!-- Limit the following list of users to 21 users. -->
+                        <tal:user repeat="user followers">
+						  <a href="${user/url}" class="pat-avatar">
+							<img src="${user/avatar_url}" alt=""
+                                 title="${user/title}" />
+						  </a>
+                        </tal:user>
+					</nav>
+					<!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
+					<p class="portlet-footer">
+						<a href="#person-followers">Full list of followers</a>
+					</p>
+				</div>
             </aside>
             <div id="main">
                 <nav class="tabs">

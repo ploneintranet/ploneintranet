@@ -1,3 +1,4 @@
+from zope.component import getUtility
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
@@ -6,6 +7,7 @@ from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api
 
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import \
     primaryLocationVocabulary
@@ -35,6 +37,34 @@ class UserProfileView(BrowserView):
             return vocabulary.getTermByToken(token).title
         else:
             return ''
+
+    def following(self):
+        """Users this profile is following"""
+        graph = getUtility(INetworkTool)
+        return self._user_details(
+            graph.get_following('user', self.context.username)
+        )
+
+    def followers(self):
+        """Users who are following this profile"""
+        graph = getUtility(INetworkTool)
+        return self._user_details(
+            graph.get_followers('user', self.context.username)
+        )
+
+    def _user_details(self, userids):
+        """Basic user details for the given userids"""
+        details = []
+        for userid in userids:
+            profile = pi_api.userprofile.get(userid)
+            if profile is None:
+                continue
+            details.append({
+                'title': profile.title,
+                'url': profile.absolute_url(),
+                'avatar_url': pi_api.userprofile.avatar_url(userid),
+            })
+        return details
 
 
 class AuthorView(BaseAuthorView):
