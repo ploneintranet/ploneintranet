@@ -65,16 +65,11 @@ class CaseManagerView(BrowserView):
                     'range': 'max',
                 }
 
-        # FIXME: make configurable and default to the core PI case fields
-        for field in [
-            'applicant_name',
-            'case_type',
-            'department',
-            'scheduled_session',
-            'staff',
-        ]:
+        valid_indexes = tuple(pc.indexes())
+        for field in valid_indexes:
             if form.get(field):
                 query[field] = form.get(field)
+
         brains = pc(query)
         cases = []
         for brain in brains:
