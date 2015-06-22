@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
-from OFS.Image import Image
-from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
 from plone import api
 from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
-# from ploneintranet.attachments.attachments import IAttachmentStorage
-# from ploneintranet.attachments.utils import create_attachment
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
@@ -53,7 +49,7 @@ def create_users(context, users, avatars_dir):
     for i, user in enumerate(users):
         email = decode(user['email'])
         userid = decode(user['userid'])
-        file_name = '{}.jpg'.format(userid)
+        portrait_filename = '{}.jpg'.format(userid)
         fullname = user.get('fullname', u"Anon Ymous {}".format(i))
         firstname, lastname = fullname.split(' ', 1)
         properties = {
@@ -64,7 +60,7 @@ def create_users(context, users, avatars_dir):
             'description': user.get('description', u"")
         }
         try:
-            pi_api.userprofile.create(
+            profile = pi_api.userprofile.create(
                 username=userid,
                 email=email,
                 password='secret',
@@ -79,13 +75,14 @@ def create_users(context, users, avatars_dir):
                 setattr(profile, key, value)
             logger.info('Updated user {}'.format(userid))
 
-        portrait_filename = os.path.join(avatars_dir, file_name)
-        portrait = context.openDataFile(portrait_filename)
+        portrait_path = os.path.join(avatars_dir, portrait_filename)
+        portrait = context.openDataFile(portrait_path)
         if portrait:
-            scaled, mimetype = scale_image(portrait)
-            portrait = Image(id=userid, file=scaled, title='')
-            memberdata = api.portal.get_tool(name='portal_memberdata')
-            memberdata._setPortrait(portrait, userid)
+
+            image = NamedBlobImage(
+                data=portrait.read(),
+                filename=portrait_filename.decode('utf-8'))
+            profile.portrait = image
         else:
             logger.warning(
                 'Missing portrait file for {}: {}'.format(

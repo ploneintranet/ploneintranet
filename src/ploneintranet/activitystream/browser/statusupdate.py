@@ -12,6 +12,7 @@ from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet import api as pi_api
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
@@ -150,10 +151,7 @@ class StatusUpdateView(BrowserView):
             self.portal_url,
             userid,
         )
-        img = u'%s/portal_memberdata/portraits/%s' % (
-            self.portal_url,
-            userid,
-        )
+        img = pi_api.userprofile.avatar_url(userid)
         avatar = {
             'id': userid,
             'fullname': fullname,

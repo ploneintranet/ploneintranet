@@ -127,5 +127,16 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
+ 
+  <!-- Custom personal bar viewlet -->
+  <browser:viewlet
+      name="plone.personal_bar"
+      manager="plone.app.layout.viewlets.interfaces.IToolbar"
+      class=".views.PersonalBarViewlet"
+      permission="zope2.View"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+
 
 </configure>
