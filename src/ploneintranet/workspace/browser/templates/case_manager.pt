@@ -28,14 +28,13 @@
                       <!--    <option>All cases that I have access to</option> -->
                       <!--   </select> -->
                       <!-- </label> -->
-                      <label>
+                      <label tal:define="departments python:view.get_field_indexes('department')"
+                             tal:condition="departments">
                         Bearbeitende Einheit
                         <select name="department">
                           <option value="">Bearbeitende Einheit auswählen</option>
-                          <tal:r tal:repeat="department sidebar_tile/departments">
-                            <option value="department"
-                                    tal:attributes="value department/value"
-                                    tal:content="department/title"/>
+                          <tal:r tal:repeat="department departments">
+                            <option value="${department}">${department}</option>
                           </tal:r>
                         </select>
                       </label>
@@ -59,7 +58,7 @@
                         Geschäftstyp
                         <select name="case_type" class="focus">
                           <option value="">Geschäftstyp auswählen</option>
-                          <tal:r tal:repeat="case_type view/case_types">
+                          <tal:r tal:repeat="case_type python:view.get_field_indexes('case_type')">
                             <option value="${case_type}">${case_type}</option>
                           </tal:r>
                         </select>

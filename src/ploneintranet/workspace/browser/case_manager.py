@@ -98,10 +98,10 @@ class CaseManagerView(BrowserView):
 
         return cases
 
-    def case_types(self):
+    def get_field_indexes(self, field):
         catalog = api.portal.get_tool('portal_catalog')
-        case_types = [
-            i for i in catalog._catalog.getIndex('case_type').uniqueValues()
+        indexes = [
+            i for i in catalog._catalog.getIndex(field).uniqueValues()
             if i is not None
         ]
-        return case_types
+        return indexes
