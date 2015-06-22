@@ -67,7 +67,8 @@
                          body.portaltype-document, 
                          body.portaltype-file, 
                          body.portaltype-image, 
-                         body.portaltype-folder">
+                         body.portaltype-folder,
+                         body.template-case-manager">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
