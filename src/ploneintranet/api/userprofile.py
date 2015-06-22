@@ -147,19 +147,22 @@ def avatar_url(username, size='stream'):
         )
 
     profile = get(username)
+    if profile is None:
+        return None
+
     portal = plone_api.portal.get()
     imaging = plone_api.content.get_view(
         request=portal.REQUEST,
         context=profile,
         name='images')
 
-    width = AVATAR_SIZES.get(size)
+    width = height = AVATAR_SIZES.get(size)
 
     try:
         scale = imaging.scale(
             fieldname='portrait',
             width=width,
-            height=width,
+            height=height,
             direction='down',
         )
     except TypeError:
