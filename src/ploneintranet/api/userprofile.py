@@ -24,7 +24,11 @@ def get(username):
     :returns: User profile matching the given username
     :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
-    mtool = plone_api.portal.get_tool('membrane_tool')
+    try:
+        mtool = plone_api.portal.get_tool('membrane_tool')
+    except InvalidParameterError:
+        return None
+
     try:
         profile = mtool.searchResults(
             exact_getUserName=username,
