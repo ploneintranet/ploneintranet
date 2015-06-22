@@ -19,3 +19,11 @@ Username as Userid
 ------------------
 
 The default membrane implementation uses UUIDs as the unique id that Plone uses to grant roles and permissions (userid). We use the username instead, to ensure compatibility with external authentication sources such as LDAP which have no knowledge of Plone's UUIDs.
+
+User Profile API
+----------------
+
+.. automodule:: ploneintranet.api.userprofile
+    :members:
+    :undoc-members:
+    :show-inheritance:
