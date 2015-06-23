@@ -20,6 +20,8 @@ import logging
 import mimetypes
 import os
 import time
+import loremipsum
+import random
 
 
 def decode(value):
@@ -305,6 +307,22 @@ def create_events(events):
             container=event_folder,
             **ev
         )
+
+
+library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
+                'budget', 'policy', 'administration', 'press')
+
+
+def create_library_content(parent, spec):
+    for x in spec:
+        contents = x.pop('contents', None)
+        if x['type'].endswith('page'):
+            x['text'] = " ".join(["<p>%s</p>" % para
+                                  for para in loremipsum.get_paragraphs(3)])
+            x['Subject'] = random.sample(library_tags, random.choice(range(4)))
+        obj = api.content.create(container=parent, **x)
+        if contents:
+            create_library_content(obj, contents)
 
 
 class FakeFileField(object):
@@ -745,6 +763,32 @@ def testing(context):
     #      'end': next_month + timedelta(days=3, hours=8)}
     # ]
     # create_events(events)
+
+    # Create Library app demo content
+    library = [
+        {'type': 'ploneintranet.library.section',
+         'title': 'Human Resources',
+         'description': 'Information from the HR department',
+         'contents': [
+             {'type': 'ploneintranet.library.folder',
+              'title': 'Leave policies',
+              'description': 'Holidays and sick leave',
+              'contents': [
+                  {'type': 'ploneintranet.library.page',
+                   'title': 'Holidays',
+                   'desciption': 'Yearly holiday allowance'},
+                  {'type': 'ploneintranet.library.page',
+                   'title': 'Sick Leave',
+                   'desciption': ("You're not feeling too well, "
+                                  "here's what to do")},
+                  {'type': 'ploneintranet.library.page',
+                   'title': 'Pregnancy',
+                   'desciption': 'Expecting a child?'},
+              ]}
+         ]},
+    ]
+    portal = api.portal.get()
+    create_library_content(portal.library, library)
 
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
