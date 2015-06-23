@@ -17,7 +17,7 @@
               name="follow_button"
               class="icon-eye"
               i18n:attributes="title"
-              tal:attributes="title string:Click to follow ${context/fullname};
+              tal:attributes="title string:Click to ${verb} ${context/fullname};
                               class python:'icon-eye active' if is_followed else 'icon-eye'">
                 <strong tal:content="verb">Follow</strong> <span tal:replace="context/fullname" /></button>
     </fieldset>
