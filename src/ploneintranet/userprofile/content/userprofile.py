@@ -19,7 +19,10 @@ from ploneintranet.userprofile import _
 
 class IUserProfile(form.Schema):
 
-    """User profile schema."""
+    """The core user profile schema.
+
+    Most of the plone intranet UI relies on these fields.
+    """
 
     username = schema.TextLine(
         title=_(u"Username"),
@@ -36,6 +39,10 @@ class IUserProfile(form.Schema):
     email = schema.TextLine(
         title=_(u"Email"),
         required=True
+    )
+    portrait = NamedBlobImage(
+        title=_(u"Photo"),
+        required=False
     )
 
 
@@ -76,10 +83,6 @@ class IUserProfileAdditional(form.Schema):
     )
     biography = RichText(
         title=_(u"Biography"),
-        required=False
-    )
-    photo = NamedBlobImage(
-        title=_(u"Photo"),
         required=False
     )
     job_title = schema.TextLine(

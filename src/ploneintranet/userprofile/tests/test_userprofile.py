@@ -48,12 +48,10 @@ class TestUserProfileView(TestUserProfileBase):
 
     def test_avatar_url(self):
         profile_view = UserProfileView(self.profile1, self.request)
-        self.assertEqual(
-            profile_view.avatar_url(),
-            'http://nohost/plone/portal_memberdata/'
-            'portraits/{.username}'.format(
-                self.profile1),
-        )
+        url = profile_view.avatar_url()
+        # No profile data by default
+        # Avatar lookup is properly tested in ploneintranet.api
+        self.assertIsNone(url)
 
 
 class TestAuthorView(TestUserProfileBase):
