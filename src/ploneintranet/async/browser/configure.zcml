@@ -3,23 +3,24 @@
         xmlns:browser="http://namespaces.zope.org/browser"
         i18n_domain="ploneintranet">
     <browser:page
-            name="check-auth"
-            for="*"
-            class=".auth.CheckAuth"
-            permission="zope.Public"
-            />
-
-    <browser:page
             name="generate-previews"
             for="*"
             class=".docconv.GeneratePreviewImages"
             permission="zope2.View"
+            layer="..interfaces.IPloneintranetAsyncLayer"
             />
-    <!-- TODO: A layer is needed here -->
     <browser:page
             name="thumbnail"
             for="*"
             permission="zope2.View"
             class=".previews.ThumbnailView"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
+    <browser:page
+            name="preview"
+            for="*"
+            permission="zope2.View"
+            class=".previews.PreviewView"
+            layer="..interfaces.IPloneintranetAsyncLayer"
             />
 </configure>
