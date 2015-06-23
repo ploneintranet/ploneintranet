@@ -60,7 +60,7 @@ class UserProfileView(BrowserView):
             if profile is None:
                 continue
             details.append({
-                'title': profile.title,
+                'title': profile.fullname,
                 'url': profile.absolute_url(),
                 'avatar_url': pi_api.userprofile.avatar_url(userid),
             })

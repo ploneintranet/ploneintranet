@@ -10,7 +10,10 @@
         <metal:content fill-slot="content"
 		       tal:define="is_me view/is_me;
                            following view/following;
-                           followers view/followers">
+			   num_following python: len(following);
+                           followers view/followers;
+			   num_followers python: len(followers);
+			   ">
             <aside>
                 <figure class="user-portrait">
                     <img class="pat-avatar"
@@ -47,7 +50,7 @@
                 <div class="portlet following" id="portlet-following"
                      tal:condition="following">
 					<h2 class="portlet-title">
-						<a href="#person-following" class="link-following">Following <sup tal:content="python: len(following)">8</sup></a>
+						<a href="#person-following" class="link-following">Following <sup tal:content="num_following">8</sup></a>
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
@@ -60,13 +63,13 @@
 					</nav>
 					<!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
 					<p class="portlet-footer">
-						<a href="#person-following">Full list of people {{ page.title }} follows.</a>
+						<a href="#person-following">Full list of people <b tal:replace="context/fullname" /> follows.</a>
 					</p>
 				</div>
 				<div class="portlet followers" id="portlet-followers"
                      tal:condition="followers">
 					<h2 class="portlet-title">
-						<a href="#person-followers">Followers <sup tal:content="python: len(followers)">12</sup></a>
+						<a href="#person-followers">Followers <sup tal:content="num_followers">12</sup></a>
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
@@ -87,9 +90,8 @@
                 <nav class="tabs">
                     <a href="#person-timeline" class="current">Timeline</a>
                     <a href="#person-info">Info</a>
-                    <a href="#person-followers" class="link-followers">Followers <sup>12</sup></a>
-                    <a href="#person-following" class="link-following">Following <sup>8</sup></a>
-                    <a href="#person-groups" class="link-group">Groups <sup>3</sup></a>
+                    <a href="#person-followers" class="link-followers">Followers <sup tal:content="num_followers">12</sup></a>
+                    <a href="#person-following" class="link-following">Following <sup tal:content="num_following">8</sup></a>
                 </nav>
                 <div class="pat-stacks">
                     <div class="activity-stream" id="person-timeline">
@@ -158,6 +160,47 @@
                             <article class="pat-rich"tal:content="context/biography" />
 
                     </article>
+		    <div id="person-followers" tal:define="users followers">
+			<div id="followers-list" class="item-selector mode-follow">
+			<!-- In this prototype, one or more user groups might be displayed in the following list, but only individual users may be listed. -->
+			<form id="followers-list-items" action="" 
+			      data-pat-inject="target: body::after" 
+			      class="search-result users pat-inject">
+			    <fieldset class="checklist pat-checklist users unchecked" 
+				      metal:define-macro="user-listing">
+				<label class="item user has-no-description unchecked" tal:repeat="user users">
+				    <input type="checkbox" name="" />
+				    <a class="follow pat-inject"
+				       data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
+					<img class="avatar" alt=""
+					     src="${user/avatar_url}" />
+					<strong class="title" tal:content="user/title">Liz Baker</strong>
+                                    </a>
+				</label>
+			    </fieldset>
+			</form>
+			</div>
+		    </div>
+		    <div id="person-following" tal:define="users following">
+			<div id="followees-list" class="item-selector mode-follow">
+			<form id="followees-list-items" action="" 
+			      data-pat-inject="target: body::after" 
+			      class="search-result users pat-inject">
+			    <fieldset class="checklist pat-checklist users unchecked" 
+				      metal:define-macro="user-listing">
+				<label class="item user has-no-description unchecked" tal:repeat="user users">
+				    <input type="checkbox" name="" />
+				    <a class="follow pat-inject"
+				       data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
+					<img class="avatar" alt=""
+					     src="${user/avatar_url}" />
+					<strong class="title" tal:content="user/title">Liz Baker</strong>
+                                    </a>
+				</label>
+			    </fieldset>
+			</form>
+			</div>
+		    </div>
                 </div>
             </div>
 
