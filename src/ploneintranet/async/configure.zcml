@@ -16,4 +16,19 @@
             description="Extension profile for ploneintranet.async."
             provides="Products.GenericSetup.interfaces.EXTENSION"
             />
+
+    <!-- zope.lifecycleevent.interfaces.IObjectAddedEvent -->
+    <subscriber
+            for="Products.CMFCore.interfaces.IContentish
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+            handler=".handlers.generate_attachment_preview_images"
+            />
+
+    <!-- zope.lifecycleevent.interfaces.IObjectModifiedEvent -->
+    <subscriber
+            for="Products.CMFCore.interfaces.IContentish
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+            handler=".handlers.generate_attachment_preview_images"
+            />
+
 </configure>
