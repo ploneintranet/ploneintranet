@@ -45,7 +45,12 @@ class BaseDocConvView(BrowserView):
         :return: The temporary file
         :rtype: file
         """
-        primary_field = IPrimaryFieldInfo(self.context).value
+        try:
+            primary_field = IPrimaryFieldInfo(self.context).value
+        except TypeError:
+            return
+        if primary_field is None:
+            return
         data = bytes(primary_field.data)
         input_file = self.storage_dir.joinpath(
             '{}.tmp'.format(self.context.id))
