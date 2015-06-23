@@ -17,14 +17,7 @@
             />
     <!-- TODO: A layer is needed here -->
     <browser:page
-            name="docconv_image_preview.jpg"
-            for="*"
-            permission="zope2.View"
-            class=".previews.PreviewView"
-            />
-    <!-- TODO: A layer is needed here -->
-    <browser:page
-            name="docconv_image_thumb.jpg"
+            name="thumbnail"
             for="*"
             permission="zope2.View"
             class=".previews.ThumbnailView"
