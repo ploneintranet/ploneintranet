@@ -13,7 +13,7 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-left-open focus-listing  generic application-workspace ws-">
+	<body class="sidebar-normal sidebar-left-open focus-listing  generic application-workspace ws-">
 		
     
 
@@ -283,7 +283,7 @@
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
         <div id="document-body">
-        	<form class="document pat-inject" action="/basisdaten#meta">
+        	<form class="document pat-inject pat-autosubmit" action="/basisdaten#last-saved">
     <div class="metadata pat-bumper" id="meta">
         <div class="meta-bar">
             <h1 class="doc-title" id="document-title">
@@ -299,6 +299,9 @@
                 <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents">
                     Attachments
                 </a>
+                <a href="#sharing-menu" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document">
+                    Share
+                </a>
                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
                 <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #ticket-open-closed::element;">
                     <label class="pat-select bare" title="Change the workflow state">
@@ -308,7 +311,10 @@
                         </select>
                     </label>
                 </fieldset>
-                <button type="submit" class="icon-floppy" title="Save this document">Save</button>
+                <p class="last-saved" id="last-saved">
+                    <button type="submit" class="saved-tag">Last saved <time class="modification-date pat-display-time" datetime="2015-01-20T08:00Z">9:23</time></button>
+                </p>
+                <!-- <button type="submit" class="icon-floppy" title="Save this document">Save</button> -->
                 
             </div>
         </div>
@@ -341,6 +347,43 @@
                     Assignee <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Hans Mittelmaier &lt;hans.mittelmaier@foo.com&gt;">
                 </label>
                 <br>
+                <fieldset class="group agenda">
+                    <legend>Agenda</legend>
+                    <ol class="pat-sortable pat-clone items-list" data-pat-clone="template: #agenda-item-template" data-pat-sortable="selector: .sortable">
+
+                        <li class="agenda-item sortable">
+                           <h4 class="title">Case: <a href="/minifest/" target="Workspace">Minifest</a></h4>
+                           <p class="summary">
+                                Nicht budgetierte einmalige Beiträge. Verein DAMP. Finanzielle Unterstützung des MinistrantInnen-Fest vom 7. September 2014 in St. Gallen.
+                           </p>
+                           <span class="button-cluster"><button class="sortable-button-up small pat-button" type="submit" name="up" value="up">Up</button> <button class="sortable-button-down small pat-button" type="submit" name="item_1_down" value="item_1_down">down</button></span>
+                        </li>
+
+                        <li class="agenda-item sortable">
+                           <h4 class="title">Case: <a href="/minifest/" target="Workspace">Another connected case</a></h4>
+                           <p class="summary">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                           </p>
+                            <span class="button-cluster"><button class="sortable-button-up small pat-button" type="submit" name="up" value="up">Up</button> <button class="sortable-button-down small pat-button" type="submit" name="item_2_down" value="item_2_down">down</button></span>
+                        </li>
+
+                        <li class="agenda-item sortable">
+                           <input type="text" placeholder="Name of agenda item" /> <span class="button-cluster"><button class="sortable-button-up small pat-button" type="submit" name="up" value="up">Up</button> <button class="sortable-button-down small pat-button" type="submit" name="item_3_down" value="item_3_down">down</button></span>
+                        </li>
+
+                        <li hidden class="agenda-item sortable" id="agenda-item-template">
+                           <input type="text" placeholder="Name of agenda item" /> <span class="button-cluster"><button class="sortable-button-up small pat-button" type="submit" name="up" value="up">Up</button> <button class="sortable-button-down small pat-button" type="submit" name="item_3_down" value="item_3_down">down</button></span>
+                        </li>
+
+                    </ol>
+
+                    <p class="button-bar">
+                        <button class="add-item icon-plus-circle small add-clone" type="button" id="add-agenda-item">Add agenda item</button>
+                    </p>
+
+                    <input type="hidden" class="sortable-amount" name="pat-sortable-amount" value="1" />
+                </fieldset>
+                <br>
                 <label class="date-time">
                     Due date <input type="date" class="pat-date-picker" data-pat-date-picker="show: date" />
                 </label>
@@ -366,6 +409,60 @@
         </div>
     </div>
 </form>
+
+<div id="sharing-menu" hidden>
+    <ul class="menu">
+        <li>
+            <a href="#share-panel" class="icon-list-large pat-modal">Share on timeline</a>
+        </li>
+        <li>
+            <a href="#" class="icon-file-word">Export event details to Microsoft Word</a>
+        </li>
+        <li>
+            <a href="#" class="icon-file-pdf">Export event details to PDF</a>
+        </li>
+        <li>
+            <a href="#" class="icon-link">Generate an anoymous share link</a>
+        </li>
+        <li>
+            <a class="icon-print">Print</a>
+        </li>
+    </ul>
+</div>
+
+<div id="share-panel" hidden>
+    <h2>Share</h2>
+    <div class="panel-body">
+        <form class="wizard-box update-social status-attach" action="/feedback/banner-notifications.html#">
+            <fieldset>
+                <p class="content-mirror"><span class="text"><em class="placeholder">Add a comment to your share…</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em>
+                </p>
+                <textarea autofocus placeholder="Add a comment to your share…" class="pat-content-mirror pat-switch focus" data-pat-switch="#foo status-inactive status-active"></textarea>
+
+                <div class="shared-item ">
+                    
+                    <div class="summary">
+                        <h4 class="title">
+                            Basisdatenerfassung
+                        </h4>
+                        <p class="description">
+                            Erfassung der Basis-Absenderdaten
+                        </p>
+                    </div>
+                </div>
+
+                <div class="button-bar">
+                    <a class="iconified icon-user-add pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+                    <a class="iconified icon-tags pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+                    <button class="pat-switch close-panel" data-pat-switch="#foo status-* status-inactive" type="submit">Share</button>
+                    <button class="pat-switch close-panel" data-pat-switch="#foo status-* status-inactive" type="reset">Cancel</button>
+                </div> 
+            </fieldset> 
+        </form>    
+    </div>
+</div>
 
         </div>
 
@@ -394,6 +491,7 @@
             </div>
 
             <div class="quick-functions">
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
                 <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
                 
@@ -836,6 +934,7 @@
             </div>
 
             <div class="quick-functions">
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 <a title="Create new document" href="/panel-create-task.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
             </div>
         </div>
@@ -1395,47 +1494,47 @@
                         
                     
                         
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
                             <label>
                                 <input type="checkbox" checked /> <a title="
 
 " href="/workshop#workspace-tickets">Workshop</a>
                             </label>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
                         
                     
                         
@@ -1720,13 +1819,13 @@
                         
                     
                         
+                    
+                        
                             <label>
                                 <input type="checkbox"  /> <a title="
 
 " href="/qa#workspace-tickets">Qualitätscheck</a>
                             </label>
-                        
-                    
                         
                     
                         
@@ -2254,6 +2353,8 @@
                         
                     
                         
+                    
+                        
                             <label>
                                 <input type="checkbox"  /> <a title="
 
@@ -2275,8 +2376,6 @@
 
 " href="/benachrichtigung#workspace-tickets">Benachrichtigungen</a>
                             </label>
-                        
-                    
                         
                     
                         
@@ -2537,13 +2636,13 @@
                         
                     
                         
+                    
+                        
                             <label>
                                 <input type="checkbox"  /> <a title="
 
 " href="/dankesbrief#workspace-tickets">Dankesbrief ablegen</a>
                             </label>
-                        
-                    
                         
                     
                         
@@ -2808,13 +2907,13 @@
                         
                     
                         
+                    
+                        
                             <label>
                                 <input type="checkbox"  /> <a title="
 
 " href="/staatsarchiv#workspace-tickets">Übermittlung an Staatsarchiv</a>
                             </label>
-                        
-                    
                         
                     
                         
@@ -3080,14 +3179,14 @@
                     
                 
                     
+                
+                    
                         <label>
                             <input type="checkbox" /> <a class="pat-inject" title="Case task - unassigned
 
 
 " href="/unassigned" data-pat-inject="source: #document-body; target: #document-body; history: record">Presentation</a>
                         </label>
-                    
-                
                     
                 
                     
