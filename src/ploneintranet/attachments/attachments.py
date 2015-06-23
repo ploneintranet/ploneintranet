@@ -1,14 +1,14 @@
-import ExtensionClass
 from Acquisition import Explicit
 from Acquisition import aq_base
+from persistent import Persistent
+from zope import component
+from zope import interface
+import ExtensionClass
 from BTrees.OOBTree import OOBTree
 from OFS.Traversable import Traversable
 from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
-from Products.CMFPlone.Portal import PloneSite
-from persistent import Persistent
-from zope import component
-from zope import interface
+from plone.dexterity.content import DexterityContent
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.container.interfaces import DuplicateIDError
