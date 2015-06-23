@@ -24,11 +24,4 @@
             handler=".handlers.generate_attachment_preview_images"
             />
 
-    <!-- zope.lifecycleevent.interfaces.IObjectModifiedEvent -->
-    <subscriber
-            for="Products.CMFCore.interfaces.IContentish
-             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-            handler=".handlers.generate_attachment_preview_images"
-            />
-
 </configure>
