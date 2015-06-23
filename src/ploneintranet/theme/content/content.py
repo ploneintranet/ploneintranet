@@ -7,9 +7,12 @@ from plone.memoize.view import memoize
 from ploneintranet.workspace.utils import parent_workspace
 from zope import component
 from zope.event import notify
+
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
+
 from ploneintranet.theme import _
+from ploneintranet import api as pi_api
 from ..utils import dexterity_update
 
 
@@ -125,15 +128,10 @@ class ContentView(BrowserView):
         # Todo: enforce a given order?
         return states
 
-    def number_of_file_previews(self):
+    def preview_urls(self):
         """The number of previews generated for a file.
         """
-        context = aq_inner(self.context)
-        if context.portal_type != 'File':
-            return
-        # TODO: check if it has previews and return the number of pages
-        # This functionality was implemented by using the now gone
-        # IDocconv abstraction
+        return pi_api.previews.get_preview_urls(self.context, self.request)
 
     def image_url(self):
         """The img-url used to construct the img-tag."""
