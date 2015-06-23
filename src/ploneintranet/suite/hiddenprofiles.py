@@ -27,6 +27,7 @@ class HiddenProfiles(object):
             'ploneintranet.core:uninstall',
             'ploneintranet.docconv.client:uninstall',
             'ploneintranet.invitations:uninstall',
+            'ploneintranet.library:uninstall',
             'ploneintranet.messaging:uninstall',
             'ploneintranet.microblog:uninstall',
             'ploneintranet.notifications:uninstall',
