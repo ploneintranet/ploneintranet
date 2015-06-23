@@ -1,6 +1,8 @@
 """
 Celery tasks providing asynchronous jobs for Plone Intranet
 """
+import logging
+
 from celery import Celery
 import requests
 
@@ -8,6 +10,7 @@ from ploneintranet.async import celeryconfig
 
 app = Celery('ploneintranet.tasks', broker='redis://localhost:6379/0')
 app.config_from_object(celeryconfig)
+logger = logging.getLogger(__name__)
 
 
 class PreviewGenerationException(Exception):
@@ -33,5 +36,6 @@ def generate_and_add_preview(url, cookies):
 
     url += '/@@generate-previews'
     resp = requests.post(url, data=params, cookies=cookies)
+    logger.info(resp)
     if resp.status_code != 200:
         raise PreviewGenerationException
