@@ -31,7 +31,7 @@ class ZCatalogSearchResult(object):
         self.description = brain['Description']
         self.document_type = brain['friendly_type_name']
         if brain['has_thumbs']:
-            self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
+            self.preview_image_path = '{.path}/thumbnail'.format(
                 self)
 
     def _path_to_url(self, physical_path):
