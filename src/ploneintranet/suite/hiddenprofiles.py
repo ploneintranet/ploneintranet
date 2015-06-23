@@ -19,7 +19,6 @@ class HiddenProfiles(object):
         return ['ploneintranet.activitystream',
                 'ploneintranet.attachments',
                 'ploneintranet.core',
-                'ploneintranet.docconv.client',
                 'ploneintranet.invitations',
                 'ploneintranet.messaging',
                 'ploneintranet.microblog',

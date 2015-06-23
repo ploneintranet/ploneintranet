@@ -10,7 +10,6 @@ Subpackages
     ploneintranet.api
     ploneintranet.attachments
     ploneintranet.core
-    ploneintranet.docconv
     ploneintranet.invitations
     ploneintranet.layout
     ploneintranet.messaging
