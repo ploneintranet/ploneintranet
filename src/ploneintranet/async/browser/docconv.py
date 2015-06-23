@@ -117,26 +117,25 @@ class GeneratePreviewImages(BaseDocConvView):
     def __call__(self):
         alsoProvides(self.request, IDisableCSRFProtection)
 
-        # TODO: Sizes might want to be configurable
-        # TODO: Page count might want to be configurable
+        input_file = self.input_file()
+        if input_file is None:
+            return
         cmd = [
             self._find_binary(),
-            'images', self.input_file(),
-            '--size', '180,700,1000',
+            'images', str(input_file),
+            '--size', '1000',
             '--format', 'png',
-            '--rolling',
-            '--output', self.output_dir,
-            '--pages', '1-20',
+            '--output', str(self.output_dir),
         ]
         cmd_output = _parse_cmd_output(cmd)
         for image in self.output_dir.iterdir():
             with open(str(image)) as fd:
                 pi_api.attachments.add(
                     self.context,
-                    image.name,
+                    'preview_{0}'.format(image.name),
                     fd.read())
 
-        return cmd_output
+        return 'Command output: {}'.format(cmd_output)
 
 
 class GeneratePDF(BaseDocConvView):
@@ -148,11 +147,14 @@ class GeneratePDF(BaseDocConvView):
     def __call__(self):
         alsoProvides(self.request, IDisableCSRFProtection)
 
+        input_file = self.input_file()
+        if input_file is None:
+            return
         cmd = [
             self._find_binary(),
-            'pdf', self.input_file(),
-            '--output', self.output_dir,
+            'pdf', str(input_file),
+            '--output', str(self.output_dir),
         ]
         cmd_output = _parse_cmd_output(cmd)
 
-        return cmd_output
+        return 'Command output: {}'.format(cmd_output)
