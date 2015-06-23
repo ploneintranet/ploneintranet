@@ -217,7 +217,7 @@ class StatusUpdateView(BrowserView):
     def attachments(self):
         """ Get preview images for status update attachments
         """
-        items = pi_api.previews.get(self)
+        items = pi_api.previews.get(self.context)
         return map(self.item2attachments, items)
 
     @memoize
