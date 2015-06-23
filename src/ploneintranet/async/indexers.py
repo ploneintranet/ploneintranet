@@ -9,4 +9,4 @@ def has_thumbs(obj):
     """
     Does this item have preview thumbnails?
     """
-    return pi_api.previews.has_previews(obj)
+    return len(pi_api.previews.get(obj)) > 0
