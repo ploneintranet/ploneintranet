@@ -241,7 +241,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(response.spell_corrected_search, expect_suggestion)
 
     def test_spell_corrected_search(self):
-        self._check_spellcheck_response(None, None)
         self._check_spellcheck_response('', None)
         self._check_spellcheck_response(u'', None)
         self._check_spellcheck_response(u'*:*', None)
