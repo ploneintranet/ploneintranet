@@ -22,8 +22,10 @@ from ..utils import dexterity_update
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
-    def __call__(self, title=None, description=None, tags=[], text=None):
+    def __call__(self, title=None, description=None, tags=None, text=None):
         """Render the default template and evaluate the form when editing."""
+        if not tags:
+            tags = []
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
