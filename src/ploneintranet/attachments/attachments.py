@@ -20,8 +20,9 @@ class IAttachmentStoragable(IAnnotatable):
     """ Marker interface for things that can have attachments
     """
 
-# Make sure we can store attachments at the root of plone
-interface.classImplements(PloneSite, IAttachmentStoragable)
+# Make sure we can only attach things to Dexterity content types
+# (i.e. not the Plone site)
+interface.classImplements(DexterityContent, IAttachmentStoragable)
 
 
 class IAttachmentStorage(interface.Interface):
