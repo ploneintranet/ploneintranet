@@ -263,3 +263,12 @@ For every activity reply provider on a post, the macro "comment.html" is called.
 * Section "comment-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
 * Section "preview", for attachment previews
 
+
+Microblogging API
+=================
+
+.. automodule:: ploneintranet.api.microblog.statusupdate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

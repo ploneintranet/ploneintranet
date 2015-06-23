@@ -56,10 +56,13 @@ class UninstallTestCase(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetActivitystreamLayer', layers)
 
-    @unittest.skip('Bug in Plone 5')
     def test_cssregistry_removed(self):
         bundles = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
-        bundle = bundles['resource-ploneintranet-activitystream-stylesheets']
-        for id in CSS:
-            self.assertNotIn(id, bundle.css, '{0} not removed'.format(id))
+        self.assertNotIn(
+            'resource-ploneintranet-activitystream-stylesheets', bundles)
+
+    def test_view_method_removed(self):
+        portal_types = api.portal.get_tool('portal_types')
+        fti = portal_types['Folder']
+        self.assertNotIn('activitystream_portal', fti.view_methods)

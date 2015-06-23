@@ -1,0 +1,14 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta">
+  <meta:directives
+      namespace="http://namespaces.ploneintranet.org/search/solr">
+
+    <meta:directive
+       name="connection"
+       schema=".directives.IConnectionConfigDirective"
+       handler=".directives.configure_connection"
+       />
+
+  </meta:directives>
+
+</configure>

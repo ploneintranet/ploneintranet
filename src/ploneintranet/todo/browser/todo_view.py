@@ -71,17 +71,3 @@ class TodoView(BaseView):
                 'Changes applied'), request=self.request,
                 type="success")
         super(TodoView, self).update()
-
-    def member_prefill(self, field):
-        users = self.workspace.existing_users()
-        field_value = getattr(self.context, field)
-        # log.error("{0}: field_value: {1}".format(field, field_value))
-        if field_value:
-            assigned_users = field_value.split(',')
-            return ", ".join([
-                user['id']
-                for user in users
-                if user['id'] in assigned_users
-            ])
-        else:
-            return ''

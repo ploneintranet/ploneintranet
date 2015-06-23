@@ -286,8 +286,9 @@ Supported types include (class names):
                                              checked python: 'checked' if task['checked'] else ''"
                              />
                       <a class="pat-inject"
+                         data-pat-inject="source: #document-body; target: #document-body"
                          tal:attributes="title task/title;
-                                         href python: task['url']+'#document-body'"
+                                         href task/url"
                          tal:content="task/title"/>
                     </label>
                   </tal:task>
@@ -311,7 +312,8 @@ Supported types include (class names):
                                />
 
                         <a class="pat-inject"
-                           tal:attributes="title task/title; href string:${task/url}#document-body"
+                           data-pat-inject="source: #document-body; target: #document-body"
+                           tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
                       </label>
                     </tal:task>

@@ -1,0 +1,5 @@
+<registry>
+  <record field="globally_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled">
+    <value>False</value>
+  </record>
+</registry>

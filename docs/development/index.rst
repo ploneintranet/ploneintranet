@@ -8,6 +8,7 @@ Developer documentation
     contributing
     frontend/index
     forms
+    api
     components/index
     testing
     debugging

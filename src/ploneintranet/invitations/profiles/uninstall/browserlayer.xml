@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.invitations"
+    interface="ploneintranet.invitations.interfaces.IPloneintranetInvitationsLayer"
+    remove="True"
+  />
+</layers>

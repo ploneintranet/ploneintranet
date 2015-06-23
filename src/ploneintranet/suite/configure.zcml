@@ -27,6 +27,7 @@
   <include package="ploneintranet.pagerank"/>
   <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
+  <include package="ploneintranet.themeswitcher"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
 
@@ -37,6 +38,20 @@
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: Uninstall"
+      directory="profiles/uninstall"
+      description="Uninstalls the Ploneintranet Suite"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="ploneintranet.suite.uninstall"
+      title="Plone Intranet: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.suite.uninstall.uninstall" />
 
   <genericsetup:registerProfile
       name="testing"
@@ -59,9 +74,12 @@
   </class>
 
   <utility
+    factory=".hiddenprofiles.HiddenProducts"
+    name="ploneintranet" />
+
+  <utility
     factory=".hiddenprofiles.HiddenProfiles"
-    name="ploneintranet"
-  />
+    name="ploneintranet" />
 
   <!-- -*- extra stuff goes here -*- -->
 

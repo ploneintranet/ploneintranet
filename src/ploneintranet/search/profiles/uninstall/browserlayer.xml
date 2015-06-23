@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.search"
+    interface="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
+    remove="True"
+  />
+</layers>

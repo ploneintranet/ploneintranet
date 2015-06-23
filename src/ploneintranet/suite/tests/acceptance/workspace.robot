@@ -25,7 +25,7 @@ Manager can create a workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
-     when I try go to the Open Market Committee Workspace
+     when I can go to the Open Market Committee Workspace
      then I am redirected to the login page
 
 Breadcrumbs are not borked

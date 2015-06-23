@@ -22,10 +22,9 @@ class UserProfileView(BrowserView):
 
     def avatar_url(self):
         """Avatar url for this profile"""
-        portal_url = api.portal.get().absolute_url()
-        return u'%s/portal_memberdata/portraits/%s' % (
-            portal_url,
+        return pi_api.userprofile.avatar_url(
             self.context.username,
+            size='profile',
         )
 
     def primary_location(self):
