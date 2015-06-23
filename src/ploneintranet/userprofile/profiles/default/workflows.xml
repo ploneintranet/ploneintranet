@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_workflow">
+  <object name="userprofile_workflow" meta_type="Workflow" />
+  <bindings>
+    <type type_id="ploneintranet.userprofile.userprofile">
+      <bound-workflow workflow_id="userprofile_workflow" />
+    </type>
+  </bindings>
+</object>

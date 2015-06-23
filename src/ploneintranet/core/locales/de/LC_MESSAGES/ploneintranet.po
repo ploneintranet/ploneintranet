@@ -916,3 +916,46 @@ msgstr "Einstellungen"
 #: ../workspace/browser/tiles/templates/sidebar.pt:359
 msgid "workspace_title"
 msgstr "Titel"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "Transfer To Department"
+msgstr "an Ressort übermitteln"
+
+msgid "In Progress"
+msgstr "In Bearbeitung"
+
+msgid "Finalise"
+msgstr "fertigstellen"
+
+msgid "Content Complete"
+msgstr "Vollständig"
+
+msgid "Submit"
+msgstr "einreichen"
+
+msgid "Request"
+msgstr "Antrag"
+
+msgid "Decide"
+msgstr "beschliessen"
+
+msgid "Decided"
+msgstr "Beschlossen"
+
+msgid "Close"
+msgstr "abschliessen"
+
+msgid "Closed"
+msgstr "Abgeschlossen"
+
+msgid "Archive"
+msgstr "archivieren"
+
+msgid "Archived"
+msgstr "Archiviert"
+
+
+
+

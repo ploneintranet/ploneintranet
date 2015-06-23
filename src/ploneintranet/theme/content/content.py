@@ -3,8 +3,10 @@ from Acquisition import aq_inner
 from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.memoize.view import memoize
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import map_content_type
 from zope import component
 from zope.event import notify
 
@@ -109,12 +111,12 @@ class ContentView(BrowserView):
         current_state = getattr(available_states, current_state_id).title
         states = [dict(
             action='',
-            title=current_state,
+            title=current_state or current_state_id,
             new_state_id='',
             selected='selected')]
 
-        workflowActions = self.wf_tool.listActionInfos(object=context)
-        for action in workflowActions:
+        workflow_actions = self.wf_tool.listActionInfos(object=context)
+        for action in workflow_actions:
             if action['category'] != 'workflow':
                 continue
             new_state_id = action['transition'].new_state_id
@@ -138,3 +140,13 @@ class ContentView(BrowserView):
         context = aq_inner(self.context)
         if getattr(context, 'image', None) is not None:
             return '{}/@@images/image'.format(context.absolute_url())
+
+    def icon_class(self):
+        """Gets the icon class for the primary field of this content"""
+        primary_field_info = IPrimaryFieldInfo(self.context)
+        if hasattr(primary_field_info.value, "contentType"):
+            contenttype = primary_field_info.value.contentType
+            icon_name = map_content_type(contenttype)
+            if icon_name:
+                return 'icon-file-{0}'.format(icon_name)
+        return 'icon-file-code'

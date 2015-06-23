@@ -1,25 +1,77 @@
+# -*- coding: utf-8 -*-
+from plone import api
+# from ploneintranet.suite.testing import PLONEINTRANET_SUITE_FUNCTIONAL
+from ploneintranet.suite.testing import PLONEINTRANET_SUITE_INTEGRATION
+from ploneintranet.suite.uninstall import ADDITIONAL_DEPENDENCIES
 import unittest2 as unittest
 
-from Products.CMFCore.utils import getToolByName
 
-from ploneintranet.suite.testing import\
-    PLONEINTRANET_SUITE_FUNCTIONAL
+class TestSetup(unittest.TestCase):
+    """Test that ploneintranet.suite is properly installed."""
 
-
-class TestExample(unittest.TestCase):
-
-    layer = PLONEINTRANET_SUITE_FUNCTIONAL
+    layer = PLONEINTRANET_SUITE_INTEGRATION
 
     def setUp(self):
-        self.app = self.layer['app']
+        """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
-        self.qi_tool = getToolByName(self.portal, 'portal_quickinstaller')
+        self.installer = api.portal.get_tool('portal_quickinstaller')
 
-    def test_product_is_installed(self):
-        """ Validate that our products GS profile has been run and the product
-            installed
+    def test_product_installed(self):
+        """Test if ploneintranet.suite is installed."""
+        self.assertTrue(
+            self.installer.isProductInstalled('ploneintranet.suite'))
+
+    def test_dependencies_are_installed(self):
+        dependencies = []
+        qi = self.installer
+        install_profile = qi.getInstallProfile('ploneintranet.suite')
+        for dependency in install_profile.get('dependencies', ()):
+            dependency = dependency.split('profile-')[-1]
+            dependency = dependency.split(':')[0]
+            dependencies.append(str(dependency))
+        for dependency in dependencies:
+            self.assertTrue(qi.isProductInstalled(dependency))
+        for depdendency in ADDITIONAL_DEPENDENCIES:
+            self.assertTrue(qi.isProductInstalled(dependency))
+
+
+class TestUninstall(unittest.TestCase):
+    """Test that ploneintranet.suite is properly uninstalled."""
+
+    layer = PLONEINTRANET_SUITE_INTEGRATION
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        self.installer = api.portal.get_tool('portal_quickinstaller')
+        self.installer.uninstallProducts(['ploneintranet.suite'])
+
+    def test_uninstall(self):
+        """Test if ploneintranet.suite is cleanly uninstalled."""
+        self.assertFalse(
+            self.installer.isProductInstalled('ploneintranet.suite'))
+
+    def test_dependencies_are_uninstalled(self):
+        """Test if deps from the ploneintranet-namespace are uninstalled.
+        Also some additional deps should be uninstalled.
         """
-        pid = 'ploneintranet.suite'
-        installed = [p['id'] for p in self.qi_tool.listInstalledProducts()]
-        self.assertTrue(pid in installed,
-                        'package appears not to have been installed')
+        dependencies = []
+        qi = self.installer
+        install_profile = qi.getInstallProfile('ploneintranet.suite')
+        for dependency in install_profile.get('dependencies', ()):
+            dependency = dependency.split('profile-')[-1]
+            dependency = dependency.split(':')[0]
+            dependencies.append(str(dependency))
+        for dependency in dependencies:
+            if dependency.startswith('ploneintranet.'):
+                self.assertFalse(
+                    qi.isProductInstalled(dependency),
+                    '%s is still installed' % dependency)
+            elif dependency not in ADDITIONAL_DEPENDENCIES:
+                self.assertTrue(
+                    qi.isProductInstalled(dependency),
+                    '%s should not be uninstalled' % dependency)
+        for depdendency in ADDITIONAL_DEPENDENCIES:
+            self.assertFalse(
+                qi.isProductInstalled(dependency),
+                '%s is still installed' % dependency)

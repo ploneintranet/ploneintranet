@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:solr="http://namespaces.ploneintranet.org/search/solr"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ploneintranet.search.solr.tests">
+
+  <include package="ploneintranet.search.solr"
+           file="meta.zcml" />
+
+  <solr:connection host="localhost"
+                   port="8984"
+                   basepath="/solr"
+                   core="core1" />
+
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".tests.subscribers.on_tests_modify_content"
+      />
+
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".tests.subscribers.on_tests_delete_content"
+      />
+  
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".tests.subscribers.on_tests_add_content"
+      />
+  
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".tests.subscribers.on_tests_transition_content"
+      />
+
+</configure>

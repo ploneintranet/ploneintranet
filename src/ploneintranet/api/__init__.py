@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
-from ploneintranet.api import microblog, previews, attachments
+from ploneintranet.api import previews
+from ploneintranet.api import attachments
+from ploneintranet.api import microblog
+from ploneintranet.api import userprofile

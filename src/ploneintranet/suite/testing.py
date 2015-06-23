@@ -48,6 +48,9 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # Force microblog to disable async mode !!!
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
+        z2.installProduct(app, 'collective.indexing')
+        z2.installProduct(app, 'Products.membrane')
+
         self.loadZCML(package=ploneintranet.search)
 
     def setUpPloneSite(self, portal):
@@ -61,16 +64,18 @@ class PloneIntranetSuite(PloneSandboxLayer):
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
+        z2.uninstallProduct(app, 'collective.indexing')
+        z2.uninstallProduct(app, 'Products.membrane')
 
 
 PLONEINTRANET_SUITE = PloneIntranetSuite()
 
 PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
-    bases=(PLONEINTRANET_SUITE,),
+    bases=(PLONEINTRANET_SUITE, ),
     name="PLONEINTRANET_SUITE_INTEGRATION")
 
 PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
-    bases=(PLONEINTRANET_SUITE,),
+    bases=(PLONEINTRANET_SUITE, ),
     name="PLONEINTRANET_SUITE_FUNCTIONAL")
 
 PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(

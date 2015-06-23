@@ -17,6 +17,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- (Messaging)"
+      directory="profiles/uninstall"
+      description="Uninstalls the ploneintranet.messaging package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <utility
       provides="ploneintranet.messaging.interfaces.IMessagingLocator"
       factory=".messaging.MessagingLocator"

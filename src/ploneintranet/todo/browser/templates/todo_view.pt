@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet.theme">
+
+  <body>
+    <metal:content fill-slot="content"
+                   tal:define="workspace python:view.workspace;
+                               workspace_url python:workspace.absolute_url();
+                               workspace_id python:workspace.id;
+                               read_only python:not view.can_edit">
+      <div id="content"
+           tal:define="type workspace/ws_type | string:workspace;"
+           tal:attributes="class string:application page-type-${type} workspace-type-${type}">
+
+        <h1 id="workspace-name">
+          <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+        </h1>
+
+        <div class="${workspace_id} dark-theme" id="application-body">
+
+          <div id="document-body">
+            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
+              <div class="metadata pat-bumper" id="meta">
+                <div class="meta-bar">
+                  <h1 class="doc-title" id="document-title">
+                    ${context/title}
+                  </h1>
+                  <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                  <div class="quick-functions">
+                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified">
+                      Delete
+                    </a>
+                    <a href="" class="icon-copy iconified">
+                      Copy
+                    </a>
+                    <a href="#share-panel" class="icon-export iconified pat-modal">
+                      Share
+                    </a>
+                    <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
+                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
+                      <label class="pat-select bare">
+                        <select name="task_action" id="workflow_action">
+                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}">Open</option>
+                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}">Done</option>
+                        </select>
+                      </label>
+                      <span tal:replace="structure context/@@authenticator/authenticator"/>
+                    </fieldset>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+
+                  </div>
+                </div>
+                <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                  <fieldset class="bar">
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" />
+                  </fieldset>
+
+                </fieldset>
+              </div>
+
+              <div id="document-content">
+                <div class="document ticket-details">
+
+                  <fieldset class="vertical fancy">
+                    <metal:task_fields use-macro="workspace/content_macros/task_fields"/>
+                  </fieldset>
+                </div>
+              </div>
+              <input type="hidden" name="form.submitted" value="1" />
+            </form>
+          </div>
+
+          <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
+          </aside>
+        </div>
+        <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+      </div>
+    </metal:content>
+  </body>
+</html>

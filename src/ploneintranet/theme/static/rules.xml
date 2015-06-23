@@ -21,7 +21,7 @@
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
   <merge attributes="class" css:content="body" css:theme="body" />
-  <copy attributes="id dir data-base-url data-pat-pickadate data-portal-url data-pat-tinymce data-pat-plone-modal data-i18ncatalogurl" 
+  <copy attributes="id dir data-base-url data-pat-pickadate data-portal-url data-pat-tinymce data-pat-plone-modal data-i18ncatalogurl"
         css:content="body" css:theme="body" />
 
   <!-- Logo -->
@@ -48,8 +48,8 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
-  <copy attributes="method id action" 
-        css:content="form#searchGadget_form" 
+  <copy attributes="method id action"
+        css:content="form#searchGadget_form"
         css:theme="form#global-nav-search" />
 
   <!-- Login Form -->
@@ -61,34 +61,58 @@
 
   <rules css:if-content="body.portaltype-event, 
                          body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
+                         body.portaltype-ploneintranet-workspace-case.template-view, 
                          body.portaltype-document, 
                          body.portaltype-file, 
                          body.portaltype-image, 
                          body.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
-    <drop css:theme-children="#content" />
-    <append css:content-children="#portal-column-content" css:theme="#content" />
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+  <rules css:if-content="body.portaltype-todo">
+      <theme href="generated/basisdaten/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
-  <rules css:if-content="body.template-dashboard-html, 
+  <rules css:if-content="body.template-dashboard-html,
                          body.template-workspaces-html,
                          body.template-login_success">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />
   </rules>
 
-  <rules css:if-content="body.template-search">
+  <!-- XXX Do we really need that explicitly? -->
+  <rules css:if-content="body.template-todo">
+    <theme href="generated/panel-create-task.html" />
+    <drop css:theme-children=".panel-body" />
+    <append css:content-children="#content" css:theme=".panel-body" />
+  </rules>
+
+  <rules css:if-content="body.template-userprofile-view">
+    <theme href="generated/liz-baker/index.html" />
+    <drop css:theme-children="#person-timeline aside" />
+    <drop css:theme-children="#person-timeline div.columns" />
+    <append css:content-children="#portal-column-content aside" css:theme="aside" />
+    <append css:content-children="#portal-column-content #main" css:theme="div.columns" />
+  </rules>
+
+  <rules css:if-content="body.template-search,
+                         body.template-search_images,
+                         body.template-search_people,
+                         body.template-search_files,
+                         body.template-search_videos">
     <theme href="generated/search-results.html" />
     <drop css:theme-children="#content" />
     <append css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->
-  <theme href="generated/empty.html" 
+  <theme href="generated/empty.html"
          css:if-content="#visual-portal-wrapper" />
-  <replace css:content-children="#content" 
-           css:theme-children="#original-content" 
+  <replace css:content-children="#content"
+           css:theme-children="#original-content"
            css:if-content="#visual-portal-wrapper" />
 
 

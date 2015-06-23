@@ -1,54 +1,32 @@
 <div id="portal-personaltools-wrapper"
      i18n:domain="plone">
 
-<!-- Note: the pat-tooltip is deactivated by a temporary rename to xpat-tooltip.
-Reason: for now, we just want to show the user's avatar. Once the personal profiles have
-been built, the tooltip needs be become activated again -->
-<a href="#portal-personaltools" class="pat-avatar xpat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
-    <img tal:define="mt nocall:context/portal_membership; portrait mt/getPersonalPortrait"
-         tal:attributes="src portrait/absolute_url; title view/user_name|nothing" />
-</a>
-
 <tal:block condition="not: view/anonymous">
-  <a href="#portal-personaltools" class="pat-avatar xpat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
+  <a href="#portal-personaltools-menu" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
       <img tal:define="mt nocall:context/portal_membership; portrait mt/getPersonalPortrait"
            tal:attributes="src portrait/absolute_url; title view/user_name" />
   </a>
-  <ul class="actionMenu deactivated" id="portal-personaltools" style="display:none"
-      tal:condition="python:view.user_actions and not view.anonymous">
-    <li class="actionMenuHeader">
-        <a id="user-name"
-           tal:attributes="href view/homelink_url"
-           tal:content="view/user_name">
-            John
-        </a>
-    </li>
-    <li tal:repeat="action view/user_actions"
-        tal:attributes="id string:personaltools-${action/id}">
-        <a href=""
-           tal:attributes="action"
-           tal:condition="exists:action/url"
-           tal:content="action/title"
-           i18n:translate="">
-            action title
-        </a>
-    </li>
-  </ul>
+  <div id="portal-personaltools-menu" style="display:none"
+       tal:condition="python:view.user_actions and not view.anonymous">
+      <ul class="actionMenu deactivated" id="portal-personaltools">
+	  <li class="actionMenuHeader">
+              <a id="user-name"
+		 tal:attributes="href string:${view/portal_url}/@@my-profile"
+		 tal:content="view/user_name">
+		  John
+              </a>
+	  </li>
+	  <li tal:repeat="action view/user_actions"
+              tal:attributes="id string:personaltools-${action/id}">
+              <a href=""
+		 tal:attributes="action"
+		 tal:content="action/title"
+		 i18n:translate="">
+		  action title
+              </a>
+	  </li>
+      </ul>
+  </div>
 </tal:block>
-
-<ul class="actionMenu deactivated" id="portal-personaltools" style="display:none"
-    tal:condition="python:view.user_actions and view.anonymous">
-  <li id="anon-personalbar">
-    <tal:actions repeat="action view/user_actions">
-        <a href=""
-           tal:attributes="action"
-           tal:condition="exists:action/url"
-           tal:content="action/title"
-           i18n:translate="">
-            action title
-        </a>
-    </tal:actions>
-  </li>
-</ul>
 
 </div>

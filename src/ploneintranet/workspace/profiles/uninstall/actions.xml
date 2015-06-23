@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <object name="object" meta_type="CMF Action Category">
+
+   <!-- reset sharing tab available_expr -->
+  <object name="local_roles" meta_type="CMF Action" i18n:domain="plone">
+   <property name="available_expr"></property>
+  </object>
+
+  <!-- Remove settings tab for workspaces -->
+  <object name="ws_policies" meta_type="CMF Action" i18n:domain="plone" remove="True">
+  </object>
+
+ </object>
+</object>

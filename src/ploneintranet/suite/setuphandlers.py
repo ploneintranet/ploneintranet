@@ -13,8 +13,10 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet import api as pi_api
 from zope.component import getUtility
 from zope.component import queryUtility
+from zope.interface import Invalid
 
 import csv
 import json
@@ -52,22 +54,31 @@ def create_users(context, users, avatars_dir):
         email = decode(user['email'])
         userid = decode(user['userid'])
         file_name = '{}.jpg'.format(userid)
+        fullname = user.get('fullname', u"Anon Ymous {}".format(i))
+        firstname, lastname = fullname.split(' ', 1)
         properties = {
-            'fullname': user.get('fullname', u"Anon Ymous {}".format(i)),
+            'fullname': fullname,
+            'first_name': firstname,
+            'last_name': lastname,
             'location': user.get('location', u"Unknown"),
             'description': user.get('description', u"")
         }
         try:
-            api.user.create(
-                email=email,
+            pi_api.userprofile.create(
                 username=userid,
+                email=email,
                 password='secret',
-                properties=properties
+                approve=True,
+                properties=properties,
             )
-        except ValueError:
-            user = api.user.get(username=userid)
-            user.setMemberProperties(properties)
-        logger.info('Created user {}'.format(userid))
+            logger.info('Created user {}'.format(userid))
+        except Invalid:
+            # Already exists - update
+            profile = pi_api.userprofile.get(userid)
+            for key, value in properties.items():
+                setattr(profile, key, value)
+            logger.info('Updated user {}'.format(userid))
+
         portrait_filename = os.path.join(avatars_dir, file_name)
         portrait = context.openDataFile(portrait_filename)
         if portrait:
@@ -197,7 +208,7 @@ def create_tasks(todos):
     for data in todos:
         obj = create_as(
             data['creator'],
-            type='simpletodo',
+            type='todo',
             title=data['title'],
             container=todos_folder)
         todo = ITodo(obj)
@@ -224,6 +235,38 @@ def create_workspaces(workspaces):
             create_ws_content(workspace, contents)
         for (m, groups) in members.items():
             IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
+
+
+def create_caseworkspaces(caseworkspaces):
+    portal = api.portal.get()
+    pwft = api.portal.get_tool("portal_placeful_workflow")
+
+    if 'workspaces' not in portal:
+        ws_folder = api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
+        api.content.transition(ws_folder, 'publish')
+    else:
+        ws_folder = portal['workspaces']
+
+    for w in caseworkspaces:
+        contents = w.pop('contents', None)
+        members = w.pop('members', [])
+        caseworkspace = api.content.create(
+            container=ws_folder,
+            type='ploneintranet.workspace.case',
+            **w
+        )
+        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
+        wfconfig.setPolicyIn('case_workflow')
+
+        if contents is not None:
+            create_ws_content(caseworkspace, contents)
+        for (m, groups) in members.items():
+            IWorkspace(
+                caseworkspace).add_to_team(user=m, groups=set(groups))
 
 
 def create_ws_content(parent, contents):
@@ -628,6 +671,64 @@ def testing(context):
          },
     ]
     create_workspaces(workspaces)
+
+    # Create caseworkspaces
+    caseworkspaces = [{
+        'title': 'Minifest',
+        'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
+                       'Finanzielle Unterstützung des MinistrantInnen-Fest '
+                       'vom 7. September 2014 in St. Gallen.',
+        'members': {'allan_neece': [u'Members'],
+                    'christian_stoney': [u'Admins', u'Members']},
+        'contents': [{
+            'title': 'Basisdatenerfassung',
+            'type': 'todo',
+            'description': 'Erfassung der Basis-Absenderdaten',
+            'milestone': 'new',
+        }, {
+            'title': 'Hintergrundcheck machen',
+            'type': 'todo',
+            'description': 'Hintergrundcheck durchführen ob die Organisation '
+                           'förderungswürdig ist.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
+            'type': 'todo',
+            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
+                           'vergangenen 5 Jahren gewährt wurde.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Meinung Generalvikar einholen',
+            'type': 'todo',
+            'description': 'Meinung des Generalvikars zum Umfang der '
+                           'Förderung einholen.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Protokoll publizieren',
+            'type': 'todo',
+            'description': 'Publizieren des Beschlusses im Web - falls '
+                           'öffentlich.',
+            'milestone': 'decided',
+        }, {
+            'title': 'Supporting Materials',
+            'type': 'Folder',
+            'contents': [{
+                'title': '',
+                'type': 'File'
+            }]
+        }, {
+            'title': 'Future Council Meeting',
+            'type': 'Event',
+            'start': now + timedelta(days=7),
+            'end': now + timedelta(days=14)
+        }, {
+            'title': 'Past Council Meeting',
+            'type': 'Event',
+            'start': now + timedelta(days=-7),
+            'end': now + timedelta(days=-14)
+        }],
+    }]
+    create_caseworkspaces(caseworkspaces)
 
     # Commented out for the moment, since there's no concept at the moment
     # for globally created events

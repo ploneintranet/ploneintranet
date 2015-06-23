@@ -1,0 +1,12 @@
+* SearchResult
+** Highlight summary snippet
+* Boosting
+** Optionally allowe boosts to filter_fields too?
+* Maintenence views
+** sync (with portal_catalog)
+* Admin UI ?
+** Set registry values ?
+** Link to the Solr Admin
+* More unittests
+** solr
+*** tests_indexers

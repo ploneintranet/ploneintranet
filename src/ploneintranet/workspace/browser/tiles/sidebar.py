@@ -20,10 +20,8 @@ from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ...utils import parent_workspace
-from ...utils import existing_users
 from ...utils import map_content_type
 from ...utils import set_cookie
-from ploneintranet.todo.behaviors import ITodo
 
 import logging
 
@@ -31,7 +29,7 @@ log = logging.getLogger(__name__)
 
 
 FOLDERISH_TYPES = ['Folder']
-BLACKLISTED_TYPES = ['Event', 'simpletodo']
+BLACKLISTED_TYPES = ['Event', 'todo']
 
 
 class BaseTile(BrowserView):
@@ -110,7 +108,7 @@ class SidebarSettingsMembers(BaseTile):
 
     @memoize
     def existing_users(self):
-        return existing_users(self.workspace())
+        return self.workspace().existing_users()
 
     def __call__(self):
         form = self.request.form
@@ -238,12 +236,14 @@ class Sidebar(BaseTile):
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
-            if not self.can_manage_workspace():
+            wft = api.portal.get_tool("portal_workflow")
+            section = self.request.form.get('section', None)
+            do_reindex = False
+            if section != 'task' and not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'title or description')
                 raise Unauthorized(msg)
-            do_reindex = False
-            if self.request.form.get('section', None) == 'task':
+            elif section == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 
@@ -252,14 +252,18 @@ class Sidebar(BaseTile):
                                       'operator': 'or'})
                 for brain in brains:
                     obj = brain.getObject()
-                    todo = ITodo(obj)
+                    state = wft.getInfoFor(obj, 'review_state')
                     if brain.UID in active_tasks:
-                        todo.status = u'done'
+                        if state in ["open", "planned"]:
+                            api.content.transition(obj, "finish")
                     else:
-                        todo.status = u'tbd'
-                api.portal.show_message(_(u'Changes applied'),
-                                        self.request,
-                                        'success')
+                        if state == "done":
+                            obj.reopen()
+                api.portal.show_message(
+                    _(u'Changes applied'), self.request, 'success')
+                msg = ViewPageTemplateFile(
+                    '../templates/globalstatusmessage.pt')
+                return msg(self)
             else:
                 if form.get('title'):
                     title = safe_unicode(form.get('title')).strip()
@@ -823,28 +827,6 @@ class Sidebar(BaseTile):
         """
         return int(self.request.form.get('page_size', 18))
 
-    def tasks(self):
-        """
-        Show all tasks in the workspace
-        """
-        items = []
-        catalog = api.portal.get_tool('portal_catalog')
-        current_path = '/'.join(self.context.getPhysicalPath())
-        ptype = 'simpletodo'
-        brains = catalog(path=current_path, portal_type=ptype)
-        for brain in brains:
-            obj = brain.getObject()
-            todo = ITodo(obj)
-            data = {
-                'id': brain.UID,
-                'title': brain.Description,
-                'content': brain.Title,
-                'url': brain.getURL(),
-                'checked': todo.status == u'done'
-            }
-            items.append(data)
-        return items
-
     def events(self):
         """
         Return the events in this workspace
@@ -869,3 +851,6 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def can_add(self):
+        return api.user.has_permission('Add portal content', obj=self.context)

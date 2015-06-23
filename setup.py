@@ -5,29 +5,30 @@ version = '0.1'
 long_description = (
     open('README.rst').read()
     + '\n' +
-    open('CONTRIBUTORS.rst').read()
+    'Contributors\n'
+    '============\n'
     + '\n' +
     open('CHANGES.rst').read()
     + '\n')
 
 setup(name='ploneintranet',
       version=version,
-      description="Intranet suite for Plone",
+      description='Intranet suite for Plone',
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-          "Development Status :: 3 - Alpha",
-          "Environment :: Web Environment",
-          "Framework :: Plone",
-          "Framework :: Plone :: 5.0",
-          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-          "Operating System :: OS Independent",
-          "Programming Language :: Python",
-          "Programming Language :: Python :: 2.7",
-          "Topic :: Office/Business",
-          "Topic :: Office/Business :: Groupware",
-          "Topic :: Software Development :: Libraries :: Python Modules",
+          'Environment :: Web Environment',
+          'Framework :: Plone',
+          'Framework :: Plone :: 5.0',
+          'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+          'Operating System :: OS Independent',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2.7',
+          'Topic :: Office/Business',
+          'Topic :: Office/Business :: Groupware',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+          'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
       ],
       keywords='intranet social activitystream collaboration groupware',
       author='Plone Intranet Consortium',
@@ -42,17 +43,20 @@ setup(name='ploneintranet',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'collective.instancebehavior',
           'requests',
           'loremipsum',
           'z3c.jbot',
           'plone.tiles',
           'plone.app.tiles',
           'plone.app.blocks',
+          'plone.app.theming',
           'BeautifulSoup',
           'mincemeat',
           'networkx',
           'rwproperty',
           'collective.z3cform.chosen',
+          'dexterity.membrane',
           'Plone',
           'plone.api',
           'Products.UserAndGroupSelectionWidget',
@@ -61,11 +65,9 @@ setup(name='ploneintranet',
           'plone.principalsource',
           'collective.workspace',
           'fake-factory',
-          'tornado',
           'Celery[redis]',
-          'tornado-redis',
-          'sockjs-tornado',
           'pathlib',
+          'collective.externaleditor >= 1.0.2',
       ],
       extras_require={
           'test': [
@@ -100,6 +102,9 @@ setup(name='ploneintranet',
               'plone.tiles',
               'plone.app.blocks',
           ],
+          'themeswitcher': [
+              'plone.app.theming',
+          ],
           'todo': [
               'rwproperty',
               'plone.directives.dexterity',
@@ -120,7 +125,12 @@ setup(name='ploneintranet',
               'zest.pocompile',
               'gocept.zestreleaser.customupload',
               'twine',
-              ],
+          ],
+          'solr': [
+              'collective.indexing >= 2.0a2',
+              'requests',
+              'scorched',
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-
@@ -129,5 +139,4 @@ setup(name='ploneintranet',
 
       [zest.releaser.releaser.after_checkout]
       add_files_to_release = ploneintranet.core.release:add_files_to_release
-      """,
-      )
+      """)

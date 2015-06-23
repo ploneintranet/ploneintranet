@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<object name="Event">
+ <property name="allow_discussion">False</property>
+</object>

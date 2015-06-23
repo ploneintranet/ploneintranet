@@ -18,50 +18,57 @@
                                 data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
 
             <h3 i18n:translate="">Workspace policy</h3>
-            <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
-              <tal:field_info define="label view/external_visibility_label; field_name string:external_visibility">
-                <metal:field_macro define-macro="field_macro"
-                                   tal:define="field_info python:getattr(view, field_name);
-                                               field_value python:field_info.keys().index(getattr(ws, field_name)) + 1;">
-                  <label tal:define="max_values python:len(field_info);">
-                    <tal:label replace="label"/>
-                    <input type="range" step="1" min="1"
-                           tal:attributes="
-                                   name field_name;
-                                   value field_value;
-                                   max max_values;
-                                   disabled not:view/can_manage_workspace" />
-                    <span tal:attributes="class python:'{0} slider-labels'.format(numbers[max_values - 1])">
-                      <tal:label repeat="label field_info">
-                        <tal:number define="number repeat/label/number">
-                          <span class="label pat-depends" tal:attributes="data-pat-depends string:condition: ${field_name}=${number};; action: enable"><tal:title replace="python: field_info[label]['title']"/>&nbsp;<a class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;" tal:attributes="href string:#help-${field_name}-${number}">Info</a></span>
-                        </tal:number>
-                      </tal:label>
-                    </span>
-                  </label>
-                  <tal:label repeat="help field_info">
-                    <tal:number define="number repeat/help/number">
-                      <p class="pat-message notice pat-depends"
-                         tal:attributes="id string:help-${field_name}-${number};
-                                         data-pat-depends string:condition: ${field_name}=${number}">
-                        <strong><tal:title replace="python: field_info[help]['title']"/>:</strong>
-                        <tal:help replace="python: field_info[help]['help']"/>
-                      </p>
-                    </tal:number>
-                  </tal:label>
-                </metal:field_macro>
-              </tal:field_info>
+            <tal:workspace_security tal:condition="ws/is_case">
+              <p>For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the "Members" tab.</p>
+            </tal:workspace_security>
 
-              <tal:field_info define="field_name string:join_policy; label view/join_policy_label">
-                <metal:field_macro use-macro="template/macros/field_macro"/>
-              </tal:field_info>
+            <tal:workspace_security tal:condition="not: ws/is_case">
+              <fieldset class="vertical" tal:define="numbers python:['one', 'two', 'three', 'four', 'five', 'six']">
 
-              <tal:field_info define="field_name string:participant_policy; label view/participant_policy_label">
-                <metal:field_macro use-macro="template/macros/field_macro"/>
-              </tal:field_info>
+                <tal:field_info define="label view/external_visibility_label; field_name string:external_visibility">
+                  <metal:field_macro define-macro="field_macro"
+                                     tal:define="field_info python:getattr(view, field_name);
+                                                 field_value python:field_info.keys().index(getattr(ws, field_name)) + 1;">
+                    <label tal:define="max_values python:len(field_info);">
+                      <tal:label replace="label"/>
+                      <input type="range" step="1" min="1"
+                             tal:attributes="
+                                             name field_name;
+                                             value field_value;
+                                             max max_values;
+                                             disabled not:view/can_manage_workspace" />
+                      <span tal:attributes="class python:'{0} slider-labels'.format(numbers[max_values - 1])">
+                        <tal:label repeat="label field_info">
+                          <tal:number define="number repeat/label/number">
+                            <span class="label pat-depends" tal:attributes="data-pat-depends string:condition: ${field_name}=${number};; action: enable"><tal:title replace="python: field_info[label]['title']"/>&nbsp;<a class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;" tal:attributes="href string:#help-${field_name}-${number}">Info</a></span>
+                          </tal:number>
+                        </tal:label>
+                      </span>
+                    </label>
+                    <tal:label repeat="help field_info">
+                      <tal:number define="number repeat/help/number">
+                        <p class="pat-message notice pat-depends"
+                           tal:attributes="id string:help-${field_name}-${number};
+                                           data-pat-depends string:condition: ${field_name}=${number}">
+                          <strong><tal:title replace="python: field_info[help]['title']"/>:</strong>
+                          <tal:help replace="python: field_info[help]['help']"/>
+                        </p>
+                      </tal:number>
+                    </tal:label>
+                  </metal:field_macro>
+                </tal:field_info>
 
-            </fieldset>
+                <tal:field_info define="field_name string:join_policy; label view/join_policy_label">
+                  <metal:field_macro use-macro="template/macros/field_macro"/>
+                </tal:field_info>
+
+                <tal:field_info define="field_name string:participant_policy; label view/participant_policy_label">
+                  <metal:field_macro use-macro="template/macros/field_macro"/>
+                </tal:field_info>
+
+              </fieldset>
+            </tal:workspace_security>
           </form>
         </div>
       </div>
