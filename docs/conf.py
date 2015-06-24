@@ -31,6 +31,7 @@ extensions = [
     'celery.contrib.sphinx',
     'sphinxcontrib.spelling',
     'sphinxcontrib.zopeext.autointerface',
+    'sphinx.ext.intersphinx',
 ]
 
 autodoc_default_flags = [
