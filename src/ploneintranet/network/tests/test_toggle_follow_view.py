@@ -6,7 +6,6 @@ from plone import api as plone_api
 from ploneintranet import api as pi_api
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.testing import IntegrationTestCase
-from ploneintranet.network.testing import set_browserlayer
 
 
 class TestToggleFollowView(IntegrationTestCase):
@@ -14,7 +13,6 @@ class TestToggleFollowView(IntegrationTestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-        set_browserlayer(self.request)
         self.util = getUtility(INetworkTool)
 
     def test_toggle_follow(self):

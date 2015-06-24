@@ -6,7 +6,6 @@ from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.testing import IntegrationTestCase
-from ploneintranet.network.testing import set_browserlayer
 from zope.component import createObject
 from zope.component import getUtility
 
@@ -16,7 +15,6 @@ class TestToggleLikeView(IntegrationTestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
-        set_browserlayer(self.request)
         self.util = getUtility(INetworkTool)
         self.doc1 = api.content.create(
             container=self.portal,
