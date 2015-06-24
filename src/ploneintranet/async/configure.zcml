@@ -4,6 +4,7 @@
         i18n_domain="ploneintranet">
 
     <include package=".browser" />
+    <include package="ploneintranet.attachments"/>
 
     <adapter
             name="has_thumbs"
