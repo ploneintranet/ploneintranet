@@ -80,7 +80,7 @@ class BaseDocConvView(BrowserView):
         """Find or create temporary directory to be used by docsplit
 
         :return: The temporary directory
-        :rtype: pathlib.Path
+        :rtype: :class:`pathlib.PurePath`
         """
         # TODO: This should probably configurable (registry)
         storage_dir = Path('/tmp/ploneintranet-docconv')
@@ -94,7 +94,7 @@ class BaseDocConvView(BrowserView):
         """Find or create an output directory
 
         :return: The output directory
-        :rtype: pathlib.Path
+        :rtype: :class:`pathlib.PurePath`
         """
         output_dir = self.storage_dir.joinpath(
             '{}-converted'.format(self.context.id))
