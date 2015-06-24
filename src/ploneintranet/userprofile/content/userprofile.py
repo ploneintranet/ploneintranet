@@ -6,6 +6,7 @@ from zope.interface import implementer
 from zope.interface import Invalid
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+from collective import dexteritytextindexer
 
 from plone import api as plone_api
 from plone.autoform.interfaces import IFormFieldProvider
@@ -24,18 +25,22 @@ class IUserProfile(form.Schema):
     Most of the plone intranet UI relies on these fields.
     """
 
+    dexteritytextindexer.searchable('username')
     username = schema.TextLine(
         title=_(u"Username"),
         required=True
     )
+    dexteritytextindexer.searchable('first_name')
     first_name = schema.TextLine(
         title=_(u"First name"),
         required=True
     )
+    dexteritytextindexer.searchable('last_name')
     last_name = schema.TextLine(
         title=_(u"Last name"),
         required=True
     )
+    dexteritytextindexer.searchable('email')
     email = schema.TextLine(
         title=_(u"Email"),
         required=True
