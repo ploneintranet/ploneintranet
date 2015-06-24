@@ -127,4 +127,4 @@ class SearchResultsView(BrowserView):
         return self.search_by_type('File')
 
     def search_people(self):
-        return self.search_by_type('UserProfile')
+        return self.search_by_type('ploneintranet.userprofile.userprofile')
