@@ -58,7 +58,7 @@
       <fieldset class="vertical fancy">
         <label class="description">
           Description
-          <textarea name="description" placeholder="Enter a description of the task"
+          <textarea name="description" placeholder="Enter a description of the event"
                     tal:attributes="disabled read_only" rows="6">${context/description}</textarea>
         </label>
 
