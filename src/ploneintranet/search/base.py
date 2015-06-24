@@ -85,12 +85,17 @@ class SearchResult(object):
         self.title = context['Title']
         self.description = context['Description']
         self.friendly_type_name = context['friendly_type_name']
+        self.portal_type = context['portal_type']
+        self.contact_email = context['email']
+        self.contact_telephone = context['telephone']
         if context['has_thumbs']:
             self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
                 self)
-        elif self.friendly_type_name == 'Image':
+        elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
+        elif self.portal_type == 'ploneintranet.userprofile.userprofile':
+            self.preview_image_path = '{.path}/@@avatar'.format(self)
 
     def __repr__(self):
         clsnam = type(self).__name__

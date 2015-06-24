@@ -33,9 +33,9 @@
                         <li class="mail">
                             <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}" tal:attributes="href string:mailto:${context/email}" tal:content="context/email" />
                         </li>
-                        <li class="phone" tal:condition="context/mobile|nothing">
-                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}"
-                            tal:content="context/mobile"></a>
+                        <li class="phone" tal:condition="context/telephone|nothing">
+                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/telephone}; href string:tel:${context/telephone}"
+                            tal:content="context/telephone"></a>
                         </li>
                     </ul>
                     <p class="portlet-footer">

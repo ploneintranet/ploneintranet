@@ -8,10 +8,12 @@
 
     <metal:results fill-slot="results">
         <div class="container results"
-             tal:define="search_response view/search_files">
+             tal:define="search_response view/search_people">
 
             <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
+
             <!-- TODO check integration of extra fieldset into form/search for skills -->
+	    <!-- SKILLS not yet implemented
             <fieldset class="top-filters pat-checklist cloud pat-subform pat-inject"
                       data-pat-inject="source: #listing; target: #listing; url: @@search_people">
                 <input type="hidden"
@@ -29,6 +31,7 @@
                     Refresh
                 </button>
             </fieldset>
+	    -->
 
             <div class="row people results pat-equaliser" id="listing">
                 <tal:result repeat="result search_response/results">
@@ -51,14 +54,14 @@
                             </ul>
                             <ul class="data">
                                 <li class="mail icon-mail"
-                                tal:condition="result/email|nothing"
-                                tal:attributes="title string:Mail ${result/first_name} at ${result/email};">
-                                    <a tal:attributes="href string:mailto:${result/email}"
-                                       tal:content="result/email">minoush.farmer@organisation.com</a>
+                                tal:condition="result/contact_email"
+                                tal:attributes="title string:Mail ${result/title} at ${result/contact_email};">
+                                    <a tal:attributes="href string:mailto:${result/contact_email}"
+                                       tal:content="result/contact_email">minoush.farmer@organisation.com</a>
                                 </li>
                                 <li class="phone icon-phone"
                                 tal:condition="result/phone|nothing"
-                                    tal:attributes="title string:Call ${result/firstname} on ${result/phone}">
+                                    tal:attributes="title string:Call ${result/title} on ${result/phone}">
                                     <a tal:attributes="href string:tel:${result/phone}">+34 506 948 294</a>
                                 </li>
                             </ul>
