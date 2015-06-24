@@ -138,6 +138,14 @@ bin/buildout: bin/python2.7
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
+####################################################################
+# Solr
+
+solr: bin/buildout
+	@bin/buildout -c solr.cfg
+
+solr-clean:
+	rm -rf parts/solr parts/solr-test
 
 ####################################################################
 # Testing
@@ -168,4 +176,5 @@ api-docs:
 docs-clean:
 	rm -rf docs/html
 
-.PHONY: all docs api-docs docs-clean clean check-clean
+.PHONY: all docs api-docs docs-clean clean check-clean solr-clean
+
