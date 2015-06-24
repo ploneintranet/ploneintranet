@@ -22,4 +22,3 @@ class TestCasePercentComplete(unittest.TestCase):
     def test_no_tasks(self):
         task_details = {}
         self.assertEquals(percent_complete(task_details), "")
-

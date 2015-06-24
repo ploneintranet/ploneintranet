@@ -46,22 +46,22 @@ class CaseManagerView(BrowserView):
         }
 
         for date in ['created', 'modified', 'due']:
-            if form.get('earliest_'+date) and form.get('latest_'+date):
+            if form.get('earliest_' + date) and form.get('latest_' + date):
                 query[date] = {
                     'query': (
-                        DateTime(form.get('earliest_'+date)),
-                        DateTime(form.get('latest_'+date))
+                        DateTime(form.get('earliest_' + date)),
+                        DateTime(form.get('latest_' + date))
                     ),
                     'range': 'min:max',
                 }
-            elif form.get('earliest_'+date):
+            elif form.get('earliest_' + date):
                 query[date] = {
-                    'query': DateTime(form.get('earliest_'+date)),
+                    'query': DateTime(form.get('earliest_' + date)),
                     'range': 'min',
                 }
-            elif form.get('latest_'+date):
+            elif form.get('latest_' + date):
                 query[date] = {
-                    'query': DateTime(form.get('latest_'+date)),
+                    'query': DateTime(form.get('latest_' + date)),
                     'range': 'max',
                 }
 
