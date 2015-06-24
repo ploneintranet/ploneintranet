@@ -86,13 +86,13 @@
                     <fieldset class="row">
                             <fieldset class="group six columns">
                                 <legend>From</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="start-day" placeholder="Date" value="" />
+                                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start-day" placeholder="Date" value="" />
                                 <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="" />
                             </fieldset>
 
                             <fieldset class="group six columns">
                                 <legend>To</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="end_date-day" placeholder="Date" value=""/>
+                                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end_date-day" placeholder="Date" value=""/>
                                 <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="end_date-time" placeholder="Time" value=""/>
                             </fieldset>
                     </fieldset>
