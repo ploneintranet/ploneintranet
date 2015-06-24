@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plone.app.discussion.interfaces import IConversation
-from plone.uuid.interfaces import IUUID
 from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.testing import IntegrationTestCase
-from zope.component import createObject
 from zope.component import getUtility
 
 
@@ -49,35 +46,6 @@ class TestToggleLikeView(IntegrationTestCase):
         self.assertEqual(len(user_likes), 1)
 
         # Toggle like for doc1 off
-        output = view()
-        user_likes = self.util.get_likes("content", self.user_id)
-        self.assertEqual(len(user_likes), 0)
-        self.assertIn('(0)', output)
-        self.assertIn('Like', output)
-
-    def test_like_discussion_item(self):
-        # test discussion-item
-        conversation = IConversation(self.doc1)
-        comment1 = createObject('plone.Comment')
-        conversation.addComment(comment1)
-        comment = [i for i in conversation.getComments()][0]
-        comment_id = IUUID(comment)
-
-        self.request.form['like_button'] = 'like'
-        self.request["REQUEST_METHOD"] = "POST"
-        view = api.content.get_view('toggle_like', comment, self.request)
-
-        # Toggle like for comment on
-        output = view()
-        self.assertIn('(1)', output)
-        self.assertIn('Unlike', output)
-        user_likes = self.util.get_likes("content", self.user_id)
-
-        self.assertTrue(
-            self.util.is_liked("content", comment_id, self.user_id))
-        self.assertEqual(len(user_likes), 1)
-
-        # Toggle like for comment off
         output = view()
         user_likes = self.util.get_likes("content", self.user_id)
         self.assertEqual(len(user_likes), 0)
