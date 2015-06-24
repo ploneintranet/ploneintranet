@@ -54,7 +54,7 @@
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
-                        <tal:user repeat="user following">
+                        <tal:user repeat="user python:following[:21]">
 						  <a href="${user/url}" class="pat-avatar">
 							<img src="${user/avatar_url}" alt=""
                                  title="${user/title}" />
@@ -62,7 +62,8 @@
                         </tal:user>
 					</nav>
 					<!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
-					<p class="portlet-footer">
+					<p class="portlet-footer"
+					   tal:condition="python:num_following > 14">
 						<a href="#person-following">Full list of people <b tal:replace="context/fullname" /> follows.</a>
 					</p>
 				</div>
@@ -73,7 +74,7 @@
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
-                        <tal:user repeat="user followers">
+                        <tal:user repeat="user python:followers[:21]">
 						  <a href="${user/url}" class="pat-avatar">
 							<img src="${user/avatar_url}" alt=""
                                  title="${user/title}" />
@@ -81,7 +82,8 @@
                         </tal:user>
 					</nav>
 					<!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
-					<p class="portlet-footer">
+					<p class="portlet-footer"
+					   tal:condition="python:num_followers > 14">
 						<a href="#person-followers">Full list of followers</a>
 					</p>
 				</div>
