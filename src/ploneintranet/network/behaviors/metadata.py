@@ -1,30 +1,34 @@
 from AccessControl.SecurityManagement import getSecurityManager
-from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from datetime import datetime
 from plone.app.dexterity import MessageFactory as _
 from plone.app.dexterity import PloneMessageFactory as _PMF
+from plone.app.dexterity.behaviors.metadata import MetadataBase
+from plone.app.dexterity.behaviors.metadata import DCFieldProperty
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.app.z3cform.widget import DatetimeFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import safe_unicode
 from plone.supermodel import model
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from z3c.form.widget import ComputedWidgetAttribute
 from zope import schema
-from zope.component import adapter
 from zope.component.hooks import getSite
 from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-from zope.schema.interfaces import ISequence
-from zope.schema.interfaces import IText
+
+# This is a copy/fork of plone.app.dexterity.behaviors.metadata
+# so we can plug personalized tagging into the Subject field.
+#
+# Rationale why this requires such an invasive fork, see:
+# https://community.plone.org/t/how-to-change-existing-dexterity-types-and-behaviors/219 # noqa
+#
+# To see the changes made do 'git diff 0b05bf4e metadata.py'
 
 # Behavior interfaces to display Dublin Core metadata fields on Dexterity
 # content edit forms.
@@ -255,95 +259,6 @@ class IDublinCore(IOwnership, IPublication, ICategorization, IBasic):
     """ Metadata behavior providing all the DC fields
     """
     pass
-
-
-@adapter(IDexterityContent)
-class MetadataBase(object):
-    """ This adapter uses DCFieldProperty to store metadata directly on an
-        object using the standard CMF DefaultDublinCoreImpl getters and
-        setters.
-    """
-
-    def __init__(self, context):
-        self.context = context
-
-
-_marker = object()
-
-
-class DCFieldProperty(object):
-    """Computed attributes based on schema fields.
-    Based on zope.schema.fieldproperty.FieldProperty.
-    """
-
-    def __init__(self, field, get_name=None, set_name=None):
-        if get_name is None:
-            get_name = field.__name__
-        self._field = field
-        self._get_name = get_name
-        self._set_name = set_name
-
-    def __get__(self, inst, klass):
-        if inst is None:
-            return self
-
-        attribute = getattr(inst.context, self._get_name, _marker)
-        if attribute is _marker:
-            field = self._field.bind(inst)
-            attribute = getattr(field, 'default', _marker)
-            if attribute is _marker:
-                raise AttributeError(self._field.__name__)
-        elif callable(attribute):
-            attribute = attribute()
-
-        if isinstance(attribute, DateTime):
-            # Ensure datetime value is stripped of any timezone and seconds
-            # so that it can be compared with the value returned by the widget
-            return datetime(*map(int, attribute.parts()[:6]))
-
-        if attribute is None:
-            return
-
-        if IText.providedBy(self._field):
-            return attribute.decode('utf-8')
-
-        if ISequence.providedBy(self._field):
-            if IText.providedBy(self._field.value_type):
-                return type(attribute)(
-                    item.decode('utf-8') for item in attribute
-                )
-
-        return attribute
-
-    def __set__(self, inst, value):
-        field = self._field.bind(inst)
-        field.validate(value)
-        if field.readonly:
-            raise ValueError(self._field.__name__, 'field is readonly')
-        if isinstance(value, datetime):
-            # The ensures that the converted DateTime value is in the
-            # server's local timezone rather than GMT.
-            value = DateTime(value.year, value.month, value.day,
-                             value.hour, value.minute)
-        elif value is not None:
-            if IText.providedBy(self._field):
-                value = value.encode('utf-8')
-
-            elif ISequence.providedBy(self._field):
-                if IText.providedBy(self._field.value_type):
-                    value = type(value)(
-                        item.encode('utf-8') for item in value
-                    )
-
-        if self._set_name:
-            getattr(inst.context, self._set_name)(value)
-        elif inst.context.hasProperty(self._get_name):
-            inst.context._updateProperty(self._get_name, value)
-        else:
-            setattr(inst.context, self._get_name, value)
-
-    def __getattr__(self, name):
-        return getattr(self._field, name)
 
 
 class Basic(MetadataBase):
