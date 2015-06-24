@@ -159,7 +159,7 @@ test:: ## Run all tests, including robot tests with a virtual X server
 ####################################################################
 # Documentation
 docs:
-	@cd docs && make html
+	@bin/sphinx-build -b html -d docs/doctrees -D latex_paper_size=a4 docs docs/html
 
 # Re-generate
 api-docs:
