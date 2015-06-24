@@ -1,5 +1,4 @@
 import logging
-import os
 import subprocess
 
 from pathlib import Path
@@ -8,6 +7,7 @@ from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.Five import BrowserView
 from zope.interface import alsoProvides
 
+import os
 from ploneintranet import api as pi_api
 
 logger = logging.getLogger(__name__)
@@ -17,6 +17,7 @@ def _parse_cmd_output(cmd):
     """
     Run the given arguments as a subprocess, and spilt the output into
     lines
+
     :param cmd: The command arguments to run
     :type cmd: list
     :return: The parsed output
@@ -61,6 +62,7 @@ class BaseDocConvView(BrowserView):
     def _find_binary(self):
         """
         Attempt to find fullpath to docsplit binary
+
         :return: The fullpath to the docsplit binary
         :rtype: str
         """
