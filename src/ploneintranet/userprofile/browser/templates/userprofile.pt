@@ -88,10 +88,10 @@
             </aside>
             <div id="main">
                 <nav class="tabs">
-                    <a href="#person-timeline" class="current">Timeline</a>
+                    <a href="#person-timeline" class="current" i18n:translate="">Timeline</a>
                     <a href="#person-info">Info</a>
-                    <a href="#person-followers" class="link-followers">Followers <sup tal:content="num_followers">12</sup></a>
-                    <a href="#person-following" class="link-following">Following <sup tal:content="num_following">8</sup></a>
+                    <a href="#person-followers" class="link-followers" i18n:translate="">Followers <sup tal:content="num_followers" i18n:name="num_followers">12</sup></a>
+                    <a href="#person-following" class="link-following" i18n:translate="">Following <sup tal:content="num_following" i18n:name="num_following">8</sup></a>
                 </nav>
                 <div class="pat-stacks">
                     <div class="activity-stream" id="person-timeline">
