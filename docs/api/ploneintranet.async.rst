@@ -1,45 +1,5 @@
-async Package
-=============
-
-:mod:`celeryconfig` Module
---------------------------
-
-.. automodule:: ploneintranet.async.celeryconfig
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`celerytasks` Module
--------------------------
-
-.. automodule:: ploneintranet.async.celerytasks
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`handlers` Module
-----------------------
-
-.. automodule:: ploneintranet.async.handlers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`indexers` Module
-----------------------
-
-.. automodule:: ploneintranet.async.indexers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`testing` Module
----------------------
-
-.. automodule:: ploneintranet.async.testing
-    :members:
-    :undoc-members:
-    :show-inheritance:
+ploneintranet.async package
+===========================
 
 Subpackages
 -----------
@@ -49,3 +9,47 @@ Subpackages
     ploneintranet.async.browser
     ploneintranet.async.tests
 
+Submodules
+----------
+
+ploneintranet.async.celerytasks module
+--------------------------------------
+
+.. automodule:: ploneintranet.async.celerytasks
+    :members:
+    :undoc-members:
+    :show-inheritance:
+.. autotask:: ploneintranet.async.celerytasks.generate_and_add_preview
+
+
+ploneintranet.async.handlers module
+-----------------------------------
+
+.. automodule:: ploneintranet.async.handlers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ploneintranet.async.indexers module
+-----------------------------------
+
+.. automodule:: ploneintranet.async.indexers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ploneintranet.async.interfaces module
+-------------------------------------
+
+.. automodule:: ploneintranet.async.interfaces
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ploneintranet.async
+:members:
+        :undoc-members:
+        :show-inheritance:
