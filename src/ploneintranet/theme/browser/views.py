@@ -48,6 +48,9 @@ class PersonalBarViewlet(BasePersonalBarViewlet):
 
     def update(self):
         super(PersonalBarViewlet, self).update()
-        member = self.portal_state.member()
-        userid = member.getId()
-        self.avatar_url = pi_api.userprofile.avatar_url(userid)
+        if not self.portal_state.anonymous():
+            member = self.portal_state.member()
+            userid = member.getId()
+            self.avatar_url = pi_api.userprofile.avatar_url(userid)
+        else:
+            self.avatar_url = None

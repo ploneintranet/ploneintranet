@@ -50,7 +50,7 @@ class AuthorView(BaseAuthorView):
         raise NotFound
 
 
-class MyProfileView(BaseAuthorView):
+class MyProfileView(BrowserView):
     """Helper view to redirect to current user's profile page"""
 
     def __call__(self):
@@ -61,3 +61,14 @@ class MyProfileView(BaseAuthorView):
                 profile.absolute_url()
             )
         raise Unauthorized
+
+
+class AvatarView(BrowserView):
+    """Helper view to render a user's avatar image"""
+
+    def __call__(self, size='profile'):
+        url = pi_api.userprofile.avatar_url(
+            profile=self.context,
+            size=size,
+        )
+        return self.request.response.redirect(url)

@@ -32,4 +32,12 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      name="avatar"
+      class=".userprofile.AvatarView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
 </configure>
