@@ -53,8 +53,14 @@
     </metal:task_fields>
 
 
-    <metal:event_fields define-macro="event_fields">
-      <fieldset class="vertical fancy"  tal:define="read_only python:False">
+    <metal:event_fields define-macro="event_fields"
+                        tal:define="read_only python:False">
+      <fieldset class="vertical fancy">
+        <label class="description">
+          Description
+          <textarea name="description" placeholder="Enter a description of the task"
+                    tal:attributes="disabled read_only" rows="6">${context/description}</textarea>
+        </label>
 
         <metal:extra-fields-top define-slot="extra-fields-top"/>
 
