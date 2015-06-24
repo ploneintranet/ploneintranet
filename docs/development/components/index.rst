@@ -5,13 +5,14 @@ Component Packages
 .. toctree::
     :maxdepth: 2
 
-    userprofiles
-    microblogstream
-    notifications
-    workspace
-    search
-    invitations
+    async
     filepreviews
+    invitations
+    microblogstream
     network
+    notifications
     pagerank
+    search
     themeswitcher
+    userprofiles
+    workspace
