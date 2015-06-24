@@ -9,20 +9,24 @@
 
   <include package=".browser" />
 
-  <include zcml:condition="installed scorched"
-           package=".solr" />
-
-  <include zcml:condition="not-installed scorched"
-           file="zcatalog.zcml" />
+  <include file="zcatalog.zcml" />
 
   <adapter name="friendly_type_name"
            factory=".indexers.friendly_type_name" />
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: Search"
+      title="Plone Intranet: -- (Search)"
       directory="profiles/default"
       description="Search for PloneIntranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- (Search uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstall Search for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body>
+  <body tal:define="can_add view/can_add">
     <aside class="sidebar left tagging-off" id="sidebar" >
 
       <div hidden="hidden" id="more-menu">
@@ -15,8 +15,8 @@
         </ul>
       </div>
 
-      <div id="sidebar-content" class="pat-stacks">
-        <div id="workspace-documents" tal:define="ws view/workspace; ws_url ws/absolute_url" >
+      <div id="sidebar-content" class="pat-stacks" tal:define="ws view/workspace; ws_view nocall:ws/@@view">
+        <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
               <div class="contextual buttons float-before" id="selector-contextual-functions">
@@ -48,7 +48,7 @@
 
               <div class="quick-functions">
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                <a title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
                 <!-- XXX: This is not yet completed -->
@@ -166,7 +166,6 @@ Supported types include (class names):
 - type-pdf
 
                 -->
-                
                 <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynamic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
                 -->
                 <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
@@ -190,38 +189,43 @@ Supported types include (class names):
               </fieldset>
             </form>
 
-            <div class="button-bar create-buttons">
-              <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                 i18n:translate="">Create document</a>
-              <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                 i18n:translate="">Create folder</a>
-            </div>
-            <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
-              <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
-                <label class="accessibility-options">
-                  <input type="file" name="file" multiple="multiple"/> Upload files
-                </label>
-              </fieldset>
-              <button type="submit" hidden="hidden">Upload</button>
-            </form>
+            <tal:can_add condition="can_add">
+              <div class="button-bar create-buttons">
+                <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                   i18n:translate="">Create document</a>
+                <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
+                   i18n:translate="">Create folder</a>
+              </div>
+              <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
+                <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
+                  <label class="accessibility-options">
+                    <input type="file" name="file" multiple="multiple"/> Upload files
+                  </label>
+                </fieldset>
+                <button type="submit" hidden="hidden">Upload</button>
+              </form>
+            </tal:can_add>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
               <ul class="menu">
-                <li>
-                  <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
-                </li>
-                <li>
-                  <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
-                </li>
-                <li>
-                  <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
-                </li>
+                <tal:can_add condition="can_add">
+                  <li>
+                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
+                  </li>
+                  <li>
+                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                  </li>
+                  <li>
+                    <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                  </li>
+                </tal:can_add>
                 <!-- This is commented until the functionality will be completed -->
                 <!--li>
                     <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
                     </li-->
               </ul>
             </div>
+
 
             <div hidden="hidden" id="selector-create-menu">
               <ul class="menu">
@@ -253,42 +257,103 @@ Supported types include (class names):
 
 
 
-        <div id="workspace-tickets" tal:define="tasks view/tasks">
-          <tal:no-tasks condition="not: tasks">
+        <div id="workspace-tickets" tal:define="tasks context/tasks">
+          <div class="button-bar functions" id="tasks-functions">
+
+            <div class="quick-functions">
+              <a title="Create new task"
+                 class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
+                 tal:attributes="href string:${ws/absolute_url}/add_task"
+                 tal:condition="view/can_add">Create task</a>
+            </div>
+          </div>
+          <tal:no-tasks condition="python:not ws.is_case and not tasks ">
             <p i18n:translate="no-task-found">No tasks created yet</p>
           </tal:no-tasks>
-          <tal:tasks condition="tasks">
-            <form action="#"
+          <tal:tasks condition="python:ws.is_case or tasks">
+            <form method="post" class="pat-autosubmit pat-inject"
                   tal:define="ws view/workspace"
-                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default"
-                  method="post" class="pat-autosubmit pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content && target: #document-content::before; source: .sidebar-status-message">
-              <fieldset class="object-list tasks pat-checklist">
-                <tal:task repeat="task tasks">
-                  <br/>
-                  <label>
-                    <input type="hidden" name="current-tasks:list" tal:attributes="value python: task['id']"/>
-                    <input type="checkbox" name="active-tasks:list"
-                           tal:attributes="value python: task['id']"
-                           tal:condition="python: task['checked']" checked="checked"/>
-                    <input type="checkbox" name="active-tasks:list"
-                           tal:attributes="value python: task['id']"
-                           tal:condition="python: not task['checked']"/>
-                    <a href="#"
-                       tal:attributes="title python: task['title'];
-                                       href python: task['url']"
-                       tal:content="python:task['content']"></a>
+                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default#global-statusmessage">
+
+              <tal:workspace_tasks tal:condition="not: ws/is_case">
+                <fieldset class="object-list tasks pat-checklist">
+                  <tal:task repeat="task tasks">
+                    <br/>
+                    <label>
+                      <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
+                      <input type="checkbox" name="active-tasks:list"
+                             tal:attributes="value task/id;
+                                             checked python: 'checked' if task['checked'] else ''"
+                             />
+                      <a class="pat-inject"
+                         data-pat-inject="source: #document-body; target: #document-body"
+                         tal:attributes="title task/title;
+                                         href task/url"
+                         tal:content="task/title"/>
+                    </label>
+                  </tal:task>
+                </fieldset>
+              </tal:workspace_tasks>
+
+              <tal:case_tasks condition="ws/is_case"
+                              define="milestones ws_view/metromap_sequence | nothing;
+                                      token context/@@authenticator/token;">
+                <tal:milestone repeat="milestone milestones">
+
+                  <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
+                            tal:attributes="id string:milestone-${milestone}">
+                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
+                    <tal:task repeat="task python:tasks[milestone]">
+                      <label>
+                        <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
+                        <input type="checkbox" name="active-tasks:list"
+                               tal:attributes="value task/id;
+                                               checked python:'checked' if task['checked'] else ''"
+                               />
+
+                        <a class="pat-inject"
+                           data-pat-inject="source: #document-body; target: #document-body"
+                           tal:attributes="title task/title; href task/url"
+                           tal:content="task/title"/>
+                      </label>
+                    </tal:task>
+                    <p class="button-bar">
+                      <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
+                         tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
+                         tal:condition="view/can_add">Create new task</a>
+                      <a class="small icon-stage success button"
+                         tal:condition="python:milestones[milestone]['enabled']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);">Close milestone</a>
+                      <a class="small icon-stage success button"
+                         tal:condition="python:milestones[milestone]['reopen_transition']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);">Reopen milestone</a>
+                    </p>
+                  </fieldset>
+                </tal:milestone>
+                <fieldset class="task-list pat-checklist">
+                  <h4 class="section-label">
+                    Unassigned
+                  </h4>
+                  <label tal:repeat="task python:tasks['unassigned']">
+                    <input type="checkbox" />
+                    <a class="pat-inject" title="Case task - unassigned" data-pat-inject="source: #document-body; target: #document-body; history: record"
+                       tal:content="task/title"
+                       tal:attributes="href task/url"/>
                   </label>
-                </tal:task>
-              </fieldset>
+                </fieldset>
+
+              </tal:case_tasks>
+
               <input type="hidden" name="section" value="task"/>
             </form>
+
           </tal:tasks>
         </div>
 
         <div id="workspace-events" tal:define="events view/events; ws view/workspace">
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
-              <a title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>
           <div class="content">

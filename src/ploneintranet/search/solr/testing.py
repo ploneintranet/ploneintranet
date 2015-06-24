@@ -7,13 +7,19 @@ import time
 
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 from plone.testing import Layer
-from plone.testing import z2
 from zope.component import getUtility
 import pkg_resources
 import requests
 
 from .. import testing
 
+try:
+    # Skip all SOLR tests and layers if SOLR has not been activated
+    # (by checking availability of 'scorched' package)
+    pkg_resources.get_distribution('scorched')
+    SOLR_ENABLED = True
+except pkg_resources.DistributionNotFound:
+    SOLR_ENABLED = False
 
 _DIST = pkg_resources.get_distribution('ploneintranet')
 
@@ -62,6 +68,9 @@ class SolrLayer(Layer):
         """Start Solr and poll until it is up and running.
         """
         super(SolrLayer, self).setUp()
+        if not SOLR_ENABLED:
+            return
+
         self._solr_cmd('start')
         # Poll Solr until it is up and running
         solr_ping_url = '{0}/admin/ping'.format(self.solr_url)
@@ -94,38 +103,44 @@ class SolrLayer(Layer):
         """Stop Solr.
         """
         super(SolrLayer, self).tearDown()
+        if not SOLR_ENABLED:
+            return
+
         self._solr_cmd('stop')
+
 
 SOLR_FIXTURE = SolrLayer()
 
+
 NamedBaseLayers = collections.namedtuple(
-    'NamedBaseLayers', ('solr', 'pisearch')
+    'NamedBaseLayers', ('pisearch', 'solr')
 )
 
 
 class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
 
-    defaultBases = NamedBaseLayers(
-        solr=SOLR_FIXTURE,
-        pisearch=testing.FIXTURE
-    )
+    defaultBases = NamedBaseLayers(testing.FIXTURE, SOLR_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
         super(PloneIntranetSearchSolrLayer, self).setUpZope(
             app,
             configuration_context
         )
+        if not SOLR_ENABLED:
+            return
+
         import ploneintranet.search.solr
+        self.loadZCML(package=ploneintranet.search.solr)
         self.loadZCML(package=ploneintranet.search.solr,
                       name='testing.zcml')
-        # Make sure collective.indexing patches get applied
-        z2.installProduct(app, 'collective.indexing')
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'collective.indexing')
         super(PloneIntranetSearchSolrLayer, self).tearDownZope(app)
 
     def testTearDown(self):
+        if not SOLR_ENABLED:
+            return
+
         from .interfaces import IMaintenance
         getUtility(IMaintenance).purge()
 
@@ -141,6 +156,11 @@ INTEGRATION_TESTING = IntegrationTesting(
 class IntegrationTestCase(testing.IntegrationTestCase):
 
     _last_response = NotImplemented
+
+    def setUp(self):
+        super(IntegrationTestCase, self).setUp()
+        if not SOLR_ENABLED:
+            self.skipTest('Skipping SOLR tests - SOLR not enabled')
 
     def failureException(self, msg):
         if isinstance(self._last_response, str):

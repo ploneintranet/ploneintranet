@@ -27,7 +27,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (Activitystream: Uninstall)"
+      title="Plone Intranet: -- (Activitystream uninstall)"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.activitystream package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

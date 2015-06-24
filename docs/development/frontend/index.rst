@@ -7,3 +7,4 @@ Front-end Design and Development
 
     prototype
     patterns
+    translations

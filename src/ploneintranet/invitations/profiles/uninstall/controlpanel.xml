@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object
+    name="portal_controlpanel"
+    purge="False">
+
+    <configlet
+        title="Invitations"
+        remove="True" />
+
+</object>

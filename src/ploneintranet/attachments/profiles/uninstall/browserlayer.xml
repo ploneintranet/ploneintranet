@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.attachments"
+    interface="ploneintranet.attachments.interfaces.IPloneintranetAttachmentsLayer"
+    remove="True"
+  />
+</layers>

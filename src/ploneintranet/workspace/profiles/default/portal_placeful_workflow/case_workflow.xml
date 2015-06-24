@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="case_workflow" meta_type="WorkflowPolicy">
+ <property name="title">Case Workflow</property>
+ <bindings>
+  <type type_id="ploneintranet.workspace.case">
+   <bound-workflow workflow_id="case_workflow"/>
+  </type>
+ </bindings>
+</object>

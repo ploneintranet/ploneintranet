@@ -1,6 +1,6 @@
-""" Interfaces for search API
-"""
-from zope.interface import taggedValue, Interface
+# -*- coding: utf-8 -*-
+"""Interfaces for search API."""
+from zope.interface import Interface
 from zope import schema
 
 from . import _
@@ -19,12 +19,10 @@ class ISiteSearch(Interface):
               end_date=None,
               start=0,
               step=None):
-        """
-        Perform query against the backend with given phrase and optional
-        facet choices.
+        """Perform a query with the given `phase` and options.
 
-        Facets parameter must be given as a dictionary keyed on facet name with
-        value being a list of chosen values for that facet.
+        `filters` parameter must be given as a mapping keyed on
+        filter name with values being a list of chosen values for that filter.
 
         :param phrase: The phrase to search for.
         :type phrase: str
@@ -57,13 +55,13 @@ class ISearchResult(Interface):
     highlighted_summary = schema.Text(
         title=_(u'A highlighted summary provided by the backend'))
 
-    preview_image_url = schema.ASCIILine(
-        title=_(u'The absolute URL for a preview image '
-                u'generated for the indexed document'))
-
     preview_image_path = schema.ASCIILine(
         title=_(u'The relative path to the stored preview image of'
                 u'the canonical document'))
+
+    preview_image_url = schema.ASCIILine(
+        title=_(u'The absolute URL for a preview image '
+                u'generated for the indexed document'))
 
     path = schema.ASCIILine(
         title=_(u'The relative path to the canonical document'))
@@ -72,40 +70,9 @@ class ISearchResult(Interface):
         title=_(u'The absolute URL of the indexed document '
                 u'based on the path and the host in the current request'))
 
-    taggedValue('index_names', dict(Title='title',
-                                    Description='description'))
-
-
-class IQueryFilterFields(Interface):
-    """Fields which can be used to filter a query."""
-
-    friendly_type_name = schema.ASCIILine(title=_(u'Friendly type'))
-
-    tags = schema.ASCIILine(title=_(u'Tags'))
-
-    portal_type = schema.ASCIILine(title=_(u'Portal type'))
-
-
-class IFacetFields(IQueryFilterFields):
-    """Attributes that will be faceted."""
-
 
 class ISearchResponse(Interface):
-    """Defines a common API for search query responses.
-
-    Iterating over this object will yield search result objects
-    conforming to `ISearchResult`.
-
-    :ivar results: An iterable of ISearchResult objects
-    :ivar spell_corrected_search: The search string with any spelling
-        corrections replaced
-    :ivar: facets: A dictionary keyed on facet field names with values of the
-        list of available values for each facet
-    :ivar total_results: Count of the total results matching the search query
-    """
-
-    results = schema.Iterable(
-        title=_(u'The SearchResults returned from a query'))
+    """Defines a common API for search query responses."""
 
     spell_corrected_search = schema.TextLine(
         title=_(u'Spell corrected search string'))
@@ -121,9 +88,3 @@ class ISearchResponse(Interface):
 
         Iteratating over this object should yield search results.
         """
-
-
-class IServerTool(Interface):
-
-    commands = schema.List(
-        description=u'Return the `click` command objects runnable.')

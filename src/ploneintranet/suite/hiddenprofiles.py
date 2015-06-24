@@ -1,34 +1,44 @@
-from zope.interface import implements
-from Products.CMFQuickInstallerTool.interfaces import INonInstallable
+# -*- coding: utf-8 -*-
+from Products.CMFPlone.interfaces import INonInstallable as \
+    INonInstallableProfiles
+from Products.CMFQuickInstallerTool.interfaces import INonInstallable as \
+    INonInstallableProducts
+from zope.interface import implementer
 
 
-class HiddenProfiles(object):
-    """Show only ploneintranet.suite in Plone quickinstaller UI.
-    Hide all other ploneintranet.* packages.
-    Use the ZMI generic_setup import if you do want these.
-
-    Hiding is on a package level only.
-    Within ploneintranet.suite the first alphabetical entry only
-    is shown, the rest is hidden. That usually means :default wins.
-    http://stackoverflow.com/questions/10460003/plone-hiding-add-ons-from-site-setup
-    """
-    implements(INonInstallable)
+@implementer(INonInstallableProducts)
+class HiddenProducts(object):
 
     def getNonInstallableProducts(self):
-        """List all ploneintranet.* except ploneintranet.suite"""
-        return ['ploneintranet.activitystream',
-                'ploneintranet.attachments',
-                'ploneintranet.core',
-                'ploneintranet.docconv.client',
-                'ploneintranet.invitations',
-                'ploneintranet.messaging',
-                'ploneintranet.microblog',
-                'ploneintranet.notifications',
-                'ploneintranet.network',
-                'ploneintranet.pagerank',
-                'ploneintranet.simplesharing',
-                'ploneintranet.socialsuite',
-                'ploneintranet.socialtheme',
-                'ploneintranet.theme',
-                'ploneintranet.todo',
-                'ploneintranet.workspace']
+        """All ploneintranet add-ons are installable"""
+        return []
+
+
+@implementer(INonInstallableProfiles)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Hide some profiles from initial site-creation and quickinstaller"""
+        return [
+            'ploneintranet.suite:uninstall',
+            'ploneintranet.activitystream:uninstall',
+            'ploneintranet.attachments:uninstall',
+            'ploneintranet.core:default',
+            'ploneintranet.core:uninstall',
+            'ploneintranet.docconv.client:uninstall',
+            'ploneintranet.invitations:uninstall',
+            'ploneintranet.messaging:uninstall',
+            'ploneintranet.microblog:uninstall',
+            'ploneintranet.notifications:uninstall',
+            'ploneintranet.network:uninstall',
+            'ploneintranet.search:uninstall',
+            'ploneintranet.socialsuite:default',
+            'ploneintranet.socialsuite:demo',
+            'ploneintranet.socialsuite:minimal',
+            'ploneintranet.socialsuite:uninstall',
+            'ploneintranet.socialtheme:default',
+            'ploneintranet.theme:uninstall',
+            'ploneintranet.todo:uninstall',
+            'ploneintranet.userprofile:uninstall',
+            'ploneintranet.workspace:uninstall',
+        ]

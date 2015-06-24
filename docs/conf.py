@@ -35,6 +35,7 @@ extensions = [
     #'sphinxcontrib_robotframework',
     'sphinx.ext.autosummary',
     'sphinxcontrib.spelling',
+    'sphinxcontrib.zopeext.autointerface',
     ]
 
 autodoc_default_flags = [

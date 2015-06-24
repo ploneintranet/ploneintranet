@@ -1,12 +1,9 @@
-from datetime import datetime
-
 from plone import api
 from plone.batching import Batch
 from zope.component import adapter
 from zope.interface import implementer
 
 from . import base
-from .interfaces import IQueryFilterFields
 from .interfaces import ISiteSearch
 from .interfaces import ISearchResponse
 from .interfaces import ISearchResult
@@ -16,52 +13,53 @@ from .interfaces import ISearchResult
 class SiteSearch(base.SiteSearch):
     """Example implementation of ISiteSearch using the Plone catalog."""
 
-    def query(self, phrase, filters=None, start_date=datetime.min,
-              end_date=datetime.max, start=0, step=None):
-        """
-        Query the catalog using passing filters as kwargs
-        and phrase against SearchableText.
+    _apply_facets = base.NoOpQueryMethod()
+    _apply_spellchecking = base.NoOpQueryMethod()
+    _apply_security = base.NoOpQueryMethod()
 
-        Also limit the search by the date range given by start_date and
-        end_date
+    def _create_query_object(self, phrase):
+        # Poor man's partial word matching
+        phrase = phrase.strip()
+        if not phrase.endswith('*'):
+            phrase = phrase + '*'
+        return dict(SearchableText=phrase)
 
-        :param phrase: The string to pass to SearchableText
-        :type phrase: str
-        :param filters: The filters to filter results by
-        :type filters: dict
-        :param start_date: Earliest created date for results
-        :type start_date: datetime.datetime
-        :param end_date: Most recent created date for results
-        :type end_date: datetime.datetime
-        :param start: The offset position in results to start from
-        :type start: int
-        :param step: The maximum number of results to return
-        :type step: int
-        :returns: The results as a `SearchResponse` object
-        :rtype: `SearchResponse`
-        """
-        query = {}
-        if filters is None:
-            filters = {}
-        self._validate_query_fields(filters, IQueryFilterFields)
+    def _apply_debug(self, query):
+        from pprint import pprint
+        pprint(query)
+        return query
+
+    def _apply_filters(self, query, filters):
+        query = dict(query)
         tags = filters.get('tags')
         if tags is not None:
             query['Subject'] = filters.pop('tags')
-        if step is None:
-            step = 100
-        catalog = api.portal.get_tool('portal_catalog')
-        date_range_query = {
-            'query': (start_date, end_date),
-            'range': 'min:max'
-        }
-        query.update({
-            'SearchableText': phrase,
-            'created': date_range_query
-        })
         query.update(filters)
+        return query
+
+    def _apply_date_range(self, query, start_date=None, end_date=None):
+        query = dict(query, created=dict.fromkeys(('query', 'range')))
+        created = query['created']
+        if all((start_date, end_date)):
+            created['query'] = (start_date, end_date)
+            created['range'] = 'min:max'
+        elif start_date is not None:
+            created['query'] = start_date
+            created['range'] = 'min'
+        else:
+            created['query'] = end_date
+            created['range'] = 'max'
+        return query
+
+    def _paginate(self, query, start, step):
+        return dict(query, batch_start=start, batch_step=step)
+
+    def _execute(self, query, debug=False, **kw):
+        start = query.pop('batch_start', 0)
+        step = query.pop('batch_step', 100)
+        catalog = api.portal.get_tool('portal_catalog')
         brains = catalog.searchResults(query)
-        batch = Batch(brains, step, start)
-        return ISearchResponse(batch)
+        return Batch(brains, step, start)
 
 
 @implementer(ISearchResponse)
@@ -75,20 +73,24 @@ class SearchResponse(base.SearchResponse):
     def __init__(self, batched_results):
         all_results = batched_results._sequence
         super(SearchResponse, self).__init__(
-            (ISearchResult(result) for result in batched_results)
+            (SearchResult(result, self) for result in batched_results)
         )
         self.total_results = batched_results.sequence_length
         self.facets = {
             'friendly_type_name': {
-                x['friendly_type_name'] for x in all_results
+                x['friendly_type_name']
+                for x in all_results
+                if x['friendly_type_name']
             },
-            'tags': {y for x in all_results for y in x['Subject']},
+            'tags': {y for x in all_results for y in x['Subject'] if y},
         }
 
 
 @implementer(ISearchResult)
 class SearchResult(base.SearchResult):
-    """Adapter for a ZCatalog search result."""
+    """Build a Search result from a ZCatalog brain
+    and an ISearchResponse
+    """
 
     @property
     def path(self):

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Base module for unittesting ploneintranet.search"""
+"""Base module for unittesting ploneintranet.search."""
 from contextlib import contextmanager
-
-import pkg_resources
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app import testing
@@ -10,6 +8,7 @@ from plone import api
 import unittest2 as unittest
 import ploneintranet.search
 import ploneintranet.docconv.client
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 
 TEST_USER_1_NAME = 'icarus'
@@ -21,7 +20,7 @@ TEST_USER_1_EMAIL = 'icarus@ploneintranet.org'
 def login_session(username):
     """Temporarily login as another user.
 
-    Re-loggin the previous user after exiting the context.
+    Re-logging-in the previous user after exiting the context.
     """
     portal = api.portal.get()
     prev_login = None
@@ -39,17 +38,11 @@ def login_session(username):
 
 class PloneintranetSearchLayer(testing.PloneSandboxLayer):
 
-    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,
+                    PLONEINTRANET_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=ploneintranet.search)
-        # self.loadZCML(name='testing.zcml',
-        #               package=ploneintranet.search)
-        from zope.configuration.xmlconfig import testxmlconfig
-        path = pkg_resources.resource_filename('ploneintranet.search',
-                                               'testing.zcml')
-        with open(path) as fp:
-            testxmlconfig(fp)
         self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):

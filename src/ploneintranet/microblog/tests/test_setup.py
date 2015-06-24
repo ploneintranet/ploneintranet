@@ -44,6 +44,9 @@ class TestInstall(unittest.TestCase):
                                         container=self.portal)
         self.assertIn(testfolder.id, self.portal.objectIds())
 
+    def test_tool_added(self):
+        self.assertIn('ploneintranet_microblog', self.portal)
+
 
 class TestUninstall(unittest.TestCase):
 
@@ -66,3 +69,6 @@ class TestUninstall(unittest.TestCase):
         resource_ids = self.portal.portal_css.getResourceIds()
         for id in CSS:
             self.assertNotIn(id, resource_ids, '{0} not removed'.format(id))
+
+    def test_tool_removed(self):
+        self.assertNotIn('ploneintranet_microblog', self.portal)

@@ -14,7 +14,7 @@ def post_install(context):
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy
     """
-    marker = 'ploneintranet-workspace.marker'
+    marker = 'ploneintranet.workspace_default.txt'
     if context.readDataFile(marker) is None:
         return
 
@@ -64,7 +64,10 @@ def post_install(context):
 
     if default_types:
         # Folders should be state-less!
-        default_types = [x for x in default_types if x not in ('Folder', )]
+        # Todo items use todo_workflow
+        default_types = [
+            x for x in default_types if x not in ('Folder', 'todo')]
         pwftool = api.portal.get_tool('portal_placeful_workflow')
         policy = pwftool['ploneintranet_policy']
+
         policy.setChainForPortalTypes(default_types, ('(Default)',))

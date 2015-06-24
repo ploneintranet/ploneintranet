@@ -5,6 +5,14 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ploneintranet.search.solr.tests">
 
+  <include package="ploneintranet.search.solr"
+           file="meta.zcml" />
+
+  <solr:connection host="localhost"
+                   port="8984"
+                   basepath="/solr"
+                   core="core1" />
+
   <subscriber
       for="Products.CMFCore.interfaces.IContentish
            zope.lifecycleevent.interfaces.IObjectModifiedEvent"
@@ -15,6 +23,12 @@
       for="Products.CMFCore.interfaces.IContentish
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".tests.subscribers.on_tests_delete_content"
+      />
+  
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".tests.subscribers.on_tests_add_content"
       />
   
   <subscriber

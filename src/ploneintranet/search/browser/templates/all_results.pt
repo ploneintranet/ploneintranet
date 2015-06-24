@@ -124,7 +124,7 @@
                     </a>
                 </dd> -->
                 <!-- Next generated search results of various content/mime types: -->
-                <tal:result repeat="result search_response/results">
+                <tal:result repeat="result search_response">
                 <dt class="title">
                     <a href="{{ result.url }}"
                        tal:attributes="href result/url"
@@ -161,10 +161,18 @@
                     </a>
                     </tal:preview>
 
-                    <p class="fragment"
-                       tal:condition="result/description"
-                       tal:content="result/description">
-                    </p>
+		    <tal:highlights condition="result/highlighted_summary">
+			<p class="fragment"
+			   tal:content="structure result/highlighted_summary">
+			</p>
+		    </tal:highlights>
+		    <tal:nohighlights 
+			 condition="not: result/highlighted_summary">
+			<p class="fragment"
+			   tal:condition="result/description"
+			   tal:content="result/description">
+			</p>
+		    </tal:nohighlights>
                     <a href="{{ result.url }}" class="link"
                        tal:attributes="href result/url"
                        tal:content="result/path">
@@ -173,6 +181,11 @@
                 </dd>
                 </tal:result>
                 </dl>
+		<p tal:define="next_url python: 
+			       view.next_page_url(search_response.total_results)"
+		   tal:condition="next_url">
+		    <a href="${next_url}">More results</a>
+		</p>
             </div>
             </div>
         </div>

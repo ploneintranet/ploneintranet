@@ -39,6 +39,10 @@ class SearchResponse(base.SearchResponse):
     _spelling_suggestion = None
     _facets = None
 
+    def __iter__(self):
+        for doc in self.context:
+            yield SearchResult(doc, self)
+
     def _unpack_facets(self):
         facet_fields = self.context.facet_counts.facet_fields
         named_facets = {}
@@ -78,6 +82,9 @@ class SearchResponse(base.SearchResponse):
 
 @implementer(ISearchResult)
 class SearchResult(base.SearchResult):
+    """Build a Search result from a scorched doc (dict)
+    and an ISearchResponse
+    """
 
     @property
     def path(self):

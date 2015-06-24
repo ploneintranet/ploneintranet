@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from ploneintranet.todo.testing import IntegrationTestCase
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from ploneintranet.todo.behaviors import ITodo
-import zope.event
+from ploneintranet.todo.testing import IntegrationTestCase
 from zope.lifecycleevent import ObjectModifiedEvent
+
+import zope.event
 
 
 class TestTodo(IntegrationTestCase):
@@ -14,9 +15,10 @@ class TestTodo(IntegrationTestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         obj = api.content.create(
-            type='simpletodo',
+            type='todo',
             title='todo1',
-            container=self.portal)
+            container=self.portal,
+        )
         todo = ITodo(self.portal.todo1)
         todo.assignee = TEST_USER_ID
         event = ObjectModifiedEvent(obj)

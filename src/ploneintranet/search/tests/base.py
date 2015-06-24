@@ -1,5 +1,6 @@
 import abc
 import collections
+import datetime
 from functools import partial
 
 from plone import api
@@ -35,34 +36,57 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
         container = self.layer['portal']
-        create_doc = partial(self._create_content,
-                             type='Document',
-                             container=container,
-                             safe_id=False)
-        self.doc1 = create_doc(
+        self.create_doc = partial(self._create_content,
+                                  type='Document',
+                                  container=container,
+                                  safe_id=False)
+
+        self.doc1 = self.create_doc(
             title=u'Test Doc 1',
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
-            subject=(u'test', u'my-tag',),
+            subject=(u'test', u'my-tag'),
             safe_id=False
         )
-        self.doc2 = create_doc(
+        self.doc1.creation_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
+
+        self.doc2 = self.create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
-                         u'Please let some stuff be indexed.'),
-            subject=(u'test', u'my-other-tag',),
+                         u'Please let some stuff be indexed. '),
+            subject=(u'test', u'my-other-tag'),
         )
-        self.doc3 = create_doc(
+        self.doc2.creation_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
+
+        self.doc3 = self.create_doc(
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
-                u'which may leave the casual reader perplexed.'),
+                u'which may leave the casual reader perplexed. '
+                u'Nothing to do with the weather.')
         )
-        self.doc4 = create_doc(
+        self.doc3.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+
+        self.doc4 = self.create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
+        self.doc4.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+
+        self.doc5 = self.create_doc(
+            title=u'Sorted and indexed.',
+            description=u'Not relevant',
+            subject=(u'solr', u'boost', u'values')
+        )
+        self.doc5.creation_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
+
+        self.doc6 = self.create_doc(
+            title=u'Another relevant title',
+            description=u'Is Test Doc 2 Sorted and indexed?',
+            subject=(u'abra', u'cad', u'abra')
+        )
+        self.doc6.creation_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
@@ -80,7 +104,7 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         result = next(iter(response), None)
         self.assertIsNotNone(result)
 
-    def test_reponse_iterable(self):
+    def test_response_iterable(self):
         util = self._make_utility()
         response = util.query('hopefully')
         self._check_type_iterable(response)
@@ -106,13 +130,20 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
     def test_query_phrase_only(self):
         util = self._make_utility()
         response = self._query(util, 'hopefully')
+        self.assertEqual(response.total_results, 1)
         result = next(iter(response), None)
         self.assertIsNotNone(result)
         self.assertEqual(result.title, self.doc1.Title())
         self.assertEqual(result.url, self.doc1.absolute_url())
-        self.assertEqual(response.total_results, 1)
         self.assertEqual(set(response.facets['friendly_type_name']), {'Page'})
         self.assertEqual(set(response.facets['tags']), {u'test', u'my-tag'})
+
+    def test_query_partial_match(self):
+        util = self._make_utility()
+        response = self._query(util, 'hope')
+        self.assertEqual(response.total_results, 1)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 3)
 
     def test_query_with_empty_filters(self):
         util = self._make_utility()
@@ -120,6 +151,41 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         expected_facets = {u'test', u'my-tag', u'my-other-tag'}
         self.assertSetEqual(response.facets['tags'], expected_facets)
         self.assertSetEqual(response.facets['friendly_type_name'], {'Page'})
+
+    def test_query_filter_by_friendly_type(self):
+        self.image1 = self.create_doc(
+            title=u'A Test image',
+            type='Image',
+            description=u'Info about this image',
+        )
+        util = self._make_utility()
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Image', ]}
+        )
+        self.assertEqual(response.total_results, 1)
+        result = next(iter(response))
+        self.assertEqual(result.title, self.image1.title)
+
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Page', ]}
+        )
+        self.assertEqual(response.total_results, 3)
+        self.assertEqual(
+            set([x.friendly_type_name for x in response]),
+            {'Page'},
+        )
+
+        response = util.query(
+            u'Test',
+            filters={'friendly_type_name': ['Image', 'Page', ]}
+        )
+        self.assertEqual(response.total_results, 4)
+        self.assertEqual(
+            set([x.friendly_type_name for x in response]),
+            {'Page', 'Image', },
+        )
 
     def test_query_facets_invalid(self):
         util = self._make_utility()
@@ -169,9 +235,10 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             response = self._query(util, u'Another')
             self.assertEqual(response.total_results, expected_count)
 
-        query_check_total_results(1)
+        query_check_total_results(2)
         with api.env.adopt_roles(roles=['Manager']):
             self._delete_content(self.doc2)
+            self._delete_content(self.doc6)
         assert self.doc2.getId() not in self.layer['portal'].keys()
         query_check_total_results(0)
 
@@ -181,7 +248,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(response.spell_corrected_search, expect_suggestion)
 
     def test_spell_corrected_search(self):
-        self._check_spellcheck_response(None, None)
         self._check_spellcheck_response('', None)
         self._check_spellcheck_response(u'', None)
         self._check_spellcheck_response(u'*:*', None)
@@ -198,6 +264,57 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self._check_spellcheck_response(u'Perplaxed', u'Perplexed')
         self._check_spellcheck_response(u"Reining cots n' dags",
                                         u"Raining cats n' dogs")
+
+    def test_date_range_query(self):
+        util = self._make_utility()
+        query = util.query
+        phrase = u'document'
+        (min_dt, max_dt) = (datetime.datetime.min, datetime.datetime.max)
+
+        # Start date in the future yields no results
+        response = query(phrase, start_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        # Start in the future, no results
+        response = query(phrase, start_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        # Same start and end date in the future yields no results
+        response = query(phrase, start_date=max_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 0)
+
+        # Same start and end date in the past yields no results
+        response = query(phrase, start_date=min_dt, end_date=min_dt)
+        self.assertEqual(response.total_results, 0)
+
+        response = query(u'Dreaming', start_date=min_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 1)
+        result = next(iter(response))
+        self.assertEqual(result.title, u'Lucid Dreaming')
+
+        response = query(phrase, start_date=min_dt, end_date=max_dt)
+        self.assertEqual(response.total_results, 2)
+
+        result_titles = list(result.title for result in response)
+        expected_titles = [doc.Title() for doc in (self.doc2, self.doc1)]
+        self.assertEqual(set(result_titles),
+                         set(expected_titles))
+
+    def test_relevancy(self):
+        util = self._make_utility()
+        query = util.query
+        response = query(u'weather')
+        expected_order = [self.doc4.Title(), self.doc3.Title()]
+        actual_order = [result.title for result in response]
+        self.assertEqual(actual_order, expected_order)
+
+        response = query(u'Test Doc 2')
+        expected_order = [self.doc5.Title(), self.doc6.Title()]
+        actual_order = [result.title for result in response]
+
+        response = query(u'Relevant')
+        expected_order = [self.doc5.Title(), self.doc6.Title()]
+        actual_order = [result.title for result in response]
 
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
@@ -220,6 +337,8 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
     def test_review_state_changes(self):
         """Does the search respect view permissions?"""
         api.content.transition(obj=self.doc2, transition='publish')
+        self.doc2.reindexObject()
+
         testing.logout()
         util = self._make_utility()
 

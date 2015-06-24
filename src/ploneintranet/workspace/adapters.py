@@ -1,11 +1,18 @@
+from Products.CMFCore.Expression import getExprContext
 from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import IFolderish
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
+    WorkflowPolicyConfig_id
 from borg.localrole.default_adapter import DefaultLocalRoleAdapter
 from borg.localrole.interfaces import ILocalRoleProvider
+from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
-from zope.interface import implements
+from ploneintranet.workspace import MessageFactory
+from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
+from zope.interface import implements
 from Acquisition import aq_inner
 from Acquisition import Implicit
 from BTrees.OOBTree import OOBTree
@@ -90,6 +97,11 @@ class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
         # check we are not on the workspace itself
         if IHasWorkspace.providedBy(context):
             return current_roles
+
+        # ignore if we are not Owner
+        if 'Owner' not in current_roles:
+            return current_roles
+
         # otherwise we should acquire the workspace and check out roles
         workspace = getattr(context, 'acquire_workspace', lambda: None)()
         if workspace is None:
@@ -98,7 +110,155 @@ class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
         workspace_roles = api.user.get_roles(obj=workspace)
         if 'SelfPublisher' in workspace_roles and 'Owner' in current_roles:
             current_roles.append('Reviewer')
+
         return current_roles
+
+
+class MetroMap(object):
+    implements(IMetroMap)
+    adapts(IFolderish)
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def _metromap_workflow(self):
+        """All Case Workspaces should have a placeful workflow. In order to
+        render the metromap, this workflow needs to have a metromap_transitions
+        variable which determines the order of the milestones (states) and the
+        transitions between them.
+
+        Return the workflow required to render the metromap.
+        """
+        policy_conf = self.context.get(WorkflowPolicyConfig_id)
+        if policy_conf is None:
+            return
+        policy = policy_conf.getPolicyIn()
+        policy_id = policy.getId()
+        wft = api.portal.get_tool('portal_workflow')
+        workflow = wft.getWorkflowById(policy_id)
+        if workflow and workflow.variables.get("metromap_transitions", False):
+            return workflow
+
+    def get_available_metromap_workflows(self):
+        """Return all globally available workflows with the
+        metromap_transitions variable.
+        """
+        wft = api.portal.get_tool('portal_workflow')
+        metromap_workflows = [
+            i for i in wft.objectValues()
+            if i.variables.get("metromap_transitions", False)
+        ]
+        if metromap_workflows == []:
+            return None
+        return metromap_workflows
+
+    @property
+    def _metromap_transitions(self):
+        """A data structure is stored as a TAL expression on a workflow which
+        determines the sequence of workflow states/milestones used to render
+        the metromap.
+
+        We need to evaluate the expression and returns the data structure.
+
+        It consists of a list of dicts each with the workflow state, the
+        transition to the next milestone in the metromap, and the
+        transition required to return to the milestone:
+        [{
+          'state': 'new',
+          'next_transition': 'finalise',
+          'reopen_transition': 'reset'
+        }, {
+          'state': 'complete',
+          'next_transition': 'archive',
+          'reopen_transition': 'finalise'
+        }, {
+          'state': 'archived'}
+        ]
+        """
+        metromap_workflow = self._metromap_workflow
+        if metromap_workflow is None:
+            return []
+        mmap = metromap_workflow.variables["metromap_transitions"]
+        tal_expr = mmap.default_expr
+        expr_context = getExprContext(self.context)
+        metromap_transitions = tal_expr(expr_context)
+        return metromap_transitions
+
+    @property
+    def metromap_sequence(self):
+        """Return the data structure required for displaying the metromap,
+        derived from the configuration in the metromap_transitions variable of
+        the associated workflow.
+
+        An OrderedDict is used to provide details such as whether a milestone
+        has already been finished, the transition required to close the current
+        milestone, and the transition required to reopen the previous
+        milestone.
+
+        In the 'complete' workflow state / milestone it returns the following:
+        OrderedDict([(
+          'new', {
+            'transition_title': u'Transfer To Department',
+            'title': u'New',
+            'finished': True,  # This milestone has been finished
+            'enabled': False,  # Don't show the [Close milestone] button
+            'reopen_transition': 'reset',  # For [Reopen milestone]
+            'transition_id': 'transfer_to_department'
+          }), (
+          'complete', {
+            'transition_title': u'Submit',
+            'title': u'Content Complete',
+            'finished': False,  # This milestone isn't finished yet
+            'enabled': True,    # Show [Close milestone]
+            'reopen_transition': False,
+            'transition_id': 'submit'
+          }), (
+          'archived', {
+            'transition_title': '',
+            'title': u'Archived',
+            'enabled': False,
+            'finished': False,
+            'reopen_transition': False,
+            'transition_id': None
+          })
+        ])
+
+        """
+        cwf = self._metromap_workflow
+        wft = api.portal.get_tool("portal_workflow")
+        metromap_list = self._metromap_transitions
+        if not metromap_list:
+            return {}
+
+        current_state = wft.getInfoFor(self.context, "review_state")
+        next_available_transition = [
+            i.get('next_transition') for i in metromap_list
+            if i['state'] == current_state and 'next_transition' in i
+        ]
+        finished = True
+        sequence = OrderedDict()
+        for index, mmap in enumerate(metromap_list):
+            state = mmap['state']
+            if state == current_state:
+                finished = False
+            next_transition = mmap.get('next_transition')
+            reopen = False
+            if index + 1 < len(metromap_list):
+                next_state = metromap_list[index + 1]["state"]
+                reopen = next_state == current_state
+            sequence[state] = {
+                'title': MessageFactory(cwf.states.get(state).title),
+                'transition_id': next_transition,
+                'transition_title': '',
+                'reopen_transition': reopen and mmap['reopen_transition'],
+                'enabled': next_transition in next_available_transition,
+                'finished': finished,
+            }
+            if next_transition:
+                sequence[state]['transition_title'] = MessageFactory(
+                    cwf.transitions.get(next_transition).title)
+        return sequence
 
 
 class GroupingStorageValues(
