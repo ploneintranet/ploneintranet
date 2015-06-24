@@ -30,13 +30,13 @@ Allan can follow Christian
     And I can follow the link to my profile
     And I can see Christian Stoney in the list of users being followed
 
-Allan can unfollow Alice
-    Given I am logged in as the user allan_neece
-    Then I can view the profile for user alice_lindstrom
-    And I can unfollow Alice Lindström
+Dollie can unfollow Guy
+    Given I am logged in as the user dollie_nocera
+    Then I can view the profile for user guy_hackey
+    And I can unfollow Guy Hackey
     Then I can open the personal tools menu
     And I can follow the link to my profile
-    And I cannot see Alice Lindström in the list of users being followed
+    And I cannot see Guy Hackey in the list of users being followed
 
 *** Keywords ***
 
