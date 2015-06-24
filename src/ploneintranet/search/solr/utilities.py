@@ -117,7 +117,7 @@ class SiteSearch(base.SiteSearch):
         AND (allowedRolesAndUsers=... OR allowedRolesAndUsers=..) ...
 
     """
-
+    connection = None
     phrase_field_boosts = base.RegistryProperty('phrase_field_boosts',
                                                 prefix=__package__)
 
@@ -146,8 +146,12 @@ class SiteSearch(base.SiteSearch):
         :returns: A query object.
         :rtype query: ploneintranet.search.solr.search.Search
         """
-        interface = IConnection(getUtility(IConnectionConfig))
-        Q = interface.Q
+        # Re-use existing connection if setup
+        # (scorched/requests do pooling for us)
+        if self.connection is None:
+            self.connection = IConnection(getUtility(IConnectionConfig))
+
+        Q = self.connection.Q
         phrase_query = Q()
         boosts = self.phrase_field_boosts
         for phrase_field in self.phrase_fields:
@@ -156,7 +160,7 @@ class SiteSearch(base.SiteSearch):
             if boost is not None:
                 phrase_q **= boost
             phrase_query |= phrase_q
-        return IQuery(interface).query(Q(phrase_query))
+        return IQuery(self.connection).query(Q(phrase_query))
 
     def _apply_filters(self, query, filters):
         interface = query.interface

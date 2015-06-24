@@ -6,8 +6,14 @@ from Products.CMFPlone.utils import safe_unicode
 from zope.component import getMultiAdapter
 from z3c.form.interfaces import IValidator
 from plone import api as plone_api
+from plone.api.exc import InvalidParameterError
 
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+
+AVATAR_SIZES = {
+    'profile': 200,
+    'stream': 50,
+}
 
 
 def get(username):
@@ -18,7 +24,11 @@ def get(username):
     :returns: User profile matching the given username
     :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
-    mtool = plone_api.portal.get_tool('membrane_tool')
+    try:
+        mtool = plone_api.portal.get_tool('membrane_tool')
+    except InvalidParameterError:
+        return None
+
     try:
         profile = mtool.searchResults(
             exact_getUserName=username,
@@ -121,3 +131,49 @@ def create(
                              username=username)
 
     return profile
+
+
+def avatar_url(username, size='stream'):
+    """Get the avatar image url for a user profile by username
+
+    :param username: Username for which to get the avatar url
+    :type username: string
+    :param size: The name of the size of image required
+    :type size: string
+    :returns: absolute url for the avatar image
+    :rtype: string
+    """
+    if size not in AVATAR_SIZES:
+        raise InvalidParameterError(
+            "Invalid size for avatar url. Valid sizes are: {}".format(
+                AVATAR_SIZES.keys()
+            )
+        )
+
+    profile = get(username)
+    if profile is None:
+        return None
+
+    portal = plone_api.portal.get()
+    imaging = plone_api.content.get_view(
+        request=portal.REQUEST,
+        context=profile,
+        name='images')
+
+    width = height = AVATAR_SIZES.get(size)
+
+    try:
+        scale = imaging.scale(
+            fieldname='portrait',
+            width=width,
+            height=height,
+            direction='down',
+        )
+    except TypeError:
+        # No image found
+        return None
+
+    if scale is not None:
+        return scale.url
+    else:
+        return None

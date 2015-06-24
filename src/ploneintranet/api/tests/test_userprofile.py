@@ -1,9 +1,15 @@
-from zope.interface import Invalid
+import os
 
+from zope.interface import Invalid
+from plone.namedfile.file import NamedBlobImage
 from plone import api as plone_api
+from plone.api.exc import InvalidParameterError
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
+
+
+TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
 
 class TestUserProfile(IntegrationTestCase):
@@ -80,3 +86,33 @@ class TestUserProfile(IntegrationTestCase):
         self.login('bobdoe')
         found = pi_api.userprofile.get_current()
         self.assertEqual(found, profile2)
+
+    def test_avatar_url(self):
+        self.login_as_portal_owner()
+        profile = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+            approve=True,
+        )
+        no_data_url = pi_api.userprofile.avatar_url('janedoe')
+        # no profile image by default
+        self.assertIsNone(no_data_url)
+
+        avatar_file = open(
+            os.path.join(os.path.dirname(__file__),
+                         TEST_AVATAR_FILENAME), 'r')
+        profile.portrait = NamedBlobImage(
+            data=avatar_file.read(),
+            filename=TEST_AVATAR_FILENAME)
+
+        valid_url = pi_api.userprofile.avatar_url('janedoe')
+        self.assertTrue(
+            valid_url.startswith(profile.absolute_url())
+        )
+
+        missing_url = pi_api.userprofile.avatar_url('not-a-username')
+        self.assertIsNone(missing_url)
+
+        with self.assertRaises(InvalidParameterError):
+            pi_api.userprofile.avatar_url('janedoe',
+                                          size='not-a-real-size')

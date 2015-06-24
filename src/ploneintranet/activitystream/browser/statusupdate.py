@@ -152,10 +152,7 @@ class StatusUpdateView(BrowserView):
             self.portal_url,
             userid,
         )
-        img = u'%s/portal_memberdata/portraits/%s' % (
-            self.portal_url,
-            userid,
-        )
+        img = pi_api.userprofile.avatar_url(userid)
         avatar = {
             'id': userid,
             'fullname': fullname,

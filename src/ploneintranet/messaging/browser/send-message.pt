@@ -10,6 +10,8 @@
     metal:fill-slot="main">
 
 
+    <!-- FIXME implementation incomplete/broken -->
+
     <div id="content-core" class="application">
       <form
         id="new-post-box"
@@ -18,42 +20,6 @@
         action=""
         data-pat-inject="#new-post-box"
                          >
-        <script type="text/javascript">
-                    $(document).ready(function(){
-                        var the_textarea = $('textarea.pat-comment-box');
-                        function updateMirror(){
-                            var the_mirror = the_textarea.siblings('p.content-mirror').find('.text');
-                            var the_value = the_textarea.val();
-                            the_mirror.text(the_value);
-                        };
-
-                        $(document).on('input propertychange',the_textarea, function() {
-                            updateMirror();
-                        });
-                        var $form = $('#new-post-box');
-                        $form.submit(function(event){
-                            var textarea = $form.find('textarea');
-                            var selected_tags = $form.find('#selected-tags a');
-                            var selected_users = $form.find('#selected-users a');
-                            var tags = '';
-                            var users = '';
-
-                            for (i = 0; i < selected_users.length; i++) {
-                            users = users + ' @' + selected_users[i].dataset.userId;
-                            }
-
-                            for (i = 0; i < selected_tags.length; i++) {
-                            tags = tags + ' ' + selected_tags[i].text;
-                            }
-
-                            users = users?' — ' + users:users
-                            tags = tags?' — ' + tags:tags
-
-                            textarea.val(textarea.val() + users + tags);
-                            });
-                    });
-        </script>
-
         <label class="">
           To:
           <a class="iconified icon-user pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: user;" tal:attributes="href string:${portal_url}/@@panel-user#status-user-selector::element"></a>
@@ -103,29 +69,6 @@
           </form>
 
         </div>
-  <style type="text/css">
-    /* XXX temporary hack
-       These are overrides to some of Plone's overly-ambitious defaults,
-       to allow ploneintranet.theme's styles to work for now.
-    */
-    .update-social fieldset {
-       border-style: inherit !important;
-       margin: inherit !important;
-    }
-    .update-social p.content-mirror {
-        margin-bottom: -100% !important;
-    }
-    .update-social textarea {
-        font: inherit !important;
-    }
-    .update-social .attachments {
-        margin: 0 !important;
-    }
-    .update-social .attachment-previews {
-        margin: inherit !important;
-    }
-
-  </style>
     <!-- end main -->
     </div>
   </body>
