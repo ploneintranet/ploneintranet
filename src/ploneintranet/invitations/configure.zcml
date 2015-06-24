@@ -16,7 +16,7 @@
 
   <genericsetup:registerProfile
      name="default"
-     title="Plone Intranet: -- (Invitations)"
+     title="Plone Intranet: -- [Invitations]"
      directory="profiles/default"
      description="Invite users to a plone site using a unique URL"
      provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -24,7 +24,7 @@
 
   <genericsetup:registerProfile
      name="uninstall"
-     title="Plone Intranet: -- (Invitations uninstall)"
+     title="Plone Intranet: -- [Invitations uninstall]"
      directory="profiles/uninstall"
      description="Uninstall the ploneintranet.invitations package"
      provides="Products.GenericSetup.interfaces.EXTENSION"
