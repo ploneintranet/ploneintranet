@@ -74,8 +74,40 @@ however `future iterations`_ of this will involve pushing the gnerated previews 
 
 .. _Docsplit: https://documentcloud.github.io/docsplit/
 
+Development setup
+=================
+
+The default buildout sets up Celery in ALWAYS_EAGER mode.
+This means you do not need to run the Celery worker or the broker (redis).
+
+For development and testing this set up is ideal (preview generation will run synchronously for example)
+but in production/staging you should follow the instruction below to set up a full async stack
+
+Production/Staging setup
+========================
+
+In order to deploy Plone Intranet to a staging/testing or production environment
+you will need to do the following:
+
+* Ensure the buildout config you are using overrides CELERY_ALWAYS_EAGER environment variable to be false
+* Your supervisor (or other process management) config starts the Celery worker (see below)
+* Redis is installed and running as a system service (do not run redis under supervisor for security reasons)
+
+Celery worker
+-------------
+
+In order for async to work, you need to have a celery worker running.
+To start it run::
+
+  $ bin/celery -A ploneintranet.async.celerytasks worker
+
 Future iterations
 =================
+
+.. todo::
+
+  The following, details how the final, full document preview system will work,
+  making use of websockets
 
 Final goal
 ----------
@@ -113,31 +145,3 @@ To do this we generate a HTML snippet of the preview
 which contains the source and target attributes for pat-inject.
 This snippet is sent to the browser over a websocket (described above).
 pat-inject-async attaches an event handler to on_message event of SockJS
-
-Development setup
-=================
-
-The default buildout sets up Celery in ALWAYS_EAGER mode.
-This means you do not need to run the Celery worker or the broker (redis).
-
-For development and testing this set up is ideal (preview generation will run synchronously for example)
-but in production/staging you should follow the instruction below to set up a full async stack
-
-Production/Staging setup
-========================
-
-In order to deploy Plone Intranet to a staging/testing or production environment
-you will need to do the following:
-
-* Ensure the buildout config you are using overrides CELERY_ALWAYS_EAGER environment variable to be false
-* Your supervisor (or other process management) config starts the Celery worker (see below)
-* Redis is installed and running as a system service (do not run redis under supervisor for security reasons)
-
-Celery worker
--------------
-
-In order for async to work, you need to have a celery worker running.
-To start it run::
-
-  $ bin/celery -A ploneintranet.async.celerytasks worker
-
