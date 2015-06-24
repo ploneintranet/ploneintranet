@@ -42,7 +42,7 @@
                                 <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents">
                                     Attachments
                                 </a>
-                                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
+                                <!-- <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a> -->
                                 <!-- <a href="" class="icon-copy iconified" title="Copy this document">
                                     Copy
                                 </a>
@@ -69,14 +69,10 @@
 
                             </div>
                         </div>
-                        <fieldset class="pat-collapsible open meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                        <!-- <fieldset class="pat-collapsible open meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra"> -->
                             <!-- <fieldset class="bar">
                                 <input type="text" class="pat-autosuggest" placeholder="Tags" />
                             </fieldset> -->
-                            <fieldset class="bar description">
-                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                             </fieldset>
-
                             <!-- <fieldset class="bar versioning">
                                 <label>
                                     <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
@@ -92,7 +88,7 @@
                                     <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
                                 </fieldset>
                             </fieldset> -->
-                        </fieldset>
+                        <!-- </fieldset> -->
                     </div>
                     <div id="document-content">
                         <div class="document event-details">

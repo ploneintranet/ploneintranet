@@ -14,9 +14,8 @@ Notifications
     :depth: 2
     :local:
 
-------
 Events
-------
+======
 
 ``ploneintranet.notifications`` leverages the ZCA eventing system to keep track of relevant changes
 in the system, to inform users about those changes.
@@ -56,9 +55,8 @@ __future__
 * Somebody submits a request to join a workspace I'm TeamManager for
 * etc, etc
 
--------------------
 System architecture
--------------------
+===================
 
 All of the event types described above will, or should, result in event notifications
 in the Zope3 sense of the word. Zope3 provides a synchronous eventing system that broadcasts
@@ -70,14 +68,14 @@ that are broadcast regarding objects that are marked as
 ``ploneintranet.notifications.interfaces.INotifiable``.
 
 Implementation
-==============
+--------------
 
 .. todo::
 
    Can somebody who wrote the implementation actually describe how it hangs together?
 
 Steps to support a new event type
----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to support notifications for a new event type, the steps are as follows:
 
@@ -90,9 +88,8 @@ If you want to support notifications for a new event type, the steps are as foll
    And then what happens?
 
 
------------------
 Web notifications
------------------
+=================
 
 Web notifications is an inbox-like messaging system that shows you a list of incoming events,
 reverse chronologically (most recent on top).
@@ -107,7 +104,7 @@ Features to develop:
   -- this should be one notification rather than three.
 
 Async web socket
-================
+----------------
 
 .. todo::
 
@@ -116,9 +113,8 @@ Async web socket
 An async web socket enables pushing of event notifications in semi-real-time,
 and especially the updating of the unread notifications counter.
 
--------------------
 Email notifications
--------------------
+===================
 
 .. todo::
 

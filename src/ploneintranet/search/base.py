@@ -5,6 +5,7 @@ import collections
 import logging
 
 from plone import api
+from plone.api.validation import required_parameters
 from zope import globalrequest
 
 from .interfaces import ISearchResult
@@ -286,6 +287,7 @@ class SiteSearch(object):
                 raise LookupError(msg)
         return self._apply_filters(query, filters)
 
+    @required_parameters('phrase', )
     def query(self,
               phrase,
               filters=None,

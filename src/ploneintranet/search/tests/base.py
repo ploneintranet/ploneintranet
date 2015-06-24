@@ -53,7 +53,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         self.doc2 = self.create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
-                         u'Please let some stuff be indexed.'),
+                         u'Please let some stuff be indexed. '),
             subject=(u'test', u'my-other-tag'),
         )
         self.doc2.creation_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
@@ -130,13 +130,20 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
     def test_query_phrase_only(self):
         util = self._make_utility()
         response = self._query(util, 'hopefully')
+        self.assertEqual(response.total_results, 1)
         result = next(iter(response), None)
         self.assertIsNotNone(result)
         self.assertEqual(result.title, self.doc1.Title())
         self.assertEqual(result.url, self.doc1.absolute_url())
-        self.assertEqual(response.total_results, 1)
         self.assertEqual(set(response.facets['friendly_type_name']), {'Page'})
         self.assertEqual(set(response.facets['tags']), {u'test', u'my-tag'})
+
+    def test_query_partial_match(self):
+        util = self._make_utility()
+        response = self._query(util, 'hope')
+        self.assertEqual(response.total_results, 1)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 3)
 
     def test_query_with_empty_filters(self):
         util = self._make_utility()
@@ -241,7 +248,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(response.spell_corrected_search, expect_suggestion)
 
     def test_spell_corrected_search(self):
-        self._check_spellcheck_response(None, None)
         self._check_spellcheck_response('', None)
         self._check_spellcheck_response(u'', None)
         self._check_spellcheck_response(u'*:*', None)

@@ -17,7 +17,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Social Network)"
+      title="Plone Intranet: -- [Social Network]"
       directory="profiles/default"
       description="Installs the ploneintranet.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -26,7 +26,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (Social Network: Uninstall)"
+      title="Plone Intranet: -- [Social Network: Uninstall]"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.network package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
