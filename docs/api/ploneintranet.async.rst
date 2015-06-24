@@ -37,6 +37,7 @@ ploneintranet.async.indexers module
     :members:
     :undoc-members:
     :show-inheritance:
+.. autofunction:: ploneintranet.async.indexers.has_thumbs
 
 ploneintranet.async.interfaces module
 -------------------------------------
