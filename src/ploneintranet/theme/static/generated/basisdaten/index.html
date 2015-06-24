@@ -283,7 +283,7 @@
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
         <div id="document-body">
-        	<form class="document pat-inject pat-autosubmit" action="/basisdaten#last-saved">
+        	<form class="document pat-inject pat-autosubmit" action="/basisdaten#saving-badge">
     <div class="metadata pat-bumper" id="meta">
         <div class="meta-bar">
             <h1 class="doc-title" id="document-title">
@@ -311,7 +311,7 @@
                         </select>
                     </label>
                 </fieldset>
-                <p class="last-saved" id="last-saved">
+                <p class="saving-badge" id="saving-badge">
                     <button type="submit" class="saved-tag">Last saved <time class="modification-date pat-display-time" datetime="2015-01-20T08:00Z">9:23</time></button>
                 </p>
                 <!-- <button type="submit" class="icon-floppy" title="Save this document">Save</button> -->
@@ -502,6 +502,13 @@
     
     
 
+    
+        <form class="search-box pat-inject pat-autosubmit" action="/feedback/workspace-search-results-min.html#selector-items">
+            <label>
+                <input name="" type="search" placeholder="Search" />
+                <button type="submit">Search</button>
+            </label>
+        </form>
     
 
     <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="selector-items">
