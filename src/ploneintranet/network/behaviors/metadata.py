@@ -1,6 +1,7 @@
 from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from plone import api
 from plone.app.dexterity import MessageFactory as _
 from plone.app.dexterity import PloneMessageFactory as _PMF
 from plone.app.dexterity.behaviors.metadata import MetadataBase
@@ -12,15 +13,20 @@ from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.utils import safe_unicode
 from plone.supermodel import model
+from plone.uuid.interfaces import IUUID
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from z3c.form.widget import ComputedWidgetAttribute
 from zope import schema
+from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
+
+from ploneintranet.network.interfaces import INetworkTool
+
 
 # This is a copy/fork of plone.app.dexterity.behaviors.metadata
 # so we can plug personalized tagging into the Subject field.
@@ -301,6 +307,15 @@ class Categorization(MetadataBase):
 
     def _set_subjects(self, value):
         self.context.subject = value
+        graph = getUtility(INetworkTool)
+        user = api.user.get_current()
+        uuid = IUUID(self.context)
+        graph.tag('content', uuid, user.id, *value)
+        stale = [tag for tag in graph.get_tags('content', uuid, user.id)
+                 if tag not in value]
+        if stale:
+            graph.untag('content', uuid, user.id, *stale)
+
     subjects = property(_get_subjects, _set_subjects)
 
     language = DCFieldProperty(
