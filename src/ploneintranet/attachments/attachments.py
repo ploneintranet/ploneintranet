@@ -7,6 +7,7 @@ import ExtensionClass
 from BTrees.OOBTree import OOBTree
 from OFS.Traversable import Traversable
 from Products.Archetypes.utils import shasattr
+from Products.CMFPlone.Portal import PloneSite
 from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from plone.dexterity.content import DexterityContent
 from zope.annotation.interfaces import IAnnotatable
@@ -20,9 +21,9 @@ class IAttachmentStoragable(IAnnotatable):
     """ Marker interface for things that can have attachments
     """
 
-# Make sure we can only attach things to Dexterity content types
-# (i.e. not the Plone site)
+
 interface.classImplements(DexterityContent, IAttachmentStoragable)
+interface.classImplements(PloneSite, IAttachmentStoragable)
 
 
 class IAttachmentStorage(interface.Interface):
