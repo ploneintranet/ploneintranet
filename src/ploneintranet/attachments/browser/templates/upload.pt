@@ -10,7 +10,7 @@
     tal:define="attachments view/attachments"
     >
     <tal:for repeat="attachment attachments">
-        <img tal:repeat="url python:view.get_thumbs_urls(attachment)" src="${url}" />
+        <img src="${attachment}" />
     </tal:for>
   </p>
 </body>
