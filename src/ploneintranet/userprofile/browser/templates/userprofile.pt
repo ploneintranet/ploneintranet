@@ -31,7 +31,7 @@
                     </h2>
                     <ul class="menu">
                         <li class="mail">
-                            <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}" tal:attributes="href string:mailto:${context/email}" tal:content="context/email" />
+                            <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}; href string:mailto:${context/email}" tal:content="context/email" />
                         </li>
                         <li class="phone" tal:condition="context/mobile|nothing">
                             <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}"
