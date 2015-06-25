@@ -91,11 +91,12 @@
                         <!-- </fieldset> -->
                     </div>
                     <div id="document-content">
-                        <div class="document event-details">
-
-                            <metal:task_fields use-macro="context/content_macros/event_fields"/>
-
-                        </div>
+                      <div class="document event-details">
+                        <fieldset class="vertical fancy"
+                                  tal:define="is_edit_form python:True">
+                          <metal:task_fields use-macro="context/content_macros/event_fields" />
+                        </fieldset>
+                      </div>
                     </div>
                 </form>
             </div>
