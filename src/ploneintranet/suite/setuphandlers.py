@@ -19,6 +19,7 @@ import json
 import logging
 import mimetypes
 import os
+import pytz
 import time
 
 
@@ -471,7 +472,7 @@ def testing(context):
     # }]
     # create_tasks(todos_content)
 
-    now = datetime.now()
+    now = datetime.now(pytz.utc)
 
     budget_proposal_filename = u'budget-proposal.png'
     budget_proposal_path = os.path.join('images', budget_proposal_filename)
