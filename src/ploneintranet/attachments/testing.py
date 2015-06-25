@@ -8,10 +8,10 @@ from plone.app.testing import PloneSandboxLayer
 from plone.testing import z2
 import plone.app.discussion
 import plone.dexterity
+import ploneintranet.async
 
 import ploneintranet.microblog
 import ploneintranet.attachments
-import ploneintranet.async
 
 
 class PloneintranetAttachmentsLayer(PloneSandboxLayer):
@@ -34,6 +34,7 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.discussion:default')
         applyProfile(portal, 'ploneintranet.attachments:default')
+        self.applyProfile(portal, 'ploneintranet.async:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""
