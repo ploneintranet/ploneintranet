@@ -118,10 +118,62 @@ class ICategorization(model.Schema):
         required=False,
         missing_value=(),
     )
+
+    # Personalized tagging callflow is as follows:
+    #
+    # - plone.autoform.directives.widget() instantiates a
+    # - plone.autoform.widgets.ParametrizedWidget(AjaxSelectFieldWidget)
+    #   which, on __call__, instantiates a
+    # - plone.app.z3cform.widget.AjaxSelectFieldWidget()
+    #   (and wraps that in a z3c.form.FieldWidget)
+    #
+    # - plone.app.z3cform.widget.AjaxSelectFieldWidget
+    #   gets the vocabulary utility dottedname as defined below passed in
+    #   and has a pre-defined @@getVocabulary url.
+    # - plone.app.z3cform.widget.AjaxSelectFieldWidget._base_args() calls
+    # - plone.app.widgets.utils.get_ajax_select_options()
+    #   which, if there are already subjects set, via queryUtility gets
+    # - ploneintranet.network.vocabularies.PersonalizedKeywordsVocabulary
+    #   and calls it with only (context) hence no personalization
+    #   which is OK for the initial form rendering, before user interaction.
+    #
+    #   On every keystroke into the subjects select2 field,
+    # - plone.app.z3cform.widget.AjaxSelectFieldWidget calls
+    #   context/@@getVocabulary?name=vocabulary.name&query=searchstring
+    #   which resolves into our custom view
+    # - ploneintranet.network.browser.vocabulary.PersonalizedVocabularyView
+    #
+    # - PersonalizedVocabularyView()() = BaseVocabularyView.__call__() ->
+    # - PersonalizedVocabularyView.get_vocabulary() via queryUtility gets
+    # - ploneintranet.network.vocabularies.PersonalizedKeywordsVocabulary
+    #   and calls it
+    # - PersonalizedKeywordsVocabulary.__call__(context, request, query)
+    #   which then calculates the optimal tag set for
+    #   - context (the content)
+    #   - request (the user)
+    #   - query (the user input keystrokes)
+    #   and finally wraps the constructed tag set in a returned
+    # - SimpleVocabulary([SimpleTerm(value, token, title) for tag in tags])
+    #   which populates the tag suggestions presented by select2.
+    #
+    # All of that is the normal upstream call flow ... which took a while to
+    # figure out, hence this mega comment. The customizations are minimal,
+    # replacing only:
+    #
+    # - vocabulary factory:
+    #   ploneintranet.network.vocabularies.PersonalizedKeywordsVocabulary
+    #     (was: plone.app.vocabularies.catalog.KeywordsVocabulary)
+    #
+    # - vocabulary view:
+    #   ploneintranet.network.browser.vocabulary.PersonalizedVocabularyView
+    #     (was: plone.app.content.browser.vocabulary.VocabularyView)
+    #
+    # YMMV
+
     directives.widget(
         'subjects',
         AjaxSelectFieldWidget,
-        vocabulary='plone.app.vocabularies.Keywords'
+        vocabulary='ploneintranet.network.vocabularies.Keywords'
     )
 
     language = schema.Choice(

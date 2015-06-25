@@ -30,4 +30,12 @@
       layer=".interfaces.IPloneIntranetNetworkLayer"
       />
 
+  <browser:page
+      name="getVocabulary"
+      for="*"
+      class=".vocabulary.PersonalizedVocabularyView"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetNetworkLayer"
+      />
+
 </configure>

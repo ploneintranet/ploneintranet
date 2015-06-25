@@ -16,6 +16,12 @@
   <include package=".behaviors" />
   <include file="upgrades.zcml" />
 
+  <utility
+    component=".vocabularies.PersonalizedKeywordsVocabularyFactory"
+    name="ploneintranet.network.vocabularies.Keywords"
+    />
+
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Social Network]"
