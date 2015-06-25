@@ -13,6 +13,7 @@
   <include package="plone.app.discussion" />
 
   <include package=".browser" />
+  <include package=".behaviors" />
   <include file="upgrades.zcml" />
 
   <genericsetup:registerProfile
