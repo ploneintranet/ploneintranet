@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
+import unittest2 as unittest
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import FunctionalTesting
@@ -7,7 +8,9 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.testing import z2
 
-import unittest2 as unittest
+import plone.app.discussion
+import plone.dexterity
+import ploneintranet.attachments
 
 
 class PloneintranetAsyncLayer(PloneSandboxLayer):
@@ -16,15 +19,8 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
-        import plone.app.discussion
-
         self.loadZCML(package=plone.app.discussion)
-        import plone.dexterity
-
         self.loadZCML(package=plone.dexterity)
-
-        import ploneintranet.attachments
-
         self.loadZCML(package=ploneintranet.attachments)
         self.loadZCML(package=ploneintranet.async)
         z2.installProduct(app, 'ploneintranet.async')
