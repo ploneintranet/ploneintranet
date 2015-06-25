@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 import unittest2 as unittest
-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.testing import z2
-
 import plone.app.discussion
 import plone.dexterity
+
 import ploneintranet.attachments
 
 
@@ -23,11 +22,11 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.dexterity)
         self.loadZCML(package=ploneintranet.attachments)
         self.loadZCML(package=ploneintranet.async)
-        z2.installProduct(app, 'ploneintranet.async')
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
+        self.applyProfile(portal, 'ploneintranet.async:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""
