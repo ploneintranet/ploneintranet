@@ -133,9 +133,9 @@ class ContentView(BrowserView):
         return states
 
     def preview_urls(self):
-        """The number of previews generated for a file.
+        """The URLs to the preview images for this object
         """
-        return pi_api.previews.get_preview_urls(self.context, self.request)
+        return pi_api.previews.get_preview_urls(self.context, 'large')
 
     def image_url(self):
         """The img-url used to construct the img-tag."""
