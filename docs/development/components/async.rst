@@ -63,21 +63,62 @@ This provides a simple set of API calls to generate and fetch previews.
 These are created when a user uploads files to the site.
 
 There is an event subscriber for :class:`IObjectAddedEvent <zope.lifecycleevent.interfaces.IObjectAddedEvent>`
-which simply calls the :function:`generate_and_add_preview <ploneintranet.async.celerytasks.generate_and_add_preview>` Celery task,
+which simply calls the :mod:`generate_and_add_preview <ploneintranet.async.celerytasks>` Celery task,
 which in turn calls back to Plone via an HTTP request to perform the preview generation.
 This is done by the :class:`GeneratePreviewImages <ploneintranet.async.browser.docconv.GeneratePreviewImages>` browser view
 which calls the `Docsplit`_ binary as a subprocess.
 This would normally be a blocking call, which is why we're doing asynchronously.
 
 Currently this is as far as preview generation goes,
-however `future iterations`_ of this will involve pushing the gnerated previews into the users browser via websockets
+however `future iterations`_ of this will involve pushing the generated previews into the users browser via websockets
 
 .. _Docsplit: https://documentcloud.github.io/docsplit/
+
+Previews API
+------------
+
+If for some reason you need to manually generate previews for a piece of content,
+this can be done with the previews API:
+
+.. code-block:: python
+
+  from ploneintranet import api as pi_api
+
+  # Given a piece of content with a file field as `obj`
+  # And the current `request`
+  # As this process happens asynchronously, there is no return value
+  pi_api.previews.create(obj, request)
+
+More usefully, the API can be used to get the preview images (pages of a multi-page document)
+and thumbnail image (the first page),
+as well as URLs to these:
+
+.. code-block:: python
+
+  from ploneintranet import api as pi_api
+
+  # `obj` is the object you want to get the previews for
+  # This get all the previews as a list of Plone File objects (from attachments)
+  previews = pi_api.previews.get(obj)
+
+  # You can (more usefully) get the previews as `plone.app.imaging.ImageScaling` objects
+  preview_images = pi_api.get_previews(obj)
+
+  # When all that's going to be done, is render the images in templates,
+  # you can get a list of URLs directly
+  preview_urls = pi_api.get_preview_urls(obj)
+
+  # You can also get the thumbnail (first preview, scaled smaller)
+  thumbnail = pi_api.get_thumbnail(obj)
+  thumbnail_url = pi_api.get_thumbnail_url(obj)
+
+  # Finally, for convenience you can also get the URL of the `fallback image`
+  fallback_img_url = pi_api.fallback_image_url()
 
 Development setup
 =================
 
-The default buildout sets up Celery in ALWAYS_EAGER mode.
+The default buildout sets up Celery in ``ALWAYS_EAGER`` mode.
 This means you do not need to run the Celery worker or the broker (redis).
 
 For development and testing this set up is ideal (preview generation will run synchronously for example)
@@ -97,7 +138,9 @@ Celery worker
 -------------
 
 In order for async to work, you need to have a celery worker running.
-To start it run::
+To start it run:
+
+.. code-block:: bash
 
   $ bin/celery -A ploneintranet.async.celerytasks worker
 
