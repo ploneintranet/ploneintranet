@@ -3,11 +3,8 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/main_template/macros/master"
       metal:define-macro="search"
       i18n:domain="ploneintranet">
-
-    <metal:content fill-slot="content">
 
     <form action="${view/__name__}" id="global-search" class="pat-autosubmit pat-inject"
           data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record;">
@@ -39,7 +36,5 @@
             <metal:results metal:define-slot="results" />
         </div>
     </form>
-
-    </metal:content>
 
 </html>
