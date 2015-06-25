@@ -108,7 +108,16 @@ class UserProfile(Container):
 
     """UserProfile content type."""
 
-    pass
+    def Title(self):
+        return self.fullname
+
+    @property
+    def fullname(self):
+        names = [
+            self.first_name,
+            self.last_name,
+        ]
+        return u' '.join([name for name in names if name])
 
 
 class UsernameValidator(validator.SimpleFieldValidator):

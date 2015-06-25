@@ -27,7 +27,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="Plone Intranet: -- (Theme)"
+        title="Plone Intranet: -- [Theme]"
         directory="profiles/default"
         description="Extension profile for ploneintranet.theme."
         provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -35,7 +35,7 @@
 
     <genericsetup:registerProfile
         name="uninstall"
-        title="Plone Intranet: -- (Theme uninstall)"
+        title="Plone Intranet: -- [Theme uninstall]"
         directory="profiles/uninstall"
         description="Extension profile for ploneintranet.theme."
         provides="Products.GenericSetup.interfaces.EXTENSION"
