@@ -17,18 +17,18 @@ class TestToggleFollowView(IntegrationTestCase):
 
     def test_toggle_follow(self):
         self.request["REQUEST_METHOD"] = "POST"
-        johndoe = pi_api.userprofile.create(
+        pi_api.userprofile.create(
             username='johndoe',
             email='johndoe@doe.com',
+            properties={'fullname': u"John Doe"},
             approve=True,
         )
-        johndoe.fullname = u"John Doe"
         janedoe = pi_api.userprofile.create(
             username='janedoe',
             email='janedoe@doe.com',
             approve=True,
+            properties={'fullname': u"Jane Doe"},
         )
-        janedoe.fullname = u"Jane Doe"
 
         self.assertNotIn('johndoe', self.util.get_followers('user', 'janedoe'))
         self.assertNotIn('janedoe', self.util.get_following('user', 'johndoe'))
