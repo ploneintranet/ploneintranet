@@ -26,5 +26,6 @@
         Cancel
       </button>
     </div>
+    <input type="hidden" name="portal_type" value="Event"/>
   </form>
 </div>
