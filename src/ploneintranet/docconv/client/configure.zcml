@@ -27,7 +27,7 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="Plone Intranet: -- (Docconv Client)"
+        title="Plone Intranet: -- [Docconv Client]"
         directory="profiles/default"
         description="Extension profile for ploneintranet.docconv.client."
         provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -35,7 +35,7 @@
 
     <genericsetup:registerProfile
         name="uninstall"
-        title="Plone Intranet: -- (Docconv Client uninstall)"
+        title="Plone Intranet: -- [Docconv Client uninstall]"
         directory="profiles/uninstall"
         description="Uninstalls ploneintranet.docconv.client."
         provides="Products.GenericSetup.interfaces.EXTENSION"
