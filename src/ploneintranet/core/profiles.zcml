@@ -7,7 +7,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (deprecated: Social Core: default)"
+      title="Plone Intranet: -- [deprecated: Social Core: default]"
       directory="profiles/default"
       description="Installs shared utilities for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -16,7 +16,7 @@
 
   <genericsetup:registerProfile
       name="minimal"
-      title="Plone Intranet: -- (deprecated: Social Core: minimal)"
+      title="Plone Intranet: -- [deprecated: Social Core: minimal]"
       directory="profiles/minimal"
       description="Installs only required utilities, NOT patternslib resources"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -25,7 +25,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (deprecated: Social Core uninstall)"
+      title="Plone Intranet: -- [deprecated: Social Core uninstall]"
       directory="profiles/uninstall"
       description="Uninstalls shared utilities for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"

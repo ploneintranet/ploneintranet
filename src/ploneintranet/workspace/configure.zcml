@@ -137,7 +137,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Workspace)"
+      title="Plone Intranet: -- [Workspace]"
       directory="profiles/default"
       description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -154,7 +154,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (Workspace uninstall)"
+      title="Plone Intranet: -- [Workspace uninstall]"
       directory="profiles/uninstall"
       description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
