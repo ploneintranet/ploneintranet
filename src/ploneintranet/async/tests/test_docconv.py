@@ -80,13 +80,13 @@ class TestDocconv(IntegrationTestCase):
         self.assertEqual(
             [i for i in args[0][1:] if isinstance(i, basestring)],
             ['images',
+             '/tmp/ploneintranet-docconv/test-file.tmp',
              '--size',
-             '180,700,1000',
+             '1000',
              '--format',
              'png',
-             '--rolling',
              '--output',
-             '--pages',
-             '1-20']
+             '/tmp/ploneintranet-docconv/test-file-converted'
+             ]
         )
         self.assertEqual(kwargs, {})
