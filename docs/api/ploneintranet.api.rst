@@ -12,10 +12,34 @@ Subpackages
 Submodules
 ----------
 
+ploneintranet.api.attachments module
+------------------------------------
+
+.. automodule:: ploneintranet.api.attachments
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ploneintranet.api.previews module
+---------------------------------
+
+.. automodule:: ploneintranet.api.previews
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ploneintranet.api.testing module
 --------------------------------
 
 .. automodule:: ploneintranet.api.testing
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ploneintranet.api.userprofile module
+------------------------------------
+
+.. automodule:: ploneintranet.api.userprofile
     :members:
     :undoc-members:
     :show-inheritance:
