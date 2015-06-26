@@ -12,7 +12,8 @@ def setupVarious(context):
     portal = context.getSite()
     catalog = api.portal.get_tool('portal_catalog')
     if len(catalog(portal_type='ploneintranet.library.app')) == 0:
-        api.content.create(
+        library = api.content.create(
             type='ploneintranet.library.app',
             title='Library',
             container=portal)
+        api.content.transition(library, "publish")

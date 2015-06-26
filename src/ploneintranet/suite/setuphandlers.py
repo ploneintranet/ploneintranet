@@ -8,6 +8,7 @@ from plone.uuid.interfaces import IUUID
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet import api as pi_api
 from zope.component import getUtility
@@ -319,8 +320,10 @@ def create_library_content(parent, spec):
         if x['type'].endswith('page'):
             x['text'] = " ".join(["<p>%s</p>" % para
                                   for para in loremipsum.get_paragraphs(3)])
-            x['Subject'] = random.sample(library_tags, random.choice(range(4)))
-        obj = api.content.create(container=parent, **x)
+        obj = create_as('alice_lindstrom', container=parent, **x)
+        wrapped = IDublinCore(obj)
+        wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
+        api.content.transition(obj, 'publish')
         if contents:
             create_library_content(obj, contents)
 
@@ -788,6 +791,11 @@ def testing(context):
          ]},
     ]
     portal = api.portal.get()
+    api.user.grant_roles(
+        username='alice_lindstrom',
+        roles=['Contributor', 'Reviewer', 'Editor'],
+        obj=portal.library
+    )
     create_library_content(portal.library, library)
 
     stream_json = os.path.join(context._profile_path, 'stream.json')
