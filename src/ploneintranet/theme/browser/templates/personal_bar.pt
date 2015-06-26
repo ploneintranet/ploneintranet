@@ -18,7 +18,6 @@
 	  <li tal:repeat="action view/user_actions"
               tal:attributes="id string:personaltools-${action/id}">
               <a href=""
-		 tal:attributes="action"
 		 tal:content="action/title"
 		 i18n:translate="">
 		  action title

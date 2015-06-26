@@ -28,7 +28,6 @@
         </form>
 
         <form id="postbox-users"
-              tal:attributes="action view/action"
               class="search-result users pat-inject pat-autosubmit"
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
                               data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users && source: #selected-users-data;; target: #selected-users-data">
