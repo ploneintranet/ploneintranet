@@ -310,7 +310,7 @@ class NetworkGraph(Persistent, Explicit):
           returns {objectid: [user_id..]}
 
         If tag==None:
-          returns {tag: {item_type: [item_id..]}}
+          returns {tag: [item_id..]}
 
         If only item_type: # user_id==None and tag==None
           returns {user_id: {tag: [item_id..]}}
