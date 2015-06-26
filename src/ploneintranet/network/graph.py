@@ -401,7 +401,10 @@ class NetworkGraph(Persistent, Explicit):
         List tags set on <item_type> <item_id> by <user_id>.
         If user_id==None: return {tag: (userids..)} mapping
         """
-        return self._tags[user_id][item_type][item_id]
+        if user_id:
+            return self._tags[user_id][item_type][item_id]
+        else:
+            return self._tagger[item_type][item_id]
 
     def is_tagged(self, item_type, item_id, user_id, tag):
         """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""

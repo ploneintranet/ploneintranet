@@ -187,6 +187,23 @@ class TestTags(IntegrationTestCase):
                           'leadership': ['alex'],
                           'negotiations': ['caroline']})
 
+    def test_get_tags(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('content', 'doc1', 'caroline', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        tags = g.unpack(g.get_tags('content', 'doc1', 'caroline'))
+        self.assertEqual(tags, ['leadership', 'negotiations'])
+
+    def test_get_tags_nouser(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('content', 'doc1', 'caroline', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        tags = g.unpack(g.get_tags('content', 'doc1',))
+        self.assertEqual(tags, {'negotiations': ['alex', 'caroline'],
+                                'leadership': ['caroline']})
+
     def test_is_tagged(self):
         g = NetworkGraph()
         g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
