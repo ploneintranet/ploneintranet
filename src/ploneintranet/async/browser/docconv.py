@@ -1,3 +1,4 @@
+from base64 import b64encode
 import logging
 import subprocess
 
@@ -162,3 +163,41 @@ class GeneratePDF(BaseDocConvView):
         cmd_output = _parse_cmd_output(cmd)
 
         return 'Command output: {}'.format(cmd_output)
+
+
+class GenerateAttachmentThumbnail(BaseDocConvView):
+    """Generate first page, low-res attachment preview for status update
+
+    This view is meant to be called synchronously from the AJAX call made when
+    selecting attachments during status update composition
+    """
+    def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+
+        uploaded_attachments = self.request.get('form.widgets.attachments', [])
+        if not isinstance(uploaded_attachments, list):
+            uploaded_attachments = [uploaded_attachments]
+        for file_field in uploaded_attachments:
+            data = file_field.read()
+            input_file = self.storage_dir.joinpath(
+                '{}.tmp'.format(file_field.filename))
+            with open(str(input_file), 'wb') as fd:
+                fd.write(data)
+            cmd = [
+                self._find_binary(),
+                'images', str(input_file),
+                '--size', '128',
+                '--format', 'png',
+                '--output', str(self.output_dir),
+                '--pages', '1'
+            ]
+            cmd_output = _parse_cmd_output(cmd)
+
+        base64_img_data = []
+        for image in self.output_dir.iterdir():
+            with open(str(image)) as fd:
+                data = fd.read()
+                base64_img_data.append(b64encode(data))
+            image.unlink()
+        self.output_dir.rmdir()
+        return base64_img_data

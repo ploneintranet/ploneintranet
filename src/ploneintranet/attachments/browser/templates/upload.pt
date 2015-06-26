@@ -10,7 +10,8 @@
     tal:define="attachments view/attachments"
     >
     <tal:for repeat="attachment attachments">
-        <img src="${attachment}" />
+        <img src=""
+            tal:attributes="src string:data:image/png;;base64,${attachment}"/>
     </tal:for>
   </p>
 </body>

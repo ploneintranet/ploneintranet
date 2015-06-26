@@ -23,4 +23,11 @@
             class=".previews.PreviewView"
             layer="..interfaces.IPloneintranetAsyncLayer"
             />
+    <browser:page
+            name="status-thumbs"
+            for="*"
+            permission="zope2.View"
+            class=".docconv.GenerateAttachmentThumbnail"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
 </configure>

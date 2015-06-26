@@ -9,6 +9,7 @@ from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
@@ -214,6 +215,20 @@ class StatusUpdateView(BrowserView):
     def attachments(self):
         """ Get preview images for status update attachments
         """
+        # items = pi_api.attachments.get(self.context)
+        # attachments = []
+        # for item in items:
+        #     primary_field = IPrimaryFieldInfo(item).value
+        #     filename = primary_field.filename
+        #     item_url = '/'.join((
+        #         self.attachment_base_url,
+        #         item.getId(),
+        #     ))
+        #     url = pi_api.previews.get_thumbnail_url(item)
+        #     attachments.append(
+        #         {'img_src': url, 'link': item_url}
+        #     )
+        # return attachments
         items = pi_api.previews.get(self.context)
         return map(self.item2attachments, items)
 
