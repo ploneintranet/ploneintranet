@@ -5,20 +5,18 @@
   <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
     <div class="panel-body">
 
-      <fieldset class="icon-tabs">
-        <label class="icon-ok-circle">
-          <input checked="checked" name="portal_type" value="Event" type="radio" /> Event
-        </label>
-      </fieldset>
       <fieldset class="vertical">
         <input type="text" name="title" placeholder="Event title" autofocus />
-        <br/>
-        <textarea name="description" placeholder="Enter a description of the event" rows="6"></textarea>
       </fieldset>
 
       <fieldset class="vertical"
                 tal:define="workspace context/acquire_workspace;
-                            workspace_url context/absolute_url;">
+                            workspace_url context/absolute_url">
+        <label class="description">
+          Description
+          <textarea name="description" placeholder="Enter a description of the event" rows="6"/>
+        </label>
+
         <metal:task_fields use-macro="context/content_macros/event_fields"/>
       </fieldset>
 
@@ -32,5 +30,6 @@
         Cancel
       </button>
     </div>
+    <input type="hidden" name="portal_type" value="Event"/>
   </form>
 </div>
