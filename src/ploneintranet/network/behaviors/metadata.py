@@ -365,10 +365,15 @@ class Categorization(MetadataBase):
         if value:
             graph.tag('content', uuid, user.id, *value)
         # else value==() -> cleaned up below
-        stale = [tag for tag in graph.get_tags('content', uuid, user.id)
-                 if tag not in value]
-        if stale:
-            graph.untag('content', uuid, user.id, *stale)
+        try:
+            current_tags = graph.get_tags('content', uuid, user.id)
+        except KeyError:
+            # no tags set yet
+            return
+        else:
+            stale = [tag for tag in current_tags if tag not in value]
+            if stale:
+                graph.untag('content', uuid, user.id, *stale)
 
     subjects = property(_get_subjects, _set_subjects)
 

@@ -65,6 +65,18 @@ class TestMetadata(IntegrationTestCase):
         self.assertEqual(sorted(tags), [])
         self.assertEqual(doc1.subject, ())
 
+    def test_subject_tags_set_empty(self):
+        self.login('john_doe')
+        doc1 = api.content.create(
+            container=self.portal,
+            type='Document',
+            id='doc1',
+            title='Doc 1',
+        )
+        wrapped = IDublinCore(doc1)
+        # the check is that this doesn't raise a KeyError
+        wrapped.subjects = ()
+
     def test_subject_untags(self):
         self.login('john_doe')
         doc1 = api.content.create(
