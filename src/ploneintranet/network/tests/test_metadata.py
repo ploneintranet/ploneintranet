@@ -19,15 +19,7 @@ class TestMetadata(IntegrationTestCase):
         api.user.create(username='mary_jane', email='mary@jane.org')
         setRoles(self.portal, 'mary_jane', ['Manager', ])
 
-        # replace upstream dublincore with our fork
-        fti = api.portal.get_tool('portal_types').Document
-        behaviors = []
-        for beh in fti.behaviors:
-            if beh.endswith('IDublinCore'):
-                beh = beh.replace('plone.app.dexterity',
-                                  'ploneintranet.network')
-            behaviors.append(beh)
-        fti.behaviors = behaviors
+        # profiles:default already replaces upstream dublincore with our fork
 
     def test_subject_set_get(self):
         self.login('john_doe')

@@ -1,0 +1,63 @@
+import logging
+from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
+from zope.interface.verify import verifyObject
+
+log = logging.getLogger(__name__)
+
+
+def setupVarious(context):
+    if context.readDataFile('ploneintranet.network_default.txt') is None:
+        return
+
+    log.info('setupVarious')
+
+    # Replace ALL IDublinCore behaviors with our own variant.
+    # Doing it like this instead of via profiles/default/types/*.xml
+    # - so we don't have to list all types (and will miss some in error)
+    # - and we don't have to list all behaviors (and will purge some in error)
+    # This can still be overridden per-type in your policy suite types/*xml
+    # But there should be no need, this is fully backward compatible
+    # and can be cleanly uninstalled
+    replace_all_dublincore()
+
+
+def uninstall(context):
+    if context.readDataFile('ploneintranet.network_uninstall.txt') is None:
+        return
+
+    log.info('uninstall')
+    restore_all_dublincore()
+
+
+def replace_all_dublincore():
+    types_tool = api.portal.get_tool('portal_types')
+    for fti_id in types_tool.listTypeTitles().keys():
+        fti = types_tool.get(fti_id)
+        if verifyObject(IDexterityFTI, fti):
+            replace_dublincore(fti,
+                               'plone.app.dexterity',
+                               'ploneintranet.network',
+                               'replace')
+
+
+def restore_all_dublincore():
+    types_tool = api.portal.get_tool('portal_types')
+    for fti_id in types_tool.listTypeTitles().keys():
+        fti = types_tool.get(fti_id)
+        if verifyObject(IDexterityFTI, fti):
+            replace_dublincore(fti,
+                               'ploneintranet.network',
+                               'plone.app.dexterity',
+                               'restore')
+
+
+def replace_dublincore(fti, old, new, msg):
+    behaviors = []
+    for beh in fti.behaviors:
+        # plone.app.dexterity.behaviors.metadata.IDublinCore
+        if beh.startswith(old) and beh.endswith('IDublinCore'):
+            beh = beh.replace(old, new)
+            log.info('%s IDublinCore behavior on %s', msg, fti)
+        behaviors.append(beh)
+    fti.behaviors = behaviors
