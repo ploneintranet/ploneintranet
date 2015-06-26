@@ -13,7 +13,7 @@ def generate_attachment_preview_images(obj, event):
     request = event.object.REQUEST
     if not IPloneintranetAsyncLayer.providedBy(request):
         logger.warn('ploneintranet.async profile not installed. '
-                    'Skipping preview generation')
+                    'Skipping automatic preview generation')
         return
 
     pi_api.previews.create(obj, request)
