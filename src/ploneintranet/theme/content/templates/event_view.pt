@@ -92,8 +92,7 @@
                     </div>
                     <div id="document-content">
                       <div class="document event-details">
-                        <fieldset class="vertical fancy"
-                                  tal:define="is_edit_form python:True">
+                        <fieldset class="vertical fancy">
                           <metal:task_fields use-macro="context/content_macros/event_fields" />
                         </fieldset>
                       </div>
