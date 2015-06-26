@@ -36,9 +36,12 @@ class TestMetadata(IntegrationTestCase):
             type='Document',
             id='doc1',
             title='Doc 1',
-            subjects=('foo', 'bar')
         )
-        self.assertEqual(doc1.subjects, ('foo', 'bar'))
+        wrapped = IDublinCore(doc1)
+        wrapped.subjects = ('foo', 'bar')
+        # adapter.subjects - obj.subject
+        # ---------------^   -----------!
+        self.assertEqual(doc1.subject, ('foo', 'bar'))
 
     def test_subject_tags(self):
         self.login('john_doe')
