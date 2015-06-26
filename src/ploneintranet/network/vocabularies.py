@@ -1,11 +1,13 @@
 from binascii import b2a_qp
 from logging import getLogger
-from Products.CMFCore.utils import getToolByName
+from plone import api
+from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.utils import safe_unicode
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-from zope.site.hooks import getSite
+
+from ploneintranet.network.behaviors.metadata import IDublinCore
 
 logger = getLogger(__name__)
 
@@ -31,6 +33,9 @@ class PersonalizedKeywordsVocabulary(object):
 
     implements(IPersonalizedVocabularyFactory)
 
+    # will add new suggestion sources until min_matches is reached, if possible
+    min_matches = 5
+
     def __call__(self, context, request=None, query=None):
         """
         We take advantage of the fact that this method is called
@@ -45,31 +50,72 @@ class PersonalizedKeywordsVocabulary(object):
         # if no matching: fall back to global tag set
         # return vocabulary
 
-        logger.info(".__call__(%s, %s, %s)",
-                    repr(context), repr(request), query)
+        graph = api.portal.get_tool("ploneintranet_network")
+        uuid = IUUID(context)
+        userid = api.user.get_current().id
+        blacklist = list(IDublinCore(context).subjects)
 
-        # --- upstream ---
-        site = getSite()
-        self.catalog = getToolByName(site, "portal_catalog", None)
-        if self.catalog is None:
-            return SimpleVocabulary([])
-        index = self.catalog._catalog.getIndex('Subject')
+        # 1. prioritize "old" context tags
+        #    i.e. tags set on context by someone, then removed by someone else
+        try:
+            # don't bother to sort, it'll only ever be a handful
+            tags = self._filter(
+                [x for x in graph.get_tags("content", uuid).keys()],
+                blacklist, query)
+            blacklist.extend(tags)  # avoid duplication
 
-        def safe_encode(term):
-            if isinstance(term, unicode):
-                # no need to use portal encoding for transitional encoding from
-                # unicode to ascii. utf-8 should be fine.
-                term = term.encode('utf-8')
-            return term
+        except KeyError:
+            # untagged content
+            tags = []
 
-        # Vocabulary term tokens *must* be 7 bit values, titles *must* be
-        # unicode
+        # 2. personal tag set on content
+        if len(tags) < self.min_matches:
+            counted = [(len(ids), tag) for (tag, ids)
+                       in graph.get_tagged('content', userid).items()]
+            counted.sort()
+            counted.reverse()  # most used on top
+            tags.extend(self._filter([x[1] for x in counted],
+                                     blacklist, query))
+            blacklist.extend(tags)  # avoid duplication
+
+        # 3. personal tag set on microblog
+        # not implemented yet because microblog tagging integration
+        # into network is TODO FIXME
+
+        # 4. fall back to catalog, list all Subject indexed tags
+        if len(tags) < self.min_matches:
+            tags.extend(self._filter(self._catalog_subjects(),
+                                     blacklist, query))
+
+        # finally, turn the tag list into a vocabulary
         items = [
             SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i))
-            for i in index._index
-            if query is None or safe_encode(query) in safe_encode(i)
+            for i in tags
         ]
         return SimpleVocabulary(items)
+
+    def _catalog_subjects(self, query=None):
+        """Fallback to the upstream vocabulary items generation"""
+        catalog = api.portal.get_tool("portal_catalog")
+        if catalog is None:
+            return []
+        index = catalog._catalog.getIndex('Subject')
+        return [i for i in index._index]
+
+    def _filter(self, tags, blacklist, query=None):
+        return [
+            i for i in tags
+            if i not in blacklist
+            and (query is None or safe_encode(query) in safe_encode(i))
+        ]
+
+
+def safe_encode(term):
+    if isinstance(term, unicode):
+        # no need to use portal encoding for transitional encoding from
+        # unicode to ascii. utf-8 should be fine.
+        term = term.encode('utf-8')
+    return term
 
 
 PersonalizedKeywordsVocabularyFactory = PersonalizedKeywordsVocabulary()
