@@ -85,12 +85,13 @@ class Attachments(BrowserView):
         primary_field = IPrimaryFieldInfo(attachment).value
         mimetype = primary_field.contentType
         data = primary_field.data
+        filename = primary_field.filename
         self.request.response.setHeader(
             'content-type', mimetype)
         self.request.response.setHeader(
             'content-disposition', 'inline; '
             'filename="{0}"'.format(
-                safe_unicode(self.attachment_id).encode('utf8')))
+                safe_unicode(filename)))
         return data
 
     def __call__(self):
