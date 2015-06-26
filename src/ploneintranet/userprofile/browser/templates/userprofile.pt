@@ -188,8 +188,7 @@
 			<form id="followees-list-items" action="" 
 			      data-pat-inject="target: body::after" 
 			      class="search-result users pat-inject">
-			    <fieldset class="checklist pat-checklist users unchecked" 
-				      metal:define-macro="user-listing">
+			    <fieldset class="checklist pat-checklist users unchecked">
 				<label class="item user has-no-description unchecked" tal:repeat="user users">
 				    <input type="checkbox" name="" />
 				    <a class="follow pat-inject"
