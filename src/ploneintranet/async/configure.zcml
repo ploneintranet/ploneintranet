@@ -12,7 +12,7 @@
 
     <genericsetup:registerProfile
             name="default"
-            title="Plone Intranet: -- (Async)"
+            title="Plone Intranet: -- [Async]"
             directory="profiles/default"
             description="Extension profile for ploneintranet.async."
             provides="Products.GenericSetup.interfaces.EXTENSION"
