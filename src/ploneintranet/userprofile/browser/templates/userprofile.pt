@@ -50,7 +50,7 @@
                 <div class="portlet following" id="portlet-following"
                      tal:condition="following">
 					<h2 class="portlet-title">
-						<a href="#person-following" class="link-following">Following <sup tal:content="num_following">8</sup></a>
+						<a href="#person-following" class="link-following"><span tal:omit-tag="" i18n:translate="">Following</span> <sup tal:content="num_following">8</sup></a>
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
@@ -64,13 +64,13 @@
 					<!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
 					<p class="portlet-footer"
 					   tal:condition="python:num_following > 14">
-						<a href="#person-following">Full list of people <b tal:replace="context/fullname" /> follows.</a>
+						<a href="#person-following" i18n:translate="">Full list of people <b tal:replace="context/fullname" i18n:name="name_of_followee" /> follows.</a>
 					</p>
 				</div>
 				<div class="portlet followers" id="portlet-followers"
                      tal:condition="followers">
 					<h2 class="portlet-title">
-						<a href="#person-followers">Followers <sup tal:content="num_followers">12</sup></a>
+						<a href="#person-followers" i18n:translate="">Followers <sup i18n:name="num_followers" tal:content="num_followers">12</sup></a>
 					</h2>
 					<nav class="user-cloud">
 						<!-- Limit the following list of users to 21 users. -->
@@ -84,14 +84,14 @@
 					<!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
 					<p class="portlet-footer"
 					   tal:condition="python:num_followers > 14">
-						<a href="#person-followers">Full list of followers</a>
+						<a href="#person-followers" i18n:translate="">Full list of followers</a>
 					</p>
 				</div>
             </aside>
             <div id="main">
                 <nav class="tabs">
                     <a href="#person-timeline" class="current" i18n:translate="">Timeline</a>
-                    <a href="#person-info">Info</a>
+                    <a href="#person-info" i18n:translate="">Info</a>
                     <a href="#person-followers" class="link-followers" i18n:translate="">Followers <sup tal:content="num_followers" i18n:name="num_followers">12</sup></a>
                     <a href="#person-following" class="link-following" i18n:translate="">Following <sup tal:content="num_following" i18n:name="num_following">8</sup></a>
                 </nav>
@@ -159,7 +159,7 @@
                             </dl>
                         </tal:block>
 
-                            <article class="pat-rich"tal:content="context/biography" />
+                            <article class="pat-rich" tal:content="context/biography" />
 
                     </article>
 		    <div id="person-followers" tal:define="users followers">

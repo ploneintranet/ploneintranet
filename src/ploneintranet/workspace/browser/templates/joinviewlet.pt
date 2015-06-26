@@ -1,6 +1,6 @@
 <dl tal:condition="view/visible" class="portalMessage info"
      i18n:domain="ploneintranet">
-  <dt>Join</dt>
+  <dt i18n:translate="">Join</dt>
   <dd>
     <form method="post" tal:attributes="action view/join_url">
       <span i18n:translate="">

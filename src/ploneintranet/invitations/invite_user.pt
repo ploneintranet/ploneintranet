@@ -50,6 +50,8 @@
                type="submit"
                name="send"
                value="Send"
+               i18n:translate="label_send"
+               i18n:attribute="value"
             />
       </p>
 

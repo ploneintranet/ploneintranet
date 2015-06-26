@@ -31,22 +31,22 @@
                   </h1>
                   <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
-                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified">
+                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified" i18n:translate="">
                       Delete
                     </a>
-                    <a href="" class="icon-copy iconified">
+                    <a href="" class="icon-copy iconified" i18n:translate="">
                       Copy
                     </a>
-                    <a href="#share-panel" class="icon-export iconified pat-modal">
+                    <a href="#share-panel" class="icon-export iconified pat-modal" i18n:translate="">
                       Share
                     </a>
-                    <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>
+                    <a class="icon-info-circle meta-data-toggle iconified" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
                       <label class="pat-select bare">
                         <select name="task_action" id="workflow_action">
-                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}">Open</option>
-                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}">Done</option>
+                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Open</option>
+                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Done</option>
                         </select>
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>

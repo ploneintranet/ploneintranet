@@ -10,7 +10,7 @@
       <div hidden="hidden" id="more-menu">
         <ul class="menu">
           <li>
-            <a class="icon-document" href="#">Paste document(s)</a>
+            <a class="icon-document" href="#" i18n:translate="">Paste document(s)</a>
           </li>
         </ul>
       </div>

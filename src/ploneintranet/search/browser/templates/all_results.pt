@@ -20,10 +20,10 @@
                 <fieldset class="pat-checklist"
                       id="content-types">
                     <span class="small button-cluster">
-                    <button type="button" class="pat-button select-all">All</button>
-                    <button type="button" class="pat-button deselect-all">None</button>
+                    <button type="button" class="pat-button select-all" i18n:translate="">All</button>
+                    <button type="button" class="pat-button deselect-all" i18n:translate="">None</button>
                     </span>
-                    <legend>Content types</legend>
+                    <legend i18n:translate="">Content types</legend>
                     <!-- Only list content types in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="ctype search_response/facets/friendly_type_name">
@@ -37,10 +37,10 @@
                       id="tags"
                       tal:condition="search_response/facets/tags">
                     <span class="small button-cluster">
-                    <button type="button" class="pat-button select-all">All</button>
-                    <button type="button" class="pat-button deselect-all">None</button>
+                    <button type="button" class="pat-button select-all" i18n:translate="">All</button>
+                    <button type="button" class="pat-button deselect-all" i18n:translate="">None</button>
                     </span>
-                    <legend>Tags</legend>
+                    <legend i18n:translate="">Tags</legend>
                     <!-- Only list tags in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="tag search_response/facets/tags">
@@ -51,21 +51,21 @@
                     </label>
                 </fieldset>
                 <label>
-                    Created
+                    <span i18n:translate="" tal:omit-tag="">Created</span>
                     <select name="created" id="">
-                    <option value="">
+                    <option value="" i18n:translate="">
                         Any creation date
                     </option>
-                    <option value="today">
+                    <option value="today" i18n:translate="">
                         Today
                     </option>
-                    <option value="last-week">
+                    <option value="last-week" i18n:translate="">
                         Last week
                     </option>
-                    <option value="last-month">
+                    <option value="last-month" i18n:translate="">
                         Last month
                     </option>
-                    <option value="before-last-month">
+                    <option value="before-last-month" i18n:translate="">
                         Before last month
                     </option>
                     </select>
@@ -75,11 +75,11 @@
             <div class="nine columns last document-listing"
                  id="listing"
                  tal:condition="search_response">
-                <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
+                <p><span tal:replace="search_response/total_results">87</span> <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
                 <p class="did-you-mean"
                    tal:define="corrected search_response/spell_corrected_search"
                    tal:condition="corrected">
-                Did you mean
+                <span i18n:translate="" tal:omit-tag="">Did you mean</span>
                 <a href="@@search?SearchableText=${corrected}"
                    tal:content="corrected"></a>?
                 </p>
@@ -184,7 +184,7 @@
 		<p tal:define="next_url python: 
 			       view.next_page_url(search_response.total_results)"
 		   tal:condition="next_url">
-		    <a href="${next_url}">More results</a>
+		    <a href="${next_url}" i18n:translate="">More results</a>
 		</p>
             </div>
             </div>
