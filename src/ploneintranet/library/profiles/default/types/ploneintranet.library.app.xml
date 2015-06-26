@@ -21,7 +21,7 @@
  
  <!-- List of enabled behaviors -->
  <property name="behaviors">
-   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
+   <element value="ploneintranet.network.behaviors.metadata.IDublinCore"/>
    <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
  
