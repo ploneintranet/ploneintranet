@@ -67,4 +67,8 @@
     <browser:jbot directory="static/overrides"
         layer=".interfaces.IThemeSpecific" />
 
+    <adapter factory=".widgets.PatDatePickerConverter" />
+    <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
+    <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+
 </configure>
