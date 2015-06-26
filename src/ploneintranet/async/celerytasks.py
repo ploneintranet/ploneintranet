@@ -35,6 +35,7 @@ def generate_and_add_preview(url, cookies):
     }
 
     url += '/@@generate-previews'
+    logger.info('Calling %s', url)
     resp = requests.post(url, data=params, cookies=cookies)
     logger.info(resp)
     if resp.status_code != 200:
