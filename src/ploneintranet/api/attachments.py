@@ -35,7 +35,7 @@ def add(obj, filename, data):
         data=data,
         filename=filename,
     )
-    file_id = '{0}-{1}'.format(filename, uuid.uuid4().hex)
+    file_id = '{0}-{1}'.format(filename, uuid.uuid4().hex[-6:])
     if namedfile.contentType.startswith('image'):
         fti = queryUtility(IDexterityFTI, name='Image')
         attachment = createObject(
