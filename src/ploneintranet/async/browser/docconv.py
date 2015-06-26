@@ -136,6 +136,8 @@ class GeneratePreviewImages(BaseDocConvView):
                     self.context,
                     'preview_{0}'.format(image.name),
                     fd.read())
+            image.unlink()
+        self.output_dir.rmdir()
 
         return 'Command output: {}'.format(cmd_output)
 
