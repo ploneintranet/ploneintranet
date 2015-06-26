@@ -27,7 +27,7 @@
         Due date
         <input type="date"
                name="due"
-               tal:attributes="value context/due|nothing"
+               tal:attributes="value context/due | nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" placeholder="Set a deadline"/>
@@ -65,16 +65,16 @@
         <metal:extra-fields-top define-slot="extra-fields-top"/>
 
                 <label class="location">
-                    Location <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing">
+                    Location <input name="location" type="text" value="" tal:attributes="disabled read_only; value context/location | nothing">
                 </label>
                 <br>
                 <label class="organiser">
-                    Organiser <input tal:attributes="disabled read_only" class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="value context/organiser | nothing">
+                    Organiser <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing">
                 </label>
                 <br>
                 <fieldset class="pat-checklist options">
                     <label>
-                        <input tal:attributes="checked python:context.whole_day" tal:attributes="disabled read_only" type="checkbox"> All day event
+                        <input tal:attributes="disabled read_only; checked python:context.whole_day" type="checkbox"> All day event
                     </label>
                     <br>
                     <label>
