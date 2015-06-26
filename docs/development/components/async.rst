@@ -118,7 +118,7 @@ as well as URLs to these:
 Development setup
 =================
 
-The default buildout sets up Celery in ``ALWAYS_EAGER`` mode.
+The default buildout sets up Celery in synchronous ('always eager') mode.
 This means you do not need to run the Celery worker or the broker (redis).
 
 For development and testing this set up is ideal (preview generation will run synchronously for example)
@@ -130,7 +130,7 @@ Production/Staging setup
 In order to deploy Plone Intranet to a staging/testing or production environment
 you will need to do the following:
 
-* Ensure the buildout config you are using overrides CELERY_ALWAYS_EAGER environment variable to be false
+* Ensure the buildout config you are using overrides ASYNC_ENABLED environment variable to be true
 * Your supervisor (or other process management) config starts the Celery worker (see below)
 * Redis is installed and running as a system service (do not run redis under supervisor for security reasons)
 

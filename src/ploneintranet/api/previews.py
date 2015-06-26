@@ -107,16 +107,7 @@ def create(obj, request):
     :param request: The Plone request object
     :type request: HTTPRequest
     """
-    if app.conf.get('CELERY_ALWAYS_EAGER', False):
-        # If we're running synchronously, call the Plone view directly
-        view = api.content.get_view(
-            'generate-previews',
-            obj,
-            request
-        )
-        view()
-    else:
-        # Otherwise call the Celery task
+    if app.conf.get('ASYNC_ENABLED', False):
         kwargs = dict(
             url=obj.absolute_url(),
             cookies=request.cookies
@@ -125,3 +116,11 @@ def create(obj, request):
             countdown=10,
             kwargs=kwargs,
         )
+    else:
+        # We're running synchronously, call the Plone view directly
+        view = api.content.get_view(
+            'generate-previews',
+            obj,
+            request
+        )
+        view()
