@@ -106,6 +106,18 @@ def create(
         # Avoids using dict as default for a keyword argument.
         properties = {}
 
+    if 'fullname' in properties:
+        # Translate from plone-style 'fullname'
+        # to first and last names
+        fullname = properties.pop('fullname')
+        if ' ' in fullname:
+            firstname, lastname = fullname.split(' ', 1)
+        else:
+            firstname = ''
+            lastname = fullname
+        properties['first_name'] = firstname
+        properties['last_name'] = lastname
+
     profile = plone_api.content.create(
         container=profile_container,
         type='ploneintranet.userprofile.userprofile',

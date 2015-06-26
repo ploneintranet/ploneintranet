@@ -27,7 +27,7 @@
         Due date
         <input type="date"
                name="due"
-               tal:attributes="value context/due|nothing"
+               tal:attributes="value context/due | nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" placeholder="Set a deadline"/>
@@ -88,6 +88,7 @@
             <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${context/start | nothing}"/>
             <!-- <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="" /> -->
           </fieldset>
+
 
           <fieldset class="group six columns">
             <legend>To</legend>
