@@ -30,7 +30,7 @@ class UploadAttachments(BrowserView):
                 self.context,
                 file_field.filename,
                 file_field.read())
-        current_attachments = pi_api.attachments.get_attachments(self.context)
+        current_attachments = pi_api.attachments.get(self.context)
         for att in current_attachments:
             self.attachments.append(
                 pi_api.previews.get_thumbnail_url(att)

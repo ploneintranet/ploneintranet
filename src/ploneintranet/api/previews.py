@@ -15,7 +15,7 @@ def get(obj):
     :return: The preview images
     :rtype: list
     """
-    return attachments.get_attachments(obj, 'preview')
+    return attachments.get(obj, 'preview')
 
 
 def get_previews(obj, scale='preview'):
@@ -67,6 +67,7 @@ def get_preview_urls(obj, scale='preview'):
 
 
 def fallback_image_url():
+    # We need a better fallback image. See #122
     return '{0}/++theme++ploneintranet.theme/generated/media/logo.svg'.format(
         api.portal.get().absolute_url())
 

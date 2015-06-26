@@ -52,7 +52,7 @@ def add(obj, filename, data):
     attachment_storage.add(attachment)
 
 
-def get_attachments(obj, prefix=None):
+def get(obj, prefix=None):
     """Get the attachments of the given object optionally named with `prefix`
 
     :param obj: The Plone object to add the attachment to
