@@ -13,6 +13,9 @@ from plone.app.content.browser.vocabulary import BaseVocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
 
+from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
+
+
 logger = getLogger(__name__)
 
 _permissions = {
@@ -39,15 +42,9 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         and calls it with both context and request to
         enable personalization.
         """
-        # copy security checks
-        # __init__ factory
-        # skip legacy support
-        # __call__ factory with (context, request)
-        # return vocabulary
 
-        logger.info(".get_vocabulary()")
+        # --- only slightly changed from upstream ---
 
-        # --- unchanged upstream ---
         # Look up named vocabulary and check permission.
         context = self.context
         factory_name = self.request.get('name', None)
@@ -88,8 +85,14 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         query = _parseJSON(self.request.get('query', ''))
         if query and 'query' in factory_spec.args:
             vocabulary = factory(context, query=query)
+
+        # This is what is reached for non-legacy vocabularies.
+
+        elif IPersonalizedVocabularyFactory.providedBy(factory):
+            # this is the key customization: feed in the request
+            vocabulary = factory(context, self.request)
         else:
-            # This is what is reached for non-legacy vocabularies.
+            # default fallback
             vocabulary = factory(context)
 
         return vocabulary
