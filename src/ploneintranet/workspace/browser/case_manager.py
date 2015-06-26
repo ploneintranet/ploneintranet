@@ -65,6 +65,13 @@ class CaseManagerView(BrowserView):
                     'range': 'max',
                 }
 
+        case_status = form.get('status')
+        if case_status:
+            if case_status == "open":
+                query['review_state'] = [
+                    'complete', 'decided', 'in_progress', 'new', 'request']
+            elif case_status == "closed":
+                query['review_state'] = ['archived', 'closed']
         valid_indexes = tuple(pc.indexes())
         for field in valid_indexes:
             if form.get(field):
