@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from logging import getLogger
+from plone import api
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
 from plone.memoize.view import memoize
 
 from plone.tiles import Tile
@@ -27,8 +27,8 @@ class NewPostBoxTile(Tile):
     button_prefix = 'form.buttons.'
 
     def activity_as_post(self, activity):
-        ''' BBB: just for testing
-        '''
+        """ BBB: just for testing
+        """
         return api.content.get_view(
             'activity_view',
             activity.context,
@@ -166,8 +166,8 @@ class NewPostBoxTile(Tile):
         )
 
     def get_post_as_comment(self, post):
-        ''' Transforms a post (aka StatusUpdate) into a renderable comment
-        '''
+        """ Transforms a post (aka StatusUpdate) into a renderable comment
+        """
         return api.content.get_view(
             'statusupdate_view',
             post,
