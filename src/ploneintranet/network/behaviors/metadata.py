@@ -362,7 +362,9 @@ class Categorization(MetadataBase):
         graph = getUtility(INetworkTool)
         user = api.user.get_current()
         uuid = IUUID(self.context)
-        graph.tag('content', uuid, user.id, *value)
+        if value:
+            graph.tag('content', uuid, user.id, *value)
+        # else value==() -> cleaned up below
         stale = [tag for tag in graph.get_tags('content', uuid, user.id)
                  if tag not in value]
         if stale:
