@@ -27,7 +27,7 @@
         Due date
         <input type="date"
                name="due"
-               tal:attributes="value context/due | nothing"
+               tal:attributes="value context/due|nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" placeholder="Set a deadline"/>
@@ -54,13 +54,7 @@
 
 
     <metal:event_fields define-macro="event_fields"
-                        tal:define="read_only python:False;">
-      <label class="description">
-        Description
-        <textarea name="description" placeholder="Enter a description of the event"
-                  tal:attributes="disabled read_only" rows="6">${python:is_edit_form and context.description or ''}</textarea>
-      </label>
-
+                        tal:define="read_only python:False">
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
       <label class="location">
