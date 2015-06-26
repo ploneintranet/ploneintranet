@@ -4,21 +4,21 @@
         i18n_domain="ploneintranet">
     <browser:page
             name="generate-previews"
-            for="*"
+            for="Products.CMFCore.interfaces.IContentish"
             class=".docconv.GeneratePreviewImages"
             permission="zope2.View"
             layer="..interfaces.IPloneintranetAsyncLayer"
             />
     <browser:page
             name="thumbnail"
-            for="*"
+            for="Products.CMFCore.interfaces.IContentish"
             permission="zope2.View"
             class=".previews.ThumbnailView"
             layer="..interfaces.IPloneintranetAsyncLayer"
             />
     <browser:page
             name="preview"
-            for="*"
+            for="Products.CMFCore.interfaces.IContentish"
             permission="zope2.View"
             class=".previews.PreviewView"
             layer="..interfaces.IPloneintranetAsyncLayer"
