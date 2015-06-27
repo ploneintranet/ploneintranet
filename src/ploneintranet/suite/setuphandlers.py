@@ -73,7 +73,8 @@ def create_users(context, users, avatars_dir):
             # Already exists - update
             profile = pi_api.userprofile.get(userid)
             for key, value in properties.items():
-                setattr(profile, key, value)
+                if key != 'fullname':  # now this field is calculated
+                    setattr(profile, key, value)
             logger.info('Updated user {}'.format(userid))
 
         portrait_path = os.path.join(avatars_dir, portrait_filename)
