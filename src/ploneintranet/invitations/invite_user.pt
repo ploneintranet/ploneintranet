@@ -50,7 +50,7 @@
                name="send"
                value="Send"
                i18n:translate="label_send"
-               i18n:attribute="value"
+               i18n:attributes="value"
             />
       </p>
 
