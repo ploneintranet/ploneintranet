@@ -20,10 +20,10 @@
         <div class="panel-body">
           <fieldset class="vertical">
             <label>
-              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" i18n:attributes="placeholder" />
             </label>
             <label>
-              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+              <textarea placeholder="Workspace description" rows="6" name="description" i18n:attributes="placeholder"></textarea>
             </label>
             <label>
               <select name="portal_type">
