@@ -27,7 +27,7 @@
         <span tal:omit-tag="" i18n:translate="">Due date</span>
         <input type="date"
                name="due"
-               tal:attributes="value context/due | nothing"
+               tal:attributes="value context/due|nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" placeholder="Set a deadline"/>
@@ -54,13 +54,7 @@
 
 
     <metal:event_fields define-macro="event_fields"
-                        tal:define="read_only python:False;">
-      <label class="description">
-        <span tal:omit-tag="" i18n:translate="">Description</span>
-        <textarea name="description" placeholder="Enter a description of the event" i18n:attributes="placeholder"
-                  tal:attributes="disabled read_only" rows="6">${python:is_edit_form and context.description or ''}</textarea>
-      </label>
-
+                        tal:define="read_only python:False">
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
       <label class="location">
@@ -81,19 +75,38 @@
         </label>
       </fieldset>
       <br/>
-      <fieldset class="date-time">
-        <fieldset class="row">
+      <fieldset class="group date-time">
+        <fieldset class="row group">
           <fieldset class="group six columns">
             <legend i18n:translate="">From</legend>
-            <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${context/start | nothing}"/>
-            <!-- <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="" /> -->
+            <div class="row"
+                 tal:define="start context/start | nothing">
+              <label class="six columns">
+                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
+              </label>
+              <label class="six columns">
+                <input type="time" size="10" class="date" name="start" placeholder="Time"
+                        tal:attributes="disabled read_only;
+                                        value python:start and start.strftime('%H:%M')"/>
+              </label>
+            </div>
           </fieldset>
 
 
           <fieldset class="group six columns">
             <legend i18n:translate="">To</legend>
-            <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${context/end | nothing}"/>
-            <!-- <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="end_date-time" placeholder="Time" value=""/> -->
+            <div class="row"
+                 tal:define="end context/end | nothing">
+              <label class="six columns">
+
+                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
+              </label>
+              <label class="six columns">
+                <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
+                       tal:attributes="disabled read_only;
+                                       value python:end and end.strftime('%H:%M')"/>
+              </label>
+            </div>
           </fieldset>
         </fieldset>
 

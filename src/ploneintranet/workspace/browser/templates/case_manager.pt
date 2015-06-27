@@ -62,6 +62,14 @@
                           </tal:r>
                         </select>
                       </label>
+                      <label>
+                        Status
+                        <select name="status" class="focus">
+                          <option value="">All</option>
+                          <option value="open">Open</option>
+                          <option value="closed">Closed</option>
+                        </select>
+                      </label>
 
                       <label>
                         Entscheidtermin
