@@ -108,7 +108,9 @@
     <append css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
-  <rules css:if-content="body.portaltype-ploneintranet-library-app">
+  <rules css:if-content="body.portaltype-ploneintranet-library-app,
+                         body.portaltype-ploneintranet-library-section,
+                         body.portaltype-ploneintranet-library-folder">
     <theme href="generated/library.html" />
     <drop css:theme-children="#content .container" />
     <append css:content-children="#portal-column-content"

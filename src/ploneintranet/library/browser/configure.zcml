@@ -23,4 +23,22 @@
      permission="zope2.View"
      />
 
+  <browser:page
+     name="view"
+     for="ploneintranet.library.content.ILibrarySection"
+     class=".views.LibrarySectionView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     name="view"
+     for="ploneintranet.library.content.ILibraryFolder"
+     class=".views.LibraryFolderView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
+
 </configure>

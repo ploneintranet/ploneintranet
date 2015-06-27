@@ -32,7 +32,7 @@ class LibraryHomeView(BrowserView):
         self.request.response.redirect(target)
 
 
-class LibraryAppView(BrowserView):
+class LibraryListingView(BrowserView):
 
     @view.memoize
     def struct(self):
@@ -60,3 +60,18 @@ class LibraryAppView(BrowserView):
             section['content'] = content
             struct.append(section)
         return struct
+
+
+class LibraryAppView(LibraryListingView):
+
+    pass
+
+
+class LibrarySectionView(LibraryListingView):
+
+    pass
+
+
+class LibraryFolderView(LibraryListingView):
+
+    pass
