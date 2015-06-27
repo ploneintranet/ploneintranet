@@ -19,6 +19,7 @@
               </h3>
               <div class="quick-functions">
                 
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 <a title="Show functions" class="member-list-toggle-select more-menu-trigger">Functions</a>
                 
                 <a class="toggle-select-mode pat-toggle member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow">Select</a>
