@@ -7,7 +7,7 @@
      i18n_domain="ploneintranet">
 
   <browser:page
-     name="library.html"
+     name="library"
      for="plone.app.layout.navigation.interfaces.INavigationRoot"
      class=".views.LibraryHomeView"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
