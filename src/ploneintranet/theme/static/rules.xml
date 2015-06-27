@@ -110,7 +110,9 @@
 
   <rules css:if-content="body.portaltype-ploneintranet-library-app">
     <theme href="generated/library.html" />
-    <drop css:theme-children="#content" />
+    <drop css:theme-children="#content .container" />
+    <append css:content-children="#portal-column-content"
+            css:theme="#content .container" />
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->

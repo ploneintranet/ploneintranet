@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <metal:content fill-slot="content">
+
+      <nav class="canvas-subnav">
+	<a href="/library.html" class="current">All topics</a>
+	<a href="/library-hr.html">HR</a>
+	<a href="/library.html">Regulations</a>
+	<a href="/library.html">Transportation</a>
+	<a href="/library.html">Lorem ipsum</a>
+      </nav>
+
+      <form class="canvas-toolbar pat-inject pat-autosubmit" action="/library-tag.html#lib-groups">
+	<label class="bare pat-select">
+	  <select>
+	    <option>
+	      Group by topic
+	    </option>
+	    <option>
+	      Group by tag
+	    </option>
+	    <option>
+	      Group by my tags
+	    </option>
+	    <option>
+	      Group by author
+	    </option>
+	    <option>
+	      Group by publication date
+	    </option>
+	  </select>
+	</label>
+
+	<div class="icons">
+	  <!-- Link to external CMS -->
+	  <a href="#" class="icon create" title="Create a new page or section">Create page or section</a>
+	</div>
+
+	<!-- Search is out of scope? -->
+	<input type="search" placeholder="Search library items" />
+	
+      </form>
+
+      <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
+	<div class="grid-sizer"></div>
+	<div class="tile group-by-section">
+	  <div class="content">
+	    <h3>
+	      <a href="/library-hr.html">HR</a>
+	    </h3>
+	    <p class="description">
+	      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
+	    </p>
+	    <ul class="menu group-by-section">
+	      <li class="follow-section">
+		<a href="library-hr-valenpedicis-palemtuem.html" class="icon-squares" href="#">Valenpedicis palemtuem</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Consectetuer</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Dolor sit amet</a>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+	<div class="tile group-by-section">
+	  <div class="content">
+	    <h3>
+	      <a href="/library-hr.html">Regulations</a>
+	    </h3>
+	    <ul class="menu">
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+	<div class="tile group-by-section">
+	  <div class="content">
+	    <h3>
+	      <a href="/library-hr.html">Transportation</a>
+	    </h3>
+	    <ul class="menu">
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-page">
+		<a class="icon-doc-text" href="#">Lorem ipsum</a>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+	<div class="tile group-by-section">
+	  <div class="content">
+	    <h3>
+	      <a href="/library-hr.html">Lorem ipsum</a>
+	    </h3>
+	    <ul class="menu">
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	      <li class="follow-section">
+		<a class="icon-squares" href="#">Lorem ipsum</a>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+      </div>
+
+    </metal:content>
+
+</html>

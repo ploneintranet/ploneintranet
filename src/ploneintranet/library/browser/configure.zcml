@@ -6,14 +6,21 @@
      xmlns:plone="http://namespaces.plone.org/plone"
      i18n_domain="ploneintranet">
 
-<!--
   <browser:page
-     name="search_template"
+     name="library.html"
      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+     class=".views.LibraryHomeView"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
      permission="zope2.View"
-     template="templates/search_template.pt"
-     layer="..interfaces.IPloneintranetSearchLayer"
      />
--->
+
+  <browser:page
+     name="view"
+     for="ploneintranet.library.content.ILibraryApp"
+     class=".views.LibraryAppView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
 
 </configure>
