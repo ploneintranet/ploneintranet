@@ -39,7 +39,7 @@
                       tal:attributes="title milestone_title;
                                       class python:'{0} state-{1}'.format(attrs['class'],'finished' if mm_seq[milestone_id]['finished'] else 'unfinished')">
                     <tal:state_index define="global task_number python:task_number + repeat['milestone_id'].index">
-				      <h3 class="section-label" tal:content="milestone_title"/>
+				      <h3 class="section-label" tal:content="milestone_title" i18n:translate=""/>
 				      <ul>
                         <li class="step-background"
                             tal:condition="python:milestone_id in (milestones[0], milestones[-1]) and tasks[milestone_id] == []"
@@ -81,7 +81,7 @@
                          tal:define="milestone python:mm_seq[milestone_id]"
                          tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
 				        <a class="link"
-                           tal:content="milestone/transition_title" />
+                           tal:content="milestone/transition_title" i18n:translate=""/>
 				      </p>
                     </tal:state_index>
                   </li>

@@ -302,7 +302,7 @@ Supported types include (class names):
 
                   <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
                             tal:attributes="id string:milestone-${milestone}">
-                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
+                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"  i18n:translate=""/>
                     <tal:task repeat="task python:tasks[milestone]">
                       <label>
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
@@ -320,18 +320,18 @@ Supported types include (class names):
                     <p class="button-bar">
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
-                         tal:condition="view/can_add">Create new task</a>
+                         tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button"
                          tal:condition="python:milestones[milestone]['enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);">Close milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button"
                          tal:condition="python:milestones[milestone]['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);">Reopen milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);" i18n:translate="">Reopen milestone</a>
                     </p>
                   </fieldset>
                 </tal:milestone>
                 <fieldset class="task-list pat-checklist">
-                  <h4 class="section-label">
+                  <h4 class="section-label" i18n:translate="">
                     Unassigned
                   </h4>
                   <label tal:repeat="task python:tasks['unassigned']">
