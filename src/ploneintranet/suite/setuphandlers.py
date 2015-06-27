@@ -615,6 +615,7 @@ def create_library_content(parent, spec, force=False):
     if parent is None:
         # initial call
         portal = api.portal.get()
+        parent = portal.library
         api.user.grant_roles(
             username='alice_lindstrom',
             roles=['Contributor', 'Reviewer', 'Editor'],
