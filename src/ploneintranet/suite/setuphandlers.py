@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import csv
+import copy
 import json
 import logging
 import os
 import random
 import time
+import transaction
 
 import loremipsum
 from DateTime import DateTime
@@ -39,6 +41,7 @@ def testing(context):
     log.info("create_users")
     users = users_spec(context)
     create_users(context, users, 'avatars')
+    transaction.commit()
 
     log.info("create news")
     news = news_spec(context)
@@ -47,20 +50,24 @@ def testing(context):
     log.info("create workspaces")
     workspaces = workspaces_spec(context)
     create_workspaces(workspaces)
+    transaction.commit()
 
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
+    transaction.commit()
 
     log.info("create library content")
     library = library_spec(context)
-    create_library_content(None, library)
+    create_library_content(None, library, force=True)
+    transaction.commit()
 
     log.info("create microblog stream")
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
+    transaction.commit()
 
     log.info("done.")
 
@@ -199,7 +206,7 @@ def create_news(news, force=False):
     portal = api.portal.get()
     like_tool = getUtility(INetworkTool)
 
-    if not force and 'news' in portal:
+    if not force and len(portal.news.objectIds()) > 1:
         log.info("news already setup. skipping for speed.")
         return
 
@@ -582,33 +589,52 @@ def create_ws_content(parent, contents):
 
 
 def library_spec(context):
-    library = [
-        {'type': 'ploneintranet.library.section',
-         'title': 'Human Resources',
-         'description': 'Information from the HR department',
-         'contents': [
-             {'type': 'ploneintranet.library.folder',
-              'title': 'Leave policies',
-              'description': 'Holidays and sick leave',
-              'contents': [
-                  {'type': 'ploneintranet.library.page',
-                   'title': 'Holidays',
-                   'desciption': 'Yearly holiday allowance'},
-                  {'type': 'ploneintranet.library.page',
-                   'title': 'Sick Leave',
-                   'desciption': ("You're not feeling too well, "
-                                  "here's what to do")},
-                  {'type': 'ploneintranet.library.page',
-                   'title': 'Pregnancy',
-                   'desciption': 'Expecting a child?'},
-              ]}
-         ]},
-    ]
+    hr = {'type': 'ploneintranet.library.section',
+          'title': 'Human Resources',
+          'description': 'Information from the HR department',
+          'contents': [
+              {'type': 'ploneintranet.library.folder',
+               'title': 'Leave policies',
+               'description': 'Holidays and sick leave',
+               'contents': [
+                   {'type': 'ploneintranet.library.page',
+                    'title': 'Holidays',
+                    'desciption': 'Yearly holiday allowance'},
+                   {'type': 'ploneintranet.library.page',
+                    'title': 'Sick Leave',
+                    'desciption': ("You're not feeling too well, "
+                                   "here's what to do")},
+                   {'type': 'ploneintranet.library.page',
+                    'title': 'Pregnancy',
+                    'desciption': 'Expecting a child?'},
+               ]},
+          ]}
+    mixed_contents = []
+    for i in range(3):
+        mixed_contents.append({'type': 'ploneintranet.library.folder'})
+    for i in range(5):
+        mixed_contents.append({'type': 'ploneintranet.library.page'})
+    mixedfolder = {'type': 'ploneintranet.library.folder',
+                   'contents': mixed_contents}
+    for i in range(3):
+        # leave policies
+        hr['contents'][0]['contents'].append(mixedfolder)
+    for i in range(3):
+        hr['contents'].append(mixedfolder)
+    library = [hr]
+    for i in range(4):
+        library.append(
+            {'type': 'ploneintranet.library.section',
+             'contents': [mixedfolder] * 5}
+        )
     return library
 
 
 library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
                 'budget', 'policy', 'administration', 'press')
+
+
+idcounter = 0
 
 
 def create_library_content(parent, spec, force=False):
@@ -627,12 +653,20 @@ def create_library_content(parent, spec, force=False):
             return
 
     # recursively called
-    for x in spec:
-        contents = x.pop('contents', None)
-        if x['type'].endswith('page'):
-            x['text'] = " ".join(["<p>%s</p>" % para
-                                  for para in loremipsum.get_paragraphs(3)])
-        obj = create_as('alice_lindstrom', container=parent, **x)
+    while spec:
+        # avoiding side effects here cost me 4 hours!!
+        item = copy.deepcopy(spec.pop(0))
+        contents = item.pop('contents', None)
+        if 'title' not in item:
+            global idcounter
+            idcounter += 1
+            item['title'] = 'Lorem Ipsum %s' % idcounter
+        if 'description' not in item:
+            item['description'] = loremipsum.get_sentence()
+        if item['type'].endswith('page'):
+            item['text'] = " ".join(["<p>%s</p>" % para
+                                     for para in loremipsum.get_paragraphs(3)])
+        obj = create_as('alice_lindstrom', container=parent, **item)
         wrapped = IDublinCore(obj)
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
