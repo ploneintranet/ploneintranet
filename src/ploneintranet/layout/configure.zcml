@@ -23,4 +23,34 @@
         handler=".layers.enable_app_layer"
         /-->
 
+    <genericsetup:registerProfile
+        name="default"
+        title="Plone Intranet: -- [Layout]"
+        directory="profiles/default"
+        description="Extension profile for ploneintranet.layout."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- [Layout uninstall]"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.layout."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:importStep
+        name="ploneintranet.layout.setupVarious"
+        title="Delete default frontpage and configure dashboard as default"
+        description=""
+        handler="ploneintranet.layout.setuphandlers.setupVarious">
+    </genericsetup:importStep>
+
+    <genericsetup:importStep
+        name="ploneintranet.layout.uninstall"
+        title="Plone Intranet Laout: uninstall steps"
+        description="Various uninstall steps that are not handled by GS import/export handlers."
+        handler="ploneintranet.layout.setuphandlers.uninstall" />
+
+
 </configure>
