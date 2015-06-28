@@ -9,6 +9,7 @@ from plone.app.textfield.value import RichTextValue
 from ploneintranet.theme.interfaces import IThemeSpecific
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.interfaces import IPloneintranetContentLayer
+from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.interface import alsoProvides
 
@@ -39,6 +40,7 @@ class TestContentViews(BaseTestCase):
         alsoProvides(self.request, IThemeSpecific)
         alsoProvides(self.request, IPloneintranetLayoutLayer)
         alsoProvides(self.request, IPloneintranetContentLayer)
+        alsoProvides(self.request, IWorkspaceAppContentLayer)
         alsoProvides(self.request, IPloneAppContenttypesLayer)
 
     def test_document_view(self):
