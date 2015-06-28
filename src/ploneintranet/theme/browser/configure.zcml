@@ -16,15 +16,6 @@
     layer="ploneintranet.theme.interfaces.IThemeSpecific"
   />
 
-  <browser:page
-      name="dashboard.html"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".dashboard.Dashboard"
-      permission="ploneintranet.viewsite"
-      template="templates/dashboard.pt"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
-
 
   <!-- prototype tiles for dashboard and workspace
 
@@ -50,16 +41,6 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
       -->
-  <plone:tile
-      name="tasks.tile"
-      title="A title for the tasks"
-      description="My tile's description"
-      add_permission="cmf.ManagePortal"
-      class=".dashboard.TasksTile"
-      permission="zope.Public"
-      for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
   <!--
   <plone:tile
       name="sidebar.tile"
