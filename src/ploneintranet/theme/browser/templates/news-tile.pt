@@ -1,9 +1,10 @@
-<html>
+<html i18n:domain="ploneintranet">
 <body>
     <div class="news portlet" id="portlet-news">
-        <h2 class="portlet-title"><a href="/news.html">News</a></h2>
+        <h2 class="portlet-title"><a href="/news.html" i18n:translate="">News</a></h2>
         <div class="news-block" id="unread-news">
-            <!-- XXX: tal repleat over real news -->
+            <!-- XXX: tal re
+            pleat over real news -->
             <article class="item item-1">
                 <a href="/news-press-2">
                     <img class="illustration" src="" alt="" />
@@ -17,7 +18,7 @@
                     </p>
                 </a>
                 <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                    <button type="submit" class="icon-ok">Mark read</button>
+                    <button type="submit" class="icon-ok" i18n:translate="">Mark read</button>
                 </form>
             </article>
             <article class="item item-2">
@@ -33,7 +34,7 @@
                     </p>
                 </a>
                 <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                    <button type="submit" class="icon-ok">Mark read</button>
+                    <button type="submit" class="icon-ok" i18n:translate="">Mark read</button>
                 </form>
             </article>
             <article class="item item-3">
@@ -49,7 +50,7 @@
                     </p>
                 </a>
                 <form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
-                    <button type="submit" class="icon-ok">Mark read</button>
+                    <button type="submit" class="icon-ok" i18n:translate="">Mark read</button>
                 </form>
             </article>
         </div>

@@ -3,12 +3,13 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       xml:lang="en"
-      tal:omit-tag="">
+      tal:omit-tag="" 
+      i18n:domain="ploneintranet">
 
 <div class="news portlet" id="portlet-news">
   <h2 class="portlet-title">
     <!-- TODO: make this configurable -->
-    <a href="/news">News</a>
+    <a href="/news" i18n:translate="">News</a>
   </h2>
   <div class="news-block" id="unread-news">
     <tal:news repeat="news_item view/latest_news">
