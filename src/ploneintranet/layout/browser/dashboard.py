@@ -18,15 +18,15 @@ class Dashboard(BrowserView):
 # The tiles below are dummy tiles.
 # Please do NOT implement "real" tiles here, put them in another package
 # We want to keep the theme simple and devoid of business logic
-class NewsTile(Tile):
+# class NewsTile(Tile):
 
-    index = ViewPageTemplateFile("templates/news-tile.pt")
+#     index = ViewPageTemplateFile("templates/news-tile.pt")
 
-    def render(self):
-        return self.index()
+#     def render(self):
+#         return self.index()
 
-    def __call__(self):
-        return self.render()
+#     def __call__(self):
+#         return self.render()
 
 
 class TasksTile(Tile):
