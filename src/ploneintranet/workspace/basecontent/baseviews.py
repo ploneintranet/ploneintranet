@@ -13,7 +13,7 @@ from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
 from ploneintranet.theme import _
-from ..utils import dexterity_update
+from .utils import dexterity_update
 
 
 @implementer(IBlocksTransformEnabled)

@@ -7,7 +7,9 @@ from plone import api
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from plone.app.textfield.value import RichTextValue
 from ploneintranet.theme.interfaces import IThemeSpecific
-from ploneintranet.theme.interfaces import IIntranetContentLayer
+from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
+from ploneintranet.layout.interfaces import IPloneintranetContentLayer
+from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.interface import alsoProvides
 
@@ -36,7 +38,9 @@ class TestContentViews(BaseTestCase):
         self.workspace = workspace_folder
         self.request = self.layer['request']
         alsoProvides(self.request, IThemeSpecific)
-        alsoProvides(self.request, IIntranetContentLayer)
+        alsoProvides(self.request, IPloneintranetLayoutLayer)
+        alsoProvides(self.request, IPloneintranetContentLayer)
+        alsoProvides(self.request, IWorkspaceAppContentLayer)
         alsoProvides(self.request, IPloneAppContenttypesLayer)
 
     def test_document_view(self):
