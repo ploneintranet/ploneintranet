@@ -9,6 +9,7 @@
 
   <include package="plone.app.portlets" />
   <include package="collective.workspace" />
+  <include package="ploneintranet.layout" file="permissions.zcml" />
   <include package=".tiles" />
 
   <browser:page
