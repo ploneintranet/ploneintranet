@@ -1,7 +1,24 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ploneintranet">
 
     <include package=".viewlets" />
+    <!-- include package=".tests" if you want to do interactive testing -->
+
+    <!-- switch off all IAppLayer on the navigation root -->
+    <subscriber
+        for="plone.app.layout.navigation.interfaces.INavigationRoot
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".layers.disable_app_layers"
+        />
+    <!-- enable only the "right" IAppLayer per app -->
+    <!--subscriber
+        for="ploneintranet.layout.interfaces.IAppContainer
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".layers.enable_app_layer"
+        /-->
 
 </configure>
