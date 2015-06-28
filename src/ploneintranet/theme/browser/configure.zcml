@@ -95,6 +95,7 @@
        Use a view marker interface as for="..." to supersede the prototype tile below.
        Please remove the prototype tile here when the actual tile becomes available.
   -->
+  <!--
   <plone:tile
       name="news.tile"
       title="A title for the news"
@@ -105,7 +106,7 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
-
+      -->
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
@@ -116,7 +117,7 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
-
+  <!--
   <plone:tile
       name="sidebar.tile"
       title="Sidebar: Files"
@@ -127,16 +128,7 @@
       for="*"
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
+  -->
  
-  <!-- Custom personal bar viewlet -->
-  <browser:viewlet
-      name="plone.personal_bar"
-      manager="plone.app.layout.viewlets.interfaces.IToolbar"
-      class=".views.PersonalBarViewlet"
-      permission="zope2.View"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
-
-
 
 </configure>
