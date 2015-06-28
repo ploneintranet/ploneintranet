@@ -16,7 +16,7 @@
   <z3c:widgetTemplate
       mode="input"
       widget="z3c.form.interfaces.ISubmitWidget"
-      layer="ploneintranet.theme.interfaces.IPloneIntranetFormLayer"
+      layer="ploneintranet.layout.interfaces.IPloneintranetFormLayer"
       template="templates/submit_input.pt"
       />
 
@@ -26,7 +26,7 @@
       class=".dashboard.Dashboard"
       permission="ploneintranet.viewsite"
       template="templates/dashboard.pt"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
   <plone:tile
@@ -37,7 +37,7 @@
       class=".dashboard.TasksTile"
       permission="zope.Public"
       for="*"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
 

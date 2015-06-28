@@ -4,8 +4,6 @@ from Products.CMFPlone.interfaces import IResourceRegistry
 from plone import api
 from plone.browserlayer.utils import registered_layers
 from plone.registry.interfaces import IRegistry
-from ploneintranet.theme.interfaces import IIntranetContentLayer
-from ploneintranet.theme.interfaces import IPloneIntranetFormLayer
 from ploneintranet.theme.interfaces import IThemeSpecific
 from ploneintranet.theme.testing import PLONEINTRANET_THEME_INTEGRATION_TESTING  # noqa
 from zope.component import getUtility
@@ -30,14 +28,6 @@ class TestSetup(unittest.TestCase):
     def test_theme_browserlayer(self):
         """Test that IThemeSpecific is registered."""
         self.assertIn(IThemeSpecific, registered_layers())
-
-    def test_content_browserlayer(self):
-        """Test that IIntranetContentLayer is registered."""
-        self.assertIn(IIntranetContentLayer, registered_layers())
-
-    def test_form_browserlayer(self):
-        """Test that IPloneIntranetFormLayer is registered."""
-        self.assertIn(IPloneIntranetFormLayer, registered_layers())
 
     def test_theme_instaled(self):
         from plone.app.theming.utils import getCurrentTheme
@@ -68,14 +58,6 @@ class TestUninstall(unittest.TestCase):
     def test_theme_browserlayer_removed(self):
         """Test that IThemeSpecific is unregistered."""
         self.assertNotIn(IThemeSpecific, registered_layers())
-
-    def test_content_browserlayer_removed(self):
-        """Test that IIntranetContentLayer is unregistered."""
-        self.assertNotIn(IIntranetContentLayer, registered_layers())
-
-    def test_form_browserlayer_removed(self):
-        """Test that IPloneIntranetFormLayer is unregistered."""
-        self.assertNotIn(IPloneIntranetFormLayer, registered_layers())
 
     def test_theme_reset(self):
         from plone.app.theming.utils import getCurrentTheme
