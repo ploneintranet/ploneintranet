@@ -70,29 +70,10 @@ class TestContent(IntegrationTestCase):
             title='Holidays',
             container=ob1)
         ob3 = api.content.create(
-            type='ploneintranet.library.page',
+            type='Document',
             title='Holidays previous year',
             container=ob2)
         self.assertTrue(ob3 in ob2.objectValues())
-
-    def test_page_not_nested(self):
-        ob1 = api.content.create(
-            type='ploneintranet.library.section',
-            title='Human Resources',
-            container=self.portal.library)
-        ob2 = api.content.create(
-            type='ploneintranet.library.folder',
-            title='Holidays',
-            container=ob1)
-        ob3 = api.content.create(
-            type='ploneintranet.library.page',
-            title='Holidays previous year',
-            container=ob2)
-        with self.assertRaises(api.exc.InvalidParameterError):
-            api.content.create(
-                type='ploneintranet.library.page',
-                title='Holidays previous year',
-                container=ob3)
 
     def test_tree(self):
         ob1 = api.content.create(
@@ -108,7 +89,7 @@ class TestContent(IntegrationTestCase):
             title='Holidays',
             container=ob2)
         ob4 = api.content.create(
-            type='ploneintranet.library.page',
+            type='Document',
             title='Holidays previous year',
             container=ob3)
         self.assertTrue(ob4 in ob3.objectValues())

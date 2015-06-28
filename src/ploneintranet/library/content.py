@@ -1,14 +1,16 @@
-from plone.app.textfield import RichText
 from plone.dexterity import content
 from zope.interface import implements, Interface
 
-from . import _
+from ploneintranet.layout.app import AbstractAppContainer
+from ploneintranet.layout.interfaces import IAppContainer
+from ploneintranet.library.interfaces import ILibraryContentLayer
+
 
 import logging
 log = logging.getLogger(__name__)
 
 
-class ILibraryApp(Interface):
+class ILibraryApp(IAppContainer):
     """Toplevel Library singleton to contain all library content"""
 
 
@@ -20,18 +22,10 @@ class ILibraryFolder(Interface):
     """Library Folders can contain Pages and/or sub-Folders"""
 
 
-class ILibraryPage(Interface):
-    """A library leaf page, which may contain non-folderish helper objects"""
+class LibraryApp(AbstractAppContainer, content.Container):
+    implements(ILibraryApp, IAppContainer)
 
-    text = RichText(
-        title=_(u"Text"),
-        description=_(u"Body text"),
-        required=True,
-    )
-
-
-class LibraryApp(content.Container):
-    implements(ILibraryApp)
+    layer = ILibraryContentLayer
 
 
 class LibrarySection(content.Container):
@@ -40,7 +34,3 @@ class LibrarySection(content.Container):
 
 class LibraryFolder(content.Container):
     implements(ILibraryFolder)
-
-
-class LibraryPage(content.Container):
-    implements(ILibraryPage)

@@ -2,5 +2,4 @@
  <object name="ploneintranet.library.app" meta_type="Dexterity FTI"/>
  <object name="ploneintranet.library.section" meta_type="Dexterity FTI" />
  <object name="ploneintranet.library.folder" meta_type="Dexterity FTI"/>
- <object name="ploneintranet.library.page" meta_type="Dexterity FTI" />
 </object>

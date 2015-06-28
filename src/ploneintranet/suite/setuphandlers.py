@@ -597,14 +597,14 @@ def library_spec(context):
                'title': 'Leave policies',
                'description': 'Holidays and sick leave',
                'contents': [
-                   {'type': 'ploneintranet.library.page',
+                   {'type': 'Document',
                     'title': 'Holidays',
                     'desciption': 'Yearly holiday allowance'},
-                   {'type': 'ploneintranet.library.page',
+                   {'type': 'Document',
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
-                   {'type': 'ploneintranet.library.page',
+                   {'type': 'Document',
                     'title': 'Pregnancy',
                     'desciption': 'Expecting a child?'},
                ]},
@@ -613,7 +613,7 @@ def library_spec(context):
     for i in range(3):
         mixed_contents.append({'type': 'ploneintranet.library.folder'})
     for i in range(5):
-        mixed_contents.append({'type': 'ploneintranet.library.page'})
+        mixed_contents.append({'type': 'Document'})
     mixedfolder = {'type': 'ploneintranet.library.folder',
                    'contents': mixed_contents}
     for i in range(3):
@@ -663,7 +663,7 @@ def create_library_content(parent, spec, force=False):
             item['title'] = 'Lorem Ipsum %s' % idcounter
         if 'description' not in item:
             item['description'] = loremipsum.get_sentence()
-        if item['type'].endswith('page'):
+        if item['type'] in ('Document',):
             item['text'] = " ".join(["<p>%s</p>" % para
                                      for para in loremipsum.get_paragraphs(3)])
         obj = create_as('alice_lindstrom', container=parent, **item)

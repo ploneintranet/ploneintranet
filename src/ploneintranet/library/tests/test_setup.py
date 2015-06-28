@@ -3,6 +3,10 @@ from plone import api
 from plone.browserlayer.utils import registered_layers
 from ploneintranet.library.testing import IntegrationTestCase
 
+from ploneintranet.library.interfaces import IPloneintranetLibraryLayer
+from ploneintranet.library.interfaces import ILibraryContentLayer
+
+
 PROJECTNAME = 'ploneintranet.library'
 
 
@@ -17,8 +21,10 @@ class TestInstall(IntegrationTestCase):
         self.assertTrue(qi.isProductInstalled(PROJECTNAME))
 
     def test_addon_layer(self):
-        layers = [l.getName() for l in registered_layers()]
-        self.assertIn('IPloneintranetLibraryLayer', layers)
+        self.assertIn(IPloneintranetLibraryLayer, registered_layers())
+
+    def test_app_layer(self):
+        self.assertIn(ILibraryContentLayer, registered_layers())
 
 
 class TestUninstall(IntegrationTestCase):
@@ -34,5 +40,7 @@ class TestUninstall(IntegrationTestCase):
         self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
 
     def test_addon_layer_removed(self):
-        layers = [l.getName() for l in registered_layers()]
-        self.assertNotIn('IPloneintranetLibraryLayer', layers)
+        self.assertNotIn(IPloneintranetLibraryLayer, registered_layers())
+
+    def test_app_layer_removed(self):
+        self.assertNotIn(ILibraryContentLayer, registered_layers())

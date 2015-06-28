@@ -12,7 +12,7 @@
  <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
    <element value="ploneintranet.library.folder"/>
-   <element value="ploneintranet.library.page"/>
+   <element value="Document"/>
  </property>
  <property name="klass">ploneintranet.library.content.LibraryFolder</property>
  <property name="add_permission">cmf.AddPortalFolders</property>
