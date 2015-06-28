@@ -15,7 +15,6 @@
     <includeDependencies package="." />
 
     <include package=".browser" />
-    <include package=".content" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile

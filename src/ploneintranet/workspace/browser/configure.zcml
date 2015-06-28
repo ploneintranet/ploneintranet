@@ -10,7 +10,6 @@
   <include package="plone.app.portlets" />
   <include package="collective.workspace" />
   <include package=".tiles" />
-  <include package=".basecontent" />
 
   <browser:page
       name="workspaces.html"
