@@ -48,15 +48,6 @@ class TestSetup(unittest.TestCase):
             IResourceRegistry, prefix="plone.resources")
         self.assertIn('ploneintranet', bundles)
 
-    def test_layout(self):
-        self.assertEqual('dashboard.html', self.portal.getLayout())
-
-    def test_actions(self):
-        actions = api.portal.get_tool('portal_actions')
-        self.assertIn('workspaces', actions.portal_tabs)
-        self.assertIn('index_html', actions.portal_tabs)
-        self.assertEqual('Dashboard', actions.portal_tabs['index_html'].title)
-
 
 class TestUninstall(unittest.TestCase):
     """Test that ploneintranet.theme is properly uninstalled."""
@@ -94,6 +85,3 @@ class TestUninstall(unittest.TestCase):
         bundles = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
         self.assertNotIn('ploneintranet', bundles)
-
-    def test_layout(self):
-        self.assertEqual('listing_view', self.portal.getLayout())
