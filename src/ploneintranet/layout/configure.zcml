@@ -10,6 +10,7 @@
     <include package=".viewlets" />
     <include package=".browser" />
     <!-- include package=".tests" if you want to do interactive testing -->
+    <include package=".tests" />
 
 
     <!-- switch off all IAppLayer on the navigation root -->

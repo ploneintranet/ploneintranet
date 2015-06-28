@@ -5,4 +5,10 @@
     interface="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     remove="True"
   />
+  <layer
+    name="ploneintranet.workspace.appcontent"
+    interface="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    remove="True"
+  />
+
 </layers>
