@@ -6,6 +6,7 @@
     i18n_domain="ploneintranet">
 
     <include package=".viewlets" />
+    <include package=".browser" />
     <!-- include package=".tests" if you want to do interactive testing -->
 
     <!-- switch off all IAppLayer on the navigation root -->

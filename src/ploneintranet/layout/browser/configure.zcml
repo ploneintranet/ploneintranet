@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="ploneintranet">
+
+  <!-- Provides markup around the Dexterity Add/Edit forms -->
+  <adapter factory=".formwrapper.layout_factory" />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ISubmitWidget"
+      layer="ploneintranet.theme.interfaces.IPloneIntranetFormLayer"
+      template="templates/submit_input.pt"
+      />
+
+
+</configure>

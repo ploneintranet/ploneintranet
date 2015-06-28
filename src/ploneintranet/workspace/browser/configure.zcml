@@ -5,10 +5,12 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet.workspace">
+    i18n_domain="ploneintranet">
 
   <include package="plone.app.portlets" />
   <include package="collective.workspace" />
+  <include package=".tiles" />
+  <include package=".basecontent" />
 
   <browser:page
       name="workspaces.html"
@@ -222,9 +224,6 @@
       permission="zope.Public"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
-
-   <include package=".tiles" />
-
 
 
 </configure>
