@@ -138,7 +138,7 @@ def create_users(context, users, avatars_dir, force=False):
             # update
             profile = pi_api.userprofile.get(userid)
             for key, value in properties.items():
-                if getattr(profile, key, None) != value:
+                if key != 'fullname':  # now this field is calculated
                     setattr(profile, key, value)
             log.info('Updated user {}'.format(userid))
 

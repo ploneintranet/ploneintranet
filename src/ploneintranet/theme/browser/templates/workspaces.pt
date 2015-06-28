@@ -14,15 +14,15 @@
             <!-- Sorting dropdown is out of scope. -->
             <label class="bare pat-select">
                 <select>
-                    <option>
+                    <option i18n:translate="">
                         Most active workspaces on top
                     </option>
-                    <option>
+                    <option i18n:translate="">
                         Newest workspaces on top
                     </option>
                 </select>
             </label>
-            <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="">Create workspace</a>
+            <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
         </form>
         <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
           <div class="grid-sizer four columns"></div>
