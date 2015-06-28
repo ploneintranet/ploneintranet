@@ -10,7 +10,7 @@
       <div hidden="hidden" id="more-menu">
         <ul class="menu">
           <li>
-            <a class="icon-document" href="#">Paste document(s)</a>
+            <a class="icon-document" href="#" i18n:translate="">Paste document(s)</a>
           </li>
         </ul>
       </div>
@@ -29,7 +29,7 @@
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
                 <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
-                  <label class="pat-select bare">Group by
+                  <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
                   <select name="grouping">
                     <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
                     <option value="label" tal:attributes="selected python:grouping == 'label' and 'selected' or ''" i18n:translate="">tag</option>

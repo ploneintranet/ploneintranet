@@ -20,7 +20,7 @@
             <h3 i18n:translate="">Workspace policy</h3>
 
             <tal:workspace_security tal:condition="ws/is_case">
-              <p>For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the "Members" tab.</p>
+              <p i18n:translate="">For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the "Members" tab.</p>
             </tal:workspace_security>
 
             <tal:workspace_security tal:condition="not: ws/is_case">
@@ -41,7 +41,7 @@
                       <span tal:attributes="class python:'{0} slider-labels'.format(numbers[max_values - 1])">
                         <tal:label repeat="label field_info">
                           <tal:number define="number repeat/label/number">
-                            <span class="label pat-depends" tal:attributes="data-pat-depends string:condition: ${field_name}=${number};; action: enable"><tal:title replace="python: field_info[label]['title']"/>&nbsp;<a class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;" tal:attributes="href string:#help-${field_name}-${number}">Info</a></span>
+                            <span class="label pat-depends" tal:attributes="data-pat-depends string:condition: ${field_name}=${number};; action: enable"><tal:title replace="python: field_info[label]['title']"/>&nbsp;<a class="iconified icon-info-circle pat-tooltip" data-pat-tooltip="source: ajax;" tal:attributes="href string:#help-${field_name}-${number}" i18n:translate="">Info</a></span>
                           </tal:number>
                         </tal:label>
                       </span>

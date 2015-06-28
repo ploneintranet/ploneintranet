@@ -15,31 +15,31 @@
               <label class="pat-select bare" data-option="folder">
                 <span tal:omit-tag="" i18n:translate="">Group by</span>
                 <select name="browse-mode">
-                  <option value="folder">folder</option>
-                  <option value="label">label</option>
+                  <option value="folder" i18n:translate="">folder</option>
+                  <option value="label" i18n:translate="">label</option>
                   <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
-                  <option value="type">document type</option>
+                  <option value="type" i18n:translate="">document type</option>
                   <!-- When the groups are author names, the author avatar is used as an icon. -->
-                  <option value="author">author</option>
+                  <option value="author" i18n:translate="">author</option>
                   <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
-                  <option value="date">date</option>
+                  <option value="date" i18n:translate="">date</option>
                   <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
-                  <option value="letter">first letter</option>
+                  <option value="letter" i18n:translate="">first letter</option>
                 </select>
               </label>
             </form>
           </div>
-          <h2 id="context-title" class="context-title">Some Context</h2>
-          <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</button>
+          <h2 id="context-title" class="context-title" i18n:translate="">Some Context</h2>
+          <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="" i18n:attributes="title">Select</button>
           <span class="button-cluster select-buttons float-after select-buttons">
-            <button class="select-all" title="Select all">All</button>
-            <button class="deselect-all" title="Deslect all" disabled="">None</button>
+            <button class="select-all" title="Select all" i18n:translate="" i18n:attributes="title">All</button>
+            <button class="deselect-all" title="Deslect all" disabled="" i18n:translate="" i18n:attributes="title">None</button>
           </span>
         </div>
         <form class="search-box pat-inject pat-autosubmit" action="/feedback/#items">
           <label>
-            <input name="" type="search" placeholder="Search" i18n:attributes="placeholder">
-            <button type="submit">Search</button>
+            <input name="" type="search" placeholder="Search" i18n:attributes="placeholder"/>
+            <button type="submit" i18n:translate="">Search</button>
           </label>
         </form>
         <form class="search-result docs pat-inject " data-pat-injec="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #selector-attachment-previews" action="#selected-docs" id="items">
