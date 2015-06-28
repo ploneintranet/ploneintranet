@@ -32,7 +32,7 @@
   <!-- BEGIN Custom Content Type add views -->
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
-           ..interfaces.IThemeSpecific
+           ploneintranet.theme.interfaces.IPloneIntranetFormLayer
            plone.dexterity.interfaces.IDexterityFTI"
       factory=".document.AddView"
       name="Document"
@@ -76,7 +76,7 @@
 
   <browser:page
       name="workspace-add"
-      for="*"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
       class=".workspace.AddView"
       permission="cmf.AddPortalContent"
       template="templates/workspace-add.pt"
