@@ -1,6 +1,9 @@
-
 from plone import api
+from plone.browserlayer.utils import registered_layers
 from ploneintranet.layout.testing import IntegrationTestCase
+from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
+from ploneintranet.layout.interfaces import IPloneintranetContentLayer
+from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 
 
 class TestSetup(IntegrationTestCase):
@@ -14,6 +17,18 @@ class TestSetup(IntegrationTestCase):
         """Test if ploneintranet.layout is installed."""
         self.assertTrue(
             self.installer.isProductInstalled('ploneintranet.layout'))
+
+    def test_layout_browserlayer(self):
+        """Test that IPloneintranetLayoutLayer is registered."""
+        self.assertIn(IPloneintranetLayoutLayer, registered_layers())
+
+    def test_content_browserlayer(self):
+        """Test that IPloneintranetContentLayer is registered."""
+        self.assertIn(IPloneintranetContentLayer, registered_layers())
+
+    def test_form_browserlayer(self):
+        """Test that IPloneintranetFormLayer is registered."""
+        self.assertIn(IPloneintranetFormLayer, registered_layers())
 
     def test_layout(self):
         self.assertEqual('dashboard.html', self.portal.getLayout())
@@ -36,6 +51,18 @@ class TestUninstall(IntegrationTestCase):
         """Test if ploneintranet.layout is cleanly uninstalled."""
         self.assertFalse(
             self.installer.isProductInstalled('ploneintranet.layout'))
+
+    def test_layout_browserlayer_removed(self):
+        """Test that IPloneintranetLayoutLayer is unregistered."""
+        self.assertNotIn(IPloneintranetLayoutLayer, registered_layers())
+
+    def test_content_browserlayer_removed(self):
+        """Test that IPloneintranetContentLayer is unregistered."""
+        self.assertNotIn(IPloneintranetContentLayer, registered_layers())
+
+    def test_form_browserlayer_removed(self):
+        """Test that IPloneintranetFormLayer is unregistered."""
+        self.assertNotIn(IPloneintranetFormLayer, registered_layers())
 
     def test_layout(self):
         self.assertEqual('listing_view', self.portal.getLayout())

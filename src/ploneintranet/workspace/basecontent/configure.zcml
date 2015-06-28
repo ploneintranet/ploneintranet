@@ -9,7 +9,7 @@
 
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
-           ploneintranet.theme.interfaces.IPloneIntranetFormLayer
+           ploneintranet.layout.interfaces.IPloneintranetFormLayer
            plone.dexterity.interfaces.IDexterityFTI"
       factory=".document.AddView"
       name="Document"
@@ -21,13 +21,13 @@
       name="edit"
       class=".document.EditView"
       permission="cmf.ModifyPortalContent"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
       />
 
   <browser:page
     name="listing_view"
     for="plone.app.contenttypes.interfaces.IFolder"
-    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
     template="templates/document_view.pt"
     class=".baseviews.ContentView"
     permission="zope2.View"
@@ -36,7 +36,7 @@
   <browser:page
     name="document_view"
     for="plone.app.contenttypes.interfaces.IDocument"
-    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
     template="templates/document_view.pt"
     class=".baseviews.ContentView"
     permission="zope2.View"
@@ -45,7 +45,7 @@
   <browser:page
     name="file_view"
     for="plone.app.contenttypes.interfaces.IFile"
-    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
     template="templates/document_view.pt"
     class=".baseviews.ContentView"
     permission="zope2.View"
@@ -54,7 +54,7 @@
   <browser:page
     name="image_view"
     for="plone.app.contenttypes.interfaces.IImage"
-    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
     template="templates/document_view.pt"
     class=".baseviews.ContentView"
     permission="zope2.View"
@@ -63,7 +63,7 @@
   <browser:page
     name="event_view"
     for="plone.event.interfaces.IEvent"
-    layer="ploneintranet.theme.interfaces.IIntranetContentLayer"
+    layer="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
     template="templates/event_view.pt"
     class=".baseviews.ContentView"
     permission="zope2.View"

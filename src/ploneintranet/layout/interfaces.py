@@ -1,8 +1,26 @@
+# -*- coding: utf-8 -*-
+from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
+from plone.app.event.interfaces import IBrowserLayer as IPloneAppEventLayer
+
 from zope.interface import Interface, Attribute
 
 
 class IPloneintranetLayoutLayer(Interface):
     """Marker interface for ploneintranet.layout installed"""
+
+
+class IPloneintranetContentLayer(IPloneAppContenttypesLayer,
+                                 IPloneAppEventLayer):
+    """ Subclass the browserlayer of p.a.c and p.a.e to override the views.
+    """
+
+
+class IPloneintranetFormLayer(IPloneFormLayer):
+    """ Request layer installed via browserlayer.xml
+
+        z3c.form forms are rendered against this layer.
+    """
 
 
 class IAppLayer(Interface):
