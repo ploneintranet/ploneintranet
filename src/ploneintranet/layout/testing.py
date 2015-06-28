@@ -19,6 +19,7 @@ class PloneintranetLayoutLayer(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.layout.tests)
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'ploneintranet.layout:default')
         applyProfile(portal, 'ploneintranet.layout.tests:testing')
 
     def tearDownZope(self, app):

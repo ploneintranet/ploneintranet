@@ -8,12 +8,7 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet">
 
-    <!-- A custom permission allowing us to restrict
-         certain views to logged in users -->
-    <permission
-        id="ploneintranet.viewsite"
-        title="Plone Intranet: View Site"
-        />
+  <include package="plone.tiles" file="meta.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
