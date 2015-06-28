@@ -1,12 +1,48 @@
-from plone.dexterity.browser import add
-from plone.dexterity.browser import edit
+from Acquisition import aq_inner
+from Products.Archetypes.utils import shasattr
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.dexterity.browser import add, edit
 from z3c.form import button
+from z3c.form.interfaces import IAddForm
+
 from ploneintranet.theme import _
-from ploneintranet.theme.browser import views
 
 
-class AddForm(add.DefaultAddForm, views.DexterityFormMixin):
+class DexterityFormMixin(object):
+    """ Mixin View that provides extra methods for custom Add/Edit Dexterity
+        forms.
+    """
+
+    def __getitem__(self, key, silent=False):
+        """ Allows us to get field values from the template.
+            For example using either view/title or view['title']
+
+            Enables us to have one form for both add/edit
+        """
+        if IAddForm.providedBy(self):
+            return self.request.get(key, None)
+
+        if key == 'macros':
+            return self.index.macros
+
+        if key in self.request:
+            return self.request.get(key)
+
+        context = aq_inner(self.context)
+        if hasattr(self.context, key):
+            return getattr(context, key)
+
+        elif shasattr(context, 'Schema'):
+            field = context.Schema().get(key)
+            if field is not None:
+                return field.get(context)
+
+        if not silent:
+            raise KeyError('Could not get key %s in the request or context'
+                           % key)
+
+
+class AddForm(add.DefaultAddForm, DexterityFormMixin):
     """ Custom add form for the Document content type.
 
         It's not necessary to override all the methods below, but we leave them
@@ -52,7 +88,7 @@ class AddView(add.DefaultAddView):
     form = AddForm
 
 
-class EditForm(edit.DefaultEditForm, views.DexterityFormMixin):
+class EditForm(edit.DefaultEditForm, DexterityFormMixin):
     """ Custom edit form for the Document content type.
 
         It's not necessary to override all the methods below, but we leave them
