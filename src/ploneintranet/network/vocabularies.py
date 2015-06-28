@@ -100,7 +100,7 @@ class PersonalizedKeywordsVocabulary(object):
         if catalog is None:
             return []
         index = catalog._catalog.getIndex('Subject')
-        return [i for i in index._index]
+        return [safe_unicode(i) for i in index._index]
 
     def _filter(self, tags, blacklist, query=None):
         return [

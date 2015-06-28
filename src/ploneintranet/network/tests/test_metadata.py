@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone import api
 from plone.app.testing import setRoles
 from plone.uuid.interfaces import IUUID
@@ -48,6 +49,20 @@ class TestMetadata(IntegrationTestCase):
         wrapped.subjects = ('foo', 'bar')
         tags = self.graph.get_tags('content', uuid, 'john_doe')
         self.assertEqual(sorted(tags), ['bar', 'foo'])
+
+    def test_subject_tags_utf8(self):
+        self.login('john_doe')
+        doc1 = api.content.create(
+            container=self.portal,
+            type='Document',
+            id='doc1',
+            title='Doc 1',
+        )
+        uuid = IUUID(doc1)
+        wrapped = IDublinCore(doc1)
+        wrapped.subjects = (u'foo', u'gemäß-☃')
+        tags = self.graph.get_tags('content', uuid, 'john_doe')
+        self.assertEqual(sorted(tags), [u'foo', u'gemäß-☃'])
 
     def test_subject_tags_unset(self):
         self.login('john_doe')
