@@ -50,8 +50,11 @@
       <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
 	<div class="grid-sizer"></div>
 
+        <tal:children repeat="child view/children">
+
 	<div class="tile group-by-section"
-             tal:repeat="child view/children">
+             tal:define="itemtype child/type"
+             tal:condition="python: itemtype=='container'">
 	  <div class="content">
 	    <h3>
 	      <a href="#"
@@ -71,8 +74,26 @@
 	      </li>
 	    </ul>
 	  </div>
+        </div>
+
+	<div class="tile type-page"
+             tal:define="itemtype child/type"
+             tal:condition="python: itemtype=='document'">
+	  <a href="#" class="content"
+             tal:attributes="href child/absolute_url">
+	    <h3 tal:content="child/title">page title</h3>
+	    <p class="summary"
+               tal:content="child/description">
+	      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
+	    </p>
+            <p class="footer">
+              <em class="read-more">Read more…</em>
+              </p>
+          </a>
 	</div>
 
+        </tal:children>
+        
       </div>
 
     </metal:content>

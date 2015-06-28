@@ -73,9 +73,18 @@ class LibraryListingView(BrowserView):
         """Return children and grandchildren of current context"""
         struct = []
         for child in self.context.objectValues():
+            if child.portal_type == 'ploneintranet.library.folder':
+                type_ = 'container'
+            elif child.portal_type in ('Document',):
+                type_ = 'document'
+            else:
+                # to add: collection, newsitem, event, link, file
+                log.error("Unsupported type %s", child.portal_type)
+
             section = dict(title=child.Title(),
                            description=child.Description(),
-                           absolute_url=child.absolute_url())
+                           absolute_url=child.absolute_url(),
+                           type=type_,)
             content = []
             for grandchild in child.objectValues():
                 if grandchild.portal_type == 'ploneintranet.library.folder':
