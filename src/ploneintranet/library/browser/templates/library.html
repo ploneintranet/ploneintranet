@@ -9,9 +9,8 @@
     <metal:content fill-slot="content">
 
       <nav class="canvas-subnav">
-	<a href="/library.html" class="current">All topics</a>
-	<a tal:repeat="section view/struct"
-           tal:attributes="href section/absolute_url"
+	<a tal:repeat="section view/sections"
+           tal:attributes="href section/absolute_url; class section/current"
            tal:content="section/title">HR</a>
       </nav>
 
@@ -52,20 +51,20 @@
 	<div class="grid-sizer"></div>
 
 	<div class="tile group-by-section"
-             tal:repeat="section view/struct">
+             tal:repeat="child view/children">
 	  <div class="content">
 	    <h3>
 	      <a href="#"
-                 tal:attributes="href section/absolute_url"
-                 tal:content="section/title">HR</a>
+                 tal:attributes="href child/absolute_url"
+                 tal:content="child/title">HR</a>
 	    </h3>
 	    <p class="description"
-               tal:content="section/description">
+               tal:content="child/description">
 	      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
 	    </p>
 	    <ul class="menu group-by-section">
 	      <li tal:attributes="class item/follow"
-                  tal:repeat="item section/content">
+                  tal:repeat="item child/content">
 		<a tal:attributes="class item/icon; href item/absolute_url"
                    tal:content="item/title"
                    href="#">Valenpedicis palemtuem</a>

@@ -3,6 +3,7 @@ from Products.Five import BrowserView
 from plone import api
 from plone.memoize import view
 
+from ploneintranet.library import _
 
 log = getLogger(__name__)
 
@@ -35,8 +36,41 @@ class LibraryHomeView(BrowserView):
 class LibraryListingView(BrowserView):
 
     @view.memoize
-    def struct(self):
-        """Return sections and section children"""
+    def sections(self):
+        """Return toplevel section navigation"""
+        obj = self.context
+        while (obj.portal_type != 'ploneintranet.library.app' and
+               obj.portal_type != 'Plone Site'):
+            obj = obj.aq_inner.aq_parent
+
+        if obj.portal_type == 'Plone Site':
+            log.error("Cannot find parent Library app!")
+            return []
+
+        app = obj
+        sections = app.objectValues()
+        current_url = self.request['ACTUAL_URL']
+        current_nav = app
+        for s in sections:
+            if current_url.startswith(s.absolute_url()):
+                current_nav = s
+                break
+
+        app_current = (app == current_nav) and 'current' or ''
+        menu = [dict(title=_("All topics"),
+                     absolute_url=app.absolute_url(),
+                     current=app_current)]
+
+        for s in sections:
+            s_current = (s == current_nav) and 'current' or ''
+            menu.append(dict(title=s.Title,
+                             absolute_url=s.absolute_url(),
+                             current=s_current))
+        return menu
+
+    @view.memoize
+    def children(self):
+        """Return children and grandchildren of current context"""
         struct = []
         for child in self.context.objectValues():
             section = dict(title=child.Title(),
@@ -46,7 +80,7 @@ class LibraryListingView(BrowserView):
             for grandchild in child.objectValues():
                 if grandchild.portal_type == 'ploneintranet.library.folder':
                     (follow, icon) = ("follow-section", "icon-squares")
-                elif grandchild.portal_type == 'ploneintranet.library.page':
+                elif grandchild.portal_type in ('Document',):
                     (follow, icon) = ("follow-page", "icon-page")
                 else:
                     # to add: collection, newsitem, event, link, file
