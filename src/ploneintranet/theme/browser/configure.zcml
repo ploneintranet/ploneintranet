@@ -16,37 +16,6 @@
     layer="ploneintranet.theme.interfaces.IThemeSpecific"
   />
 
-  <!-- Provides markup around the Dexterity Add/Edit forms -->
-  <adapter factory=".templates.layout_factory" />
-
-  <!-- BEGIN Custom Content Type edit views -->
-  <browser:page
-      for="plone.app.contenttypes.interfaces.IDocument"
-      name="edit"
-      class=".document.EditView"
-      permission="cmf.ModifyPortalContent"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
-      />
-  <!-- END Custom Content Type views -->
-
-  <!-- BEGIN Custom Content Type add views -->
-  <adapter
-      for="Products.CMFCore.interfaces.IFolderish
-           ploneintranet.theme.interfaces.IPloneIntranetFormLayer
-           plone.dexterity.interfaces.IDexterityFTI"
-      factory=".document.AddView"
-      name="Document"
-      provides="zope.publisher.interfaces.browser.IBrowserPage"
-      />
-  <!-- END Custom Content Type add views -->
-
-  <z3c:widgetTemplate
-      mode="input"
-      widget="z3c.form.interfaces.ISubmitWidget"
-      layer="ploneintranet.theme.interfaces.IPloneIntranetFormLayer"
-      template="templates/submit_input.pt"
-      />
-
   <browser:page
       name="dashboard.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
