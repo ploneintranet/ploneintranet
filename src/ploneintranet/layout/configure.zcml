@@ -19,12 +19,8 @@
              zope.app.publication.interfaces.IBeforeTraverseEvent"
         handler=".layers.disable_app_layers"
         />
-    <!-- enable only the "right" IAppLayer per app -->
-    <!--subscriber
-        for="ploneintranet.layout.interfaces.IAppContainer
-             zope.app.publication.interfaces.IBeforeTraverseEvent"
-        handler=".layers.enable_app_layer"
-        /-->
+    <!-- enable only the "right" IAppLayer per app
+         see app.AbstractAppContainer -->
 
     <genericsetup:registerProfile
         name="default"
