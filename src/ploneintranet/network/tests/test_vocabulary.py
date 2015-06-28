@@ -37,8 +37,8 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
             id='doc1',
             title='Doc 1'
         )
-        few = ['a_%d' % i for i in xrange(5)]
-        few.extend(['b_%d' % i for i in xrange(5)])
+        few = [u'a_%d_♥' % i for i in xrange(5)]
+        few.extend([u'b_%d_☀' % i for i in xrange(5)])
         self.tag(self.doc1, *few)
 
         self.doc2 = api.content.create(
@@ -65,9 +65,20 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
     def testVocabularyQueryString(self):
         """Test querying a class based vocabulary with a search string.
         """
+        self.tag(self.doc1, 'simple')
         view = PersonalizedVocabularyView(self.doc2, self.request)
         self.request.form.update({
-            'query': 'a_3'
+            'query': 'simple'
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 1)
+
+    def testVocabularyQueryString_utf8(self):
+        """Test querying a class based vocabulary with a search string.
+        """
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        self.request.form.update({
+            'query': u'a_3_♥'
         })
         data = json.loads(view())
         self.assertEquals(len(data['results']), 1)
@@ -77,7 +88,17 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         """
         view = PersonalizedVocabularyView(self.doc2, self.request)
         self.request.form.update({
-            'query': 'a_'
+            'query': 'a_'  # matches a_?_♥
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 5)
+
+    def testVocabularyQueryStringPartial_utf8(self):
+        """Test querying a class based vocabulary with a search string.
+        """
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        self.request.form.update({
+            'query': u'♥'  # matches a_?_♥
         })
         data = json.loads(view())
         self.assertEquals(len(data['results']), 5)
@@ -108,7 +129,7 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
 
     def testVocabularyPersonalizedContextTags(self):
         login(self.portal, 'mary_jane')
-        self.tag(self.doc1, *['a_%d' % i for i in xrange(5)])
+        self.tag(self.doc1, *[u'a_%d_♥' % i for i in xrange(5)])
         view = PersonalizedVocabularyView(self.doc1, self.request)
         data = json.loads(view())
         # we expect to find john_doe b_* suggestions only
