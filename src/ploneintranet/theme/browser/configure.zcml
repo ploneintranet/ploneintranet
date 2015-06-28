@@ -13,7 +13,7 @@
     name="main_template"
     class=".main_template.PIMainTemplate"
     permission="zope.Public"
-    layer="..interfaces.IThemeSpecific"
+    layer="ploneintranet.theme.interfaces.IThemeSpecific"
   />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
@@ -25,7 +25,7 @@
       name="edit"
       class=".document.EditView"
       permission="cmf.ModifyPortalContent"
-      layer="..interfaces.IThemeSpecific"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
   <!-- END Custom Content Type views -->
 
@@ -53,35 +53,9 @@
       class=".dashboard.Dashboard"
       permission="ploneintranet.viewsite"
       template="templates/dashboard.pt"
-      layer="..interfaces.IThemeSpecific"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
-  <browser:page
-      name="workspaces.html"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".workspace.Workspaces"
-      permission="ploneintranet.viewsite"
-      template="templates/workspaces.pt"
-      layer="..interfaces.IThemeSpecific"
-      />
-
-  <browser:page
-      name="workspaces.html"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
-      class=".workspace.Workspaces"
-      permission="ploneintranet.viewsite"
-      template="templates/workspaces.pt"
-      layer="..interfaces.IThemeSpecific"
-      />
-
-  <browser:page
-      name="workspace-add"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
-      class=".workspace.AddView"
-      permission="cmf.AddPortalContent"
-      template="templates/workspace-add.pt"
-      layer="..interfaces.IThemeSpecific"
-      />
 
   <!-- prototype tiles for dashboard and workspace
 

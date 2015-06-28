@@ -11,6 +11,33 @@
   <include package="collective.workspace" />
 
   <browser:page
+      name="workspaces.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".workspacecontainer.Workspaces"
+      permission="ploneintranet.viewsite"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="workspaces.html"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      class=".workspacecontainer.Workspaces"
+      permission="ploneintranet.viewsite"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="workspace-add"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      class=".workspacecontainer.AddView"
+      permission="cmf.AddPortalContent"
+      template="templates/workspace-add.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.WorkspaceView"
