@@ -35,19 +35,30 @@ class LibraryHomeView(BrowserView):
 
 class LibraryListingView(BrowserView):
 
+    def app(self):
+        return self.chain(getapp=True)
+
     @view.memoize
-    def sections(self):
-        """Return toplevel section navigation"""
+    def chain(self, getapp=False):
+        _chain = []
         obj = self.context
         while (obj.portal_type != 'ploneintranet.library.app' and
                obj.portal_type != 'Plone Site'):
+            _chain.insert(0, dict(title=obj.Title,
+                                  absolute_url=obj.absolute_url()))
             obj = obj.aq_inner.aq_parent
 
         if obj.portal_type == 'Plone Site':
-            log.error("Cannot find parent Library app!")
-            return []
+            raise AttributeError("Cannot find parent Library app!")
 
-        app = obj
+        if getapp:
+            return obj
+        return _chain
+
+    @view.memoize
+    def sections(self):
+        """Return toplevel section navigation"""
+        app = self.app()
         sections = app.objectValues()
         current_url = self.request['ACTUAL_URL']
         current_nav = app
@@ -73,12 +84,14 @@ class LibraryListingView(BrowserView):
         """Return children and grandchildren of current context"""
         struct = []
         for child in self.context.objectValues():
-            if child.portal_type == 'ploneintranet.library.folder':
+            if child.portal_type in ('ploneintranet.library.section',
+                                     'ploneintranet.library.folder'):
                 type_ = 'container'
             elif child.portal_type in ('Document',):
                 type_ = 'document'
             else:
                 # to add: collection, newsitem, event, link, file
+                type_ = 'unsupported'
                 log.error("Unsupported type %s", child.portal_type)
 
             section = dict(title=child.Title(),
@@ -107,14 +120,20 @@ class LibraryListingView(BrowserView):
 
 class LibraryAppView(LibraryListingView):
 
-    pass
+    def info(self):
+        return {}
 
 
 class LibrarySectionView(LibraryListingView):
 
-    pass
+    def info(self):
+        return dict(title=self.context.Title,
+                    description=self.context.Description)
 
 
 class LibraryFolderView(LibraryListingView):
 
-    pass
+    def info(self):
+        return dict(
+            chain=self.chain(),
+            description=self.context.Description)
