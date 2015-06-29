@@ -10,8 +10,10 @@ from zope.schema.interfaces import IVocabularyFactory
 import inspect
 
 from plone.app.content.browser.vocabulary import BaseVocabularyView
+from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
+from plone.app.content.browser.vocabulary import _permissions as base_perms
 
 from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
 
@@ -42,7 +44,6 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         and calls it with both context and request to
         enable personalization.
         """
-
         # --- only slightly changed from upstream ---
 
         # Look up named vocabulary and check permission.
@@ -51,6 +52,12 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         field_name = self.request.get('field', None)
         if not factory_name:
             raise VocabLookupException('No factory provided.')
+
+        if factory_name in base_perms:
+            # don't mess with upstream vocabulary handling
+            # this is not a superclass of self!
+            return VocabularyView(self.context, self.request).get_vocabulary()
+
         authorized = None
         sm = getSecurityManager()
         if (factory_name not in _permissions or
