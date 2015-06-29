@@ -69,13 +69,18 @@
 	  <a href="#" class="content"
              tal:attributes="href child/absolute_url">
 	    <h3 tal:content="child/title">page title</h3>
-	    <p class="summary"
-               tal:content="child/description">
+            <p class="hero"
+               tal:define="has_img child/context/image|nothing;
+                           scales child/context/@@images|nothing"
+               tal:condition="python:has_img and scales" >
+              <img tal:replace="structure python: scales.scale('image', scale='mini').tag()" />
+            </p>
+	    <p class="summary" tal:content="child/description">
 	      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
 	    </p>
             <p class="footer">
               <em class="read-more">Read more…</em>
-              </p>
+            </p>
           </a>
 	</div>
 

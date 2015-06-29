@@ -100,7 +100,8 @@ class LibraryListingView(BrowserView):
             section = dict(title=child.Title(),
                            description=child.Description(),
                            absolute_url=child.absolute_url(),
-                           type=type_,)
+                           type=type_,
+                           context=child)
             content = []
             for grandchild in child.objectValues():
                 if grandchild.portal_type in folderish:
