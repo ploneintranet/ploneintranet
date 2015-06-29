@@ -599,8 +599,7 @@ def create_library_content(parent, spec, force=False):
         if 'description' not in item:
             item['description'] = loremipsum.get_sentence()
         if item['type'] in ('Document',):
-            raw_text = " ".join(["<p>%s</p>" % para
-                                 for para in loremipsum.get_paragraphs(3)])
+            raw_text = "\n\n".join(loremipsum.get_paragraphs(3))
             item['text'] = RichTextValue(raw=raw_text,
                                          mimeType='text/plain',
                                          outputMimeType='text/x-html-safe')
