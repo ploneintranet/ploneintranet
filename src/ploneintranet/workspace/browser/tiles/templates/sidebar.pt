@@ -10,7 +10,7 @@
       <div hidden="hidden" id="more-menu">
         <ul class="menu">
           <li>
-            <a class="icon-document" href="#">Paste document(s)</a>
+            <a class="icon-document" href="#" i18n:translate="">Paste document(s)</a>
           </li>
         </ul>
       </div>
@@ -29,7 +29,7 @@
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
                 <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
-                  <label class="pat-select bare">Group by
+                  <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
                   <select name="grouping">
                     <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
                     <option value="label" tal:attributes="selected python:grouping == 'label' and 'selected' or ''" i18n:translate="">tag</option>
@@ -47,6 +47,7 @@
               </div>
 
               <div class="quick-functions">
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 <a class="selector-toggle-select more-menu-trigger">Functions</a>
                 <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
@@ -183,6 +184,18 @@ Supported types include (class names):
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
                     </a>
+                    <div class="additional-meta-data">
+                        <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator" tal:content="python:creator.getProperty('fullname')" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
+                            Creator
+                        </a>
+                        <time class="modification-date meta-column" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
+                            {{ doc.date }}
+                        </time>
+                        <nav class="tag-cloud tags meta-column">
+                            <a tal:repeat="subject item/subject" href="#" class="tag" tal:content="subject">Finanzplanung</a>
+                        </nav>
+                    </div>
+
                   </label>
                 </tal:block>
 
@@ -261,6 +274,7 @@ Supported types include (class names):
           <div class="button-bar functions" id="tasks-functions">
 
             <div class="quick-functions">
+              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
                  tal:attributes="href string:${ws/absolute_url}/add_task"
@@ -353,6 +367,7 @@ Supported types include (class names):
         <div id="workspace-events" tal:define="events view/events; ws view/workspace">
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
+              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
               <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>

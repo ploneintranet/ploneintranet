@@ -2,7 +2,7 @@
     data-pat-tooltip="position: tr; source: ajax; class: social-inbox;"
     class="icon iconified icon-chat im chat pat-tooltip inactive"
     id="buddies-toggle"
-    tal:define="notifications view/number_of_messages">Messages
+    tal:define="notifications view/number_of_messages"><span tal:omit-tag="" i18n:translate="" i18n:domain="ploneintranet">Messages</span>
         <sup class="counter digit-2" id="number-of-messages"
         tal:condition="notifications"
         tal:content="notifications">10</sup>

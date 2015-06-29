@@ -1,7 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
-
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
   <head>
   </head>
@@ -17,7 +16,7 @@
                 ">
       <div id="content">
         <div id="document-content" class="pat-modal">
-          <h1>
+          <h1 i18n:translate="">
               Add user
           </h1>
 
@@ -31,10 +30,10 @@
             </div>
 
             <div class="buttons panel-footer">
-              <button type="submit" class="icon-ok-circle close-panel">
+              <button type="submit" class="icon-ok-circle close-panel" i18n:translate="">
                   Ok
               </button>
-              <button type="button" class="icon-cancel-circle close-panel">
+              <button type="button" class="icon-cancel-circle close-panel" i18n:translate="">
                   Cancel
               </button>
             </div>
