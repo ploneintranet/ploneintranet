@@ -10,6 +10,7 @@
 .ssh/
 .Python
 pip-selfcheck.json
+.*.sw[op]
 bin/
 develop-eggs/
 docs/Makefile
