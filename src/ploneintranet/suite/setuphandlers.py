@@ -13,6 +13,7 @@ from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
 from plone import api
+from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
 # from plone.uuid.interfaces import IUUID
 from zope.component import getUtility, queryUtility
@@ -584,8 +585,12 @@ def create_library_content(parent, spec, force=False):
         if 'description' not in item:
             item['description'] = loremipsum.get_sentence()
         if item['type'] in ('Document',):
-            item['text'] = " ".join(["<p>%s</p>" % para
-                                     for para in loremipsum.get_paragraphs(3)])
+            raw_text = " ".join(["<p>%s</p>" % para
+                                 for para in loremipsum.get_paragraphs(3)])
+            item['text'] = RichTextValue(raw=raw_text,
+                                         mimeType='text/plain',
+                                         outputMimeType='text/x-html-safe')
+
         obj = create_as('alice_lindstrom', container=parent, **item)
         wrapped = IDublinCore(obj)
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
