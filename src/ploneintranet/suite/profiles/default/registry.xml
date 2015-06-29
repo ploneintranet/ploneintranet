@@ -11,6 +11,7 @@
       </value>
       <value key="browserlayer_filterlist">
         <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+        <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>
       </value>
       <value key="fallback_enabled_bundles"></value>
       <value key="fallback_disabled_bundles">
