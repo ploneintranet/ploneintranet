@@ -6,7 +6,6 @@ import logging
 import os
 import random
 import time
-import transaction
 
 import loremipsum
 from DateTime import DateTime
@@ -42,29 +41,24 @@ def testing(context):
     log.info("create_users")
     users = users_spec(context)
     create_users(context, users, 'avatars')
-    transaction.commit()
 
     log.info("create workspaces")
     workspaces = workspaces_spec(context)
     create_workspaces(workspaces)
-    transaction.commit()
 
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
-    transaction.commit()
 
     log.info("create library content")
     library = library_spec(context)
     create_library_content(None, library)
-    transaction.commit()
 
     log.info("create microblog stream")
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
-    transaction.commit()
 
     log.info("done.")
 

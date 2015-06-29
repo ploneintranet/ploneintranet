@@ -3,8 +3,5 @@
   <version>0001</version>
   <dependencies>
     <dependency>profile-ploneintranet.suite:default</dependency>
-    <dependency>profile-ploneintranet.microblog:default</dependency>
-    <dependency>profile-ploneintranet.activitystream:default</dependency>
-    <dependency>profile-ploneintranet.network:default</dependency>
   </dependencies>
 </metadata>

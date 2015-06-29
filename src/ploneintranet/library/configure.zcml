@@ -5,7 +5,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="ploneintranet.search">
+    i18n_domain="ploneintranet">
 
   <include package=".browser" />
 
