@@ -86,8 +86,8 @@ class SearchResult(object):
         self.description = context['Description']
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
-        self.contact_email = context['email']
-        self.contact_telephone = context['telephone']
+        self.contact_email = context.get('email')
+        self.contact_telephone = context.get('telephone')
         if context['has_thumbs']:
             self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
                 self)
