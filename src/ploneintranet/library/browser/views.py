@@ -82,12 +82,15 @@ class LibraryListingView(BrowserView):
     @view.memoize
     def children(self):
         """Return children and grandchildren of current context"""
+        folderish = ('ploneintranet.library.section',
+                     'ploneintranet.library.folder')
+        pageish = ('Document', 'News Item', 'Link')
+
         struct = []
         for child in self.context.objectValues():
-            if child.portal_type in ('ploneintranet.library.section',
-                                     'ploneintranet.library.folder'):
+            if child.portal_type in folderish:
                 type_ = 'container'
-            elif child.portal_type in ('Document',):
+            elif child.portal_type in pageish:
                 type_ = 'document'
             else:
                 # to add: collection, newsitem, event, link, file
@@ -100,9 +103,9 @@ class LibraryListingView(BrowserView):
                            type=type_,)
             content = []
             for grandchild in child.objectValues():
-                if grandchild.portal_type == 'ploneintranet.library.folder':
+                if grandchild.portal_type in folderish:
                     (follow, icon) = ("follow-section", "icon-squares")
-                elif grandchild.portal_type in ('Document',):
+                elif grandchild.portal_type in pageish:
                     (follow, icon) = ("follow-page", "icon-page")
                 else:
                     # to add: collection, newsitem, event, link, file
