@@ -55,6 +55,9 @@ class ISearchResult(Interface):
     contact_telephone = schema.TextLine(
         title=_(u'The description of this search result'))
 
+    portal_type = schema.TextLine(
+        title=_(u'The portal type of this search result'))
+
     friendly_type_name = schema.TextLine(
         title=_(u'The friendly label for the type of search result'))
 
