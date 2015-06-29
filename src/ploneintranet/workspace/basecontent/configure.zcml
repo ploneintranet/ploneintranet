@@ -9,7 +9,7 @@
 
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
-           ploneintranet.layout.interfaces.IPloneintranetFormLayer
+           ploneintranet.workspace.interfaces.IWorkspaceAppFormLayer
            plone.dexterity.interfaces.IDexterityFTI"
       factory=".document.AddView"
       name="Document"
