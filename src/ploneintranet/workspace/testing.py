@@ -1,3 +1,7 @@
+import collective.externaleditor
+import collective.workspace
+import Products.CMFPlacefulWorkflow
+
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
@@ -9,13 +13,11 @@ from plone.testing import z2
 from zope.configuration import xmlconfig
 
 import ploneintranet.workspace
-import collective.workspace
 import ploneintranet.microblog
 import ploneintranet.activitystream
 import ploneintranet.invitations
-import Products.CMFPlacefulWorkflow
+import ploneintranet.layout
 import ploneintranet.theme
-import collective.externaleditor
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
@@ -70,6 +72,12 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
         xmlconfig.file(
             'configure.zcml',
+            ploneintranet.layout,
+            context=configurationContext
+        )
+
+        xmlconfig.file(
+            'configure.zcml',
             ploneintranet.theme,
             context=configurationContext
         )
@@ -92,6 +100,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.todo:default')
+        applyProfile(portal, 'ploneintranet.layout:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
 

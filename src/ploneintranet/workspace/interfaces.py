@@ -1,9 +1,21 @@
 from zope.interface import Attribute
 from zope.interface import Interface
 
+from ploneintranet.layout import interfaces as ilayout
+
 
 class IPloneintranetWorkspaceLayer(Interface):
     """Marker interface that defines a Zope 3 browser layer."""
+
+
+class IWorkspaceAppContentLayer(ilayout.IPloneintranetContentLayer,
+                                ilayout.IAppLayer):
+    """Marker interface for content within a workspace app."""
+
+
+class IWorkspaceAppFormLayer(ilayout.IPloneintranetFormLayer,
+                             ilayout.IAppLayer):
+    """Marker interface for forms within a workspace app."""
 
 
 class IParticipationPolicyChangedEvent(Interface):
