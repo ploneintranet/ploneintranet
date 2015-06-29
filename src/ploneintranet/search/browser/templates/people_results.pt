@@ -34,7 +34,7 @@
 	    -->
 
             <div class="row people results pat-equaliser" id="listing">
-                <tal:result repeat="result search_response/results">
+                <tal:result repeat="result search_response">
                 <!-- TODO check all result attributes are correect for a user profile -->
                 <div class="item">
                         <div class="user-card">
