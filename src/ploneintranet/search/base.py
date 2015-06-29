@@ -95,7 +95,7 @@ class SearchResult(object):
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
         elif self.portal_type == 'ploneintranet.userprofile.userprofile':
-            self.preview_image_path = '{.path}/@@avatar'.format(self)
+            self.preview_image_path = '{.path}/@@avatar.jpg'.format(self)
 
     def __repr__(self):
         clsnam = type(self).__name__

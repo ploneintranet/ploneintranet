@@ -17,7 +17,7 @@
             <aside>
                 <figure class="user-portrait">
                     <img class="pat-avatar"
-        			 tal:attributes="src view/avatar_url"
+        			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
         			 src="{{ page.image_url }}"
                      alt="Image of {{ page.title }}" />
                     <figcaption class="status-message"

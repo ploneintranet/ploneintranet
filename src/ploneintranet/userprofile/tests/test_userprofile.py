@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
+import os
+
 from zExceptions import NotFound
 from AccessControl import Unauthorized
 from plone import api
+from plone.namedfile import NamedBlobImage
+from ZPublisher.Iterators import IStreamIterator
 
 from ploneintranet.userprofile.tests.base import BaseTestCase
 from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import MyProfileView
+from ploneintranet.userprofile.browser.userprofile import AvatarView
+
+
+TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
 
 class TestUserProfileBase(BaseTestCase):
@@ -51,14 +59,6 @@ class TestUserProfileView(TestUserProfileBase):
         self.login(self.profile2.username)
         self.assertFalse(profile_view.is_me())
         self.logout()
-
-    def test_avatar_url(self):
-        self.login(self.profile1.username)
-        profile_view = UserProfileView(self.profile1, self.request)
-        url = profile_view.avatar_url()
-        # No profile data by default
-        # Avatar lookup is properly tested in ploneintranet.api
-        self.assertIsNone(url)
 
     def test__user_details(self):
         self.login(self.profile1.username)
@@ -112,3 +112,18 @@ class TestMyProfileView(TestUserProfileBase):
 
         with self.assertRaises(Unauthorized):
             myprofile_view()
+
+
+class TestAvatarView(TestUserProfileBase):
+
+    def test__get_avatar_data(self):
+        avatar_file = open(
+            os.path.join(os.path.dirname(__file__),
+                         TEST_AVATAR_FILENAME), 'r')
+        self.profile1.portrait = NamedBlobImage(
+            data=avatar_file.read(),
+            filename=TEST_AVATAR_FILENAME)
+
+        avatar_view = AvatarView(self.profile1, self.request)
+        data = avatar_view()
+        self.assertTrue(IStreamIterator.providedBy(data))

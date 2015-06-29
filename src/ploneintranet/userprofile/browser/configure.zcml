@@ -34,8 +34,17 @@
 
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
-      name="avatar"
+      name="avatar.jpg"
       class=".userprofile.AvatarView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      name="avatar_profile.jpg"
+      class=".userprofile.AvatarView"
+      attribute="avatar_profile"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
