@@ -10,7 +10,7 @@
         <div class="container results"
              tal:define="search_response view/search_people">
 
-            <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
+            <p><span tal:replace="search_response/total_results">87</span> <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
 
             <!-- TODO check integration of extra fieldset into form/search for skills -->
 	    <!-- SKILLS not yet implemented
@@ -68,6 +68,11 @@
                         </div>
                     </div>
                 </tal:result>
+		<p tal:define="next_url python: 
+			       view.next_page_url(search_response.total_results)"
+		   tal:condition="next_url">
+		    <a href="${next_url}" i18n:translate="">More results</a>
+		</p>
             </div>
         </div>
     </metal:results>
