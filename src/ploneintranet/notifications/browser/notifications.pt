@@ -16,7 +16,7 @@
         <ul class="notifications">
           <li tal:repeat="notification notifications"  class="notification">
             <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
-              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()">
+              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()" />
             </a>
             <span class="subjects">
               <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>

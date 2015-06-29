@@ -18,7 +18,10 @@ class TestUserProfileBase(BaseTestCase):
             container=self.profiles,
             type='ploneintranet.userprofile.userprofile',
             id='johndoe',
-            username='johndoe')
+            username='johndoe',
+            first_name='John',
+            last_name='Doe',
+        )
         api.content.transition(self.profile1, 'approve')
         self.profile1.reindexObject()
 
@@ -26,7 +29,10 @@ class TestUserProfileBase(BaseTestCase):
             container=self.profiles,
             type='ploneintranet.userprofile.userprofile',
             id='janedoe',
-            username='janedoe')
+            username='janedoe',
+            first_name='Jane',
+            last_name='Doe',
+        )
         api.content.transition(self.profile2, 'approve')
         self.profile2.reindexObject()
 
@@ -47,11 +53,27 @@ class TestUserProfileView(TestUserProfileBase):
         self.logout()
 
     def test_avatar_url(self):
+        self.login(self.profile1.username)
         profile_view = UserProfileView(self.profile1, self.request)
         url = profile_view.avatar_url()
         # No profile data by default
         # Avatar lookup is properly tested in ploneintranet.api
         self.assertIsNone(url)
+
+    def test__user_details(self):
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile1, self.request)
+        details = profile_view._user_details([
+            self.profile1.username,
+            self.profile2.username,
+        ])
+        self.assertEqual(len(details), 2)
+        self.assertEqual(
+            details[0]['title'], self.profile1.fullname,
+        )
+        self.assertEqual(
+            details[1]['title'], self.profile2.fullname,
+        )
 
 
 class TestAuthorView(TestUserProfileBase):

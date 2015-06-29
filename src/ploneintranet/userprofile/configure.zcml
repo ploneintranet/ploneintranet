@@ -19,7 +19,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (User Profiles)"
+      title="Plone Intranet: -- [User Profiles]"
       directory="profiles/default"
       description="Installs the ploneintranet.userprofile package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -28,7 +28,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (User Profiles uninstall)"
+      title="Plone Intranet: -- [User Profiles uninstall]"
       directory="profiles/uninstall"
       description="Installs the ploneintranet.userprofile package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
