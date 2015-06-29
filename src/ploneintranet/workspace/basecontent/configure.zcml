@@ -69,4 +69,7 @@
     permission="zope2.View"
     />
 
+  <adapter factory=".widgets.CommaSeparatedConverter" />
+  <adapter factory=".widgets.CommaSeparatedFieldWidget" />
+
 </configure>
