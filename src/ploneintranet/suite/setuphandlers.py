@@ -56,7 +56,7 @@ def testing(context):
 
     log.info("create library content")
     library = library_spec(context)
-    create_library_content(None, library, force=True)
+    create_library_content(None, library)
     transaction.commit()
 
     log.info("create microblog stream")
