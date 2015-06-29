@@ -3,10 +3,10 @@
   <version>0003</version>
   <dependencies>
         <dependency>profile-collective.externaleditor:default</dependency>
+        <dependency>profile-ploneintranet.async:default</dependency>
         <dependency>profile-ploneintranet.workspace:default</dependency>
         <dependency>profile-ploneintranet.theme:default</dependency>
         <dependency>profile-ploneintranet.themeswitcher:default</dependency>
-        <dependency>profile-ploneintranet.docconv.client:default</dependency>
         <dependency>profile-ploneintranet.attachments:default</dependency>
         <dependency>profile-ploneintranet.invitations:default</dependency>
         <dependency>profile-ploneintranet.notifications:default</dependency>

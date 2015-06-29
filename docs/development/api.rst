@@ -20,3 +20,18 @@ User Profile API
     :undoc-members:
     :show-inheritance:
 
+Document Preview API
+--------------------
+
+.. automodule:: ploneintranet.api.previews
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Attachments API
+---------------
+
+.. automodule:: ploneintranet.api.attachments
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,14 +1,15 @@
-import ExtensionClass
 from Acquisition import Explicit
 from Acquisition import aq_base
-from BTrees.OOBTree import OOBTree
-from OFS.Traversable import Traversable
-from Products.Archetypes.utils import shasattr
-from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
-from Products.CMFPlone.Portal import PloneSite
 from persistent import Persistent
 from zope import component
 from zope import interface
+import ExtensionClass
+from BTrees.OOBTree import OOBTree
+from OFS.Traversable import Traversable
+from Products.Archetypes.utils import shasattr
+from Products.CMFPlone.Portal import PloneSite
+from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
+from plone.dexterity.content import DexterityContent
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.container.interfaces import DuplicateIDError
@@ -20,7 +21,8 @@ class IAttachmentStoragable(IAnnotatable):
     """ Marker interface for things that can have attachments
     """
 
-# Make sure we can store attachments at the root of plone
+
+interface.classImplements(DexterityContent, IAttachmentStoragable)
 interface.classImplements(PloneSite, IAttachmentStoragable)
 
 
@@ -43,6 +45,9 @@ class IAttachmentStorage(interface.Interface):
         """ """
 
     def remove(id):
+        """ """
+
+    def items():
         """ """
 
 
@@ -91,6 +96,9 @@ class AttachmentStorage(Traversable, Persistent, Explicit):
 
     def remove(self, id):
         del self._attachments[id]
+
+    def items(self):
+        return self._attachments.items()
 
 
 @interface.implementer(IAttachmentStorage)

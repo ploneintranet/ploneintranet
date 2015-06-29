@@ -1,0 +1,33 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:browser="http://namespaces.zope.org/browser"
+        i18n_domain="ploneintranet">
+    <browser:page
+            name="generate-previews"
+            for="Products.CMFCore.interfaces.IContentish"
+            class=".docconv.GeneratePreviewImages"
+            permission="zope2.View"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
+    <browser:page
+            name="thumbnail"
+            for="Products.CMFCore.interfaces.IContentish"
+            permission="zope2.View"
+            class=".previews.ThumbnailView"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
+    <browser:page
+            name="preview"
+            for="Products.CMFCore.interfaces.IContentish"
+            permission="zope2.View"
+            class=".previews.PreviewView"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
+    <browser:page
+            name="status-thumbs"
+            for="*"
+            permission="zope2.View"
+            class=".docconv.GenerateAttachmentThumbnail"
+            layer="..interfaces.IPloneintranetAsyncLayer"
+            />
+</configure>

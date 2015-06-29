@@ -4,12 +4,13 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
+
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class ActivityView(BrowserView):
-    ''' This view renders an activity
-    '''
+    """ This view renders an activity
+    """
 
     as_post = ViewPageTemplateFile('templates/activity_as_post.pt')
     newpostbox_placeholder = _(u'leave_a_comment',
@@ -18,36 +19,36 @@ class ActivityView(BrowserView):
     @property
     @memoize
     def is_anonymous(self):
-        ''' Return the portal object
-        '''
+        """ Return the portal object
+        """
         return api.user.is_anonymous()
 
     @property
     @memoize
     def portal(self):
-        ''' Return the portal object
-        '''
+        """ Return the portal object
+        """
         return api.portal.get()
 
     @property
     @memoize
     def portal_url(self):
-        ''' Return the portal object url
-        '''
+        """ Return the portal object url
+        """
         return self.portal.absolute_url()
 
     @property
     @memoize
     def context_url(self):
-        ''' Return the context url
-        '''
+        """ Return the context url
+        """
         return self.portal_url
 
     @property
     @memoize
     def toggle_like(self):
-        ''' This is used to render the toggle like stuff
-        '''
+        """ This is used to render the toggle like stuff
+        """
         toggle_like_base = api.content.get_view(
             'toggle_like_statusupdate',
             self.portal,
@@ -62,8 +63,8 @@ class ActivityView(BrowserView):
     @property
     @memoize
     def newpostbox_view(self):
-        ''' Return the newpostbox.tile view
-        '''
+        """ Return the newpostbox.tile view
+        """
         return api.content.get_view(
             'newpostbox.tile',
             self.portal,
@@ -73,8 +74,8 @@ class ActivityView(BrowserView):
     @property
     @memoize
     def statusupdate_view(self):
-        ''' Return the newpostbox.tile view
-        '''
+        """ Return the newpostbox.tile view
+        """
         return api.content.get_view(
             'statusupdate_view',
             self.context.context,
@@ -84,15 +85,15 @@ class ActivityView(BrowserView):
     @property
     @memoize
     def toLocalizedTime(self):
-        ''' Facade for the toLocalizedTime method
-        '''
+        """ Facade for the toLocalizedTime method
+        """
         return api.portal.get_tool('translation_service').toLocalizedTime
 
     @property
     @memoize
     def date(self):
-        ''' The date of our context object
-        '''
+        """ The date of our context object
+        """
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
         time = self.context.raw_date

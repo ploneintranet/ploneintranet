@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone import api
-from zExceptions import BadRequest
 import logging
+
+from zExceptions import BadRequest
+
+from plone import api
 
 log = logging.getLogger(__name__)
 
@@ -10,9 +12,7 @@ log = logging.getLogger(__name__)
 # or are dependencies of dependencies of ploneintranet.suite that make little
 # or no sense out side its context
 ADDITIONAL_DEPENDENCIES = [
-    'slc.docconv',
     'collective.workspace',
-    'collective.documentviewer',
 ]
 
 

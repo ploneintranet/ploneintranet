@@ -5,7 +5,6 @@ from plone import api
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.core.integration import PLONEINTRANET
-from ploneintranet.docconv.client.interfaces import IDocconv
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
@@ -86,12 +85,13 @@ class Attachments(BrowserView):
         primary_field = IPrimaryFieldInfo(attachment).value
         mimetype = primary_field.contentType
         data = primary_field.data
+        filename = primary_field.filename
         self.request.response.setHeader(
             'content-type', mimetype)
         self.request.response.setHeader(
             'content-disposition', 'inline; '
             'filename="{0}"'.format(
-                safe_unicode(self.attachment_id).encode('utf8')))
+                safe_unicode(filename)))
         return data
 
     def __call__(self):
@@ -108,33 +108,14 @@ class Attachments(BrowserView):
                 'pdf-not-available', 'request-pdf'):
             return self._render_nopreview(attachment)
 
-        docconv = IDocconv(attachment)
+        # TODO: check if there are thumb previews,
+        # image previews or pdf previews
+        # preview_type is 'docconv_image_thumb.jpg'
+        # or 'docconv_image_preview.jpg' or 'pdf' or 'thumb' or 'preview'
+        # The first three are for upload stage, the latter two for view stage
+        # The functionality was removed due to its reliance
+        # on the now gone IDocconv
 
-        # upload stage
-        if self.preview_type == 'docconv_image_thumb.jpg':
-            if docconv.has_thumbs():
-                previews = docconv.get_thumbs()
-                imgdata = self._get_page_imgdata(previews)
-                return self._prepare_imagedata(attachment, imgdata)
-        elif self.preview_type == 'docconv_image_preview.jpg':
-            if docconv.has_previews():
-                previews = docconv.get_previews()
-                imgdata = self._get_page_imgdata(previews)
-                return self._prepare_imagedata(attachment, imgdata)
-        elif self.preview_type == 'pdf':
-            if docconv.has_pdf():
-                pdfdata = docconv.get_pdf()
-                return self._prepare_pdfdata(pdfdata)
-
-        # normal view stage
-        elif self.preview_type == 'thumb':
-            if docconv.has_thumbs():
-                return self._prepare_imagedata(
-                    attachment, docconv.get_thumbs()[0])
-        elif self.preview_type == 'preview':
-            if docconv.has_previews():
-                return self._prepare_imagedata(
-                    attachment, docconv.get_previews()[0])
         elif self.preview_type == '@@images':
             images = api.content.get_view(
                 'images',

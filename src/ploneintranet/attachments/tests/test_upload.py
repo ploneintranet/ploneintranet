@@ -1,27 +1,26 @@
 # -*- coding: utf-8 -*-
-from pkg_resources import resource_string
+from ZPublisher.Iterators import filestream_iterator
 from plone import api
-from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.namedfile.file import NamedBlobFile
+from zope.interface import alsoProvides
+
+from pkg_resources import resource_string
 from ploneintranet.attachments.testing import IntegrationTestCase
 from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
-from ploneintranet.docconv.client.interfaces import (
-    IPloneintranetDocconvClientLayer
-)
-from zope.interface import alsoProvides
+from ploneintranet import api as pi_api
 
 
 class TestUpload(IntegrationTestCase):
-    ''' Test that the upload view is functional
-    '''
+    """ Test that the upload view is functional
+    """
+
     def setUp(self):
-        ''' define some helper variables here
-        '''
+        """ define some helper variables here
+        """
         self.portal = self.layer['portal']
         self.request = self.layer['request'].clone()
         alsoProvides(self.request, IPloneintranetAttachmentsLayer)
-        alsoProvides(self.request, IPloneintranetDocconvClientLayer)
 
         # Docconv: will generate previews for this
         self.pdf = api.content.create(
@@ -63,58 +62,48 @@ class TestUpload(IntegrationTestCase):
         )
 
     def test_get_thumbs_urls(self):
-        ''' Given an attachment we should have the urls to see its thumbnails
-        '''
-        upload_view = api.content.get_view(
-            'upload-attachments',
-            self.portal,
-            self.request,
-        )
-        # Test objects that have no preview
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.portal),
-            upload_view.fallback_thumbs_urls,
-        )
-
+        """ Given an attachment we should have the urls to see its thumbnails
+        """
         # Test objects that have a docconv generated preview
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.pdf),
-            ['http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1']
+        self.assertEqual(
+            pi_api.previews.get_thumbnail_url(self.pdf),
+            'http://nohost/plone/test-file/@@thumbnail'
         )
 
         # Test image previews
-        urls = upload_view.get_thumbs_urls(self.image)
+        urls = pi_api.previews.get_preview_urls(self.image)
         self.assertTrue(len(urls) == 1)
-        self.assertRegexpMatches(
+        self.assertEqual(
             urls[0],
-            'http://nohost/plone/test-image/@@images/(.*).jpeg'
+            'http://nohost/plone/test-image/@@preview?page=1&scale=preview'
         )
 
         # Test a File instance that contains an image
-        urls = upload_view.get_thumbs_urls(self.fileimage)
+        urls = pi_api.previews.get_preview_urls(self.fileimage)
         self.assertTrue(len(urls) == 1)
-        self.assertRegexpMatches(
+        self.assertEqual(
             urls[0],
-            'http://nohost/plone/test-image-file/@@images/(.*).jpeg'
+            'http://nohost/plone/test-image-file/@@preview?page=1&scale='
+            'preview'
         )
         self.assertListEqual(
-            upload_view.get_thumbs_urls(self.empty),
-            upload_view.fallback_thumbs_urls
+            pi_api.previews.get_preview_urls(self.empty),
+            [pi_api.previews.fallback_image_url()]
         )
 
     def test_docconv_url_traversable(self):
-        ''' In the previous test we returned a URL similar to this:
+        """ In the previous test we returned a URL similar to this:
          - http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1
         in the case of a docconv generated URL
 
         This test will protect the method that generates the urls
         from changes in the docconv module
-        '''
+        """
         request = self.request.clone()
         request['page'] = 1
         view = api.content.get_view(
-            'docconv_image_thumb.jpg',
+            'thumbnail',
             self.pdf,
             request,
         )
-        self.assertIsInstance(view(), BlobStreamIterator)
+        self.assertIsInstance(view(), filestream_iterator)

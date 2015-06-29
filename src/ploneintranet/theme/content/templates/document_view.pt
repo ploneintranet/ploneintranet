@@ -1,10 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+        metal:use-macro="context/main_template/macros/master"
+        i18n:domain="ploneintranet">
 
   <body>
     <metal:content fill-slot="content"
@@ -69,9 +68,10 @@
                   </textarea>
                   <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
                 </article>
-                <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
-                  <tal:previews tal:repeat="preview python:range(1, number_of_file_previews + 1)">
-                    <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+                <article
+                    class="document preview" tal:condition="previews" tal:define="previews view/preview_urls">
+                  <tal:previews tal:repeat="preview_url previews">
+                    <img src="${preview_url}"/>
                   </tal:previews>
                 </article>
 

@@ -4,11 +4,9 @@ from plone.app.testing import login, logout
 from zope.component import queryUtility
 
 
-from ploneintranet.suite.testing import\
-    PLONEINTRANET_SUITE_FUNCTIONAL
+from ploneintranet.suite.testing import PLONEINTRANET_SUITE_FUNCTIONAL
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
-# from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.statusupdate import StatusUpdate
 
 

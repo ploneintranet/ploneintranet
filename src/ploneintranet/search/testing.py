@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting ploneintranet.search."""
 from contextlib import contextmanager
+import unittest2 as unittest
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app import testing
 from plone import api
-import unittest2 as unittest
+
 import ploneintranet.search
-import ploneintranet.docconv.client
+import ploneintranet.async
+import ploneintranet.attachments
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 
@@ -42,11 +44,11 @@ class PloneintranetSearchLayer(testing.PloneSandboxLayer):
                     PLONEINTRANET_FIXTURE)
 
     def setUpZope(self, app, configurationContext):
+        self.loadZCML(package=ploneintranet.async)
         self.loadZCML(package=ploneintranet.search)
-        self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):
-        self.applyProfile(portal, 'ploneintranet.docconv.client:default')
+        self.applyProfile(portal, 'ploneintranet.async:default')
         self.applyProfile(portal, 'ploneintranet.search:default')
         with login_session(testing.TEST_USER_NAME):
             api.user.create(username=TEST_USER_1_NAME, email=TEST_USER_1_EMAIL)

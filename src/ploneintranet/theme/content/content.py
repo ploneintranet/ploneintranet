@@ -5,14 +5,16 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.memoize.view import memoize
-from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.utils import map_content_type
 from zope import component
 from zope.event import notify
+
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
+
 from ploneintranet.theme import _
+from ploneintranet import api as pi_api
 from ..utils import dexterity_update
 
 
@@ -20,8 +22,10 @@ from ..utils import dexterity_update
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
-    def __call__(self, title=None, description=None, tags=[], text=None):
+    def __call__(self, title=None, description=None, tags=None, text=None):
         """Render the default template and evaluate the form when editing."""
+        if not tags:
+            tags = []
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
@@ -41,8 +45,7 @@ class ContentView(BrowserView):
         errors = None
         messages = []
 
-        if (
-                self.request.get('workflow_action') and
+        if (self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
             api.content.transition(
                 obj=context,
@@ -129,17 +132,10 @@ class ContentView(BrowserView):
         # Todo: enforce a given order?
         return states
 
-    def number_of_file_previews(self):
-        """The number of previews generated for a file."""
-        context = aq_inner(self.context)
-        if context.portal_type != 'File':
-            return
-        try:
-            docconv = IDocconv(self.context)
-        except TypeError:  # TODO: prevent this form happening in tests
-            return
-        if docconv.has_previews():
-            return docconv.get_number_of_pages()
+    def preview_urls(self):
+        """The URLs to the preview images for this object
+        """
+        return pi_api.previews.get_preview_urls(self.context, 'large')
 
     def image_url(self):
         """The img-url used to construct the img-tag."""

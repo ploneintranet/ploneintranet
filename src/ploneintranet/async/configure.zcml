@@ -1,0 +1,28 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+        i18n_domain="ploneintranet">
+
+    <include package=".browser" />
+    <include package="ploneintranet.attachments"/>
+
+    <adapter
+            name="has_thumbs"
+            factory=".indexers.has_thumbs"/>
+
+    <genericsetup:registerProfile
+            name="default"
+            title="Plone Intranet: -- [Async]"
+            directory="profiles/default"
+            description="Extension profile for ploneintranet.async."
+            provides="Products.GenericSetup.interfaces.EXTENSION"
+            />
+
+    <!-- zope.lifecycleevent.interfaces.IObjectAddedEvent -->
+    <subscriber
+            for="Products.CMFCore.interfaces.IContentish
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+            handler=".handlers.generate_attachment_preview_images"
+            />
+
+</configure>

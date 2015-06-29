@@ -1,9 +1,0 @@
-<html metal:use-macro="here/main_template/macros/master"
-      i18n:domain="ploneintranet" >
-<body>
-    <div id="content" metal:fill-slot="main">
-        <h1 i18n:translate="">PDF not generated yet</h1>
-        <p>The PDF version has not been generated yet, please try again later.</p>
-    </div>
-</body>
-</html>
