@@ -6,6 +6,8 @@ import logging
 import os
 import random
 import time
+import traceback
+import transaction
 
 import loremipsum
 from DateTime import DateTime
@@ -38,27 +40,45 @@ def testing(context):
         return
     log.info("testcontent setup")
 
+    # plone.api.env.test_mode doesn't support collective.xmltestreport
+    is_test = False
+    for frame in traceback.extract_stack():
+        if 'testrunner' in frame[0] or 'testreport/runner' in frame[0]:
+            is_test = True
+            break
+
+    # commits are needed in interactive but break in test mode
+    if is_test:
+        commit = lambda: None
+    else:
+        commit = transaction.commit
+
     log.info("create_users")
     users = users_spec(context)
     create_users(context, users, 'avatars')
+    commit()
 
     log.info("create workspaces")
     workspaces = workspaces_spec(context)
     create_workspaces(workspaces)
+    commit()
 
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
+    commit()
 
     log.info("create library content")
     library = library_spec(context)
     create_library_content(None, library)
+    commit()
 
     log.info("create microblog stream")
     stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
+    commit()
 
     log.info("done.")
 
