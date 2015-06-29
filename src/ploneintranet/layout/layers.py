@@ -28,8 +28,7 @@ class enable_app_layer(object):
         # manipulate the same request only once, and only for one app
         request.set('ploneintranet.layout.app.enabled', True)
 
-        active_layers = get_layers(request)
-        active_layers.insert(0, context.layer)
+        active_layers = list(context.app_layers) + get_layers(request)
         directlyProvides(request, *active_layers)
 
 

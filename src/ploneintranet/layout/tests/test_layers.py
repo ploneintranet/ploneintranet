@@ -37,7 +37,7 @@ class TestLayers(FunctionalTestCase):
                                     title='testfolder')
         api.content.transition(folder, 'publish')
         directlyProvides(folder, IMockFolder)
-        folder.layer = IMockLayer
+        folder.app_layers = (IMockLayer,)
         BeforeTraverse.registerBeforeTraverse(folder,
                                               enable_app_layer(),
                                               'enable_app_layer')

@@ -13,6 +13,11 @@ class IWorkspaceAppContentLayer(ilayout.IPloneintranetContentLayer,
     """Marker interface for content within a workspace app."""
 
 
+class IWorkspaceAppFormLayer(ilayout.IPloneintranetFormLayer,
+                             ilayout.IAppLayer):
+    """Marker interface for forms within a workspace app."""
+
+
 class IParticipationPolicyChangedEvent(Interface):
     """ Event, which is fired once the participation policy
     of the workspace has changed

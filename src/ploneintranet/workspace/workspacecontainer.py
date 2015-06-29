@@ -7,6 +7,7 @@ from ploneintranet.layout.app import AbstractAppContainer
 from zope.interface import implementer
 
 from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
+from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
 
 
 class IWorkspaceContainer(form.Schema,
@@ -26,4 +27,4 @@ class WorkspaceContainer(AbstractAppContainer, Container):
     registrations.
     """
 
-    layer = IWorkspaceAppContentLayer
+    app_layers = (IWorkspaceAppContentLayer, IWorkspaceAppFormLayer)

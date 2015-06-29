@@ -52,15 +52,13 @@ on the site root and on app containers disable/enable specific browser layers.
 On traversal of the ``INavigationRoot``, all ``IAppLayer`` layers are removed from the request.
 This traverse hook is globally registered.
 
-On traversal of an ``IAppContainer``, only the ``IAppLayer`` as defined in the layer attribute
-of that ``IAppContainer``. This traverse hook needs to be registered separately
-for every ``IAppContainer`` implementer.
+On traversal of an ``IAppContainer``, only the ``IAppLayer`` layers as defined in the ``app_layers'' attribute of that ``IAppContainer`` are activated. This traverse hook needs to be registered separately for every ``IAppContainer`` implementer.
 
 To register a browser layer that is only active within a specific app container:
 - subclass your layer from ``ploneintranet.layout.interfaces.IAppLayer``
 - mark your app container as providing ``ploneintranet.layout.interfaces.IAppContainer``
 - implement ``IAppContainer`` on your app container, which requires:
-  - set ``layer = yourcustomlayer``
+  - set ``app_layers = (yourcustomlayer,)``
   - call ``register_app_hook()`` on ``__init__()``
 
 See ``ploneintranet.layout.app.AbstractAppContainer`` for an easy mixin.
