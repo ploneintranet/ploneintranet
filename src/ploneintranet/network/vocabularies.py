@@ -7,7 +7,6 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
-from ploneintranet.network.behaviors.metadata import IDublinCore
 
 logger = getLogger(__name__)
 
@@ -53,7 +52,7 @@ class PersonalizedKeywordsVocabulary(object):
         graph = api.portal.get_tool("ploneintranet_network")
         uuid = IUUID(context)
         userid = api.user.get_current().id
-        blacklist = list(IDublinCore(context).subjects)
+        blacklist = []
         tags = []
 
         # 1. prioritize "old" context tags

@@ -137,12 +137,23 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         self.assertEquals(len(data['results']), 10)
 
     def testVocabularyPersonalizedContextTags(self):
+        # let john_doe pollute the global tag space via doc2
+        self.tag(self.doc2, *['many_%02d' % i for i in xrange(100)])
         login(self.portal, 'mary_jane')
-        self.tag(self.doc1, *[u'a_%d_♥' % i for i in xrange(5)])
         view = PersonalizedVocabularyView(self.doc1, self.request)
         data = json.loads(view())
-        # we expect to find john_doe b_* suggestions only
-        self.assertEquals(len(data['results']), 5)
+        # we expect to find the a_ and b_ doc1 tags only
+        self.assertEquals(len(data['results']), 10)
+        self.assertFalse('a_' in data['results'])
+
+    def testVocabularyPersonalizedContextTagsMany(self):
+        # let john_doe fill up the doc1 tag space
+        self.tag(self.doc1, *['many_%02d' % i for i in xrange(100)])
+        login(self.portal, 'mary_jane')
+        view = PersonalizedVocabularyView(self.doc1, self.request)
+        data = json.loads(view())
+        # we expect to find all of john_doe's context tags
+        self.assertEquals(len(data['results']), 110)
         self.assertFalse('a_' in data['results'])
 
     def testVocabularyPersonalizedUserContentTags(self):
