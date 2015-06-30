@@ -198,6 +198,12 @@
 
    <include package=".tiles" />
 
-
+   <browser:page
+       name="getVocabulary"
+       for="*"
+       class=".vocabulary.WorkspaceVocabularyView"
+       permission="zope2.View"
+       layer="..interfaces.IPloneintranetWorkspaceLayer"
+       />
 
 </configure>
