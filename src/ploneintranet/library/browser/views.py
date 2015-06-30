@@ -80,7 +80,7 @@ class LibraryBaseView(BrowserView):
                              current=s_current))
         return menu
 
-#    @view.memoize
+    @view.memoize
     def children(self):
         """Return children and grandchildren of current context"""
         return utils.sections_of(self.context)
