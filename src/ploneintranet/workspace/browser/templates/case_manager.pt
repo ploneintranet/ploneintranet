@@ -18,6 +18,10 @@
                   <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
                         tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
                     <fieldset class="vertical">
+                      <label>
+                        <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
+                        <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder"/>
+                      </label>
                       <!-- To be defined -->
                       <!-- <label> -->
                       <!--   Role filter -->
