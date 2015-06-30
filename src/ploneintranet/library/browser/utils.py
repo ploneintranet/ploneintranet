@@ -5,7 +5,7 @@ log = logging.getLogger(__name__)
 
 folderish = ('ploneintranet.library.section',
              'ploneintranet.library.folder')
-pageish = ('Document', 'News Item', 'Link')
+pageish = ('Document', 'News Item', 'Link', 'File')
 hidden = ('Image')
 
 
@@ -22,7 +22,6 @@ def sections_of(context):
             # to add: collection, newsitem, event, link, file
             type_ = 'unsupported'
             log.error("Unsupported type %s", child.portal_type)
-
         section = dict(title=child.Title(),
                        description=child.Description(),
                        absolute_url=child.absolute_url(),
