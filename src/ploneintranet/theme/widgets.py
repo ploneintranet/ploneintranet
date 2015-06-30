@@ -1,7 +1,7 @@
 from datetime import datetime
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
-from ploneintranet.theme.interfaces import IPloneIntranetFormLayer
+from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from z3c.form.converter import BaseDataConverter
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IWidget
@@ -56,13 +56,13 @@ class PatDatePickerConverter(BaseDataConverter):
         return value
 
 
-@adapter(getSpecification(IEventBasic['start']), IPloneIntranetFormLayer)
+@adapter(getSpecification(IEventBasic['start']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def StartPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))
 
 
-@adapter(getSpecification(IEventBasic['end']), IPloneIntranetFormLayer)
+@adapter(getSpecification(IEventBasic['end']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def EndPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))
