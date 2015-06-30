@@ -127,6 +127,15 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         data = json.loads(view())
         self.assertEquals(data['error'], 'Vocabulary lookup not allowed')
 
+    def testVocabularyNoPersonalTagsYet(self):
+        # user has no tags
+        login(self.portal, 'mary_jane')
+        # doc2 has no tags
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        data = json.loads(view())
+        # expect john_doe tags on doc1
+        self.assertEquals(len(data['results']), 10)
+
     def testVocabularyPersonalizedContextTags(self):
         login(self.portal, 'mary_jane')
         self.tag(self.doc1, *[u'a_%d_♥' % i for i in xrange(5)])

@@ -54,6 +54,7 @@ class PersonalizedKeywordsVocabulary(object):
         uuid = IUUID(context)
         userid = api.user.get_current().id
         blacklist = list(IDublinCore(context).subjects)
+        tags = []
 
         # 1. prioritize "old" context tags
         #    i.e. tags set on context by someone, then removed by someone else
@@ -63,20 +64,24 @@ class PersonalizedKeywordsVocabulary(object):
                 [x for x in graph.get_tags("content", uuid).keys()],
                 blacklist, query)
             blacklist.extend(tags)  # avoid duplication
-
         except KeyError:
             # untagged content
-            tags = []
+            pass
 
         # 2. personal tag set on content
         if len(tags) < self.min_matches:
-            counted = [(len(ids), tag) for (tag, ids)
-                       in graph.get_tagged('content', userid).items()]
-            counted.sort()
-            counted.reverse()  # most used on top
-            tags.extend(self._filter([x[1] for x in counted],
-                                     blacklist, query))
-            blacklist.extend(tags)  # avoid duplication
+            try:
+                counted = [(len(ids), tag) for (tag, ids)
+                           in graph.get_tagged('content', userid).items()]
+            except AttributeError:
+                # no personal tags yet
+                pass
+            else:
+                counted.sort()
+                counted.reverse()  # most used on top
+                tags.extend(self._filter([x[1] for x in counted],
+                                         blacklist, query))
+                blacklist.extend(tags)  # avoid duplication
 
         # 3. personal tag set on microblog
         # not implemented yet because microblog tagging integration
