@@ -92,6 +92,7 @@ class PersonalizedKeywordsVocabulary(object):
                                      blacklist, query))
 
         # finally, turn the tag list into a vocabulary
+        tags.sort()
         items = [
             SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i))
             for i in tags
