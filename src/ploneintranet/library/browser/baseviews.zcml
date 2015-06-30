@@ -29,34 +29,4 @@
     permission="ploneintranet.viewsite"
     />
 
-<!--
-
-  <browser:page
-    name="file_view"
-    for="plone.app.contenttypes.interfaces.IFile"
-    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
-    template="templates/page.pt"
-    class=".baseviews.ContentView"
-    permission="ploneintranet.viewsite"
-    />
-
-  <browser:page
-    name="image_view"
-    for="plone.app.contenttypes.interfaces.IImage"
-    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
-    template="templates/page.pt"
-    class=".baseviews.ContentView"
-    permission="ploneintranet.viewsite"
-    />
-
-  <browser:page
-    name="event_view"
-    for="plone.event.interfaces.IEvent"
-    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
-    template="templates/page.pt"
-    class=".baseviews.ContentView"
-    permission="ploneintranet.viewsite"
-    />
-  -->
-
 </configure>
