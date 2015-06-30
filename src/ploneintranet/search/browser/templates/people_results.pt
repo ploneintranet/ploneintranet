@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/search_template/macros/search"
+      i18n:domain="ploneintranet">
+
+    <metal:results fill-slot="results">
+        <div class="container results"
+             tal:define="search_response view/search_people"
+             tal:condition="search_response">
+
+            <p><span tal:replace="search_response/total_results">87</span> <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
+
+            <!-- TODO check integration of extra fieldset into form/search for skills -->
+	    <!-- SKILLS not yet implemented
+            <fieldset class="top-filters pat-checklist cloud pat-subform pat-inject"
+                      data-pat-inject="source: #listing; target: #listing; url: @@search_people">
+                <input type="hidden"
+                       name="SearchableText_filtered"
+                       tal:attributes="value request/SearchableText|nothing" />
+                <label><input checked type="checkbox" name="user_skills:list" value="design"> Design</label>
+                <label><input checked type="checkbox" name="user_skills:list" value="presenting"> Presenting</label>
+                <label><input checked type="checkbox" name="user_skills:list" value="business-analysis"> Business analysis</label>
+                <label><input checked type="checkbox" name="user_skills:list" value="project-management"> Project management</label>
+                <label><input checked type="checkbox" name="user_skills:list" value="workshops"> Workshops</label>
+                <label><input checked type="checkbox" name="user_skills:list" value="requirements-gathering"> Requirements gathering</label>
+                <button type="submit"
+                        formaction="@@search_people"
+                        hidden>
+                    Refresh
+                </button>
+            </fieldset>
+	    -->
+
+            <div class="row people results pat-equaliser" id="listing">
+                <tal:result repeat="result search_response">
+                <!-- TODO check all result attributes are correect for a user profile -->
+                <div class="item">
+                        <div class="user-card">
+                            <img tal:attributes="src result/preview_image_url;
+                                                 alt string:Image of ${result/title}"
+                                 class="pat-avatar">
+                            <a tal:attributes="href result/url">
+                                <h4 class="name" tal:content="result/title">Minoush Farmer</h4>
+                                <p class="byline"
+                                   tal:condition="result/latest_status|nothing"
+                                   tal:content="result/latest_status|nothing">This is my latest status.</p>
+                            </a>
+                            <ul class="skill-cloud" tal:condition="result/skills|nothing">
+                                <tal:skill tal:repeat="skill result/skills">
+                                    <li class="skill" tal:content="skill/title">Design <em class="counter" tal:content="skill/count">7</em></li>
+                                </tal:skill>
+                            </ul>
+                            <ul class="data">
+                                <li class="mail icon-mail"
+                                tal:condition="result/contact_email"
+                                tal:attributes="title string:Mail ${result/title} at ${result/contact_email};">
+                                    <a tal:attributes="href string:mailto:${result/contact_email}"
+                                       tal:content="result/contact_email">minoush.farmer@organisation.com</a>
+                                </li>
+                                <li class="phone icon-phone"
+                                tal:condition="result/phone|nothing"
+                                    tal:attributes="title string:Call ${result/title} on ${result/phone}">
+                                    <a tal:attributes="href string:tel:${result/phone}">+34 506 948 294</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </tal:result>
+		<p tal:define="next_url python: 
+			       view.next_page_url(search_response.total_results)"
+		   tal:condition="next_url">
+		    <a href="${next_url}" i18n:translate="">More results</a>
+		</p>
+            </div>
+        </div>
+    </metal:results>
+</html>

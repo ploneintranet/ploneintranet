@@ -31,6 +31,12 @@ class TestLayers(FunctionalTestCase):
         view()
         self.assertFalse(IMockLayer.providedBy(self.request))
 
+    def test_all_layers_disabled_via_browser(self):
+        browser = Browser(self.app)
+        browser.open("%s/@@browser_layers" % self.portal.absolute_url())
+        self.assertFalse('ploneintranet.layout.tests.utils.IMockLayer'
+                         in browser.contents)
+
     def test_app_layer_enabled_directly(self):
         folder = api.content.create(container=self.portal,
                                     type='Folder',

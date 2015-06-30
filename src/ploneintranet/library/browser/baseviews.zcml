@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <!-- the content permissions below
+       need to become zope2.View with proper workflow applied -->
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
+  <browser:page
+    name="document_view"
+    for="plone.app.contenttypes.interfaces.IDocument"
+    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+    template="templates/page.pt"
+    class=".baseviews.ContentView"
+    permission="ploneintranet.viewsite"
+    />
+
+  <browser:page
+    name="newsitem_view"
+    for="plone.app.contenttypes.interfaces.INewsItem"
+    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+    template="templates/page.pt"
+    class=".baseviews.ContentView"
+    permission="ploneintranet.viewsite"
+    />
+
+</configure>

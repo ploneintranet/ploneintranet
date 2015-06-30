@@ -1,0 +1,5 @@
+<object name="portal_types">
+ <object name="ploneintranet.library.app" meta_type="Dexterity FTI"/>
+ <object name="ploneintranet.library.section" meta_type="Dexterity FTI" />
+ <object name="ploneintranet.library.folder" meta_type="Dexterity FTI"/>
+</object>

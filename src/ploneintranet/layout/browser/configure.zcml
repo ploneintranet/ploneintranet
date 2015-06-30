@@ -13,6 +13,16 @@
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
 
+  <!-- set 'app-whatever' body class -->
+  <browser:page
+      name="plone_layout"
+      for="*"
+      permission="zope.Public"
+      class=".policy.LayoutPolicy"
+      allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
   <z3c:widgetTemplate
       mode="input"
       widget="z3c.form.interfaces.ISubmitWidget"

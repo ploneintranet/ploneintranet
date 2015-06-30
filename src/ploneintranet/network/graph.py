@@ -3,10 +3,20 @@ from Acquisition import Explicit
 from BTrees import OOBTree
 from interfaces import INetworkGraph
 from persistent import Persistent
+from Products.CMFPlone.utils import safe_unicode
 from zope.interface import implements
 import logging
 
 logger = logging.getLogger('ploneintranet.network')
+
+
+def decode(value, permissive=False):
+    """Force all strings into unicode"""
+    if not (permissive or
+            isinstance(value, unicode) or
+            isinstance(value, basestring)):
+        raise AttributeError("Input must be unicode or utf-8 encoded string")
+    return safe_unicode(value)
 
 
 class NetworkGraph(Persistent, Explicit):
@@ -38,9 +48,9 @@ class NetworkGraph(Persistent, Explicit):
     # These statics define the data storage schema "item_type" axes.
     # If you change them you need to carefully migrate the data storage
     # for existing users
-    supported_follow_types = ("user", "content", "tag")
-    supported_like_types = ("content", "update")
-    supported_tag_types = ("user", "content")
+    supported_follow_types = (u"user", u"content", u"tag")
+    supported_like_types = (u"content", u"update")
+    supported_tag_types = (u"user", u"content")
 
     def __init__(self, context=None):
         """
@@ -127,9 +137,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def follow(self, item_type, item_id, user_id):
         """User <user_id> subscribes to <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        user_id = decode(user_id)
+        item_id = decode(item_id)
         # insert user if not exists
         self._following[item_type].insert(user_id, OOBTree.OOTreeSet())
         self._followers[item_type].insert(item_id, OOBTree.OOTreeSet())
@@ -139,9 +150,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def unfollow(self, item_type, item_id, user_id):
         """User <user_id> unsubscribes from <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        user_id = decode(user_id)
+        item_id = decode(item_id)
         try:
             self._following[item_type][user_id].remove(item_id)
         except KeyError:
@@ -153,8 +165,9 @@ class NetworkGraph(Persistent, Explicit):
 
     def get_following(self, item_type, user_id):
         """List all <item_type> that <user_id> subscribes to"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
-        assert(user_id == str(user_id))
+        user_id = decode(user_id)
         try:
             return self._following[item_type][user_id]
         except KeyError:
@@ -162,8 +175,9 @@ class NetworkGraph(Persistent, Explicit):
 
     def get_followers(self, item_type, item_id):
         """List all users that subscribe to <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
-        assert(item_id == str(item_id))
+        item_id = decode(item_id)
 
         try:
             return self._followers[item_type][item_id]
@@ -172,9 +186,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def is_followed(self, item_type, item_id, user_id):
         """Does <user_id> follow <item_type> <item_id>?"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        user_id = decode(user_id)
+        item_id = decode(item_id)
 
         try:
             return user_id in self.get_followers(item_type, item_id)
@@ -185,9 +200,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def like(self, item_type, item_id, user_id):
         """User <user_id> likes <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        user_id = decode(user_id)
+        item_id = decode(item_id)
 
         self._likes[item_type].insert(user_id, OOBTree.OOTreeSet())
         self._liked[item_type].insert(item_id, OOBTree.OOTreeSet())
@@ -197,9 +213,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def unlike(self, item_type, item_id, user_id):
         """User <user_id> unlikes <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        user_id = decode(user_id)
+        item_id = decode(item_id)
 
         try:
             self._likes[item_type][user_id].remove(item_id)
@@ -212,7 +229,9 @@ class NetworkGraph(Persistent, Explicit):
 
     def get_likes(self, item_type, user_id):
         """List all <item_type> liked by <user_id>"""
-        assert(user_id == str(user_id))
+        item_type = decode(item_type)
+        assert(item_type in self.supported_like_types)
+        user_id = decode(user_id)
         try:
             return self._likes[item_type][user_id]
         except KeyError:
@@ -220,7 +239,9 @@ class NetworkGraph(Persistent, Explicit):
 
     def get_likers(self, item_type, item_id):
         """List all userids liking <item_type> <item_id>"""
-        assert(item_id == str(item_id))
+        item_type = decode(item_type)
+        assert(item_type in self.supported_like_types)
+        item_id = decode(item_id)
         try:
             return self._liked[item_type][item_id]
         except KeyError:
@@ -228,8 +249,10 @@ class NetworkGraph(Persistent, Explicit):
 
     def is_liked(self, item_type, item_id, user_id):
         """Does <user_id> like <item_type> <item_id>?"""
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
+        item_type = decode(item_type)
+        assert(item_type in self.supported_like_types)
+        user_id = decode(user_id)
+        item_id = decode(item_id)
 
         try:
             return user_id in self.get_likers(item_type, item_id)
@@ -240,10 +263,11 @@ class NetworkGraph(Persistent, Explicit):
 
     def tag(self, item_type, item_id, user_id, *tags):
         """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
-        assert([tag == str(tag) for tag in tags])
+        user_id = decode(user_id)
+        item_id = decode(item_id)
+        tags = [decode(tag) for tag in tags]
 
         for tag in tags:
 
@@ -283,10 +307,11 @@ class NetworkGraph(Persistent, Explicit):
 
     def untag(self, item_type, item_id, user_id, *tags):
         """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
+        item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
-        assert(user_id == str(user_id))
-        assert(item_id == str(item_id))
-        assert([tag == str(tag) for tag in tags])
+        user_id = decode(user_id)
+        item_id = decode(item_id)
+        tags = [decode(tag) for tag in tags]
         for tag in tags:
             self._tagged[user_id][tag][item_type].remove(item_id)
             self._tagger[item_type][item_id][tag].remove(user_id)
@@ -310,7 +335,7 @@ class NetworkGraph(Persistent, Explicit):
           returns {objectid: [user_id..]}
 
         If tag==None:
-          returns {tag: {item_type: [item_id..]}}
+          returns {tag: [item_id..]}
 
         If only item_type: # user_id==None and tag==None
           returns {user_id: {tag: [item_id..]}}
@@ -329,9 +354,10 @@ class NetworkGraph(Persistent, Explicit):
         possible return types.
 
         """
+        item_type = decode(item_type, True)
         assert(item_type is None or item_type in self.supported_tag_types)
-        assert(user_id is None or user_id == str(user_id))
-        assert(tag is None or tag == str(tag))
+        user_id = decode(user_id, True)
+        tag = decode(tag, True)
 
         try:
 
@@ -391,6 +417,10 @@ class NetworkGraph(Persistent, Explicit):
         List user_ids that tagged <item_type> <item_id> with <tag>.
         If tag==None: returns {tag: (itemids..)} mapping
         """
+        item_type = decode(item_type)
+        assert(item_type in self.supported_tag_types)
+        item_id = decode(item_id)
+        tag = decode(tag, True)
         if tag:
             return self._tagger[item_type][item_id][tag]
         else:
@@ -401,10 +431,22 @@ class NetworkGraph(Persistent, Explicit):
         List tags set on <item_type> <item_id> by <user_id>.
         If user_id==None: return {tag: (userids..)} mapping
         """
-        return self._tags[user_id][item_type][item_id]
+        item_type = decode(item_type)
+        assert(item_type in self.supported_tag_types)
+        item_id = decode(item_id)
+        user_id = decode(user_id, True)
+        if user_id:
+            return self._tags[user_id][item_type][item_id]
+        else:
+            return self._tagger[item_type][item_id]
 
     def is_tagged(self, item_type, item_id, user_id, tag):
         """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
+        item_type = decode(item_type)
+        item_id = decode(item_id)
+        user_id = decode(user_id)
+        tag = decode(tag)
+        assert(item_type in self.supported_tag_types)
         try:
             return user_id in self.get_taggers(item_type, item_id, tag)
         except KeyError:
