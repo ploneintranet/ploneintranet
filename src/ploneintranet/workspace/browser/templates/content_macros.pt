@@ -52,7 +52,6 @@
       </tal:case_todo>
     </metal:task_fields>
 
-
     <metal:event_fields define-macro="event_fields"
                         tal:define="read_only python:False">
       <metal:extra-fields-top define-slot="extra-fields-top"/>

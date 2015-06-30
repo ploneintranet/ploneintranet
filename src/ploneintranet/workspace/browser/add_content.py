@@ -3,7 +3,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.theme import _
-from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
