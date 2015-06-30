@@ -17,7 +17,7 @@
       />
 
   <browser:page
-      name="userprofile-edit"
+      name="edit"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".userprofile.UserProfileEditView"
       permission="cmf.ModifyPortalContent"

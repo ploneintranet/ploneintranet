@@ -140,4 +140,9 @@ class UserProfileEditView(edit.DefaultEditView):
     index = ViewPageTemplateFile('templates/userprofile-edit.pt')
 
     def fields_for_edit(self):
-        return self.form_instance.widgets.keys()
+        HIDDEN_FIELDS = []
+
+        all_fieldnames = self.form_instance.widgets.keys()
+        fieldnames = [x for x in all_fieldnames
+                      if x not in HIDDEN_FIELDS]
+        return fieldnames

@@ -102,7 +102,15 @@
                     </div>
                     <article id="person-info">
                         <tal:block condition="view/is_me">
-			    
+
+			    <a href="${context/absolute_url}/@@edit"
+			       class="pat-inject"
+			       data-pat-inject="source: #user-edit-form::element;
+						target: #person-info;
+						trigger: autoload">
+				Edit profile
+			    </a>
+
                         </tal:block>
                         <tal:block condition="not:view/is_me">
                             <dl class="pat-grid-list">

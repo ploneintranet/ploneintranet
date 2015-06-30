@@ -1,7 +1,32 @@
-<form method="POST">
-<div tal:repeat="field view/fields_for_edit">
-    <b tal:replace="structure view/form_instance/widgets/?field/render" />
-</div>
-<input type="submit" />
-</form>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
 
+    <body class="view-secure">
+        <metal:content fill-slot="main">
+
+	    <form method="POST" id="user-edit-form"
+		  action="${context/absolute_url}/@@edit">
+		<fieldset class="section horizontal">
+		    <tal:field tal:repeat="fieldname view/fields_for_edit">
+			<label tal:define="widget nocall:view/form_instance/widgets/?fieldname">
+			    <span tal:replace="widget/label" />
+			    <input tal:replace="structure widget/render" />
+			</label>
+		    </tal:field>
+		<p>
+		    <input type="submit" 
+			   i18n:attributes="value"
+			   value="Save" 
+			   name="form.buttons.save" />
+		</p>
+	    </form>
+
+
+	</metal:content>
+    </body>
+</html>
