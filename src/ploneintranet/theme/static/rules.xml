@@ -62,10 +62,10 @@
   <rules css:if-content="body.portaltype-event, 
                          body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
                          body.portaltype-ploneintranet-workspace-case.template-view, 
-                         body.portaltype-document, 
-                         body.portaltype-file, 
-                         body.portaltype-image, 
-                         body.portaltype-folder">
+                         body.app-workspace.portaltype-document, 
+                         body.app-workspace.portaltype-file, 
+                         body.app-workspace.portaltype-image, 
+                         body.app-workspace.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />

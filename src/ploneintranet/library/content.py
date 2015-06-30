@@ -25,6 +25,7 @@ class ILibraryFolder(Interface):
 class LibraryApp(AbstractAppContainer, content.Container):
     implements(ILibraryApp, IAppContainer)
 
+    app_name = "library"
     app_layers = (ILibraryContentLayer,)
 
 

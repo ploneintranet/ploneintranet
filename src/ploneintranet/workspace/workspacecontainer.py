@@ -27,4 +27,5 @@ class WorkspaceContainer(AbstractAppContainer, Container):
     registrations.
     """
 
+    app_name = "workspace"  # should not contain dots
     app_layers = (IWorkspaceAppContentLayer, IWorkspaceAppFormLayer)

@@ -20,6 +20,8 @@ class MockFolder(AbstractAppContainer, Folder):
     """A mock folder that inherits the app registration hook
     from AbstractAppContainer."""
     implements(IMockFolder)
+
+    app_name = 'mock'
     app_layers = (IMockLayer, )
 
     # def __init__(self, *args, **kwargs):
