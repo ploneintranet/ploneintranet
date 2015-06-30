@@ -1,3 +1,4 @@
+from plone.app.theming.interfaces import IThemingPolicy
 from plone.theme.interfaces import IDefaultPloneLayer
 from zope.interface import Interface
 from zope import schema
@@ -12,6 +13,30 @@ class IThemeASpecific(IDefaultPloneLayer):
     Marker interface that defines a Zope 3 browser layer and a plone skin
     marker.
     """
+
+
+class ISwitchableThemingPolicy(IThemingPolicy):
+    """A themeswitching-enhanced theming policy"""
+
+    def getSettings():
+        """
+        Choose between the default theme (aka ploneintranet)
+        and the fallback theme (aka barceloneta) and return
+        either a normal RecordsProxy (for the default theme)
+        or a SwitchableRecordsProxy (for the fallback).
+
+        This switch in settings drives the rest of the theming
+        machinery to use the theme indicated in the settings.
+        """
+
+    def isFallbackActive():
+        """Decide whether to switch to the fallback theme, or not."""
+
+    def getDefaultSettings():
+        """Raw registry access without switching logic for theming config."""
+
+    def getSwitcherSettings():
+        """Registry access for theme switcher configuration."""
 
 
 class IThemeSwitcherSettings(Interface):

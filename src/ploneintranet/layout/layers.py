@@ -2,6 +2,7 @@ from zope.interface import directlyProvides, directlyProvidedBy
 from plone.app.theming.utils import theming_policy
 from plone.dexterity.utils import resolveDottedName
 
+from ploneintranet.themeswitcher.interfaces import ISwitchableThemingPolicy
 from ploneintranet.layout.interfaces import IAppLayer
 
 
@@ -35,7 +36,8 @@ class enable_app_layer(object):
 
         # do not undo themeswitching
         policy = theming_policy(request)
-        if policy.isFallbackActive():
+        if ISwitchableThemingPolicy.providedBy(policy) \
+           and policy.isFallbackActive():
             switcher = policy.getSwitcherSettings()
             remove_layers = [resolveDottedName(x)
                              for x in switcher.browserlayer_filterlist]
