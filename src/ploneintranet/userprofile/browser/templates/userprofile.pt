@@ -17,7 +17,7 @@
             <aside>
                 <figure class="user-portrait">
                     <img class="pat-avatar"
-        			 tal:attributes="src view/avatar_url"
+        			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
         			 src="{{ page.image_url }}"
                      alt="Image of {{ page.title }}" />
                     <figcaption class="status-message"
@@ -38,9 +38,9 @@
                         <li class="mail">
                             <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}; href string:mailto:${context/email}" tal:content="context/email" />
                         </li>
-                        <li class="phone" tal:condition="context/mobile|nothing">
-                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/mobile}; href string:tel:${context/mobile}"
-                            tal:content="context/mobile"></a>
+                        <li class="phone" tal:condition="context/telephone|nothing">
+                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/telephone}; href string:tel:${context/telephone}"
+                            tal:content="context/telephone"></a>
                         </li>
                     </ul>
                     <p class="portlet-footer">
