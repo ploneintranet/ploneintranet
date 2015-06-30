@@ -45,6 +45,24 @@ class TestTags(IntegrationTestCase):
         self.assertEqual(['leadership'],
                          list(g.get_tags('user', 'bernard', 'alex')))
 
+    def test_user_tag_utf8(self):
+        g = NetworkGraph()
+        # alex tags bernard with 'leadership'
+        g.tag('user', u'bernard ♥', u'alex ☀', u'leadership ☃')
+        self.assertEqual([u'leadership ☃'],
+                         list(g.get_tags('user', u'bernard ♥', u'alex ☀')))
+
+    def test_utf8_args(self):
+        """BTree keys MUST be of type unicode. Check that the implementation
+        enforces this."""
+        g = NetworkGraph()
+        self.assertRaises(AttributeError, g.tag, 'user', 1, '2', '3')
+        self.assertRaises(AttributeError, g.tag, 'user', '1', 2, '3')
+        self.assertRaises(AttributeError, g.tag, 'user', '1', '2', 3)
+        self.assertRaises(AttributeError, g.untag, 'user', 1, '2', '3')
+        self.assertRaises(AttributeError, g.untag, 'user', '1', 2, '3')
+        self.assertRaises(AttributeError, g.untag, 'user', '1', '2', 3)
+
     def test_user_tag_multi(self):
         g = NetworkGraph()
         # alex tags bernard with 'leadership' and 'change management'
@@ -186,6 +204,23 @@ class TestTags(IntegrationTestCase):
                          {'change management': ['alex'],
                           'leadership': ['alex'],
                           'negotiations': ['caroline']})
+
+    def test_get_tags(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('content', 'doc1', 'caroline', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        tags = g.unpack(g.get_tags('content', 'doc1', 'caroline'))
+        self.assertEqual(tags, ['leadership', 'negotiations'])
+
+    def test_get_tags_nouser(self):
+        g = NetworkGraph()
+        g.tag('user', 'bernard', 'alex', 'leadership', 'change management')
+        g.tag('content', 'doc1', 'caroline', 'leadership', 'negotiations')
+        g.tag('content', 'doc1', 'alex', 'negotiations')
+        tags = g.unpack(g.get_tags('content', 'doc1',))
+        self.assertEqual(tags, {'negotiations': ['alex', 'caroline'],
+                                'leadership': ['caroline']})
 
     def test_is_tagged(self):
         g = NetworkGraph()

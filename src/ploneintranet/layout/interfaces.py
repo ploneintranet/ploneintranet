@@ -36,6 +36,7 @@ class IAppContainer(Interface):
     a specific IAppLayer should be activated on traversal.
     """
 
+    app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
     app_layers = Attribute("A list of IAppLayer to be activated on traversal")
 
 

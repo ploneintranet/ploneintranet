@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0003</version>
+  <version>0005</version>
   <dependencies>
     <dependency>profile-collective.externaleditor:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
@@ -19,5 +19,6 @@
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-ploneintranet.core:minimal</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
+    <dependency>profile-ploneintranet.library:default</dependency>
   </dependencies>
 </metadata>

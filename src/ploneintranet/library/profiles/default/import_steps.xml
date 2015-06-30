@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<import-steps>
+  <import-step id="ploneintranet.library_default"
+               version="1"
+               handler="ploneintranet.library.setuphandlers.setupVarious"
+               title="ploneintranet.libary: setup">
+    Various import steps that are not handled by GS import/export
+    handlers.
+  </import-step>
+</import-steps>

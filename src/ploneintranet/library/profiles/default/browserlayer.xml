@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.library"
+    interface="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+  />
+  <layer
+    name="ploneintranet.library.content"
+    interface="ploneintranet.library.interfaces.ILibraryContentLayer"
+  />
+</layers>
