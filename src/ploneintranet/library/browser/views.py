@@ -4,6 +4,7 @@ from plone import api
 from plone.memoize import view
 
 from ploneintranet.library import _
+from ploneintranet.library.browser import utils
 
 log = getLogger(__name__)
 
@@ -33,7 +34,7 @@ class LibraryHomeView(BrowserView):
         self.request.response.redirect(target)
 
 
-class LibraryListingView(BrowserView):
+class LibraryBaseView(BrowserView):
 
     def app(self):
         return self.chain(getapp=True)
@@ -79,63 +80,26 @@ class LibraryListingView(BrowserView):
                              current=s_current))
         return menu
 
-    @view.memoize
+#    @view.memoize
     def children(self):
         """Return children and grandchildren of current context"""
-        folderish = ('ploneintranet.library.section',
-                     'ploneintranet.library.folder')
-        pageish = ('Document', 'News Item', 'Link')
-
-        struct = []
-        for child in self.context.objectValues():
-            if child.portal_type in folderish:
-                type_ = 'container'
-            elif child.portal_type in pageish:
-                type_ = 'document'
-            else:
-                # to add: collection, newsitem, event, link, file
-                type_ = 'unsupported'
-                log.error("Unsupported type %s", child.portal_type)
-
-            section = dict(title=child.Title(),
-                           description=child.Description(),
-                           absolute_url=child.absolute_url(),
-                           type=type_,
-                           context=child)
-            content = []
-            for grandchild in child.objectValues():
-                if grandchild.portal_type in folderish:
-                    (follow, icon) = ("follow-section", "icon-squares")
-                elif grandchild.portal_type in pageish:
-                    (follow, icon) = ("follow-page", "icon-page")
-                else:
-                    # to add: collection, newsitem, event, link, file
-                    log.error("Unsupported type %s", grandchild.portal_type)
-                    (follow, icon) = ("follow-x", "icon-x")
-                content.append(dict(
-                    title=grandchild.Title(),
-                    absolute_url=grandchild.absolute_url(),
-                    follow=follow,
-                    icon=icon))
-            section['content'] = content
-            struct.append(section)
-        return struct
+        return utils.sections_of(self.context)
 
 
-class LibraryAppView(LibraryListingView):
+class LibraryAppView(LibraryBaseView):
 
     def info(self):
         return {}
 
 
-class LibrarySectionView(LibraryListingView):
+class LibrarySectionView(LibraryBaseView):
 
     def info(self):
         return dict(title=self.context.Title,
                     description=self.context.Description)
 
 
-class LibraryFolderView(LibraryListingView):
+class LibraryFolderView(LibraryBaseView):
 
     def info(self):
         return dict(
