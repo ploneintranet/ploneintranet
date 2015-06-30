@@ -6,12 +6,15 @@ log = logging.getLogger(__name__)
 folderish = ('ploneintranet.library.section',
              'ploneintranet.library.folder')
 pageish = ('Document', 'News Item', 'Link')
+hidden = ('Image')
 
 
 def sections_of(context):
     struct = []
     for child in context.objectValues():
-        if child.portal_type in folderish:
+        if child.portal_type in hidden:
+            continue
+        elif child.portal_type in folderish:
             type_ = 'container'
         elif child.portal_type in pageish:
             type_ = 'document'
@@ -33,7 +36,9 @@ def sections_of(context):
 def children_of(context):
     content = []
     for child in context.objectValues():
-        if child.portal_type in folderish:
+        if child.portal_type in hidden:
+            continue
+        elif child.portal_type in folderish:
             (follow, icon) = ("follow-section", "icon-squares")
         elif child.portal_type in pageish:
             (follow, icon) = ("follow-page", "icon-page")
