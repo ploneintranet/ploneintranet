@@ -42,6 +42,25 @@ Allan can search and filter by date
     And I can see the search result Minutes Overview
     And I cannot see the search result Minutes
 
+Allan can search only for images
+    Given I am logged in as the user allan_neece
+    I can search in the site header for budget
+    Then I can click the Images tab
+    And I can see the search result Budget Proposal
+
+Allan can search only for files
+    Given I am logged in as the user allan_neece
+    I can search in the site header for minutes
+    Then I can click the Files tab
+    And I can see the search result Minutes
+
+Allan can search for user Guy Hackey
+    Given I am logged in as the user allan_neece
+    I can search in the site header for Guy Hackey
+    Then I can click the People tab
+    And I can see the search result Guy Hackey
+
+
 *** Keywords ***
 
 I can see the site search button
@@ -69,3 +88,6 @@ I can exclude content of type ${CONTENT_TYPE}
 I can set the date range to ${DATE_RANGE_VALUE}
     Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
     Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=${DATE_RANGE_VALUE}"]
+
+I can click the ${TAB_NAME} tab
+    Click Link  link=${TAB_NAME}
