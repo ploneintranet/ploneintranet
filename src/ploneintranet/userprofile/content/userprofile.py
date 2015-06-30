@@ -10,7 +10,6 @@ from collective import dexteritytextindexer
 
 from plone import api as plone_api
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.app.textfield import RichText
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
@@ -86,7 +85,7 @@ class IUserProfileAdditional(form.Schema):
         source=primaryLocationVocabulary,
         required=False
     )
-    biography = RichText(
+    biography = schema.Text(
         title=_(u"Biography"),
         required=False
     )
