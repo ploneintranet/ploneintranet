@@ -102,7 +102,7 @@
                     </div>
                     <article id="person-info">
                         <tal:block condition="view/is_me">
-                            <!-- {% include /patterns/form.html src="user-data-form" layout="horizontal" %} -->
+			    
                         </tal:block>
                         <tal:block condition="not:view/is_me">
                             <dl class="pat-grid-list">

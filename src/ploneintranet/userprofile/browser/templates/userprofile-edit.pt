@@ -1,0 +1,7 @@
+<form method="POST">
+<div tal:repeat="field view/fields_for_edit">
+    <b tal:replace="structure view/form_instance/widgets/?field/render" />
+</div>
+<input type="submit" />
+</form>
+

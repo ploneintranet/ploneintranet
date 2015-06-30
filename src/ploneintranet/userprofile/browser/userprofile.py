@@ -1,11 +1,14 @@
 from zope.component import getUtility
 from zope.interface import implements
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
 from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api
+from plone.dexterity.browser import edit
+from plone.dexterity.browser import view
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
@@ -91,3 +94,11 @@ class MyProfileView(BaseAuthorView):
                 profile.absolute_url()
             )
         raise Unauthorized
+
+
+class UserProfileEditView(edit.DefaultEditView):
+
+    index = ViewPageTemplateFile('templates/userprofile-edit.pt')
+
+    def fields_for_edit(self):
+        return self.form_instance.widgets.keys()

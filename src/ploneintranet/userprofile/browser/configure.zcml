@@ -17,6 +17,14 @@
       />
 
   <browser:page
+      name="userprofile-edit"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       name="author"
       class=".userprofile.AuthorView"
