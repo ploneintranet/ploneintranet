@@ -43,8 +43,6 @@
   </head>
 
   <body tal:define="isRTL portal_state/is_rtl;
-                    sl python:plone_layout.have_portlets('plone.leftcolumn', view);
-                    sr python:plone_layout.have_portlets('plone.rightcolumn', view);
                     body_class python:plone_layout.bodyClass(template, view);"
         tal:attributes="class body_class;
                         dir python:isRTL and 'rtl' or 'ltr'"
@@ -121,26 +119,6 @@
         <div id="viewlet-below-content" tal:content="structure provider:plone.belowcontent" />
       </footer>
     </article>
-
-    <aside id="portal-column-one"
-           metal:define-slot="column_one_slot"
-           tal:condition="sl">
-      <metal:portlets define-slot="portlets_one_slot">
-        <tal:block replace="structure provider:plone.leftcolumn" />
-      </metal:portlets>
-    </aside>
-
-    <aside id="portal-column-two"
-           metal:define-slot="column_two_slot"
-           tal:condition="sr">
-      <metal:portlets define-slot="portlets_two_slot">
-        <tal:block replace="structure provider:plone.rightcolumn" />
-      </metal:portlets>
-    </aside>
-
-    <footer id="portal-footer-wrapper" i18n:domain="plone">
-      <div tal:replace="structure provider:plone.portalfooter" />
-    </footer>
 
   </body>
 </html>
