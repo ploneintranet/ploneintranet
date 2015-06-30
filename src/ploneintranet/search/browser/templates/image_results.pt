@@ -11,7 +11,7 @@
              tal:define="search_response view/search_images"
              tal:condition="search_response">
 
-            <p><span tal:replace="search_response/total_results">87</span> items matched your search.</p>
+            <p><span tal:replace="search_response/total_results">87</span> <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
 
             <div class="images results pat-masonry images" data-pat-masonry="column-width: .item; gutter: 0;">
                 <tal:result repeat="result search_response">
@@ -29,7 +29,7 @@
 		<p tal:define="next_url python: 
 			       view.next_page_url(search_response.total_results)"
 		   tal:condition="next_url">
-		    <a href="${next_url}">More results</a>
+		    <a href="${next_url}" i18n:translate="">More results</a>
 		</p>
             </div>
         </div>

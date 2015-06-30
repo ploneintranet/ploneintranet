@@ -72,4 +72,8 @@
   <adapter factory=".widgets.CommaSeparatedConverter" />
   <adapter factory=".widgets.CommaSeparatedFieldWidget" />
 
+  <adapter factory=".widgets.PatDatePickerConverter" />
+  <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
+  <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+
 </configure>

@@ -6,7 +6,7 @@ from plone import api
 from plone.app.contenttypes.interfaces import IFile
 from plone.indexer import indexer
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-
+from ploneintranet.userprofile.content.userprofile import IUserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -44,5 +44,8 @@ def friendly_type_name(obj):
             mimetype_name = mimetypeitem[0].name()
             if mimetype_name != contenttype:
                 return mimetype_name
+
+    elif IUserProfile.providedBy(obj):
+        return 'Person'
 
     return default_name
