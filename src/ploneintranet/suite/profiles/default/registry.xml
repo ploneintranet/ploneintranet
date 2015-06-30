@@ -11,7 +11,10 @@
       </value>
       <value key="browserlayer_filterlist">
         <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+        <element>ploneintranet.messaging.browser.interfaces.IPloneintranetMessagingLayer</element>
+        <element>ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer</element>
         <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>
+        <element>ploneintranet.library.interfaces.ILibraryContentLayer</element>
       </value>
       <value key="fallback_enabled_bundles"></value>
       <value key="fallback_disabled_bundles">
