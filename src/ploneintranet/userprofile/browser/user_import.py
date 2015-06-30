@@ -2,9 +2,13 @@ import tablib
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
+from ploneintranet import api as pi_api
+from ploneintranet.userprofile import _
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
 from zope.component import getUtility
+from zope.schema import getFieldNames
 
 
 USER_PORTAL_TYPE = "ploneintranet.userprofile.userprofile"
@@ -18,30 +22,57 @@ class CSVImportView(BrowserView):
     def __call__(self):
         return self.index()
 
+    @property
+    def core_user_schema(self):
+        fti = getUtility(IDexterityFTI, name=USER_PORTAL_TYPE)
+        return fti.lookupSchema()
+
+    @property
+    def user_schemata(self):
+        """Includes any behaviours that have been added"""
+        schematas = [self.core_user_schema]
+        for behavior_schema in getAdditionalSchemata(
+                portal_type=USER_PORTAL_TYPE):
+            schematas.append(behavior_schema)
+        return schematas
+
+    def _normalise_key(self, key):
+        return key.strip().lower().replace(' ', '_')
+
     def _normalise_headers(self, headers):
         """Allow column headings to contain spaces etc.
+        Override this method if there is more complex csv
+        column heading mapping/transformation you would like to perform.
+
         :type headers: list
         """
-        return [x.strip().lower().replace(' ', '_') for x in headers]
+        return map(self._normalise_key, headers)
+
+    def process(self, csvfile):
+        """Process the input file, validate and
+        create the users.
+        """
+        filedata = csvfile  # XXX This should parse the file
+        data = tablib.Dataset()
+        data.csv = filedata
+        if not self.validate(filedata):
+            return
+
+        self.create_users(filedata)
+        api.portal.show_message(
+            message=_(u"Created XXX users"),
+            request=self.request)
 
     def validate(self, filedata):
         """
         Validates the file's column headers.
 
         :rtype: bool
-
-        * Validates that core required fields are present
-        (ploneintranet.userprofile.content.userprofile.IUserProfile)
-        * Supports other fields that exist via (optional) dx behaviours
         """
-        data = tablib.Dataset()
-        data.csv = filedata
-
         # check for core user fields
-        fti = getUtility(IDexterityFTI, name=USER_PORTAL_TYPE)
-        core_user_fields = set(fti.lookupSchema().names())
+        core_user_fields = set(self.core_user_schema.names())
         core_user_fields.remove('portrait')  # Makes no sense for csv import
-        headers = set(self._normalise_headers(data.headers))
+        headers = set(self._normalise_headers(filedata.headers))
         if not core_user_fields <= headers:
             return False
 
@@ -57,3 +88,21 @@ class CSVImportView(BrowserView):
             return False
 
         return True
+
+    def create_users(self, filedata):
+
+        # Create a mapping of field_name to schema field object.
+        # This can then be used for validation
+        field_mapping = {}
+        for schema in self.user_schemata:
+            for name in getFieldNames(schema):
+                field_mapping[name] = schema[name]
+
+        for user_info in filedata.dict:
+            normalized_info = {self._normalise_key(key): value
+                               for key, value in user_info.items()}
+            username = normalized_info.pop('username')
+            email = normalized_info.pop('email')
+            pi_api.userprofile.create(username=username,
+                                      email=email,
+                                      properties=normalized_info)
