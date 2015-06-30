@@ -69,4 +69,8 @@
     permission="zope2.View"
     />
 
+  <adapter factory=".widgets.PatDatePickerConverter" />
+  <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
+  <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+
 </configure>

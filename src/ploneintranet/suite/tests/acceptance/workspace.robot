@@ -119,6 +119,11 @@ Member can submit a document
      When I submit the content item
      Then I cannot edit the document
 
+Member can create an event
+    Given I am in a workspace as a workspace member
+     When I can create a new event  Christmas  2014-12-25  2014-12-26
+     Then I can edit an event  Christmas  2120-12-25  2121-12-26
+
 Member can submit and retract a document
     Given I am in a workspace as a workspace member
      When I can create a new document    My substandard document
