@@ -173,6 +173,7 @@ I can add a tag
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
     Click element    css=input[name=tagsearch]
     Input text    css=input[name=tagsearch]  ${tag1}
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag1}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]  2
     Click element    css=textarea.pat-content-mirror
@@ -183,6 +184,7 @@ I can add a tag and search for a tag
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
     Click element    css=input[name=tagsearch]
     Input text    css=input[name=tagsearch]  ${tag1}
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag1}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag1}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag1}')][1]  2
     Click element    css=input[name=tagsearch]
