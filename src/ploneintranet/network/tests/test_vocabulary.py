@@ -62,6 +62,20 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         data = json.loads(view())
         self.assertEquals(len(data['results']), 10)
 
+    def testVocabularySorted(self):
+        self.tag(self.doc1, 'Z tag')
+        self.tag(self.doc1, 'A tag')
+        self.tag(self.doc1, 'C tag')
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 13)
+        tags = [x['text'] for x in data['results']]
+        self.assertEquals(tags[0], u'A tag')
+        self.assertEquals(tags[1], u'C tag')
+        self.assertEquals(tags[2], u'Z tag')
+        self.assertEquals(tags[3], u'a_0_♥')
+        self.assertEquals(tags[12], u'b_4_☀')
+
     def testVocabularyQueryString(self):
         """Test querying a class based vocabulary with a search string.
         """
@@ -166,7 +180,6 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
             title='Doc 3'
         )
         self.tag(doc3, *['many_%02d' % i for i in xrange(100)])
-
         # john doesn't see those
         login(self.portal, 'john_doe')
         view = PersonalizedVocabularyView(self.doc2, self.request)
