@@ -7,10 +7,12 @@
      i18n_domain="ploneintranet">
 
 
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
   <browser:page
      name="search_template"
      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-     permission="zope2.View"
+     permission="ploneintranet.viewsite"
      template="templates/search_template.pt"
      layer="..interfaces.IPloneintranetSearchLayer"
      />
@@ -18,7 +20,7 @@
   <browser:page
       name="search"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      permission="zope2.View"
+      permission="ploneintranet.viewsite"
       class=".searchresults.SearchResultsView"
       template="templates/all_results.pt"
       layer="..interfaces.IPloneintranetSearchLayer"
@@ -27,7 +29,7 @@
    <browser:page
        name="search_images"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"
-       permission="zope2.View"
+       permission="ploneintranet.viewsite"
        class=".searchresults.SearchResultsView"
        template="templates/image_results.pt"
        layer="..interfaces.IPloneintranetSearchLayer"
@@ -36,7 +38,7 @@
     <browser:page
        name="search_files"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"
-       permission="zope2.View"
+       permission="ploneintranet.viewsite"
        class=".searchresults.SearchResultsView"
        template="templates/file_results.pt"
        layer="..interfaces.IPloneintranetSearchLayer"
@@ -45,7 +47,7 @@
     <browser:page
        name="search_people"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"
-       permission="zope2.View"
+       permission="ploneintranet.viewsite"
        class=".searchresults.SearchResultsView"
        template="templates/people_results.pt"
        layer="..interfaces.IPloneintranetSearchLayer"
