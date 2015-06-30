@@ -16,7 +16,6 @@
     permission="zope2.View"
     />
 
-<!--
   <browser:page
     name="newsitem_view"
     for="plone.app.contenttypes.interfaces.INewsItem"
@@ -25,6 +24,8 @@
     class=".baseviews.ContentView"
     permission="zope2.View"
     />
+
+<!--
 
   <browser:page
     name="file_view"

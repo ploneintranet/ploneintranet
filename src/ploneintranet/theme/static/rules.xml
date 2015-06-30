@@ -119,7 +119,7 @@
     <drop css:content="#viewlet-below-content #category" />
   </rules>
   <rules css:if-content="body.app-library.portaltype-document,
-                         body.app-library.portaltype-news,
+                         body.app-library.portaltype-news-item,
                          body.app-library.portaltype-link
                          body.app-library.portaltype-image,
                          body.app-library.portaltype-file">
