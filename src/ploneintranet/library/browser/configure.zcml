@@ -6,6 +6,7 @@
      xmlns:plone="http://namespaces.plone.org/plone"
      i18n_domain="ploneintranet">
 
+  <include package="ploneintranet.layout" file="permissions.zcml" />
   <include file="baseviews.zcml" />
 
   <browser:page
@@ -13,16 +14,18 @@
      for="plone.app.layout.navigation.interfaces.INavigationRoot"
      class=".views.LibraryHomeView"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="zope2.View"
+     permission="ploneintranet.viewsite"
      />
 
+  <!-- the content permissions below and in baseviews
+       need to become zope2.View with proper workflow applied -->
   <browser:page
      name="view"
      for="ploneintranet.library.content.ILibraryApp"
      class=".views.LibraryAppView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="zope2.View"
+     permission="ploneintranet.viewsite"
      />
 
   <browser:page
@@ -31,7 +34,7 @@
      class=".views.LibrarySectionView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="zope2.View"
+     permission="ploneintranet.viewsite"
      />
 
   <browser:page
@@ -40,7 +43,7 @@
      class=".views.LibraryFolderView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="zope2.View"
+     permission="ploneintranet.viewsite"
      />
 
 </configure>
