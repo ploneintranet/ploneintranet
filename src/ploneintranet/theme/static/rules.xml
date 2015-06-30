@@ -118,6 +118,20 @@
     <append css:content-children="#portal-column-content"
             css:theme="#content .container" />
   </rules>
+  <rules css:if-content="body.app-library.portaltype-document,
+                         body.app-library.portaltype-news,
+                         body.app-library.portaltype-link
+                         body.app-library.portaltype-image,
+                         body.app-library.portaltype-file">
+    <theme href="generated/synode/index.html" />
+    <drop css:content="nav.breadcrumbs a:not(:first-child)" />
+    <!-- hide tags for now -->
+    <drop css:content="#viewlet-below-content #category" />
+    <drop css:theme="#content .lib-groups" />
+    <drop css:theme="#content .sibling-groups" />
+    <append css:content-children="#portal-column-content"
+            css:theme="#content" />
+  </rules>
 
   <!-- if there is a visual-portal-wrapper -->
   <theme href="generated/empty.html"

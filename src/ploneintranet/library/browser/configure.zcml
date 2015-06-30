@@ -6,6 +6,8 @@
      xmlns:plone="http://namespaces.plone.org/plone"
      i18n_domain="ploneintranet">
 
+  <include file="baseviews.zcml" />
+
   <browser:page
      name="library"
      for="plone.app.layout.navigation.interfaces.INavigationRoot"
