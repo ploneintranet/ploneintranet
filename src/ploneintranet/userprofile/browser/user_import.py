@@ -3,6 +3,7 @@ import tablib
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import getAdditionalSchemata
 from zope.component import getUtility
 
 
@@ -42,6 +43,17 @@ class CSVImportView(BrowserView):
         core_user_fields.remove('portrait')  # Makes no sense for csv import
         headers = set(self._normalise_headers(data.headers))
         if not core_user_fields <= headers:
+            return False
+
+        # check all columns in csv are used
+        additional_fields = []
+        for behavior_schema in getAdditionalSchemata(
+                portal_type=USER_PORTAL_TYPE):
+            additional_fields.extend(behavior_schema.names())
+        all_user_fields = set()
+        all_user_fields |= set(additional_fields)
+        all_user_fields |= core_user_fields
+        if not headers <= all_user_fields:
             return False
 
         return True
