@@ -21,6 +21,9 @@ class CSVImportView(BrowserView):
     index = ViewPageTemplateFile('templates/user_import_form.pt')
 
     def __call__(self):
+        if 'csvfile' in self.request.form:
+            self.process(self.request.form.get('csvfile').read())
+
         return self.index()
 
     @property
