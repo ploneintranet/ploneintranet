@@ -1,18 +1,18 @@
 from zope.component import getUtility
 from zope.interface import implements
 from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from zExceptions import NotFound
 from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.dexterity.browser import edit
 from plone import api as plone_api
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import \
     primaryLocationVocabulary
+from ploneintranet.userprofile.browser.forms import get_fields
+from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 
 
 AVATAR_SIZES = {
@@ -21,9 +21,8 @@ AVATAR_SIZES = {
 }
 
 
-class UserProfileView(BrowserView):
+class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
-
     """View for user profile."""
 
     def is_me(self):
@@ -67,6 +66,10 @@ class UserProfileView(BrowserView):
                 'avatar_url': pi_api.userprofile.avatar_url(userid),
             })
         return details
+
+    def fields_for_display(self):
+        # Don't show username to others
+        return get_fields(self)
 
 
 class AuthorView(BaseAuthorView):
@@ -133,65 +136,3 @@ class AvatarView(BrowserView):
             return stream_data(data)
         else:
             return None
-
-
-class UserProfileEditForm(edit.DefaultEditForm):
-
-    """Custom user profile editing form allowing field visibility
-    to be controlled via registry settings
-    """
-
-    def _hidden_fields(self):
-        # Portrait is always hidden from this edit page
-        hidden = plone_api.portal.get_registry_record(
-            'ploneintranet.userprofile.hidden_fields')
-        hidden = hidden + ('portrait', )
-        return hidden
-
-    def _read_only_fields(self):
-        read_only = plone_api.portal.get_registry_record(
-            'ploneintranet.userprofile.read_only_fields')
-        return read_only
-
-    def updateFields(self):
-        """Remove hidden fields from the form"""
-        super(UserProfileEditForm, self).updateFields()
-        hidden_fields = self._hidden_fields()
-        for hidden_field in hidden_fields:
-            self.fields = self.fields.omit(hidden_field)
-
-    def updateWidgets(self):
-        """Update widgets for read only fields"""
-        super(UserProfileEditForm, self).updateWidgets()
-        read_only_fields = self._read_only_fields()
-        for fieldname, widget in self.widgets.items():
-            if fieldname in read_only_fields:
-                widget.mode = 'display'
-
-
-class UserProfileEditView(edit.DefaultEditView):
-
-    """Custom profile edit page that renders the edit form
-    using prototype-compatible markup"""
-
-    form = UserProfileEditForm
-    index = ViewPageTemplateFile('templates/userprofile-edit.pt')
-
-    def fields_for_edit(self):
-        """Helper method to get widgets for the template"""
-        fields = []
-        for field_name in self.form_instance.widgets.keys():
-            widget = self.form_instance.widgets[field_name]
-            if widget.error:
-                error_html = widget.error.render()
-            else:
-                error_html = None
-            fields.append({
-                'label': widget.label,
-                'description': widget.field.description,
-                'read_only': widget.mode == 'display',
-                'html': widget.render(),
-                'error_html': error_html,
-                'raw': widget.value,
-            })
-        return fields

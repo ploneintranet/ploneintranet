@@ -19,7 +19,7 @@
   <browser:page
       name="edit"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
-      class=".userprofile.UserProfileEditView"
+      class=".forms.UserProfileEditView"
       permission="cmf.ModifyPortalContent"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />

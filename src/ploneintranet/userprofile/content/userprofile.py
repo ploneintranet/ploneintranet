@@ -68,6 +68,14 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Person title"),
         required=False
     )
+    job_title = schema.TextLine(
+        title=_(u"Job title"),
+        required=False
+    )
+    department = schema.TextLine(
+        title=_(u"Department"),
+        required=False
+    )
     telephone = schema.TextLine(
         title=_(u"Telephone Number"),
         required=False
@@ -87,14 +95,6 @@ class IUserProfileAdditional(form.Schema):
     )
     biography = schema.Text(
         title=_(u"Biography"),
-        required=False
-    )
-    job_title = schema.TextLine(
-        title=_(u"Job title"),
-        required=False
-    )
-    department = schema.TextLine(
-        title=_(u"Department"),
         required=False
     )
 
