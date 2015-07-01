@@ -619,7 +619,7 @@ def create_library_content(parent,
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
         if contents:
-            create_library_content(obj, contents, creator)
+            create_library_content(obj, contents, creator=creator)
 
 
 def create_stream(context, stream, files_dir):
