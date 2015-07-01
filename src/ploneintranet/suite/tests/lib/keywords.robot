@@ -392,13 +392,39 @@ I can create a new case
     Input Text  css=input.required.parsley-validated  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
-    Select Radio Button  workflow  case_workflow
+    Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Element Is visible  css=div#activity-stream  timeout=10
+    Wait Until Page Contains  Basisdatenerfassung
+
+I can create a new template case
+    [arguments]  ${title}
+    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.case
+    Input Text  form.widgets.IBasic.title  New template
+    Click Button  Save
+    Go To  ${PLONE_URL}/workspaces
+
+I can create a new case from a template
+    [arguments]  ${template}  ${title}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=description  text=Something completely different
+    Select From List  portal_type  ploneintranet.workspace.case
+    Wait Until Page Contains  New template
+    Select Radio Button  template_id  new-template
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
 
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
+    Click Button  Delete
+    Page Should Contain  has been deleted
+
+I can delete a template case
+    [arguments]  ${case_id}
+    Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
     Click Button  Delete
     Page Should Contain  has been deleted
 
