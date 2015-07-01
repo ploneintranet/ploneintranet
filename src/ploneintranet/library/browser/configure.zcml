@@ -17,15 +17,13 @@
      permission="ploneintranet.viewsite"
      />
 
-  <!-- the content permissions below and in baseviews
-       need to become zope2.View with proper workflow applied -->
   <browser:page
      name="view"
      for="ploneintranet.library.content.ILibraryApp"
      class=".views.LibraryAppView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="ploneintranet.viewsite"
+     permission="zope2.View"
      />
 
   <browser:page
@@ -34,7 +32,7 @@
      class=".views.LibrarySectionView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="ploneintranet.viewsite"
+     permission="zope2.View"
      />
 
   <browser:page
@@ -43,7 +41,7 @@
      class=".views.LibraryFolderView"
      template="templates/library.html"
      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
-     permission="ploneintranet.viewsite"
+     permission="zope2.View"
      />
 
 </configure>

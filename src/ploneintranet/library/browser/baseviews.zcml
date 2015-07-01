@@ -7,17 +7,13 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
-  <!-- the content permissions below
-       need to become zope2.View with proper workflow applied -->
-  <include package="ploneintranet.layout" file="permissions.zcml" />
-
   <browser:page
     name="document_view"
     for="plone.app.contenttypes.interfaces.IDocument"
     layer="ploneintranet.library.interfaces.ILibraryContentLayer"
     template="templates/page.pt"
     class=".baseviews.ContentView"
-    permission="ploneintranet.viewsite"
+    permission="zope2.View"
     />
 
   <browser:page
@@ -26,7 +22,7 @@
     layer="ploneintranet.library.interfaces.ILibraryContentLayer"
     template="templates/page.pt"
     class=".baseviews.ContentView"
-    permission="ploneintranet.viewsite"
+    permission="zope2.View"
     />
 
 </configure>
