@@ -16,7 +16,7 @@
 
                 <select name="sort">
                     <tal:r repeat="o view/sort_options">
-                        <option tal:attributes="value o/value" tal:content="o/content" i18n:translate="o/content">Option</option>
+                        <option tal:attributes="value o/value" tal:content="o/content" i18n:translate="">Option</option>
                     </tal:r>
                  </select>
              </label>
