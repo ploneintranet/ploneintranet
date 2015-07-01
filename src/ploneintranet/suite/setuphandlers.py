@@ -511,11 +511,17 @@ def create_ws_content(parent, contents):
             **content
         )
         if owner is not None:
-            api.user.grant_roles(
-                username=owner,
-                roles=['Owner'],
-                obj=obj,
-            )
+            try:
+                api.user.grant_roles(
+                    username=owner,
+                    roles=['Owner'],
+                    obj=obj,
+                )
+            except api.exc.InvalidParameterError, ipe:
+                log.warning('Grant roles did not work for user %s. '
+                            'Does the user exist?' % owner)
+                raise api.exc.InvalidParameterError, ipe
+
             obj.reindexObject()
         if state is not None:
             api.content.transition(obj, to_state=state)
@@ -572,13 +578,16 @@ library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
 idcounter = 0
 
 
-def create_library_content(parent, spec, force=False):
+def create_library_content(parent,
+                           spec,
+                           force=False,
+                           creator='alice_lindstrom'):
     if parent is None:
         # initial call
         portal = api.portal.get()
         parent = portal.library
         api.user.grant_roles(
-            username='alice_lindstrom',
+            username=creator,
             roles=['Contributor', 'Reviewer', 'Editor'],
             obj=portal.library
         )
@@ -605,7 +614,7 @@ def create_library_content(parent, spec, force=False):
                                          mimeType='text/plain',
                                          outputMimeType='text/x-html-safe')
 
-        obj = create_as('alice_lindstrom', container=parent, **item)
+        obj = create_as(creator, container=parent, **item)
         wrapped = IDublinCore(obj)
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
