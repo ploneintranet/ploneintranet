@@ -92,7 +92,8 @@ def users_spec(context):
             user = {
                 k: v.decode('utf-8') for k, v in user.iteritems()
             }
-            user['email'] = '{}@example.com'.format(decode(user['userid']))
+            if not user.get('email', '').strip():
+                user['email'] = '{}@example.com'.format(decode(user['userid']))
             user['follows'] = [
                 decode(u) for u in user['follows'].split(' ') if u
             ]
