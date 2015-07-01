@@ -17,6 +17,11 @@
   <include package=".browser" />
   <include package=".content" />
 
+  <!-- Allow users to edit their own profiles -->
+  <adapter
+     factory=".permissions.UserProfileLocalRoleAdapter"
+     />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [User Profiles]"
