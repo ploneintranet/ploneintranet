@@ -64,7 +64,10 @@ class CSVImportView(BrowserView):
 
     def _redirect(self):
         return self.request.response.redirect(
-            self.context.absolute_url())  # XXX redirect needed
+            '{0}/{1}'.format(
+                self.context.absolute_url(),
+                self.__name__,
+            ))
 
     def process(self, csvfile):
         """Process the input file, validate and
