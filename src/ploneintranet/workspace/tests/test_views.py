@@ -166,8 +166,8 @@ class TestFileUploadView(BaseViewTest):
         self.view = FileUploadView(self.workspace, self.request)
 
     def test_no_file_json(self):
-        self.request.environ['HTTP_ACCEPT'] = 'text/json'
-        self.assertEqual(self.view(), {})
+        self.request.environ['HTTP_ACCEPT'] = 'application/json'
+        self.assertEqual(self.view(), '[]')
 
     def test_no_file_html(self):
         self.request.environ['HTTP_ACCEPT'] = 'text/html'
@@ -175,7 +175,7 @@ class TestFileUploadView(BaseViewTest):
         self.assertEqual(self.request.response.getStatus(), 302)
 
     def test_upload_file_json(self):
-        self.request.environ['HTTP_ACCEPT'] = 'text/json'
+        self.request.environ['HTTP_ACCEPT'] = 'application/json'
         self.request.form = {'file': 'dummy'}
         with patch.object(BaseFileUploadView, '__call__') as mock_call:
             mock_call.return_value = '{"type": "dummy"}'

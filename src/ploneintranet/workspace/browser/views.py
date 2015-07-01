@@ -90,7 +90,7 @@ class FileUploadView(BaseFileUploadView):
         result = self.process_request()
         if self.request.get_header('HTTP_ACCEPT') == 'application/json':
             self.request.response.setHeader("Content-type", "application/json")
-            return result
+            return json.dumps(result)
         else:
             self.request.response.redirect(self.context.absolute_url())
 
@@ -101,14 +101,14 @@ class FileUploadView(BaseFileUploadView):
         # of not being able to upload multiple files at once. We decided that
         # that's more important at the moment.
         if self.request.REQUEST_METHOD != 'POST':
-            return
+            return []
         result = []
         form = self.request.form
         for name in [k for k in form.keys() if k.startswith('file[')]:
             output = self.create_file_from_request(name)
             if output:
                 result.append(output)
-        return json.dumps(result)
+        return result
 
     def create_file_from_request(self, name):
         context = self.context
