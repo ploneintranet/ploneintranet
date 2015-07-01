@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
+            <form id="search-results-docs" class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
               <fieldset class="checklist pat-checklist docs ">
 
                 <div class="batch-functions">
@@ -209,7 +209,7 @@ Supported types include (class names):
                 <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
                    i18n:translate="">Create folder</a>
               </div>
-              <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#workspace-documents && #activity-stream" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
+              <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#search-results-docs" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
                 <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
                   <label class="accessibility-options">
                     <input type="file" name="file" multiple="multiple"/> Upload files
