@@ -19,7 +19,7 @@
               class="search-box pat-inject pat-autosubmit">
           <label>
             <input type="search" placeholder="Search" name="tagsearch" i18n:attributes="placeholder"/>
-            <button type="submit">Search</button>
+            <button type="submit" i18n:translate="label_search">Search</button>
           </label>
           <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
           <input type="hidden" name="search_active" value="search-active" />

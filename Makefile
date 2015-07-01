@@ -138,6 +138,14 @@ bin/buildout: bin/python2.7
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
+####################################################################
+# Solr
+
+solr: bin/buildout
+	@bin/buildout -c solr.cfg
+
+solr-clean:
+	rm -rf parts/solr parts/solr-test
 
 ####################################################################
 # Testing
@@ -145,6 +153,7 @@ bin/python2.7:
 # inspect robot traceback:
 # bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
+# To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
 test-robot: ## Run robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot' -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
@@ -159,13 +168,14 @@ test:: ## Run all tests, including robot tests with a virtual X server
 ####################################################################
 # Documentation
 docs:
-	@cd docs && make html
+	@bin/sphinx-build -b html -d docs/doctrees -D latex_paper_size=a4 docs docs/html
 
 # Re-generate
 api-docs:
-	@bin/sphinx-apidoc -o docs/api src/ploneintranet
+	@bin/sphinx-apidoc -P -o docs/api src/ploneintranet
 
 docs-clean:
 	rm -rf docs/html
 
-.PHONY: all docs api-docs docs-clean clean check-clean
+.PHONY: all docs api-docs docs-clean clean check-clean solr-clean
+

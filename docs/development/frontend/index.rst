@@ -7,4 +7,5 @@ Front-end Design and Development
 
     prototype
     patterns
+    theme-layout
     translations

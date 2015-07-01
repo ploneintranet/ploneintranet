@@ -14,7 +14,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Pagerank)"
+      title="Plone Intranet: -- [Pagerank]"
       directory="profiles/default"
       description="Installs the ploneintranet.pagerank package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -22,7 +22,7 @@
 
   <genericsetup:registerProfile
       name="testing"
-      title="Plone Intranet: -- (Pagerank: Testing)"
+      title="Plone Intranet: -- [Pagerank: Testing]"
       directory="profiles/testing"
       description="Integration testing setup for ploneintranet.pagerank"
       provides="Products.GenericSetup.interfaces.EXTENSION"

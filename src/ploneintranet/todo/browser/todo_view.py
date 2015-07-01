@@ -4,8 +4,8 @@ from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from ploneintranet.theme import _
-from ploneintranet.theme.content.content import ContentView
-from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.basecontent.baseviews import ContentView
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.utils import parent_workspace
 from zope.component import getUtility
 from zope.event import notify

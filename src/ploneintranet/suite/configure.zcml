@@ -19,7 +19,7 @@
   <include package="ploneintranet.search"/>
   <include package="ploneintranet.socialsuite"/>
   <include package="ploneintranet.socialtheme"/>
-
+  <include package="ploneintranet.library"/>
   <include package="ploneintranet.attachments"/>
   <include package="ploneintranet.docconv.client"/>
   <include package="ploneintranet.invitations"/>
@@ -27,6 +27,7 @@
   <include package="ploneintranet.pagerank"/>
   <include package="ploneintranet.layout"/>
   <include package="ploneintranet.theme"/>
+  <include package="ploneintranet.themeswitcher"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
 

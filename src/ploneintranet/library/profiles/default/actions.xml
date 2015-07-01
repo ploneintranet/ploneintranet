@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="ploneintranet">
+
+  <object name="portal_tabs" meta_type="CMF Action Category">
+    <property name="title"></property>
+    <object name="library" meta_type="CMF Action">
+      <property name="title" i18n:translate="">Library</property>
+      <property name="i18n_domain">ploneintranet</property>
+      <property name="description"></property>
+      <property
+          name="url_expr">string:${globals_view/navigationRootUrl}/library</property>
+      <property name="link_target"></property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
+    </object>
+  </object>
+
+</object>

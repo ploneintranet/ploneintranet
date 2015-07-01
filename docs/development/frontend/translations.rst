@@ -140,4 +140,23 @@ Checking in a translation into the Plone Intranet GIT repo
 Generation and updating of the pot files in Transifex
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. todo:: To be added later by the translations manager...
+Let's assume you have just added new templates containing labels for translation.::
+
+    cd ploneintranet/src/ploneintranet/core
+
+First you want to check if you got them all. The following command will attempt to check all templates for missing translate statements and tell you where it found something. Sometimes xml parse errors will occur.
+They may shadow other missing statements. So once you fixed something, run it again.::
+
+    i18ndude --find-untranslated ..
+
+Now you really have fixed everthing and want to create a new ploneintranet.pot file and sync it with the existing trnaslated po files.
+This command will create a new pot file and modify all existing po files by adding new strings and removing now unused ones.::
+
+    ./sync18n.py
+
+
+Now take the newly generated ploneintranet.pot file from locales/ and upload it to transifex. 
+You can do that here https://www.transifex.com/projects/p/plone-intranet/resource/ploneintranetpot/ by clicking the "Update content" button.
+
+Notify the ploneintranet-dev mailinglist that new translations can be added.
+
