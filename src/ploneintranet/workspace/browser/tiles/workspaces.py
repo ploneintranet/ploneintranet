@@ -36,7 +36,9 @@ def my_workspaces(context, request=None):
     if request:
         if hasattr(request, "sort"):
             if request.sort == "activity":
-                raise NotImplementedError("Sorting by activity is not yet possible")
+                raise NotImplementedError(
+                    "Sorting by activity"
+                    "is not yet possible")
             elif request.sort == "newest":
                 sort_by = "modified"
                 order = "reverse"

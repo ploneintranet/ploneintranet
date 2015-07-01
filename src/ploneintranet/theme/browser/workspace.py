@@ -34,13 +34,18 @@ class Workspaces(BrowserView):
         return super(Workspaces, self).__call__()
 
     def sort_options(self):
-        options = [{'value': 'alphabet', 'content': 'Alphabetical'},{'value': 'newest', 'content': 'Newest workspaces on top'},{'value': 'activity', 'content': 'Most active workspaces on top'}]
+        options = [{'value': 'alphabet',
+                    'content': 'Alphabetical'},
+                   {'value': 'newest',
+                    'content': 'Newest workspaces on top'},
+                   {'value': 'activity',
+                    'content': 'Most active workspaces on top'}]
         # put currently selected sort order at the beginning of the list
         if hasattr(self.request, "sort"):
             for o in options:
                 if o['value'] == self.request.sort:
                     options.remove(o)
-                    options.insert(0,o)
+                    options.insert(0, o)
         return options
 
     @memoize
