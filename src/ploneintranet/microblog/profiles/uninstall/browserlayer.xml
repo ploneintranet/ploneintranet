@@ -1,0 +1,6 @@
+<layers>
+  <layer  name="ploneintranet.microblog.browser"
+          interface="ploneintranet.microblog.browser.interfaces.IPloneIntranetMicroblogLayer"
+          remove="True"
+          />
+</layers>

@@ -1,16 +1,31 @@
 # -*- coding: utf-8 -*-
+import csv
+import copy
+import json
+import logging
+import os
+import random
+import time
+import traceback
+import transaction
+
+import loremipsum
 from DateTime import DateTime
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
 from plone import api
+from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
-from plone.uuid.interfaces import IUUID
-# from ploneintranet.attachments.attachments import IAttachmentStorage
-# from ploneintranet.attachments.utils import create_attachment
+# from plone.uuid.interfaces import IUUID
+from zope.component import getUtility, queryUtility
+from zope.interface import Invalid
+
+from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
@@ -19,21 +34,86 @@ from zope.component import getUtility
 from zope.component import queryUtility
 from zope.interface import Invalid
 
-import csv
-import json
-import logging
-import mimetypes
-import os
-import time
+
+log = logging.getLogger(__name__)
 
 
-def decode(value):
-    if isinstance(value, unicode):
-        return value.encode('utf-8')
-    return value
+def testing(context):
+    """
+    Important!
+    We do not want to have users with global roles such as Editor or
+    Contributor in out test setup.
+    """
+    if context.readDataFile('ploneintranet.suite_testing.txt') is None:
+        return
+    log.info("testcontent setup")
+
+    # plone.api.env.test_mode doesn't support collective.xmltestreport
+    is_test = False
+    for frame in traceback.extract_stack():
+        if 'testrunner' in frame[0] or 'testreport/runner' in frame[0]:
+            is_test = True
+            break
+
+    # commits are needed in interactive but break in test mode
+    if is_test:
+        commit = lambda: None
+    else:
+        commit = transaction.commit
+
+    log.info("create_users")
+    users = users_spec(context)
+    create_users(context, users, 'avatars')
+    commit()
+
+    log.info("create workspaces")
+    workspaces = workspaces_spec(context)
+    create_workspaces(workspaces)
+    commit()
+
+    log.info("create caseworkspaces")
+    caseworkspaces = caseworkspaces_spec(context)
+    create_caseworkspaces(caseworkspaces)
+    commit()
+
+    log.info("create case templates")
+    caseworkspaces = case_templates_spec(context)
+    create_caseworkspaces(caseworkspaces, container=TEMPLATES_FOLDER)
+    commit()
+
+    log.info("create library content")
+    library = library_spec(context)
+    create_library_content(None, library)
+    commit()
+
+    log.info("create microblog stream")
+    stream_json = os.path.join(context._profile_path, 'stream.json')
+    with open(stream_json, 'rb') as stream_json_data:
+        stream = json.load(stream_json_data)
+    create_stream(context, stream, 'files')
+    commit()
+
+    log.info("done.")
 
 
-def create_users(context, users, avatars_dir):
+def users_spec(context):
+    users_csv_file = os.path.join(context._profile_path, 'users.csv')
+    users = []
+    with open(users_csv_file, 'rb') as users_csv_data:
+        reader = csv.DictReader(users_csv_data)
+        for user in reader:
+            user = {
+                k: v.decode('utf-8') for k, v in user.iteritems()
+            }
+            user['email'] = '{}@example.com'.format(decode(user['userid']))
+            user['follows'] = [
+                decode(u) for u in user['follows'].split(' ') if u
+            ]
+            users.append(user)
+    return users
+
+
+def create_users(context, users, avatars_dir, force=False):
     """Creates user from the given list of dictionaries.
 
     ``context`` is the step context.
@@ -50,11 +130,10 @@ def create_users(context, users, avatars_dir):
     ``avatars_dir`` is a directory where for each userid
     there is a ``$userid.jpg`` file.
     """
-    logger = logging.getLogger('ploneintranet.suite.create_users')
     for i, user in enumerate(users):
         email = decode(user['email'])
         userid = decode(user['userid'])
-        file_name = '{}.jpg'.format(userid)
+        portrait_filename = '{}.jpg'.format(userid)
         fullname = user.get('fullname', u"Anon Ymous {}".format(i))
         firstname, lastname = fullname.split(' ', 1)
         properties = {
@@ -65,30 +144,38 @@ def create_users(context, users, avatars_dir):
             'description': user.get('description', u"")
         }
         try:
-            pi_api.userprofile.create(
+            profile = pi_api.userprofile.create(
                 username=userid,
                 email=email,
                 password='secret',
                 approve=True,
                 properties=properties,
             )
-            logger.info('Created user {}'.format(userid))
+            log.info('Created user {}'.format(userid))
         except Invalid:
-            # Already exists - update
+            # Already exists
+
+            if not force:
+                log.info("users already configured. skipping for speed")
+                return
+
+            # update
             profile = pi_api.userprofile.get(userid)
             for key, value in properties.items():
-                setattr(profile, key, value)
-            logger.info('Updated user {}'.format(userid))
+                if key != 'fullname':  # now this field is calculated
+                    setattr(profile, key, value)
+            log.info('Updated user {}'.format(userid))
 
-        portrait_filename = os.path.join(avatars_dir, file_name)
-        portrait = context.openDataFile(portrait_filename)
+        portrait_path = os.path.join(avatars_dir, portrait_filename)
+        portrait = context.openDataFile(portrait_path)
         if portrait:
-            scaled, mimetype = scale_image(portrait)
-            portrait = Image(id=userid, file=scaled, title='')
-            memberdata = api.portal.get_tool(name='portal_memberdata')
-            memberdata._setPortrait(portrait, userid)
+
+            image = NamedBlobImage(
+                data=portrait.read(),
+                filename=portrait_filename.decode('utf-8'))
+            profile.portrait = image
         else:
-            logger.warning(
+            log.warning(
                 'Missing portrait file for {}: {}'.format(
                     userid,
                     portrait_filename
@@ -100,383 +187,10 @@ def create_users(context, users, avatars_dir):
     graph.clear()
     for user in users:
         for followee in user.get('follows', []):
-            graph.follow("user", decode(followee), userid)
+            graph.follow("user", decode(followee), user['userid'])
 
 
-def create_groups(groups):
-    """Creates groups.
-
-    ``groups`` is a dictionary with the following keys:
-
-      * groupid
-      * groupname
-      * roles (list)
-      * parentgroups
-      * members (list)
-    """
-    group_tool = api.portal.get_tool(name='portal_groups')
-    for group in groups:
-        groupid = decode(group['groupid'])
-        try:
-            group_obj = api.group.get(groupname=groupid)
-        except ValueError:
-            group_obj = None
-        if group_obj is None:
-            api.group.create(
-                groupname=groupid,
-                roles=group.get('roles', []),
-                title=group.get('title', groupid),
-                groups=[decode(g) for g in group.get('parentgroups', [])]
-            )
-        else:
-            group_tool.editGroup(
-                groupid,
-                roles=group.get('roles', []),
-                title=group.get('title', groupid),
-                groups=[decode(g) for g in group.get('parentgroups', [])]
-            )
-        for member in group.get('members', []):
-            api.group.add_user(
-                groupname=groupid,
-                username=decode(member)
-            )
-
-
-def create_as(userid, *args, **kwargs):
-    """Call api.content.create as a different user
-    """
-    obj = None
-    with api.env.adopt_user(username=userid):
-        try:
-            obj = api.content.create(*args, **kwargs)
-        except:
-            # we still need to know what happend
-            raise
-    return obj
-
-
-def create_news_items(newscontent):
-    portal = api.portal.get()
-    like_tool = getUtility(INetworkTool)
-
-    if 'news' not in portal:
-        news_folder = api.content.create(
-            type='Folder',
-            title='News',
-            container=portal
-        )
-    else:
-        news_folder = portal['news']
-
-    for newsitem in newscontent:
-        # give the users rights to add news
-        api.user.grant_roles(
-            username=newsitem['creator'],
-            roles=['Contributor', 'Reader', 'Editor'],
-            obj=news_folder
-        )
-        # give the users rights to add news
-        obj = create_as(
-            userid=newsitem['creator'],
-            type='News Item',
-            title=newsitem['title'],
-            description=newsitem['description'],
-            container=news_folder
-        )
-        obj.setSubject(tuple(newsitem['tags']))
-
-        # TODO: there is no workflow at this point
-        # api.content.transition(obj=obj, transition='publish')
-
-        obj.setEffectiveDate(newsitem['publication_date'])
-        obj.reindexObject(idxs=['effective', 'Subject', ])
-        if 'likes' in newsitem:
-            for user_id in newsitem['likes']:
-                like_tool.like("content", item_id=IUUID(obj), user_id=user_id)
-
-
-def create_tasks(todos):
-    portal = api.portal.get()
-
-    if 'todos' not in portal:
-        todos_folder = api.content.create(
-            type='Folder',
-            title='Todos',
-            container=portal)
-    else:
-        todos_folder = portal['todos']
-
-    for data in todos:
-        obj = create_as(
-            data['creator'],
-            type='todo',
-            title=data['title'],
-            container=todos_folder)
-        todo = ITodo(obj)
-        todo.assignee = data['assignee']
-
-
-def create_workspaces(workspaces):
-    portal = api.portal.get()
-    ws_folder = portal['workspaces']
-
-    for w in workspaces:
-        contents = w.pop('contents', None)
-        members = w.pop('members', {})
-        transition = w.pop('transition', 'make_private')
-        participant_policy = w.pop('participant_policy', 'consumers')
-        workspace = api.content.create(
-            container=ws_folder,
-            type='ploneintranet.workspace.workspacefolder',
-            **w
-        )
-        api.content.transition(obj=workspace, transition=transition)
-        workspace.participant_policy = participant_policy
-        if contents is not None:
-            create_ws_content(workspace, contents)
-        for (m, groups) in members.items():
-            IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
-
-
-def create_caseworkspaces(caseworkspaces, container='workspaces'):
-    portal = api.portal.get()
-    pwft = api.portal.get_tool("portal_placeful_workflow")
-
-    if container not in portal:
-        ws_folder = api.content.create(
-            container=portal,
-            type='ploneintranet.workspace.workspacecontainer',
-            title='Workspaces'
-        )
-        api.content.transition(ws_folder, 'publish')
-    else:
-        ws_folder = portal[container]
-
-    for w in caseworkspaces:
-        contents = w.pop('contents', None)
-        members = w.pop('members', [])
-        caseworkspace = api.content.create(
-            container=ws_folder,
-            type='ploneintranet.workspace.case',
-            **w
-        )
-        caseworkspace.manage_addProduct[
-            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
-        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
-        wfconfig.setPolicyIn('case_workflow')
-
-        if contents is not None:
-            create_ws_content(caseworkspace, contents)
-        for (m, groups) in members.items():
-            IWorkspace(
-                caseworkspace).add_to_team(user=m, groups=set(groups))
-
-
-def create_ws_content(parent, contents):
-    for content in contents:
-        sub_contents = content.pop('contents', None)
-        owner = content.pop('owner', None)
-        state = content.pop('state', None)
-        obj = api.content.create(
-            container=parent,
-            **content
-        )
-        if owner is not None:
-            api.user.grant_roles(
-                username=owner,
-                roles=['Owner'],
-                obj=obj,
-            )
-            obj.reindexObject()
-        if state is not None:
-            api.content.transition(obj, to_state=state)
-        if sub_contents is not None:
-            create_ws_content(obj, sub_contents)
-
-
-def create_events(events):
-    portal = api.portal.get()
-    if 'events' not in portal:
-        event_folder = api.content.create(
-            container=portal,
-            type='Folder',
-            title='Events'
-        )
-    else:
-        event_folder = portal['events']
-    for ev in events:
-        create_as(
-            ev['creator'],
-            type='Event',
-            container=event_folder,
-            **ev
-        )
-
-
-class FakeFileField(object):
-    """A mock so that we can use ``create_attachment``
-    """
-
-    def __init__(self, filename, file_object):
-        self.filename = filename
-        self.file_object = file_object
-
-    @property
-    def headers(self):
-        ctype, encoding = mimetypes.guess_type(self.filename)
-        if ctype is None:
-            ctype = 'application/octet-stream'
-        return {
-            'content-type': ctype
-        }
-
-    def read(self):
-        return self.file_object.read()
-
-
-def create_stream(context, stream, files_dir):
-    contexts_cache = {}
-    microblog = queryUtility(IMicroblogTool)
-    like_tool = getUtility(INetworkTool)
-    microblog.clear()
-    for status in stream:
-        kwargs = {}
-        if status['context']:
-            if status['context'] not in contexts_cache:
-                contexts_cache[status['context']] = api.content.get(
-                    path='/' + decode(status['context']).lstrip('/')
-                )
-            kwargs['context'] = contexts_cache[status['context']]
-        status_obj = StatusUpdate(status['text'], **kwargs)
-        status_obj.userid = status['user']
-        status_obj.creator = api.user.get(
-            username=status['user']
-        ).getUserName()
-        offset_time = status['timestamp'] * 60
-        status_obj.id -= int(offset_time * 1e6)
-        status_obj.date = DateTime(time.time() - offset_time)
-        # THIS BREAKS BECAUSE docconv.client.async.queueConversionJob FIXME
-        # if 'attachment' in status:
-        #     _definition = status['attachment']
-        #     _filename = os.path.join(files_dir, _definition['filename'])
-        #     _data = context.readDataFile(_filename)
-        #     attachment_obj = create_attachment(_filename, _data)
-        #     attachments = IAttachmentStorage(status_obj)
-        #     attachments.add(attachment_obj)
-        microblog.add(status_obj)
-
-        # like some status-updates
-        if 'likes' in status:
-            for user_id in status['likes']:
-                like_tool.like(
-                    "update",
-                    user_id=user_id,
-                    item_id=str(status_obj.id),
-
-                )
-
-
-def testing(context):
-    if context.readDataFile('ploneintranet.suite_testing.txt') is None:
-        return
-
-    users_csv_file = os.path.join(context._profile_path, 'users.csv')
-    users = []
-    with open(users_csv_file, 'rb') as users_csv_data:
-        reader = csv.DictReader(users_csv_data)
-        for user in reader:
-            user = {
-                k: v.decode('utf-8') for k, v in user.iteritems()
-            }
-            user['email'] = '{}@example.com'.format(decode(user['userid']))
-            user['follows'] = [
-                decode(u) for u in user['follows'].split(' ') if u
-            ]
-            users.append(user)
-    create_users(context, users, 'avatars')
-
-    # Important!
-    # We do not want to have users with global roles such as Editor or
-    # Contributor in out test setup.
-    # groups_csv_file = os.path.join(context._profile_path, 'groups.csv')
-    # groups = []
-    # with open(groups_csv_file, 'rb') as groups_csv_data:
-    #     reader = csv.DictReader(groups_csv_data)
-    #     for group in reader:
-    #         group = {
-    #             k: v.decode('utf-8') for k, v in group.iteritems()
-    #         }
-    #         group['roles'] = [r for r in group['roles'].split('|') if r]
-    #         group['parentgroups'] = [
-    #             g for g in group['parentgroups'].split(' ') if g
-    #         ]
-    #         group['members'] = [
-    #             u for u in group['members'].split(' ') if u
-    #         ]
-    #         groups.append(group)
-    #
-    # create_groups(groups)
-
-    # We use following fixed tags
-    tags = ['Rain', 'Sun', 'Planes', 'ICT', ]
-
-    # We use fixed dates, we need these to be relative
-    # publication_date = ['just now', 'next week', 'next year', ]
-    publication_date = [DateTime('01/01/2019'),
-                        DateTime('03/03/2021'),
-                        DateTime('11/11/2023'), ]
-
-    # make newsitems
-    news_content = [
-        {'title': 'Second Indian Airline to join Global Airline Alliance',
-         'description': 'Weak network in growing Indian aviation market',
-         'tags': [tags[0]],
-         'publication_date': publication_date[0],
-         'creator': 'alice_lindstrom',
-         'likes': ['guy_hackey', 'esmeralda_claassen']},
-
-        {'title': 'BNB and Randomize to codeshare',
-         'description': 'Starting September 10, BNB passengers will be'
-                        'able to book connecting flights on Ethiopian '
-                        'Airlines.',
-         'tags': [tags[1]],
-         'publication_date': publication_date[1],
-         'creator': 'allan_neece'},
-
-        {'title': 'Alliance Officially Opens New Lounge',
-         'description': '',
-         'tags': [tags[0], tags[1]],
-         'publication_date': publication_date[2],
-         'creator': 'christian_stoney'},
-    ]
-    create_news_items(news_content)
-
-    # Commented out for the moment, since there's no concept at the moment
-    # for globally created todos
-    # Create tasks
-    # todos_content = [{
-    #     'title': 'Inquire after References',
-    #     'creator': 'alice_lindstrom',
-    #     'assignee': 'employees',
-    # }, {
-    #     'title': 'Finalize budget',
-    #     'creator': 'christian_stoney',
-    #     'assignee': 'employees',
-    # }, {
-    #     'title': 'Write SWOT analysis',
-    #     'creator': 'pearlie_whitby',
-    #     'assignee': 'employees',
-    # }, {
-    #     'title': 'Prepare sales presentation',
-    #     'creator': 'lance_stockstill',
-    #     'assignee': 'lance_stockstill',
-    # }, {
-    #     'title': 'Talk to HR about vacancy',
-    #     'creator': 'allan_neece',
-    #     'assignee': 'allan_neece',
-    # }]
-    # create_tasks(todos_content)
-
+def workspaces_spec(context):
     now = datetime.now()
 
     budget_proposal_filename = u'budget-proposal.png'
@@ -673,9 +387,38 @@ def testing(context):
              ]
          },
     ]
-    create_workspaces(workspaces)
+    return workspaces
 
-    # Create caseworkspaces
+
+def create_workspaces(workspaces, force=False):
+    portal = api.portal.get()
+    ws_folder = portal['workspaces']
+
+    if not force and ('ploneintranet.workspace.workspacefolder'
+                      in [x.portal_type for x in ws_folder.objectValues()]):
+        log.info("workspaces already setup. skipping for speed.")
+        return
+
+    for w in workspaces:
+        contents = w.pop('contents', None)
+        members = w.pop('members', {})
+        transition = w.pop('transition', 'make_private')
+        participant_policy = w.pop('participant_policy', 'consumers')
+        workspace = api.content.create(
+            container=ws_folder,
+            type='ploneintranet.workspace.workspacefolder',
+            **w
+        )
+        api.content.transition(obj=workspace, transition=transition)
+        workspace.participant_policy = participant_policy
+        if contents is not None:
+            create_ws_content(workspace, contents)
+        for (m, groups) in members.items():
+            IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
+
+
+def caseworkspaces_spec(context):
+    now = datetime.now()
     caseworkspaces = [{
         'title': 'Minifest',
         'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
@@ -731,8 +474,207 @@ def testing(context):
             'end': now + timedelta(days=-14)
         }],
     }]
-    create_caseworkspaces(caseworkspaces)
+    return caseworkspaces
 
+
+def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
+    portal = api.portal.get()
+    pwft = api.portal.get_tool("portal_placeful_workflow")
+
+    if container not in portal:
+        ws_folder = api.content.create(
+            container=portal,
+            type='ploneintranet.workspace.workspacecontainer',
+            title='Workspaces'
+        )
+        api.content.transition(ws_folder, 'publish')
+    else:
+        ws_folder = portal[container]
+
+    if not force and ('ploneintranet.workspace.case'
+                      in [x.portal_type for x in ws_folder.objectValues()]):
+        log.info("caseworkspaces already setup. skipping for speed.")
+        return
+
+    for w in caseworkspaces:
+        contents = w.pop('contents', None)
+        members = w.pop('members', [])
+        caseworkspace = api.content.create(
+            container=ws_folder,
+            type='ploneintranet.workspace.case',
+            **w
+        )
+        caseworkspace.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
+        wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
+        wfconfig.setPolicyIn('case_workflow')
+
+        if contents is not None:
+            create_ws_content(caseworkspace, contents)
+        for (m, groups) in members.items():
+            IWorkspace(
+                caseworkspace).add_to_team(user=m, groups=set(groups))
+
+
+def create_ws_content(parent, contents):
+    for content in contents:
+        sub_contents = content.pop('contents', None)
+        owner = content.pop('owner', None)
+        state = content.pop('state', None)
+        obj = api.content.create(
+            container=parent,
+            **content
+        )
+        if owner is not None:
+            api.user.grant_roles(
+                username=owner,
+                roles=['Owner'],
+                obj=obj,
+            )
+            obj.reindexObject()
+        if state is not None:
+            api.content.transition(obj, to_state=state)
+        if sub_contents is not None:
+            create_ws_content(obj, sub_contents)
+
+
+def library_spec(context):
+    hr = {'type': 'ploneintranet.library.section',
+          'title': 'Human Resources',
+          'description': 'Information from the HR department',
+          'contents': [
+              {'type': 'ploneintranet.library.folder',
+               'title': 'Leave policies',
+               'description': 'Holidays and sick leave',
+               'contents': [
+                   {'type': 'Document',
+                    'title': 'Holidays',
+                    'desciption': 'Yearly holiday allowance'},
+                   {'type': 'Document',
+                    'title': 'Sick Leave',
+                    'desciption': ("You're not feeling too well, "
+                                   "here's what to do")},
+                   {'type': 'Document',
+                    'title': 'Pregnancy',
+                    'desciption': 'Expecting a child?'},
+               ]},
+          ]}
+    mixed_contents = []
+    for i in range(3):
+        mixed_contents.append({'type': 'ploneintranet.library.folder'})
+    for i in range(5):
+        mixed_contents.append({'type': 'Document'})
+    mixedfolder = {'type': 'ploneintranet.library.folder',
+                   'contents': mixed_contents}
+    for i in range(3):
+        # leave policies
+        hr['contents'][0]['contents'].append(mixedfolder)
+    for i in range(3):
+        hr['contents'].append(mixedfolder)
+    library = [hr]
+    for i in range(4):
+        library.append(
+            {'type': 'ploneintranet.library.section',
+             'contents': [mixedfolder] * 5}
+        )
+    return library
+
+
+library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
+                'budget', 'policy', 'administration', 'press')
+
+
+idcounter = 0
+
+
+def create_library_content(parent, spec, force=False):
+    if parent is None:
+        # initial call
+        portal = api.portal.get()
+        parent = portal.library
+        api.user.grant_roles(
+            username='alice_lindstrom',
+            roles=['Contributor', 'Reviewer', 'Editor'],
+            obj=portal.library
+        )
+        api.content.transition(portal.library, 'publish')
+        # check only on initial call
+        if not force and len(portal.library.objectIds()) > 0:
+            log.info("library already setup. skipping for speed.")
+            return
+
+    # recursively called
+    while spec:
+        # avoiding side effects here cost me 4 hours!!
+        item = copy.deepcopy(spec.pop(0))
+        contents = item.pop('contents', None)
+        if 'title' not in item:
+            global idcounter
+            idcounter += 1
+            item['title'] = 'Lorem Ipsum %s' % idcounter
+        if 'description' not in item:
+            item['description'] = loremipsum.get_sentence()
+        if item['type'] in ('Document',):
+            raw_text = "\n\n".join(loremipsum.get_paragraphs(3))
+            item['text'] = RichTextValue(raw=raw_text,
+                                         mimeType='text/plain',
+                                         outputMimeType='text/x-html-safe')
+
+        obj = create_as('alice_lindstrom', container=parent, **item)
+        wrapped = IDublinCore(obj)
+        wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
+        api.content.transition(obj, 'publish')
+        if contents:
+            create_library_content(obj, contents)
+
+
+def create_stream(context, stream, files_dir):
+    contexts_cache = {}
+    microblog = queryUtility(IMicroblogTool)
+    if len([x for x in microblog.keys()]) > 0:
+        log.info("microblog already setup. skipping for speed.")
+        return
+
+    like_tool = getUtility(INetworkTool)
+    microblog.clear()
+    for status in stream:
+        kwargs = {}
+        if status['context']:
+            if status['context'] not in contexts_cache:
+                contexts_cache[status['context']] = api.content.get(
+                    path='/' + decode(status['context']).lstrip('/')
+                )
+            kwargs['context'] = contexts_cache[status['context']]
+        status_obj = StatusUpdate(status['text'], **kwargs)
+        status_obj.userid = status['user']
+        status_obj.creator = api.user.get(
+            username=status['user']
+        ).getUserName()
+        offset_time = status['timestamp'] * 60
+        status_obj.id -= int(offset_time * 1e6)
+        status_obj.date = DateTime(time.time() - offset_time)
+        # THIS BREAKS BECAUSE docconv.client.async.queueConversionJob FIXME
+        # if 'attachment' in status:
+        #     _definition = status['attachment']
+        #     _filename = os.path.join(files_dir, _definition['filename'])
+        #     _data = context.readDataFile(_filename)
+        #     attachment_obj = create_attachment(_filename, _data)
+        #     attachments = IAttachmentStorage(status_obj)
+        #     attachments.add(attachment_obj)
+        microblog.add(status_obj)
+
+        # like some status-updates
+        if 'likes' in status:
+            for user_id in status['likes']:
+                like_tool.like(
+                    "update",
+                    user_id=user_id,
+                    item_id=str(status_obj.id),
+
+                )
+
+
+def case_templates_spec(context):
     case_templates = [{
         'title': 'Case Template',
         'description': 'A Template Case Workspace, pre-populated with tasks',
@@ -768,28 +710,23 @@ def testing(context):
             'milestone': 'decided',
         }],
     }]
-    create_caseworkspaces(case_templates, container=TEMPLATES_FOLDER)
+    return case_templates
 
-    # Commented out for the moment, since there's no concept at the moment
-    # for globally created events
-    # Create some events
-    # tomorrow = (now + timedelta(days=1)).replace(hour=9, minute=0, second=0,
-    #                                              microsecond=0)
-    # next_month = (now + timedelta(days=30)).replace(hour=9, minute=0,
-    #                                                 second=0, microsecond=0)
-    # events = [
-    #     {'title': 'Open Market Day',
-    #      'creator': 'allan_neece',
-    #      'start': tomorrow,
-    #      'end': tomorrow + timedelta(hours=8)},
-    #     {'title': 'Plone Conf',
-    #      'creator': 'alice_lindstrom',
-    #      'start': next_month,
-    #      'end': next_month + timedelta(days=3, hours=8)}
-    # ]
-    # create_events(events)
 
-    stream_json = os.path.join(context._profile_path, 'stream.json')
-    with open(stream_json, 'rb') as stream_json_data:
-        stream = json.load(stream_json_data)
-    create_stream(context, stream, 'files')
+def decode(value):
+    if isinstance(value, unicode):
+        return value.encode('utf-8')
+    return value
+
+
+def create_as(userid, *args, **kwargs):
+    """Call api.content.create as a different user
+    """
+    obj = None
+    with api.env.adopt_user(username=userid):
+        try:
+            obj = api.content.create(*args, **kwargs)
+        except:
+            # we still need to know what happend
+            raise
+    return obj

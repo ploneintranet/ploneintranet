@@ -1,12 +1,12 @@
-<div id="content">
-  <h1>
+<div id="content" i18n:domain="ploneintranet">
+  <h1 i18n:translate="">
     Create task
   </h1>
   <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets">
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Task title" autofocus />
+        <input type="text" name="title" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" />
         <br/>
         <!--textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea-->
         <input name="portal_type" value="todo" type="hidden" /> 
@@ -21,10 +21,10 @@
     </div>
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel">
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="">
         Create
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel">
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel" i18n:translate="">
         Cancel
       </button>
     </div>

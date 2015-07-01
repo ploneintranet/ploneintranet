@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.workspace"
+    interface="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    remove="True"
+  />
+  <layer
+    name="ploneintranet.workspace.appcontent"
+    interface="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    remove="True"
+  />
+
+</layers>

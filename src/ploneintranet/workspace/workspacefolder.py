@@ -9,6 +9,7 @@ from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace import MessageFactory
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
+from ploneintranet import api as pi_api
 from zope import schema
 from zope.event import notify
 from zope.interface import implementer
@@ -149,9 +150,7 @@ class WorkspaceFolder(Container):
             description = MessageFactory(u'Here we could have a nice status of'
                                          u' this person')
             classes = description and 'has-description' or 'has-no-description'
-            portal = api.portal.get()
-            portrait = '%s/portal_memberdata/portraits/%s' % \
-                       (portal.absolute_url(), userid)
+            portrait = pi_api.userprofile.avatar_url(userid)
             info.append(
                 dict(
                     id=userid,

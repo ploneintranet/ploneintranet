@@ -1,19 +1,56 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet">
+     xmlns="http://namespaces.zope.org/zope"
+     xmlns:i18n="http://namespaces.zope.org/i18n"
+     xmlns:five="http://namespaces.zope.org/five"
+     xmlns:browser="http://namespaces.zope.org/browser"
+     xmlns:plone="http://namespaces.plone.org/plone"
+     i18n_domain="ploneintranet">
+
+
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
+  <browser:page
+     name="search_template"
+     for="plone.app.layout.navigation.interfaces.INavigationRoot"
+     permission="ploneintranet.viewsite"
+     template="templates/search_template.pt"
+     layer="..interfaces.IPloneintranetSearchLayer"
+     />
 
   <browser:page
       name="search"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      permission="zope2.View"
+      permission="ploneintranet.viewsite"
       class=".searchresults.SearchResultsView"
-      template="templates/search_results.pt"
+      template="templates/all_results.pt"
       layer="..interfaces.IPloneintranetSearchLayer"
       />
 
+   <browser:page
+       name="search_images"
+       for="plone.app.layout.navigation.interfaces.INavigationRoot"
+       permission="ploneintranet.viewsite"
+       class=".searchresults.SearchResultsView"
+       template="templates/image_results.pt"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
+
+    <browser:page
+       name="search_files"
+       for="plone.app.layout.navigation.interfaces.INavigationRoot"
+       permission="ploneintranet.viewsite"
+       class=".searchresults.SearchResultsView"
+       template="templates/file_results.pt"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
+
+    <browser:page
+       name="search_people"
+       for="plone.app.layout.navigation.interfaces.INavigationRoot"
+       permission="ploneintranet.viewsite"
+       class=".searchresults.SearchResultsView"
+       template="templates/people_results.pt"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
 
 </configure>

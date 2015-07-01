@@ -4,8 +4,8 @@ from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from ploneintranet.theme import _
-from ploneintranet.theme.content.content import ContentView
-from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.basecontent.baseviews import ContentView
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.utils import parent_workspace
 from zope.component import getUtility
 from zope.event import notify
@@ -71,17 +71,3 @@ class TodoView(BaseView):
                 'Changes applied'), request=self.request,
                 type="success")
         super(TodoView, self).update()
-
-    def member_prefill(self, field):
-        users = self.workspace.existing_users()
-        field_value = getattr(self.context, field)
-        # log.error("{0}: field_value: {1}".format(field, field_value))
-        if field_value:
-            assigned_users = field_value.split(',')
-            return ", ".join([
-                user['id']
-                for user in users
-                if user['id'] in assigned_users
-            ])
-        else:
-            return ''

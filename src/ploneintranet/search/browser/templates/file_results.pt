@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/search_template/macros/search"
+      i18n:domain="ploneintranet">
+
+    <metal:results fill-slot="results">
+        <div class="container results"
+             tal:define="search_response view/search_files"
+             tal:condition="search_response">
+
+            <p i18n:translate=""><span i18n:name="results" tal:replace="search_response/total_results">87</span> items matched your search.</p>
+
+            <div class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
+                <tal:result repeat="result search_response">
+                    <a tal:attributes="href result/url" class="item">
+                        <figure>
+                            <img tal:define="spacer python:result.description and ' - ' or ' '"
+                                 tal:attributes="src result/preview_image_url;
+                                                 title string:${result/title}${spacer}${result/description} "/>
+                            <figcaption tal:attributes="class string:icon-file">
+                                <tal:title tal:replace="result/title" />
+                            </figcaption>
+                        </figure>
+                    </a>
+                </tal:result>
+		<p tal:define="next_url python: 
+			       view.next_page_url(search_response.total_results)"
+		   tal:condition="next_url">
+		    <a href="${next_url}" i18n:translate="">More results</a>
+		</p>
+            </div>
+        </div>
+    </metal:results>
+</html>

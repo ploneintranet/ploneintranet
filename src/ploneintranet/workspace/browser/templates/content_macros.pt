@@ -2,32 +2,32 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
   <body>
 
     <metal:task_fields define-macro="task_fields" tal:define="read_only python:False; value python: context.portal_type=='todo' and context.description or ''">
       <label class="description">
-          Description <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description">${value}</textarea>
+          <span tal:omit-tag="" i18n:translate="">Description</span> <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description" i18n:attributes="placeholder; title">${value}</textarea>
       </label>
       <label class="initiator"
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
-        Initiator <input class="pat-autosuggest users"  type="text" name="initiator"
+        <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator"
         data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
         tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));"/>
       </label>
       <br/>
       <label class="assignee">
-        Assignee <input class="pat-autosuggest users" name="assignee"
+        <span tal:omit-tag="" i18n:translate="">Assignee</span> <input class="pat-autosuggest users" name="assignee"
         data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
         tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
       </label>
       <br/>
       <label class="date-time">
-        Due date
+        <span tal:omit-tag="" i18n:translate="">Due date</span>
         <input type="date"
                name="due"
-               tal:attributes="value context/due|nothing"
+               tal:attributes="value context/due | nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" placeholder="Set a deadline"/>
@@ -37,7 +37,7 @@
       <tal:case_todo condition="workspace/is_case">
         <label class="stage milestone"
                tal:define="workspace_view nocall:workspace/view">
-          Milestone this task belongs to
+          <span tal:omit-tag="" i18n:translate="">Milestone this task belongs to</span>
           <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
             <option></option>
             <tal:milesstones repeat="milestone mm_seq">
@@ -52,70 +52,91 @@
       </tal:case_todo>
     </metal:task_fields>
 
+    <metal:event_fields define-macro="event_fields"
+                        tal:define="read_only python:False">
 
-    <metal:event_fields define-macro="event_fields">
-      <fieldset class="vertical"  tal:define="read_only python:False">
-                <label class="location">
-                    Location <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing">
-                </label>
-                <br>
-                <label class="organiser">
-                    Organiser <input tal:attributes="disabled read_only" class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="value context/organiser | nothing">
-                </label>
-                <br>
-                <fieldset class="pat-checklist options">
-                    <label>
-                        <input tal:attributes="checked python:context.whole_day" tal:attributes="disabled read_only" type="checkbox"> All day event
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" tal:attributes="disabled read_only" > Visible on other calendars
-                    </label>
-                </fieldset>
-                <br>
-                <fieldset class="date-time">
-                    <fieldset class="row">
-                            <fieldset class="group six columns">
-                                <legend>From</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="start-day" placeholder="Date" value="" />
-                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="start-time" placeholder="Time" value="" />
-                            </fieldset>
+      <metal:extra-fields-top define-slot="extra-fields-top"/>
 
-                            <fieldset class="group six columns">
-                                <legend>To</legend>
-                                <input type="date" tal:attributes="disabled read_only" size="10" class="date" name="end_date-day" placeholder="Date" value=""/>
-                                <input type="time" tal:attributes="disabled read_only" size="10" class="date" name="end_date-time" placeholder="Time" value=""/>
-                            </fieldset>
-                    </fieldset>
+      <label class="location">
+        <span tal:omit-tag="" i18n:translate="">Location</span> <input name="location" type="text" value="" tal:attributes="disabled read_only; value context/location | nothing" />
+      </label>
+      <br/>
+      <label class="organiser">
+        <span tal:omit-tag="" i18n:translate="">Organiser</span> <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing"/>
+      </label>
+      <br/>
+      <fieldset class="pat-checklist options">
+        <label>
+          <input tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/> <span tal:omit-tag="" i18n:translate="">All day event</span>
+        </label>
+        <br/>
+        <label>
+          <input type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
+        </label>
+      </fieldset>
+      <br/>
+      <fieldset class="group date-time">
+        <fieldset class="row group">
+          <fieldset class="group six columns">
+            <legend i18n:translate="">From</legend>
 
-                    <label class="timezone">Timezone
-                        <select class="timezone">
-                            <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
-                            <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
-                            <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
-                        </select>
-                    </label>
+            <div class="row"
+                 tal:define="start context/start | nothing">
+              <label class="six columns">
 
-                </fieldset>
-                    <label class="invitees">Invitees
-                        <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest=""
-                            data-pat-autosuggest-classes=''>
+                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
+              </label>
+              <label class="six columns">
+                <input type="time" size="10" class="date" name="start" placeholder="Time"
+                       tal:attributes="disabled read_only;
+                                       value python:start and start.strftime('%H:%M')"/>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="group six columns">
+            <legend i18n:translate="">To</legend>
+            <div class="row"
+                 tal:define="end context/end | nothing">
+              <label class="six columns">
+                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
+              </label>
+              <label class="six columns">
+                <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
+                       tal:attributes="disabled read_only;
+                                       value python:end and end.strftime('%H:%M')"/>
+              </label>
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <label class="timezone"><span tal:omit-tag="" i18n:translate="">Timezone</span>
+        <select class="timezone"  tal:attributes="disabled read_only" >
+          <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
+          <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+          <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
+        </select>
+        </label>
+
+      </fieldset>
+      <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
+      <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest=""
+             data-pat-autosuggest-classes=''/>
 
 
-                        <span class="legend">
-                            <dfn class="undecided">Undecided</dfn>
-                            <dfn class="confirmed">Confirmed</dfn>
-                            <dfn class="tentative">Tentative</dfn>
-                            <dfn class="declined">Declined</dfn>
-                        </span>
+      <span class="legend">
+        <dfn class="undecided" i18n:translate="">Undecided</dfn>
+        <dfn class="confirmed" i18n:translate="">Confirmed</dfn>
+        <dfn class="tentative" i18n:translate="">Tentative</dfn>
+        <dfn class="declined" i18n:translate="">Declined</dfn>
+      </span>
 
-                    </label>
+      </label>
 
-                <label class="attachments"  tal:define="read_only python:False">Attached documents from this workspace
-                    <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value="">
-                </label>
+      <label class="attachments"  tal:define="read_only python:False"><span tal:omit-tag="" i18n:translate="">Attached documents from this workspace</span>
+      <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value=""/>
+      </label>
 
-            </fieldset>
     </metal:event_fields>
 
   </body>

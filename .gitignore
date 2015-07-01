@@ -9,6 +9,8 @@
 .mr.developer.cfg
 .ssh/
 .Python
+pip-selfcheck.json
+.*.sw[op]
 bin/
 develop-eggs/
 docs/Makefile
@@ -18,6 +20,7 @@ Gemfile.lock
 include/
 lib/
 libreoffice/
+local/
 node_modules/
 parts/
 /prototype
@@ -51,6 +54,7 @@ src/plone.app.portlets/
 src/plone.app.querystring/
 src/plone.app.testing/
 src/plone.app.theming/
+src/plone.app.themingplugins/
 src/plone.app.users/
 src/plone.app.viewletmanager/
 src/plone.app.z3cform/

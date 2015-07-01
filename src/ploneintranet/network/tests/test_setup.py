@@ -4,10 +4,6 @@ from plone.browserlayer.utils import registered_layers
 from ploneintranet.network.testing import IntegrationTestCase
 
 PROJECTNAME = 'ploneintranet.network'
-REGISTRY_ID = 'plone.resources/resource-ploneintranet-network-stylesheets.css'
-EXPECTED_CSS = [
-    '++resource++ploneintranet.network.stylesheets/ploneintranet_network.css',
-]
 
 
 class TestInstall(IntegrationTestCase):
@@ -22,6 +18,15 @@ class TestInstall(IntegrationTestCase):
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetNetworkLayer', layers)
+
+    def test_dublincore_installed(self):
+        tt = self.portal['portal_types']
+        self.assertIn(
+            'ploneintranet.network.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
+        self.assertNotIn(
+            'plone.app.dexterity.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
 
 
 class TestUninstall(IntegrationTestCase):
@@ -38,3 +43,20 @@ class TestUninstall(IntegrationTestCase):
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetNetworkLayer', layers)
+
+    def test_utility_removed(self):
+        from zope.component import queryUtility
+        from ploneintranet.network.interfaces import INetworkTool
+        self.assertIsNone(queryUtility(INetworkTool))
+
+    def test_tool_removed(self):
+        self.assertNotIn('ploneintranet_network', self.portal)
+
+    def test_dublincore_uninstalled(self):
+        tt = self.portal['portal_types']
+        self.assertNotIn(
+            'ploneintranet.network.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
+        self.assertIn(
+            'plone.app.dexterity.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)

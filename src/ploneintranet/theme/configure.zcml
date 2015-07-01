@@ -14,42 +14,36 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
-    <!-- A custom permission allowing us to restrict
-         certain views to logged in users -->
-    <permission
-        id="ploneintranet.viewsite"
-        title="Plone Intranet: View Site"
-        />
-
     <include package=".browser" />
-    <include package=".content" />
 
-    <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="Plone Intranet: -- (Theme)"
+        title="Plone Intranet: -- [Theme]"
         directory="profiles/default"
         description="Extension profile for ploneintranet.theme."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-    <genericsetup:importStep
-        name="ploneintranet.theme.configureFrontPage"
-        title="Delete default frontpage and configure dashboard as default"
-        description=""
-        handler="ploneintranet.theme.setuphandlers.configureFrontPage">
-    </genericsetup:importStep>
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- [Theme uninstall]"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.theme."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
 
     <plone:static
         directory="static"
         type="theme"
         name="ploneintranet.theme"
         />
-    <include package="z3c.jbot" file="meta.zcml" />
+
     <interface name="ploneintranet.theme"
         interface="ploneintranet.theme.interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
         />
+
+    <include package="z3c.jbot" file="meta.zcml" />
     <browser:jbot directory="static/overrides"
         layer=".interfaces.IThemeSpecific" />
 

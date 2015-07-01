@@ -11,9 +11,17 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Messaging)"
+      title="Plone Intranet: -- [Messaging]"
       directory="profiles/default"
       description="Installs the ploneintranet.messaging package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- [Messaging]"
+      directory="profiles/uninstall"
+      description="Uninstalls the ploneintranet.messaging package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

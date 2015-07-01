@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.userprofile"
+    interface="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+    remove="True"
+  />
+</layers>

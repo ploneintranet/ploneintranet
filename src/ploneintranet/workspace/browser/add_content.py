@@ -5,6 +5,7 @@ from plone import api
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet.theme import _
 from ploneintranet.theme.utils import dexterity_update
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify

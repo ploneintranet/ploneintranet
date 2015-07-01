@@ -7,11 +7,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 
-import collective.workspace
-import collective.z3cform.chosen
-import slc.docconv
-import collective.documentviewer
-
 
 class PloneIntranetSuite(PloneSandboxLayer):
 
@@ -27,37 +22,50 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
+        import collective.workspace
         self.loadZCML(package=collective.workspace)
         z2.installProduct(app, 'collective.workspace')
 
+        import ploneintranet.workspace
+        self.loadZCML(package=ploneintranet.workspace)
+
+        import collective.z3cform.chosen
         self.loadZCML(package=collective.z3cform.chosen)
 
+        import slc.docconv
         self.loadZCML(package=slc.docconv)
 
+        import collective.documentviewer
         self.loadZCML(package=collective.documentviewer)
 
         # plone social dependencies
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
-
-        import ploneintranet.activitystream
-        self.loadZCML(package=ploneintranet.activitystream)
-        import ploneintranet.network
-        self.loadZCML(package=ploneintranet.network)
-        import ploneintranet.messaging
-        self.loadZCML(package=ploneintranet.messaging)
-        import ploneintranet.core
-        self.loadZCML(package=ploneintranet.core)
-
         # Force microblog to disable async mode !!!
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
+        import ploneintranet.activitystream
+        self.loadZCML(package=ploneintranet.activitystream)
+
+        import ploneintranet.network
+        self.loadZCML(package=ploneintranet.network)
+
+        import ploneintranet.messaging
+        self.loadZCML(package=ploneintranet.messaging)
+
+        import ploneintranet.core
+        self.loadZCML(package=ploneintranet.core)
 
         z2.installProduct(app, 'collective.indexing')
         z2.installProduct(app, 'Products.membrane')
 
         import ploneintranet.search
         self.loadZCML(package=ploneintranet.search)
+
+        # WTF? AttributeError: 'module' object has no attribute 'startswith'
+        # import ploneintranet.library
+        # self.loadZCML(ploneintranet.library)
 
     def setUpPloneSite(self, portal):
         # setup the default workflow

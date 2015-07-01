@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<registry>
+    <records
+        interface="ploneintranet.themeswitcher.interfaces.IThemeSwitcherSettings">
+      <value key="enabled">True</value>
+      <value key="fallback_theme">barceloneta</value>
+      <value key="fallback_rules">/++theme++barceloneta/rules.xml</value>
+      <value key="fallback_absoluteprefix">/++theme++barceloneta</value>
+      <value key="hostname_switchlist">
+        <element>cms.localhost</element>
+      </value>
+      <value key="browserlayer_filterlist">
+        <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+        <element>ploneintranet.messaging.browser.interfaces.IPloneintranetMessagingLayer</element>
+        <element>ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer</element>
+        <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>
+        <element>ploneintranet.library.interfaces.ILibraryContentLayer</element>
+      </value>
+      <value key="fallback_enabled_bundles"></value>
+      <value key="fallback_disabled_bundles">
+        <element>ploneintranet</element>
+      </value>
+    </records>
+</registry>

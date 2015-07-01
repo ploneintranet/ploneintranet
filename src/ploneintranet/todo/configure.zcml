@@ -15,11 +15,25 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
-        title="Plone Intranet: -- (Todo)"
+        title="Plone Intranet: -- [Todo]"
         directory="profiles/default"
         description="Extension profile for ploneintranet.todo."
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- [Todo uninstall]"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.todo."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+  <genericsetup:importStep
+      name="ploneintranet.todo.uninstall"
+      title="Plone Intranet Todo: uninstall steps"
+      description="Various uninstall steps that are not handled by GS import/export handlers."
+      handler="ploneintranet.todo.uninstall.uninstall" />
 
     <include package="plone.behavior" file="meta.zcml" />
     <include package="plone.directives.form" />
@@ -68,7 +82,7 @@
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectModifiedEvent"
                 handler=".handlers.todo_set_role" />
-                
+
     <subscriber for=".behaviors.ITodoMarker
                      zope.lifecycleevent.interfaces.IObjectAddedEvent"
                 handler=".handlers.todo_set_role" />

@@ -6,6 +6,7 @@ from zope.interface import implementer
 from zope.interface import Invalid
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+from collective import dexteritytextindexer
 
 from plone import api as plone_api
 from plone.autoform.interfaces import IFormFieldProvider
@@ -19,23 +20,34 @@ from ploneintranet.userprofile import _
 
 class IUserProfile(form.Schema):
 
-    """User profile schema."""
+    """The core user profile schema.
 
+    Most of the plone intranet UI relies on these fields.
+    """
+
+    dexteritytextindexer.searchable('username')
     username = schema.TextLine(
         title=_(u"Username"),
         required=True
     )
+    dexteritytextindexer.searchable('first_name')
     first_name = schema.TextLine(
         title=_(u"First name"),
         required=True
     )
+    dexteritytextindexer.searchable('last_name')
     last_name = schema.TextLine(
         title=_(u"Last name"),
         required=True
     )
+    dexteritytextindexer.searchable('email')
     email = schema.TextLine(
         title=_(u"Email"),
         required=True
+    )
+    portrait = NamedBlobImage(
+        title=_(u"Photo"),
+        required=False
     )
 
 
@@ -78,10 +90,6 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Biography"),
         required=False
     )
-    photo = NamedBlobImage(
-        title=_(u"Photo"),
-        required=False
-    )
     job_title = schema.TextLine(
         title=_(u"Job title"),
         required=False
@@ -100,7 +108,16 @@ class UserProfile(Container):
 
     """UserProfile content type."""
 
-    pass
+    def Title(self):
+        return self.fullname
+
+    @property
+    def fullname(self):
+        names = [
+            self.first_name,
+            self.last_name,
+        ]
+        return u' '.join([name for name in names if name])
 
 
 class UsernameValidator(validator.SimpleFieldValidator):

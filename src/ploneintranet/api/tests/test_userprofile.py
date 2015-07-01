@@ -1,5 +1,4 @@
 from zope.interface import Invalid
-
 from plone import api as plone_api
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
@@ -80,3 +79,19 @@ class TestUserProfile(IntegrationTestCase):
         self.login('bobdoe')
         found = pi_api.userprofile.get_current()
         self.assertEqual(found, profile2)
+
+    def test_avatar_url(self):
+        self.login_as_portal_owner()
+        profile = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+            approve=True,
+        )
+
+        valid_url = pi_api.userprofile.avatar_url('janedoe')
+        self.assertTrue(
+            valid_url.startswith(profile.absolute_url())
+        )
+
+        missing_url = pi_api.userprofile.avatar_url('not-a-username')
+        self.assertIsNone(missing_url)

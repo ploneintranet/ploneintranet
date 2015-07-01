@@ -107,10 +107,10 @@ I go to the Service Announcements Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Service announcements
 
-I try go to the Open Market Committee Workspace
+I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I try go to the Minifest
+I can go to the Minifest
     Go To  ${PLONE_URL}/workspaces/minifest
 
 I am redirected to the login page
@@ -307,6 +307,27 @@ I can create a structure
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+
+I can create a new event
+    [arguments]  ${title}  ${start}  ${end}
+    Click link  Events
+    Click Link  Create event
+    Wait Until Page Contains Element  css=.panel-content form .panel-body
+    Input Text  css=.panel-content input[name=title]  text=${title}
+    Input Text  css=.panel-content input[name=start]  text=${start}
+    Input Text  css=.panel-content input[name=end]  text=${end}
+    Click Button  css=#form-buttons-create
+
+I can edit an event
+    [arguments]  ${title}  ${start}  ${end}
+    Reload Page
+    Click link  Events
+    Click Element  xpath=//h3[text()='Older events']
+    Click link  ${title}
+    Wait Until Page Contains Element  css=div.event-details
+    Input Text  css=div.event-details input[name=start]  text=${start}
+    Input Text  css=div.event-details input[name=end]  text=${end}
+    Click Button  Save
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s

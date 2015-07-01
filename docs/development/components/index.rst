@@ -5,7 +5,6 @@ Component Packages
 .. toctree::
     :maxdepth: 2
 
-    ploneintranet-api
     userprofiles
     microblogstream
     notifications
@@ -15,3 +14,4 @@ Component Packages
     filepreviews
     network
     pagerank
+    themeswitcher

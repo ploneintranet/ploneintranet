@@ -24,6 +24,26 @@ class TestLikeContent(unittest.TestCase):
         liking_users = self.container.get_likers("content", self.object_uuid)
         self.assertEqual(sorted(list(liking_users)), [self.userid])
 
+    def test_like_content_utf8(self):
+        userid = u'M♥rÿ@test.org'
+        self.container.like("content", self.object_uuid, userid, )
+        liked_items = self.container.get_likes("content", userid)
+        self.assertEqual(sorted(list(liked_items)), [self.object_uuid])
+        liking_users = self.container.get_likers("content", self.object_uuid)
+        self.assertEqual(sorted(list(liking_users)), [userid])
+
+    def test_utf8_args(self):
+        """BTree keys MUST be of type unicode. Check that the implementation
+        enforces this."""
+        g = NetworkGraph()
+        self.assertRaises(AttributeError, g.like, 'content', 1, '2')
+        self.assertRaises(AttributeError, g.like, 'content', '1', 2)
+        self.assertRaises(AttributeError, g.unlike, 'content', 1, '2')
+        self.assertRaises(AttributeError, g.unlike, 'content', '1', 2)
+        self.assertRaises(AttributeError, g.get_likes, 'content', 1)
+        self.assertRaises(AttributeError, g.get_likers, 'content', 1)
+        self.assertRaises(AttributeError, g.is_liked, 'content', 1, 2)
+
     def test_content_liked_by_two_users(self):
         self._like_content()
         self.container.like("content", self.object_uuid, 'cyclon@test.org', )

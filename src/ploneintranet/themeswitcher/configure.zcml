@@ -1,0 +1,48 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+    <!-- override plone.app.theming policy adapter -->
+    <adapter
+        factory=".policy.SwitchableThemingPolicy"
+        for="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
+        provides="ploneintranet.themeswitcher.interfaces.ISwitchableThemingPolicy"
+        />
+
+    <!-- remove browser layers and bundles if necessary -->
+    <subscriber
+        for="plone.app.layout.navigation.interfaces.INavigationRoot
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".policy.filter_request"
+        />
+
+   <genericsetup:registerProfile
+        name="default"
+        title="Plone Intranet: -- [Themeswitcher]"
+        description="Enables on-the-fly theme switching"
+        directory="profiles/default"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+   <genericsetup:registerProfile
+        name="testing"
+        title="Plone Intranet: -- [Themeswitcher: Testing]"
+        description="Installs testthemeA for test purposes"
+        directory="profiles/testing"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <plone:static
+        type="theme"
+        name="ploneintranet.themeswitcher.testthemeA"
+        directory="static/themeA"
+        />
+
+</configure>

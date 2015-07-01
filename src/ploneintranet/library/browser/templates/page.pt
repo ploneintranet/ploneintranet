@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <tal:comment condition="nothing">based on prototype/_site/synode/index.html</tal:comment>
+
+  <metal:content fill-slot="content">
+    <div class="container">
+      
+      <nav class="canvas-subnav">
+        <a tal:repeat="section view/sections"
+           tal:attributes="href section/absolute_url; class section/current"
+           tal:content="section/title">HR</a>
+      </nav>
+      
+      
+      <div class="lib-groups" id="lib-groups">
+        <div class="tile full-page">
+	  <article class="content cms-item pat-rich">
+	    <p class="page-function-bar">
+	      <a class="back" href="#"
+                 tal:define="parent view/parent"
+                 tal:attributes="href parent/absolute_url"
+                 tal:content="parent/title">
+                Excepturi sint occaecati</a>
+	      <a href="#" class="share icon-share"
+                 tal:condition="nothing">Share</a>
+	    </p>
+            
+	    <h1 class="title"
+                tal:content="context/title">Synode</h1>
+	    <!-- In case there are any tags for this page, then print the following type of list: -->
+	    <nav class="tag-cloud tags"
+                 tal:condition="nothing">
+	      <a href="/library-tag-mitgliederbeitraege.html"
+                 class="tag">Mitgliederbeiträge</a> 
+	      <a href="#" class="tag">Finanzplanung</a>
+	      <a href="#" class="tag">Statuten</a>
+	    </nav>
+            
+	    <p class="summary"
+               tal:content="context/description">
+	      Das katholische Kirchenparlament im Kanton Zürich.
+	    </p>
+            
+	    <div class="main-content"
+                 tal:condition="context/text|nothing"
+                 tal:content="structure context/text/output">
+              <p>body text</p>
+	    </div>
+	  </article>
+        </div>
+        
+        
+        <aside class="sibling-groups">
+	  <div class="tile group-by-section">
+	    <div class="content">
+	      <h3>
+	        <a href="#"
+                   tal:define="parent view/parent"
+                   tal:attributes="href parent/absolute_url"
+                   tal:content="parent/title">
+                  Excepturi sint occaecati
+                </a>
+	      </h3>
+	      <ul class="menu group-by-page">
+                <li tal:repeat="child view/siblings"
+                    tal:attributes="class child/follow">
+		  <a href="/synode"
+                     tal:attributes="href child/absolute_url"
+                     tal:content="child/title">Synode</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+          
+        </aside>
+
+      </div>
+  </metal:content>
+
+</html>

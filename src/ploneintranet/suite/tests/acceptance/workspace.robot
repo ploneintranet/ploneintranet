@@ -25,7 +25,7 @@ Manager can create a workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
-     when I try go to the Open Market Committee Workspace
+     when I can go to the Open Market Committee Workspace
      then I am redirected to the login page
 
 Breadcrumbs are not borked
@@ -118,6 +118,11 @@ Member can submit a document
      Then I can edit the document
      When I submit the content item
      Then I cannot edit the document
+
+Member can create an event
+    Given I am in a workspace as a workspace member
+     When I can create a new event  Christmas  2014-12-25  2014-12-26
+     Then I can edit an event  Christmas  2120-12-25  2121-12-26
 
 Member can submit and retract a document
     Given I am in a workspace as a workspace member
