@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <browser:page
+    name="document_view"
+    for="plone.app.contenttypes.interfaces.IDocument"
+    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+    template="templates/page.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="newsitem_view"
+    for="plone.app.contenttypes.interfaces.INewsItem"
+    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+    template="templates/page.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+</configure>

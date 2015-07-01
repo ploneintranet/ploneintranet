@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<layers>
+  <layer name="ploneintranet.layout.testing.layer"
+         interface="ploneintranet.layout.tests.utils.IMockLayer"/>
+</layers>

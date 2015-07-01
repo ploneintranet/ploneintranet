@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ploneintranet.network">
+
+
+  <browser:page
+      name="browser_layers"
+      for="*"
+      class=".utils.LayersView"
+      permission="zope2.View"
+      />
+
+   <genericsetup:registerProfile
+        name="testing"
+        title="Plone Intranet: -- [Layout: Testing]"
+        description="Installs test fixtures for ploneintranet.layout"
+        directory="../profiles/testing"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
+</configure>

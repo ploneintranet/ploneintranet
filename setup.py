@@ -70,6 +70,7 @@ setup(name='ploneintranet',
           'fake-factory',
           'collective.externaleditor >= 1.0.2',
           'tablib',
+          'collective.dexteritytextindexer',
       ],
       extras_require={
           'test': [

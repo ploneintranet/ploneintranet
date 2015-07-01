@@ -62,10 +62,10 @@
   <rules css:if-content="body.portaltype-event, 
                          body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
                          body.portaltype-ploneintranet-workspace-case.template-view, 
-                         body.portaltype-document, 
-                         body.portaltype-file, 
-                         body.portaltype-image, 
-                         body.portaltype-folder">
+                         body.app-workspace.portaltype-document, 
+                         body.app-workspace.portaltype-file, 
+                         body.app-workspace.portaltype-image, 
+                         body.app-workspace.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
@@ -108,9 +108,29 @@
     <append css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
-  <rules css:if-content="body.portaltype-ploneintranet-library-app">
+  <rules css:if-content="body.portaltype-ploneintranet-library-app,
+                         body.portaltype-ploneintranet-library-section,
+                         body.portaltype-ploneintranet-library-folder">
     <theme href="generated/library.html" />
-    <drop css:theme-children="#content" />
+    <replace css:theme="#content .container" 
+             css:content="#portal-column-content .container"/>
+    <!-- hide spurious breadcrumbs for now -->
+    <drop css:content="nav.breadcrumbs a:not(:first-child)" />
+    <!-- hide tags for now -->
+    <drop css:content="#viewlet-below-content #category" />
+  </rules>
+  <rules css:if-content="body.app-library.portaltype-document,
+                         body.app-library.portaltype-news-item,
+                         body.app-library.portaltype-link
+                         body.app-library.portaltype-image,
+                         body.app-library.portaltype-file">
+    <theme href="generated/synode/index.html" />
+    <replace css:theme="#content .container" 
+             css:content="#portal-column-content .container"/>
+    <!-- hide spurious breadcrumbs for now -->
+    <drop css:content="nav.breadcrumbs a:not(:first-child)" />
+    <!-- hide tags for now -->
+    <drop css:content="#viewlet-below-content #category" />
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->
@@ -121,7 +141,7 @@
            css:if-content="#visual-portal-wrapper" />
 
 
-  <notheme css:if-content="body.diazo-off"/>
+  <notheme css:if-content="body.diazo.off"/>
 
   <!-- These 3 rules are only needed untill these functionalities will be complete -->
   <drop css:theme="header #buddies-toggle" />

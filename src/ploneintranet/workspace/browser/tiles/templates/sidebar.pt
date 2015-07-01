@@ -463,7 +463,7 @@ Supported types include (class names):
                             i18n:attributes="placeholder workspace_brief_description"
                             data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
                 </label>
-                <fieldset class="pat-checklist">
+                <!-- fieldset class="pat-checklist">
                   <label>
                     <input type="checkbox"
                            name="calendar_visible"
@@ -473,7 +473,7 @@ Supported types include (class names):
                            data-pat-autosubmit="delay: 100ms"/>
                     <span tal:omit-tag="" i18n:translate="">Workspace calendar visible in central calendar application</span>
                   </label>
-                </fieldset>
+                </fieldset-->
               </fieldset>
             </form>
           </div>

@@ -1,0 +1,54 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="ploneintranet">
+
+  <include package="plone.tiles" file="meta.zcml" />
+
+  <!-- Provides markup around the Dexterity Add/Edit forms -->
+  <adapter factory=".formwrapper.layout_factory" />
+
+  <!-- set 'app-whatever' body class -->
+  <browser:page
+      name="plone_layout"
+      for="*"
+      permission="zope.Public"
+      class=".policy.LayoutPolicy"
+      allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ISubmitWidget"
+      layer="ploneintranet.layout.interfaces.IPloneintranetFormLayer"
+      template="templates/submit_input.pt"
+      />
+
+  <browser:page
+      name="dashboard.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".dashboard.Dashboard"
+      permission="ploneintranet.viewsite"
+      template="templates/dashboard.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <plone:tile
+      name="tasks.tile"
+      title="A title for the tasks"
+      description="My tile's description"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.TasksTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+
+</configure>

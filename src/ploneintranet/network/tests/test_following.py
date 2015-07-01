@@ -15,6 +15,12 @@ class TestFollowing(IntegrationTestCase):
         g.follow('user', 'bernard', 'alex')  # alex follows bernard
         self.assertEqual(['bernard'], list(g.get_following('user', 'alex')))
 
+    def test_user_follow_utf8(self):
+        g = NetworkGraph()
+        g.follow('user', 'bernard ☀', 'alex ☃')  # alex follows bernard
+        self.assertEqual(
+            [u'bernard ☀'], list(g.get_following('user', u'alex ☃')))
+
     def test_user_follow_following(self):
         g = NetworkGraph()
         g.follow('user', 'bernard', 'alex')
@@ -53,16 +59,16 @@ class TestFollowing(IntegrationTestCase):
         self.assertFalse(g.is_followed('user', 'caroline', 'alex'))
         self.assertFalse(g.is_followed('tag', 'bernard', 'alex'))
 
-    def test_string_args(self):
-        """BTree keys MUST be of same type. Check that the implementation
+    def test_utf8_args(self):
+        """BTree keys MUST be of type unicode. Check that the implementation
         enforces this."""
         g = NetworkGraph()
-        self.assertRaises(AssertionError, g.follow, 'user', 1, '2')
-        self.assertRaises(AssertionError, g.follow, 'user', '1', 2)
-        self.assertRaises(AssertionError, g.unfollow, 'user', 1, '2')
-        self.assertRaises(AssertionError, g.unfollow, 'user', '1', 2)
-        self.assertRaises(AssertionError, g.get_following, 'user', 2)
-        self.assertRaises(AssertionError, g.get_followers, 'user', 2)
+        self.assertRaises(AttributeError, g.follow, 'user', 1, '2')
+        self.assertRaises(AttributeError, g.follow, 'user', '1', 2)
+        self.assertRaises(AttributeError, g.unfollow, 'user', 1, '2')
+        self.assertRaises(AttributeError, g.unfollow, 'user', '1', 2)
+        self.assertRaises(AttributeError, g.get_following, 'user', 2)
+        self.assertRaises(AttributeError, g.get_followers, 'user', 2)
 
     def test_content_follow_unfollow_following(self):
         g = NetworkGraph()

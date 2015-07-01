@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layers>
+  <layer name="ploneintranet.layout"
+         interface="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"/>
+  <layer name="ploneintranet.content"
+         interface="ploneintranet.layout.interfaces.IPloneintranetContentLayer"/>
+  <layer name="ploneintranet.form"
+         interface="ploneintranet.layout.interfaces.IPloneintranetFormLayer" />
+</layers>
