@@ -128,6 +128,11 @@ Member can submit and retract a document
      When I retract the content item
      Then I can edit the document
 
+Member can tag a document
+    Given I am in a workspace as a workspace member
+     When I can create a new document    My tagged document
+     Then I can select an existing tag for the current object
+
 Member can publish a document in a Publishers workspace
     Given I am in a workspace as a workspace member
      When I can create a new document    My publishing document

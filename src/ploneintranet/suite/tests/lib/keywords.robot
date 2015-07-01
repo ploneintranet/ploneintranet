@@ -248,7 +248,7 @@ I can create a new document
     Click link  Documents
     Click link  Functions
     Click link  Create document
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
@@ -307,6 +307,15 @@ I can create a structure
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+
+I can select an existing tag for the current object
+    Click Link  Toggle extra metadata
+    Input Text  css=#s2id_autogen2  text=Ra
+    Click Element  xpath=//div[.='Rain']
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Link  Toggle extra metadata
+    Wait Until Element Is Visible  xpath=//div[.='Rain']
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
