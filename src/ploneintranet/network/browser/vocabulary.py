@@ -14,6 +14,8 @@ from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
 from plone.app.content.browser.vocabulary import _permissions as base_perms
+from plone.app.content.utils import json_dumps
+from plone.app.content.utils import json_loads
 
 from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
 
@@ -103,3 +105,18 @@ class PersonalizedVocabularyView(BaseVocabularyView):
             vocabulary = factory(context)
 
         return vocabulary
+
+    def __call__(self):
+        """ Extract the value for "results" from the JSON string returned from
+        the default @@getVocabulary view, so that it can be used by
+        pat-autosuggest.
+        """
+        vocab_json = super(PersonalizedVocabularyView, self).__call__()
+        if self.request.get('resultsonly', False):
+            if vocab_json:
+                vocab_obj = json_loads(vocab_json)
+                results = vocab_obj.get('results')
+                if results:
+                    return json_dumps(results)
+        else:
+            return vocab_json
