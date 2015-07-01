@@ -44,30 +44,39 @@ class ISiteSearch(Interface):
 class ISearchResult(Interface):
     """Defines a common API for search results."""
 
-    title = schema.TextLine(title=_(u'The title of the indexed document'))
+    title = schema.TextLine(title=_(u'The title of this search result'))
 
     description = schema.TextLine(
-        title=_(u'The description of the indexed document'))
+        title=_(u'The description of this search result'))
+
+    contact_email = schema.TextLine(
+        title=_(u'A contact email address for this search result'))
+
+    contact_telephone = schema.TextLine(
+        title=_(u'The description of this search result'))
+
+    portal_type = schema.TextLine(
+        title=_(u'The portal type of this search result'))
 
     friendly_type_name = schema.TextLine(
-        title=_(u'The friendly type name of content of the indexed document'))
+        title=_(u'The friendly label for the type of search result'))
 
     highlighted_summary = schema.Text(
-        title=_(u'A highlighted summary provided by the backend'))
+        title=_(u'A highlighted summary of this search result'))
 
     preview_image_path = schema.ASCIILine(
-        title=_(u'The relative path to the stored preview image of'
-                u'the canonical document'))
+        title=_(u'The relative path to a preview image'
+                u'representing this search result'))
 
     preview_image_url = schema.ASCIILine(
         title=_(u'The absolute URL for a preview image '
-                u'generated for the indexed document'))
+                u'representing search result'))
 
     path = schema.ASCIILine(
-        title=_(u'The relative path to the canonical document'))
+        title=_(u'The relative path to the content for this search result'))
 
     url = schema.ASCIILine(
-        title=_(u'The absolute URL of the indexed document '
+        title=_(u'The absolute URL to the content for this search result '
                 u'based on the path and the host in the current request'))
 
 

@@ -378,7 +378,10 @@ class Sidebar(BaseTile):
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
-                url=url
+                url=url,
+                creator=api.user.get(username=r['Creator']),
+                modified=r['modified'],
+                subject=r['Subject']
             ))
         return results
 

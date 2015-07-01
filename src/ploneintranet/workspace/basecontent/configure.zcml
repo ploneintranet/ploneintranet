@@ -1,0 +1,76 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           ploneintranet.workspace.interfaces.IWorkspaceAppFormLayer
+           plone.dexterity.interfaces.IDexterityFTI"
+      factory=".document.AddView"
+      name="Document"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      />
+
+  <browser:page
+      for="plone.app.contenttypes.interfaces.IDocument"
+      name="edit"
+      class=".document.EditView"
+      permission="cmf.ModifyPortalContent"
+      layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+      />
+
+  <browser:page
+    name="listing_view"
+    for="plone.app.contenttypes.interfaces.IFolder"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="document_view"
+    for="plone.app.contenttypes.interfaces.IDocument"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="file_view"
+    for="plone.app.contenttypes.interfaces.IFile"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="image_view"
+    for="plone.app.contenttypes.interfaces.IImage"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="event_view"
+    for="plone.event.interfaces.IEvent"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/event_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <adapter factory=".widgets.PatDatePickerConverter" />
+  <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
+  <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+
+</configure>

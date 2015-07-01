@@ -24,6 +24,7 @@
   <element value="dexterity.membrane.behavior.membraneuser.IMembraneUser" />
   <element value="dexterity.membrane.behavior.membranepassword.IProvidePasswords"/>
   <element value="ploneintranet.userprofile.content.userprofile.IUserProfileAdditional"/>
+  <element value="collective.dexteritytextindexer.behavior.IDexterityTextIndexer" />
  </property>
  <!-- DO NOT use a model_source or it removes manually added fields while reapplying the profile -->
  <!--property name="model_source" /-->

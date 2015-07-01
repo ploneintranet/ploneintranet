@@ -1,0 +1,14 @@
+<html>
+<body>
+<nav class="navigation workspace-tabs" id="workspace-tabs">
+    <a class="documents pat-switch current" data-pat-switch="#content mode-* mode-c" href="#workspace-documents" title=
+    "Documents" i18n:attributes="title" i18n:translate="">Documents</a> 
+    <a class="events pat-switch" data-pat-switch="#content mode-* mode-c" href=
+    "#workspace-events" title="Events" i18n:attributes="title" i18n:translate="">Events</a> 
+    <a class="todos pat-switch " data-pat-switch="#content mode-* mode-c" href="#workspace-tickets"
+    title="Tasks" i18n:attributes="title" i18n:translate="">Tasks</a> 
+    <a class="about pat-switch" data-pat-switch="#content mode-* mode-c" href="#workspace-about"
+    title="About this project" i18n:attributes="title" i18n:translate="">Workspace settings and about</a> 
+</nav>
+</body>
+</html>

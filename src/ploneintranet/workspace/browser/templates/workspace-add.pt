@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+<head>
+</head>
+<body class="diazo-off">
+  <div id="content">
+
+    <div id="document-content" class="pat-modal">
+      <h1 i18n:translate="">
+        Create workspace
+      </h1>
+    
+      <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validate" name="workspace-add" id="workspace-add"
+        tal:attributes="action string:${context/absolute_url}/add_content">    
+    
+        <div class="panel-body">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+            </label>
+            <label>
+              <select name="portal_type">
+                <option value="ploneintranet.workspace.workspacefolder" i18n:translate="">Regular workspace</option>
+                <option value="ploneintranet.workspace.case" i18n:translate="">Case</option>
+              </select>
+            </label>
+
+            </fieldset>
+            <fieldset tal:define="wfs view/workflows" class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
+              <label >
+                <span tal:omit-tag="" i18n:translate="">Pick a Workflow</span>
+                <select name="workflow" tal:condition="python: len(wfs) > 6">
+                  <tal:r tal:repeat="wf view/workflows">
+                    <option tal:content="wf/title" tal:attributes="value wf/id">workflow</option>
+                  </tal:r>
+                </select>
+
+                <fieldset class="group pat-checklist radio" tal:condition="python: 6 >= len(wfs) ">
+                    <label tal:repeat="wf view/workflows"><input type="radio" name="workflow"  checked="checked" tal:attributes="value wf/id"/>${wf/title}</label>
+                </fieldset>
+              </label>
+            </fieldset>
+
+            <fieldset class="pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
+              <fieldset class="pat-checklist radio pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
+                <label><input type="radio" value="1" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Locked down, secret workspace</span></label>
+                <label><input type="radio" value="2" checked name="scenario" /> <span tal:omit-tag="" i18n:translate="">Self-managed, private teamspace</span></label>
+                <label><input type="radio" value="3" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Open community</span></label>
+              </fieldset>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=1" i18n:translate="">
+                The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=2" i18n:translate="">
+                The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=3" i18n:translate="">
+                Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+              </p>
+              <p class="pat-well notice" i18n:translate="">
+                You can always change these settings later via the security control panel in the workspace.
+              </p>
+            </fieldset>
+        </div>
+        
+        <div class="buttons panel-footer">
+                                    
+          <button name="save" type="submit" class="icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>                    
+          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>                    
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>  
+    </div>
+</body>
+</html>
+

@@ -17,6 +17,7 @@
   <include package="ploneintranet.activitystream" />
   <include package="ploneintranet.microblog" />
 
+
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
       title="ploneintranet.workspace: Manage workspace">
@@ -25,8 +26,9 @@
     <role name="TeamManager" />
   </permission>
 
-  <include package=".browser" />
+  <include package=".basecontent" />
   <include package=".behaviors" />
+  <include package=".browser" />
 
   <include file="indexers.zcml" />
 
@@ -137,7 +139,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- (Workspace)"
+      title="Plone Intranet: -- [Workspace]"
       directory="profiles/default"
       description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -154,7 +156,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- (Workspace uninstall)"
+      title="Plone Intranet: -- [Workspace uninstall]"
       directory="profiles/uninstall"
       description="Workspace for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"

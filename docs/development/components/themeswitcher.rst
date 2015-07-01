@@ -22,9 +22,8 @@ In Plone 5, the theming implementation has changed in ways that make theme switc
    support theme switching have been merged and released.
 
 
--------------------------
 How theme switching works
--------------------------
+=========================
 
 Theme switching is implemented based on host name. Out of the box,
 if you run Plone Intranet on localhost:8080/Plone you will be able to
@@ -62,7 +61,7 @@ All of these records are described in ``ploneintranet/themeswitcher/interfaces.p
 
 
 Theming Policy
-==============
+--------------
 
 To support theme switching, in ``plone.app.theming`` we've introduced a ``ThemingPolicy`` API that is called as an adapter on ``request``. In ``ploneintranet.themeswitcher`` a custom policy adapter is registered::
 
@@ -79,7 +78,7 @@ Note that this is a normal ZCA registration in ``configure.zcml``, which is suff
 Our custom policy adapter subclasses the default policy.
 
 Settings
-========
+--------
 
 Normally, theme settings are stored in the ZODB in the form of registry records.
 Because the registry is not layered, that means the original Barceloneta records
@@ -100,7 +99,7 @@ in pdb, the theme settings for a default Barcelonta site, with the values return
 for a Plone Intranet themed site. YMMV.
 
 Hostname Switching
-------------------
+^^^^^^^^^^^^^^^^^^
 
 A special helper method decides whether to return the normal settings or the
 fallback settings, based on the hostname contained in the request.
@@ -108,7 +107,7 @@ fallback settings, based on the hostname contained in the request.
 You can configure hostnames that activate the fallback theme via GenericSetup.
 
 Development mode switching
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Additionally, when running in development mode you can trigger a theme fallback
 by setting ``?themeswitcher.fallback=1`` on the URL. That does not propagate
@@ -117,7 +116,7 @@ a /etc/hosts alias for ``cms.localhost`` and accessing your site on cms.localhos
 if you want to work with the fallback theme.
 
 Cookie switching
-----------------
+^^^^^^^^^^^^^^^^
 
 In theory we could also switch based on a cookie value in the request.
 The downside of that is, that you start serving differently themed pages
@@ -128,7 +127,7 @@ such caching conflicts.
 
 
 Request Mangler
-===============
+---------------
 
 In addition to the settings switching described above, we also need to manipulate
 the request object to get Barceloneta to work properly.
@@ -153,9 +152,8 @@ This handler delegates to a method on the theming policy, that:
 Both the browser layers to be removed and the bundle disabling can be
 configured via GenericSetup.
 
-------------------------------------
 Re-using ploneintranet.themeswitcher
-------------------------------------
+====================================
 
 ``ploneintranet.themeswitcher`` has been set up as a generically re-usable
 package. It has no dependencies on the rest of the ploneintranet stack.

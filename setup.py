@@ -69,6 +69,7 @@ setup(name='ploneintranet',
           'collective.workspace',
           'fake-factory',
           'collective.externaleditor >= 1.0.2',
+          'collective.dexteritytextindexer',
       ],
       extras_require={
           'test': [

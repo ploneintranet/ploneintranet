@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="ploneintranet">
+
+<body>
+
+    <metal:content metal:fill-slot="content"
+        tal:define="workspace python:view.workspace;
+                    workspace_url python:workspace.absolute_url();
+                    workspace_id python:workspace.id;
+                    read_only python:not view.can_edit">
+    <div id="content" 
+         tal:define="type workspace/ws_type | string:workspace;" 
+         tal:attributes="class string:application page-type-${type} workspace-type-${type}">
+
+        <h1 id="workspace-name">
+            <!-- Next link is to lead to landing state of current workspace -->
+            <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+        </h1>
+
+        <div class="${workspace_id} dark-theme" id="application-body">
+
+            <div id="document-body">
+                <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#document-body">
+                    <div class="metadata pat-bumper" id="meta">
+                        <div class="meta-bar">
+                            <h1 class="doc-title" id="document-title" tal:content="context/title">
+                                Traces through Time data workshop
+                            </h1>
+                            <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
+                            <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${python:context.__parent__.title}</button>
+                            <input type="text" name="title" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                            <div class="quick-functions">
+                                <a href="#confirm-delete" class="icon-trash iconified" title="Delete this event" i18n:attributes="title" i18n:translate="">
+                                    Delete
+                                </a>
+                                <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
+                                    Attachments
+                                </a>
+                                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
+                                <!-- <a href="" class="icon-copy iconified" title="Copy this document">
+                                    Copy
+                                </a>
+                                <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">
+                                    Share
+                                </a>
+                                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
+                                <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                                    <label class="pat-select bare" title="Change the workflow state">
+                                        <select>
+                                            <option>Private</option>
+                                            <option>Public</option>
+                                            <option>Members</option>
+                                            <option>Pending</option>
+                                            <option>Logged in</option>
+                                            <option>Internal</option>
+                                            <option>External</option>
+                                        </select>
+                                    </label>
+                                </fieldset -->
+                                <!--
+                 -->
+                                <button type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
+
+                            </div>
+                        </div>
+                        <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                            <!-- <fieldset class="bar">
+                                <input type="text" class="pat-autosuggest" placeholder="Tags" />
+                            </fieldset> -->
+                            <fieldset class="bar description">
+                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                             </fieldset>
+
+                            <!-- <fieldset class="bar versioning">
+                                <label>
+                                    <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                                </label>
+                                <fieldset class="condensed pat-depend new-version-details" data-pat-depend="cmfeditions_save_new_version">
+                                    <label>Upload a new file
+                                        <input type="file" name="file_file">
+                                    </label>
+                                    <label>
+                                        <textarea placeholder="Change notes" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4"></textarea>
+                                    </label>
+
+                                    <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                                </fieldset>
+                            </fieldset> -->
+                        </fieldset>
+                    </div>
+                    <div id="document-content">
+                      <div class="document event-details">
+                        <fieldset class="vertical fancy">
+                          <metal:task_fields use-macro="context/content_macros/event_fields" />
+                        </fieldset>
+                      </div>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
+            </aside>
+
+        </div>
+
+        <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+    </div>
+
+    </metal:content>
+</body>
+</html>

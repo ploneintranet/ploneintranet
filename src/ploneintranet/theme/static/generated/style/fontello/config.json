@@ -1079,6 +1079,12 @@
       "src": "elusive"
     },
     {
+      "uid": "f8b0d36761ba4c7e51d0af49d3386713",
+      "css": "resize-vertical",
+      "code": 59509,
+      "src": "elusive"
+    },
+    {
       "uid": "baa375529925294ea0a2bc889c93ba2d",
       "css": "picture",
       "code": 127748,
@@ -1106,6 +1112,12 @@
       "uid": "d30928620bda0d5eaa85d3b65bf19963",
       "css": "right-circle",
       "code": 58530,
+      "src": "websymbols"
+    },
+    {
+      "uid": "50ae91f6ed0e10a5e9eec6c63afedfb5",
+      "css": "updown-circle",
+      "code": 59510,
       "src": "websymbols"
     }
   ]

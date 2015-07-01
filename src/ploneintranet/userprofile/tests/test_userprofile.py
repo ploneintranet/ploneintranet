@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
+import os
+
 from zExceptions import NotFound
 from AccessControl import Unauthorized
 from plone import api
+from plone.namedfile import NamedBlobImage
+from ZPublisher.Iterators import IStreamIterator
 
 from ploneintranet.userprofile.tests.base import BaseTestCase
 from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import MyProfileView
+from ploneintranet.userprofile.browser.userprofile import AvatarView
+
+
+TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
 
 class TestUserProfileBase(BaseTestCase):
@@ -18,7 +26,10 @@ class TestUserProfileBase(BaseTestCase):
             container=self.profiles,
             type='ploneintranet.userprofile.userprofile',
             id='johndoe',
-            username='johndoe')
+            username='johndoe',
+            first_name='John',
+            last_name='Doe',
+        )
         api.content.transition(self.profile1, 'approve')
         self.profile1.reindexObject()
 
@@ -26,7 +37,10 @@ class TestUserProfileBase(BaseTestCase):
             container=self.profiles,
             type='ploneintranet.userprofile.userprofile',
             id='janedoe',
-            username='janedoe')
+            username='janedoe',
+            first_name='Jane',
+            last_name='Doe',
+        )
         api.content.transition(self.profile2, 'approve')
         self.profile2.reindexObject()
 
@@ -46,12 +60,20 @@ class TestUserProfileView(TestUserProfileBase):
         self.assertFalse(profile_view.is_me())
         self.logout()
 
-    def test_avatar_url(self):
+    def test__user_details(self):
+        self.login(self.profile1.username)
         profile_view = UserProfileView(self.profile1, self.request)
-        url = profile_view.avatar_url()
-        # No profile data by default
-        # Avatar lookup is properly tested in ploneintranet.api
-        self.assertIsNone(url)
+        details = profile_view._user_details([
+            self.profile1.username,
+            self.profile2.username,
+        ])
+        self.assertEqual(len(details), 2)
+        self.assertEqual(
+            details[0]['title'], self.profile1.fullname,
+        )
+        self.assertEqual(
+            details[1]['title'], self.profile2.fullname,
+        )
 
 
 class TestAuthorView(TestUserProfileBase):
@@ -90,3 +112,18 @@ class TestMyProfileView(TestUserProfileBase):
 
         with self.assertRaises(Unauthorized):
             myprofile_view()
+
+
+class TestAvatarView(TestUserProfileBase):
+
+    def test__get_avatar_data(self):
+        avatar_file = open(
+            os.path.join(os.path.dirname(__file__),
+                         TEST_AVATAR_FILENAME), 'r')
+        self.profile1.portrait = NamedBlobImage(
+            data=avatar_file.read(),
+            filename=TEST_AVATAR_FILENAME)
+
+        avatar_view = AvatarView(self.profile1, self.request)
+        data = avatar_view()
+        self.assertTrue(IStreamIterator.providedBy(data))

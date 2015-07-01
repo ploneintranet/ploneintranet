@@ -11,6 +11,7 @@
     <adapter
         factory=".policy.SwitchableThemingPolicy"
         for="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
+        provides="ploneintranet.themeswitcher.interfaces.ISwitchableThemingPolicy"
         />
 
     <!-- remove browser layers and bundles if necessary -->
@@ -22,7 +23,7 @@
 
    <genericsetup:registerProfile
         name="default"
-        title="Plone Intranet: -- (Themeswitcher)"
+        title="Plone Intranet: -- [Themeswitcher]"
         description="Enables on-the-fly theme switching"
         directory="profiles/default"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -31,7 +32,7 @@
 
    <genericsetup:registerProfile
         name="testing"
-        title="Plone Intranet: -- (Themeswitcher: Testing)"
+        title="Plone Intranet: -- [Themeswitcher: Testing]"
         description="Installs testthemeA for test purposes"
         directory="profiles/testing"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

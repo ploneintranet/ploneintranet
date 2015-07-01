@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
   <head>
   </head>
@@ -54,7 +54,7 @@
                    name="form.button.SearchUsers"
                    value="Search users"
                    class="searchButton allowMultiSubmit"
-                   i18n:attributes="value label_search"
+                   i18n:attributes="value label_search_users"
                    />
           </div>
 	</form>
@@ -71,8 +71,8 @@
               <thead metal:define-macro="edit-roster-head" id="edit-roster-head">
                 <tr>
                   <th i18n:translate="label_name">Name</th>
-                  <th class="nosort">Member</th>
-                  <th class="nosort">Workspace Admin</th>
+                  <th class="nosort" i18n:translate="">Member</th>
+                  <th class="nosort" i18n:translate="">Workspace Admin</th>
                 </tr>
               </thead>
 
@@ -164,23 +164,23 @@
 
         <tal:admin condition="can_manage_workspace">
           <hr />
-          <h2>Advanced</h2>
+          <h2 i18n:translate="">Advanced</h2>
           <p>
             <a tal:attributes="href string:${context/absolute_url}/@@invite" 
-               class="pat-modal">
+               class="pat-modal" i18n:translate="">
               Invite users to this workspace (via email)
             </a>
           </p>
 
           <p>
             <a tal:attributes="href string:${context/absolute_url}/@@transfer" 
-               class="pat-modal">
+               class="pat-modal" i18n:translate="">
               Transfer members to another workspace.
             </a>
           </p>
 
           <p>
-            <a tal:attributes="href string:${context/absolute_url}/@@sharing">
+            <a tal:attributes="href string:${context/absolute_url}/@@sharing" i18n:translate="">
               Advanced permissions
             </a>
           </p>

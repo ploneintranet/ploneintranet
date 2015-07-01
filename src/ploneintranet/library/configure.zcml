@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet">
+
+  <include package=".browser" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- Library"
+      directory="profiles/default"
+      description="Library for PloneIntranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- Library uninstall"
+      directory="profiles/uninstall"
+      description="Uninstall Library for PloneIntranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>
