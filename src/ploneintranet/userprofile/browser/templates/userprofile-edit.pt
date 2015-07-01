@@ -10,22 +10,32 @@
         <metal:content fill-slot="main">
 
 	    <form method="POST" id="user-edit-form"
-		  action="${context/absolute_url}/@@edit">
+		  action="${context/absolute_url}/@@edit"
+		  enctype="multipart/form-data">
 		<fieldset class="section horizontal">
-		    <tal:field tal:repeat="fieldname view/fields_for_edit">
-			<label tal:define="widget nocall:view/form_instance/widgets/?fieldname">
-			    <span tal:replace="widget/label" />
-			    <input tal:replace="structure widget/render" />
+		    <tal:field tal:repeat="field view/fields_for_edit">
+			<label title="${field/description}">
+			    <span tal:replace="field/label" />
+			    <div class="composed"
+				 tal:condition="field/read_only">
+				<input tal:replace="structure field/html" />
+			    </div>
+			    <input tal:condition="not:field/read_only"
+				   tal:replace="structure field/html" />
 			</label>
+			<section class="help" 
+				 tal:condition="field/error_html">
+			    <div class="pat-message notice" 
+				 tal:content="structure field/error_html" />
+			</section>
 		    </tal:field>
-		<p>
-		    <input type="submit" 
-			   i18n:attributes="value"
-			   value="Save" 
-			   name="form.buttons.save" />
-		</p>
+		    <p>
+			<input type="submit" 
+			       i18n:attributes="value"
+			       value="Save" 
+			       name="form.buttons.save" />
+		    </p>
 	    </form>
-
 
 	</metal:content>
     </body>

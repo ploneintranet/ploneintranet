@@ -135,14 +135,60 @@ class AvatarView(BrowserView):
             return None
 
 
+class UserProfileEditForm(edit.DefaultEditForm):
+
+    """Custom user profile editing form allowing field visibility
+    to be controlled via registry settings
+    """
+
+    def _hidden_fields(self):
+        # Portrait is always hidden from this edit page
+        hidden_fields = ['portrait', ]
+        return hidden_fields
+
+    def _read_only_fields(self):
+        read_only_fields = ['username', 'email', ]
+        return read_only_fields
+
+    def updateFields(self):
+        """Remove hidden fields from the form"""
+        super(UserProfileEditForm, self).updateFields()
+        hidden_fields = self._hidden_fields()
+        for hidden_field in hidden_fields:
+            self.fields = self.fields.omit(hidden_field)
+
+    def updateWidgets(self):
+        """Update widgets for read only fields"""
+        super(UserProfileEditForm, self).updateWidgets()
+        read_only_fields = self._read_only_fields()
+        for fieldname, widget in self.widgets.items():
+            if fieldname in read_only_fields:
+                widget.mode = 'display'
+
+
 class UserProfileEditView(edit.DefaultEditView):
 
+    """Custom profile edit page that renders the edit form
+    using prototype-compatible markup"""
+
+    form = UserProfileEditForm
     index = ViewPageTemplateFile('templates/userprofile-edit.pt')
 
     def fields_for_edit(self):
-        HIDDEN_FIELDS = []
-
-        all_fieldnames = self.form_instance.widgets.keys()
-        fieldnames = [x for x in all_fieldnames
-                      if x not in HIDDEN_FIELDS]
-        return fieldnames
+        """Helper method to get widgets for the template"""
+        fields = []
+        for field_name in self.form_instance.widgets.keys():
+            widget = self.form_instance.widgets[field_name]
+            if widget.error:
+                error_html = widget.error.render()
+            else:
+                error_html = None
+            fields.append({
+                'label': widget.label,
+                'description': widget.field.description,
+                'read_only': widget.mode == 'display',
+                'html': widget.render(),
+                'error_html': error_html,
+                'raw': widget.value,
+            })
+        return fields
