@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+ <property
+    name="title">Contains workflow definitions for your portal</property>
+ <object name="simple_intranet_workflow" meta_type="Workflow"/>
+ <bindings>
+  <default>
+   <bound-workflow workflow_id="simple_intranet_workflow"/>
+  </default>
+  <type type_id="File">
+   <bound-workflow workflow_id="(Default)"/>
+  </type>
+ </bindings>
+</object>

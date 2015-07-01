@@ -7,7 +7,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
-  <include package="plone.app.portlets" />
   <include package="collective.workspace" />
   <include package="ploneintranet.layout" file="permissions.zcml" />
   <include package=".tiles" />
@@ -145,15 +144,6 @@
       template="templates/sharingviewlet.pt"
       permission="ploneintranet.workspace.ManageWorkspace"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
-
-  <plone:portlet
-      name="portlets.RosterPortlet"
-      interface=".portlets.IRosterPortlet"
-      assignment=".portlets.Assignment"
-      renderer=".portlets.Renderer"
-      addview=".portlets.AddForm"
-      editview=".portlets.EditForm"
       />
 
    <browser:page

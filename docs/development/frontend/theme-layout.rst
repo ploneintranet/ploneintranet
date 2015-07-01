@@ -58,6 +58,7 @@ To register a browser layer that is only active within a specific app container:
 - subclass your layer from ``ploneintranet.layout.interfaces.IAppLayer``
 - mark your app container as providing ``ploneintranet.layout.interfaces.IAppContainer``
 - implement ``IAppContainer`` on your app container, which requires:
+  - set ``app_name`` = 'myname'``
   - set ``app_layers = (yourcustomlayer,)``
   - call ``register_app_hook()`` on ``__init__()``
 
