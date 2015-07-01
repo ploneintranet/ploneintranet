@@ -9,8 +9,6 @@ from plone import api as plone_api
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
-from ploneintranet.userprofile.content.userprofile import \
-    primaryLocationVocabulary
 from ploneintranet.userprofile.browser.forms import get_fields
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 
@@ -29,15 +27,6 @@ class UserProfileView(UserProfileViewForm):
         """Does this user profile belong to the current user"""
         return self.context.username == \
             plone_api.user.get_current().getUserName()
-
-    def primary_location(self):
-        """Get context's location using vocabulary."""
-        vocabulary = primaryLocationVocabulary(self.context)
-        token = self.context.primary_location
-        if vocabulary and token:
-            return vocabulary.getTermByToken(token).title
-        else:
-            return ''
 
     def following(self):
         """Users this profile is following"""
