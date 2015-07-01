@@ -30,7 +30,8 @@ class AbstractAppContainer(object):
 
     """
 
-    # layer = 'missing'  # implement in your concrete subclass
+    app_name = 'abstract'  # implement in concrete subclass
+    app_layers = ()  # implement in your concrete subclass
 
     def __init__(self, *args, **kwargs):
         super(AbstractAppContainer, self).__init__(*args, **kwargs)

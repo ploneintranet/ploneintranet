@@ -19,6 +19,15 @@ class TestInstall(IntegrationTestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetNetworkLayer', layers)
 
+    def test_dublincore_installed(self):
+        tt = self.portal['portal_types']
+        self.assertIn(
+            'ploneintranet.network.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
+        self.assertNotIn(
+            'plone.app.dexterity.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
+
 
 class TestUninstall(IntegrationTestCase):
 
@@ -42,3 +51,12 @@ class TestUninstall(IntegrationTestCase):
 
     def test_tool_removed(self):
         self.assertNotIn('ploneintranet_network', self.portal)
+
+    def test_dublincore_uninstalled(self):
+        tt = self.portal['portal_types']
+        self.assertNotIn(
+            'ploneintranet.network.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)
+        self.assertIn(
+            'plone.app.dexterity.behaviors.metadata.IDublinCore',
+            tt.Document.behaviors)

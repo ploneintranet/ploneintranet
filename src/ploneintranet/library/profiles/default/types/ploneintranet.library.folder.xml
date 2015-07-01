@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<object name="ploneintranet.library.folder" meta_type="Dexterity FTI"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="ploneintranet">
+ 
+ <!-- Basic information -->
+ <property name="title" i18n:translate="">Library Folder</property>
+ <property name="description" i18n:translate="">Library Folder</property>
+ <property name="icon_expr"></property>
+ <property name="global_allow">False</property>
+ <property name="allow_discussion">False</property>
+ <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+   <element value="ploneintranet.library.folder"/>
+   <element value="Document"/>
+   <element value="News Item"/>
+   <element value="Link"/>
+   <element value="Image"/>
+   <element value="File"/>
+ </property>
+ <property name="klass">ploneintranet.library.content.LibraryFolder</property>
+ <property name="add_permission">cmf.AddPortalFolders</property>
+  <property name="schema">ploneintranet.library.content.ILibraryFolder</property>
+ <property name="model_source"></property>
+ <property name="model_file"></property>
+ 
+ <!-- List of enabled behaviors -->
+ <property name="behaviors">
+   <element value="ploneintranet.network.behaviors.metadata.IDublinCore"/>
+   <element value="plone.app.content.interfaces.INameFromTitle"/>
+ </property>
+ 
+ <!-- View information -->
+ <property name="default_view">view</property>
+ <property name="default_view_fallback">False</property>
+ <property name="view_methods">
+  <element value="view"/>
+ </property>
+ 
+ <!-- Method aliases -->
+ <alias from="(Default)" to="(selected layout)"/>
+ <alias from="edit" to="@@edit"/>
+ <alias from="sharing" to="@@sharing"/>
+ <alias from="view" to="@@view"/>
+ 
+ <!-- Actions -->
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+</object>

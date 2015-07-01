@@ -2,7 +2,6 @@ import Globals
 import logging
 from Products.CMFPlone.resources import add_bundle_on_request
 from Products.CMFPlone.resources import remove_bundle_on_request
-from plone.app.theming.interfaces import IThemingPolicy
 from plone.app.theming.interfaces import IThemeSettings
 from plone.app.theming.policy import ThemingPolicy as DefaultPolicy
 from plone.dexterity.utils import resolveDottedName
@@ -12,7 +11,8 @@ from zope.interface import implementer
 from zope.interface import directlyProvides, directlyProvidedBy
 
 from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
-from ploneintranet.themeswitcher.interfaces import IThemeSwitcher
+from ploneintranet.themeswitcher.interfaces import IThemeSwitcher  # layer
+from ploneintranet.themeswitcher.interfaces import ISwitchableThemingPolicy
 
 
 log = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class SwitchableRecordsProxy(object):
             return setattr(self.realproxy, name, value)
 
 
-@implementer(IThemingPolicy)
+@implementer(ISwitchableThemingPolicy)
 class SwitchableThemingPolicy(DefaultPolicy):
     """Enhance the p.a.theming ThemingPolicy with theme switching
     based on hostname and browser cookie.
@@ -197,4 +197,4 @@ def filter_request(site, event):
     # avoid sites where this product is not installed
     if IThemeSwitcher.providedBy(event.request):
         # delegate to policy adapter above
-        IThemingPolicy(event.request).filter_request()
+        ISwitchableThemingPolicy(event.request).filter_request()
