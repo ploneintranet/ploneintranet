@@ -1,12 +1,16 @@
 from AccessControl import Unauthorized
+from Products.Five.browser import BrowserView
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.content.browser.file import FileUploadView as BaseFileUploadView
+from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
-from Products.Five.browser import BrowserView
-
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.uuid.interfaces import IUUID
 from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+import mimetypes
+import json
 
 
 class JoinView(BrowserView):
@@ -81,12 +85,72 @@ class SharingView(BaseSharingView):
 
 class FileUploadView(BaseFileUploadView):
     """Redirect to the workspace view so we can inject."""
+
     def __call__(self):
-        result = {}
-        if self.request.get('file', ''):
-            result = super(FileUploadView, self).__call__()
-        accept = self.request.get_header('HTTP_ACCEPT')
-        if accept == 'text/json':
+        result = self.process_request()
+        if self.request.get_header('HTTP_ACCEPT') == 'application/json':
+            self.request.response.setHeader("Content-type", "application/json")
             return result
         else:
             self.request.response.redirect(self.context.absolute_url())
+
+    def process_request(self):
+        # XXX: We don't support the TUS resumable file upload protocol.
+        # The pat-upload pattern supports it (due to mockup) and
+        # plone.app.content.browser.file.py also supports it, but at the cost
+        # of not being able to upload multiple files at once. We decided that
+        # that's more important at the moment.
+        if self.request.REQUEST_METHOD != 'POST':
+            return
+        result = []
+        form = self.request.form
+        for name in [k for k in form.keys() if k.startswith('file[')]:
+            output = self.create_file_from_request(name)
+            if output:
+                result.append(output)
+        return json.dumps(result)
+
+    def create_file_from_request(self, name):
+        context = self.context
+        filedata = self.request.form.get(name, None)
+        if filedata is None:
+            return
+        filename = filedata.filename
+        content_type = mimetypes.guess_type(filename)[0] or ""
+        # Determine if the default file/image types are DX or AT based
+        ctr = api.portal.get_tool('content_type_registry')
+        type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
+        pt = api.portal.get_tool('portal_types')
+
+        if IDexterityFTI.providedBy(getattr(pt, type_)):
+            obj = IDXFileFactory(context)(filename, content_type, filedata)
+            if hasattr(obj, 'file'):
+                size = obj.file.getSize()
+                content_type = obj.file.contentType
+            elif hasattr(obj, 'image'):
+                size = obj.image.getSize()
+                content_type = obj.image.contentType
+            else:
+                return
+            result = {
+                "type": content_type,
+                "size": size
+            }
+        else:
+            from Products.ATContentTypes.interfaces import IATCTFileFactory
+            obj = IATCTFileFactory(context)(filename, content_type, filedata)
+            try:
+                size = obj.getSize()
+            except AttributeError:
+                size = obj.getObjSize()
+            result = {
+                "type": obj.getContentType(),
+                "size": size
+            }
+        result.update({
+            'url': obj.absolute_url(),
+            'name': obj.getId(),
+            'UID': IUUID(obj),
+            'filename': filename
+        })
+        return result
