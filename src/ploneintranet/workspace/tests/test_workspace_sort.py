@@ -41,9 +41,10 @@ class TestWorkspaceSort(BaseTestCase):
             self.assertEqual(ws_container.sort_options()[0]['value'], sort_by)
 
     def test_my_workspaces(self):
+        ws_before = my_workspaces(self.portal.workspaces)
         api.content.create(
             self.portal.workspaces,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace')
-        ws = my_workspaces(self.portal.workspaces)
-        self.assertEqual(len(ws) > 0, True)
+        ws_after = my_workspaces(self.portal.workspaces)
+        self.assertEqual(len(ws_after) - len(ws_before), 1)
