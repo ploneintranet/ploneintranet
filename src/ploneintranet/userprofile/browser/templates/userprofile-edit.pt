@@ -7,8 +7,21 @@
       i18n:domain="ploneintranet">
 
     <body class="view-secure">
-        <metal:content fill-slot="main">
+        <metal:content fill-slot="content">
 
+            <aside>
+                <figure class="user-portrait">
+                    <img class="pat-avatar"
+        			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
+        			 src="{{ page.image_url }}"
+                     alt="Image of {{ page.title }}" />
+                    <figcaption class="status-message">
+			<h1 tal:content="context/fullname" />
+                    </figcaption>
+        	</figure>
+	    </aside>
+
+	    <div id="main">
 	    <form method="POST" id="user-edit-form"
 		  action="${context/absolute_url}/@@edit"
 		  enctype="multipart/form-data">
@@ -36,6 +49,7 @@
 			       name="form.buttons.save" />
 		    </p>
 	    </form>
+	    </div>
 
 	</metal:content>
     </body>
