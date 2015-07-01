@@ -22,6 +22,12 @@
      factory=".permissions.UserProfileLocalRoleAdapter"
      />
 
+  <utility
+      name="ploneintranet.userprofile.locations_vocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      component=".vocabularies.primaryLocationVocabulary"
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [User Profiles]"

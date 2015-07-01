@@ -27,6 +27,23 @@
     </value>
   </record>
 
+  <record name="ploneintranet.userprofile.locations">
+    <field type="plone.registry.field.Tuple">
+      <title>Hidden fields</title>
+      <description>
+        User profile fields that are hidden from the profile editing page
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>London</element>
+      <element>Amsterdam</element>
+      <element>Berlin</element>
+      <element>Paris</element>
+      <element>New York</element>
+    </value>
+  </record>
+
   <!-- By default we use usernames to login -->
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_email_as_username">
     <field type="plone.registry.field.Bool">

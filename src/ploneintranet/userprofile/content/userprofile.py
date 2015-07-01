@@ -1,11 +1,8 @@
 from z3c.form import validator
 from zope import schema
 from zope.interface import alsoProvides
-from zope.interface import directlyProvides
 from zope.interface import implementer
 from zope.interface import Invalid
-from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.vocabulary import SimpleVocabulary
 from collective import dexteritytextindexer
 
 from plone import api as plone_api
@@ -50,16 +47,6 @@ class IUserProfile(form.Schema):
     )
 
 
-def primaryLocationVocabulary(context):
-    # TODO: Locations should be stored in portal_registry for the time being.
-    locations = [(u'L', u'London'), (u'P', u'Paris'), (u'B', u'Berlin')]
-    terms = []
-    for uid, title in locations:
-        terms.append(SimpleVocabulary.createTerm(uid, str(uid), title))
-    return SimpleVocabulary(terms)
-directlyProvides(primaryLocationVocabulary, IContextSourceBinder)
-
-
 class IUserProfileAdditional(form.Schema):
 
     """Default additional fields for UserProfile."""
@@ -90,7 +77,7 @@ class IUserProfileAdditional(form.Schema):
     )
     primary_location = schema.Choice(
         title=_(u"Primary location"),
-        source=primaryLocationVocabulary,
+        source=u"ploneintranet.userprofile.locations_vocabulary",
         required=False
     )
     biography = schema.Text(
