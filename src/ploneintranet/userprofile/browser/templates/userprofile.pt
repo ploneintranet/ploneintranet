@@ -20,8 +20,7 @@
         			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
         			 src="{{ page.image_url }}"
                      alt="Image of {{ page.title }}" />
-                    <figcaption class="status-message"
-                        tal:condition="not:is_me">
+                    <figcaption class="status-message">
 			<h1 tal:content="context/fullname" />
                     </figcaption>
         	</figure>
