@@ -143,12 +143,15 @@ class UserProfileEditForm(edit.DefaultEditForm):
 
     def _hidden_fields(self):
         # Portrait is always hidden from this edit page
-        hidden_fields = ['portrait', ]
-        return hidden_fields
+        hidden = plone_api.portal.get_registry_record(
+            'ploneintranet.userprofile.hidden_fields')
+        hidden = hidden + ('portrait', )
+        return hidden
 
     def _read_only_fields(self):
-        read_only_fields = ['username', 'email', ]
-        return read_only_fields
+        read_only = plone_api.portal.get_registry_record(
+            'ploneintranet.userprofile.read_only_fields')
+        return read_only
 
     def updateFields(self):
         """Remove hidden fields from the form"""

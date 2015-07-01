@@ -1,13 +1,45 @@
 <?xml version="1.0"?>
 <registry>
+
+  <record name="ploneintranet.userprofile.hidden_fields">
+    <field type="plone.registry.field.Tuple">
+      <title>Hidden fields</title>
+      <description>
+        User profile fields that are hidden from the profile editing page
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
+  <record name="ploneintranet.userprofile.read_only_fields">
+    <field type="plone.registry.field.Tuple">
+      <title>Read only fields</title>
+      <description>
+        User profile fields that are read-only 
+        (shown on profile editing page but not editable)
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>username</element>
+    </value>
+  </record>
+
+  <!-- By default we use usernames to login -->
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_email_as_username">
     <field type="plone.registry.field.Bool">
     </field>
     <value>False</value>
   </record>
+
+  <!-- By default we use username as userid for compatibility with external
+  auth systems e.g. LDAP/AD -->
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_uuid_as_userid">
     <field type="plone.registry.field.Bool">
     </field>
     <value>False</value>
   </record>
+
 </registry>
