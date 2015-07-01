@@ -11,8 +11,6 @@ import transaction
 
 import loremipsum
 from DateTime import DateTime
-from OFS.Image import Image
-from Products.PlonePAS.utils import scale_image
 from collective.workspace.interfaces import IWorkspace
 from datetime import datetime, timedelta
 from plone import api
@@ -27,12 +25,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
-from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from ploneintranet import api as pi_api
-from zope.component import getUtility
-from zope.component import queryUtility
-from zope.interface import Invalid
 
 
 log = logging.getLogger(__name__)
