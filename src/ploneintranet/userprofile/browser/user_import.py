@@ -106,7 +106,7 @@ class CSVImportView(BrowserView):
             return self._show_message_redirect(message)
         else:
             api.portal.show_message(
-                message=_(u"Created XXX users"),
+                message=_(u"Created users OK."),
                 request=self.request)
             return self._redirect()
 
@@ -128,7 +128,9 @@ class CSVImportView(BrowserView):
             )
 
         # check all columns in csv are used
-        additional_fields = []
+        # (password is a special case hidden from edit schematas
+        #  so we include it manually here)
+        additional_fields = ['password', ]
         for behavior_schema in getAdditionalSchemata(
                 portal_type=USER_PORTAL_TYPE):
             additional_fields.extend(behavior_schema.names())
@@ -136,8 +138,11 @@ class CSVImportView(BrowserView):
         all_user_fields |= set(additional_fields)
         all_user_fields |= core_user_fields
         if not headers <= all_user_fields:
+            extra = headers - all_user_fields
             raise custom_exc.ExtraneousFields(
-                u"There are extraneous fields in the input file.",
+                u"There are extraneous fields in the input file: {0}".format(
+                    ', '.join(extra),
+                ),
             )
 
         return True
@@ -182,7 +187,16 @@ class CSVImportView(BrowserView):
                     normalized_info[normalized_key] = value
 
             username = normalized_info.pop('username')
+            if 'password' in normalized_info:
+                password = normalized_info.pop('password')
+            else:
+                password = None
+
             email = normalized_info.pop('email')
-            pi_api.userprofile.create(username=username,
-                                      email=email,
-                                      properties=normalized_info)
+            pi_api.userprofile.create(
+                username=username,
+                email=email,
+                password=password,
+                properties=normalized_info,
+                approve=True,
+            )
