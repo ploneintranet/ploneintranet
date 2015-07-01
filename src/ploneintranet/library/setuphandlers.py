@@ -17,11 +17,10 @@ def setupVarious(context):
     portal = context.getSite()
     catalog = api.portal.get_tool('portal_catalog')
     if len(catalog(portal_type='ploneintranet.library.app')) == 0:
-        library = api.content.create(
+        api.content.create(
             type='ploneintranet.library.app',
             title='Library',
             container=portal)
-        api.content.transition(library, "publish")
 
     # profiles/default/registry.xml has no effect
     registry = getUtility(IRegistry)

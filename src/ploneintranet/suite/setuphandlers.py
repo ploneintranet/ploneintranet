@@ -582,6 +582,7 @@ def create_library_content(parent, spec, force=False):
             roles=['Contributor', 'Reviewer', 'Editor'],
             obj=portal.library
         )
+        api.content.transition(portal.library, 'publish')
         # check only on initial call
         if not force and len(portal.library.objectIds()) > 0:
             log.info("library already setup. skipping for speed.")
