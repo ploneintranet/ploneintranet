@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dc-workflow workflow_id="simple_intranet_workflow" title="Simple Publication Workflow" description=" - Simple workflow that is useful for basic intranets. Based on simple_publication_workflow but does not allow access to Anonymous at all: replaces Anonymous with Authenticated. - Things start out as private, and can either be submitted for review, or published directly. - The creator of a content item can edit the item even after it is published." state_variable="review_state"         initial_state="private" manager_bypass="False" >
+<dc-workflow workflow_id="simple_intranet_workflow" title="Simple Intranet Workflow" description=" - Simple workflow that is useful for basic intranets. Based on simple_publication_workflow but does not allow access to Anonymous at all: replaces Anonymous with Authenticated. - Things start out as private, and can either be submitted for review, or published directly. - The creator of a content item can edit the item even after it is published." state_variable="review_state"         initial_state="private" manager_bypass="False" >
  <permission>Access contents information</permission>
  <permission>Change portal events</permission>
  <permission>Modify portal content</permission>
