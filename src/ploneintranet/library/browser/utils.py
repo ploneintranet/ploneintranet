@@ -38,6 +38,8 @@ def sections_of(context, **kwargs):
 
 
 def children_of(context, **kwargs):
+    if context.portal_type not in folderish:
+        return []
     if 'portal_type' not in kwargs:
         kwargs.update(portal_type=types_to_show)
     results = context.restrictedTraverse('@@folderListing')(**kwargs)
