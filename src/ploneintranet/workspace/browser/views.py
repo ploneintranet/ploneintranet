@@ -104,7 +104,7 @@ class FileUploadView(BaseFileUploadView):
             return []
         result = []
         form = self.request.form
-        for name in [k for k in form.keys() if k.startswith('file[')]:
+        for name in [k for k in form.keys() if k.startswith('file')]:
             output = self.create_file_from_request(name)
             if output:
                 result.append(output)
