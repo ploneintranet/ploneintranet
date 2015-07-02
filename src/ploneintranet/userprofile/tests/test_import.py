@@ -107,6 +107,28 @@ class TestCSVImportView(BaseTestCase):
         with self.assertRaises(schema.interfaces.RequiredMissing):
             view.create_users(filedata)
 
+    def test_update_users(self):
+        view = CSVImportView(self.profiles, self.request)
+        user_fields_file_loc = self._get_fixture_location(
+            'basic_users.csv')
+        with open(user_fields_file_loc) as bf:
+            filedata = self._parse_file(bf.read())
+        view.create_users(filedata)
+
+        # now update one of the users
+        raw = filedata.csv
+        email = 'barry2@test.com'
+        raw = raw.replace('barry@test.com', email)
+        filedata.csv = raw
+        view.update_users(filedata)
+        user = self.membrane_tool.searchResults(
+            getUserName='foo')
+        self.assertEqual(
+            user[0].getObject().email,
+            email,
+            'User not updated',
+        )
+
     def test_process(self):
         view = CSVImportView(self.profiles, self.request)
         file_loc = self._get_fixture_location(
