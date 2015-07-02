@@ -117,13 +117,17 @@ class CSVImportView(BrowserView):
         :rtype: bool
         """
         # check for core user fields
-        core_user_fields = set(self.core_user_schema.names())
-        core_user_fields.remove('portrait')  # Makes no sense for csv import
+        required_core_user_fields = set(
+            [x.getName() for x in
+             schema.getFields(self.core_user_schema).values()
+             if x.required]
+        )
+
         headers = set(self._normalise_headers(filedata.headers))
-        if not core_user_fields <= headers:
-            missing = core_user_fields - headers
+        if not required_core_user_fields <= headers:
+            missing = required_core_user_fields - headers
             raise custom_exc.MissingCoreFields(
-                u"The core required fields appear to be missing: {}".format(
+                u"The following required fields are missing: {}".format(
                     ', '.join(missing)),
             )
 
@@ -136,7 +140,7 @@ class CSVImportView(BrowserView):
             additional_fields.extend(behavior_schema.names())
         all_user_fields = set()
         all_user_fields |= set(additional_fields)
-        all_user_fields |= core_user_fields
+        all_user_fields |= required_core_user_fields
         if not headers <= all_user_fields:
             extra = headers - all_user_fields
             raise custom_exc.ExtraneousFields(
