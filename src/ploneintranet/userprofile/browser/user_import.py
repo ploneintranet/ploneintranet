@@ -67,16 +67,6 @@ class CSVImportView(BrowserView):
         """
         return map(self._normalise_key, headers)
 
-    def _show_message_redirect(self, message):
-        """Convenience wrapper method for plone.api.portal.show_message
-        """
-        api.portal.show_message(
-            message=message,
-            request=self.request,
-            type='error',
-        )
-        return self._redirect()
-
     def _redirect(self):
         return self.request.response.redirect(
             '{0}/{1}'.format(
@@ -99,46 +89,40 @@ class CSVImportView(BrowserView):
             return self._show_message_redirect(_(e.message))
 
         if not update:
-            try:
-                count = self.create_users(data)
-            except custom_exc.RequiredMissing as e:
-                message = _(
-                    u"Missing required field {} on row {}".format(
-                        e.message, e.details['row'])
-                )
-                return self._show_message_redirect(message)
-            except custom_exc.ConstraintNotSatisfied as e:
-                message = _(
-                    u"Constraint not satisfied for {} at row {}.".format(
-                        e.details['field'], e.details['row'])
-                )
-                return self._show_message_redirect(message)
-            except custom_exc.WrongType as e:
-                message = _(
-                    u"Wrong type for {} at row {}.".format(
-                        e.details['field'], e.details['row'])
-                )
-                return self._show_message_redirect(message)
+            func = 'create_users'
         else:
-            try:
-                count = self.udpate_users(data)
-            except custom_exc.ConstraintNotSatisfied as e:
-                message = _(
-                    u"Constraint not satisfied for {} at row {}.".format(
-                        e.details['field'], e.details['row'])
-                )
-                return self._show_message_redirect(message)
-            except custom_exc.WrongType as e:
-                message = _(
-                    u"Wrong type for {} at row {}.".format(
-                        e.details['field'], e.details['row'])
-                )
-                return self._show_message_redirect(message)
+            func = 'update_users'
 
-        verb = update and "Updated" or "Created"
+        try:
+            count = getattr(self, func)(data)
+        except custom_exc.RequiredMissing as e:
+            message_type = 'error'
+            message = _(
+                u"Missing required field {} on row {}".format(
+                    e.message, e.details['row'])
+            )
+        except custom_exc.ConstraintNotSatisfied as e:
+            message_type = 'error'
+            message = _(
+                u"Constraint not satisfied for {} at row {}.".format(
+                    e.details['field'], e.details['row'])
+            )
+        except custom_exc.WrongType as e:
+            message_type = 'error'
+            message = _(
+                u"Wrong type for {} at row {}.".format(
+                    e.details['field'], e.details['row'])
+            )
+        else:
+            message_type = 'info'
+            verb = update and "Updated" or "Created"
+            message = _(u"{} user {}.".format(count, verb))
+
         api.portal.show_message(
-            message=_(u"{} user {}.".format(count, verb)),
-            request=self.request)
+            message=message,
+            request=self.request,
+            type=message_type,
+        )
         return self._redirect()
 
     def validate(self, filedata):
