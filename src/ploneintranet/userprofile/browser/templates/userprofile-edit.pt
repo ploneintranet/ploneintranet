@@ -38,7 +38,7 @@
 			</label>
 			<section class="help" 
 				 tal:condition="field/error_html">
-			    <div class="pat-message notice" 
+			    <div class="pat-message warning" 
 				 tal:content="structure field/error_html" />
 			</section>
 		    </tal:field>
