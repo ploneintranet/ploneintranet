@@ -10,15 +10,30 @@
 
       <div id="content">
 
+	  <h1 i18n:translate="Bulk import users" />
+
 	  <form method="POST"
 		enctype="multipart/form-data">
 	      <p>
 		  <input type="file" name="csvfile" />
 	      </p>
 	      <p>
-		  <input type="submit" value="Import users from file" />
+		  <input type="submit" 
+			 i18n:attributes="value"
+			 value="Import users from file" />
 	      </p>
+
 	  </form>
+
+	  <p>
+	      <strong i18n:translate="">
+		  Available fields/columns
+	      </strong>
+	  </p>
+	  <ul tal:define="fields view/available_field_names">
+	      <li tal:repeat="field fields"
+		  tal:content="field" />
+	  </ul>
 
       </div>
 

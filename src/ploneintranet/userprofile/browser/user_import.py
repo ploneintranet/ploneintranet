@@ -1,4 +1,5 @@
 import tablib
+import itertools
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -39,6 +40,13 @@ class CSVImportView(BrowserView):
                 portal_type=USER_PORTAL_TYPE):
             schematas.append(behavior_schema)
         return schematas
+
+    def available_field_names(self):
+        """Get a full list of available field names"""
+        names = [x.names() for x in self.user_schemata]
+        fields = list(itertools.chain.from_iterable(names))
+        fields.append('password')
+        return fields
 
     def _normalise_key(self, key):
         return key.strip().lower().replace(' ', '_')
