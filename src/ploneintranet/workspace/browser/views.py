@@ -154,3 +154,45 @@ class FileUploadView(BaseFileUploadView):
             'filename': filename
         })
         return result
+
+
+class ImagePickerView(BrowserView):
+    """ """
+
+    def __call__(self):
+        form = self.request.form
+        if form['action'] == 'list':
+            catalog = api.portal.get_tool('portal_catalog')
+            images = catalog(
+                        portal_type="Image",
+                        path="/".join(self.context.getPhysicalPath())
+                    )
+            results = {
+                    "start": form.get('start'),
+                    "limit": form.get('limit'),
+                    "total": len(images),
+                    "filteredTotal": len(images),
+                    'files': []
+                }
+            try:
+                limit = int(form.get('limit'))
+            except ValueError:
+                limit = 0
+            i = 0
+            for image in images:
+                i += 1
+                obj = image.getObject()
+                results['files'].append( {
+                    "name": image.Title,
+                    "attributes": {
+                        "alt": image.Description
+                    },
+                    "type": obj.image.contentType.lstrip('image/'),
+                    "size": obj.image.size,
+                    "mtime": obj.modified().millis()
+                })
+                if 1 == limit:
+                    break
+            return json.dumps(results)
+        else:  
+            return '{}'
