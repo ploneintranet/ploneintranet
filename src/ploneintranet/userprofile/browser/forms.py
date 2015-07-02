@@ -2,6 +2,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.dexterity.browser import edit
 from plone.dexterity.browser import view
 from plone import api as plone_api
+from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.browser.text import TextWidget
 
 
 def icon_for_field(fieldname):
@@ -76,6 +78,13 @@ class UserProfileBaseForm(object):
         for fieldname, widget in self.widgets.items():
             if fieldname in read_only_fields:
                 widget.mode = 'display'
+            # Set up sizes correctly for prototype
+            if isinstance(widget, TextWidget):
+                if not widget.size:
+                    widget.size = 50
+            if isinstance(widget, TextAreaWidget):
+                if not widget.rows:
+                    widget.rows = 14
 
 
 class UserProfileEditForm(UserProfileBaseForm, edit.DefaultEditForm):
