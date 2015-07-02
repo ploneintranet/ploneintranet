@@ -17,6 +17,9 @@ from zope.interface import implementer_only
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import ITuple
 
+from ploneintranet.network.behaviors.metadata import IDublinCore \
+    as pi_IDublinCore
+
 
 class ICommaSeparatedWidget(IWidget):
     """ Marker interface """
@@ -53,6 +56,13 @@ class CommaSeparatedConverter(BaseDataConverter):
 @adapter(getSpecification(IDublinCore['subjects']), IWorkspaceAppFormLayer)
 @implementer(IFieldWidget)
 def CommaSeparatedFieldWidget(field, request):
+    return FieldWidget(field, CommaSeparatedWidget(request))
+
+
+# plone intranet uses a dublincore override
+@adapter(getSpecification(pi_IDublinCore['subjects']), IWorkspaceAppFormLayer)
+@implementer(IFieldWidget)
+def pi_CommaSeparatedFieldWidget(field, request):
     return FieldWidget(field, CommaSeparatedWidget(request))
 
 
