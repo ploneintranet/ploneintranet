@@ -330,10 +330,10 @@ I can edit an event
     Click Button  Save
 
 The file appears in the sidebar
-    Wait until Page contains Element  xpath=//input[@name='bartige_flosser.odt']  timeout=20 s
+    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
 
 The upload appears in the stream
-    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bartige_flosser.odt')]  timeout=20 s
+    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]  timeout=20
 
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
