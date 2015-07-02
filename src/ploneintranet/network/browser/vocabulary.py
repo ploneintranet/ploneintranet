@@ -67,6 +67,9 @@ class PersonalizedVocabularyView(VocabularyView):
                     authorized = permission_checker.validate(field_name,
                                                              factory_name)
             if not authorized:
+                # zope admin misses workspace access, go figure
+                logger.error("Vocabulary %s lookup (%s) not allowed",
+                             factory_name, field_name)
                 raise VocabLookupException('Vocabulary lookup not allowed')
         # Short circuit if we are on the site root and permission is
         # in global registry
@@ -112,8 +115,7 @@ class PersonalizedVocabularyView(VocabularyView):
         vocab_json = super(PersonalizedVocabularyView, self).__call__()
         if vocab_json and self.request.get('resultsonly', False):
             vocab_obj = json_loads(vocab_json)
-            results = vocab_obj.get('results')
-            if results:
-                return json_dumps(results)
+            results = vocab_obj.get('results', [])
+            return json_dumps(results)
 
         return vocab_json
