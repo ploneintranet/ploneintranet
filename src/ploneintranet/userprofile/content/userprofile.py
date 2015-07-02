@@ -26,6 +26,10 @@ class IUserProfile(form.Schema):
         title=_(u"Username"),
         required=True
     )
+    person_title = schema.TextLine(
+        title=_(u"Person title"),
+        required=False
+    )
     dexteritytextindexer.searchable('first_name')
     first_name = schema.TextLine(
         title=_(u"First name"),
@@ -51,10 +55,7 @@ class IUserProfileAdditional(form.Schema):
 
     """Default additional fields for UserProfile."""
 
-    person_title = schema.TextLine(
-        title=_(u"Person title"),
-        required=False
-    )
+    dexteritytextindexer.searchable('job_title')
     job_title = schema.TextLine(
         title=_(u"Job title"),
         required=False
@@ -98,9 +99,14 @@ class UserProfile(Container):
     def Title(self):
         return self.fullname
 
+    def Description(self):
+        if getattr(self, 'job_title'):
+            return self.job_title
+
     @property
     def fullname(self):
         names = [
+            self.person_title,
             self.first_name,
             self.last_name,
         ]
