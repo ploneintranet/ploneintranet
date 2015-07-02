@@ -40,7 +40,10 @@ def sections_of(context, **kwargs):
 def children_of(context, **kwargs):
     if 'portal_type' not in kwargs:
         kwargs.update(portal_type=types_to_show)
-    results = context.restrictedTraverse('@@folderListing')(**kwargs)
+    folder_listing = context.restrictedTraverse('@@folderListing', None)
+    if not folder_listing:
+        return []
+    results = folder_listing(**kwargs)
     content = []
     for item in results:
         if item.portal_type in hidden:
