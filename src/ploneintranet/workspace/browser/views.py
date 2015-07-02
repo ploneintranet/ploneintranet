@@ -113,7 +113,7 @@ class FileUploadView(BaseFileUploadView):
     def create_file_from_request(self, name):
         context = self.context
         filedata = self.request.form.get(name, None)
-        if filedata is None:
+        if not filedata:
             return
         filename = filedata.filename
         content_type = mimetypes.guess_type(filename)[0] or ""
