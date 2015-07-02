@@ -104,6 +104,7 @@
 
 			    <a href="${context/absolute_url}/@@edit"
 			       class="pat-inject"
+			       i18n:translate=""
 			       data-pat-inject="source: #user-edit-form::element;
 						target: #person-info;
 						trigger: autoload">
