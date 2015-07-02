@@ -31,7 +31,16 @@ Member can tag a document
     And I browse to a document
     And I tag the description
     And I view the document
-    Then the document has the new tag
+    Then the metadata has the new tag
+
+Member can tag a document with a tag suggestion
+    Given I am in a workspace as a workspace member
+    And I browse to an image
+    And I tag the description
+    When I browse to a document
+    And I tag the description with a suggestion
+    And I view the document
+    Then the metadata has the new tag
 
 Member can change the title of an image
     Given I am in a workspace as a workspace member
@@ -52,7 +61,16 @@ Member can tag an image
     And I browse to an image
     And I tag the description
     And I view the image
-    Then the document has the new tag
+    Then the metadata has the new tag
+
+Member can tag an image with a tag suggestion
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    And I tag the description
+    When I browse to an image
+    And I tag the description with a suggestion
+    And I view the image
+    Then the metadata has the new tag
 
 Member can change the title of a file
     Given I am in a workspace as a workspace member
@@ -73,7 +91,16 @@ Member can tag a file
     And I browse to a file
     And I tag the description
     And I view the file
-    Then the document has the new tag
+    Then the metadata has the new tag
+
+Member can tag a file with a tag suggestion
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    And I tag the description
+    When I browse to a file
+    And I tag the description with a suggestion
+    And I view the file
+    Then the metadata has the new tag
 
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member
@@ -94,7 +121,7 @@ Member can tag a file
 #     And I view the folder
 #     And I tag the description
 #     And I view the folder
-#     Then the document has the new tag
+#     Then the metadata has the new tag
 
 *** Keywords ***
 I browse to a workspace
@@ -159,6 +186,17 @@ I tag the description
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
 
-The document has the new tag
+I tag the description with a suggestion
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click element  id=s2id_autogen2
+    Input text  id=s2id_autogen2  NewT
+    Wait Until Page Contains  ag☃
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+
+The metadata has the new tag
     Click Link  link=Toggle extra metadata
     Page Should Contain  NewTag☃
