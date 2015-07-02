@@ -2,6 +2,10 @@
   xmlns="http://namespaces.zope.org/zope"
   i18n_domain="ploneintranet.notifications">
 
+  <!--
+      These views are disabled for now, as the implementation
+      is incomplete and missing any security considerations
+      
   <subscriber
     for="..interfaces.INotifiable
          zope.lifecycleevent.interfaces.IObjectAddedEvent"
@@ -18,5 +22,6 @@
     for="..interfaces.INotifiable
          Products.CMFCore.interfaces.IActionSucceededEvent"
     handler=".base.base_handler" />
+  -->
 
 </configure>
