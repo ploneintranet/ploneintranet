@@ -7,7 +7,7 @@ from z3c.form.browser.text import TextWidget
 
 
 def icon_for_field(fieldname):
-    """Help method for translating from field names to
+    """Helper method for translating from field names to
     prototype classes"""
     if '.' in fieldname:
         # Remove behaviour prefixes from fieldnames
@@ -53,13 +53,15 @@ class UserProfileBaseForm(object):
     """
 
     def _hidden_fields(self):
-        # Portrait is always hidden from this edit page
+        """Look up hidden fields from registry"""
         hidden = plone_api.portal.get_registry_record(
             'ploneintranet.userprofile.hidden_fields')
+        # Portrait is edited elsewhere
         hidden = hidden + ('portrait', )
         return hidden
 
     def _read_only_fields(self):
+        """Look up read-only fields from registry"""
         read_only = plone_api.portal.get_registry_record(
             'ploneintranet.userprofile.read_only_fields')
         return read_only
@@ -72,7 +74,7 @@ class UserProfileBaseForm(object):
             self.fields = self.fields.omit(hidden_field)
 
     def updateWidgets(self):
-        """Update widgets for read only fields"""
+        """Mark read only fields as 'display'"""
         super(UserProfileBaseForm, self).updateWidgets()
         read_only_fields = self._read_only_fields()
         for fieldname, widget in self.widgets.items():
