@@ -1,7 +1,55 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ploneintranet">
+
+  <include package="." file="permissions.zcml" />
 
     <include package=".viewlets" />
+    <include package=".browser" />
+    <!-- include package=".tests" if you want to do interactive testing -->
+    <include package=".tests" />
+
+
+    <!-- switch off all IAppLayer on the navigation root -->
+    <subscriber
+        for="plone.app.layout.navigation.interfaces.INavigationRoot
+             zope.app.publication.interfaces.IBeforeTraverseEvent"
+        handler=".layers.disable_app_layers"
+        />
+    <!-- enable only the "right" IAppLayer per app
+         see app.AbstractAppContainer -->
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Plone Intranet: -- [Layout]"
+        directory="profiles/default"
+        description="Extension profile for ploneintranet.layout."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- [Layout uninstall]"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.layout."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:importStep
+        name="ploneintranet.layout.setupVarious"
+        title="Delete default frontpage and configure dashboard as default"
+        description=""
+        handler="ploneintranet.layout.setuphandlers.setupVarious">
+    </genericsetup:importStep>
+
+    <genericsetup:importStep
+        name="ploneintranet.layout.uninstall"
+        title="Plone Intranet Laout: uninstall steps"
+        description="Various uninstall steps that are not handled by GS import/export handlers."
+        handler="ploneintranet.layout.setuphandlers.uninstall" />
+
 
 </configure>

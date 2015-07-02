@@ -11,6 +11,7 @@
     <adapter
         factory=".policy.SwitchableThemingPolicy"
         for="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
+        provides="ploneintranet.themeswitcher.interfaces.ISwitchableThemingPolicy"
         />
 
     <!-- remove browser layers and bundles if necessary -->

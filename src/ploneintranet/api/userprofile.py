@@ -6,6 +6,7 @@ from Products.CMFPlone.utils import safe_unicode
 from zope.component import getMultiAdapter
 from z3c.form.interfaces import IValidator
 from plone import api as plone_api
+from plone.api.validation import at_least_one_of
 from plone.api.exc import InvalidParameterError
 
 from ploneintranet.userprofile.content.userprofile import IUserProfile
@@ -145,47 +146,20 @@ def create(
     return profile
 
 
-def avatar_url(username, size='stream'):
-    """Get the avatar image url for a user profile by username
+@at_least_one_of('username', 'profile', )
+def avatar_url(username=None, profile=None):
+    """Get the avatar image url for a user profile by username or profile
 
     :param username: Username for which to get the avatar url
     :type username: string
-    :param size: The name of the size of image required
-    :type size: string
+    :param profile: Profile for which to get the avatar url
+    :type profile: ploneintranet.userprofile.userprofile
     :returns: absolute url for the avatar image
     :rtype: string
     """
-    if size not in AVATAR_SIZES:
-        raise InvalidParameterError(
-            "Invalid size for avatar url. Valid sizes are: {}".format(
-                AVATAR_SIZES.keys()
-            )
-        )
+    if not profile:
+        profile = get(username)
+        if profile is None:
+            return None
 
-    profile = get(username)
-    if profile is None:
-        return None
-
-    portal = plone_api.portal.get()
-    imaging = plone_api.content.get_view(
-        request=portal.REQUEST,
-        context=profile,
-        name='images')
-
-    width = height = AVATAR_SIZES.get(size)
-
-    try:
-        scale = imaging.scale(
-            fieldname='portrait',
-            width=width,
-            height=height,
-            direction='down',
-        )
-    except TypeError:
-        # No image found
-        return None
-
-    if scale is not None:
-        return scale.url
-    else:
-        return None
+    return '{0}/@@avatar.jpg'.format(profile.absolute_url())

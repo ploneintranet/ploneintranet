@@ -20,6 +20,17 @@ Username as Userid
 
 The default membrane implementation uses UUIDs as the unique id that Plone uses to grant roles and permissions (userid). We use the username instead, to ensure compatibility with external authentication sources such as LDAP which have no knowledge of Plone's UUIDs.
 
+Bulk Upload
+-----------
+
+There is a bulk upload from CSV option. Column names are mapped to field names, and the data is validated before users are created:
+
+To use the bulk upload, visit the `@@import-users` browser view on the profiles folder in your site:
+
+.. code::
+
+   /plonesite/profiles/@@import-users
+
 User Profile API
 ----------------
 
