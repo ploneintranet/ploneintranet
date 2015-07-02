@@ -9,7 +9,6 @@ from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 import inspect
 
-from plone.app.content.browser.vocabulary import BaseVocabularyView
 from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
@@ -27,16 +26,13 @@ _permissions = {
 }
 
 
-class PersonalizedVocabularyView(BaseVocabularyView):
+class PersonalizedVocabularyView(VocabularyView):
     """
     Queries a named personalized vocabulary and returns
     JSON-formatted results.
 
     Replaces plone.app.content.browser.vocabulary.VocabularyView
     """
-
-    def get_context(self):
-        return self.context
 
     def get_vocabulary(self):
         """
@@ -57,8 +53,7 @@ class PersonalizedVocabularyView(BaseVocabularyView):
 
         if factory_name in base_perms:
             # don't mess with upstream vocabulary handling
-            # this is not a superclass of self!
-            return VocabularyView(self.context, self.request).get_vocabulary()
+            return super(PersonalizedVocabularyView(self).get_vocabulary())
 
         authorized = None
         sm = getSecurityManager()
@@ -112,11 +107,10 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         pat-autosuggest.
         """
         vocab_json = super(PersonalizedVocabularyView, self).__call__()
-        if self.request.get('resultsonly', False):
-            if vocab_json:
-                vocab_obj = json_loads(vocab_json)
-                results = vocab_obj.get('results')
-                if results:
-                    return json_dumps(results)
-        else:
-            return vocab_json
+        if vocab_json and self.request.get('resultsonly', False):
+            vocab_obj = json_loads(vocab_json)
+            results = vocab_obj.get('results')
+            if results:
+                return json_dumps(results)
+
+        return vocab_json
