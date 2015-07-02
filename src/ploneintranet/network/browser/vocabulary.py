@@ -93,8 +93,11 @@ class PersonalizedVocabularyView(VocabularyView):
         # This is what is reached for non-legacy vocabularies.
 
         elif IPersonalizedVocabularyFactory.providedBy(factory):
+            # patternslib select2 queries for "q" instead of "query"
+            if not query and self.request.get('q', False):
+                query = _parseJSON(self.request.get('q'))
             # this is the key customization: feed in the request
-            vocabulary = factory(context, self.request)
+            vocabulary = factory(context, self.request, query=query)
         else:
             # default fallback
             vocabulary = factory(context)
