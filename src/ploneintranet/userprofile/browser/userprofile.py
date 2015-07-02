@@ -57,7 +57,6 @@ class UserProfileView(UserProfileViewForm):
         return details
 
     def fields_for_display(self):
-        # Don't show username to others
         return get_fields(self)
 
 
