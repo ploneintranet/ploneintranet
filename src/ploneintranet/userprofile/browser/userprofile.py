@@ -9,7 +9,7 @@ from plone import api as plone_api
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
-from ploneintranet.userprofile.browser.forms import get_fields
+from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 
 
@@ -57,7 +57,7 @@ class UserProfileView(UserProfileViewForm):
         return details
 
     def fields_for_display(self):
-        return get_fields(self)
+        return get_fields_for_template(self)
 
 
 class AuthorView(BaseAuthorView):

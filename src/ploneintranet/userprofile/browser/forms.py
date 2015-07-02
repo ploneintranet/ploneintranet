@@ -24,7 +24,7 @@ def icon_for_field(fieldname):
     return mapping.get(fieldname, default)
 
 
-def get_fields(form):
+def get_fields_for_template(form):
     """Helper method to get widget information for view/edit templates"""
     fields = []
     for field_name in form.widgets.keys():
@@ -35,6 +35,7 @@ def get_fields(form):
             error_html = None
 
         fields.append({
+            'name': field_name,
             'label': widget.label,
             'description': widget.field.description,
             'read_only': widget.mode == 'display',
@@ -118,4 +119,4 @@ class UserProfileEditView(edit.DefaultEditView):
     index = ViewPageTemplateFile('templates/userprofile-edit.pt')
 
     def fields_for_edit(self):
-        return get_fields(self.form_instance)
+        return get_fields_for_template(self.form_instance)
