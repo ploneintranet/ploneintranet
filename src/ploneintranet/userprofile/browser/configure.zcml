@@ -7,6 +7,8 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
   <browser:page
       name="userprofile-view"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
@@ -37,6 +39,14 @@
       name="my-profile"
       class=".userprofile.MyProfileView"
       permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="import-users"
+      class=".user_import.CSVImportView"
+      permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 

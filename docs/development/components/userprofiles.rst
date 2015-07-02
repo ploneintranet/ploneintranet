@@ -89,6 +89,17 @@ This is useful for field data that comes from a separate source (e.g. LDAP)
 
 .. _Behaviours: http://docs.plone.org/external/plone.app.dexterity/docs/behaviors/index.html
 
+Bulk Upload
+-----------
+
+There is a bulk upload from CSV option. Column names are mapped to field names, and the data is validated before users are created:
+
+To use the bulk upload, visit the `@@import-users` browser view on the profiles folder in your site:
+
+.. code::
+
+   /plonesite/profiles/@@import-users
+
 User Profile API
 ================
 
