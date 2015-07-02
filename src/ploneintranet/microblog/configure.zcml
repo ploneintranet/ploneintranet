@@ -61,5 +61,9 @@
     profile="ploneintranet.microblog:default"
     />
 
+  <subscriber
+    for="Products.CMFCore.interfaces.IActionSucceededEvent"
+    handler=".handlers.create_post_on_content_published"
+    />
 
 </configure>
