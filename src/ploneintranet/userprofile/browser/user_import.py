@@ -100,7 +100,7 @@ class CSVImportView(BrowserView):
 
         if not update:
             try:
-                self.create_users(data)
+                count = self.create_users(data)
             except custom_exc.RequiredMissing as e:
                 message = _(
                     u"Missing required field {} on row {}".format(
@@ -121,7 +121,7 @@ class CSVImportView(BrowserView):
                 return self._show_message_redirect(message)
         else:
             try:
-                self.udpate_users(data)
+                count = self.udpate_users(data)
             except custom_exc.ConstraintNotSatisfied as e:
                 message = _(
                     u"Constraint not satisfied for {} at row {}.".format(
@@ -137,7 +137,7 @@ class CSVImportView(BrowserView):
 
         verb = update and "Updated" or "Created"
         api.portal.show_message(
-            message=_(u"{} users OK.".format(verb)),
+            message=_(u"{} user {}.".format(count, verb)),
             request=self.request)
         return self._redirect()
 
@@ -224,6 +224,8 @@ class CSVImportView(BrowserView):
         :param filedata: csv binary data
         :type filedata: str
         """
+        count = 0
+
         for row, user_info in enumerate(filedata.dict):
             normalized_info = {}
             offset_row = row + 1
@@ -245,6 +247,8 @@ class CSVImportView(BrowserView):
                 properties=normalized_info,
                 approve=True,
             )
+            count += 1
+        return count
 
     def update_users(self, filedata):
         """Update any existing profiles.
@@ -253,6 +257,7 @@ class CSVImportView(BrowserView):
         :type filedata: str
         """
         membrane_tool = api.portal.get_tool('membrane_tool')
+        count = 0
 
         for row, user_info in enumerate(filedata.dict):
             offset_row = row + 1
@@ -275,3 +280,6 @@ class CSVImportView(BrowserView):
                     continue
 
                 setattr(user, normalized_key, value)
+                count += 1
+
+        return count
