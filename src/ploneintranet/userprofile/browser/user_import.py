@@ -120,7 +120,20 @@ class CSVImportView(BrowserView):
                 )
                 return self._show_message_redirect(message)
         else:
-            self.udpate_users(data)
+            try:
+                self.udpate_users(data)
+            except custom_exc.ConstraintNotSatisfied as e:
+                message = _(
+                    u"Constraint not satisfied for {} at row {}.".format(
+                        e.details['field'], e.details['row'])
+                )
+                return self._show_message_redirect(message)
+            except custom_exc.WrongType as e:
+                message = _(
+                    u"Wrong type for {} at row {}.".format(
+                        e.details['field'], e.details['row'])
+                )
+                return self._show_message_redirect(message)
 
         verb = update and "Updated" or "Created"
         api.portal.show_message(
