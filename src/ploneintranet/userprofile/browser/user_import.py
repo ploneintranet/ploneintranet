@@ -90,7 +90,12 @@ class CSVImportView(BrowserView):
         create the users.
         """
         data = tablib.Dataset()
-        data.csv = csvfile
+        try:
+            data.csv = csvfile
+        except tablib.core.InvalidDimensions:
+            return self._show_message_redirect(
+                _("File incorrectly formatted.")
+            )
 
         try:
             self.validate(data)
