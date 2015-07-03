@@ -155,6 +155,7 @@ class SearchResponse(collections.Iterable):
 
     total_results = FEATURE_NOT_IMPLEMENTED
     spell_corrected_search = FEATURE_NOT_IMPLEMENTED
+    facets = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context):
         super(SearchResponse, self).__init__()

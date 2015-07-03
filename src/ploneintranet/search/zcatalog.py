@@ -70,20 +70,34 @@ class SearchResponse(base.SearchResponse):
     Implements batching.
     """
 
+    facet_fields = base.RegistryProperty('facet_fields')
+    facets = {}
+
     def __init__(self, batched_results):
         all_results = batched_results._sequence
         super(SearchResponse, self).__init__(
             (SearchResult(result, self) for result in batched_results)
         )
         self.total_results = batched_results.sequence_length
-        self.facets = {
-            'friendly_type_name': {
-                x['friendly_type_name']
-                for x in all_results
-                if x['friendly_type_name']
-            },
-            'tags': {y for x in all_results for y in x['Subject'] if y},
-        }
+
+        if not self.total_results:
+            return
+
+        # Faceting is not supported natively by plone's catalog,
+        # so we brute force it here. Recommendation: USE SOLR
+        for field in self.facet_fields:
+            if field == 'tags':
+                catalog_field = 'Subject'
+            else:
+                catalog_field = field
+
+            if hasattr(all_results[0][catalog_field], '__iter__'):
+                # Support keyword-style fields (e.g. tags)
+                self.facets[field] = {y for x in all_results
+                                      for y in x[catalog_field] if y}
+            else:
+                self.facets[field] = {x[catalog_field]
+                                      for x in all_results if x}
 
 
 @implementer(ISearchResult)

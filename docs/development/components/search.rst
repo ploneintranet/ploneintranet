@@ -104,6 +104,7 @@ Adding facets
 
 Valid facets can be configured using the `ploneintranet.search.facet_fields` registry value. These will be returned on the `ISearchResponse` object (see below).
 
+
 .. code:: xml
 
   <record name="ploneintranet.search.facet_fields">
@@ -113,10 +114,17 @@ Valid facets can be configured using the `ploneintranet.search.facet_fields` reg
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tags</element>
       <element>friendly_type_name</element>
+      <element>tags</element>
     </value>
   </record>
+
+Adding options to the site search interface
+-------------------------------------------
+
+The refinement options shown in the main search interface
+are auto-generated from any fields registered as 
+*both* a facet and a filter field (see above for adding facets/fields).
 
 Adding search fields ('phrase fields')
 --------------------------------------
