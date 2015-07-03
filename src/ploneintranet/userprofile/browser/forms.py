@@ -17,6 +17,7 @@ def icon_for_field(fieldname):
         'email': 'icon-mail',
         'telephone': 'icon-phone',
         'mobile': 'icon-phone',
+        'address': 'icon-home',
         'department': 'icon-building',
         'time_zone': 'icon-clock',
         'primary_location': 'icon-globe',

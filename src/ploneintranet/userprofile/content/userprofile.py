@@ -72,6 +72,10 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Mobile Number"),
         required=False
     )
+    address = schema.Text(
+        title=_(u"Address"),
+        required=False
+    )
     time_zone = schema.Choice(
         title=_(u"Time Zone"),
         source=u'plone.app.vocabularies.CommonTimezones',
