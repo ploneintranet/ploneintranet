@@ -30,8 +30,8 @@ class CSVImportView(BrowserView):
     def __call__(self):
         form = self.request.form
         if 'csvfile' in form:
-            update_only = bool(form.get('update-only'))
-            self.process(form.get('csvfile').read(), update=update_only)
+            update_existing = bool(form.get('update-existing'))
+            self.process(form.get('csvfile').read(), update=update_existing)
 
         return self.index()
 
@@ -108,7 +108,7 @@ class CSVImportView(BrowserView):
 
         message_type = 'error'
         try:
-            count = self.create_update_users(data)
+            count = self.create_update_users(data, update)
         except custom_exc.DuplicateUser as e:
             message = _(
                 u"{} on row {}".format(
@@ -256,7 +256,7 @@ class CSVImportView(BrowserView):
             elif user is not None and not update:
                 raise custom_exc.DuplicateUser(
                     u"A user with this username already exists",
-                    details={'row': row})
+                    details={'row': offset_row})
 
             # update additional fields
             for key, value in user_info.items():

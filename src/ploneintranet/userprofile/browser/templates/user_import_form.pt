@@ -19,9 +19,10 @@
 	</p>
 	<p>
 	  <input type="checkbox"
-		 id="update-only"
-		 name="update-only" />
-	  <label for="update-only"
+		 id="update-existing"
+		 name="update-existing" 
+		 value="1" />
+	  <label for="update-existing"
 		 i18n:translate="">
 	    Update details for existing users (matching on username)
 	  </label>
