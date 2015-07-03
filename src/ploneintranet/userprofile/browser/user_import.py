@@ -132,7 +132,7 @@ class CSVImportView(BrowserView):
         else:
             message_type = 'info'
             verb = update and "Updated" or "Created"
-            message = _(u"{} user {}.".format(count, verb))
+            message = _(u"{} user(s) {}.".format(count, verb))
 
         if message_type == 'error':
             transaction.abort()
