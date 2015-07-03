@@ -4,6 +4,7 @@
 import tablib
 import itertools
 import logging
+import transaction
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -117,6 +118,9 @@ class CSVImportView(BrowserView):
             message_type = 'info'
             verb = update and "Updated" or "Created"
             message = _(u"{} user {}.".format(count, verb))
+
+        if message_type == 'error':
+            transaction.abort()
 
         api.portal.show_message(
             message=message,
