@@ -89,27 +89,25 @@ class CSVImportView(BrowserView):
         except custom_exc.ExtraneousFields as e:
             return self._show_message_redirect(_(e.message))
 
-        if not update:
-            func = 'create_users'
-        else:
-            func = 'update_users'
-
+        message_type = 'error'
         try:
-            count = getattr(self, func)(data)
+            count = self.create_update_users(data)
+        except custom_exc.DuplicateUser as e:
+            message = _(
+                u"{} on row {}".format(
+                    e.message, e.details['row'])
+            )
         except custom_exc.RequiredMissing as e:
-            message_type = 'error'
             message = _(
                 u"Missing required field {} on row {}".format(
                     e.message, e.details['row'])
             )
         except custom_exc.ConstraintNotSatisfied as e:
-            message_type = 'error'
             message = _(
                 u"Constraint not satisfied for {} at row {}.".format(
                     e.details['field'], e.details['row'])
             )
         except custom_exc.WrongType as e:
-            message_type = 'error'
             message = _(
                 u"Wrong type for {} at row {}.".format(
                     e.details['field'], e.details['row'])
@@ -206,65 +204,61 @@ class CSVImportView(BrowserView):
         else:
             return (normalized_key, value)
 
-    def create_users(self, filedata):
-        """Create the userprofiles.
+    def create_update_users(self, filedata, update=False):
+        """Create/update the userprofiles.
 
         :param filedata: csv binary data
         :type filedata: str
-        """
-        count = 0
-
-        for row, user_info in enumerate(filedata.dict):
-            normalized_info = {}
-            offset_row = row + 1
-            for key, value in user_info.items():
-                normalized_key, validated_value = self.validate_field_value(
-                    key,
-                    value,
-                    offset_row
-                )
-                normalized_info[normalized_key] = validated_value
-
-            username = normalized_info.pop('username')
-            password = normalized_info.pop('password', None)
-            email = normalized_info.pop('email')
-            pi_api.userprofile.create(
-                username=username,
-                email=email,
-                password=password,
-                properties=normalized_info,
-                approve=True,
-            )
-            count += 1
-        return count
-
-    def update_users(self, filedata):
-        """Update any existing profiles.
-
-        :param filedata: csv binary data
-        :type filedata: str
+        :param update: If True, attempt to look up user first and update
+        :type update: bool
         """
         count = 0
 
         for row, user_info in enumerate(filedata.dict):
             offset_row = row + 1
+
+            # get the core fields (username, email, password)
             key_mapping = {x.lower().strip(): x for x in user_info.keys()}
             username = user_info.get(key_mapping['username'])
+            email = user_info.get(key_mapping['email'])
+            password = None
+            if 'password' in key_mapping:
+                password = user_info.get(key_mapping['password'])
+
             user = pi_api.userprofile.get(username)
             if user is None:
-                logger.warn('Could not find user mathcing {}'.format(
-                    username))
-                continue
+                user = pi_api.userprofile.create(
+                    username=username,
+                    email=email,
+                    password=password,
+                    approve=True,
+                )
+            elif user is not None and not update:
+                raise custom_exc.DuplicateUser(
+                    u"A user with this username already exists",
+                    details={'row': row})
 
+            # update additional fields
             for key, value in user_info.items():
                 try:
-                    normalized_key, value = self.validate_field_value(
-                        key, value, offset_row)
-                except custom_exc.RequiredMissing:
-                    # do not attempt to update missing values
+                    norm_key, validated_value = self.validate_field_value(
+                        key,
+                        value,
+                        offset_row
+                    )
+                except custom_exc.RequiredMissing as e:
+                    if update:
+                        # if we're updating, we can just ignore this field
+                        continue
+                    else:
+                        raise custom_exc.RequiredMissing(
+                            e.message,
+                            details={'row': offset_row, 'field': key})
+                if any([norm_key == 'username',
+                        not update and norm_key in {'email', 'password'}]):
                     continue
+                setattr(user, norm_key, validated_value)
 
-                setattr(user, normalized_key, value)
-                count += 1
+            count += 1
 
         return count
