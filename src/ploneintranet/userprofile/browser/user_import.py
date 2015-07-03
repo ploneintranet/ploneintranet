@@ -75,6 +75,16 @@ class CSVImportView(BrowserView):
                 self.__name__,
             ))
 
+    def _show_message_redirect(self, message):
+        """Convenience wrapper method for plone.api.portal.show_message
+        """
+        api.portal.show_message(
+            message=message,
+            request=self.request,
+            type='error',
+        )
+        return self._redirect()
+
     def process(self, csvfile, update=False):
         """Process the input file, validate and
         create the users.
