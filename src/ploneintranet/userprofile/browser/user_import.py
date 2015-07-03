@@ -103,6 +103,8 @@ class CSVImportView(BrowserView):
             return self._show_message_redirect(_(e.message))
         except custom_exc.ExtraneousFields as e:
             return self._show_message_redirect(_(e.message))
+        except tablib.core.HeadersNeeded as e:
+            return self._show_message_redirect(_(e.message))
 
         message_type = 'error'
         try:
@@ -155,7 +157,10 @@ class CSVImportView(BrowserView):
              if x.required]
         )
 
-        headers = set(self._normalise_headers(filedata.headers))
+        file_headers = filedata.headers
+        if not file_headers:
+            raise tablib.core.HeadersNeeded('No header row found')
+        headers = set(self._normalise_headers(file_headers))
         if not required_core_user_fields <= headers:
             missing = required_core_user_fields - headers
             raise custom_exc.MissingCoreFields(
