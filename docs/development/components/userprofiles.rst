@@ -36,6 +36,17 @@ Customising User Profiles
 
 User profiles are expected to be highly customised for each Plone Intranet deployment. As such, the profile views are built dynamically from dexterity behaviours, and support extra options such as hidden or read-only fields.
 
+Vocabularies
+------------
+
+The following vocabularies can be customised 
+using their corresponding plone.app.registry_ entries
+(e.g. using GenericSetup).
+
+ * **Primary Location** : ploneintranet.userprofile.locations
+
+.. _plone.app.registry: https://pypi.python.org/pypi/plone.app.registry
+
 Adding/Removing fields
 ----------------------
 
