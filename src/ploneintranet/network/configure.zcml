@@ -21,6 +21,10 @@
     name="ploneintranet.network.vocabularies.Keywords"
     />
 
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.tag_subjects"/>
 
   <genericsetup:registerProfile
       name="default"
