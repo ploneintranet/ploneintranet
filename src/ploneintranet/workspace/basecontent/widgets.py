@@ -53,16 +53,10 @@ class CommaSeparatedConverter(BaseDataConverter):
         return value
 
 
-@adapter(getSpecification(IDublinCore['subjects']), IWorkspaceAppFormLayer)
-@implementer(IFieldWidget)
-def CommaSeparatedFieldWidget(field, request):
-    return FieldWidget(field, CommaSeparatedWidget(request))
-
-
 # plone intranet uses a dublincore override
 @adapter(getSpecification(pi_IDublinCore['subjects']), IWorkspaceAppFormLayer)
 @implementer(IFieldWidget)
-def pi_CommaSeparatedFieldWidget(field, request):
+def CommaSeparatedFieldWidget(field, request):
     return FieldWidget(field, CommaSeparatedWidget(request))
 
 
