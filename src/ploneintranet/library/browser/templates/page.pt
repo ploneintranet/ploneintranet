@@ -29,6 +29,7 @@
                 Excepturi sint occaecati</a>
 	      <a href="#" class="share icon-share"
                  tal:condition="nothing">Share</a>
+          <a href="${context/absolute_url}/@@switch_theme" class="edit icon-edit">Edit</a>
 	    </p>
             
 	    <h1 class="title"
