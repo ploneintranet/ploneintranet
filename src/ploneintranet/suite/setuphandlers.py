@@ -70,9 +70,15 @@ def testing(context):
     create_caseworkspaces(caseworkspaces)
     commit()
 
-    log.info("create library content")
+    portal = api.portal.get()
+    # big setup only when manually re-running testcontent
+    bigsetup = bool(len(portal.library.objectIds()))
+    log.info("create library content, bigsetup=%s", bigsetup)
     library = library_spec(context)
-    create_library_content(None, library)
+    # will create minimal library with only small HR section by default
+    # will create big library on second manual testcontent run
+    # will do nothing on third and subsequent runs
+    create_library_content(None, library, bigsetup=bigsetup)
     commit()
 
     log.info("create microblog stream")
@@ -548,7 +554,7 @@ def library_spec(context):
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
-                   {'type': 'Document',
+                   {'type': 'News Item',
                     'title': 'Pregnancy',
                     'desciption': 'Expecting a child?'},
                ]},
@@ -584,9 +590,10 @@ idcounter = 0
 def create_library_content(parent,
                            spec,
                            force=False,
-                           creator='alice_lindstrom'):
+                           creator='alice_lindstrom',
+                           bigsetup=False):
     if parent is None:
-        # initial call
+        # initial recursion
         portal = api.portal.get()
         parent = portal.library
         api.user.grant_roles(
@@ -594,9 +601,16 @@ def create_library_content(parent,
             roles=['Contributor', 'Reviewer', 'Editor'],
             obj=portal.library
         )
-        api.content.transition(portal.library, 'publish')
-        # check only on initial call
-        if not force and len(portal.library.objectIds()) > 0:
+        try:
+            api.content.transition(portal.library, 'publish')
+        except api.exc.InvalidParameterError:
+            # subsequent runs, already published
+            pass
+        # initial (automated testing) testcontent run: no children
+        # second manual testcontent run: 1 child HR -> do big setup
+        # subsequent manual testcontent runs: skip for speed
+        already_setup = bool(len(portal.library.objectIds()) > 1)
+        if already_setup and not force:
             log.info("library already setup. skipping for speed.")
             return
 
@@ -604,6 +618,10 @@ def create_library_content(parent,
     while spec:
         # avoiding side effects here cost me 4 hours!!
         item = copy.deepcopy(spec.pop(0))
+        if 'title' not in item and not bigsetup:
+            # skip lorem ipsum creation unless we're running bigsetup
+            continue
+
         contents = item.pop('contents', None)
         if 'title' not in item:
             global idcounter
@@ -622,7 +640,8 @@ def create_library_content(parent,
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
         if contents:
-            create_library_content(obj, contents, creator=creator)
+            create_library_content(obj, contents, creator=creator,
+                                   bigsetup=bigsetup)
 
 
 def create_stream(context, stream, files_dir):
