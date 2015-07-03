@@ -106,6 +106,7 @@ class UserProfileViewForm(UserProfileBaseForm, view.DefaultView):
         # Username, name and bio are dealt with differently
         # on the profile view page
         return hidden + ('username',
+                         'person_title',
                          'first_name',
                          'last_name',
                          'IUserProfileAdditional.biography', )
