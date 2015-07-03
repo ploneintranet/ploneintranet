@@ -244,20 +244,17 @@ class CSVImportView(BrowserView):
         :param filedata: csv binary data
         :type filedata: str
         """
-        membrane_tool = api.portal.get_tool('membrane_tool')
         count = 0
 
         for row, user_info in enumerate(filedata.dict):
             offset_row = row + 1
             key_mapping = {x.lower().strip(): x for x in user_info.keys()}
             username = user_info.get(key_mapping['username'])
-            user_brain = membrane_tool.searchResults(getUserName=username)
-            if not user_brain:
+            user = pi_api.userprofile.get(username)
+            if user is None:
                 logger.warn('Could not find user mathcing {}'.format(
                     username))
                 continue
-            else:
-                user = user_brain[0].getObject()
 
             for key, value in user_info.items():
                 try:
