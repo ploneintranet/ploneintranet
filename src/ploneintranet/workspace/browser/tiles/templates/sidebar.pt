@@ -396,7 +396,7 @@ Supported types include (class names):
                         <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
                       </ul>
 
-                      <form tal:attributes="action string:${event/getURL}/delete_confirmation">
+                      <form class="pat-modal" tal:attributes="action string:${event/getURL}/delete_confirmation#content">
                         <button class="iconified icon-trash" type="submit">Delete event</button>
                       </form>
                     </li>
