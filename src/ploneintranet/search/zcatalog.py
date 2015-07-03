@@ -38,17 +38,17 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_date_range(self, query, start_date=None, end_date=None):
-        query = dict(query, created=dict.fromkeys(('query', 'range')))
-        created = query['created']
+        query = dict(query, modified=dict.fromkeys(('query', 'range')))
+        modified = query['modified']
         if all((start_date, end_date)):
-            created['query'] = (start_date, end_date)
-            created['range'] = 'min:max'
+            modified['query'] = (start_date, end_date)
+            modified['range'] = 'min:max'
         elif start_date is not None:
-            created['query'] = start_date
-            created['range'] = 'min'
+            modified['query'] = start_date
+            modified['range'] = 'min'
         else:
-            created['query'] = end_date
-            created['range'] = 'max'
+            modified['query'] = end_date
+            modified['range'] = 'max'
         return query
 
     def _paginate(self, query, start, step):

@@ -51,10 +51,10 @@
                     </label>
                 </fieldset>
                 <label>
-                    <span i18n:translate="" tal:omit-tag="">Created</span>
+                    <span i18n:translate="" tal:omit-tag="">Last Modified</span>
                     <select name="created" id="">
                     <option value="" i18n:translate="">
-                        Any creation date
+                        Any modification date
                     </option>
                     <option value="today" i18n:translate="">
                         Today

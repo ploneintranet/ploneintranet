@@ -193,11 +193,11 @@ class SiteSearch(base.SiteSearch):
     def _apply_date_range(self, query, start_date, end_date):
         filter_query = query.filter
         if start_date and end_date:
-            query = filter_query(created__range=(start_date, end_date))
+            query = filter_query(modified__range=(start_date, end_date))
         elif end_date is not None:
-            query = filter_query(created__lt=end_date)
+            query = filter_query(modified__lt=end_date)
         else:
-            query = filter_query(created__gt=start_date)
+            query = filter_query(modified__gt=start_date)
         return query
 
     def _apply_spellchecking(self, query, phrase):
