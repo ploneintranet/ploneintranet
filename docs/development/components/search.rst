@@ -102,7 +102,7 @@ To register a new filter:
 Adding facets
 -------------
 
-Valid facets can be configured using the `ploneintranet.search.facet_fields` registry value. These will be returned on the `ISearchResponse` object (see below).
+Valid facets can be configured using the `ploneintranet.search.facet_fields` registry value. These will be returned on the :class:`ISearchResponse<ploneintranet.search.interfaces.ISearchResponse>` object (see below).
 
 
 .. code:: xml
