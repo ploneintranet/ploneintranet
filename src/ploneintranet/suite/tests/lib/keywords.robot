@@ -37,7 +37,7 @@ Fill text field
 
 Add workspace
     [arguments]  ${title}
-    Go to  ${PLONE_URL}/++add++ploneintranet.workspace.workspacefolder
+    Go to  ${PLONE_URL}/workspaces/++add++ploneintranet.workspace.workspacefolder
     Input text  name=form.widgets.IBasic.title  ${title}
     Click Button  Save
     Page Should Contain  Item created
