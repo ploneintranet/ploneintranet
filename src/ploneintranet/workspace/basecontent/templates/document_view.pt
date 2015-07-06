@@ -66,7 +66,7 @@
                 <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
                   <textarea tal:condition="not:read_only" name="text" class="pat-raptor"
                       data-pat-raptor="
-                      image-browse-url: /uploads; image-picker-url: ${workspace_url}/@@workspaceImagePicker; image-pick-icon: ${workspace_url}/;
+                        image-picker-url: ${workspace_url}/@@workspaceImagePicker;
                         toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, fileManager, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow" tal:content="python: context.text.raw if context.text else ''">
                     Content of the textarea
                   </textarea>
