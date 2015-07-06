@@ -41,19 +41,18 @@
 	      <a href="#" class="tag">Finanzplanung</a>
 	      <a href="#" class="tag">Statuten</a>
 	    </nav>
-            
+      <figure class="hero"
+              tal:define="has_img context/image|nothing;
+                          scales context/@@images|nothing;"
+              tal:condition="python:has_img and scales">
+          <img tal:attributes="src string:${context/absolute_url}/@@images/image/large" />
+      </figure>
 	    <p class="summary"
                tal:content="context/description">
 	      Das katholische Kirchenparlament im Kanton Zürich.
 	    </p>
 
-      <p tal:define="has_img context/image|nothing;
-                     scales context/@@images|nothing;"
-         tal:condition="python:has_img and scales">
-          <img tal:attributes="src string:${context/absolute_url}/@@images/image/large" />
-      </p>
-            
-	    <div class="main-content"
+      <div class="main-content"
                  tal:condition="context/text|nothing"
                  tal:content="structure context/text/output">
               <p>body text</p>
