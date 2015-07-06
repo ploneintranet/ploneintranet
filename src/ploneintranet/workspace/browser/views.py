@@ -9,6 +9,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
 from ploneintranet.workspace import MessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from zope import component
 import mimetypes
 import json
 
@@ -161,8 +162,19 @@ class ImagePickerView(BrowserView):
 
     def __call__(self):
         form = self.request.form
-        if form['action'] == 'list':
-            catalog = api.portal.get_tool('portal_catalog')
+        catalog = api.portal.get_tool('portal_catalog')
+        if form['action'] == 'view':
+            path, id = form['path'].rsplit('/', 1)
+            images = catalog(
+                        portal_type="Image",
+                        path=path,
+                        id=id)
+            if not len(images):
+                return '{}'
+            obj = images[0].getObject()
+            self.request.response.setHeader("Content-type", obj.image.contentType)
+            return obj.image.data
+        elif form['action'] == 'list':
             images = catalog(
                         portal_type="Image",
                         path="/".join(self.context.getPhysicalPath())
@@ -172,6 +184,8 @@ class ImagePickerView(BrowserView):
                     "limit": form.get('limit'),
                     "total": len(images),
                     "filteredTotal": len(images),
+                    'directories': [],
+                    'tags': [],
                     'files': []
                 }
             try:
@@ -189,7 +203,8 @@ class ImagePickerView(BrowserView):
                     },
                     "type": obj.image.contentType.lstrip('image/'),
                     "size": obj.image.size,
-                    "mtime": obj.modified().millis()
+                    "mtime": obj.modified().millis(),
+                    "iconSrc": '%s/@@images/image/thumb' % image.getPath()
                 })
                 if 1 == limit:
                     break
