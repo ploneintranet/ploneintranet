@@ -90,7 +90,8 @@
     <append css:content-children="#content" css:theme=".panel-body" />
   </rules>
 
-  <rules css:if-content="body.template-userprofile-view">
+  <rules css:if-content="body.template-userprofile-view,
+                         body.template-edit.portaltype-ploneintranet-userprofile-userprofile">
     <theme href="generated/liz-baker/index.html" />
     <drop css:theme-children="#person-timeline aside" />
     <drop css:theme-children="#person-timeline div.columns" />

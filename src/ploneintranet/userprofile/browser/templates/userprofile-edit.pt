@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content">
+
+            <aside>
+                <figure class="user-portrait">
+                    <img class="pat-avatar"
+        			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
+        			 src="{{ page.image_url }}"
+                     alt="Image of {{ page.title }}" />
+                    <figcaption class="status-message">
+			<h1 tal:content="context/fullname" />
+                    </figcaption>
+        	</figure>
+	    </aside>
+
+	    <div id="main">
+	    <form method="POST" id="user-edit-form"
+		  action="${context/absolute_url}/@@edit"
+		  enctype="multipart/form-data">
+		<fieldset class="section horizontal">
+		    <tal:field tal:repeat="field view/fields_for_edit">
+			<label title="${field/description}">
+			    <span tal:replace="field/label" />
+			    <div class="composed"
+				 tal:condition="field/read_only">
+				<input tal:replace="structure field/html" />
+			    </div>
+			    <input tal:condition="not:field/read_only"
+				   tal:replace="structure field/html" />
+			</label>
+			<section class="help" 
+				 tal:condition="field/error_html">
+			    <div class="pat-message warning" 
+				 tal:content="structure field/error_html" />
+			</section>
+		    </tal:field>
+		    <p>
+			<input type="submit" 
+			       i18n:attributes="value"
+			       value="Save" 
+			       name="form.buttons.save" />
+		    </p>
+	    </form>
+	    </div>
+
+	</metal:content>
+    </body>
+</html>

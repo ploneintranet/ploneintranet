@@ -132,7 +132,7 @@ class CSVImportView(BrowserView):
         else:
             message_type = 'info'
             verb = update and "Updated" or "Created"
-            message = _(u"{} user {}.".format(count, verb))
+            message = _(u"{} user(s) {}.".format(count, verb))
 
         if message_type == 'error':
             transaction.abort()
@@ -161,6 +161,7 @@ class CSVImportView(BrowserView):
         if not file_headers:
             raise tablib.core.HeadersNeeded('No header row found')
         headers = set(self._normalise_headers(file_headers))
+
         if not required_core_user_fields <= headers:
             missing = required_core_user_fields - headers
             raise custom_exc.MissingCoreFields(
