@@ -112,7 +112,12 @@
                    tal:define="has_img child/context/image|nothing;
                                scales child/context/@@images|nothing;"
                    tal:condition="python:has_img and scales" >
-                  <img tal:replace="structure python: scales.scale('image', scale='mini').tag()" />
+                   <!-- images must not have height and width attrs, this is determined by styling -->
+                  <img tal:attributes="src string:${child/absolute_url}/@@images/image/preview" />
+                </p>
+                <p class="hero"
+                   tal:condition="child/preview">
+                  <img tal:attributes="src string:${child/absolute_url}/docconv_image_preview.jpg" title="preview image"/>
                 </p>
 	        <p class="summary" tal:content="child/description">
 	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
