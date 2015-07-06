@@ -9,8 +9,8 @@ from plone import api as plone_api
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
-from ploneintranet.userprofile.content.userprofile import \
-    primaryLocationVocabulary
+from ploneintranet.userprofile.browser.forms import get_fields_for_template
+from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 
 
 AVATAR_SIZES = {
@@ -19,24 +19,14 @@ AVATAR_SIZES = {
 }
 
 
-class UserProfileView(BrowserView):
+class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
-
     """View for user profile."""
 
     def is_me(self):
         """Does this user profile belong to the current user"""
         return self.context.username == \
             plone_api.user.get_current().getUserName()
-
-    def primary_location(self):
-        """Get context's location using vocabulary."""
-        vocabulary = primaryLocationVocabulary(self.context)
-        token = self.context.primary_location
-        if vocabulary and token:
-            return vocabulary.getTermByToken(token).title
-        else:
-            return ''
 
     def following(self):
         """Users this profile is following"""
@@ -65,6 +55,9 @@ class UserProfileView(BrowserView):
                 'avatar_url': pi_api.userprofile.avatar_url(userid),
             })
         return details
+
+    def fields_for_display(self):
+        return get_fields_for_template(self)
 
 
 class AuthorView(BaseAuthorView):
