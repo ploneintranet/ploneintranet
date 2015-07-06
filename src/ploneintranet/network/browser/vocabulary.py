@@ -108,14 +108,20 @@ class PersonalizedVocabularyView(VocabularyView):
         return vocabulary
 
     def __call__(self):
-        """ Extract the value for "results" from the JSON string returned from
-        the default @@getVocabulary view, so that it can be used by
-        pat-autosuggest.
+        """ If the 'resultsonly' parameter is in the request then extract the
+        value for "results" from the JSON string returned from the default
+        @@getVocabulary view, so that it can be used by pat-autosuggest.
+
+        @@getVocabulary also uses the vocabulary item 'token' value for the
+        'id', which escapes unicode strings. For pat-autosuggest we need to use
+        unicode for both the 'text' and the 'id'.
         """
         vocab_json = super(PersonalizedVocabularyView, self).__call__()
         if vocab_json and self.request.get('resultsonly', False):
             vocab_obj = json_loads(vocab_json)
             results = vocab_obj.get('results', [])
-            return json_dumps(results)
+            text_values = [i['text'] for i in results]
+            vocab_list = [{'text': val, 'id': val} for val in text_values]
+            return json_dumps(vocab_list)
 
         return vocab_json
