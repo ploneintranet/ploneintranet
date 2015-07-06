@@ -13,7 +13,6 @@ from ploneintranet.userprofile import exc as custom_exc
 from zope import schema
 from zope.component import getUtility
 from zope.interface import alsoProvides
-from zope.interface import Invalid
 
 
 class IDummySchema(form.Schema):
@@ -81,7 +80,7 @@ class TestCSVImportView(BaseTestCase):
                 'Validation unexpectedly failed.',
             )
 
-    def test_create_users(self):
+    def test_create_update_users(self):
         view = CSVImportView(self.profiles, self.request)
         user_fields_file_loc = self._get_fixture_location(
             'basic_users.csv')
@@ -90,13 +89,14 @@ class TestCSVImportView(BaseTestCase):
 
         self.assertEqual(len(self.profiles.objectValues()), 0)
 
-        view.create_users(filedata)
+        count = view.create_update_users(filedata)
+        self.assertEqual(count, 2)
         self.assertEqual(
             len(self.profiles.objectValues()), 2, "Users not created")
 
         # validation failure on duplicate username
-        with self.assertRaises(Invalid):
-            view.create_users(filedata)
+        with self.assertRaises(custom_exc.DuplicateUser):
+            view.create_update_users(filedata)
 
         file_loc = self._get_fixture_location(
             'missing_first_name.csv')
@@ -105,7 +105,34 @@ class TestCSVImportView(BaseTestCase):
 
         # validation failure on missing required field
         with self.assertRaises(schema.interfaces.RequiredMissing):
-            view.create_users(filedata)
+            view.create_update_users(filedata)
+        # Even though an exception was raised we will have an extra user
+        # here as the transaction is handled by the process method
+        self.assertEqual(
+            len(self.profiles.objectValues()), 3, "Users not created")
+
+        # now update one of the users
+        user_fields_file_loc = self._get_fixture_location(
+            'basic_users.csv')
+        with open(user_fields_file_loc) as bf:
+            filedata = self._parse_file(bf.read())
+        raw = filedata.csv
+        email = 'barry2@test.com'
+        raw = raw.replace('barry@test.com', email)
+        filedata.csv = raw
+
+        view.create_update_users(filedata, update=True)
+        self.assertEqual(
+            len(self.profiles.objectValues()), 3,
+            "Users not created correctly",
+        )
+        user = self.membrane_tool.searchResults(
+            getUserName='foo')
+        self.assertEqual(
+            user[0].getObject().email,
+            email,
+            'User not updated',
+        )
 
     def test_process(self):
         view = CSVImportView(self.profiles, self.request)
@@ -121,3 +148,9 @@ class TestCSVImportView(BaseTestCase):
             m[0].message,
             u'Missing required field first_name on row 1'
         )
+
+        user_fields_file_loc = self._get_fixture_location(
+            'basic_users.csv')
+        with open(user_fields_file_loc) as bf:
+            filedata = bf.read()
+        view.process(filedata)
