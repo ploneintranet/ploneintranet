@@ -46,6 +46,12 @@
                tal:content="context/description">
 	      Das katholische Kirchenparlament im Kanton Zürich.
 	    </p>
+
+      <p tal:define="has_img context/image|nothing;
+                     scales context/@@images|nothing;"
+         tal:condition="python:has_img and scales">
+          <img tal:attributes="src string:${context/absolute_url}/@@images/image/large" />
+      </p>
             
 	    <div class="main-content"
                  tal:condition="context/text|nothing"
