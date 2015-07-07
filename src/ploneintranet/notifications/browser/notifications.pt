@@ -5,8 +5,8 @@
       lang="en"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="ploneintranet">
-<body>
-  <div id="social-messages" metal:fill-slot="main">
+
+<body metal:fill-slot="main">
 
       <h1 i18n:translate="">
         Notifications
@@ -16,13 +16,13 @@
         <ul class="notifications">
           <li tal:repeat="notification notifications"  class="notification">
             <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
-              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()" />
+              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid'])" />
             </a>
             <span class="subjects">
               <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
-            <span class="verb" tal:content="notification/predicate">
-              asked
+            <span class="verb">
+              posted
             </span>
             <a href="" class="object" tal:content="notification/obj/title">
               Who's up for a beer at Watershed at 8pm?
@@ -37,6 +37,5 @@
         </p>
       </div>
 
-    </div>
   </body>
 </html>

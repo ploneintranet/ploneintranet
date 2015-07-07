@@ -3,10 +3,6 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet.notifications">
 
-  <!--
-      These views are disabled for now, as the implementation
-      is incomplete and missing any security considerations
-
   <browser:page
       for="*"
       name="notifications"
@@ -24,6 +20,5 @@
       template="notificationsviewlet.pt"
       layer=".interfaces.IPloneintranetNotificationsLayer"
       />
-  -->
 
 </configure>
