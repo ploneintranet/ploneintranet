@@ -33,6 +33,9 @@ class Message(Persistent):
             self.obj['read'] = False
 
     def mark_as_read(self, now=None):
+        if self.obj['read']:
+            # already read
+            return
         if now is None:
             now = datetime.utcnow()
         self.obj['read'] = now
