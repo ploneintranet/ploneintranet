@@ -6,6 +6,7 @@ from zExceptions import NotFound
 from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone import api as plone_api
+from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet import api as pi_api
@@ -86,41 +87,92 @@ class MyProfileView(BrowserView):
         raise Unauthorized
 
 
-class AvatarView(BrowserView):
-    """Helper view to render a user's avatar image"""
+def stream_avatar_data(profile, size, request):
+    """Generate avatar at the specified size and stream it
+
+    This is a utility method used by the browser views below.
+    """
+    imaging = plone_api.content.get_view(
+        request=request,
+        context=profile,
+        name='images')
+
+    if size not in AVATAR_SIZES:
+        return None
+
+    width = height = AVATAR_SIZES.get(size)
+
+    try:
+        scale = imaging.scale(
+            fieldname='portrait',
+            width=width,
+            height=height,
+            direction='down',
+        )
+    except TypeError:
+        # No image found
+        return None
+
+    if scale is not None:
+        response = request.response
+        data = scale.data
+        from plone.namedfile.utils import set_headers, stream_data
+        set_headers(data, response)
+        return stream_data(data)
+    else:
+        return None
+
+
+class AvatarsView(BrowserView):
+    """Helper view to render a user's avatar image
+
+    This view is designed to mimic Plone's default portrait setup.
+    Where portraits are accessed via:
+    /plone/portal_memberdata/portraits/userid
+    this can be replaced with:
+    /plone/@@avatars/userid
+
+    This allows you to easily link to an avatar without first
+    looking up the user profile object.
+    """
+    implements(IPublishTraverse)
+
+    def publishTraverse(self, request, name):
+        # @@avatars/userid/size
+        self.userid = name
+
+        stack = request.get('TraversalRequestNameStack', [])
+        if stack:
+            self.size = stack.pop()
+        else:
+            self.size = 'stream'
+
+        request['TraversalRequestNameStack'] = []
+        return self
 
     def __call__(self):
-        return self._get_avatar_data()
+        profile = pi_api.userprofile.get(self.userid)
+        if profile is None:
+            raise NotFound
+
+        return stream_avatar_data(profile, self.size, self.request)
+
+
+class MyAvatar(BrowserView):
+    """Helper view to render a user's avatar image
+
+    This view is designed to be used on the end of a user profile URL,
+    e.g. in search results or listings
+
+    /path/to/profile/avatar.jpg
+    """
+
+    def __call__(self):
+        return stream_avatar_data(self.context,
+                                  'stream',
+                                  self.request)
 
     def avatar_profile(self):
-        return self._get_avatar_data(size='profile')
-
-    def _get_avatar_data(self, size='stream'):
-        """Generate avatar at the specific size"""
-
-        imaging = plone_api.content.get_view(
-            request=self.request,
-            context=self.context,
-            name='images')
-
-        width = height = AVATAR_SIZES.get(size)
-
-        try:
-            scale = imaging.scale(
-                fieldname='portrait',
-                width=width,
-                height=height,
-                direction='down',
-            )
-        except TypeError:
-            # No image found
-            return None
-
-        if scale is not None:
-            response = self.request.response
-            data = scale.data
-            from plone.namedfile.utils import set_headers, stream_data
-            set_headers(data, response)
-            return stream_data(data)
-        else:
-            return None
+        return stream_avatar_data(self.context,
+                                  'profile',
+                                  self.request)
