@@ -2,4 +2,4 @@
 # flake8: noqa
 from ploneintranet.api import microblog
 from ploneintranet.api import userprofile
-
+from ploneintranet.api import notification
