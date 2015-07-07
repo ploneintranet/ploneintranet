@@ -16,9 +16,19 @@ class AllChannel(object):
         return len(self.get_unread_messages(keep_unread=True))
 
     def get_unread_messages(self, limit=None, keep_unread=False):
-        messages = filter(lambda msg: msg.is_unread(), self.queue)
+        messages = filter(lambda msg: msg.is_unread(),
+                          self.get_all_messages(keep_unread=keep_unread))
+
         if limit:
             messages = messages[:limit]
+
+        return messages
+
+    def get_all_messages(self, limit=None, keep_unread=False):
+        if not limit:
+            messages = self.queue[:]
+        else:
+            messages = self.queue[:limit]
 
         if not keep_unread:
             for message in messages:
@@ -27,9 +37,3 @@ class AllChannel(object):
         return sorted(messages,
                       key=lambda x: x.obj['message_last_modification_date'],
                       reverse=True)
-
-    def get_all_messages(self, limit=None):
-        if not limit:
-            return self.queue[:]
-        else:
-            return self.queue[:limit]
