@@ -11,7 +11,8 @@ from ploneintranet.userprofile.tests.base import BaseTestCase
 from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import MyProfileView
-from ploneintranet.userprofile.browser.userprofile import AvatarView
+from ploneintranet.userprofile.browser.userprofile import AvatarsView
+from ploneintranet.userprofile.browser.userprofile import MyAvatar
 
 
 TEST_AVATAR_FILENAME = u'test_avatar.jpg'
@@ -114,9 +115,10 @@ class TestMyProfileView(TestUserProfileBase):
             myprofile_view()
 
 
-class TestAvatarView(TestUserProfileBase):
+class TestAvatarViews(TestUserProfileBase):
 
-    def test__get_avatar_data(self):
+    def setUp(self):
+        super(TestAvatarViews, self).setUp()
         avatar_file = open(
             os.path.join(os.path.dirname(__file__),
                          TEST_AVATAR_FILENAME), 'r')
@@ -124,6 +126,34 @@ class TestAvatarView(TestUserProfileBase):
             data=avatar_file.read(),
             filename=TEST_AVATAR_FILENAME)
 
-        avatar_view = AvatarView(self.profile1, self.request)
-        data = avatar_view()
+    def test_avatars_view(self):
+        self.login(self.profile1.username)
+        avatars_view = AvatarsView(self.portal, self.request)
+        avatars_view.publishTraverse(self.request,
+                                     self.profile1.username)
+
+        data = avatars_view()
         self.assertTrue(IStreamIterator.providedBy(data))
+
+        avatars_view.publishTraverse(self.request,
+                                     self.profile2.username)
+        data = avatars_view()
+        self.assertIsNone(data)
+
+        avatars_view.publishTraverse(self.request,
+                                     'not-a-username')
+        with self.assertRaises(NotFound):
+            avatars_view()
+
+    def test_my_avatar(self):
+        self.login(self.profile1.username)
+        my_avatar = MyAvatar(self.profile1, self.request)
+        data = my_avatar()
+        self.assertTrue(IStreamIterator.providedBy(data))
+
+        profile_data = my_avatar.avatar_profile()
+        self.assertTrue(IStreamIterator.providedBy(profile_data))
+
+        no_avatar = MyAvatar(self.profile2, self.request)
+        data = no_avatar()
+        self.assertIsNone(data)
