@@ -28,5 +28,8 @@ class AllChannel(object):
                       key=lambda x: x.obj['message_last_modification_date'],
                       reverse=True)
 
-    def get_all_messages(self):
-        return self.queue[:]
+    def get_all_messages(self, limit=None):
+        if not limit:
+            return self.queue[:]
+        else:
+            return self.queue[:limit]
