@@ -91,7 +91,7 @@ def existing_users(context):
         description = _(u'Here we could have a nice status of this person')
         classes = description and 'has-description' or 'has-no-description'
         portal = api.portal.get()
-        portrait = '%s/portal_memberdata/portraits/%s' % \
+        portrait = '%s/@@avatars/%s' % \
                    (portal.absolute_url(), userid)
         info.append(
             dict(

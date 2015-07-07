@@ -44,7 +44,7 @@
                                      checked python:user.id in view.selected_user_ids and 'checked' or ''"/>
               <a class="follow"
                 tal:define="userid user/id;
-                            avatar_img string:${portal_url}/portal_memberdata/portraits/${userid};
+                            avatar_img string:${portal_url}/@@avatars/${userid};
                             fullname python:user.getProperty('fullname')">
                 <img src="${avatar_img}" alt="${fullname}" class="avatar" />
                 <strong class="title"
