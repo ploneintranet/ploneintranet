@@ -157,8 +157,12 @@ class FileUploadView(BaseFileUploadView):
         return result
 
 
-class ImagePickerView(BrowserView):
-    """ """
+class RaptorImagePickerView(BrowserView):
+    """ This is the backend view for the Raptor editor's File Manager plugin,
+        which is used to pick and insert images.
+
+        https://www.raptor-editor.com/documentation/tutorials/file-manager
+    """
 
     def __call__(self):
         form = self.request.form
@@ -175,15 +179,30 @@ class ImagePickerView(BrowserView):
             self.request.response.setHeader("Content-type", obj.image.contentType)
             return obj.image.data
         elif form['action'] == 'list':
-            images = catalog(
-                        portal_type="Image",
-                        path="/".join(self.context.getPhysicalPath())
-                    )
+            query = {
+                'portal_type': "Image",
+                'path': "/".join(self.context.getPhysicalPath())
+            }
+            all_images = catalog(query)
+            start = int(form.get('start', 0))
+            limit = int(form.get('limit', 0))
+            if form.get('search'):
+                query['Title'] = "*%s*" % form['search']
+                if limit:
+                    filtered_images = catalog(**query)[start:start+limit]
+                else:
+                    filtered_images = catalog(**query)[start:]
+            else:
+                if limit:
+                    filtered_images = all_images[start:start+limit]
+                else:
+                    filtered_images = all_images[start:]
+
             results = {
-                    "start": form.get('start'),
+                    "start": form.get('start', '0'),
                     "limit": form.get('limit'),
-                    "total": len(images),
-                    "filteredTotal": len(images),
+                    "total": len(all_images),
+                    "filteredTotal": len(filtered_images),
                     'directories': [],
                     'tags': [],
                     'files': []
@@ -193,11 +212,11 @@ class ImagePickerView(BrowserView):
             except ValueError:
                 limit = 0
             i = 0
-            for image in images:
+            for image in filtered_images:
                 i += 1
                 obj = image.getObject()
                 results['files'].append( {
-                    "name": image.Title,
+                    "name": image.id,
                     "attributes": {
                         "alt": image.Description
                     },

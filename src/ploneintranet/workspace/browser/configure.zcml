@@ -176,7 +176,7 @@
     <browser:page
       name="workspaceImagePicker"
       for="Products.CMFCore.interfaces._content.IFolderish"
-      class=".views.ImagePickerView"
+      class=".views.RaptorImagePickerView"
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
