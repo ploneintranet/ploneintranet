@@ -2,18 +2,18 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Intranet</title>
+		<title> | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="http://demo.ploneintranet.net/style/screen.css" type="text/css">
-		<link rel="stylesheet" href="http://demo.ploneintranet.net/style/colours.css" type="text/css">
-		<script src="http://demo.ploneintranet.net/bundles/ploneintranet.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="//style/screen.css" type="text/css">
+		<link rel="stylesheet" href="//style/colours.css" type="text/css">
+		<script src="//bundles/ploneintranet.js" type="text/javascript"></script>
 
-		<link rel="icon" type="image/png" href="http://demo.ploneintranet.net/media/favicon.png" />
+		<link rel="icon" type="image/png" href="//media/favicon.png" />
 		<!--[if IE]>
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal sidebar-left-open focus-listing  generic application-news-cms ">
+	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-news-cms ">
 		<div class="application-news-cms" id="content">
     <div id="document-body">
     	<div id="document-content" class="news-feed">
@@ -2054,9 +2054,9 @@
 
 <header id="global-header">
 
-    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+    <a id="hamburger" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Intranet"></a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
 
@@ -2088,29 +2088,16 @@
         </label>
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
+
+    <nav class="tabs navigation  portal-tabs" id="">
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" >Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
 </header>
 
-
-		<style type="text/css">
-			#global-header {
-    			background-color: ;
-    			color: ;
-			}			
-
-			#global-header .icon,
-			.application-portal #global-header .icon,
-			#global-header form.search,
-			.application-portal #global-header form.search,
-			#global-header .icon:hover, 
-			#global-header form.search:hover,
-			#hamburger:before,
-			nav.breadcrumbs a  {
-			    color: ;
-			}
-
-			nav.breadcrumbs a:first-child:before {
-				background-color: ;
-			}
-		</style>
 	</body>
 </html>
