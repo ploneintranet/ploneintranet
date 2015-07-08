@@ -76,7 +76,7 @@ _diazo:
 	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
 	# logo
 	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
-	cp $(RELEASE_DIR)/media/logo*.svg $(DIAZO_DIR)/media/
+	cp -R $(RELEASE_DIR)/media/logos $(DIAZO_DIR)/media/
 
 jsdev: clean-proto dev-bundle diazo _jsdev ## full js development refresh
 
