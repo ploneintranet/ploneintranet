@@ -39,7 +39,7 @@
            css:theme="#user-avatar" />
 
   <!-- adaptation of the global-nav -->
-  <replace css:theme-children="#home-tabs"
+  <replace css:theme-children="nav.tabs.navigation.portal-tabs"
            css:content-children="#portal-globalnav li" />
 
   <drop css:theme="#buddies-toggle"
@@ -136,12 +136,18 @@
     <drop css:content="#viewlet-below-content #category" />
   </rules>
 
+  <rules css:if-content="body.template-default_error_message">
+    <theme href="generated/404.html" />
+    <replace css:content-children="#content" css:theme-children="article.error-page" />
+  </rules>
+
   <!-- if there is a visual-portal-wrapper -->
   <theme href="generated/empty.html"
          css:if-content="#visual-portal-wrapper" />
   <replace css:content-children="#content"
            css:theme-children="#original-content"
            css:if-content="#visual-portal-wrapper" />
+
 
 
   <notheme css:if-content="body.diazo.off"/>
