@@ -86,6 +86,7 @@ class IUserProfileAdditional(form.Schema):
         source=u"ploneintranet.userprofile.locations_vocabulary",
         required=False
     )
+    dexteritytextindexer.searchable('biography')
     biography = schema.Text(
         title=_(u"Biography"),
         required=False
