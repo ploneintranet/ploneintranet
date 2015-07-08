@@ -57,6 +57,9 @@
     <theme href="generated/index.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+    <replace css:theme-children="figure.splash">
+        <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
+    </replace>
   </rules>
 
   <rules css:if-content="body.portaltype-event, 
