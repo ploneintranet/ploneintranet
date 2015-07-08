@@ -53,9 +53,9 @@
         css:theme="form#global-nav-search" />
 
   <!-- Login Form -->
-  <rules css:if-content="body.template-login_form">
+  <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
-    <copy attributes="method id action" css:content="form#login_form" css:theme=".login-panel form" />
+    <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
   </rules>
 
