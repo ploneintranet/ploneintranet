@@ -39,7 +39,7 @@
            css:theme="#user-avatar" />
 
   <!-- adaptation of the global-nav -->
-  <replace css:theme-children="#home-tabs"
+  <replace css:theme-children="nav.tabs.navigation.portal-tabs"
            css:content-children="#portal-globalnav li" />
 
   <drop css:theme="#buddies-toggle"
