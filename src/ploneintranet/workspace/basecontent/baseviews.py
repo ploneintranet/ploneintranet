@@ -63,7 +63,7 @@ class ContentView(BrowserView):
             modified = True
             messages.append("The workflow state has been changed.")
 
-        if self.can_edit:
+        elif self.can_edit:
             mod = False
             if self.validate():
                 mod, errors = dexterity_update(context)
