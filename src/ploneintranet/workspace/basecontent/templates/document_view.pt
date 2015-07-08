@@ -72,12 +72,17 @@
                 <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
                   <tal:previews tal:repeat="preview python:range(1, number_of_file_previews + 1)">
                     <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+
                   </tal:previews>
                 </article>
+                <tal:file_nochange condition="python: context.portal_type == 'File'">
+                  <input type="hidden" name="file.action" value="nochange"/>
+                </tal:file_nochange>
 
                 <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                   <figure>
                     <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                    <input type="hidden" name="image.action" value="nochange"/>
                   </figure>
                 </article>
               </div><!-- #document-content -->
