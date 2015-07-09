@@ -104,27 +104,16 @@
                     /posts/2307540960981987527368
                     </a>
                 </dd> -->
-                <!-- Next a hard coded example of a person as a search result:
-                <dt class="title">
-                    <a href="">Joan Baker</a>
-                </dt>
+
+                <tal:result repeat="result search_response">
+
+		    <!--
                 <dd class="description">
                     <a href="/joan-baker" class="preview user">
-                    <img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar " />
-                    <h4 class="name">
-                        Joan Baker
-                    </h4>
-                    </a>
-                    <p class="fragment">
-                    Some content goes here on Joan. Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <img src="/media/avatar-joan-baker.jpg" alt=""
+			 class="pat-avatar " />
+		    -->
 
-                    </p>
-                    <a href="" class="link">
-                    /people/joan-baker
-                    </a>
-                </dd> -->
-                <!-- Next generated search results of various content/mime types: -->
-                <tal:result repeat="result search_response">
                 <dt class="title">
                     <a href="{{ result.url }}"
                        tal:attributes="href result/url"
@@ -149,16 +138,21 @@
                     </a>
                     {% else %}
                     -->
-                    <tal:preview>
-                    <a href="{{ result.url }}"
-                       class="preview file"
-                       tal:attributes="href result/url">
-                        <img src="{{ preview.url }}"
-                         alt=""
-                         tal:attributes="src result/preview_image_url"
-                         tal:condition="result/preview_image_url" />
-                        <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg" tal:condition="not: result/preview_image_url" />
-                    </a>
+                    <tal:preview tal:define="preview_class python:
+					     view.preview_class(result.portal_type)">
+			<a href="{{ result.url }}"
+			   class="preview ${preview_class}"
+			   tal:attributes="href result/url">
+                            <img src="{{ preview.url }}"
+				 class="pat-avatar"
+				 alt=""
+				 tal:attributes="src result/preview_image_url; 
+						 class python: preview_class == 'user' and 'pat-avatar' or ''"
+				 tal:condition="result/preview_image_url" />
+                            <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg" tal:condition="not: result/preview_image_url" />
+			    <h4 class="name" tal:content="result/title" 
+				tal:condition="python: preview_class == 'user'" />
+			</a>
                     </tal:preview>
 
 		    <tal:highlights condition="result/highlighted_summary">
@@ -179,6 +173,7 @@
                     {{ result.url }}
                     </a>
                 </dd>
+
                 </tal:result>
                 </dl>
 		<p tal:define="next_url python: 

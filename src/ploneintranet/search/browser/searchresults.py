@@ -66,6 +66,13 @@ class SearchResultsView(BrowserView):
             qs=new_query
         )
 
+    def preview_class(self, portal_type):
+        """Get the matching preview class for a portal type"""
+        if portal_type == 'ploneintranet.userprofile.userprofile':
+            return 'user'
+        else:
+            return 'file'
+
     def search_response(self):
         form = self.request.form
         filters = {}
@@ -125,3 +132,6 @@ class SearchResultsView(BrowserView):
 
     def search_files(self):
         return self.search_by_type('File')
+
+    def search_people(self):
+        return self.search_by_type('ploneintranet.userprofile.userprofile')

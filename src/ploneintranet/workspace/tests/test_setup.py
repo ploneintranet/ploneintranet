@@ -4,6 +4,7 @@ from plone.browserlayer.utils import registered_layers
 from ploneintranet.workspace.config import DYNAMIC_GROUPS_PLUGIN_ID
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.workspace.interfaces import IPloneintranetWorkspaceLayer
+from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
 import unittest2 as unittest
@@ -28,6 +29,10 @@ class TestInstall(unittest.TestCase):
     def test_browserlayer(self):
         """Test that the browserlayer is registered."""
         self.assertIn(IPloneintranetWorkspaceLayer, registered_layers())
+
+    def test_browserlayer_app(self):
+        """Test that the app browserlayer is registered."""
+        self.assertIn(IWorkspaceAppContentLayer, registered_layers())
 
     def test_workspaces_created(self):
         workspaces = self.portal.get('workspaces', None)
@@ -78,8 +83,12 @@ class TestUninstall(unittest.TestCase):
             'ploneintranet.workspace.workspacecontainer', portal_types)
 
     def test_browserlayer_removed(self):
-        """Test that IPloneintranetAttachmentsLayer is registered."""
+        """Test that IPloneintranetWorkspaceLayer is registered."""
         self.assertNotIn(IPloneintranetWorkspaceLayer, registered_layers())
+
+    def test_browserlayer_app_removed(self):
+        """Test that the app browserlayer is unregistered."""
+        self.assertNotIn(IWorkspaceAppContentLayer, registered_layers())
 
     def test_workspaces_not_removed(self):
         """Test that the workspaces folder is kept."""

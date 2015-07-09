@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <tal:comment condition="nothing">based on prototype/library.html and other library-* variants</tal:comment>
+
+    <metal:content fill-slot="content">
+      <div class="container">
+        
+        <nav class="canvas-subnav">
+	  <a tal:repeat="section view/sections"
+             tal:attributes="href section/absolute_url; class section/current"
+             tal:content="section/title">HR</a>
+        </nav>
+        
+        <article class="pat-rich canvas-intro"
+                 tal:define="info view/info"
+                 tal:condition="info">
+          <h1 tal:condition="info/title|nothing"
+              tal:content="info/title">unlinked title</h1>
+	  <h1 tal:condition="info/chain|nothing">
+	    <nav class="pat-breadcrumbs">
+	      <a href="#"
+                 tal:repeat="item info/chain"
+                 tal:attributes="href item/absolute_url"
+                 tal:content="item/title">HR</a>
+	    </nav>
+	  </h1>
+	  <p class="description"
+             tal:condition="info/description|nothing"
+             tal:content="info/description">
+	    Praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum. 
+	  </p>
+        </article>
+        
+        <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
+	  <div class="grid-sizer"></div>
+          
+          <tal:children repeat="child view/children">
+            
+	    <div class="tile group-by-section"
+                 tal:define="itemtype child/type"
+                 tal:condition="python: itemtype=='container'">
+	      <div class="content">
+	        <h3>
+	          <a href="#"
+                     tal:attributes="href child/absolute_url"
+                     tal:content="child/title">HR</a>
+	        </h3>
+	        <p class="description"
+                   tal:content="child/description">
+	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
+	        </p>
+	        <ul class="menu group-by-section">
+	          <li tal:attributes="class item/follow"
+                      tal:repeat="item child/content">
+		    <a tal:attributes="class item/icon; href item/absolute_url"
+                       tal:content="item/title"
+                       href="#">Valenpedicis palemtuem</a>
+	          </li>
+	        </ul>
+	      </div>
+            </div>
+            
+	    <div class="tile type-page"
+                 tal:define="itemtype child/type"
+                 tal:condition="python: itemtype=='document'">
+	      <a href="#" class="content"
+                 tal:attributes="href child/absolute_url">
+	        <h3 tal:content="child/title">page title</h3>
+                <p class="hero"
+                   tal:define="has_img child/context/image|nothing;
+                               scales child/context/@@images|nothing;"
+                   tal:condition="python:has_img and scales" >
+                  <img tal:replace="structure python: scales.scale('image', scale='mini').tag()" />
+                </p>
+	        <p class="summary" tal:content="child/description">
+	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
+	        </p>
+                <p class="footer"
+                   tal:define="portal_type child/context/portal_type">
+                  <em class="read-more"
+                      i18n:translate="read-more"
+                      tal:condition="python:portal_type != 'File'">Read more…</em>
+                  <em class="read-more"
+                      i18n:translate="download"
+                      tal:condition="python:portal_type == 'File'">Download</em>
+                </p>
+              </a>
+	    </div>
+            
+          </tal:children>
+          
+        </div>
+        
+      </div>
+    </metal:content>
+    
+</html>

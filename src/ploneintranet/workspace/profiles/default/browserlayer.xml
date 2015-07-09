@@ -4,4 +4,8 @@
     name="ploneintranet.workspace"
     interface="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
   />
+  <layer
+    name="ploneintranet.workspace.appcontent"
+    interface="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+  />
 </layers>

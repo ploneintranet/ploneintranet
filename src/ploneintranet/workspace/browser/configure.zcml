@@ -5,10 +5,38 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="ploneintranet.workspace">
+    i18n_domain="ploneintranet">
 
-  <include package="plone.app.portlets" />
   <include package="collective.workspace" />
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+  <include package=".tiles" />
+
+  <browser:page
+      name="workspaces.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".workspacecontainer.Workspaces"
+      permission="ploneintranet.viewsite"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="workspaces.html"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      class=".workspacecontainer.Workspaces"
+      permission="ploneintranet.viewsite"
+      template="templates/workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="workspace-add"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      class=".workspacecontainer.AddView"
+      permission="cmf.AddPortalContent"
+      template="templates/workspace-add.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
 
   <browser:page
       name="view"
@@ -118,15 +146,6 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
-  <plone:portlet
-      name="portlets.RosterPortlet"
-      interface=".portlets.IRosterPortlet"
-      assignment=".portlets.Assignment"
-      renderer=".portlets.Renderer"
-      addview=".portlets.AddForm"
-      editview=".portlets.EditForm"
-      />
-
    <browser:page
      name="joinme"
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
@@ -195,9 +214,5 @@
       permission="zope.Public"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
-
-   <include package=".tiles" />
-
-
 
 </configure>
