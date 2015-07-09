@@ -8,4 +8,8 @@
     name="ploneintranet.library.content"
     interface="ploneintranet.library.interfaces.ILibraryContentLayer"
   />
+  <layer
+    name="ploneintranet.library.files"
+    interface="ploneintranet.library.interfaces.ILibraryFilesLayer"
+  />
 </layers>

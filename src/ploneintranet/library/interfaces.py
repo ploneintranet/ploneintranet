@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Interfaces for Library API."""
+from collective.documentviewer.interfaces import ILayer as IDocumentViewerLayer
 from zope.interface import Interface
 
 from ploneintranet.layout.interfaces import IAppLayer
@@ -12,3 +13,7 @@ class IPloneintranetLibraryLayer(Interface):
 class ILibraryContentLayer(IAppLayer):
     """Marker interface for views registered only for content
     within a ILibraryApp section."""
+
+
+class ILibraryFilesLayer(ILibraryContentLayer, IDocumentViewerLayer):
+    """Subclass to take precedence over collective.documentviewer"""
