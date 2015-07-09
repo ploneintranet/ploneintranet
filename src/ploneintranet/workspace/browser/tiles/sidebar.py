@@ -357,6 +357,8 @@ class Sidebar(BaseTile):
                     "source: nav.breadcrumbs; "
                     "target: nav.breadcrumbs; "
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = None
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
@@ -370,6 +372,9 @@ class Sidebar(BaseTile):
                     "source: #document-body; "
                     "history: record"
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = ("body focus-* focus-document && "
+                       "body sidebar-large sidebar-normal")
 
             results.append(dict(
                 title=r['Title'],
@@ -378,6 +383,7 @@ class Sidebar(BaseTile):
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
+                dps=dps,
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
