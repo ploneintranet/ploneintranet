@@ -22,14 +22,14 @@ class INotificationsQueues(Interface):
     def clear(self):
         """Empty all queues"""
 
-    def get_user_queue(self, user):
+    def get_user_queue(self, userid):
         """
         Get a queue for given user object.
         Create and return a new persistent queue if user did not have
         a queue yet.
         """
 
-    def del_user_queue(self, user):
+    def del_user_queue(self, userid):
         """
         Delete the queue for the given user object.
         """
