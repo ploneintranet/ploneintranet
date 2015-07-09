@@ -82,10 +82,16 @@
 
   <rules css:if-content="body.template-dashboard-html,
                          body.template-apps-html,
-                         body.template-workspaces-html,
-                         body.template-login_success">
+                         body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />
+  </rules>
+
+  <!-- this catches typical plone info pages -->
+  <rules css:if-content="body.template-login_success,
+                         body.template-insufficient_privileges">
+    <theme href="generated/empty-home.html" />
+    <append css:content-children="#content" css:theme="div.container" />
   </rules>
 
   <!-- XXX Do we really need that explicitly? -->
