@@ -4,6 +4,7 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
 from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
@@ -44,6 +45,15 @@ class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
+
+    def templates(self):
+        portal = api.portal.get()
+        pc = api.portal.get_tool('portal_catalog')
+        brains = pc.searchResults(
+            portal_type='ploneintranet.workspace.case',
+            path='/'.join(portal.getPhysicalPath()) + '/' + TEMPLATES_FOLDER,
+        )
+        return brains
 
 
 class WorkspaceTabsTile(Tile):
