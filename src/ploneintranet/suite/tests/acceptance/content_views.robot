@@ -29,17 +29,16 @@ Member can change the description of a document
 Member can tag a document
     Given I am in a workspace as a workspace member
     And I browse to a document
-    And I tag the description
+    And I tag the item
     And I view the document
     Then the metadata has the new tag
 
 Member can tag a document with a tag suggestion
     Given I am in a workspace as a workspace member
-    And I browse to an image
-    And I tag the description
-    When I browse to a document
-    And I tag the description with a suggestion
-    And I view the document
+    And I browse to a document
+    And I tag the item
+    And I clear the tag for an item
+    And I tag the item with a suggestion
     Then the metadata has the new tag
 
 Member can change the title of an image
@@ -59,17 +58,16 @@ Member can change the description of an image
 Member can tag an image
     Given I am in a workspace as a workspace member
     And I browse to an image
-    And I tag the description
+    And I tag the item
     And I view the image
     Then the metadata has the new tag
 
 Member can tag an image with a tag suggestion
     Given I am in a workspace as a workspace member
-    And I browse to a document
-    And I tag the description
-    When I browse to an image
-    And I tag the description with a suggestion
-    And I view the image
+    And I browse to an image
+    And I tag the item
+    And I clear the tag for an item
+    And I tag the item with a suggestion
     Then the metadata has the new tag
 
 Member can change the title of a file
@@ -89,17 +87,16 @@ Member can change the description of a file
 Member can tag a file
     Given I am in a workspace as a workspace member
     And I browse to a file
-    And I tag the description
+    And I tag the item
     And I view the file
     Then the metadata has the new tag
 
 Member can tag a file with a tag suggestion
     Given I am in a workspace as a workspace member
-    And I browse to a document
-    And I tag the description
-    When I browse to a file
-    And I tag the description with a suggestion
-    And I view the file
+    And I browse to a file
+    And I tag the item
+    And I clear the tag for an item
+    And I tag the item with a suggestion
     Then the metadata has the new tag
 
 # Member can change the title of a folder
@@ -119,7 +116,7 @@ Member can tag a file with a tag suggestion
 # Member can tag a folder
 #     Given I am in a workspace as a workspace member
 #     And I view the folder
-#     And I tag the description
+#     And I tag the item
 #     And I view the folder
 #     Then the metadata has the new tag
 
@@ -179,23 +176,31 @@ I change the description
 The document has the new description
     Page Should Contain  New description ☀
 
-I tag the description
+I tag the item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Input Text  id=s2id_autogen2  NewTag☃,
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
 
-I tag the description with a suggestion
+I tag the item with a suggestion
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Click element  id=s2id_autogen2
-    Input text  id=s2id_autogen2  NewT
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
     Wait Until Page Contains  ag☃
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
 
+I clear the tag for an item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  css=.select2-search-choice-close
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
 
 The metadata has the new tag
     Click Link  link=Toggle extra metadata
