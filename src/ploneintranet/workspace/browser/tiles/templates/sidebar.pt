@@ -178,8 +178,11 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
+                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" 
                        tal:attributes="href string:${item/url};
-                                       data-pat-inject item/dpi | nothing">
+                                       class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
+                                       data-pat-inject item/dpi | nothing;
+                                       data-pat-switch item/dps | nothing">
                       <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
