@@ -41,7 +41,7 @@ def my_workspaces(context):
         path=ws_path,
     )
     workspaces = []
-    for brain in brains:
+    for brain in brains[:5]:
         css_class = escape_id_to_class(brain.getId)
         if brain.portal_type == 'ploneintranet.workspace.case':
             css_class = 'type-case ' + css_class
