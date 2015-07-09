@@ -26,6 +26,13 @@ Manager can change the workflow of a case workspace
      Then I can close the first milestone
      Then I can delete a case  workflow-case
 
+Manager can create a template case workspace
+    Given I'm logged in as a 'Manager'
+     Then I can create a new template case    New template
+     Then I can create a new case from a template  New template  A new type of case
+     Then I can delete a case  a-new-type-of-case
+     Then I can delete a template case  new-template
+
 Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
      Then I can go to the Minifest

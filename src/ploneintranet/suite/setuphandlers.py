@@ -25,6 +25,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 
 
 log = logging.getLogger(__name__)
@@ -68,6 +69,11 @@ def testing(context):
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
+    commit()
+
+    log.info("create case templates")
+    caseworkspaces = case_templates_spec(context)
+    create_caseworkspaces(caseworkspaces, container=TEMPLATES_FOLDER)
     commit()
 
     portal = api.portal.get()
@@ -473,11 +479,11 @@ def caseworkspaces_spec(context):
     return caseworkspaces
 
 
-def create_caseworkspaces(caseworkspaces, force=False):
+def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
-    if 'workspaces' not in portal:
+    if container not in portal:
         ws_folder = api.content.create(
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
@@ -485,7 +491,7 @@ def create_caseworkspaces(caseworkspaces, force=False):
         )
         api.content.transition(ws_folder, 'publish')
     else:
-        ws_folder = portal['workspaces']
+        ws_folder = portal[container]
 
     if not force and ('ploneintranet.workspace.case'
                       in [x.portal_type for x in ws_folder.objectValues()]):
@@ -500,6 +506,8 @@ def create_caseworkspaces(caseworkspaces, force=False):
             type='ploneintranet.workspace.case',
             **w
         )
+        caseworkspace.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
         wfconfig.setPolicyIn('case_workflow')
 
@@ -688,6 +696,45 @@ def create_stream(context, stream, files_dir):
                     item_id=str(status_obj.id),
 
                 )
+
+
+def case_templates_spec(context):
+    case_templates = [{
+        'title': 'Case Template',
+        'description': 'A Template Case Workspace, pre-populated with tasks',
+        'members': {},
+        'contents': [{
+            'title': 'Basisdatenerfassung',
+            'type': 'todo',
+            'description': 'Erfassung der Basis-Absenderdaten',
+            'milestone': 'new',
+        }, {
+            'title': 'Hintergrundcheck machen',
+            'type': 'todo',
+            'description': 'Hintergrundcheck durchführen ob die Organisation '
+                           'förderungswürdig ist.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
+            'type': 'todo',
+            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
+                           'vergangenen 5 Jahren gewährt wurde.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Meinung Generalvikar einholen',
+            'type': 'todo',
+            'description': 'Meinung des Generalvikars zum Umfang der '
+                           'Förderung einholen.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Protokoll publizieren',
+            'type': 'todo',
+            'description': 'Publizieren des Beschlusses im Web - falls '
+                           'öffentlich.',
+            'milestone': 'decided',
+        }],
+    }]
+    return case_templates
 
 
 def decode(value):
