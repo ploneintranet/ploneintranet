@@ -277,7 +277,7 @@ def workspaces_spec(context):
                      'owner': 'allan_neece',
                      'description': u'Meeting Minutes Overview',
                      'type': 'Document',
-                     'created': now - timedelta(days=60),
+                     'modification_date': now - timedelta(days=60),
                      },
                     {'title': 'Open Market Day',
                      'type': 'Event',
@@ -540,6 +540,11 @@ def create_ws_content(parent, contents):
                 raise api.exc.InvalidParameterError, ipe
 
             obj.reindexObject()
+            # Avoid 'reindexObject' overriding custom
+            # modification dates
+            if 'modification_date' in content:
+                obj.modification_date = content['modification_date']
+                obj.reindexObject(idxs=['modified', ])
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
