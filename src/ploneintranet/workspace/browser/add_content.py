@@ -34,6 +34,7 @@ class AddContent(BrowserView):
         appropriate fields after creation.
         """
         form = self.request.form
+        new = None
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
@@ -66,44 +67,46 @@ class AddContent(BrowserView):
                 safe_id=True,
             )
 
-        if new:
-            if self.portal_type == 'ploneintranet.workspace.workspacefolder':
-                if 'scenario' in form:
-                    if form['scenario'] == '1':
-                        external_visibility = 'secret'
-                        join_policy = 'admin'
-                        participant_policy = 'producers'
-                    elif form['scenario'] == '2':
-                        external_visibility = 'private'
-                        join_policy = 'team'
-                        participant_policy = 'moderators'
-                    elif form['scenario'] == '3':
-                        external_visibility = 'open'
-                        join_policy = 'self'
-                        participant_policy = 'publishers'
-                    else:
-                        raise AttributeError
+        if not new:
+            return self.context.absolute_url()
 
-                    new.set_external_visibility(external_visibility)
-                    new.join_policy = join_policy
-                    new.participant_policy = participant_policy
+        if self.portal_type == 'ploneintranet.workspace.workspacefolder':
+            if 'scenario' in form:
+                if form['scenario'] == '1':
+                    external_visibility = 'secret'
+                    join_policy = 'admin'
+                    participant_policy = 'producers'
+                elif form['scenario'] == '2':
+                    external_visibility = 'private'
+                    join_policy = 'team'
+                    participant_policy = 'moderators'
+                elif form['scenario'] == '3':
+                    external_visibility = 'open'
+                    join_policy = 'self'
+                    participant_policy = 'publishers'
+                else:
+                    raise AttributeError
 
-            modified, errors = dexterity_update(new)
+                new.set_external_visibility(external_visibility)
+                new.join_policy = join_policy
+                new.participant_policy = participant_policy
 
-            if modified and not errors:
-                api.portal.show_message(
-                    _("Item created."), request=self.request, type="success")
-                new.reindexObject()
-                notify(ObjectModifiedEvent(new))
+        modified, errors = dexterity_update(new)
 
-            if errors:
-                api.portal.show_message(
-                    _("There was a problem: %s." % errors),
-                    request=self.request,
-                    type="error",
-                )
+        if modified and not errors:
+            api.portal.show_message(
+                _("Item created."), request=self.request, type="success")
+            new.reindexObject()
+            notify(ObjectModifiedEvent(new))
 
-            return new.absolute_url()
+        if errors:
+            api.portal.show_message(
+                _("There was a problem: %s." % errors),
+                request=self.request,
+                type="error",
+            )
+
+        return new.absolute_url()
 
     def redirect(self, url):
         """
