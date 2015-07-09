@@ -9,6 +9,7 @@ from zope.interface import implements
 import logging
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
+from zope.globalrequest import getRequest
 
 
 logger = logging.getLogger(__name__)
@@ -32,7 +33,9 @@ class Queues(Persistent, Explicit):
 
     def get_user_queue(self, userid):
         if userid not in self._users:
-            alsoProvides(self.REQUEST, IDisableCSRFProtection)
+            request = getRequest()
+            if request is not None:
+                alsoProvides(request, IDisableCSRFProtection)
             self._users[userid] = PersistentList()
         return self._users[userid]
 
