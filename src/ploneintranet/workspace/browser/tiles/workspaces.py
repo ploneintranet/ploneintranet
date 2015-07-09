@@ -30,11 +30,15 @@ def my_workspaces(context):
     Is also used in theme/browser/workspace.py view.
     """
     pc = api.portal.get_tool('portal_catalog')
+    portal = api.portal.get()
+    ws_folder = portal.get("workspaces")
+    ws_path = "/".join(ws_folder.getPhysicalPath())
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
         sort_on="modified",
         sort_order="reversed",
+        path=ws_path,
     )
     workspaces = []
     for brain in brains:

@@ -20,7 +20,7 @@ class BaseViewTest(BaseTestCase):
 
         self.login_as_portal_owner()
         self.workspace = api.content.create(
-            self.portal,
+            self.portal.workspaces,
             'ploneintranet.workspace.workspacefolder',
             'demo-workspace',
             title='Demo Workspace'
