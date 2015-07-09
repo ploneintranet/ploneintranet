@@ -33,7 +33,7 @@
         <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
 
         <p class="all-notifications">
-          <a tal:attributes="href string:${portal_url}/notifications" i18n:translate="">All notifications</a>
+          <a tal:attributes="href string:${portal_url}/notifications?showall=1" i18n:translate="">All notifications</a>
         </p>
       </div>
 

@@ -10,15 +10,14 @@ class NotificationsView(BrowserView):
 
     @memoize
     def your_notifications(self):
+        show_all = bool(self.request.form.get('showall'))
         display_message = []
         user = api.user.get_current()
-        # TODO a zope user like admin will fail from here
-        try:
-            channel = AllChannel(user.getUserId())
-            display_message = channel.get_all_messages(limit=10)
-        except AttributeError:
-            # AttributeError: getUserId
-            display_message = []
+        channel = AllChannel(user.getUserId())
+        if show_all:
+            display_message = channel.get_all_messages()
+        else:
+            display_message = channel.get_unread_messages()
         return display_message
 
     def get_author_image(self, member_id):
