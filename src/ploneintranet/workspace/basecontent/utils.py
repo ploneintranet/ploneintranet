@@ -70,9 +70,9 @@ def dexterity_update(obj, request=None):
                 continue
 
             if raw is NO_VALUE:
-                value = field.default
-            else:
-                value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
+                continue
+
+            value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
             try:
                 field.validate(value)
