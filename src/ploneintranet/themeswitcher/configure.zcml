@@ -28,7 +28,7 @@
         for="*"
         permission="zope.Public"
         class=".action.SwitchThemeView"
-        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        layer="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
         />
 
    <genericsetup:registerProfile
