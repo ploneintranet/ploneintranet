@@ -77,6 +77,11 @@ class CaseManagerView(BrowserView):
             if form.get(field):
                 query[field] = form.get(field)
 
+        # Assume trailing * for fulltext search
+        if 'SearchableText' in query and \
+                not query['SearchableText'].endswith('*'):
+            query['SearchableText'] += '*'
+
         brains = pc(query)
         cases = []
         for brain in brains:
