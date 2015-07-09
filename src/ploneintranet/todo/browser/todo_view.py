@@ -31,27 +31,6 @@ class TodoView(BaseView):
         context = aq_inner(self.context)
         self.can_edit = api.user.has_permission(
             'Modify portal content', obj=context)
-        modified, errors = dexterity_update(context)
-        self.workspace = parent_workspace(context)
-
-        if self.workspace.is_case:
-            if self.can_edit and milestone is not None \
-               and milestone != context.milestone:
-                context.milestone = milestone
-                modified = True
-
-        if modified:
-            api.portal.show_message(
-                _("Your changes have been saved."),
-                request=self.request,
-                type="success",
-            )
-            context.reindexObject()
-            notify(ObjectModifiedEvent(context))
-
-        if errors:
-            api.portal.show_message(
-                _("There was an error."), request=self.request, type="error")
 
         return super(TodoView, self).__call__()
 
