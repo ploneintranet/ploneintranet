@@ -39,7 +39,7 @@
            css:theme="#user-avatar" />
 
   <!-- adaptation of the global-nav -->
-  <replace css:theme-children="#home-tabs"
+  <replace css:theme-children="nav.tabs.navigation.portal-tabs"
            css:content-children="#portal-globalnav li" />
 
   <drop css:theme="#buddies-toggle"
@@ -53,10 +53,13 @@
         css:theme="form#global-nav-search" />
 
   <!-- Login Form -->
-  <rules css:if-content="body.template-login_form">
+  <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
-    <copy attributes="method id action" css:content="form#login_form" css:theme=".login-panel form" />
+    <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+    <replace css:theme-children="figure.splash">
+        <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
+    </replace>
   </rules>
 
   <rules css:if-content="body.portaltype-event, 
@@ -77,10 +80,16 @@
   </rules>
 
   <rules css:if-content="body.template-dashboard-html,
-                         body.template-workspaces-html,
-                         body.template-login_success">
+                         body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />
+  </rules>
+
+  <!-- this catches typical plone info pages -->
+  <rules css:if-content="body.template-login_success,
+                         body.template-insufficient_privileges">
+    <theme href="generated/empty-home.html" />
+    <append css:content-children="#content" css:theme="div.container" />
   </rules>
 
   <!-- XXX Do we really need that explicitly? -->
@@ -90,7 +99,8 @@
     <append css:content-children="#content" css:theme=".panel-body" />
   </rules>
 
-  <rules css:if-content="body.template-userprofile-view">
+  <rules css:if-content="body.template-userprofile-view,
+                         body.template-edit.portaltype-ploneintranet-userprofile-userprofile">
     <theme href="generated/liz-baker/index.html" />
     <drop css:theme-children="#person-timeline aside" />
     <drop css:theme-children="#person-timeline div.columns" />
@@ -133,12 +143,18 @@
     <drop css:content="#viewlet-below-content #category" />
   </rules>
 
+  <rules css:if-content="body.template-default_error_message">
+    <theme href="generated/404.html" />
+    <replace css:content-children="#content" css:theme-children="article.error-page" />
+  </rules>
+
   <!-- if there is a visual-portal-wrapper -->
   <theme href="generated/empty.html"
          css:if-content="#visual-portal-wrapper" />
   <replace css:content-children="#content"
            css:theme-children="#original-content"
            css:if-content="#visual-portal-wrapper" />
+
 
 
   <notheme css:if-content="body.diazo.off"/>

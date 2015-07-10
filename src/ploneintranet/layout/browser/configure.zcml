@@ -50,5 +50,23 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+    <!-- @@switch_theme view used as site action -->
+    <browser:page
+        name="switch_theme"
+        for="*"
+        permission="zope.Public"
+        class=".action.SwitchThemeView"
+        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        />
+
+    <!-- Show site actions with theme switcher also in header -->
+    <browser:viewlet
+        name="ploneintranet.site_actions"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class="plone.app.layout.viewlets.common.SiteActionsViewlet"
+        permission="zope2.View"
+        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        />
+
 
 </configure>

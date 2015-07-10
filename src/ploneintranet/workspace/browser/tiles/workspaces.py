@@ -44,12 +44,16 @@ def my_workspaces(context, request=None):
                 order = "reverse"
 
     pc = api.portal.get_tool('portal_catalog')
+    portal = api.portal.get()
+    ws_folder = portal.get("workspaces")
+    ws_path = "/".join(ws_folder.getPhysicalPath())
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
         portal_type="ploneintranet.workspace.workspacefolder",
         sort_on=sort_by,
         sort_order=order,
+        path=ws_path,
     )
     workspaces = []
     for brain in brains:
