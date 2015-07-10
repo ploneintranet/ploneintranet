@@ -482,3 +482,27 @@ I can close the first milestone
 I can toggle a milestone
     [arguments]  ${milestone}
     Click Element  xpath=//h4[text()='${milestone}']
+
+I write a status update
+    [arguments]  ${message}
+    Wait Until Element Is visible  css=textarea.pat-content-mirror
+    Element should not be visible  css=button[name='form.buttons.statusupdate']
+    Click element  css=textarea.pat-content-mirror
+    Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
+    Input Text  css=textarea.pat-content-mirror  ${message}
+
+I post a status update
+    [arguments]  ${message}
+    I write a status update    ${message}
+    I submit the status update
+
+I submit the status update
+    Click button  css=button[name='form.buttons.statusupdate']
+
+I can mention the user
+    [arguments]  ${username}
+    Click link    link=Mention people
+    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
+    Click element    css=textarea.pat-content-mirror
