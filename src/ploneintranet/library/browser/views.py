@@ -36,6 +36,24 @@ class LibraryHomeView(BrowserView):
 
 class LibraryBaseView(BrowserView):
 
+    groupby = 'section'
+
+    def selected(self, value):
+        if value == self.groupby:
+            return dict(selected=1)
+        return {}
+
+    def __call__(self):
+        groupby = self.request.get('groupby', None)
+        if not groupby:
+            return super(LibraryBaseView, self).__call__()
+
+        if groupby == 'section':
+            self.request.response.redirect(self.context.absolute_url())
+        elif groupby == 'tag':
+            self.request.response.redirect('{}/tag'.format(
+                self.context.absolute_url()))
+
     def app(self):
         return self.chain(getapp=True)
 
@@ -109,3 +127,17 @@ class LibraryFolderView(LibraryBaseView):
         return dict(
             chain=self.chain(),
             description=self.context.Description)
+
+
+class LibraryTagView(LibraryBaseView):
+
+    groupby = 'tag'
+
+    def info(self):
+        return {}
+
+    def sections(self):
+        menu = super(LibraryTagView, self).sections()
+        for section in menu:
+            section['absolute_url'] = '{}/tag'.format(section['absolute_url'])
+        return menu

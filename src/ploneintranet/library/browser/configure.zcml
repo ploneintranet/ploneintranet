@@ -53,4 +53,22 @@
       layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
       />
 
+  <browser:page
+     name="tag"
+     for="ploneintranet.library.content.ILibraryApp"
+     class=".views.LibraryTagView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     name="tag"
+     for="ploneintranet.library.content.ILibrarySection"
+     class=".views.LibraryTagView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
+
 </configure>
