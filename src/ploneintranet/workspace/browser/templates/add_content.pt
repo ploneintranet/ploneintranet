@@ -8,7 +8,7 @@
 <h1 i18n:translate="">
     Create document
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents" data-pat-validate="disable-selector:#form-buttons-create">
   <div class="panel-body">
     <fieldset class="icon-tabs">
         <label class="icon-doc-text">
@@ -30,7 +30,7 @@
   </div>
 <div class="buttons panel-footer">
     <span tal:replace="structure context/@@authenticator/authenticator"/>
-    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus">
+    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus close-panel" disabled>
         Create
     </button>
     <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">
