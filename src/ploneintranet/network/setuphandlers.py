@@ -60,16 +60,15 @@ def restore_all_behaviors():
         fti = types_tool.get(fti_id)
         if IDexterityFTI.providedBy(fti):
             for r_beh in REPLACEMENT_BEHAVIORS:
-                replace_behavior(fti, r_beh['old'], r_beh['new'], 'restore')
+                replace_behavior(fti, r_beh['new'], r_beh['old'], 'restore')
 
 
 def replace_behavior(fti, old, new, msg):
     behaviors = []
     for beh in fti.behaviors:
-        for r_beh in REPLACEMENT_BEHAVIORS:
-            if beh == r_beh['old']:
-                log.info('%s %s behavior on %s', msg, beh, fti)
-                beh = r_beh['new']
+        if beh == old:
+            log.info('%s %s behavior on %s', msg, beh, fti)
+            beh = new
         behaviors.append(beh)
     fti.behaviors = behaviors
 
