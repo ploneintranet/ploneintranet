@@ -41,3 +41,10 @@ class TestTagging(BaseTestCase):
         self.request.form['subjects'] = u'a,b,c'
         utils.dexterity_update(self.doc, self.request)
         self.assertEqual((u'a', u'b', u'c'), self.doc.subject)
+
+    def test_set_multiple_tags_utf8(self):
+        """Set multiple tags on an object as a comma separated string and
+        verify that they are saved as a tuple of strings."""
+        self.request.form['subjects'] = u'a ♥,b,c'
+        utils.dexterity_update(self.doc, self.request)
+        self.assertEqual((u'a ♥', u'b', u'c'), self.doc.subject)
