@@ -100,13 +100,18 @@ so you can easily edit them with your favorite IDE.
 3. `cd ploneintranet`
 4. `sudo make docker-build` will prepare the docker image
 5. `sudo make docker-run` will launch the docker image and give you a shell inside
-6. `make` will fetch the ploneintranet compiled javascript bundle
-7. `make devel` will run the development buildout
-8. `bin/instance fg` will run the Plone instance, which you can access on localhost:8080.
+
+.. note:: Make sure you are inside the shell (usually your prompt changes!)
+
+1. `make` will fetch the ploneintranet compiled javascript bundle
+2. `make devel` will run the development buildout
+3. `bin/instance fg` will run the Plone instance, which you can access on localhost:8080.
 
 This is an experimental setup. YMMV. The provided configs re-use your .bashrc,
 re-use a /var/tmp buildout cache, re-use your ssh agent etc. You might have to
 disable or reconfigure some of that if you're not on a Linux host.
+
+If you use boot2docker on Mac OS X (Windows not tested) follow the instructions below.
 
 The packages installed here cover not only normal Plone development,
 but also anything needed to work on the prototype or the documentation.
@@ -119,8 +124,87 @@ and then inside the app `bin/instance fg`.
 
 It's also possible to run this `without sudo`_.
 
+Troubleshooting docker
+^^^^^^^^^^^^^^^^^^^^^^
+
+Cleanup your docker image
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+issue:
+    e.g. make commands return a **command not found** error
+
+.. note::
+
+    If you accidentially doing something wrong outside the container / before you started the container shell, e.g. a "make" command, this may mess up your docker image.
+
+You can clean this up by invoking a::
+
+    git clean -fdx
+
+This forces a clean up of your checkout including directories and ignored unversioned files. Make sure you have backups - ** Be careful!**
+
+boot2docker – build issue
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+issue:
+    **make docker-build** and **make docker-run** are not working with boot2docker.
+
+Running a **make docker-build** command drops::
+
+    docker.io build -t ploneintranet .
+    make: docker.io: No such file or directory
+    make: *** [docker-build] Error 1
+
+If you use boot2docker on Mac OS X (Windows not tested) there are now alternate make commands in the Makefile:
+
+To create the docker build, instead use:
+
+1. `Install boot2docker`_ on your Mac or Windows machine.
+2. `git clone git@github.com:ploneintranet/ploneintranet.git`
+3. `cd ploneintranet`
+
+.. note::
+
+    with boot2docker you must run ther next commands `without sudo`_ !
+
+    Remember to make sure you run them inside the docker container shell!
+
+4. `make boot2docker-build` will prepare the docker image
+5. `make boot2docker-run` will launch the docker image and give you a shell inside
+
+boot2docker – docker environment not intialized
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+issue:
+    running a docker command drops::
+
+        docker error: /var/run/docker.sock: no such file or directory
+
+You may need to `initialize your docker environment`_ variables properly to run a docker command successfully!
+
+Export the boot2docker environment properly to run the docker-build process
+
+1.  start boot2docker using "boot2docker up"
+2.  The boot2docker VM is now running
+3.  before "make boot2docker-build" run the command::
+
+        $(boot2docker shellinit) # including the leading dollar character and brackets!
+
+# continue with the build as described above
+
+boot2docker – Service not accesible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+issue:
+     you cannot find any running services under localhost
+
+Use the "boot2docker ip" command to figure out what NAT ip your boot2docker vm is using. ** Use this ip instead of localhost with the expected port!**
+
+
 .. _docker.io: https://www.docker.com/
 .. _Install Docker: https://docs.docker.com/installation/#installation
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
+.. _Install boot2docker: https://github.com/boot2docker/boot2docker
+.. _initialize your docker environment: http://stackoverflow.com/questions/25372781/docker-error-var-run-docker-sock-no-such-file-or-directory
 
 
