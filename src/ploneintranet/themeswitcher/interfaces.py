@@ -70,6 +70,13 @@ class IThemeSwitcherSettings(Interface):
         default=u"/++theme++barceloneta",
     )
 
+    hostname_default = schema.TextLine(
+        title=u"Default hostname",
+        description=u"Main hostname of the site, with default theme.",
+        required=True,
+        default=u"localhost",
+    )
+
     hostname_switchlist = schema.List(
         title=u"Fallback themed host names",
         description=u"List of host names which will use the fallback theme.",

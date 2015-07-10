@@ -19,6 +19,14 @@
       />
 
   <browser:page
+      name="edit"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".forms.UserProfileEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       name="author"
       class=".userprofile.AuthorView"
@@ -43,9 +51,17 @@
      />
 
   <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="avatars"
+      class=".userprofile.AvatarsView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="avatar.jpg"
-      class=".userprofile.AvatarView"
+      class=".userprofile.MyAvatar"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
@@ -53,7 +69,7 @@
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="avatar_profile.jpg"
-      class=".userprofile.AvatarView"
+      class=".userprofile.MyAvatar"
       attribute="avatar_profile"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"

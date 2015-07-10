@@ -361,7 +361,12 @@ class Categorization(MetadataBase):
         self.context.subject = value
         graph = getUtility(INetworkTool)
         user = api.user.get_current()
-        uuid = IUUID(self.context)
+        try:
+            uuid = IUUID(self.context)
+        except TypeError:
+            # new factory document, not registered yet
+            # we'll come back to this with an event listener
+            return
         if value:
             graph.tag('content', uuid, user.id, *value)
         # else value==() -> cleaned up below

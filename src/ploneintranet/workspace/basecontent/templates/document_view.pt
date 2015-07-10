@@ -32,7 +32,7 @@
                     <a href="${context/absolute_url}/external_edit"
                        tal:condition="context/externalEditorEnabled/available"
                        class="${view/icon_class} iconified">Open in External Editor</a>
-                    <a href="#confirm-delete" class="icon-trash iconified">Delete</a>
+                    <a href="${context/absolute_url}/delete_confirmation#content" title="Delete this document" i18n:attributes="title" i18n:translate="" data-pat-inject="source: #content" class="pat-modal icon-trash iconified">Delete</a>
                     <a href="" class="icon-copy iconified">Copy</a>
                     <a href="#share-panel" class="icon-export iconified pat-modal">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified">Toggle extra metadata</a>

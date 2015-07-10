@@ -17,6 +17,17 @@
   <include package=".browser" />
   <include package=".content" />
 
+  <!-- Allow users to edit their own profiles -->
+  <adapter
+     factory=".permissions.UserProfileLocalRoleAdapter"
+     />
+
+  <utility
+      name="ploneintranet.userprofile.locations_vocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      component=".vocabularies.primaryLocationVocabulary"
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [User Profiles]"

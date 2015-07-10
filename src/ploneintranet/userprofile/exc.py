@@ -32,3 +32,7 @@ class MissingCoreFields(UserProfileParseError):
 
 class ExtraneousFields(UserProfileParseError):
     """extraneous fields found in csv"""
+
+
+class DuplicateUser(UserProfileParseError):
+    """User already exists"""

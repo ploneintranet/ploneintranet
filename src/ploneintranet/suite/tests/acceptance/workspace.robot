@@ -160,7 +160,9 @@ Site Administrator can add example user as member of workspace
      Maneuver to  Example Workspace
      Click Link  Workspace settings and about
      Click Link  Members
+     Wait Until Page Contains  Add user
      Click Link  Add user
+     Wait Until Page Contains Element  css=li.select2-search-field input
      Input Text  css=li.select2-search-field input  alice
      Wait Until Element Is Visible  css=span.select2-match
      Click Element  css=span.select2-match

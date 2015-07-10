@@ -38,6 +38,16 @@ Dollie can unfollow Guy
     And I can follow the link to my profile
     And I cannot see Guy Hackey in the list of users being followed
 
+Dollie can change her details
+    Given I am logged in as the user dollie_nocera
+    And I can view the profile for user dollie_nocera
+    Then I can change my name to Mickey
+
+Dollie cannot change Guy's details
+    Given I am logged in as the user dollie_nocera
+    And I can view the profile for user guy_hackey
+    Then I cannot edit personal details
+
 *** Keywords ***
 
 I can open the personal tools menu
@@ -68,3 +78,14 @@ I can see ${NAME} in the list of users being followed
 I cannot see ${NAME} in the list of users being followed
     Click Element  css=nav.tabs a.link-following
     Page should not contain Element  jquery=#person-following a strong:contains("${NAME}")
+
+I can change my name to ${NAME}
+    Click Element  link=Info
+    Wait Until Page Contains Element  css=#user-edit-form
+    Input Text  name=form.widgets.first_name  Mickey
+    Click button  name=form.buttons.save
+    Page should contain Element  jquery=h1:contains("Mickey")
+
+I cannot edit personal details
+    Click Element  link=Info
+    Page Should Contain Element  css=dt.icon-user
