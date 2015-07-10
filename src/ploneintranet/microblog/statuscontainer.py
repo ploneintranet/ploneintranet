@@ -25,7 +25,6 @@ from zope.event import notify
 from zope.interface import implements
 
 from plone import api
-from ploneintranet import api as pi_api
 from plone.uuid.interfaces import IUUID
 from plone.memoize import ram
 from interfaces import IStatusContainer
@@ -148,12 +147,6 @@ class BaseStatusContainer(Persistent, Explicit):
                                  newParent=self,
                                  newName=status.id)
         notify(event)
-
-        if status.mentions:
-            pi_api.notification.create(
-                status.mentions.keys(),
-                status,
-            )
 
     # --- INDEXES ---
 
