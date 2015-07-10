@@ -313,9 +313,12 @@ Supported types include (class names):
                                       token context/@@authenticator/token;">
                 <tal:milestone repeat="milestone milestones">
 
-                  <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
-                            tal:attributes="id string:milestone-${milestone}">
-                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
+                  <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: local"
+                            tal:define="keep_open python:view.is_open_task_in_milestone(tasks[milestone])"
+                            tal:attributes="id string:milestone-${milestone};
+                                            class python:attrs['class'] + (keep_open and ' open' or ' closed');
+                                            data-pat-collapsible python:keep_open and 'store: none' or 'store: local'">
+                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']" i18n:translate=""/>
                     <tal:task repeat="task python:tasks[milestone]">
                       <label>
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
