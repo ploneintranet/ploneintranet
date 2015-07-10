@@ -2,11 +2,11 @@
   <h1 i18n:translate="">
     Create event
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
+  <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-events; target: #workspace-events">
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Event title" autofocus />
+        <input type="text" name="title" required="required" class="required" placeholder="Event title" autofocus />
       </fieldset>
 
       <fieldset class="vertical"

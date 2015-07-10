@@ -375,7 +375,7 @@ Supported types include (class names):
           </div>
           <div class="content">
 
-            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events" tal:condition="events/upcoming">
               <h3 i18n:translate="">Upcoming events</h3>
 
               <ul class="cal-events">
@@ -407,7 +407,7 @@ Supported types include (class names):
               </ul>
             </div>
 
-            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="cal-events">
@@ -416,6 +416,10 @@ Supported types include (class names):
                 </tal:events>
               </ul>
             </div>
+
+            <p class="message notice" tal:condition="python: not (events['upcoming'] or events['older'])" i18n:translate="label_no_events_available">
+              No events available
+            </p>
           </div>
         </div>
 
