@@ -51,9 +51,3 @@ class Base(object):
 
     def cleanup(self):
         list(self.g_cleanup())
-
-
-class StatusUpdate(Base):
-    ''' A base handler for notifications
-    '''
-    msg_class = 'STATUS_UPDATE'
