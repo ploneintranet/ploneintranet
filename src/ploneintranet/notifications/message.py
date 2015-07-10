@@ -6,6 +6,9 @@ from ploneintranet.notifications.interfaces import IMessage
 from zope.interface import implements
 from plone import api
 import pickle
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.interface import alsoProvides
+from zope.globalrequest import getRequest
 
 
 class Message(Persistent):
@@ -41,6 +44,9 @@ class Message(Persistent):
             now = datetime.utcnow()
         self.obj['read'] = now
         self._p_changed = 1
+        request = getRequest()
+        if request is not None:
+            alsoProvides(request, IDisableCSRFProtection)
 
     def marked_read_at(self):
         return self.obj['read']
