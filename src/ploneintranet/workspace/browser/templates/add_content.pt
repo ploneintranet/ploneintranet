@@ -14,9 +14,9 @@
         <label class="icon-doc-text">
             <input checked="checked" name="portal_type" value="Document" type="radio"><span tal:omit-tag="" i18n:translate="">Rich text</span>
         </label>
-        <label class="icon-slides">
+        <!--label class="icon-slides">
             <input name="portal_type" value="Slideshow" type="radio"> <span tal:omit-tag="" i18n:translate="">Slideshow</span>
-        </label>
+        </label-->
         <label class="icon-file-image">
             <input name="portal_type" value="Image" type="radio"> <span tal:omit-tag="" i18n:translate="">Image</span>
         </label>
