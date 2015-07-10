@@ -15,16 +15,18 @@ class AllChannel(object):
     def get_unread_count(self):
         return len(self.get_unread_messages(keep_unread=True))
 
-    def get_unread_messages(self, limit=None, keep_unread=False):
+    def get_unread_messages(self, keep_unread=False):
         messages = filter(lambda msg: msg.is_unread(),
-                          self.get_all_messages(keep_unread=keep_unread))
+                          self.get_all_messages(keep_unread=True))
 
-        if limit:
-            messages = messages[:limit]
+        if not keep_unread:
+            for message in messages:
+                message.mark_as_read()
 
         return messages
 
-    def get_all_messages(self, limit=None, keep_unread=False):
+    def get_all_messages(self, limit=None,
+                         keep_unread=False):
         if not limit:
             messages = self.queue[:]
         else:

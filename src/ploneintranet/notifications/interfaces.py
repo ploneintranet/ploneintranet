@@ -53,20 +53,20 @@ class IChannel(Interface):
         Channel would return anyway
         """
 
-    def get_unread_messages(self, limit=None, keep_unread=False):
+    def get_unread_messages(self, keep_unread=False):
         """
         Return the unread messages, filtered for messages this
         Channel would return anyway.
         By default, this will also mark the messages as read.
         You can change this behavior by setting ``keep_unread`` to True
-        You can limit the number of messages to return with the
-        ``limit`` argument
         """
 
     def get_all_messages(self):
         """
         Return read and unread messages, filtered for messages this
         Channel would not return anyway
+        You can limit the number of messages to return with the
+        ``limit`` argument
         """
 
 
