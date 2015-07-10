@@ -10,13 +10,13 @@
 
     <metal:content fill-slot="content">
       <div class="container">
-        
+
         <nav class="canvas-subnav">
 	  <a tal:repeat="section view/sections"
              tal:attributes="href section/absolute_url; class section/current"
              tal:content="section/title">HR</a>
         </nav>
-        
+
         <article class="pat-rich canvas-intro"
                  tal:define="info view/info"
                  tal:condition="info">
@@ -36,7 +36,43 @@
 	    Praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum. 
 	  </p>
         </article>
-        
+
+        <form class="canvas-toolbar pat-inject pat-autosubmit"
+              action="#">
+	  <label class="bare pat-select" tal:condition="nothing">
+	    <select>
+	      <option>
+		Group by topic
+	      </option>
+	      <option>
+		Group by tag
+	      </option>
+	      <option>
+		Group by my tags
+	      </option>
+	      <option>
+		Group by author
+	      </option>
+	      <option>
+		Group by publication date
+	      </option>
+	    </select>
+	</label>
+
+	<div class="icons">
+		<!-- Link to external CMS -->
+		<a href="@@switch_theme"
+                   tal:attributes="href string:${context/absolute_url}/@@switch_theme"
+                   class="icon create"
+                   title="Create a new page or section">Create page or section</a>
+	</div>
+
+	<!-- Search is out of scope? -->
+	<input type="search" placeholder="Search library items" 
+               tal:condition="nothing"/>
+	
+        </form>
+
         <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
 	  <div class="grid-sizer"></div>
           
@@ -76,7 +112,12 @@
                    tal:define="has_img child/context/image|nothing;
                                scales child/context/@@images|nothing;"
                    tal:condition="python:has_img and scales" >
-                  <img tal:replace="structure python: scales.scale('image', scale='mini').tag()" />
+                   <!-- images must not have height and width attrs, this is determined by styling -->
+                  <img tal:attributes="src string:${child/absolute_url}/@@images/image/preview" />
+                </p>
+                <p class="hero"
+                   tal:condition="child/preview">
+                  <img tal:attributes="src string:${child/absolute_url}/docconv_image_preview.jpg" title="preview image"/>
                 </p>
 	        <p class="summary" tal:content="child/description">
 	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.

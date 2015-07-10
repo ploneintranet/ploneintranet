@@ -1,16 +1,12 @@
 from z3c.form import validator
 from zope import schema
 from zope.interface import alsoProvides
-from zope.interface import directlyProvides
 from zope.interface import implementer
 from zope.interface import Invalid
-from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.vocabulary import SimpleVocabulary
 from collective import dexteritytextindexer
 
 from plone import api as plone_api
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.app.textfield import RichText
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
@@ -29,6 +25,10 @@ class IUserProfile(form.Schema):
     username = schema.TextLine(
         title=_(u"Username"),
         required=True
+    )
+    person_title = schema.TextLine(
+        title=_(u"Person title"),
+        required=False
     )
     dexteritytextindexer.searchable('first_name')
     first_name = schema.TextLine(
@@ -51,22 +51,17 @@ class IUserProfile(form.Schema):
     )
 
 
-def primaryLocationVocabulary(context):
-    # TODO: Locations should be stored in portal_registry for the time being.
-    locations = [(u'L', u'London'), (u'P', u'Paris'), (u'B', u'Berlin')]
-    terms = []
-    for uid, title in locations:
-        terms.append(SimpleVocabulary.createTerm(uid, str(uid), title))
-    return SimpleVocabulary(terms)
-directlyProvides(primaryLocationVocabulary, IContextSourceBinder)
-
-
 class IUserProfileAdditional(form.Schema):
 
     """Default additional fields for UserProfile."""
 
-    person_title = schema.TextLine(
-        title=_(u"Person title"),
+    dexteritytextindexer.searchable('job_title')
+    job_title = schema.TextLine(
+        title=_(u"Job title"),
+        required=False
+    )
+    department = schema.TextLine(
+        title=_(u"Department"),
         required=False
     )
     telephone = schema.TextLine(
@@ -77,25 +72,23 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Mobile Number"),
         required=False
     )
-    time_zone = schema.TextLine(
+    address = schema.Text(
+        title=_(u"Address"),
+        required=False
+    )
+    time_zone = schema.Choice(
         title=_(u"Time Zone"),
+        source=u'plone.app.vocabularies.CommonTimezones',
         required=False
     )
     primary_location = schema.Choice(
         title=_(u"Primary location"),
-        source=primaryLocationVocabulary,
+        source=u"ploneintranet.userprofile.locations_vocabulary",
         required=False
     )
-    biography = RichText(
+    dexteritytextindexer.searchable('biography')
+    biography = schema.Text(
         title=_(u"Biography"),
-        required=False
-    )
-    job_title = schema.TextLine(
-        title=_(u"Job title"),
-        required=False
-    )
-    department = schema.TextLine(
-        title=_(u"Department"),
         required=False
     )
 
@@ -111,9 +104,14 @@ class UserProfile(Container):
     def Title(self):
         return self.fullname
 
+    def Description(self):
+        if getattr(self, 'job_title'):
+            return self.job_title
+
     @property
     def fullname(self):
         names = [
+            self.person_title,
             self.first_name,
             self.last_name,
         ]

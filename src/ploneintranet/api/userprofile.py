@@ -6,15 +6,9 @@ from Products.CMFPlone.utils import safe_unicode
 from zope.component import getMultiAdapter
 from z3c.form.interfaces import IValidator
 from plone import api as plone_api
-from plone.api.validation import at_least_one_of
 from plone.api.exc import InvalidParameterError
 
 from ploneintranet.userprofile.content.userprofile import IUserProfile
-
-AVATAR_SIZES = {
-    'profile': 200,
-    'stream': 50,
-}
 
 
 def get(username):
@@ -146,20 +140,16 @@ def create(
     return profile
 
 
-@at_least_one_of('username', 'profile', )
-def avatar_url(username=None, profile=None):
-    """Get the avatar image url for a user profile by username or profile
+def avatar_url(username=None):
+    """Get the avatar image url for a user profile
 
     :param username: Username for which to get the avatar url
     :type username: string
-    :param profile: Profile for which to get the avatar url
-    :type profile: ploneintranet.userprofile.userprofile
     :returns: absolute url for the avatar image
     :rtype: string
     """
-    if not profile:
-        profile = get(username)
-        if profile is None:
-            return None
-
-    return '{0}/@@avatar.jpg'.format(profile.absolute_url())
+    portal = plone_api.portal.get()
+    return '{0}/@@avatars/{1}'.format(
+        portal.absolute_url(),
+        username,
+    )

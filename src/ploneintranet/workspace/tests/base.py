@@ -84,4 +84,4 @@ class FunctionalBaseTestCase(BaseTestCase):
         self.browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
         self.browser.getControl(name='__ac_password').value = \
             SITE_OWNER_PASSWORD
-        self.browser.getForm(id='login_form').submit()
+        self.browser.getForm(id='login-panel').submit()

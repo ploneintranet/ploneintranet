@@ -47,6 +47,9 @@ class TestAdapters(SetUpMixin, unittest.TestCase):
 
     layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
 
+    # These tests are disabled for now, as the implementation
+    # is incomplete and missing any security considerations
+    @unittest.skip('Skipping disabled features of pi.notifications')
     def test_page(self):
         ''' Let's try to create a page and inspect the created adapter
         '''
@@ -88,6 +91,9 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
         container = api.portal.get_tool('ploneintranet_microblog')
         tearDownContainer(container)
 
+    # These tests are disabled for now, as the implementation
+    # is incomplete and missing any security considerations
+    @unittest.skip('Skipping disabled features of pi.notifications')
     def test_status_update(self):
         ''' Let's try to create a status_update and inspect the created adapter
         '''
@@ -118,6 +124,9 @@ class TestStatusAdapters(SetUpMixin, unittest.TestCase):
             datetime
         )
 
+    # These tests are disabled for now, as the implementation
+    # is incomplete and missing any security considerations
+    @unittest.skip('Skipping disabled features of pi.notifications')
     def test_multiple_status_updates(self):
         ''' Let's try to create multiple status updates.
 

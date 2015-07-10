@@ -22,6 +22,8 @@ class TestTodos(BaseTestCase):
             title='case',
             container=self.workspaces,
         )
+        self.case.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(self.case)
         wfconfig.setPolicyIn('case_workflow')
         api.content.transition(self.case, 'transfer_to_department')
@@ -129,6 +131,8 @@ class TestTodos(BaseTestCase):
             title='case',
             container=self.workspaces,
         )
+        case2.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(case2)
         wfconfig.setPolicyIn('case_workflow')
 

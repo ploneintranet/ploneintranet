@@ -88,10 +88,11 @@ class TestUserProfile(IntegrationTestCase):
             approve=True,
         )
 
-        valid_url = pi_api.userprofile.avatar_url('janedoe')
-        self.assertTrue(
-            valid_url.startswith(profile.absolute_url())
+        valid_url = pi_api.userprofile.avatar_url(profile.username)
+        self.assertEqual(
+            valid_url,
+            '{portal_url}/@@avatars/{userid}'.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+            )
         )
-
-        missing_url = pi_api.userprofile.avatar_url('not-a-username')
-        self.assertIsNone(missing_url)

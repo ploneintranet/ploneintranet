@@ -7,12 +7,22 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
   <browser:page
       name="userprofile-view"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".userprofile.UserProfileView"
       permission="zope2.View"
       template="templates/userprofile.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="edit"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".forms.UserProfileEditView"
+      permission="cmf.ModifyPortalContent"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
@@ -30,12 +40,28 @@
       class=".userprofile.MyProfileView"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="import-users"
+      class=".user_import.CSVImportView"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="avatars"
+      class=".userprofile.AvatarsView"
+      permission="zope2.View"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="avatar.jpg"
-      class=".userprofile.AvatarView"
+      class=".userprofile.MyAvatar"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
@@ -43,7 +69,7 @@
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="avatar_profile.jpg"
-      class=".userprofile.AvatarView"
+      class=".userprofile.MyAvatar"
       attribute="avatar_profile"
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"

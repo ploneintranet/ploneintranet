@@ -12,3 +12,5 @@ omit =
     src/plone.api/*
     src/zope.testrunner/*
     src/collective.celery/*
+    src/Products.CMFPlone/*
+    src/plone.app.theming/*

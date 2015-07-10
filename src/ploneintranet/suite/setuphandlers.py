@@ -25,6 +25,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 
 
 log = logging.getLogger(__name__)
@@ -43,7 +44,9 @@ def testing(context):
     # plone.api.env.test_mode doesn't support collective.xmltestreport
     is_test = False
     for frame in traceback.extract_stack():
-        if 'testrunner' in frame[0] or 'testreport/runner' in frame[0]:
+        if 'testrunner' in frame[0] or \
+           'testreport/runner' in frame[0] or \
+           'robot-server' in frame[0]:
             is_test = True
             break
 
@@ -68,9 +71,20 @@ def testing(context):
     create_caseworkspaces(caseworkspaces)
     commit()
 
-    log.info("create library content")
+    log.info("create case templates")
+    caseworkspaces = case_templates_spec(context)
+    create_caseworkspaces(caseworkspaces, container=TEMPLATES_FOLDER)
+    commit()
+
+    portal = api.portal.get()
+    # big setup only when manually re-running testcontent
+    bigsetup = bool(len(portal.library.objectIds()))
+    log.info("create library content, bigsetup=%s", bigsetup)
     library = library_spec(context)
-    create_library_content(None, library)
+    # will create minimal library with only small HR section by default
+    # will create big library on second manual testcontent run
+    # will do nothing on third and subsequent runs
+    create_library_content(None, library, bigsetup=bigsetup)
     commit()
 
     log.info("create microblog stream")
@@ -92,7 +106,8 @@ def users_spec(context):
             user = {
                 k: v.decode('utf-8') for k, v in user.iteritems()
             }
-            user['email'] = '{}@example.com'.format(decode(user['userid']))
+            if not user.get('email', '').strip():
+                user['email'] = '{}@example.com'.format(decode(user['userid']))
             user['follows'] = [
                 decode(u) for u in user['follows'].split(' ') if u
             ]
@@ -262,7 +277,7 @@ def workspaces_spec(context):
                      'owner': 'allan_neece',
                      'description': u'Meeting Minutes Overview',
                      'type': 'Document',
-                     'created': now - timedelta(days=60),
+                     'modification_date': now - timedelta(days=60),
                      },
                     {'title': 'Open Market Day',
                      'type': 'Event',
@@ -464,11 +479,11 @@ def caseworkspaces_spec(context):
     return caseworkspaces
 
 
-def create_caseworkspaces(caseworkspaces, force=False):
+def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
-    if 'workspaces' not in portal:
+    if container not in portal:
         ws_folder = api.content.create(
             container=portal,
             type='ploneintranet.workspace.workspacecontainer',
@@ -476,7 +491,7 @@ def create_caseworkspaces(caseworkspaces, force=False):
         )
         api.content.transition(ws_folder, 'publish')
     else:
-        ws_folder = portal['workspaces']
+        ws_folder = portal[container]
 
     if not force and ('ploneintranet.workspace.case'
                       in [x.portal_type for x in ws_folder.objectValues()]):
@@ -491,6 +506,8 @@ def create_caseworkspaces(caseworkspaces, force=False):
             type='ploneintranet.workspace.case',
             **w
         )
+        caseworkspace.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
         wfconfig.setPolicyIn('case_workflow')
 
@@ -511,12 +528,23 @@ def create_ws_content(parent, contents):
             **content
         )
         if owner is not None:
-            api.user.grant_roles(
-                username=owner,
-                roles=['Owner'],
-                obj=obj,
-            )
+            try:
+                api.user.grant_roles(
+                    username=owner,
+                    roles=['Owner'],
+                    obj=obj,
+                )
+            except api.exc.InvalidParameterError, ipe:
+                log.warning('Grant roles did not work for user %s. '
+                            'Does the user exist?' % owner)
+                raise api.exc.InvalidParameterError, ipe
+
             obj.reindexObject()
+            # Avoid 'reindexObject' overriding custom
+            # modification dates
+            if 'modification_date' in content:
+                obj.modification_date = content['modification_date']
+                obj.reindexObject(idxs=['modified', ])
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
@@ -539,7 +567,7 @@ def library_spec(context):
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
-                   {'type': 'Document',
+                   {'type': 'News Item',
                     'title': 'Pregnancy',
                     'desciption': 'Expecting a child?'},
                ]},
@@ -572,19 +600,30 @@ library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
 idcounter = 0
 
 
-def create_library_content(parent, spec, force=False):
+def create_library_content(parent,
+                           spec,
+                           force=False,
+                           creator='alice_lindstrom',
+                           bigsetup=False):
     if parent is None:
-        # initial call
+        # initial recursion
         portal = api.portal.get()
         parent = portal.library
         api.user.grant_roles(
-            username='alice_lindstrom',
+            username=creator,
             roles=['Contributor', 'Reviewer', 'Editor'],
             obj=portal.library
         )
-        api.content.transition(portal.library, 'publish')
-        # check only on initial call
-        if not force and len(portal.library.objectIds()) > 0:
+        try:
+            api.content.transition(portal.library, 'publish')
+        except api.exc.InvalidParameterError:
+            # subsequent runs, already published
+            pass
+        # initial (automated testing) testcontent run: no children
+        # second manual testcontent run: 1 child HR -> do big setup
+        # subsequent manual testcontent runs: skip for speed
+        already_setup = bool(len(portal.library.objectIds()) > 1)
+        if already_setup and not force:
             log.info("library already setup. skipping for speed.")
             return
 
@@ -592,6 +631,10 @@ def create_library_content(parent, spec, force=False):
     while spec:
         # avoiding side effects here cost me 4 hours!!
         item = copy.deepcopy(spec.pop(0))
+        if 'title' not in item and not bigsetup:
+            # skip lorem ipsum creation unless we're running bigsetup
+            continue
+
         contents = item.pop('contents', None)
         if 'title' not in item:
             global idcounter
@@ -605,12 +648,13 @@ def create_library_content(parent, spec, force=False):
                                          mimeType='text/plain',
                                          outputMimeType='text/x-html-safe')
 
-        obj = create_as('alice_lindstrom', container=parent, **item)
+        obj = create_as(creator, container=parent, **item)
         wrapped = IDublinCore(obj)
         wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
         if contents:
-            create_library_content(obj, contents)
+            create_library_content(obj, contents, creator=creator,
+                                   bigsetup=bigsetup)
 
 
 def create_stream(context, stream, files_dir):
@@ -657,6 +701,45 @@ def create_stream(context, stream, files_dir):
                     item_id=str(status_obj.id),
 
                 )
+
+
+def case_templates_spec(context):
+    case_templates = [{
+        'title': 'Case Template',
+        'description': 'A Template Case Workspace, pre-populated with tasks',
+        'members': {},
+        'contents': [{
+            'title': 'Basisdatenerfassung',
+            'type': 'todo',
+            'description': 'Erfassung der Basis-Absenderdaten',
+            'milestone': 'new',
+        }, {
+            'title': 'Hintergrundcheck machen',
+            'type': 'todo',
+            'description': 'Hintergrundcheck durchführen ob die Organisation '
+                           'förderungswürdig ist.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
+            'type': 'todo',
+            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
+                           'vergangenen 5 Jahren gewährt wurde.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Meinung Generalvikar einholen',
+            'type': 'todo',
+            'description': 'Meinung des Generalvikars zum Umfang der '
+                           'Förderung einholen.',
+            'milestone': 'in_progress',
+        }, {
+            'title': 'Protokoll publizieren',
+            'type': 'todo',
+            'description': 'Publizieren des Beschlusses im Web - falls '
+                           'öffentlich.',
+            'milestone': 'decided',
+        }],
+    }]
+    return case_templates
 
 
 def decode(value):
