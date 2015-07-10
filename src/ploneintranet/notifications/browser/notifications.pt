@@ -28,7 +28,8 @@
                tal:content="structure notification/obj/title">
               Who's up for a beer at Watershed at 8pm?
             </a>
-            <a href="${notification/obj/url}">
+            <a tal:omit-tag="not: notification/obj/url"
+               href="${notification/obj/url}">
                 <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/date">Just now</time>
             </a>
           </li>
