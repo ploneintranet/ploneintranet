@@ -97,7 +97,7 @@ class SearchResponse(base.SearchResponse):
                                       for y in x[catalog_field] if y}
             else:
                 self.facets[field] = {x[catalog_field]
-                                      for x in all_results if x}
+                                      for x in all_results if x[catalog_field]}
 
 
 @implementer(ISearchResult)
