@@ -6,7 +6,7 @@ from plone.uuid.interfaces import IUUID
 import transaction
 
 
-from ploneintranet.network.setuphandlers import restore_all_dublincore
+from ploneintranet.network.setuphandlers import restore_all_behaviors
 from ploneintranet.network.testing import FunctionalTestCase
 
 
@@ -47,7 +47,7 @@ class TestSubscribers(FunctionalTestCase):
         self.assertEqual(sorted(tags), [u'bar', u'foo', u'foobar'])
 
     def test_add_document_standard_dublincore_does_not_add_tags(self):
-        restore_all_dublincore()
+        restore_all_behaviors()
         transaction.commit()
         self.add_testdocument()
         doc = self.portal.testdocument
