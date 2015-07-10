@@ -4,6 +4,7 @@ from datetime import datetime
 from persistent import Persistent
 from ploneintranet.notifications.interfaces import IMessage
 from zope.interface import implements
+from plone import api
 import pickle
 
 
@@ -43,6 +44,18 @@ class Message(Persistent):
 
     def marked_read_at(self):
         return self.obj['read']
+
+    @property
+    def date(self):
+        modified = self.obj.get('message_last_modification_date',
+                                None)
+        if modified:
+            to_local = api.portal.get_tool(
+                'translation_service').toLocalizedTime
+            return to_local(
+                modified,
+                long_format=True,
+            )
 
     def is_unread(self):
         return self.marked_read_at() is False

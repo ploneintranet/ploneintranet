@@ -24,10 +24,13 @@
             <span class="verb">
               posted
             </span>
-            <a href="" class="object" tal:content="notification/obj/title">
+            <a href="" class="object"
+               tal:content="structure notification/obj/title">
               Who's up for a beer at Watershed at 8pm?
             </a>
-            <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/obj/message_last_modification_date">Just now</time>
+            <a href="${notification/obj/url}">
+                <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/date">Just now</time>
+            </a>
           </li>
         </ul>
         <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
