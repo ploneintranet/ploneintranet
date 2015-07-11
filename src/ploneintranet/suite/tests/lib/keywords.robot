@@ -248,7 +248,7 @@ I can create a new document
     Click link  Documents
     Click link  Functions
     Click link  Create document
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]

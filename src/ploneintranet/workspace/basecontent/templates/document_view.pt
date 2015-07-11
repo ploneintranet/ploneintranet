@@ -54,7 +54,12 @@
 
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
-                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" />
+                    <input type="text"
+                           name="subjects" placeholder="Tags" 
+                           value="${python:','.join(context.subject)}"
+                           tal:attributes="disabled read_only"
+                           class="pat-autosuggest"
+                           data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                   </fieldset>
                   <fieldset class="bar description">
                     <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
