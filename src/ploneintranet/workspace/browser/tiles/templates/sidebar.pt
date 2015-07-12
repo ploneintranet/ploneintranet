@@ -19,16 +19,15 @@
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
-              <div class="contextual buttons float-before" id="selector-contextual-functions">
+              <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
                    data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs"
-                   tal:define="parent view/logical_parent"
                    tal:condition="parent"
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
-                <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
+                <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post" tal:condition="not:parent">
                   <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
                   <select name="grouping">
                     <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
@@ -188,13 +187,13 @@ Supported types include (class names):
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
                     </a>
                     <div class="additional-meta-data">
-                        <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator" tal:content="python:creator.getProperty('fullname')" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
+                        <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator | nothing" tal:condition="item/creator | nothing" tal:content="python:creator.getProperty('fullname')" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
                             Creator
                         </a>
-                        <time class="modification-date meta-column" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
+                        <time class="modification-date meta-column" tal:condition="item/modified | nothing" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
                             {{ doc.date }}
                         </time>
-                        <nav class="tag-cloud tags meta-column">
+                        <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
                             <a tal:repeat="subject item/subject" href="#" class="tag" tal:content="subject">Finanzplanung</a>
                         </nav>
                     </div>
@@ -317,9 +316,12 @@ Supported types include (class names):
                                       token context/@@authenticator/token;">
                 <tal:milestone repeat="milestone milestones">
 
-                  <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
-                            tal:attributes="id string:milestone-${milestone}">
-                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
+                  <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: local"
+                            tal:define="keep_open python:view.is_open_task_in_milestone(tasks[milestone])"
+                            tal:attributes="id string:milestone-${milestone};
+                                            class python:attrs['class'] + (keep_open and ' open' or ' closed');
+                                            data-pat-collapsible python:keep_open and 'store: none' or 'store: local'">
+                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']" i18n:translate=""/>
                     <tal:task repeat="task python:tasks[milestone]">
                       <label>
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
@@ -376,7 +378,7 @@ Supported types include (class names):
           </div>
           <div class="content">
 
-            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events" tal:condition="events/upcoming">
               <h3 i18n:translate="">Upcoming events</h3>
 
               <ul class="cal-events">
@@ -408,7 +410,7 @@ Supported types include (class names):
               </ul>
             </div>
 
-            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="cal-events">
@@ -417,6 +419,10 @@ Supported types include (class names):
                 </tal:events>
               </ul>
             </div>
+
+            <p class="message notice" tal:condition="python: not (events['upcoming'] or events['older'])" i18n:translate="label_no_events_available">
+              No events available
+            </p>
           </div>
         </div>
 

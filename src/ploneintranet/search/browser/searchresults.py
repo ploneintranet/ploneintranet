@@ -6,7 +6,8 @@ from datetime import datetime
 from datetime import timedelta
 from ..interfaces import ISiteSearch
 
-SUPPORTED_FILTERS = ['friendly_type_name', 'Subject']
+from plone import api as plone_api
+
 RESULTS_PER_PAGE = 10
 
 
@@ -73,11 +74,30 @@ class SearchResultsView(BrowserView):
         else:
             return 'file'
 
+    def search_options(self):
+        """Get the currently options for refining results.
+
+        These are generated from all fields registered as
+        *both* a facet field and a filter field
+        """
+        filter_names = set(plone_api.portal.get_registry_record(
+            'ploneintranet.search.filter_fields'))
+        facet_names = set(plone_api.portal.get_registry_record(
+            'ploneintranet.search.facet_fields'))
+        options = [x for x in filter_names if x in facet_names]
+        # content type is rendered separately by the UI
+        if 'friendly_type_name' in options:
+            options.remove('friendly_type_name')
+        return options
+
     def search_response(self):
         form = self.request.form
         filters = {}
         start_date = None
         end_date = None
+
+        supported_filters = plone_api.portal.get_registry_record(
+            'ploneintranet.search.filter_fields')
 
         if form.get('SearchableText'):
             # This means that the main search form was submitted,
@@ -87,7 +107,7 @@ class SearchResultsView(BrowserView):
             # This means that the filters were changed, so
             # we refine an existing search
             keywords = form.get('SearchableText_filtered')
-            for filt in SUPPORTED_FILTERS:
+            for filt in supported_filters:
                 if form.get(filt):
                     filters[filt] = form.get(filt)
             if form.get('created'):

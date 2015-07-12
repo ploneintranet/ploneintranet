@@ -1,4 +1,5 @@
 import logging
+from ploneintranet.docconv.client.interfaces import IDocconv
 
 log = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ def sections_of(context, **kwargs):
                        description=item.description,
                        absolute_url=item.getURL(),
                        type=type_,
+                       preview=IDocconv(child).has_thumbs(),
                        context=child)
         section['content'] = children_of(child)
         struct.append(section)
