@@ -119,13 +119,16 @@ class ContentView(BrowserView):
             if action['category'] != 'workflow':
                 continue
             new_state_id = action['transition'].new_state_id
-            title = getattr(available_states, new_state_id).title
-            states.append(dict(
-                action=action['id'],
-                title=title,
-                new_state_id=new_state_id,
-                selected=None,
-            ))
+            # Only target states are shown in the UI. If two transitions lead
+            # to the same state we want to show the state only once.
+            if new_state_id not in [item['new_state_id'] for item in states]:
+                title = getattr(available_states, new_state_id).title
+                states.append(dict(
+                    action=action['id'],
+                    title=title,
+                    new_state_id=new_state_id,
+                    selected=None,
+                ))
         # Todo: enforce a given order?
         return states
 

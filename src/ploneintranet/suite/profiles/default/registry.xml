@@ -11,6 +11,8 @@
       </value>
       <value key="browserlayer_filterlist">
         <element>ploneintranet.theme.interfaces.IThemeSpecific</element>
+        <element>ploneintranet.library.interfaces.ILibraryContentLayer</element>
+        <element>ploneintranet.search.interfaces.IPloneintranetSearchLayer</element>
         <element>ploneintranet.messaging.browser.interfaces.IPloneintranetMessagingLayer</element>
         <element>ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer</element>
         <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>

@@ -292,6 +292,10 @@ class Sidebar(BaseTile):
                 ws.reindexObject()
         return self.render()
 
+    def is_open_task_in_milestone(self, milestone_tasks):
+        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+        return open_item_url in [task['url'] for task in milestone_tasks]
+
     def logical_parent(self):
         """
         Needed for the back button in the sidebar.

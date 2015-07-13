@@ -1,5 +1,4 @@
 from datetime import datetime
-from plone.app.dexterity.behaviors.metadata import IDublinCore
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
@@ -16,6 +15,9 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import ITuple
+
+from ploneintranet.network.behaviors.metadata import IDublinCore \
+    as pi_IDublinCore
 
 
 class ICommaSeparatedWidget(IWidget):
@@ -50,7 +52,8 @@ class CommaSeparatedConverter(BaseDataConverter):
         return value
 
 
-@adapter(getSpecification(IDublinCore['subjects']), IWorkspaceAppFormLayer)
+# plone intranet uses a dublincore override
+@adapter(getSpecification(pi_IDublinCore['subjects']), IWorkspaceAppFormLayer)
 @implementer(IFieldWidget)
 def CommaSeparatedFieldWidget(field, request):
     return FieldWidget(field, CommaSeparatedWidget(request))
