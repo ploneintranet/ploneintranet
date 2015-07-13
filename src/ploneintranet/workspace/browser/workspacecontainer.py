@@ -39,8 +39,10 @@ class Workspaces(BrowserView):
                     'content': 'Alphabetical'},
                    {'value': 'newest',
                     'content': 'Newest workspaces on top'},
-                   {'value': 'activity',
-                    'content': 'Most active workspaces on top'}]
+                   # Not yet implemented
+                   # {'value': 'activity',
+                   #  'content': 'Most active workspaces on top'}
+                   ]
         # put currently selected sort order at the beginning of the list
         if hasattr(self.request, "sort"):
             for o in options:
