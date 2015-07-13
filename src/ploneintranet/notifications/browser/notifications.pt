@@ -15,11 +15,14 @@
       <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
           <li tal:repeat="notification notifications"  class="notification">
-            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
+            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image"
+              tal:define="actorid python:notification.actors[0]['userid']"
+              tal:attributes="href string:${portal_url}/@@author/${actorid}">
               <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid'])" />
             </a>
             <span class="subjects">
-              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
+              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href=""
+                 tal:attributes="href string:${portal_url}/@@author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
             <span class="verb">
               posted

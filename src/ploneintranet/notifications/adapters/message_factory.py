@@ -60,6 +60,6 @@ class StatusUpdate(Base):
         return {
             'id': self.context.id,
             # TODO - status updates have no URL yet
-            'url': None,
+            'url': api.portal.get().absolute_url(),
             'title': text
         }
