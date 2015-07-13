@@ -13,6 +13,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.publisher.browser import BrowserView
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 from ... import MessageFactory as _  # noqa
 from ...interfaces import IGroupingStorage
@@ -22,7 +24,7 @@ from ...policies import PARTICIPANT_POLICY
 from ...utils import parent_workspace
 from ...utils import map_content_type
 from ...utils import set_cookie
-
+from ...basecontent.utils import dexterity_update
 import logging
 
 log = logging.getLogger(__name__)
@@ -232,18 +234,16 @@ class Sidebar(BaseTile):
         Write attributes, if any, set state, render
         """
         form = self.request.form
-
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
             wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
-            if section != 'task' and not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'title or description')
-                raise Unauthorized(msg)
-            elif section == 'task':
+
+            # Do the workflow transitions based on what tasks the user checked
+            # or unchecked
+            if section == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 
@@ -260,34 +260,32 @@ class Sidebar(BaseTile):
                         if state == "done":
                             obj.reopen()
                 api.portal.show_message(
-                    _(u'Changes applied'), self.request, 'success')
+                    _(u'Task state changed'), self.request, 'success')
                 msg = ViewPageTemplateFile(
                     '../templates/globalstatusmessage.pt')
                 return msg(self)
-            else:
-                if form.get('title'):
-                    title = safe_unicode(form.get('title')).strip()
-                    if title != ws.title:
-                        ws.title = title.strip()
-                        do_reindex = True
-                        api.portal.show_message(_(u'Title changed'),
-                                                self.request,
-                                                'success')
-                if form.get('description'):
-                    description = safe_unicode(form.get('description')).strip()
-                    if ws.description != description:
-                        ws.description = description
-                        do_reindex = True
-                        api.portal.show_message(_(u'Description changed'),
-                                                self.request,
-                                                'success')
 
-                calendar_visible = not not form.get('calendar_visible')
-                if calendar_visible != ws.calendar_visible:
-                    ws.calendar_visible = calendar_visible
-                    api.portal.show_message(_(u'Calendar visibility changed'),
-                                            self.request,
-                                            'success')
+            # Do the property editing. Edits only if there is something to edit
+            # in form
+            if self.can_manage_workspace() and form:
+                modified, errors = dexterity_update(self.context)
+
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    do_reindex = True
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
+
             if do_reindex:
                 ws.reindexObject()
         return self.render()
