@@ -36,6 +36,12 @@
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
 
+  <!-- drop from theme elements that should not be visible to anonymous -->
+  <rules css:if-content=".userrole-anonymous">
+    <drop css:theme="form#global-nav-search" />
+    <drop css:theme="#hamburger" />
+  </rules>
+
   <!-- Portal Personal Tools -->
   <replace css:content-children="#portal-personaltools-wrapper"
            css:theme="#user-avatar" />
