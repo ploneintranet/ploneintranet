@@ -70,9 +70,77 @@ class BaseTile(BrowserView):
     def can_add(self):
         """
         Is this user allowed to add content?
+        Cave. This was an easy way when we had archetypes.
+        With Dexterity, each content type is protected by its own
+        permission. Use more specific checks, if you can.
         """
         return api.user.has_permission(
             "Add portal content",
+            obj=self.context,
+        )
+
+    def can_add_documents(self):
+        """
+        Check if user is allowed to add documents
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Document',
+            obj=self.context,
+        )
+
+    def can_add_folders(self):
+        """
+        Check if user is allowed to add folders
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Folder',
+            obj=self.context,
+        )
+
+    def can_add_files(self):
+        """
+        Check if user is allowed to add files
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add File',
+            obj=self.context,
+        )
+
+    def can_add_images(self):
+        """
+        Check if user is allowed to add images
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Image',
+            obj=self.context,
+        )
+
+    def can_add_events(self):
+        """
+        Check if user is allowed to add files
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Event',
+            obj=self.context,
+        )
+
+    def can_add_links(self):
+        """
+        Check if user is allowed to add links
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Link',
+            obj=self.context,
+        )
+
+    def can_add_todos(self):
+        """
+        Check if user is allowed to add todos
+        XXX: To be consistent, todos may also want to declare
+        their own permission. Then this needs changing.
+        """
+        return api.user.has_permission(
+            'Add portal content',
             obj=self.context,
         )
 
@@ -858,6 +926,3 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
-
-    def can_add(self):
-        return api.user.has_permission('Add portal content', obj=self.context)
