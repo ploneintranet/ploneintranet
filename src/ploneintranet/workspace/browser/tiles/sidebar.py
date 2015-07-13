@@ -79,6 +79,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_documents(self):
         """
         Check if user is allowed to add documents
@@ -88,6 +89,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_folders(self):
         """
         Check if user is allowed to add folders
@@ -97,6 +99,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_files(self):
         """
         Check if user is allowed to add files
@@ -106,6 +109,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_images(self):
         """
         Check if user is allowed to add images
@@ -115,6 +119,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_events(self):
         """
         Check if user is allowed to add files
@@ -124,6 +129,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_links(self):
         """
         Check if user is allowed to add links
@@ -133,6 +139,7 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add_todos(self):
         """
         Check if user is allowed to add todos
