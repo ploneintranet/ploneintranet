@@ -1,5 +1,4 @@
 from datetime import datetime
-from plone.app.dexterity.behaviors.metadata import IDublinCore
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
