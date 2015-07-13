@@ -13,13 +13,13 @@ class TestWorkspaceSort(BaseTestCase):
         self.login_as_portal_owner()
         request = self.layer['request']
 
-        for sort_by in ('alphabet', 'newest', 'activity'):
+        for sort_by in ('alphabet', 'newest'):
             request.sort = sort_by
             ws_container = api.content.get_view(
                 name='workspaces.html',
                 context=self.portal.workspaces,
                 request=request)
-            self.assertEqual(len(ws_container.sort_options()), 3)
+            self.assertEqual(len(ws_container.sort_options()), 2)
             self.assertEqual(ws_container.sort_options()[0]['value'], sort_by)
 
     def test_my_workspaces(self):
