@@ -6,7 +6,7 @@ Development Install
 
     This document describes how to get a source checkout running to be able to develop for Plone Intranet.
 
-.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready 
+.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready
  :target: https://waffle.io/ploneintranet/ploneintranet
  :alt: 'Stories in Ready'
 
@@ -36,7 +36,7 @@ Set-up a development environment::
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
     virtualenv --no-site-packages .
-    bin/python2.7 bootstrap.py
+    bin/pip install -r requirements.txt
     bin/buildout -c buildout.cfg
 
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
@@ -122,5 +122,3 @@ It's also possible to run this `without sudo`_.
 .. _docker.io: https://www.docker.com/
 .. _Install Docker: https://docs.docker.com/installation/#installation
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
-
-
