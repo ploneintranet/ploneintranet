@@ -1,2 +1,4 @@
-setuptools==14.0
-zc.buildout==2.2.5
+# NOTE: setuptools and zc.buildout versions must be in sync with:
+#  - /versions.cfg
+setuptools==18.0.1
+zc.buildout==2.4.0
