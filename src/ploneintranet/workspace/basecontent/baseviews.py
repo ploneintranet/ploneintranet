@@ -121,7 +121,7 @@ class ContentView(BrowserView):
             new_state_id = action['transition'].new_state_id
             # Only target states are shown in the UI. If two transitions lead
             # to the same state we want to show the state only once.
-            if not new_state_id in [item['new_state_id'] for item in states]:
+            if new_state_id not in [item['new_state_id'] for item in states]:
                 title = getattr(available_states, new_state_id).title
                 states.append(dict(
                     action=action['id'],
