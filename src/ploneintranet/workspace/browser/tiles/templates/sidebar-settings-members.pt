@@ -24,7 +24,7 @@
               </div>
             </div>
 
-            <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
+            <form class="search-result users pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" action="/feedback/update-social-mentions-feedback.html" id="member-list-items" method="POST">
               <fieldset class="checklist pat-checklist users ">
 
                 <div class="batch-functions">
@@ -40,6 +40,8 @@
 
                   <div class="button-bar">
                     <button type="submit"
+                            formaction="/sidebar.settings.members"
+                            tal:attributes="formaction string:${ws/absolute_url}/sidebar.settings.members"
                             name="batch-function"
                             value="role"
                             class="float-before icon-role"
@@ -47,6 +49,8 @@
                             title="Change role of member"
                             i18n:attributes="title">Change role</button>
                     <button type="submit"
+                            formaction="/sidebar.settings.members"
+                            tal:attributes="formaction string:${ws/absolute_url}/sidebar.settings.members"
                             name="batch-function"
                             value="remove"
                             class="float-before icon-role"
@@ -60,7 +64,7 @@
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
-                  <input name="" type="checkbox" tal:attributes="name user/id" />
+                  <input name="user_id" type="checkbox" tal:attributes="value user/id" />
                   <a class="follow pat-inject" href="/adrian-white" data-pat-inject="source: #document-body; target: #document-body">
                     <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" />
                     <strong class="title" tal:content="user/title">Adrian White</strong>

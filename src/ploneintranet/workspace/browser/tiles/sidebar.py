@@ -113,19 +113,32 @@ class SidebarSettingsMembers(BaseTile):
     def __call__(self):
         form = self.request.form
         ws = self.workspace()
-        user_id = form.get('user_id')
-        if user_id:
+        user_ids = form.get('user_id')
+        if isinstance(user_ids, basestring):
+            user_ids = user_ids.split(',')
+        batch_function = form.get('batch-function')
+        if user_ids:
             if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
             else:
-                IWorkspace(ws).add_to_team(user=user_id)
-                api.portal.show_message(
-                    _(u'Member added'),
-                    self.request,
-                    'success',
-                )
+                if batch_function == 'add':
+                    for user_id in user_ids:
+                        IWorkspace(ws).add_to_team(user=user_id)
+                        api.portal.show_message(
+                            _(u'Member added'),
+                            self.request,
+                            'success',
+                        )
+                elif batch_function == 'remove':
+                    for user_id in user_ids:
+                        IWorkspace(ws).remove_from_team(user=user_id)
+                        api.portal.show_message(
+                            _(u'Member removed'),
+                            self.request,
+                            'success',
+                        )
         return self.render()
 
 
