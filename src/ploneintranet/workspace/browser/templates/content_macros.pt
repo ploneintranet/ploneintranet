@@ -131,9 +131,10 @@
 
       </label>
 
-      <label class="attachments"  tal:define="read_only python:False"><span tal:omit-tag="" i18n:translate="">Attached documents from this workspace</span>
+      <!--label class="attachments"  tal:define="read_only python:False"><span tal:omit-tag="" i18n:translate="">Attached documents from this workspace</span>
       <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value=""/>
-      </label>
+      </label-->
+
     </metal:event_fields>
 
   </body>
