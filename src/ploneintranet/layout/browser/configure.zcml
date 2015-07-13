@@ -39,6 +39,14 @@
   />
 
   <browser:page
+      name="app-not-available.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.AppNotAvailable"
+      permission="zope.Public"
+      template="templates/app-not-available.pt"
+  />
+
+  <browser:page
       name="dashboard.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".dashboard.Dashboard"

@@ -8,63 +8,17 @@
   <body class="sidebar-left-open focus-listing  home application-home ">
     <metal:content fill-slot="content">
 
-		<div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
-          <div class="grid-sizer"></div>
+		<div class="row tiles apps pat-masonry" id="apps-listing" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+      <div class="grid-sizer"></div>
 
-          <div class="tile app  app-news">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/news/icon.svg" alt="" />
-              <h3>News publisher</h3>
-            </a>
-          </div>
+      <div tal:repeat="tile view/tiles" class="tile app app-contacts disabled" tal:attributes="class string:tile app ${tile/cls} ${tile/disabled}">
+          <a href="/feedback/panel-app-not-available.html#document-content" class="link pat-modal" tal:attributes="href tile/url; class string:link ${tile/modal}">
+            <img class="icon" src="/apps/contacts/icon.svg" alt="" tal:attributes="src tile/img; alt tile/alt" />
+              <h3 tal:content="tile/title">Contacts</h3>
+          </a>
+      </div>
 
-          <div class="tile app  app-contacts">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/contacts/icon.svg" alt="" />
-              <h3>Contacts</h3>
-              
-            </a>
-          </div>
-          <div class="tile app  app-calendar">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/calendar/icon.svg" alt="" />
-              <h3>Calendar</h3>
-              
-              <time class="date pat-auto-scale">
-            	<span class="date">5</span>
-            	<span class="month">DEC</span>
-              </time>
-              
-            </a>
-          </div>
-          <div class="tile app  app-case-manager">
-            <a href="case-manager/" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/case-manager/icon.svg" alt="" />
-              <h3>Case manager</h3>
-              
-            </a>
-          </div>
-          <div class="tile app  app-slide-bank">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/slide-bank/icon.svg" alt="" />
-              <h3>Slide bank</h3>
-              
-            </a>
-          </div>
-          <div class="tile app  app-image-bank">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/image-bank/icon.svg" alt="" />
-              <h3>Image bank</h3>
-              
-            </a>
-          </div>
-          <div class="tile app  app-app-market">
-            <a href="#" class="link">
-              <img class="icon" src="++theme++ploneintranet.theme/generated/apps/app-market/icon.svg" alt="" />
-              <h3>App market</h3>
-              
-            </a>
-          </div>
+
         </div>
 
     </metal:content>
