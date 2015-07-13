@@ -6,7 +6,7 @@ Development Install
 
     This document describes how to get a source checkout running to be able to develop for Plone Intranet.
 
-.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready 
+.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready
  :target: https://waffle.io/ploneintranet/ploneintranet
  :alt: 'Stories in Ready'
 
@@ -101,7 +101,7 @@ so you can easily edit them with your favorite IDE.
 4. `sudo make docker-build` will prepare the docker image
 5. `sudo make docker-run` will launch the docker image and give you a shell inside
 
-.. note:: Make sure you are inside the shell (usually your prompt changes!)
+.. note:: Make sure you are inside the docker container (usually your prompt changes!)
 
 1. `make` will fetch the ploneintranet compiled javascript bundle
 2. `make devel` will run the development buildout
