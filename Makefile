@@ -113,7 +113,7 @@ boot2docker-build: .ssh/known_hosts
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:
-	docker run -i -t \
+	docker.io run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v $(HOME)/.buildout:/.buildout \
