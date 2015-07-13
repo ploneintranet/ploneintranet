@@ -36,7 +36,7 @@ Set-up a development environment::
     git clone https://github.com/ploneintranet/ploneintranet
     cd ploneintranet
     virtualenv --no-site-packages .
-    bin/python2.7 bootstrap.py
+    bin/pip install -r requirements.txt
     bin/buildout -c buildout.cfg
 
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
@@ -206,5 +206,4 @@ Use the "boot2docker ip" command to figure out what NAT ip your boot2docker vm i
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 .. _Install boot2docker: https://github.com/boot2docker/boot2docker
 .. _initialize your docker environment: http://stackoverflow.com/questions/25372781/docker-error-var-run-docker-sock-no-such-file-or-directory
-
 

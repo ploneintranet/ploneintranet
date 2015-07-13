@@ -159,7 +159,7 @@ devel: bin/buildout
 	bin/buildout
 
 bin/buildout: bin/python2.7
-	@bin/python bootstrap.py
+	@bin/pip install -r requirements.txt
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
@@ -203,4 +203,3 @@ docs-clean:
 	rm -rf docs/html
 
 .PHONY: all docs api-docs docs-clean clean check-clean solr-clean
-
