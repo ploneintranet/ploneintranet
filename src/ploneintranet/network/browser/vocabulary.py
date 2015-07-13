@@ -9,11 +9,12 @@ from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 import inspect
 
-from plone.app.content.browser.vocabulary import BaseVocabularyView
 from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
 from plone.app.content.browser.vocabulary import _permissions as base_perms
+from plone.app.content.utils import json_dumps
+from plone.app.content.utils import json_loads
 
 from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
 
@@ -25,16 +26,13 @@ _permissions = {
 }
 
 
-class PersonalizedVocabularyView(BaseVocabularyView):
+class PersonalizedVocabularyView(VocabularyView):
     """
     Queries a named personalized vocabulary and returns
     JSON-formatted results.
 
     Replaces plone.app.content.browser.vocabulary.VocabularyView
     """
-
-    def get_context(self):
-        return self.context
 
     def get_vocabulary(self):
         """
@@ -55,8 +53,7 @@ class PersonalizedVocabularyView(BaseVocabularyView):
 
         if factory_name in base_perms:
             # don't mess with upstream vocabulary handling
-            # this is not a superclass of self!
-            return VocabularyView(self.context, self.request).get_vocabulary()
+            return super(PersonalizedVocabularyView(self).get_vocabulary())
 
         authorized = None
         sm = getSecurityManager()
@@ -70,6 +67,9 @@ class PersonalizedVocabularyView(BaseVocabularyView):
                     authorized = permission_checker.validate(field_name,
                                                              factory_name)
             if not authorized:
+                # zope admin misses workspace access, go figure
+                logger.error("Vocabulary %s lookup (%s) not allowed",
+                             factory_name, field_name)
                 raise VocabLookupException('Vocabulary lookup not allowed')
         # Short circuit if we are on the site root and permission is
         # in global registry
@@ -96,10 +96,32 @@ class PersonalizedVocabularyView(BaseVocabularyView):
         # This is what is reached for non-legacy vocabularies.
 
         elif IPersonalizedVocabularyFactory.providedBy(factory):
+            # patternslib select2 queries for "q" instead of "query"
+            if not query and self.request.get('q', False):
+                query = _parseJSON(self.request.get('q'))
             # this is the key customization: feed in the request
-            vocabulary = factory(context, self.request)
+            vocabulary = factory(context, self.request, query=query)
         else:
             # default fallback
             vocabulary = factory(context)
 
         return vocabulary
+
+    def __call__(self):
+        """ If the 'resultsonly' parameter is in the request then extract the
+        value for "results" from the JSON string returned from the default
+        @@getVocabulary view, so that it can be used by pat-autosuggest.
+
+        @@getVocabulary also uses the vocabulary item 'token' value for the
+        'id', which escapes unicode strings. For pat-autosuggest we need to use
+        unicode for both the 'text' and the 'id'.
+        """
+        vocab_json = super(PersonalizedVocabularyView, self).__call__()
+        if vocab_json and self.request.get('resultsonly', False):
+            vocab_obj = json_loads(vocab_json)
+            results = vocab_obj.get('results', [])
+            text_values = [i['text'] for i in results]
+            vocab_list = [{'text': val, 'id': val} for val in text_values]
+            return json_dumps(vocab_list)
+
+        return vocab_json

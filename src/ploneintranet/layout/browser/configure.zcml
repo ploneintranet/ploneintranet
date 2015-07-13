@@ -50,6 +50,17 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <plone:tile
+      name="news.tile"
+      title="A title for the news"
+      description="News tile showing news on the dashboard"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.NewsTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
     <!-- Show site actions with theme switcher also in header -->
     <browser:viewlet
         name="ploneintranet.site_actions"
@@ -58,6 +69,5 @@
         permission="zope2.View"
         layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
         />
-
 
 </configure>

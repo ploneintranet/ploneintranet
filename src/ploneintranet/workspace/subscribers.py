@@ -3,6 +3,7 @@ from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
+from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
@@ -58,14 +59,17 @@ def workspace_added(ob, event):
         groups=set(['Admins']),
     )
 
-    # Configure our placeful workflow
-    cmfpw = 'CMFPlacefulWorkflow'
-    ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+    if not ICase.providedBy(ob):
+        """Case Workspaces have their own custom workflows
+        """
+        # Configure our placeful workflow
+        cmfpw = 'CMFPlacefulWorkflow'
+        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
 
-    # Set the policy for the config
-    pc = getattr(ob, WorkflowPolicyConfig_id)
-    pc.setPolicyIn('')
-    pc.setPolicyBelow('ploneintranet_policy')
+        # Set the policy for the config
+        pc = getattr(ob, WorkflowPolicyConfig_id)
+        pc.setPolicyIn('')
+        pc.setPolicyBelow('ploneintranet_policy')
 
 
 def participation_policy_changed(ob, event):
