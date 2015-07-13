@@ -33,4 +33,12 @@
     layer="ploneintranet.library.interfaces.ILibraryFilesLayer"
     />
 
+  <browser:page
+    name="file_view"
+    for="plone.app.contenttypes.interfaces.IFile"
+    class=".baseviews.DownloadView"
+    permission="zope2.View"
+    layer="ploneintranet.library.interfaces.ILibraryFilesLayer"
+    />
+
 </configure>
