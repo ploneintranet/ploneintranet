@@ -202,18 +202,25 @@ class SidebarSettingsAdvanced(BaseTile):
         """
         form = self.request.form
         ws = self.workspace()
+        if self.request.method == 'POST' and form:
+            if self.can_manage_workspace():
+                modified, errors = dexterity_update(self.context)
 
-        if self.request.method == 'POST':
-            if not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'policy')
-                raise Unauthorized(msg)
-            if form.get('email') and form.get('email') != ws.email:
-                ws.email = form.get('email').strip()
-                api.portal.show_message(_(u'Email changed'),
-                                        self.request,
-                                        'success')
-                self.form_submitted = True
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    ws.reindexObject()
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
 
         return self.render()
 
