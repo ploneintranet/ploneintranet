@@ -4,14 +4,13 @@ before_install:
   - sudo apt-get -qq -y install libenchant-dev
 install:
   - mkdir -p buildout-cache/downloads
-  - pip install -U setuptools
+  - pip install -r requirements.txt
   - pip install -U pip
   - pip install pyenchant
-  - python bootstrap.py -c travis.cfg -v 1.6.3
-  - bin/buildout -c travis.cfg buildout:develop= install download install 
+  - bin/buildout -c travis.cfg buildout:develop= install download install
   - bin/buildout -N -t 3 -c travis.cfg
   - cd src/ploneintranet.theme && make diazo
-script: 
+script:
   - bin/test
   - bin/flake8 src/ploneintranet.suite
 after_success:
