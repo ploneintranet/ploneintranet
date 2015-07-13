@@ -69,6 +69,14 @@
     permission="zope2.View"
     />
 
+  <browser:page
+    name="delete_confirmation"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    class=".baseviews.PIDeleteConfirmationForm"
+    permission="zope2.DeleteObjects"
+    />
+
   <adapter factory=".widgets.CommaSeparatedConverter" />
   <adapter factory=".widgets.CommaSeparatedFieldWidget" />
 
