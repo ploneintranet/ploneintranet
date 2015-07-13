@@ -306,7 +306,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
-    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
     [arguments]  ${title}  ${start}  ${end}
