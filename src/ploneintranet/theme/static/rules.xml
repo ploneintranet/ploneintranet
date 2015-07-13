@@ -34,6 +34,12 @@
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
 
+  <!-- drop from theme elements that should not be visible to anonymous -->
+  <rules css:if-content=".userrole-anonymous">
+    <drop css:theme="form#global-nav-search" />
+    <drop css:theme="#hamburger" />
+  </rules>
+
   <!-- Portal Personal Tools -->
   <replace css:content-children="#portal-personaltools-wrapper"
            css:theme="#user-avatar" />
@@ -62,12 +68,12 @@
     </replace>
   </rules>
 
-  <rules css:if-content="body.portaltype-event, 
-                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
-                         body.portaltype-ploneintranet-workspace-case.template-view, 
-                         body.app-workspace.portaltype-document, 
-                         body.app-workspace.portaltype-file, 
-                         body.app-workspace.portaltype-image, 
+  <rules css:if-content="body.portaltype-event,
+                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view,
+                         body.portaltype-ploneintranet-workspace-case.template-view,
+                         body.app-workspace.portaltype-document,
+                         body.app-workspace.portaltype-file,
+                         body.app-workspace.portaltype-image,
                          body.app-workspace.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
@@ -122,7 +128,7 @@
                          body.portaltype-ploneintranet-library-section,
                          body.portaltype-ploneintranet-library-folder">
     <theme href="generated/library.html" />
-    <replace css:theme="#content .container" 
+    <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
     <!-- hide spurious breadcrumbs for now -->
     <drop css:content="nav.breadcrumbs a:not(:first-child)" />
@@ -135,7 +141,7 @@
                          body.app-library.portaltype-image,
                          body.app-library.portaltype-file">
     <theme href="generated/synode/index.html" />
-    <replace css:theme="#content .container" 
+    <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
     <!-- hide spurious breadcrumbs for now -->
     <drop css:content="nav.breadcrumbs a:not(:first-child)" />
