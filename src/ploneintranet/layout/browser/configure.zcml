@@ -58,6 +58,17 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <plone:tile
+      name="news.tile"
+      title="A title for the news"
+      description="News tile showing news on the dashboard"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.NewsTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
     <!-- @@switch_theme view used as site action -->
     <browser:page
         name="switch_theme"

@@ -13,6 +13,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.publisher.browser import BrowserView
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 from ... import MessageFactory as _  # noqa
 from ...interfaces import IGroupingStorage
@@ -22,7 +24,7 @@ from ...policies import PARTICIPANT_POLICY
 from ...utils import parent_workspace
 from ...utils import map_content_type
 from ...utils import set_cookie
-
+from ...basecontent.utils import dexterity_update
 import logging
 
 log = logging.getLogger(__name__)
@@ -70,9 +72,84 @@ class BaseTile(BrowserView):
     def can_add(self):
         """
         Is this user allowed to add content?
+        Cave. This was an easy way when we had archetypes.
+        With Dexterity, each content type is protected by its own
+        permission. Use more specific checks, if you can.
         """
         return api.user.has_permission(
             "Add portal content",
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_documents(self):
+        """
+        Check if user is allowed to add documents
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Document',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_folders(self):
+        """
+        Check if user is allowed to add folders
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Folder',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_files(self):
+        """
+        Check if user is allowed to add files
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add File',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_images(self):
+        """
+        Check if user is allowed to add images
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Image',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_events(self):
+        """
+        Check if user is allowed to add files
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Event',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_links(self):
+        """
+        Check if user is allowed to add links
+        """
+        return api.user.has_permission(
+            'plone.app.contenttypes: Add Link',
+            obj=self.context,
+        )
+
+    @memoize
+    def can_add_todos(self):
+        """
+        Check if user is allowed to add todos
+        XXX: To be consistent, todos may also want to declare
+        their own permission. Then this needs changing.
+        """
+        return api.user.has_permission(
+            'Add portal content',
             obj=self.context,
         )
 
@@ -200,18 +277,25 @@ class SidebarSettingsAdvanced(BaseTile):
         """
         form = self.request.form
         ws = self.workspace()
+        if self.request.method == 'POST' and form:
+            if self.can_manage_workspace():
+                modified, errors = dexterity_update(self.context)
 
-        if self.request.method == 'POST':
-            if not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'policy')
-                raise Unauthorized(msg)
-            if form.get('email') and form.get('email') != ws.email:
-                ws.email = form.get('email').strip()
-                api.portal.show_message(_(u'Email changed'),
-                                        self.request,
-                                        'success')
-                self.form_submitted = True
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    ws.reindexObject()
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
 
         return self.render()
 
@@ -232,18 +316,16 @@ class Sidebar(BaseTile):
         Write attributes, if any, set state, render
         """
         form = self.request.form
-
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
             wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
-            if section != 'task' and not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'title or description')
-                raise Unauthorized(msg)
-            elif section == 'task':
+
+            # Do the workflow transitions based on what tasks the user checked
+            # or unchecked
+            if section == 'task':
                 current_tasks = self.request.form.get('current-tasks', [])
                 active_tasks = self.request.form.get('active-tasks', [])
 
@@ -260,37 +342,39 @@ class Sidebar(BaseTile):
                         if state == "done":
                             obj.reopen()
                 api.portal.show_message(
-                    _(u'Changes applied'), self.request, 'success')
+                    _(u'Task state changed'), self.request, 'success')
                 msg = ViewPageTemplateFile(
                     '../templates/globalstatusmessage.pt')
                 return msg(self)
-            else:
-                if form.get('title'):
-                    title = safe_unicode(form.get('title')).strip()
-                    if title != ws.title:
-                        ws.title = title.strip()
-                        do_reindex = True
-                        api.portal.show_message(_(u'Title changed'),
-                                                self.request,
-                                                'success')
-                if form.get('description'):
-                    description = safe_unicode(form.get('description')).strip()
-                    if ws.description != description:
-                        ws.description = description
-                        do_reindex = True
-                        api.portal.show_message(_(u'Description changed'),
-                                                self.request,
-                                                'success')
 
-                calendar_visible = not not form.get('calendar_visible')
-                if calendar_visible != ws.calendar_visible:
-                    ws.calendar_visible = calendar_visible
-                    api.portal.show_message(_(u'Calendar visibility changed'),
-                                            self.request,
-                                            'success')
+            # Do the property editing. Edits only if there is something to edit
+            # in form
+            if self.can_manage_workspace() and form:
+                modified, errors = dexterity_update(self.context)
+
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    do_reindex = True
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
+
             if do_reindex:
                 ws.reindexObject()
         return self.render()
+
+    def is_open_task_in_milestone(self, milestone_tasks):
+        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+        return open_item_url in [task['url'] for task in milestone_tasks]
 
     def logical_parent(self):
         """
@@ -854,6 +938,3 @@ class Sidebar(BaseTile):
             end={'query': (now), 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
-
-    def can_add(self):
-        return api.user.has_permission('Add portal content', obj=self.context)

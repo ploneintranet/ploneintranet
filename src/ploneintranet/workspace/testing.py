@@ -17,6 +17,7 @@ import ploneintranet.microblog
 import ploneintranet.activitystream
 import ploneintranet.invitations
 import ploneintranet.layout
+import ploneintranet.network
 import ploneintranet.theme
 
 
@@ -78,6 +79,12 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
         xmlconfig.file(
             'configure.zcml',
+            ploneintranet.network,
+            context=configurationContext
+        )
+
+        xmlconfig.file(
+            'configure.zcml',
             ploneintranet.theme,
             context=configurationContext
         )
@@ -101,6 +108,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.layout:default')
+        applyProfile(portal, 'ploneintranet.network:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
 
