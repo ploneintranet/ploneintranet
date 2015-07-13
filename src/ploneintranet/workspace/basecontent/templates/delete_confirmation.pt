@@ -33,7 +33,7 @@
                 tal:condition="not:folder_warning">
                 Delete ${context/portal_type}
             </h1>
-        
+
             <div class="panel-body">
                 <article>
                     <p tal:condition="not:folder_warning">
@@ -57,18 +57,18 @@
 
                                 <button type="submit" name="form.buttons.Delete" class="icon-ok-circle">
                                     I am sure, delete now
-                                </button>                    
+                                </button>
 
                                 <button type="button" class="close-panel icon-cancel-circle">
                                     Cancel
-                                </button>                    
+                                </button>
 
                             </div>
                         </metal:actions>
                     </form>
                 </article>
             </div>
-            
+
 
         </tal:block>
 
