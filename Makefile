@@ -98,16 +98,42 @@ jsrelease: prototype
 
 ####################################################################
 # docker.io
+# see comments for using boot2docker on MacOSX
 
 PROJECT=ploneintranet
 
 docker-build: .ssh/known_hosts
 	docker.io build -t $(PROJECT) .
 
+# for use with boot2docker on MacOSX, 
+# start without sudo: 'make boot2docker-run'
+boot2docker-build: .ssh/known_hosts
+	docker build -t $(PROJECT) .
+
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:
 	docker.io run -i -t \
+                --net=host \
+                -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
+                -v $(HOME)/.buildout:/.buildout \
+                -v /var/tmp:/var/tmp \
+                -v $(HOME)/.bashrc:/.bashrc \
+                -v $(HOME)/.pypirc:/.pypirc \
+                -v $(HOME)/.gitconfig:/.gitconfig \
+                -v $(HOME)/.gitignore:/.gitignore \
+                -e SSH_AUTH_SOCK=/tmp/auth.sock \
+		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
+		-e LC_ALL=en_US.UTF-8 \
+		-e LANG=en_US.UTF-8 \
+                -v $(PWD):/app -w /app -u app $(PROJECT)
+
+# for use with boot2docker on MacOSX, 
+# start without sudo: 'make boot2docker-run'
+# re-uses ssh agent
+# also loads your standard .bashrc
+boot2docker-run:
+	docker run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v $(HOME)/.buildout:/.buildout \
