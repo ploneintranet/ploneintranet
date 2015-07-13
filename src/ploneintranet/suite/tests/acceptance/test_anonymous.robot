@@ -17,3 +17,4 @@ Anonymous will not see some icon
     Go To  ${PLONE_URL}/test_rendering
     Then Element Should Not Be Visible  css=#hamburger
     Then Element Should Not Be Visible  css=#searchForm_gadget
+    Then Element Should Not Be Visible  css=nav.tabs.navigation
