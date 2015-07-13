@@ -163,5 +163,5 @@ class ContentView(BrowserView):
         return 'icon-file-code'
 
 
-class IKathDeleteConfirmationForm(DeleteConfirmationForm):
+class PIDeleteConfirmationForm(DeleteConfirmationForm):
     template = ViewPageTemplateFile('templates/delete_confirmation.pt')

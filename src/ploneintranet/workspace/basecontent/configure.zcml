@@ -73,8 +73,7 @@
     name="delete_confirmation"
     for="*"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
-    template="templates/delete_confirmation.pt"
-    class=".baseviews.DeleteConfirmationForm"
+    class=".baseviews.PIDeleteConfirmationForm"
     permission="zope2.DeleteObjects"
     />
 
