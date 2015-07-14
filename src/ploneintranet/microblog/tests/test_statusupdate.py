@@ -92,7 +92,8 @@ class TestStatusUpdate(unittest.TestCase):
                 pass
         su = OldStatusUpdate('foo')
         # old data has new code accessors
-        self.assertIsNone(su._microblog_context_uuid)
+        with self.assertRaises(AttributeError):
+            su._microblog_context_uuid
 
     def test_context_object_microblog(self):
         import ExtensionClass
