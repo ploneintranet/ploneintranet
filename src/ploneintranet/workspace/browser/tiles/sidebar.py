@@ -71,12 +71,23 @@ class BaseTile(BrowserView):
     def can_add(self):
         """
         Is this user allowed to add content?
-        Cave. This was an easy way when we had archetypes.
-        With Dexterity, each content type is protected by its own
-        permission. Use more specific checks, if you can.
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only cmf.AddPortalContent.
         """
         return api.user.has_permission(
             "Add portal content",
+            obj=self.context,
+        )
+
+    @memoize
+    def can_edit(self):
+        """
+        Is this user allowed to add content?
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only cmf.ModifyPortalContent.
+        """
+        return api.user.has_permission(
+            "Modify portal content",
             obj=self.context,
         )
 
