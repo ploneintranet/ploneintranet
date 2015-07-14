@@ -47,8 +47,8 @@
   <!-- Subscribe to ParticipationPolicyChangedEvent in order to
        update existing users-->
   <subscriber
-     for=".workspacefolder.IWorkspaceFolder
-          .interfaces.IParticipationPolicyChangedEvent"
+     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
+          ploneintranet.workspace.interfaces.IParticipationPolicyChangedEvent"
      handler=".subscribers.participation_policy_changed"
      />
 

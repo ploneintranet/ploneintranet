@@ -182,6 +182,14 @@ I can set the participant policy to Moderate
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
 
+I can set the participant policy to Consume
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 1
+    Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
+    Click link  link=Security
+    Wait until page contains  They cannot add
+
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
 
@@ -255,10 +263,9 @@ I can create a new document
 
 I cannot create a new document
     Click link  Documents
-    Wait until page contains  Test Document
+    Wait until page contains  Expand sidebar
     Page Should Not Contain   Create document
-    Click link  Functions
-    Page Should Not Contain   Create document
+    Page Should Not Contain Link  Functions
 
 I can create a new folder
     Click link  Documents

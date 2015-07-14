@@ -47,8 +47,9 @@
 
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                <a tal:condition="view/can_add_documents" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                <a class="selector-toggle-select more-menu-trigger"
+                   tal:condition="python:view.can_add() or view.can_edit()">Functions</a>
+                <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
                 <!-- XXX: This is not yet completed -->
@@ -204,12 +205,12 @@ Supported types include (class names):
               </fieldset>
             </form>
 
-            <tal:can_add condition="view/can_add_documents | view/can_add_images | view/can_add_folders">
+            <tal:can_add condition="view/can_add">
               <div class="button-bar create-buttons">
                 <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                   i18n:translate="" tal:condition="view/can_add_documents | view/can_add_images">Create document</a>
+                   i18n:translate="" tal:condition="view/can_add">Create document</a>
                 <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                   i18n:translate="" tal:condition="view/can_add_folders">Create folder</a>
+                   i18n:translate="" tal:condition="view/can_add">Create folder</a>
               </div>
               <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#items" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
                 <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
@@ -223,14 +224,14 @@ Supported types include (class names):
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
               <ul class="menu">
-                <tal:can_add condition="view/can_add_documents | view/can_add_images | view/can_add_folders">
-                  <li tal:content="view/can_add_documents | view/can_add_images">
+                <tal:can_add condition="view/can_add">
+                  <li tal:condition="view/can_add">
                     <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                   </li>
-                  <li tal:condition="view/can_add_folders">
+                  <li tal:condition="view/can_add">
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                   </li>
-                  <li tal:condition="view/can_add_images | view/can_add_folders">
+                  <li tal:condition="view/can_add">
                     <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
                   </li>
                 </tal:can_add>
@@ -280,7 +281,7 @@ Supported types include (class names):
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
                  tal:attributes="href string:${ws/absolute_url}/add_task"
-                 tal:condition="view/can_add_todos">Create task</a>
+                 tal:condition="view/can_add">Create task</a>
             </div>
           </div>
           <tal:no-tasks condition="python:not ws.is_case and not tasks ">
@@ -339,7 +340,7 @@ Supported types include (class names):
                     <p class="button-bar">
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
-                         tal:condition="view/can_add_todos">Create new task</a>
+                         tal:condition="view/can_add">Create new task</a>
                       <a class="small icon-stage success button"
                          tal:condition="python:milestones[milestone]['enabled']"
                          tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);">Close milestone</a>
@@ -373,7 +374,7 @@ Supported types include (class names):
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-              <a tal:condition="view/can_add_events" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+              <a tal:condition="view/can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>
           <div class="content">
