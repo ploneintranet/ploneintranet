@@ -190,6 +190,7 @@ class SidebarSettingsSecurity(BaseTile):
                 )
 
         if self.request.method == 'POST':
+            self.form_submitted = True
             if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
