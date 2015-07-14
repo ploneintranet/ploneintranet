@@ -2,7 +2,7 @@
 <dc-workflow workflow_id="case_workflow"
 	     title="Case Workflow"
 	     description="Workflow for Business Cases (Geschäfte)"
-	     state_variable="review_state" initial_state="new" manager_bypass="True">
+	     state_variable="review_state" initial_state="new" manager_bypass="False">
 
   <permission>Modify portal content</permission>
   <permission>View</permission>
