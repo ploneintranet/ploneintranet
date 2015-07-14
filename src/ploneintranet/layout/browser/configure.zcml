@@ -9,6 +9,7 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
+  <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
@@ -50,14 +51,16 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
-    <!-- @@switch_theme view used as site action -->
-    <browser:page
-        name="switch_theme"
-        for="*"
-        permission="zope.Public"
-        class=".action.SwitchThemeView"
-        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-        />
+  <plone:tile
+      name="news.tile"
+      title="A title for the news"
+      description="News tile showing news on the dashboard"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.NewsTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
 
     <!-- Show site actions with theme switcher also in header -->
     <browser:viewlet
@@ -67,6 +70,5 @@
         permission="zope2.View"
         layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
         />
-
 
 </configure>

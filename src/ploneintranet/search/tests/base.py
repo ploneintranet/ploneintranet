@@ -48,7 +48,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             subject=(u'test', u'my-tag'),
             safe_id=False
         )
-        self.doc1.creation_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
+        self.doc1.modification_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
         self.doc2 = self.create_doc(
             title=u'Test Doc 2',
@@ -56,7 +56,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
                          u'Please let some stuff be indexed. '),
             subject=(u'test', u'my-other-tag'),
         )
-        self.doc2.creation_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
+        self.doc2.modification_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
 
         self.doc3 = self.create_doc(
             title=u'Lucid Dreaming',
@@ -65,28 +65,28 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
                 u'which may leave the casual reader perplexed. '
                 u'Nothing to do with the weather.')
         )
-        self.doc3.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+        self.doc3.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
         self.doc4 = self.create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
-        self.doc4.creation_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
+        self.doc4.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
         self.doc5 = self.create_doc(
             title=u'Sorted and indexed.',
             description=u'Not relevant',
             subject=(u'solr', u'boost', u'values')
         )
-        self.doc5.creation_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
+        self.doc5.modification_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
 
         self.doc6 = self.create_doc(
             title=u'Another relevant title',
             description=u'Is Test Doc 2 Sorted and indexed?',
             subject=(u'abra', u'cad', u'abra')
         )
-        self.doc6.creation_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
+        self.doc6.modification_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):

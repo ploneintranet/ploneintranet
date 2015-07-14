@@ -1,3 +1,4 @@
+import logging
 from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
@@ -5,6 +6,7 @@ from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
+from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
@@ -17,6 +19,7 @@ from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
 
+log = logging.getLogger(__name__)
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
@@ -73,25 +76,35 @@ def workspace_added(ob, event):
         if user is not None:
             newSecurityManager(None, user)
 
-    # Configure our placeful workflow
-    cmfpw = 'CMFPlacefulWorkflow'
-    ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+    if not ICase.providedBy(ob):
+        """Case Workspaces have their own custom workflows
+        """
+        # Configure our placeful workflow
+        cmfpw = 'CMFPlacefulWorkflow'
+        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
 
-    # Set the policy for the config
-    pc = getattr(ob, WorkflowPolicyConfig_id)
-    pc.setPolicyIn('')
-    pc.setPolicyBelow('ploneintranet_policy')
+        # Set the policy for the config
+        pc = getattr(ob, WorkflowPolicyConfig_id)
+        pc.setPolicyIn('')
+        pc.setPolicyBelow('ploneintranet_policy')
 
 
 def participation_policy_changed(ob, event):
     """ Move all the existing users to a new group """
     workspace = IWorkspace(ob)
-    old_group_name = workspace.group_for_policy(event.old_policy)
-    old_group = api.group.get(old_group_name)
-    for member in old_group.getAllGroupMembers():
-        groups = workspace.get(member.getId()).groups
+    members = workspace.members
+
+    for userid in members:
+        groups = workspace.get(userid).groups
         groups -= set([event.old_policy.title()])
         groups.add(event.new_policy.title())
+        workspace.add_to_team(user=userid, groups=groups)
+
+    user = api.user.get_current()
+    log.info("%s changed policy on %s from %s to %s for %s members",
+             user.getId(), repr(ob),
+             event.old_policy.title(), event.new_policy.title(),
+             len(members))
 
 
 def invitation_accepted(event):

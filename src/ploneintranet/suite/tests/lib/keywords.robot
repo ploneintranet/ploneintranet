@@ -37,7 +37,7 @@ Fill text field
 
 Add workspace
     [arguments]  ${title}
-    Go to  ${PLONE_URL}/++add++ploneintranet.workspace.workspacefolder
+    Go to  ${PLONE_URL}/workspaces/++add++ploneintranet.workspace.workspacefolder
     Input text  name=form.widgets.IBasic.title  ${title}
     Click Button  Save
     Page Should Contain  Item created
@@ -116,6 +116,11 @@ I can go to the Minifest
 I am redirected to the login page
     Location Should Contain  require_login
 
+I open the password reset form
+    Go To  ${PLONE_URL}/pwreset_form
+
+The page is not found
+    Page should contain  This page does not seem to exist
 
 # *** Workspace related keywords ***
 
@@ -181,6 +186,14 @@ I can set the participant policy to Moderate
     Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
+
+I can set the participant policy to Consume
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 1
+    Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
+    Click link  link=Security
+    Wait until page contains  They cannot add
 
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
@@ -248,17 +261,16 @@ I can create a new document
     Click link  Documents
     Click link  Functions
     Click link  Create document
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  css=#content input[value="${title}"]
 
 I cannot create a new document
     Click link  Documents
-    Wait until page contains  Test Document
+    Wait until page contains  Expand sidebar
     Page Should Not Contain   Create document
-    Click link  Functions
-    Page Should Not Contain   Create document
+    Page Should Not Contain Link  Functions
 
 I can create a new folder
     Click link  Documents
@@ -306,7 +318,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
-    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
     [arguments]  ${title}  ${start}  ${end}
@@ -392,13 +404,39 @@ I can create a new case
     Input Text  css=input.required.parsley-validated  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
-    Select Radio Button  workflow  case_workflow
+    Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Element Is visible  css=div#activity-stream  timeout=10
+    Wait Until Page Contains  Basisdatenerfassung
+
+I can create a new template case
+    [arguments]  ${title}
+    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.case
+    Input Text  form.widgets.IBasic.title  New template
+    Click Button  Save
+    Go To  ${PLONE_URL}/workspaces
+
+I can create a new case from a template
+    [arguments]  ${template}  ${title}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=description  text=Something completely different
+    Select From List  portal_type  ploneintranet.workspace.case
+    Wait Until Page Contains  New template
+    Select Radio Button  template_id  new-template
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
 
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
+    Click Button  Delete
+    Page Should Contain  has been deleted
+
+I can delete a template case
+    [arguments]  ${case_id}
+    Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
     Click Button  Delete
     Page Should Contain  has been deleted
 
@@ -407,17 +445,17 @@ I go to the dashboard
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I unselect the task check box
     [arguments]  ${title}
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I see a task is complete
     [arguments]  ${title}

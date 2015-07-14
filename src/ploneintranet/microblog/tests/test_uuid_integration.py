@@ -62,7 +62,7 @@ class TestUUIDIntegration(unittest.TestCase):
         f1 = self.portal['f1']
         directlyProvides(f1, IMicroblogContext)
         update = StatusUpdate('test', context=f1)
-        self.assertEquals(update.context, f1)
+        self.assertEquals(update.microblog_context, f1)
 
     def test_context_api(self):
         """Unittests fake uuids. Integration test with real uuids."""

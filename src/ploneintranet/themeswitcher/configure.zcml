@@ -3,6 +3,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
@@ -19,6 +20,15 @@
         for="plone.app.layout.navigation.interfaces.INavigationRoot
              zope.app.publication.interfaces.IBeforeTraverseEvent"
         handler=".policy.filter_request"
+        />
+
+    <!-- @@switch_theme view used as site action -->
+    <browser:page
+        name="switch_theme"
+        for="*"
+        permission="zope.Public"
+        class=".action.SwitchThemeView"
+        layer="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
         />
 
    <genericsetup:registerProfile
@@ -44,5 +54,6 @@
         name="ploneintranet.themeswitcher.testthemeA"
         directory="static/themeA"
         />
+
 
 </configure>

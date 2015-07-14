@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body tal:define="can_add view/can_add">
+  <body>
     <aside class="sidebar left tagging-off" id="sidebar" >
 
       <div hidden="hidden" id="more-menu">
@@ -19,16 +19,15 @@
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
-              <div class="contextual buttons float-before" id="selector-contextual-functions">
+              <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
                    data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs"
-                   tal:define="parent view/logical_parent"
                    tal:condition="parent"
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
-                <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post">
+                <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post" tal:condition="not:parent">
                   <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
                   <select name="grouping">
                     <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
@@ -48,8 +47,9 @@
 
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a class="selector-toggle-select more-menu-trigger">Functions</a>
-                <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                <a class="selector-toggle-select more-menu-trigger"
+                   tal:condition="python:view.can_add() or view.can_edit()">Functions</a>
+                <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
                 <!-- XXX: This is not yet completed -->
@@ -178,20 +178,23 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
+                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" 
                        tal:attributes="href string:${item/url};
-                                       data-pat-inject item/dpi | nothing">
+                                       class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
+                                       data-pat-inject item/dpi | nothing;
+                                       data-pat-switch item/dps | nothing">
                       <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
                     </a>
                     <div class="additional-meta-data">
-                        <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator" tal:content="python:creator.getProperty('fullname')" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
+                        <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator | nothing" tal:condition="item/creator | nothing" tal:content="python:creator.getProperty('fullname')" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
                             Creator
                         </a>
-                        <time class="modification-date meta-column" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
+                        <time class="modification-date meta-column" tal:condition="item/modified | nothing" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
                             {{ doc.date }}
                         </time>
-                        <nav class="tag-cloud tags meta-column">
+                        <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
                             <a tal:repeat="subject item/subject" href="#" class="tag" tal:content="subject">Finanzplanung</a>
                         </nav>
                     </div>
@@ -202,12 +205,12 @@ Supported types include (class names):
               </fieldset>
             </form>
 
-            <tal:can_add condition="can_add">
+            <tal:can_add condition="view/can_add">
               <div class="button-bar create-buttons">
                 <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                   i18n:translate="">Create document</a>
+                   i18n:translate="" tal:condition="view/can_add">Create document</a>
                 <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                   i18n:translate="">Create folder</a>
+                   i18n:translate="" tal:condition="view/can_add">Create folder</a>
               </div>
               <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#items" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
                 <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
@@ -221,14 +224,14 @@ Supported types include (class names):
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
               <ul class="menu">
-                <tal:can_add condition="can_add">
-                  <li>
+                <tal:can_add condition="view/can_add">
+                  <li tal:condition="view/can_add">
                     <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                   </li>
-                  <li>
+                  <li tal:condition="view/can_add">
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                   </li>
-                  <li>
+                  <li tal:condition="view/can_add">
                     <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
                   </li>
                 </tal:can_add>
@@ -314,9 +317,12 @@ Supported types include (class names):
                                       token context/@@authenticator/token;">
                 <tal:milestone repeat="milestone milestones">
 
-                  <fieldset class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local"
-                            tal:attributes="id string:milestone-${milestone}">
-                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']"/>
+                  <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: local"
+                            tal:define="keep_open python:view.is_open_task_in_milestone(tasks[milestone])"
+                            tal:attributes="id string:milestone-${milestone};
+                                            class python:attrs['class'] + (keep_open and ' open' or ' closed');
+                                            data-pat-collapsible python:keep_open and 'store: none' or 'store: local'">
+                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']" i18n:translate=""/>
                     <tal:task repeat="task python:tasks[milestone]">
                       <label>
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
@@ -368,12 +374,12 @@ Supported types include (class names):
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
+              <a tal:condition="view/can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>
           <div class="content">
 
-            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
+            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events" tal:condition="events/upcoming">
               <h3 i18n:translate="">Upcoming events</h3>
 
               <ul class="cal-events">
@@ -405,7 +411,7 @@ Supported types include (class names):
               </ul>
             </div>
 
-            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events">
+            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="cal-events">
@@ -414,6 +420,10 @@ Supported types include (class names):
                 </tal:events>
               </ul>
             </div>
+
+            <p class="message notice" tal:condition="python: not (events['upcoming'] or events['older'])" i18n:translate="label_no_events_available">
+              No events available
+            </p>
           </div>
         </div>
 
