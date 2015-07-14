@@ -173,12 +173,13 @@ class BaseStatusContainer(Persistent, Explicit):
             self._tag_mapping[tag].insert(status.id)
 
     def _idx_context(self, status):
-        uuid = status.context_uuid
-        if uuid:
-            # If the key was already in the collection, there is no change
-            # create tag treeset if not already present
-            self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
-            self._uuid_mapping[uuid].insert(status.id)
+        uuid = status._microblog_context_uuid
+        if not uuid:
+            return
+        # If the key was already in the collection, there is no change
+        # create tag treeset if not already present
+        self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
+        self._uuid_mapping[uuid].insert(status.id)
 
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
@@ -215,7 +216,7 @@ class BaseStatusContainer(Persistent, Explicit):
     def _check_add_permission(self, status):
         permission = "Plone Social: Add Microblog Status Update"
         try:
-            check_context = status.context
+            check_context = status.microblog_context
             if check_context is None:
                 check_context = self  # Fall back to tool
         except AttributeError:

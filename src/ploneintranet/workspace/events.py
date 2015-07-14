@@ -1,5 +1,5 @@
-from zope.component.interfaces import ObjectEvent
 from zope.interface import implements
+from zope.component.interfaces import ObjectEvent
 
 from ploneintranet.workspace.interfaces import IParticipationPolicyChangedEvent
 

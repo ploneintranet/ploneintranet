@@ -1,0 +1,56 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="ploneintranet">
+
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot directory="overrides"
+                layer="ploneintranet.theme.interfaces.IThemeSpecific" />
+
+  <!-- Register notfound as page displaying a notfound message. -->
+  <browser:page
+      for="*"
+      permission="zope.Public"
+      class=".switchoff.Deny"
+      name="notfound" />
+
+  <!-- Switch off various standard Plone pages that are not wanted.
+       We could and should remove links to these, but we may forget
+       some, or users may try to be smart, which we want to avoid. -->
+
+  <browser:pages
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope.Public"
+      class=".switchoff.Deny"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer">
+    <browser:page name="member-registration" />
+  </browser:pages>
+
+  <browser:pages
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      permission="zope.Public"
+      class=".switchoff.Deny"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer">
+    <browser:page name="register" />
+    <browser:page name="new-user" />
+    <browser:page name="change-password" />
+    <browser:page name="personal-preferences" />
+    <browser:page name="user-preferences" />
+    <browser:page name="personal-information" />
+    <browser:page name="user-information" />
+  </browser:pages>
+
+  <browser:pages
+      for="*"
+      permission="zope.Public"
+      class=".switchoff.Deny"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer">
+    <browser:page name="member-search" />
+  </browser:pages>
+
+</configure>

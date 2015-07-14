@@ -69,12 +69,12 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
     def can_add(self):
         """
         Is this user allowed to add content?
-        Cave. This was an easy way when we had archetypes.
-        With Dexterity, each content type is protected by its own
-        permission. Use more specific checks, if you can.
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only cmf.AddPortalContent.
         """
         return api.user.has_permission(
             "Add portal content",
@@ -82,74 +82,14 @@ class BaseTile(BrowserView):
         )
 
     @memoize
-    def can_add_documents(self):
+    def can_edit(self):
         """
-        Check if user is allowed to add documents
-        """
-        return api.user.has_permission(
-            'plone.app.contenttypes: Add Document',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_folders(self):
-        """
-        Check if user is allowed to add folders
+        Is this user allowed to add content?
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only cmf.ModifyPortalContent.
         """
         return api.user.has_permission(
-            'plone.app.contenttypes: Add Folder',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_files(self):
-        """
-        Check if user is allowed to add files
-        """
-        return api.user.has_permission(
-            'plone.app.contenttypes: Add File',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_images(self):
-        """
-        Check if user is allowed to add images
-        """
-        return api.user.has_permission(
-            'plone.app.contenttypes: Add Image',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_events(self):
-        """
-        Check if user is allowed to add files
-        """
-        return api.user.has_permission(
-            'plone.app.contenttypes: Add Event',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_links(self):
-        """
-        Check if user is allowed to add links
-        """
-        return api.user.has_permission(
-            'plone.app.contenttypes: Add Link',
-            obj=self.context,
-        )
-
-    @memoize
-    def can_add_todos(self):
-        """
-        Check if user is allowed to add todos
-        XXX: To be consistent, todos may also want to declare
-        their own permission. Then this needs changing.
-        """
-        return api.user.has_permission(
-            'Add portal content',
+            "Modify portal content",
             obj=self.context,
         )
 
@@ -252,6 +192,7 @@ class SidebarSettingsSecurity(BaseTile):
                 )
 
         if self.request.method == 'POST':
+            self.form_submitted = True
             if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
@@ -441,6 +382,8 @@ class Sidebar(BaseTile):
                     "source: nav.breadcrumbs; "
                     "target: nav.breadcrumbs; "
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = None
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
@@ -454,6 +397,9 @@ class Sidebar(BaseTile):
                     "source: #document-body; "
                     "history: record"
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = ("body focus-* focus-document && "
+                       "body sidebar-large sidebar-normal")
 
             results.append(dict(
                 title=r['Title'],
@@ -462,6 +408,7 @@ class Sidebar(BaseTile):
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
+                dps=dps,
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],

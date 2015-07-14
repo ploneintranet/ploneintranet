@@ -25,10 +25,24 @@ class WorkspacesTile(Tile):
         return my_workspaces(self.context)
 
 
-def my_workspaces(context):
+def my_workspaces(context, request=None):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
+
+    # determine sorting order (default: alphabetical)
+    sort_by = "sortable_title"
+    order = "ascending"
+    if request:
+        if hasattr(request, "sort"):
+            if request.sort == "activity":
+                raise NotImplementedError(
+                    "Sorting by activity"
+                    "is not yet possible")
+            elif request.sort == "newest":
+                sort_by = "modified"
+                order = "reverse"
+
     pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
@@ -36,8 +50,9 @@ def my_workspaces(context):
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        sort_on="modified",
-        sort_order="reversed",
+        portal_type="ploneintranet.workspace.workspacefolder",
+        sort_on=sort_by,
+        sort_order=order,
         path=ws_path,
     )
     workspaces = []

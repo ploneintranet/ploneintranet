@@ -3,8 +3,8 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.rfc822.interfaces import IPrimaryFieldInfo
+from ploneintranet import api as piapi
 from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.docconv.client.interfaces import IDocconv
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
@@ -169,7 +169,7 @@ class StatusAttachments(Attachments):
         return self
 
     def __call__(self):
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
         # requires ViewStatusUpdate on the statusupdate returned
         statusupdate = container.get(self.status_id)
         attachments = IAttachmentStorage(statusupdate)
