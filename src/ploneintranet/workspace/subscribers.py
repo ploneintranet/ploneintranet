@@ -1,3 +1,5 @@
+from zope.annotation.interfaces import IAnnotations
+from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
@@ -57,6 +59,18 @@ def workspace_added(ob, event):
         user=creator,
         groups=set(['Admins']),
     )
+    # During workspace creation, various functions
+    # are called (renaming / workflow transitions) which do
+    # low-level AccessControl checks.
+    # Unfortunately these checks never re-ask PAS for a user's roles
+    # or groups during a request, so we have to manually re-initialise
+    # the security context for the current user.
+    # ref: https://github.com/ploneintranet/ploneintranet/pull/438
+    if api.user.get_current().getId() == creator:
+        IAnnotations(ob.REQUEST)[('workspaces', creator)] = None
+        acl_users = api.portal.get_tool('acl_users')
+        user = acl_users.getUser(creator)
+        newSecurityManager(None, user)
 
     # Configure our placeful workflow
     cmfpw = 'CMFPlacefulWorkflow'
