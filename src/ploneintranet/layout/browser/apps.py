@@ -51,11 +51,12 @@ class Apps(BrowserView):
             _gen_tile('slide-bank', u'Slide bank'),
             _gen_tile('image-bank', u'Image bank'),
             _gen_tile('news', u'News publisher'),
-            _gen_tile('case-manager',
-                      u'Case manager',
-                      disabled='',
-                      url='@@case-manager',
-                      modal=''),
+            # _gen_tile('case-manager',
+            #           u'Case manager',
+            #           disabled='',
+            #           url='@@case-manager',
+            #           modal=''),
+            _gen_tile('case-manager', u'Case manager',),
             _gen_tile('app-market', u'App market'),
         ]
 
