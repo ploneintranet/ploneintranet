@@ -13,11 +13,10 @@ from plone.app.uuid.utils import uuidToObject
 from zope.component.hooks import getSite
 
 from interfaces import IStatusUpdate
-from utils import get_microblog_context
+
 
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.core.integration import PLONEINTRANET
 
 from zope.annotation.interfaces import IAttributeAnnotatable
 
@@ -60,7 +59,8 @@ class StatusUpdate(Persistent):
 
     # for unittest subclassing
     def _init_context(self, context):
-        m_context = get_microblog_context(context)
+        from ploneintranet import api as piapi
+        m_context = piapi.microblog.get_microblog_context(context)
         if m_context is None:
             self._context_uuid = None
         else:
@@ -82,7 +82,8 @@ class StatusUpdate(Persistent):
                 self.mentions[userid] = user.getProperty('fullname')
 
     def replies(self):
-        container = PLONEINTRANET.microblog
+        from ploneintranet import api as piapi
+        container = piapi.microblog.get_microblog()
         for reply in container.thread_values(self.id):
             if IStatusActivityReply.providedBy(reply):
                 yield reply

@@ -3,7 +3,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet import api as piapi
 
 
 class Tags(BrowserView):
@@ -21,7 +21,7 @@ class Tags(BrowserView):
         tags = set(catalog.uniqueValuesFor('Subject'))
 
         # TODO: Check if the user is actually allowed to view these tags
-        tool = PLONEINTRANET.microblog
+        tool = piapi.microblog.get_microblog()
         if tool:
             tags.update(tool._tag_mapping.keys())
 

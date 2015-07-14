@@ -4,7 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.protect import PostOnly
 from plone.app.uuid.utils import uuidToCatalogBrain
-from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet import api as piapi
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import INetworkTool
 from zope.component import getUtility
@@ -133,6 +133,6 @@ class ToggleLikeStatusUpdate(ToggleLike):
     def validate_id(self, item_id):
         """Check if the item_id is the id of a StatusUpdate"""
         if item_id.isdigit():
-            container = PLONEINTRANET.microblog
+            container = piapi.microblog.get_microblog()
             if container and int(item_id) in container._status_mapping:
                 return True
