@@ -87,7 +87,7 @@ def participation_policy_changed(ob, event):
 
     user = api.user.get_current()
     log.info("%s changed policy on %s from %s to %s for %s members",
-             user.getId(), repr(workspace),
+             user.getId(), repr(ob),
              event.old_policy.title(), event.new_policy.title(),
              len(members))
 
