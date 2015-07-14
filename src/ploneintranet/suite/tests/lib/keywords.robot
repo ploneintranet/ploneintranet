@@ -257,8 +257,7 @@ I cannot create a new document
     Click link  Documents
     Wait until page contains  Test Document
     Page Should Not Contain   Create document
-    Click link  Functions
-    Page Should Not Contain   Create document
+    Page Should Not Contain Link  Functions
 
 I can create a new folder
     Click link  Documents
