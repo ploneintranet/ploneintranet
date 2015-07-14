@@ -149,6 +149,15 @@ Member cannot create content in a Consumers workspace
     Given I am in a Consumers workspace as a workspace member
      Then I cannot create a new document
 
+Member cannot create content in a workspace changed from Produce to Consume
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Parliamentary Papers Guidance Workspace
+     Then I can open the workspace security settings tab
+      And I can set the participant policy to Consume
+     When I am logged in as the user allan_neece
+      And I go to the Open Parliamentary Papers Guidance Workspace
+     Then I cannot create a new document
+
 Non-Member can view published content in an open workspace
     Given I am in an open workspace as a non-member
      Then I can see the document  Terms and conditions
