@@ -19,7 +19,13 @@ Alice can view her own profile
 
 Alice cannot view her personal preferences
     Given I am logged in as the user alice_lindstrom
-    Then I cannot open the personal preferences page
+    When I open the personal preferences page
+    Then The page is not found
+
+Alice cannot open the password reset form
+    Given I am logged in as the user alice_lindstrom
+    When I open the password reset form
+    Then The page is not found
 
 Allan can view Alice's profile
     Given I am logged in as the user allan_neece
@@ -58,9 +64,8 @@ I can open the personal tools menu
     Click Element  css=header #user-avatar
     Wait Until Element Is Visible  css=.tooltip-container #portal-personaltools a#user-name
 
-I cannot open the personal preferences page
+I open the personal preferences page
     Go To  ${PLONE_URL}/@@personal-preferences
-    Page should contain  This page does not seem to exist
 
 I can follow the link to my profile
     Click Element  css=.tooltip-container #portal-personaltools a#user-name
