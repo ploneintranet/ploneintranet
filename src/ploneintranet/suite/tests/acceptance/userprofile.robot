@@ -17,6 +17,10 @@ Alice can view her own profile
     Then I can open the personal tools menu
     And I can follow the link to my profile
 
+Alice cannot view her personal preferences
+    Given I am logged in as the user alice_lindstrom
+    Then I cannot open the personal preferences page
+
 Allan can view Alice's profile
     Given I am logged in as the user allan_neece
     Then I can view the profile for user alice_lindstrom
@@ -53,6 +57,10 @@ Dollie cannot change Guy's details
 I can open the personal tools menu
     Click Element  css=header #user-avatar
     Wait Until Element Is Visible  css=.tooltip-container #portal-personaltools a#user-name
+
+I cannot open the personal preferences page
+    Go To  ${PLONE_URL}/@@personal-preferences
+    Page should contain  This page does not seem to exist
 
 I can follow the link to my profile
     Click Element  css=.tooltip-container #portal-personaltools a#user-name

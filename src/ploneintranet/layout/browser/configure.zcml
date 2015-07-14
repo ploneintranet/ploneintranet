@@ -9,6 +9,7 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
+  <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
