@@ -10,24 +10,24 @@
     <metal:content fill-slot="content">
 
     <div class="container">
-        <form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces">
-            <!-- Sorting dropdown is out of scope. -->
+        <!--form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces" -->
+        <form class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #content; target: #content" method="POST">
             <label class="bare pat-select">
-                <select>
-                    <option i18n:translate="">
-                        Most active workspaces on top
-                    </option>
-                    <option i18n:translate="">
-                        Newest workspaces on top
-                    </option>
-                </select>
-            </label>
-            <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
-        </form>
+
+                <select name="sort">
+                    <tal:r repeat="o view/sort_options">
+                        <option tal:attributes="value o/value" tal:content="o/content" i18n:translate="">Option</option>
+                    </tal:r>
+                 </select>
+             </label>
+             <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
+           <span tal:replace="structure context/@@authenticator/authenticator"/>
+         </form>
+
         <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
           <div class="grid-sizer four columns"></div>
-
           <tal:r repeat="w view/workspaces">
+
             <div class="tile workspace four columns  workspace-open-market-committee"
                  tal:attributes="class string:tile workspace four columns ${w/class}">
               <a href="/open-market-committee" class="link"
