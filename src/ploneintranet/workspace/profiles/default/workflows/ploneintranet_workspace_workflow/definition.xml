@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="ploneintranet_workspace_workflow"
-	     title="Plone Intranet Workspace Workflow"
-	     description=" - Workspace Workflow."
-	     state_variable="review_state" initial_state="secret" manager_bypass="False">
+         title="Plone Intranet Workspace Workflow"
+         description=" - Workspace Workflow."
+         state_variable="review_state" initial_state="secret" manager_bypass="False">
 
   <permission>Access contents information</permission>
   <permission>View</permission>
