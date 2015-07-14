@@ -79,14 +79,16 @@ def participation_policy_changed(event):
     workspace = IWorkspace(event.workspace)
     old_group_name = workspace.group_for_policy(event.old_policy)
     old_group = api.group.get(old_group_name)
-    for member in old_group.getAllGroupMembers():
+    members = old_group.getAllGroupMembers()
+    for member in members:
         groups = workspace.get(member.getId()).groups
         groups -= set([event.old_policy.title()])
         groups.add(event.new_policy.title())
     user = api.user.get_current()
-    log.info("%s changed policy on %s from %s to %s",
+    log.info("%s changed policy on %s from %s to %s for %s members",
              user.getId(), repr(event.workspace),
-             event.old_policy.title(), event.new_policy.title())
+             event.old_policy.title(), event.new_policy.title(),
+             len(members))
 
 
 def invitation_accepted(event):
