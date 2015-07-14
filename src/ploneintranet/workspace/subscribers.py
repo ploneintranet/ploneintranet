@@ -69,8 +69,9 @@ def workspace_added(ob, event):
     if api.user.get_current().getId() == creator:
         IAnnotations(ob.REQUEST)[('workspaces', creator)] = None
         acl_users = api.portal.get_tool('acl_users')
-        user = acl_users.getUser(creator)
-        newSecurityManager(None, user)
+        user = acl_users.getUserById(creator)
+        if user is not None:
+            newSecurityManager(None, user)
 
     # Configure our placeful workflow
     cmfpw = 'CMFPlacefulWorkflow'
