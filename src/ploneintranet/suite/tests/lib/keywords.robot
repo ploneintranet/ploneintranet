@@ -116,6 +116,11 @@ I can go to the Minifest
 I am redirected to the login page
     Location Should Contain  require_login
 
+I open the password reset form
+    Go To  ${PLONE_URL}/pwreset_form
+
+The page is not found
+    Page should contain  This page does not seem to exist
 
 # *** Workspace related keywords ***
 
