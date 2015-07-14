@@ -1,3 +1,4 @@
+import logging
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
@@ -16,6 +17,7 @@ from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
 
+log = logging.getLogger(__name__)
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
@@ -72,15 +74,19 @@ def workspace_added(ob, event):
         pc.setPolicyBelow('ploneintranet_policy')
 
 
-def participation_policy_changed(ob, event):
+def participation_policy_changed(event):
     """ Move all the existing users to a new group """
-    workspace = IWorkspace(ob)
+    workspace = IWorkspace(event.workspace)
     old_group_name = workspace.group_for_policy(event.old_policy)
     old_group = api.group.get(old_group_name)
     for member in old_group.getAllGroupMembers():
         groups = workspace.get(member.getId()).groups
         groups -= set([event.old_policy.title()])
         groups.add(event.new_policy.title())
+    user = api.user.get_current()
+    log.info("%s changed policy on %s from %s to %s",
+             user.getId(), repr(event.workspace),
+             event.old_policy.title(), event.new_policy.title())
 
 
 def invitation_accepted(event):

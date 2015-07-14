@@ -47,8 +47,7 @@
   <!-- Subscribe to ParticipationPolicyChangedEvent in order to
        update existing users-->
   <subscriber
-     for=".workspacefolder.IWorkspaceFolder
-          .interfaces.IParticipationPolicyChangedEvent"
+     for=".interfaces.IParticipationPolicyChangedEvent"
      handler=".subscribers.participation_policy_changed"
      />
 
