@@ -8,6 +8,13 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet">
 
+  <!-- Register notfound as page displaying a notfound message. -->
+  <browser:page
+      for="*"
+      permission="zope.Public"
+      class=".switchoff.Deny"
+      name="notfound" />
+
   <!-- Switch off various standard Plone pages that are not wanted.
        We could and should remove links to these, but we may forget
        some, or users may try to be smart, which we want to avoid. -->
