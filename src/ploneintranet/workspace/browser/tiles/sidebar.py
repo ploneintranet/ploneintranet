@@ -69,6 +69,15 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    def can_manage_roster(self):
+        """
+        does this user have permission to manage the workspace's roster
+        """
+        return api.user.has_permission(
+            "collective.workspace: Manage roster",
+            obj=self.context,
+        )
+
     def can_add(self):
         """
         Is this user allowed to add content?
@@ -187,7 +196,7 @@ class SidebarSettingsMembers(BaseTile):
     def existing_users(self):
         return self.workspace().existing_users()
 
-    def __call__(self):
+    def execute_batch_function(self):
         form = self.request.form
         ws = self.workspace()
         user_ids = form.get('user_id')
@@ -195,7 +204,7 @@ class SidebarSettingsMembers(BaseTile):
             user_ids = user_ids.split(',')
         batch_function = form.get('batch-function')
         if user_ids:
-            if not self.can_manage_workspace():
+            if not self.can_manage_roster():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
@@ -203,19 +212,44 @@ class SidebarSettingsMembers(BaseTile):
                 if batch_function == 'add':
                     for user_id in user_ids:
                         IWorkspace(ws).add_to_team(user=user_id)
-                        api.portal.show_message(
-                            _(u'Member added'),
-                            self.request,
-                            'success',
-                        )
+                    api.portal.show_message(
+                        _(u'Member(s) added'),
+                        self.request,
+                        'success',
+                    )
                 elif batch_function == 'remove':
                     for user_id in user_ids:
                         IWorkspace(ws).remove_from_team(user=user_id)
-                        api.portal.show_message(
-                            _(u'Member removed'),
-                            self.request,
-                            'success',
-                        )
+                    api.portal.show_message(
+                        _(u'Member(s) removed'),
+                        self.request,
+                        'success',
+                    )
+                elif batch_function == 'role':
+                    role = self.request.get('role')
+                    default_role = ws.participant_policy.title()
+                    groups = [default_role]
+                    if role:
+                        groups.append(role)
+                    for user_id in user_ids:
+                        membership = IWorkspace(ws).membership_factory(
+                            ws, IWorkspace(ws).members[user_id])
+                        membership.groups = groups
+                    api.portal.show_message(
+                        _(u'Role updated'),
+                        self.request,
+                        'success',
+                    )
+                else:
+                    api.portal.show_message(
+                        _(u'Unknown function'),
+                        self.request,
+                        'error',
+                    )
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.execute_batch_function()
         return self.render()
 
 
