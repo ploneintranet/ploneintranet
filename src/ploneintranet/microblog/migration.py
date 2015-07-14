@@ -1,10 +1,12 @@
-from zope.component import queryUtility
-from ploneintranet.microblog.interfaces import IMicroblogTool
+# -*- coding=utf-8 -*-
 from BTrees import OOBTree
-
-import logging
-logger = logging.getLogger('ploneintranet.microblog.migration')
+from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.statusupdate import StatusUpdate
 from transaction import commit
+from zope.component import queryUtility
+import logging
+
+logger = logging.getLogger('ploneintranet.microblog.migration')
 
 
 def setup_uuid_mapping(context):
@@ -28,6 +30,28 @@ def setup_threadids(context):
         i += 1
         if getattr(status, 'thread_id', False) is False:
             status.thread_id = None
+        if i % 100 == 0:
+            commit()
+    commit()
+
+
+def uuid_to_microblog_uuid(context):
+    '''
+    In #506 the status update attribute
+    _context_uuid was renamed _microblog_context_uuid
+
+    This upgrade steps makes the existing content uptodate
+    '''
+    tool = queryUtility(IMicroblogTool)
+    i = 0
+    for status in tool.values(limit=None):
+        if (
+            isinstance(status, StatusUpdate)
+            and not hasattr(status, '_microblog_context_uuid')
+        ):
+            i += 1
+            uuid = getattr(status, '_context_uuid', None)
+            status._microblog_context_uuid = uuid
         if i % 100 == 0:
             commit()
     commit()
