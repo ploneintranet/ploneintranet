@@ -38,14 +38,14 @@ Manager can toggle the state of a task
      Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
      Then I can toggle a milestone  New
-     Then I select the task check box  Basisdatenerfassung
+     Then I select the task check box  Populate Metadata
      Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is complete  Basisdatenerfassung
-     Then I unselect the task check box  Basisdatenerfassung
+     Then I see a task is complete  Populate Metadata
+     Then I unselect the task check box  Populate Metadata
      Then I can go to the Minifest
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is open  Basisdatenerfassung
+     Then I see a task is open  Populate Metadata
      Then I can toggle a milestone  New
 
 Non-member cannot see into a workspace

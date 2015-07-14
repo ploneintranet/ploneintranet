@@ -72,8 +72,8 @@ def testing(context):
     commit()
 
     log.info("create case templates")
-    caseworkspaces = case_templates_spec(context)
-    create_caseworkspaces(caseworkspaces, container=TEMPLATES_FOLDER)
+    casetemplates = case_templates_spec(context)
+    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
     commit()
 
     portal = api.portal.get()
@@ -709,34 +709,15 @@ def case_templates_spec(context):
         'description': 'A Template Case Workspace, pre-populated with tasks',
         'members': {},
         'contents': [{
-            'title': 'Basisdatenerfassung',
+            'title': 'Populate Metadata',
             'type': 'todo',
-            'description': 'Erfassung der Basis-Absenderdaten',
+            'description': 'Identify and fill in the Metadata',
             'milestone': 'new',
         }, {
-            'title': 'Hintergrundcheck machen',
+            'title': 'Identify the requirements',
             'type': 'todo',
-            'description': 'Hintergrundcheck durchführen ob die Organisation '
-                           'förderungswürdig ist.',
+            'description': 'Analyse the request and identify the requirements',
             'milestone': 'in_progress',
-        }, {
-            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
-            'type': 'todo',
-            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
-                           'vergangenen 5 Jahren gewährt wurde.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Meinung Generalvikar einholen',
-            'type': 'todo',
-            'description': 'Meinung des Generalvikars zum Umfang der '
-                           'Förderung einholen.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Protokoll publizieren',
-            'type': 'todo',
-            'description': 'Publizieren des Beschlusses im Web - falls '
-                           'öffentlich.',
-            'milestone': 'decided',
         }],
     }]
     return case_templates

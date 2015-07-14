@@ -406,7 +406,7 @@ I can create a new case
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Page Contains  Basisdatenerfassung
+    Wait Until Page Contains  Populate Metadata
 
 I can create a new template case
     [arguments]  ${title}
