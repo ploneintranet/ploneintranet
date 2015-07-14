@@ -422,55 +422,28 @@ def create_workspaces(workspaces, force=False):
 def caseworkspaces_spec(context):
     now = datetime.now()
     caseworkspaces = [{
-        'title': 'Minifest',
-        'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
-                       'Finanzielle Unterstützung des MinistrantInnen-Fest '
-                       'vom 7. September 2014 in St. Gallen.',
+        'title': 'Exemplary Case',
+        'description': 'A case management workspace demonstrating the '
+                       'adaptive case management functionality.',
         'members': {'allan_neece': [u'Members'],
                     'christian_stoney': [u'Admins', u'Members']},
         'contents': [{
-            'title': 'Basisdatenerfassung',
+            'title': 'Populate Metadata',
             'type': 'todo',
-            'description': 'Erfassung der Basis-Absenderdaten',
+            'description': 'Retrieve and assign metadata',
             'milestone': 'new',
         }, {
-            'title': 'Hintergrundcheck machen',
+            'title': 'Identify the requirements',
             'type': 'todo',
-            'description': 'Hintergrundcheck durchführen ob die Organisation '
-                           'förderungswürdig ist.',
+            'description': 'Investigate the request and identify requirements',
             'milestone': 'in_progress',
         }, {
-            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
-            'type': 'todo',
-            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
-                           'vergangenen 5 Jahren gewährt wurde.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Meinung Generalvikar einholen',
-            'type': 'todo',
-            'description': 'Meinung des Generalvikars zum Umfang der '
-                           'Förderung einholen.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Protokoll publizieren',
-            'type': 'todo',
-            'description': 'Publizieren des Beschlusses im Web - falls '
-                           'öffentlich.',
-            'milestone': 'decided',
-        }, {
-            'title': 'Supporting Materials',
-            'type': 'Folder',
-            'contents': [{
-                'title': '',
-                'type': 'File'
-            }]
-        }, {
-            'title': 'Future Council Meeting',
+            'title': 'Future Meeting',
             'type': 'Event',
             'start': now + timedelta(days=7),
             'end': now + timedelta(days=14)
         }, {
-            'title': 'Past Council Meeting',
+            'title': 'Past Meeting',
             'type': 'Event',
             'start': now + timedelta(days=-7),
             'end': now + timedelta(days=-14)

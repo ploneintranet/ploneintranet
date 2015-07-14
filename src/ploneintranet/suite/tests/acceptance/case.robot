@@ -35,22 +35,22 @@ Manager can create a template case workspace
 
 Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
-     Then I can go to the Minifest
+     Then I can go to the Exemplary Case
      Then I can go to the sidebar tasks tile of my case
      Then I can toggle a milestone  New
      Then I select the task check box  Populate Metadata
-     Then I can go to the Minifest
+     Then I can go to the Exemplary Case
      Then I can go to the sidebar tasks tile of my case
      Then I see a task is complete  Populate Metadata
      Then I unselect the task check box  Populate Metadata
-     Then I can go to the Minifest
+     Then I can go to the Exemplary Case
      Then I can go to the sidebar tasks tile of my case
      Then I see a task is open  Populate Metadata
      Then I can toggle a milestone  New
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
-     when I can go to the Minifest
+     when I can go to the Exemplary Case
      then I am redirected to the login page
 
 Manager can view sidebar info
@@ -83,12 +83,12 @@ Manager can mark a new task complete on dashboard
      Then I go to the dashboard
      Then I do not see the completed task is not listed
 
-The manager can invite Alice to join the Minifest
+The manager can invite Alice to join the Exemplary Case
     Given I am in a case workspace as a workspace admin
      Then I can open the workspace member settings tab
       And I can invite Alice to join the workspace
 
-The manager can invite Alice to join the Minifest from the menu
+The manager can invite Alice to join the Exemplary Case from the menu
     Given I am in a case workspace as a workspace admin
       And I can open the workspace member settings tab
      Then I can invite Alice to join the workspace from the menu
