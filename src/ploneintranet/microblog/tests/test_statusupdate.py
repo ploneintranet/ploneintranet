@@ -13,6 +13,7 @@ from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.interfaces import IContentStatusUpdate
 from ploneintranet.microblog.interfaces import IStatusUpdate
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.statusupdate import StatusUpdate
@@ -72,7 +73,16 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertIsNone(su._microblog_context_uuid)
 
-    def test_microblog_context_UUID(self):
+    def test_status_update_with_content(self):
+        content = object()
+        su = MockStatusUpdate('foo bar', content=content)
+        self.assertTrue(IContentStatusUpdate.providedBy(su))
+        self.assertEqual(
+            su._content_context_uuid,
+            su._context2uuid(content)
+        )
+
+    def test_microblog_context_uuid(self):
         import Acquisition
 
         class MockContext(Acquisition.Implicit):

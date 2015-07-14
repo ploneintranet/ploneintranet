@@ -28,6 +28,7 @@ def create(
     user=None,
     userid=None,
     time=None,
+    content=None,
 ):
     """Create a status update (post).
 
@@ -46,6 +47,9 @@ def create(
     :param time: time when the post should happen. By default the current time.
     :type time: datetime object
 
+    :param content: a content referenced we are talking about
+    :type content: content object
+
     :returns: Newly created statusupdate
     :rtype: StatusUpdate object
     """
@@ -54,7 +58,8 @@ def create(
         microblog_context=microblog_context,
         thread_id=thread_id,
         mention_ids=mention_ids,
-        tags=tags
+        tags=tags,
+        content=content,
     )
     # By default the post is done by the current user
     # Passing a userid or user allows to post as a different user
