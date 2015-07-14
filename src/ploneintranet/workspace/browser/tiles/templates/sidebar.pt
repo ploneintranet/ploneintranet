@@ -45,10 +45,10 @@
                 </form>
               </div>
 
-              <div class="quick-functions"
-                   tal:condition="python:view.can_add() or view.can_edit()">
+              <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a class="selector-toggle-select more-menu-trigger">Functions</a>
+                <a class="selector-toggle-select more-menu-trigger"
+                   tal:condition="python:view.can_add() or view.can_edit()">Functions</a>
                 <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
