@@ -66,6 +66,10 @@ I am in a Consumers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Shareholder Information Workspace
 
+I am in a Consumers workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Shareholder Information Workspace
+
 I am in a workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Open Market Committee Workspace
@@ -219,6 +223,15 @@ I can invite Alice to the workspace
     Click Element  css=span.select2-match
     Click Button  Ok
 
+I give the Producer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Producers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
 
@@ -242,6 +255,12 @@ I can search for items
     Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
+I see the option to create a document
+    Click link  Documents
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
 
 I can create a new document
     [arguments]  ${title}
@@ -379,6 +398,11 @@ I cannot see the document
     [arguments]  ${title}
     Click link  Documents
     Page should not contain  ${title}
+
+Allan has the option to create a document
+    I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+    I see the option to create a document
 
 
 # *** case related keywords ***

@@ -167,6 +167,11 @@ Site Administrator can add example user as member of workspace
      Click Button  Ok
      Wait Until Page Contains  Alice
 
+The manager can grant the Producer role in a Cosumer workspace
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     Then Allan has the option to create a document
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 # Site Administrator can edit roster
