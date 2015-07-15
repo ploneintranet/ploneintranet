@@ -27,7 +27,8 @@
         css:content="body" css:theme="body" />
 
   <!-- Logo -->
-  <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
+  <replace css:content-children="#site-logo" css:theme-children="#site-logo" />
+  <copy css:content="#site-logo" css:theme="#site-logo" attributes="href" />
 
   <!-- insert the breadcrumbs into the header bar -->
   <replace css:content-children="#breadcrumbs"
