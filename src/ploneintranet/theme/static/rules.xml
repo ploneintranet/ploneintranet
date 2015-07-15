@@ -60,6 +60,10 @@
         css:content="form#searchGadget_form"
         css:theme="form#global-nav-search" />
 
+  <copy attributes="placeholder title"
+        css:content="form#searchGadget_form input[name=SearchableText]"
+        css:theme="form#global-nav-search label input[name=SearchableText]" />
+
   <!-- Login Form -->
   <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
