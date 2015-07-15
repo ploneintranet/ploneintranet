@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> | Folio Intranet</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//style/screen.css" type="text/css">
+		<link rel="stylesheet" href="//style/colours.css" type="text/css">
+		<script src="//bundles/ploneintranet.js" type="text/javascript"></script>
+
+		<link rel="icon" type="image/png" href="//media/favicon.png" />
+		<!--[if IE]>
+				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+		<![endif]-->
+	</head>
+	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-news-cms ">
+		<div class="application-news-cms" id="content">
+    <div id="document-body">
+    	<form class="document pat-inject" action="/apps/news/edit.html#document-form" id="news-edit-form">
+    <div class="metadata pat-bumper">
+        <div class="meta-bar">
+            <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
+            <label class="tags float-before">
+                <input type="text" class="pat-autosuggest" placeholder="Tags" />
+            </label>
+
+            <div class="quick-functions">
+                <a href="/feedback/panel-delete.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
+                    Delete
+                </a>
+                <a href="/news-press-2/" class="icon-eye iconified" target="Preview" title="Preview this news item">
+                    Preview
+                </a>
+                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a> 
+                <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
+                    <label class="pat-select bare" title="Change the workflow state">
+                        <select>
+                            <option>Private</option>
+                            <option>Draft</option>
+                            <option>Published</option>
+                            <!-- <option>Members</option> -->
+                            <!-- <option>Logged in</option> -->
+                            <!-- <option>Internal</option> -->
+                            <!-- <option>External</option> -->
+                        </select>
+                    </label>
+                </fieldset>      
+                <button type="submit" class="pat-button icon-floppy" title="Save this document">Save</button>
+            </div>
+        </div>
+        <div class="bar summary-hero">
+            <fieldset class="row" >
+                <label class="nine columns">
+                    <textarea name="description" rows="4" title="Description" placeholder="Summary (Will be automatically filled upon save if no summary is provided)"></textarea>
+                </label>
+                <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/hero-upload.html#hero-upload" title="Upload a new hero image that may be displayed in the news overview pages.">
+                    <!-- Image goes on this line in the markup in the feedback -->
+                    <span class="pat-button upload-button">Upload image</span>
+                    <input type="file" name="hero" /> 
+                </label>
+            </fieldset> 
+        </div>
+        <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+            <fieldset class="bar pat-checklist">
+                <label>
+                    <input name="hero-visibility" type="radio" checked /> Image visible as hero image on the news article page.
+                </label>
+                <label>
+                    <input name="hero-visibility" type="radio" /> Image visible on news overview pages.
+                </label>
+            </fieldset>
+            <label class="bar">
+                Section 
+                <select>
+                    <option>Hot topics</option>
+                    <option>Company news</option>
+                    <option>Press releases</option>
+                </select>
+            </label>
+            <div class="bar">
+                <label class="pat-checklist">
+                    <input type="checkbox" checked /> Allow comments
+                </label>
+            </div>
+            <div class="bar">
+                <label class="pat-checklist">
+                    <input type="checkbox" checked /> Visible on news landing page
+                </label>
+            </div>
+            <fieldset class="bar">                
+                <label class="">
+                    Publication date <input class="pat-date-picker" type="date" />
+                </label>, 
+                <label class="">
+                    Expiration date <input class="pat-date-picker" type="date" />
+                </label>
+            </fieldset>
+        </fieldset>
+        <div id="editor-toolbar" class="bar">
+            <p class="loader">Loading…</p>
+        </div>
+    </div>
+    <div id="document-content">
+        <article class="document rich">
+		    <hgroup id="title-block">
+	        	<h1 id="document-title">
+	        		Title of news item
+	        	</h1>
+		    	<textarea type="text" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value=""></textarea>
+		    </hgroup>
+            <textarea class="pat-raptor" data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader; buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow">
+            	<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+
+				<h2>Header Level 2</h2>
+					       
+				<ol>
+				   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				   <li>Aliquam tincidunt mauris eu risus.</li>
+				</ol>
+
+				<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+				<h3>Header Level 3</h3>
+
+				<ul>
+				   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+				   <li>Aliquam tincidunt mauris eu risus.</li>
+				</ul>
+
+<pre><code>
+#header h1 a { 
+	display: block; 
+	width: 300px; 
+	height: 80px; 
+}
+</code></pre>
+            </textarea>
+        </article>
+    </div>
+</form>
+    </div>
+    <aside class="sidebar left" id="sidebar-news-cms">
+	    <div id="sidebar-content" class="mode-follow">
+	    	<div class="button-bar functions" id="-functions">
+	            <div class="contextual buttons float-before" id="-contextual-functions">
+	                <form action="./#-items" class="pat-inject pat-autosubmit">
+	                    <label class="pat-select bare" data-option="Milestone">Group by
+	                        <select name="browse-mode">
+	                            <option value="section">section</option>
+	                            <option value="author">tag</option>
+	                            <option value="author">author</option>
+	                        </select>
+	                    </label>
+	                </form>
+	            </div>
+
+	            <div class="quick-functions">
+	                <a title="Create new document" href="/feedback/panel-create-news.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create news item</a>
+	            	<a class="pat-toggle toggle-select" data-pat-toggle="selector: #sidebar-content; value: mode-select mode-follow">Select</a>
+	            </div>
+        	</div>
+
+	        <form id="listing-hot-topics" class="pat-collapsible object-list news pat-inject" data-pat-inject="target: body::after" data-pat-collapsible="store: local">
+	            <h4 class="section-label">
+	                Hot topics
+	            </h4>
+	            <p class="list-icons">
+	            	<a href="#options-hot-topics" class="iconified icon-cog pat-tooltip" data-pat-tooltip="source: ajax;">
+	            		Options
+	            	</a>
+	            </p>
+	            <div id="options-hot-topics" hidden>
+	            	<ul class="menu">
+						<li>
+							<a class="icon-edit pat-inject" href="/feedback/panel-edit-news-section-info.html#content" data-pat-inject="target: body::after">Edit news section information</a>
+						</li>
+						<li>
+							<a class="pat-inject icon-trash" href="/feedback/confirmation-delete-news-item.html#content" data-pat-inject="target: body::after">Delete news section "Hot Topics"</a>
+						</li>
+					</ul>
+	            </div>
+	            <article class="pat-rich section-description">
+	            	<p>
+	            		Lorem ipsum dolor sit amet consectetuer.
+	            	</p>
+	            </article>
+			    <fieldset class="checklist pat-checklist news">
+
+                    <div class="button-bar batch-buttons">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button formaction="/feedback/batch-delete.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="delete"
+                                class="float-before icon-trash no-label pat-depends"
+                                data-pat-depends="condition: foo or hot-news2 or hot-news1 or hot-news-5 or hot-news-4 or hot-news-3; action: enable;"
+                                title="Delete">Delete</button>
+                        <button type="submit"
+                                name="batch-function"
+                                value="rename"
+                                formaction="/feedback/batch-rename.html#content"
+                                class="float-before icon-rename no-label pat-depends"
+                                data-pat-depends="condition: foo or hot-news2 or hot-news1 or hot-news-5 or hot-news-4 or hot-news-3; action: enable;"
+                                title="Rename">Rename</button>
+                        <button type="submit"
+                                name="recategorise"
+                                value="rename"
+                                formaction="/feedback/batch-recategorise.html#content"
+                                class="float-before icon-squares no-label pat-depends"
+                                data-pat-depends="condition: foo or hot-news2 or hot-news1 or hot-news-5 or hot-news-4 or hot-news-3; action: enable;"
+                                title="Move items to a different section">Recategorise</button>
+                        <button formaction="/feedback/batch-tag.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="tag"
+                                class="float-before icon-tags no-label pat-depends"
+                                data-pat-depends="condition: foo or hot-news2 or hot-news1 or hot-news-5 or hot-news-4 or hot-news-3; action: enable;"
+                                title="Re-tag">Re-tag</button>
+                    </div>
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="hot-news2" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">KLM to give Edmonton only route to mainland Europe CrewTerminal 2</strong>
+			                        <p class="byline">
+			                        	Dutch carrier KLM will add Edmonton to its North American route map, announcing plans for nonstop service to Amsterdam.
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="hot-news1" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">Air France A380 Turns Back to Paris After Turbulence Hurts CrewTerminal 2</strong>
+			                        <p class="byline">
+			                        	An Airbus A380 superjumbo operated by Air France (AF) headed to New York’s JFK airport from Paris was forced to turn back to the French capital after severe ...
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="hot-news-5" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">WestJet to Slow 2015 Capacity Growth as Expenses Rise</strong>
+			                        <p class="byline">
+			                        	WestJet Airlines Ltd. (WJA), Canada’s second-largest carrier, said it expects slower growth in seating capacity next year as it confronts increased operating...
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="hot-news-4" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">Emirates airline plans for free in-flight Wi-Fi service</strong>
+			                        <p class="byline">
+			                        	Emirates will work towards offering free Wi-Fi on all of its flights as the service becomes increasingly popular with international travellers. 
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="hot-news-3" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">American Air Mulls Airbus Jet Aimed at Boeing 757’s Niche</strong>
+			                        <p class="byline">
+			                        	Boeing Co. (BA) faces fresh pressure to devise a replacement for its discontinued 757 jetliner, favored by U.S. carriers for trans-Atlantic flying, as Americ...
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+			        <!-- Five items are shown. Older items are ajaxed in with the link below: -->
+					<p class="more" id="load-more-hot-topics">
+						<a href="/feedback/news-load-more-hot-topics.html#content" class="pat-inject" data-pat-inject="target: #load-more-hot-topics::element">More Hot topics…</a>
+					</p>
+		        </fieldset>
+	  		</form>
+
+	        <form id="listing-hot-topics" class="pat-collapsible object-list news pat-inject" data-pat-inject="target: body::after" data-pat-collapsible="store: local">
+	            <h4 class="section-label">
+	                Company news
+	            </h4> 
+	            <p class="list-icons">
+	            	<a href="#options-company-news" class="iconified icon-cog pat-tooltip" data-pat-tooltip="source: ajax;">
+	            		Options
+	            	</a>
+	            </p>
+	            <div id="options-company-news" hidden>
+	            	<ul class="menu">
+						<li>
+							<a class="icon-edit pat-inject" href="/feedback/panel-edit-news-section-info.html#content" data-pat-inject="target: body::after">Edit news section information</a>
+						</li>
+						<li>
+							<a class="pat-inject icon-trash" href="/feedback/confirmation-delete-news-item.html#content" data-pat-inject="target: body::after">Delete news section "Company news"</a>
+						</li>
+					</ul>
+	            </div>
+
+			    <fieldset class="checklist pat-checklist news">
+
+                    <div class="button-bar batch-buttons">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button formaction="/feedback/batch-delete.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="delete"
+                                class="float-before icon-trash no-label pat-depends"
+                                data-pat-depends="condition: foo or star-news-3 or star-news-2 or star-news-1; action: enable;"
+                                title="Delete">Delete</button>
+                        <button type="submit"
+                                name="batch-function"
+                                value="rename"
+                                formaction="/feedback/batch-rename.html#content"
+                                class="float-before icon-rename no-label pat-depends"
+                                data-pat-depends="condition: foo or star-news-3 or star-news-2 or star-news-1; action: enable;"
+                                title="Rename">Rename</button>
+                        <button type="submit"
+                                name="recategorise"
+                                value="rename"
+                                formaction="/feedback/batch-recategorise.html#content"
+                                class="float-before icon-squares no-label pat-depends"
+                                data-pat-depends="condition: foo or star-news-3 or star-news-2 or star-news-1; action: enable;"
+                                title="Move items to a different section">Recategorise</button>
+                        <button formaction="/feedback/batch-tag.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="tag"
+                                class="float-before icon-tags no-label pat-depends"
+                                data-pat-depends="condition: foo or star-news-3 or star-news-2 or star-news-1; action: enable;"
+                                title="Re-tag">Re-tag</button>
+                    </div>
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="star-news-3" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">ANA and Ethiopian to codeshare</strong>
+			                        <p class="byline">
+			                        	In December, 2011 both airlines began reciprocal frequent flyer program awards.
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="star-news-2" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">Lufthansa Group expands capacity in winter schedule</strong>
+			                        <p class="byline">
+			                        	This winter, the Lufthansa Group airlines will link 260 destinations in 100 countries on four continents via its hubs in Frankfurt, Munich, Zurich, Vienna an...
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="star-news-1" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">United to launch four new Pacific routes</strong>
+			                        <p class="byline">
+			                        	Later in the week, the airline will also launch two new routes from its Guam hub – Seoul, South Korea, on Oct. 27 and Shanghai on Oct. 28.
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+		        </fieldset>
+	  		</form>
+
+	        <div id="listing-press-releases" class="pat-collapsible object-list news" data-pat-collapsible="store: local">
+	            <h4 class="section-label">
+	                Press releases
+	            </h4>
+	            <p class="list-icons">
+	            	<a href="#options-press-releases" class="iconified icon-cog pat-tooltip" data-pat-tooltip="source: ajax;">
+	            		Options
+	            	</a>
+	            </p>
+	            <div id="options-press-releases" hidden>
+	            	<ul class="menu">
+						<li>
+							<a class="icon-edit pat-inject" href="/feedback/panel-edit-news-section-info.html#content" data-pat-inject="target: body::after">Edit news section information</a>
+						</li>
+						<li>
+							<a class="pat-inject icon-trash" href="/feedback/confirmation-delete-news-item.html#content" data-pat-inject="target: body::after">Delete news section "Press releases"</a>
+						</li>
+					</ul>
+	            </div> 
+			    <fieldset class="checklist pat-checklist news">
+
+                    <div class="button-bar batch-buttons">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button formaction="/feedback/batch-delete.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="delete"
+                                class="float-before icon-trash no-label pat-depends"
+                                data-pat-depends="condition: foo or news-press-2 or news-press-1; action: enable;"
+                                title="Delete">Delete</button>
+                        <button type="submit"
+                                name="batch-function"
+                                value="rename"
+                                formaction="/feedback/batch-rename.html#content"
+                                class="float-before icon-rename no-label pat-depends"
+                                data-pat-depends="condition: foo or news-press-2 or news-press-1; action: enable;"
+                                title="Rename">Rename</button>
+                        <button type="submit"
+                                name="recategorise"
+                                value="rename"
+                                formaction="/feedback/batch-recategorise.html#content"
+                                class="float-before icon-squares no-label pat-depends"
+                                data-pat-depends="condition: foo or news-press-2 or news-press-1; action: enable;"
+                                title="Move items to a different section">Recategorise</button>
+                        <button formaction="/feedback/batch-tag.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="tag"
+                                class="float-before icon-tags no-label pat-depends"
+                                data-pat-depends="condition: foo or news-press-2 or news-press-1; action: enable;"
+                                title="Re-tag">Re-tag</button>
+                    </div>
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="projection-material" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">Air India Joins Star Alliance</strong>
+			                        <p class="byline">
+			                        	First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+			                <label class="item document type-news has-description">
+			                    <input name="projection-material" type="checkbox">
+			                    <a href="/apps/news/edit.html#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document" data-pat-inject="target: #document-body; history: record">
+			                        <strong class="title">Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3</strong>
+			                        <p class="byline">
+			                        	Star Alliance officially opened its new Lounge at São Paulo –Guarulhos Airport, Terminal 3 today. About 1,350 square metres in size, the lounge can accommoda...
+			                        </p>
+			                    </a>
+			                </label>
+						
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+		        </fieldset>
+	  		</div>
+	    </div>
+    </aside>
+</div>
+
+<header id="global-header">
+
+    <a id="hamburger" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
+
+    <nav class="breadcrumbs">
+
+        
+            <a class="current" href="#"></a>
+        
+
+        
+    </nav>
+
+    
+
+        
+	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
+		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+	</a>    
+
+
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
+
+        <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
+            Notifications <sup id="online-count" class="counter digit-2">4</sup>
+        </a>
+    
+
+    <form action="/search-results.html" class="search" id="global-nav-search">
+        <label>
+            <input class="search" name="SearchableText" placeholder="Search through content…" type="text">
+        </label>
+        <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
+    </form>
+
+    <nav class="tabs navigation  portal-tabs" id="">
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" >Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
+</header>
+
+	</body>
+</html>
