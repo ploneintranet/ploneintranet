@@ -89,6 +89,7 @@
   </rules>
 
   <rules css:if-content="body.template-dashboard-html,
+                         body.template-apps-html,
                          body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />

@@ -79,6 +79,10 @@ _diazo:
 	# logo
 	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
 	cp -R $(RELEASE_DIR)/media/logos $(DIAZO_DIR)/media/
+	# apps
+	@[ -d $(DIAZO_DIR)/apps/ ] || mkdir $(DIAZO_DIR)/apps/
+	cp -R $(RELEASE_DIR)/apps/* $(DIAZO_DIR)/apps/
+
 
 jsdev: clean-proto dev-bundle diazo _jsdev ## full js development refresh
 

@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            metal:use-macro="context/main_template/macros/master"
+            i18n:domain="ploneintranet">
+  <body class="sidebar-left-open focus-listing  home application-home ">
+    <metal:content fill-slot="content">
+
+		<div class="row tiles apps pat-masonry" id="apps-listing" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+      <div class="grid-sizer"></div>
+
+      <div tal:repeat="tile view/tiles" class="tile app app-contacts disabled" tal:attributes="class string:tile app ${tile/cls} ${tile/disabled}">
+          <a href="/feedback/panel-app-not-available.html#document-content" class="link pat-modal" tal:attributes="href tile/url; class string:link ${tile/modal}">
+            <img class="icon" src="/apps/contacts/icon.svg" alt="" tal:attributes="src tile/img; alt tile/alt" />
+              <h3 tal:content="tile/title">Contacts</h3>
+          </a>
+      </div>
+
+
+        </div>
+
+    </metal:content>
+</body>
+</html>
