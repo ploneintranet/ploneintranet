@@ -56,7 +56,7 @@ I am in a workspace as a workspace member
 
 I am in a case workspace as a workspace member
     I am logged in as the user allan_neece
-    I go to the Minifest
+    I go to the Example Case
 
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
@@ -72,7 +72,7 @@ I am in a workspace as a workspace admin
 
 I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
-    I go to the Minifest
+    I go to the Example Case
 
 I am in an open workspace as a workspace member
     I am logged in as the user allan_neece
@@ -87,10 +87,10 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
-I go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
     Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Minifest
+    Wait Until Page Contains  Example Case
 
 I go to the Open Parliamentary Papers Guidance Workspace
     Go To  ${PLONE_URL}/workspaces/parliamentary-papers-guidance
@@ -110,8 +110,8 @@ I go to the Service Announcements Workspace
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I can go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I can go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
 
 I am redirected to the login page
     Location Should Contain  require_login
@@ -406,7 +406,7 @@ I can create a new case
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Page Contains  Basisdatenerfassung
+    Wait Until Page Contains  Populate Metadata
 
 I can create a new template case
     [arguments]  ${title}

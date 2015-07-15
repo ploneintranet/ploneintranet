@@ -99,6 +99,20 @@ Member can tag a file with a tag suggestion
     And I tag the item with a suggestion
     Then the metadata has the new tag
 
+Member cannot see delete button on a read only document
+    Given I am in a Consumers workspace as a workspace member
+    Click link  link=Documents
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'test-document')]
+    Click Element  xpath=//a[contains(@href, 'test-document')]
+    Wait Until Page Contains  Published
+    Element should not be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
+
+Member can see delete button on an editable document
+    Given I am in a workspace as a workspace member
+    And I browse to a document
+    Wait Until Page Contains  Draft
+    Element should be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
+
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member
 #     And I view the folder
@@ -125,6 +139,15 @@ I browse to a workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Documents
     Click Link  link=Manage Information
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
 
 I browse to a document
     I browse to a workspace

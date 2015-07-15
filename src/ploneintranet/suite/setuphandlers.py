@@ -72,8 +72,8 @@ def testing(context):
     commit()
 
     log.info("create case templates")
-    caseworkspaces = case_templates_spec(context)
-    create_caseworkspaces(caseworkspaces, container=TEMPLATES_FOLDER)
+    casetemplates = case_templates_spec(context)
+    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
     commit()
 
     portal = api.portal.get()
@@ -422,55 +422,28 @@ def create_workspaces(workspaces, force=False):
 def caseworkspaces_spec(context):
     now = datetime.now()
     caseworkspaces = [{
-        'title': 'Minifest',
-        'description': 'Nicht budgetierte einmalige Beiträge. Verein DAMP. '
-                       'Finanzielle Unterstützung des MinistrantInnen-Fest '
-                       'vom 7. September 2014 in St. Gallen.',
+        'title': 'Example Case',
+        'description': 'A case management workspace demonstrating the '
+                       'adaptive case management functionality.',
         'members': {'allan_neece': [u'Members'],
                     'christian_stoney': [u'Admins', u'Members']},
         'contents': [{
-            'title': 'Basisdatenerfassung',
+            'title': 'Populate Metadata',
             'type': 'todo',
-            'description': 'Erfassung der Basis-Absenderdaten',
+            'description': 'Retrieve and assign metadata',
             'milestone': 'new',
         }, {
-            'title': 'Hintergrundcheck machen',
+            'title': 'Identify the requirements',
             'type': 'todo',
-            'description': 'Hintergrundcheck durchführen ob die Organisation '
-                           'förderungswürdig ist.',
+            'description': 'Investigate the request and identify requirements',
             'milestone': 'in_progress',
         }, {
-            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
-            'type': 'todo',
-            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
-                           'vergangenen 5 Jahren gewährt wurde.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Meinung Generalvikar einholen',
-            'type': 'todo',
-            'description': 'Meinung des Generalvikars zum Umfang der '
-                           'Förderung einholen.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Protokoll publizieren',
-            'type': 'todo',
-            'description': 'Publizieren des Beschlusses im Web - falls '
-                           'öffentlich.',
-            'milestone': 'decided',
-        }, {
-            'title': 'Supporting Materials',
-            'type': 'Folder',
-            'contents': [{
-                'title': '',
-                'type': 'File'
-            }]
-        }, {
-            'title': 'Future Council Meeting',
+            'title': 'Future Meeting',
             'type': 'Event',
             'start': now + timedelta(days=7),
             'end': now + timedelta(days=14)
         }, {
-            'title': 'Past Council Meeting',
+            'title': 'Past Meeting',
             'type': 'Event',
             'start': now + timedelta(days=-7),
             'end': now + timedelta(days=-14)
@@ -709,34 +682,15 @@ def case_templates_spec(context):
         'description': 'A Template Case Workspace, pre-populated with tasks',
         'members': {},
         'contents': [{
-            'title': 'Basisdatenerfassung',
+            'title': 'Populate Metadata',
             'type': 'todo',
-            'description': 'Erfassung der Basis-Absenderdaten',
+            'description': 'Identify and fill in the Metadata',
             'milestone': 'new',
         }, {
-            'title': 'Hintergrundcheck machen',
+            'title': 'Identify the requirements',
             'type': 'todo',
-            'description': 'Hintergrundcheck durchführen ob die Organisation '
-                           'förderungswürdig ist.',
+            'description': 'Analyse the request and identify the requirements',
             'milestone': 'in_progress',
-        }, {
-            'title': 'Finanzcheck bzgl. früherer Zuwendungen',
-            'type': 'todo',
-            'description': 'Überprüfe wieviel finanzielle Zuwendung in den '
-                           'vergangenen 5 Jahren gewährt wurde.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Meinung Generalvikar einholen',
-            'type': 'todo',
-            'description': 'Meinung des Generalvikars zum Umfang der '
-                           'Förderung einholen.',
-            'milestone': 'in_progress',
-        }, {
-            'title': 'Protokoll publizieren',
-            'type': 'todo',
-            'description': 'Publizieren des Beschlusses im Web - falls '
-                           'öffentlich.',
-            'milestone': 'decided',
         }],
     }]
     return case_templates
