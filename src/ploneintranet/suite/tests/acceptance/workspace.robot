@@ -32,13 +32,14 @@ Breadcrumbs are not borked
     And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
-Manager can view sidebar info
-    Given I am in a workspace as a workspace admin
-    I can go to the sidebar info tile
-
 Member can view sidebar info
     Given I am in a workspace as a workspace member
-    I can go to the sidebar info tile
+          I can go to the sidebar info tile
+          Click Link  Members
+          Wait Until Element Is visible  css=#member-list .search-result
+          Click Link  jquery=#member-list .search-result a:first
+          Wait Until Element Is visible  css=#person-timeline .sidebar
+          Element should contain  css=#person-timeline .sidebar .user-portrait h1  Allan Neece
 
 Member can view sidebar events
     Given I am in a workspace as a workspace member
@@ -225,4 +226,3 @@ Site Administrator can add example user as member of workspace
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace related keywords"
-

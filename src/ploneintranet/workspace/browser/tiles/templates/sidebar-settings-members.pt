@@ -19,7 +19,7 @@
               </h3>
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:translate="">Functions</a>                
+                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:translate="">Functions</a>
                 <a class="toggle-select-mode pat-toggle member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow" i18n:translate="">Select</a>
               </div>
             </div>
@@ -61,8 +61,8 @@
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
                   <input name="" type="checkbox" tal:attributes="name user/id" />
-                  <a class="follow pat-inject" href="/adrian-white" data-pat-inject="source: #document-body; target: #document-body">
-                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" />
+                  <a class="follow pat-inject" href="${here/portal_url}/profiles/${user/id}" data-pat-inject="source: #document-body; target: #document-body">
+                    <img src="${user/portrait}" alt="" class="avatar" />
                     <strong class="title" tal:content="user/title">Adrian White</strong>
                     <tal:block condition="user/description"><br />
                     <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
