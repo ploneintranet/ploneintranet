@@ -422,7 +422,7 @@ def create_workspaces(workspaces, force=False):
 def caseworkspaces_spec(context):
     now = datetime.now()
     caseworkspaces = [{
-        'title': 'Exemplary Case',
+        'title': 'Example Case',
         'description': 'A case management workspace demonstrating the '
                        'adaptive case management functionality.',
         'members': {'allan_neece': [u'Members'],

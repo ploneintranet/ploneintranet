@@ -56,7 +56,7 @@ I am in a workspace as a workspace member
 
 I am in a case workspace as a workspace member
     I am logged in as the user allan_neece
-    I go to the Exemplary Case
+    I go to the Example Case
 
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
@@ -72,7 +72,7 @@ I am in a workspace as a workspace admin
 
 I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
-    I go to the Exemplary Case
+    I go to the Example Case
 
 I am in an open workspace as a workspace member
     I am logged in as the user allan_neece
@@ -87,10 +87,10 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
-I go to the Exemplary Case
+I go to the Example Case
     Go To  ${PLONE_URL}/workspaces/exemplary-case
     Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Exemplary Case
+    Wait Until Page Contains  Example Case
 
 I go to the Open Parliamentary Papers Guidance Workspace
     Go To  ${PLONE_URL}/workspaces/parliamentary-papers-guidance
@@ -110,7 +110,7 @@ I go to the Service Announcements Workspace
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I can go to the Exemplary Case
+I can go to the Example Case
     Go To  ${PLONE_URL}/workspaces/exemplary-case
 
 I am redirected to the login page
