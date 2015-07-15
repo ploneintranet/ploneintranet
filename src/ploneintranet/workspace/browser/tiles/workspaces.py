@@ -50,7 +50,8 @@ def my_workspaces(context, request=None):
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        portal_type="ploneintranet.workspace.workspacefolder",
+        portal_type=["ploneintranet.workspace.workspacefolder",
+                     "ploneintranet.workspace.case"],
         sort_on=sort_by,
         sort_order=order,
         path=ws_path,
@@ -68,7 +69,6 @@ def my_workspaces(context, request=None):
             'activities': get_workspace_activities(brain),
             'class': css_class,
         })
-
     return workspaces
 
 
