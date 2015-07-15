@@ -18,11 +18,13 @@ Alice can view her own profile
     And I can follow the link to my profile
     And I can see details for Alice Lindström
 
-Alice can view her own personal settings
-    Given I am logged in as the user alice_lindstrom
-    Then I can open the personal tools menu
-    And I can follow the link to my personal settings
-    And I can see details for Alice Lindström
+# This is disabled at the moment, see:
+# https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
+# Alice can view her own personal settings
+#     Given I am logged in as the user alice_lindstrom
+#     Then I can open the personal tools menu
+#     And I can follow the link to my personal settings
+#     And I can see details for Alice Lindström
 
 Alice can logout
     Given I am logged in as the user alice_lindstrom
@@ -82,8 +84,10 @@ I open the personal preferences page
 I can follow the link to my profile
     Click Element  css=.tooltip-container .menu a.icon-user
 
-I can follow the link to my personal settings
-    Click Element  css=.tooltip-container .menu a.icon-cog
+# This is disabled at the moment, see:
+# https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
+# I can follow the link to my personal settings
+#     Click Element  css=.tooltip-container .menu a.icon-cog
 
 I can follow the link to logout
     Click Element  css=.tooltip-container .menu a.icon-exit
