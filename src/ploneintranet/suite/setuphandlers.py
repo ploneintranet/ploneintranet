@@ -6,7 +6,6 @@ import logging
 import os
 import random
 import time
-import traceback
 import transaction
 
 import loremipsum
@@ -41,17 +40,8 @@ def testing(context):
         return
     log.info("testcontent setup")
 
-    # plone.api.env.test_mode doesn't support collective.xmltestreport
-    is_test = False
-    for frame in traceback.extract_stack():
-        if 'testrunner' in frame[0] or \
-           'testreport/runner' in frame[0] or \
-           'robot-server' in frame[0]:
-            is_test = True
-            break
-
     # commits are needed in interactive but break in test mode
-    if is_test:
+    if api.env.test_mode:
         commit = lambda: None
     else:
         commit = transaction.commit
