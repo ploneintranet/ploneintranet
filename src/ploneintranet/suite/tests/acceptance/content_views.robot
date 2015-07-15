@@ -112,7 +112,6 @@ Member can see delete button on an editable document
     And I browse to a document
     Wait Until Page Contains  Draft
     Element should be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
-    Debug
 
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member
