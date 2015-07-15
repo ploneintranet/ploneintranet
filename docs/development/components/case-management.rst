@@ -44,13 +44,13 @@ The generic framework consists of Cases, Milestones and Tasks.
 
 * Cases are workflowed. Workflow does not model a complete business process – it's used to map role based access control security.
 
-* The Case workflow is visualised as a linear Metro Map. As workflows can contain circular transitions, only a subset of the workflow can be visualised in a linear way. That is called the "happy flow" and is expected to be the typical process. The system allows to transition one step forward or backward on that line at a time. To know which is the "happy flow", the workflow is configured with a custom variable ``metromap_transitions` that stores it as a python expression. 
+* The Case workflow is visualised as a linear Metro Map. As workflows can contain circular transitions, only a subset of the workflow can be visualised in a linear way. That is called the "happy flow" and is expected to be the typical process. The system allows to transition one step forward or backward on that line at a time. To know which is the "happy flow", the workflow is configured with a custom variable ``metromap_transitions`` that stores it as a python expression. 
 
 * Each workflow state is called Milestone.
 
 * Cases contain Tasks.
 
-The Workflowing and Eventing subsystems are provided by Plone core. The Generic system comes with a demo "Case Workflow" with exemplary states: new, in progress, content complete, request, decided, closed, archived. Note that providing a custom complex workflow is configuration, not code, so this is already supported by the generic framework out of the box.
+The Workflowing and Eventing subsystems are provided by Plone core. The Generic system comes with a demo "Case Workflow" with example states: new, in progress, content complete, request, decided, closed, archived. Note that providing a custom complex workflow is configuration, not code, so this is already supported by the generic framework out of the box.
 
 
 The Case Manager App
