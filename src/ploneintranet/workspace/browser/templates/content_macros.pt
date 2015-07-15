@@ -85,7 +85,7 @@
                  tal:define="start context/start | view/default_start">
               <label class="six columns">
 
-                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="start" placeholder="Time"
@@ -100,7 +100,7 @@
             <div class="row"
                  tal:define="end context/end | view/default_end">
               <label class="six columns">
-                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
