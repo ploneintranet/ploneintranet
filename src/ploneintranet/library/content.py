@@ -4,7 +4,6 @@ from zope.interface import implements, Interface
 from ploneintranet.layout.app import AbstractAppContainer
 from ploneintranet.layout.interfaces import IAppContainer
 from ploneintranet.library.interfaces import ILibraryContentLayer
-from ploneintranet.library.interfaces import ILibraryFilesLayer
 
 
 import logging
@@ -27,7 +26,7 @@ class LibraryApp(AbstractAppContainer, content.Container):
     implements(ILibraryApp, IAppContainer)
 
     app_name = "library"
-    app_layers = (ILibraryContentLayer, ILibraryFilesLayer)
+    app_layers = (ILibraryContentLayer, )
 
 
 class LibrarySection(content.Container):

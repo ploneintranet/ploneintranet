@@ -10,10 +10,9 @@ class IPloneintranetLibraryLayer(Interface):
     """Marker interface that defines a Zope 3 browser layer."""
 
 
-class ILibraryContentLayer(IAppLayer):
+class ILibraryContentLayer(IAppLayer, IDocumentViewerLayer):
     """Marker interface for views registered only for content
-    within a ILibraryApp section."""
-
-
-class ILibraryFilesLayer(ILibraryContentLayer, IDocumentViewerLayer):
-    """Subclass to take precedence over collective.documentviewer"""
+    within a ILibraryApp section.
+    Subclasses IDocumentViewerLayer to take precedence over
+    collective.documentviewer file views.
+    """
