@@ -182,6 +182,16 @@ The manager can grant the Producer role in a Cosumer workspace
       And I give the Producer role to Allan
      Then Allan has the option to create a document
 
+The manager can remove a special role from a workspace member
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     Then I can remove the Producer role from Allan
+
+The manager can change a special role
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     Then I can change Allan's role to Moderator
+
 The manager can remove a workspace member
     Given I am in a workspace as a workspace admin
      Then I can remove Allan from the workspace members

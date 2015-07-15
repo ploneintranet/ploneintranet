@@ -165,7 +165,7 @@ I can open the workspace security settings tab
 I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
-    Wait until page contains  Members
+    Wait until page contains element  css=#member-list
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
@@ -244,6 +244,24 @@ I give the Producer role to Allan
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I can remove the Producer role from Allan
+    I can open the workspace member settings tab
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Click Link  Remove special role
+    Click Button  I am sure, remove role now
+    Wait until page contains element  css=#member-list
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I can change Allan's role to Moderator
+    I can open the workspace member settings tab
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Select From List  css=select[name=role]  Moderators
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Moderate']
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
