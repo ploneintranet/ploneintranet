@@ -36,4 +36,13 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <browser:page
+        for="*"
+        name="breadcrumbs_view"
+        class=".navigation.FirstLevelBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
 </configure>

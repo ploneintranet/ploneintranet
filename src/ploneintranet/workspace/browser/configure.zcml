@@ -215,4 +215,22 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+    <browser:page
+      for="*"
+      name="breadcrumbs_view"
+      class=".navigation.WorkspaceBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      for="*"
+      name="orig_breadcrumbs_view"
+      class="Products.CMFPlone.browser.navigation.PhysicalNavigationBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
 </configure>
