@@ -106,8 +106,8 @@ class AllGroupsJSONView(BrowserView):
         ws = IWorkspace(self.context)
         for group in groups:
             groupid = group.getId()
-            #XXX Filter out groups representing workspace roles. Review whether
-            # we need/want this and/or can do it more efficiently.
+            # XXX Filter out groups representing workspace roles. Review
+            # whether we need/want this and/or can do it more efficiently.
             skip = False
             for special_group in ws.available_groups:
                 if groupid.startswith('{}:'.format(special_group)):
