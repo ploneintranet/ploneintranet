@@ -21,6 +21,8 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
             title="case1",
             container=workspaces,
         )
+        self.case.manage_addProduct[
+            'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(self.case)
         wfconfig.setPolicyIn('case_workflow')
 

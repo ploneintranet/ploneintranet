@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Intranet</title>
+		<title> | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
@@ -10,10 +10,10 @@
 
 		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal sidebar-left-open focus-listing  generic application-home ">
+	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-search ">
 			<div id="content">
 	<form action="search-results.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
 
@@ -35,7 +35,7 @@
 	</nav>
 	<div class="results" id="results">
 		<div class="container results">
-			<div class="row pat-equaliser">
+			<div class="row">
 	<div class="three columns filters">
 		<fieldset class="vertical pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing;">
 			<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
@@ -121,7 +121,7 @@
 			Did you mean <strong><a href="#">Mini</a></strong>?
 		</p>
 
-		<dl class="search-results">
+		<dl class="search-results" id="result-listing">
 			<!-- One hard coded example of a post as a search result: -->
 			<dt class="title user-post">
 				<a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>
@@ -143,7 +143,7 @@
 			</dt>
 			<dd class="description">
 				<a href="/joan-baker" class="preview user">
-					<img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar ">   
+					<img src="++theme++ploneintranet.theme/generated/media/avatar-joan-baker.jpg" alt="" class="pat-avatar ">   
 					<h4 class="name">
 						Joan Baker
 					</h4>
@@ -168,7 +168,7 @@
 							
 								<a href="/zusage" class="preview file">
 									
-										<img src="/media/case-minifest/zusage-damp-minifest-2014.doc_preview.jpg.gif" alt="" />
+										<img src="++theme++ploneintranet.theme/generated/media/case-minifest/zusage-damp-minifest-2014.doc_preview.jpg.gif" alt="" />
 									
 								</a>
 							
@@ -577,7 +577,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -986,7 +986,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -1395,7 +1395,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -1431,7 +1431,7 @@
 							
 								<a href="/antrag-minifest" class="preview file">
 									
-										<img src="/media/case-minifest/antrag-rt-minifest-2014.doc_preview.jpg.gif" alt="" />
+										<img src="++theme++ploneintranet.theme/generated/media/case-minifest/antrag-rt-minifest-2014.doc_preview.jpg.gif" alt="" />
 									
 								</a>
 							
@@ -1936,6 +1936,13 @@
 			
 				
 			
+			<dd id="load-more-results">
+				<!-- The link below is what would basically be the 'Next' link when you have pagination. Batches of 10 results or so would be nice. -->
+
+				<!-- This is an example for infinate scrolling with a list (DL or UL or OL), which is a little bit different from non list cases. In non list cases, the link tag is replaced by the injection, but a link tag may not be placed directly into a list tag. Therefor the DD is replaced instead. In case of OL/UL an extra LI tag is added. -->
+
+				<a href="/search-results.html#result-listing" class="pat-inject infinite-scrolling-trigger" data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element">Loading more search results…</a>
+			</dd>
 		</dl>
 	</div>
 </div>
@@ -1946,12 +1953,12 @@
 
     <header id="global-header">
 
-    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu; title: Menu;" title="Menu">Menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Intranet"></a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
             <a class="current" href="#"></a>
         
@@ -1963,11 +1970,11 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
-        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
         <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
             Notifications <sup id="online-count" class="counter digit-2">4</sup>
@@ -1980,29 +1987,17 @@
         </label>
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
+
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" >Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
 </header>
 
-
-		<style type="text/css">
-			#global-header {
-    			background-color: ;
-    			color: ;
-			}			
-
-			#global-header .icon,
-			.application-portal #global-header .icon,
-			#global-header form.search,
-			.application-portal #global-header form.search,
-			#global-header .icon:hover, 
-			#global-header form.search:hover,
-			#hamburger:before,
-			nav.breadcrumbs a  {
-			    color: ;
-			}
-
-			nav.breadcrumbs a:first-child:before {
-				background-color: ;
-			}
-		</style>
 	</body>
 </html>

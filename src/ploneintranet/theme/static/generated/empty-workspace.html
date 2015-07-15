@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Intranet</title>
+		<title>Empty template | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
@@ -10,10 +10,10 @@
 
 		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal sidebar-left-closed focus-listing  generic application-workspace ws-">
+	<body class="sidebar-normal gh-collapsed sidebar-left-closed focus-listing  generic application-workspace ws-">
 		
     
 
@@ -285,61 +285,61 @@
 
 <form id="post-box" class="pat-inject update-social status-inactive" action="/feedback/post-well-done.html" data-pat-inject="source: #activity-stream; target: #activity-stream::before && #new-post-box">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-post-box"
-                ><em class="placeholder">Post a message…</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Post a message…" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-post-box" data-pat-switch="#post-box status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #post-box-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#post-box status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="post-box-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#post-box status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#post-box status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
-                <label class="visibility pat-select bare">
-                    <select>
-                        <optgroup>
-                            <option>
-                                Everyone
-                            </option>
-                            <option>
-                                Trusted users
-                            </option>
-                        </optgroup>
-                        <optgroup>
-                            <option>
-                                Workspace so and so
-                            </option>
-                            <option>
-                                Baggage handling regulations
-                            </option>
-                            <option>
-                                Human resources
-                            </option>
-                        </optgroup>
-                    </select>
-                </label>
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-post-box"
+            ><em class="placeholder">Post a message…</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Post a message…" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-post-box" data-pat-switch="#post-box status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #post-box-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#post-box status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="post-box-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#post-box status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#post-box status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+            <!-- <label class="visibility pat-select bare">
+                <select>
+                    <optgroup>
+                        <option>
+                            Everyone
+                        </option>
+                        <option>
+                            Trusted users
+                        </option>
+                    </optgroup>
+                    <optgroup>
+                        <option>
+                            Workspace so and so
+                        </option>
+                        <option>
+                            Baggage handling regulations
+                        </option>
+                        <option>
+                            Human resources
+                        </option>
+                    </optgroup>
+                </select>
+            </label> -->
+        
+    </div>
+
 </form>
 
 
@@ -739,15 +739,15 @@
 		
 		<a href="/charlotte-holzer">
 			
-	<img src="/media/avatar-charlotte-holzer.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-charlotte-holzer.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Charlotte Holzer
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">published</em> <time>just now</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">published</em>  <time>just now</time> in <a href="/open-market-committee/">Open Market Committee</a> <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -769,7 +769,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -1168,7 +1168,7 @@
 					
 				
 				
-					<img src="/media/budget-proposal.png" alt="" />
+					<img src="++theme++ploneintranet.theme/generated/media/budget-proposal.png" alt="" />
 					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
 <!-- 				<figcaption>
 						<strong class="title"></strong>
@@ -1196,37 +1196,37 @@
 		
 		<form id="mypost_1" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_1">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_1"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_1" data-pat-switch="#mypost_1 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_1-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_1 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_1-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_1 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_1 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_1"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_1" data-pat-switch="#mypost_1 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_1-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_1 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_1-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_1 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_1 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -1626,15 +1626,15 @@
 		
 		<a href="/guido-stevens">
 			
-	<img src="/media/avatar-guido-stevens.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-guido-stevens.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Guido A. J. Stevens
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">created</em> <time>just now</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">published</em>  <time>just now</time> in <a href="/open-market-committee/">Open Market Committee</a> <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -1656,7 +1656,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -2085,37 +2085,37 @@
 		
 		<form id="mypost_2" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_2">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_2"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_2" data-pat-switch="#mypost_2 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_2-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_2 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_2-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_2 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_2 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_2"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_2" data-pat-switch="#mypost_2 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_2-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_2 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_2-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_2 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_2 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -2515,15 +2515,15 @@
 		
 		<a href="/jeff-peters">
 			
-	<img src="/media/avatar-jeff-peters.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jeff-peters.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jeff Peters
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>just now</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>just now</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -2545,7 +2545,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -2572,37 +2572,37 @@
 		
 		<form id="mypost_3" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_3">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_3"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_3" data-pat-switch="#mypost_3 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_3-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_3 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_3-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_3 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_3 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_3"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_3" data-pat-switch="#mypost_3 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_3-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_3 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_3-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_3 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_3 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -3002,15 +3002,15 @@
 		
 		<a href="/jeff-peters">
 			
-	<img src="/media/avatar-jeff-peters.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jeff-peters.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jeff Peters
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>4 minutes ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>4 minutes ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -3032,7 +3032,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -3433,7 +3433,7 @@
 					
 				
 				
-					<img src="/media/preview-how-to-make-beautiful-powerpoint.jpg" alt="" />
+					<img src="++theme++ploneintranet.theme/generated/media/preview-how-to-make-beautiful-powerpoint.jpg" alt="" />
 					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
 <!-- 				<figcaption>
 						<strong class="title">Projection Material</strong>
@@ -3851,7 +3851,7 @@
 	<div class="comment-header">
 		<a href="/adrian-white">
 			
-	<img src="/media/avatar-adrian-white.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-adrian-white.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Adrian White
@@ -3872,37 +3872,37 @@
 		
 		<form id="mypost_4" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_4">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_4"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_4" data-pat-switch="#mypost_4 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_4-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_4 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_4-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_4 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_4 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_4"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_4" data-pat-switch="#mypost_4 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_4-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_4 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_4-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_4 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_4 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -4302,15 +4302,15 @@
 		
 		<a href="/joan-baker">
 			
-	<img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Joan Baker
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>9 minutes ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>9 minutes ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -4332,7 +4332,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -4733,7 +4733,7 @@
 					
 				
 				
-					<img src="/media/preview_thumb_1.jpg" alt="" />
+					<img src="++theme++ploneintranet.theme/generated/media/preview_thumb_1.jpg" alt="" />
 					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
 <!-- 				<figcaption>
 						<strong class="title">Projection Material</strong>
@@ -5151,7 +5151,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -5560,7 +5560,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -5969,7 +5969,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -6378,7 +6378,7 @@
 	<div class="comment-header">
 		<a href="/lewis-litanzios">
 			
-	<img src="/media/avatar-lewis-litanzios.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-lewis-litanzios.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Lewis Litanzios
@@ -6399,37 +6399,37 @@
 		
 		<form id="mypost_5" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_5">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_5"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_5" data-pat-switch="#mypost_5 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_5-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_5 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_5-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_5 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_5 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_5"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_5" data-pat-switch="#mypost_5 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_5-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_5 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_5-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_5 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_5 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -6829,15 +6829,15 @@
 		
 		<a href="/adrian-white">
 			
-	<img src="/media/avatar-adrian-white.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-adrian-white.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Adrian White
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>14 minutes ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>14 minutes ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -6859,7 +6859,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -7678,7 +7678,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -8087,7 +8087,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -8496,7 +8496,7 @@
 	<div class="comment-header">
 		<a href="/cornelis-kolbach">
 			
-	<img src="/media/avatar-cornelis-kolbach.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-cornelis-kolbach.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Cornelis G. A. Kolbach
@@ -8517,37 +8517,37 @@
 		
 		<form id="mypost_6" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_6">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_6"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_6" data-pat-switch="#mypost_6 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_6-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_6 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_6-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_6 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_6 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_6"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_6" data-pat-switch="#mypost_6 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_6-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_6 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_6-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_6 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_6 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -8947,15 +8947,15 @@
 		
 		<a href="/joan-baker">
 			
-	<img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Joan Baker
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>52 minutes ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>52 minutes ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -8977,7 +8977,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -9796,7 +9796,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -10213,7 +10213,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -10630,7 +10630,7 @@
 	<div class="comment-header">
 		<a href="/liz-baker">
 			
-	<img src="/media/avatar-liz-baker.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-liz-baker.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Liz Baker
@@ -11039,7 +11039,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -11060,37 +11060,37 @@
 		
 		<form id="mypost_7" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_7">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_7"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_7" data-pat-switch="#mypost_7 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_7-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_7 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_7-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_7 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_7 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_7"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_7" data-pat-switch="#mypost_7 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_7-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_7 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_7-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_7 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_7 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -11490,15 +11490,15 @@
 		
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>1 hour ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>1 hour ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -11520,7 +11520,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -11921,7 +11921,7 @@
 					
 				
 				
-					<img src="/media/preview_thumb_2.jpg" alt="" />
+					<img src="++theme++ploneintranet.theme/generated/media/preview_thumb_2.jpg" alt="" />
 					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
 <!-- 				<figcaption>
 						<strong class="title">Projection Material</strong>
@@ -11951,37 +11951,37 @@
 		
 		<form id="mypost_8" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_8">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_8"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_8" data-pat-switch="#mypost_8 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_8-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_8 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_8-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_8 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_8 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_8"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_8" data-pat-switch="#mypost_8 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_8-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_8 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_8-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_8 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_8 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -12381,15 +12381,15 @@
 		
 		<a href="/lewis-litanzios">
 			
-	<img src="/media/avatar-lewis-litanzios.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-lewis-litanzios.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Lewis Litanzios
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>over 1 hour ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>over 1 hour ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -12411,7 +12411,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -12826,7 +12826,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -13235,7 +13235,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -13644,7 +13644,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -14053,7 +14053,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -14462,7 +14462,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -14871,7 +14871,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -14900,37 +14900,37 @@
 		
 		<form id="mypost_9" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_9">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_9"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_9" data-pat-switch="#mypost_9 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_9-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_9 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_9-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_9 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_9 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_9"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_9" data-pat-switch="#mypost_9 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_9-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_9 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_9-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_9 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_9 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -15330,15 +15330,15 @@
 		
 		<a href="/joan-baker">
 			
-	<img src="/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-joan-baker.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Joan Baker
 			</h4>
 		</a>
 		<p class="byline">
-			<em class="action">posted</em> <time>9 minutes ago</time> |
-            <label class="visibility pat-select bare">
+			<em class="action">posted</em>  <time>9 minutes ago</time>  <!-- | -->
+            <!-- <label class="visibility pat-select bare">
                 <select>
                     <optgroup>
                         <option>
@@ -15360,7 +15360,7 @@
                         </option>
                     </optgroup>
                 </select>
-            </label> <br/>
+            </label> --> <br/>
 			<a href="#" class="iconified icon-cog">Options</a>
 		</p>
 	</div>
@@ -15761,7 +15761,7 @@
 					
 				
 				
-					<img src="/media/preview_thumb_1.jpg" alt="" />
+					<img src="++theme++ploneintranet.theme/generated/media/preview_thumb_1.jpg" alt="" />
 					<!-- In the future we might decide to include a figcaption also for objects with a preview, but for now we'll leave it out. -->
 <!-- 				<figcaption>
 						<strong class="title">Projection Material</strong>
@@ -16179,7 +16179,7 @@
 	<div class="comment-header">
 		<a href="/corinne-bedow">
 			
-	<img src="/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-corinne-bedow.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Corinne Bedow
@@ -16588,7 +16588,7 @@
 	<div class="comment-header">
 		<a href="/jon-doe">
 			
-	<img src="/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
+	<img src="++theme++ploneintranet.theme/generated/media/avatar-jon-doe.jpg" alt="" class="pat-avatar "  id="" />   
 
 			<h4 class="name">
 				Jon Doe
@@ -16609,37 +16609,37 @@
 		
 		<form id="mypost_10" class="pat-inject update-social status-inactive" action="/feedback/comment-well-said.html#comment-trail" data-pat-inject="target: #comments-mypost_10">
     
-    <fieldset>
-        <p class="content-mirror"
-            ><span class="text"  id="mirror-mypost_10"
-                ><em class="placeholder">Leave a comment</em
-            ></span
-            ><em class="selected-users" id="selected-users"></em
-            ><em class="selected-tags" id="selected-tags"></em
-        ></p>
-        <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_10" data-pat-switch="#mypost_10 status-inactive status-active"></textarea>
-        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
-        
-            <fieldset class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_10-attachment-previews">
-                <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_10 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
-                <p class="attachment-previews" id="mypost_10-attachment-previews">
-                    No attachments selected.
-                </p>
-                <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
-            </fieldset>
-        
-        
-        <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
 
-            <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
-
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_10 status-* status-inactive" type="submit">Post</button>
-            <button class="pat-switch close-panel" data-pat-switch="#mypost_10 status-* status-inactive" type="reset">Cancel</button>
-            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
-            
+    <p class="content-mirror"
+        ><span class="text"  id="mirror-mypost_10"
+            ><em class="placeholder">Leave a comment</em
+        ></span
+        ><em class="selected-users" id="selected-users"></em
+        ><em class="selected-tags" id="selected-tags"></em
+    ></p>
+    <textarea placeholder="Leave a comment" class="pat-content-mirror pat-switch" data-pat-content-mirror="target: #mirror-mypost_10" data-pat-switch="#mypost_10 status-inactive status-active"></textarea>
+    <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+    
+        <div class="attachments pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/attachment-waste-not-want-not.html; source: #attachments; target: #mypost_10-attachment-previews">
+            <label class="iconified icon-attach pat-switch" data-pat-switch="#mypost_10 status-* status-attach"><input multiple capture="camera" type="file" title="Attach a file"> Attach a file (or create a picture)</label>
+            <p class="attachment-previews" id="mypost_10-attachment-previews">
+                No attachments selected.
+            </p>
+            <!-- <button type="submit" hidden formaction="/feedback/attachment-waste-not-want-not.html">Upload attachments</button> -->
         </div>
-    </fieldset>
+    
+    
+    <div class="button-bar">
+        <a class="iconified icon-user-add pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+        <a class="iconified icon-tags pat-tooltip" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_10 status-* status-inactive" type="submit">Post</button>
+        <button class="pat-switch close-panel" data-pat-switch="#mypost_10 status-* status-inactive" type="reset">Cancel</button>
+        <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+        
+    </div>
+
 </form>
 
 	</div>
@@ -16781,6 +16781,7 @@
             
 
             
+                
 
                 
                     
@@ -17080,6 +17081,9 @@
                 </li>
                 <li>
                     <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
+                </li>
+                <li>
+                    <a href="/open-market-committee/#sidebar" class="icon-paste create-document pat-inject">Paste</a>
                 </li>
                 
                     <li>
@@ -18430,12 +18434,12 @@
 
 <header id="global-header">
 
-    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu; title: Menu;" title="Menu">Menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Intranet"></a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
 
         
@@ -18706,11 +18710,11 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
-        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
         <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
             Notifications <sup id="online-count" class="counter digit-2">4</sup>
@@ -18723,30 +18727,17 @@
         </label>
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
+
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" class="current">Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
 </header>
 
-
-
-		<style type="text/css">
-			#global-header {
-    			background-color: ;
-    			color: ;
-			}			
-
-			#global-header .icon,
-			.application-portal #global-header .icon,
-			#global-header form.search,
-			.application-portal #global-header form.search,
-			#global-header .icon:hover, 
-			#global-header form.search:hover,
-			#hamburger:before,
-			nav.breadcrumbs a  {
-			    color: ;
-			}
-
-			nav.breadcrumbs a:first-child:before {
-				background-color: ;
-			}
-		</style>
 	</body>
 </html>

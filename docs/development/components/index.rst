@@ -15,3 +15,4 @@ Component Packages
     network
     pagerank
     themeswitcher
+    case-management

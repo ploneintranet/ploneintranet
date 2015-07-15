@@ -38,17 +38,17 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_date_range(self, query, start_date=None, end_date=None):
-        query = dict(query, created=dict.fromkeys(('query', 'range')))
-        created = query['created']
+        query = dict(query, modified=dict.fromkeys(('query', 'range')))
+        modified = query['modified']
         if all((start_date, end_date)):
-            created['query'] = (start_date, end_date)
-            created['range'] = 'min:max'
+            modified['query'] = (start_date, end_date)
+            modified['range'] = 'min:max'
         elif start_date is not None:
-            created['query'] = start_date
-            created['range'] = 'min'
+            modified['query'] = start_date
+            modified['range'] = 'min'
         else:
-            created['query'] = end_date
-            created['range'] = 'max'
+            modified['query'] = end_date
+            modified['range'] = 'max'
         return query
 
     def _paginate(self, query, start, step):
@@ -70,20 +70,34 @@ class SearchResponse(base.SearchResponse):
     Implements batching.
     """
 
+    facet_fields = base.RegistryProperty('facet_fields')
+    facets = {}
+
     def __init__(self, batched_results):
         all_results = batched_results._sequence
         super(SearchResponse, self).__init__(
             (SearchResult(result, self) for result in batched_results)
         )
         self.total_results = batched_results.sequence_length
-        self.facets = {
-            'friendly_type_name': {
-                x['friendly_type_name']
-                for x in all_results
-                if x['friendly_type_name']
-            },
-            'tags': {y for x in all_results for y in x['Subject'] if y},
-        }
+
+        if not self.total_results:
+            return
+
+        # Faceting is not supported natively by plone's catalog,
+        # so we brute force it here. Recommendation: USE SOLR
+        for field in self.facet_fields:
+            if field == 'tags':
+                catalog_field = 'Subject'
+            else:
+                catalog_field = field
+
+            if hasattr(all_results[0][catalog_field], '__iter__'):
+                # Support keyword-style fields (e.g. tags)
+                self.facets[field] = {y for x in all_results
+                                      for y in x[catalog_field] if y}
+            else:
+                self.facets[field] = {x[catalog_field]
+                                      for x in all_results if x[catalog_field]}
 
 
 @implementer(ISearchResult)

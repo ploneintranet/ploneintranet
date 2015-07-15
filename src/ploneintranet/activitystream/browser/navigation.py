@@ -1,6 +1,6 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet import api as piapi
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 from zope.publisher.browser import BrowserView
@@ -33,7 +33,7 @@ class PloneIntranetNavigation(BrowserView):
 
     def items(self):
         menu = []
-        m_context = PLONEINTRANET.context(self.context)
+        m_context = piapi.microblog.get_microblog_context(self.context)
         if m_context:
             m_base = m_context.absolute_url() + '/'
             menu.extend([dict(url=m_base + '@@stream',

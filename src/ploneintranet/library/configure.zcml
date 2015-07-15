@@ -24,5 +24,13 @@
       description="Uninstall Library for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+      
+    <adapter
+        name="has_thumbs"
+        factory=".indexers.news_item_has_thumbs" />
+
+    <adapter
+        name="has_thumbs"
+        factory=".indexers.document_has_thumbs" />
 
 </configure>

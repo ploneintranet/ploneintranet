@@ -26,24 +26,31 @@ Manager can change the workflow of a case workspace
      Then I can close the first milestone
      Then I can delete a case  workflow-case
 
+Manager can create a template case workspace
+    Given I'm logged in as a 'Manager'
+     Then I can create a new template case    New template
+     Then I can create a new case from a template  New template  A new type of case
+     Then I can delete a case  a-new-type-of-case
+     Then I can delete a template case  new-template
+
 Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
-     Then I can go to the Minifest
+     Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
      Then I can toggle a milestone  New
-     Then I select the task check box  Basisdatenerfassung
-     Then I can go to the Minifest
+     Then I select the task check box  Populate Metadata
+     Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is complete  Basisdatenerfassung
-     Then I unselect the task check box  Basisdatenerfassung
-     Then I can go to the Minifest
+     Then I see a task is complete  Populate Metadata
+     Then I unselect the task check box  Populate Metadata
+     Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is open  Basisdatenerfassung
+     Then I see a task is open  Populate Metadata
      Then I can toggle a milestone  New
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
-     when I can go to the Minifest
+     when I can go to the Example Case
      then I am redirected to the login page
 
 Manager can view sidebar info
@@ -76,12 +83,12 @@ Manager can mark a new task complete on dashboard
      Then I go to the dashboard
      Then I do not see the completed task is not listed
 
-The manager can invite Alice to join the Minifest
+The manager can invite Alice to join the Example Case
     Given I am in a case workspace as a workspace admin
      Then I can open the workspace member settings tab
       And I can invite Alice to join the workspace
 
-The manager can invite Alice to join the Minifest from the menu
+The manager can invite Alice to join the Example Case from the menu
     Given I am in a case workspace as a workspace admin
       And I can open the workspace member settings tab
      Then I can invite Alice to join the workspace from the menu

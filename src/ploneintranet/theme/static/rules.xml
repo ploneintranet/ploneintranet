@@ -7,6 +7,8 @@
 <!-- GENERIC RULES WHICH APPLY ALWAYS -->
   <replace content='/html/head/title' theme='/html/head/title' />
   <append content='/html/head/base' theme='/html/head' />
+
+  <drop theme="/html/head/meta[@name='viewport']" />
   <copy theme="/html/head/meta" content="/html/head/meta" />
   <!-- remove the script and style from the prototype… -->
   <drop theme="/html/head/script" />
@@ -25,8 +27,7 @@
         css:content="body" css:theme="body" />
 
   <!-- Logo -->
-  <replace css:content-children="#portal-logo" css:theme-children="#site-logo" />
-  <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
+  <replace css:content="#site-logo" css:theme="#site-logo" />
 
   <!-- insert the breadcrumbs into the header bar -->
   <replace css:content-children="#breadcrumbs"
@@ -34,12 +35,19 @@
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
 
+  <!-- drop from theme elements that should not be visible to anonymous -->
+  <rules css:if-content=".userrole-anonymous">
+    <drop css:theme="#hamburger" />
+    <drop css:theme="form#global-nav-search" />
+    <drop css:theme="nav.tabs.navigation" />
+  </rules>
+
   <!-- Portal Personal Tools -->
   <replace css:content-children="#portal-personaltools-wrapper"
            css:theme="#user-avatar" />
 
   <!-- adaptation of the global-nav -->
-  <replace css:theme-children="#home-tabs"
+  <replace css:theme-children="nav.tabs.navigation.portal-tabs"
            css:content-children="#portal-globalnav li" />
 
   <drop css:theme="#buddies-toggle"
@@ -53,18 +61,21 @@
         css:theme="form#global-nav-search" />
 
   <!-- Login Form -->
-  <rules css:if-content="body.template-login_form">
+  <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
-    <copy attributes="method id action" css:content="form#login_form" css:theme=".login-panel form" />
+    <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+    <replace css:theme-children="figure.splash">
+        <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
+    </replace>
   </rules>
 
-  <rules css:if-content="body.portaltype-event, 
-                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
-                         body.portaltype-ploneintranet-workspace-case.template-view, 
-                         body.app-workspace.portaltype-document, 
-                         body.app-workspace.portaltype-file, 
-                         body.app-workspace.portaltype-image, 
+  <rules css:if-content="body.portaltype-event,
+                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view,
+                         body.portaltype-ploneintranet-workspace-case.template-view,
+                         body.app-workspace.portaltype-document,
+                         body.app-workspace.portaltype-file,
+                         body.app-workspace.portaltype-image,
                          body.app-workspace.portaltype-folder">
     <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
@@ -77,10 +88,17 @@
   </rules>
 
   <rules css:if-content="body.template-dashboard-html,
-                         body.template-workspaces-html,
-                         body.template-login_success">
+                         body.template-apps-html,
+                         body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />
+  </rules>
+
+  <!-- this catches typical plone info pages -->
+  <rules css:if-content="body.template-login_success,
+                         body.template-insufficient_privileges">
+    <theme href="generated/empty-home.html" />
+    <append css:content-children="#content" css:theme="div.container" />
   </rules>
 
   <!-- XXX Do we really need that explicitly? -->
@@ -113,7 +131,7 @@
                          body.portaltype-ploneintranet-library-section,
                          body.portaltype-ploneintranet-library-folder">
     <theme href="generated/library.html" />
-    <replace css:theme="#content .container" 
+    <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
     <!-- hide spurious breadcrumbs for now -->
     <drop css:content="nav.breadcrumbs a:not(:first-child)" />
@@ -126,12 +144,17 @@
                          body.app-library.portaltype-image,
                          body.app-library.portaltype-file">
     <theme href="generated/synode/index.html" />
-    <replace css:theme="#content .container" 
+    <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
     <!-- hide spurious breadcrumbs for now -->
     <drop css:content="nav.breadcrumbs a:not(:first-child)" />
     <!-- hide tags for now -->
     <drop css:content="#viewlet-below-content #category" />
+  </rules>
+
+  <rules css:if-content="body.template-default_error_message">
+    <theme href="generated/404.html" />
+    <replace css:content-children="#content" css:theme-children="article.error-page" />
   </rules>
 
   <!-- if there is a visual-portal-wrapper -->
@@ -140,6 +163,7 @@
   <replace css:content-children="#content"
            css:theme-children="#original-content"
            css:if-content="#visual-portal-wrapper" />
+
 
 
   <notheme css:if-content="body.diazo.off"/>

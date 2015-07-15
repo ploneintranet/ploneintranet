@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Intranet</title>
+		<title>Basisdatenerfassung | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
@@ -10,10 +10,10 @@
 
 		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal sidebar-left-open focus-listing  generic application-workspace ws-">
+	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace ws-">
 		
     
 
@@ -338,7 +338,7 @@
                 <label class="initiator">
                     Initiator <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Liz Baker &lt;liz.baker@foo.com&gt;"> 
 	<a href="/liz-baker/" class="pat-avatar "  id="">
-		<img src="/media/avatar-liz-baker.jpg" alt="" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz-baker.jpg" alt="" />
 	</a>    
 
                 </label>
@@ -545,6 +545,7 @@
             
 
             
+                
 
                 
                     
@@ -844,6 +845,9 @@
                 </li>
                 <li>
                     <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
+                </li>
+                <li>
+                    <a href="/open-market-committee/#sidebar" class="icon-paste create-document pat-inject">Paste</a>
                 </li>
                 
                 <li>
@@ -4012,12 +4016,12 @@
 
 <header id="global-header">
 
-    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu; title: Menu;" title="Menu">Menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Intranet"></a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
 
         
@@ -4290,11 +4294,11 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
-        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
         <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
             Notifications <sup id="online-count" class="counter digit-2">4</sup>
@@ -4307,30 +4311,17 @@
         </label>
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
+
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" class="current">Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
 </header>
 
-
-
-		<style type="text/css">
-			#global-header {
-    			background-color: ;
-    			color: ;
-			}			
-
-			#global-header .icon,
-			.application-portal #global-header .icon,
-			#global-header form.search,
-			.application-portal #global-header form.search,
-			#global-header .icon:hover, 
-			#global-header form.search:hover,
-			#hamburger:before,
-			nav.breadcrumbs a  {
-			    color: ;
-			}
-
-			nav.breadcrumbs a:first-child:before {
-				background-color: ;
-			}
-		</style>
 	</body>
 </html>

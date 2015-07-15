@@ -6,12 +6,11 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.activitystream.interfaces import IStatusActivity
+from ploneintranet import api as piapi
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.microblog.utils import get_microblog_context
 
 logger = getLogger('newpostbox')
 
@@ -37,7 +36,7 @@ class NewPostBoxTile(Tile):
     def post_container(self):
         """ Return the object that will contain the post
         """
-        return PLONEINTRANET.microblog
+        return piapi.microblog.get_microblog()
 
     @property
     @memoize
@@ -45,7 +44,7 @@ class NewPostBoxTile(Tile):
         """ The context of this microblog post
         (the portal, a workspace, and so on...)
         """
-        return get_microblog_context(self.context)
+        return piapi.microblog.get_microblog_context(self.context)
 
     @property
     @memoize

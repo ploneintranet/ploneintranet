@@ -268,5 +268,4 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
-
 </configure>

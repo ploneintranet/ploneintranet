@@ -3,7 +3,7 @@ from Products.Five import BrowserView
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.layout.globals.interfaces import IViewView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet import api as piapi
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
@@ -49,7 +49,7 @@ class StreamView(BrowserView):
 
     @property
     def title(self):
-        m_context = PLONEINTRANET.context(self.context)
+        m_context = piapi.microblog.get_microblog_context(self.context)
         if m_context:
             return m_context.Title() + ' updates'
         elif self.explore:

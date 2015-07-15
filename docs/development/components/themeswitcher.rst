@@ -44,6 +44,7 @@ in ``ploneintranet.suite:default`` as follows::
       <value key="fallback_theme">barceloneta</value>
       <value key="fallback_rules">/++theme++barceloneta/rules.xml</value>
       <value key="fallback_absoluteprefix">/++theme++barceloneta</value>
+      <value key="hostname_default">localhost</value>
       <value key="hostname_switchlist">
         <element>cms.localhost</element>
       </value>
@@ -122,8 +123,20 @@ In theory we could also switch based on a cookie value in the request.
 The downside of that is, that you start serving differently themed pages
 on the same URL. That's bound to wreak havoc when combined with caching.
 
+
+Switching Site Action
+---------------------
+
+A special helper view ``@@switch_theme`` is provided as a site action to switch between
+the main theme and the fallback theme.
+
 By using a different hostname for the fallback themed site we avoid
-such caching conflicts.
+such caching conflicts. For the main site it uses the ``hostname_default`` registry
+setting; for the fallback site it uses the first hostname listed in ``hostname_switchlist``.
+
+Calling ``@@switch_theme`` replaces the hostname in the current URL and redirects
+to the other site, either from main to fallback or the other way around, depending where
+you are.
 
 
 Request Mangler

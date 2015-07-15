@@ -44,4 +44,13 @@
      permission="zope2.View"
      />
 
+  <browser:viewlet
+     name="plone.path_bar"
+     manager="plone.app.layout.viewlets.interfaces.IAboveContent"
+     class="plone.app.layout.viewlets.common.PathBarViewlet"
+     template="templates/path_bar.pt"
+     layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+     permission="zope2.View"
+     />
+
 </configure>

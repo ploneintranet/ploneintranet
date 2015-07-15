@@ -4,9 +4,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet import api as piapi
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 from zExceptions import NotFound
 import logging
@@ -38,7 +38,7 @@ class StreamTile(Tile):
     def microblog_context(self):
         ''' Returns the microblog context
         '''
-        return PLONEINTRANET.context(self.context)
+        return piapi.microblog.get_microblog_context(self.context)
 
     def filter_statusupdates(self, statusupdates):
         ''' This method filters the microblog StatusUpdates
@@ -49,7 +49,7 @@ class StreamTile(Tile):
         '''
         seen_thread_ids = set()
         good_statusupdates = []
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
 
         for su in statusupdates:
             if su.thread_id and su.thread_id in seen_thread_ids:
@@ -70,7 +70,7 @@ class StreamTile(Tile):
 
         The activity are sorted by reverse chronological order
         '''
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
 
         if self.microblog_context:
             # support ploneintranet.workspace integration

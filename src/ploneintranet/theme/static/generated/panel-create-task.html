@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Intranet</title>
+		<title>Create document | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
@@ -10,10 +10,10 @@
 
 		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal sidebar-left-open focus-listing  generic application-workspace ">
+	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace ">
 			<div id="content">
 	<div id="document-content" class="pat-modal">
     <h1>
@@ -96,12 +96,12 @@
 
     <header id="global-header">
 
-    <a href="/#home-tabs" id="hamburger" class="hamburger-menu pat-tooltip" data-pat-tooltip="position-list: tl; class: hamburger-menu; source: ajax">Menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu; title: Menu;" title="Menu">Menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo"><img src="/media/logo.svg" alt="Intranet"></a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
 
         
@@ -372,11 +372,11 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
-        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
         <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
             Notifications <sup id="online-count" class="counter digit-2">4</sup>
@@ -389,29 +389,17 @@
         </label>
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
+
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
+	<a href="/dashboard.html" >Dashboard</a>
+	<a href="/news.html" >News</a>
+	<a href="/library.html" >Library</a>
+	<a href="/workspaces.html" class="current">Workspaces</a>
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/apps.html" >Apps</a>
+</nav>
 </header>
 
-
-		<style type="text/css">
-			#global-header {
-    			background-color: ;
-    			color: ;
-			}			
-
-			#global-header .icon,
-			.application-portal #global-header .icon,
-			#global-header form.search,
-			.application-portal #global-header form.search,
-			#global-header .icon:hover, 
-			#global-header form.search:hover,
-			#hamburger:before,
-			nav.breadcrumbs a  {
-			    color: ;
-			}
-
-			nav.breadcrumbs a:first-child:before {
-				background-color: ;
-			}
-		</style>
 	</body>
 </html>
