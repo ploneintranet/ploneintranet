@@ -232,6 +232,16 @@ I give the Producer role to Allan
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
+I can remove Allan from the workspace members
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Remove
+    Wait until page contains element  css=.pat-modal button[type=submit]
+    Click Button  Ok
+    Wait until page contains element  css=#member-list
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
+
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
 

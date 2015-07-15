@@ -172,6 +172,10 @@ The manager can grant the Producer role in a Cosumer workspace
       And I give the Producer role to Allan
      Then Allan has the option to create a document
 
+The manager can remove a workspace member
+    Given I am in a workspace as a workspace admin
+     Then I can remove Allan from the workspace members
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 # Site Administrator can edit roster
