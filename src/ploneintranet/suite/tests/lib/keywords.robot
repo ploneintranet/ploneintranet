@@ -88,7 +88,7 @@ I go to the Open Market Committee Workspace
     Wait Until Page Contains  Open Market Committee
 
 I go to the Example Case
-    Go To  ${PLONE_URL}/workspaces/exemplary-case
+    Go To  ${PLONE_URL}/workspaces/example-case
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Example Case
 
@@ -111,7 +111,7 @@ I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
 I can go to the Example Case
-    Go To  ${PLONE_URL}/workspaces/exemplary-case
+    Go To  ${PLONE_URL}/workspaces/example-case
 
 I am redirected to the login page
     Location Should Contain  require_login
