@@ -64,10 +64,10 @@
 
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
-                       tal:attributes="class string:item user ${user/cls}">
+                       tal:attributes="class string:item ${user/cls}">
                   <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
                   <a class="follow pat-inject" href="/adrian-white" data-pat-inject="source: #document-body; target: #document-body">
-                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" />
+                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
                     <strong class="title" tal:content="user/title">Adrian White</strong>
                     <tal:block condition="user/description"><br />
                     <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
@@ -86,9 +86,10 @@
             <div class="button-bar create-buttons"
                  tal:condition="view/can_manage_roster">
               <a class="button icon-user-add pat-modal" data-pat-modal="class: large"
-                tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
+                href="${ws/absolute_url}/panel-add-user#document-content"
                 i18n:translate="">Add user</a>
-              <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large"
+              <a class="button icon-group pat-modal" data-pat-modal="class: large"
+                href="${ws/absolute_url}/panel-add-group#document-content"
                 i18n:translate="">Add group</a>
             </div>
 

@@ -141,16 +141,28 @@ class WorkspaceFolder(Container):
         """
         members = IWorkspace(self).members
         info = []
-        for userid, details in members.items():
-            user = api.user.get(userid)
-            if user is None:
-                continue
-            user = user.getUser()
-            title = user.getProperty('fullname') or user.getId() or userid
-            # XXX tbd, we don't know what a persons description is, yet
-            description = MessageFactory(u'Here we could have a nice status of'
-                                         u' this person')
-            classes = description and 'has-description' or 'has-no-description'
+        for user_or_group_id, details in members.items():
+            user = api.user.get(user_or_group_id)
+            if user is not None:
+                user = user.getUser()
+                title = (user.getProperty('fullname') or user.getId() or
+                         user_or_group_id)
+                # XXX tbd, we don't know what a persons description is, yet
+                description = (u'Here we could have a nice status of'
+                               ' this person')
+                classes = 'user ' + (description and 'has-description'
+                                     or 'has-no-description')
+                portrait = pi_api.userprofile.avatar_url(user_or_group_id)
+            else:
+                group = api.group.get(user_or_group_id)
+                if group is None:
+                    continue
+                title = (group.getProperty('title') or group.getId() or
+                         user_or_group_id)
+                description = MessageFactory(
+                    u'{} Members'.format(len(group.getAllGroupMemberIds())))
+                classes = 'user-group has-description'
+                portrait = ''
 
             role = None
             for policy in PARTICIPANT_POLICY:
@@ -165,10 +177,9 @@ class WorkspaceFolder(Container):
             if role:
                 classes += ' has-label'
 
-            portrait = pi_api.userprofile.avatar_url(userid)
             info.append(
                 dict(
-                    id=userid,
+                    id=user_or_group_id,
                     title=title,
                     description=description,
                     portrait=portrait,

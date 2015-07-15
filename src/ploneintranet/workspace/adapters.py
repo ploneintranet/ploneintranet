@@ -59,7 +59,7 @@ class PloneIntranetWorkspace(Workspace):
         else:
             data["groups"] = set([group])
 
-        super(PloneIntranetWorkspace, self).add_to_team(**data)
+        return super(PloneIntranetWorkspace, self).add_to_team(**data)
 
     def group_for_policy(self, policy=None):
         """
