@@ -16,6 +16,20 @@ Alice can view her own profile
     Given I am logged in as the user alice_lindstrom
     Then I can open the personal tools menu
     And I can follow the link to my profile
+    And I can see details for Alice Lindström
+
+# This is disabled at the moment, see:
+# https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
+# Alice can view her own personal settings
+#     Given I am logged in as the user alice_lindstrom
+#     Then I can open the personal tools menu
+#     And I can follow the link to my personal settings
+#     And I can see details for Alice Lindström
+
+Alice can logout
+    Given I am logged in as the user alice_lindstrom
+    Then I can open the personal tools menu
+    Then I can follow the link to logout
 
 Alice cannot view her personal preferences
     Given I am logged in as the user alice_lindstrom
@@ -62,19 +76,27 @@ Dollie cannot change Guy's details
 
 I can open the personal tools menu
     Click Element  css=header #user-avatar
-    Wait Until Element Is Visible  css=.tooltip-container #portal-personaltools a#user-name
+    Wait Until Element Is Visible  css=.tooltip-container .menu
 
 I open the personal preferences page
     Go To  ${PLONE_URL}/@@personal-preferences
 
 I can follow the link to my profile
-    Click Element  css=.tooltip-container #portal-personaltools a#user-name
+    Click Element  css=.tooltip-container .menu a.icon-user
+
+# This is disabled at the moment, see:
+# https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
+# I can follow the link to my personal settings
+#     Click Element  css=.tooltip-container .menu a.icon-cog
+
+I can follow the link to logout
+    Click Element  css=.tooltip-container .menu a.icon-exit
 
 I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
 
 I can see details for ${NAME}
-    Page should contain  ${NAME}
+    Element should contain  css=#person-timeline .sidebar .user-portrait h1  ${NAME}
 
 I can follow ${NAME}
     Click Element  css=button[title="Click to follow ${NAME}"]
