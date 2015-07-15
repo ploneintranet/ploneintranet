@@ -61,5 +61,14 @@
     profile="ploneintranet.microblog:default"
     />
 
+  <genericsetup:upgradeStep
+    title="Rename _context_uuid -> _microblog_context_uuid"
+    description="Rename the attribute _context_uuid -> _microblog_context_uuid (#506)"
+    source="*"
+    destination="0004"
+    handler=".migration.uuid_to_microblog_uuid"
+    sortkey="1"
+    profile="ploneintranet.microblog:default"
+    />
 
 </configure>

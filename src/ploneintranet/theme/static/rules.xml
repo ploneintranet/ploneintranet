@@ -27,8 +27,7 @@
         css:content="body" css:theme="body" />
 
   <!-- Logo -->
-  <replace css:content-children="#portal-logo" css:theme-children="#site-logo" />
-  <copy css:content="#portal-logo" css:theme="#site-logo" attributes="href" />
+  <replace css:content="#site-logo" css:theme="#site-logo" />
 
   <!-- insert the breadcrumbs into the header bar -->
   <replace css:content-children="#breadcrumbs"
@@ -89,6 +88,7 @@
   </rules>
 
   <rules css:if-content="body.template-dashboard-html,
+                         body.template-apps-html,
                          body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
     <append css:content-children="#portal-column-content" css:theme="div.container" />

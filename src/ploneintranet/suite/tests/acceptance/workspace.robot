@@ -18,10 +18,9 @@ Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-# FIXME #430
-# Alan can create a workspace
-#     Given I am logged in as the user alice_lindstrom
-#     Then I can create a new workspace    My user workspace
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+     Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -147,6 +146,15 @@ Member cannot publish a document in a Producers workspace
 
 Member cannot create content in a Consumers workspace
     Given I am in a Consumers workspace as a workspace member
+     Then I cannot create a new document
+
+Member cannot create content in a workspace changed from Produce to Consume
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Parliamentary Papers Guidance Workspace
+     Then I can open the workspace security settings tab
+      And I can set the participant policy to Consume
+     When I am logged in as the user allan_neece
+      And I go to the Open Parliamentary Papers Guidance Workspace
      Then I cannot create a new document
 
 Non-Member can view published content in an open workspace

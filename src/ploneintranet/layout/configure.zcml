@@ -7,8 +7,15 @@
 
   <include package="." file="permissions.zcml" />
 
+    <!-- Zope2 initialization -->
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Include configuration for dependencies listed in setup.py -->
+    <includeDependencies package="." />
+
     <include package=".viewlets" />
     <include package=".browser" />
+
     <!-- include package=".tests" if you want to do interactive testing -->
     <include package=".tests" />
 
@@ -50,6 +57,5 @@
         title="Plone Intranet Laout: uninstall steps"
         description="Various uninstall steps that are not handled by GS import/export handlers."
         handler="ploneintranet.layout.setuphandlers.uninstall" />
-
 
 </configure>

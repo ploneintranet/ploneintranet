@@ -67,7 +67,8 @@
       <br/>
       <fieldset class="pat-checklist options">
         <label>
-          <input tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox" name="whole_day"/> <span tal:omit-tag="" i18n:translate="">All day event</span>
+          <input name="whole_day" tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/>
+          <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
 <!--        <br/>
         <label>
