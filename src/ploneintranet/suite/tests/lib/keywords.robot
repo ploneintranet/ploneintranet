@@ -434,6 +434,9 @@ I view the file
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
 
+I view the task
+    Go To  ${PLONE_URL}/workspaces/example-case/populate-metadata
+
 I change the title
     Comment  Toggle the metadata to give the JavaScript time to load
     Wait Until Page Contains  Toggle extra metadata
