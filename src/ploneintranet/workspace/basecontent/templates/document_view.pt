@@ -50,6 +50,7 @@
                     <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
                   </div><!-- quick-functions -->
                 </div> <!-- #meta-bar -->
+                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
 
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
