@@ -16,7 +16,7 @@
               tal:content="title">
                   crumb
           </a>
-          <a id="breadcrumbs-current" 
+          <a id="breadcrumbs-current"
              class="current"
              tal:condition="is_last"
              tal:attributes="href url;
