@@ -5,16 +5,23 @@ from Products.CMFPlone.browser.interfaces import INavigationBreadcrumbs
 from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 from Products.Five import BrowserView
 from plone.app.layout.navigation.root import getNavigationRoot
+from ploneintranet.theme.interfaces import IThemeSpecific
+from zope.component import getMultiAdapter
 from zope.interface import implements
 
 
-class FirstLevelBreadcrumbs(BrowserView):
+class OneLevelBreadcrumbs(BrowserView):
     # Only show first level breadcrumbs, nothing else.  Note that in
     # workspaces we override this to show two levels.
     levels = 1
     implements(INavigationBreadcrumbs)
 
     def breadcrumbs(self):
+        if not IThemeSpecific.providedBy(self.request):
+            # We are in the CMS, so we want the default.
+            view = getMultiAdapter(
+                (self.context, self.request), name='orig_breadcrumbs_view')
+            return tuple(view.breadcrumbs())
         context = aq_inner(self.context)
         context_path = '/'.join(context.getPhysicalPath())
         root_path = getNavigationRoot(context)
@@ -50,3 +57,7 @@ class FirstLevelBreadcrumbs(BrowserView):
                 {'absolute_url': item.absolute_url(),
                  'Title': utils.pretty_title_or_id(item, item)})
         return tuple(crumbs)
+
+
+class TwoLevelBreadcrumbs(OneLevelBreadcrumbs):
+    levels = 2

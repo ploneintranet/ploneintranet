@@ -44,5 +44,13 @@
      permission="zope2.View"
      />
 
+  <browser:page
+      for="*"
+      name="breadcrumbs_view"
+      class="ploneintranet.layout.viewlets.navigation.OneLevelBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      />
 
 </configure>
