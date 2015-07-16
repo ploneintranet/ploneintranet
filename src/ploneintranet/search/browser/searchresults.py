@@ -1,3 +1,4 @@
+from plone import api
 from Products.Five import BrowserView
 from ZTUtils import make_query
 from zope.component import getUtility
@@ -66,6 +67,11 @@ class SearchResultsView(BrowserView):
             url=self.request.ACTUAL_URL,
             qs=new_query
         )
+
+    def friendly_path(self, url):
+        """Show the object path within the navigation root"""
+        root_url = api.portal.get_navigation_root(self.context).absolute_url()
+        return url.replace(root_url, '')
 
     def preview_class(self, portal_type):
         """Get the matching preview class for a portal type"""

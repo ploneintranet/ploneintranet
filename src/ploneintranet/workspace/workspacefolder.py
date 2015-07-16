@@ -145,6 +145,7 @@ class WorkspaceFolder(Container):
         """
         members = IWorkspace(self).members
         info = []
+
         for user_or_group_id, details in members.items():
             user = api.user.get(user_or_group_id)
             if user is not None:
@@ -152,8 +153,7 @@ class WorkspaceFolder(Container):
                 title = (user.getProperty('fullname') or user.getId() or
                          user_or_group_id)
                 # XXX tbd, we don't know what a persons description is, yet
-                description = (u'Here we could have a nice status of'
-                               ' this person')
+                description = ''
                 classes = 'user ' + (description and 'has-description'
                                      or 'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)

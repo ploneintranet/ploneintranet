@@ -19,10 +19,7 @@ class BaseTestCase(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.portal.REQUEST
         self.membrane_tool = plone_api.portal.get_tool('membrane_tool')
-        self.profiles = plone_api.content.create(
-            title="Profiles",
-            type="ploneintranet.userprofile.userprofilecontainer",
-            container=self.portal)
+        self.profiles = self.portal.profiles
 
     def login(self, username):
         """
