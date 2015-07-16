@@ -105,7 +105,7 @@ class TestEditRoster(BaseTestCase):
             'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsadmin',
-            'cls': 'has-description',
+            'cls': 'has-no-description',
         }
         self.assertIn(
             wsadmin,
@@ -120,7 +120,7 @@ class TestEditRoster(BaseTestCase):
             'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsmember',
-            'cls': 'has-description',
+            'cls': 'has-no-description',
         }
         self.assertIn(
             wsmember,
