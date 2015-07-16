@@ -29,6 +29,25 @@ from ploneintranet.workspace.config import TEMPLATES_FOLDER
 
 log = logging.getLogger(__name__)
 
+# commits are needed in interactive but break in test mode
+if api.env.test_mode:
+    commit = lambda: None
+else:
+    commit = transaction.commit
+
+
+def default(context):
+    """
+
+    """
+    if context.readDataFile('ploneintranet.suite_default.txt') is None:
+        return
+    log.info("default setup")
+
+    cleanup_default_content(context)
+    commit()
+    log.info("default setup: done.")
+
 
 def testing(context):
     """
@@ -39,12 +58,6 @@ def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
     log.info("testcontent setup")
-
-    # commits are needed in interactive but break in test mode
-    if api.env.test_mode:
-        commit = lambda: None
-    else:
-        commit = transaction.commit
 
     log.info("create_users")
     users = users_spec(context)
@@ -85,6 +98,19 @@ def testing(context):
     commit()
 
     log.info("done.")
+
+
+def cleanup_default_content(context):
+    """ Remove default content created by Plone for an empty site,
+        we don't need it. """
+
+    log.info('cleanup Plone default content')
+    portal = api.portal.get()
+    delete_ids = ['front-page', 'news', 'events', 'Members']
+    default_content = [portal.get(c) for c in delete_ids
+                       if c in portal.objectIds()]
+    api.content.delete(objects=default_content)
+    log.info('removed Plone default content')
 
 
 def users_spec(context):
