@@ -245,6 +245,15 @@ I give the Producer role to Allan
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
+I give the Admin role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Admins
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
+
 I can remove the Producer role from Allan
     I can open the workspace member settings tab
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']

@@ -177,7 +177,7 @@ Site Administrator can add example user as member of workspace
      Click Button  Ok
      Wait Until Page Contains  Alice
 
-The manager can grant the Producer role in a Cosumer workspace
+The manager can grant the Producer role in a Consumer workspace
     Given I am in a Consumers workspace as a workspace admin
       And I give the Producer role to Allan
      Then Allan has the option to create a document
@@ -191,6 +191,10 @@ The manager can change a special role
     Given I am in a Consumers workspace as a workspace admin
       And I give the Producer role to Allan
      Then I can change Allan's role to Moderator
+
+The manager can add other workspace admins
+    Given I am in a Consumers workspace as a workspace admin
+     Then I give the Admin role to Allan
 
 The manager can remove a workspace member
     Given I am in a workspace as a workspace admin
