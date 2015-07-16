@@ -37,9 +37,12 @@ Member can view sidebar info
           I can go to the sidebar info tile
           Click Link  Members
           Wait Until Element Is visible  css=#member-list .search-result
-          Click Link  jquery=#member-list .search-result a:first
+          Click Link  jquery=label.item:nth-child(5) > a:nth-child(2)
           Wait Until Element Is visible  css=#person-timeline .sidebar
-          Element should contain  css=#person-timeline .sidebar .user-portrait h1  Allan Neece
+          Element should contain  css=.icon-eye  Follow Esmeralda Claassen
+          Click Element  css=.icon-eye
+          Wait Until Element Is visible  css=.icon-eye
+          Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
 
 Member can view sidebar events
     Given I am in a workspace as a workspace member
