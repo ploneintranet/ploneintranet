@@ -16,7 +16,7 @@
               </h3>
               <p class="description"><span tal:replace="news/description">
               First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</span> 
-              <em>Read more…</em>
+              <em i18n:translate="">Read more…</em>
               </p>
           </a>
           <!--form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
