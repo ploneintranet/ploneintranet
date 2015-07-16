@@ -7,17 +7,17 @@
 <h1 i18n:translate="">
     Create folder
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs" data-pat-validate="disable-selector:#form-buttons-create">
   <div class="panel-body">
     <fieldset class="vertical">
         <input type="hidden" name="portal_type" value="Folder" />
-        <input type="text" name="title" placeholder="Folder name" i18n:attributes="placeholder" autofocus />
+        <input type="text" name="title" placeholder="Folder name" i18n:attributes="placeholder" required="required" autofocus />
         <textarea name="description" rows="6" placeholder="Description for search results (Optional)" i18n:attributes="placeholder"></textarea>
     </fieldset>
   </div>
   <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle close-panel focus">
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus close-panel">
           Create
       </button>
       <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">
