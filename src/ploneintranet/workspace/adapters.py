@@ -74,6 +74,32 @@ class PloneIntranetWorkspace(Workspace):
             policy = self.context.participant_policy
         return "%s:%s" % (policy.title(), self.context.UID())
 
+    def update_participant_policy_groups(self, old_policy, new_policy):
+        """Move relevant members to a new default policy
+
+        We only move members who were previously part of the *old* policy.
+        This allows for 'exception' users who have been promoted/demoted
+        manually to retain their existing roles.
+        """
+        members = self.members
+        old_group = old_policy.title()
+        new_group = new_policy.title()
+        for userid in members:
+            groups = self.get(userid).groups
+            if old_group not in groups:
+                # This user was an exception to the default policy
+                # so we ignore them
+                continue
+            groups.remove(old_group)
+            groups.add(new_group)
+            self.add_to_team(user=userid, groups=groups)
+
+        user = api.user.get_current()
+        logger.info("%s changed policy on %s from %s to %s for %s members",
+                    user.getId(), repr(self.context),
+                    old_policy.title(), new_policy.title(),
+                    len(members))
+
 
 class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):
     """

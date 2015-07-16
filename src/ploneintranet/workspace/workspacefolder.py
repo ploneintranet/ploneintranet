@@ -98,6 +98,10 @@ class WorkspaceFolder(Container):
         old_policy = self.participant_policy
         new_policy = value
         self._participant_policy = new_policy
+        IWorkspace(self).update_participant_policy_groups(
+            old_policy,
+            new_policy,
+        )
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
 
     def tasks(self):
