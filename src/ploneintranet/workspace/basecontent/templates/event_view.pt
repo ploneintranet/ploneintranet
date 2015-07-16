@@ -9,13 +9,13 @@
 
 <body>
 
-    <metal:content metal:fill-slot="content"
-        tal:define="workspace python:view.workspace;
-                    workspace_url python:workspace.absolute_url();
-                    workspace_id python:workspace.id;
-                    read_only python:not view.can_edit">
-    <div id="content" 
-         tal:define="type workspace/ws_type | string:workspace;" 
+    <metal:content metal:fill-slot="content">
+    <div id="content"
+         tal:define="workspace python:view.workspace;
+            workspace_url python:workspace.absolute_url();
+            workspace_id python:workspace.id;
+            read_only python:not view.can_edit;
+            type workspace/ws_type | string:workspace;"
          tal:attributes="class string:application page-type-${type} workspace-type-${type}">
 
         <h1 id="workspace-name">
@@ -79,8 +79,8 @@
                            data-pat-autosuggest="ajax-data-type: json; ajax-search-index: id; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                             </fieldset> -->
                             <fieldset class="bar description">
-                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                             </fieldset>
+                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description" i18n:attributes="title placeholder">${context/description}</textarea>
+                            </fieldset>
 
                             <!-- <fieldset class="bar versioning">
                                 <label>
