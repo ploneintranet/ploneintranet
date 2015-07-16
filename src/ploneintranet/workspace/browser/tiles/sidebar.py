@@ -284,9 +284,9 @@ class Sidebar(BaseTile):
                             obj.reopen()
                 api.portal.show_message(
                     _(u'Task state changed'), self.request, 'success')
-                msg = ViewPageTemplateFile(
-                    '../templates/globalstatusmessage.pt')
-                return msg(self)
+                # msg = ViewPageTemplateFile(
+                #     '../templates/globalstatusmessage.pt')
+                # return msg(self)
 
             # Do the property editing. Edits only if there is something to edit
             # in form
@@ -314,8 +314,11 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
-        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
-        return open_item_url in [task['url'] for task in milestone_tasks]
+        if 'PARENT_REQUEST' in self.request:
+            # Only check if this is a tile subrequest
+            open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+            return open_item_url in [task['url'] for task in milestone_tasks]
+        return False
 
     def logical_parent(self):
         """
