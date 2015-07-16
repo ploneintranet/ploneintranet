@@ -6,7 +6,7 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.i18n.normalizer import idnormalizer
-from plone.memoize.instance import memoize
+from plone.memoize.view import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
