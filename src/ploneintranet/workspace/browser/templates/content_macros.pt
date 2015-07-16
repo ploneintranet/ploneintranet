@@ -67,11 +67,12 @@
       <br/>
       <fieldset class="pat-checklist options">
         <label>
-          <input tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/> <span tal:omit-tag="" i18n:translate="">All day event</span>
+          <input name="whole_day" tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/>
+          <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
         <br/>
         <label>
-          <input type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
+          <input name="calendar_visible" type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
         </label>
       </fieldset>
       <br/>
@@ -110,7 +111,7 @@
           </fieldset>
         </fieldset>
 
-        <label class="timezone"><span tal:omit-tag="" i18n:translate="">Timezone</span>
+        <label class="timezone" tal:condition="not:hide_timezone|nothing"><span tal:omit-tag="" i18n:translate="">Timezone</span>
         <select class="timezone"  tal:attributes="disabled read_only" >
           <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
           <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
@@ -133,9 +134,9 @@
 
       </label>
 
-      <label class="attachments"  tal:define="read_only python:False"><span tal:omit-tag="" i18n:translate="">Attached documents from this workspace</span>
+      <!--label class="attachments"  tal:define="read_only python:False"><span tal:omit-tag="" i18n:translate="">Attached documents from this workspace</span>
       <input tal:attributes="disabled read_only" class="pat-autosuggest documents" data-pat-autosuggest="" type="text" value=""/>
-      </label>
+      </label-->
 
     </metal:event_fields>
 

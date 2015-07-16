@@ -21,7 +21,7 @@ def setupVarious(context):
     # This can still be overridden per-type in your policy suite types/*xml
     # But there should be no need, this is fully backward compatible
     # and can be cleanly uninstalled
-    replace_all_dublincore()
+    replace_all_behaviors()
 
 
 def uninstall(context):
@@ -29,42 +29,46 @@ def uninstall(context):
         return
 
     log.info('uninstall')
-    restore_all_dublincore()
+    restore_all_behaviors()
 
     portal = api.portal.get()
     _remove_persistent_utility(portal)
     # _remove_tool(portal)
 
 
-def replace_all_dublincore():
+REPLACEMENT_BEHAVIORS = [{
+    'old': 'plone.app.dexterity.behaviors.metadata.IDublinCore',
+    'new': 'ploneintranet.network.behaviors.metadata.IDublinCore',
+}, {
+    'old': 'plone.app.dexterity.behaviors.metadata.ICategorization',
+    'new': 'ploneintranet.network.behaviors.metadata.ICategorization',
+}]
+
+
+def replace_all_behaviors():
     types_tool = api.portal.get_tool('portal_types')
     for fti_id in types_tool.listTypeTitles().keys():
         fti = types_tool.get(fti_id)
         if IDexterityFTI.providedBy(fti):
-            replace_dublincore(fti,
-                               'plone.app.dexterity',
-                               'ploneintranet.network',
-                               'replace')
+            for r_beh in REPLACEMENT_BEHAVIORS:
+                replace_behavior(fti, r_beh['old'], r_beh['new'], 'replace')
 
 
-def restore_all_dublincore():
+def restore_all_behaviors():
     types_tool = api.portal.get_tool('portal_types')
     for fti_id in types_tool.listTypeTitles().keys():
         fti = types_tool.get(fti_id)
         if IDexterityFTI.providedBy(fti):
-            replace_dublincore(fti,
-                               'ploneintranet.network',
-                               'plone.app.dexterity',
-                               'restore')
+            for r_beh in REPLACEMENT_BEHAVIORS:
+                replace_behavior(fti, r_beh['new'], r_beh['old'], 'restore')
 
 
-def replace_dublincore(fti, old, new, msg):
+def replace_behavior(fti, old, new, msg):
     behaviors = []
     for beh in fti.behaviors:
-        # plone.app.dexterity.behaviors.metadata.IDublinCore
-        if beh.startswith(old) and beh.endswith('IDublinCore'):
-            beh = beh.replace(old, new)
-            log.info('%s IDublinCore behavior on %s', msg, fti)
+        if beh == old:
+            log.info('%s %s behavior on %s', msg, beh, fti)
+            beh = new
         behaviors.append(beh)
     fti.behaviors = behaviors
 
