@@ -33,14 +33,6 @@
       />
 
   <browser:page
-      name="apps.html"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".apps.Apps"
-      permission="zope.Public"
-      template="templates/apps.pt"
-  />
-
-  <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
@@ -72,7 +64,7 @@
       name="apps.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.Apps"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/apps.pt"
     />
 
