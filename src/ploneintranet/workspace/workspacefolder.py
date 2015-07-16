@@ -168,11 +168,17 @@ class WorkspaceFolder(Container):
                 classes = 'user-group has-description'
                 portrait = ''
 
+            # User's 'role' is any group they are a member of
+            # that is not the default participation policy group
+            # (including Admins group)
             role = None
+            groups = details['groups']
+            if 'Admins' in groups:
+                role = 'Admin'
             for policy in PARTICIPANT_POLICY:
                 if policy == self.participant_policy:
                     continue
-                if policy.title() in details['groups']:
+                if policy.title() in groups:
                     role = PARTICIPANT_POLICY[policy]['title']
                     # According to the design there is at most one extra role
                     # per user, so we go with the first one we find. This may

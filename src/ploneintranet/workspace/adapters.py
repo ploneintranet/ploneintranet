@@ -64,7 +64,7 @@ class PloneIntranetWorkspace(Workspace):
         - an oddity from collective.workspace
         """
         data = kw.copy()
-        groups = data.get('groups', [])
+        groups = data.get('groups') or []
         if 'Members' in groups:
             # Members is an automatic group - ignore
             groups.remove('Members')
