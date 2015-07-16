@@ -1,3 +1,4 @@
+import logging
 from Products.CMFCore.Expression import getExprContext
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
@@ -25,6 +26,8 @@ from OFS.owner import Owned
 from utils import parent_workspace
 import persistent
 
+logger = logging.getLogger(__name__)
+
 
 class PloneIntranetWorkspace(Workspace):
     """
@@ -47,18 +50,26 @@ class PloneIntranetWorkspace(Workspace):
         u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
     }
 
-    def add_to_team(self, **kw):
+    def add_to_team(self, user, **kw):
         """
-        We override this method to add our additional participation
-        policy groups, as detailed in available_groups above
-        """
-        group = self.context.participant_policy.title()
-        data = kw.copy()
-        if "groups" in data:
-            data["groups"].add(group)
-        else:
-            data["groups"] = set([group])
+        Add user to this workspace
 
+        We override this method from collective.workspace
+        to add our additional participation
+        policy groups, as detailed in available_groups above.
+
+        Also used to update an existing members' groups.
+
+        *Note* - 'user' is in fact 'userid'
+        - an oddity from collective.workspace
+        """
+        data = kw.copy()
+        if not data.get('groups'):
+            # Put user in the default policy group if none provided
+            default_group = self.context.participant_policy.title()
+            data["groups"] = set([default_group])
+
+        data['user'] = user
         return super(PloneIntranetWorkspace, self).add_to_team(**data)
 
     def group_for_policy(self, policy=None):
