@@ -18,7 +18,7 @@
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
-  <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
+  <element value="ploneintranet.network.behaviors.metadata.ICategorization"/>
   <element value="ploneintranet.todo.behaviors.ITodo" />
   <element value="ploneintranet.todo.behaviors.IMilestone" />
  </property>

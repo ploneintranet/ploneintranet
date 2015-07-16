@@ -1,30 +1,22 @@
-<div id="portal-personaltools-wrapper"
-     i18n:domain="plone">
+<div i18n:domain="plone" id="portal-personaltools-wrapper">
 
-<tal:block condition="not: view/anonymous">
-  <a href="#portal-personaltools-menu" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: content' id="user-avatar">
-      <img tal:attributes="src view/avatar_url; title view/user_name" />
-  </a>
-  <div id="portal-personaltools-menu" style="display:none"
-       tal:condition="python:view.user_actions and not view.anonymous">
-      <ul class="actionMenu deactivated" id="portal-personaltools">
-	  <li class="actionMenuHeader">
-              <a id="user-name"
-		 tal:attributes="href string:${view/portal_url}/@@my-profile"
-		 tal:content="view/user_name">
-		  John
-              </a>
-	  </li>
-	  <li tal:repeat="action view/user_actions"
-              tal:attributes="id string:personaltools-${action/id}">
-              <a href="${action/href}"
-		 tal:content="action/title"
-		 i18n:translate="">
-		  action title
-              </a>
-	  </li>
-      </ul>
-  </div>
-</tal:block>
+  <tal:block condition="not: view/anonymous">
+    <a class="pat-avatar pat-tooltip"
+       data-pat-tooltip="
+         position-list: tr;
+         position-policy: force;
+         trigger: click;
+         source: content;
+       "
+       href="#portal-personaltools-menu"
+       id="user-avatar">
+      <img src="${view/avatar_url}" title="${view/user_name}" />
+    </a>
+    <div id="portal-personaltools-menu"
+         tal:condition="python:view.user_actions and not view.anonymous"
+         style="display:none">
+        <metal:menu use-macro="here/personal-menu.html/main" />
+    </div>
+  </tal:block>
 
 </div>

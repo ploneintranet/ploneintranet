@@ -1,3 +1,6 @@
+import logging
+from zope.annotation.interfaces import IAnnotations
+from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
@@ -16,6 +19,7 @@ from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
 
+log = logging.getLogger(__name__)
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
 
@@ -58,6 +62,19 @@ def workspace_added(ob, event):
         user=creator,
         groups=set(['Admins']),
     )
+    # During workspace creation, various functions
+    # are called (renaming / workflow transitions) which do
+    # low-level AccessControl checks.
+    # Unfortunately these checks never re-ask PAS for a user's roles
+    # or groups during a request, so we have to manually re-initialise
+    # the security context for the current user.
+    # ref: https://github.com/ploneintranet/ploneintranet/pull/438
+    if api.user.get_current().getId() == creator:
+        IAnnotations(ob.REQUEST)[('workspaces', creator)] = None
+        acl_users = api.portal.get_tool('acl_users')
+        user = acl_users.getUserById(creator)
+        if user is not None:
+            newSecurityManager(None, user)
 
     if not ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
@@ -75,12 +92,19 @@ def workspace_added(ob, event):
 def participation_policy_changed(ob, event):
     """ Move all the existing users to a new group """
     workspace = IWorkspace(ob)
-    old_group_name = workspace.group_for_policy(event.old_policy)
-    old_group = api.group.get(old_group_name)
-    for member in old_group.getAllGroupMembers():
-        groups = workspace.get(member.getId()).groups
+    members = workspace.members
+
+    for userid in members:
+        groups = workspace.get(userid).groups
         groups -= set([event.old_policy.title()])
         groups.add(event.new_policy.title())
+        workspace.add_to_team(user=userid, groups=groups)
+
+    user = api.user.get_current()
+    log.info("%s changed policy on %s from %s to %s for %s members",
+             user.getId(), repr(ob),
+             event.old_policy.title(), event.new_policy.title(),
+             len(members))
 
 
 def invitation_accepted(event):

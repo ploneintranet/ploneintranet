@@ -15,10 +15,6 @@
     <implements interface=".interfaces.INotifiable" />
   </class>
 
-  <class class="plone.dexterity.content.Item">
-    <implements interface=".interfaces.INotifiable" />
-  </class>
-
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Notifications]"

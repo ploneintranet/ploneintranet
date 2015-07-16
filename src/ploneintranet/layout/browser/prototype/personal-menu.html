@@ -1,0 +1,32 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    metal:use-macro="context/main_template/macros/master">
+
+<body>
+
+  <!-- https://github.com/ploneintranet/ploneintranet.prototype/blob/c146adc7dec963f1468344233f92b4e7c2c78022/feedback/personal-menu.html -->
+  <metal:macro define-macro="main">
+    <ul class="menu" tal:define="
+              portal_url here/plone_portal_state/portal_url
+            ">
+      <li>
+        <a class="icon-user" href="${portal_url}/@@my-profile">My profile</a>
+      </li>
+      <tal:temporarily_disabled condition="nothing">
+          This will be enabled later, see
+          https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
+          <li>
+            <a class="icon-cog" href="${portal_url}/@@my-profile#person-info">Personal settings</a>
+          </li>
+      </tal:temporarily_disabled>
+      <li>
+        <a class="icon-exit" href="${portal_url}/logout">Logout</a>
+      </li>
+      <!-- Any additional links or functions that might be required for this user (links to admin screens, etc) may go here. -->
+    </ul>
+  </metal:macro>
+</body>
+
+</html>

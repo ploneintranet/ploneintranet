@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from ploneintranet.core.integration import PLONEINTRANET
+from ploneintranet import api as piapi
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.testing import IntegrationTestCase
@@ -55,7 +55,7 @@ class TestToggleLikeView(IntegrationTestCase):
     def test_like_status_update(self):
         # test statusupdate
         su = StatusUpdate('Some cool news!')
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
         container.add(su)
         update_id = str(su.id)
 

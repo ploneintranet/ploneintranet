@@ -56,7 +56,7 @@ I am in a workspace as a workspace member
 
 I am in a case workspace as a workspace member
     I am logged in as the user allan_neece
-    I go to the Minifest
+    I go to the Example Case
 
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
@@ -72,7 +72,7 @@ I am in a workspace as a workspace admin
 
 I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
-    I go to the Minifest
+    I go to the Example Case
 
 I am in an open workspace as a workspace member
     I am logged in as the user allan_neece
@@ -87,10 +87,10 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
-I go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
     Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Minifest
+    Wait Until Page Contains  Example Case
 
 I go to the Open Parliamentary Papers Guidance Workspace
     Go To  ${PLONE_URL}/workspaces/parliamentary-papers-guidance
@@ -110,12 +110,17 @@ I go to the Service Announcements Workspace
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I can go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I can go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
 
 I am redirected to the login page
     Location Should Contain  require_login
 
+I open the password reset form
+    Go To  ${PLONE_URL}/pwreset_form
+
+The page is not found
+    Page should contain  This page does not seem to exist
 
 # *** Workspace related keywords ***
 
@@ -181,6 +186,14 @@ I can set the participant policy to Moderate
     Wait Until Page Contains  Security
     Click link  link=Security
     Wait until page contains  Workspace members can do everything
+
+I can set the participant policy to Consume
+    Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
+    Execute JavaScript  jQuery("[name='participant_policy']")[0].value = 1
+    Submit form  css=#sidebar-settings-security
+    Wait Until Page Contains  Security
+    Click link  link=Security
+    Wait until page contains  They cannot add
 
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
@@ -255,10 +268,9 @@ I can create a new document
 
 I cannot create a new document
     Click link  Documents
-    Wait until page contains  Test Document
+    Wait until page contains  Expand sidebar
     Page Should Not Contain   Create document
-    Click link  Functions
-    Page Should Not Contain   Create document
+    Page Should Not Contain Link  Functions
 
 I can create a new folder
     Click link  Documents
@@ -380,6 +392,103 @@ I cannot see the document
     Click link  Documents
     Page should not contain  ${title}
 
+# *** workspace and case content related keywords ***
+
+I browse to a workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Documents
+    Click Link  link=Manage Information
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a document
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
+    Click Link  xpath=//a[contains(@href, 'repurchase-agreements')]
+
+I view the document
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
+
+I browse to an image
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'budget-proposal')]
+    Click Link  xpath=//a[contains(@href, 'budget-proposal')]
+
+I view the image
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
+
+I browse to a file
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
+    Click Link  xpath=//a[contains(@href, 'minutes/view')]
+
+I view the file
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I view the folder
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
+
+I view the task
+    Go To  ${PLONE_URL}/workspaces/example-case/populate-metadata
+
+I change the title
+    Comment  Toggle the metadata to give the JavaScript time to load
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  title  New title ♥
+    Wait Until Page Contains  New title ♥
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new title
+    Textfield Should Contain  title  New title ♥
+
+I change the description
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  xpath=//textarea[@name='description']  New description ☀
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new description
+    Page Should Contain  New description ☀
+
+I tag the item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  id=s2id_autogen2  NewTag☃,
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I tag the item with a suggestion
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
+    Wait Until Page Contains  ag☃
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I clear the tag for an item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  css=.select2-search-choice-close
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+The metadata has the new tag
+    Click Link  link=Toggle extra metadata
+    Page Should Contain  NewTag☃
 
 # *** case related keywords ***
 
@@ -394,7 +503,7 @@ I can create a new case
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Page Contains  Basisdatenerfassung
+    Wait Until Page Contains  Populate Metadata
 
 I can create a new template case
     [arguments]  ${title}
@@ -482,3 +591,27 @@ I can close the first milestone
 I can toggle a milestone
     [arguments]  ${milestone}
     Click Element  xpath=//h4[text()='${milestone}']
+
+I write a status update
+    [arguments]  ${message}
+    Wait Until Element Is visible  css=textarea.pat-content-mirror
+    Element should not be visible  css=button[name='form.buttons.statusupdate']
+    Click element  css=textarea.pat-content-mirror
+    Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
+    Input Text  css=textarea.pat-content-mirror  ${message}
+
+I post a status update
+    [arguments]  ${message}
+    I write a status update    ${message}
+    I submit the status update
+
+I submit the status update
+    Click button  css=button[name='form.buttons.statusupdate']
+
+I can mention the user
+    [arguments]  ${username}
+    Click link    link=Mention people
+    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
+    Click element    css=textarea.pat-content-mirror

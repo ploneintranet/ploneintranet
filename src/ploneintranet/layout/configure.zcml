@@ -5,7 +5,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ploneintranet">
 
-    <include package="." file="permissions.zcml" />
+  <include package="." file="permissions.zcml" />
 
     <!-- Zope2 initialization -->
     <five:registerPackage package="." initialize=".initialize" />
@@ -15,6 +15,7 @@
 
     <include package=".viewlets" />
     <include package=".browser" />
+
     <!-- include package=".tests" if you want to do interactive testing -->
     <include package=".tests" />
 

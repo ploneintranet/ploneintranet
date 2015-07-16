@@ -65,9 +65,11 @@ _diazo:
 	# --- (2) --- refresh diazo static/generated
 	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
-	for file in `grep generated $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
+	for file in `grep 'href="generated' $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
+		echo "Rewriting resource URLs in $$file"; \
 		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#="/*\(media\|style\)/#="++theme++ploneintranet.theme/generated/\1/#g' $(RELEASE_DIR)/$$file; \
 		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
 		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
 	done
@@ -80,6 +82,7 @@ _diazo:
 	# apps
 	@[ -d $(DIAZO_DIR)/apps/ ] || mkdir $(DIAZO_DIR)/apps/
 	cp -R $(RELEASE_DIR)/apps/* $(DIAZO_DIR)/apps/
+
 
 jsdev: clean-proto dev-bundle diazo _jsdev ## full js development refresh
 

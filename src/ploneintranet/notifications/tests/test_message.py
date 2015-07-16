@@ -25,9 +25,11 @@ class TestQueue(unittest.TestCase):
         message = Message([], '123', {})
         self.assertFalse(message.marked_read_at())
         message.mark_as_read()
-        self.assertTrue(message.marked_read_at() > before_test)
+        read_at = message.marked_read_at()
+        self.assertTrue(read_at > before_test)
         message.mark_as_read(before_test)
-        self.assertTrue(message.marked_read_at() == before_test)
+        # We don't re-set the read times
+        self.assertTrue(message.marked_read_at() == read_at)
 
     def test_message_clone(self):
         message = Message([], '123', {})

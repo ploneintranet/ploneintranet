@@ -148,8 +148,7 @@ class WorkspaceFolder(Container):
             user = user.getUser()
             title = user.getProperty('fullname') or user.getId() or userid
             # XXX tbd, we don't know what a persons description is, yet
-            description = MessageFactory(u'Here we could have a nice status of'
-                                         u' this person')
+            description = ''
             classes = description and 'has-description' or 'has-no-description'
 
             role = None
