@@ -22,7 +22,7 @@
         </div>
         
         <div class="buttons panel-footer">
-          <button type="submit" class="close-panel icon-ok-circle">
+          <button type="submit" class="close-panel icon-ok-circle" i18n:translate="">
               Alright
           </button>                                    
         </div>    
