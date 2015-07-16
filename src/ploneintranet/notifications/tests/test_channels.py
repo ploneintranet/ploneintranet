@@ -28,14 +28,14 @@ class TestAllChannel(unittest.TestCase):
 
     def test_queue_empty(self):
         self.assertEqual(0, len(self.channel.get_unread_messages()))
-        self.assertEqual(0, len(self.channel.get_unread_messages(limit=6)))
+        self.assertEqual(0, len(self.channel.get_unread_messages()))
 
     def test_queue_not_empty(self):
         self.create_test_messages()
         self.assertEqual(5, len(self.channel.get_unread_messages(
             keep_unread=True)))
-        self.assertEqual(3, len(self.channel.get_unread_messages(limit=3)))
-        self.assertEqual(2, len(self.channel.get_unread_messages(limit=3)))
+        self.assertEqual(5, len(self.channel.get_unread_messages()))
+        self.assertEqual(0, len(self.channel.get_unread_messages()))
 
     def test_read_flag_honoured(self):
         self.assertEqual(0, self.channel.get_unread_count())
@@ -46,10 +46,7 @@ class TestAllChannel(unittest.TestCase):
         self.channel.get_unread_messages(keep_unread=True)
         self.assertEqual(5, self.channel.get_unread_count())
 
-        self.channel.get_unread_messages(limit=3)
-        self.assertEqual(2, self.channel.get_unread_count())
-
-        self.channel.get_unread_messages(limit=3)
+        self.channel.get_unread_messages()
         self.assertEqual(0, self.channel.get_unread_count())
 
     def test_get_all_messages(self):

@@ -27,5 +27,13 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <browser:viewlet
+        name="ploneintranet.zopeuser_warning"
+        manager="plone.app.layout.viewlets.interfaces.IToolbar"
+        class=".zopeuser.WarningViewlet"
+        template="zopeuser_warning.pt"
+        permission="zope2.View"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
 
 </configure>

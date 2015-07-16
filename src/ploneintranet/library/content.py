@@ -26,7 +26,7 @@ class LibraryApp(AbstractAppContainer, content.Container):
     implements(ILibraryApp, IAppContainer)
 
     app_name = "library"
-    app_layers = (ILibraryContentLayer,)
+    app_layers = (ILibraryContentLayer, )
 
 
 class LibrarySection(content.Container):

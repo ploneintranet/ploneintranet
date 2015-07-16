@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from ploneintranet.notifications.message import Message
+from ploneintranet.activitystream.browser.statusupdate \
+    import StatusUpdateView
 
 
 class Base(object):
@@ -51,9 +53,13 @@ class StatusUpdate(Base):
     def get_object_as_dict(self):
         ''' return a dict representation of the object
         '''
-        portal_relative_url = api.portal.get().absolute_url(relative=True)
+        portal = api.portal.get()
+        view = StatusUpdateView(self.context, portal.REQUEST)
+        text = view.decorated_text
+
         return {
             'id': self.context.id,
-            'url': portal_relative_url + '/@@stream/network',
-            'title': self.context.text
+            # TODO - status updates have no URL yet
+            'url': api.portal.get().absolute_url(),
+            'title': text
         }

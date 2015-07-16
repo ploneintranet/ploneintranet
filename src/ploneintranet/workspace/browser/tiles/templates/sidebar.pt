@@ -291,7 +291,6 @@ Supported types include (class names):
 
         <div id="workspace-tickets" tal:define="tasks context/tasks">
           <div class="button-bar functions" id="tasks-functions">
-
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
               <a title="Create new task"
@@ -300,6 +299,7 @@ Supported types include (class names):
                  tal:condition="view/can_add">Create task</a>
             </div>
           </div>
+          <h3 i18n:translate="">General tasks</h3>
           <tal:no-tasks condition="python:not ws.is_case and not tasks ">
             <p i18n:translate="no-task-found">No tasks created yet</p>
           </tal:no-tasks>
