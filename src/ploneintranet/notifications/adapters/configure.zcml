@@ -19,11 +19,4 @@
     factory=".message_handler.Base"
     />
 
-  <adapter
-    for="*"
-    name="STATUS_UPDATE"
-    provides="..interfaces.IMessageClassHandler"
-    factory=".message_handler.StatusUpdate"
-    />
-
 </configure>

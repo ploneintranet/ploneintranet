@@ -39,7 +39,7 @@ class TestMessageLifecycle(unittest.TestCase):
         msg_class_handler.add(msg)
 
         # Step 2, test1 sees his message
-        channel = AllChannel(users[0])
+        channel = AllChannel(users[0].getUserId())
         first_msg = channel.get_all_messages()[0]
         first_msg.mark_as_read()
 
@@ -51,20 +51,32 @@ class TestMessageLifecycle(unittest.TestCase):
 
         # Step 4, somebody else reads his messages
 
-        channel = AllChannel(users[1])
+        channel = AllChannel(users[1].getUserId())
         first_msg = channel.get_all_messages()[0]
         first_msg.mark_as_read()
 
         # Final result
 
-        self.assertEqual(0, len(AllChannel(users[0]).get_unread_messages(
-            keep_unread=True)))
-        self.assertEqual(0, len(AllChannel(users[1]).get_unread_messages(
-            keep_unread=True)))
-        self.assertEqual(1, len(AllChannel(users[1]).get_all_messages()))
-        self.assertEqual(1, len(AllChannel(users[2]).get_unread_messages(
-            keep_unread=True)))
-        self.assertEqual(1, len(AllChannel(users[3]).get_unread_messages(
-            keep_unread=True)))
-        self.assertEqual(1, len(AllChannel(users[4]).get_unread_messages(
-            keep_unread=True)))
+        self.assertEqual(
+            0,
+            len(AllChannel(users[0].getUserId()).get_unread_messages(
+                keep_unread=True)))
+        self.assertEqual(
+            0,
+            len(AllChannel(users[1].getUserId()).get_unread_messages(
+                keep_unread=True)))
+        self.assertEqual(
+            1,
+            len(AllChannel(users[1].getUserId()).get_all_messages()))
+        self.assertEqual(
+            1,
+            len(AllChannel(users[2].getUserId()).get_unread_messages(
+                keep_unread=True)))
+        self.assertEqual(
+            1,
+            len(AllChannel(users[3].getUserId()).get_unread_messages(
+                keep_unread=True)))
+        self.assertEqual(
+            1,
+            len(AllChannel(users[4].getUserId()).get_unread_messages(
+                keep_unread=True)))

@@ -24,8 +24,8 @@ class TestGenericMessageClassHandler(unittest.TestCase):
         self.msg_class_handler = getAdapter(
             self.portal, IMessageClassHandler, name='GLOBAL_NOTICE'
         )
-        self.queue1 = tool.get_user_queue(user1)
-        self.queue2 = tool.get_user_queue(user2)
+        self.queue1 = tool.get_user_queue(user1.getUserId())
+        self.queue2 = tool.get_user_queue(user2.getUserId())
 
     def test_adding(self):
         message = Message(actors=[], predicate='GLOBAL_NOTICE', obj={})
