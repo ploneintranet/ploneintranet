@@ -97,6 +97,8 @@ class BaseTile(BrowserView):
         '''
         if obj is None:
             obj = self.context
+        elif hasattr(obj, 'getObject'):
+            obj = obj.getObject()
         return api.user.has_permission(
             "Delete objects",
             obj=obj,
