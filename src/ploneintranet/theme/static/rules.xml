@@ -34,6 +34,8 @@
            css:theme-children="nav.breadcrumbs" />
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
+  <before css:content="#root-zope-user-warning"
+           css:theme="#user-avatar" />
 
   <!-- drop from theme elements that should not be visible to anonymous -->
   <rules css:if-content=".userrole-anonymous">

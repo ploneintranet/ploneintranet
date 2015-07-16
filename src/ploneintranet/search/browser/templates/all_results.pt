@@ -178,7 +178,7 @@
 		    </tal:nohighlights>
                     <a href="{{ result.url }}" class="link"
                        tal:attributes="href result/url"
-                       tal:content="result/path">
+                       tal:content="python:view.friendly_path(result.url)">
                     {{ result.url }}
                     </a>
                 </dd>
