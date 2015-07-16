@@ -85,6 +85,10 @@ class LibraryBaseView(BrowserView):
         """Return children and grandchildren of current context"""
         return utils.sections_of(self.context)
 
+    def can_edit(self):
+        return api.user.has_permission('Add portal content',
+                                       obj=self.context)
+
 
 class LibraryAppView(LibraryBaseView):
 
