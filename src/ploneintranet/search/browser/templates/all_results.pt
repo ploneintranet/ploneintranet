@@ -28,10 +28,10 @@
                     <!-- Only list content types in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="ctype search_response/facets/friendly_type_name">
-                    <input checked type="checkbox"
-                           name="friendly_type_name:list"
-                           tal:attributes="value ctype" />
-                    <span tal:replace="ctype" />
+                        <input checked type="checkbox"
+                               name="friendly_type_name:list"
+                               tal:attributes="value ctype">
+                        <span tal:replace="ctype"></span>
                     </label>
                 </fieldset>
                 <label>
