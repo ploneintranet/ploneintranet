@@ -215,4 +215,13 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+    <browser:page
+      for="*"
+      name="breadcrumbs_view"
+      class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
 </configure>
