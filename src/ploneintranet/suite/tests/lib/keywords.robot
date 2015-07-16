@@ -62,6 +62,10 @@ I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
 
+I am in a Producers workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Open Parliamentary Papers Guidance Workspace
+
 I am in a Consumers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Shareholder Information Workspace
@@ -235,6 +239,15 @@ I can invite Alice to the workspace
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
     Click Button  Ok
+
+I give the Consumer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Consumers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
