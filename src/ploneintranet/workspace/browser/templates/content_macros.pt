@@ -125,7 +125,7 @@
              data-pat-autosuggest-classes=''/>
 
 
-      <span class="legend">
+      <span class="legend" tal:condition="nothing">
         <dfn class="undecided" i18n:translate="">Undecided</dfn>
         <dfn class="confirmed" i18n:translate="">Confirmed</dfn>
         <dfn class="tentative" i18n:translate="">Tentative</dfn>
