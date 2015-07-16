@@ -392,6 +392,103 @@ I cannot see the document
     Click link  Documents
     Page should not contain  ${title}
 
+# *** workspace and case content related keywords ***
+
+I browse to a workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Documents
+    Click Link  link=Manage Information
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a document
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
+    Click Link  xpath=//a[contains(@href, 'repurchase-agreements')]
+
+I view the document
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
+
+I browse to an image
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'budget-proposal')]
+    Click Link  xpath=//a[contains(@href, 'budget-proposal')]
+
+I view the image
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
+
+I browse to a file
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
+    Click Link  xpath=//a[contains(@href, 'minutes/view')]
+
+I view the file
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I view the folder
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
+
+I view the task
+    Go To  ${PLONE_URL}/workspaces/example-case/populate-metadata
+
+I change the title
+    Comment  Toggle the metadata to give the JavaScript time to load
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  title  New title ♥
+    Wait Until Page Contains  New title ♥
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new title
+    Textfield Should Contain  title  New title ♥
+
+I change the description
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  xpath=//textarea[@name='description']  New description ☀
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new description
+    Page Should Contain  New description ☀
+
+I tag the item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  id=s2id_autogen2  NewTag☃,
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I tag the item with a suggestion
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
+    Wait Until Page Contains  ag☃
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I clear the tag for an item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  css=.select2-search-choice-close
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+The metadata has the new tag
+    Click Link  link=Toggle extra metadata
+    Page Should Contain  NewTag☃
 
 # *** case related keywords ***
 
