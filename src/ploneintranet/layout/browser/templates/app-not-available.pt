@@ -9,7 +9,7 @@
 
     <div id="content">
       <div id="document-content" class="pat-modal">
-        <h1>
+        <h1 i18n:translate="">
             App not available
         </h1>
         
