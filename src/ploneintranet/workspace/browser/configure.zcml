@@ -221,7 +221,7 @@
       class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
       permission="zope.Public"
       allowed_attributes="breadcrumbs"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
 </configure>
