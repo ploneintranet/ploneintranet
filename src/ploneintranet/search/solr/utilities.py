@@ -177,9 +177,12 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_security(self, query):
         Q = query.interface.Q
-        user = api.user.get_current()
+        member = api.user.get_current()
+        # _listAllowedRolesAndUsers method requires
+        # the actual user object
+        actual_user = member.getUser()
         catalog = api.portal.get_tool(name='portal_catalog')
-        arau = catalog._listAllowedRolesAndUsers(user)
+        arau = catalog._listAllowedRolesAndUsers(actual_user)
         data = dict(allowedRolesAndUsers=arau)
         prepare_data(data)
         arau_q = Q()
