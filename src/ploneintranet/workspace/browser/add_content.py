@@ -17,6 +17,7 @@ class AddContent(BrowserView):
     """
 
     template = ViewPageTemplateFile('templates/add_content.pt')
+    can_edit = True
 
     def __call__(self, portal_type='', title=None):
         """Evaluate form and redirect"""
