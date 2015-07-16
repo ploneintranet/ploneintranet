@@ -93,6 +93,19 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    @memoize
+    def can_delete(self, obj=None):
+        ''' Is this user allowed to delete an object?
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only zope2.DeleteObjects.
+        '''
+        if obj is None:
+            obj = self.context
+        return api.user.has_permission(
+            "Delete objects",
+            obj=obj,
+        )
+
 
 class SidebarSettingsMembers(BaseTile):
     """
