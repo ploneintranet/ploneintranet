@@ -102,7 +102,7 @@ class TestEditRoster(BaseTestCase):
             'member': True,
             'admin': True,
             'title': 'wsadmin',
-            'description': u'Here we could have a nice status of this person',
+            'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsadmin',
             'cls': 'has-description',
@@ -117,7 +117,7 @@ class TestEditRoster(BaseTestCase):
             'member': True,
             'admin': False,
             'title': 'wsmember',
-            'description': u'Here we could have a nice status of this person',
+            'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsmember',
             'cls': 'has-description',

@@ -9,7 +9,6 @@ from zope.annotation import IAnnotations
 from zope.component import getUtility
 
 from collective.workspace.interfaces import IWorkspace
-from ploneintranet.workspace import MessageFactory as _
 from urllib2 import urlparse
 import config
 import mimetypes
@@ -88,7 +87,7 @@ def existing_users(context):
         user = user.getUser()
         title = user.getProperty('fullname') or user.getId() or userid
         # XXX tbd, we don't know what a persons description is, yet
-        description = _(u'Here we could have a nice status of this person')
+        description = ''
         classes = description and 'has-description' or 'has-no-description'
         portal = api.portal.get()
         portrait = '%s/@@avatars/%s' % \
