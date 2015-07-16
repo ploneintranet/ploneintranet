@@ -229,7 +229,7 @@ class NewPostBoxTile(Tile):
         if 'thread_id' in self.request.form:
             placeholder = _(
                 u"leave_a_comment",
-                default=u"Leave a comment"
+                default=u"Leave a comment..."
             )
         else:
             placeholder = _(
