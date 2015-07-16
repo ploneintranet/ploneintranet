@@ -55,6 +55,7 @@ Esmeralda can reply to a reply
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+     And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 Member can reply to a reply in a workspace
@@ -65,6 +66,7 @@ Member can reply to a reply in a workspace
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 Member can mention a user
@@ -159,6 +161,11 @@ The reply is visible after a reload
     ${location} =  Get Location
     Go to    ${location}
     The reply is visibile as a comment  ${message}  ${reply_message}
+
+Both replies are visible
+    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
+    The reply is visibile as a comment  ${message}  ${reply_message1}
+    The reply is visibile as a comment  ${message}  ${reply_message2}
 
 Both replies are visible after a reload
     [arguments]  ${message}  ${reply_message1}  ${reply_message2}
