@@ -306,7 +306,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
-    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow'][contains(@href, '/document-in-subfolder')]
+    Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
     [arguments]  ${title}  ${start}  ${end}
@@ -433,17 +433,17 @@ I go to the dashboard
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I unselect the task check box
     [arguments]  ${title}
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Changes applied
+    Wait Until Page Contains  Task state changed
 
 I see a task is complete
     [arguments]  ${title}

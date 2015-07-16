@@ -208,6 +208,42 @@
       />
 
     <browser:page
+      name="panel-remove-user"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceMemberPicker"
+      template="templates/panel-remove-user.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="panel-change-role"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/panel-change-role.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="panel-member-role-actions"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/panel-member-role-actions.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="confirmation-remove-special-role"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/confirmation-remove-special-role.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
       name="allusers.json"
       for="*"
       class=".workspace.AllUsersJSONView"

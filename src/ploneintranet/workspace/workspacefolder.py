@@ -13,6 +13,7 @@ from ploneintranet import api as pi_api
 from zope import schema
 from zope.event import notify
 from zope.interface import implementer
+from .policies import PARTICIPANT_POLICY
 
 
 class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
@@ -150,6 +151,20 @@ class WorkspaceFolder(Container):
             description = MessageFactory(u'Here we could have a nice status of'
                                          u' this person')
             classes = description and 'has-description' or 'has-no-description'
+
+            role = None
+            for policy in PARTICIPANT_POLICY:
+                if policy == self.participant_policy:
+                    continue
+                if policy.title() in details['groups']:
+                    role = PARTICIPANT_POLICY[policy]['title']
+                    # According to the design there is at most one extra role
+                    # per user, so we go with the first one we find. This may
+                    # not be enforced in the backend though.
+                    break
+            if role:
+                classes += ' has-label'
+
             portrait = pi_api.userprofile.avatar_url(userid)
             info.append(
                 dict(
@@ -160,6 +175,7 @@ class WorkspaceFolder(Container):
                     cls=classes,
                     member=True,
                     admin='Admins' in details['groups'],
+                    role=role,
                 )
             )
 

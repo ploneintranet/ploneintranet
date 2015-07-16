@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <head>
+  </head>
+
+  <body tal:define="ws view/workspace;
+                    workspace_url ws/absolute_url;
+                    num_users python:len(request['user_id']);
+                    ">
+      <div id="content">
+        <div id="document-content" class="pat-modal">
+          <h1 i18n:translate="">
+              Change role
+          </h1>
+
+          <form class="pat-inject wizard-box" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" method="post"
+                tal:attributes="action string:${ws/absolute_url}/sidebar.settings.members">
+
+            <div class="panel-body">
+                <fieldset class="vertical">
+                    <label>
+                        <select name="role">
+                            <option tal:repeat="role view/roles" value="${role/id}" selected="${python:role['title'] == request.get('user_role', None) and 'selected' or None}">${role/title}</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <article tal:condition="python:num_users>1">
+                    <p i18n:translate="">
+                    You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)
+                    </p>
+                </article>
+
+                <fieldset class="pat-checklist" tal:condition="python:num_users>1">
+                    <label tal:repeat="user request/user_id">
+                        <input checked="checked" type="checkbox" name="user_id:list" value="${user}" class="focus">${user}
+                    </label>
+                </fieldset>
+                <input type="hidden" name="user_id:list" value="${user}" tal:condition="python:num_users<=1" tal:repeat="user request/user_id" />
+
+            </div>
+
+            <div class="buttons panel-footer">
+              <button name="batch-function" value="role" type="submit" class="icon-ok-circle close-panel" i18n:translate="">
+                  Change role
+              </button>
+              <button type="button" class="icon-cancel-circle close-panel" i18n:translate="">
+                  Cancel
+              </button>
+            </div>
+          <span tal:replace="structure context/@@authenticator/authenticator"/>
+          </form>
+
+        </div>
+      </div>
+  </body>
+</html>
