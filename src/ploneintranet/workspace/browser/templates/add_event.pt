@@ -2,7 +2,7 @@
   <h1 i18n:translate="">
     Create event
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-events; target: #workspace-events">
+  <form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-events; target: #workspace-events" data-pat-validate="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical">
@@ -24,7 +24,7 @@
     </div>
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle close-panel focus" i18n:translate="" i18n:domain="plone">
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="" i18n:domain="plone">
         Create
       </button>
       <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel" i18n:translate="" i18n:domain="plone">

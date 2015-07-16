@@ -39,7 +39,7 @@
                                 <a href="${context/absolute_url}/delete_confirmation#content" title="Delete this event" i18n:attributes="title" i18n:translate="" data-pat-inject="source: #content" class="pat-modal icon-trash iconified">
                                     Delete
                                 </a>
-                                <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
+                                <a tal:condition="nothing" href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
                                     Attachments
                                 </a>
                                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
