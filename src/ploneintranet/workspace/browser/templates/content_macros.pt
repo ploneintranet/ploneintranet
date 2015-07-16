@@ -53,7 +53,7 @@
     </metal:task_fields>
 
     <metal:event_fields define-macro="event_fields"
-                        tal:define="read_only python:False">
+                        tal:define="read_only python:not view.can_edit">
 
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 

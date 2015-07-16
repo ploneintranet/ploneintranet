@@ -6,7 +6,6 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.i18n.normalizer import idnormalizer
-from plone.memoize.instance import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -69,7 +68,6 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
-    @memoize
     def can_add(self):
         """
         Is this user allowed to add content?
@@ -81,20 +79,30 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
-    @memoize
     def can_edit(self):
         """
         Is this user allowed to add content?
-        Cave. We don't use the plone.app.contenttypes per-type permissions.
-        Our workflows don't map those, only cmf.ModifyPortalContent.
         """
         return api.user.has_permission(
             "Modify portal content",
             obj=self.context,
         )
 
+    def can_delete(self, obj=None):
+        ''' Is this user allowed to delete an object?
+        '''
+        if obj is None:
+            obj = self.context
+        elif hasattr(obj, 'getObject'):
+            obj = obj.getObject()
+        return api.user.has_permission(
+            "Delete objects",
+            obj=obj,
+        )
+
 
 class SidebarSettingsMembers(BaseTile):
+
     """
     A view to serve as the member roster in the sidebar
     """
@@ -123,7 +131,6 @@ class SidebarSettingsMembers(BaseTile):
         users.sort(key=lambda x: safe_unicode(x['title']))
         return users
 
-    @memoize
     def existing_users(self):
         return self.workspace().existing_users()
 
@@ -147,6 +154,7 @@ class SidebarSettingsMembers(BaseTile):
 
 
 class SidebarSettingsSecurity(BaseTile):
+
     """
     A view to serve as the security settings in the sidebar
     """
@@ -207,6 +215,7 @@ class SidebarSettingsSecurity(BaseTile):
 
 
 class SidebarSettingsAdvanced(BaseTile):
+
     """
     A view to serve as the advanced config in the sidebar
     """
@@ -809,7 +818,6 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
-    @memoize
     def grouping(self):
         """
         Return the user selected grouping
@@ -819,7 +827,6 @@ class Sidebar(BaseTile):
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
-    @memoize
     def sorting(self):
         """
         Return the user selected sorting
