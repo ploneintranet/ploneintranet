@@ -94,8 +94,8 @@
             </tal:item>
           </fieldset>
           <div class="button-bar bottom form-submit pat-bumper" style="position: relative;">
-            <button type="submit" class="close-panel">Save</button>
-            <button type="reset" class="close-panel">Cancel</button>
+            <button type="submit" class="close-panel" i18n:translate="">Save</button>
+            <button type="reset" class="close-panel" i18n:translate="">Cancel</button>
           </div>
         </form>
         <form action="./">
