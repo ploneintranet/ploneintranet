@@ -282,15 +282,10 @@ class Sidebar(BaseTile):
                     else:
                         if state == "done":
                             obj.reopen()
-                api.portal.show_message(
-                    _(u'Task state changed'), self.request, 'success')
-                # msg = ViewPageTemplateFile(
-                #     '../templates/globalstatusmessage.pt')
-                # return msg(self)
 
             # Do the property editing. Edits only if there is something to edit
             # in form
-            if self.can_manage_workspace() and form:
+            elif self.can_manage_workspace() and form:
                 modified, errors = dexterity_update(self.context)
 
                 if modified and not errors:
