@@ -15,7 +15,7 @@
         
         <div class="panel-body">
             <article>
-              <p>
+              <p i18n:translate="">
                 The app that you selected is not available yet, but will be enabled in the near future. 
               </p>
             </article>
