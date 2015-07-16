@@ -6,7 +6,8 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="ploneintranet">
 
-<body metal:fill-slot="main">
+    <body class="view-secure">
+        <metal:content fill-slot="content">
 
       <h1 i18n:translate="">
         Notifications
@@ -43,5 +44,6 @@
         </p>
       </div>
 
+      </metal:content>
   </body>
 </html>

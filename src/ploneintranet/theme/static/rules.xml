@@ -122,9 +122,8 @@
 
   <rules css:if-content="body.template-notifications">
     <theme href="generated/notifications.html" />
-    <drop css:theme-children="#document-content" />
-    <append css:content-children="#content"
-            css:theme="#document-content" />
+    <drop css:theme-children="div.container" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
   </rules>
 
   <rules css:if-content="body.template-search,
