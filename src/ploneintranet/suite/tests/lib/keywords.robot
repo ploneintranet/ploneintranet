@@ -193,8 +193,8 @@ I can delete an old event
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
     Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
     Click Element  css=div#older-events button[type='submit']
-    Wait Until Page Contains  Do you really want to delete this item
-    Click Button  css=#form-buttons-Delete
+    Wait Until Page Contains  You are about to delete this Event.
+    Click Button  css=.pat-modal *[type=submit]
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -419,13 +419,13 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Click Button  Delete
+    Click Button  css=*[type=submit]
     Page Should Contain  has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Click Button  Delete
+    Click Button  css=*[type=submit]
     Page Should Contain  has been deleted
 
 I go to the dashboard
