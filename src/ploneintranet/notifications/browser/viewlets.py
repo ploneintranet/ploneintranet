@@ -14,7 +14,7 @@ class NotificationsViewlet(base.ViewletBase):
         user = api.user.get_current()
         # TODO a zope user like admin will fail from here
         try:
-            channel = AllChannel(user)
+            channel = AllChannel(user.getUserId())
             count = channel.get_unread_count()
         except AttributeError:
             # AttributeError: getUserId

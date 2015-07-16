@@ -32,6 +32,7 @@
   <!-- insert the breadcrumbs into the header bar -->
   <replace css:content-children="#breadcrumbs"
            css:theme-children="nav.breadcrumbs" />
+
   <replace css:content="#notification-link"
            css:theme="#notification-link" />
   <before css:content="#root-zope-user-warning"
@@ -119,6 +120,12 @@
     <append css:content-children="#portal-column-content #main" css:theme="div.columns" />
   </rules>
 
+  <rules css:if-content="body.template-notifications">
+    <theme href="generated/notifications.html" />
+    <drop css:theme-children="div.container" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
+  </rules>
+
   <rules css:if-content="body.template-search,
                          body.template-search_images,
                          body.template-search_people,
@@ -170,7 +177,7 @@
 
   <notheme css:if-content="body.diazo.off"/>
 
-  <!-- These 3 rules are only needed untill these functionalities will be complete -->
+  <!-- These rules are only needed
+       until these functionalities are complete -->
   <drop css:theme="header #buddies-toggle" />
-  <drop css:theme="header #notification-link" />
 </rules>
