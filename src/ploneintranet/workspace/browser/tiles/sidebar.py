@@ -167,14 +167,12 @@ class SidebarSettingsMembers(BaseTile):
                     )
                 elif batch_function == 'role':
                     role = self.request.get('role')
-                    default_role = ws.participant_policy.title()
-                    groups = [default_role]
                     if role:
-                        groups.append(role)
+                        groups = {role}
+                    else:
+                        groups = None
                     for user_id in user_ids:
-                        membership = IWorkspace(ws).membership_factory(
-                            ws, IWorkspace(ws).members[user_id])
-                        membership.groups = groups
+                        IWorkspace(ws).add_to_team(user=user_id, groups=groups)
                     api.portal.show_message(
                         _(u'Role updated'),
                         self.request,
