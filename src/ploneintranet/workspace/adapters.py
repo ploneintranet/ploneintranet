@@ -64,7 +64,11 @@ class PloneIntranetWorkspace(Workspace):
         - an oddity from collective.workspace
         """
         data = kw.copy()
-        if not data.get('groups'):
+        groups = data.get('groups', [])
+        if 'Members' in groups:
+            # Members is an automatic group - ignore
+            groups.remove('Members')
+        if not groups:
             # Put user in the default policy group if none provided
             default_group = self.context.participant_policy.title()
             data["groups"] = set([default_group])
