@@ -234,7 +234,6 @@ class Sidebar(BaseTile):
         form = self.request.form
 
         if self.request.method == 'POST' and form:
-            self.form_submitted = True
             ws = self.workspace()
             self.set_grouping_cookie()
             wft = api.portal.get_tool("portal_workflow")
@@ -262,9 +261,9 @@ class Sidebar(BaseTile):
                             obj.reopen()
                 api.portal.show_message(
                     _(u'Changes applied'), self.request, 'success')
-                # msg = ViewPageTemplateFile(
-                #     '../templates/globalstatusmessage.pt')
-                # return msg(self)
+                msg = ViewPageTemplateFile(
+                    '../templates/globalstatusmessage.pt')
+                return msg(self)
             else:
                 if form.get('title'):
                     title = safe_unicode(form.get('title')).strip()
@@ -294,11 +293,8 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
-        open_item_url = 'PARENT_REQUEST' in self.request and \
-            self.request.get('PARENT_REQUEST')['ACTUAL_URL']
-        if open_item_url:
-            return open_item_url in [task['url'] for task in milestone_tasks]
-        return False
+        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+        return open_item_url in [task['url'] for task in milestone_tasks]
 
     def logical_parent(self):
         """
