@@ -412,7 +412,7 @@ I can create a new event
     Click Button  css=#form-buttons-create
 
 I can edit an event
-    [arguments]  ${title}  ${start}  ${end}
+    [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Reload Page
     Click link  Events
     Click Element  xpath=//h3[text()='Older events']
@@ -420,7 +420,11 @@ I can edit an event
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
+    Select From List  timezone  ${timezone}
     Click Button  Save
+    Wait Until Page Contains Element  css=div.event-details
+    Textfield Value Should Be  start  ${start}
+    List selection should be  timezone  ${timezone}
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20

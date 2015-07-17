@@ -17,6 +17,14 @@
       />
 
   <browser:page
+    name="content_helper_view"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    class=".baseviews.HelperView"
+    permission="zope.Public"
+  />
+
+  <browser:page
       for="plone.app.contenttypes.interfaces.IDocument"
       name="edit"
       class=".document.EditView"
@@ -73,6 +81,7 @@
   <adapter factory=".widgets.CommaSeparatedFieldWidget" />
 
   <adapter factory=".widgets.PatDatePickerConverter" />
+  <adapter factory=".widgets.PatDatePickerDataConverter" />
   <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
   <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
 
