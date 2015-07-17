@@ -59,9 +59,6 @@ class BaseTestCase(unittest.TestCase):
         :rtype: None
 
         """
-        if groups is None:
-            groups = set([])
-
         IWorkspace(workspace).add_to_team(
             user=username,
             groups=groups,

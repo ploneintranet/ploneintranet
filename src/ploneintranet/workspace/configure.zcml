@@ -44,14 +44,6 @@
      handler=".subscribers.workspace_state_changed"
      />
 
-  <!-- Subscribe to ParticipationPolicyChangedEvent in order to
-       update existing users-->
-  <subscriber
-     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
-          ploneintranet.workspace.interfaces.IParticipationPolicyChangedEvent"
-     handler=".subscribers.participation_policy_changed"
-     />
-
   <!-- Subscribe to accepted token event which is fired
        when user clicks on the link in received email-->
   <subscriber

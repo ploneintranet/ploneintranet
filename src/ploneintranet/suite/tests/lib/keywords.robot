@@ -62,8 +62,16 @@ I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
 
+I am in a Producers workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Open Parliamentary Papers Guidance Workspace
+
 I am in a Consumers workspace as a workspace member
     I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+
+I am in a Consumers workspace as a workspace admin
+    I am logged in as the user christian_stoney
     I go to the Shareholder Information Workspace
 
 I am in a workspace as a workspace admin
@@ -161,7 +169,7 @@ I can open the workspace security settings tab
 I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
-    Wait until page contains  Members
+    Wait until page contains element  css=#member-list
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
@@ -232,6 +240,63 @@ I can invite Alice to the workspace
     Click Element  css=span.select2-match
     Click Button  Ok
 
+I give the Consumer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Consumers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
+
+I give the Producer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Producers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains  Role updated
+    Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I give the Admin role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Admins
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
+
+I can remove the Producer role from Allan
+    I can open the workspace member settings tab
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains  Remove special role
+    Click Link  Remove special role
+    Click Button  I am sure, remove role now
+    Wait until page contains  Role updated
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I can change Allan's role to Moderator
+    I can open the workspace member settings tab
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Select From List  css=select[name=role]  Moderators
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Moderate']
+
+I can remove Allan from the workspace members
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Remove
+    Wait until page contains element  css=.pat-modal button[type=submit]
+    Click Button  Ok
+    Wait until page contains  Member(s) removed
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
+
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
 
@@ -255,6 +320,12 @@ I can search for items
     Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
+I see the option to create a document
+    Click link  Documents
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
 
 I can create a new document
     [arguments]  ${title}
@@ -391,6 +462,11 @@ I cannot see the document
     [arguments]  ${title}
     Click link  Documents
     Page should not contain  ${title}
+
+Allan has the option to create a document
+    I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+    I see the option to create a document
 
 # *** workspace and case content related keywords ***
 

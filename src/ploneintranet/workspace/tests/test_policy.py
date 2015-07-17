@@ -6,6 +6,7 @@ from ploneintranet.workspace.browser.add_content import AddContent
 from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
 from zope.annotation.interfaces import IAnnotations
+from collective.workspace.interfaces import IWorkspace
 
 
 class TestPolicy(BaseTestCase):
@@ -240,6 +241,62 @@ class TestPolicy(BaseTestCase):
         self.assertNotIn(
             'Reviewer',
             api.user.get_roles(username=username, obj=workspace)
+        )
+
+    def test_policy_exceptions(self):
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace'
+        )
+        # set default policy to producers
+        workspace.participant_policy = 'producers'
+
+        # create some members and add to workspace
+        username = 'member_username'
+        username2 = 'member_username2'
+        api.user.create(username=username, email='test@test.com')
+        self.add_user_to_workspace(username, workspace)
+        api.user.create(username=username2, email='test@test.com')
+        self.add_user_to_workspace(username2, workspace)
+
+        # Make an exception of username2
+        # by moving them to a non-default group
+        IWorkspace(workspace).add_to_team(username2, groups={'Consume'})
+
+        group = api.group.get('Producers:' + api.content.get_uuid(workspace))
+        # username should be in the default group
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
+        # username two should *not* be in the default group
+        self.assertNotIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
+        )
+
+        # update default policy
+        workspace.participant_policy = 'moderators'
+
+        group = api.group.get('Moderators:' + api.content.get_uuid(workspace))
+        # username should have been moved to the new group
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
+        # username2 two should *not* be in the new default group
+        self.assertNotIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
+        )
+
+        # remove username2 as an exception by re-setting their groups
+        IWorkspace(workspace).add_to_team(username2)
+        self.assertIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
         )
 
     def test_role_adapter(self):
