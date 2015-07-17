@@ -9,20 +9,20 @@
 
     <div id="content">
       <div id="document-content" class="pat-modal">
-        <h1>
+        <h1 i18n:translate="">
             App not available
         </h1>
         
         <div class="panel-body">
             <article>
-              <p>
+              <p i18n:translate="">
                 The app that you selected is not available yet, but will be enabled in the near future. 
               </p>
             </article>
         </div>
         
         <div class="buttons panel-footer">
-          <button type="submit" class="close-panel icon-ok-circle">
+          <button type="submit" class="close-panel icon-ok-circle" i18n:translate="">
               Alright
           </button>                                    
         </div>    
