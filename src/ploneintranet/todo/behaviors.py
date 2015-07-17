@@ -1,6 +1,6 @@
 from plone.directives import form
 from zope.interface import alsoProvides, Interface
-from zope.schema import Bool, Choice, Date, TextLine
+from zope.schema import Bool, Choice, Date, TextLine, Text
 
 from . import _
 from .vocabularies import todo_priority
@@ -35,6 +35,12 @@ class IMustReadMarker(Interface):
 class ITodo(form.Schema):
     """Todo schema
     """
+
+    description = Text(
+        title=u"Long description",
+        required=False
+    )
+
     initiator = TextLine(
         title=_(u"Initiator"),
         description=_("The user (or group) who requested this task"),
