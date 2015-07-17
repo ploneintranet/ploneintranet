@@ -25,6 +25,7 @@ from ...utils import map_content_type
 from ...utils import set_cookie
 from ...basecontent.utils import dexterity_update
 import logging
+from ploneintranet.todo.utils import update_task_status
 
 log = logging.getLogger(__name__)
 
@@ -269,33 +270,14 @@ class Sidebar(BaseTile):
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
-            wft = api.portal.get_tool("portal_workflow")
+            # wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
 
             # Do the workflow transitions based on what tasks the user checked
             # or unchecked
             if section == 'task':
-                current_tasks = self.request.form.get('current-tasks', [])
-                active_tasks = self.request.form.get('active-tasks', [])
-
-                catalog = api.portal.get_tool('portal_catalog')
-                brains = catalog(UID={'query': current_tasks,
-                                      'operator': 'or'})
-                for brain in brains:
-                    obj = brain.getObject()
-                    state = wft.getInfoFor(obj, 'review_state')
-                    if brain.UID in active_tasks:
-                        if state in ["open", "planned"]:
-                            api.content.transition(obj, "finish")
-                    else:
-                        if state == "done":
-                            obj.reopen()
-                api.portal.show_message(
-                    _(u'Task state changed'), self.request, 'success')
-                msg = ViewPageTemplateFile(
-                    '../templates/globalstatusmessage.pt')
-                return msg(self)
+                update_task_status(self)
 
             # Do the property editing. Edits only if there is something to edit
             # in form
@@ -323,8 +305,11 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
-        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
-        return open_item_url in [task['url'] for task in milestone_tasks]
+        if 'PARENT_REQUEST' in self.request:
+            # Only check if this is a tile subrequest
+            open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+            return open_item_url in [task['url'] for task in milestone_tasks]
+        return False
 
     def logical_parent(self):
         """

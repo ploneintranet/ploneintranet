@@ -542,32 +542,34 @@ I go to the dashboard
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I unselect the task check box
     [arguments]  ${title}
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see a task is complete
     [arguments]  ${title}
-    Checkbox Should Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Checkbox Should Be Selected  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I see a task is open
     [arguments]  ${title}
-    Checkbox Should Not Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon
 
 I can go to the sidebar tasks tile of my case
     Click Link  link=Tasks
-    Wait Until Page Contains  Unassigned
+    Wait Until Page Contains  General tasks
 
 I can add a new task
     [arguments]  ${title}
@@ -586,7 +588,7 @@ I can add a new task
 I can close the first milestone
     Click Element  xpath=//h4[text()='New']
     Click Link  Close milestone
-    Page Should Contain  Item state changed
+    Page Should Contain  Reopen milestone
 
 I can toggle a milestone
     [arguments]  ${milestone}
