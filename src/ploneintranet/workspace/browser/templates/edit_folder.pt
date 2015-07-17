@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+<h1 i18n:translate="">
+    Change folder title and description
+</h1>
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: nav.breadcrumbs; target: nav.breadcrumbs" data-pat-validate="disable-selector:#form-buttons-edit">
+  <div class="panel-body">
+    <fieldset class="vertical">
+        <input type="text" name="title" required="required" autofocus tal:attributes="value context/Title|nothing"/>
+        <textarea name="description" rows="6" tal:content="context/Description|nothing"></textarea>
+    </fieldset>
+  </div>
+  <div class="buttons panel-footer">
+      <span tal:replace="structure context/@@authenticator/authenticator"/>
+      <button id="form-buttons-edit" name="form.buttons.edit" type="submit" value="Edit" i18n:translate="" class="icon-ok-circle focus close-panel">
+          Edit
+      </button>
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">
+          Cancel
+      </button>
+  </div>
+</form>
+</html>

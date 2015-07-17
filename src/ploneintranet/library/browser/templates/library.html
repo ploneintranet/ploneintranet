@@ -62,6 +62,7 @@
 	<div class="icons">
 		<!-- Link to external CMS -->
 		<a href="@@switch_theme"
+                   tal:condition="view/can_edit"
                    tal:attributes="href string:${context/absolute_url}/@@switch_theme"
                    class="icon create"
                    title="Create a new page or section">Create page or section</a>
@@ -126,7 +127,7 @@
                    tal:define="portal_type child/context/portal_type">
                   <em class="read-more"
                       i18n:translate="read-more"
-                      tal:condition="python:portal_type != 'File'">Read more…</em>
+                      tal:condition="python:portal_type != 'File'">Read more...</em>
                   <em class="read-more"
                       i18n:translate="download"
                       tal:condition="python:portal_type == 'File'">Download</em>

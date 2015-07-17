@@ -140,9 +140,9 @@ class NewPostBoxTile(Tile):
         """
         if not (self.post_text or self.post_attachment):
             return
-        post = StatusUpdate(
+        post = piapi.microblog.statusupdate.create(
             text=self.post_text,
-            context=self.post_context,
+            microblog_context=self.post_context,
             thread_id=self.thread_id,
             mention_ids=self.post_mentions,
             tags=self.post_tags,
@@ -226,14 +226,37 @@ class NewPostBoxTile(Tile):
     @property
     @memoize
     def placeholder(self):
-        return self.context.translate(
-            _(u"add_statusupdate_button",
-              default=u"What are you doing?"))
+        if 'thread_id' in self.request.form:
+            placeholder = _(
+                u"leave_a_comment",
+                default=u"Leave a comment..."
+            )
+        else:
+            placeholder = _(
+                u"add_statusupdate_button",
+                default=u"What are you doing?"
+            )
+        return self.context.translate(placeholder)
 
     def get_pat_inject(self, form_id, thread_id):
+        ''' This will return the a string to fill the
+        data-pat-inject attribute
+
+        It varies according to the fact we are creating:
+         - a status update (no thread_id)
+         - a comment to the status update
+        '''
         if not thread_id:
             return (
                 'source: #activity-stream; '
                 'target: #activity-stream .activities::before && #%s'
             ) % form_id
-        return 'target: #comments-%s' % thread_id
+        return (
+            'source: #comment-trail-%(thread_id)s; '
+            'target: #new-comment-%(thread_id)s ::element::before '
+            '&& '
+            'source: #microblog-%(thread_id)s; '
+            'target: #microblog-%(thread_id)s; '
+        ) % {
+            'thread_id': thread_id,
+        }

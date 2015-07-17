@@ -3,16 +3,14 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet.notifications">
 
-  <!--
-      These views are disabled for now, as the implementation
-      is incomplete and missing any security considerations
+  <include package="ploneintranet.layout" file="permissions.zcml" />
 
   <browser:page
-      for="*"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="notifications"
       class=".notifications.NotificationsView"
       template="notifications.pt"
-      permission="zope2.View"
+      permission="ploneintranet.viewsite"
       layer=".interfaces.IPloneintranetNotificationsLayer"
       />
 
@@ -20,10 +18,9 @@
       name="ploneintranet.notifications.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       class=".viewlets.NotificationsViewlet"
-      permission="zope.Public"
+      permission="ploneintranet.viewsite"
       template="notificationsviewlet.pt"
       layer=".interfaces.IPloneintranetNotificationsLayer"
       />
-  -->
 
 </configure>

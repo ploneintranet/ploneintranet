@@ -10,6 +10,7 @@ from ploneintranet.workspace import MessageFactory as _
 from zope.component import getMultiAdapter
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
 from ploneintranet.workspace.utils import existing_users
+from ..policies import PARTICIPANT_POLICY
 
 
 class EditRoster(BaseWorkspaceView):
@@ -136,3 +137,22 @@ class WorkspaceMemberPicker(EditRoster):
     """
     A modal with a user picker to select new members
     """
+
+
+class WorkspaceChangeRole(EditRoster):
+    """
+    A modal for changing the roles of users
+    """
+    def roles(self):
+        ws_policy = self.context.participant_policy
+        title = (_('Default role for this workspace')
+                 + ' ({})'.format(PARTICIPANT_POLICY[ws_policy]['title']))
+        yield {'id': ws_policy.title(),
+               'title': title}
+        for policy_id, policy_info in PARTICIPANT_POLICY.items():
+            if policy_id == ws_policy:
+                continue
+            yield {'id': policy_id.title(),
+                   'title': policy_info['title']}
+        yield {'id': 'Admins',
+               'title': _(u'Workspace Administrator')}

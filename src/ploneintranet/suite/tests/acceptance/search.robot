@@ -32,8 +32,7 @@ Allan can search and filter by content type
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
     Then I can exclude content of type Page
-    And I cannot see the search result Minutes Overview
-    And I can see the search result Minutes
+    And the search results do not contain /manage-information/minutes-overview
 
 Allan can search and filter by date
     Given I am logged in as the user allan_neece
@@ -82,8 +81,9 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
 
 I can exclude content of type ${CONTENT_TYPE}
     Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
-    Select From List By Value  css=select[name="created"]  today
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=today"]
+
+The search results do not contain ${STRING_IN_SEARCH_RESULTS}
+    Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
 
 I can set the date range to ${DATE_RANGE_VALUE}
     Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}

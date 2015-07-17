@@ -7,6 +7,10 @@ from persistent import Persistent
 from persistent.list import PersistentList
 from zope.interface import implements
 import logging
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.interface import alsoProvides
+from zope.globalrequest import getRequest
+
 
 logger = logging.getLogger(__name__)
 
@@ -27,12 +31,13 @@ class Queues(Persistent, Explicit):
     def clear(self):
         self._users = OOBTree.OOBTree()
 
-    def get_user_queue(self, user):
-        userid = user.getUserId()
+    def get_user_queue(self, userid):
         if userid not in self._users:
+            request = getRequest()
+            if request is not None:
+                alsoProvides(request, IDisableCSRFProtection)
             self._users[userid] = PersistentList()
         return self._users[userid]
 
-    def del_user_queue(self, user):
-        userid = user.getUserId()
+    def del_user_queue(self, userid):
         del self._users[userid]

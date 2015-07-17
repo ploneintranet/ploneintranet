@@ -53,7 +53,7 @@
     </metal:task_fields>
 
     <metal:event_fields define-macro="event_fields"
-                        tal:define="read_only python:False">
+                        tal:define="read_only python:not view.can_edit">
 
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
@@ -62,7 +62,7 @@
       </label>
       <br/>
       <label class="organiser">
-        <span tal:omit-tag="" i18n:translate="">Organiser</span> <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing"/>
+        <span tal:omit-tag="" i18n:translate="">Organizer</span> <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing"/>
       </label>
       <br/>
       <fieldset class="pat-checklist options">
@@ -70,10 +70,10 @@
           <input name="whole_day" tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/>
           <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
-        <br/>
+<!--        <br/>
         <label>
-          <input name="calendar_visible" type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
-        </label>
+          <input type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
+        </label> -->
       </fieldset>
       <br/>
       <fieldset class="group date-time">
@@ -82,10 +82,10 @@
             <legend i18n:translate="">From</legend>
 
             <div class="row"
-                 tal:define="start context/start | nothing">
+                 tal:define="start context/start | view/default_start">
               <label class="six columns">
 
-                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="start" placeholder="Time"
@@ -98,9 +98,9 @@
           <fieldset class="group six columns">
             <legend i18n:translate="">To</legend>
             <div class="row"
-                 tal:define="end context/end | nothing">
+                 tal:define="end context/end | view/default_end">
               <label class="six columns">
-                <input type="date" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
@@ -125,7 +125,7 @@
              data-pat-autosuggest-classes=''/>
 
 
-      <span class="legend">
+      <span class="legend" tal:condition="nothing">
         <dfn class="undecided" i18n:translate="">Undecided</dfn>
         <dfn class="confirmed" i18n:translate="">Confirmed</dfn>
         <dfn class="tentative" i18n:translate="">Tentative</dfn>

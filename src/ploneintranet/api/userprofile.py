@@ -86,16 +86,9 @@ def create(
         chars = string.ascii_letters + string.digits
         password = ''.join(random.choice(chars) for x in range(12))
 
-    # Look up the profiles container; Create if none
-    try:
-        profile_container = portal.contentValues(
-            {'portal_type': "ploneintranet.userprofile.userprofilecontainer"}
-        )[0]
-    except IndexError:
-        profile_container = plone_api.content.create(
-            title="Profiles",
-            type="ploneintranet.userprofile.userprofilecontainer",
-            container=portal)
+    profile_container = portal.contentValues(
+        {'portal_type': "ploneintranet.userprofile.userprofilecontainer"}
+    )[0]
 
     if properties is None:
         # Avoids using dict as default for a keyword argument.

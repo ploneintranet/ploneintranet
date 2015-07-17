@@ -11,7 +11,7 @@ import transaction
 import loremipsum
 from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
-from datetime import datetime, timedelta
+from datetime import timedelta
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
@@ -25,9 +25,29 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from plone.app.event.base import localized_now
 
 
 log = logging.getLogger(__name__)
+
+# commits are needed in interactive but break in test mode
+if api.env.test_mode:
+    commit = lambda: None
+else:
+    commit = transaction.commit
+
+
+def default(context):
+    """
+
+    """
+    if context.readDataFile('ploneintranet.suite_default.txt') is None:
+        return
+    log.info("default setup")
+
+    cleanup_default_content(context)
+    commit()
+    log.info("default setup: done.")
 
 
 def testing(context):
@@ -39,12 +59,6 @@ def testing(context):
     if context.readDataFile('ploneintranet.suite_testing.txt') is None:
         return
     log.info("testcontent setup")
-
-    # commits are needed in interactive but break in test mode
-    if api.env.test_mode:
-        commit = lambda: None
-    else:
-        commit = transaction.commit
 
     log.info("create_users")
     users = users_spec(context)
@@ -85,6 +99,19 @@ def testing(context):
     commit()
 
     log.info("done.")
+
+
+def cleanup_default_content(context):
+    """ Remove default content created by Plone for an empty site,
+        we don't need it. """
+
+    log.info('cleanup Plone default content')
+    portal = api.portal.get()
+    delete_ids = ['front-page', 'news', 'events', 'Members']
+    default_content = [portal.get(c) for c in delete_ids
+                       if c in portal.objectIds()]
+    api.content.delete(objects=default_content)
+    log.info('removed Plone default content')
 
 
 def users_spec(context):
@@ -183,8 +210,7 @@ def create_users(context, users, avatars_dir, force=False):
 
 
 def workspaces_spec(context):
-    now = datetime.now()
-
+    now = localized_now()
     budget_proposal_filename = u'budget-proposal.png'
     budget_proposal_path = os.path.join('images', budget_proposal_filename)
     budget_proposal_img = NamedBlobImage(
@@ -410,7 +436,7 @@ def create_workspaces(workspaces, force=False):
 
 
 def caseworkspaces_spec(context):
-    now = datetime.now()
+    now = localized_now()
     caseworkspaces = [{
         'title': 'Example Case',
         'description': 'A case management workspace demonstrating the '
@@ -631,12 +657,13 @@ def create_stream(context, stream, files_dir):
     microblog.clear()
     for status in stream:
         kwargs = {}
-        if status['context']:
-            if status['context'] not in contexts_cache:
-                contexts_cache[status['context']] = api.content.get(
-                    path='/' + decode(status['context']).lstrip('/')
+        microblog_context = status['microblog_context']
+        if microblog_context:
+            if microblog_context not in contexts_cache:
+                contexts_cache[microblog_context] = api.content.get(
+                    path='/' + decode(microblog_context).lstrip('/')
                 )
-            kwargs['context'] = contexts_cache[status['context']]
+            kwargs['microblog_context'] = contexts_cache[microblog_context]
         status_obj = StatusUpdate(status['text'], **kwargs)
         status_obj.userid = status['user']
         status_obj.creator = api.user.get(

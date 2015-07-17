@@ -9,13 +9,13 @@
 
 <body>
 
-    <metal:content metal:fill-slot="content"
-        tal:define="workspace python:view.workspace;
-                    workspace_url python:workspace.absolute_url();
-                    workspace_id python:workspace.id;
-                    read_only python:not view.can_edit">
-    <div id="content" 
-         tal:define="type workspace/ws_type | string:workspace;" 
+    <metal:content metal:fill-slot="content">
+    <div id="content"
+         tal:define="workspace python:view.workspace;
+            workspace_url python:workspace.absolute_url();
+            workspace_id python:workspace.id;
+            read_only python:not view.can_edit;
+            type workspace/ws_type | string:workspace;"
          tal:attributes="class string:application page-type-${type} workspace-type-${type}">
 
         <h1 id="workspace-name">
@@ -32,14 +32,14 @@
                             <h1 class="doc-title" id="document-title" tal:content="context/title">
                                 Traces through Time data workshop
                             </h1>
-                            <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
+                            <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibility -->
                             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${python:context.__parent__.title}</button>
                             <input type="text" name="title" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                             <div class="quick-functions">
-                                <a href="${context/absolute_url}/delete_confirmation#content" title="Delete this event" i18n:attributes="title" i18n:translate="" data-pat-inject="source: #content" class="pat-modal icon-trash iconified">
+                                <a tal:condition="view/can_edit" href="${context/absolute_url}/delete_confirmation#content" title="Delete this event" i18n:attributes="title" i18n:translate="" data-pat-inject="source: #content" class="pat-modal icon-trash iconified">
                                     Delete
                                 </a>
-                                <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
+                                <a tal:condition="nothing" href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
                                     Attachments
                                 </a>
                                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
@@ -79,8 +79,8 @@
                            data-pat-autosuggest="ajax-data-type: json; ajax-search-index: id; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                             </fieldset> -->
                             <fieldset class="bar description">
-                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                             </fieldset>
+                                <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description" i18n:attributes="title placeholder">${context/description}</textarea>
+                            </fieldset>
 
                             <!-- <fieldset class="bar versioning">
                                 <label>

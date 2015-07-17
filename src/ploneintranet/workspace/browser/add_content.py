@@ -9,6 +9,7 @@ from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from DateTime import DateTime
 
 
 class AddContent(BrowserView):
@@ -17,6 +18,7 @@ class AddContent(BrowserView):
     """
 
     template = ViewPageTemplateFile('templates/add_content.pt')
+    can_edit = True
 
     def __call__(self, portal_type='', title=None):
         """Evaluate form and redirect"""
@@ -138,3 +140,27 @@ class AddEvent(AddContent):
         workspace = parent_workspace(self.context)
         return self.request.response.redirect(workspace.absolute_url() +
                                               '#workspace-events')
+
+    def default_start(self):
+        now = DateTime()
+        date = now.Date()
+        time = self.round_minutes(now.TimeMinutes())
+        result = DateTime(date + " " + time)
+        return result
+
+    def default_end(self):
+        now = DateTime()
+        date = now.Date()
+        time = self.round_minutes(now.TimeMinutes())
+        parts = time.split(":")
+        parts[0] = str(int(parts[0]) + 1)
+        result = DateTime(date + " " + parts[0] + ":" + parts[1])
+        return result
+
+    def round_minutes(self, time):
+        hours, minutes = time.split(":")
+        quarters = int(minutes) / 15 + 1
+        minutes = str(quarters * 15)
+        if minutes == "60":
+            minutes = "00"
+        return hours + ":" + minutes

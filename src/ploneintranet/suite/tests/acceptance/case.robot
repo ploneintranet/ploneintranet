@@ -83,6 +83,25 @@ Manager can mark a new task complete on dashboard
      Then I go to the dashboard
      Then I do not see the completed task is not listed
 
+## These tagging tests are intractable because the save confirmation
+## message is set OK but not displayed - no indicator of injection complete
+## is available that works for both tasks and documents/files/images
+#
+# Manager can tag a task
+#     Given I am in a case workspace as a workspace admin
+#     And I view the task
+#     And I tag the item
+#     And I view the task
+#     Then the metadata has the new tag
+
+# Member can tag a task with a tag suggestion
+#     Given I am in a case workspace as a workspace admin
+#     And I view the task
+#     And I tag the item
+#     And I clear the tag for an item
+#     And I tag the item with a suggestion
+#     Then the metadata has the new tag
+
 The manager can invite Alice to join the Example Case
     Given I am in a case workspace as a workspace admin
      Then I can open the workspace member settings tab

@@ -89,24 +89,6 @@ def workspace_added(ob, event):
         pc.setPolicyBelow('ploneintranet_policy')
 
 
-def participation_policy_changed(ob, event):
-    """ Move all the existing users to a new group """
-    workspace = IWorkspace(ob)
-    members = workspace.members
-
-    for userid in members:
-        groups = workspace.get(userid).groups
-        groups -= set([event.old_policy.title()])
-        groups.add(event.new_policy.title())
-        workspace.add_to_team(user=userid, groups=groups)
-
-    user = api.user.get_current()
-    log.info("%s changed policy on %s from %s to %s for %s members",
-             user.getId(), repr(ob),
-             event.old_policy.title(), event.new_policy.title(),
-             len(members))
-
-
 def invitation_accepted(event):
     """
     When an invitation is accepted, add the user to the team

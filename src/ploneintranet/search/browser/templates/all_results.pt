@@ -28,10 +28,10 @@
                     <!-- Only list content types in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="ctype search_response/facets/friendly_type_name">
-                    <input checked type="checkbox"
-                           name="friendly_type_name:list"
-                           tal:attributes="value ctype" />
-                    <span tal:replace="ctype" />
+                        <input checked type="checkbox"
+                               name="friendly_type_name:list"
+                               tal:attributes="value ctype">
+                        <span tal:replace="ctype"></span>
                     </label>
                 </fieldset>
                 <label>
@@ -68,7 +68,7 @@
                     <button type="button" class="pat-button deselect-all" 
 			    i18n:translate="">None</button>
                     </span>
-                    <legend i18n:translate="" tal:content="option_name/title">
+                    <legend i18n:translate="" tal:content="option_name/title"></legend>
                     <!-- Only list tags in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="value facet_values">
@@ -178,7 +178,7 @@
 		    </tal:nohighlights>
                     <a href="{{ result.url }}" class="link"
                        tal:attributes="href result/url"
-                       tal:content="result/path">
+                       tal:content="python:view.friendly_path(result.url)">
                     {{ result.url }}
                     </a>
                 </dd>

@@ -1,0 +1,3 @@
+<p id="root-zope-user-warning"
+   tal:condition="view/available"
+   i18n:translate="">You are a root Zope user. Please login as normal user.</p>
