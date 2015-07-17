@@ -12,8 +12,8 @@
       </em>
       <tal:workspaces repeat="workspace_id grouped_tasks">
         <tal:workspace define="workspace python:grouped_tasks[workspace_id]">
-          <form method="post" class="pat-autosubmit pat-inject"
-               tal:attributes="action string:${workspace/url}/@@sidebar.default#global-statusmessage">
+          <form method="post" class="pat-autosubmit pat-inject" data-pat-inject="source:#global-statusmessage; target:#global-statusmessage"
+                tal:attributes="action string:${workspace/url}/@@tasks.tile#global-statusmessage">
             <h3 tal:content="workspace/title"/>
 
             <fieldset class="task-list pat-checklist">
