@@ -148,6 +148,20 @@ Workflow from main to variants
 Translations and Releases
 -------------------------
 
+Location of the locales files in ploneintranet
+++++++++++++++++++++++++++++++++++++++++++++++
+
+The locales directory lives in:
+
+    ploneintranet/src/ploneintranet/core/locales/
+
+current pot files are
+
+- manual.pot *(currently empty, reserved for message ids not automatically added to the main .pot file)*
+- ploneintranet.pot
+- plonesocial.core.pot *(almost empty, legacy translations)*
+
+
 Versioning inside of transifex
 ++++++++++++++++++++++++++++++
 
