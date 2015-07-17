@@ -31,10 +31,10 @@ Allan can search and find multiple documents
 Allan can search and filter by content type
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
-    Then I can exclude content of type Page
-    And I cannot see the search result Minutes Overview
-    And I can see the search result Minutes
-
+    Unselect Checkbox  css=input[type="checkbox"][value="Page"]
+    Wait Until Keyword Succeeds  1  3  Page should not contain  /workspaces/open-market-committee/manage-information/minutes-overview
+    Wait until page contains  /workspaces/open-market-committee/manage-information/minutes/view
+    
 Allan can search and filter by date
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
@@ -79,11 +79,6 @@ I cannot see the search result ${SEARCH_RESULT_TITLE}
 I can follow the search result ${SEARCH_RESULT_TITLE}
     Click Link  link=${SEARCH_RESULT_TITLE}
     Page should contain  ${SEARCH_RESULT_TITLE}
-
-I can exclude content of type ${CONTENT_TYPE}
-    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
-    Select From List By Value  css=select[name="created"]  today
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=today"]
 
 I can set the date range to ${DATE_RANGE_VALUE}
     Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
