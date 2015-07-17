@@ -134,7 +134,7 @@ class BaseStatusContainer(Persistent, Explicit):
             status.id += 1
         self._idx_user(status)
         self._idx_tag(status)
-        self._idx_context(status)
+        self._idx_microblog_context(status)
         self._idx_threadid(status)
         self._idx_mentions(status)
         self._notify(status)
@@ -173,7 +173,7 @@ class BaseStatusContainer(Persistent, Explicit):
             # add status id to tag treeset
             self._tag_mapping[tag].insert(status.id)
 
-    def _idx_context(self, status):
+    def _idx_microblog_context(self, status):
         uuid = status._microblog_context_uuid
         if not uuid:
             return

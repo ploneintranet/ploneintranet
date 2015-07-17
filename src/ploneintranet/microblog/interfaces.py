@@ -34,7 +34,8 @@ class IStatusUpdate(Interface):
 
 
 class IContentStatusUpdate(IStatusUpdate):
-    ''' A Status Update about a content
+    '''A Status Update representing a content action
+    e.g. User has published a new document
     '''
 
 
