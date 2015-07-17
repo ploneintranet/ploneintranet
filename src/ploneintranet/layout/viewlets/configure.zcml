@@ -36,4 +36,21 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <browser:page
+        for="*"
+        name="breadcrumbs_view"
+        class=".navigation.OneLevelBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="*"
+        name="orig_breadcrumbs_view"
+        class="Products.CMFPlone.browser.navigation.PhysicalNavigationBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        />
+
 </configure>

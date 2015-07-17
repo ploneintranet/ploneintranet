@@ -44,7 +44,5 @@
         />
 
     <include package="z3c.jbot" file="meta.zcml" />
-    <browser:jbot directory="static/overrides"
-        layer=".interfaces.IThemeSpecific" />
 
 </configure>

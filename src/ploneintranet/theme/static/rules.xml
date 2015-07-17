@@ -142,8 +142,6 @@
     <theme href="generated/library.html" />
     <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
-    <!-- hide spurious breadcrumbs for now -->
-    <drop css:content="nav.breadcrumbs a:not(:first-child)" />
     <!-- hide tags for now -->
     <drop css:content="#viewlet-below-content #category" />
   </rules>
@@ -155,8 +153,6 @@
     <theme href="generated/synode/index.html" />
     <replace css:theme="#content .container"
              css:content="#portal-column-content .container"/>
-    <!-- hide spurious breadcrumbs for now -->
-    <drop css:content="nav.breadcrumbs a:not(:first-child)" />
     <!-- hide tags for now -->
     <drop css:content="#viewlet-below-content #category" />
   </rules>

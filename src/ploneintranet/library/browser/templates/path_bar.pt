@@ -1,6 +1,0 @@
-<nav id="breadcrumbs" class="breadcrumbs" role="navigation"
-         i18n:domain="plone"
-         tal:define="breadcrumbs view/breadcrumbs">
-
-         <a class="current" href="#"></a>
-</nav>
