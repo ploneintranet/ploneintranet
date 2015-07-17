@@ -25,6 +25,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from pytz import utc
 
 
 log = logging.getLogger(__name__)
@@ -209,8 +210,7 @@ def create_users(context, users, avatars_dir, force=False):
 
 
 def workspaces_spec(context):
-    now = datetime.now()
-
+    now = datetime.now(utc)
     budget_proposal_filename = u'budget-proposal.png'
     budget_proposal_path = os.path.join('images', budget_proposal_filename)
     budget_proposal_img = NamedBlobImage(
@@ -436,7 +436,7 @@ def create_workspaces(workspaces, force=False):
 
 
 def caseworkspaces_spec(context):
-    now = datetime.now()
+    now = datetime.now(utc)
     caseworkspaces = [{
         'title': 'Example Case',
         'description': 'A case management workspace demonstrating the '
