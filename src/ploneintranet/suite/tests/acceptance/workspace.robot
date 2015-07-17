@@ -12,6 +12,8 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+# Suite Setup  Set Selenium speed  0.5s
+
 *** Test Cases ***
 
 Manager can create a workspace
@@ -255,4 +257,3 @@ The manager can remove a workspace member
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace related keywords"
-

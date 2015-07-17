@@ -256,7 +256,9 @@ I give the Producer role to Allan
     Click Button  Change role
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
-    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains  Role updated
+    Click Button  Close
+    Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
@@ -270,9 +272,10 @@ I give the Admin role to Allan
 I can remove the Producer role from Allan
     I can open the workspace member settings tab
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains  Remove special role
     Click Link  Remove special role
     Click Button  I am sure, remove role now
-    Wait until page contains element  css=#member-list
+    Wait until page contains  Role updated
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I can change Allan's role to Moderator
@@ -292,7 +295,7 @@ I can remove Allan from the workspace members
     Click Button  Remove
     Wait until page contains element  css=.pat-modal button[type=submit]
     Click Button  Ok
-    Wait until page contains element  css=#member-list
+    Wait until page contains  Member(s) removed
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
