@@ -32,17 +32,11 @@ Breadcrumbs are not borked
     And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
-Member can view sidebar info
+Member can access a user profile from sidebar and follow the user
     Given I am in a workspace as a workspace member
-          I can go to the sidebar info tile
-          Click Link  Members
-          Wait Until Element Is visible  css=#member-list .search-result
-          Click Link  jquery=label.item:nth-child(5) > a:nth-child(2)
-          Wait Until Element Is visible  css=#person-timeline .sidebar
-          Element should contain  css=.icon-eye  Follow Esmeralda Claassen
-          Click Element  css=.icon-eye
-          Wait Until Element Is visible  css=.icon-eye
-          Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
+      And I can open the workspace member settings tab
+     Then I can open Esmeralda's profile
+      And I can follow Esmeralda
 
 Member can view sidebar events
     Given I am in a workspace as a workspace member
