@@ -47,8 +47,8 @@ Benefits of the glossary
    You don't need to install Ploneintranet to work on translations!
    Get a transifex account and issue a join request.
 
-Translation Workflow
---------------------
+Translation Workflow in Transifex
+---------------------------------
 
 - Go to the Transifex project mainpage at <https://www.transifex.com/projects/p/plone-intranet/>`_
 - If not already done join the team for a language.
@@ -65,29 +65,35 @@ Translation Workflow
 
 .. note:: there is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
 
-
 Looking up more context related to the message id
 -------------------------------------------------
 
-- Go to the Transifex translation view
-- Select a line with a message id
-- Look into the translation editor area (usually on the right)
-- There are 5 tabs at the bottom providing additional information:
+- Go to Transifex translation view
+- Select line with message id
+- Visit translation editor area *(usually on the right)*
+- 5 tabs at the bottom of the translation editor provide additional information:
     - Suggestions
         - based on the Glossary and the Translation Memory with distance in %
-        - This helps to match the overall tenor and the common way to describe a certain topic
+        - this helps to match the overall tenor and the common way to describe a certain topic
     - History
+        Each provided change by user and date (no messages, use comment)
     - Glossary
+        filtered related entries
     - Comments
+        comments and issues related to the id (use this for discussion of a change or hints)
     - Details
-        - message id / key
-        - size
+        - Key
+            *aka message id*
+        - Size
+            *Word count*
         - Occurences (in code)
-            - Use this to look up the source file containing the message id
-            - you can guess if the translation may not visible to users (e.g. in case of an interface docstring or a variable name)
-        - Context (mostly empty for ploneintranet)
-        - Resource (the ploneintranet.pot in our case)
+            **Use the given path to look up the source file in the package** containing the message id.
 
+            **You can guess if the translation may not visible to users** *(e.g. in case of an interface docstring or a variable name)*
+        - Context
+            *mostly empty for ploneintranet*
+        - Resource
+            *the ploneintranet.pot in our case*
 
 Adding terms to the glossary
 ----------------------------
@@ -99,7 +105,7 @@ Adding terms to the glossary
 - Enter your translation
 - You can later enter a comment to both columns in the main listing.
 
-    - Use the filter search to find it.
+    - use the filter search to find it.
 
 Challenges when translating
 ---------------------------
@@ -151,30 +157,41 @@ Translations and Releases
 Location of the locales files in ploneintranet
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-The locales directory lives in:
+The locales directory lives in::
 
     ploneintranet/src/ploneintranet/core/locales/
 
-current pot files are
+Current pot files are
 
-- manual.pot *(currently empty, reserved for message ids not automatically added to the main .pot file)*
+- manual.pot
+    *currently empty, reserved for message ids not automatically added to the main .pot file*
 - ploneintranet.pot
-- plonesocial.core.pot *(almost empty, legacy translations)*
-
+    *main translation template*
+- plonesocial.core.pot
+    *almost empty, legacy translations*
 
 Versioning inside of transifex
 ++++++++++++++++++++++++++++++
 
-.. todo:: Check the history functions of Transifex. There seem to exist no commit messages, so using the issue/comment trick is the only way to document the purpose of a change.
+There seem to exist no actual commit messages, so using the issue/comment trick is the only way to document the purpose of a change.
 
+Check the history tab of Transifex at the bottom of the translation editor for the user id of the editor and the date.
 
 Checking in a translation into the Plone Intranet GIT repo
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. todo:: To be added later by the release manager...
+.. todo:: To be approved by the release manager...
 
+- use a branch for your update
+- please edit the last translator before checking in a po file and issue a pullrequest on github
+- if you suggest to change message ids, use a branch per change too and issue a pull request.
+- do not mix a translation change with a message id change.
 
-Generation and updating of the pot files in Transifex
+.. todo:: Try the impact of a message id change on transifex. An already existing translation may disappear. You may need to visit an old version of the translation in github.
+
+.. warning:: Currently there is no mechanism to automatically publish new translations from transifex to github. If you remove a translation in transifex or a message id is lost and the old version of the .po file is not already checked in into git, you may loose a version. Needs to be verified.
+
+Generation of the pot files and updating in Transifex
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Let's assume you have just added new templates containing labels for translation.::
@@ -186,7 +203,7 @@ They may shadow other missing statements. So once you fixed something, run it ag
 
     i18ndude --find-untranslated ..
 
-Now you really have fixed everthing and want to create a new ploneintranet.pot file and sync it with the existing trnaslated po files.
+Now you really have fixed everthing and want to create a new ploneintranet.pot file and sync it with the existing translated po files.
 This command will create a new pot file and modify all existing po files by adding new strings and removing now unused ones.::
 
     ./sync18n.py
