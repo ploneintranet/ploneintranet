@@ -55,7 +55,7 @@ class TestSetup(unittest.TestCase):
         tile.update()
         self.assertEqual(tile.post, None)
         # check if we render correctly
-        self.assertIn('div id="microblog"', tile())
+        self.assertIn('form id="post-box"', tile())
 
     def test_newpostbox_tile_submission_on_portal(self):
         ''' This will test the existence of the newpostbox.tile

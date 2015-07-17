@@ -30,7 +30,7 @@
   </div>
 <div class="buttons panel-footer">
     <span tal:replace="structure context/@@authenticator/authenticator"/>
-    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus close-panel" disabled>
+    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus close-panel">
         Create
     </button>
     <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">

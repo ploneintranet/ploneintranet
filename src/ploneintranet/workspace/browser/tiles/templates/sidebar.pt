@@ -148,13 +148,11 @@
                 <div class="folder-intro">
                   <h4 class="folder-title">
                     <tal:block content="context/Title" />
-                    <tal:comment condition="nothing">
-                      TODO: edit or rename comes later
-                    <a tal:attributes="href string:${context/absolute_url}/object_rename"
+                    <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"
+                       tal:condition="view/can_edit"
                        class="icon-pencil iconified pat-modal"
                        data-pat-modal="class: large"
                        i18n:translate="">Edit name/description</a>
-                    </tal:comment>
                   </h4>
                   <p class="folder-description"
                      tal:content="context/Description|nothing">
@@ -194,7 +192,7 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
-                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" 
+                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
                        tal:attributes="href string:${item/url};
                                        class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
                                        data-pat-inject item/dpi | nothing;
@@ -418,7 +416,9 @@ Supported types include (class names):
                         <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
                       </ul>
 
-                      <form class="pat-modal" tal:attributes="action string:${event/getURL}/delete_confirmation#content">
+                      <form tal:condition="python:view.can_delete(event)"
+                          class="pat-modal"
+                          action="${string:${event/getURL}/delete_confirmation#content}">
                         <button class="iconified icon-trash" type="submit">Delete event</button>
                       </form>
                     </li>

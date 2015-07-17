@@ -32,5 +32,6 @@ class MockFolder(AbstractAppContainer, Folder):
 class LayersView(BrowserView):
 
     def __call__(self):
-        return "%s\n\n%s" % (get_layers(self.request),
-                             str(self.request.items()))
+        layers = '\n'.join([str(layer) for layer in get_layers(self.request)])
+        req_items = '\n'.join([str(i) for i in self.request.items()])
+        return "%s\n\n%s" % (layers, req_items)
