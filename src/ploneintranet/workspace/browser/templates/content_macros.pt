@@ -62,7 +62,7 @@
       </label>
       <br/>
       <label class="organiser">
-        <span tal:omit-tag="" i18n:translate="">Organiser</span> <input tal:attributes="disabled read_only" class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="value context/organiser | nothing"/>
+        <span tal:omit-tag="" i18n:translate="">Organizer</span> <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing"/>
       </label>
       <br/>
       <fieldset class="pat-checklist options">

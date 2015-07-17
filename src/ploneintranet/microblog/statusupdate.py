@@ -30,7 +30,7 @@ class StatusUpdate(Persistent):
     def __init__(
         self,
         text,
-        context=None,
+        microblog_context=None,
         thread_id=None,
         mention_ids=None,
         tags=None
@@ -43,7 +43,7 @@ class StatusUpdate(Persistent):
         self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
-        self._init_microblog_context(context)
+        self._init_microblog_context(microblog_context)
         self.tags = tags
 
         if thread_id:
