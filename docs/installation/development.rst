@@ -20,10 +20,6 @@ Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
 
 In addition, for the Plone Intranet file preview functionality, you need docsplit.
-On Ubuntu::
-
-    sudo apt-get install ruby
-    gem install docsplit
 
 You will need some other tools installed for docsplit.  See the
 `docsplit installation instructions`_.  Note that Libre Office is
@@ -45,18 +41,22 @@ Set-up a development environment::
 Create a new Plone instance
 ---------------------------
 
-Create a new Plone instance.
-In the ZMI, go to portal_setup > import.
-Select `Plone Intranet: Suite : Create Testing Content`.
-This activates Plone Intranet and sets up some demo users and workspaces so you can see what's possible.
+The following steps activate Plone Intranet and sets up some demo users and workspaces so you can see what's possible.
 
-You can now go to the site at http://localhost:8080/Plone.
-However, don't do this logged in as admin in the ZMI.
-Logout, or open a new browser window (use Chrome).
-It will prompt you to log in. The test content setup created some users you can use.
-You can log in as ``allan_neece`` (password: ``secret``) to play around as a default user.
-User ``christian_stoney`` (password: ``secret``) is a workspace admin with more permissions.
-User ``alice_lindstrom`` (password: ``secret``) is not a member of any workspaces, so you can see the difference there.
+1. Create a new Plone instance.
+#. In the ZMI, go to portal_setup > import. Select `Plone Intranet: Suite : Create Testing Content` and choose `Import all steps` at the bottom of the page.
+#. You can now go to the site at http://localhost:8080/Plone. However, don't do this logged in as admin in the ZMI. Logout, or open a new browser window (use Chrome).
+
+The test content setup created some users. Login with one of the following:
+
+================  ================  =====================================
+Username          Password          Permissions
+================  ================  =====================================
+allan_neece       secret            Default user
+christian_stoney  secret            Workspace admin with more permissions
+alice_lindstrom   secret            Not a member of any workspaces
+================  ================  =====================================
+
 Those passwords are not actually secret, they're just the word "secret" without quotes!
 
 
