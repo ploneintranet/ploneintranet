@@ -1,4 +1,5 @@
 from Products.Five import BrowserView
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.view import memoize
 from zope.interface import implements
@@ -91,6 +92,39 @@ class AllUsersJSONView(BrowserView):
                     'id': uid,
                 })
         return dumps(member_details)
+
+
+class AllGroupsJSONView(BrowserView):
+    """
+    Return all groups in JSON for use in picker
+    TODO: consolidate AllGroupsJSONView with AllUsersJSONView
+    """
+    def __call__(self):
+        q = self.request.get('q', '').lower()
+        groups = api.group.get_groups()
+        group_details = []
+        ws = IWorkspace(self.context)
+        for group in groups:
+            groupid = group.getId()
+            # XXX Filter out groups representing workspace roles. Review
+            # whether we need/want this and/or can do it more efficiently.
+            skip = False
+            for special_group in ws.available_groups:
+                if groupid.startswith('{}:'.format(special_group)):
+                    skip = True
+            if skip:
+                continue
+            title = group.getProperty('title') or groupid
+            email = group.getProperty('email')
+            if email:
+                title = '%s <%s>' % (title, email)
+            description = group.getProperty('description') or ''
+            if q in title.lower() or q in description.lower():
+                group_details.append({
+                    'text': title,
+                    'id': groupid,
+                })
+        return dumps(group_details)
 
 
 class CaseWorkflowGuardView(BrowserView):
