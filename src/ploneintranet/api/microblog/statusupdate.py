@@ -21,7 +21,7 @@ def get(status_id):
 
 def create(
     text,
-    context=None,
+    microblog_context=None,
     thread_id=None,
     mention_ids=None,
     tags=None,
@@ -34,8 +34,8 @@ def create(
     :param text: [required] text of the post
     :type text: Unicode object
 
-    :param context: Container of the post
-    :type context: Content object
+    :param microblog_context: Container of the post
+    :type microblog_context: Content object
 
     :param user: User who should post. By default the current user posts.
     :type user: user object
@@ -51,7 +51,7 @@ def create(
     """
     status_obj = StatusUpdate(
         text=text,
-        context=context,
+        microblog_context=microblog_context,
         thread_id=thread_id,
         mention_ids=mention_ids,
         tags=tags

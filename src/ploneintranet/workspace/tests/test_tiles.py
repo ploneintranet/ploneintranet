@@ -21,7 +21,7 @@ class TestTiles(BaseViewTest):
         su = StatusUpdate(
             'Proposal draft V1.0 # This is a mock!!!',
             **{
-                'context': self.workspace,
+                'microblog_context': self.workspace,
             }
         )
         su.id = 123456789L
