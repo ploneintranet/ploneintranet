@@ -34,7 +34,7 @@ Allan can search and filter by content type
     Unselect Checkbox  css=input[type="checkbox"][value="Page"]
     Wait Until Keyword Succeeds  1  3  Page should not contain  /workspaces/open-market-committee/manage-information/minutes-overview
     Wait until page contains  /workspaces/open-market-committee/manage-information/minutes/view
-    
+
 Allan can search and filter by date
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
