@@ -657,12 +657,13 @@ def create_stream(context, stream, files_dir):
     microblog.clear()
     for status in stream:
         kwargs = {}
-        if status['context']:
-            if status['context'] not in contexts_cache:
-                contexts_cache[status['context']] = api.content.get(
-                    path='/' + decode(status['context']).lstrip('/')
+        microblog_context = status['microblog_context']
+        if microblog_context:
+            if microblog_context not in contexts_cache:
+                contexts_cache[microblog_context] = api.content.get(
+                    path='/' + decode(microblog_context).lstrip('/')
                 )
-            kwargs['context'] = contexts_cache[status['context']]
+            kwargs['microblog_context'] = contexts_cache[microblog_context]
         status_obj = StatusUpdate(status['text'], **kwargs)
         status_obj.userid = status['user']
         status_obj.creator = api.user.get(

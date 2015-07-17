@@ -140,9 +140,9 @@ class NewPostBoxTile(Tile):
         """
         if not (self.post_text or self.post_attachment):
             return
-        post = StatusUpdate(
+        post = piapi.microblog.statusupdate.create(
             text=self.post_text,
-            context=self.post_context,
+            microblog_context=self.post_context,
             thread_id=self.thread_id,
             mention_ids=self.post_mentions,
             tags=self.post_tags,
