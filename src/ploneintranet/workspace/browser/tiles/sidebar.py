@@ -69,6 +69,15 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    def can_manage_roster(self):
+        """
+        does this user have permission to manage the workspace's roster
+        """
+        return api.user.has_permission(
+            "collective.workspace: Manage roster",
+            obj=self.context,
+        )
+
     def can_add(self):
         """
         Is this user allowed to add content?
@@ -166,14 +175,12 @@ class SidebarSettingsMembers(BaseTile):
                     )
                 elif batch_function == 'role':
                     role = self.request.get('role')
-                    default_role = ws.participant_policy.title()
-                    groups = [default_role]
                     if role:
-                        groups.append(role)
+                        groups = {role}
+                    else:
+                        groups = None
                     for user_id in user_ids:
-                        membership = IWorkspace(ws).membership_factory(
-                            ws, IWorkspace(ws).members[user_id])
-                        membership.groups = groups
+                        IWorkspace(ws).add_to_team(user=user_id, groups=groups)
                     api.portal.show_message(
                         _(u'Role updated'),
                         self.request,

@@ -71,6 +71,12 @@
     <replace css:theme-children="figure.splash">
         <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
     </replace>
+    <replace css:theme=".colofon">
+  		<p class="colofon">
+  			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
+  		</p>
+      
+    </replace>
   </rules>
 
   <rules css:if-content="body.portaltype-event, 

@@ -12,6 +12,8 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+# Suite Setup  Set Selenium speed  0.5s
+
 *** Test Cases ***
 
 Manager can create a workspace
@@ -177,6 +179,37 @@ Site Administrator can add example user as member of workspace
      Click Button  Ok
      Wait Until Page Contains  Alice
 
+The manager can grant the Producer role in a Consumer workspace
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     When I am in a Consumers workspace as a workspace member
+     Then I see the option to create a document
+
+The manager can grant the Consumer role in a Producer workspace
+    Given I am in a Producers workspace as a workspace admin
+      And I give the Consumer role to Allan
+     When I am in a Producers workspace as a workspace member
+     Then I cannot create a new document
+
+The manager can remove a special role from a workspace member
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     When I am in a Consumers workspace as a workspace admin
+     Then I can remove the Producer role from Allan
+
+The manager can change a special role
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     Then I can change Allan's role to Moderator
+
+The manager can add other workspace admins
+    Given I am in a Consumers workspace as a workspace admin
+     Then I give the Admin role to Allan
+
+The manager can remove a workspace member
+    Given I am in a workspace as a workspace admin
+     Then I can remove Allan from the workspace members
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 # Site Administrator can edit roster
@@ -225,4 +258,3 @@ Site Administrator can add example user as member of workspace
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace related keywords"
-

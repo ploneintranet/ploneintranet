@@ -145,8 +145,8 @@ class WorkspaceChangeRole(EditRoster):
     """
     def roles(self):
         ws_policy = self.context.participant_policy
-        title = ('Default role for this workspace '
-                 '({})'.format(PARTICIPANT_POLICY[ws_policy]['title']))
+        title = (_('Default role for this workspace')
+                 + ' ({})'.format(PARTICIPANT_POLICY[ws_policy]['title']))
         yield {'id': ws_policy.title(),
                'title': title}
         for policy_id, policy_info in PARTICIPANT_POLICY.items():
@@ -154,3 +154,5 @@ class WorkspaceChangeRole(EditRoster):
                 continue
             yield {'id': policy_id.title(),
                    'title': policy_info['title']}
+        yield {'id': 'Admins',
+               'title': _(u'Workspace Administrator')}

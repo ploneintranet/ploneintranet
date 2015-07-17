@@ -43,7 +43,9 @@
       title="Plone Intranet User Profiles: import steps"
       description="Prepare the site for Ploneintranet users"
       handler=".setuphandlers.on_install"
-      />
+      >
+    <depends name="typeinfo" />
+  </genericsetup:importStep>
 
   <genericsetup:registerProfile
       name="uninstall"

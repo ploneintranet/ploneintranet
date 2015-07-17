@@ -98,6 +98,10 @@ class WorkspaceFolder(Container):
         old_policy = self.participant_policy
         new_policy = value
         self._participant_policy = new_policy
+        IWorkspace(self).update_participant_policy_groups(
+            old_policy,
+            new_policy,
+        )
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
 
     def tasks(self):
@@ -141,21 +145,40 @@ class WorkspaceFolder(Container):
         """
         members = IWorkspace(self).members
         info = []
-        for userid, details in members.items():
-            user = api.user.get(userid)
-            if user is None:
-                continue
-            user = user.getUser()
-            title = user.getProperty('fullname') or user.getId() or userid
-            # XXX tbd, we don't know what a persons description is, yet
-            description = ''
-            classes = description and 'has-description' or 'has-no-description'
 
+        for user_or_group_id, details in members.items():
+            user = api.user.get(user_or_group_id)
+            if user is not None:
+                user = user.getUser()
+                title = (user.getProperty('fullname') or user.getId() or
+                         user_or_group_id)
+                # XXX tbd, we don't know what a persons description is, yet
+                description = ''
+                classes = 'user ' + (description and 'has-description'
+                                     or 'has-no-description')
+                portrait = pi_api.userprofile.avatar_url(user_or_group_id)
+            else:
+                group = api.group.get(user_or_group_id)
+                if group is None:
+                    continue
+                title = (group.getProperty('title') or group.getId() or
+                         user_or_group_id)
+                description = MessageFactory(
+                    u'{} Members'.format(len(group.getAllGroupMemberIds())))
+                classes = 'user-group has-description'
+                portrait = ''
+
+            # User's 'role' is any group they are a member of
+            # that is not the default participation policy group
+            # (including Admins group)
             role = None
+            groups = details['groups']
+            if 'Admins' in groups:
+                role = 'Admin'
             for policy in PARTICIPANT_POLICY:
                 if policy == self.participant_policy:
                     continue
-                if policy.title() in details['groups']:
+                if policy.title() in groups:
                     role = PARTICIPANT_POLICY[policy]['title']
                     # According to the design there is at most one extra role
                     # per user, so we go with the first one we find. This may
@@ -164,10 +187,9 @@ class WorkspaceFolder(Container):
             if role:
                 classes += ' has-label'
 
-            portrait = pi_api.userprofile.avatar_url(userid)
             info.append(
                 dict(
-                    id=userid,
+                    id=user_or_group_id,
                     title=title,
                     description=description,
                     portrait=portrait,
