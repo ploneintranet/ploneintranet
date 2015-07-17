@@ -145,6 +145,20 @@
                   </div>
                 </div>
 
+                <div class="folder-intro">
+                  <h4 class="folder-title">
+                    <tal:block content="context/Title" />
+                    <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"
+                       tal:condition="view/can_edit"
+                       class="icon-pencil iconified pat-modal"
+                       data-pat-modal="class: large"
+                       i18n:translate="">Edit name/description</a>
+                  </h4>
+                  <p class="folder-description"
+                     tal:content="context/Description|nothing">
+                  </p>
+                </div>
+
                 <!-- Each document has a class name on the label element that indicates the document type.
 
 Supported types include (class names):
@@ -178,7 +192,7 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
-                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" 
+                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
                        tal:attributes="href string:${item/url};
                                        class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
                                        data-pat-inject item/dpi | nothing;
@@ -275,7 +289,6 @@ Supported types include (class names):
 
         <div id="workspace-tickets" tal:define="tasks context/tasks">
           <div class="button-bar functions" id="tasks-functions">
-
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
               <a title="Create new task"
@@ -284,13 +297,15 @@ Supported types include (class names):
                  tal:condition="view/can_add">Create task</a>
             </div>
           </div>
+          <h3 i18n:translate="">General tasks</h3>
           <tal:no-tasks condition="python:not ws.is_case and not tasks ">
             <p i18n:translate="no-task-found">No tasks created yet</p>
           </tal:no-tasks>
           <tal:tasks condition="python:ws.is_case or tasks">
             <form method="post" class="pat-autosubmit pat-inject"
                   tal:define="ws view/workspace"
-                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default#global-statusmessage">
+                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
+                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default">
 
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="object-list tasks pat-checklist">
@@ -341,20 +356,20 @@ Supported types include (class names):
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
                          tal:condition="view/can_add">Create new task</a>
-                      <a class="small icon-stage success button"
+                      <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestones[milestone]['enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);">Close milestone</a>
-                      <a class="small icon-stage success button"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets">Close milestone</a>
+                      <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestones[milestone]['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);">Reopen milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets">Reopen milestone</a>
                     </p>
                   </fieldset>
                 </tal:milestone>
-                <fieldset class="task-list pat-checklist">
-                  <h4 class="section-label">
+                <fieldset class="task-list pat-checklist" tal:define="uatasks python:tasks['unassigned']" tal:condition="uatasks">
+                  <h3 class="section-label">
                     Unassigned
-                  </h4>
-                  <label tal:repeat="task python:tasks['unassigned']">
+                  </h3>
+                  <label tal:repeat="task uatasks">
                     <input type="checkbox" />
                     <a class="pat-inject" title="Case task - unassigned" data-pat-inject="source: #document-body; target: #document-body; history: record"
                        tal:content="task/title"
@@ -402,7 +417,9 @@ Supported types include (class names):
                         <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
                       </ul>
 
-                      <form class="pat-modal" tal:attributes="action string:${event/getURL}/delete_confirmation#content">
+                      <form tal:condition="python:view.can_delete(event)"
+                          class="pat-modal"
+                          action="${string:${event/getURL}/delete_confirmation#content}">
                         <button class="iconified icon-trash" type="submit">Delete event</button>
                       </form>
                     </li>

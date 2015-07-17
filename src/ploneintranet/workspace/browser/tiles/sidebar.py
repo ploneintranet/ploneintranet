@@ -6,7 +6,6 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.i18n.normalizer import idnormalizer
-from plone.memoize.instance import memoize
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -26,6 +25,7 @@ from ...utils import map_content_type
 from ...utils import set_cookie
 from ...basecontent.utils import dexterity_update
 import logging
+from ploneintranet.todo.utils import update_task_status
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +69,15 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
-    @memoize
+    def can_manage_roster(self):
+        """
+        does this user have permission to manage the workspace's roster
+        """
+        return api.user.has_permission(
+            "collective.workspace: Manage roster",
+            obj=self.context,
+        )
+
     def can_add(self):
         """
         Is this user allowed to add content?
@@ -81,20 +89,30 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
-    @memoize
     def can_edit(self):
         """
         Is this user allowed to add content?
-        Cave. We don't use the plone.app.contenttypes per-type permissions.
-        Our workflows don't map those, only cmf.ModifyPortalContent.
         """
         return api.user.has_permission(
             "Modify portal content",
             obj=self.context,
         )
 
+    def can_delete(self, obj=None):
+        ''' Is this user allowed to delete an object?
+        '''
+        if obj is None:
+            obj = self.context
+        elif hasattr(obj, 'getObject'):
+            obj = obj.getObject()
+        return api.user.has_permission(
+            "Delete objects",
+            obj=obj,
+        )
+
 
 class SidebarSettingsMembers(BaseTile):
+
     """
     A view to serve as the member roster in the sidebar
     """
@@ -123,30 +141,66 @@ class SidebarSettingsMembers(BaseTile):
         users.sort(key=lambda x: safe_unicode(x['title']))
         return users
 
-    @memoize
     def existing_users(self):
         return self.workspace().existing_users()
 
-    def __call__(self):
+    def execute_batch_function(self):
         form = self.request.form
         ws = self.workspace()
-        user_id = form.get('user_id')
-        if user_id:
-            if not self.can_manage_workspace():
+        user_ids = form.get('user_id')
+        if isinstance(user_ids, basestring):
+            user_ids = user_ids.split(',')
+        batch_function = form.get('batch-function')
+        if user_ids:
+            if not self.can_manage_roster():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
             else:
-                IWorkspace(ws).add_to_team(user=user_id)
-                api.portal.show_message(
-                    _(u'Member added'),
-                    self.request,
-                    'success',
-                )
+                if batch_function == 'add':
+                    for user_id in user_ids:
+                        IWorkspace(ws).add_to_team(user=user_id)
+                    api.portal.show_message(
+                        _(u'Member(s) added'),
+                        self.request,
+                        'success',
+                    )
+                elif batch_function == 'remove':
+                    for user_id in user_ids:
+                        IWorkspace(ws).remove_from_team(user=user_id)
+                    api.portal.show_message(
+                        _(u'Member(s) removed'),
+                        self.request,
+                        'success',
+                    )
+                elif batch_function == 'role':
+                    role = self.request.get('role')
+                    if role:
+                        groups = {role}
+                    else:
+                        groups = None
+                    for user_id in user_ids:
+                        IWorkspace(ws).add_to_team(user=user_id, groups=groups)
+                    api.portal.show_message(
+                        _(u'Role updated'),
+                        self.request,
+                        'success',
+                    )
+                else:
+                    api.portal.show_message(
+                        _(u'Unknown function'),
+                        self.request,
+                        'error',
+                    )
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.execute_batch_function()
         return self.render()
 
 
 class SidebarSettingsSecurity(BaseTile):
+
     """
     A view to serve as the security settings in the sidebar
     """
@@ -207,6 +261,7 @@ class SidebarSettingsSecurity(BaseTile):
 
 
 class SidebarSettingsAdvanced(BaseTile):
+
     """
     A view to serve as the advanced config in the sidebar
     """
@@ -260,33 +315,14 @@ class Sidebar(BaseTile):
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
-            wft = api.portal.get_tool("portal_workflow")
+            # wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
 
             # Do the workflow transitions based on what tasks the user checked
             # or unchecked
             if section == 'task':
-                current_tasks = self.request.form.get('current-tasks', [])
-                active_tasks = self.request.form.get('active-tasks', [])
-
-                catalog = api.portal.get_tool('portal_catalog')
-                brains = catalog(UID={'query': current_tasks,
-                                      'operator': 'or'})
-                for brain in brains:
-                    obj = brain.getObject()
-                    state = wft.getInfoFor(obj, 'review_state')
-                    if brain.UID in active_tasks:
-                        if state in ["open", "planned"]:
-                            api.content.transition(obj, "finish")
-                    else:
-                        if state == "done":
-                            obj.reopen()
-                api.portal.show_message(
-                    _(u'Task state changed'), self.request, 'success')
-                msg = ViewPageTemplateFile(
-                    '../templates/globalstatusmessage.pt')
-                return msg(self)
+                update_task_status(self)
 
             # Do the property editing. Edits only if there is something to edit
             # in form
@@ -314,8 +350,11 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
-        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
-        return open_item_url in [task['url'] for task in milestone_tasks]
+        if 'PARENT_REQUEST' in self.request:
+            # Only check if this is a tile subrequest
+            open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+            return open_item_url in [task['url'] for task in milestone_tasks]
+        return False
 
     def logical_parent(self):
         """
@@ -809,7 +848,6 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
-    @memoize
     def grouping(self):
         """
         Return the user selected grouping
@@ -819,7 +857,6 @@ class Sidebar(BaseTile):
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
-    @memoize
     def sorting(self):
         """
         Return the user selected sorting

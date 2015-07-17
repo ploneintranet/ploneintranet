@@ -8,7 +8,7 @@
 <h1 i18n:translate="">
     Create document
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents" data-pat-validate="disable-selector:#form-buttons-create">
   <div class="panel-body">
     <fieldset class="icon-tabs">
         <label class="icon-doc-text">
@@ -22,7 +22,7 @@
         </label>
     </fieldset>
     <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Document title" i18n:attributes="placeholder" autofocus />
+        <input type="text" name="title" placeholder="Document title" i18n:attributes="placeholder" required="required" autofocus />
         <input type="file" class="image pat-depends" name="image" data-pat-depends="portal_type=Image" />
         <textarea name="description" rows="6" placeholder="Description for search results (Optional)" i18n:attributes="placeholder"></textarea>
         <input type="hidden" name="form.widgets.IExcludeFromNavigation.exclude_from_nav" value="selected">
@@ -30,7 +30,7 @@
   </div>
 <div class="buttons panel-footer">
     <span tal:replace="structure context/@@authenticator/authenticator"/>
-    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle close-panel focus">
+    <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" i18n:translate="" class="icon-ok-circle focus close-panel">
         Create
     </button>
     <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">

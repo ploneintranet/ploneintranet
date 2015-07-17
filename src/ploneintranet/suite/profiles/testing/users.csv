@@ -1,7 +1,6 @@
 userid,email,fullname,location,description,follows
-admin,admin@example.com,Guido Stevens,Amsterdam,"Donec posuere augue in quam.",allan_neece alice_lindstrom
-alice_lindstrom,,Alice Lindström,Malmö,"Sed bibendum.",guy_hackey admin
-allan_neece,,Allan Neece,Bristol,"Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio.",jorge_primavera guy_hackey admin
+alice_lindstrom,,Alice Lindström,Malmö,"Sed bibendum.",guy_hackey
+allan_neece,,Allan Neece,Bristol,"Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio.",jorge_primavera guy_hackey
 christian_stoney,somebody@something.com,Christian Stoney,Springfield,"Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",dollie_nocera
 jorge_primavera,,Jorge Primavera,Buenos Aires,"Donec pretium posuere tellus.",esmeralda_claassen francois_gast
 dollie_nocera,,Dollie Nocera,New York,"Pellentesque tristique imperdiet tortor.",guy_hackey francois_gast

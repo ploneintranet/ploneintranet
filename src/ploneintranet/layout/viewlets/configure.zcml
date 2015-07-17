@@ -27,5 +27,30 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <browser:viewlet
+        name="ploneintranet.zopeuser_warning"
+        manager="plone.app.layout.viewlets.interfaces.IToolbar"
+        class=".zopeuser.WarningViewlet"
+        template="zopeuser_warning.pt"
+        permission="zope2.View"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+    <browser:page
+        for="*"
+        name="breadcrumbs_view"
+        class=".navigation.OneLevelBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="*"
+        name="orig_breadcrumbs_view"
+        class="Products.CMFPlone.browser.navigation.PhysicalNavigationBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        />
 
 </configure>

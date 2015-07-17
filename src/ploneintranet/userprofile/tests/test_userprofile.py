@@ -50,6 +50,18 @@ class TestUserProfileBase(BaseTestCase):
 
 class TestUserProfileView(TestUserProfileBase):
 
+    def test_profile_container(self):
+        ''' We want self.profiles, the profiles container to be public
+        '''
+        self.assertEqual(
+            self.profiles.portal_type,
+            'ploneintranet.userprofile.userprofilecontainer'
+        )
+        self.assertEqual(
+            api.content.get_state(self.profiles),
+            'published'
+        )
+
     def test_is_me(self):
         profile_view = UserProfileView(self.profile1, self.request)
 

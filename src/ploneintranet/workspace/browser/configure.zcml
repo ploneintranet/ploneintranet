@@ -114,6 +114,15 @@
       />
 
   <browser:page
+      name="edit_folder"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".edit_content.EditFolder"
+      template="templates/edit_folder.pt"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="view"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseView"
@@ -200,9 +209,62 @@
       />
 
     <browser:page
+      name="panel-add-group"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceMemberPicker"
+      template="templates/panel-add-group.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="panel-remove-user"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceMemberPicker"
+      template="templates/panel-remove-user.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="panel-change-role"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/panel-change-role.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="panel-member-role-actions"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/panel-member-role-actions.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="confirmation-remove-special-role"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="collective.workspace.ManageRoster"
+      class=".roster.WorkspaceChangeRole"
+      template="templates/confirmation-remove-special-role.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
       name="allusers.json"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.AllUsersJSONView"
+      permission="collective.workspace.ManageRoster"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      name="allgroups.json"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.AllGroupsJSONView"
       permission="collective.workspace.ManageRoster"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
@@ -213,6 +275,15 @@
       class=".workspace.CaseWorkflowGuardView"
       permission="zope.Public"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+      for="*"
+      name="breadcrumbs_view"
+      class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
 </configure>

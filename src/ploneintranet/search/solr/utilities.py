@@ -6,6 +6,7 @@ from Acquisition import aq_base
 from plone import api
 from zope.component import getUtility
 from zope.interface import implementer
+from AccessControl.SecurityManagement import getSecurityManager
 
 from .. import base
 from ..interfaces import ISiteSearch
@@ -177,7 +178,9 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_security(self, query):
         Q = query.interface.Q
-        user = api.user.get_current()
+        # _listAllowedRolesAndUsers method requires
+        # the actual user object so we can't use plone.api here
+        user = getSecurityManager().getUser()
         catalog = api.portal.get_tool(name='portal_catalog')
         arau = catalog._listAllowedRolesAndUsers(user)
         data = dict(allowedRolesAndUsers=arau)

@@ -21,7 +21,7 @@ class Base(object):
     def g_add(self, message):
         def outer_add(tool, message):
             def inner_add(user):
-                queue = tool.get_user_queue(user)
+                queue = tool.get_user_queue(user.getUserId())
                 queue.append(message.clone())
             return inner_add
         return self._for_each_user(outer_add(self.tool, message))
@@ -38,7 +38,7 @@ class Base(object):
         def outer_cleanup(tool):
             def inner_cleanup(user):
                 ids_to_remove = []
-                queue = tool.get_user_queue(user)
+                queue = tool.get_user_queue(user.getUserId())
                 for i in range(len(queue)):
                     if queue[i].obj['read']:
                         ids_to_remove.append(i)
@@ -51,9 +51,3 @@ class Base(object):
 
     def cleanup(self):
         list(self.g_cleanup())
-
-
-class StatusUpdate(Base):
-    ''' A base handler for notifications
-    '''
-    msg_class = 'STATUS_UPDATE'

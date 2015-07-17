@@ -9,6 +9,7 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
+  <include package=".prototype" />
   <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
@@ -30,6 +31,22 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetFormLayer"
       template="templates/submit_input.pt"
       />
+
+  <browser:page
+      name="apps.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/apps.pt"
+  />
+
+  <browser:page
+      name="app-not-available.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.AppNotAvailable"
+      permission="zope.Public"
+      template="templates/app-not-available.pt"
+  />
 
   <browser:page
       name="dashboard.html"

@@ -1,3 +1,4 @@
+import logging
 from Products.CMFCore.Expression import getExprContext
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
@@ -25,6 +26,8 @@ from OFS.owner import Owned
 from utils import parent_workspace
 import persistent
 
+logger = logging.getLogger(__name__)
+
 
 class PloneIntranetWorkspace(Workspace):
     """
@@ -47,19 +50,31 @@ class PloneIntranetWorkspace(Workspace):
         u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
     }
 
-    def add_to_team(self, **kw):
+    def add_to_team(self, user, **kw):
         """
-        We override this method to add our additional participation
-        policy groups, as detailed in available_groups above
-        """
-        group = self.context.participant_policy.title()
-        data = kw.copy()
-        if "groups" in data:
-            data["groups"].add(group)
-        else:
-            data["groups"] = set([group])
+        Add user to this workspace
 
-        super(PloneIntranetWorkspace, self).add_to_team(**data)
+        We override this method from collective.workspace
+        to add our additional participation
+        policy groups, as detailed in available_groups above.
+
+        Also used to update an existing members' groups.
+
+        *Note* - 'user' is in fact 'userid'
+        - an oddity from collective.workspace
+        """
+        data = kw.copy()
+        groups = data.get('groups') or []
+        if 'Members' in groups:
+            # Members is an automatic group - ignore
+            groups.remove('Members')
+        if not groups:
+            # Put user in the default policy group if none provided
+            default_group = self.context.participant_policy.title()
+            data["groups"] = set([default_group])
+
+        data['user'] = user
+        return super(PloneIntranetWorkspace, self).add_to_team(**data)
 
     def group_for_policy(self, policy=None):
         """
@@ -73,6 +88,32 @@ class PloneIntranetWorkspace(Workspace):
         if policy is None:
             policy = self.context.participant_policy
         return "%s:%s" % (policy.title(), self.context.UID())
+
+    def update_participant_policy_groups(self, old_policy, new_policy):
+        """Move relevant members to a new default policy
+
+        We only move members who were previously part of the *old* policy.
+        This allows for 'exception' users who have been promoted/demoted
+        manually to retain their existing roles.
+        """
+        members = self.members
+        old_group = old_policy.title()
+        new_group = new_policy.title()
+        for userid in members:
+            groups = self.get(userid).groups
+            if old_group not in groups:
+                # This user was an exception to the default policy
+                # so we ignore them
+                continue
+            groups.remove(old_group)
+            groups.add(new_group)
+            self.add_to_team(user=userid, groups=groups)
+
+        user = api.user.get_current()
+        logger.info("%s changed policy on %s from %s to %s for %s members",
+                    user.getId(), repr(self.context),
+                    old_policy.title(), new_policy.title(),
+                    len(members))
 
 
 class WorkspaceLocalRoleAdapter(DefaultLocalRoleAdapter):

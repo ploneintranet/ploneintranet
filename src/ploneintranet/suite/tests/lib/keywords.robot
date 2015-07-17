@@ -56,14 +56,22 @@ I am in a workspace as a workspace member
 
 I am in a case workspace as a workspace member
     I am logged in as the user allan_neece
-    I go to the Minifest
+    I go to the Example Case
 
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
 
+I am in a Producers workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Open Parliamentary Papers Guidance Workspace
+
 I am in a Consumers workspace as a workspace member
     I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+
+I am in a Consumers workspace as a workspace admin
+    I am logged in as the user christian_stoney
     I go to the Shareholder Information Workspace
 
 I am in a workspace as a workspace admin
@@ -72,7 +80,7 @@ I am in a workspace as a workspace admin
 
 I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
-    I go to the Minifest
+    I go to the Example Case
 
 I am in an open workspace as a workspace member
     I am logged in as the user allan_neece
@@ -87,10 +95,10 @@ I go to the Open Market Committee Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Open Market Committee
 
-I go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
     Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Minifest
+    Wait Until Page Contains  Example Case
 
 I go to the Open Parliamentary Papers Guidance Workspace
     Go To  ${PLONE_URL}/workspaces/parliamentary-papers-guidance
@@ -110,8 +118,8 @@ I go to the Service Announcements Workspace
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
-I can go to the Minifest
-    Go To  ${PLONE_URL}/workspaces/minifest
+I can go to the Example Case
+    Go To  ${PLONE_URL}/workspaces/example-case
 
 I am redirected to the login page
     Location Should Contain  require_login
@@ -161,7 +169,7 @@ I can open the workspace security settings tab
 I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
-    Wait until page contains  Members
+    Wait until page contains element  css=#member-list
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
@@ -232,6 +240,63 @@ I can invite Alice to the workspace
     Click Element  css=span.select2-match
     Click Button  Ok
 
+I give the Consumer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Consumers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
+
+I give the Producer role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Producers
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains  Role updated
+    Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I give the Admin role to Allan
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Change role
+    Select From List  css=select[name=role]  Admins
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
+
+I can remove the Producer role from Allan
+    I can open the workspace member settings tab
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains  Remove special role
+    Click Link  Remove special role
+    Click Button  I am sure, remove role now
+    Wait until page contains  Role updated
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+
+I can change Allan's role to Moderator
+    I can open the workspace member settings tab
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
+    Select From List  css=select[name=role]  Moderators
+    Click Button  css=.pat-modal button[type=submit]
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Moderate']
+
+I can remove Allan from the workspace members
+    I can open the workspace member settings tab
+    Click Link  Select
+    Click Element  xpath=//input[@value='allan_neece']/..
+    Click Button  Remove
+    Wait until page contains element  css=.pat-modal button[type=submit]
+    Click Button  Ok
+    Wait until page contains  Member(s) removed
+    Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
+
 The breadcrumbs show the name of the workspace
     Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
 
@@ -255,6 +320,12 @@ I can search for items
     Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
+I see the option to create a document
+    Click link  Documents
+    Click link  Functions
+    Click link  Create document
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
 
 I can create a new document
     [arguments]  ${title}
@@ -392,6 +463,108 @@ I cannot see the document
     Click link  Documents
     Page should not contain  ${title}
 
+Allan has the option to create a document
+    I am logged in as the user allan_neece
+    I go to the Shareholder Information Workspace
+    I see the option to create a document
+
+# *** workspace and case content related keywords ***
+
+I browse to a workspace
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Documents
+    Click Link  link=Manage Information
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a Consumer workspace
+    Go To  ${PLONE_URL}/workspaces/service-announcements
+    Click Link  link=Documents
+
+I browse to a document
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
+    Click Link  xpath=//a[contains(@href, 'repurchase-agreements')]
+
+I view the document
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
+
+I browse to an image
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'budget-proposal')]
+    Click Link  xpath=//a[contains(@href, 'budget-proposal')]
+
+I view the image
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
+
+I browse to a file
+    I browse to a workspace
+    Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
+    Click Link  xpath=//a[contains(@href, 'minutes/view')]
+
+I view the file
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I view the folder
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
+
+I view the task
+    Go To  ${PLONE_URL}/workspaces/example-case/populate-metadata
+
+I change the title
+    Comment  Toggle the metadata to give the JavaScript time to load
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  title  New title ♥
+    Wait Until Page Contains  New title ♥
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new title
+    Textfield Should Contain  title  New title ♥
+
+I change the description
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  xpath=//textarea[@name='description']  New description ☀
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The document has the new description
+    Page Should Contain  New description ☀
+
+I tag the item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input Text  id=s2id_autogen2  NewTag☃,
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I tag the item with a suggestion
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
+    Wait Until Page Contains  ag☃
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+I clear the tag for an item
+    Wait Until Page Contains  Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Click Link  css=.select2-search-choice-close
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+
+The metadata has the new tag
+    Click Link  link=Toggle extra metadata
+    Page Should Contain  NewTag☃
 
 # *** case related keywords ***
 
@@ -406,7 +579,7 @@ I can create a new case
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Page Contains  Basisdatenerfassung
+    Wait Until Page Contains  Populate Metadata
 
 I can create a new template case
     [arguments]  ${title}
@@ -445,32 +618,34 @@ I go to the dashboard
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I unselect the task check box
     [arguments]  ${title}
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
-    Wait Until Page Contains  Task state changed
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see a task is complete
     [arguments]  ${title}
-    Checkbox Should Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Checkbox Should Be Selected  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I see a task is open
     [arguments]  ${title}
-    Checkbox Should Not Be Selected  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon
 
 I can go to the sidebar tasks tile of my case
     Click Link  link=Tasks
-    Wait Until Page Contains  Unassigned
+    Wait Until Page Contains  General tasks
 
 I can add a new task
     [arguments]  ${title}
@@ -489,8 +664,32 @@ I can add a new task
 I can close the first milestone
     Click Element  xpath=//h4[text()='New']
     Click Link  Close milestone
-    Page Should Contain  Item state changed
+    Page Should Contain  Reopen milestone
 
 I can toggle a milestone
     [arguments]  ${milestone}
     Click Element  xpath=//h4[text()='${milestone}']
+
+I write a status update
+    [arguments]  ${message}
+    Wait Until Element Is visible  css=textarea.pat-content-mirror
+    Element should not be visible  css=button[name='form.buttons.statusupdate']
+    Click element  css=textarea.pat-content-mirror
+    Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
+    Input Text  css=textarea.pat-content-mirror  ${message}
+
+I post a status update
+    [arguments]  ${message}
+    I write a status update    ${message}
+    I submit the status update
+
+I submit the status update
+    Click button  css=button[name='form.buttons.statusupdate']
+
+I can mention the user
+    [arguments]  ${username}
+    Click link    link=Mention people
+    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
+    Click element    css=textarea.pat-content-mirror

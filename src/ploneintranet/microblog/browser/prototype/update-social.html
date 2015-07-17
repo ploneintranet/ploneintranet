@@ -10,14 +10,19 @@
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
 <metal:macro define-macro="main">
   <tal:block tal:define="portal_url portal_url|here/portal_url">
-    <div id="microblog" class="ploneintranet"
+    <div
+        class="ploneintranet"
         tal:define="
           form_id form_id|request/form_id|string:post-box;
           thread_id thread_id|nothing;
           is_posting is_posting|nothing;
           tags request/tags|nothing;
           users request/users|nothing;
-        ">
+        "
+        tal:attributes="
+          id python:thread_id and 'microblog-%s' % thread_id or 'microblog';
+        "
+        >
       <form id="post-box" method="post"
             class="pat-inject update-social status-inactive"
             tal:attributes="

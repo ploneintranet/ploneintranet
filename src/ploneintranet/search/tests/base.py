@@ -1,6 +1,7 @@
 import abc
 import collections
 import datetime
+import transaction
 from functools import partial
 
 from plone import api
@@ -357,5 +358,34 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
             with api.env.adopt_roles(['Manager']):
                 api.content.transition(obj=self.doc1, transition='publish')
 
+            response = self._query(util, 'hopefully')
+            self.assertEqual(response.total_results, 1)
+
+    def test_group_changes(self):
+        """Does the search respect group permissions?"""
+        api.group.create(groupname='TestUsers')
+        api.group.grant_roles(
+            groupname='TestUsers',
+            obj=self.doc1,
+            roles=['Owner', ],
+        )
+        self.doc1.reindexObject()
+        transaction.commit()
+
+        testing.logout()
+
+        util = self._make_utility()
+
+        with login_session(TEST_USER_1_NAME):
+            response = self._query(util, 'hopefully')
+            self.assertEqual(response.total_results, 0)
+
+        # Add user to the group - they should now doc1
+        # the item in search results
+        api.group.add_user(
+            groupname='TestUsers',
+            username=TEST_USER_1_NAME)
+
+        with login_session(TEST_USER_1_NAME):
             response = self._query(util, 'hopefully')
             self.assertEqual(response.total_results, 1)

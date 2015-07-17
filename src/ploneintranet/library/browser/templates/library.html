@@ -62,6 +62,7 @@
 	<div class="icons">
 		<!-- Link to external CMS -->
 		<a href="@@switch_theme"
+                   tal:condition="view/can_edit"
                    tal:attributes="href string:${context/absolute_url}/@@switch_theme"
                    class="icon create"
                    title="Create a new page or section">Create page or section</a>
