@@ -15,6 +15,7 @@
          title="Draft">
     <description>Only visible to me.</description>
     <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="publish"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>
