@@ -114,6 +114,15 @@
       />
 
   <browser:page
+      name="edit_folder"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".edit_content.EditFolder"
+      template="templates/edit_folder.pt"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="view"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseView"
