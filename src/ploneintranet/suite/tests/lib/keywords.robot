@@ -392,13 +392,19 @@ I can create a structure
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
-    [arguments]  ${title}  ${start}  ${end}
+    [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
     Click link  Events
     Click Link  Create event
     Wait Until Page Contains Element  css=.panel-content form .panel-body
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=start]  text=${start}
     Input Text  css=.panel-content input[name=end]  text=${end}
+    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
 
 I can edit an event
