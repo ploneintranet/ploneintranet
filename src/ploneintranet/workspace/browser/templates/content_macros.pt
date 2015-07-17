@@ -112,11 +112,14 @@
         </fieldset>
 
         <label class="timezone" tal:condition="not:hide_timezone|nothing"><span tal:omit-tag="" i18n:translate="">Timezone</span>
-        <select class="timezone"  tal:attributes="disabled read_only" >
-          <option data-timezone-id="80" gmt-adjustment="GMT+12:00" data-use-daylight-time="1" value="12">(GMT+12:00) Auckland, Wellington</option>
-          <option data-timezone-id="81" gmt-adjustment="GMT+12:00" data-use-daylight-time="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
-          <option data-timezone-id="82" gmt-adjustment="GMT+13:00" data-use-daylight-time="0" value="13">(GMT+13:00) Nuku'alofa</option>
-        </select>
+            <select class="timezone" name="timezone" tal:attributes="disabled read_only">
+                <option tal:repeat="tz here/content_helper_view/get_tz_options;"
+                    data-timezone-id="${tz/id}"
+                    gmt-adjustment="${tz/gmt_adjustment}"
+                    data-use-daylight-time="${tz/use_daylight}"
+                    selected="${tz/selected}"
+                    value="${tz/value}">${tz/label}</option>
+            </select>
         </label>
 
       </fieldset>
