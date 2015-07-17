@@ -11,7 +11,7 @@ import transaction
 import loremipsum
 from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
-from datetime import datetime, timedelta
+from datetime import timedelta
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
@@ -25,7 +25,7 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from pytz import utc
+from plone.app.event.base import localized_now
 
 
 log = logging.getLogger(__name__)
@@ -210,7 +210,7 @@ def create_users(context, users, avatars_dir, force=False):
 
 
 def workspaces_spec(context):
-    now = datetime.now(utc)
+    now = localized_now()
     budget_proposal_filename = u'budget-proposal.png'
     budget_proposal_path = os.path.join('images', budget_proposal_filename)
     budget_proposal_img = NamedBlobImage(
@@ -436,7 +436,7 @@ def create_workspaces(workspaces, force=False):
 
 
 def caseworkspaces_spec(context):
-    now = datetime.now(utc)
+    now = localized_now()
     caseworkspaces = [{
         'title': 'Example Case',
         'description': 'A case management workspace demonstrating the '
