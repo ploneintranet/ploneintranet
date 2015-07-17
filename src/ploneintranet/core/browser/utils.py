@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from Products.CMFPlone.utils import safe_unicode
 
 
@@ -23,3 +24,11 @@ def link_users(url='', mentions=None):
             text += tmpl.format(url, user_id, fullname)
         return text
     return u''
+
+
+def link_urls(text):
+    """
+    Enriches urls in the comment text with an anchor.
+    """
+    urlfinder = re.compile('(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)')  # noqa
+    return urlfinder.sub(r'<a href="\1" target="_blank">\1</a>', text)
