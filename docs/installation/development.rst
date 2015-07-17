@@ -27,6 +27,11 @@ mentioned as optional there, but in Plone Intranet we require it.
 
 .. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
 
+On Ubuntu::
+
+    sudo apt-get install ruby
+    gem install docsplit
+
 Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet
