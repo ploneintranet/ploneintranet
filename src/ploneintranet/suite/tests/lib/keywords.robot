@@ -203,6 +203,16 @@ I can set the participant policy to Consume
     Click link  link=Security
     Wait until page contains  They cannot add
 
+I can open Esmeralda's profile
+    Click Element  css=a[href$='/profiles/esmeralda_claassen']
+    Wait Until Element Is visible  css=#person-timeline .sidebar
+
+I can follow Esmeralda
+    Element should contain  css=.icon-eye  Follow Esmeralda Claassen
+    Click Element  css=.icon-eye
+    Wait Until Element Is visible  css=.icon-eye
+    Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
+
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
 
