@@ -549,7 +549,10 @@ def caseworkspaces_spec(context):
     return caseworkspaces
 
 
-def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
+def create_caseworkspaces(caseworkspaces,
+                          container='workspaces',
+                          force=False,
+                          workflow_policy='case_workflow'):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
@@ -580,7 +583,7 @@ def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
-        wfconfig.setPolicyIn('case_workflow')
+        wfconfig.setPolicyIn(workflow_policy)
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)
