@@ -194,6 +194,7 @@ The manager can grant the Consumer role in a Producer workspace
 The manager can remove a special role from a workspace member
     Given I am in a Consumers workspace as a workspace admin
       And I give the Producer role to Allan
+     When I am in a Consumers workspace as a workspace admin
      Then I can remove the Producer role from Allan
 
 The manager can change a special role

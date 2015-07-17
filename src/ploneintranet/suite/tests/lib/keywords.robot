@@ -257,7 +257,6 @@ I give the Producer role to Allan
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
-    Click Button  Close
     Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I give the Admin role to Allan
