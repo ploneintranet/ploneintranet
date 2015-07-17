@@ -26,6 +26,7 @@ from ...utils import map_content_type
 from ...utils import set_cookie
 from ...basecontent.utils import dexterity_update
 import logging
+from ploneintranet.todo.utils import update_task_status
 
 log = logging.getLogger(__name__)
 
@@ -260,32 +261,18 @@ class Sidebar(BaseTile):
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
-            wft = api.portal.get_tool("portal_workflow")
+            # wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
 
             # Do the workflow transitions based on what tasks the user checked
             # or unchecked
             if section == 'task':
-                current_tasks = self.request.form.get('current-tasks', [])
-                active_tasks = self.request.form.get('active-tasks', [])
-
-                catalog = api.portal.get_tool('portal_catalog')
-                brains = catalog(UID={'query': current_tasks,
-                                      'operator': 'or'})
-                for brain in brains:
-                    obj = brain.getObject()
-                    state = wft.getInfoFor(obj, 'review_state')
-                    if brain.UID in active_tasks:
-                        if state in ["open", "planned"]:
-                            api.content.transition(obj, "finish")
-                    else:
-                        if state == "done":
-                            obj.reopen()
+                update_task_status(self)
 
             # Do the property editing. Edits only if there is something to edit
             # in form
-            elif self.can_manage_workspace() and form:
+            if self.can_manage_workspace() and form:
                 modified, errors = dexterity_update(self.context)
 
                 if modified and not errors:

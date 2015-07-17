@@ -542,6 +542,7 @@ I go to the dashboard
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
+    Wait until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}

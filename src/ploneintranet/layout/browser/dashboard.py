@@ -3,6 +3,7 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.tiles import Tile
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.todo.utils import update_task_status
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
@@ -55,8 +56,13 @@ class TasksTile(Tile):
         """
         pc = api.portal.get_tool('portal_catalog')
         me = api.user.get_current().getId()
+        form = self.request.form
+
+        if self.request.method == 'POST' and form:
+            return update_task_status(self, return_status_message=True)
+
         tasks = pc(portal_type='todo',
-                   review_state='open',
+                   review_state=['open', 'planned'],
                    assignee=me,
                    sort_on='due')
         self.grouped_tasks = {}
