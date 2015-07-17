@@ -556,10 +556,12 @@ I unselect the task check box
 
 I see a task is complete
     [arguments]  ${title}
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
     Checkbox Should Be Selected  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I see a task is open
     [arguments]  ${title}
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
     Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
 
 I do not see the completed task is not listed
