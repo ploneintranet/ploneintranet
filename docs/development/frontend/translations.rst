@@ -66,6 +66,29 @@ Translation Workflow
 .. note:: there is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
 
 
+Looking up more context related to the message id
+-------------------------------------------------
+
+- Go to the Transifex translation view
+- Select a line with a message id
+- Look into the translation editor area (usually on the right)
+- There are 5 tabs at the bottom providing additional information:
+    - Suggestions
+        - based on the Glossary and the Translation Memory with distance in %
+        - This helps to match the overall tenor and the common way to describe a certain topic
+    - History
+    - Glossary
+    - Comments
+    - Details
+        - message id / key
+        - size
+        - Occurences (in code)
+            - Use this to look up the source file containing the message id
+            - you can guess if the translation may not visible to users (e.g. in case of an interface docstring or a variable name)
+        - Context (mostly empty for ploneintranet)
+        - Resource (the ploneintranet.pot in our case)
+
+
 Adding terms to the glossary
 ----------------------------
 
@@ -155,7 +178,7 @@ This command will create a new pot file and modify all existing po files by addi
     ./sync18n.py
 
 
-Now take the newly generated ploneintranet.pot file from locales/ and upload it to transifex. 
+Now take the newly generated ploneintranet.pot file from locales/ and upload it to transifex.
 You can do that here https://www.transifex.com/projects/p/plone-intranet/resource/ploneintranetpot/ by clicking the "Update content" button.
 
 Notify the ploneintranet-dev mailinglist that new translations can be added.
