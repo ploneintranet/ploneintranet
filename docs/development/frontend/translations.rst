@@ -162,8 +162,8 @@ Notify the ploneintranet-dev mailing list that new translations can be added.
 Check translations in context
 +++++++++++++++++++++++++++++
 
-.. note:: Check your translations in context.
+.. note:: It is important that translations are reviewed in context.
 
-`Postar <https://gist.github.com/allcaps/a2d5001499e894001bfb>` is a small script that converts all translation stings into asterisks.
+`Postar <https://gist.github.com/allcaps/a2d5001499e894001bfb>`_ is a small script that converts all translation stings into asterisks.
 It is created to quickly identify (un)translated stings in context and can be used in parallel to i18ndude --find-untranslated.
 An temporarily translation to only asterisks also helps to differentiate between translatable stings and content.
