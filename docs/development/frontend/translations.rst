@@ -158,3 +158,12 @@ Now take the newly generated ploneintranet.pot file from locales/ and upload it 
 You can do that here https://www.transifex.com/projects/p/plone-intranet/resource/ploneintranetpot/ by clicking the "Update content" button.
 
 Notify the ploneintranet-dev mailing list that new translations can be added.
+
+Check translations in context
++++++++++++++++++++++++++++++
+
+.. note:: Check your translations in context.
+
+`Postar <https://gist.github.com/allcaps/a2d5001499e894001bfb>` is a small script that converts all translation stings into asterisks.
+It is created to quickly identify (un)translated stings in context and can be used in parallel to i18ndude --find-untranslated.
+An temporarily translation to only asterisks also helps to differentiate between translatable stings and content.
