@@ -25,8 +25,13 @@
 
         <div class="${workspace_id} dark-theme" id="application-body">
 
-            <div id="document-body">
-                <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#document-body">
+            <div id="document-body" tal:define="
+                    formid here/UID;
+                ">
+                <form class="document pat-inject"
+                      id="${formid}"
+                      data-pat-inject="source: #${formid}; target: #${formid} &amp;&amp; source:#workspace-events; target: #workspace-events"
+                      method="POST" action="${context/absolute_url}/view#document-body">
                     <div class="metadata pat-bumper" id="meta">
                         <div class="meta-bar">
                             <h1 class="doc-title" id="document-title" tal:content="context/title">
@@ -72,7 +77,7 @@
                         <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                             <!-- <fieldset class="bar">
                     <input type="text"
-                           name="subjects" placeholder="Tags" 
+                           name="subjects" placeholder="Tags"
                            value="${python:','.join(context.subject)}"
                            tal:attributes="disabled read_only"
                            class="pat-autosuggest"
