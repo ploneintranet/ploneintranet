@@ -11,20 +11,6 @@
   <include package="ploneintranet.layout" file="permissions.zcml" />
   <include package=".tiles" />
 
-  <!-- barceloneta fallbacks without a layer -->
-  <browser:page
-      name="workspaces.html"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      permission="ploneintranet.viewsite"
-      template="templates/workspaces_barceloneta.pt"
-      />
-  <browser:page
-      name="workspaces.html"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
-      permission="ploneintranet.viewsite"
-      template="templates/workspaces_barceloneta.pt"
-      />
-
   <browser:page
       name="workspaces.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
