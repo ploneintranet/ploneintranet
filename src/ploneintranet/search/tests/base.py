@@ -37,6 +37,9 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
         container = self.layer['portal']
+        self._setup_content(container)
+
+    def _setup_content(self, container):
         self.create_doc = partial(self._create_content,
                                   type='Document',
                                   container=container,
@@ -160,6 +163,26 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         # zcatalog finds a Folder, solr does not
         self.assertTrue(response.total_results in (6, 7),
                         response.total_results)
+
+    def test_path_query_with_empty_phrase(self):
+        portal = self.layer['portal']
+        folder1 = self._create_content(
+            type='Folder',
+            container=portal,
+            title=u'Test Folder 1',
+            description=(u'This is a test folder. '),
+            safe_id=False
+        )
+        self._setup_content(folder1)
+        util = self._make_utility()
+        response = util.query(
+            u'', filters=dict(path_parents='/plone/test-folder-1',
+                              portal_type='Document'))
+        self.assertEqual(response.total_results, 6)
+        response = util.query(
+            u'', filters=dict(path_parents='/plone',
+                              portal_type='Document'))
+        self.assertEqual(response.total_results, 12)
 
     def test_query_filter_by_friendly_type(self):
         self.image1 = self.create_doc(
