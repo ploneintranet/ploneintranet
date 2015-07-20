@@ -12,13 +12,13 @@
       <label class="initiator"
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
-        <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator"
+        <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator" placeholder="Pick an initiator" i18n:attributes="placeholder"
         data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
         tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));"/>
       </label>
       <br/>
       <label class="assignee">
-        <span tal:omit-tag="" i18n:translate="">Assignee</span> <input class="pat-autosuggest users" name="assignee"
+        <span tal:omit-tag="" i18n:translate="">Assignee</span> <input class="pat-autosuggest users" name="assignee" placeholder="Pick an assignee" i18n:attributes="placeholder"
         data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
         tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
       </label>

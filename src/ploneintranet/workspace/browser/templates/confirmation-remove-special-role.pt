@@ -18,7 +18,7 @@
                 
             <div class="panel-body">
                 <article>
-                    <p>
+                    <p i18n:translation="">
                         When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?
                     </p>
                 </article>
