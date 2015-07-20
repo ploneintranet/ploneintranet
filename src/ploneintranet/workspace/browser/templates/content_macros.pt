@@ -30,7 +30,7 @@
                tal:attributes="value context/due | nothing"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
-               class="pat-date-picker" placeholder="Set a deadline"/>
+               class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
       <br/>
 
@@ -121,7 +121,7 @@
 
       </fieldset>
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
-      <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest=""
+      <input class="pat-autosuggest users" i18n:attributes="placeholder" placeholder="Pick the Invitees" tal:attributes="disabled read_only" data-pat-autosuggest=""
              data-pat-autosuggest-classes=''/>
 
 
