@@ -153,6 +153,14 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertSetEqual(response.facets['tags'], expected_facets)
         self.assertSetEqual(response.facets['friendly_type_name'], {'Page'})
 
+    def test_query_with_empty_phrase(self):
+        util = self._make_utility()
+        response = util.query(u'')
+        self.assertEqual(len(response.facets['tags']), 11)
+        # zcatalog finds a Folder, solr does not
+        self.assertTrue(response.total_results in (6, 7),
+                        response.total_results)
+
     def test_query_filter_by_friendly_type(self):
         self.image1 = self.create_doc(
             title=u'A Test image',

@@ -20,7 +20,7 @@ class SiteSearch(base.SiteSearch):
     def _create_query_object(self, phrase):
         # Poor man's partial word matching
         phrase = phrase.strip()
-        if not phrase.endswith('*'):
+        if phrase and not phrase.endswith('*'):
             phrase = phrase + '*'
         return dict(SearchableText=phrase)
 

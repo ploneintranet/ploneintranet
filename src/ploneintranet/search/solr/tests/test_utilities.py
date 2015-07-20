@@ -39,7 +39,10 @@ class IntegrationTestMixin(object):
 class TestSiteSearch(IntegrationTestMixin,
                      base_tests.SiteSearchTestsMixin,
                      testing.IntegrationTestCase):
-    """Integration tests for SiteSearch utility."""
+    """Integration tests for SiteSearch utility.
+
+    The actual tests are in ploneintranet.search.tests.base.
+    """
 
     def setUp(self):
         super(TestSiteSearch, self).setUp()
