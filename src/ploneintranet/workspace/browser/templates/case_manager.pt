@@ -32,84 +32,87 @@
                       <!--   </select> -->
                       <!-- </label> -->
                       <label tal:define="departments python:view.get_field_indexes('department')"
-                             tal:condition="departments">
-                        Bearbeitende Einheit
+                             tal:condition="departments" i18n:translate="">
+                        Department
                         <select name="department">
-                          <option value="">Bearbeitende Einheit auswählen</option>
+                          <option value="">Pick the responsible department</option>
                           <tal:r tal:repeat="department departments">
                             <option value="${department}">${department}</option>
                           </tal:r>
                         </select>
                       </label>
-                      <label>
-                        Gesuchsteller
+                      <label i18n:translate="">
+                        Applicant
                         <input type="text"
                                name="applicant_name"
                                data-pat-autosuggest="ajax-data-type: json; ajax-url: ${context/absolute_url}/applicants.json"
                                class="pat-autosuggest"
-                               placeholder="Namen des Gesuchstellers eintragen"/>
+                               i18n:attributes="placeholder"
+                               placeholder="Enter the name of the applicant"/>
                       </label>
-                      <label>
-                        Sachbearbeiter
+                      <label i18n:translate="">
+                        Staff
                         <input type="text"
                                name="staff"
                                data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/absolute_url}/allusers.json"
                                class="pat-autosuggest"
-                               placeholder="Sachbearbeiter wählen" />
+                               i18n:attributes="placeholder"
+                               placeholder="Pick staff" />
                       </label>
-                      <label>
-                        Geschäftstyp
+                      <label i18n:translate="">
+                        Case type
                         <select name="case_type" class="focus">
-                          <option value="">Geschäftstyp auswählen</option>
+                          <option value="" i18n:translate="">Pick case type</option>
                           <tal:r tal:repeat="case_type python:view.get_field_indexes('case_type')">
                             <option value="${case_type}">${case_type}</option>
                           </tal:r>
                         </select>
                       </label>
-                      <label>
+                      <label i18n:translate="">
                         Status
                         <select name="status" class="focus">
-                          <option value="">All</option>
-                          <option value="open">Open</option>
-                          <option value="closed">Closed</option>
+                          <option value="" i18n:translate="">All</option>
+                          <option value="open" i18n:translate="">Open</option>
+                          <option value="closed" i18n:translate="">Closed</option>
                         </select>
                       </label>
 
-                      <label>
-                        Entscheidtermin
+                      <label i18n:translate="">
+                        Scheduled session
                         <input type="text"
                                name="scheduled_session"
                                class="pat-autosuggest"
                                data-pat-autosuggest="ajax-data-type: json; allow-new-words: false; ajax-url: ${context/absolute_url}/scheduled_sessions.json"
-                               placeholder="Wählen Sie einen Termin aus."/>
+                               i18n:attributes="placeholder"
+                               placeholder="Pick a date"/>
                       </label>
 
                       <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
                       <fieldset class="group row date-range">
-                        <label class="six columns">
-                          Earliest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created"/>
+                        <label class="six columns" i18n:translate="">
+                          Earliest creation date <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created"/>
                         </label>
-                        <label class="six columns">
-                          Latest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created"/>
-                        </label>
-                      </fieldset>
-
-                      <fieldset class="group row date-range">
-                        <label class="six columns">
-                          Earliest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified"/>
-                        </label>
-                        <label class="six columns">
-                          Latest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified"/>
+                        <label class="six columns" i18n:translate="">
+                          Latest creation date <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created"/>
                         </label>
                       </fieldset>
 
                       <fieldset class="group row date-range">
-                        <label class="six columns">
-                          Earliest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due"/>
+                        <label class="six columns" i18n:translate="">
+                          Earliest modification date <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified"/>
                         </label>
-                        <label class="six columns">
-                          Latest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due"/>
+                        <label class="six columns" i18n:translate="">
+                          Latest modification date <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified"/>
+                        </label>
+                      </fieldset>
+
+                      <fieldset class="group row date-range">
+                        <label class="six columns" i18n:translate="">
+                          Earliest deadline <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due"/>
+                        </label>
+                        <label class="six columns" i18n:translate="">
+                          Latest deadline <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due"/>
                         </label>
                       </fieldset>
                     </fieldset>
