@@ -9,6 +9,8 @@ def news_item_has_thumbs(obj):
     Provides a catalog-indexable boolean value
     to mark items that have thumbnail previews
     """
+    if not hasattr(obj, 'image') or not obj.image:
+        return False
     adapter = obj.unrestrictedTraverse('@@images')
     if not adapter:
         return False
@@ -21,6 +23,8 @@ def document_has_thumbs(obj):
     Provides a catalog-indexable boolean value
     to mark items that have thumbnail previews
     """
+    if not hasattr(obj, 'image') or not obj.image:
+        return False
     adapter = obj.unrestrictedTraverse('@@images')
     if not adapter:
         return False
