@@ -68,8 +68,8 @@ class ContentView(BrowserView):
                 type="error")
 
         elif modified:
-            api.portal.show_message(_(
-                ' '.join(messages)), request=self.request,
+            api.portal.show_message(
+                ' '.join(messages), request=self.request,
                 type="success")
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
