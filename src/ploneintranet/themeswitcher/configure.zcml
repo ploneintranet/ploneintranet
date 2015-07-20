@@ -31,14 +31,6 @@
         layer="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
         />
 
-    <browser:page
-        name="is_fallback_theme"
-        for="*"
-        permission="zope.Public"
-        class=".action.IsFallbackTheme"
-        layer="ploneintranet.themeswitcher.interfaces.IThemeSwitcher"
-        />
-
    <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- [Themeswitcher]"

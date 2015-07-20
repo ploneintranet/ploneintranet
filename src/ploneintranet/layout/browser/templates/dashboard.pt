@@ -9,14 +9,6 @@
     <body class="view-secure">
         <metal:content fill-slot="content">
 
-          <div tal:condition="here/@@is_fallback_theme"
-               id="viewlet-above-content">
-            <h1 i18n:translate="not_supported_title">Not supported</h1>
-            <p i18n:translate="not_supported_msg">
-              This page is not supported in unstyled default Plone.
-            </p>
-          </div>
-
             <div class="row">
                 <div class="four columns">
                     <div class="item portlets">

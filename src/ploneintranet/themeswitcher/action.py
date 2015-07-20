@@ -25,11 +25,3 @@ class SwitchThemeView(BrowserView):
         else:
             target = current.replace(default_host, fallback_host)
         self.request.response.redirect(target)
-
-
-class IsFallbackTheme(BrowserView):
-    """Helper view to construct conditionals"""
-
-    def __call__(self):
-        policy = theming_policy(self.request)
-        return policy.isFallbackActive()
