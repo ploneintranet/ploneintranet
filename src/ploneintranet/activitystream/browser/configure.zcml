@@ -11,6 +11,14 @@
   <include package=".tiles" />
 
   <!-- FIXME legacy remove -->
+  <browser:viewlet
+      name="ploneintranet.suite.navigation"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".navigation.PloneIntranetNavigation"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
+      />
+
   <browser:page
       name="activity_view"
       for="ploneintranet.activitystream.interfaces.IStatusActivity"
