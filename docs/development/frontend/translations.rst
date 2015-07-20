@@ -14,43 +14,43 @@ For the recognition of the quality of Plone Intranet, a professional "native spe
 
 When a user talks to his colleagues about usage of the Plone Intranet as a tool, the customer is much more successful transforming goals into working results when the experience of the meaning of the language is seamless on the point.
 
-One big challenge to keep terms unique and non ambiguos throughout all occurences and contexts.
+One big challenge to keep terms unique and non ambiguous throughout all occurrences and contexts.
 
-In other words: any user-visible change of translateable terms and i18n ids cannot be made by a backend developer, without first consulting the translation glossary and existing i18n IDs for the right term and getting a UI element reservation in the prototype for that purpose. This provides a major quality assurance on the user experience.
+In other words: any user-visible change of translatable terms and i18n ids cannot be made by a backend developer, without first consulting the translation glossary and existing i18n IDs for the right term and getting a UI element reservation in the prototype for that purpose. This provides a major quality assurance on the user experience.
 
-It is good practise to keep variable names and the main english terms in sync.
+It is good practise to keep variable names and the main English terms in sync.
 
 
 Transifex as the translators workbench tool
 -------------------------------------------
 
-The translations of Plone Intranet are not managed by editing plain .po files. Instead we use the professional translation platform transifex that is free for open source projects <https://www.transifex.com/projects/p/plone-intranet/>`_.
+The translations of Plone Intranet are not managed by editing plain .po files. Instead we use the professional translation platform Transifex that is free for open source projects <https://www.transifex.com/projects/p/plone-intranet/>`_.
 
 Transifex provides:
-- Accounts for non-developer translators as teammembers
+- Accounts for non-developer translators as team members
 - Management and creation of .pot and .po files from a web interface without knowledge of git etc.
 - Comments that can be treated optional as issues to be resolved by others.
 - Different access rights for different languages
-- Easy filtering of translateable strings and translations
-- A translation glossary containing all specific terms that need to be consistent with management of type (verb, noun, adjectiv etc.) and additional comments per language.
-- All language glossaries share the base terms in the canonical language english.
+- Easy filtering of translatable strings and translations
+- A translation glossary containing all specific terms that need to be consistent with management of type (verb, noun, adjective etc.) and additional comments per language.
+- All language glossaries share the base terms in the canonical language English.
 
 Benefits of the glossary
 ++++++++++++++++++++++++
 
 - You see at once if a term is already in use.
-- Then you can search for similar occurences to make them consistent.
-- Use the comments to hint if there are ambiguos or false friend issues already given and avoid misuse.
+- Then you can search for similar occurrences to make them consistent.
+- Use the comments to hint if there are ambiguous or false friend issues already given and avoid misuse.
 
 .. note::
 
    You don't need to install Ploneintranet to work on translations!
-   Get a transifex account and issue a join request.
+   Get a Transifex account and issue a join request.
 
 Translation Workflow
 --------------------
 
-- Go to the Transifex project mainpage at <https://www.transifex.com/projects/p/plone-intranet/>`_
+- Go to the Transifex project main page at <https://www.transifex.com/projects/p/plone-intranet/>`_
 - If not already done join the team for a language.
 - Click on the language you want to work on.
 - The only currently listed resource is the **po** file related to **ploneintranet.pot**. Click on the resource.
@@ -61,16 +61,16 @@ Translation Workflow
 - Start from the top of the sentence translation list.
 - Open the glossary view in another tab.
 
-.. note:: To just search for existing terms in the glossary or "translationmemory" (TM in translators jargon) use the **CONCORDANCE SEARCH** button in the translation view at the top. It opens an overlay view at the bottom of the page.
+.. note:: To just search for existing terms in the glossary or "translation memory" (TM in translators jargon) use the **CONCORDANCE SEARCH** button in the translation view at the top. It opens an overlay view at the bottom of the page.
 
-.. note:: there is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
+.. note:: There is a list of **Keyboard Shortcuts** under the **gear-wheel icon**.
 
 
 Adding terms to the glossary
 ----------------------------
 
-- Take every non obviuos noun, verb or adjective and its translation.
-- Open the glossary using the **View Glossary** button at the Transifex project mainpage at <https://www.transifex.com/projects/p/plone-intranet/>`_.
+- Take every non obvious noun, verb or adjective and its translation.
+- Open the glossary using the **View Glossary** button at the Transifex project main page at https://www.transifex.com/projects/p/plone-intranet/ .
 - Click on the green plus at the top left of the view.
 - Enter the original term and select the right type of word. Be not ashamed to use a dictionary to check for this. If unsure leave unspecific.
 - Enter your translation
@@ -94,9 +94,9 @@ Challenges when translating
    - Always search for the stems of a word and not the full declined terms until necessary.
    - If there are extremely different terms in plurals add them as well.
 
-- If I find a mistake like eg "Email" instead of "E-Mail" in the translation that may occour at multiple places.
+- If I find a mistake like eg "Email" instead of "E-Mail" in the translation that may occur at multiple places.
 
-   - Use the search for filtering in the sentence listing and list all the occurences and fix them (remember to use stem search!).
+   - Use the search for filtering in the sentence listing and list all the occurrences and fix them (remember to use stem search!).
 
 - How do I document the reason behind a correction, if I do a serious change?
 
@@ -110,7 +110,7 @@ Expected Workflow for derivative languages
 Example Germany vs. Switzerland, Austria
 ++++++++++++++++++++++++++++++++++++++++
 
-Beside the currencies there is a need to split the german translations for Germany vs. Switzerland (and Austria) because e.g. of the double s issue for Switzerland and serious different wordings for some usual terms. Currently the German version uses the Switzerland way of avoiding the "ß" and using the "ss". We should ask austrian and suisse native writers (not speaker) to take care for a review.
+Beside the currencies there is a need to split the German translations for Germany vs. Switzerland (and Austria) because e.g. of the double s issue for Switzerland and serious different wordings for some usual terms. Currently the German version uses the Switzerland way of avoiding the "ß" and using the "ss". We should ask Austrian and Suisse native writers (not speaker) to take care for a review.
 
 .. note:: There is maybe also a need on demand for e.g. the "de-br" translation for Belgium since German is one of the official languages! The same for de-it for Tirol. The Plone Community is well known to take care of these details.
 
@@ -120,12 +120,12 @@ Workflow from main to variants
 
 - Finish the main review of cases in doubt marked as issues in the leading "de" translation first
 - Distribute the 100% complete current "de" version to the (currently not complete) "de-de" version.
-- Then the "de-ch", "de-at" versions should get touchup.
+- Then the "de-ch", "de-at" versions should get touch up.
 
 Translations and Releases
 -------------------------
 
-Versioning inside of transifex
+Versioning inside of Transifex
 ++++++++++++++++++++++++++++++
 
 .. todo:: Check the history functions of Transifex. There seem to exist no commit messages, so using the issue/comment trick is the only way to document the purpose of a change.
@@ -149,14 +149,21 @@ They may shadow other missing statements. So once you fixed something, run it ag
 
     i18ndude --find-untranslated ..
 
-Now you really have fixed everthing and want to create a new ploneintranet.pot file and sync it with the existing trnaslated po files.
-This command will create a new pot file and modify all existing po files by adding new strings and removing now unused ones.::
+Now you really have fixed everything and want to create a new ploneintranet.pot file and sync it with the existing translated po files.
+This command will create a new pot file and modify all existing po files by adding new strings and removing now unused ones::
 
     ./sync18n.py
 
-
-Now take the newly generated ploneintranet.pot file from locales/ and upload it to transifex. 
+Now take the newly generated ploneintranet.pot file from locales/ and upload it to Transifex.
 You can do that here https://www.transifex.com/projects/p/plone-intranet/resource/ploneintranetpot/ by clicking the "Update content" button.
 
-Notify the ploneintranet-dev mailinglist that new translations can be added.
+Notify the ploneintranet-dev mailing list that new translations can be added.
 
+Check translations in context
++++++++++++++++++++++++++++++
+
+.. note:: It is important that translations are reviewed in context.
+
+`Postar <https://gist.github.com/allcaps/a2d5001499e894001bfb>`_ is a small script that converts all translation stings into asterisks.
+It is created to quickly identify (un)translated stings in context and can be used in parallel to i18ndude --find-untranslated.
+An temporarily translation to only asterisks also helps to differentiate between translatable stings and content.

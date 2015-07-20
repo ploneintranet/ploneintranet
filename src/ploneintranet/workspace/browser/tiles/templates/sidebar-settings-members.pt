@@ -21,8 +21,8 @@
                 Members
               </h3>
               <div class="quick-functions">
-                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:translate="">Expand sidebar</a>
-                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:translate="" tal:condition="view/can_manage_roster">Functions</a>
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:attributes="title" i18n:translate="" tal:condition="view/can_manage_roster">Functions</a>
                 <a class="pat-toggle toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow" i18n:translate="" tal:condition="view/can_manage_roster">Select</a>
               </div>
             </div>
@@ -64,9 +64,9 @@
 
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
-                       tal:attributes="class string:item ${user/cls}">
+                       tal:attributes="class string:item user ${user/cls}">
                   <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
-                  <a class="follow pat-inject" href="/adrian-white" data-pat-inject="source: #document-body; target: #document-body">
+                  <a class="follow pat-inject" href="${here/portal_url}/profiles/${user/id}" data-pat-inject="source: #document-body; target: #document-body">
                     <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
                     <strong class="title" tal:content="user/title">Adrian White</strong>
                     <tal:block condition="user/description"><br />

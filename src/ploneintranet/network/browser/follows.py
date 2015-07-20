@@ -31,7 +31,7 @@ class ToggleFollowUser(BrowserView):
         self.is_followed = self.util.is_followed(
             self.follow_type, self.followed_id, self.follower)
 
-        if 'follow_button' in self.request:
+        if 'do_toggle_follow' in self.request:
             self.toggle_follow()
 
         if self.is_followed:

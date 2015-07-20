@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="ploneintranet_workflow"
-             title="Ploneintranet Workflow"
-             description="The ploneintranet workflow."
+             title="Ploneintranet Workspace Content Workflow"
+             description="Workflow for content contained within a workspace."
              state_variable="review_state"
              initial_state="draft"
              manager_bypass="False">
@@ -15,6 +15,7 @@
          title="Draft">
     <description>Only visible to me.</description>
     <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="publish"/>
     <permission-map name="Access contents information"
                     acquired="False">
       <permission-role>Manager</permission-role>

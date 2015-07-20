@@ -34,13 +34,11 @@ Breadcrumbs are not borked
     And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
-Manager can view sidebar info
-    Given I am in a workspace as a workspace admin
-    I can go to the sidebar info tile
-
-Member can view sidebar info
+Member can access a user profile from sidebar and follow the user
     Given I am in a workspace as a workspace member
-    I can go to the sidebar info tile
+      And I can open the workspace member settings tab
+     Then I can open Esmeralda's profile
+      And I can follow Esmeralda
 
 Member can view sidebar events
     Given I am in a workspace as a workspace member
