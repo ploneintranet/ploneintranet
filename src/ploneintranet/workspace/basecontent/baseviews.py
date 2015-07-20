@@ -129,8 +129,7 @@ class ContentView(BrowserView):
                     new_state_id=new_state_id,
                     selected=None,
                 ))
-        # Todo: enforce a given order?
-        return states
+        return sorted(states, key=lambda x: x['title'])
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
