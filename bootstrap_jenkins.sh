@@ -1,3 +1,5 @@
+# Default to jenkins.cfg if no config file passed in
+BUILDOUT_CONFIG=${1-jenkins.cfg}
 if [ ! -f bin/activate ]
 then
     virtualenv .
@@ -11,7 +13,7 @@ virtualenv --relocatable .
 . bin/activate
 ./bin/pip install -r requirements.txt || exit 1
 virtualenv --relocatable .
-./bin/buildout -N -t 10 -c jenkins.cfg || exit 1
+./bin/buildout -N -t 10 -c $BUILDOUT_CONFIG || exit 1
 virtualenv --relocatable .
 bundle install --path vendor/bundle --binstubs
 ./bin/develop up -f || exit 1
