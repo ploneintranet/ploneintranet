@@ -6,15 +6,15 @@
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" required="required" class="required" placeholder="Event title" autofocus />
+        <input type="text" name="title" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus />
       </fieldset>
 
       <fieldset class="vertical"
                 tal:define="workspace context/acquire_workspace;
                             workspace_url context/absolute_url">
-        <label class="description">
+        <label class="description" i18n:translate="">
           Description
-          <textarea name="description" placeholder="Enter a description of the event" rows="6"/>
+          <textarea name="description" i18n:attributes="placeholder" placeholder="Enter a description of the event" rows="6"/>
         </label>
 
         <metal:task_fields use-macro="context/content_macros/event_fields"/>
