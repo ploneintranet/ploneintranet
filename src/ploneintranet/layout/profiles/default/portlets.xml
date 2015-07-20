@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<portlets>
+ <assignment name="news" category="context" key="/"
+    manager="plone.rightcolumn" type="portlets.News" visible="False">
+  <property name="count">5</property>
+  <property name="state">
+   <element>published</element>
+  </property>
+ </assignment>
+</portlets>
