@@ -85,7 +85,11 @@ class WorkspaceMembersJSONView(BrowserView):
     """
     def __call__(self):
         members = IWorkspace(self.context).members
-        users = (api.user.get(member) for member in members)
+        users = []
+        for member in members:
+            user = api.user.get(member)
+            if user:
+                users.append(user)
         q = self.request.get('q', '')
         return filter_users_json(q, users)
 
