@@ -11,7 +11,7 @@
       <element>tags</element>
       <element>friendly_type_name</element>
       <element>portal_type</element>
-      <element>path_parents</element>
+      <element>path</element>
     </value>
   </record>
 

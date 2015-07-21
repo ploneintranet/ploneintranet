@@ -168,6 +168,8 @@ class SiteSearch(base.SiteSearch):
     def _apply_filters(self, query, filters):
         interface = query.interface
         for key, value in filters.items():
+            if key == 'path':
+                key = 'path_parents'
             if isinstance(value, list):
                 # create an OR subquery for this filter
                 subquery = interface.Q()
