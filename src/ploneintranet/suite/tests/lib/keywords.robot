@@ -664,7 +664,7 @@ I can go to the sidebar tasks tile of my case
     Wait Until Page Contains  General tasks
 
 I can add a new task
-    [arguments]  ${title}
+    [arguments]  ${title}  ${milestone}=
     Click Link  Create task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
@@ -673,7 +673,7 @@ I can add a new task
     Input Text  css=label.assignee li.select2-search-field input  stoney
     Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
     Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
-    Select From List  milestone  new
+    Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
 
@@ -685,6 +685,11 @@ I can close the first milestone
 I can toggle a milestone
     [arguments]  ${milestone}
     Click Element  xpath=//h4[text()='${milestone}']
+
+The task is done
+    [arguments]  ${title}
+    Click Link  ${title}
+    Wait Until Page Contains Element  xpath=//select[@id='workflow_action']/option[@selected='selected'][@title='Done']
 
 I write a status update
     [arguments]  ${message}
