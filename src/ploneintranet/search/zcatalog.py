@@ -18,11 +18,14 @@ class SiteSearch(base.SiteSearch):
     _apply_security = base.NoOpQueryMethod()
 
     def _create_query_object(self, phrase):
-        # Poor man's partial word matching
-        phrase = phrase.strip()
-        if phrase and not phrase.endswith('*'):
-            phrase = phrase + '*'
-        return dict(SearchableText=phrase)
+        if phrase:
+            # Poor man's partial word matching
+            phrase = phrase.strip()
+            if phrase and not phrase.endswith('*'):
+                phrase = phrase + '*'
+            return dict(SearchableText=phrase)
+        else:
+            return {}
 
     def _apply_debug(self, query):
         from pprint import pprint

@@ -37,6 +37,12 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
         container = self.layer['portal']
+
+        # Some other layer leaves behind a 'robot-test-folder'
+        # that screws up our isolation
+        if 'robot-test-folder' in container.objectIds():
+            api.content.delete(container['robot-test-folder'])
+
         self._setup_content(container)
 
     def _setup_content(self, container):
@@ -123,9 +129,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         verifyObject(ISiteSearch, util)
         search_response = util.query(
             'Test',
-            # Use a filter to avoid zcatalog MissingValue serialization issues
-            # due to the 'robot-test-folder' persisting in tests.
-            filters=dict(friendly_type_name='Page')
         )
         verifyObject(ISearchResponse, search_response)
         for search_result in search_response:
@@ -158,11 +161,15 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
 
     def test_query_with_empty_phrase(self):
         util = self._make_utility()
-        response = util.query(u'')
+        # Need either phrase or filter
+        with self.assertRaises(api.exc.MissingParameterError):
+            util.query()
+
+        response = util.query(filters={
+            'portal_type': 'Document',
+        })
         self.assertEqual(len(response.facets['tags']), 11)
-        # zcatalog finds a Folder, solr does not
-        self.assertTrue(response.total_results in (6, 7),
-                        response.total_results)
+        self.assertEqual(response.total_results, 6)
 
     def test_path_query_with_empty_phrase(self):
         portal = self.layer['portal']
@@ -174,14 +181,16 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             safe_id=False
         )
         self._setup_content(folder1)
+
         util = self._make_utility()
         response = util.query(
-            u'', filters=dict(path_parents='/plone/test-folder-1',
-                              portal_type='Document'))
+            filters=dict(path='/plone/test-folder-1',
+                         portal_type='Document'))
         self.assertEqual(response.total_results, 6)
+
         response = util.query(
-            u'', filters=dict(path_parents='/plone',
-                              portal_type='Document'))
+            filters=dict(path='/plone',
+                         portal_type='Document'))
         self.assertEqual(response.total_results, 12)
 
     def test_query_filter_by_friendly_type(self):

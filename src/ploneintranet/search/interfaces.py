@@ -13,16 +13,18 @@ class IPloneintranetSearchLayer(Interface):
 class ISiteSearch(Interface):
     """Defines a common API for a site search utility."""
 
-    def query(phrase,
+    def query(phrase=None,
               filters=None,
               start_date=None,
               end_date=None,
               start=0,
               step=None):
-        """Perform a query with the given `phase` and options.
+        """Perform a query with the given `phrase` and options.
 
         `filters` parameter must be given as a mapping keyed on
         filter name with values being a list of chosen values for that filter.
+
+        At least one of 'phrase' or 'filters' must be provided.
 
         :param phrase: The phrase to search for.
         :type phrase: str
