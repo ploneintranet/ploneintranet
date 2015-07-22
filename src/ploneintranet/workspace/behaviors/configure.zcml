@@ -10,4 +10,13 @@
       for="ploneintranet.workspace.case.ICase"
       />
 
+  <plone:behavior
+      title="Image field"
+      description=""
+      provides=".image.IImageField"
+      factory=".image.ImageField"
+      for="plone.app.contenttypes.interfaces.IImage"
+      marker=".image.IImageField"
+      />
+
 </configure>
