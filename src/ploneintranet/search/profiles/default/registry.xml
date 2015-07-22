@@ -36,7 +36,7 @@
     <value>
       <element>Title</element>
       <element>Description</element>
-      <element>Subject</element>
+      <element>tags</element>
       <element>SearchableText</element>
     </value>
   </record>
@@ -53,7 +53,7 @@
     <value>
       <element key="Title">5</element>
       <element key="Description">3</element>
-      <element key="Subject">4</element>
+      <element key="tags">4</element>
       <element key="SearchableText">1</element>
     </value>
   </record>
