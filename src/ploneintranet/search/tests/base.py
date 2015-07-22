@@ -56,7 +56,6 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
             subject=(u'test', u'my-tag'),
-            safe_id=False
         )
         self.doc1.modification_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
@@ -97,6 +96,9 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             subject=(u'abra', u'cad', u'abra')
         )
         self.doc6.modification_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
+
+        # Trigger collective.indexing
+        transaction.commit()
 
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
@@ -199,6 +201,8 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             type='Image',
             description=u'Info about this image',
         )
+        transaction.commit()
+
         util = self._make_utility()
         response = util.query(
             u'Test',
@@ -280,6 +284,8 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         with api.env.adopt_roles(roles=['Manager']):
             self._delete_content(self.doc2)
             self._delete_content(self.doc6)
+            transaction.commit()
+
         assert self.doc2.getId() not in self.layer['portal'].keys()
         query_check_total_results(0)
 
@@ -379,6 +385,7 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
         """Does the search respect view permissions?"""
         api.content.transition(obj=self.doc2, transition='publish')
         self.doc2.reindexObject()
+        transaction.commit()
 
         testing.logout()
         util = self._make_utility()
@@ -397,6 +404,8 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
 
             with api.env.adopt_roles(['Manager']):
                 api.content.transition(obj=self.doc1, transition='publish')
+                self.doc1.reindexObject()
+                transaction.commit()
 
             response = self._query(util, 'hopefully')
             self.assertEqual(response.total_results, 1)

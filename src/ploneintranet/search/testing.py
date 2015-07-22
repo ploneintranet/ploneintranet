@@ -2,6 +2,7 @@
 """Base module for unittesting ploneintranet.search."""
 from contextlib import contextmanager
 
+import transaction
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app import testing
 from plone import api
@@ -71,14 +72,12 @@ class IntegrationTestCase(unittest.TestCase):
 
     def _create_content(self, **kw):
         obj = api.content.create(**kw)
+        obj.reindexObject()
         self._created.append(obj)
         return obj
 
     def _delete_content(self, obj):
         api.content.delete(obj=obj)
-
-    def _transistion_content(self, obj):
-        api.content.transition()
 
     def setUp(self):
         self._created = []
@@ -91,6 +90,7 @@ class IntegrationTestCase(unittest.TestCase):
             if obj_id in self.layer['portal']:
                 with api.env.adopt_roles(roles=['Manager']):
                     self._delete_content(obj)
+            transaction.commit()
 
 
 class FunctionalTestCase(unittest.TestCase):

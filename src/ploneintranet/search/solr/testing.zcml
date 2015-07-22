@@ -13,28 +13,4 @@
                    basepath="/solr"
                    core="core1" />
 
-  <subscriber
-      for="Products.CMFCore.interfaces.IContentish
-           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-      handler=".tests.subscribers.on_tests_modify_content"
-      />
-
-  <subscriber
-      for="Products.CMFCore.interfaces.IContentish
-           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler=".tests.subscribers.on_tests_delete_content"
-      />
-  
-  <subscriber
-      for="Products.CMFCore.interfaces.IContentish
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".tests.subscribers.on_tests_add_content"
-      />
-  
-  <subscriber
-      for="Products.CMFCore.interfaces.IContentish
-           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
-      handler=".tests.subscribers.on_tests_transition_content"
-      />
-
 </configure>
