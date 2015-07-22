@@ -30,9 +30,9 @@ class ISiteSearch(Interface):
         :type phrase: str
         :param filters: A mapping of names and values to filter results by.
         :type filters: dict
-        :param start_date: Earliest created date for results.
+        :param start_date: Earliest modified date for results.
         :type start_date: datetime.datetime
-        :param end_date: Most recent created date for results.
+        :param end_date: Most recent modified date for results.
         :type end_date: datetime.datetime
         :param start: The offset position in results to start from.
         :type start: int
