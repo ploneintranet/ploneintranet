@@ -912,13 +912,13 @@ class Sidebar(BaseTile):
         upcoming_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            start={'query': (now), 'range': 'min'},
+            end={'query': now, 'range': 'min'},
         )
 
         # Events which have finished
         older_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            end={'query': (now), 'range': 'max'},
+            end={'query': now, 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
