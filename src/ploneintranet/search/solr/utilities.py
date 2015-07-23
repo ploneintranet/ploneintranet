@@ -154,18 +154,22 @@ class SiteSearch(base.SiteSearch):
 
         Q = self.connection.Q
         phrase_query = Q()
-        boosts = self.phrase_field_boosts
-        for phrase_field in self.phrase_fields:
-            phrase_q = Q(**{phrase_field: phrase})
-            boost = boosts.get(phrase_field)
-            if boost is not None:
-                phrase_q **= boost
-            phrase_query |= phrase_q
+        if phrase:
+            # boosting incompatible with wildcard phrase
+            boosts = self.phrase_field_boosts
+            for phrase_field in self.phrase_fields:
+                phrase_q = Q(**{phrase_field: phrase})
+                boost = boosts.get(phrase_field)
+                if boost is not None:
+                    phrase_q **= boost
+                phrase_query |= phrase_q
         return IQuery(self.connection).query(Q(phrase_query))
 
     def _apply_filters(self, query, filters):
         interface = query.interface
         for key, value in filters.items():
+            if key == 'path':
+                key = 'path_parents'
             if isinstance(value, list):
                 # create an OR subquery for this filter
                 subquery = interface.Q()
