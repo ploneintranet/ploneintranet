@@ -34,6 +34,8 @@ class PersonalizedKeywordsVocabulary(object):
 
     # will add new suggestion sources until min_matches is reached, if possible
     min_matches = 5
+    # optimize for most relevant tag suggestions
+    max_suggest = 9
 
     def __call__(self, context, request=None, query=None):
         """
@@ -78,6 +80,8 @@ class PersonalizedKeywordsVocabulary(object):
             else:
                 counted.sort()
                 counted.reverse()  # most used on top
+                # optimize suggestion set for most relevant tags
+                counted = counted[:self.max_suggest - len(tags)]
                 tags.extend(self._filter([x[1] for x in counted],
                                          blacklist, query))
                 blacklist.extend(tags)  # avoid duplication
