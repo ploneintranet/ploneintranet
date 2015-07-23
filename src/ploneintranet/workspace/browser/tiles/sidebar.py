@@ -1,31 +1,30 @@
-from datetime import datetime
-
+# coding=utf-8
+from ... import MessageFactory as _  # noqa
+from ...basecontent.utils import dexterity_update
+from ...interfaces import IGroupingStorage
+from ...policies import EXTERNAL_VISIBILITY
+from ...policies import JOIN_POLICY
+from ...policies import PARTICIPANT_POLICY
+from ...utils import map_content_type
+from ...utils import parent_workspace
+from ...utils import set_cookie
 from AccessControl import Unauthorized
-from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
+from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
+from plone.app.event.base import localized_now
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet.todo.utils import update_task_status
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
-from zope.publisher.browser import BrowserView
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
-
-from ... import MessageFactory as _  # noqa
-from ...interfaces import IGroupingStorage
-from ...policies import EXTERNAL_VISIBILITY
-from ...policies import JOIN_POLICY
-from ...policies import PARTICIPANT_POLICY
-from ...utils import parent_workspace
-from ...utils import map_content_type
-from ...utils import set_cookie
-from ...basecontent.utils import dexterity_update
+from zope.publisher.browser import BrowserView
 import logging
-from ploneintranet.todo.utils import update_task_status
 
 log = logging.getLogger(__name__)
 
@@ -906,19 +905,19 @@ class Sidebar(BaseTile):
         catalog = api.portal.get_tool('portal_catalog')
         workspace = parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
-        now = datetime.now()
+        now = localized_now()
 
         # Current and future events
         upcoming_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            start={'query': (now), 'range': 'min'},
+            end={'query': now, 'range': 'min'},
         )
 
         # Events which have finished
         older_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            end={'query': (now), 'range': 'max'},
+            end={'query': now, 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
