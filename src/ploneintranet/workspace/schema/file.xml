@@ -1,0 +1,17 @@
+<model xmlns="http://namespaces.plone.org/supermodel/schema"
+       xmlns:marshal="http://namespaces.plone.org/supermodel/marshal"
+       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+       i18n:domain="plone">
+  <schema>
+    <field name="title" type="zope.schema.TextLine">
+      <description />
+      <required>False</required>
+      <title>Title</title>
+    </field>
+    <field name="description" type="zope.schema.Text">
+      <description />
+      <required>False</required>
+      <title>Description</title>
+    </field>
+  </schema>
+</model>

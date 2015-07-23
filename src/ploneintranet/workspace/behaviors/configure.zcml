@@ -17,4 +17,22 @@
       for="plone.app.contenttypes.interfaces.IEvent"
       />
 
+  <plone:behavior
+      title="Image field"
+      description=""
+      provides=".image.IImageField"
+      factory=".image.ImageField"
+      for="plone.app.contenttypes.interfaces.IImage"
+      marker=".image.IImageField"
+      />
+
+  <plone:behavior
+      title="File field"
+      description=""
+      provides=".file.IFileField"
+      factory=".file.FileField"
+      for="plone.app.contenttypes.interfaces.IFile"
+      marker=".file.IFileField"
+      />
+
 </configure>
