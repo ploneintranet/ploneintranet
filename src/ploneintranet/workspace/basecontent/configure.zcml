@@ -87,5 +87,6 @@
 
   <adapter factory=".widgets.PloneIntranetFileConverter" />
   <adapter factory=".widgets.PloneIntranetFileFieldWidget" />
+  <adapter factory=".widgets.PloneIntranetImageFieldWidget" />
 
 </configure>

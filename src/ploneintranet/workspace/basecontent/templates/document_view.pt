@@ -65,6 +65,10 @@
                             tal:condition="python: context.portal_type == 'Image'">
                     <input type="file" class="image" name="image"/>
                   </fieldset>
+                  <fieldset class="bar"
+                            tal:condition="python: context.portal_type == 'File'">
+                    <input type="file" class="file" name="file"/>
+                  </fieldset>
                   <fieldset class="bar description">
                     <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
                   </fieldset>
