@@ -192,7 +192,7 @@ class LibraryTagView(LibraryBaseView):
         path = '/'.join(self.context.getPhysicalPath())
         response = self.query(filters=dict(path=path))
         struct = []
-        for tag in response.facets.get('tags'):
+        for tag in response.facets.get('tags', []):
             url = "%s/tag/%s" % (self.context.absolute_url(),
                                  urllib.quote(tag))
             section = dict(title=tag,
