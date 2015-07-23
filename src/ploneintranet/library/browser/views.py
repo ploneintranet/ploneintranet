@@ -148,7 +148,7 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = None
 
     def publishTraverse(self, request, name):
-        """Extract self.request_tag from URL /@@tag/foobar"""
+        """Extract self.request_tag from URL /tag/foobar"""
         self.request_tag = urllib.unquote(name)
         return self
 
@@ -162,7 +162,7 @@ class LibraryTagView(LibraryBaseView):
         """Toplevel section navigation, targets tag facet"""
         menu = super(LibraryTagView, self).sections()
         for section in menu:
-            section['absolute_url'] += '/@@tag'
+            section['absolute_url'] += '/tag'
         return menu
 
     def children(self):
@@ -171,8 +171,8 @@ class LibraryTagView(LibraryBaseView):
         response = self.sitesearch.query(filters=dict(path=path))
         struct = []
         for tag in response.facets.get('tags'):
-            url = "%s/@@tag/%s" % (self.context.absolute_url(),
-                                   urllib.quote(tag))
+            url = "%s/tag/%s" % (self.context.absolute_url(),
+                                 urllib.quote(tag))
             section = dict(title=tag,
                            absolute_url=url,
                            type='tag',
@@ -192,8 +192,8 @@ class LibraryTagView(LibraryBaseView):
                                                       tags=tag))
         children = []
         for tag in response.facets.get('tags'):
-            url = "%s/@@tag/%s" % (self.context.absolute_url(),
-                                   urllib.quote(tag))
+            url = "%s/tag/%s" % (self.context.absolute_url(),
+                                 urllib.quote(tag))
             children.append(dict(title=tag,
                                  absolute_url=url))
         return children
