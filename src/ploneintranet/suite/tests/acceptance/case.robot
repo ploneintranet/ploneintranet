@@ -72,12 +72,19 @@ Member can view sidebar tasks
 Manager can add a new task
     Given I am in a case workspace as a workspace admin
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Make a plan
+     Then I can add a new task  Make a plan  new
+
+Manager can close an unassigned task from the sidebar
+    Given I am in a case workspace as a workspace admin
+     Then I can go to the sidebar tasks tile of my case
+     Then I can add a new task  Unassigned task
+     Then I select the task check box  Unassigned task
+     Then the task is done  Unassigned task
 
 Manager can mark a new task complete on dashboard
     Given I am in a case workspace as a workspace admin
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Todo soon
+     Then I can add a new task  Todo soon  new
      Then I go to the dashboard
      Then I mark a new task complete
      Then I go to the dashboard
