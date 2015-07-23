@@ -100,7 +100,28 @@
 	        </ul>
 	      </div>
             </div>
-            
+
+            <div class="tile group-by-tag"
+                 tal:define="itemtype child/type"
+                 tal:condition="python: itemtype=='tag'">
+              <div class="content">
+                <h3><a tal:attributes="href child/absolute_url"
+                       tal:content="child/title">main tag</a></h3>
+                <ul class="menu group-by-tag">
+                  <li class="follow-tag"
+                      tal:repeat="subtag child/subtags">
+                    <a tal:attributes="href subtag/absolute_url"
+                       tal:content="subtag/title">sub tag</a>
+                  </li>
+                  <li class="follow-page"
+                      tal:repeat="page child/content">
+                    <a tal:attributes="href page/absolute_url"
+                       tal:content="page/title">sub tag</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+                        
 	    <div class="tile type-page"
                  tal:define="itemtype child/type"
                  tal:condition="python: itemtype=='document'">
@@ -133,27 +154,6 @@
               </a>
 	    </div>
 
-            <div class="tile group-by-tag"
-                 tal:define="itemtype child/type"
-                 tal:condition="python: itemtype=='tag'">
-              <div class="content">
-                <h3><a tal:attributes="href child/absolute_url"
-                       tal:content="child/title">main tag</a></h3>
-                <ul class="menu group-by-tag">
-                  <li class="follow-tag"
-                      tal:repeat="subtag child/subtags">
-                    <a tal:attributes="href subtag/absolute_url"
-                       tal:content="subtag/title">sub tag</a>
-                  </li>
-                  <li class="follow-page"
-                      tal:repeat="page child/content">
-                    <a tal:attributes="href page/absolute_url"
-                       tal:content="page/title">sub tag</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            
           </tal:children>
           
         </div>

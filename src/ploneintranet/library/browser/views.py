@@ -152,6 +152,24 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = urllib.unquote(name)
         return self
 
+    def query(self, filters={}, **kwargs):
+        """Helper method that adds self.request_tag to
+        search phrase.
+
+        Because the search API treats multiple tags as an OR query,
+        whereas we need an AND query, we use phrase AND tags
+        as a workaround to ensure that for each subtag, only
+        results are shown matching both the request_tag and the subtag.
+
+        Note that this is not a 100% workaround - it will match
+        documents that match the request_tag in any field, even if the
+        document is not actually tagged with the request_tag.
+        """
+        if self.request_tag:
+            return self.sitesearch.query(self.request_tag, filters, **kwargs)
+        else:
+            return self.sitesearch.query(filters=filters, **kwargs)
+
     def info(self):
         if self.request_tag:
             return dict(title=self.request_tag, klass='icon-tag')
@@ -168,7 +186,7 @@ class LibraryTagView(LibraryBaseView):
     def children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
-        response = self.sitesearch.query(filters=dict(path=path))
+        response = self.query(filters=dict(path=path))
         struct = []
         for tag in response.facets.get('tags'):
             url = "%s/tag/%s" % (self.context.absolute_url(),
@@ -179,17 +197,18 @@ class LibraryTagView(LibraryBaseView):
                            subtags=[],
                            content=[])
             if self.request_tag:
-                # does not filter on request_tag, only on loop tag
                 section['content'] = self._content_children(path, tag)
+                section['count'] = len(section['content'])
             else:
                 section['subtags'] = self._subtags_children(path, tag)
+                section['count'] = len(section['subtags'])
             struct.append(section)
-        return struct
+        return sorted(struct, key=lambda x: x['count'])
 
     def _subtags_children(self, path, tag):
         """List tags co-occurring with <tag>"""
-        response = self.sitesearch.query(filters=dict(path=path,
-                                                      tags=tag))
+        response = self.query(filters=dict(path=path,
+                                           tags=tag))
         children = []
         for tag in response.facets.get('tags'):
             url = "%s/tag/%s" % (self.context.absolute_url(),
@@ -200,10 +219,10 @@ class LibraryTagView(LibraryBaseView):
 
     def _content_children(self, path, tag):
         """List content tagged as <tag>"""
-        response = self.sitesearch.query(
-            filters=dict(path=path,
-                         tags=tag,
-                         portal_type=utils.pageish))
+        response = self.query(filters=dict(path=path,
+                                           tags=tag,
+                                           portal_type=utils.pageish),
+                              step=100)
         children = []
         for child in response:
             children.append(dict(title=child.title,
