@@ -1,10 +1,14 @@
+import urllib
+
 from logging import getLogger
 from Products.Five import BrowserView
 from plone import api
 from plone.memoize import view
+from zope.component import getUtility
 
 from ploneintranet.library import _
 from ploneintranet.library.browser import utils
+from ploneintranet.search.interfaces import ISiteSearch
 
 log = getLogger(__name__)
 
@@ -137,7 +141,32 @@ class LibraryTagView(LibraryBaseView):
         return {}
 
     def sections(self):
+        """Toplevel section navigation, targets tag facet"""
         menu = super(LibraryTagView, self).sections()
         for section in menu:
-            section['absolute_url'] = '{}/tag'.format(section['absolute_url'])
+            section['absolute_url'] += '/@@tag'
         return menu
+
+    def children(self):
+        """Expose tag facet for library or section"""
+        path = '/'.join(self.context.getPhysicalPath())
+        sitesearch = getUtility(ISiteSearch)
+        response = sitesearch.query(filters=dict(path=path))
+        struct = []
+        for tag in response.facets.get('tags'):
+            url = "%s/@@tag/%s" % (self.context.absolute_url(),
+                                   urllib.quote(tag))
+            section = dict(title=tag,
+                           absolute_url=url,
+                           type='tag',
+                           subtags=[],
+                           content=[])
+            sub_response = sitesearch.query(filters=dict(path=path,
+                                                         tags=tag))
+            for sub_tag in sub_response.facets.get('tags'):
+                sub_url = "%s/@@tag/%s" % (self.context.absolute_url(),
+                                           urllib.quote(sub_tag))
+                section['subtags'].append(dict(title=sub_tag,
+                                               absolute_url=sub_url))
+            struct.append(section)
+        return struct

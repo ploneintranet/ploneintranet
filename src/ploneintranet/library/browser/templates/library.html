@@ -84,6 +84,7 @@
                      tal:content="child/title">HR</a>
 	        </h3>
 	        <p class="description"
+                   tal:condition="child/description|nothing"
                    tal:content="child/description">
 	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
 	        </p>
@@ -130,6 +131,22 @@
                 </p>
               </a>
 	    </div>
+
+            <div class="tile group-by-tag"
+                 tal:define="itemtype child/type"
+                 tal:condition="python: itemtype=='tag'">
+              <div class="content">
+                <h3><a tal:attributes="href child/absolute_url"
+                       tal:content="child/title">main tag</a></h3>
+                <ul class="menu group-by-tag">
+                  <li class="follow-tag"
+                      tal:repeat="subtag child/subtags">
+                    <a tal:attributes="href subtag/absolute_url"
+                       tal:content="subtag/title">sub tag</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
             
           </tal:children>
           
