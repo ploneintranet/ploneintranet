@@ -214,10 +214,13 @@ class LibraryTagView(LibraryBaseView):
         response = self.query(filters=dict(path=path,
                                            tags=tag))
         children = []
-        for tag in response.facets.get('tags'):
+        for _tag in response.facets.get('tags'):
+            if _tag == tag:
+                # work around poor zcatalog faceting implementation
+                continue
             url = "%s/tag/%s" % (self.context.absolute_url(),
-                                 urllib.quote(tag))
-            children.append(dict(title=tag,
+                                 urllib.quote(_tag))
+            children.append(dict(title=_tag,
                                  absolute_url=url))
         return children
 
