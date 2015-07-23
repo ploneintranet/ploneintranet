@@ -52,10 +52,6 @@ def replace_all_behaviors():
         if IDexterityFTI.providedBy(fti):
             for r_beh in REPLACEMENT_BEHAVIORS:
                 replace_behavior(fti, r_beh['old'], r_beh['new'], 'replace')
-            # and add textindexing
-            idx = 'collective.dexteritytextindexer.behavior.IDexterityTextIndexer'  # noqa
-            if idx not in fti.behaviors:
-                fti.behaviors.append(idx)
 
 
 def restore_all_behaviors():
@@ -65,7 +61,6 @@ def restore_all_behaviors():
         if IDexterityFTI.providedBy(fti):
             for r_beh in REPLACEMENT_BEHAVIORS:
                 replace_behavior(fti, r_beh['new'], r_beh['old'], 'restore')
-            # don't remove textindexing - don't know if it was already there
 
 
 def replace_behavior(fti, old, new, msg):

@@ -1,7 +1,6 @@
 from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from collective import dexteritytextindexer
 from plone import api
 from plone.app.dexterity import MessageFactory as _
 from plone.app.dexterity import PloneMessageFactory as _PMF
@@ -108,7 +107,6 @@ class ICategorization(model.Schema):
         fields=['subjects', 'language'],
     )
 
-    dexteritytextindexer.searchable('subjects')
     subjects = schema.Tuple(
         title=_PMF(u'label_tags', default=u'Tags'),
         description=_PMF(
