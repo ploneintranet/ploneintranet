@@ -3,8 +3,11 @@ import urllib
 from logging import getLogger
 from Products.Five import BrowserView
 from plone import api
+from plone.app.layout.globals.interfaces import IViewView
 from plone.memoize import view
 from zope.component import getUtility
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.library import _
 from ploneintranet.library.browser import utils
@@ -135,10 +138,25 @@ class LibraryFolderView(LibraryBaseView):
 
 class LibraryTagView(LibraryBaseView):
 
+    implements(IPublishTraverse, IViewView)
+
     groupby = 'tag'
 
+    def __init__(self, context, request):
+        super(LibraryTagView, self).__init__(context, request)
+        self.sitesearch = getUtility(ISiteSearch)
+        self.request_tag = None
+
+    def publishTraverse(self, request, name):
+        """Extract self.request_tag from URL /@@tag/foobar"""
+        self.request_tag = urllib.unquote(name)
+        return self
+
     def info(self):
-        return {}
+        if self.request_tag:
+            return dict(title=self.request_tag, klass='icon-tag')
+        else:
+            return {}
 
     def sections(self):
         """Toplevel section navigation, targets tag facet"""
@@ -150,8 +168,7 @@ class LibraryTagView(LibraryBaseView):
     def children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
-        sitesearch = getUtility(ISiteSearch)
-        response = sitesearch.query(filters=dict(path=path))
+        response = self.sitesearch.query(filters=dict(path=path))
         struct = []
         for tag in response.facets.get('tags'):
             url = "%s/@@tag/%s" % (self.context.absolute_url(),
@@ -161,12 +178,34 @@ class LibraryTagView(LibraryBaseView):
                            type='tag',
                            subtags=[],
                            content=[])
-            sub_response = sitesearch.query(filters=dict(path=path,
-                                                         tags=tag))
-            for sub_tag in sub_response.facets.get('tags'):
-                sub_url = "%s/@@tag/%s" % (self.context.absolute_url(),
-                                           urllib.quote(sub_tag))
-                section['subtags'].append(dict(title=sub_tag,
-                                               absolute_url=sub_url))
+            if self.request_tag:
+                # does not filter on request_tag, only on loop tag
+                section['content'] = self._content_children(path, tag)
+            else:
+                section['subtags'] = self._subtags_children(path, tag)
             struct.append(section)
         return struct
+
+    def _subtags_children(self, path, tag):
+        """List tags co-occurring with <tag>"""
+        response = self.sitesearch.query(filters=dict(path=path,
+                                                      tags=tag))
+        children = []
+        for tag in response.facets.get('tags'):
+            url = "%s/@@tag/%s" % (self.context.absolute_url(),
+                                   urllib.quote(tag))
+            children.append(dict(title=tag,
+                                 absolute_url=url))
+        return children
+
+    def _content_children(self, path, tag):
+        """List content tagged as <tag>"""
+        response = self.sitesearch.query(
+            filters=dict(path=path,
+                         tags=tag,
+                         portal_type=utils.pageish))
+        children = []
+        for child in response:
+            children.append(dict(title=child.title,
+                                 absolute_url=child.url))
+        return children

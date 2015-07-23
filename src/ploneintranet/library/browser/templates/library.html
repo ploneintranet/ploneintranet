@@ -22,6 +22,7 @@
                  tal:define="info view/info"
                  tal:condition="info">
           <h1 tal:condition="info/title|nothing"
+              tal:attributes="class info/klass|nothing"
               tal:content="info/title">unlinked title</h1>
 	  <h1 tal:condition="info/chain|nothing">
 	    <nav class="pat-breadcrumbs">
@@ -143,6 +144,11 @@
                       tal:repeat="subtag child/subtags">
                     <a tal:attributes="href subtag/absolute_url"
                        tal:content="subtag/title">sub tag</a>
+                  </li>
+                  <li class="follow-page"
+                      tal:repeat="page child/content">
+                    <a tal:attributes="href page/absolute_url"
+                       tal:content="page/title">sub tag</a>
                   </li>
                 </ul>
               </div>
