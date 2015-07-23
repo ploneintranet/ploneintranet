@@ -551,16 +551,13 @@ def library_spec(context):
                'contents': [
                    {'type': 'Document',
                     'title': 'Holidays',
-                    'tags': ['foo', 'bar'],
                     'desciption': 'Yearly holiday allowance'},
                    {'type': 'Document',
                     'title': 'Sick Leave',
-                    'tags': ['foo', 'baz'],
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
                    {'type': 'News Item',
                     'title': 'Pregnancy',
-                    'tags': ['bar', 'baz'],
                     'desciption': 'Expecting a child?'},
                ]},
           ]}
@@ -644,11 +641,8 @@ def create_library_content(parent,
         if not item['type'].startswith('ploneintranet'):
             # only tag non-folderish content
             wrapped = IDublinCore(obj)
-            if item['tags']:
-                wrapped.subjects = item['tags']
-            else:
-                wrapped.subjects = random.sample(library_tags,
-                                                 random.choice(range(4)))
+            wrapped.subjects = random.sample(library_tags,
+                                             random.choice(range(4)))
         api.content.transition(obj, 'publish')
         obj.reindexObject()  # or solr doesn't find it
         if contents:
