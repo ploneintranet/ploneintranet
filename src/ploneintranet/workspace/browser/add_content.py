@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.i18n.normalizer import idnormalizer
 from ploneintranet.theme import _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
-from DateTime import DateTime
 
 
 class AddContent(BrowserView):
@@ -40,7 +41,8 @@ class AddContent(BrowserView):
             template_id = form.get('template_id')
             if template_id:
                 title = form.get('title')
-                new = create_case_from_template(template_id, title)
+                case_id = idnormalizer.normalize(title)
+                new = create_case_from_template(template_id, case_id)
             else:
                 api.portal.show_message(
                     _('Please specify which Case Template to use'),
