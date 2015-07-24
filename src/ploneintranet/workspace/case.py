@@ -1,5 +1,4 @@
 from plone import api
-from plone.i18n.normalizer import idnormalizer
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
 
@@ -35,13 +34,12 @@ class Case(WorkspaceFolder):
         return "case"
 
 
-def create_case_from_template(template_id, title, obj_id=None):
+def create_case_from_template(template_id, target_id=None):
     portal = api.portal.get()
     template_folder = portal.restrictedTraverse(TEMPLATES_FOLDER)
     if template_folder:
         src = template_folder.restrictedTraverse(template_id)
         if src:
-            target_id = obj_id or idnormalizer.normalize(title)
             target_folder = portal.restrictedTraverse('workspaces')
             new = api.content.copy(
                 source=src,
