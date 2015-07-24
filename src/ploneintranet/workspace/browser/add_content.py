@@ -2,10 +2,9 @@
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.i18n.normalizer import idnormalizer
 from ploneintranet.theme import _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -40,20 +39,8 @@ class AddContent(BrowserView):
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
-                portal = api.portal.get()
-                template_folder = portal.restrictedTraverse(TEMPLATES_FOLDER)
-                if template_folder:
-                    src = template_folder.restrictedTraverse(template_id)
-                    if src:
-                        title = form.get('title')
-                        target_id = idnormalizer.normalize(title)
-                        target_folder = portal.restrictedTraverse('workspaces')
-                        new = api.content.copy(
-                            source=src,
-                            target=target_folder,
-                            id=target_id,
-                            safe_id=True,
-                        )
+                title = form.get('title')
+                new = create_case_from_template(template_id, title)
             else:
                 api.portal.show_message(
                     _('Please specify which Case Template to use'),
