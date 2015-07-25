@@ -317,8 +317,9 @@ Supported types include (class names):
                              tal:attributes="value task/id;
                                              checked python: 'checked' if task['checked'] else ''"
                              />
-                      <a class="pat-inject"
+                      <a class="pat-inject follow pat-switch"
                          data-pat-inject="source: #document-body; target: #document-body"
+                         data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
                          tal:attributes="title task/title;
                                          href task/url"
                          tal:content="task/title"/>
@@ -346,8 +347,9 @@ Supported types include (class names):
                                                checked python:'checked' if task['checked'] else ''"
                                />
 
-                        <a class="pat-inject"
+                        <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
+                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
                            tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
                       </label>
@@ -406,7 +408,9 @@ Supported types include (class names):
                   <metal:event define-macro="eventdetails">
                     <li class="cal-event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
                       <h4 class="title">
-                        <a class="pat-inject"
+                        <a class="pat-inject follow pat-switch"
+                           data-pat-inject="source: #document-body; target: #document-body"
+                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
                            tal:attributes="href string:${event/getURL}#document-body"
                            tal:content="event/Title"/>
                       </h4>
