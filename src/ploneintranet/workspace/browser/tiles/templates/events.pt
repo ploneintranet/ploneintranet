@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body>
+    <div id="portlet-events" class="portlet events">
+
+      <ul class="cal-events">
+        <tal:events repeat="event view/upcoming_events">
+
+          <li class="cal-event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
+            <h4 class="title">
+              <a class="pat-inject"
+                 tal:attributes="href string:${event/getURL}#document-body"
+                 tal:content="event/Title"/>
+            </h4>
+
+            <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+
+            <ul class="details">
+              <li tal:condition="not:show_end|nothing"><span tal:omit-tag="" i18n:translate="">Starts</span>
+              <time
+                  class="start pat-moment"
+                  data-pat-moment="format:relative"
+                  tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
+              <li tal:condition="show_end|nothing"><span tal:omit-tag="" i18n:translate="">Ended</span>
+              <time
+                  class="end pat-moment"
+                  data-pat-moment="format:relative"
+                  tal:content="python:toLocalizedtime(event.end, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
+              <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
+            </ul>
+          </li>
+
+        </tal:events>
+      </ul>
+    </div>
+  </body>
+</html>
