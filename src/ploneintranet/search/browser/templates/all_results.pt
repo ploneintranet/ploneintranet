@@ -72,7 +72,7 @@
                     <!-- Only list tags in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="value facet_values">
-                    <input checked type="checkbox"
+                    <input type="checkbox"
                            name="${option_name}"
                            tal:attributes="value value" />
                     <span tal:replace="value" />
