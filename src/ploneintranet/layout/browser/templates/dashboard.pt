@@ -35,7 +35,9 @@
 
           <div id="portlet-news" data-tile="./@@news.tile"></div>
           
-          <div id="portlet-workspaces" data-tile="./@@workspaces.tile"></div>
+          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
+
+          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
 
           <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
         </div>

@@ -18,14 +18,22 @@ class WorkspacesTile(Tile):
     def __call__(self):
         return self.render()
 
+    @property
+    def workspace_type(self):
+        """
+        A tile should show either Workspacefolders or Cases, not both.
+        """
+        return self.request.form.get('workspace_type', 'workspacefolders')
+
     @memoize
     def workspaces(self):
         """ The list of my workspaces
         """
-        return my_workspaces(self.context)
+        return my_workspaces(self.context, workspace_types=self.workspace_type)
 
 
-def my_workspaces(context, request=None):
+def my_workspaces(
+        context, request=None, workspace_types=['workspacefolders', 'cases']):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
@@ -47,11 +55,15 @@ def my_workspaces(context, request=None):
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
+    portal_types = []
+    if 'cases' in workspace_types:
+        portal_types.append("ploneintranet.workspace.case")
+    if 'workspacefolders' in workspace_types:
+        portal_types.append("ploneintranet.workspace.workspacefolder")
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        portal_type=["ploneintranet.workspace.workspacefolder",
-                     "ploneintranet.workspace.case"],
+        portal_type=portal_types,
         sort_on=sort_by,
         sort_order=order,
         path=ws_path,
