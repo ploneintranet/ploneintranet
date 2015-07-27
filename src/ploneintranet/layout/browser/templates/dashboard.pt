@@ -8,7 +8,9 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content">
-      <tal:dashboard define="dashboard python:request.form.get('dashboard','activity')">
+      <tal:dashboard define="dashboard python:request.form.get('dashboard','activity');
+                             current_user context/portal_membership/getAuthenticatedMember;
+                             user_name current_user/getUserName">
 
         <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/#dashboard">
 	      <label class="bare pat-select">
@@ -38,6 +40,8 @@
           <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
 
           <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
+
+          <div id="portlet-workspaces" data-tile="./profiles/${user_name}/following.tile"></div>
 
           <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
         </div>

@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet.workspace">
+
+  <include package="plone.tiles" file="meta.zcml" />
+
+  <plone:tile
+      add_permission="cmf.ManagePortal"
+      class=".following.FollowingTile"
+      description="A tile to show the users you are following"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      name="following.tile"
+      permission="zope2.View"
+      template="templates/following.pt"
+      title="Following"
+      />
+
+</configure>
