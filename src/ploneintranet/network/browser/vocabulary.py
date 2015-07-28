@@ -53,7 +53,7 @@ class PersonalizedVocabularyView(VocabularyView):
 
         if factory_name in base_perms:
             # don't mess with upstream vocabulary handling
-            return super(PersonalizedVocabularyView(self).get_vocabulary())
+            return super(PersonalizedVocabularyView, self).get_vocabulary()
 
         authorized = None
         sm = getSecurityManager()

@@ -370,8 +370,12 @@ Supported types include (class names):
                     Unassigned
                   </h3>
                   <label tal:repeat="task uatasks">
-                    <input type="checkbox" />
-                    <a class="pat-inject" title="Case task - unassigned" data-pat-inject="source: #document-body; target: #document-body; history: record"
+                    <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
+                    <input type="checkbox" name="active-tasks:list"
+                           tal:attributes="value task/id;
+                                           checked python:'checked' if task['checked'] else ''"
+                           />
+                    <a class="pat-inject" title="${task/title}" data-pat-inject="source: #document-body; target: #document-body; history: record"
                        tal:content="task/title"
                        tal:attributes="href task/url"/>
                   </label>
@@ -400,7 +404,7 @@ Supported types include (class names):
               <ul class="cal-events">
                 <tal:events repeat="event events/upcoming">
                   <metal:event define-macro="eventdetails">
-                    <li class="cal-event">
+                    <li class="cal-event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
                       <h4 class="title">
                         <a class="pat-inject"
                            tal:attributes="href string:${event/getURL}#document-body"
@@ -410,10 +414,16 @@ Supported types include (class names):
                       <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
 
                       <ul class="details">
-                        <li><span tal:omit-tag="" i18n:translate="">Starts</span> <time class="start"
-                        tal:attributes="datetime event/start"
-                        tal:content="event/start">2014-12-15 14:00 GMT+2</time></li>
-
+                        <li tal:condition="not:show_end|nothing"><span tal:omit-tag="" i18n:translate="">Starts</span>
+                            <time
+                                class="start pat-moment"
+                                data-pat-moment="format:relative"
+                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
+                        <li tal:condition="show_end|nothing"><span tal:omit-tag="" i18n:translate="">Ended</span>
+                            <time
+                                class="end pat-moment"
+                                data-pat-moment="format:relative"
+                                tal:content="python:toLocalizedtime(event.end, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
                         <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
                       </ul>
 
@@ -432,7 +442,7 @@ Supported types include (class names):
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="cal-events">
-                <tal:events repeat="event events/older">
+                <tal:events repeat="event events/older" tal:define="show_end python:True">
                   <metal:event use-macro="template/macros/eventdetails" />
                 </tal:events>
               </ul>

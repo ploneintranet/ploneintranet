@@ -6,8 +6,10 @@ from plone.app.testing import setRoles, login
 
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.testing import IntegrationTestCase
+from ploneintranet.network.vocabularies import PersonalizedKeywordsVocabulary
 
 
+max_suggest = PersonalizedKeywordsVocabulary.max_suggest
 vocab = 'ploneintranet.network.vocabularies.Keywords'
 
 
@@ -60,21 +62,19 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         """Test the keyword vocab without query narrowing."""
         view = PersonalizedVocabularyView(self.doc2, self.request)
         data = json.loads(view())
-        self.assertEquals(len(data['results']), 10)
+        self.assertEquals(len(data['results']), max_suggest)
 
     def testVocabularySorted(self):
+        login(self.portal, 'mary_jane')
         self.tag(self.doc1, 'Z tag')
         self.tag(self.doc1, 'A tag')
         self.tag(self.doc1, 'C tag')
         view = PersonalizedVocabularyView(self.doc2, self.request)
         data = json.loads(view())
-        self.assertEquals(len(data['results']), 13)
         tags = [x['text'] for x in data['results']]
         self.assertEquals(tags[0], u'A tag')
         self.assertEquals(tags[1], u'C tag')
         self.assertEquals(tags[2], u'Z tag')
-        self.assertEquals(tags[3], u'a_0_♥')
-        self.assertEquals(tags[12], u'b_4_☀')
 
     def testVocabularyQueryString(self):
         """Test querying a class based vocabulary with a search string.
@@ -185,5 +185,5 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         view = PersonalizedVocabularyView(self.doc2, self.request)
         data = json.loads(view())
         # we expect to find john_doe a_* and b_* suggestions only
-        self.assertEquals(len(data['results']), 10)
+        self.assertEquals(len(data['results']), max_suggest)
         self.assertFalse('many_' in data['results'])

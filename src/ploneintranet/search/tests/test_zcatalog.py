@@ -35,7 +35,10 @@ class IntegrationTestsMixin(object):
 class TestSiteSearch(IntegrationTestsMixin,
                      base_tests.SiteSearchTestsMixin,
                      testing.IntegrationTestCase):
-    """Test the example zcatalog search API implementation"""
+    """Test the example zcatalog search API implementation
+
+    The actual tests are in ploneintranet.search.tests.base.
+    """
 
     def test_spell_corrected_search(self):
         util = self._make_utility()
