@@ -46,6 +46,8 @@
           <div id="portlet-events" data-tile="./@@events.tile"></div>
 
           <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
+
+          <div id="portlet-tasks" data-tile="./@@my_documents.tile"></div>
         </div>
 
         <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"

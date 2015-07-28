@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content">
+
+    <div class="container">
+        <form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces">
+            <!-- Sorting dropdown is out of scope. -->
+            <label class="bare pat-select">
+                <select>
+                    <option>
+                        Most active workspaces on top
+                    </option>
+                    <option>
+                        Newest workspaces on top
+                    </option>
+                </select>
+            </label>
+            <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="">Create workspace</a>
+        </form>
+        <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+          <div class="grid-sizer four columns"></div>
+
+          <tal:r repeat="w view/workspaces">
+            <div class="tile workspace four columns  workspace-open-market-committee"
+                 tal:attributes="class string:tile workspace four columns ${w/class}">
+              <a href="/open-market-committee" class="link"
+                 tal:attributes="href w/url">
+                <h3 tal:content="w/title">Open Market Committee</h3>
+                <p class="description" tal:content="w/description">
+                    The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                </p>
+              </a>
+            </div>
+          </tal:r>
+        </div>
+      </div>
+
+    </metal:content>
+  </body>
+</html>
