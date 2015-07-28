@@ -69,7 +69,7 @@ def dexterity_update(obj, request=None):
             if raw is NOT_CHANGED:
                 continue
 
-            if raw is NO_VALUE:
+            if raw is NO_VALUE and name in request.form:
                 value = field.default
             else:
                 value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
