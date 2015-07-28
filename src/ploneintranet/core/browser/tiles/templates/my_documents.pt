@@ -12,7 +12,7 @@
             <a class="link" href="${my_document/getURL}">
               <h4 class="title">${my_document/Title}</h4>
             </a>
-            <time class="pat-display-time" data-pat-display-time="fromNow: true;" datetime="${python:my_document.modified.utcdatetime().isoformat()}"/>
+            <time class="pat-display-time" data-pat-display-time="from-now: true;" datetime="${python:my_document.modified.utcdatetime().isoformat()}"/>
           </li>
         </tal:my_document>
       </ul>
