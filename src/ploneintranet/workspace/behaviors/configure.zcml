@@ -28,4 +28,11 @@
       marker=".file.IFileField"
       />
 
+  <plone:behavior
+      title="PloneIntranet Event Fields"
+      description=""
+      provides=".event.IPloneIntranetEvent"
+      for="plone.app.contenttypes.interfaces.IEvent"
+      />
+
 </configure>
