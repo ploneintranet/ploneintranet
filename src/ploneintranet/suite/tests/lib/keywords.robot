@@ -521,6 +521,14 @@ I browse to an image
 I view the image
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
 
+I upload a new image
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
+
 I browse to a file
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
@@ -528,6 +536,14 @@ I browse to a file
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I upload a new file
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
