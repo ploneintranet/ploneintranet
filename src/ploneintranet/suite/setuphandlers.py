@@ -640,9 +640,13 @@ def create_library_content(parent,
                                          outputMimeType='text/x-html-safe')
 
         obj = create_as(creator, container=parent, **item)
-        wrapped = IDublinCore(obj)
-        wrapped.subjects = random.sample(library_tags, random.choice(range(4)))
+        if not item['type'].startswith('ploneintranet'):
+            # only tag non-folderish content
+            wrapped = IDublinCore(obj)
+            wrapped.subjects = random.sample(library_tags,
+                                             random.choice(range(4)))
         api.content.transition(obj, 'publish')
+        obj.reindexObject()  # or solr doesn't find it
         if contents:
             create_library_content(obj, contents, creator=creator,
                                    bigsetup=bigsetup)
