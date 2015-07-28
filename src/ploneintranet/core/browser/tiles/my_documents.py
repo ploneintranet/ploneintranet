@@ -22,5 +22,6 @@ class MyDocumentsTile(Tile):
             ],
             sort_on='modified',
             sort_limit=10,
+            sort_order='descending',
         )
         return recently_modified_items
