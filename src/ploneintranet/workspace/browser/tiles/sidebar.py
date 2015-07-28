@@ -662,6 +662,9 @@ class Sidebar(BaseTile):
             #                     url=group_url_tmpl % username,
             #                     id=username)]
             for header in headers:
+                username = header['id']
+                header['title'] = api.user.get(username=username)\
+                    .getProperty('fullname') or username  # admin :-(
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 
