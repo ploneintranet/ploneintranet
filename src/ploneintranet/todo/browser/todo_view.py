@@ -5,12 +5,8 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from ploneintranet.theme import _
 from ploneintranet.workspace.basecontent.baseviews import ContentView
-from ploneintranet.workspace.basecontent.utils import dexterity_update
-from ploneintranet.workspace.utils import parent_workspace
 from zope.component import getUtility
-from zope.event import notify
 from zope.interface import implementer
-from zope.lifecycleevent import ObjectModifiedEvent
 
 log = getLogger(__name__)
 
