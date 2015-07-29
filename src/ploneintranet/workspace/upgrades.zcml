@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.workspace">
+
+    <genericsetup:upgradeStep
+        title="Customize file and image widgets"
+        description="To allow images and files to be replaced"
+        source="*"
+        destination="0003"
+        handler=".upgrades.import_portal_types"
+        profile="ploneintranet.workspace:default" />
+
+</configure>
