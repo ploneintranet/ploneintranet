@@ -110,6 +110,11 @@ class BaseTile(BrowserView):
         )
 
 
+class SidebarSettingsGeneral(BaseTile):
+
+    index = ViewPageTemplateFile('templates/sidebar-settings-general.pt')
+
+
 class SidebarSettingsMembers(BaseTile):
 
     """
