@@ -1233,12 +1233,12 @@
 
 <header id="global-header">
 
-    <a id="hamburger" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu" title="Menu">Menu</a>
 
     <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
             <a class="current" href="#"></a>
         
@@ -1268,7 +1268,8 @@
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
 
-    <nav class="tabs navigation  portal-tabs" id="">
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
 	<a href="/dashboard.html" >Dashboard</a>
 	<a href="/news.html" >News</a>
 	<a href="/library.html" >Library</a>
