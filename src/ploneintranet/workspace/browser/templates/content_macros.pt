@@ -29,7 +29,7 @@
                name="due"
                tal:attributes="value context/due|nothing"
                data-pat-autosubmit="delay: defocus"
-               data-pat-date-picker="behaviour: polyfill; show: date"
+               data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"
                class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
       <br/>
@@ -90,7 +90,7 @@
                  tal:define="start context/start | view/default_start">
               <label class="six columns">
 
-                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date" value="${start}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" placeholder="Date" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json" value="${start}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="start" placeholder="Time"
@@ -106,7 +106,7 @@
             <div class="row"
                  tal:define="end context/end | view/default_end">
               <label class="six columns">
-                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" placeholder="Date" value="${end}"/>
+                <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json" name="end" placeholder="Date" value="${end}"/>
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
