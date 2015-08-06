@@ -42,6 +42,8 @@ class Search(search.SolrSearch):
     def spellcheck(self, **kw):
         newself = self.clone()
         spellchecker = newself.spellchecker
-        kw['q'] = kw['q'].encode('utf-8')
+        query = kw.get('q', '')
+        if isinstance(query, unicode):
+            kw['q'] = query.encode('utf-8')
         spellchecker.update(**kw)
         return newself
