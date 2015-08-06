@@ -1,7 +1,7 @@
 # coding=utf-8
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.content.browser.actions import DeleteConfirmationForm
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from z3c.form import button
 from zope.component import getMultiAdapter
 
@@ -25,7 +25,12 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
         )
         return context_state.view_url()
 
-    @button.buttonAndHandler(_(u'Delete'), name='Delete')
+    def updateActions(self):
+        super(PIDeleteConfirmationForm, self).updateActions()
+        self.actions['Delete'].klass = 'icon-ok-circle'
+        self.actions['Cancel'].klass = 'close-panel icon-cancel-circle'
+
+    @button.buttonAndHandler(_(u'I am sure, delete now'), name='Delete')
     def handle_delete(self, action):
         base_handler = super(PIDeleteConfirmationForm, self).handle_delete
         return base_handler(self, action)

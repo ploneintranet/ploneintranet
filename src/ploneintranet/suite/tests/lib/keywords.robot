@@ -642,14 +642,16 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I go to the dashboard
     Go To  ${PLONE_URL}
