@@ -1,5 +1,6 @@
 # coding=utf-8
 from Products.CMFPlone import PloneMessageFactory as _
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.content.browser.actions import DeleteConfirmationForm
 from z3c.form import button
 from zope.component import getMultiAdapter
@@ -13,6 +14,8 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
     Caveat: we need to reimplement all the actions while overriding,
     because of the button.buttonAndHandler implementation
     '''
+    template = ViewPageTemplateFile('templates/delete_confirmation.pt')
+
     def view_url(self):
         ''' Facade to the homonymous plone_context_state method
         '''
