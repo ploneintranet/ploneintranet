@@ -20,7 +20,7 @@
 
             <div class="panel-body">
                 <article>
-                    <p>
+                    <p i18n:translate="">
                         You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)
                     </p>
                 </article>
