@@ -53,7 +53,7 @@
                         Staff
                         <input type="text"
                                name="staff"
-                               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/absolute_url}/allusers.json"
+                               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/portal_url}/allusers.json"
                                class="pat-autosuggest"
                                i18n:attributes="placeholder"
                                placeholder="Pick staff" />
