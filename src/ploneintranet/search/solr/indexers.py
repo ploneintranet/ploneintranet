@@ -1,20 +1,89 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
 import logging
+from urllib import urlencode
 
 from collective.indexing.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
+from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer import indexer
 from plone.indexer.interfaces import IIndexableObject
-from zope.component import queryMultiAdapter, queryUtility
+from plone.rfc822.interfaces import IPrimaryFieldInfo
+from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
 import requests
 
-from .interfaces import IConnectionConfig, IConnection
+from .interfaces import IContentAdder, IConnectionConfig, IConnection
 from .utilities import prepare_data
 
 
 logger = logging.getLogger(__name__)
+
+
+@implementer(IContentAdder)
+@adapter(IDexterityContent, IConnection)
+class ContentAdder(object):
+
+    def __init__(self, context, solr):
+        self.context = context
+        self.solr = solr
+
+    def add(self, data):
+        data.pop('links', None)
+        self.solr.add(data)
+
+
+@implementer(IContentAdder)
+@adapter(IDexterityContent, IConnection)
+class BinaryAdder(ContentAdder):
+
+    ignore = frozenset({
+        'Date',
+        'SearchableText',
+        'Type',
+        'created',
+        'description',
+        'links'
+    })
+
+    @property
+    def blob_data(self):
+        pfi = IPrimaryFieldInfo(self.context, None)
+        if pfi is not None:
+            named_blob = pfi.field.get(self.context)
+            if named_blob is not None:
+                return named_blob.data
+        return None
+
+    def add(self, data):
+        blob_data = self.blob_data
+        if blob_data is None:
+            return None
+        params = {}
+        for (key, value) in data.items():
+            if key in self.ignore:
+                continue
+            if isinstance(value, (list, tuple)):
+                newval = []
+                for item in value:
+                    if isinstance(item, unicode):
+                        item = item.encode('utf-8')
+                    newval.append(item)
+            else:
+                newval = value
+            params['literal.{}'.format(key)] = newval
+        params['stream.contentType'] = data.get('content_type',
+                                                'application/octet-stream')
+        params['fmap.content'] = 'SearchableText'
+        params['extractFormat'] = 'text'
+        params['commit'] = 'true'
+        params = urlencode(params, doseq=True)
+        url = '{}update/extract?{}'.format(self.solr.conn.url, params)
+        try:
+            requests.post(url, data=blob_data)
+        except requests.ConnectionError as conn_err:
+            logger.exception(conn_err)
+            raise
 
 
 @implementer(IIndexQueueProcessor)
@@ -200,8 +269,12 @@ class ContentIndexer(object):
 
         """
         data = self._get_data(obj, attributes=attributes)
+        portal_type = data.get('portal_type', 'default')
         if data is not None:
-            self._solr.add(data)
+            adder = queryMultiAdapter((obj, self._solr), name=portal_type)
+            if adder is None:
+                adder = ContentAdder(obj, self._solr)
+            adder.add(data)
 
     def reindex(self, obj, attributes=None):
         self.index(obj, attributes)

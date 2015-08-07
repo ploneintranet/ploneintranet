@@ -39,6 +39,22 @@
            factory=".indexers.path_depth" />
   <adapter name="path_parents"
            factory=".indexers.path_parents" />
+  <adapter factory=".indexers.ContentAdder"
+           for="plone.dexterity.interfaces.IDexterityContent
+                .interfaces.IConnection"
+           name="default"
+           />
+  <adapter factory=".indexers.BinaryAdder"
+           for="plone.dexterity.interfaces.IDexterityContent
+                .interfaces.IConnection"
+           name="File"
+           />
+  <adapter factory=".indexers.BinaryAdder"
+           for="plone.dexterity.interfaces.IDexterityContent
+                .interfaces.IConnection"
+           name="Image"
+           />
+
   <utility provides="collective.indexing.interfaces.IIndexQueueProcessor"
            factory=".indexers.ContentIndexer" />
   

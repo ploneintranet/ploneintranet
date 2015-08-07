@@ -1,11 +1,13 @@
 import abc
 import collections
 import datetime
-import transaction
 from functools import partial
 
+import transaction
+from pkg_resources import resource_filename
 from plone import api
 from plone.app import testing
+from plone.namedfile import NamedBlobFile
 from zope.interface.verify import verifyObject
 
 from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
@@ -196,18 +198,29 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(response.total_results, 12)
 
     def test_query_filter_by_friendly_type(self):
-        self.image1 = self.create_doc(
-            title=u'A Test image',
+        img_path = resource_filename(
+            'ploneintranet', 'userprofile/tests/test_avatar.jpg')
+        with open(img_path, 'rb') as fp:
+            img_data = fp.read()
+        self.image1 = self._create_content(
             type='Image',
+            container=self.layer['portal'],
+            title=u'A Test image',
             description=u'Info about this image',
+            file=NamedBlobFile(
+                data=img_data,
+                contentType='image/jpeg',
+                filename=fp.name.decode('utf-8'),
+            )
         )
         transaction.commit()
 
         util = self._make_utility()
         response = util.query(
             u'Test',
-            filters={'friendly_type_name': ['Image', ]}
+            filters={'friendly_type_name': ['Image']}
         )
+        print {result.friendly_type_name for result in response}
         self.assertEqual(response.total_results, 1)
         result = next(iter(response))
         self.assertEqual(result.title, self.image1.title)
@@ -362,6 +375,27 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         response = query(u'Relevant')
         expected_order = [self.doc5.Title(), self.doc6.Title()]
         actual_order = [result.title for result in response]
+
+    def test_file_content_matches(self):
+        self._create_content(
+            type='File',
+            container=self.layer['portal'],
+            title=u'Test File 1',
+            description=(u'This is a test file. '),
+            safe_id=False,
+            file=NamedBlobFile(
+                data=(b"Who's got the brain of JFK? "
+                      b'What does it mean to us now?'),
+                contentType='application/pdf',
+                filename=u'brain-of-j.pdf')
+        )
+        transaction.commit()
+        util = self._make_utility()
+        query = util.query
+        response = query(u'JFK')
+        results = list(response)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].title, u'Test File 1')
 
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):

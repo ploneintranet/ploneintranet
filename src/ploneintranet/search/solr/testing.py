@@ -108,7 +108,6 @@ class SolrLayer(Layer):
         super(SolrLayer, self).tearDown()
         if not SOLR_ENABLED:
             return
-
         self._solr_cmd('stop')
 
 
