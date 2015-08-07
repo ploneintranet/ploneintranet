@@ -8,7 +8,7 @@ from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
 from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
-
+from ploneintranet.workspace import MessageFactory as _
 
 class Workspaces(BrowserView):
 
@@ -36,9 +36,9 @@ class Workspaces(BrowserView):
 
     def sort_options(self):
         options = [{'value': 'alphabet',
-                    'content': 'Alphabetical'},
+                    'content': _(u'Alphabetical')},
                    {'value': 'newest',
-                    'content': 'Newest workspaces on top'},
+                    'content': _(u'Newest workspaces on top')},
                    # Not yet implemented
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}

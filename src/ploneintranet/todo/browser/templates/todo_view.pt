@@ -53,7 +53,7 @@
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
-                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
 
                   </div>
                 </div>
