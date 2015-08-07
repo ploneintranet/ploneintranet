@@ -19,8 +19,7 @@
 
             <div class="panel-body">
               <input type="text" name="user_id" class="large pat-autosuggest users" i18n:attributes="placeholder" placeholder="Search existing users"
-                data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false;"
-                tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/allusers.json'.format(attrs['data-pat-autosuggest'], workspace_url)" />
+                data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${context/portal_url}/allusers.json"/>
             </div>
 
             <div class="buttons panel-footer">
