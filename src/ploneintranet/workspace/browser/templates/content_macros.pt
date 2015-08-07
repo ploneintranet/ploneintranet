@@ -5,7 +5,7 @@
       i18n:domain="ploneintranet">
   <body>
 
-    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False; value python: context.portal_type=='todo' and context.description or ''">
+    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False; value python: context.portal_type=='todo' and context.description or ''" i18n:domain="ploneintranet">
       <label class="description">
           <span tal:omit-tag="" i18n:translate="">Description</span> <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description" i18n:attributes="placeholder; title">${value}</textarea>
       </label>

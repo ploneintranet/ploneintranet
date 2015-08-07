@@ -137,7 +137,7 @@ msgstr "Alle Typen"
 
 #: ../workspace/browser/templates/content_macros.pt:77
 msgid "All day event"
-msgstr "Ganztätiger Termin"
+msgstr "Ganztägiger Termin"
 
 #: ../notifications/browser/notifications.pt:43
 msgid "All notifications"

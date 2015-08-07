@@ -3,11 +3,10 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet.workspace">
+      metal:use-macro="context/main_template/macros/master">
 
   <body class="view-secure">
-    <metal:content fill-slot="content" 
+    <metal:content fill-slot="content" i18n:domain="ploneintranet"
                    tal:define="workspace view/workspace;
                                workspace_url python:workspace.absolute_url();
                                mm_seq view/metromap_sequence;
@@ -88,7 +87,7 @@
                 </tal:milestone>
               </ul>
 
-            
+
           </div>
           <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
           <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
