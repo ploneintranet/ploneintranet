@@ -127,7 +127,7 @@ class SearchResultsView(BrowserView):
 
         search_util = getUtility(ISiteSearch)
         response = search_util.query(
-            keywords,
+            keywords.decode('utf-8'),
             filters=filters,
             start_date=start_date,
             end_date=end_date,

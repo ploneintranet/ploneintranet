@@ -30,6 +30,7 @@
   <include package=".behaviors" />
   <include package=".browser" />
 
+  <include file="upgrades.zcml" />
   <include file="indexers.zcml" />
 
   <subscriber

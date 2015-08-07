@@ -61,6 +61,14 @@
                            class="pat-autosuggest"
                            data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                   </fieldset>
+                  <fieldset class="bar"
+                            tal:condition="python: context.portal_type == 'Image'">
+                    <input type="file" class="image" name="image"/>
+                  </fieldset>
+                  <fieldset class="bar"
+                            tal:condition="python: context.portal_type == 'File'">
+                    <input type="file" class="file" name="file"/>
+                  </fieldset>
                   <fieldset class="bar description">
                     <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
                   </fieldset>

@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
+from .utils import dexterity_update
 from Acquisition import aq_inner
-from Products.Five import BrowserView
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.rfc822.interfaces import IPrimaryFieldInfo
+from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.theme import _
 from ploneintranet.workspace.utils import map_content_type
+from ploneintranet.workspace.utils import parent_workspace
+from Products.Five import BrowserView
 from zope import component
+from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
-from ploneintranet.theme import _
-from .utils import dexterity_update
+from zope.schema.interfaces import IVocabularyFactory
 
 
 @implementer(IBlocksTransformEnabled)
@@ -68,8 +71,8 @@ class ContentView(BrowserView):
                 type="error")
 
         elif modified:
-            api.portal.show_message(_(
-                ' '.join(messages)), request=self.request,
+            api.portal.show_message(
+                ' '.join(messages), request=self.request,
                 type="success")
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
@@ -129,8 +132,7 @@ class ContentView(BrowserView):
                     new_state_id=new_state_id,
                     selected=None,
                 ))
-        # Todo: enforce a given order?
-        return states
+        return sorted(states, key=lambda x: x['title'])
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
@@ -159,3 +161,36 @@ class ContentView(BrowserView):
             if icon_name:
                 return 'icon-file-{0}'.format(icon_name)
         return 'icon-file-code'
+
+
+class HelperView(BrowserView):
+    ''' Use this to provide helper methods
+    '''
+
+    def get_selected_tz(self):
+        ''' Let's try to get this from the start attribute (if found).
+        Otherwise default to the default timezone.
+        '''
+        try:
+            return str(self.context.start.tzinfo)
+        except:
+            return default_timezone()
+
+    def get_tz_options(self):
+        '''Returns the timezone options to be used in a select
+        '''
+        selected_tz = self.get_selected_tz()
+        plone_tzs = getUtility(
+            IVocabularyFactory,
+            'plone.app.vocabularies.CommonTimezones'
+        )(self.context)
+        # The offset and daylight depends on the date/time,
+        # so it is not easy to set it up coherently
+        return [{
+            'id': x.token,
+            'gmt_adjustment': '',  # "GMT+12:00",
+            'use_daylight': '',  # 0
+            'selected': x.token == selected_tz and x.token or None,
+            'value': x.token,
+            'label': x.title,  # '(GMT+12:00) Fiji, Kamchatka, Marshall Is.'
+        } for x in plone_tzs]

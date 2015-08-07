@@ -402,25 +402,37 @@ I can create a structure
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
-    [arguments]  ${title}  ${start}  ${end}
+    [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
     Click link  Events
     Click Link  Create event
     Wait Until Page Contains Element  css=.panel-content form .panel-body
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=start]  text=${start}
     Input Text  css=.panel-content input[name=end]  text=${end}
+    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
 
 I can edit an event
-    [arguments]  ${title}  ${start}  ${end}
+    [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Reload Page
     Click link  Events
     Click Element  xpath=//h3[text()='Older events']
     Click link  ${title}
     Wait Until Page Contains Element  css=div.event-details
+    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
+    Select From List  timezone  ${timezone}
     Click Button  Save
+    Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
+    Textfield Value Should Be  start  ${start}
+    List selection should be  timezone  ${timezone}
+    Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
@@ -509,6 +521,14 @@ I browse to an image
 I view the image
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
 
+I upload a new image
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
+
 I browse to a file
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
@@ -516,6 +536,14 @@ I browse to a file
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I upload a new file
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
@@ -658,7 +686,7 @@ I can go to the sidebar tasks tile of my case
     Wait Until Page Contains  General tasks
 
 I can add a new task
-    [arguments]  ${title}
+    [arguments]  ${title}  ${milestone}=
     Click Link  Create task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
@@ -667,7 +695,7 @@ I can add a new task
     Input Text  css=label.assignee li.select2-search-field input  stoney
     Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
     Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
-    Select From List  milestone  new
+    Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
 
@@ -679,6 +707,11 @@ I can close the first milestone
 I can toggle a milestone
     [arguments]  ${milestone}
     Click Element  xpath=//h4[text()='${milestone}']
+
+The task is done
+    [arguments]  ${title}
+    Click Link  ${title}
+    Wait Until Page Contains Element  xpath=//select[@id='workflow_action']/option[@selected='selected'][@title='Done']
 
 I write a status update
     [arguments]  ${message}
@@ -703,3 +736,37 @@ I can mention the user
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
+
+# *** search related keywords ***
+
+I can see the site search button
+    Page Should Contain Element  css=#global-header input.search
+
+I can search in the site header for ${SEARCH_STRING}
+    Input text  css=#global-header input.search  ${SEARCH_STRING}
+    Submit Form  css=#global-header form#searchGadget_form
+
+I can see the search result ${SEARCH_RESULT_TITLE}
+    Element should be visible  link=${SEARCH_RESULT_TITLE}
+
+I cannot see the search result ${SEARCH_RESULT_TITLE}
+    Element should not be visible  link=${SEARCH_RESULT_TITLE}
+
+I can follow the search result ${SEARCH_RESULT_TITLE}
+    Click Link  link=${SEARCH_RESULT_TITLE}
+    Page should contain  ${SEARCH_RESULT_TITLE}
+
+I can exclude content of type ${CONTENT_TYPE}
+    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+
+The search results do not contain ${STRING_IN_SEARCH_RESULTS}
+    Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
+
+I can set the date range to ${DATE_RANGE_VALUE}
+    Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=${DATE_RANGE_VALUE}"]
+
+I can click the ${TAB_NAME} tab
+    Click Link  link=${TAB_NAME}
+
+# *** END search related keywords ***
