@@ -52,7 +52,7 @@
       </tal:case_todo>
     </metal:task_fields>
 
-    <metal:event_fields define-macro="event_fields"
+    <metal:event_fields define-macro="event_fields" i18n:domain="ploneintranet"
                         tal:define="read_only python:not view.can_edit">
 
       <metal:extra-fields-top define-slot="extra-fields-top"/>
