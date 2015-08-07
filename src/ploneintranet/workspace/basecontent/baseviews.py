@@ -15,7 +15,6 @@ from zope import component
 from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
-from zope.i18n import translate
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
