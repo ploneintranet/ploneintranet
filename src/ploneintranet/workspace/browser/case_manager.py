@@ -39,10 +39,15 @@ class CaseManagerView(BrowserView):
         pc = api.portal.get_tool('portal_catalog')
         form = self.request.form
 
+        portal = api.portal.get()
+        ws_folder = portal.get("workspaces")
+        ws_path = "/".join(ws_folder.getPhysicalPath())
+
         query = {
             'portal_type': 'ploneintranet.workspace.case',
             'sort_on': 'modified',
             'sort_order': 'reversed',
+            'path': ws_path,
         }
 
         for date in ['created', 'modified', 'due']:
