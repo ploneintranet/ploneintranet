@@ -1,5 +1,5 @@
 from zope.publisher.browser import BrowserView
-from .. import MessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from plone import api
 
 

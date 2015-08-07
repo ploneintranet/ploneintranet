@@ -4,7 +4,7 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from zope.component import queryUtility
 
 
