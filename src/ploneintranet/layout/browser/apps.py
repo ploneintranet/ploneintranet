@@ -54,7 +54,7 @@ class Apps(BrowserView):
             _gen_tile('case-manager',
                       u'Case manager',
                       disabled='',
-                      url='@@case-manager',
+                      url='workspaces/@@case-manager',
                       modal=''),
             _gen_tile('app-market', u'App market'),
         ]
