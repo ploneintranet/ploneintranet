@@ -10,6 +10,7 @@ from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace import MessageFactory as _
 
+
 class Workspaces(BrowserView):
 
     """ A view to serve as overview over workspaces
