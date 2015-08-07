@@ -3,12 +3,11 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet.workspace">
+      metal:use-macro="context/main_template/macros/master">
 
   <body class="view-secure">
 
-    <metal:content fill-slot="content">
+    <metal:content fill-slot="content" i18n:domain="ploneintranet">
         <div class="application-case-manager" id="content">
           <div id="document-body">
             <div id="document-content" class="cases-overview">
