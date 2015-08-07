@@ -264,9 +264,7 @@ class TestTodoUtility(IntegrationTestCase):
         Ensure that complete_action can be performed after adding and removing
         all actions.
         """
-        user1_id = self.user1.getId()
         doc1_uid = self.doc1.UID()
         self.util.add_action(doc1_uid, TODO)
         self.util.remove_action(doc1_uid, TODO)
         self.util.complete_action(doc1_uid, TODO)
-
