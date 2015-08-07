@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-07-17 14:03+0000\n"
+"POT-Creation-Date: 2015-07-29 10:56+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Coen van der Kamp <cvanderkamp@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -18,10 +18,6 @@ msgstr ""
 "X-Is-Fallback-For: nl-be nl-nl\n"
 "Language: nl\n"
 
-#: ../workspace/basecontent/baseviews.py:71
-msgid " "
-msgstr ""
-
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr ""
@@ -30,7 +26,7 @@ msgstr ""
 msgid "A Workspace users can collaborate in"
 msgstr "Een werkruimte waar deelnemers kunnen samenwerken"
 
-#: ../search/interfaces.py:53
+#: ../search/interfaces.py:58
 msgid "A contact email address for this search result"
 msgstr ""
 
@@ -38,11 +34,11 @@ msgstr ""
 msgid "A container for workspaces"
 msgstr "Een container voor werkruimtes"
 
-#: ../search/interfaces.py:90
+#: ../search/interfaces.py:95
 msgid "A dictionary of facets and available values"
 msgstr ""
 
-#: ../search/interfaces.py:65
+#: ../search/interfaces.py:70
 msgid "A highlighted summary of this search result"
 msgstr ""
 
@@ -97,7 +93,7 @@ msgstr "Beheerd door beheerder"
 
 #: ../workspace/browser/templates/roster-edit.pt:167
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
-#: ../workspace/browser/tiles/templates/sidebar.pt:462
+#: ../workspace/browser/tiles/templates/sidebar.pt:476
 msgid "Advanced"
 msgstr "Geavanceerd"
 
@@ -112,31 +108,31 @@ msgstr "Geavanceerde permissies"
 msgid "All"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:381
+#: ../workspace/browser/tiles/sidebar.py:380
 msgid "All Authors"
 msgstr "Alle Auteurs"
 
-#: ../workspace/browser/tiles/sidebar.py:377
+#: ../workspace/browser/tiles/sidebar.py:376
 msgid "All Dates"
 msgstr "Alle Datums"
 
-#: ../workspace/browser/tiles/sidebar.py:385
+#: ../workspace/browser/tiles/sidebar.py:384
 msgid "All Letters"
 msgstr "Alle Brieven"
 
-#: ../workspace/browser/tiles/sidebar.py:379
+#: ../workspace/browser/tiles/sidebar.py:378
 msgid "All Tags"
 msgstr "Alle Tags"
 
-#: ../workspace/browser/tiles/sidebar.py:618
+#: ../workspace/browser/tiles/sidebar.py:617
 msgid "All Time"
 msgstr "Alle Tijden"
 
-#: ../workspace/browser/tiles/sidebar.py:383
+#: ../workspace/browser/tiles/sidebar.py:382
 msgid "All Types"
 msgstr "Alle Type"
 
-#: ../workspace/browser/templates/content_macros.pt:71
+#: ../workspace/browser/templates/content_macros.pt:77
 msgid "All day event"
 msgstr ""
 
@@ -144,16 +140,12 @@ msgstr ""
 msgid "All notifications"
 msgstr "Alle notificaties"
 
-#: ../library/browser/views.py:72
+#: ../library/browser/views.py:97
 msgid "All topics"
 msgstr ""
 
 #: ../layout/browser/templates/app-not-available.pt:25
 msgid "Alright"
-msgstr ""
-
-#: ../workspace/browser/templates/workspace-add.pt:66
-msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
 #: ../search/browser/templates/all_results.pt:40
@@ -183,15 +175,15 @@ msgstr "Voeg een bestand toe"
 msgid "Attach a file (or create a picture)"
 msgstr "Voeg een bestand toe (of maak een afbeelding)"
 
-#: ../workspace/basecontent/templates/event_view.pt:42
+#: ../workspace/basecontent/templates/event_view.pt:47
 msgid "Attach documents"
 msgstr ""
 
-#: ../workspace/basecontent/templates/event_view.pt:42
+#: ../workspace/basecontent/templates/event_view.pt:47
 msgid "Attachments"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:282
+#: ../workspace/browser/tiles/sidebar.py:281
 msgid "Attributes changed."
 msgstr ""
 
@@ -207,7 +199,7 @@ msgstr ""
 msgid "Available fields/columns"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:387
+#: ../workspace/browser/tiles/sidebar.py:386
 msgid "Back"
 msgstr "Vorige"
 
@@ -229,10 +221,6 @@ msgstr ""
 msgid "Cancel"
 msgstr "Annuleren "
 
-#: ../workspace/browser/templates/workspace-add.pt:31
-msgid "Case"
-msgstr ""
-
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr ""
@@ -250,11 +238,15 @@ msgstr ""
 msgid "Change the workflow state"
 msgstr ""
 
-#: ../todo/browser/todo_view.py:70
+#: ../todo/browser/todo_view.py:49
 msgid "Changes applied"
 msgstr "Wijzigingen toegepast"
 
-#: ../workspace/browser/templates/content_macros.pt:130
+#: ../workspace/browser/tiles/templates/sidebar.pt:361
+msgid "Close milestone"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:139
 msgid "Confirmed"
 msgstr ""
 
@@ -308,11 +300,14 @@ msgstr ""
 msgid "Create folder"
 msgstr "Folder aanmaken"
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:358
+msgid "Create new task"
+msgstr ""
+
 #: ../workspace/browser/templates/add_task.pt:2
 msgid "Create task"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:13
 #: ../workspace/browser/templates/workspaces.pt:23
 msgid "Create workspace"
 msgstr ""
@@ -329,7 +324,7 @@ msgstr "Knippen"
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:141
 msgid "Declined"
 msgstr ""
 
@@ -338,7 +333,7 @@ msgid "Default role for this workspace"
 msgstr ""
 
 #: ../workspace/basecontent/templates/document_view.pt:35
-#: ../workspace/basecontent/templates/event_view.pt:39
+#: ../workspace/basecontent/templates/event_view.pt:44
 #: ../workspace/browser/tiles/templates/sidebar.pt:114
 msgid "Delete"
 msgstr "Verwijderen"
@@ -347,7 +342,7 @@ msgstr "Verwijderen"
 msgid "Delete this document"
 msgstr ""
 
-#: ../workspace/basecontent/templates/event_view.pt:39
+#: ../workspace/basecontent/templates/event_view.pt:44
 msgid "Delete this event"
 msgstr ""
 
@@ -355,6 +350,7 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
+#: ../workspace/browser/templates/add_event.pt:16
 #: ../workspace/browser/templates/content_macros.pt:10
 msgid "Description"
 msgstr ""
@@ -407,8 +403,20 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:426
+msgid "Ended"
+msgstr ""
+
+#: ../workspace/browser/templates/add_event.pt:17
+msgid "Enter a description of the event"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:10
 msgid "Enter a description of the task"
+msgstr ""
+
+#: ../workspace/browser/templates/add_event.pt:9
+msgid "Event title"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:20
@@ -416,6 +424,7 @@ msgid "Events"
 msgstr "Evenementen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
+#: ../workspace/browser/tiles/templates/sidebar.pt:49
 msgid "Expand sidebar"
 msgstr ""
 
@@ -465,7 +474,7 @@ msgstr ""
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:82
+#: ../workspace/browser/templates/content_macros.pt:88
 msgid "From"
 msgstr ""
 
@@ -481,7 +490,7 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:450
+#: ../workspace/browser/tiles/templates/sidebar.pt:464
 msgid "General"
 msgstr "Algemeen"
 
@@ -515,6 +524,7 @@ msgid "Image"
 msgstr "Afbeelding"
 
 #: ../userprofile/browser/templates/userprofile-edit.pt:14
+#: ../userprofile/browser/templates/userprofile.pt:19
 msgid "Image of {{ page.title }}"
 msgstr ""
 
@@ -555,11 +565,11 @@ msgstr "Uitnodigingen"
 msgid "Invite users to this workspace (via email)"
 msgstr "Gebruikers (per email) uitnodigen voor deze werkruimte"
 
-#: ../workspace/browser/templates/content_macros.pt:123
+#: ../workspace/browser/templates/content_macros.pt:132
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:100
+#: ../workspace/browser/add_content.py:89
 msgid "Item created."
 msgstr ""
 
@@ -567,19 +577,19 @@ msgstr ""
 msgid "Item edited."
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:613
+#: ../workspace/browser/tiles/sidebar.py:612
 msgid "Items modified last month"
 msgstr "Afgelopen maand bewerkte items"
 
-#: ../workspace/browser/tiles/sidebar.py:607
+#: ../workspace/browser/tiles/sidebar.py:606
 msgid "Items modified last week"
 msgstr "Afgelopen week bewerkte items"
 
-#: ../workspace/browser/tiles/sidebar.py:601
+#: ../workspace/browser/tiles/sidebar.py:600
 msgid "Items modified today"
 msgstr "Vandaag bewerkte items "
 
-#: ../workspace/browser/tiles/sidebar.py:619
+#: ../workspace/browser/tiles/sidebar.py:618
 msgid "Items since ever"
 msgstr "Alle items ooit"
 
@@ -599,11 +609,11 @@ msgstr "Nu aanmelden"
 msgid "Last Modified"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:612
+#: ../workspace/browser/tiles/sidebar.py:611
 msgid "Last Month"
 msgstr "Afgelopen maand"
 
-#: ../workspace/browser/tiles/sidebar.py:606
+#: ../workspace/browser/tiles/sidebar.py:605
 msgid "Last Week"
 msgstr "Afgelopen week"
 
@@ -651,10 +661,6 @@ msgstr "Vind ik leuk"
 msgid "Location"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:56
-msgid "Locked down, secret workspace"
-msgstr ""
-
 #: ../todo/vocabularies.py:7
 msgid "Low"
 msgstr "Laag"
@@ -671,16 +677,16 @@ msgstr "Markeer inhoud als \"verplicht leesvoer\" voor alle gebruikers."
 msgid "Member"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:164
+#: ../workspace/browser/tiles/sidebar.py:163
 msgid "Member(s) added"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:172
+#: ../workspace/browser/tiles/sidebar.py:171
 msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:454
+#: ../workspace/browser/tiles/templates/sidebar.pt:468
 msgid "Members"
 msgstr "Leden"
 
@@ -819,7 +825,7 @@ msgstr "Hela, hola! Je bent al lid"
 msgid "Ok"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:432
+#: ../workspace/browser/tiles/templates/sidebar.pt:446
 msgid "Older events"
 msgstr "Oudere evenementen"
 
@@ -831,12 +837,8 @@ msgstr "Alleen beheerders kunnen gebruikers aan een werkruimte toevoegen."
 msgid "Open"
 msgstr "Open"
 
-#: ../workspace/browser/templates/workspace-add.pt:58
-msgid "Open community"
-msgstr ""
-
 #: ../workspace/browser/templates/content_macros.pt:65
-msgid "Organizer"
+msgid "Organiser"
 msgstr ""
 
 #: ../workspace/policies.py:43
@@ -867,11 +869,15 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:39
-msgid "Pick a Case Template"
+#: ../workspace/browser/templates/content_macros.pt:21
+msgid "Pick an assignee"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:59
+#: ../workspace/browser/templates/content_macros.pt:15
+msgid "Pick an initiator"
+msgstr ""
+
+#: ../workspace/browser/add_content.py:48
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -908,14 +914,6 @@ msgstr "Publiseren"
 msgid "Re-tag"
 msgstr "Opnieuw taggen"
 
-#: ../layout/browser/templates/news-tile.pt:19
-msgid "Read more"
-msgstr ""
-
-#: ../workspace/browser/templates/workspace-add.pt:30
-msgid "Regular workspace"
-msgstr ""
-
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
 msgstr ""
@@ -936,11 +934,15 @@ msgstr ""
 msgid "Rename"
 msgstr "Hernoemen"
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:364
+msgid "Reopen milestone"
+msgstr ""
+
 #: ../workspace/browser/templates/add_content.pt:15
 msgid "Rich text"
 msgstr "Text met opmaak"
 
-#: ../workspace/browser/tiles/sidebar.py:185
+#: ../workspace/browser/tiles/sidebar.py:184
 msgid "Role updated"
 msgstr ""
 
@@ -950,11 +952,11 @@ msgstr "Rooster geüpdatet"
 
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 #: ../workspace/basecontent/document.py:73
-#: ../workspace/basecontent/templates/event_view.pt:68
+#: ../workspace/basecontent/templates/event_view.pt:73
 msgid "Save"
 msgstr "Opslaan"
 
-#: ../workspace/basecontent/templates/event_view.pt:68
+#: ../workspace/basecontent/templates/event_view.pt:73
 msgid "Save this document"
 msgstr ""
 
@@ -972,7 +974,7 @@ msgstr ""
 msgid "Secret"
 msgstr "Geheim"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:458
+#: ../workspace/browser/tiles/templates/sidebar.pt:472
 msgid "Security"
 msgstr "Beveiliging"
 
@@ -995,10 +997,6 @@ msgstr "Selecteer werkruimte"
 msgid "Self-Managed"
 msgstr "Eigen beheer"
 
-#: ../workspace/browser/templates/workspace-add.pt:57
-msgid "Self-managed, private teamspace"
-msgstr ""
-
 #: ../invitations/invite_user.pt:48
 msgid "Send"
 msgstr ""
@@ -1006,6 +1004,10 @@ msgstr ""
 #: ../invitations/invite_user.pt:37
 msgid "Send email invite to:"
 msgstr "Stuur uitnodiging per email aan:"
+
+#: ../workspace/browser/templates/content_macros.pt:28
+msgid "Set a deadline"
+msgstr ""
 
 #: ../todo/behaviors.py:15
 msgid "Settings"
@@ -1021,19 +1023,23 @@ msgid "Share this document"
 msgstr ""
 
 #: ../workspace/basecontent/templates/document_view.pt:38
-#: ../workspace/basecontent/templates/event_view.pt:45
+#: ../workspace/basecontent/templates/event_view.pt:50
 msgid "Show extra metadata fields"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:25
+msgid "Show functions"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:32
 msgid "Some Context"
 msgstr ""
 
-#: ../search/interfaces.py:87
+#: ../search/interfaces.py:92
 msgid "Spell corrected search string"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:413
+#: ../workspace/browser/tiles/templates/sidebar.pt:421
 msgid "Starts"
 msgstr "Begint"
 
@@ -1062,7 +1068,7 @@ msgstr "Beheerd door het team"
 msgid "Telephone Number"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:131
+#: ../workspace/browser/templates/content_macros.pt:140
 msgid "Tentative"
 msgstr ""
 
@@ -1082,11 +1088,11 @@ msgstr ""
 msgid "The UUID of this token"
 msgstr "De UID van dit token"
 
-#: ../search/interfaces.py:72
+#: ../search/interfaces.py:77
 msgid "The absolute URL for a preview image representing search result"
 msgstr ""
 
-#: ../search/interfaces.py:79
+#: ../search/interfaces.py:84
 msgid "The absolute URL to the content for this search result based on the path and the host in the current request"
 msgstr ""
 
@@ -1114,11 +1120,11 @@ msgstr "De datum en tijd waarop deze inhoudsactie is aangeroepen"
 msgid "The datetime this token expires"
 msgstr "De datum en tijd dat dit token verloopt"
 
-#: ../search/interfaces.py:50
+#: ../search/interfaces.py:55
 msgid "The description of this search result"
 msgstr ""
 
-#: ../search/interfaces.py:62
+#: ../search/interfaces.py:67
 msgid "The friendly label for the type of search result"
 msgstr ""
 
@@ -1130,19 +1136,19 @@ msgstr "De id van de gebruikte token"
 msgid "The number of uses for this token before it expires"
 msgstr "Het aantal keer dat dit token gebruikt kan worden alvorens het verloopt"
 
-#: ../search/interfaces.py:59
+#: ../search/interfaces.py:64
 msgid "The portal type of this search result"
 msgstr ""
 
-#: ../search/interfaces.py:68
+#: ../search/interfaces.py:73
 msgid "The relative path to a preview imagerepresenting this search result"
 msgstr ""
 
-#: ../search/interfaces.py:76
+#: ../search/interfaces.py:81
 msgid "The relative path to the content for this search result"
 msgstr ""
 
-#: ../search/interfaces.py:47
+#: ../search/interfaces.py:52
 msgid "The title of this search result"
 msgstr ""
 
@@ -1150,7 +1156,7 @@ msgstr ""
 msgid "The token has expired."
 msgstr "De sleutel is verlopen"
 
-#: ../search/interfaces.py:93
+#: ../search/interfaces.py:98
 msgid "The total number of results generated from the query"
 msgstr ""
 
@@ -1174,29 +1180,17 @@ msgstr "De werkruimte is verborgen voor buitenstaanders. Allen deelnemers aan de
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
 msgstr "De werkruimte is zichtbaar, maar niet toegankelijk voor buitenstaanders. Alleen deelnemers aan deze werkruimte krijgen toegang."
 
-#: ../workspace/browser/templates/workspace-add.pt:60
-msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
-msgstr ""
-
-#: ../workspace/browser/templates/workspace-add.pt:63
-msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
-msgstr ""
-
-#: ../workspace/browser/tiles/sidebar.py:290
+#: ../workspace/browser/tiles/sidebar.py:289
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:66
+#: ../workspace/basecontent/baseviews.py:71
 msgid "There was a problem: %s"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:106
+#: ../workspace/browser/add_content.py:95
 #: ../workspace/browser/edit_content.py:38
 msgid "There was a problem: %s."
-msgstr ""
-
-#: ../todo/browser/todo_view.py:54
-msgid "There was an error."
 msgstr ""
 
 #: ../todo/portlets/latest.py:76
@@ -1215,11 +1209,11 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:114
+#: ../workspace/browser/templates/content_macros.pt:120
 msgid "Timezone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:99
+#: ../workspace/browser/templates/content_macros.pt:105
 msgid "To"
 msgstr ""
 
@@ -1228,12 +1222,12 @@ msgid "To:"
 msgstr ""
 
 #: ../search/browser/templates/all_results.pt:43
-#: ../workspace/browser/tiles/sidebar.py:600
+#: ../workspace/browser/tiles/sidebar.py:599
 msgid "Today"
 msgstr "Vandaag"
 
 #: ../workspace/basecontent/templates/document_view.pt:38
-#: ../workspace/basecontent/templates/event_view.pt:45
+#: ../workspace/basecontent/templates/event_view.pt:50
 msgid "Toggle extra metadata"
 msgstr ""
 
@@ -1246,7 +1240,11 @@ msgstr "Token is niet langer geldig"
 msgid "Transfer members to another workspace."
 msgstr "Verplaats deelnemer naar een andere werkruimte."
 
-#: ../workspace/browser/templates/content_macros.pt:129
+#: ../workspace/browser/tiles/templates/sidebar.pt:371
+msgid "Unassigned"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:138
 msgid "Undecided"
 msgstr ""
 
@@ -1254,7 +1252,7 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:191
+#: ../workspace/browser/tiles/sidebar.py:190
 msgid "Unknown function"
 msgstr ""
 
@@ -1262,7 +1260,7 @@ msgstr ""
 msgid "Unlike"
 msgstr "Vind ik niet meer leuk"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:398
+#: ../workspace/browser/tiles/templates/sidebar.pt:404
 msgid "Upcoming events"
 msgstr "Aanstaande evenementen"
 
@@ -1335,7 +1333,7 @@ msgstr "Werkplaatsdeelnemers kunnen inhoud lezen en publiceren. Ze kunnen geen i
 msgid "Workspace policy"
 msgstr "Werkplaatsbeleid"
 
-#: ../workspace/browser/tiles/sidebar.py:243
+#: ../workspace/browser/tiles/sidebar.py:242
 msgid "Workspace security policy changes saved"
 msgstr "Wijzigingen aan het werkplaatsbeleid zijn opgeslagen"
 
@@ -1357,25 +1355,17 @@ msgstr "Je bent nu lid van deze werkplaats"
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:69
-msgid "You can always change these settings later via the security control panel in the workspace."
-msgstr ""
-
 #: ../workspace/browser/templates/joinviewlet.pt:6
 msgid "You can become a member of this workspace"
 msgstr "Je kan deelnemer worden aan deze werkplaats"
 
-#: ../workspace/browser/tiles/sidebar.py:156
+#: ../workspace/browser/tiles/sidebar.py:155
 msgid "You do not have permission to change the workspace policy"
 msgstr "Je bent niet bevoegd het werkplaatsbeleid te wijzigen"
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
 msgstr "Jouw inbox"
-
-#: ../todo/browser/todo_view.py:45
-msgid "Your changes have been saved."
-msgstr "Je wijzigingen zijn opgeslagen."
 
 #: ../messaging/browser/send-message.pt:31
 msgid "Your message here!"
@@ -1386,10 +1376,6 @@ msgstr "Jou bericht hier!"
 #: ../microblog/interfaces.py:15
 msgid "add_statusupdate_button"
 msgstr "Plaatsen"
-
-#: ../userprofile/browser/templates/userprofile.pt:19
-msgid "alt"
-msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
@@ -1406,13 +1392,8 @@ msgstr "datum"
 msgid "document type"
 msgstr "docmenttype"
 
-#. Default: "Download"
-#: ../library/browser/templates/library.html:131
-msgid "download"
-msgstr ""
-
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:306
+#: ../workspace/browser/tiles/sidebar.py:305
 msgid "drop_files_here"
 msgstr "Sleep bestanden hierheen"
 
@@ -1426,8 +1407,13 @@ msgstr ""
 msgid "error_invalid_publication"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
+#: ../workspace/browser/tiles/templates/sidebar.pt:49
+msgid "expand/reduce sidebar"
+msgstr ""
+
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:211
+#: ../workspace/browser/tiles/sidebar.py:210
 msgid "external_visibility_label"
 msgstr "Extern zichtbaar"
 
@@ -1478,7 +1464,7 @@ msgid "items matched your search."
 msgstr ""
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:210
+#: ../workspace/browser/tiles/sidebar.py:209
 msgid "join_policy_label"
 msgstr "Toegangsbeleid"
 
@@ -1497,7 +1483,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:441
+#: ../workspace/browser/tiles/templates/sidebar.pt:455
 msgid "label_no_events_available"
 msgstr ""
 
@@ -1542,23 +1528,18 @@ msgid "no-task-found"
 msgstr "Geen taak gevonden"
 
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:213
+#: ../workspace/browser/tiles/sidebar.py:212
 msgid "participant_policy_label"
 msgstr "Deelnemersbeleid"
 
 #. Default: "Description"
-#: ../workspace/basecontent/templates/event_view.pt:82
+#: ../workspace/basecontent/templates/event_view.pt:87
 msgid "placeholder"
 msgstr ""
 
 #: ../workspace/browser/tiles/workspaces.py:93
 msgid "posted"
 msgstr "Verzonden"
-
-#. Default: "Read more..."
-#: ../library/browser/templates/library.html:128
-msgid "read-more"
-msgstr ""
 
 #. Default: "Current users"
 #: ../workspace/browser/templates/roster-edit.pt:65
@@ -1592,7 +1573,7 @@ msgid "unfollow"
 msgstr "Ontvolg"
 
 #. Default: "Workspace brief description"
-#: ../workspace/browser/tiles/templates/sidebar.pt:483
+#: ../workspace/browser/tiles/templates/sidebar.pt:497
 msgid "workspace_brief_description"
 msgstr "Werkruimte korte omschrijving"
 
@@ -1612,7 +1593,7 @@ msgid "workspace_settings"
 msgstr "Werkruimte-instellingen"
 
 #. Default: "Workspace title"
-#: ../workspace/browser/tiles/templates/sidebar.pt:471
+#: ../workspace/browser/tiles/templates/sidebar.pt:485
 msgid "workspace_title"
 msgstr "Werkruimte-titel"
 
