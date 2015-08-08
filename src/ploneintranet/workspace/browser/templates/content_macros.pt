@@ -130,7 +130,7 @@
 
       </fieldset>
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
-      <input name="invitees" i18n:attributes="placeholder" placeholder="Invitees" class="pat-autosuggest users" tal:attributes="disabled read_only"
+      <input name="invitees" placeholder="Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
              data-pat-autosuggest-classes=''
              data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"/>
 

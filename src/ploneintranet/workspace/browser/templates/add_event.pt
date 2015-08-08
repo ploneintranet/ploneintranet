@@ -13,7 +13,7 @@
                 tal:define="workspace context/acquire_workspace;
                             workspace_url context/absolute_url">
         <label class="description">
-          <span tal:omit-tag="" i18n:translate="">Description</span>
+          <tal:desc i18n:domain="plone" i18n:translate="">Description</tal:desc>
           <textarea name="description" i18n:attributes="placeholder" placeholder="Enter a description of the event" rows="6"/>
         </label>
 

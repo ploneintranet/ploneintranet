@@ -18,7 +18,7 @@
                 tal:attributes="action string:${ws/absolute_url}/sidebar.settings.members">
 
             <div class="panel-body">
-              <input type="text" name="user_id" class="large pat-autosuggest users" placeholder="Search existing users"
+              <input type="text" name="user_id" class="large pat-autosuggest users" i18n:attributes="placeholder" placeholder="Search existing users"
                 data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${context/portal_url}/allusers.json"/>
             </div>
 
