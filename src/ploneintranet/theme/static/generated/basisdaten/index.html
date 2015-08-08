@@ -4,13 +4,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Basisdatenerfassung | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
-		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
+		<link rel="stylesheet" href="//style/screen.css" type="text/css">
+		<link rel="stylesheet" href="//style/colours.css" type="text/css">
 		<script src="++theme++ploneintranet.theme/generated/bundles/ploneintranet.js" type="text/javascript"></script>
 
-		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
+		<link rel="icon" type="image/png" href="//media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
 	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace ws-">
@@ -302,7 +302,7 @@
                 <a href="#sharing-menu" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document">
                     Share
                 </a>
-                <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
+                <!-- <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a> -->
                 <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #ticket-open-closed::element;">
                     <label class="pat-select bare" title="Change the workflow state">
                         <select>
@@ -318,18 +318,9 @@
                 
             </div>
         </div>
-        <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-            <fieldset class="bar description">
-                <textarea name="description" rows="8" title="Description" placeholder="Description"></textarea>
-             </fieldset>
-        </fieldset>
     </div>
     <div id="document-content">
         <div class="document ticket-details">
-            <article>
-            	
-
-            </article>
             <fieldset class="vertical fancy">
                 <label class="description">
                     Description <textarea placeholder="Enter a description of the task" rows="6">Erfassung der Basis-Absenderdaten</textarea>
@@ -338,7 +329,7 @@
                 <label class="initiator">
                     Initiator <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Liz Baker &lt;liz.baker@foo.com&gt;"> 
 	<a href="/liz-baker/" class="pat-avatar "  id="">
-		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz-baker.jpg" alt="" />
+		<img src="/media/avatar-liz-baker.jpg" alt="" />
 	</a>    
 
                 </label>
@@ -1242,7 +1233,7 @@
                         
                             <label>
                                 <input type="checkbox" checked /> <a title="
-" href="/basisdaten#workspace-tickets">Basisdatenerfassung</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/basisdaten#workspace-tickets">Basisdatenerfassung</a>
                             </label>
                         
                     
@@ -1471,7 +1462,7 @@
                             <label>
                                 <input type="checkbox" checked /> <a title="
 
-" href="/workshop#workspace-tickets">Workshop</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/workshop#workspace-tickets">Workshop</a>
                             </label>
                         
                     
@@ -1515,7 +1506,7 @@
                             <label>
                                 <input type="checkbox" checked /> <a title="
 
-" href="/hintergrundcheck#workspace-tickets">Hintergrundcheck machen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/hintergrundcheck#workspace-tickets">Hintergrundcheck machen</a>
                             </label>
                         
                     
@@ -1523,7 +1514,7 @@
                             <label>
                                 <input type="checkbox" checked /> <a title="
 
-" href="/finanzcheck#workspace-tickets">Finanzcheck bzgl. früherer Zuwendungen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/finanzcheck#workspace-tickets">Finanzcheck bzgl. früherer Zuwendungen</a>
                             </label>
                         
                     
@@ -1531,7 +1522,7 @@
                             <label>
                                 <input type="checkbox" checked /> <a title="
 
-" href="/expertenmeinung#workspace-tickets">Meinung Generalvikar einholen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/expertenmeinung#workspace-tickets">Meinung Generalvikar einholen</a>
                             </label>
                         
                     
@@ -1798,7 +1789,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/qa#workspace-tickets">Qualitätscheck</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/qa#workspace-tickets">Qualitätscheck</a>
                             </label>
                         
                     
@@ -2332,7 +2323,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/publizieren#workspace-tickets">Protokoll publizieren</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/publizieren#workspace-tickets">Protokoll publizieren</a>
                             </label>
                         
                     
@@ -2340,7 +2331,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/einbuchen#workspace-tickets">Einbuchen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/einbuchen#workspace-tickets">Einbuchen</a>
                             </label>
                         
                     
@@ -2348,7 +2339,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/benachrichtigung#workspace-tickets">Benachrichtigungen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/benachrichtigung#workspace-tickets">Benachrichtigungen</a>
                             </label>
                         
                     
@@ -2615,7 +2606,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/dankesbrief#workspace-tickets">Dankesbrief ablegen</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/dankesbrief#workspace-tickets">Dankesbrief ablegen</a>
                             </label>
                         
                     
@@ -2886,7 +2877,7 @@
                             <label>
                                 <input type="checkbox"  /> <a title="
 
-" href="/staatsarchiv#workspace-tickets">Übermittlung an Staatsarchiv</a>
+" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/staatsarchiv#workspace-tickets">Übermittlung an Staatsarchiv</a>
                             </label>
                         
                     
@@ -3156,10 +3147,10 @@
                 
                     
                         <label>
-                            <input type="checkbox" /> <a class="pat-inject" title="Case task - unassigned
+                            <input type="checkbox" /> <a class="pat-inject follow pat-switch" title="Case task - unassigned
 
 
-" href="/unassigned" data-pat-inject="source: #document-body; target: #document-body; history: record">Presentation</a>
+" href="/unassigned" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="source: #document-body; target: #document-body; history: record">Presentation</a>
                         </label>
                     
                 
@@ -3387,31 +3378,12 @@
     <div id="workspace-events">
         <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 <a title="Create new document" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
             </div>
         </div>
 
         <div class="content">
-            <div class="pat-collapsible" data-pat-collapsible="store: local" id="upscheduled-events">
-                <h3>Unscheduled events</h3>
-
-                <ul class="cal-events">
-                    <li class="cal-event no-date cal-cat-baggage-handling-regulations">
-                        <h4 class="title"><a class="pat-modal external" href="project-calendar-detail.html#content">Release of the new Baggage Handbook</a></h4>
-
-                        <p class="description">Plan Press Conference and internal event to mark the release of the new Baggage Handbook. Scheduled to happen in September.</p>
-
-                        <ul class="details">
-                            <li>Location <span class="location">Frankfurt, Germany</span></li>
-                        </ul>
-
-                        <form action="">
-                            <button class="iconified icon-trash" type="submit">Delete event</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-
             <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events">
                 <h3>Upcoming events</h3>
 
@@ -4017,7 +3989,7 @@
 <header id="global-header">
 
     <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
-    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu; title: Menu;" title="Menu">Menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu" title="Menu">Menu</a>
 
     <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
@@ -4294,7 +4266,7 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
