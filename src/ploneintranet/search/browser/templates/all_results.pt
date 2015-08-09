@@ -124,17 +124,15 @@
 		    -->
 
                 <dt class="title">
-                    <a href="{{ result.url }}"
-                       tal:attributes="href result/url"
-                       tal:content="result/title">
-                    {{ result.title }}
+                    <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}">
+                    ${result/title}
                     </a>
                 </dt>
 
                 <dd class="description">
                     <!--
                     {% if result.layout == 'event' %}
-                    <a href="{{ result.url }}" class="preview event">
+                    <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="preview event">
                     <time class="calendar-medium pat-auto-scale">
                         <strong class="day">16</strong>
                         <strong class="month char-count-8">September</strong>
@@ -142,25 +140,23 @@
                     </time>
                     </a>
                     {% elsif result.document_type == 'rich' %}
-                    <a href="{{ result.url }}" class="preview rich">
+                    <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="preview rich">
                     {{ result.excerpt }}
                     </a>
                     {% else %}
                     -->
                     <tal:preview tal:define="preview_class python:
 					     view.preview_class(result.portal_type)">
-			<a href="{{ result.url }}"
-			   class="preview ${preview_class}"
-			   tal:attributes="href result/url">
-                            <img src="{{ preview.url }}"
-				 class="pat-avatar"
-				 alt=""
-				 tal:attributes="src result/preview_image_url; 
-						 class python: preview_class == 'user' and 'pat-avatar' or ''"
-				 tal:condition="result/preview_image_url" />
-                            <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg" tal:condition="not: result/preview_image_url" />
-			    <h4 class="name" tal:content="result/title" 
-				tal:condition="python: preview_class == 'user'" />
+            <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+			   class="preview ${preview_class}">
+              <img src="${result/preview_image_url}"
+                   class="${python: preview_class == 'user' and 'pat-avatar' or ''}"
+                   alt=""
+                   tal:attributes="class "
+                   tal:condition="result/preview_image_url" />
+              <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg" tal:condition="not: result/preview_image_url" />
+              <h4 class="name" tal:content="result/title" 
+                  tal:condition="python: preview_class == 'user'" />
 			</a>
                     </tal:preview>
 
@@ -176,8 +172,7 @@
 			   tal:content="result/description">
 			</p>
 		    </tal:nohighlights>
-                    <a href="{{ result.url }}" class="link"
-                       tal:attributes="href result/url"
+                    <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="link"
                        tal:content="python:view.friendly_path(result.url)">
                     {{ result.url }}
                     </a>
