@@ -2,11 +2,11 @@
   <h1 i18n:translate="">
     Create task
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets">
+  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box pat-validate" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets" data-pat-validate="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" />
+        <input type="text" name="title" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" required="required"/>
         <br/>
         <!--textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea-->
         <input name="portal_type" value="todo" type="hidden" /> 

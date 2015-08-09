@@ -58,6 +58,31 @@ class TestPermissions(BaseTestCase):
         # Published doc is OK
         self.traverse_to_item(doc_published)
 
+    def test_consumers_cannot_add(self):
+        """Consumers cannot add content to the workspace"""
+        self.login_as_portal_owner()
+        self.workspace.participant_policy = 'consumers'
+        self.login('user1')
+        with self.assertRaises(Unauthorized):
+            api.content.create(
+                self.workspace,
+                'Document',
+                'my-test-page',
+            )
+
+    def test_consumers_cannot_add_after_change(self):
+        """Consumers cannot add content to the workspace"""
+        self.login_as_portal_owner()
+        self.workspace.participant_policy = 'producers'
+        self.workspace.participant_policy = 'consumers'
+        self.login('user1')
+        with self.assertRaises(Unauthorized):
+            api.content.create(
+                self.workspace,
+                'Document',
+                'my-test-page',
+            )
+
     def test_producers_can_add(self):
         """
         Producers can add content to the workspace, and

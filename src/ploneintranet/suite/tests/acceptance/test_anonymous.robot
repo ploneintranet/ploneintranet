@@ -18,3 +18,8 @@ Anonymous will not see some icon
     Then Element Should Not Be Visible  css=#hamburger
     Then Element Should Not Be Visible  css=#searchForm_gadget
     Then Element Should Not Be Visible  css=nav.tabs.navigation
+
+Anonymous cannot open the password reset form
+    Disable autologin
+    When I open the password reset form
+    Then The page is not found

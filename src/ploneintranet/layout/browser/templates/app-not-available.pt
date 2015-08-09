@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            i18n:domain="ploneintranet">
+  <body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-apps ">
+
+    <div id="content">
+      <div id="document-content" class="pat-modal">
+        <h1 i18n:translate="">
+            App not available
+        </h1>
+        
+        <div class="panel-body">
+            <article>
+              <p i18n:translate="">
+                The app that you selected is not available yet, but will be enabled in the near future. 
+              </p>
+            </article>
+        </div>
+        
+        <div class="buttons panel-footer">
+          <button type="submit" class="close-panel icon-ok-circle" i18n:translate="">
+              Alright
+          </button>                                    
+        </div>    
+      </div>
+    </div>
+  </body>
+</html>

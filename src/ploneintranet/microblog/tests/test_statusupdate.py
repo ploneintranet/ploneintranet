@@ -55,8 +55,8 @@ class TestStatusUpdate(unittest.TestCase):
 
     def test_context_is_not_IMicroblogContext(self):
         mockcontext = object()
-        sa = StatusUpdate('foo', context=mockcontext)
-        self.assertIsNone(sa.context_uuid)
+        su = StatusUpdate('foo', microblog_context=mockcontext)
+        self.assertIsNone(su._microblog_context_uuid)
 
     def test_context_UUID(self):
         import Acquisition
@@ -66,8 +66,8 @@ class TestStatusUpdate(unittest.TestCase):
 
         mockcontext = MockContext()
         uuid = repr(mockcontext)
-        sa = StatusUpdate('foo', context=mockcontext)
-        self.assertEqual(uuid, sa.context_uuid)
+        su = StatusUpdate('foo', microblog_context=mockcontext)
+        self.assertEqual(uuid, su._microblog_context_uuid)
 
     def test_context_acquisition_UUID(self):
         import Acquisition
@@ -83,16 +83,17 @@ class TestStatusUpdate(unittest.TestCase):
         b = MockMicroblogContext()
         wrapped = a.__of__(b)
         uuid = repr(b)
-        sa = StatusUpdate('foo', context=wrapped)
-        self.assertEqual(uuid, sa.context_uuid)
+        su = StatusUpdate('foo', microblog_context=wrapped)
+        self.assertEqual(uuid, su._microblog_context_uuid)
 
     def test_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
-            def _init_context(self, context):
+            def _init_microblog_context(self, context):
                 pass
-        sa = OldStatusUpdate('foo')
+        su = OldStatusUpdate('foo')
         # old data has new code accessors
-        self.assertIsNone(sa.context_uuid)
+        with self.assertRaises(AttributeError):
+            su._microblog_context_uuid
 
     def test_context_object_microblog(self):
         import ExtensionClass
@@ -100,8 +101,8 @@ class TestStatusUpdate(unittest.TestCase):
         class MockMicroblogContext(ExtensionClass.Base):
             implements(IMicroblogContext)
 
-        sa = StatusUpdate('foo', context=MockMicroblogContext())
-        self.assertEqual(sa, sa.getObject())
+        su = StatusUpdate('foo', microblog_context=MockMicroblogContext())
+        self.assertEqual(su, su.getObject())
 
     def test_context_object_object(self):
         import Acquisition
@@ -116,8 +117,8 @@ class TestStatusUpdate(unittest.TestCase):
         a = MockContext()
         b = MockMicroblogContext()
         wrapped = a.__of__(b)
-        sa = StatusUpdate('foo', context=wrapped)
-        self.assertEquals(a, sa.getObject())
+        su = StatusUpdate('foo', microblog_context=wrapped)
+        self.assertEquals(a, su.getObject())
 
     def test_thread_id(self):
         su = StatusUpdate('foo bar', thread_id='jawel')

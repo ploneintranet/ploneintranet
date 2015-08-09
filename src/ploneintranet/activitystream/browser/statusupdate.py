@@ -11,6 +11,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
+from ploneintranet.core.browser.utils import link_urls
 from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet import api as pi_api
 
@@ -34,7 +35,10 @@ class StatusUpdateView(BrowserView):
         '''
         add = 'Plone Social: Add Microblog Status Update'
         try:
-            return api.user.has_permission(add, obj=self.context.context)
+            return api.user.has_permission(
+                add,
+                obj=self.context.microblog_context
+            )
         except api.exc.UserNotFoundError:
             logger.error("UserNotFoundError while rendering a statusupdate.")
             return False
@@ -128,6 +132,7 @@ class StatusUpdateView(BrowserView):
          - add tags
         '''
         text = safe_unicode(self.context.text).replace(u'\n', u'<br />')
+        text = link_urls(text)
         tags = getattr(self.context, 'tags', None)
         mentions = getattr(self.context, 'mentions', None)
         text += link_users(self.portal_url, mentions)

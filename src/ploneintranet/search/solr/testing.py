@@ -5,8 +5,11 @@ import subprocess
 import sys
 import time
 
+from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
+from plone.app.testing import FunctionalTesting
 from plone.testing import Layer
+from plone.testing import z2
 from zope.component import getUtility
 import pkg_resources
 import requests
@@ -118,6 +121,7 @@ NamedBaseLayers = collections.namedtuple(
 
 
 class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
+    """ Basic Plone layer with SOLR support """
 
     defaultBases = NamedBaseLayers(testing.FIXTURE, SOLR_FIXTURE)
 
@@ -145,12 +149,55 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
         getUtility(IMaintenance).purge()
 
 
+class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
+    """ Layer with SOLR support *and* example content """
+
+    def setUpZope(self, app, configuration_context):
+        super(PloneIntranetSearchSolrTestContentLayer, self).setUpZope(
+            app, configuration_context,
+        )
+        # Load ZCML
+        import ploneintranet.suite
+        self.loadZCML(package=ploneintranet.suite)
+
+        import ploneintranet.microblog.statuscontainer
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
+        z2.installProduct(app, 'collective.workspace')
+        z2.installProduct(app, 'collective.indexing')
+        z2.installProduct(app, 'Products.membrane')
+
+    def setUpPloneSite(self, portal):
+        # setup the default workflow
+        portal.portal_workflow.setDefaultChain('simple_publication_workflow')
+        # Install into Plone site using portal_setup
+        self.applyProfile(portal, 'ploneintranet.suite:testing')
+
+    def tearDownPloneSite(self, portal):
+        if not SOLR_ENABLED:
+            return
+
+        # Final purge
+        from .interfaces import IMaintenance
+        getUtility(IMaintenance).purge()
+
+    def testTearDown(self):
+        # Skip purging after every test
+        pass
+
 FIXTURE = PloneIntranetSearchSolrLayer()
+TEST_CONTENT_FIXTURE = PloneIntranetSearchSolrTestContentLayer()
 
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,),
     name='PloneIntranetSearchSolrLayer:Integration'
 )
+
+ROBOT_TESTING = FunctionalTesting(
+    bases=(TEST_CONTENT_FIXTURE,
+           AUTOLOGIN_LIBRARY_FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PloneIntranetSearchSolrLayer:")
 
 
 class IntegrationTestCase(testing.IntegrationTestCase):

@@ -1,4 +1,5 @@
 from Products.Five import BrowserView
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.view import memoize
 from zope.interface import implements
@@ -55,42 +56,85 @@ class WorkspaceState(BaseWorkspaceView):
             return api.content.get_state(self.workspace())
 
 
+def filter_users_json(query, users):
+    """
+    Filter a list of users, by a query string and return the results as JSON.
+    For use with pat-autosuggest.
+
+    :param str query: The search query
+    :param list users: A list of user objects
+    :rtype string: JSON {"user_id1": "user_title1", ...}
+    """
+    filtered_users = []
+    for user in users:
+        fullname = user.getProperty('fullname')
+        email = user.getProperty('email')
+        uid = user.getProperty('id')
+        user_string = '{} {} {}'.format(fullname, email, uid)
+        if query.lower() in user_string.lower():
+            filtered_users.append({
+                'id': uid,
+                'text': '{} <{}>'.format(fullname, email),
+            })
+    return dumps(filtered_users)
+
+
 class WorkspaceMembersJSONView(BrowserView):
     """
-    Return member details in JSON
-
-    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
+    Return workspace members in JSON for use with pat-autosuggest.
     """
     def __call__(self):
-        users = self.context.existing_users()
-        member_details = []
-        for user in users:
-            member_details.append({
-                'text': user['title'] or user['id'],
-                'id': user['id'],
-            })
-        return dumps(member_details)
+        members = IWorkspace(self.context).members
+        users = []
+        for member in members:
+            user = api.user.get(member)
+            if user:
+                users.append(user)
+        q = self.request.get('q', '')
+        return filter_users_json(q, users)
 
 
 class AllUsersJSONView(BrowserView):
     """
-    Return all users in JSON for use in picker
-    TODO: consolidate WorkspaceMembersJSONView with AllUsersJSONView
+    Return all users in JSON for use with pat-autosuggest.
     """
     def __call__(self):
-        q = self.request.get('q', '')
         users = api.user.get_users()
-        member_details = []
-        for user in users:
-            fullname = user.getProperty('fullname')
-            email = user.getProperty('email')
-            uid = user.getProperty('id')
-            if q in fullname or q in email or q in uid:
-                member_details.append({
-                    'text': '%s <%s>' % (fullname, email),
-                    'id': uid,
+        q = self.request.get('q', '')
+        return filter_users_json(q, users)
+
+
+class AllGroupsJSONView(BrowserView):
+    """
+    Return all groups in JSON for use in picker
+    TODO: consolidate AllGroupsJSONView with AllUsersJSONView
+    """
+    def __call__(self):
+        q = self.request.get('q', '').lower()
+        groups = api.group.get_groups()
+        group_details = []
+        ws = IWorkspace(self.context)
+        for group in groups:
+            groupid = group.getId()
+            # XXX Filter out groups representing workspace roles. Review
+            # whether we need/want this and/or can do it more efficiently.
+            skip = False
+            for special_group in ws.available_groups:
+                if groupid.startswith('{}:'.format(special_group)):
+                    skip = True
+            if skip:
+                continue
+            title = group.getProperty('title') or groupid
+            email = group.getProperty('email')
+            if email:
+                title = '%s <%s>' % (title, email)
+            description = group.getProperty('description') or ''
+            if q in title.lower() or q in description.lower():
+                group_details.append({
+                    'text': title,
+                    'id': groupid,
                 })
-        return dumps(member_details)
+        return dumps(group_details)
 
 
 class CaseWorkflowGuardView(BrowserView):

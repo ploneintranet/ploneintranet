@@ -55,6 +55,7 @@ Esmeralda can reply to a reply
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+     And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 Member can reply to a reply in a workspace
@@ -65,6 +66,7 @@ Member can reply to a reply in a workspace
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 Member can mention a user
@@ -100,23 +102,6 @@ Neil can tag a post by searching for a tag
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
 
 *** Keywords ***
-
-I write a status update
-    [arguments]  ${message}
-    Wait Until Element Is visible  css=textarea.pat-content-mirror
-    Element should not be visible  css=button[name='form.buttons.statusupdate']
-    Click element  css=textarea.pat-content-mirror
-    Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
-    Input Text  css=textarea.pat-content-mirror  ${message}
-
-I post a status update
-    [arguments]  ${message}
-    I write a status update    ${message}
-    I submit the status update
-
-I submit the status update
-    Click button  css=button[name='form.buttons.statusupdate']
-
 
 The message is visible as new status update
     [arguments]  ${message}
@@ -160,6 +145,11 @@ The reply is visible after a reload
     Go to    ${location}
     The reply is visibile as a comment  ${message}  ${reply_message}
 
+Both replies are visible
+    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
+    The reply is visibile as a comment  ${message}  ${reply_message1}
+    The reply is visibile as a comment  ${message}  ${reply_message2}
+
 Both replies are visible after a reload
     [arguments]  ${message}  ${reply_message1}  ${reply_message2}
     ${location} =  Get Location
@@ -191,14 +181,6 @@ I can add a tag and search for a tag
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
-    Click element    css=textarea.pat-content-mirror
-
-I can mention the user
-    [arguments]  ${username}
-    Click link    link=Mention people
-    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
 I can mention a user and search for a user

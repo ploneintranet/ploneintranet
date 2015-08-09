@@ -2,26 +2,11 @@
   xmlns="http://namespaces.zope.org/zope"
   i18n_domain="ploneintranet.notifications">
 
-  <!--
-      These views are disabled for now, as the implementation
-      is incomplete and missing any security considerations
-      
   <subscriber
-    for="..interfaces.INotifiable
-         zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".base.base_handler"
-  />
+      for="ploneintranet.microblog.interfaces.IStatusUpdate
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".base.status_update_handler"
+      />
 
-  <subscriber
-    for="..interfaces.INotifiable
-    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    handler=".base.base_handler"
-  />
-
-  <subscriber
-    for="..interfaces.INotifiable
-         Products.CMFCore.interfaces.IActionSucceededEvent"
-    handler=".base.base_handler" />
-  -->
 
 </configure>

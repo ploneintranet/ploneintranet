@@ -68,6 +68,13 @@
       description=""
       handler="ploneintranet.suite.setuphandlers.testing"/>
 
+  <genericsetup:importStep
+      name="ploneintranet.default"
+      title="Setup default"
+      description=""
+      handler="ploneintranet.suite.setuphandlers.default"/>
+
+
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
     <implements interface="ploneintranet.microblog.interfaces.IMicroblogContext"/>

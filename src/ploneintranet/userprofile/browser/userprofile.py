@@ -13,11 +13,23 @@ from ploneintranet import api as pi_api
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 
+import os
 
 AVATAR_SIZES = {
     'profile': 200,
     'stream': 50,
 }
+
+
+def default_avatar(response):
+    """Return the contents of a default profile image"""
+    path = os.path.join(os.path.dirname(__file__), 'defaultUser-168.png')
+    img_data = open(path, 'r').read()
+    response.setHeader('content-type', 'image/png')
+    response.setHeader(
+        'content-disposition', 'inline; filename="DefaultAvatar.png"')
+    response.setHeader('content-length', len(img_data))
+    return img_data
 
 
 class UserProfileView(UserProfileViewForm):
@@ -92,13 +104,17 @@ def stream_avatar_data(profile, size, request):
 
     This is a utility method used by the browser views below.
     """
+    response = request.response
+
+    if not profile:
+        return default_avatar(response)
     imaging = plone_api.content.get_view(
         request=request,
         context=profile,
         name='images')
 
     if size not in AVATAR_SIZES:
-        return None
+        return default_avatar(response)
 
     width = height = AVATAR_SIZES.get(size)
 
@@ -111,16 +127,15 @@ def stream_avatar_data(profile, size, request):
         )
     except TypeError:
         # No image found
-        return None
+        return default_avatar(response)
 
     if scale is not None:
-        response = request.response
         data = scale.data
         from plone.namedfile.utils import set_headers, stream_data
         set_headers(data, response)
         return stream_data(data)
     else:
-        return None
+        return default_avatar(response)
 
 
 class AvatarsView(BrowserView):
@@ -152,9 +167,6 @@ class AvatarsView(BrowserView):
 
     def __call__(self):
         profile = pi_api.userprofile.get(self.userid)
-        if profile is None:
-            raise NotFound
-
         return stream_avatar_data(profile, self.size, self.request)
 
 

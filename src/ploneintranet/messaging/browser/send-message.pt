@@ -38,7 +38,7 @@
                 class="attachments pat-subform pat-autosubmit pat-inject"
                 data-pat-inject="url: /feedback/attachment-waste-not-want-not.html#attachments; target: #new-post-box-attachment-previews">
                 <label class="iconified icon-attach pat-switch"
-                  data-pat-switch="#new-post-box status-* status-attach"><input multiple capture="camera" accept="image/*" type="file" title="Attach a file" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
+                  data-pat-switch="#new-post-box status-* status-attach"><input multiple accept="image/*;capture=camera" type="file" title="Attach a file" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
                 <p class="attachment-previews"
                 id="new-post-box-attachment-previews" i18n:translate="">
                 No attachments selected.

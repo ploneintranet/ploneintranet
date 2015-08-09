@@ -1,6 +1,8 @@
+from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
 
+from .config import TEMPLATES_FOLDER
 from .workspacefolder import IWorkspaceFolder
 from .workspacefolder import WorkspaceFolder
 
@@ -30,3 +32,19 @@ class Case(WorkspaceFolder):
         Override in custom workspace types
         """
         return "case"
+
+
+def create_case_from_template(template_id, target_id=None):
+    portal = api.portal.get()
+    template_folder = portal.restrictedTraverse(TEMPLATES_FOLDER)
+    if template_folder:
+        src = template_folder.restrictedTraverse(template_id)
+        if src:
+            target_folder = portal.restrictedTraverse('workspaces')
+            new = api.content.copy(
+                source=src,
+                target=target_folder,
+                id=target_id,
+                safe_id=True,
+            )
+            return new

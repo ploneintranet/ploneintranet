@@ -12,16 +12,17 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+# Suite Setup  Set Selenium speed  0.5s
+
 *** Test Cases ***
 
 Manager can create a workspace
     Given I'm logged in as a 'Manager'
      Then I can create a new workspace    My new workspace
 
-# FIXME #430
-# Alan can create a workspace
-#     Given I am logged in as the user alice_lindstrom
-#     Then I can create a new workspace    My user workspace
+Alice can create a workspace
+    Given I am logged in as the user alice_lindstrom
+     Then I can create a new workspace    My user workspace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -33,13 +34,11 @@ Breadcrumbs are not borked
     And I am in a workspace as a workspace member
     Then the breadcrumbs show the name of the workspace
 
-Manager can view sidebar info
-    Given I am in a workspace as a workspace admin
-    I can go to the sidebar info tile
-
-Member can view sidebar info
+Member can access a user profile from sidebar and follow the user
     Given I am in a workspace as a workspace member
-    I can go to the sidebar info tile
+      And I can open the workspace member settings tab
+     Then I can open Esmeralda's profile
+      And I can follow Esmeralda
 
 Member can view sidebar events
     Given I am in a workspace as a workspace member
@@ -122,7 +121,7 @@ Member can submit a document
 Member can create an event
     Given I am in a workspace as a workspace member
      When I can create a new event  Christmas  2014-12-25  2014-12-26
-     Then I can edit an event  Christmas  2120-12-25  2121-12-26
+     Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
 
 Member can submit and retract a document
     Given I am in a workspace as a workspace member
@@ -149,6 +148,15 @@ Member cannot create content in a Consumers workspace
     Given I am in a Consumers workspace as a workspace member
      Then I cannot create a new document
 
+Member cannot create content in a workspace changed from Produce to Consume
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Parliamentary Papers Guidance Workspace
+     Then I can open the workspace security settings tab
+      And I can set the participant policy to Consume
+     When I am logged in as the user allan_neece
+      And I go to the Open Parliamentary Papers Guidance Workspace
+     Then I cannot create a new document
+
 Non-Member can view published content in an open workspace
     Given I am in an open workspace as a non-member
      Then I can see the document  Terms and conditions
@@ -168,6 +176,37 @@ Site Administrator can add example user as member of workspace
      Click Element  css=span.select2-match
      Click Button  Ok
      Wait Until Page Contains  Alice
+
+The manager can grant the Producer role in a Consumer workspace
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     When I am in a Consumers workspace as a workspace member
+     Then I see the option to create a document
+
+The manager can grant the Consumer role in a Producer workspace
+    Given I am in a Producers workspace as a workspace admin
+      And I give the Consumer role to Allan
+     When I am in a Producers workspace as a workspace member
+     Then I cannot create a new document
+
+The manager can remove a special role from a workspace member
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     When I am in a Consumers workspace as a workspace admin
+     Then I can remove the Producer role from Allan
+
+The manager can change a special role
+    Given I am in a Consumers workspace as a workspace admin
+      And I give the Producer role to Allan
+     Then I can change Allan's role to Moderator
+
+The manager can add other workspace admins
+    Given I am in a Consumers workspace as a workspace admin
+     Then I give the Admin role to Allan
+
+The manager can remove a workspace member
+    Given I am in a workspace as a workspace admin
+     Then I can remove Allan from the workspace members
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
@@ -217,4 +256,3 @@ Site Administrator can add example user as member of workspace
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace related keywords"
-

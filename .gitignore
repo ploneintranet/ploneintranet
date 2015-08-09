@@ -26,6 +26,7 @@ parts/
 /prototype
 release/
 src/bower_components/
+src/collective.externaleditor/
 src/collective.celery/
 src/Products.ATContentTypes/
 src/Products.CMFEditions/

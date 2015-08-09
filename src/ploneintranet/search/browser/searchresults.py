@@ -1,3 +1,4 @@
+from plone import api
 from Products.Five import BrowserView
 from ZTUtils import make_query
 from zope.component import getUtility
@@ -12,6 +13,16 @@ RESULTS_PER_PAGE = 10
 
 
 class SearchResultsView(BrowserView):
+
+    # Map portal types to url fragments so that the correct sidebar
+    # section is opened
+    url_fragments = {
+        u'Document': '#workspace-documents',
+        u'Image': '#workspace-documents',
+        u'File': '#workspace-documents',
+        u'todo': '#workspace-tickets',
+        u'Event': '#workspace-events',
+    }
 
     def _daterange_from_string(self, range_name, now=None):
         """
@@ -67,6 +78,11 @@ class SearchResultsView(BrowserView):
             qs=new_query
         )
 
+    def friendly_path(self, url):
+        """Show the object path within the navigation root"""
+        root_url = api.portal.get_navigation_root(self.context).absolute_url()
+        return url.replace(root_url, '')
+
     def preview_class(self, portal_type):
         """Get the matching preview class for a portal type"""
         if portal_type == 'ploneintranet.userprofile.userprofile':
@@ -121,7 +137,7 @@ class SearchResultsView(BrowserView):
 
         search_util = getUtility(ISiteSearch)
         response = search_util.query(
-            keywords,
+            keywords.decode('utf-8'),
             filters=filters,
             start_date=start_date,
             end_date=end_date,

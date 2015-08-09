@@ -19,7 +19,8 @@
                     <img class="pat-avatar"
         			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
         			 src="{{ page.image_url }}"
-                     alt="Image of {{ page.title }}" />
+                     alt="Image of {{ page.title }}"
+                     i18n:attributes="alt" />
                     <figcaption class="status-message">
 			<h1 tal:content="context/fullname" />
                     </figcaption>

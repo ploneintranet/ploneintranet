@@ -30,6 +30,7 @@
   <include package=".behaviors" />
   <include package=".browser" />
 
+  <include file="upgrades.zcml" />
   <include file="indexers.zcml" />
 
   <subscriber
@@ -42,14 +43,6 @@
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
      handler=".subscribers.workspace_state_changed"
-     />
-
-  <!-- Subscribe to ParticipationPolicyChangedEvent in order to
-       update existing users-->
-  <subscriber
-     for=".workspacefolder.IWorkspaceFolder
-          .interfaces.IParticipationPolicyChangedEvent"
-     handler=".subscribers.participation_policy_changed"
      />
 
   <!-- Subscribe to accepted token event which is fired

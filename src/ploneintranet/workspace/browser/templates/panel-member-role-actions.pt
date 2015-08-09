@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <head>
+  </head>
+
+  <body tal:define="ws view/workspace;
+                    workspace_url ws/absolute_url;
+                    ">
+      <div id="content">
+        <ul class="menu">
+            <li>
+                <a class="icon-minus-circle pat-inject" href="${ws/absolute_url}/confirmation-remove-special-role?user_id:list=${request/user_id}#content" data-pat-inject="target: body::after">Remove special role</a>
+            </li>
+            <li>
+                <a class="pat-inject" href="${ws/absolute_url}/panel-change-role?user_id:list=${request/user_id}&user_role=${request/user_role|nothing}#content" data-pat-inject="target: body::after">Change role</a>
+            </li>
+        </ul>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="ploneintranet">
+
+  <object name="site_actions" meta_type="CMF Action Category" purge="True">
+    <property name="title"></property>
+    <object name="switch_theme" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Switch Theme</property>
+      <property name="description" i18n:translate="">Switches between the main and fallback themes</property>
+      <property
+          name="url_expr">string:${context/absolute_url}/@@switch_theme</property>
+      <property name="link_target"></property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+
+</object>

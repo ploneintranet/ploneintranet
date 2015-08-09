@@ -1,7 +1,9 @@
+from AccessControl import Unauthorized
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
+from ploneintranet.workspace.browser.add_content import AddContent
 
 VIEW = 'View'
 ACCESS = 'Access contents information'
@@ -17,6 +19,26 @@ class TestWorkSpaceWorkflow(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
         self.login_as_portal_owner()
+        self.open_workspaces = api.content.create(
+            type="ploneintranet.workspace.workspacecontainer",
+            title="Open Workspaces",
+            container=self.portal,
+        )
+        self.restricted_workspaces = api.content.create(
+            type="ploneintranet.workspace.workspacecontainer",
+            title="Restricted Workspaces",
+            container=self.portal,
+        )
+        api.content.transition(self.restricted_workspaces,
+                               'restrict')
+
+        api.user.create(username='noaddrights', email="noaddrights@test.com")
+        api.user.create(username='hasaddrights', email="hasaddrights@test.com")
+        api.user.grant_roles(
+            username='hasaddrights',
+            obj=self.restricted_workspaces,
+            roles=['Contributor'],
+        )
         api.user.create(username='nonmember', email="user@test.com")
         api.user.create(username='wsmember', email="member@test.com")
         api.user.create(username='wsadmin', email="admin@test.com")
@@ -28,6 +50,47 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.add_user_to_workspace('wsmember', self.workspace_folder)
         self.add_user_to_workspace('wsadmin', self.workspace_folder,
                                    set(['Admins']))
+
+    def test_create_workspace(self):
+        """
+        Test creation of a workspace
+        """
+        self.assertNotIn(
+            'Contributor',
+            api.user.get_roles(username='noaddrights',
+                               obj=self.restricted_workspaces)
+        )
+        self.assertIn(
+            'Contributor',
+            api.user.get_roles(username='hasaddrights',
+                               obj=self.restricted_workspaces)
+        )
+        logout()
+        # open system. Workspaces folder is open for authenticated
+        login(self.portal, 'noaddrights')
+        ac = AddContent(self.open_workspaces, self.portal.REQUEST)
+        ac(portal_type='ploneintranet.workspace.workspacefolder',
+           title="everybody can add")
+        self.assertIn('everybody-can-add',
+                      self.open_workspaces.objectIds())
+
+        ac = AddContent(self.restricted_workspaces, self.portal.REQUEST)
+        portal_type = 'ploneintranet.workspace.workspacefolder'
+        self.assertRaises(Unauthorized,
+                          ac,
+                          portal_type=portal_type,
+                          title="not anyone is permitted")
+
+        logout()
+        login(self.portal, 'hasaddrights')
+
+        ac = AddContent(self.restricted_workspaces, self.portal.REQUEST)
+        ac(portal_type='ploneintranet.workspace.workspacefolder',
+           title="can add when contributor")
+        self.assertIn('can-add-when-contributor',
+                      self.restricted_workspaces.objectIds())
+
+        logout()
 
     def test_private_workspace(self):
         """

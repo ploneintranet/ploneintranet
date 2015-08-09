@@ -4,11 +4,11 @@ from ploneintranet.docconv.client.interfaces import IDocconv
 log = logging.getLogger(__name__)
 
 
-folderish = ('ploneintranet.library.section',
-             'ploneintranet.library.folder')
-pageish = ('Document', 'News Item', 'Link', 'File')
-hidden = ('Image')
-types_to_show = list(folderish) + list(pageish)
+folderish = ['ploneintranet.library.section',
+             'ploneintranet.library.folder']
+pageish = ['Document', 'News Item', 'Link', 'File']
+hidden = ['Image']
+types_to_show = folderish + pageish
 
 
 def sections_of(context, **kwargs):

@@ -6,6 +6,7 @@ from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import queryUtility
+from ploneintranet.layout.utils import shorten
 
 
 class WorkspacesTile(Tile):
@@ -18,6 +19,9 @@ class WorkspacesTile(Tile):
     def __call__(self):
         return self.render()
 
+    def shorten(self, text):
+        return shorten(text, length=60)
+
     @memoize
     def workspaces(self):
         """ The list of my workspaces
@@ -25,10 +29,24 @@ class WorkspacesTile(Tile):
         return my_workspaces(self.context)
 
 
-def my_workspaces(context):
+def my_workspaces(context, request=None):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
+
+    # determine sorting order (default: alphabetical)
+    sort_by = "sortable_title"
+    order = "ascending"
+    if request:
+        if hasattr(request, "sort"):
+            if request.sort == "activity":
+                raise NotImplementedError(
+                    "Sorting by activity"
+                    "is not yet possible")
+            elif request.sort == "newest":
+                sort_by = "modified"
+                order = "reverse"
+
     pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
@@ -36,8 +54,10 @@ def my_workspaces(context):
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        sort_on="modified",
-        sort_order="reversed",
+        portal_type=["ploneintranet.workspace.workspacefolder",
+                     "ploneintranet.workspace.case"],
+        sort_on=sort_by,
+        sort_order=order,
         path=ws_path,
     )
     workspaces = []
@@ -53,7 +73,6 @@ def my_workspaces(context):
             'activities': get_workspace_activities(brain),
             'class': css_class,
         })
-
     return workspaces
 
 

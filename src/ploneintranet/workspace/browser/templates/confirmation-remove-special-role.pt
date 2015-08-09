@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <head>
+  </head>
+
+  <body tal:define="ws view/workspace;
+                    workspace_url ws/absolute_url;
+                    ">
+      <div id="content">
+        <div id="document-content" class="pat-modal">
+          <h1 i18n:translate="">
+              Remove role
+          </h1>
+
+          <form action="${ws/absolute_url}/sidebar.settings.members" class="wizard-box pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" method="post">
+
+            <div class="panel-body">
+                <article>
+                    <p i18n:translate="">
+                        When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?
+                    </p>
+                </article>
+
+                <input type="hidden" name="user_id:list" value="${user}" tal:repeat="user request/user_id" />
+            </div>
+
+            <div class="buttons panel-footer">
+                <button name="batch-function" value="role" type="submit" class="close-panel icon-ok-circle" i18n:translate="">
+                    I am sure, remove role now
+                </button>
+                <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
+                    Cancel
+                </button>
+            </div>
+
+        </form>
+      </div>
+  </body>
+</html>

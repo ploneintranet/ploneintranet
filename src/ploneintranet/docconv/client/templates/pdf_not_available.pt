@@ -3,7 +3,7 @@
 <body>
     <div id="content" metal:fill-slot="main">
         <h1 i18n:translate="">PDF not generated yet</h1>
-        <p>The PDF version has not been generated yet, please try again later.</p>
+        <p i18n:translate="">The PDF version has not been generated yet, please try again later.</p>
     </div>
 </body>
 </html>

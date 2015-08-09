@@ -18,7 +18,12 @@
     <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
-      <time>${view/date}</time>
+      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
+
+      <tal:location condition="here/title|nothing">
+        in <a href="${here/url}">${here/title}</a>
+      </tal:location>
+
       <!-- XXX: This is not yet implemented -->
       <!--label class="visibility pat-select bare">
       |
@@ -71,8 +76,7 @@
     <form tal:replace="structure view/toggle_like" />
   </div>
   <div class="comments"
-       id="${string:comments-${thread_id}}"
-       talattributes="id string:comments-${thread_id}">
+       id="${string:comments-${thread_id}}">
     <div tal:attributes="id string:comment-trail-${thread_id}">
       <tal:loop
           tal:repeat="comment view/statusupdate_view/comment_views"
@@ -89,6 +93,7 @@
           portal_url view/portal_url;
           context_url view/context_url;
         ">
+          <div id="${string:new-comment-${thread_id}}"></div>
           <metal:block use-macro="here/@@update-social.html/main" />
         </tal:define>
     </tal:commentable>
