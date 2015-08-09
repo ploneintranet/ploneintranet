@@ -15,7 +15,7 @@
 
             <div class="images results pat-masonry images" data-pat-masonry="column-width: .item; gutter: 0;">
                 <tal:result repeat="result search_response">
-                    <a tal:attributes="href result/url" class="item">
+                    <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
                         <figure>
                             <img tal:define="spacer python:result.description and ' - ' or ' '"
                                  tal:attributes="src result/preview_image_url;
