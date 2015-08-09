@@ -15,11 +15,11 @@
                         <h4 class="title">${workspace/title}</h4>
                         <tal:activities repeat="activity workspace/activities">
                             <p class="byline">
-                                <strong class="subjects"> <!-- This is still a mock -->
+                                <strong class="subjects">
                                     <span class="subject">${activity/subject}</span>
                                 </strong>
                                 <span class="verb">${activity/verb}</span>
-                                <strong class="object" tal:content="structure activity/object">Object</strong>
+                                <strong class="object" tal:content="structure python:view.shorten(activity['object'])">Object</strong>
                                 <time class="datestamp" tal:content="activity/time/title">2 Hours ago</time>
                             </p>
                         </tal:activities>
