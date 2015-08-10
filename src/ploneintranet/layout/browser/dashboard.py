@@ -30,7 +30,8 @@ class NewsTile(Tile):
         pc = api.portal.get_tool('portal_catalog')
         news = pc(portal_type='News Item',
                   review_state='published',
-                  sort_on='effective')
+                  sort_on='effective',
+                  sort_order='reverse')
         self.news_items = []
         for item in news[:3]:
             self.news_items.append({
