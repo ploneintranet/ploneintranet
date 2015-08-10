@@ -11,6 +11,7 @@ from plone.indexer.interfaces import IIndexableObject
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
+import lxml.etree as etree
 import requests
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
@@ -29,22 +30,12 @@ class ContentAdder(object):
         self.solr = solr
 
     def add(self, data):
-        data.pop('links', None)
         self.solr.add(data)
 
 
 @implementer(IContentAdder)
 @adapter(IDexterityContent, IConnection)
 class BinaryAdder(ContentAdder):
-
-    ignore = frozenset({
-        'Date',
-        'SearchableText',
-        'Type',
-        'created',
-        'description',
-        'links'
-    })
 
     @property
     def blob_data(self):
@@ -56,34 +47,41 @@ class BinaryAdder(ContentAdder):
         return None
 
     def add(self, data):
+        """Add documents to be indexed containing binary data.
+
+        This uses Apache Tika `ExtractingRequestHandler` to upload
+        binary data, and extract the textual representation of the
+        binary data for indexing.
+
+        :seealso:
+          https://cwiki.apache.org/confluence/display/solr\
+        /Uploading+Data+with+Solr+Cell+using+Apache+Tika
+
+        :param data: The key/value data to index in Solr
+        :type data: collections.Mapping
+        :returns:
+        """
         blob_data = self.blob_data
         if blob_data is None:
             return None
         params = {}
-        for (key, value) in data.items():
-            if key in self.ignore:
-                continue
-            if isinstance(value, (list, tuple)):
-                newval = []
-                for item in value:
-                    if isinstance(item, unicode):
-                        item = item.encode('utf-8')
-                    newval.append(item)
-            else:
-                newval = value
-            params['literal.{}'.format(key)] = newval
-        params['stream.contentType'] = data.get('content_type',
-                                                'application/octet-stream')
-        params['fmap.content'] = 'SearchableText'
+        headers = {'Content-type': data.get('content_type', 'text/plain')}
         params['extractFormat'] = 'text'
-        params['commit'] = 'true'
-        params = urlencode(params, doseq=True)
-        url = '{}update/extract?{}'.format(self.solr.conn.url, params)
+        params['extractOnly'] = 'true'
+        sparams = urlencode(params)
+        url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
         try:
-            requests.post(url, data=blob_data)
+            response = requests.post(url, data=blob_data, headers=headers)
         except requests.ConnectionError as conn_err:
             logger.exception(conn_err)
-            raise
+        else:
+            tree = etree.fromstring(response.text.encode('utf-8'))
+            elems = tree.xpath('//response/str')
+            if elems:
+                data['SearchableText'] = elems[0].text
+            else:
+                logger.error('Could not text for file upload: %r', data)
+        super(BinaryAdder, self).add(data)
 
 
 @implementer(IIndexQueueProcessor)

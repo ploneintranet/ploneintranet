@@ -377,6 +377,10 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         actual_order = [result.title for result in response]
 
     def test_file_content_matches(self):
+        path = resource_filename('ploneintranet.search.tests',
+                                 'fixtures/lorum-ipsum.pdf')
+        with open(path, 'rb') as fp:
+            data = fp.read()
         self._create_content(
             type='File',
             container=self.layer['portal'],
@@ -384,15 +388,14 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             description=(u'This is a test file. '),
             safe_id=False,
             file=NamedBlobFile(
-                data=(b"Who's got the brain of JFK? "
-                      b'What does it mean to us now?'),
+                data=data,
                 contentType='application/pdf',
-                filename=u'brain-of-j.pdf')
+                filename=fp.name.decode('utf-8'))
         )
         transaction.commit()
         util = self._make_utility()
         query = util.query
-        response = query(u'JFK')
+        response = query(u'Maecenas urna elit')
         results = list(response)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].title, u'Test File 1')
