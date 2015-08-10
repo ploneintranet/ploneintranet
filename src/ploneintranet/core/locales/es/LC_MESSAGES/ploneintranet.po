@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-10 15:10+0000\n"
+"POT-Creation-Date: 2015-08-10 16:53+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -102,7 +102,7 @@ msgstr "Permisos avanzados"
 
 #: ../search/browser/templates/all_results.pt:24
 #: ../search/browser/templates/search_template.pt:24
-#: ../workspace/browser/templates/case_manager.pt:73
+#: ../workspace/browser/templates/case_manager.pt:66
 msgid "All"
 msgstr ""
 
@@ -162,8 +162,8 @@ msgstr ""
 msgid "App not available"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:45
-msgid "Applicant <input type=\"text\" name=\"applicant_name\" data-pat-autosuggest=\"ajax-data-type: json; ajax-url: ${context/absolute_url}/applicants.json\" class=\"pat-autosuggest\" placeholder=\"x\" />"
+#: ../workspace/browser/templates/case_manager.pt:41
+msgid "Applicant"
 msgstr ""
 
 #: ../layout/profiles/default/actions.xml
@@ -235,7 +235,7 @@ msgstr "Cancelar"
 msgid "Case"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:65
+#: ../workspace/browser/templates/case_manager.pt:60
 msgid "Case type <select name=\"case_type\" class=\"focus\"> <option value=\"\">x</option> <option value=\"${case_type}\">${case_type}</option> </select>"
 msgstr ""
 
@@ -265,7 +265,7 @@ msgstr "Cambios aplicados."
 msgid "Close milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:75
+#: ../workspace/browser/templates/case_manager.pt:68
 msgid "Closed"
 msgstr ""
 
@@ -374,11 +374,8 @@ msgid "Delete this event"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:64
+#: ../workspace/browser/templates/case_manager.pt:34
 msgid "Department"
-msgstr ""
-
-#: ../workspace/browser/templates/case_manager.pt:38
-msgid "Department <select name=\"department\"> <option value=\"\">Pick the responsible department</option> <option value=\"${department}\">${department}</option> </select>"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:10
@@ -417,16 +414,16 @@ msgstr ""
 msgid "Due date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:93
-msgid "Earliest creation date <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"earliest_created\" />"
+#: ../workspace/browser/templates/case_manager.pt:83
+msgid "Earliest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:111
-msgid "Earliest deadline <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"earliest_due\" />"
+#: ../workspace/browser/templates/case_manager.pt:97
+msgid "Earliest deadline"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:102
-msgid "Earliest modification date <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"earliest_modified\" />"
+#: ../workspace/browser/templates/case_manager.pt:90
+msgid "Earliest modification date"
 msgstr ""
 
 #: ../workspace/browser/templates/edit_folder.pt:19
@@ -461,7 +458,7 @@ msgstr ""
 msgid "Enter a description of the task"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:45
+#: ../workspace/browser/templates/case_manager.pt:41
 msgid "Enter the name of the applicant"
 msgstr ""
 
@@ -678,16 +675,12 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:96
-msgid "Latest creation date <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"latest_created\" />"
+#: ../workspace/browser/templates/case_manager.pt:99
+msgid "Latest deadline"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:114
-msgid "Latest deadline <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"latest_due\" />"
-msgstr ""
-
-#: ../workspace/browser/templates/case_manager.pt:105
-msgid "Latest modification date <input placeholder=\"x\" class=\"pat-date-picker\" type=\"date\" size=\"8\" name=\"latest_modified\" />"
+#: ../workspace/browser/templates/case_manager.pt:92
+msgid "Latest modification date"
 msgstr ""
 
 #: ../todo/portlets/latest.py:39
@@ -848,7 +841,7 @@ msgstr "Sin mensajes"
 msgid "No pending notifications"
 msgstr "Sin notificaciones pendientes"
 
-#: ../workspace/browser/templates/case_manager.pt:125
+#: ../workspace/browser/templates/case_manager.pt:110
 msgid "No results"
 msgstr ""
 
@@ -907,7 +900,7 @@ msgid "Only administrators can add workspace members."
 msgstr "Solamente los administradores pueden agregar miembros al espacio de trabajo."
 
 #: ../todo/browser/templates/todo_view.pt:50
-#: ../workspace/browser/templates/case_manager.pt:74
+#: ../workspace/browser/templates/case_manager.pt:67
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr "Abrir"
@@ -952,7 +945,7 @@ msgstr ""
 msgid "Pick a Case Template"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:81
+#: ../workspace/browser/templates/case_manager.pt:72
 msgid "Pick a date"
 msgstr ""
 
@@ -964,12 +957,16 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:64
+#: ../workspace/browser/templates/case_manager.pt:59
 msgid "Pick case type"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:54
+#: ../workspace/browser/templates/case_manager.pt:49
 msgid "Pick staff"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:35
+msgid "Pick the responsible department"
 msgstr ""
 
 #: ../workspace/browser/add_content.py:48
@@ -1059,8 +1056,8 @@ msgstr "Guardar"
 msgid "Save this document"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:81
-msgid "Scheduled session <input type=\"text\" name=\"scheduled_session\" class=\"pat-autosuggest\" data-pat-autosuggest=\"ajax-data-type: json; allow-new-words: false; ajax-url: ${context/absolute_url}/scheduled_sessions.json\" placeholder=\"x\" />"
+#: ../workspace/browser/templates/case_manager.pt:72
+msgid "Scheduled session"
 msgstr ""
 
 #: ../core/browser/panel_tags.pt:21
@@ -1161,16 +1158,16 @@ msgstr ""
 msgid "Spell corrected search string"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:54
-msgid "Staff <input type=\"text\" name=\"staff\" data-pat-autosuggest=\"ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/portal_url}/allusers.json\" class=\"pat-autosuggest\" placeholder=\"x\" />"
+#: ../workspace/browser/templates/case_manager.pt:48
+msgid "Staff"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:421
 msgid "Starts"
 msgstr "Inicio"
 
-#: ../workspace/browser/templates/case_manager.pt:75
-msgid "Status <select name=\"status\" class=\"focus\"> <option value=\"\">x</option> <option value=\"open\">x</option> <option value=\"closed\">x</option> </select>"
+#: ../workspace/browser/templates/case_manager.pt:65
+msgid "Status"
 msgstr ""
 
 #: ../network/browser/templates/author.pt:29
@@ -1497,7 +1494,7 @@ msgstr "Espacios de trabajo"
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:93
+#: ../workspace/browser/templates/case_manager.pt:83
 msgid "YYYY-MM-DD"
 msgstr ""
 
@@ -1538,6 +1535,10 @@ msgstr "¡Su mensaje aquí!"
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "¿Qué esta haciendo?"
+
+#: ../workspace/browser/templates/case_manager.pt:85
+msgid "atest creation date"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
