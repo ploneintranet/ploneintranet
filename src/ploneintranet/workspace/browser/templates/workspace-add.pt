@@ -9,10 +9,10 @@
 <body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace">
   <div id="content">
       <h1 i18n:translate="">Create workspace</h1>
-    
+
       <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validate" data-pat-validate="disable-selector:#form-buttons-create" data-pat-inject="" name="workspace-add" id="workspace-add"
-        tal:attributes="action string:${context/absolute_url}/add_content">    
-    
+        tal:attributes="action string:${context/absolute_url}/add_content">
+
         <div class="panel-body">
           <fieldset class="vertical">
             <label>
@@ -39,7 +39,7 @@
 
                 <fieldset class="group pat-checklist radio" tal:condition="python: len(templates) <=6">
                     <label tal:repeat="template templates">
-                      <input type="radio" name="template_id" checked="checked" tal:content="template/Title" tal:attributes="value template/id"/>
+                      <input type="radio" name="template_id" checked="checked" tal:attributes="value template/id"/>
                     </label>
                 </fieldset>
               </label>
@@ -66,20 +66,20 @@
             </fieldset>
           </fieldset>
         </div>
-        
+
 
         <div class="buttons panel-footer">
-                                    
+
           <button id="form-buttons-create" name="save" type="submit" class="icon-ok-circle" i18n:translate="">
               Create workspace
-          </button>                    
+          </button>
           <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
               Cancel
-          </button>                    
+          </button>
         </div>
         <span tal:replace="structure context/@@authenticator/authenticator"/>
         <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
-      </form> 
+      </form>
   </div>
 </body>
 </html>
