@@ -14,6 +14,16 @@ RESULTS_PER_PAGE = 10
 
 class SearchResultsView(BrowserView):
 
+    # Map portal types to url fragments so that the correct sidebar
+    # section is opened
+    url_fragments = {
+        u'Document': '#workspace-documents',
+        u'Image': '#workspace-documents',
+        u'File': '#workspace-documents',
+        u'todo': '#workspace-tickets',
+        u'Event': '#workspace-events',
+    }
+
     def _daterange_from_string(self, range_name, now=None):
         """
         Convert from range strings used in the template

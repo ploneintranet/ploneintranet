@@ -14,27 +14,27 @@
               Remove role
           </h1>
 
-          <form action="${ws/absolute_url}/sidebar.settings.members" class="wizard-box pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" method="post">    
-                
+          <form action="${ws/absolute_url}/sidebar.settings.members" class="wizard-box pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" method="post">
+
             <div class="panel-body">
                 <article>
-                    <p>
+                    <p i18n:translate="">
                         When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?
                     </p>
                 </article>
 
                 <input type="hidden" name="user_id:list" value="${user}" tal:repeat="user request/user_id" />
             </div>
-        
+
             <div class="buttons panel-footer">
                 <button name="batch-function" value="role" type="submit" class="close-panel icon-ok-circle" i18n:translate="">
                     I am sure, remove role now
-                </button>                    
+                </button>
                 <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
                     Cancel
-                </button>                    
+                </button>
             </div>
-    
+
         </form>
       </div>
   </body>
