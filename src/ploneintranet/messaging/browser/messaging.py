@@ -14,11 +14,9 @@ from z3c.form import field
 from z3c.form import form
 from zope.component import getUtility
 from zope.component.hooks import getSite
-from zope.i18nmessageid import MessageFactory
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 import datetime
 import json
-
-_ = MessageFactory('ploneintranet.microblog')
 
 
 class MessageForm(extensible.ExtensibleForm, form.Form):

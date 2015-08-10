@@ -1,5 +1,5 @@
 from plone import api
-from . import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
