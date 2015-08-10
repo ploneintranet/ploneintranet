@@ -58,7 +58,7 @@
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
       <label class="location">
-        <span tal:omit-tag="" i18n:translate="">Location</span> <input name="location" tal:attributes="disabled read_only" type="text" value="" tal:attributes="value context/location | nothing" />
+        <span tal:omit-tag="" i18n:translate="">Location</span> <input name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
       </label>
       <br/>
       <label class="organiser">
