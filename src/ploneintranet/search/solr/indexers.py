@@ -62,25 +62,25 @@ class BinaryAdder(ContentAdder):
         :returns:
         """
         blob_data = self.blob_data
-        if blob_data is None:
-            return None
-        params = {}
-        headers = {'Content-type': data.get('content_type', 'text/plain')}
-        params['extractFormat'] = 'text'
-        params['extractOnly'] = 'true'
-        sparams = urlencode(params)
-        url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
-        try:
-            response = requests.post(url, data=blob_data, headers=headers)
-        except requests.ConnectionError as conn_err:
-            logger.exception(conn_err)
-        else:
-            tree = etree.fromstring(response.text.encode('utf-8'))
-            elems = tree.xpath('//response/str')
-            if elems:
-                data['SearchableText'] = elems[0].text
+        if blob_data is not None:
+            params = {}
+            headers = {'Content-type': data.get('content_type', 'text/plain')}
+            params['extractFormat'] = 'text'
+            params['extractOnly'] = 'true'
+            sparams = urlencode(params)
+            url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
+            try:
+                response = requests.post(url, data=blob_data, headers=headers)
+            except requests.ConnectionError as conn_err:
+                logger.exception(conn_err)
             else:
-                logger.error('Could extract text for file upload: %r', data)
+                tree = etree.fromstring(response.text.encode('utf-8'))
+                elems = tree.xpath('//response/str')
+                if elems:
+                    data['SearchableText'] = elems[0].text
+                else:
+                    logger.error('Could extract text for file upload: %r',
+                                 data)
         super(BinaryAdder, self).add(data)
 
 
