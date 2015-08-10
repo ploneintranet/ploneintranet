@@ -18,6 +18,8 @@ class SearchResultsView(BrowserView):
     # section is opened
     url_fragments = {
         u'Document': '#workspace-documents',
+        u'Image': '#workspace-documents',
+        u'File': '#workspace-documents',
         u'todo': '#workspace-tickets',
         u'Event': '#workspace-events',
     }
