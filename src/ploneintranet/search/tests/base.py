@@ -220,7 +220,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
             u'Test',
             filters={'friendly_type_name': ['Image']}
         )
-        print {result.friendly_type_name for result in response}
         self.assertEqual(response.total_results, 1)
         result = next(iter(response))
         self.assertEqual(result.title, self.image1.title)
