@@ -48,7 +48,5 @@ def friendly_type_name(obj):
                 return mimetype_name
     elif IUserProfile.providedBy(obj):
         return 'Person'
-    else:
-        print 'IFile nor IUserProfile provided by %r' % obj
 
     return default_name
