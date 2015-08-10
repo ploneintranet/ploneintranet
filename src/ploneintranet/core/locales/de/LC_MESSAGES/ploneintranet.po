@@ -148,7 +148,7 @@ msgstr "Alle Themen"
 
 #: ../workspace/browser/workspacecontainer.py:39
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alphabetisch"
 
 #: ../layout/browser/templates/app-not-available.pt:25
 msgid "Alright"
@@ -323,7 +323,7 @@ msgstr "Erstellen"
 
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
-msgstr "Neuen Arbeitsraum erstellen"
+msgstr "Neuen Arbeitsbereich erstellen"
 
 #: ../workspace/browser/templates/add_content.pt:8
 #: ../workspace/browser/tiles/templates/sidebar.pt:52
@@ -350,7 +350,7 @@ msgstr "Aufgabe erstellen"
 #: ../workspace/browser/templates/workspace-add.pt:11
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create workspace"
-msgstr "Arbeitsraum erstellen"
+msgstr "Arbeitsbereich erstellen"
 
 #: ../microblog/interfaces.py:18
 msgid "Creation date"
@@ -757,7 +757,7 @@ msgstr "Ort"
 
 #: ../workspace/browser/templates/workspace-add.pt:50
 msgid "Locked down, secret workspace"
-msgstr "Verschlossener, sicherer Arbeitsraum"
+msgstr "Verschlossener, sicherer Arbeitsbereich"
 
 #: ../todo/vocabularies.py:7
 msgid "Low"
@@ -858,7 +858,7 @@ msgstr "Neue Nachricht"
 
 #: ../workspace/browser/workspacecontainer.py:41
 msgid "Newest workspaces on top"
-msgstr ""
+msgstr "Neueste Arbeitsbereiche oben"
 
 #: ../todo/portlets/latest.pt:12
 msgid "News"
@@ -1047,7 +1047,7 @@ msgstr "Neu markieren"
 
 #: ../workspace/browser/templates/workspace-add.pt:26
 msgid "Regular workspace"
-msgstr "Normaler Arbeitsraum"
+msgstr "Normaler Arbeitsbereich"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
@@ -1110,11 +1110,11 @@ msgstr "Suche"
 
 #: ../workspace/browser/templates/panel-add-group.pt:21
 msgid "Search existing groups"
-msgstr ""
+msgstr "Existierende Gruppen durchsuchen"
 
 #: ../workspace/browser/templates/panel-add-user.pt:21
 msgid "Search existing users"
-msgstr ""
+msgstr "Existierende Benutzer durchsuchen"
 
 #: ../workspace/browser/templates/roster-edit.pt:41
 msgid "Search for a user"
@@ -1122,7 +1122,7 @@ msgstr "Benutzer suchen"
 
 #: ../workspace/browser/templates/case_manager.pt:22
 msgid "Search in title and description"
-msgstr ""
+msgstr "Titel und Beschreibung durchsuchen"
 
 #: ../workspace/policies.py:9
 msgid "Secret"
@@ -1153,7 +1153,7 @@ msgstr "Selbstverwaltet"
 
 #: ../workspace/browser/templates/workspace-add.pt:51
 msgid "Self-managed, private teamspace"
-msgstr "Selbstverwalteter, privater Arbeitsraum"
+msgstr "Selbstverwalteter, privater Arbeitsbereich"
 
 #: ../invitations/invite_user.pt:48
 msgid "Send"
@@ -1385,9 +1385,9 @@ msgid ""
 "subject to review before they can be shared within the group. Nothing in "
 "this group will ever be visible to non-members."
 msgstr ""
-"Dieser Arbeitsraum ist nur für Personen zugänglich, die eingeladen wurden. "
-"Der Arbeitsraum wird nicht auf der Übersicht aller Arbeitsräume sichtbar "
-"sein. Dokumente in diesem Arbeitsraum müssen gegengelesen werden, bevor sie "
+"Dieser Arbeitsbereich ist nur für Personen zugänglich, die eingeladen wurden. "
+"Der Arbeitsbereich wird nicht auf der Übersicht aller Arbeitsräume sichtbar "
+"sein. Dokumente in diesem Arbeitsbereich müssen gegengelesen werden, bevor sie "
 "mit der Gruppe geteilt werden. Nichts in dieser Gruppe wird je sichtbar sein"
 " für Nichtmitglieder."
 
@@ -1397,7 +1397,7 @@ msgid ""
 " new team member. Once you're in the team, you can do pretty much anything. "
 "Nothing in this group will ever be visible to non-members."
 msgstr ""
-"Der Arbeitsraum ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue "
+"Der Arbeitsbereich ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue "
 "Mitglieder hinzufügen. Sobald man Mitglied in der Arbeitsgruppe ist, kann "
 "man grundsätzlich alles tun. Nichts in dieser Gruppe ist je sichtbar für "
 "Nichtmitglieder."
@@ -1524,7 +1524,7 @@ msgstr "Arbeitsbereich"
 
 #: ../workspace/browser/templates/roster-edit.pt:75
 msgid "Workspace Admin"
-msgstr "Administrator des Arbeitsraums"
+msgstr "Administrator des Arbeitsbereichs"
 
 #: ../workspace/browser/roster.py:158
 msgid "Workspace Administrator"
@@ -1536,7 +1536,7 @@ msgstr "Verzeichnis für Arbeitsbereiche"
 
 #: ../workspace/browser/templates/workspace-add.pt:22
 msgid "Workspace description"
-msgstr ""
+msgstr "Kurze Bescheibung des Arbeitsbereichs"
 
 #: ../workspace/browser/views.py:23
 msgid "Workspace join policy doesn't allow self join"
@@ -1593,7 +1593,7 @@ msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:19
 msgid "Workspace title"
-msgstr ""
+msgstr "Titel des Arbeitsbereichs"
 
 #: ../layout/profiles/default/actions.xml
 #: ../workspace/browser/tiles/templates/workspaces.pt:9
@@ -1629,7 +1629,7 @@ msgid ""
 " the workspace."
 msgstr ""
 "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen des "
-"Arbeitsraums ändern."
+"Arbeitsbereichs ändern."
 
 #: ../workspace/browser/templates/joinviewlet.pt:6
 msgid "You can become a member of this workspace"
