@@ -16,7 +16,7 @@
             <fieldset class="vertical">
               <label>
                 <span tal:omit-tag="" i18n:translate="workspace_title">
-                Workspace titleYO</span>
+                Workspace title</span>
                 <input type="text" value="{{ page.workspace_name }}"
                        placeholder="Workspace title"
                        i18n:attributes="placeholder workspace_title"
