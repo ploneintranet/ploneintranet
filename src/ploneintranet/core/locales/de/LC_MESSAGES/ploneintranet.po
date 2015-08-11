@@ -167,7 +167,7 @@ msgstr "App nicht verfügbar"
 
 #: ../workspace/browser/templates/case_manager.pt:41
 msgid "Applicant"
-msgstr ""
+msgstr "Antragsteller"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
@@ -239,8 +239,8 @@ msgid "Case"
 msgstr "Geschäft"
 
 #: ../workspace/browser/templates/case_manager.pt:60
-msgid "Case type <select name=\"case_type\" class=\"focus\"> <option value=\"\">x</option> <option value=\"${case_type}\">${case_type}</option> </select>"
-msgstr ""
+msgid "Case type"
+msgstr "Typ des Geschäfts"
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
@@ -419,15 +419,15 @@ msgstr "Fälligkeitsdatum"
 
 #: ../workspace/browser/templates/case_manager.pt:83
 msgid "Earliest creation date"
-msgstr ""
+msgstr "Frühestes Erstelldatum"
 
 #: ../workspace/browser/templates/case_manager.pt:97
 msgid "Earliest deadline"
-msgstr ""
+msgstr "Früheste Frist"
 
-#: ../workspace/browser/templates/case_manager.pt:90
+#: ../workspace/browser/templates/case_manager.pt0
 msgid "Earliest modification date"
-msgstr ""
+msgstr "Frühestes Bearbeitungsdatum"
 
 #: ../workspace/browser/templates/edit_folder.pt:19
 msgid "Edit"
@@ -463,7 +463,7 @@ msgstr "Beschreibung für diese Aufgabe eintragen"
 
 #: ../workspace/browser/templates/case_manager.pt:41
 msgid "Enter the name of the applicant"
-msgstr ""
+msgstr "Geben sie den Namen des Antragstellers an"
 
 #: ../workspace/browser/templates/add_event.pt:9
 msgid "Event title"
@@ -680,11 +680,11 @@ msgstr "Letzte Woche"
 
 #: ../workspace/browser/templates/case_manager.pt:99
 msgid "Latest deadline"
-msgstr ""
+msgstr "Späteste Frist"
 
 #: ../workspace/browser/templates/case_manager.pt:92
 msgid "Latest modification date"
-msgstr ""
+msgstr "Spätestes Bearbeitungsdatum"
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
@@ -950,27 +950,27 @@ msgstr "Wählen sie eine Vorlage"
 
 #: ../workspace/browser/templates/case_manager.pt:72
 msgid "Pick a date"
-msgstr ""
+msgstr "Wählen sie ein Datum"
 
 #: ../workspace/browser/templates/content_macros.pt:21
 msgid "Pick an assignee"
-msgstr ""
+msgstr "Wählen sie einen Beauftragten"
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Pick an initiator"
-msgstr ""
+msgstr "Wählen sie einen Ersteller"
 
 #: ../workspace/browser/templates/case_manager.pt:59
 msgid "Pick case type"
-msgstr ""
+msgstr "Wählen sie den Typ des Geschäfts"
 
 #: ../workspace/browser/templates/case_manager.pt:49
 msgid "Pick staff"
-msgstr ""
+msgstr "Wählen sie einen Sachbearbeiter"
 
 #: ../workspace/browser/templates/case_manager.pt:35
 msgid "Pick the responsible department"
-msgstr ""
+msgstr "Wählen sie die verantwortliche Abteilung"
 
 #: ../workspace/browser/add_content.py:48
 msgid "Please specify which Case Template to use"
@@ -1061,7 +1061,7 @@ msgstr "Dokument speichern"
 
 #: ../workspace/browser/templates/case_manager.pt:72
 msgid "Scheduled session"
-msgstr ""
+msgstr "Zugeordnete Sitzung"
 
 #: ../core/browser/panel_tags.pt:21
 #: ../core/browser/panel_users.pt:22
@@ -1126,7 +1126,7 @@ msgstr "Sende eine Einladung per E-Mail an:"
 
 #: ../workspace/browser/templates/content_macros.pt:28
 msgid "Set a deadline"
-msgstr ""
+msgstr "Setzen sie eine Frist"
 
 #: ../todo/behaviors.py:15
 msgid "Settings"
@@ -1163,7 +1163,7 @@ msgstr "Suchanfrage (verbessert)"
 
 #: ../workspace/browser/templates/case_manager.pt:48
 msgid "Staff"
-msgstr ""
+msgstr "Sachbearbeiter"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:421
 msgid "Starts"
@@ -1171,7 +1171,7 @@ msgstr "Startet"
 
 #: ../workspace/browser/templates/case_manager.pt:65
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
@@ -1795,7 +1795,7 @@ msgstr "{0} App"
 
 #: ../workspace/workspacefolder.py:167
 msgid "{} Members"
-msgstr ""
+msgstr "{} Mitglieder"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:113
