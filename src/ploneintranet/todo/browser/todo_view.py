@@ -3,7 +3,7 @@ from Acquisition import aq_inner
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.baseviews import ContentView
 from zope.component import getUtility
 from zope.interface import implementer

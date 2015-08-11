@@ -17,3 +17,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ploneintranet\n"
 
+
+#. Default: "My profile"
+msgid "My profile"
+msgstr ""

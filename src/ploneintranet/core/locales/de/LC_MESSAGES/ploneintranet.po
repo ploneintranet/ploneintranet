@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-07-29 10:56+0000\n"
+"POT-Creation-Date: 2015-08-11 15:18+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -24,6 +24,14 @@ msgstr ""
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr "${results} Treffer gefunden."
+
+#: ../workspace/browser/templates/case_manager.pt:127
+msgid ">Days running"
+msgstr ">Tage am laufen"
+
+#: ../workspace/browser/templates/case_manager.pt:131
+msgid ">Modifications past 7 days"
+msgstr ">Änderungen seit 7 Tagen"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
@@ -45,7 +53,7 @@ msgstr "Ein Verzeichnis aus Facetten und verfügbaren Werten"
 msgid "A highlighted summary of this search result"
 msgstr "Eine Zusammenfassung des Suchergebnisses mit Hervorhebungen"
 
-#: ../microblog/interfaces.py:14
+#: ../microblog/interfaces.py:13
 msgid "A longint unique status id"
 msgstr "Eine eindeutige status id (longint)"
 
@@ -57,7 +65,7 @@ msgstr "Ein Benutzer (oder eine Gruppe), dem diese Aufgabe zugewiesen wurde."
 msgid "A user with this username already exists"
 msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
 
-#: ../messaging/browser/messaging.py:28
+#: ../messaging/browser/messaging.py:26
 msgid "Add a comment"
 msgstr "Füge einen Kommentar hinzu."
 
@@ -95,43 +103,41 @@ msgid "Admin-Managed"
 msgstr "Verwaltet durch einen Administrator"
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
 #: ../workspace/browser/tiles/templates/sidebar.pt:476
 msgid "Advanced"
 msgstr "Erweitert"
 
 #: ../workspace/browser/templates/roster-edit.pt:183
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:130
 msgid "Advanced permissions"
 msgstr "Erweiterte Berechtigungen"
 
 #: ../search/browser/templates/all_results.pt:24
 #: ../search/browser/templates/search_template.pt:24
-#: ../workspace/browser/tiles/templates/navigation.pt:35
+#: ../workspace/browser/templates/case_manager.pt:65
 msgid "All"
 msgstr "Alles"
 
-#: ../workspace/browser/tiles/sidebar.py:380
+#: ../workspace/browser/tiles/sidebar.py:385
 msgid "All Authors"
 msgstr "Alle Authoren"
 
-#: ../workspace/browser/tiles/sidebar.py:376
+#: ../workspace/browser/tiles/sidebar.py:381
 msgid "All Dates"
 msgstr "Alle Zeitpunkte"
 
-#: ../workspace/browser/tiles/sidebar.py:384
+#: ../workspace/browser/tiles/sidebar.py:389
 msgid "All Letters"
 msgstr "Alle Buchstaben"
 
-#: ../workspace/browser/tiles/sidebar.py:378
+#: ../workspace/browser/tiles/sidebar.py:383
 msgid "All Tags"
 msgstr "Alle Tags"
 
-#: ../workspace/browser/tiles/sidebar.py:617
+#: ../workspace/browser/tiles/sidebar.py:622
 msgid "All Time"
 msgstr "Alle Zeiträume"
 
-#: ../workspace/browser/tiles/sidebar.py:382
+#: ../workspace/browser/tiles/sidebar.py:387
 msgid "All Types"
 msgstr "Alle Typen"
 
@@ -147,9 +153,17 @@ msgstr "Alle Benachrichtigungen"
 msgid "All topics"
 msgstr "Alle Themen"
 
+#: ../workspace/browser/workspacecontainer.py:39
+msgid "Alphabetical"
+msgstr "Alphabetisch"
+
 #: ../layout/browser/templates/app-not-available.pt:25
 msgid "Alright"
 msgstr "Ok"
+
+#: ../workspace/browser/templates/workspace-add.pt:61
+msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
+msgstr "Jeder eingeloggte Benutzer darf beitreten und teilnehmen. Alles in dieser Gruppe ist sichtbar für jeden eingeloggten Benutzer, sogar wenn dieser kein Mitglied ist."
 
 #: ../search/browser/templates/all_results.pt:40
 msgid "Any modification date"
@@ -158,6 +172,10 @@ msgstr "Alle"
 #: ../layout/browser/templates/app-not-available.pt:12
 msgid "App not available"
 msgstr "App nicht verfügbar"
+
+#: ../workspace/browser/templates/case_manager.pt:41
+msgid "Applicant"
+msgstr "Gesuchsteller"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
@@ -186,11 +204,11 @@ msgstr "Dokumente anhängen"
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: ../workspace/browser/tiles/sidebar.py:281
+#: ../workspace/browser/tiles/sidebar.py:286
 msgid "Attributes changed."
 msgstr "Attribut geändert"
 
-#: ../microblog/interfaces.py:17
+#: ../microblog/interfaces.py:16
 msgid "Author name (for display)"
 msgstr "Name des Autors (für die Anzeige)"
 
@@ -202,7 +220,7 @@ msgstr "Autor dieses Dokuments"
 msgid "Available fields/columns"
 msgstr "Verfügbare Felder/Spalten"
 
-#: ../workspace/browser/tiles/sidebar.py:386
+#: ../workspace/browser/tiles/sidebar.py:391
 msgid "Back"
 msgstr "Zurück"
 
@@ -224,11 +242,20 @@ msgstr "Mehrere Benutzer importieren"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+#: ../workspace/browser/templates/workspace-add.pt:27
+msgid "Case"
+msgstr "Geschäft"
+
+#: ../workspace/browser/templates/case_manager.pt:56
+msgid "Case type"
+msgstr "Geschäftstyp"
+
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr "Titel und Beschreibung des Ordners ändern"
 
 #: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
 msgstr "Rolle ändern"
@@ -237,17 +264,22 @@ msgstr "Rolle ändern"
 msgid "Change role of member"
 msgstr "Rolle des Mitglieds ändern"
 
+#: ../todo/browser/templates/todo_view.pt:48
 #: ../workspace/basecontent/templates/document_view.pt:41
 msgid "Change the workflow state"
 msgstr "Den Zustand im Arbeitsablauf ändern"
 
-#: ../todo/browser/todo_view.py:49
+#: ../todo/browser/todo_view.py:45
 msgid "Changes applied"
 msgstr "Änderungen gespeichert"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:361
 msgid "Close milestone"
 msgstr "Meilenstein schließen"
+
+#: ../workspace/browser/templates/case_manager.pt:67
+msgid "Closed"
+msgstr "Geschlossen"
 
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Confirmed"
@@ -270,11 +302,13 @@ msgstr "Kontakt"
 msgid "Content types"
 msgstr "Inhaltstypen"
 
+#: ../todo/browser/templates/todo_view.pt:37
 #: ../workspace/basecontent/templates/document_view.pt:36
 #: ../workspace/browser/tiles/templates/sidebar.pt:96
 msgid "Copy"
 msgstr "Kopieren"
 
+#: ../todo/browser/templates/todo_view.pt:37
 #: ../workspace/basecontent/templates/document_view.pt:36
 msgid "Copy this document"
 msgstr "Dieses Dokument kopieren"
@@ -285,9 +319,13 @@ msgstr "Dieses Dokument kopieren"
 msgid "Create"
 msgstr "Erstellen"
 
-#: ../workspace/browser/templates/workspaces.pt:23
+#: ../library/browser/templates/library.html:59
+msgid "Create a new page or section"
+msgstr "Neue Seite oder Bereich erstellen"
+
+#: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
-msgstr "Neuen Arbeitsraum erstellen"
+msgstr "Neuen Arbeitsbereich erstellen"
 
 #: ../workspace/browser/templates/add_content.pt:8
 #: ../workspace/browser/tiles/templates/sidebar.pt:52
@@ -311,11 +349,12 @@ msgstr "Neue Aufgabe erstellen"
 msgid "Create task"
 msgstr "Aufgabe erstellen"
 
-#: ../workspace/browser/templates/workspaces.pt:23
+#: ../workspace/browser/templates/workspace-add.pt:11
+#: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create workspace"
-msgstr "Arbeitsraum erstellen"
+msgstr "Arbeitsbereich erstellen"
 
-#: ../microblog/interfaces.py:19
+#: ../microblog/interfaces.py:18
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
@@ -331,16 +370,13 @@ msgstr "Zuletzt bearbeitet"
 msgid "Declined"
 msgstr "Abgelehnt"
 
-#: ../workspace/browser/roster.py:148
-msgid "Default role for this workspace"
-msgstr "Standard-Rolle für diesen Arbeitsbereich"
-
+#: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
 #: ../workspace/basecontent/templates/event_view.pt:44
-#: ../workspace/browser/tiles/templates/sidebar.pt:114
 msgid "Delete"
 msgstr "Löschen"
 
+#: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
 msgid "Delete this document"
 msgstr "Dieses Dokument löschen"
@@ -350,10 +386,10 @@ msgid "Delete this event"
 msgstr "Termin löschen"
 
 #: ../userprofile/content/userprofile.py:64
+#: ../workspace/browser/templates/case_manager.pt:34
 msgid "Department"
 msgstr "Abteilung"
 
-#: ../workspace/browser/templates/add_event.pt:16
 #: ../workspace/browser/templates/content_macros.pt:10
 msgid "Description"
 msgstr "Beschreibung"
@@ -381,10 +417,26 @@ msgstr "Titel des Dokuments"
 msgid "Documents"
 msgstr "Dokumente"
 
+#: ../todo/browser/templates/todo_view.pt:51
+msgid "Done"
+msgstr "Erledigt"
+
 #: ../todo/behaviors.py:63
 #: ../workspace/browser/templates/content_macros.pt:27
 msgid "Due date"
 msgstr "Fälligkeitsdatum"
+
+#: ../workspace/browser/templates/case_manager.pt:82
+msgid "Earliest creation date"
+msgstr "Frühestes Erstelldatum"
+
+#: ../workspace/browser/templates/case_manager.pt:96
+msgid "Earliest deadline"
+msgstr "Früheste Frist"
+
+#: ../workspace/browser/templates/case_manager.pt:89
+msgid "Earliest modification date"
+msgstr "Frühestes Bearbeitungsdatum"
 
 #: ../workspace/browser/templates/edit_folder.pt:19
 msgid "Edit"
@@ -416,7 +468,11 @@ msgstr "Geben Sie eine Beschreibung des Termins an"
 
 #: ../workspace/browser/templates/content_macros.pt:10
 msgid "Enter a description of the task"
-msgstr "Geben Sie eine Beschreibung der Aufgabe an"
+msgstr "Beschreibung für diese Aufgabe eintragen"
+
+#: ../workspace/browser/templates/case_manager.pt:41
+msgid "Enter the name of the applicant"
+msgstr "Geben sie den Namen des Gesuchstellers an"
 
 #: ../workspace/browser/templates/add_event.pt:9
 msgid "Event title"
@@ -506,6 +562,14 @@ msgstr "Allgemeine Aufgaben"
 msgid "Group by"
 msgstr "Gruppieren nach"
 
+#: ../library/browser/templates/library.html:46
+msgid "Group by section"
+msgstr "Nach Bereich gruppieren"
+
+#: ../library/browser/templates/library.html:50
+msgid "Group by tag"
+msgstr "Nach Tag gruppieren"
+
 #: ../todo/vocabularies.py:9
 msgid "High"
 msgstr "Hoch"
@@ -514,9 +578,13 @@ msgstr "Hoch"
 msgid "How many items to list."
 msgstr "Wie viele Artikel sollen im Portlet aufgelistet werden?"
 
+#: ../layout/browser/actions.py:33
+msgid "I am sure, delete now"
+msgstr "Ja, löschen"
+
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
-msgstr "Ich bin mir sicher, Rolle entfernen"
+msgstr "Ja, Rolle entfernen"
 
 #: ../workspace/browser/forms.py:64
 msgid "If checked, users will be removed from workspace"
@@ -564,7 +632,6 @@ msgid "Invitations"
 msgstr "Einladungen"
 
 #: ../workspace/browser/templates/roster-edit.pt:169
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:118
 msgid "Invite users to this workspace (via email)"
 msgstr "Lade Benutzer in diesen Arbeitsbereich ein (per E-Mail)"
 
@@ -580,19 +647,19 @@ msgstr "Element angelegt."
 msgid "Item edited."
 msgstr "Element bearbeitet."
 
-#: ../workspace/browser/tiles/sidebar.py:612
+#: ../workspace/browser/tiles/sidebar.py:617
 msgid "Items modified last month"
 msgstr "Objekte, die im letzten Monat geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:606
+#: ../workspace/browser/tiles/sidebar.py:611
 msgid "Items modified last week"
 msgstr "Objekte, die letzte Woche geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:600
+#: ../workspace/browser/tiles/sidebar.py:605
 msgid "Items modified today"
 msgstr "Objekte, die sich heute geändert haben"
 
-#: ../workspace/browser/tiles/sidebar.py:618
+#: ../workspace/browser/tiles/sidebar.py:623
 msgid "Items since ever"
 msgstr "Alle bisherigen Objekte"
 
@@ -612,11 +679,11 @@ msgstr "Jetzt registrieren!"
 msgid "Last Modified"
 msgstr "Zuletzt bearbeitet"
 
-#: ../workspace/browser/tiles/sidebar.py:611
+#: ../workspace/browser/tiles/sidebar.py:616
 msgid "Last Month"
 msgstr "Letzten Monat"
 
-#: ../workspace/browser/tiles/sidebar.py:605
+#: ../workspace/browser/tiles/sidebar.py:610
 msgid "Last Week"
 msgstr "Letzte Woche"
 
@@ -631,6 +698,18 @@ msgstr "Nachname"
 #: ../search/browser/templates/all_results.pt:46
 msgid "Last week"
 msgstr "Letzte Woche"
+
+#: ../workspace/browser/templates/case_manager.pt:84
+msgid "Latest creation date"
+msgstr "Spätestes Erstelldatum"
+
+#: ../workspace/browser/templates/case_manager.pt:98
+msgid "Latest deadline"
+msgstr "Späteste Frist"
+
+#: ../workspace/browser/templates/case_manager.pt:91
+msgid "Latest modification date"
+msgstr "Spätestes Bearbeitungsdatum"
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
@@ -664,6 +743,10 @@ msgstr "Like"
 msgid "Location"
 msgstr "Ort"
 
+#: ../workspace/browser/templates/workspace-add.pt:51
+msgid "Locked down, secret workspace"
+msgstr "Verschlossener, sicherer Arbeitsbereich"
+
 #: ../todo/vocabularies.py:7
 msgid "Low"
 msgstr "Niedrig"
@@ -680,11 +763,11 @@ msgstr "Markiere den Inhalt als \"Muss\" für alle Benutzer"
 msgid "Member"
 msgstr "Mitglied"
 
-#: ../workspace/browser/tiles/sidebar.py:163
+#: ../workspace/browser/tiles/sidebar.py:168
 msgid "Member(s) added"
 msgstr "Benutzer hinzugefügt"
 
-#: ../workspace/browser/tiles/sidebar.py:171
+#: ../workspace/browser/tiles/sidebar.py:176
 msgid "Member(s) removed"
 msgstr "Benutzer entfernt"
 
@@ -712,7 +795,7 @@ msgstr "Meilenstein"
 
 #: ../workspace/browser/templates/content_macros.pt:40
 msgid "Milestone this task belongs to"
-msgstr "Meilenstein, zu dem diese Aufgabe gehört"
+msgstr "Der Meilenstein dieser Aufgabe"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:118
@@ -735,7 +818,7 @@ msgstr "Moderieren"
 msgid "More information about"
 msgstr "Mehr über…"
 
-#: ../search/browser/templates/all_results.pt:191
+#: ../search/browser/templates/all_results.pt:185
 #: ../search/browser/templates/file_results.pt:32
 #: ../search/browser/templates/image_results.pt:32
 msgid "More results"
@@ -753,6 +836,10 @@ msgstr "Muss gelesen werden"
 msgid "My network"
 msgstr "Mein Netzwerk"
 
+#. Default: "My profile"
+msgid "My profile"
+msgstr "Mein Profil"
+
 #: ../userprofile/browser/templates/userprofile.pt:119
 msgid "Name"
 msgstr "Name"
@@ -760,6 +847,10 @@ msgstr "Name"
 #: ../messaging/browser/your-inbox.pt:18
 msgid "New Message"
 msgstr "Neue Nachricht"
+
+#: ../workspace/browser/workspacecontainer.py:41
+msgid "Newest workspaces on top"
+msgstr "Neueste Arbeitsbereiche oben"
 
 #: ../todo/portlets/latest.pt:12
 msgid "News"
@@ -781,6 +872,10 @@ msgstr "Keine Nachrichten"
 #: ../notifications/browser/notifications.pt:40
 msgid "No pending notifications"
 msgstr "Keine ungelesenen Benachrichtigungen"
+
+#: ../workspace/browser/templates/case_manager.pt:109
+msgid "No results"
+msgstr "Keine Ergebnisse"
 
 #: ../network/browser/templates/author.pt:20
 #: ../network/browser/templates/graph.pt:20
@@ -823,7 +918,7 @@ msgid "Oh boy, oh boy, you are already a member"
 msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
-#: ../workspace/browser/templates/panel-add-user.pt:27
+#: ../workspace/browser/templates/panel-add-user.pt:26
 #: ../workspace/browser/templates/panel-remove-user.pt:36
 msgid "Ok"
 msgstr "Ok"
@@ -836,13 +931,19 @@ msgstr "Ältere Termine"
 msgid "Only administrators can add workspace members."
 msgstr "Nur Administratoren können Mitglieder zu Arbeitsbereichen hinzufügen."
 
+#: ../todo/browser/templates/todo_view.pt:50
+#: ../workspace/browser/templates/case_manager.pt:66
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr "Offen"
 
+#: ../workspace/browser/templates/workspace-add.pt:53
+msgid "Open community"
+msgstr "Offene Gesellschaft"
+
 #: ../workspace/browser/templates/content_macros.pt:65
 msgid "Organiser"
-msgstr "Organiser"
+msgstr "Veranstalter"
 
 #: ../workspace/policies.py:43
 msgid "Outsiders can self-join becoming a workspace member."
@@ -872,13 +973,33 @@ msgstr "Titel"
 msgid "Photo"
 msgstr "Foto"
 
+#: ../workspace/browser/templates/workspace-add.pt:33
+msgid "Pick a Case Template"
+msgstr "Wählen sie eine Vorlage"
+
+#: ../workspace/browser/templates/case_manager.pt:71
+msgid "Pick a date"
+msgstr "Wählen sie ein Datum"
+
 #: ../workspace/browser/templates/content_macros.pt:21
 msgid "Pick an assignee"
-msgstr "Wählen Sie einen Beauftragten"
+msgstr "Wählen sie einen Beauftragten"
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Pick an initiator"
-msgstr "Wählen Sie einen Ersteller"
+msgstr "Wählen sie einen Ersteller"
+
+#: ../workspace/browser/templates/case_manager.pt:58
+msgid "Pick case type"
+msgstr "Wählen sie den Geschäftstyp"
+
+#: ../workspace/browser/templates/case_manager.pt:49
+msgid "Pick staff"
+msgstr "Wählen sie einen Sachbearbeiter"
+
+#: ../workspace/browser/templates/case_manager.pt:35
+msgid "Pick the responsible department"
+msgstr "Wählen sie die verantwortliche Abteilung"
 
 #: ../workspace/browser/add_content.py:48
 msgid "Please specify which Case Template to use"
@@ -917,6 +1038,10 @@ msgstr "Veröffentlichen"
 msgid "Re-tag"
 msgstr "Neu markieren"
 
+#: ../workspace/browser/templates/workspace-add.pt:26
+msgid "Regular workspace"
+msgstr "Normaler Arbeitsbereich"
+
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
 msgstr "Entfernen"
@@ -933,6 +1058,10 @@ msgstr "Benutzer entfernen"
 msgid "Remove role"
 msgstr "Rolle entfernen"
 
+#: ../workspace/browser/templates/panel-member-role-actions.pt:14
+msgid "Remove special role"
+msgstr "Sonder-Rolle entfernen"
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:122
 msgid "Rename"
 msgstr "Umbenennen"
@@ -945,7 +1074,7 @@ msgstr "Meilenstein erneut öffnen"
 msgid "Rich text"
 msgstr "Text"
 
-#: ../workspace/browser/tiles/sidebar.py:184
+#: ../workspace/browser/tiles/sidebar.py:189
 msgid "Role updated"
 msgstr "Rolle bearbeitet"
 
@@ -953,9 +1082,9 @@ msgstr "Rolle bearbeitet"
 msgid "Roster updated."
 msgstr "Mitgliederliste aktualisiert"
 
+#: ../todo/browser/templates/todo_view.pt:56
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 #: ../workspace/basecontent/document.py:73
-#: ../workspace/basecontent/templates/event_view.pt:73
 msgid "Save"
 msgstr "Sichern"
 
@@ -963,15 +1092,31 @@ msgstr "Sichern"
 msgid "Save this document"
 msgstr "Dokument speichern"
 
+#: ../workspace/browser/templates/case_manager.pt:71
+msgid "Scheduled session"
+msgstr "Entscheidtermin"
+
 #: ../core/browser/panel_tags.pt:21
 #: ../core/browser/panel_users.pt:22
 #: ../search/browser/templates/search_template.pt:20
 msgid "Search"
 msgstr "Suche"
 
+#: ../workspace/browser/templates/panel-add-group.pt:21
+msgid "Search existing groups"
+msgstr "Existierende Gruppen durchsuchen"
+
+#: ../workspace/browser/templates/panel-add-user.pt:21
+msgid "Search existing users"
+msgstr "Existierende Benutzer durchsuchen"
+
 #: ../workspace/browser/templates/roster-edit.pt:41
 msgid "Search for a user"
 msgstr "Benutzer suchen"
+
+#: ../workspace/browser/templates/case_manager.pt:22
+msgid "Search in title and description"
+msgstr "Titel und Beschreibung durchsuchen"
 
 #: ../workspace/policies.py:9
 msgid "Secret"
@@ -1000,6 +1145,10 @@ msgstr "Arbeitsbereich anwählen"
 msgid "Self-Managed"
 msgstr "Selbstverwaltet"
 
+#: ../workspace/browser/templates/workspace-add.pt:52
+msgid "Self-managed, private teamspace"
+msgstr "Selbstverwalteter, privater Arbeitsbereich"
+
 #: ../invitations/invite_user.pt:48
 msgid "Send"
 msgstr "Senden"
@@ -1010,21 +1159,24 @@ msgstr "Sende eine Einladung per E-Mail an:"
 
 #: ../workspace/browser/templates/content_macros.pt:28
 msgid "Set a deadline"
-msgstr "Legen Sie ein Fälligkeitsdatum fest"
+msgstr "Setzen sie eine Frist"
 
 #: ../todo/behaviors.py:15
 msgid "Settings"
 msgstr "Einstellungen"
 
+#: ../todo/browser/templates/todo_view.pt:40
 #: ../workspace/basecontent/templates/document_view.pt:37
 #: ../workspace/browser/tiles/templates/sidebar.pt:138
 msgid "Share"
 msgstr "Teilen"
 
+#: ../todo/browser/templates/todo_view.pt:40
 #: ../workspace/basecontent/templates/document_view.pt:37
 msgid "Share this document"
 msgstr "Dieses Dokument teilen"
 
+#: ../todo/browser/templates/todo_view.pt:43
 #: ../workspace/basecontent/templates/document_view.pt:38
 #: ../workspace/basecontent/templates/event_view.pt:50
 msgid "Show extra metadata fields"
@@ -1042,9 +1194,17 @@ msgstr "Etwas Kontext"
 msgid "Spell corrected search string"
 msgstr "Suchanfrage (verbessert)"
 
+#: ../workspace/browser/templates/case_manager.pt:48
+msgid "Staff"
+msgstr "Sachbearbeiter"
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:421
 msgid "Starts"
 msgstr "Startet"
+
+#: ../workspace/browser/templates/case_manager.pt:64
+msgid "Status"
+msgstr "Status"
 
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
@@ -1063,6 +1223,10 @@ msgstr "Aufgabentitel"
 msgid "Tasks"
 msgstr "Aufgaben"
 
+#: ../workspace/browser/templates/case_manager.pt:123
+msgid "Tasks finished"
+msgstr "Aufgaben erledigt"
+
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
 msgstr "Teamverwaltet"
@@ -1073,7 +1237,7 @@ msgstr "Telefonnummer"
 
 #: ../workspace/browser/templates/content_macros.pt:140
 msgid "Tentative"
-msgstr "Eventuell"
+msgstr "Unter Vorbehalt"
 
 #: ../docconv/client/templates/pdf_not_available.pt:6
 msgid "The PDF version has not been generated yet, please try again later."
@@ -1183,7 +1347,15 @@ msgstr "Dieser Arbeitsbereich ist für Aussenstehende nicht einsehbar. Nur Mitgl
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
 msgstr "Dieser Arbeitsbereich ist sichtbar, aber für Aussenstehende nicht zugänglich. Nur Mitglieder haben dazu Zugang."
 
-#: ../workspace/browser/tiles/sidebar.py:289
+#: ../workspace/browser/templates/workspace-add.pt:55
+msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
+msgstr "Dieser Arbeitsbereich ist nur für Personen zugänglich, die eingeladen wurden. Der Arbeitsbereich wird nicht auf der Übersicht aller Arbeitsräume sichtbar sein. Dokumente in diesem Arbeitsbereich müssen gegengelesen werden, bevor sie mit der Gruppe geteilt werden. Nichts in dieser Gruppe wird je sichtbar sein für Nichtmitglieder."
+
+#: ../workspace/browser/templates/workspace-add.pt:58
+msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
+msgstr "Der Arbeitsbereich ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue Mitglieder hinzufügen. Sobald man Mitglied in der Arbeitsgruppe ist, kann man grundsätzlich alles tun. Nichts in dieser Gruppe ist je sichtbar für Nichtmitglieder."
+
+#: ../workspace/browser/tiles/sidebar.py:294
 msgid "There was a problem updating the content: %s."
 msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 
@@ -1218,17 +1390,18 @@ msgstr "Zeitzone"
 
 #: ../workspace/browser/templates/content_macros.pt:105
 msgid "To"
-msgstr "Bis"
+msgstr "An"
 
 #: ../messaging/browser/send-message.pt:24
 msgid "To:"
 msgstr "An:"
 
 #: ../search/browser/templates/all_results.pt:43
-#: ../workspace/browser/tiles/sidebar.py:599
+#: ../workspace/browser/tiles/sidebar.py:604
 msgid "Today"
 msgstr "Heute"
 
+#: ../todo/browser/templates/todo_view.pt:43
 #: ../workspace/basecontent/templates/document_view.pt:38
 #: ../workspace/basecontent/templates/event_view.pt:50
 msgid "Toggle extra metadata"
@@ -1239,7 +1412,6 @@ msgid "Token no longer valid"
 msgstr "Token nicht länger gültig."
 
 #: ../workspace/browser/templates/roster-edit.pt:176
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:124
 msgid "Transfer members to another workspace."
 msgstr "Mitglieder zu anderem Arbeitsbereich übertragen."
 
@@ -1249,13 +1421,13 @@ msgstr "Nicht zugewiesen"
 
 #: ../workspace/browser/templates/content_macros.pt:138
 msgid "Undecided"
-msgstr "Unentschlossen"
+msgstr "Unentschieden"
 
 #: ../network/browser/follows.py:38
 msgid "Unfollow"
 msgstr "Nicht weiter folgen"
 
-#: ../workspace/browser/tiles/sidebar.py:190
+#: ../workspace/browser/tiles/sidebar.py:195
 msgid "Unknown function"
 msgstr "Unbekannte Funktion"
 
@@ -1280,7 +1452,7 @@ msgstr "Aktualisierungen"
 msgid "Upload file(s)"
 msgstr "Dateien hochladen"
 
-#: ../microblog/interfaces.py:18
+#: ../microblog/interfaces.py:17
 msgid "Userid"
 msgstr "Benutzerkennung"
 
@@ -1292,21 +1464,29 @@ msgstr "Benutzername"
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
 
+#: ../workspace/browser/templates/confirmation-remove-special-role.pt:21
+msgid "When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?"
+msgstr "Wenn die Sonder-Rolle dieses Mitglieds entfernt wird, erbt das Mitglied die Standard-Rolle für diesen Arbeitsbereich. Sind sie sicher?"
+
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "Workspace"
 msgstr "Arbeitsbereich"
 
 #: ../workspace/browser/templates/roster-edit.pt:75
 msgid "Workspace Admin"
-msgstr "Administrator des Arbeitsraums"
+msgstr "Administrator des Arbeitsbereichs"
 
-#: ../workspace/browser/roster.py:158
+#: ../workspace/browser/roster.py:161
 msgid "Workspace Administrator"
 msgstr "Arbeitsbereich-Administrator"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
 msgid "Workspace Folder"
 msgstr "Verzeichnis für Arbeitsbereiche"
+
+#: ../workspace/browser/templates/workspace-add.pt:22
+msgid "Workspace description"
+msgstr "Kurze Bescheibung des Arbeitsbereichs"
 
 #: ../workspace/browser/views.py:23
 msgid "Workspace join policy doesn't allow self join"
@@ -1336,9 +1516,13 @@ msgstr "Mitglieder des Arbeitsbereichs können Inhalte lesen, hinzufügen und pu
 msgid "Workspace policy"
 msgstr "Richtlinie des Arbeitsbereichs"
 
-#: ../workspace/browser/tiles/sidebar.py:242
+#: ../workspace/browser/tiles/sidebar.py:247
 msgid "Workspace security policy changes saved"
 msgstr "Die Änderungen an der Sicherheitsrichtlinie des Arbeitsbereiches wurden gesichert."
+
+#: ../workspace/browser/templates/workspace-add.pt:19
+msgid "Workspace title"
+msgstr "Titel des Arbeitsbereichs"
 
 #: ../layout/profiles/default/actions.xml
 #: ../workspace/browser/tiles/templates/workspaces.pt:9
@@ -1350,6 +1534,10 @@ msgstr "Arbeitsbereiche"
 msgid "Wrong type for {} at row {}.field"
 msgstr "Falscher Typ für {} in Zeile {}."
 
+#: ../workspace/browser/templates/case_manager.pt:82
+msgid "YYYY-MM-DD"
+msgstr ""
+
 #: ../workspace/browser/views.py:32
 msgid "You are a member of this workspace now"
 msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsbereichs."
@@ -1358,13 +1546,21 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsbereichs."
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr "Sie sind dabei die Rolle der <strong>${num_users}</strong> Benutzer dieses Arbeitsbereichs zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
+#: ../workspace/browser/templates/workspace-add.pt:64
+msgid "You can always change these settings later via the security control panel in the workspace."
+msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen des Arbeitsbereichs ändern."
+
 #: ../workspace/browser/templates/joinviewlet.pt:6
 msgid "You can become a member of this workspace"
 msgstr "Sie können ein Mitglied dieses Arbeitsbereichs werden."
 
-#: ../workspace/browser/tiles/sidebar.py:155
+#: ../workspace/browser/tiles/sidebar.py:160
 msgid "You do not have permission to change the workspace policy"
 msgstr "Sie haben nicht die erforderlichen Berechtigungen um die Richtlinien des Arbeitsbereichs zu ändern."
+
+#: ../workspace/browser/templates/panel-remove-user.pt:23
+msgid "You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
+msgstr "Sie haben die folgenden <strong>${num_users}</strong> Benutzer ausgewählt um sie aus diesem Arbeitsbereich zu entfernen. Sind Sie sicher? (Auswahl entfernen, um Benutzer nicht zu entfernen)"
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
@@ -1375,8 +1571,8 @@ msgid "Your message here!"
 msgstr "Nachricht verfassen."
 
 #. Default: "What are you doing?"
-#: ../microblog/browser/tiles/newpostbox.py:235
-#: ../microblog/interfaces.py:15
+#: ../microblog/browser/tiles/newpostbox.py:234
+#: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "Was steht gerade an?"
 
@@ -1395,8 +1591,13 @@ msgstr "Datum"
 msgid "document type"
 msgstr "Dokumenttyp"
 
+#. Default: "Download"
+#: ../library/browser/templates/library.html:152
+msgid "download"
+msgstr "Herunterladen"
+
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:305
+#: ../workspace/browser/tiles/sidebar.py:310
 msgid "drop_files_here"
 msgstr "Dateien hierhin schieben oder klicken zum Durchsuchen."
 
@@ -1416,7 +1617,7 @@ msgid "expand/reduce sidebar"
 msgstr "Seitenleiste aus-/einklappen"
 
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:210
+#: ../workspace/browser/tiles/sidebar.py:215
 msgid "external_visibility_label"
 msgstr "Sichtbarkeit von Aussen"
 
@@ -1467,13 +1668,18 @@ msgid "items matched your search."
 msgstr "Treffer für die Suche"
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:209
+#: ../workspace/browser/tiles/sidebar.py:214
 msgid "join_policy_label"
 msgstr "Teilnahmerichtlinie"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:19
 msgid "label"
 msgstr "Markierung"
+
+#. Default: "Cancel"
+#: ../layout/browser/actions.py:39
+msgid "label_cancel"
+msgstr "Abbrechen"
 
 #. Default: "Name"
 #: ../workspace/browser/templates/roster-edit.pt:73
@@ -1510,7 +1716,7 @@ msgid "label_send"
 msgstr "Senden"
 
 #. Default: "Send Message"
-#: ../messaging/browser/messaging.py:36
+#: ../messaging/browser/messaging.py:34
 msgid "label_sendmessage"
 msgstr "Mitteilung senden"
 
@@ -1519,9 +1725,19 @@ msgstr "Mitteilung senden"
 msgid "label_toggle_navigation"
 msgstr "Navigation umschalten"
 
+#. Default: "Calendar visible in central calendar"
+#: ../workspace/workspacefolder.py:24
+msgid "label_workspace_calendar_visibility"
+msgstr "Kalender im zentralen Kalender sichtbar"
+
+#. Default: "E-mail address"
+#: ../workspace/workspacefolder.py:31
+msgid "label_workspace_email"
+msgstr "E-mail Adresse"
+
 #. Default: "Leave a comment..."
 #: ../activitystream/browser/activity.py:15
-#: ../microblog/browser/tiles/newpostbox.py:230
+#: ../microblog/browser/tiles/newpostbox.py:229
 msgid "leave_a_comment"
 msgstr "Kommentar verfassen"
 
@@ -1530,8 +1746,13 @@ msgstr "Kommentar verfassen"
 msgid "no-task-found"
 msgstr "Keine Aufgaben vorhanden"
 
+#. Default: "${no_members} Members"
+#: ../workspace/workspacefolder.py:167
+msgid "number_of_members"
+msgstr "${no_members} Mitglieder"
+
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:212
+#: ../workspace/browser/tiles/sidebar.py:217
 msgid "participant_policy_label"
 msgstr "Teilnehmerrichtlinie"
 
@@ -1540,9 +1761,15 @@ msgstr "Teilnehmerrichtlinie"
 msgid "placeholder"
 msgstr "Beschreibung"
 
-#: ../workspace/browser/tiles/workspaces.py:93
+#: ../workspace/browser/tiles/workspaces.py:97
 msgid "posted"
 msgstr "abgeschickt"
+
+#. Default: "Read more..."
+#: ../layout/browser/templates/news-tile.pt:19
+#: ../library/browser/templates/library.html:149
+msgid "read-more"
+msgstr "Mehr..."
 
 #. Default: "Current users"
 #: ../workspace/browser/templates/roster-edit.pt:65
@@ -1576,9 +1803,14 @@ msgid "unfollow"
 msgstr "Nicht weiter folgen."
 
 #. Default: "Workspace brief description"
-#: ../workspace/browser/tiles/templates/sidebar.pt:497
+#: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
 msgid "workspace_brief_description"
 msgstr "Kurze Bescheibung des Arbeitsbereichs"
+
+#. Default: "Default role for this workspace (${role})"
+#: ../workspace/browser/roster.py:148
+msgid "workspace_default_role"
+msgstr "Standard-Rolle für diesen Arbeitsbereich (${role})"
 
 #. Default: "Workspace e-mail address"
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:20
@@ -1596,7 +1828,7 @@ msgid "workspace_settings"
 msgstr "Einstellungen"
 
 #. Default: "Workspace title"
-#: ../workspace/browser/tiles/templates/sidebar.pt:485
+#: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:18
 msgid "workspace_title"
 msgstr "Titel"
 
