@@ -56,7 +56,7 @@
                       <label i18n:translate="">
                         Case type
                         <select name="case_type" class="focus">
-                          <option value="" i18n:translate="">Pick case type</option>
+                          <option value=""><tal:block i18n:translate="">Pick case type</tal:block></option>
                           <tal:r tal:repeat="case_type python:view.get_field_indexes('case_type')">
                             <option value="${case_type}">${case_type}</option>
                           </tal:r>
@@ -82,7 +82,7 @@
                       <fieldset class="group row date-range">
                         <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created"/>
                         </label>
-                        <label class="six columns"><tal:block i18n:translate="">atest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created"/>
+                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created"/>
                         </label>
                       </fieldset>
 
