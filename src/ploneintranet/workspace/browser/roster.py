@@ -149,7 +149,7 @@ class WorkspaceChangeRole(EditRoster):
             u"workspace_default_role",
             default=u'Default role for this workspace (${role})',
             mapping={
-                u'role': _(PARTICIPANT_POLICY[ws_policy]['title'])})
+                u'role': PARTICIPANT_POLICY[ws_policy]['title']})
         yield {'id': ws_policy.title(),
                'title': title}
         for policy_id, policy_info in PARTICIPANT_POLICY.items():
