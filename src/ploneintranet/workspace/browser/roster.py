@@ -145,8 +145,11 @@ class WorkspaceChangeRole(EditRoster):
     """
     def roles(self):
         ws_policy = self.context.participant_policy
-        title = (_('Default role for this workspace')
-                 + ' ({})'.format(PARTICIPANT_POLICY[ws_policy]['title']))
+        title = _(
+            u"workspace_default_role",
+            default=u'Default role for this workspace (${role})',
+            mapping={
+                u'role': _(PARTICIPANT_POLICY[ws_policy]['title'])})
         yield {'id': ws_policy.title(),
                'title': title}
         for policy_id, policy_info in PARTICIPANT_POLICY.items():
