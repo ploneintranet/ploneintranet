@@ -321,7 +321,7 @@ msgstr "Erstellen"
 
 #: ../library/browser/templates/library.html:59
 msgid "Create a new page or section"
-msgstr ""
+msgstr "Neue Seite oder Bereich erstellen"
 
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
