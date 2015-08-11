@@ -10,6 +10,7 @@ from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
 from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
 
+
 class Workspaces(BrowserView):
 
     """ A view to serve as overview over workspaces

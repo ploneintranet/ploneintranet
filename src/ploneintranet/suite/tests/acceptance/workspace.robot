@@ -56,6 +56,13 @@ Owner can delete sidebar events
 # for adding tasks in a workspace. Relying on globally available tasks (the
 # reason why these tests used to be passing) is not valid.
 
+Manager can add a task for Allan and Allan cannot modify it
+    Given I am in a workspace as a workspace admin
+     Then I create a task for  Allan
+          Go to  ${PLONE_URL}/logout
+     When I am logged in as the user allan_neece
+     Then Task is read only for user  Allan
+
 # Manager can view sidebar tasks
 #     Given I am in a workspace as a workspace admin
 #     Then I can go to the sidebar tasks tile

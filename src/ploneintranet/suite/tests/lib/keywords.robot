@@ -233,6 +233,32 @@ I can go to the sidebar tasks tile
     Click Link  link=Tasks
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
 
+I create a task for
+    [arguments]  ${name}
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Tasks
+    Wait Until Element Is visible  css=[title="Create new task"]
+    Click Element  css=[title="Create new task"]
+    Wait Until Page Contains Element  css=.wizard-box
+    Input Text  css=.wizard-box input[name=title]  Ciao ${name}
+    Input Text  css=.wizard-box textarea[name=description]  This is for you ${name}
+    Click Element  css=.wizard-box .assignee .select2-choices input
+    Input Text  css=.wizard-box .assignee .select2-choices input  ${name}
+    Wait Until Page Contains Element  jquery=span.select2-match:last
+    Click Element  jquery=span.select2-match:last
+    Input Text  css=.wizard-box input[name=due]  2020-12-31
+    Click Element  css=.wizard-box #form-buttons-create
+    Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
+
+Task is read only for user
+    [arguments]  ${name}
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Tasks
+    Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
+    Click Element  css=a[title="Ciao ${name}"]
+    Wait Until Page Contains  This is for you ${name}
+    Element Should Be Visible  jquery=input:disabled[name=due]
+
 I can invite Alice to join the workspace
     Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
