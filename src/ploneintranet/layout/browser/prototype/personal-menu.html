@@ -12,7 +12,7 @@
               portal_url here/plone_portal_state/portal_url
             ">
       <li>
-        <a class="icon-user" href="${portal_url}/@@my-profile">My profile</a>
+        <a class="icon-user" href="${portal_url}/@@my-profile" i18n:translate="">My profile</a>
       </li>
       <tal:temporarily_disabled condition="nothing">
           This will be enabled later, see
@@ -22,7 +22,7 @@
           </li>
       </tal:temporarily_disabled>
       <li>
-        <a class="icon-exit" href="${portal_url}/logout">Logout</a>
+        <a class="icon-exit" href="${portal_url}/logout" i18n:translate="">Logout</a>
       </li>
       <!-- Any additional links or functions that might be required for this user (links to admin screens, etc) may go here. -->
     </ul>
