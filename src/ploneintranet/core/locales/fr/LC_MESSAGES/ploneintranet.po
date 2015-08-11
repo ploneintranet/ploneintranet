@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 12:41+0000\n"
+"POT-Creation-Date: 2015-08-11 12:52+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -103,7 +103,7 @@ msgstr "Permissions avancées"
 
 #: ../search/browser/templates/all_results.pt:24
 #: ../search/browser/templates/search_template.pt:24
-#: ../workspace/browser/templates/case_manager.pt:66
+#: ../workspace/browser/templates/case_manager.pt:65
 msgid "All"
 msgstr ""
 
@@ -236,8 +236,8 @@ msgstr "Annuler"
 msgid "Case"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:60
-msgid "Case type <select name=\"case_type\" class=\"focus\"> <option value=\"\">x</option> <option value=\"${case_type}\">${case_type}</option> </select>"
+#: ../workspace/browser/templates/case_manager.pt:56
+msgid "Case type"
 msgstr ""
 
 #: ../workspace/browser/templates/edit_folder.pt:7
@@ -267,7 +267,7 @@ msgstr "Les modifications ont été appliquées"
 msgid "Close milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:68
+#: ../workspace/browser/templates/case_manager.pt:67
 msgid "Closed"
 msgstr ""
 
@@ -329,6 +329,10 @@ msgstr "Créer un dossier"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:358
 msgid "Create new task"
+msgstr ""
+
+#: ../library/browser/templates/library.html:59
+msgid "Create page or section"
 msgstr ""
 
 #: ../workspace/browser/templates/add_task.pt:2
@@ -416,15 +420,15 @@ msgstr ""
 msgid "Due date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:83
+#: ../workspace/browser/templates/case_manager.pt:82
 msgid "Earliest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:97
+#: ../workspace/browser/templates/case_manager.pt:96
 msgid "Earliest deadline"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:90
+#: ../workspace/browser/templates/case_manager.pt:89
 msgid "Earliest modification date"
 msgstr ""
 
@@ -685,15 +689,15 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:85
+#: ../workspace/browser/templates/case_manager.pt:84
 msgid "Latest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:99
+#: ../workspace/browser/templates/case_manager.pt:98
 msgid "Latest deadline"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:92
+#: ../workspace/browser/templates/case_manager.pt:91
 msgid "Latest modification date"
 msgstr ""
 
@@ -855,7 +859,7 @@ msgstr ""
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:110
+#: ../workspace/browser/templates/case_manager.pt:109
 msgid "No results"
 msgstr ""
 
@@ -914,7 +918,7 @@ msgid "Only administrators can add workspace members."
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:50
-#: ../workspace/browser/templates/case_manager.pt:67
+#: ../workspace/browser/templates/case_manager.pt:66
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr "En suspens"
@@ -959,7 +963,7 @@ msgstr ""
 msgid "Pick a Case Template"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:72
+#: ../workspace/browser/templates/case_manager.pt:71
 msgid "Pick a date"
 msgstr ""
 
@@ -971,7 +975,7 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:59
+#: ../workspace/browser/templates/case_manager.pt:58
 msgid "Pick case type"
 msgstr ""
 
@@ -1074,7 +1078,7 @@ msgstr "Enregistrer"
 msgid "Save this document"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:72
+#: ../workspace/browser/templates/case_manager.pt:71
 msgid "Scheduled session"
 msgstr ""
 
@@ -1184,7 +1188,7 @@ msgstr ""
 msgid "Starts"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:65
+#: ../workspace/browser/templates/case_manager.pt:64
 msgid "Status"
 msgstr ""
 
@@ -1512,7 +1516,7 @@ msgstr ""
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:83
+#: ../workspace/browser/templates/case_manager.pt:82
 msgid "YYYY-MM-DD"
 msgstr ""
 
@@ -1570,7 +1574,7 @@ msgid "document type"
 msgstr "type de document"
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:150
+#: ../library/browser/templates/library.html:151
 msgid "download"
 msgstr ""
 
@@ -1743,7 +1747,7 @@ msgstr ""
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:19
-#: ../library/browser/templates/library.html:147
+#: ../library/browser/templates/library.html:148
 msgid "read-more"
 msgstr ""
 
