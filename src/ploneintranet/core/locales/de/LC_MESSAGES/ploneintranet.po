@@ -27,7 +27,7 @@ msgstr "${results} Treffer gefunden."
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:46
 msgid "(This will delete a total of ${number_of_items_to_delete} items.)"
-msgstr ""
+msgstr "(Hierdurch werden insgesamt ${number_of_items_to_delete} Artikel gelöscht.)"
 
 #: ../workspace/browser/templates/case_manager.pt:127
 msgid ">Days running"
@@ -382,11 +382,11 @@ msgstr "Löschen"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:34
 msgid "Delete ${contenttype}"
-msgstr ""
+msgstr "${contenttype} löschen"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:25
 msgid "Delete folder"
-msgstr ""
+msgstr "Ordner löschen"
 
 #: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
@@ -1383,7 +1383,7 @@ msgstr "Es ist ein Problem aufgetreten: %s."
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:18
 msgid "This item can not be deleted because it is currently locked by another user."
-msgstr ""
+msgstr "Dieser Artikel kann nicht gelöscht werden, weil er gerade durch einen anderen Benutzer gesperrt ist."
 
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
@@ -1561,15 +1561,15 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsbereichs."
 
 #: ../workspace/browser/templates/panel-change-role.pt:31
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr "Sie sind dabei die Rolle der <strong>${num_users}</strong> Benutzer dieses Arbeitsbereichs zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
+msgstr "Sie sind dabei, die Rolle der <strong>${num_users}</strong> Benutzer dieses Arbeitsbereichs zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:40
 msgid "You are about to delete this ${contenttype}. Are you sure?"
-msgstr ""
+msgstr "Sie sind dabei, dieses Objekt (${contenttype} zu löschen. Sind sie sicher?"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:44
 msgid "You are about to delete this folder. Are you sure?"
-msgstr ""
+msgstr "Sie sind dabei, diesen Ordner zu löschen. Sind sie sicher?"
 
 #: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
