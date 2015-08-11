@@ -86,12 +86,16 @@
   <rules css:if-content="body.portaltype-event, 
                          body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
                          body.portaltype-ploneintranet-workspace-case.template-view, 
-                         body.template-case-manager,
                          body.app-workspace.portaltype-document, 
                          body.app-workspace.portaltype-file, 
                          body.app-workspace.portaltype-image, 
                          body.app-workspace.portaltype-folder">
                          <theme href="generated/minutes-of-2014-06-09/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+  <rules css:if-content="body.template-case-manager">
+    <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
