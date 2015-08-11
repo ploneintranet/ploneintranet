@@ -31,13 +31,13 @@
             <h1 class="documentFirstHeading"
                 i18n:translate=""
                 tal:condition="not:folder_warning">
-                Delete <tal:block i18n:name="contenttype" i18n:translate="">${context/portal_type}</tal:block>
+                Delete <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/portal_type"></tal:block>
             </h1>
 
             <div class="panel-body">
                 <article>
                     <p tal:condition="not:folder_warning" i18n:translate="">
-                        You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="">${context/portal_type}</tal:block>. Are you sure?
+                        You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/portal_type"></tal:block>. Are you sure?
                     </p>
 
                     <p tal:condition="folder_warning">
