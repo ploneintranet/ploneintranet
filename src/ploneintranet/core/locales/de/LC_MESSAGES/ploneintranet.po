@@ -167,7 +167,7 @@ msgstr "App nicht verfügbar"
 
 #: ../workspace/browser/templates/case_manager.pt:41
 msgid "Applicant"
-msgstr "Antragsteller"
+msgstr "Gesuchsteller"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
@@ -240,7 +240,7 @@ msgstr "Geschäft"
 
 #: ../workspace/browser/templates/case_manager.pt:60
 msgid "Case type <select name=\"case_type\" class=\"focus\"> <option value=\"\">x</option> <option value=\"${case_type}\">${case_type}</option> </select>"
-msgstr ""
+msgstr "Geschäftstyp"
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
@@ -464,7 +464,7 @@ msgstr "Beschreibung für diese Aufgabe eintragen"
 
 #: ../workspace/browser/templates/case_manager.pt:41
 msgid "Enter the name of the applicant"
-msgstr "Geben sie den Namen des Antragstellers an"
+msgstr "Geben sie den Namen des Gesuchstellers an"
 
 #: ../workspace/browser/templates/add_event.pt:9
 msgid "Event title"
@@ -975,7 +975,7 @@ msgstr "Wählen sie einen Ersteller"
 
 #: ../workspace/browser/templates/case_manager.pt:59
 msgid "Pick case type"
-msgstr "Wählen sie den Typ des Geschäfts"
+msgstr "Wählen sie den Geschäftstyp"
 
 #: ../workspace/browser/templates/case_manager.pt:49
 msgid "Pick staff"
@@ -1078,7 +1078,7 @@ msgstr "Dokument speichern"
 
 #: ../workspace/browser/templates/case_manager.pt:72
 msgid "Scheduled session"
-msgstr "Zugeordnete Sitzung"
+msgstr "Entscheidtermin"
 
 #: ../core/browser/panel_tags.pt:21
 #: ../core/browser/panel_users.pt:22
