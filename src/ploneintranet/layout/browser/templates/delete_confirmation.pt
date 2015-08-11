@@ -95,6 +95,7 @@
               <button type="submit" name="${action/name}" class="${action/klass}">${action/title}</button>
             </tal:block>
           </div>
+          <tal:block tal:condition="view/enableCSRFProtection" tal:replace="structure context/@@authenticator/authenticator" />
         </form>
       </div>
 
