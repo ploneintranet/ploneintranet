@@ -123,7 +123,7 @@ setup(name='ploneintranet',
           'attachments': [
               'Products.UserAndGroupSelectionWidget'
           ],
-          'develop': ['plone.reload', 'iw.debug'],
+          'develop': ['plone.reload', 'iw.debug', 'i18ndude'],
           'release': [
               'zest.releaser',
               'check-manifest',
