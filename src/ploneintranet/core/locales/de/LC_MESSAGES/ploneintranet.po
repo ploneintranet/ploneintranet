@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 16:06+0000\n"
+"POT-Creation-Date: 2015-08-11 18:49+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -145,7 +145,7 @@ msgstr "Alle Zeiträume"
 msgid "All Types"
 msgstr "Alle Typen"
 
-#: ../workspace/browser/templates/content_macros.pt:77
+#: ../workspace/browser/templates/content_macros.pt:99
 msgid "All day event"
 msgstr "Ganztägiger Termin"
 
@@ -157,7 +157,7 @@ msgstr "Alle Benachrichtigungen"
 msgid "All topics"
 msgstr "Alle Themen"
 
-#: ../workspace/browser/workspacecontainer.py:39
+#: ../workspace/browser/workspacecontainer.py:40
 msgid "Alphabetical"
 msgstr "Alphabetisch"
 
@@ -186,7 +186,7 @@ msgid "Apps"
 msgstr "Apps"
 
 #: ../todo/behaviors.py:51
-#: ../workspace/browser/templates/content_macros.pt:21
+#: ../workspace/browser/templates/content_macros.pt:29
 msgid "Assignee"
 msgstr "Beauftragter"
 
@@ -285,7 +285,7 @@ msgstr "Meilenstein schließen"
 msgid "Closed"
 msgstr "Geschlossen"
 
-#: ../workspace/browser/templates/content_macros.pt:139
+#: ../workspace/browser/templates/content_macros.pt:161
 msgid "Confirmed"
 msgstr "Bestätigt"
 
@@ -370,7 +370,7 @@ msgstr "Ausschneiden"
 msgid "Date and time of the latest modification"
 msgstr "Zuletzt bearbeitet"
 
-#: ../workspace/browser/templates/content_macros.pt:141
+#: ../workspace/browser/templates/content_macros.pt:163
 msgid "Declined"
 msgstr "Abgelehnt"
 
@@ -402,7 +402,7 @@ msgstr "Termin löschen"
 msgid "Department"
 msgstr "Abteilung"
 
-#: ../workspace/browser/templates/content_macros.pt:10
+#: ../workspace/browser/templates/content_macros.pt:15
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -434,7 +434,7 @@ msgid "Done"
 msgstr "Erledigt"
 
 #: ../todo/behaviors.py:63
-#: ../workspace/browser/templates/content_macros.pt:27
+#: ../workspace/browser/templates/content_macros.pt:42
 msgid "Due date"
 msgstr "Fälligkeitsdatum"
 
@@ -474,11 +474,15 @@ msgstr "E-mail"
 msgid "Ended"
 msgstr "Beendet"
 
+#: ../workspace/browser/templates/content_macros.pt:79
+msgid "Enter a Location"
+msgstr ""
+
 #: ../workspace/browser/templates/add_event.pt:17
 msgid "Enter a description of the event"
 msgstr "Geben Sie eine Beschreibung des Termins an"
 
-#: ../workspace/browser/templates/content_macros.pt:10
+#: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
 msgstr "Beschreibung für diese Aufgabe eintragen"
 
@@ -545,7 +549,7 @@ msgstr "Folgt ${num_following}"
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
 msgstr "Für Geschäfte wird die Sicherheit durch den geschäftseigenen Arbeitsablauf bestimmt. Deshalb können Sie diese hier nicht wie in Arbeitsräumen konfigurieren. Bitte weisen Sie stattdessen Benutzern und Gruppen einfach die passenden Rollen unter dem \"Mitglieder\" Reiter zu."
 
-#: ../workspace/browser/templates/content_macros.pt:88
+#: ../workspace/browser/templates/content_macros.pt:110
 msgid "From"
 msgstr "Von"
 
@@ -631,7 +635,7 @@ msgid "Info"
 msgstr "Information"
 
 #: ../todo/behaviors.py:45
-#: ../workspace/browser/templates/content_macros.pt:15
+#: ../workspace/browser/templates/content_macros.pt:20
 msgid "Initiator"
 msgstr "Ersteller"
 
@@ -648,7 +652,7 @@ msgstr "Einladungen"
 msgid "Invite users to this workspace (via email)"
 msgstr "Lade Benutzer in diesen Arbeitsbereich ein (per E-Mail)"
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:154
 msgid "Invitees"
 msgstr "Eingeladen"
 
@@ -752,7 +756,7 @@ msgstr "Bibliotheksbereich"
 msgid "Like"
 msgstr "Like"
 
-#: ../workspace/browser/templates/content_macros.pt:61
+#: ../workspace/browser/templates/content_macros.pt:79
 msgid "Location"
 msgstr "Ort"
 
@@ -806,7 +810,7 @@ msgstr "Mitteilungen"
 msgid "Milestone"
 msgstr "Meilenstein"
 
-#: ../workspace/browser/templates/content_macros.pt:40
+#: ../workspace/browser/templates/content_macros.pt:58
 msgid "Milestone this task belongs to"
 msgstr "Der Meilenstein dieser Aufgabe"
 
@@ -861,7 +865,7 @@ msgstr "Name"
 msgid "New Message"
 msgstr "Neue Nachricht"
 
-#: ../workspace/browser/workspacecontainer.py:41
+#: ../workspace/browser/workspacecontainer.py:42
 msgid "Newest workspaces on top"
 msgstr "Neueste Arbeitsbereiche oben"
 
@@ -954,7 +958,7 @@ msgstr "Offen"
 msgid "Open community"
 msgstr "Offene Gesellschaft"
 
-#: ../workspace/browser/templates/content_macros.pt:65
+#: ../workspace/browser/templates/content_macros.pt:86
 msgid "Organiser"
 msgstr "Veranstalter"
 
@@ -986,6 +990,10 @@ msgstr "Titel"
 msgid "Photo"
 msgstr "Foto"
 
+#: ../workspace/browser/templates/content_macros.pt:155
+msgid "Pick Invitees"
+msgstr ""
+
 #: ../workspace/browser/templates/workspace-add.pt:33
 msgid "Pick a Case Template"
 msgstr "Wählen sie eine Vorlage"
@@ -994,11 +1002,15 @@ msgstr "Wählen sie eine Vorlage"
 msgid "Pick a date"
 msgstr "Wählen sie ein Datum"
 
-#: ../workspace/browser/templates/content_macros.pt:21
+#: ../workspace/browser/templates/content_macros.pt:87
+msgid "Pick an Organiser"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:30
 msgid "Pick an assignee"
 msgstr "Wählen sie einen Beauftragten"
 
-#: ../workspace/browser/templates/content_macros.pt:15
+#: ../workspace/browser/templates/content_macros.pt:20
 msgid "Pick an initiator"
 msgstr "Wählen sie einen Ersteller"
 
@@ -1170,7 +1182,7 @@ msgstr "Senden"
 msgid "Send email invite to:"
 msgstr "Sende eine Einladung per E-Mail an:"
 
-#: ../workspace/browser/templates/content_macros.pt:28
+#: ../workspace/browser/templates/content_macros.pt:43
 msgid "Set a deadline"
 msgstr "Setzen sie eine Frist"
 
@@ -1248,7 +1260,7 @@ msgstr "Teamverwaltet"
 msgid "Telephone Number"
 msgstr "Telefonnummer"
 
-#: ../workspace/browser/templates/content_macros.pt:140
+#: ../workspace/browser/templates/content_macros.pt:162
 msgid "Tentative"
 msgstr "Unter Vorbehalt"
 
@@ -1401,11 +1413,11 @@ msgstr "Zeitzone"
 msgid "Timeline"
 msgstr "Zeitleise"
 
-#: ../workspace/browser/templates/content_macros.pt:120
+#: ../workspace/browser/templates/content_macros.pt:142
 msgid "Timezone"
 msgstr "Zeitzone"
 
-#: ../workspace/browser/templates/content_macros.pt:105
+#: ../workspace/browser/templates/content_macros.pt:127
 msgid "To"
 msgstr "An"
 
@@ -1436,7 +1448,7 @@ msgstr "Mitglieder zu anderem Arbeitsbereich übertragen."
 msgid "Unassigned"
 msgstr "Nicht zugewiesen"
 
-#: ../workspace/browser/templates/content_macros.pt:138
+#: ../workspace/browser/templates/content_macros.pt:160
 msgid "Undecided"
 msgstr "Unentschieden"
 

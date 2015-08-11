@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 16:06+0000\n"
+"POT-Creation-Date: 2015-08-11 18:49+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -143,7 +143,7 @@ msgstr ""
 msgid "All Types"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:77
+#: ../workspace/browser/templates/content_macros.pt:99
 msgid "All day event"
 msgstr ""
 
@@ -155,7 +155,7 @@ msgstr "Toutes les notifications"
 msgid "All topics"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:39
+#: ../workspace/browser/workspacecontainer.py:40
 msgid "Alphabetical"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgid "Apps"
 msgstr ""
 
 #: ../todo/behaviors.py:51
-#: ../workspace/browser/templates/content_macros.pt:21
+#: ../workspace/browser/templates/content_macros.pt:29
 msgid "Assignee"
 msgstr "Responsable"
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:139
+#: ../workspace/browser/templates/content_macros.pt:161
 msgid "Confirmed"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgstr "Couper"
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:141
+#: ../workspace/browser/templates/content_macros.pt:163
 msgid "Declined"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:10
+#: ../workspace/browser/templates/content_macros.pt:15
 msgid "Description"
 msgstr ""
 
@@ -432,7 +432,7 @@ msgid "Done"
 msgstr ""
 
 #: ../todo/behaviors.py:63
-#: ../workspace/browser/templates/content_macros.pt:27
+#: ../workspace/browser/templates/content_macros.pt:42
 msgid "Due date"
 msgstr ""
 
@@ -472,11 +472,15 @@ msgstr ""
 msgid "Ended"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:79
+msgid "Enter a Location"
+msgstr ""
+
 #: ../workspace/browser/templates/add_event.pt:17
 msgid "Enter a description of the event"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:10
+#: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
 msgstr ""
 
@@ -543,7 +547,7 @@ msgstr ""
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:88
+#: ../workspace/browser/templates/content_macros.pt:110
 msgid "From"
 msgstr ""
 
@@ -629,7 +633,7 @@ msgid "Info"
 msgstr "Info"
 
 #: ../todo/behaviors.py:45
-#: ../workspace/browser/templates/content_macros.pt:15
+#: ../workspace/browser/templates/content_macros.pt:20
 msgid "Initiator"
 msgstr ""
 
@@ -646,7 +650,7 @@ msgstr ""
 msgid "Invite users to this workspace (via email)"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:154
 msgid "Invitees"
 msgstr ""
 
@@ -750,7 +754,7 @@ msgstr ""
 msgid "Like"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:61
+#: ../workspace/browser/templates/content_macros.pt:79
 msgid "Location"
 msgstr ""
 
@@ -804,7 +808,7 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:40
+#: ../workspace/browser/templates/content_macros.pt:58
 msgid "Milestone this task belongs to"
 msgstr ""
 
@@ -859,7 +863,7 @@ msgstr ""
 msgid "New Message"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:41
+#: ../workspace/browser/workspacecontainer.py:42
 msgid "Newest workspaces on top"
 msgstr ""
 
@@ -952,7 +956,7 @@ msgstr "En suspens"
 msgid "Open community"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:65
+#: ../workspace/browser/templates/content_macros.pt:86
 msgid "Organiser"
 msgstr ""
 
@@ -984,6 +988,10 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:155
+msgid "Pick Invitees"
+msgstr ""
+
 #: ../workspace/browser/templates/workspace-add.pt:33
 msgid "Pick a Case Template"
 msgstr ""
@@ -992,11 +1000,15 @@ msgstr ""
 msgid "Pick a date"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:21
+#: ../workspace/browser/templates/content_macros.pt:87
+msgid "Pick an Organiser"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:30
 msgid "Pick an assignee"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:15
+#: ../workspace/browser/templates/content_macros.pt:20
 msgid "Pick an initiator"
 msgstr ""
 
@@ -1168,7 +1180,7 @@ msgstr ""
 msgid "Send email invite to:"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:28
+#: ../workspace/browser/templates/content_macros.pt:43
 msgid "Set a deadline"
 msgstr ""
 
@@ -1246,7 +1258,7 @@ msgstr ""
 msgid "Telephone Number"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:140
+#: ../workspace/browser/templates/content_macros.pt:162
 msgid "Tentative"
 msgstr ""
 
@@ -1399,11 +1411,11 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:120
+#: ../workspace/browser/templates/content_macros.pt:142
 msgid "Timezone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:105
+#: ../workspace/browser/templates/content_macros.pt:127
 msgid "To"
 msgstr ""
 
@@ -1434,7 +1446,7 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:138
+#: ../workspace/browser/templates/content_macros.pt:160
 msgid "Undecided"
 msgstr ""
 
