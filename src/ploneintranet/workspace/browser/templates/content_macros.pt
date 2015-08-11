@@ -58,7 +58,10 @@
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
       <label class="location">
-        <span tal:omit-tag="" i18n:translate="">Location</span> <input name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
+        <span tal:omit-tag="" i18n:translate="">Location</span> <input
+        placeholder="Enter a Location"
+        i18n:attributes="placeholder"
+        name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
       </label>
       <br/>
       <label class="organiser">
@@ -67,7 +70,8 @@
                name="organizer"
                data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"
                class="pat-autosuggest"
-               placeholder="Organiser"
+               placeholder="Pick an Organiser"
+               i18n:attributes="placeholder"
                tal:attributes="disabled read_only"/>
       </label>
       <br/>
@@ -130,7 +134,7 @@
 
       </fieldset>
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
-      <input name="invitees" placeholder="Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
+      <input name="invitees" placeholder="Pick Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
              data-pat-autosuggest-classes=''
              data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"/>
 
