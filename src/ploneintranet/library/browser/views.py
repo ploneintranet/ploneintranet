@@ -9,7 +9,7 @@ from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
-from ploneintranet.library import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.library.browser import utils
 from ploneintranet.search.interfaces import ISiteSearch
 

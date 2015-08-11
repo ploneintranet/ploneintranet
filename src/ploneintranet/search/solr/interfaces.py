@@ -2,7 +2,7 @@
 from zope.interface import Interface
 from zope import schema
 
-from .. import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class IConnectionConfig(Interface):

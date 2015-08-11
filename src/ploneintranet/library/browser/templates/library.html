@@ -35,7 +35,7 @@
 	  <p class="description"
              tal:condition="info/description|nothing"
              tal:content="info/description">
-	    Praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum. 
+	    Praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
 	  </p>
         </article>
 
@@ -44,11 +44,11 @@
 	  <label class="bare pat-select">
 	    <select name="groupby">
 	      <option value="section"
-                      tal:attributes="python:view.selected('groupby')">
+                      tal:attributes="selected python:view.selected('groupby')">
 		Group by section
 	      </option>
 	      <option value="tag"
-                      tal:attributes="python:view.selected('tag')">
+                      tal:attributes="selected python:view.selected('tag')">
 		Group by tag
 	      </option>
 	    </select>
@@ -64,16 +64,16 @@
 	</div>
 
 	<!-- Search is out of scope? -->
-	<input type="search" placeholder="Search library items" 
+	<input type="search" placeholder="Search library items"
                tal:condition="nothing"/>
-	
+
         </form>
 
         <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
 	  <div class="grid-sizer"></div>
-          
+
           <tal:children repeat="child view/children">
-            
+
 	    <div class="tile group-by-section"
                  tal:define="itemtype child/type"
                  tal:condition="python: itemtype=='container'"
@@ -121,7 +121,7 @@
                 </ul>
               </div>
             </div>
-                        
+
 	    <div class="tile type-page"
                  tal:define="itemtype child/type"
                  tal:condition="python: itemtype=='document'">
@@ -155,10 +155,10 @@
 	    </div>
 
           </tal:children>
-          
+
         </div>
-        
+
       </div>
     </metal:content>
-    
+
 </html>

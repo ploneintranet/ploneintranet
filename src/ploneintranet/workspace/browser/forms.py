@@ -13,7 +13,7 @@ from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
 
 from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.utils import get_storage, send_email
 
 

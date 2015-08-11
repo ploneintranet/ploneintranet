@@ -1,5 +1,5 @@
 # coding=utf-8
-from ... import MessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ...basecontent.utils import dexterity_update
 from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY

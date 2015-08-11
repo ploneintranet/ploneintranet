@@ -4,8 +4,7 @@ from zope.interface import Interface
 
 from plone.uuid.interfaces import IUUIDAware
 
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('ploneintranet')
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class IStatusUpdate(Interface):

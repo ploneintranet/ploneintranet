@@ -7,7 +7,7 @@ from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
-from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 import mimetypes
 import json

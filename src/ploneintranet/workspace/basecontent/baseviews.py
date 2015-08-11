@@ -7,7 +7,7 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
