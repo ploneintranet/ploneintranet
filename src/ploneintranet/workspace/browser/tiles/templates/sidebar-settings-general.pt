@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body>
+    <div id="sidebar-content">
+      <div id="workspace-settings">
+
+        <div class="tabs-content" tal:define="ws view/workspace">
+          <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
+            <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+          </aside>
+          <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #document-content::before; source: .sidebar-status-message">
+            <fieldset class="vertical">
+              <label>
+                <span tal:omit-tag="" i18n:translate="workspace_title">
+                Workspace title</span>
+                <input type="text" value="{{ page.workspace_name }}"
+                       placeholder="Workspace title"
+                       i18n:attributes="placeholder workspace_title"
+                       data-pat-autosubmit="delay: defocus"
+                       tal:attributes="
+                                       value ws/Title;
+                                       disabled not: view/can_manage_workspace"
+                       name="title" />
+              </label>
+              <label>
+                <span tal:omit-tag="" i18n:translate="workspace_brief_description">
+                Workspace brief description</span>
+                <textarea rows="4"
+                          placeholder="Workspace brief description"
+                          tal:content="ws/Description"
+                          tal:attributes="disabled not: view/can_manage_workspace"
+                          name="description"
+                          i18n:attributes="placeholder workspace_brief_description"
+                          data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
+              </label>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -4,8 +4,9 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from zope.component import queryUtility
+from ploneintranet.layout.utils import shorten
 
 
 class WorkspacesTile(Tile):
@@ -17,6 +18,9 @@ class WorkspacesTile(Tile):
 
     def __call__(self):
         return self.render()
+
+    def shorten(self, text):
+        return shorten(text, length=60)
 
     @memoize
     def workspaces(self):

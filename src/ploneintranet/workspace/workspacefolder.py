@@ -7,7 +7,7 @@ from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.workspace import MessageFactory
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet import api as pi_api
 from zope import schema
@@ -21,13 +21,14 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
     Interface for WorkspaceFolder
     """
     calendar_visible = schema.Bool(
-        title=MessageFactory(u"label_workspace_calendar_visibility",
-                             u"Calendar visible in central calendar"),
+        title=_(
+            u"label_workspace_calendar_visibility",
+            u"Calendar visible in central calendar"),
         required=False,
         default=False,
     )
     email = schema.TextLine(
-        title=MessageFactory(u'label_workspace_email', u'E-mail address'),
+        title=_(u'label_workspace_email', u'E-mail address'),
         required=False,
         default=u'',
     )
@@ -163,7 +164,7 @@ class WorkspaceFolder(Container):
                     continue
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
-                description = MessageFactory(
+                description = _(
                     u'{} Members'.format(len(group.getAllGroupMemberIds())))
                 classes = 'user-group has-description'
                 portrait = ''

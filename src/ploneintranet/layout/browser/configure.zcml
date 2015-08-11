@@ -57,6 +57,19 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <!--
+      Override broken behaviour of plone.app.content delete_confirmation
+      See https://github.com/plone/plone.app.content/issues/38
+  -->
+  <browser:page
+      for="*"
+      name="delete_confirmation"
+      class=".actions.PIDeleteConfirmationForm"
+      permission="zope2.DeleteObjects"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
