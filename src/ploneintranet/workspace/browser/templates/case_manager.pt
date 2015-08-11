@@ -79,23 +79,23 @@
                       <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
                       <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created"/>
+                        <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created"/>
-                        </label>
-                      </fieldset>
-
-                      <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified"/>
-                        </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified"/>
+                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
                       </fieldset>
 
                       <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due"/>
+                        <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due"/>
+                        <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        </label>
+                      </fieldset>
+
+                      <fieldset class="group row date-range">
+                        <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        </label>
+                        <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
                       </fieldset>
                     </fieldset>
