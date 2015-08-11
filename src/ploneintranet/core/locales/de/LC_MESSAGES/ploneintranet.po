@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-10 16:53+0000\n"
+"POT-Creation-Date: 2015-08-11 12:41+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -153,7 +153,7 @@ msgstr "Alphabetisch"
 msgid "Alright"
 msgstr "Ok"
 
-#: ../workspace/browser/templates/workspace-add.pt:60
+#: ../workspace/browser/templates/workspace-add.pt:61
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr "Jeder eingeloggte Benutzer darf beitreten und teilnehmen. Alles in dieser Gruppe ist sichtbar für jeden eingeloggten Benutzer, sogar wenn dieser kein Mitglied ist."
 
@@ -239,14 +239,15 @@ msgid "Case"
 msgstr "Geschäft"
 
 #: ../workspace/browser/templates/case_manager.pt:60
-msgid "Case type"
-msgstr "Typ des Geschäfts"
+msgid "Case type <select name=\"case_type\" class=\"focus\"> <option value=\"\">x</option> <option value=\"${case_type}\">${case_type}</option> </select>"
+msgstr ""
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr "Titel und Beschreibung des Ordners ändern"
 
 #: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
 msgstr "Rolle ändern"
@@ -425,7 +426,7 @@ msgstr "Frühestes Erstelldatum"
 msgid "Earliest deadline"
 msgstr "Früheste Frist"
 
-#: ../workspace/browser/templates/case_manager.pt0
+#: ../workspace/browser/templates/case_manager.pt:90
 msgid "Earliest modification date"
 msgstr "Frühestes Bearbeitungsdatum"
 
@@ -553,6 +554,14 @@ msgstr "Allgemeine Aufgaben"
 msgid "Group by"
 msgstr "Gruppieren nach"
 
+#: ../library/browser/templates/library.html:46
+msgid "Group by section"
+msgstr ""
+
+#: ../library/browser/templates/library.html:50
+msgid "Group by tag"
+msgstr ""
+
 #: ../todo/vocabularies.py:9
 msgid "High"
 msgstr "Hoch"
@@ -678,6 +687,10 @@ msgstr "Nachname"
 msgid "Last week"
 msgstr "Letzte Woche"
 
+#: ../workspace/browser/templates/case_manager.pt:85
+msgid "Latest creation date"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:99
 msgid "Latest deadline"
 msgstr "Späteste Frist"
@@ -718,7 +731,7 @@ msgstr "Like"
 msgid "Location"
 msgstr "Ort"
 
-#: ../workspace/browser/templates/workspace-add.pt:50
+#: ../workspace/browser/templates/workspace-add.pt:51
 msgid "Locked down, secret workspace"
 msgstr "Verschlossener, sicherer Arbeitsbereich"
 
@@ -908,7 +921,7 @@ msgstr "Nur Administratoren können Mitglieder zu Arbeitsbereichen hinzufügen."
 msgid "Open"
 msgstr "Offen"
 
-#: ../workspace/browser/templates/workspace-add.pt:52
+#: ../workspace/browser/templates/workspace-add.pt:53
 msgid "Open community"
 msgstr "Offene Gesellschaft"
 
@@ -1029,6 +1042,10 @@ msgstr "Benutzer entfernen"
 msgid "Remove role"
 msgstr "Rolle entfernen"
 
+#: ../workspace/browser/templates/panel-member-role-actions.pt:14
+msgid "Remove special role"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:122
 msgid "Rename"
 msgstr "Umbenennen"
@@ -1112,7 +1129,7 @@ msgstr "Arbeitsbereich anwählen"
 msgid "Self-Managed"
 msgstr "Selbstverwaltet"
 
-#: ../workspace/browser/templates/workspace-add.pt:51
+#: ../workspace/browser/templates/workspace-add.pt:52
 msgid "Self-managed, private teamspace"
 msgstr "Selbstverwalteter, privater Arbeitsbereich"
 
@@ -1310,11 +1327,11 @@ msgstr "Dieser Arbeitsbereich ist für Aussenstehende nicht einsehbar. Nur Mitgl
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
 msgstr "Dieser Arbeitsbereich ist sichtbar, aber für Aussenstehende nicht zugänglich. Nur Mitglieder haben dazu Zugang."
 
-#: ../workspace/browser/templates/workspace-add.pt:54
+#: ../workspace/browser/templates/workspace-add.pt:55
 msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
 msgstr "Dieser Arbeitsbereich ist nur für Personen zugänglich, die eingeladen wurden. Der Arbeitsbereich wird nicht auf der Übersicht aller Arbeitsräume sichtbar sein. Dokumente in diesem Arbeitsbereich müssen gegengelesen werden, bevor sie mit der Gruppe geteilt werden. Nichts in dieser Gruppe wird je sichtbar sein für Nichtmitglieder."
 
-#: ../workspace/browser/templates/workspace-add.pt:57
+#: ../workspace/browser/templates/workspace-add.pt:58
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr "Der Arbeitsbereich ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue Mitglieder hinzufügen. Sobald man Mitglied in der Arbeitsgruppe ist, kann man grundsätzlich alles tun. Nichts in dieser Gruppe ist je sichtbar für Nichtmitglieder."
 
@@ -1509,7 +1526,7 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsbereichs."
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr "Sie sind dabei die Rolle der <strong>${num_users}</strong> Benutzer dieses Arbeitsbereichs zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
-#: ../workspace/browser/templates/workspace-add.pt:63
+#: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen des Arbeitsbereichs ändern."
 
@@ -1538,10 +1555,6 @@ msgstr "Nachricht verfassen."
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "Was steht gerade an?"
-
-#: ../workspace/browser/templates/case_manager.pt:85
-msgid "atest creation date"
-msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
@@ -1713,6 +1726,11 @@ msgstr "Kommentar verfassen"
 msgid "no-task-found"
 msgstr "Keine Aufgaben vorhanden"
 
+#. Default: "${no_members} Members"
+#: ../workspace/workspacefolder.py:167
+msgid "number_of_members"
+msgstr ""
+
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:217
 msgid "participant_policy_label"
@@ -1792,10 +1810,6 @@ msgstr "Titel"
 #: ../layout/browser/apps.py:43
 msgid "{0} Application"
 msgstr "{0} App"
-
-#: ../workspace/workspacefolder.py:167
-msgid "{} Members"
-msgstr "{} Mitglieder"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:113

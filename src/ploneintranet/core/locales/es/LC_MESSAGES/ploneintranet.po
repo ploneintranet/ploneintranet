@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-10 16:53+0000\n"
+"POT-Creation-Date: 2015-08-11 12:41+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Alright"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:60
+#: ../workspace/browser/templates/workspace-add.pt:61
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
@@ -244,6 +244,7 @@ msgid "Change folder title and description"
 msgstr ""
 
 #: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
 msgstr "Cambiar rol"
@@ -550,6 +551,14 @@ msgstr ""
 msgid "Group by"
 msgstr "Agrupar por"
 
+#: ../library/browser/templates/library.html:46
+msgid "Group by section"
+msgstr ""
+
+#: ../library/browser/templates/library.html:50
+msgid "Group by tag"
+msgstr ""
+
 #: ../todo/vocabularies.py:9
 msgid "High"
 msgstr "Alta"
@@ -675,6 +684,10 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:85
+msgid "Latest creation date"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:99
 msgid "Latest deadline"
 msgstr ""
@@ -715,7 +728,7 @@ msgstr "Gustar"
 msgid "Location"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:50
+#: ../workspace/browser/templates/workspace-add.pt:51
 msgid "Locked down, secret workspace"
 msgstr ""
 
@@ -905,7 +918,7 @@ msgstr "Solamente los administradores pueden agregar miembros al espacio de trab
 msgid "Open"
 msgstr "Abrir"
 
-#: ../workspace/browser/templates/workspace-add.pt:52
+#: ../workspace/browser/templates/workspace-add.pt:53
 msgid "Open community"
 msgstr ""
 
@@ -1026,6 +1039,10 @@ msgstr ""
 msgid "Remove role"
 msgstr ""
 
+#: ../workspace/browser/templates/panel-member-role-actions.pt:14
+msgid "Remove special role"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:122
 msgid "Rename"
 msgstr "Renombrar"
@@ -1109,7 +1126,7 @@ msgstr "Seleccione espacio de trabajo"
 msgid "Self-Managed"
 msgstr "Gestionado por si mismo"
 
-#: ../workspace/browser/templates/workspace-add.pt:51
+#: ../workspace/browser/templates/workspace-add.pt:52
 msgid "Self-managed, private teamspace"
 msgstr ""
 
@@ -1307,11 +1324,11 @@ msgstr "El espacio de trabajo esta oculto a los foráneos. Solamente los miembro
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
 msgstr "El espacio de trabajo es visible, pero inaccesible para los foráneos. Solamente los miembros del espacio de trabajo pueden acceder al espacio de trabajo."
 
-#: ../workspace/browser/templates/workspace-add.pt:54
+#: ../workspace/browser/templates/workspace-add.pt:55
 msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:57
+#: ../workspace/browser/templates/workspace-add.pt:58
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
@@ -1506,7 +1523,7 @@ msgstr "Ahora usted es un miembro de este espacio de trabajo"
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:63
+#: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr ""
 
@@ -1535,10 +1552,6 @@ msgstr "¡Su mensaje aquí!"
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "¿Qué esta haciendo?"
-
-#: ../workspace/browser/templates/case_manager.pt:85
-msgid "atest creation date"
-msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
@@ -1710,6 +1723,11 @@ msgstr "Dejar un comentario..."
 msgid "no-task-found"
 msgstr "Sin tareas creadas aun"
 
+#. Default: "${no_members} Members"
+#: ../workspace/workspacefolder.py:167
+msgid "number_of_members"
+msgstr ""
+
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:217
 msgid "participant_policy_label"
@@ -1788,10 +1806,6 @@ msgstr "Título del espacio de trabajo"
 
 #: ../layout/browser/apps.py:43
 msgid "{0} Application"
-msgstr ""
-
-#: ../workspace/workspacefolder.py:167
-msgid "{} Members"
 msgstr ""
 
 #. Default: "row"

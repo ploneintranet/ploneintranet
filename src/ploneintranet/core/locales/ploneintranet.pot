@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-10 16:53+0000\n"
+"POT-Creation-Date: 2015-08-11 12:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,7 +149,7 @@ msgstr ""
 msgid "Alright"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:60
+#: ../workspace/browser/templates/workspace-add.pt:61
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
@@ -243,6 +243,7 @@ msgid "Change folder title and description"
 msgstr ""
 
 #: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
 msgstr ""
@@ -549,6 +550,14 @@ msgstr ""
 msgid "Group by"
 msgstr ""
 
+#: ../library/browser/templates/library.html:46
+msgid "Group by section"
+msgstr ""
+
+#: ../library/browser/templates/library.html:50
+msgid "Group by tag"
+msgstr ""
+
 #: ../todo/vocabularies.py:9
 msgid "High"
 msgstr ""
@@ -674,6 +683,10 @@ msgstr ""
 msgid "Last week"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:85
+msgid "Latest creation date"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:99
 msgid "Latest deadline"
 msgstr ""
@@ -714,7 +727,7 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:50
+#: ../workspace/browser/templates/workspace-add.pt:51
 msgid "Locked down, secret workspace"
 msgstr ""
 
@@ -904,7 +917,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:52
+#: ../workspace/browser/templates/workspace-add.pt:53
 msgid "Open community"
 msgstr ""
 
@@ -1025,6 +1038,10 @@ msgstr ""
 msgid "Remove role"
 msgstr ""
 
+#: ../workspace/browser/templates/panel-member-role-actions.pt:14
+msgid "Remove special role"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:122
 msgid "Rename"
 msgstr ""
@@ -1108,7 +1125,7 @@ msgstr ""
 msgid "Self-Managed"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:51
+#: ../workspace/browser/templates/workspace-add.pt:52
 msgid "Self-managed, private teamspace"
 msgstr ""
 
@@ -1306,11 +1323,11 @@ msgstr ""
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:54
+#: ../workspace/browser/templates/workspace-add.pt:55
 msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:57
+#: ../workspace/browser/templates/workspace-add.pt:58
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
@@ -1505,7 +1522,7 @@ msgstr ""
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:63
+#: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr ""
 
@@ -1533,10 +1550,6 @@ msgstr ""
 #: ../microblog/browser/tiles/newpostbox.py:235
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
-msgstr ""
-
-#: ../workspace/browser/templates/case_manager.pt:85
-msgid "atest creation date"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
@@ -1704,6 +1717,11 @@ msgstr ""
 msgid "no-task-found"
 msgstr ""
 
+#. Default: "${no_members} Members"
+#: ../workspace/workspacefolder.py:167
+msgid "number_of_members"
+msgstr ""
+
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:217
 msgid "participant_policy_label"
@@ -1782,10 +1800,6 @@ msgstr ""
 
 #: ../layout/browser/apps.py:43
 msgid "{0} Application"
-msgstr ""
-
-#: ../workspace/workspacefolder.py:167
-msgid "{} Members"
 msgstr ""
 
 #. Default: "row"
