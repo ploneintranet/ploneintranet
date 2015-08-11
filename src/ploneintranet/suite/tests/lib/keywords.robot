@@ -224,8 +224,9 @@ I can delete an old event
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
     Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
     Click Element  css=div#older-events button[type='submit']
-    Wait Until Page Contains  Do you really want to delete this item
-    Click Button  css=#form-buttons-Delete
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -642,14 +643,16 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I go to the dashboard
     Go To  ${PLONE_URL}
