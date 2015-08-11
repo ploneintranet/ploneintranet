@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-11 12:52+0000\n"
+"POT-Creation-Date: 2015-08-11 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:127
+msgid ">Days running"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:131
+msgid ">Modifications past 7 days"
 msgstr ""
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
@@ -1205,6 +1213,10 @@ msgstr ""
 #: ../layout/browser/templates/tasks-tile.pt:9
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
 msgid "Tasks"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:123
+msgid "Tasks finished"
 msgstr ""
 
 #: ../workspace/policies.py:37

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 12:52+0000\n"
+"POT-Creation-Date: 2015-08-11 13:54+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -24,6 +24,14 @@ msgstr ""
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr "${results} Treffer gefunden."
+
+#: ../workspace/browser/templates/case_manager.pt:127
+msgid ">Days running"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:131
+msgid ">Modifications past 7 days"
+msgstr ""
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
@@ -1210,6 +1218,10 @@ msgstr "Aufgabentitel"
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
 msgid "Tasks"
 msgstr "Aufgaben"
+
+#: ../workspace/browser/templates/case_manager.pt:123
+msgid "Tasks finished"
+msgstr ""
 
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
