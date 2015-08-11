@@ -27,11 +27,11 @@ msgstr "${results} Treffer gefunden."
 
 #: ../workspace/browser/templates/case_manager.pt:127
 msgid ">Days running"
-msgstr ""
+msgstr ">Tage am laufen"
 
 #: ../workspace/browser/templates/case_manager.pt:131
 msgid ">Modifications past 7 days"
-msgstr ""
+msgstr ">Änderungen seit 7 Tagen"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
@@ -1221,7 +1221,7 @@ msgstr "Aufgaben"
 
 #: ../workspace/browser/templates/case_manager.pt:123
 msgid "Tasks finished"
-msgstr ""
+msgstr "Aufgaben erledigt"
 
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
