@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 14:32+0000\n"
+"POT-Creation-Date: 2015-08-11 15:18+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -319,6 +319,10 @@ msgstr "Dieses Dokument kopieren"
 msgid "Create"
 msgstr "Erstellen"
 
+#: ../library/browser/templates/library.html:59
+msgid "Create a new page or section"
+msgstr ""
+
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
 msgstr "Neuen Arbeitsbereich erstellen"
@@ -340,10 +344,6 @@ msgstr "Verzeichnis erstellen"
 #: ../workspace/browser/tiles/templates/sidebar.pt:358
 msgid "Create new task"
 msgstr "Neue Aufgabe erstellen"
-
-#: ../library/browser/templates/library.html:59
-msgid "Create page or section"
-msgstr "Seite oder Bereich erstellen"
 
 #: ../workspace/browser/templates/add_task.pt:2
 msgid "Create task"
@@ -1592,7 +1592,7 @@ msgid "document type"
 msgstr "Dokumenttyp"
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:151
+#: ../library/browser/templates/library.html:152
 msgid "download"
 msgstr "Herunterladen"
 
@@ -1767,7 +1767,7 @@ msgstr "abgeschickt"
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:19
-#: ../library/browser/templates/library.html:148
+#: ../library/browser/templates/library.html:149
 msgid "read-more"
 msgstr "Mehr..."
 

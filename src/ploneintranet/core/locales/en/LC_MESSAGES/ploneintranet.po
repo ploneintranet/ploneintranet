@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-11 14:32+0000\n"
+"POT-Creation-Date: 2015-08-11 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,6 +312,10 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+#: ../library/browser/templates/library.html:59
+msgid "Create a new page or section"
+msgstr ""
+
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
 msgstr ""
@@ -332,10 +336,6 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:358
 msgid "Create new task"
-msgstr ""
-
-#: ../library/browser/templates/library.html:59
-msgid "Create page or section"
 msgstr ""
 
 #: ../workspace/browser/templates/add_task.pt:2
@@ -1585,7 +1585,7 @@ msgid "document type"
 msgstr ""
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:151
+#: ../library/browser/templates/library.html:152
 msgid "download"
 msgstr ""
 
@@ -1755,7 +1755,7 @@ msgstr ""
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:19
-#: ../library/browser/templates/library.html:148
+#: ../library/browser/templates/library.html:149
 msgid "read-more"
 msgstr ""
 

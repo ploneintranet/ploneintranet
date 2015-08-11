@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 14:32+0000\n"
+"POT-Creation-Date: 2015-08-11 15:18+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -316,6 +316,10 @@ msgstr ""
 msgid "Create"
 msgstr "Crear"
 
+#: ../library/browser/templates/library.html:59
+msgid "Create a new page or section"
+msgstr ""
+
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create a new workspace"
 msgstr ""
@@ -336,10 +340,6 @@ msgstr "Crear carpeta"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:358
 msgid "Create new task"
-msgstr ""
-
-#: ../library/browser/templates/library.html:59
-msgid "Create page or section"
 msgstr ""
 
 #: ../workspace/browser/templates/add_task.pt:2
@@ -1589,7 +1589,7 @@ msgid "document type"
 msgstr "tipo de documento"
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:151
+#: ../library/browser/templates/library.html:152
 msgid "download"
 msgstr ""
 
@@ -1764,7 +1764,7 @@ msgstr "enviado"
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:19
-#: ../library/browser/templates/library.html:148
+#: ../library/browser/templates/library.html:149
 msgid "read-more"
 msgstr ""
 
