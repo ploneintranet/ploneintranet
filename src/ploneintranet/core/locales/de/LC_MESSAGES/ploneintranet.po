@@ -410,7 +410,7 @@ msgstr "Dokumente"
 
 #: ../todo/browser/templates/todo_view.pt:51
 msgid "Done"
-msgstr ""
+msgstr "Erledigt"
 
 #: ../todo/behaviors.py:63
 #: ../workspace/browser/templates/content_macros.pt:27
