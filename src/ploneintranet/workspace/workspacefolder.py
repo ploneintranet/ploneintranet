@@ -165,7 +165,10 @@ class WorkspaceFolder(Container):
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
                 description = _(
-                    u'{} Members'.format(len(group.getAllGroupMemberIds())))
+                    u"number_of_members",
+                    default=u'${no_members} Members',
+                    mapping={
+                        u'no_members': len(group.getAllGroupMemberIds())})
                 classes = 'user-group has-description'
                 portrait = ''
 
