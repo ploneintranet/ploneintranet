@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 15:18+0000\n"
+"POT-Creation-Date: 2015-08-11 16:06+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Coen van der Kamp <cvanderkamp@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -20,6 +20,10 @@ msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:46
+msgid "(This will delete a total of ${number_of_items_to_delete} items.)"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:127
@@ -373,6 +377,14 @@ msgstr ""
 msgid "Delete"
 msgstr "Verwijderen"
 
+#: ../workspace/basecontent/templates/delete_confirmation.pt:34
+msgid "Delete ${contenttype}"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:25
+msgid "Delete folder"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
 msgid "Delete this document"
@@ -576,6 +588,7 @@ msgid "How many items to list."
 msgstr "Het aantal weer te geven items."
 
 #: ../layout/browser/actions.py:33
+#: ../workspace/basecontent/templates/delete_confirmation.pt:58
 msgid "I am sure, delete now"
 msgstr ""
 
@@ -1365,6 +1378,10 @@ msgstr ""
 msgid "There was a problem: %s."
 msgstr ""
 
+#: ../workspace/basecontent/templates/delete_confirmation.pt:18
+msgid "This item can not be deleted because it is currently locked by another user."
+msgstr ""
+
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
 msgstr "Dit portlet geeft het laatste nieuws weer dat gelezen moet worden."
@@ -1541,6 +1558,14 @@ msgstr "Je bent nu lid van deze werkplaats"
 
 #: ../workspace/browser/templates/panel-change-role.pt:31
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:40
+msgid "You are about to delete this ${contenttype}. Are you sure?"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:44
+msgid "You are about to delete this folder. Are you sure?"
 msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:64
