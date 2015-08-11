@@ -1048,7 +1048,7 @@ msgstr "Rolle entfernen"
 
 #: ../workspace/browser/templates/panel-member-role-actions.pt:14
 msgid "Remove special role"
-msgstr ""
+msgstr "Sonder-Rolle entfernen"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:122
 msgid "Rename"
@@ -1450,7 +1450,7 @@ msgstr "Willkommen in unserer Familie, Fremder."
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:21
 msgid "When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?"
-msgstr ""
+msgstr "Wenn die Sonder-Rolle dieses Mitglieds entfernt wird, erbt das Mitglied die Standard-Rolle für diesen Arbeitsbereich. Sind sie sicher?"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "Workspace"
@@ -1733,7 +1733,7 @@ msgstr "Keine Aufgaben vorhanden"
 #. Default: "${no_members} Members"
 #: ../workspace/workspacefolder.py:167
 msgid "number_of_members"
-msgstr ""
+msgstr "${no_members} Mitglieder"
 
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:217
