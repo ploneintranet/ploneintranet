@@ -240,7 +240,7 @@ msgstr "Geschäft"
 
 #: ../workspace/browser/templates/case_manager.pt:56
 msgid "Case type"
-msgstr ""
+msgstr "Geschäftstyp"
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
@@ -693,7 +693,7 @@ msgstr "Letzte Woche"
 
 #: ../workspace/browser/templates/case_manager.pt:84
 msgid "Latest creation date"
-msgstr ""
+msgstr "Spätestes Erstelldatum"
 
 #: ../workspace/browser/templates/case_manager.pt:98
 msgid "Latest deadline"
