@@ -279,7 +279,7 @@ msgstr "Meilenstein schließen"
 
 #: ../workspace/browser/templates/case_manager.pt:67
 msgid "Closed"
-msgstr ""
+msgstr "Geschlossen"
 
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Confirmed"
@@ -343,7 +343,7 @@ msgstr "Neue Aufgabe erstellen"
 
 #: ../library/browser/templates/library.html:59
 msgid "Create page or section"
-msgstr ""
+msgstr "Seite oder Bereich erstellen"
 
 #: ../workspace/browser/templates/add_task.pt:2
 msgid "Create task"
@@ -564,11 +564,11 @@ msgstr "Gruppieren nach"
 
 #: ../library/browser/templates/library.html:46
 msgid "Group by section"
-msgstr ""
+msgstr "Nach Bereich gruppieren"
 
 #: ../library/browser/templates/library.html:50
 msgid "Group by tag"
-msgstr ""
+msgstr "Nach Tag gruppieren"
 
 #: ../todo/vocabularies.py:9
 msgid "High"
@@ -580,11 +580,11 @@ msgstr "Wie viele Artikel sollen im Portlet aufgelistet werden?"
 
 #: ../layout/browser/actions.py:33
 msgid "I am sure, delete now"
-msgstr ""
+msgstr "Ja, löschen"
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
-msgstr "Ich bin mir sicher, Rolle entfernen"
+msgstr "Ja, Rolle entfernen"
 
 #: ../workspace/browser/forms.py:64
 msgid "If checked, users will be removed from workspace"
@@ -838,7 +838,7 @@ msgstr "Mein Netzwerk"
 
 #. Default: "My profile"
 msgid "My profile"
-msgstr ""
+msgstr "Mein Profil"
 
 #: ../userprofile/browser/templates/userprofile.pt:119
 msgid "Name"
@@ -875,7 +875,7 @@ msgstr "Keine ungelesenen Benachrichtigungen"
 
 #: ../workspace/browser/templates/case_manager.pt:109
 msgid "No results"
-msgstr ""
+msgstr "Keine Ergebnisse"
 
 #: ../network/browser/templates/author.pt:20
 #: ../network/browser/templates/graph.pt:20
@@ -943,7 +943,7 @@ msgstr "Offene Gesellschaft"
 
 #: ../workspace/browser/templates/content_macros.pt:65
 msgid "Organiser"
-msgstr ""
+msgstr "Veranstalter"
 
 #: ../workspace/policies.py:43
 msgid "Outsiders can self-join becoming a workspace member."
@@ -1560,7 +1560,7 @@ msgstr "Sie haben nicht die erforderlichen Berechtigungen um die Richtlinien des
 
 #: ../workspace/browser/templates/panel-remove-user.pt:23
 msgid "You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
-msgstr ""
+msgstr "Sie haben die folgenden <strong>${num_users}</strong> Benutzer ausgewählt um sie aus diesem Arbeitsbereich zu entfernen. Sind Sie sicher? (Auswahl entfernen, um Benutzer nicht zu entfernen)"
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
@@ -1679,7 +1679,7 @@ msgstr "Markierung"
 #. Default: "Cancel"
 #: ../layout/browser/actions.py:39
 msgid "label_cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #. Default: "Name"
 #: ../workspace/browser/templates/roster-edit.pt:73
@@ -1728,12 +1728,12 @@ msgstr "Navigation umschalten"
 #. Default: "Calendar visible in central calendar"
 #: ../workspace/workspacefolder.py:24
 msgid "label_workspace_calendar_visibility"
-msgstr ""
+msgstr "Kalender im zentralen Kalender sichtbar"
 
 #. Default: "E-mail address"
 #: ../workspace/workspacefolder.py:31
 msgid "label_workspace_email"
-msgstr ""
+msgstr "E-mail Adresse"
 
 #. Default: "Leave a comment..."
 #: ../activitystream/browser/activity.py:15
@@ -1810,7 +1810,7 @@ msgstr "Kurze Bescheibung des Arbeitsbereichs"
 #. Default: "Default role for this workspace (${role})"
 #: ../workspace/browser/roster.py:148
 msgid "workspace_default_role"
-msgstr ""
+msgstr "Standard-Rolle für diesen Arbeitsbereich (${role})"
 
 #. Default: "Workspace e-mail address"
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:20
