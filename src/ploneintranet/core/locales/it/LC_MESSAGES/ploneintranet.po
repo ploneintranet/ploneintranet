@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 13:54+0000\n"
+"POT-Creation-Date: 2015-08-11 14:32+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -367,13 +367,9 @@ msgstr ""
 msgid "Declined"
 msgstr ""
 
-#: ../workspace/browser/roster.py:148
-msgid "Default role for this workspace"
-msgstr ""
-
-#: ../layout/browser/actions.py:25
 #: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
+#: ../workspace/basecontent/templates/event_view.pt:44
 msgid "Delete"
 msgstr "Elimina"
 
@@ -578,6 +574,10 @@ msgstr "Alto"
 #: ../todo/portlets/latest.py:23
 msgid "How many items to list."
 msgstr "Quanti elementi sono da mostrare."
+
+#: ../layout/browser/actions.py:33
+msgid "I am sure, delete now"
+msgstr ""
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
@@ -832,6 +832,10 @@ msgstr "Da leggere"
 #: ../core/browser/stream.py:58
 msgid "My network"
 msgstr "La mia rete"
+
+#. Default: "My profile"
+msgid "My profile"
+msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:119
 msgid "Name"
@@ -1469,7 +1473,7 @@ msgstr "Area di lavoro"
 msgid "Workspace Admin"
 msgstr ""
 
-#: ../workspace/browser/roster.py:158
+#: ../workspace/browser/roster.py:161
 msgid "Workspace Administrator"
 msgstr ""
 
@@ -1564,7 +1568,7 @@ msgid "Your message here!"
 msgstr "Il tuo messaggio qui!"
 
 #. Default: "What are you doing?"
-#: ../microblog/browser/tiles/newpostbox.py:235
+#: ../microblog/browser/tiles/newpostbox.py:234
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "Di cosa ti stai occupando?"
@@ -1670,7 +1674,7 @@ msgid "label"
 msgstr ""
 
 #. Default: "Cancel"
-#: ../layout/browser/actions.py:31
+#: ../layout/browser/actions.py:39
 msgid "label_cancel"
 msgstr ""
 
@@ -1730,7 +1734,7 @@ msgstr ""
 
 #. Default: "Leave a comment..."
 #: ../activitystream/browser/activity.py:15
-#: ../microblog/browser/tiles/newpostbox.py:230
+#: ../microblog/browser/tiles/newpostbox.py:229
 msgid "leave_a_comment"
 msgstr "Lascia un commento"
 
@@ -1799,6 +1803,11 @@ msgstr "smetti di seguire"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
 msgid "workspace_brief_description"
 msgstr "Descrizione breve dell'area di lavoro"
+
+#. Default: "Default role for this workspace (${role})"
+#: ../workspace/browser/roster.py:148
+msgid "workspace_default_role"
+msgstr ""
 
 #. Default: "Workspace e-mail address"
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:20

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 13:54+0000\n"
+"POT-Creation-Date: 2015-08-11 14:32+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -368,13 +368,9 @@ msgstr ""
 msgid "Declined"
 msgstr ""
 
-#: ../workspace/browser/roster.py:148
-msgid "Default role for this workspace"
-msgstr ""
-
-#: ../layout/browser/actions.py:25
 #: ../todo/browser/templates/todo_view.pt:34
 #: ../workspace/basecontent/templates/document_view.pt:35
+#: ../workspace/basecontent/templates/event_view.pt:44
 msgid "Delete"
 msgstr "Supprimer le permis"
 
@@ -579,6 +575,10 @@ msgstr ""
 #: ../todo/portlets/latest.py:23
 msgid "How many items to list."
 msgstr "Combien d'éléments à afficher"
+
+#: ../layout/browser/actions.py:33
+msgid "I am sure, delete now"
+msgstr ""
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
@@ -832,6 +832,10 @@ msgstr ""
 
 #: ../core/browser/stream.py:58
 msgid "My network"
+msgstr ""
+
+#. Default: "My profile"
+msgid "My profile"
 msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:119
@@ -1470,7 +1474,7 @@ msgstr ""
 msgid "Workspace Admin"
 msgstr ""
 
-#: ../workspace/browser/roster.py:158
+#: ../workspace/browser/roster.py:161
 msgid "Workspace Administrator"
 msgstr ""
 
@@ -1565,7 +1569,7 @@ msgid "Your message here!"
 msgstr ""
 
 #. Default: "What are you doing?"
-#: ../microblog/browser/tiles/newpostbox.py:235
+#: ../microblog/browser/tiles/newpostbox.py:234
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr ""
@@ -1669,7 +1673,7 @@ msgid "label"
 msgstr ""
 
 #. Default: "Cancel"
-#: ../layout/browser/actions.py:31
+#: ../layout/browser/actions.py:39
 msgid "label_cancel"
 msgstr ""
 
@@ -1729,7 +1733,7 @@ msgstr ""
 
 #. Default: "Leave a comment..."
 #: ../activitystream/browser/activity.py:15
-#: ../microblog/browser/tiles/newpostbox.py:230
+#: ../microblog/browser/tiles/newpostbox.py:229
 msgid "leave_a_comment"
 msgstr ""
 
@@ -1797,6 +1801,11 @@ msgstr "ne plus suivre"
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
 msgid "workspace_brief_description"
+msgstr ""
+
+#. Default: "Default role for this workspace (${role})"
+#: ../workspace/browser/roster.py:148
+msgid "workspace_default_role"
 msgstr ""
 
 #. Default: "Workspace e-mail address"
