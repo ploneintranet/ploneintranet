@@ -53,10 +53,13 @@
         <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
              tal:condition="python: dashboard == 'task'">
 	      <div class="grid-sizer four columns"></div>
-          
+
           <div id="portlet-tasks" class="workspaces portlet"  data-tile="./@@tasks.tile"></div>
 
+          <div id="portlet-events" class="workspaces portlet" data-tile="./@@events.tile"></div>
+
           <div id="portlet-workspaces" class="workspaces portlet" data-tile="./@@workspaces.tile"></div>
+          
 	      <div class="portlet" id="portlet-activity-stream">
             <form class="functions pat-autosubmit pat-inject" data-tile="./@@newpostbox.tile"></form>
             <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>

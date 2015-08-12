@@ -6,32 +6,27 @@
       i18n:domain="ploneintranet">
   <body>
     <div id="portlet-events" class="portlet events">
-
-      <ul class="cal-events">
+	  <h2 class="portlet-title" i18n:translate="">Upcoming events</h2>
+      <ul class="event-list">
         <tal:events repeat="event view/upcoming_events">
 
-          <li class="cal-event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
-            <h4 class="title">
-              <a class="pat-inject"
-                 tal:attributes="href string:${event/getURL}#document-body"
-                 tal:content="event/Title"/>
-            </h4>
+          <li class="event" title="${event/Title}"
+              tal:define="location event/location">
+            <a href="${event/getURL}" class="link">
+              <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
+              <p class="byline" tal:condition="location">${location}</p>
 
-            <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+              <p class="date">
+                <time class="calendar-medium pat-auto-scale"
+                      tal:define="month_name python:view.month_name(event.start)">
+				  <strong class="day">${python:event.start.day}</strong>
+				  <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
+				  <strong class="year">${python:event.start.year}</strong>
+				</time>
+			  </p>
+			  <p class="description">${event/Description}</p>
+			</a>
 
-            <ul class="details">
-              <li tal:condition="not:show_end|nothing"><span tal:omit-tag="" i18n:translate="">Starts</span>
-              <time
-                  class="start pat-moment"
-                  data-pat-moment="format:relative"
-                  tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
-              <li tal:condition="show_end|nothing"><span tal:omit-tag="" i18n:translate="">Ended</span>
-              <time
-                  class="end pat-moment"
-                  data-pat-moment="format:relative"
-                  tal:content="python:toLocalizedtime(event.end, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
-              <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
-            </ul>
           </li>
 
         </tal:events>
