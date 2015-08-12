@@ -9,17 +9,14 @@ SENDER_ID = os.environ['GCM_SENDER_ID']
 
 class IGCMService(Interface):
 
-    context = Attribute(u'The user')
+    context = Attribute(u'The user profile object.')
 
     def send_push_notification(message):
-        """Send a push notification message to the user."""
+        """Send a push notification message to the user.
 
+        This method log any exceptions encountered.
 
-class IUserPushNotificationsOptIn(Interface):
-    """A behavior that Adapts a membrane user.
-
-    Allows users to Opt in to GCM push notifications.
-    """
-
-    def is_registered():
-        """Return true iif this user is registered with GCM."""
+        :param message: The message instance.
+        :type message: ploneintranet.messaging.messaging.IMessage
+        :return: Nothing
+        """
