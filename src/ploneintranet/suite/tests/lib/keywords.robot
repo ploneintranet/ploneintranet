@@ -455,7 +455,7 @@ I can edit an event
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
-    Click Button  Save
+    Click Button  Last saved
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
