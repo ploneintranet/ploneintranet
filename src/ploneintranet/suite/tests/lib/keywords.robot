@@ -442,6 +442,7 @@ I can create a new event
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Wait until element is visible    xpath=//button[@name='form.buttons.create']
     Click Button  css=#form-buttons-create
 
 I can edit an event

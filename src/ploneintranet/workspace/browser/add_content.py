@@ -139,11 +139,14 @@ class AddEvent(AddContent):
 
     def default_end(self):
         now = DateTime()
-        date = now.Date()
         time = self.round_minutes(now.TimeMinutes())
         parts = time.split(":")
-        parts[0] = str(int(parts[0]) + 1)
-        result = DateTime(date + " " + parts[0] + ":" + parts[1])
+        hour = int(parts[0])
+        hour_end = (hour + 1) % 24
+        if hour_end < hour:
+            now = now + 1
+        date = now.Date()
+        result = DateTime(date + " " + str(hour_end) + ":" + parts[1])
         return result
 
     def round_minutes(self, time):

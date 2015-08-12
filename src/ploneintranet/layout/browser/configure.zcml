@@ -69,6 +69,14 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="date-picker-i18n.json"
+      class=".date_picker.I18nJSONView"
+      permission="zope2.View"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
 
   <plone:tile
       name="tasks.tile"
