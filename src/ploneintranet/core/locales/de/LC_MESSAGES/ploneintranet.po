@@ -488,7 +488,7 @@ msgstr "Geben Sie einen Ort ein"
 
 #: ../workspace/browser/templates/case_manager.pt:41
 msgid "Enter the name of the applicant"
-msgstr "Geben sie den Namen des Gesuchstellers an"
+msgstr "Geben Sie den Namen des Gesuchstellers an"
 
 #: ../workspace/browser/templates/add_event.pt:9
 msgid "Event title"
@@ -992,19 +992,19 @@ msgstr "Foto"
 
 #: ../workspace/browser/templates/workspace-add.pt:33
 msgid "Pick a Case Template"
-msgstr "Wählen sie eine Vorlage"
+msgstr "Wählen Sie eine Vorlage"
 
 #: ../workspace/browser/templates/case_manager.pt:71
 msgid "Pick a date"
-msgstr "Wählen sie ein Datum"
+msgstr "Wählen Sie ein Datum"
 
 #: ../workspace/browser/templates/content_macros.pt:30
 msgid "Pick an assignee"
-msgstr "Wählen sie einen Beauftragten"
+msgstr "Wählen Sie einen Beauftragten"
 
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Pick an initiator"
-msgstr "Wählen sie einen Ersteller"
+msgstr "Wählen Sie einen Ersteller"
 
 #: ../workspace/browser/templates/content_macros.pt:87
 msgid "Pick an organiser"
@@ -1012,7 +1012,7 @@ msgstr "Wählen Sie einen Veranstalter"
 
 #: ../workspace/browser/templates/case_manager.pt:58
 msgid "Pick case type"
-msgstr "Wählen sie den Geschäftstyp"
+msgstr "Wählen Sie den Geschäftstyp"
 
 #: ../workspace/browser/templates/content_macros.pt:155
 msgid "Pick invitees"
@@ -1020,11 +1020,11 @@ msgstr "Wählen Sie Personen aus, die Sie einladen möchten"
 
 #: ../workspace/browser/templates/case_manager.pt:49
 msgid "Pick staff"
-msgstr "Wählen sie einen Sachbearbeiter"
+msgstr "Wählen Sie einen Sachbearbeiter"
 
 #: ../workspace/browser/templates/case_manager.pt:35
 msgid "Pick the responsible department"
-msgstr "Wählen sie die verantwortliche Abteilung"
+msgstr "Wählen Sie die verantwortliche Abteilung"
 
 #: ../workspace/browser/add_content.py:48
 msgid "Please specify which Case Template to use"
@@ -1184,7 +1184,7 @@ msgstr "Sende eine Einladung per E-Mail an:"
 
 #: ../workspace/browser/templates/content_macros.pt:43
 msgid "Set a deadline"
-msgstr "Setzen sie eine Frist"
+msgstr "Setzen Sie eine Frist"
 
 #: ../todo/behaviors.py:15
 msgid "Settings"
@@ -1294,7 +1294,7 @@ msgstr "Die Aktion, die auf diesen Inhalt angewendet wird"
 
 #: ../layout/browser/templates/app-not-available.pt:18
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
-msgstr "Die App, die sie ausgewählt haben, ist noch nicht verfügbar, wird jedoch in naher Zukunft aktiviert."
+msgstr "Die App, die Sie ausgewählt haben, ist noch nicht verfügbar, wird jedoch in naher Zukunft aktiviert."
 
 #: ../todo/interfaces.py:20
 msgid "The datetime this ContentAction was completed"
@@ -1495,7 +1495,7 @@ msgstr "Willkommen in unserer Familie, Fremder."
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:21
 msgid "When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?"
-msgstr "Wenn die Sonder-Rolle dieses Mitglieds entfernt wird, erbt das Mitglied die Standard-Rolle für diesen Arbeitsbereich. Sind sie sicher?"
+msgstr "Wenn die Sonder-Rolle dieses Mitglieds entfernt wird, erbt das Mitglied die Standard-Rolle für diesen Arbeitsbereich. Sind Sie sicher?"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "Workspace"
@@ -1577,11 +1577,11 @@ msgstr "Sie sind dabei, die Rolle der <strong>${num_users}</strong> Benutzer die
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:40
 msgid "You are about to delete this ${contenttype}. Are you sure?"
-msgstr "Sie sind dabei, dieses Objekt (${contenttype}) zu löschen. Sind sie sicher?"
+msgstr "Sie sind dabei, dieses Objekt (${contenttype}) zu löschen. Sind Sie sicher?"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:44
 msgid "You are about to delete this folder. Are you sure?"
-msgstr "Sie sind dabei, diesen Ordner zu löschen. Sind sie sicher?"
+msgstr "Sie sind dabei, diesen Ordner zu löschen. Sind Sie sicher?"
 
 #: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
