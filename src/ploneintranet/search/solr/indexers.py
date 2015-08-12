@@ -1,20 +1,87 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
 import logging
+from urllib import urlencode
 
 from collective.indexing.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
+from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer import indexer
 from plone.indexer.interfaces import IIndexableObject
-from zope.component import queryMultiAdapter, queryUtility
+from plone.rfc822.interfaces import IPrimaryFieldInfo
+from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
+import lxml.etree as etree
 import requests
 
-from .interfaces import IConnectionConfig, IConnection
+from .interfaces import IContentAdder, IConnectionConfig, IConnection
 from .utilities import prepare_data
 
 
 logger = logging.getLogger(__name__)
+
+
+@implementer(IContentAdder)
+@adapter(IDexterityContent, IConnection)
+class ContentAdder(object):
+
+    def __init__(self, context, solr):
+        self.context = context
+        self.solr = solr
+
+    def add(self, data):
+        self.solr.add(data)
+
+
+@implementer(IContentAdder)
+@adapter(IDexterityContent, IConnection)
+class BinaryAdder(ContentAdder):
+
+    @property
+    def blob_data(self):
+        pfi = IPrimaryFieldInfo(self.context, None)
+        if pfi is not None:
+            named_blob = pfi.field.get(self.context)
+            if named_blob is not None:
+                return named_blob.data
+        return None
+
+    def add(self, data):
+        """Add documents to be indexed containing binary data.
+
+        This uses Apache Tika `ExtractingRequestHandler` to upload
+        binary data, and extract the textual representation of the
+        binary data for indexing.
+
+        :seealso:
+          https://cwiki.apache.org/confluence/display/solr\
+        /Uploading+Data+with+Solr+Cell+using+Apache+Tika
+
+        :param data: The key/value data to index in Solr
+        :type data: collections.Mapping
+        :returns:
+        """
+        blob_data = self.blob_data
+        if blob_data is not None:
+            params = {}
+            headers = {'Content-type': data.get('content_type', 'text/plain')}
+            params['extractFormat'] = 'text'
+            params['extractOnly'] = 'true'
+            sparams = urlencode(params)
+            url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
+            try:
+                response = requests.post(url, data=blob_data, headers=headers)
+            except requests.ConnectionError as conn_err:
+                logger.exception(conn_err)
+            else:
+                tree = etree.fromstring(response.text.encode('utf-8'))
+                elems = tree.xpath('//response/str')
+                if elems:
+                    data['SearchableText'] = elems[0].text
+                else:
+                    logger.error('Could extract text for file upload: %r',
+                                 data)
+        super(BinaryAdder, self).add(data)
 
 
 @implementer(IIndexQueueProcessor)
@@ -200,8 +267,12 @@ class ContentIndexer(object):
 
         """
         data = self._get_data(obj, attributes=attributes)
+        portal_type = data.get('portal_type', 'default')
         if data is not None:
-            self._solr.add(data)
+            adder = queryMultiAdapter((obj, self._solr), name=portal_type)
+            if adder is None:
+                adder = ContentAdder(obj, self._solr)
+            adder.add(data)
 
     def reindex(self, obj, attributes=None):
         self.index(obj, attributes)
