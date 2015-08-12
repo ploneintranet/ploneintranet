@@ -31,7 +31,7 @@ msgstr "(Hierdurch werden insgesamt ${number_of_items_to_delete} Artikel gelösc
 
 #: ../workspace/browser/templates/case_manager.pt:127
 msgid ">Days running"
-msgstr ">Tage am laufen"
+msgstr ">Tage laufend"
 
 #: ../workspace/browser/templates/case_manager.pt:131
 msgid ">Modifications past 7 days"
@@ -1608,12 +1608,12 @@ msgstr "Was steht gerade an?"
 #. Default: "You are about to change the role of the following ${num_users} members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 #: ../workspace/browser/templates/panel-change-role.pt:32
 msgid "alert_change_user_roles"
-msgstr ""
+msgstr "Sie sind dabei die Rolle der ${num_users} Benutzer dieses Arbeitsbereichs zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
 #: ../workspace/browser/templates/panel-remove-user.pt:24
 msgid "alert_remove_users_from_workspace"
-msgstr ""
+msgstr "Sie haben die folgenden ${num_users} Mitglieder ausgewählt um sie aus diesem Arbeitsbereich zu entfernen. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
