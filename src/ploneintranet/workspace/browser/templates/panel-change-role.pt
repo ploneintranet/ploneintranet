@@ -28,8 +28,8 @@
                 </fieldset>
 
                 <article tal:condition="python:num_users>1">
-                    <p i18n:translate="">
-                    You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)
+                    <p i18n:translate="alert_change_user_roles">
+                    You are about to change the role of the following <strong i18n:name="num_users" tal:content="num_users">1</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)
                     </p>
                 </article>
 
