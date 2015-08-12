@@ -1577,7 +1577,7 @@ msgstr "Sie sind dabei, die Rolle der <strong>${num_users}</strong> Benutzer die
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:40
 msgid "You are about to delete this ${contenttype}. Are you sure?"
-msgstr "Sie sind dabei, dieses Objekt (${contenttype} zu löschen. Sind sie sicher?"
+msgstr "Sie sind dabei, dieses Objekt (${contenttype}) zu löschen. Sind sie sicher?"
 
 #: ../workspace/basecontent/templates/delete_confirmation.pt:44
 msgid "You are about to delete this folder. Are you sure?"
