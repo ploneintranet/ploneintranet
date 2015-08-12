@@ -30,6 +30,7 @@
   <include package="ploneintranet.themeswitcher"/>
   <include package="ploneintranet.todo"/>
   <include package="ploneintranet.workspace"/>
+  <include package="ploneintranet.gcm"/>
 
   <genericsetup:registerProfile
       name="default"

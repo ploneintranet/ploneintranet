@@ -1,0 +1,39 @@
+{
+    "ARTIFACT_VERSION": "1",
+    "client": [
+        {
+            "client_info": {
+                "android_client_info": {
+                    "package_name": "org.ploneintranet.notifications"
+                },
+                "client_id": "android:org.ploneintranet.notifications",
+                "client_type": 1
+            },
+            "oauth_client": [],
+            "services": {
+                "ads_service": {
+                    "status": 1
+                },
+                "analytics_service": {
+                    "status": 1
+                },
+                "appinvite_service": {
+                    "other_platform_oauth_client": [],
+                    "status": 1
+                },
+                "cloud_messaging_service": {
+                    "apns_config": [],
+                    "status": 2
+                },
+                "google_signin_service": {
+                    "status": 1
+                }
+            }
+        }
+    ],
+    "project_info": {
+        "name": "ploneintranet-notifications",
+        "project_id": "ploneintranet-notifications",
+        "project_number": "734815904708"
+    }
+}

@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="ploneintranet.gcm">
+
+  <includeDependencies package="." />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+    handler=".subscribers.on_user_login"
+    />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedOutEvent"
+    handler=".subscribers.on_user_logout"
+    />
+
+  <adapter
+    for="..userprofile.content.userprofile.IUserProfile"
+    provides=".interfaces.IGCMService"
+    factory=".service.GCMService"
+  />
+
+</configure>

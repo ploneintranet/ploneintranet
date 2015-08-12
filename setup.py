@@ -45,6 +45,7 @@ setup(name='ploneintranet',
           # -*- Extra requirements: -*-
           'collective.instancebehavior',
           'requests',
+          'python-gcm',
           'loremipsum',
           'slc.docconv',
           'z3c.jbot',
@@ -137,6 +138,9 @@ setup(name='ploneintranet',
               'requests',
               'scorched',
           ],
+          'gcm': [
+              'python-gcm'
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-

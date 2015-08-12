@@ -92,6 +92,13 @@ class IUserProfileAdditional(form.Schema):
         required=False
     )
 
+    gcm_reg_id = schema.BytesLine(
+        title=_(u'GCM registration id'),
+        description=(u'Google Cloud Messaging Registration Token - '
+                     u'Used for sending push notifications.'),
+        required=False
+    )
+
 
 alsoProvides(IUserProfileAdditional, IFormFieldProvider)
 
