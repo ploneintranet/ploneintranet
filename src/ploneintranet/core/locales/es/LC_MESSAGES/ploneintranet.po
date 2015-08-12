@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-11 18:49+0000\n"
+"POT-Creation-Date: 2015-08-12 09:01+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -471,16 +471,16 @@ msgstr ""
 msgid "Ended"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:79
-msgid "Enter a Location"
-msgstr ""
-
 #: ../workspace/browser/templates/add_event.pt:17
 msgid "Enter a description of the event"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:79
+msgid "Enter a location"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:41
@@ -987,20 +987,12 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:155
-msgid "Pick Invitees"
-msgstr ""
-
 #: ../workspace/browser/templates/workspace-add.pt:33
 msgid "Pick a Case Template"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:71
 msgid "Pick a date"
-msgstr ""
-
-#: ../workspace/browser/templates/content_macros.pt:87
-msgid "Pick an Organiser"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:30
@@ -1011,8 +1003,16 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:87
+msgid "Pick an organiser"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:58
 msgid "Pick case type"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:155
+msgid "Pick invitees"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:49
