@@ -170,6 +170,7 @@ class ContentView(BrowserView):
         # to extend this with a clear name mapper that then again might need
         # translation support. For now, return the name only.
         primary_field_info = IPrimaryFieldInfo(self.context)
+        name = ''
         if hasattr(primary_field_info.value, "contentType"):
             contenttype = primary_field_info.value.contentType
             name = map_content_type(contenttype)

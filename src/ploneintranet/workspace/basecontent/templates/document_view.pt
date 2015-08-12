@@ -104,9 +104,10 @@
       </div>
       <div id="share-panel" hidden>
         <ul class="menu">
-          <li>
+          <li tal:condition="python:context.portal_type in ('File', 'Image')">
             <a href="${context/absolute_url}" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
           </li>
+          <li><em i18n:translate="">More sharing options coming soon…</em></li>
         </ul>
       </div>
 
