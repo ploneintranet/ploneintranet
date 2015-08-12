@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-12 09:01+0000\n"
+"POT-Creation-Date: 2015-08-12 12:49+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -1568,10 +1568,6 @@ msgstr ""
 msgid "You are a member of this workspace now"
 msgstr "Sei un membro di questa area di lavoro ora"
 
-#: ../workspace/browser/templates/panel-change-role.pt:31
-msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr ""
-
 #: ../workspace/basecontent/templates/delete_confirmation.pt:40
 msgid "You are about to delete this ${contenttype}. Are you sure?"
 msgstr ""
@@ -1592,10 +1588,6 @@ msgstr "Puoi diventare un membro di questa area di lavoro"
 msgid "You do not have permission to change the workspace policy"
 msgstr "Non hai il permesso necessario per poter cambiare la politica di sicurezza dell'area di lavoro"
 
-#: ../workspace/browser/templates/panel-remove-user.pt:23
-msgid "You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
-msgstr ""
-
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
 msgstr "La tua casella di posta"
@@ -1609,6 +1601,16 @@ msgstr "Il tuo messaggio qui!"
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
 msgstr "Di cosa ti stai occupando?"
+
+#. Default: "You are about to change the role of the following ${num_users} members of this workspace. Are you sure? (un-tick to exclude from this role change)"
+#: ../workspace/browser/templates/panel-change-role.pt:32
+msgid "alert_change_user_roles"
+msgstr ""
+
+#. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
+#: ../workspace/browser/templates/panel-remove-user.pt:24
+msgid "alert_remove_users_from_workspace"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:38

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-12 09:01+0000\n"
+"POT-Creation-Date: 2015-08-12 12:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1567,10 +1567,6 @@ msgstr ""
 msgid "You are a member of this workspace now"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-change-role.pt:31
-msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr ""
-
 #: ../workspace/basecontent/templates/delete_confirmation.pt:40
 msgid "You are about to delete this ${contenttype}. Are you sure?"
 msgstr ""
@@ -1591,10 +1587,6 @@ msgstr ""
 msgid "You do not have permission to change the workspace policy"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-remove-user.pt:23
-msgid "You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
-msgstr ""
-
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
 msgstr ""
@@ -1607,6 +1599,16 @@ msgstr ""
 #: ../microblog/browser/tiles/newpostbox.py:234
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
+msgstr ""
+
+#. Default: "You are about to change the role of the following ${num_users} members of this workspace. Are you sure? (un-tick to exclude from this role change)"
+#: ../workspace/browser/templates/panel-change-role.pt:32
+msgid "alert_change_user_roles"
+msgstr ""
+
+#. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
+#: ../workspace/browser/templates/panel-remove-user.pt:24
+msgid "alert_remove_users_from_workspace"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
