@@ -6,7 +6,6 @@
   <body>
     <div class="workspaces portlet" id="portlet-tasks"
          tal:define="grouped_tasks view/grouped_tasks">
-      <h2 class="portlet-title" i18n:translate="">Tasks</h2>
       <em tal:condition="not:grouped_tasks" i18n:translate="">
         No tasks available
       </em>
