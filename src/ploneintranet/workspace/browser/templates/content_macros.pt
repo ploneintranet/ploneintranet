@@ -167,5 +167,21 @@
 
     </metal:event_fields>
 
+    <metal:saving_badge define-macro="saving_badge">
+      <p id="saving-badge"
+         class="saving-badge"
+         tal:define="
+           toLocalizedtime nocall:here/@@plone/toLocalizedTime;
+           last_modified python:toLocalizedtime(here.modified(), long_format=1);
+         ">
+        <button tal:omit-tag="read_only"
+             type="submit"
+             class="saved-tag focus"
+          >Last saved
+          <time class="modification-date pat-display-time" datetime="${last_modified}">${last_modified}</time>
+        </button>
+      </p>
+    </metal:saving_badge>
+
   </body>
 </html>

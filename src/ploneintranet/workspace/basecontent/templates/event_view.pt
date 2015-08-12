@@ -70,8 +70,7 @@
                                 </fieldset -->
                                 <!--
                  -->
-                                <button type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
-
+                              <metal:macro use-macro="context/content_macros/saving_badge" />
                             </div>
                         </div>
                         <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
