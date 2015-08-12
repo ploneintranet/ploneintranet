@@ -77,7 +77,7 @@
 
       <label class="location">
         <span tal:omit-tag="" i18n:translate="">Location</span> <input
-        placeholder="Enter a Location"
+        placeholder="Enter a location"
         i18n:attributes="placeholder"
         name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
       </label>
@@ -88,7 +88,7 @@
                name="organizer"
                data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"
                class="pat-autosuggest"
-               placeholder="Pick an Organiser"
+               placeholder="Pick an organiser"
                i18n:attributes="placeholder"
                tal:attributes="disabled read_only"/>
       </label>
