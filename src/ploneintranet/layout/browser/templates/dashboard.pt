@@ -25,29 +25,30 @@
 	      </label>
         </form>
 
-        
+
         <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet; stamp: .stamp;"
              tal:condition="python: dashboard == 'activity'">
-	      <div class="grid-sizer four columns"></div>	
+	      <div class="grid-sizer four columns"></div>
+
+          <div id="portlet-news" data-tile="./@@news.tile"></div>
 
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form class="functions pat-autosubmit pat-inject" data-tile="./@@newpostbox.tile"></form>
             <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
           </div>
 
-          <div id="portlet-news" data-tile="./@@news.tile"></div>
-          
-          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
-
-          <div id="portlet-cases" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
-          
-          <div id="portlet-workspaces" data-tile="./profiles/${user_name}/following.tile"></div>
+          <div id="portlet-tasks" data-tile="./@@my_documents.tile"></div>
 
           <div id="portlet-events" data-tile="./@@events.tile"></div>
 
+          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
+
+          <div id="portlet-cases" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
+
+          <div id="portlet-workspaces" data-tile="./profiles/${user_name}/following.tile"></div>
+
           <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
 
-          <div id="portlet-tasks" data-tile="./@@my_documents.tile"></div>
         </div>
 
         <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
@@ -59,7 +60,7 @@
           <div id="portlet-events" class="workspaces portlet" data-tile="./@@events.tile"></div>
 
           <div id="portlet-workspaces" class="workspaces portlet" data-tile="./@@workspaces.tile"></div>
-          
+
 	      <div class="portlet" id="portlet-activity-stream">
             <form class="functions pat-autosubmit pat-inject" data-tile="./@@newpostbox.tile"></form>
             <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
