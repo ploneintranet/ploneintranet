@@ -446,8 +446,6 @@ I can create a new event
 
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
-    Reload Page
-    Click link  Events
     Click Element  xpath=//h3[text()='Older events']
     Click link  ${title}
     Wait Until Page Contains Element  css=div.event-details
