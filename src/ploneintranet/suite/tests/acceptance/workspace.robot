@@ -130,6 +130,12 @@ Member can create an event
      When I can create a new event  Christmas  2014-12-25  2014-12-26
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
 
+Member can create an event with invalid dates
+    Given I am in a workspace as a workspace member
+     When I can create a new event  Invalid dates  2014-12-25  2014-12-22
+          Click Element  xpath=//h3[text()='Older events']
+          Page should contain  Dec 25, 2014
+
 Member cannot edit an event with invalid data
     Given I am in a workspace as a workspace member
      When I can create a new event  Easter  2014-12-25  2014-12-26
