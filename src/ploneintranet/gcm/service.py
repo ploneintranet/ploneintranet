@@ -5,6 +5,7 @@ Android devices (if they have opted in).
 """
 import logging
 
+from plone import api
 from zope.interface import implementer
 from gcm import gcm
 
@@ -18,11 +19,17 @@ logger = logging.getLogger(__name__)
 class GCMService(object):
     """Perform GCM operations on behalf of a user."""
 
-    def __init__(self, context):
-        self.context = context
+    def __init__(self):
         self.service = gcm.GCM(API_KEY)
 
-    def send_push_notification(self, message):
+    def _gcm_registered_userprofiles(self):
+        mtool = api.portal.get_tool(name='membrane_tool')
+        for brain in mtool.searchResults():
+            obj = brain.getObject()
+            if obj.gcm_reg_id:
+                yield obj
+
+    def send_push_notifications(self, message, to):
         """Send a `downstream` message to user' devices.
 
         :seealso:
@@ -41,11 +48,12 @@ class GCMService(object):
         data = dict(message=msg_obj)
         try:
             response = self.service.json_request(
-                registration_ids=[self.context.gcm_reg_id],
+                registration_ids=to,
                 data=data,
                 delay_while_idle=True,
                 time_to_live=3600)
-        except gcm.GCMNotRegisteredException as err:
+        except (gcm.GCMNotRegisteredException,
+                gcm.GCMMissingRegistrationException) as err:
             logger.exception(err)
             self.context.gcm_reg_id = None
         except gcm.GCMUnavailableException as err:

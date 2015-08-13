@@ -15,8 +15,7 @@
     handler=".subscribers.on_user_logout"
     />
 
-  <adapter
-    for="..userprofile.content.userprofile.IUserProfile"
+  <utility
     provides=".interfaces.IGCMService"
     factory=".service.GCMService"
   />

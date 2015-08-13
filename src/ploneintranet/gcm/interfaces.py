@@ -11,7 +11,7 @@ class IGCMService(Interface):
 
     context = Attribute(u'The user profile object.')
 
-    def send_push_notification(message):
+    def send_push_notifications(message):
         """Send a push notification message to the user.
 
         This method log any exceptions encountered.

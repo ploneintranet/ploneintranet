@@ -3,7 +3,7 @@ import logging
 
 from ..interfaces import IMessageClassHandler
 from ..interfaces import IMessageFactory
-from zope.component import getAdapter
+from zope.component import getAdapter, getUtility
 from plone import api
 
 from ploneintranet.api import userprofile
@@ -26,16 +26,16 @@ def status_update_handler(obj, event):
         return
     message = IMessageFactory(obj)()
     tool = api.portal.get_tool('ploneintranet_notifications')
+    gcm_service = getUtility(IGCMService)
+    gcm_reg_ids = []
     for userid in obj.mentions.keys():
         msg = message.clone()
         queue = tool.get_user_queue(userid)
         queue.append(msg)
-        user = userprofile.get(userid)
-        if user is None:
-            continue
-        gcm_service = IGCMService(user, None)
-        if gcm_service is not None:
-            logger.info('Got GCM service')
-            gcm_service.send_push_notification(msg)
-        else:
-            logger.error('No GCM service adapter for %r', user)
+        profile = userprofile.get(userid)
+        if profile is not None:
+            gcm_reg_id = profile.gcm_reg_id
+            if gcm_reg_id:
+                gcm_reg_ids.append(profile.gcm_reg_id)
+    if gcm_reg_ids:
+        gcm_service.send_push_notifications(message, to=gcm_reg_ids)
