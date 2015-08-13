@@ -447,7 +447,8 @@ I can create a new event
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Click Element  xpath=//h3[text()='Older events']
-    Click link  ${title}
+    Wait until page contains element  jquery=.cal-events a:contains("${title}")  2
+    Click Element  jquery=.cal-events a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
