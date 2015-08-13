@@ -433,7 +433,16 @@ Supported types include (class names):
 
                       <form tal:condition="python:view.can_delete(event)"
                           class="pat-modal"
-                          action="${string:${event/getURL}/delete_confirmation#content}">
+                          action="${event/getURL}/delete_confirmation#content">
+                        <input type="hidden" name="pat-inject"
+                               value="
+                                   source:#document-body; target:#document-body;
+                                   &amp;&amp;
+                                   source:#workspace-events; target:#workspace-events
+                                   &amp;&amp;
+                                   target: #global-statusmessage; source: #global-statusmessage
+                               " />
+                        <input type="hidden" name="pat-modal" value="true" />
                         <button class="iconified icon-trash" type="submit">Delete event</button>
                       </form>
                     </li>
