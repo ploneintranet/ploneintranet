@@ -26,7 +26,7 @@ class TestSetupHandlers(BaseTestCase):
         """ collective.workspace groups should be hidden when enumerating """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace')

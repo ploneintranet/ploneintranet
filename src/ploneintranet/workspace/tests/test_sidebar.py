@@ -19,7 +19,7 @@ class TestSidebar(BaseTestCase):
     def create_workspace(self):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace'
@@ -97,9 +97,16 @@ class TestSidebar(BaseTestCase):
                       "File with that title not found in sidebar navigation")
 
         urls = [x['url'] for x in items]
-        self.assertIn('http://nohost/plone/example-workspace/myfolder',
-                      urls,
-                      "Folder with that url not found in sidebar navigation")
+
+        expected_url = (
+            'http://nohost/plone/workspace-container/'
+            'example-workspace/myfolder'
+        )
+        self.assertIn(
+            expected_url,
+            urls,
+            "Folder with that url not found in sidebar navigation"
+        )
         dpis = [x['dpi'] for x in items]
         self.assertIn(
             "source: #workspace-documents; target: #workspace-documents "
