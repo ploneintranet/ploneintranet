@@ -156,107 +156,166 @@ class RecursiveQueueJob(BrowserView):
                 logger.info(msg)
         return log
 
-    def render(self):
+    def get_force(self):
+        ''' Check if the object is the object is force
+        '''
+        force = self.request.get('force', False)
+        if isinstance(force, basestring):
+            return self.force in ('True', 'true')
+        return force
+
+    def get_modified(self):
+        ''' Get a modified parameter for a query to portal_catalog
+        '''
+        modified = self.request.get('modified')
+        if not modified:
+            return
+
+        if isinstance(modified, (list, tuple)):
+            if len(modified) == 1:
+                modified = modified[0]
+            elif len(modified) == 2:
+                modified_range = tuple([DateTime(m) for m in modified])
+                return dict(query=modified_range, range='min:max')
+
+        if isinstance(modified, basestring):
+            return dict(query=DateTime(modified), range='min')
+
+    def get_minresolution(self):
+        ''' Get a modified parameter for a query to portal_catalog
+        '''
+        minresolution = self.request.get('minresolution')
+        if isinstance(minresolution, basestring):
+            minresolution = tuple(r or '0' for r in minresolution.split('x'))
+        if isinstance(minresolution, (list, tuple)):
+            # consider just the first two
+            minresolution = tuple(map(int, minresolution[:2]))
+        return minresolution
+
+    def hasPreviews(self, obj):
+        return all(
+            IAnnotations(obj).get(PDF_VERSION_KEY) is not None,
+            IAnnotations(obj).get(PREVIEW_IMAGES_KEY) is not None,
+            IAnnotations(obj).get(THUMBNAIL_KEY) is not None,
+        )
+
+    def low_resolution(self, obj):
+        minresolution = self.get_minresolution()
+        if not minresolution:
+            return False
+        for imgdata in IAnnotations(obj).get(PREVIEW_IMAGES_KEY):
+            if Image.open(StringIO(imgdata)).size < minresolution:
+                return True
+        return False
+
+    def get_candidates(self):
         log = self.mklog(use_std_log=True)
-        self.force = self.request.get('force', False)
-        self.dryrun = self.request.get('dryrun', False)
-
-        if (isinstance(self.force, basestring) and
-                self.force == 'True' or self.force == 'true'):
-            self.force = True
-
-        modified = self.request.get('modified', '')
-        self.modified = None
-        if modified:
-            if isinstance(modified, list) or isinstance(modified, tuple):
-                if len(modified) == 1:
-                    modified = modified[0]
-                elif len(modified) == 2:
-                    try:
-                        modified_range = tuple([DateTime(m) for m in modified])
-                        self.modified = dict(query=modified_range,
-                                             range='min:max')
-                    except:
-                        log('Could not convert modified to DateTime')
-                        return
-            if isinstance(modified, basestring):
-                try:
-                    self.modified = dict(query=DateTime(modified),
-                                         range='min')
-                except:
-                    log('Could not convert modified to DateTime')
-                    return
-
-        self.minresolution = self.request.get('minresolution')
-        if isinstance(self.minresolution, list) or isinstance(
-                self.minresolution, tuple):
-            if len(self.minresolution) > 2:
-                self.minresolution = self.minresolution[:2]
-            self.minresolution = tuple([int(r) for r in self.minresolution])
-        if isinstance(self.minresolution, basestring):
-            self.minresolution = tuple(
-                [int(r or '0') for r in self.minresolution.split('x')])
-
-        def hasPreviews(obj):
-            return (IAnnotations(obj).get(PDF_VERSION_KEY) is not None and
-                    IAnnotations(obj).get(PREVIEW_IMAGES_KEY) is not None and
-                    IAnnotations(obj).get(THUMBNAIL_KEY) is not None)
-
-        def low_resolution(obj):
-            return self.minresolution and (True in [
-                Image.open(StringIO(imgdata)).size < self.minresolution for
-                imgdata in IAnnotations(obj).get(PREVIEW_IMAGES_KEY)
-            ])
-
         query = dict(path=['/'.join(self.context.getPhysicalPath())])
         if self.modified:
             query['modified'] = self.modified
-        candidates = self.context.portal_catalog(query)
-
-        queued = skipped = 0
-        for brain in candidates:
+        brains = self.context.portal_catalog(query)
+        objs = []
+        for brain in brains:
             try:
-                obj = brain.getObject()
+                objs.append(brain.getObject())
             except:
                 log('Could not get object %s\n' % brain.getPath())
                 continue
-            if (((hasattr(obj.aq_explicit, 'getContentType') and
-                not obj.getContentType().split('/')[0] in EXCLUDE_TYPES)
-                or hasattr(obj.aq_explicit, 'text')) and
-                (self.force or not hasPreviews(obj)
-                 or low_resolution(obj))):
+        return objs
 
-                if not self.dryrun:
-                    queueConversionJob(obj, self.request, force=self.force)
+    def queable(self, obj):
+        ''' State if obj is queable
+        '''
+        if not (
+            (
+                hasattr(obj.aq_explicit, 'getContentType')
+                and not obj.getContentType().split('/')[0] in EXCLUDE_TYPES
+            )
+            or hasattr(obj.aq_explicit, 'text')
+        ):
+            return False
+        if not (
+            self.force
+            or not self.hasPreviews(obj)
+            or self.low_resolution(obj)
+        ):
+            return False
+        return True
 
-                moreinfo = dict(hasPreviews=hasPreviews(obj))
-                if moreinfo['hasPreviews']:
-                    moreinfo['low_resolution'] = low_resolution(obj)
-                    if moreinfo['low_resolution']:
-                        imgdata = StringIO(
-                            IAnnotations(obj).get(PREVIEW_IMAGES_KEY)[-1])
-                        size = Image.open(imgdata).size
-                        moreinfo['current_resolution'] = size
-                log('Queued  %s (%s)\n' % ('/'.join(obj.getPhysicalPath()),
-                                           moreinfo))
-                queued += 1
+    def has_excluded_content_type(self, obj):
+        ''' State if obj is skippable
+        '''
+        return (
+            hasattr(obj.aq_explicit, 'getContentType')
+            and obj.getContentType().split('/')[0] in EXCLUDE_TYPES
+        )
+
+    def queue(self, obj):
+        ''' Queue obj
+        '''
+        if not self.dryrun:
+            queueConversionJob(obj, self.request, force=self.force)
+
+        moreinfo = dict(hasPreviews=self.hasPreviews(obj))
+        if moreinfo['hasPreviews']:
+            moreinfo['low_resolution'] = self.low_resolution(obj)
+            if moreinfo['low_resolution']:
+                imgdata = StringIO(
+                    IAnnotations(obj).get(PREVIEW_IMAGES_KEY)[-1])
+                size = Image.open(imgdata).size
+                moreinfo['current_resolution'] = size
+        msg = 'Queued  %s (%s)\n' % ('/'.join(obj.getPhysicalPath()), moreinfo)
+        self.log(msg)
+        self.queued += 1
+
+    def skip(self, obj):
+        ''' Skip object
+        '''
+        if self.has_excluded_content_type(obj):
+            moreinfo = 'type "{0}" excluded'.format(
+                obj.getContentType().split('/')[0]
+            )
+        elif not hasattr(obj.aq_explicit, 'text'):
+            moreinfo = 'no getContentType or text'
+        else:
+            moreinfo = dict(hasPreviews=self.hasPreviews(obj))
+            if moreinfo['hasPreviews']:
+                moreinfo['low_resolution'] = self.low_resolution(obj)
+        self.log('Skipped {0} ({1})\n'.format(
+            '/'.join(obj.getPhysicalPath()), moreinfo))
+        self.skipped += 1
+
+    def render(self):
+        self.log = self.mklog(use_std_log=True)
+        self.dryrun = self.request.get('dryrun', False)
+        self.force = self.get_force()
+
+        try:
+            self.modified = self.get_modified()
+        except:
+            self.modified = None
+            self.log('Could not convert modified to DateTime')
+            return
+
+        self.queued = 0
+        self.skipped = 0
+
+        candidates = self.get_candidates()
+        for obj in candidates:
+            if self.queable(obj):
+                self.queue(obj)
             else:
-                if (hasattr(obj.aq_explicit, 'getContentType') and
-                        obj.getContentType().split('/')[0] in EXCLUDE_TYPES):
-                    moreinfo = 'type "{0}" excluded'.format(
-                        obj.getContentType().split('/')[0])
-                elif not hasattr(obj.aq_explicit, 'text'):
-                    moreinfo = 'no getContentType or text'
-                else:
-                    moreinfo = dict(hasPreviews=hasPreviews(obj))
-                    if moreinfo['hasPreviews']:
-                        moreinfo['low_resolution'] = low_resolution(obj)
-                log('Skipped {0} ({1})\n'.format(
-                    '/'.join(obj.getPhysicalPath()), moreinfo))
-                skipped += 1
+                self.skip(obj)
 
-        log('Queued Docconv jobs for %d objects, skipped %d, modified '
-            'range %s, resolution threshold %s\n' %
-            (queued, skipped, self.modified, self.minresolution))
+        msg = (
+            'Queued Docconv jobs for %d objects, skipped %d, modified '
+            'range %s, resolution threshold %s\n'
+        ) % (
+            self.queued,
+            self.skipped,
+            self.modified,
+            self.get_minresolution()
+        )
+        self.log(msg)
         if self.dryrun:
-            log('Dry run, no jobs actually queued\n')
+            self.log('Dry run, no jobs actually queued\n')
