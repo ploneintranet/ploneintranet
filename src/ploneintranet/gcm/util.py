@@ -6,7 +6,7 @@ def read_token(request):
     :rtype: str
     :raises: ValueError (if token cannot be obtained)
     """
-    token = request.POST.get('token')
+    token = request.form.get('token')
     if token is None:
         raise ValueError('bad token')
     elif isinstance(token, unicode):
