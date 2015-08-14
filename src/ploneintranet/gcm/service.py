@@ -4,11 +4,12 @@ New notifications will trigger push notifications to the users'
 Android devices (if they have opted in).
 """
 import logging
+from operator import attrgetter
 
-from plone import api
 from zope.interface import implementer
 from gcm import gcm
 
+from ..api import userprofile
 from .interfaces import API_KEY, IGCMService
 
 
@@ -22,14 +23,7 @@ class GCMService(object):
     def __init__(self):
         self.service = gcm.GCM(API_KEY)
 
-    def _gcm_registered_userprofiles(self):
-        mtool = api.portal.get_tool(name='membrane_tool')
-        for brain in mtool.searchResults():
-            obj = brain.getObject()
-            if obj.gcm_reg_id:
-                yield obj
-
-    def send_push_notifications(self, message, to):
+    def _send_push_notifications(self, message, to):
         """Send a `downstream` message to user' devices.
 
         :seealso:
@@ -53,13 +47,21 @@ class GCMService(object):
                 delay_while_idle=True,
                 time_to_live=3600)
         except (gcm.GCMNotRegisteredException,
-                gcm.GCMMissingRegistrationException) as err:
-            logger.exception(err)
+                gcm.GCMMissingRegistrationException) as not_registered:
+            logger.exception(not_registered)
             self.context.gcm_reg_id = None
-        except gcm.GCMUnavailableException as err:
-            # TBD: retry
-            logger.exception(err)
-        except Exception as err:
-            logger.exception(err)
+        except gcm.GCMException as gcm_err:
+            logger.exception(gcm_err)
         else:
-            logger.info('SENT %r? %r', msg_obj, response)
+            logger.info('Sent push notification: %r, response: %r',
+                        msg_obj,
+                        response)
+
+    def push_status_update(self, message):
+        obj = message.context
+        profiles = map(userprofile.get, obj.mentions)
+        gcm_reg_ids = filter(attrgetter('gcm_reg_id'), profiles)
+        if gcm_reg_ids:
+            self._send_push_notifications(message, to=gcm_reg_ids)
+        else:
+            logger.debug('No reg ids to send any push notifications with')

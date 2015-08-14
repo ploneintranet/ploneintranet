@@ -11,12 +11,30 @@ class IGCMService(Interface):
 
     context = Attribute(u'The user profile object.')
 
-    def send_push_notifications(message):
-        """Send a push notification message to the user.
+    def push_status_update(self, message):
+        """Send a push notifications to users mentioned in a status update message.
 
-        This method log any exceptions encountered.
+        This method should log any exceptions encountered, but not raise.
 
         :param message: The message instance.
         :type message: ploneintranet.messaging.messaging.IMessage
         :return: Nothing
         """
+
+
+class ITokenAssociation(Interface):
+
+    context = Attribute(u'The user profile object.')
+    request = Attribute(u'The request.')
+
+    def save(token):
+        """Obtain a token obtained from the request
+        and store aginst the user profile.
+
+        :param token: The GCM registration token.
+        :type token: str
+        :raise: ValueError if the token cannot be obtained.
+        """
+
+    def remove():
+        """Remove token associate from the user profile."""

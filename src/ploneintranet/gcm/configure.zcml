@@ -4,6 +4,15 @@
     i18n_domain="ploneintranet.gcm">
 
   <includeDependencies package="." />
+  <include package=".browser" />
+
+  <adapter
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile
+           zope.publisher.interfaces.http.IHTTPRequest"
+      provides=".interfaces.ITokenAssociation"
+      factory=".adapters.TokenAssociator"
+      permission="zope2.Public"
+      />
 
   <subscriber
     for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
