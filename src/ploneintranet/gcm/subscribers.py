@@ -21,7 +21,8 @@ def _token_assoc_from_event(event):
 def on_user_login(event):
     token_assoc = _token_assoc_from_event(event)
     if token_assoc is not None:
-        token_assoc.save(read_token())
+        request = globalrequest.getRequest()
+        token_assoc.save(read_token(request))
 
 
 def on_user_logout(event):
