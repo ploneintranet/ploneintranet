@@ -20,6 +20,7 @@ class TokenAssociator(object):
             response.setStatus('BadRequest')
         else:
             self.context.gcm_reg_id = token.encode('ascii')
+        return token
 
     def remove(self):
         self.context.gcm_reg_id = None
