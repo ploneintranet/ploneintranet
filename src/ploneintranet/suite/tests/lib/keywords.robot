@@ -210,8 +210,7 @@ I can open Esmeralda's profile
 I can follow Esmeralda
     Element should contain  css=.icon-eye  Follow Esmeralda Claassen
     Click Element  css=.icon-eye
-    Wait Until Element Is visible  css=.icon-eye
-    Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
+    Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
