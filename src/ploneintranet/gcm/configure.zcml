@@ -14,10 +14,11 @@
       permission="zope2.Public"
       />
 
-  <subscriber
-    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
-    handler=".subscribers.on_user_login"
-    />
+  <!-- DISABLED -->
+  <!-- <subscriber -->
+  <!--   for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent" -->
+  <!--   handler=".subscribers.on_user_login" -->
+  <!--   /> -->
 
   <subscriber
     for="Products.PluggableAuthService.interfaces.events.IUserLoggedOutEvent"

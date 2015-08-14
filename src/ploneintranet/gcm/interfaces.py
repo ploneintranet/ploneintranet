@@ -11,11 +11,13 @@ class IGCMService(Interface):
 
     context = Attribute(u'The user profile object.')
 
-    def push_status_update(self, message):
+    def push_status_update(self, status_update, message):
         """Send a push notifications to users mentioned in a status update message.
 
         This method should log any exceptions encountered, but not raise.
 
+        :param status_update: THe status update.
+        :type status_update: ploneintranet.microblog.interfaces.IStatusUpdate
         :param message: The message instance.
         :type message: ploneintranet.messaging.messaging.IMessage
         :return: Nothing

@@ -31,4 +31,4 @@ def status_update_handler(obj, event):
         queue = tool.get_user_queue(userid)
         queue.append(msg)
     gcm_service = getUtility(IGCMService)
-    gcm_service.push_status_update(message.clone())
+    gcm_service.push_status_update(obj, message)

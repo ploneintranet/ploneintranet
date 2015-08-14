@@ -57,9 +57,8 @@ class GCMService(object):
                         msg_obj,
                         response)
 
-    def push_status_update(self, message):
-        obj = message.context
-        profiles = map(userprofile.get, obj.mentions)
+    def push_status_update(self, status_update, message):
+        profiles = map(userprofile.get, status_update.mentions)
         gcm_reg_ids = filter(attrgetter('gcm_reg_id'), profiles)
         if gcm_reg_ids:
             self._send_push_notifications(message, to=gcm_reg_ids)

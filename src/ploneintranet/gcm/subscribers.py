@@ -4,7 +4,6 @@ from zope.component import getMultiAdapter
 
 from ..api import userprofile
 from .interfaces import ITokenAssociation
-from .util import read_token
 
 
 def _token_assoc_from_event(event):
@@ -18,11 +17,11 @@ def _token_assoc_from_event(event):
     return token_assoc
 
 
-def on_user_login(event):
-    token_assoc = _token_assoc_from_event(event)
-    if token_assoc is not None:
-        request = globalrequest.getRequest()
-        token_assoc.save(read_token(request))
+# def on_user_login(event):
+#     token_assoc = _token_assoc_from_event(event)
+#     if token_assoc is not None:
+#         request = globalrequest.getRequest()
+#         token_assoc.save(read_token(request))
 
 
 def on_user_logout(event):
