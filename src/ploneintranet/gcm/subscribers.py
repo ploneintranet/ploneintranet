@@ -17,14 +17,8 @@ def _token_assoc_from_event(event):
     return token_assoc
 
 
-# def on_user_login(event):
-#     token_assoc = _token_assoc_from_event(event)
-#     if token_assoc is not None:
-#         request = globalrequest.getRequest()
-#         token_assoc.save(read_token(request))
-
-
 def on_user_logout(event):
+    """Disassociates the GCM token with the current user."""
     token_assoc = _token_assoc_from_event(event)
     if token_assoc is not None:
         token_assoc.remove()

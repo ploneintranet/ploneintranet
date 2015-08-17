@@ -4,7 +4,6 @@ New notifications will trigger push notifications to the users'
 Android devices (if they have opted in).
 """
 import logging
-from operator import attrgetter
 
 from zope.interface import implementer
 from gcm import gcm
@@ -59,8 +58,8 @@ class GCMService(object):
 
     def push_status_update(self, status_update, message):
         profiles = map(userprofile.get, status_update.mentions)
-        gcm_reg_ids = filter(attrgetter('gcm_reg_id'), profiles)
-        if gcm_reg_ids:
-            self._send_push_notifications(message, to=gcm_reg_ids)
+        reg_ids = filter(bool, (profile.gcm_reg_id for profile in profiles))
+        if reg_ids:
+            self._send_push_notifications(message, to=reg_ids)
         else:
             logger.debug('No reg ids to send any push notifications with')

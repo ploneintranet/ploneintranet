@@ -12,7 +12,6 @@
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".assocregtok.GCMUserProfileTokenSave"
       permission="ploneintranet.viewsite"
-      layer=".interfaces.IPloneintranetGCMLayer"
       />
 
 

@@ -1,7 +1,16 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="ploneintranet.gcm">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- [GCM - Google Cloud Messaging]"
+      directory="profiles/default"
+      description="Installs the ploneintranet.gcm package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
   <includeDependencies package="." />
   <include package=".browser" />
@@ -13,12 +22,6 @@
       factory=".adapters.TokenAssociator"
       permission="zope2.Public"
       />
-
-  <!-- DISABLED -->
-  <!-- <subscriber -->
-  <!--   for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent" -->
-  <!--   handler=".subscribers.on_user_login" -->
-  <!--   /> -->
 
   <subscriber
     for="Products.PluggableAuthService.interfaces.events.IUserLoggedOutEvent"
