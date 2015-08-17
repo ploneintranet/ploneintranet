@@ -52,8 +52,7 @@
                 <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
-                <!-- XXX: This is not yet completed -->
-                <!--a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a-->
+                <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
               </div>
             </div>
 
@@ -72,7 +71,7 @@
               </label>
             </form>
 
-            <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="items">
+            <form class="search-result docs pat-inject" data-pat-inject="target: body::after;" action="@@cart#global-statusmessage" id="items" tal:attributes="action string:${here/absolute_url}/@@cart#global-statusmessage">
               <fieldset class="checklist pat-checklist docs ">
 
                 <div class="batch-functions">
@@ -89,59 +88,54 @@
                               name="batch-function"
                               value="cut"
                               class="float-before icon-cut no-label pat-depends"
-                              data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
-                              formaction="/feedback/banner-notifications#documents-cut"
+                              data-pat-depends="condition:cart_items or false; action: enable"
                               i18n:translate="" i18n:attributes="title"
                               title="Cut">Cut</button>
                       <button type="submit"
                               name="batch-function"
                               value="copy"
-                              formaction="/feedback/banner-notifications#documents-copied"
                               class="float-before icon-copy no-label pat-depends"
-                              data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                              data-pat-depends="condition:cart_items or false; action: enable"
                               i18n:translate="" i18n:attributes="title"
                               title="Copy">Copy</button>
-                      <button disabled="disabled"
-                              type="submit"
+                      <button type="submit"
                               name="batch-function"
                               value="paste"
-                              formaction="/open-market-committee#items"
                               class="float-before icon-paste no-label"
                               i18n:translate="" i18n:attributes="title"
                               title="Paste">Paste</button>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button formaction="/feedback/batch-delete.html#content"
-                            type="submit"
+                    <button type="submit"
                             name="batch-function"
                             value="delete"
                             class="float-before icon-trash no-label pat-depends"
-                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            data-pat-depends="condition:cart_items or false; action: enable"
                             i18n:translate="" i18n:attributes="title"
                             title="Delete">Delete</button>
-                    <button type="submit"
+                    <!--button type="submit"
                             name="batch-function"
                             value="rename"
                             formaction="/feedback/batch-rename.html#content"
                             class="float-before icon-rename no-label pat-depends"
-                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            data-pat-depends="condition:cart_items or  false; action: enable"
                             i18n:translate="" i18n:attributes="title"
-                            title="Rename">Rename</button>
-                    <button formaction="/feedback/batch-tag.html#content"
+                            title="Rename">Rename</button-->
+                    <!--button formaction="/feedback/batch-tag.html#content"
                             type="submit"
                             name="batch-function"
                             value="tag"
                             class="float-before icon-tags no-label pat-depends"
                             data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
                             i18n:translate="" i18n:attributes="title"
-                            title="Re-tag">Re-tag</button>
-                    <button type="submit"
+                            title="Re-tag">Re-tag</button-->
+                    <!--button type="submit"
                             name="batch-function"
-                            value="tag"
+                            value="share"
                             class="float-before icon-export pat-depends"
-                            data-pat-depends="condition:event-traces-through-time or projection-materials or minutes or manage-information or  false; action: enable"
+                            data-pat-depends="condition:cart_items or  false; action: enable"
                             i18n:translate="" i18n:attributes="title"
-                            title="Share">Share</button>
+                            title="Share">Share</button-->
                   </div>
                 </div>
 
@@ -188,7 +182,7 @@ Supported types include (class names):
                 <tal:block repeat="item view/items">
                   <label class="item document type-event has-description"
                          tal:attributes="class item/cls">
-                    <input name="event-traces-through-time" tal:attributes="name item/id" type="checkbox" />
+                    <input name="cart_items" tal:attributes="value item/UID" type="checkbox" />
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"

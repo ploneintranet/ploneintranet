@@ -452,7 +452,9 @@ class Sidebar(BaseTile):
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
-                subject=r['Subject']
+                subject=r['Subject'],
+                UID=r['UID'],
+                path=r.getPath()
             ))
         return results
 

@@ -1,0 +1,54 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+
+  <!-- Enable IAnnotations to be stored on Member objects -->
+  <class class="Products.CMFCore.MemberDataTool.MemberData">
+    <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
+  </class>
+
+  <browser:page
+      name="cart"
+      for="*"
+      class=".cart.Cart"
+      permission="zope2.View"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <!-- Action registration -->
+
+  <adapter
+      for="*"
+      factory=".cart_actions.copy.CopyAction"
+      name="copy"
+      provides="ploneintranet.workspace.browser.cart.ICartAction"
+      />
+
+  <adapter
+      for="*"
+      factory=".cart_actions.cut.CutAction"
+      name="cut"
+      provides="ploneintranet.workspace.browser.cart.ICartAction"
+      />
+
+  <adapter
+      for="*"
+      factory=".cart_actions.delete.DeleteAction"
+      name="delete"
+      provides="ploneintranet.workspace.browser.cart.ICartAction"
+      />
+
+  <adapter
+      for="*"
+      factory=".cart_actions.download.DownloadAction"
+      name="download"
+      provides="ploneintranet.workspace.browser.cart.ICartAction"
+      />
+
+</configure>
