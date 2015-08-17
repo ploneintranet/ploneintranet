@@ -160,21 +160,24 @@ class Cart(BrowserView):
             if item:
                 self.cart.add(item)
 
-        action = self.request.form.get("batch-function", False)
-        if type(action) == list:
-            action = [x for x in action if x.strip()].pop()
-        if action != '' and action != 'download' and action != 'paste':
-            self.action = action
+        self.action = self.request.form.get("batch-function", False)
+        if self.action is False:
+            return self
+
+        if type(self.action) == list:
+            self.action = [x for x in self.action if x.strip()].pop()
+        if self.action != '' and self.action != 'download' and \
+           self.action != 'paste':
             # We don't care about any output. The relevant information will
             # be insde a portal status message anyway.
             self._run_action()
-        if action == 'download' and not cart_items:
-            action = 'none'
+        if self.action == 'download' and not cart_items:
+            self.action = 'none'
             api.portal.show_message(
                 message="No items selected to download.",
                 request=self.request,
                 type="warning")
-        elif action == 'paste':
+        elif self.action == 'paste':
             try:
                 self.context.manage_pasteObjects(REQUEST=self.request)
             except CopyError, ce:
@@ -196,4 +199,4 @@ class Cart(BrowserView):
                     type="success")
 
         self.request.response.redirect(
-            self.context.absolute_url() + '/?{0}=1'.format(action))
+            self.context.absolute_url() + '/?{0}=1'.format(self.action))
