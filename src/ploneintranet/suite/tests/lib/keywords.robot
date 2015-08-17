@@ -340,9 +340,17 @@ The breadcrumbs show the name of the workspace
 I can enter the Manage Information Folder
     Click Link  link=Documents
     Page Should Contain  Manage Information
-    Click Element  xpath=//form[@id='items']/fieldset/label[1]/a
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/manage-information')]
     Wait Until Page Contains  Preparation of Records
     Wait Until Page Contains  How to prepare records
+
+I can enter the Projection Materials Folder
+    Click Link  link=Documents
+    Page Should Contain  Projection Materials
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/projection-materials')]
+    Wait Until Page Contains  Projection Material
+    Wait Until Page Contains  Projection Materials
+    Wait Until Page Contains  Open Market Committee
 
 Go back to the workspace by clicking the parent button
     Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']

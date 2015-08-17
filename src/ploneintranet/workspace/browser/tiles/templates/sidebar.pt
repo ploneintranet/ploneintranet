@@ -28,6 +28,7 @@
                    tal:attributes="href parent/url"
                    tal:content="parent/title">Open Market Committee</a>
                 <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.default#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post" tal:condition="not:parent">
+                  <input tal:replace="structure context/@@authenticator/authenticator"/>
                   <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
                   <select name="grouping">
                     <option value="folder" tal:attributes="selected python:grouping == 'folder' and 'selected' or ''" i18n:translate="">folder</option>
