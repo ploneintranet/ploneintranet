@@ -421,9 +421,6 @@ class Sidebar(BaseTile):
                 dpi = (
                     "source: #workspace-documents; "
                     "target: #workspace-documents "
-                    "&& "
-                    "source: nav.breadcrumbs; "
-                    "target: nav.breadcrumbs; "
                 )
                 # Do we switch the view (unexpand the sidebar)?
                 dps = None
