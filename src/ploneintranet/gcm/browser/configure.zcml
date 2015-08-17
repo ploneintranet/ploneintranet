@@ -10,7 +10,7 @@
     <browser:page
       name="gcm"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".assocregtok.GCMUserProfileTokenSave"
+      class=".assocregtok.ProfileAssociation"
       permission="ploneintranet.viewsite"
       />
 

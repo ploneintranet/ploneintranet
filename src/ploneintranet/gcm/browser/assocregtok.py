@@ -18,7 +18,7 @@ from ..interfaces import ITokenAssociation
 logger = logging.getLogger(__name__)
 
 
-class GCMUserProfileTokenSave(BrowserView):
+class ProfileAssociation(BrowserView):
     """View that associates a GCM registration token with a user profile.
 
     This is currently demo-quality - a real API should check a CRSF token.
