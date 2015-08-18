@@ -35,7 +35,7 @@ class TestContentWorkflow(BaseTestCase):
 
         # A self.document in the workspace should have the workspace workflow
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace')
 
@@ -57,7 +57,7 @@ class WorkspaceContentBaseTestCase(BaseTestCase):
         api.user.create(username='wsmember', email="member@test.com")
         api.user.create(username='nonmember', email="user@test.com")
         self.workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace')
