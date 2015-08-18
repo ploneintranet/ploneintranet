@@ -30,7 +30,13 @@
                 ">
                 <form class="document pat-inject"
                       id="${formid}"
-                      data-pat-inject="source: #${formid}; target: #${formid} &amp;&amp; source:#workspace-events; target: #workspace-events"
+                      data-pat-inject="
+                          source: #${formid}; target: #${formid};
+                          &amp;&amp;
+                          source:#workspace-events; target: #workspace-events;
+                          &amp;&amp;
+                          source: #global-statusmessage; target: #global-statusmessage;
+                      "
                       method="POST" action="${context/absolute_url}/view#document-body">
                     <div class="metadata pat-bumper" id="meta">
                         <div class="meta-bar">
