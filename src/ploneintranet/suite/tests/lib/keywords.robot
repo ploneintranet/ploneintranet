@@ -498,7 +498,6 @@ I cannot edit an event because of validation
 
 Then I can delete an event
     [arguments]  ${title}
-    Debug
     Click link  ${title}
     Wait Until Page Contains Element  css=div.event-details
     Click Element  css=.meta-bar .icon-trash
