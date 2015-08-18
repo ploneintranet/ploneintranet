@@ -210,8 +210,7 @@ I can open Esmeralda's profile
 I can follow Esmeralda
     Element should contain  css=.icon-eye  Follow Esmeralda Claassen
     Click Element  css=.icon-eye
-    Wait Until Element Is visible  css=.icon-eye
-    Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
+    Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
@@ -289,21 +288,26 @@ I give the Consumer role to Allan
 I give the Producer role to Allan
     I can open the workspace member settings tab
     Click Link  Select
+    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
+    Click button  Close
     Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
     Click Link  Select
+    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Admins
     Click Button  css=.pat-modal button[type=submit]
-    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
+    Wait until page contains  Role updated
+    Click button  Close
+    Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
 
 I can remove the Producer role from Allan
     I can open the workspace member settings tab
@@ -312,11 +316,18 @@ I can remove the Producer role from Allan
     Click Link  Remove special role
     Click Button  I am sure, remove role now
     Wait until page contains  Role updated
+    Click button  Close
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
-    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    # Note: It does not make sense at first glance to click on the user name and
+    # open the profile in the main content area. However, by doing this we
+    # can be sure that the side-bar has been correctly loaded, and a click on
+    # the "Produce" element will not get lost. In other words, prevent a heisenbug.
+    Click element  xpath=//strong[text()='Allan Neece']
+    Wait until page contains element  xpath=//aside/figure[@class='user-portrait']
+    Wait until element is visible    xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
@@ -446,10 +457,9 @@ I can create a new event
 
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
-    Reload Page
-    Click link  Events
     Click Element  xpath=//h3[text()='Older events']
-    Click link  ${title}
+    Wait until page contains element  jquery=.cal-events a:contains("${title}")  2
+    Click Element  jquery=.cal-events a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
