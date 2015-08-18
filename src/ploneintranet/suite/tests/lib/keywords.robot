@@ -279,7 +279,7 @@ I can invite Alice to the workspace
 
 I give the Consumer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Consumers
@@ -288,7 +288,7 @@ I give the Consumer role to Allan
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Producers
@@ -298,7 +298,7 @@ I give the Producer role to Allan
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Admins
@@ -326,7 +326,7 @@ I can change Allan's role to Moderator
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
     Wait until page contains element  css=.pat-modal button[type=submit]
