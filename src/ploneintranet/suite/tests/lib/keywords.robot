@@ -481,6 +481,21 @@ I can edit an event
     List selection should be  timezone  ${timezone}
     Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
 
+I cannot edit an event because of validation
+    [arguments]  ${title}  ${start}  ${end}  ${timezone}
+    Reload Page
+    Click link  Events
+    Click Element  xpath=//h3[text()='Older events']
+    Click link  ${title}
+    Wait Until Page Contains Element  css=div.event-details
+    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=div.event-details input[name=start]  text=${start}
+    Input Text  css=div.event-details input[name=end]  text=${end}
+    Select From List  timezone  ${timezone}
+    Click Button  Save
+    Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
+    Element Text Should Be  css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+
 Then I can delete an event
     [arguments]  ${title}
     Debug
