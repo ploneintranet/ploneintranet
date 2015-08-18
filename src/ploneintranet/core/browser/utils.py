@@ -31,4 +31,11 @@ def link_urls(text):
     Enriches urls in the comment text with an anchor.
     """
     urlfinder = re.compile('(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)')  # noqa
-    return urlfinder.sub(r'<a href="\1" target="_blank">\1</a>', text)
+    links = urlfinder.findall(text)
+    for link in links:
+        if len(link) > 40:
+            name = link[:40] + "&hellip;"
+        else:
+            name = link
+        text = text.replace(link, '<a href="%s">%s</a>' % (link, name))
+    return text
