@@ -42,11 +42,18 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         api.user.create(username='nonmember', email="user@test.com")
         api.user.create(username='wsmember', email="member@test.com")
         api.user.create(username='wsadmin', email="admin@test.com")
-        self.workspace_folder = api.content.create(
+        self.workspace_container = api.content.create(
             self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'example-workspace-container',
+            title='Welcome to my example workspace container'
+        )
+        self.workspace_folder = api.content.create(
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
-            title='Welcome to my workspace')
+            title='Welcome to my workspace'
+        )
         self.add_user_to_workspace('wsmember', self.workspace_folder)
         self.add_user_to_workspace('wsadmin', self.workspace_folder,
                                    set(['Admins']))

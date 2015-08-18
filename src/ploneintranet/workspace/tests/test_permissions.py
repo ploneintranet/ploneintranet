@@ -16,7 +16,7 @@ class TestPermissions(BaseTestCase):
         api.user.create(username='user1', email='test@test.com')
         api.user.create(username='user2', email='test2@test.com')
         self.workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
