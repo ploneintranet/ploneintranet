@@ -79,8 +79,8 @@ class BinaryAdder(ContentAdder):
                 if elems:
                     data['SearchableText'] = elems[0].text
                 else:
-                    logger.error('Could extract text for file upload: %r',
-                                 data)
+                    logger.error(u'Failed to extract text from binary data '
+                                 u'for file upload: %r', data)
         super(BinaryAdder, self).add(data)
 
 

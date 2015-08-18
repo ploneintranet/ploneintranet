@@ -73,7 +73,7 @@
     for="plone.event.interfaces.IEvent"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     template="templates/event_view.pt"
-    class=".baseviews.ContentView"
+    class=".event.EventView"
     permission="zope2.View"
     />
 

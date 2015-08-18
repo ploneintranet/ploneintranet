@@ -164,6 +164,22 @@ class ContentView(BrowserView):
                 return 'icon-file-{0}'.format(icon_name)
         return 'icon-file-code'
 
+    def content_type_name(self):
+        """Gets a name for the type of the primary field of this content"""
+        # Need this to be able to describe what is going to be downloaded
+        # in the sharing tooltip. Cornelis seems to want to name the content
+        # type in cleartext (Download as Microsoft Word) so we might will need
+        # to extend this with a clear name mapper that then again might need
+        # translation support. For now, return the name only.
+        primary_field_info = IPrimaryFieldInfo(self.context)
+        name = ''
+        if hasattr(primary_field_info.value, "contentType"):
+            contenttype = primary_field_info.value.contentType
+            name = map_content_type(contenttype)
+        if name:
+            return name.capitalize()
+        return "unknown"
+
 
 class PIDeleteConfirmationForm(DeleteConfirmationForm):
     template = ViewPageTemplateFile('templates/delete_confirmation.pt')
