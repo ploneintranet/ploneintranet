@@ -148,7 +148,6 @@ class NewPostBoxTile(Tile):
             tags=self.post_tags,
         )
         self.create_post_attachment(post)
-        self.post_container.add(post)
         return post
 
     @property

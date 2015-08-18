@@ -52,3 +52,7 @@ class IResponse(Interface):
     query_params = schema.Dict(
         description=u'Used to normalize spelling sugestions.',
         required=True)
+
+
+class IContentAdder(Interface):
+    """Marker."""
