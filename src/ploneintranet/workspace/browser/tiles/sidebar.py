@@ -458,6 +458,23 @@ class Sidebar(BaseTile):
             ))
         return results
 
+    def item2ctype(self, item):
+        ''' We have an item coming from of one of those two methods:
+         - self._extract_attrs
+         - self.get_headers_for_group
+
+        We try to return its ctype (content type)
+        '''
+        ctype = item.get('content_type', 'code')
+        if ctype:
+            return "type-{0}".format(ctype)
+        # we have two fallbacks:
+        #  - one for folderish objects
+        #  - one for everything else
+        if item.get('structural_type') == 'group':
+            return 'type-folder'
+        return 'document'
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -526,11 +543,8 @@ class Sidebar(BaseTile):
                 else 'has-no-description'
             )
 
-            ctype = item.get('content_type', 'code')
-            if ctype == '':
-                ctype = 'document'
-            else:
-                ctype = "type-{0}".format(ctype)
+            ctype = self.item2ctype(item)
+
             cls = 'item %s %s %s' % (
                 item.get('structural_type', 'group'), ctype, cls_desc)
 

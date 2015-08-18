@@ -23,7 +23,8 @@ class StreamTile(Tile):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.tag = self.data.get('tag')
+        # BBB: the or None should be moved to the microblog methods
+        self.tag = self.data.get('tag') or None
         self.explore = 'network' not in self.data
 
     @property
