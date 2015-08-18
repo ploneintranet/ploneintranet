@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs pat-inject" data-pat-inject="source: #sidebar; target: #sidebar && source: #global-statusmessage; target: body::after;" action="${here/absolute_url}/@@cart" id="items">
+            <form class="search-result docs" action="${here/absolute_url}/@@cart" id="items">
               <fieldset class="checklist pat-checklist docs ">
 
                 <div class="batch-functions">
