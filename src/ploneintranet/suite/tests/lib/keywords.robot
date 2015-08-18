@@ -226,6 +226,8 @@ I can delete an old event
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted    5
+    Element should not be visible  css=#workspace-documents
+    Element should be visible  css=#workspace-events
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -470,6 +472,18 @@ I can edit an event
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
     Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
+
+Then I can delete an event
+    [arguments]  ${title}
+    Debug
+    Click link  ${title}
+    Wait Until Page Contains Element  css=div.event-details
+    Click Element  css=.meta-bar .icon-trash
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button  I am sure, delete now
+    Wait Until Page Contains  has been deleted
+    Element should not be visible  css=#workspace-documents
+    Element should be visible  css=#workspace-events
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20

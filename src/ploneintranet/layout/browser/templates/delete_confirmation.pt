@@ -17,9 +17,12 @@
                     folder_warning python:useSelf and context.portal_type != 'Topic';
                     number_of_objects_to_delete python:folder_warning and view.items_to_delete;
                 ">
-      <div id="document-content" class="pat-modal">
+      <div class="pat-modal">
         <h1 i18n:translate="">Delete confirmation</h1>
-        <form action="${view/action}" method="post" enctype="${view/enctype}" class="wizard-box pat-inject" data-pat-inject="">
+        <form action="${view/action}" method="post" enctype="${view/enctype}"
+            class="wizard-box ${python:request.get('pat-inject') and 'pat-inject' or ''}"
+            data-pat-inject="${python:request.get('pat-inject') or None}"
+        >
           <div class="panel-body">
             <article>
               <p i18n:translate="alert_deleting_locked_item" tal:condition="view/is_locked">
