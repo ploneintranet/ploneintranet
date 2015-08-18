@@ -39,13 +39,17 @@ class ContentView(BrowserView):
 
         return super(ContentView, self).__call__()
 
+    def validate(self):
+        ''' Return truish if valid
+        '''
+        return True
+
     def update(self):
         """ """
         context = aq_inner(self.context)
         modified = False
         errors = None
         messages = []
-
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -62,9 +66,11 @@ class ContentView(BrowserView):
             messages.append("The workflow state has been changed.")
 
         if self.can_edit:
-            mod, errors = dexterity_update(context)
-            if mod:
-                messages.append("Your changes have been saved.")
+            mod = False
+            if self.validate():
+                mod, errors = dexterity_update(context)
+                if mod:
+                    messages.append("Your changes have been saved.")
             modified = modified or mod
 
         if errors:

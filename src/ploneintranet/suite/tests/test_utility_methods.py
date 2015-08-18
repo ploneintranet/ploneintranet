@@ -7,9 +7,9 @@ from ploneintranet.layout import utils as layout_utils
 text_with_links = "I want to link to http://ploneintranet.org or " \
     "https://plone.org in my text."  # noqa
 text_with_links_replaced = "I want to link to " \
-    """<a href="http://ploneintranet.org" target="_blank">"""\
-    """http://ploneintranet.org</a> or <a href="https://plone.org" """\
-    """target="_blank">https://plone.org</a> in my text."""
+    """<a href="http://ploneintranet.org">"""\
+    """http://ploneintranet.org</a> or <a href="https://plone.org">"""\
+    """https://plone.org</a> in my text."""
 
 string_with_unicode = "This is a ∞ string that contains non-ascii"
 string_with_unicode_shortened = u"This is a ∞ string …"

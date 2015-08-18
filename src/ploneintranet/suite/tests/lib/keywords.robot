@@ -280,7 +280,7 @@ I can invite Alice to the workspace
 
 I give the Consumer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Consumers
@@ -289,7 +289,7 @@ I give the Consumer role to Allan
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
@@ -301,7 +301,7 @@ I give the Producer role to Allan
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
@@ -339,7 +339,7 @@ I can change Allan's role to Moderator
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
     Wait until page contains element  css=.pat-modal button[type=submit]
@@ -353,9 +353,17 @@ The breadcrumbs show the name of the workspace
 I can enter the Manage Information Folder
     Click Link  link=Documents
     Page Should Contain  Manage Information
-    Click Element  xpath=//form[@id='items']/fieldset/label[1]/a
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/manage-information')]
     Wait Until Page Contains  Preparation of Records
     Wait Until Page Contains  How to prepare records
+
+I can enter the Projection Materials Folder
+    Click Link  link=Documents
+    Page Should Contain  Projection Materials
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/projection-materials')]
+    Wait Until Page Contains  Projection Material
+    Wait Until Page Contains  Projection Materials
+    Wait Until Page Contains  Open Market Committee
 
 Go back to the workspace by clicking the parent button
     Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
@@ -472,6 +480,21 @@ I can edit an event
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
     Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
+
+I cannot edit an event because of validation
+    [arguments]  ${title}  ${start}  ${end}  ${timezone}
+    Reload Page
+    Click link  Events
+    Click Element  xpath=//h3[text()='Older events']
+    Click link  ${title}
+    Wait Until Page Contains Element  css=div.event-details
+    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=div.event-details input[name=start]  text=${start}
+    Input Text  css=div.event-details input[name=end]  text=${end}
+    Select From List  timezone  ${timezone}
+    Click Button  Save
+    Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
+    Element Text Should Be  css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
 
 Then I can delete an event
     [arguments]  ${title}
@@ -628,7 +651,9 @@ The document has the new description
 I tag the item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Input Text  id=s2id_autogen2  NewTag☃,
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
+    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  NewTag☃,
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -636,9 +661,11 @@ I tag the item
 I tag the item with a suggestion
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
     Wait Until Page Contains  ag☃
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -646,6 +673,7 @@ I tag the item with a suggestion
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Click Link  css=.select2-search-choice-close
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved

@@ -10,6 +10,7 @@
   <include package="collective.workspace" />
   <include package="ploneintranet.layout" file="permissions.zcml" />
   <include package=".tiles" />
+  <include file="cart.zcml" />
 
   <browser:page
       name="workspaces.html"
