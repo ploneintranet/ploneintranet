@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
+from ttp import ttp
 from Products.CMFPlone.utils import safe_unicode
 
 
@@ -30,5 +30,6 @@ def link_urls(text):
     """
     Enriches urls in the comment text with an anchor.
     """
-    urlfinder = re.compile('(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)')  # noqa
-    return urlfinder.sub(r'<a href="\1" target="_blank">\1</a>', text)
+    parser = ttp.Parser(max_url_length=40)
+    parser._urls = []
+    return ttp.URL_REGEX.sub(parser._parse_urls, text)
