@@ -317,6 +317,12 @@ I can remove the Producer role from Allan
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    # Yes, adding Sleep is very ugly, but I see no other way to ensure that
+    # the sidebar and the element we need has really completely loaded.
+    # This heisenbug has already cost us numerous failures in jenkins for otherwise
+    # healthy test suites. Anybody who removes this Sleep statement is responsible
+    # for ensuring that the test still works 100% reliably. [pysailor]
+    Sleep  0.5
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
