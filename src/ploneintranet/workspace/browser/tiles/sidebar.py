@@ -421,9 +421,6 @@ class Sidebar(BaseTile):
                 dpi = (
                     "source: #workspace-documents; "
                     "target: #workspace-documents "
-                    "&& "
-                    "source: nav.breadcrumbs; "
-                    "target: nav.breadcrumbs; "
                 )
                 # Do we switch the view (unexpand the sidebar)?
                 dps = None
@@ -455,7 +452,9 @@ class Sidebar(BaseTile):
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
-                subject=r['Subject']
+                subject=r['Subject'],
+                UID=r['UID'],
+                path=r.getPath()
             ))
         return results
 
