@@ -432,7 +432,7 @@ Supported types include (class names):
                       </ul>
 
                       <form tal:condition="python:view.can_delete(event)"
-                          class="pat-modal"
+                          class="pat-modal pat-inject"
                           action="${event/getURL}/delete_confirmation#content">
                         <input type="hidden" name="pat-inject"
                                value="
