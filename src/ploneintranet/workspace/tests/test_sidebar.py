@@ -102,8 +102,7 @@ class TestSidebar(BaseTestCase):
                       "Folder with that url not found in sidebar navigation")
         dpis = [x['dpi'] for x in items]
         self.assertIn(
-            "source: #workspace-documents; target: #workspace-documents "
-            "&& source: nav.breadcrumbs; target: nav.breadcrumbs;",
+            "source: #workspace-documents; target: #workspace-documents",
             dpis[0],
             "inject with that url not found in sidebar navigation")
         classes = [x['cls'] for x in items]
