@@ -26,9 +26,26 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
         return context_state.view_url()
 
     def updateActions(self):
+        ''' This method updates the actions to enable some dynamic behaviours
+
+        In particular it understands the request parametes:
+         - pat-modal
+         - pat-inject
+
+        If pat-modal is truish we add to the action buttons the class
+        'close-panel'
+        If pat-inject is truish the pat-inject class is added to the form
+        and a data attribute data-pat-inject is filled we the value
+        read from the request
+        '''
         super(PIDeleteConfirmationForm, self).updateActions()
-        self.actions['Delete'].klass = 'icon-ok-circle'
-        self.actions['Cancel'].klass = 'close-panel icon-cancel-circle'
+
+        if self.request.get('pat-modal'):
+            self.actions['Delete'].klass = 'close-panel icon-ok-circle'
+            self.actions['Cancel'].klass = 'close-panel icon-cancel-circle'
+        else:
+            self.actions['Delete'].klass = 'icon-ok-circle'
+            self.actions['Cancel'].klass = 'icon-cancel-circle'
 
     @button.buttonAndHandler(_(u'I am sure, delete now'), name='Delete')
     def handle_delete(self, action):

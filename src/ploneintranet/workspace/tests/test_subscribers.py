@@ -9,7 +9,7 @@ class TestSubscribers(BaseTestCase):
     def test_workspace_state_changed(self):
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace')
         roles = api.group.get_roles(
@@ -45,7 +45,7 @@ class TestUserDeletion(BaseTestCase):
         self.login_as_portal_owner()
 
         self.ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             "ploneintranet.workspace.workspacefolder",
             "alejandro-workspace",
             title="Alejandro workspace")

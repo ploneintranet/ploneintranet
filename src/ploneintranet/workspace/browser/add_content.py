@@ -203,7 +203,7 @@ class AddEvent(AddContent):
         date = now.Date()
         time = self.round_minutes(now.TimeMinutes())
         parts = time.split(":")
-        parts[0] = str(int(parts[0]) + 1)
+        parts[0] = str((int(parts[0]) + 1) % 24)
         result = DateTime(date + " " + parts[0] + ":" + parts[1])
         return result
 

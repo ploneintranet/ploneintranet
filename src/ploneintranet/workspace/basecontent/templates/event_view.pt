@@ -47,7 +47,14 @@
                             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${python:context.__parent__.title}</button>
                             <input type="text" name="title" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                             <div class="quick-functions">
-                                <a tal:condition="view/can_edit" href="${context/absolute_url}/delete_confirmation#content" title="Delete this event" i18n:attributes="title" i18n:translate="" data-pat-inject="source: #content" class="pat-modal icon-trash iconified">
+                                <a tal:condition="view/can_edit"
+                                   href="${view/delete_url}"
+                                   class="pat-modal icon-trash iconified"
+                                   data-pat-inject="source: #content"
+                                   title="Delete this event"
+                                   i18n:attributes="title"
+                                   i18n:translate=""
+                                   >
                                     Delete
                                 </a>
                                 <a tal:condition="nothing" href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
