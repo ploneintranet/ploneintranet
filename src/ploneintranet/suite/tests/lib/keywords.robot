@@ -618,7 +618,9 @@ The document has the new description
 I tag the item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Input Text  id=s2id_autogen2  NewTag☃,
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
+    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  NewTag☃,
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -626,9 +628,11 @@ I tag the item
 I tag the item with a suggestion
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
     Wait Until Page Contains  ag☃
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -636,6 +640,7 @@ I tag the item with a suggestion
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Click Link  css=.select2-search-choice-close
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
