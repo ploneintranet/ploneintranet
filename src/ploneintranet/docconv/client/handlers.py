@@ -49,7 +49,8 @@ def archetype_added_in_workspace(obj, event):
 
 
 def archetype_edited_in_workspace(obj, event):
-    _update_preview_images(obj, event)
+    if obj.REQUEST.form.get('file'):
+        _update_preview_images(obj, event)
 
 
 def attachmentstoragable_added(obj, event):
