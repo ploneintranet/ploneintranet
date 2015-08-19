@@ -15,10 +15,18 @@ from ploneintranet.microblog.interfaces import IMicroblogContext
 import ploneintranet.microblog.statusupdate
 
 
+UUID = dict()
+
+
 class StatusUpdate(ploneintranet.microblog.statusupdate.StatusUpdate):
 
     def _context2uuid(self, context):
-        return repr(context)
+        uuid = repr(context)
+        UUID[uuid] = context
+        return uuid
+
+    def _uuid2object(self, uuid):
+        return UUID[uuid]
 
 
 class TestStatusUpdate(unittest.TestCase):
@@ -53,12 +61,12 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('foo bar')
         self.assertEqual(su.creator, 'test-user')
 
-    def test_context_is_not_IMicroblogContext(self):
+    def test_microblog_context_is_not_IMicroblogContext(self):
         mockcontext = object()
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertIsNone(su._microblog_context_uuid)
 
-    def test_context_UUID(self):
+    def test_microblog_context_UUID(self):
         import Acquisition
 
         class MockContext(Acquisition.Implicit):
@@ -69,7 +77,7 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertEqual(uuid, su._microblog_context_uuid)
 
-    def test_context_acquisition_UUID(self):
+    def test_microblog_context_acquisition_UUID(self):
         import Acquisition
         import ExtensionClass
 
@@ -86,7 +94,33 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('foo', microblog_context=wrapped)
         self.assertEqual(uuid, su._microblog_context_uuid)
 
-    def test_context_UUID_legacy(self):
+    def test_microblog_context(self):
+        import Acquisition
+
+        class MockContext(Acquisition.Implicit):
+            implements(IMicroblogContext)
+
+        mockcontext = MockContext()
+        su = StatusUpdate('foo', microblog_context=mockcontext)
+        self.assertEqual(mockcontext, su.microblog_context)
+
+    def test_microblog_context_acquisition(self):
+        import Acquisition
+        import ExtensionClass
+
+        class MockContext(Acquisition.Implicit):
+            pass
+
+        class MockMicroblogContext(ExtensionClass.Base):
+            implements(IMicroblogContext)
+
+        a = MockContext()
+        b = MockMicroblogContext()
+        wrapped = a.__of__(b)
+        su = StatusUpdate('foo', microblog_context=wrapped)
+        self.assertEqual(b, su.microblog_context)
+
+    def test_microblog_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
             def _init_microblog_context(self, context):
                 pass

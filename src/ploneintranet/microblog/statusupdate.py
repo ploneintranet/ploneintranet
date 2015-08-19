@@ -95,7 +95,7 @@ class StatusUpdate(Persistent):
         uuid = self._microblog_context_uuid
         if not uuid:
             return None
-        microblog_context = uuidToObject(uuid)
+        microblog_context = self._uuid2object(uuid)
         if microblog_context is None:
             raise AttributeError(
                 "Microblog context with uuid {0} could not be "
@@ -106,6 +106,10 @@ class StatusUpdate(Persistent):
     # unittest override point
     def _context2uuid(self, context):
         return IUUID(context)
+
+    # unittest override point
+    def _uuid2object(self, uuid):
+        return uuidToObject(uuid)
 
     # Act a bit more like a catalog brain:
     def getURL(self):
