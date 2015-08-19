@@ -69,6 +69,21 @@ Member can reply to a reply in a workspace
     And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
+Global stream replies to workspace posts are only visible for members of that workspace
+    Given I am in a workspace as a workspace member
+    and I post a status update    ${MESSAGE1}
+    and The message is visible as new status update    ${MESSAGE1}
+    and I open the Dashboard
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    and The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    and I post a status update    ${MESSAGE3}
+    and The message is visible as new status update    ${MESSAGE3}    
+    When I am logged in as the user alice_lindstrom
+    and I open the Dashboard
+    Then the message is not visible    ${MESSAGE1}
+    and the message is not visible    ${MESSAGE2}
+    and The message is visible as new status update    ${MESSAGE3}    
+
 Member can mention a user
     Given I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE1}
@@ -106,6 +121,10 @@ Neil can tag a post by searching for a tag
 The message is visible as new status update
     [arguments]  ${message}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
+
+The message is not visible
+    [arguments]  ${message}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
 
 The message is visible as new status update that mentions the user
     [arguments]  ${message}  ${username}
