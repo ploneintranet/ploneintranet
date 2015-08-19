@@ -1,7 +1,9 @@
 import unittest2 as unittest
 from Products.ATContentTypes.content.file import ATFile
 from ploneintranet.attachments.attachments import IAttachmentStorage
+from zope.component import queryUtility
 from zope.interface.verify import verifyClass
+from zope.interface import directlyProvides
 from zope.interface import implements
 
 from plone.app.testing import TEST_USER_ID, setRoles
@@ -10,25 +12,37 @@ from plone import api
 from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
+from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IStatusUpdate
 from ploneintranet.microblog.interfaces import IMicroblogContext
-import ploneintranet.microblog.statusupdate
+from ploneintranet.microblog.statusupdate import StatusUpdate
 
 
-class StatusUpdate(ploneintranet.microblog.statusupdate.StatusUpdate):
+UUID = dict()
+
+
+class MockStatusUpdate(StatusUpdate):
 
     def _context2uuid(self, context):
-        return repr(context)
+        if context is None:
+            return None
+        uuid = repr(context)
+        UUID[uuid] = context
+        return uuid
+
+    def _uuid2object(self, uuid):
+        return UUID[uuid]
 
 
-class TestStatusUpdate(unittest.TestCase):
+class TestStatusUpdateIntegration(unittest.TestCase):
 
     layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
+        self.container = queryUtility(IMicroblogTool)
 
     def test_implements(self):
         self.assertTrue(IStatusUpdate.implementedBy(StatusUpdate))
@@ -53,12 +67,12 @@ class TestStatusUpdate(unittest.TestCase):
         su = StatusUpdate('foo bar')
         self.assertEqual(su.creator, 'test-user')
 
-    def test_context_is_not_IMicroblogContext(self):
+    def test_microblog_context_is_not_IMicroblogContext(self):
         mockcontext = object()
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertIsNone(su._microblog_context_uuid)
 
-    def test_context_UUID(self):
+    def test_microblog_context_UUID(self):
         import Acquisition
 
         class MockContext(Acquisition.Implicit):
@@ -66,10 +80,10 @@ class TestStatusUpdate(unittest.TestCase):
 
         mockcontext = MockContext()
         uuid = repr(mockcontext)
-        su = StatusUpdate('foo', microblog_context=mockcontext)
+        su = MockStatusUpdate('foo', microblog_context=mockcontext)
         self.assertEqual(uuid, su._microblog_context_uuid)
 
-    def test_context_acquisition_UUID(self):
+    def test_microblog_context_acquisition_UUID(self):
         import Acquisition
         import ExtensionClass
 
@@ -83,28 +97,20 @@ class TestStatusUpdate(unittest.TestCase):
         b = MockMicroblogContext()
         wrapped = a.__of__(b)
         uuid = repr(b)
-        su = StatusUpdate('foo', microblog_context=wrapped)
+        su = MockStatusUpdate('foo', microblog_context=wrapped)
         self.assertEqual(uuid, su._microblog_context_uuid)
 
-    def test_context_UUID_legacy(self):
-        class OldStatusUpdate(StatusUpdate):
-            def _init_microblog_context(self, context):
-                pass
-        su = OldStatusUpdate('foo')
-        # old data has new code accessors
-        with self.assertRaises(AttributeError):
-            su._microblog_context_uuid
+    def test_microblog_context(self):
+        import Acquisition
 
-    def test_context_object_microblog(self):
-        import ExtensionClass
-
-        class MockMicroblogContext(ExtensionClass.Base):
+        class MockContext(Acquisition.Implicit):
             implements(IMicroblogContext)
 
-        su = StatusUpdate('foo', microblog_context=MockMicroblogContext())
-        self.assertEqual(su, su.getObject())
+        mockcontext = MockContext()
+        su = MockStatusUpdate('foo', microblog_context=mockcontext)
+        self.assertEqual(mockcontext, su.microblog_context)
 
-    def test_context_object_object(self):
+    def test_microblog_context_acquisition(self):
         import Acquisition
         import ExtensionClass
 
@@ -117,12 +123,32 @@ class TestStatusUpdate(unittest.TestCase):
         a = MockContext()
         b = MockMicroblogContext()
         wrapped = a.__of__(b)
-        su = StatusUpdate('foo', microblog_context=wrapped)
-        self.assertEquals(a, su.getObject())
+        su = MockStatusUpdate('foo', microblog_context=wrapped)
+        self.assertEqual(b, su.microblog_context)
+
+    def test_microblog_context_UUID_legacy(self):
+        class OldStatusUpdate(StatusUpdate):
+            def _init_microblog_context(self, thread_id, context):
+                pass
+        su = OldStatusUpdate('foo')
+        # old data has new code accessors
+        with self.assertRaises(AttributeError):
+            su._microblog_context_uuid
 
     def test_thread_id(self):
-        su = StatusUpdate('foo bar', thread_id='jawel')
-        self.assertEquals(su.thread_id, 'jawel')
+        su1 = StatusUpdate('foo bar')
+        self.container.add(su1)
+        su2 = StatusUpdate('boo baz', thread_id=su1.id)
+        self.assertEquals(su2.thread_id, su1.id)
+
+    def test_thread_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        directlyProvides(f1, IMicroblogContext)
+        su1 = StatusUpdate('foo', microblog_context=f1)
+        self.container.add(su1)
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertEqual(f1, su2.microblog_context)
 
     def test_attachments(self):
         su = StatusUpdate('foo bar')

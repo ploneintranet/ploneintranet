@@ -55,3 +55,30 @@ def uuid_to_microblog_uuid(context):
         if i % 100 == 0:
             commit()
     commit()
+
+
+def enforce_parent_context(context):
+    '''
+    A reply to a post should always inherit the security context
+    of the thread parent.
+    '''
+    tool = queryUtility(IMicroblogTool)
+    i = 0
+    for status in tool.values(limit=None):
+        if status.thread_id:
+            i += 1
+            # unindex old context uuid value
+            old_uuid = status._microblog_context_uuid
+            try:
+                tool._uuid_mapping[old_uuid].remove(status.id)
+            except KeyError:
+                # idempotent
+                pass
+            # re-initialize microblog_context on statusupdate
+            status._init_microblog_context(status.thread_id, None)
+            # reindex new context uuid value
+            tool._idx_context(status)
+        if i % 100 == 0:
+            commit()
+    logger.info("Fixed security context for %s replies", i)
+    commit()
