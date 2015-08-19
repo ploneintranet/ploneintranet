@@ -43,7 +43,7 @@ class StatusUpdate(Persistent):
         self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
-        self._init_microblog_context(microblog_context)
+        self._init_microblog_context(thread_id, microblog_context)
         self.tags = tags
 
         if thread_id:
@@ -60,13 +60,21 @@ class StatusUpdate(Persistent):
         self.creator = member.getUserName()
 
     # for unittest subclassing
-    def _init_microblog_context(self, context):
-        from ploneintranet import api as piapi
-        m_context = piapi.microblog.get_microblog_context(context)
-        if m_context is None:
-            self._microblog_context_uuid = None
+    def _init_microblog_context(self, thread_id, context):
+        """Set the right security context.
+        If thread_id is given, the context of the thread parent is used
+        and the given context arg is ignored.
+
+        E.g. a reply globally to a parent post done in a workspace
+        takes the security context of the parent post.
+        """
+        from ploneintranet import api as piapi  # FIXME circular dependency
+        if thread_id:
+            parent = piapi.microblog.statusupdate.get(thread_id)
+            self._microblog_context_uuid = parent._microblog_context_uuid
+        # thread_id takes precedence over microblog_context arg!
         else:
-            # microblog_context UUID
+            m_context = piapi.microblog.get_microblog_context(context)
             self._microblog_context_uuid = self._context2uuid(m_context)
 
     def _init_mentions(self, mention_ids):
@@ -100,6 +108,8 @@ class StatusUpdate(Persistent):
 
     # unittest override point
     def _context2uuid(self, context):
+        if context is None:
+            return None
         return IUUID(context)
 
     # unittest override point
