@@ -36,7 +36,7 @@ class TestWorkSpaceState(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -52,7 +52,7 @@ class TestWorkSpaceState(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -73,7 +73,7 @@ class TestWorkSpaceState(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -88,7 +88,7 @@ class TestWorkSpaceState(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )

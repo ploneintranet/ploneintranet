@@ -23,7 +23,7 @@ class TestRoster(BaseTestCase):
         api.user.create(username='wsmember', email='member@test.com')
         api.user.create(username='wsmember2', email='member2@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -56,7 +56,7 @@ class TestEditRoster(BaseTestCase):
         api.user.create(username='wsmember', email='member@test.com')
         api.user.create(username='wsmember2', email='member@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -253,7 +253,7 @@ class TestEditRosterForm(FunctionalBaseTestCase):
         self.login_as_portal_owner()
         api.user.create(username='wsmember', email='member@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )

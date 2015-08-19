@@ -11,7 +11,7 @@ from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
 
-from ploneintranet.userprofile import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class IUserProfile(form.Schema):

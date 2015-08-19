@@ -57,6 +57,17 @@
     />
 
   <plone:tile
+    name="sidebar.settings.general"
+    title="General settings"
+    description=""
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarSettingsGeneral"
+    permission="zope2.View"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
     name="sidebar.settings.members"
     title="Sidebar Settings Members"
     description="Tile to show member roster in Settings"

@@ -53,4 +53,13 @@
         allowed_attributes="breadcrumbs"
         />
 
+    <!-- Show site actions with theme switcher also in header -->
+    <browser:viewlet
+        name="ploneintranet.site_actions"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class="plone.app.layout.viewlets.common.SiteActionsViewlet"
+        permission="zope2.View"
+        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        />
+
 </configure>

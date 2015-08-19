@@ -56,6 +56,13 @@ Owner can delete sidebar events
 # for adding tasks in a workspace. Relying on globally available tasks (the
 # reason why these tests used to be passing) is not valid.
 
+Manager can add a task for Allan and Allan cannot modify it
+    Given I am in a workspace as a workspace admin
+     Then I create a task for  Allan
+          Go to  ${PLONE_URL}/logout
+     When I am logged in as the user allan_neece
+     Then Task is read only for user  Allan
+
 # Manager can view sidebar tasks
 #     Given I am in a workspace as a workspace admin
 #     Then I can go to the sidebar tasks tile
@@ -122,6 +129,12 @@ Member can create an event
     Given I am in a workspace as a workspace member
      When I can create a new event  Christmas  2014-12-25  2014-12-26
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
+     Then I can delete an event  Christmas (updated)
+
+Member cannot edit an event with invalid data
+    Given I am in a workspace as a workspace member
+     When I can create a new event  Easter  2014-12-25  2014-12-26
+     Then I cannot edit an event because of validation  Easter  2121-12-25  2120-12-26  Europe/Rome
 
 Member can submit and retract a document
     Given I am in a workspace as a workspace member

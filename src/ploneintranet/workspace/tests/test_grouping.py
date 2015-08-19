@@ -16,7 +16,7 @@ class TestGroupingStorage(BaseTestCase):
     def create_workspace(self):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace'
@@ -31,7 +31,7 @@ class TestGroupingStorage(BaseTestCase):
         self.groupings = self.storage.get_groupings()
 
     def tearDown(self):
-        self.portal.manage_delObjects('example-workspace')
+        self.workspace_container.manage_delObjects('example-workspace')
         super(TestGroupingStorage, self).tearDown()
 
     def test_groupings(self):

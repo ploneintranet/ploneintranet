@@ -89,7 +89,7 @@ class TestTransferForm(BaseTestCase):
                        name="transfer")
 
         ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             "ploneintranet.workspace.workspacefolder",
             "alejandro-workspace",
             title="Alejandro workspace")
@@ -104,7 +104,7 @@ class TestTransferForm(BaseTestCase):
         self.assertEqual(len(names), len(list(IWorkspace(ws).members)) - 1)
 
         other_ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             "ploneintranet.workspace.workspacefolder",
             "isabella-workspace",
             "Isabella Workspace",)
@@ -169,7 +169,7 @@ class TestInvitationFormValidation(BaseTestCase):
                        name="invite")
 
         self.ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'alejandro-workspace',
             title=u'Aléjandro workspace'
@@ -295,7 +295,7 @@ class TestInvitationFormEmailing(BaseTestCase):
 
         # create a workspace
         self.ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             "ploneintranet.workspace.workspacefolder",
             "alejandro-workspace",
             title="Alejandro workspace")

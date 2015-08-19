@@ -10,7 +10,7 @@ from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
-from ploneintranet.workspace import MessageFactory
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
 from zope.interface import implements
@@ -289,7 +289,7 @@ class MetroMap(object):
                 next_state = metromap_list[index + 1]["state"]
                 reopen = next_state == current_state
             sequence[state] = {
-                'title': MessageFactory(cwf.states.get(state).title),
+                'title': _(cwf.states.get(state).title),
                 'transition_id': next_transition,
                 'transition_title': '',
                 'reopen_transition': reopen and mmap['reopen_transition'],
@@ -297,7 +297,7 @@ class MetroMap(object):
                 'finished': finished,
             }
             if next_transition:
-                sequence[state]['transition_title'] = MessageFactory(
+                sequence[state]['transition_title'] = _(
                     cwf.transitions.get(next_transition).title)
         return sequence
 

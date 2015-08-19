@@ -12,7 +12,7 @@ class TestSelfJoinViewlet(BaseTestCase):
         super(TestSelfJoinViewlet, self).setUp()
         self.login_as_portal_owner()
         self.workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'demo-workspace',
             title='Demo Workspace'
@@ -69,7 +69,7 @@ class TestSharingViewlet(BaseTestCase):
 
         self.login_as_portal_owner()
         self.workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'demoworkspace',
             title='Demo Workspace'

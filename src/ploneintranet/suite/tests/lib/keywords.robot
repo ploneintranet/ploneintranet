@@ -210,8 +210,7 @@ I can open Esmeralda's profile
 I can follow Esmeralda
     Element should contain  css=.icon-eye  Follow Esmeralda Claassen
     Click Element  css=.icon-eye
-    Wait Until Element Is visible  css=.icon-eye
-    Element should contain  css=.icon-eye  Unfollow Esmeralda Claassen
+    Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
     Page Should Contain Element  xpath=//a[.='Plone Conf']
@@ -224,13 +223,42 @@ I can delete an old event
     Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
     Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
     Click Element  css=div#older-events button[type='submit']
-    Wait Until Page Contains  Do you really want to delete this item
-    Click Button  css=#form-buttons-Delete
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
+    Element should not be visible  css=#workspace-documents
+    Element should be visible  css=#workspace-events
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Tasks
     Wait Until Element Is visible  xpath=//p[.='No tasks created yet']
+
+I create a task for
+    [arguments]  ${name}
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Tasks
+    Wait Until Element Is visible  css=[title="Create new task"]
+    Click Element  css=[title="Create new task"]
+    Wait Until Page Contains Element  css=.wizard-box
+    Input Text  css=.wizard-box input[name=title]  Ciao ${name}
+    Input Text  css=.wizard-box textarea[name=description]  This is for you ${name}
+    Click Element  css=.wizard-box .assignee .select2-choices input
+    Input Text  css=.wizard-box .assignee .select2-choices input  ${name}
+    Wait Until Page Contains Element  jquery=span.select2-match:last
+    Click Element  jquery=span.select2-match:last
+    Input Text  css=.wizard-box input[name=due]  2020-12-31
+    Click Element  css=.wizard-box #form-buttons-create
+    Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
+
+Task is read only for user
+    [arguments]  ${name}
+    Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Click Link  link=Tasks
+    Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
+    Click Element  css=a[title="Ciao ${name}"]
+    Wait Until Page Contains  This is for you ${name}
+    Element Should Be Visible  jquery=input:disabled[name=due]
 
 I can invite Alice to join the workspace
     Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
@@ -252,7 +280,7 @@ I can invite Alice to the workspace
 
 I give the Consumer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Consumers
@@ -261,22 +289,27 @@ I give the Consumer role to Allan
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
+    Click button  Close
     Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Select From List  css=select[name=role]  Admins
     Click Button  css=.pat-modal button[type=submit]
-    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
+    Wait until page contains  Role updated
+    Click button  Close
+    Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
 
 I can remove the Producer role from Allan
     I can open the workspace member settings tab
@@ -285,11 +318,18 @@ I can remove the Producer role from Allan
     Click Link  Remove special role
     Click Button  I am sure, remove role now
     Wait until page contains  Role updated
+    Click button  Close
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
 
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    # Yes, adding Sleep is very ugly, but I see no other way to ensure that
+    # the sidebar and the element we need has really completely loaded.
+    # This heisenbug has already cost us numerous failures in jenkins for otherwise
+    # healthy test suites. Anybody who removes this Sleep statement is responsible
+    # for ensuring that the test still works 100% reliably. [pysailor]
+    Sleep  0.5
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
@@ -299,7 +339,7 @@ I can change Allan's role to Moderator
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
-    Click Link  Select
+    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
     Wait until page contains element  css=.pat-modal button[type=submit]
@@ -313,9 +353,17 @@ The breadcrumbs show the name of the workspace
 I can enter the Manage Information Folder
     Click Link  link=Documents
     Page Should Contain  Manage Information
-    Click Element  xpath=//form[@id='items']/fieldset/label[1]/a
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/manage-information')]
     Wait Until Page Contains  Preparation of Records
     Wait Until Page Contains  How to prepare records
+
+I can enter the Projection Materials Folder
+    Click Link  link=Documents
+    Page Should Contain  Projection Materials
+    Click Element  xpath=//form[@id='items']/fieldset/label/a[contains(@href, 'open-market-committee/projection-materials')]
+    Wait Until Page Contains  Projection Material
+    Wait Until Page Contains  Projection Materials
+    Wait Until Page Contains  Open Market Committee
 
 Go back to the workspace by clicking the parent button
     Page Should Contain Element  xpath=//div[@id='selector-contextual-functions']/a[text()='Open Market Committee']
@@ -402,16 +450,38 @@ I can create a structure
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
 
 I can create a new event
-    [arguments]  ${title}  ${start}  ${end}
+    [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
     Click link  Events
     Click Link  Create event
     Wait Until Page Contains Element  css=.panel-content form .panel-body
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=start]  text=${start}
     Input Text  css=.panel-content input[name=end]  text=${end}
+    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
 
 I can edit an event
+    [arguments]  ${title}  ${start}  ${end}  ${timezone}
+    Click Element  xpath=//h3[text()='Older events']
+    Wait until page contains element  jquery=.cal-events a:contains("${title}")  2
+    Click Element  jquery=.cal-events a:contains("${title}")
+    Wait Until Page Contains Element  css=div.event-details
+    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=div.event-details input[name=start]  text=${start}
+    Input Text  css=div.event-details input[name=end]  text=${end}
+    Select From List  timezone  ${timezone}
+    Click Button  Save
+    Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
+    Textfield Value Should Be  start  ${start}
+    List selection should be  timezone  ${timezone}
+    Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
+
+I cannot edit an event because of validation
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Reload Page
     Click link  Events
@@ -423,10 +493,19 @@ I can edit an event
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
     Click Button  Save
-    Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
-    Textfield Value Should Be  start  ${start}
-    List selection should be  timezone  ${timezone}
-    Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
+    Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
+    Element Text Should Be  css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+
+Then I can delete an event
+    [arguments]  ${title}
+    Click link  ${title}
+    Wait Until Page Contains Element  css=div.event-details
+    Click Element  css=.meta-bar .icon-trash
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button  I am sure, delete now
+    Wait Until Page Contains  has been deleted
+    Element should not be visible  css=#workspace-documents
+    Element should be visible  css=#workspace-events
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
@@ -515,6 +594,14 @@ I browse to an image
 I view the image
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/budget-proposal/view
 
+I upload a new image
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
+
 I browse to a file
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
@@ -522,6 +609,14 @@ I browse to a file
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
+
+I upload a new file
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
@@ -555,7 +650,9 @@ The document has the new description
 I tag the item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Input Text  id=s2id_autogen2  NewTag☃,
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
+    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  NewTag☃,
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -563,9 +660,11 @@ I tag the item
 I tag the item with a suggestion
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
     Wait Until Page Contains  ag☃
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
+    click element  xpath=//h1[@id="document-title"]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -573,6 +672,7 @@ I tag the item with a suggestion
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Click Link  css=.select2-search-choice-close
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
@@ -620,14 +720,16 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Click Button  Delete
-    Page Should Contain  has been deleted
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
 
 I go to the dashboard
     Go To  ${PLONE_URL}

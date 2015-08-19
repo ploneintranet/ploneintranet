@@ -1,5 +1,5 @@
 # coding=utf-8
-from ... import MessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ...basecontent.utils import dexterity_update
 from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY
@@ -108,6 +108,11 @@ class BaseTile(BrowserView):
             "Delete objects",
             obj=obj,
         )
+
+
+class SidebarSettingsGeneral(BaseTile):
+
+    index = ViewPageTemplateFile('templates/sidebar-settings-general.pt')
 
 
 class SidebarSettingsMembers(BaseTile):
@@ -416,9 +421,6 @@ class Sidebar(BaseTile):
                 dpi = (
                     "source: #workspace-documents; "
                     "target: #workspace-documents "
-                    "&& "
-                    "source: nav.breadcrumbs; "
-                    "target: nav.breadcrumbs; "
                 )
                 # Do we switch the view (unexpand the sidebar)?
                 dps = None
@@ -450,9 +452,28 @@ class Sidebar(BaseTile):
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
-                subject=r['Subject']
+                subject=r['Subject'],
+                UID=r['UID'],
+                path=r.getPath()
             ))
         return results
+
+    def item2ctype(self, item):
+        ''' We have an item coming from of one of those two methods:
+         - self._extract_attrs
+         - self.get_headers_for_group
+
+        We try to return its ctype (content type)
+        '''
+        ctype = item.get('content_type', 'code')
+        if ctype:
+            return "type-{0}".format(ctype)
+        # we have two fallbacks:
+        #  - one for folderish objects
+        #  - one for everything else
+        if item.get('structural_type') == 'group':
+            return 'type-folder'
+        return 'document'
 
     def items(self):
         """
@@ -522,11 +543,8 @@ class Sidebar(BaseTile):
                 else 'has-no-description'
             )
 
-            ctype = item.get('content_type', 'code')
-            if ctype == '':
-                ctype = 'document'
-            else:
-                ctype = "type-{0}".format(ctype)
+            ctype = self.item2ctype(item)
+
             cls = 'item %s %s %s' % (
                 item.get('structural_type', 'group'), ctype, cls_desc)
 
@@ -662,6 +680,9 @@ class Sidebar(BaseTile):
             #                     url=group_url_tmpl % username,
             #                     id=username)]
             for header in headers:
+                username = header['id']
+                header['title'] = api.user.get(username=username)\
+                    .getProperty('fullname') or username  # admin :-(
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 

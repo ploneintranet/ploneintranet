@@ -9,7 +9,7 @@ class TestContentTypes(BaseTestCase):
     def create_workspace(self):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace'
@@ -19,7 +19,7 @@ class TestContentTypes(BaseTestCase):
     def create_unadapted_workspace(self):
         """ Return unadapted workspace object """
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='Welcome to my workspace'
@@ -48,7 +48,7 @@ class TestContentTypes(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title=u'Welcome to my workspacé'
@@ -69,13 +69,26 @@ class TestContentTypes(BaseTestCase):
             'Workspace title not found on view page'
         )
 
+    def test_cannot_add_workspace_in_portal(self):
+        """
+        workspaces cannot be nested
+        """
+        self.login_as_portal_owner()
+        self.assertRaises(
+            InvalidParameterError,
+            api.content.create,
+            self.portal,
+            'ploneintranet.workspace.workspacefolder',
+            'banned-workspace',
+        )
+
     def test_cannot_add_sub_workspace(self):
         """
         workspaces cannot be nested
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            container=self.portal,
+            container=self.workspace_container,
             type='ploneintranet.workspace.workspacefolder',
             id='workspace-1',
         )
@@ -136,7 +149,7 @@ class TestContentTypes(BaseTestCase):
         """
         self.login_as_portal_owner()
         ws = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace-1',
             title='Workspace 1'

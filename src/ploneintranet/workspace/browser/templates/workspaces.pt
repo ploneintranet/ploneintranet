@@ -20,8 +20,10 @@
                     </tal:r>
                  </select>
              </label>
-             <a href="${view/target/absolute_url}/@@workspace-add#document-content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
-           <span tal:replace="structure context/@@authenticator/authenticator"/>
+             <div class="icons">
+               <a href="${view/target/absolute_url}/@@workspace-add#content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
+               <span tal:replace="structure context/@@authenticator/authenticator"/>
+             </div>
          </form>
 
         <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">

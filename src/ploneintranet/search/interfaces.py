@@ -3,7 +3,7 @@
 from zope.interface import Interface
 from zope import schema
 
-from . import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class IPloneintranetSearchLayer(Interface):
@@ -21,10 +21,13 @@ class ISiteSearch(Interface):
               step=None):
         """Perform a query with the given `phrase` and options.
 
+        At least one of 'phrase' or 'filters' must be provided.
+
         `filters` parameter must be given as a mapping keyed on
         filter name with values being a list of chosen values for that filter.
-
-        At least one of 'phrase' or 'filters' must be provided.
+        Valid filter keys are configured in registry record
+        `ploneintranet.search.filter_fields`. By default the following filters
+        are available: tags, friendly_type_name, portal_type, path.
 
         :param phrase: The phrase to search for.
         :type phrase: str

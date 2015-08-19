@@ -5,32 +5,50 @@
       i18n:domain="ploneintranet">
   <body>
 
-    <metal:task_fields define-macro="task_fields" tal:define="read_only python:False; value python: context.portal_type=='todo' and context.description or ''">
+    <metal:task_fields
+        define-macro="task_fields"
+        tal:define="
+            read_only read_only|not:view/can_edit;
+            value python: context.portal_type=='todo' and context.description or '';
+        ">
       <label class="description">
           <span tal:omit-tag="" i18n:translate="">Description</span> <textarea name="description" tal:attributes="disabled read_only" placeholder="Enter a description of the task" rows="6" title="Description" i18n:attributes="placeholder; title">${value}</textarea>
       </label>
       <label class="initiator"
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
-        <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator"
+        <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator" placeholder="Pick an initiator" i18n:attributes="placeholder"
         data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));"/>
+        tal:attributes="
+            data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));
+            disabled read_only;
+        "/>
       </label>
       <br/>
       <label class="assignee">
-        <span tal:omit-tag="" i18n:translate="">Assignee</span> <input class="pat-autosuggest users" name="assignee"
-        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-        tal:attributes="data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']))"/>
+        <span tal:omit-tag="" i18n:translate="">Assignee</span>
+        <input class="pat-autosuggest users"
+               name="assignee"
+               placeholder="Pick an assignee"
+               i18n:attributes="placeholder"
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
+               tal:attributes="
+                    data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']));
+                    disabled read_only;
+                "/>
       </label>
       <br/>
       <label class="date-time">
         <span tal:omit-tag="" i18n:translate="">Due date</span>
         <input type="date"
                name="due"
-               tal:attributes="value context/due | nothing"
+               tal:attributes="
+                   value context/due | nothing;
+                   disabled read_only;
+               "
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
-               class="pat-date-picker" placeholder="Set a deadline"/>
+               class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
       <br/>
 
@@ -62,7 +80,13 @@
       </label>
       <br/>
       <label class="organiser">
-        <span tal:omit-tag="" i18n:translate="">Organizer</span> <input class="pat-autosuggest users" data-pat-autosuggest="" type="text" value="" tal:attributes="disabled read_only; value context/organiser | nothing"/>
+        <span tal:omit-tag="" i18n:translate="">Organiser</span>
+        <input type="text"
+               name="organizer"
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"
+               class="pat-autosuggest"
+               placeholder="Organiser"
+               tal:attributes="disabled read_only"/>
       </label>
       <br/>
       <fieldset class="pat-checklist options">
@@ -124,9 +148,9 @@
 
       </fieldset>
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
-      <input class="pat-autosuggest users" tal:attributes="disabled read_only" data-pat-autosuggest=""
-             data-pat-autosuggest-classes=''/>
-
+      <input name="invitees" placeholder="Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
+             data-pat-autosuggest-classes=''
+             data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"/>
 
       <span class="legend" tal:condition="nothing">
         <dfn class="undecided" i18n:translate="">Undecided</dfn>
