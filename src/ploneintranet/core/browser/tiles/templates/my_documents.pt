@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet">
+
+  <body tal:define="my_documents view/my_documents">
+    <div class="library portlet" id="portlet-workspaces" tal:condition="my_documents">
+      <h2 class="portlet-title" i18n:translate="">Library</h2>
+      <ul class="links">
+        <tal:my_document repeat="my_document my_documents">
+          <li class="my_document" tal:attributes="title my_document/Title">
+            <a class="link" href="${my_document/getURL}">
+              <h4 class="title">${my_document/Title}</h4>
+            </a>
+          </li>
+        </tal:my_document>
+      </ul>
+    </div>
+  </body>
+</html>

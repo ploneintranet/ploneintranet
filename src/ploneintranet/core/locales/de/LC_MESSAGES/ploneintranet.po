@@ -1884,3 +1884,8 @@ msgstr "{} in Zeile {}"
 msgid "{} user(s) {}."
 msgstr "{} Benutzer {}."
 
+msgid "workspacefolders"
+msgstr "Arbeitsbereiche"
+
+msgid "cases"
+msgstr "Geschäfte"

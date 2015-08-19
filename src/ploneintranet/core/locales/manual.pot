@@ -21,3 +21,9 @@ msgstr ""
 #. Default: "My profile"
 msgid "My profile"
 msgstr ""
+
+msgid "workspacefolders"
+msgstr ""
+
+msgid "cases"
+msgstr ""
