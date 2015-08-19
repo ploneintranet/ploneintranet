@@ -82,9 +82,9 @@
                   </textarea>
                   <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
                 </article>
-                <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews">
+                <article class="document preview" tal:condition="number_of_file_previews" tal:define="number_of_file_previews view/number_of_file_previews; preview_hash view/preview_hash">
                   <tal:previews tal:repeat="preview python:range(1, number_of_file_previews + 1)">
-                    <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}" />
+                    <img src="${python:context.absolute_url()}/docconv_image_preview.jpg?page=${preview}&salt=${preview_hash}" />
                   </tal:previews>
                 </article>
 

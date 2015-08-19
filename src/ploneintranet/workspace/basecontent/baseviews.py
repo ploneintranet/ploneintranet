@@ -184,6 +184,16 @@ class ContentView(BrowserView):
             return name.capitalize()
         return "unknown"
 
+    def preview_hash(self):
+        """ We want to be able to create a simple hash-string that we can
+        pass as URL parameter when fetching document previews. This string
+        will change every time the file, and thereby potentially the
+        preview image, changes. """
+        # For a start, we take the modification date, since the hash is cheap
+        # to compute. For more aggressive caching we would need to compute the
+        # hash based on the file contents.
+        return hash(self.context.modification_date)
+
 
 class HelperView(BrowserView):
     ''' Use this to provide helper methods
