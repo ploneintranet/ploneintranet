@@ -47,7 +47,6 @@
     source="0001"
     destination="0002"
     handler=".migration.setup_uuid_mapping"
-    sortkey="1"
     profile="ploneintranet.microblog:default"
     />
 
@@ -57,7 +56,6 @@
     source="0002"
     destination="0003"
     handler=".migration.setup_threadids"
-    sortkey="1"
     profile="ploneintranet.microblog:default"
     />
 
@@ -67,7 +65,15 @@
     source="*"
     destination="0004"
     handler=".migration.uuid_to_microblog_uuid"
-    sortkey="1"
+    profile="ploneintranet.microblog:default"
+    />
+
+  <genericsetup:upgradeStep
+    title="enforce parent context"
+    description="Fix security context for replies"
+    source="0004"
+    destination="0005"
+    handler=".migration.enforce_parent_context"
     profile="ploneintranet.microblog:default"
     />
 
