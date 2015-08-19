@@ -8,7 +8,6 @@
     i18n_domain="ploneintranet">
 
   <include package="Products.CMFCore" file="permissions.zcml" />
-  <include package=".tiles" />
 
   <browser:page
       name="userprofile-view"

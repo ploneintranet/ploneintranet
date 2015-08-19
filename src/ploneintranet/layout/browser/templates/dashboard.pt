@@ -45,8 +45,6 @@
 
           <div id="portlet-cases" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
 
-          <div id="portlet-workspaces" data-tile="./profiles/${user_name}/following.tile"></div>
-
           <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
 
         </div>
