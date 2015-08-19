@@ -13,7 +13,7 @@
       <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validate" data-pat-validate="disable-selector:#form-buttons-create" data-pat-inject="" name="workspace-add" id="workspace-add"
         tal:attributes="action string:${context/absolute_url}/add_content">
 
-        <div class="panel-body">
+        <div class="panel-body" tal:define="templates view/templates">
           <fieldset class="vertical">
             <label>
               <input placeholder="Workspace title" type="text" required="required" class="required" name="title" i18n:attributes="placeholder" />
@@ -24,11 +24,11 @@
             <label>
               <select name="portal_type">
                 <option value="ploneintranet.workspace.workspacefolder" i18n:translate="">Regular workspace</option>
-                <option value="ploneintranet.workspace.case" i18n:translate="">Case</option>
+                <option value="ploneintranet.workspace.case" i18n:translate="" tal:condition="templates">Case</option>
               </select>
             </label>
 
-            <fieldset tal:define="templates view/templates" class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
+            <fieldset class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
               <label >
                 <span tal:omit-tag="" i18n:translate="">Pick a Case Template</span>
                 <select name="template_id" tal:condition="python: len(templates) > 6">
