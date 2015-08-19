@@ -68,11 +68,6 @@ class StatusUpdate(Persistent):
         else:
             # microblog_context UUID
             self._microblog_context_uuid = self._context2uuid(m_context)
-        if m_context is context:
-            self.context_object = None
-        else:
-            # actual object context
-            self.context_object = context
 
     def _init_mentions(self, mention_ids):
         self.mentions = {}

@@ -129,31 +129,6 @@ class TestStatusUpdate(unittest.TestCase):
         with self.assertRaises(AttributeError):
             su._microblog_context_uuid
 
-    def test_context_object_microblog(self):
-        import ExtensionClass
-
-        class MockMicroblogContext(ExtensionClass.Base):
-            implements(IMicroblogContext)
-
-        su = StatusUpdate('foo', microblog_context=MockMicroblogContext())
-        self.assertEqual(su, su.getObject())
-
-    def test_context_object_object(self):
-        import Acquisition
-        import ExtensionClass
-
-        class MockContext(Acquisition.Implicit):
-            pass
-
-        class MockMicroblogContext(ExtensionClass.Base):
-            implements(IMicroblogContext)
-
-        a = MockContext()
-        b = MockMicroblogContext()
-        wrapped = a.__of__(b)
-        su = StatusUpdate('foo', microblog_context=wrapped)
-        self.assertEquals(a, su.getObject())
-
     def test_thread_id(self):
         su = StatusUpdate('foo bar', thread_id='jawel')
         self.assertEquals(su.thread_id, 'jawel')
