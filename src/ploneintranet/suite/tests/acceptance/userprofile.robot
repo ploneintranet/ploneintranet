@@ -99,12 +99,14 @@ I can see details for ${NAME}
     Element should contain  css=#person-timeline .sidebar .user-portrait h1  ${NAME}
 
 I can follow ${NAME}
+    Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
     Click Element  css=button[title="Click to follow ${NAME}"]
-    Wait Until Page Contains  Unfollow
+    Wait Until Page Contains Element  css=button[title="You are now following ${NAME}. Click to unfollow."]
 
 I can unfollow ${NAME}
-    Click Element  css=button[title="Click to unfollow ${NAME}"]
-    Wait Until Page Contains  Follow
+    Wait Until Page Contains Element  css=button[title="You are now following ${NAME}. Click to unfollow."]
+    Click Element  css=button[title="You are now following ${NAME}. Click to unfollow."]
+    Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
 
 I can see ${NAME} in the list of users being followed
     Click Element  css=nav.tabs a.link-following

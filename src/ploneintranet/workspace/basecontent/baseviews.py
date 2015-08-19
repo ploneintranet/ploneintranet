@@ -7,7 +7,7 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -37,13 +37,17 @@ class ContentView(BrowserView):
 
         return super(ContentView, self).__call__()
 
+    def validate(self):
+        ''' Return truish if valid
+        '''
+        return True
+
     def update(self):
         """ """
         context = aq_inner(self.context)
         modified = False
         errors = None
         messages = []
-
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -60,9 +64,11 @@ class ContentView(BrowserView):
             messages.append("The workflow state has been changed.")
 
         if self.can_edit:
-            mod, errors = dexterity_update(context)
-            if mod:
-                messages.append("Your changes have been saved.")
+            mod = False
+            if self.validate():
+                mod, errors = dexterity_update(context)
+                if mod:
+                    messages.append("Your changes have been saved.")
             modified = modified or mod
 
         if errors:
@@ -161,6 +167,22 @@ class ContentView(BrowserView):
             if icon_name:
                 return 'icon-file-{0}'.format(icon_name)
         return 'icon-file-code'
+
+    def content_type_name(self):
+        """Gets a name for the type of the primary field of this content"""
+        # Need this to be able to describe what is going to be downloaded
+        # in the sharing tooltip. Cornelis seems to want to name the content
+        # type in cleartext (Download as Microsoft Word) so we might will need
+        # to extend this with a clear name mapper that then again might need
+        # translation support. For now, return the name only.
+        primary_field_info = IPrimaryFieldInfo(self.context)
+        name = ''
+        if hasattr(primary_field_info.value, "contentType"):
+            contenttype = primary_field_info.value.contentType
+            name = map_content_type(contenttype)
+        if name:
+            return name.capitalize()
+        return "unknown"
 
 
 class HelperView(BrowserView):

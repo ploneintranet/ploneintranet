@@ -71,6 +71,7 @@ setup(name='ploneintranet',
           'collective.externaleditor >= 1.0.2',
           'tablib',
           'collective.dexteritytextindexer',
+          'twitter-text-python'
       ],
       extras_require={
           'test': [
@@ -123,7 +124,7 @@ setup(name='ploneintranet',
           'attachments': [
               'Products.UserAndGroupSelectionWidget'
           ],
-          'develop': ['plone.reload', 'iw.debug'],
+          'develop': ['plone.reload', 'iw.debug', 'i18ndude'],
           'release': [
               'zest.releaser',
               'check-manifest',

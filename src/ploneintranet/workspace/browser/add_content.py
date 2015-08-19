@@ -4,7 +4,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.i18n.normalizer import idnormalizer
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
@@ -142,7 +142,7 @@ class AddEvent(AddContent):
         date = now.Date()
         time = self.round_minutes(now.TimeMinutes())
         parts = time.split(":")
-        parts[0] = str(int(parts[0]) + 1)
+        parts[0] = str((int(parts[0]) + 1) % 24)
         result = DateTime(date + " " + parts[0] + ":" + parts[1])
         return result
 

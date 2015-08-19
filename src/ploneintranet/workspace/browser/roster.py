@@ -6,7 +6,7 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.instance import clearafter
 from plone.protect import CheckAuthenticator, PostOnly
-from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from zope.component import getMultiAdapter
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
 from ploneintranet.workspace.utils import existing_users
@@ -145,8 +145,11 @@ class WorkspaceChangeRole(EditRoster):
     """
     def roles(self):
         ws_policy = self.context.participant_policy
-        title = (_('Default role for this workspace')
-                 + ' ({})'.format(PARTICIPANT_POLICY[ws_policy]['title']))
+        title = _(
+            u"workspace_default_role",
+            default=u'Default role for this workspace (${role})',
+            mapping={
+                u'role': PARTICIPANT_POLICY[ws_policy]['title']})
         yield {'id': ws_policy.title(),
                'title': title}
         for policy_id, policy_info in PARTICIPANT_POLICY.items():

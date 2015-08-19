@@ -1,7 +1,7 @@
 from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface import implements
-from ploneintranet.invitations import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class ITokenAccepted(Interface):

@@ -33,8 +33,8 @@
                        tal:condition="context/externalEditorEnabled/available"
                        class="${view/icon_class} iconified">Open in External Editor</a>
                     <a tal:condition="view/can_edit" href="${context/absolute_url}/delete_confirmation#content" title="Delete this document" i18n:attributes="title" data-pat-inject="source: #content" class="pat-modal icon-trash iconified" i18n:translate="">Delete</a>
-                    <a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a>
-                    <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
+                    <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
+                    <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                               tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #application-body;; target: #application-body">
@@ -55,7 +55,7 @@
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
                     <input type="text"
-                           name="subjects" placeholder="Tags" 
+                           name="subjects" placeholder="Tags"
                            value="${python:','.join(context.subject)}"
                            tal:attributes="disabled read_only"
                            class="pat-autosuggest"
@@ -102,6 +102,15 @@
         </div>
         <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
       </div>
+      <div id="share-panel" hidden>
+        <ul class="menu">
+          <li tal:condition="python:context.portal_type in ('File', 'Image')">
+            <a href="${context/absolute_url}" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
+          </li>
+          <li><em i18n:translate="">More sharing options coming soon…</em></li>
+        </ul>
+      </div>
+
     </metal:content>
   </body>
 </html>

@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+  <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
+
+  <body>
+
+    <metal:main fill-slot="main"
+                tal:define="
+                    useSelf python:context_state.is_structural_folder() and not context_state.is_default_page();
+                    folder_warning python:useSelf and context.portal_type != 'Topic';
+                    number_of_objects_to_delete python:folder_warning and view.items_to_delete;
+                ">
+      <div class="pat-modal">
+        <h1 i18n:translate="">Delete confirmation</h1>
+        <form action="${view/action}" method="post" enctype="${view/enctype}"
+            class="wizard-box ${python:request.get('pat-inject') and 'pat-inject' or ''}"
+            data-pat-inject="${python:request.get('pat-inject') or None}"
+        >
+          <div class="panel-body">
+            <article>
+              <p i18n:translate="alert_deleting_locked_item" tal:condition="view/is_locked">
+                This item can not be deleted because it is currently locked by another user.
+              </p>
+
+              <tal:block condition="not:view/is_locked">
+                <p tal:condition="folder_warning">
+                  <span i18n:translate="alert_really_delete_folder">
+                    Do you really want to delete this folder and all its contents?
+                  </span>
+                  <span i18n:translate="alert_deleting_x_number_of_items" tal:condition="python:number_of_objects_to_delete>1">
+                    (This will delete a total of
+                    <span i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</span> items.)
+                  </span>
+                </p>
+
+                <p tal:condition="not:folder_warning">
+                  You are about to delete ${context/@@plone_context_state/object_title}. Are you sure?
+                </p>
+              </tal:block>
+            </article>
+          </div>
+
+          <metal:define define-macro="fields">
+
+            <tal:widgets repeat="widget view/widgets/values">
+              <div class="row" tal:define="hidden python:widget.mode == 'hidden'" tal:omit-tag="hidden">
+
+                <metal:field-slot define-slot="field">
+                  <metal:field define-macro="field">
+                    <div class="field"
+                         tal:define="
+                             error widget/error;
+                             hidden python:widget.mode == 'hidden';
+                         "
+                         tal:attributes="
+                           class python:'field' + (error and ' error' or '');
+                         "
+                    >
+                      <label for="" tal:attributes="for widget/id" tal:condition="not:hidden">
+                        <span i18n:translate="" tal:content="widget/label">label</span>
+                      </label>
+
+                      <span class="fieldRequired" title="Required"
+                          tal:condition="python:widget.required and not hidden"
+                          i18n:translate="label_required" i18n:attributes="title title_required;">
+                        (Required)
+                      </span>
+
+                      <div class="formHelp" tal:define="description widget/field/description"
+                           i18n:translate="" tal:content="description"
+                           tal:condition="python:description and not hidden">field description</div>
+
+                      <div tal:condition="error" tal:content="structure error/render">
+                        Error
+                      </div>
+
+                      <div class="widget">
+                        <input type="text" tal:replace="structure widget/render" />
+                      </div>
+                    </div>
+                  </metal:field>
+                </metal:field-slot>
+
+              </div>
+            </tal:widgets>
+
+          </metal:define>
+
+          <div class="buttons panel-footer" tal:condition="view/actions/values|nothing">
+            <tal:block repeat="action view/actions/values">
+              <button type="submit" name="${action/name}" class="${action/klass}">${action/title}</button>
+            </tal:block>
+          </div>
+          <tal:block tal:condition="view/enableCSRFProtection" tal:replace="structure context/@@authenticator/authenticator" />
+        </form>
+      </div>
+
+    </metal:main>
+  </body>
+
+</html>

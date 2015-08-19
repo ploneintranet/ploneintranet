@@ -10,7 +10,7 @@ from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from ploneintranet.workspace import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from OFS.interfaces import IObjectWillBeRemovedEvent
