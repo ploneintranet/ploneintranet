@@ -323,13 +323,13 @@ I can remove the Producer role from Allan
 
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
-    # Note: It does not make sense at first glance to click on the user name and
-    # open the profile in the main content area. However, by doing this we
-    # can be sure that the side-bar has been correctly loaded, and a click on
-    # the "Produce" element will not get lost. In other words, prevent a heisenbug.
-    Click element  xpath=//strong[text()='Allan Neece']
-    Wait until page contains element  xpath=//aside/figure[@class='user-portrait']
-    Wait until element is visible    xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
+    # Yes, adding Sleep is very ugly, but I see no other way to ensure that
+    # the sidebar and the element we need has really completely loaded.
+    # This heisenbug has already cost us numerous failures in jenkins for otherwise
+    # healthy test suites. Anybody who removes this Sleep statement is responsible
+    # for ensuring that the test still works 100% reliably. [pysailor]
+    Sleep  0.5
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']

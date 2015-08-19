@@ -34,12 +34,12 @@
                     <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified"  title="Delete this document" i18n:attributes="title" i18n:translate="">
                       Delete
                     </a>
-                    <a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">
+                    <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">
                       Copy
                     </a>
                     <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">
                       Share
-                    </a>
+                    </a-->
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">
                       Toggle extra metadata
                     </a>
