@@ -33,27 +33,27 @@
     <subscriber
         for="plone.app.contenttypes.interfaces.IDocument
              zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".handlers.archetype_added_in_workspace"
+        handler=".handlers.archetype_edited_in_workspace"
         />
     <subscriber
         for="plone.app.contenttypes.interfaces.IFile
              zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".handlers.archetype_added_in_workspace"
+        handler=".handlers.archetype_edited_in_workspace"
         />
     <subscriber
         for="plone.app.contenttypes.interfaces.IImage
              zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".handlers.archetype_added_in_workspace"
+        handler=".handlers.archetype_edited_in_workspace"
         />
     <subscriber
         for="plone.app.contenttypes.interfaces.ILink
              zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".handlers.archetype_added_in_workspace"
+        handler=".handlers.archetype_edited_in_workspace"
         />
     <subscriber
         for="plone.app.contenttypes.interfaces.INewsItem
              zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".handlers.archetype_added_in_workspace"
+        handler=".handlers.archetype_edited_in_workspace"
         />
 
     <!-- ploneintranet.attachments.attachments.IAttachmentStoragable -->
