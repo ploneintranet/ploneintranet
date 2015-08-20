@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="Image" meta_type="Dexterity FTI" i18n:domain="plone"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property name="model_file">plone.app.contenttypes.schema:image.xml</property>
+  <property name="behaviors" purge="false">
+    <element value="ploneintranet.workspace.behaviors.image.IImageField"
+             remove="True" />
+  </property>
+</object>
