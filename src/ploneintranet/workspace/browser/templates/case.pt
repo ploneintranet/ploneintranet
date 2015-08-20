@@ -25,6 +25,7 @@
         <div id="document-body" >
 	      <div class="workspace-header">
 		    <article class="rich">
+              <h1>${context/title}</h1>
 			  <p class="description" tal:content="context/description"/>
 		    </article>
 

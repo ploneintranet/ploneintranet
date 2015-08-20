@@ -18,7 +18,13 @@
 
             <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
-                <div id="document-body">
+              <div id="document-body">
+                <div class="workspace-header">
+                  <article class="rich">
+                    <h1>${context/title}</h1>
+		          </article>
+                </div>
+
                     <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
                     <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
                     <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
