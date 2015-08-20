@@ -171,9 +171,10 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
-        self.applyProfile(portal, 'ploneintranet.workspace:default')
 
     def tearDownPloneSite(self, portal):
+        self.applyProfile(portal, 'ploneintranet.suite:uninstall')
+
         if not SOLR_ENABLED:
             return
 

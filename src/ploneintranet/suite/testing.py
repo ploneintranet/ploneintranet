@@ -73,6 +73,9 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
 
+    def tearDownPloneSite(self, portal):
+        self.applyProfile(portal, 'ploneintranet.suite:uninstall')
+
     def tearDownZope(self, app):
         # reset sync mode
         import ploneintranet.microblog.statuscontainer
