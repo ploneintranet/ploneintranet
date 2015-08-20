@@ -29,10 +29,9 @@
 		    <ul class="timeline pat-equaliser"
                 tal:define="tasks context/tasks; task_number python:0; milestones python:mm_seq.keys()">
               <tal:milestone repeat="milestone_id milestones">
-			    <li class="section actioned state-unfinished"
+			    <li class="section actioned state-${python:view.milestone_state(milestone_id)}"
                     tal:define="milestone_title python:mm_seq[milestone_id]['title']"
-                    tal:attributes="title milestone_title;
-                                    class python:'{0} state-{1}'.format(attrs['class'],'finished' if mm_seq[milestone_id]['finished'] else 'unfinished')">
+                    tal:attributes="title milestone_title">
                   <tal:state_index define="global task_number python:task_number + repeat['milestone_id'].index">
 				    <h3 class="section-label" tal:content="milestone_title"/>
 				    <ul>
