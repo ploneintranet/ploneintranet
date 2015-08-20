@@ -1433,6 +1433,9 @@ msgstr ""
 msgid "author"
 msgstr ""
 
+msgid "cases"
+msgstr "Cases"
+
 #: ../workspace/browser/tiles/templates/navigation.pt:25
 #: ../workspace/browser/tiles/templates/sidebar.pt:41
 msgid "date"
@@ -1683,6 +1686,9 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:18
 msgid "workspace_title"
 msgstr ""
+
+msgid "workspacefolders"
+msgstr "Workspaces"
 
 #: ../layout/browser/apps.py:43
 msgid "{0} Application"
