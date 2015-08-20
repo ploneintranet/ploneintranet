@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .utils import dexterity_update
 from Acquisition import aq_inner
+from DateTime import DateTime
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.content.browser.actions import DeleteConfirmationForm
@@ -194,7 +195,10 @@ class ContentView(BrowserView):
         # For a start, we take the modification date, since the hash is cheap
         # to compute. For more aggressive caching we would need to compute the
         # hash based on the file contents.
-        return hash(self.context.modification_date)
+        md = getattr(self.context, 'modification_date', None)
+        if not isinstance(md, DateTime):
+            md = DateTime()
+        return hash(md.strftime('%Y%m%d%H%M%S'))
 
 
 class PIDeleteConfirmationForm(DeleteConfirmationForm):
