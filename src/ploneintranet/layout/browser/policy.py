@@ -22,7 +22,9 @@ class LayoutPolicy(PloneLayoutPolicy):
         contentPath = context.getPhysicalPath()[
             len(navroot.getPhysicalPath()):]
         if contentPath:
-            obj = getattr(navroot, contentPath[0])
+            # obj can be None, e.g. when using the @@dexterity-types view
+            # in the plone control panel
+            obj = getattr(navroot, contentPath[0], None)
             if IAppContainer.providedBy(obj):
                 try:
                     return base + ' app app-' + obj.app_name.replace(".", "-")
