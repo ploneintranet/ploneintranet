@@ -39,6 +39,8 @@
 
           <div id="portlet-tasks" data-tile="./@@my_documents.tile"></div>
 
+          <div id="portlet-contacts" data-tile="./@@contacts_search.tile"></div>
+
           <div id="portlet-events" data-tile="./@@events.tile"></div>
 
           <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>

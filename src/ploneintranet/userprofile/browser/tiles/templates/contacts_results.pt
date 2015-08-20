@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet">
+  <body>
+
+	<div id="content">
+      <div id="contact-search-items">
+        <div class="item-selector mode-follow"
+             tal:define="search_response context/@@search_people/search_people">
+          <form class="search-result users">
+            <fieldset class="checklist pat-checklist">
+              <tal:result repeat="result search_response">
+                <label class="item user">
+                  <input name="" type="checkbox" />
+                  <a href="${result/url}" class="follow">
+                    <img src="${result/preview_image_path}" alt="" class="avatar" />
+                    <strong class="title">${result/title}</strong>
+                    <br/>
+                    <dfn class="byline" tal:content="python: True and result.contact_telephone or '&nbsp;'"/>
+                  </a>
+                </label>
+              </tal:result>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
