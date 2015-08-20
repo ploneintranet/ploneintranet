@@ -5,6 +5,7 @@ import subprocess
 import sys
 import time
 
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 from plone.app.testing import FunctionalTesting
@@ -137,9 +138,6 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.search.solr,
                       name='testing.zcml')
 
-    def tearDownZope(self, app):
-        super(PloneIntranetSearchSolrLayer, self).tearDownZope(app)
-
     def testTearDown(self):
         if not SOLR_ENABLED:
             return
@@ -151,11 +149,13 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
 class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
     """ Layer with SOLR support *and* example content """
 
+    defaultBases = (testing.FIXTURE, SOLR_FIXTURE,
+                    PLONE_APP_CONTENTTYPES_FIXTURE)
+
     def setUpZope(self, app, configuration_context):
         super(PloneIntranetSearchSolrTestContentLayer, self).setUpZope(
             app, configuration_context,
         )
-        # Load ZCML
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
 
@@ -171,6 +171,7 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
+        self.applyProfile(portal, 'ploneintranet.workspace:default')
 
     def tearDownPloneSite(self, portal):
         if not SOLR_ENABLED:
