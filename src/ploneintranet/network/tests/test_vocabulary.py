@@ -40,7 +40,9 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
             title='Doc 1'
         )
         few = [u'a_%d_♥' % i for i in xrange(5)]
-        few.extend([u'b_%d_☀' % i for i in xrange(5)])
+        few.extend([u'B_%d_☀' % i for i in xrange(5)])
+        few.extend([u'RødgrØd', u'rOdgrod'])
+        self.num_tags = len(few)
         self.tag(self.doc1, *few)
 
         self.doc2 = api.content.create(
@@ -117,6 +119,41 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         data = json.loads(view())
         self.assertEquals(len(data['results']), 5)
 
+    def testVocabularyQueryStringCaseInsensitive(self):
+        """Test querying a class based vocabulary with a search string.
+        """
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        self.request.form.update({
+            'query': 'A_'  # matches a_?_♥
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 5)
+        self.request.form.update({
+            'query': 'b_'  # matches B_?_☀
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 5)
+
+    def testVocabularyQueryStringUnidecode(self):
+        """Test querying a class based vocabulary with a search string.
+        """
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        self.request.form.update({
+            'query': 'rod'  # matches RødgrØd and rOdgrod
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 2)
+
+    def testVocabularyQueryStringUnidecodeQuery(self):
+        """Test querying a class based vocabulary with a search string.
+        """
+        view = PersonalizedVocabularyView(self.doc2, self.request)
+        self.request.form.update({
+            'query': u'RÖD'  # matches RødgrØd and rOdgrod
+        })
+        data = json.loads(view())
+        self.assertEquals(len(data['results']), 2)
+
     def testVocabularyNoResults(self):
         """Tests that the widgets displays correctly
         """
@@ -148,7 +185,7 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         view = PersonalizedVocabularyView(self.doc2, self.request)
         data = json.loads(view())
         # expect john_doe tags on doc1
-        self.assertEquals(len(data['results']), 10)
+        self.assertEquals(len(data['results']), self.num_tags)
 
     def testVocabularyPersonalizedContextTags(self):
         # let john_doe pollute the global tag space via doc2
@@ -157,7 +194,7 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         view = PersonalizedVocabularyView(self.doc1, self.request)
         data = json.loads(view())
         # we expect to find the a_ and b_ doc1 tags only
-        self.assertEquals(len(data['results']), 10)
+        self.assertEquals(len(data['results']), self.num_tags)
         self.assertFalse('a_' in data['results'])
 
     def testVocabularyPersonalizedContextTagsMany(self):
@@ -167,7 +204,7 @@ class TestPersonalizedVocabulary(IntegrationTestCase):
         view = PersonalizedVocabularyView(self.doc1, self.request)
         data = json.loads(view())
         # we expect to find all of john_doe's context tags
-        self.assertEquals(len(data['results']), 110)
+        self.assertEquals(len(data['results']), self.num_tags + 100)
         self.assertFalse('a_' in data['results'])
 
     def testVocabularyPersonalizedUserContentTags(self):
