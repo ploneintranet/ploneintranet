@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from binascii import b2a_qp
 from logging import getLogger
 from plone import api
@@ -113,14 +114,36 @@ class PersonalizedKeywordsVocabulary(object):
         return [safe_unicode(i) for i in index._index]
 
     def _filter(self, tags, blacklist, query=None, fuzzy=False):
+        """ If fuzzy is set, perform a case-insensitive matching. Also,
+        additionally convert non-ascii characters to their ascii representation
+        for the matching. That means "Borse" will also find "Börse" and vice
+        versa. """
         result = set()
+        # `query` can be a string, therefore we must make sure it is unicode
+        # before applying unidecode. Note:
+        # >>> unidecode(u'ö')
+        # 'o'   # Correct
+        # >>> unidecode('ö')
+        # 'AP'  # Wrong!
+        # Or, in different rendering
+        # >>> unidecode(u'\xf6')      # corresponds to u'ö'
+        # 'o'   # Correct
+        # >>> unidecode('\xc3\xb6')   # corresponds to 'ö'
+        # 'AP'  # Wrong!
+        # >>> unidecode(u'\xc3\xb6')  # corresponds to u'Ã¶' (!)
+        # 'AP'  # Also wrong, obviously
         q_unidecode = unidecode(safe_unicode(query)).lower()
+        # Pass the `fuzzy` switch to safe_encode. If set, the term will be
+        # converted to lower-case
         query = safe_encode(query, fuzzy)
         for tag in tags:
             if tag in blacklist:
                 continue
             if query is None or query in safe_encode(tag, fuzzy):
                 result.add(tag)
+            # `q_unidecode` might be empty, since not all chars have a letter
+            # representation:
+            # unidecode(u'♥') == ''
             if fuzzy and q_unidecode and q_unidecode in unidecode(tag).lower():
                 result.add(tag)
         return list(result)
