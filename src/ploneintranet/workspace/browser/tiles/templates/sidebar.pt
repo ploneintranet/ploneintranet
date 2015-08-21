@@ -21,6 +21,7 @@
             <div class="button-bar functions" id="selector-functions">
               <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
                    data-pat-inject="source: #workspace-documents; target: #workspace-documents"
@@ -141,6 +142,8 @@
                 </div>
 
                 <div class="folder-intro">
+                  <h4 class="folder-title" tal:repeat="folder view/folders"><a class="pat-inject" href="${folder/absolute_url}#workspace-documents">${folder/title} ></a></h4>
+
                   <h4 class="folder-title">
                     <tal:block content="context/Title" />
                     <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"

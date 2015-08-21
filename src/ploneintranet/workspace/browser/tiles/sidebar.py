@@ -942,3 +942,22 @@ class Sidebar(BaseTile):
             end={'query': now, 'range': 'max'},
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def folders(self):
+        """
+        Return a list of ancestor containers, from the workspace to the current
+        context.
+        """
+        context = self.context
+        root = parent_workspace(context)
+        root_path = root.getPhysicalPath()
+        remaining_path = context.getPhysicalPath()[len(root_path):]
+        if not remaining_path:
+            return []
+        current = root
+        folders = [current]
+        for next_id in remaining_path:
+            current = current[next_id]
+            if current != context:
+                folders.append(current)
+        return folders
