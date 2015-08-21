@@ -115,15 +115,17 @@ class PersonalizedKeywordsVocabulary(object):
         return [
             i for i in tags
             if i not in blacklist
-            and (query is None or safe_encode(query) in safe_encode(i))
+            and (query is None or safe_encode(query, 1) in safe_encode(i, 1))
         ]
 
 
-def safe_encode(term):
+def safe_encode(term, force_lower=False):
     if isinstance(term, unicode):
         # no need to use portal encoding for transitional encoding from
         # unicode to ascii. utf-8 should be fine.
         term = term.encode('utf-8')
+    if force_lower:
+        return term.lower()
     return term
 
 
