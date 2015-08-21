@@ -31,7 +31,7 @@
                name="assignee"
                placeholder="Pick an assignee"
                i18n:attributes="placeholder"
-               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])};"
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'], members_only=False)};"
                tal:attributes="disabled read_only"/>
       </label>
       <br/>
@@ -151,7 +151,7 @@
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
       <input name="invitees" placeholder="Pick invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
              data-pat-autosuggest-classes=''
-             data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"/>
+             data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'], members_only=False)}"/>
 
       <span class="legend" tal:condition="nothing">
         <dfn class="undecided" i18n:translate="">Undecided</dfn>
