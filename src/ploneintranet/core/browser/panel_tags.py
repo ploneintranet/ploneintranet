@@ -29,6 +29,10 @@ class Tags(BrowserView):
         self.selected_tags = [
             safe_unicode(tag) for tag in self.request.form.get('tags', [])]
         tags.update(self.selected_tags)
+        # It is mandatory that all tags are actually unicode. It might happen
+        # that `tags` contains strings with non-ascii characters encoded with a
+        # different encoding than utf-8. In this case sorted() will bail.
+        tags = set([safe_unicode(x) for x in tags if x])
         tags = sorted(tags)
         if search_string:
             search_string = safe_unicode(search_string)
