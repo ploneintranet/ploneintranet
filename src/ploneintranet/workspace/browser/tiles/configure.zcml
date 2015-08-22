@@ -100,4 +100,16 @@
     layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
+  <plone:tile
+      add_permission="cmf.ManagePortal"
+      class=".events.EventsTile"
+      description="Tile to list upcoming events"
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+      name="events.tile"
+      permission="zope2.View"
+      template="templates/events.pt"
+      title="Events"
+      />
+
 </configure>

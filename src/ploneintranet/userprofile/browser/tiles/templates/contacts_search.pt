@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet">
+
+  <body>
+
+    <div class="contacts portlet" id="portlet-contacts">
+	  <h2 class="portlet-title" i18n:translate="">Contacts</h2>
+      <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_results#contact-search-items">
+		<fieldset class="vertical">
+	      <label>
+	        <input name="SearchableText" type="search" placeholder="Search"/>
+	        <button hidden type="submit">Find users</button>
+	      </label>
+		</fieldset>
+      </form>
+	  <div id="contact-search-items"/>
+	</div>
+  </body>
+</html>

@@ -1707,3 +1707,8 @@ msgstr ""
 msgid "{} user(s) {}."
 msgstr ""
 
+msgid "workspacefolders"
+msgstr "Arbeitsbereiche"
+
+msgid "cases"
+msgstr "Geschäfte"

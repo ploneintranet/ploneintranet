@@ -17,3 +17,8 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ploneintranet\n"
 
+msgid "workspacefolders"
+msgstr ""
+
+msgid "cases"
+msgstr ""
