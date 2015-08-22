@@ -71,7 +71,8 @@ setup(name='ploneintranet',
           'collective.externaleditor >= 1.0.2',
           'tablib',
           'collective.dexteritytextindexer',
-          'twitter-text-python'
+          'twitter-text-python',
+          'Unidecode',
       ],
       extras_require={
           'test': [

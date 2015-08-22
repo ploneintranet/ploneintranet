@@ -49,7 +49,7 @@ def archetype_added_in_workspace(obj, event):
 
 
 def archetype_edited_in_workspace(obj, event):
-    if obj.REQUEST.form.get('file'):
+    if obj.REQUEST.form.get('file') or obj.REQUEST.get('method') == 'PUT':
         _update_preview_images(obj, event)
 
 
