@@ -32,7 +32,8 @@
 
 		      <ul class="timeline pat-equaliser"
                   metal:define-macro="timeline"
-                  tal:define="task_number python:0; milestones python:mm_seq.keys()">
+                  tal:define="task_number python:0; milestones python:mm_seq.keys();
+                              view python: 'view' in workspace and workspace['view'] or view">
                 <tal:milestone repeat="milestone_id milestones">
 			      <li class="section actioned state-${python:view.milestone_state(milestone_id)}"
                       tal:define="milestone_title python:mm_seq[milestone_id]['title']"

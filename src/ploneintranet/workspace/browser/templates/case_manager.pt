@@ -109,7 +109,7 @@
                     <p i18n:translate="">No results</p>
                   </tal:nocases>
                   <tal:cases repeat="case cases">
-                    <div class="case-mat">
+                    <div class="case-mat" tal:define="workspace nocall:case">
                       <article class="summary row">
                         <h2 class="case-title twelve columns">
                           <a target="case" href="${case/url}">${case/title}</a>
