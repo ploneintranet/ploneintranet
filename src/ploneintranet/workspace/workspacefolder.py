@@ -151,7 +151,6 @@ class WorkspaceFolder(Container):
         else:
             users = api.user.get_users()
 
-
         for user_details in users:
             if members_only:
                 user_or_group_id, details = user_details
