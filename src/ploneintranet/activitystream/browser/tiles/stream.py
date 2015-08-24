@@ -19,8 +19,6 @@ class StreamTile(Tile):
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
     count = 15
-    b_start = 0
-    last_one = False
 
     def __init__(self, context, request):
         self.context = context
@@ -30,6 +28,9 @@ class StreamTile(Tile):
         self.explore = 'network' not in self.data
         if 'b_start' in request:
             self.b_start = int(request.get('b_start'))
+        else:
+            self.b_start = 0
+        self.last_one = False
 
     @property
     def b_next(self):
