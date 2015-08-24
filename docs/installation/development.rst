@@ -32,6 +32,10 @@ On Ubuntu::
     sudo apt-get install ruby
     gem install docsplit
 
+You also need redis for async document conversion::
+
+    sudo apt-get install redis-server
+
 Set-up a development environment::
 
     git clone https://github.com/ploneintranet/ploneintranet
