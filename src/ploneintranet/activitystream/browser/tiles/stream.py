@@ -19,6 +19,8 @@ class StreamTile(Tile):
 
     index = ViewPageTemplateFile("templates/stream_tile.pt")
     count = 15
+    b_start = 0
+    last_one = False
 
     def __init__(self, context, request):
         self.context = context
@@ -26,10 +28,16 @@ class StreamTile(Tile):
         # BBB: the or None should be moved to the microblog methods
         self.tag = self.data.get('tag') or None
         self.explore = 'network' not in self.data
+        if 'b_start' in request:
+            self.b_start = int(request.get('b_start'))
+
+    @property
+    def b_next(self):
+        return self.b_start + self.count
 
     @property
     @memoize
-    def toLocalizedTime(self):
+    def toLocalizedTime(self):  # noqa
         ''' Facade for the toLocalizedTime method
         '''
         return api.portal.get_tool('translation_service').toLocalizedTime
@@ -77,20 +85,20 @@ class StreamTile(Tile):
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
                 self.microblog_context,
-                limit=self.count,
+                limit=self.b_start + self.count,
                 tag=self.tag
             )
         elif IUserProfile.providedBy(self.context):
             # Get the updates for this user
             statusupdates = container.user_values(
                 self.context.username,
-                limit=self.count,
+                limit=self.b_start + self.count,
                 tag=self.tag
             )
         else:
             # default implementation
             statusupdates = container.values(
-                limit=self.count,
+                limit=self.b_start + self.count,
                 tag=self.tag
             )
         statusupdates = self.filter_statusupdates(statusupdates)
@@ -107,8 +115,11 @@ class StreamTile(Tile):
         statusupdates = self.get_statusupdates()
         i = 0
         for su in statusupdates:
-            if i >= self.count:
+            if i >= self.b_start + self.count:
                 break
+            if i < self.b_start:
+                i += 1
+                continue
             try:
                 activity = IActivity(su)
             except Unauthorized:
@@ -120,6 +131,9 @@ class StreamTile(Tile):
 
             yield activity
             i += 1
+
+        if i - self.b_start < self.count:
+            self.last_one = True
 
     @property
     @memoize
