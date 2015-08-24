@@ -1111,7 +1111,7 @@ msgstr "Mitgliederliste aktualisiert"
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 #: ../workspace/basecontent/document.py:73
 msgid "Save"
-msgstr "Sichern"
+msgstr "Speichern"
 
 #: ../workspace/basecontent/templates/event_view.pt:73
 msgid "Save this document"
@@ -1419,7 +1419,7 @@ msgstr "Zeitzone"
 
 #: ../workspace/browser/templates/content_macros.pt:127
 msgid "To"
-msgstr "An"
+msgstr "Bis"
 
 #: ../messaging/browser/send-message.pt:24
 msgid "To:"
