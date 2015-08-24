@@ -142,7 +142,7 @@
                 </div>
 
                 <div class="folder-intro">
-                  <h4 class="folder-title" tal:repeat="folder view/folders"><a class="pat-inject" href="${folder/absolute_url}#workspace-documents">${folder/title} ></a></h4>
+                  <h4 class="folder-title"><tal:repeat repeat="folder view/folders"><a class="pat-inject" href="${folder/absolute_url}#workspace-documents">${folder/title} &gt;</a></tal:repeat></h4>
 
                   <h4 class="folder-title">
                     <tal:block content="context/Title" />
