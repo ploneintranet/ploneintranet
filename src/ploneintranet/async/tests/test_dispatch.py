@@ -30,7 +30,8 @@ class TestDispatch(IntegrationTestCase):
 
         Required for other tests.
         """
-        cmd = '/app/bin/celery -A ploneintranet.async.celerytasks status'
+        # pwd = /(buildout:dir)/parts/test
+        cmd = '../../bin/celery -A ploneintranet.async.celerytasks status'
         try:
             res = subprocess.check_output(cmd.split(' '))
             self.assertTrue("online" in res, "no celery workers online")

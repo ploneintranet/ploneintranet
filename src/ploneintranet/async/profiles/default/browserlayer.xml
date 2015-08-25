@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+    name="ploneintranet.async"
+    interface="ploneintranet.async.interfaces.IPloneintranetAsyncLayer"
+  />
+</layers>

@@ -3,7 +3,7 @@
 import os
 import unittest
 
-# from plone.app.testing import applyProfile
+from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
@@ -38,7 +38,7 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
-        pass
+        applyProfile(portal, 'ploneintranet.async:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""
