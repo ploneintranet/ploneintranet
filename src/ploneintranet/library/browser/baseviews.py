@@ -25,9 +25,14 @@ class ContentView(LibraryBaseView):
     @view.memoize
     def subjects(self):
         base_url = self.app().absolute_url()
-        return [dict(title=tag,
-                     absolute_url="%s/tag/%s" % (base_url, urllib.quote(tag)))
-                for tag in ICategorization(self.context).subjects]
+        # ICategorization returns subjects as unicode. We need to encode
+        # them as UTF-8 strings before passing them to urllib.quote
+        return [
+            dict(
+                title=tag,
+                absolute_url="%s/tag/%s" % (
+                    base_url, urllib.quote(tag.encode('utf-8'))))
+            for tag in ICategorization(self.context).subjects]
 
 
 class DownloadView(BrowserView):
