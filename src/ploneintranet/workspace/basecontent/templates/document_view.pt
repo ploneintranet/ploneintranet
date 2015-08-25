@@ -47,7 +47,7 @@
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
-                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
                   </div><!-- quick-functions -->
                 </div> <!-- #meta-bar -->
                 <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
@@ -56,6 +56,7 @@
                   <fieldset class="bar">
                     <input type="text"
                            name="subjects" placeholder="Tags"
+                           i18n:domain="plone" i18n:attributes="placeholder"
                            value="${python:','.join(context.subject)}"
                            tal:attributes="disabled read_only"
                            class="pat-autosuggest"
