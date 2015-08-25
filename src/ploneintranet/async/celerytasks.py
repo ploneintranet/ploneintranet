@@ -2,13 +2,15 @@
 Celery tasks providing asynchronous jobs for Plone Intranet
 """
 import logging
-
+import time
 from celery import Celery
 import requests
 
 from ploneintranet.async import celeryconfig
 
-app = Celery('ploneintranet.tasks', broker='redis://localhost:6379/0')
+app = Celery('ploneintranet.tasks',
+             broker='redis://localhost:6379/0',
+             backend='redis://localhost:6379/1')
 app.config_from_object(celeryconfig)
 logger = logging.getLogger(__name__)
 
@@ -39,3 +41,10 @@ def generate_and_add_preview(url, cookies):
     logger.info(resp)
     if resp.status_code != 200:
         raise PreviewGenerationException
+
+
+@app.task
+def add(x, y, delay=1):
+    """Demo task used to test celery roundtrip"""
+    time.sleep(delay)
+    return x + y
