@@ -274,7 +274,7 @@
         name="allusers.json"
         for="plone.app.layout.navigation.interfaces.INavigationRoot"
         class=".workspace.AllUsersJSONView"
-        permission="collective.workspace.ManageRoster"
+        permission="zope2.View"
         layer="..interfaces.IPloneintranetWorkspaceLayer"
         />
 
