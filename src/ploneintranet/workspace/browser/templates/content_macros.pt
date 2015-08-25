@@ -31,7 +31,7 @@
                name="assignee"
                placeholder="Pick an assignee"
                i18n:attributes="placeholder"
-               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'], members_only=False)};"
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${here/portal_url}/allusers.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'], members_only=False)};"
                tal:attributes="disabled read_only"/>
       </label>
       <br/>
