@@ -291,6 +291,7 @@ Supported types include (class names):
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
+                 i18n:attributes="title"
                  tal:attributes="href string:${ws/absolute_url}/add_task"
                  tal:condition="view/can_add">Create task</a>
             </div>

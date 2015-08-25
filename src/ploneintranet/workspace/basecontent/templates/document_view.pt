@@ -56,6 +56,7 @@
                   <fieldset class="bar">
                     <input type="text"
                            name="subjects" placeholder="Tags"
+                           i18n:domain="plone" i18n:attributes="placeholder"
                            value="${python:','.join(context.subject)}"
                            tal:attributes="disabled read_only"
                            class="pat-autosuggest"
