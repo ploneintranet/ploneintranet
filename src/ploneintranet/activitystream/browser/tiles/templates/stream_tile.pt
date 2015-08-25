@@ -12,7 +12,7 @@
             ">
             <metal:block use-macro="stream_macros/main" />
 
-            <a tal:condition="not:view/last_one" href="@@activitystream.tile?network=1&b_start=0" tal:attributes="href string:${context_url}/@@activitystream.tile?network=1&b_start=${view/b_next}" class="pat-inject infinite-scrolling-trigger" data-pat-inject="trigger: autoload-visible; source: .activities; target: self::element">Loading more posts…</a>
+            <a tal:condition="not:view/stop_asking" href="@@activitystream.tile?network=1" tal:attributes="href string:${context_url}/@@activitystream.tile?network=1&last_seen=${view/last_seen}" class="pat-inject infinite-scrolling-trigger" data-pat-inject="trigger: autoload-visible; source: .activities; target: self::element">Loading more posts…</a>
           </div>
         </div>
     </body>

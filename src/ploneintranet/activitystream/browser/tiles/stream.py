@@ -1,5 +1,4 @@
 # coding=utf-8
-from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
@@ -8,7 +7,6 @@ from ploneintranet import api as piapi
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.userprofile.content.userprofile import IUserProfile
-from zExceptions import NotFound
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,19 +24,22 @@ class StreamTile(Tile):
         # BBB: the or None should be moved to the microblog methods
         self.tag = self.data.get('tag') or None
         self.explore = 'network' not in self.data
-        if 'b_start' in request:
-            self.b_start = int(request.get('b_start'))
+        if 'last_seen' in request:
+            self.last_seen = request.get('last_seen')
         else:
-            self.b_start = 0
-        self.last_one = False
+            self.last_seen = None
+        self.stop_asking = False
 
     @property
-    def b_next(self):
-        return self.b_start + self.count
+    def next_max(self):
+        if self.last_seen:
+            return long(self.last_seen) - 1
+        else:
+            return None
 
     @property
     @memoize
-    def toLocalizedTime(self):  # noqa
+    def toLocalizedTime(self):
         ''' Facade for the toLocalizedTime method
         '''
         return api.portal.get_tool('translation_service').toLocalizedTime
@@ -86,20 +87,23 @@ class StreamTile(Tile):
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
                 self.microblog_context,
-                limit=self.b_start + self.count,
+                max=self.next_max,
+                limit=self.count,
                 tag=self.tag
             )
         elif IUserProfile.providedBy(self.context):
             # Get the updates for this user
             statusupdates = container.user_values(
                 self.context.username,
-                limit=self.b_start + self.count,
+                max=self.next_max,
+                limit=self.count,
                 tag=self.tag
             )
         else:
             # default implementation
             statusupdates = container.values(
-                limit=self.b_start + self.count,
+                max=self.next_max,
+                limit=self.count,
                 tag=self.tag
             )
         statusupdates = self.filter_statusupdates(statusupdates)
@@ -110,31 +114,16 @@ class StreamTile(Tile):
     def activities(self):
         ''' The list of our activities
         '''
-        # FIXME this try/except loop and the counting it necessitates
-        # is a workaround because the filtering on View is currently inadequate
-
         statusupdates = self.get_statusupdates()
-        i = 0
         for su in statusupdates:
-            if i >= self.b_start + self.count:
-                break
-            if i < self.b_start:
-                i += 1
-                continue
-            try:
-                activity = IActivity(su)
-            except Unauthorized:
-                logger.error("Unauthorized. FIXME. This should not happen.")
-                continue
-            except NotFound:
-                logger.exception("NotFound: %s" % activity.getURL())
-                continue
+            yield IActivity(su)
 
-            yield activity
-            i += 1
-
-        if i - self.b_start < self.count:
-            self.last_one = True
+        # stop autoexpand when last batch is empty
+        if len(statusupdates) == 0:
+            self.stop_asking = True
+        else:
+            # last su when exiting loop
+            self.last_seen = su.id
 
     @property
     @memoize
