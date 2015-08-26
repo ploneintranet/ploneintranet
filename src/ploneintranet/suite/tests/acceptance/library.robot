@@ -33,6 +33,7 @@ Library document shows navigation
     Page should contain  Human Resources
     Page should contain  All topics
     Page should contain  Library
+    Page should contain  l♥ve
 
 *** Keywords ***
 
@@ -52,3 +53,4 @@ I browse to a folder
 I browse to a document
     I browse to a section
     Click Link  Holidays
+    Wait until page contains element  xpath=//h1[@class='title' and text()='Holidays']  1

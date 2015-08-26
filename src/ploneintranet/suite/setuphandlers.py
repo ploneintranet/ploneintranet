@@ -551,7 +551,8 @@ def library_spec(context):
                'contents': [
                    {'type': 'Document',
                     'title': 'Holidays',
-                    'desciption': 'Yearly holiday allowance'},
+                    'desciption': 'Yearly holiday allowance',
+                    'force_unicode_tags': True},
                    {'type': 'Document',
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
@@ -585,6 +586,7 @@ def library_spec(context):
 library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
                 'budget', 'policy', 'administration', 'press')
 
+unicode_tags = (u'grün', u'l♥ve', u'schön')
 
 idcounter = 0
 
@@ -641,8 +643,11 @@ def create_library_content(parent,
         if not item['type'].startswith('ploneintranet'):
             # only tag non-folderish content
             wrapped = IDublinCore(obj)
-            wrapped.subjects = random.sample(library_tags,
-                                             random.choice(range(4)))
+            if item.get('force_unicode_tags', False):
+                wrapped.subjects = unicode_tags
+            else:
+                wrapped.subjects = random.sample(
+                    library_tags, random.choice(range(4)))
         api.content.transition(obj, 'publish')
         obj.reindexObject()  # or solr doesn't find it
         if contents:
