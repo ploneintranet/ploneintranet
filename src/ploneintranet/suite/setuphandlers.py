@@ -585,6 +585,7 @@ def library_spec(context):
 
 library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
                 'budget', 'policy', 'administration', 'press')
+
 unicode_tags = (u'grün', u'l♥ve', u'schön')
 
 idcounter = 0
