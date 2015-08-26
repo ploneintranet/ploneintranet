@@ -45,6 +45,7 @@ class LibraryHomeView(BrowserView):
 class LibraryBaseView(BrowserView):
 
     groupby = 'section'
+    groupby_menu_enabled = False
 
     def selected(self, value):
         if value == self.groupby:
@@ -122,11 +123,15 @@ class LibraryBaseView(BrowserView):
 
 class LibraryAppView(LibraryBaseView):
 
+    groupby_menu_enabled = True
+
     def info(self):
         return {}
 
 
 class LibrarySectionView(LibraryBaseView):
+
+    groupby_menu_enabled = True
 
     def info(self):
         return dict(title=self.context.Title,
