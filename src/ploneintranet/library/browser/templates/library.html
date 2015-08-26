@@ -159,6 +159,11 @@
 
         </div>
 
+        <p tal:condition="not:view/enabled">
+          Tag views are only supported with Solr.
+          Please deploy with Solr.
+        </p>
+
       </div>
     </metal:content>
 

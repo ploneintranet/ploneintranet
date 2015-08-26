@@ -157,6 +157,7 @@ class LibraryTagView(LibraryBaseView):
         super(LibraryTagView, self).__init__(context, request)
         self.sitesearch = getUtility(ISiteSearch)
         self.request_tag = None
+        self.enabled = True  # only in solr
 
     def publishTraverse(self, request, name):
         """Extract self.request_tag from URL /tag/foobar"""
@@ -195,6 +196,15 @@ class LibraryTagView(LibraryBaseView):
         return menu
 
     def children(self):
+        """Catch error on non-supported ZCatalog"""
+        try:
+            return self._children()
+        except UnicodeDecodeError:
+            # happens on ZCatalog. Not supported here.
+            self.enabled = False
+            return []
+
+    def _children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
         response = self.query(filters=dict(path=path))
