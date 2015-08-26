@@ -584,8 +584,9 @@ def library_spec(context):
     return library
 
 
-library_tags = ('EU', 'Spain', 'UK', 'Belgium', 'confidential', 'onboarding',
-                'budget', 'policy', 'administration', 'press')
+library_tags = (u'EU', u'Spain', u'UK', u'Belgium', u'confidential',
+                u'onboarding',
+                u'budget', u'policy', u'administration', u'press')
 
 
 idcounter = 0
@@ -642,9 +643,10 @@ def create_library_content(parent,
         obj = create_as(creator, container=parent, **item)
         if not item['type'].startswith('ploneintranet'):
             # only tag non-folderish content
+            tags = random.sample(library_tags, random.choice(range(4)))
+            tags.append(u'I ♥ UTF-8')
             wrapped = IDublinCore(obj)
-            wrapped.subjects = random.sample(library_tags,
-                                             random.choice(range(4)))
+            wrapped.subjects = tags
         api.content.transition(obj, 'publish')
         obj.reindexObject()  # or solr doesn't find it
         if contents:

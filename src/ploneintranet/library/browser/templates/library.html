@@ -41,7 +41,8 @@
 
         <form class="canvas-toolbar pat-autosubmit"
               method="post">
-	  <label class="bare pat-select">
+	  <label class="bare pat-select"
+                 tal:condition="view/groupby_menu_enabled">
 	    <select name="groupby">
 	      <option value="section"
                       tal:attributes="selected python:view.selected('groupby')" i18n:translate="">
@@ -159,6 +160,11 @@
           </tal:children>
 
         </div>
+
+        <p tal:condition="not:view/enabled">
+          Tag views are only supported with Solr.
+          Please deploy with Solr.
+        </p>
 
       </div>
     </metal:content>
