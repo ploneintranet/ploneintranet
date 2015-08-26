@@ -41,4 +41,12 @@
     layer="ploneintranet.library.interfaces.ILibraryContentLayer"
     />
 
+  <browser:page
+    name="link_redirect_view"
+    for="plone.app.contenttypes.interfaces.ILink"
+    class=".baseviews.LinkRedirectView"
+    layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+    permission="zope2.View"
+    />
+
 </configure>

@@ -5,8 +5,8 @@ import subprocess
 import sys
 import time
 
+from plone.app.robotframework.testing import PLONE_ROBOT_TESTING
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 from plone.app.testing import FunctionalTesting
 from plone.testing import Layer
@@ -196,7 +196,7 @@ INTEGRATION_TESTING = IntegrationTesting(
 
 ROBOT_TESTING = FunctionalTesting(
     bases=(TEST_CONTENT_FIXTURE,
-           AUTOLOGIN_LIBRARY_FIXTURE,
+           PLONE_ROBOT_TESTING,
            z2.ZSERVER_FIXTURE),
     name="PloneIntranetSearchSolrLayer:")
 
