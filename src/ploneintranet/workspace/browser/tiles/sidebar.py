@@ -8,6 +8,7 @@ from ...policies import PARTICIPANT_POLICY
 from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
+from ...utils import month_name
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -108,6 +109,12 @@ class BaseTile(BrowserView):
             "Delete objects",
             obj=obj,
         )
+
+    def month_name(self, date):
+        """
+        Return the full month name in the appropriate language
+        """
+        return month_name(self, date)
 
 
 class SidebarSettingsGeneral(BaseTile):
