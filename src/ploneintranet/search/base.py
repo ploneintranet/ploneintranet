@@ -89,8 +89,12 @@ class SearchResult(object):
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         if context['has_thumbs']:
-            self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
-                self)
+            if self.portal_type in ('Image', 'Document', 'News Item'):  # Lib
+                self.preview_image_path = \
+                    '{.path}/@@images/image/preview'.format(self)
+            else:
+                self.preview_image_path = \
+                    '{.path}/docconv_image_thumb.jpg'.format(self)
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
