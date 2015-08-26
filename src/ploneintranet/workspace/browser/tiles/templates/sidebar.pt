@@ -399,35 +399,37 @@ Supported types include (class names):
             <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events" tal:condition="events/upcoming">
               <h3 i18n:translate="">Upcoming events</h3>
 
-              <ul class="cal-events">
+              <ul class="event-list">
                 <tal:events repeat="event events/upcoming">
                   <metal:event define-macro="eventdetails">
-                    <li class="cal-event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
-                      <h4 class="title">
-                        <a class="pat-inject follow pat-switch"
+                    <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
+                      <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
                            data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
-                           tal:attributes="href string:${event/getURL}#document-body"
-                           tal:content="event/Title"/>
-                      </h4>
-
-                      <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
-
-                      <ul class="details">
-                        <li tal:condition="not:show_end|nothing"><span tal:omit-tag="" i18n:translate="">Starts</span>
-                            <time
+                           tal:attributes="href string:${event/getURL}#document-body">
+                        <h4 class="title">
+                          <time
                                 class="start pat-moment"
                                 data-pat-moment="format:relative"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
-                        <li tal:condition="show_end|nothing"><span tal:omit-tag="" i18n:translate="">Ended</span>
-                            <time
-                                class="end pat-moment"
-                                data-pat-moment="format:relative"
-                                tal:content="python:toLocalizedtime(event.end, long_format=1)">2014-12-15 14:00 GMT+2</time></li>
-                        <li tal:define="location event/location" tal:condition="location">Location <span class="location" tal:content="location"></span></li>
-                      </ul>
+                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> - 
+                          <tal:title replace="event/Title"/>
+                        </h4>
+                      <p class="byline" tal:define="location event/location" tal:condition="location">
+                        <tal:location replace="location" />
+                      </p>
+                      <p class="date">
+                        <time class="calendar-medium"
+                              tal:define="month_name python:view.month_name(event.start)">
+                          <strong class="day">${python:event.start.day}</strong>
+                          <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
+                          <strong class="year">${python:event.start.year}</strong>
+                        </time>
+                      </p>
+                      <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+                      </a>
 
-                      <form tal:condition="python:view.can_delete(event)"
+                      <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
+                      <!--form tal:condition="python:view.can_delete(event)"
                           class="pat-modal pat-inject"
                           action="${event/getURL}/delete_confirmation#content">
                         <input type="hidden" name="pat-inject"
@@ -440,7 +442,7 @@ Supported types include (class names):
                                " />
                         <input type="hidden" name="pat-modal" value="true" />
                         <button class="iconified icon-trash" type="submit">Delete event</button>
-                      </form>
+                      </form-->
                     </li>
                   </metal:event>
                 </tal:events>
@@ -450,7 +452,7 @@ Supported types include (class names):
             <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
-              <ul class="cal-events">
+              <ul class="event-list">
                 <tal:events repeat="event events/older" tal:define="show_end python:True">
                   <metal:event use-macro="template/macros/eventdetails" />
                 </tal:events>
