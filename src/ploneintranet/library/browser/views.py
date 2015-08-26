@@ -151,6 +151,7 @@ class LibraryTagView(LibraryBaseView):
     implements(IPublishTraverse, IViewView)
 
     groupby = 'tag'
+    groupby_menu_enabled = True
 
     def __init__(self, context, request):
         super(LibraryTagView, self).__init__(context, request)
