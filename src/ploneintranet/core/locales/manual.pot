@@ -22,3 +22,60 @@ msgstr ""
 
 msgid "cases"
 msgstr ""
+
+msgid "PDF document"
+msgstr ""
+
+msgid "Word 2007 document"
+msgstr ""
+
+msgid "PowerPoint 2007 slide"
+msgstr ""
+
+msgid "Zip archive"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
+msgid "CSV document"
+msgstr ""
+
+msgid "Excel 2007 spreadsheet"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "News Item"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Todo"
+msgstr ""
+
+msgid "Case Workspace"
+msgstr ""
+
+msgid "Library App"
+msgstr ""
+
+msgid "Library Section"
+msgstr ""
+
+msgid "Library Folder"
+msgstr ""
+
+msgid "Person"
+msgstr ""
