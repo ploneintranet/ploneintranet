@@ -23,5 +23,6 @@
         <div tal:content="structure view/task_roundtrip" />
         <div tal:content="structure view/dispatch_roundtrip" />
       </div>
+      <p><a href="@@async-status">try again</a></p>
     </body>
 </html>

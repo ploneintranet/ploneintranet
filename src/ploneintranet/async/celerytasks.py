@@ -6,6 +6,7 @@ import time
 from celery import Celery
 import requests
 
+# from plone import api
 from ploneintranet.async import celeryconfig
 
 app = Celery('ploneintranet.tasks',
@@ -19,12 +20,11 @@ class AsyncDispatchError(Exception):
     """Raised if async dispatch fails"""
 
 
-def dispatcher(url, cookies, data={}):
+@app.task
+def dispatch(url, cookies, data={}):
     """
-    This is not a task but a building block for tasks.
-
-    Delegate a URL call via celery,
-    preserving the original authentication so that
+    Delegate a URL call via celery.
+    Preserves the original authentication so that
     async tasks get executed with the same security
     as the user initiating the dispatch.
 
@@ -42,19 +42,13 @@ def dispatcher(url, cookies, data={}):
     :type cookie: dict
     :param data: additional POST variables to pass through to the url
     :type data: dict
-
     """
-    logger.info('Calling %s', url)
-    resp = requests.post(url, data=data, cookies=cookies)
-    logger.info(resp)
-    if resp.status_code != 200:
-        raise AsyncDispatchError
+    _dispatcher(url, cookies, data)
 
 
-@app.task
-def dispatch(url, cookies, data={}):
+def _dispatcher(url, cookies, data={}):
     """
-    Generic url dispatch task leveraging `dispatcher`.
+    This is not a task but a building block for tasks.
 
     :param url: URL to be called by celery, resolvable behind
                 the webserver (i.e. localhost:8080/Plone/path/to/object)
@@ -63,8 +57,19 @@ def dispatch(url, cookies, data={}):
     :type cookie: dict
     :param data: additional POST variables to pass through to the url
     :type data: dict
+
     """
-    dispatcher(url, cookies, data)
+    if not url.startswith('http'):
+        url = "%s/%s" % ('http://localhost:8081/Plone', url)
+    logger.info('Calling %s', url)
+    resp = requests.post(url, data=data, cookies=cookies)
+    logger.info(resp)
+    if 'login_form' in resp.text:
+        logger.error("Unauthorized (masked as 200 OK)")
+        raise(AsyncDispatchError, "Unauthorized (masked as 200 OK)")
+    elif resp.status_code != 201:
+        logger.error("invalid response %s: %s", resp.status_code, resp.reason)
+        raise(AsyncDispatchError, resp)
 
 
 @app.task
@@ -83,7 +88,7 @@ def generate_and_add_preview(url, cookies):
         'url': url
     }
     url += '/@@generate-previews'
-    dispatcher(url, cookies, data)
+    _dispatcher(url, cookies, data)
 
 
 @app.task

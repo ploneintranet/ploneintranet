@@ -4,6 +4,7 @@ import socket
 import subprocess
 import time
 import redis.exceptions
+import logging
 
 from Products.Five.browser import BrowserView
 from plone import api
@@ -13,6 +14,8 @@ from zope.interface import alsoProvides
 
 from ploneintranet.async.celerytasks import add
 from ploneintranet.async.celerytasks import dispatch
+
+logger = logging.getLogger(__name__)
 
 
 class StatusView(BrowserView):
@@ -94,18 +97,19 @@ class StatusView(BrowserView):
             result = dispatch.delay(url, self.request.cookies, data)
         except redis.exceptions.ConnectionError:
             return self.fail("dispatch", "redis not available")
-        if result.ready():
-            return self.fail("dispatch", "runs sync but should run async")
         msg = "<a href='?checksum=%s'>verify checksum</a>" % new_checksum
+        if result.ready():
+            return self._dispatch_verify(new_checksum, 'SYNC')
         return self.warn("dispatch", msg)
 
-    def _dispatch_verify(self, verify_checksum):
+    def _dispatch_verify(self, verify_checksum, mode='async'):
         # subsequent validation of async result
         got_checksum = get_checksum()
         if verify_checksum == got_checksum:
-            return self.ok("dispatch", "async execution verified")
+            return self.ok("dispatch", "%s execution verified" % mode)
         else:
-            msg = "expected %s but got %s" % (verify_checksum, got_checksum)
+            msg = "expected %s but got %s (%s)" % (
+                verify_checksum, got_checksum, mode)
             return self.fail("dispatch", msg)
 
 
@@ -145,11 +149,15 @@ class CheckTaskView(BrowserView):
         if checksum:
             alsoProvides(self.request, IDisableCSRFProtection)
             set_checksum(checksum)
+            logger.info("Set checksum %s", checksum)
             return "Set checksum %s" % checksum
         else:
             try:
-                return "Got checksum %s" % get_checksum()
+                got_checksum = get_checksum()
+                logger.info("Got checksum %s", got_checksum)
+                return "Got checksum %s" % got_checksum
             except KeyError:
+                logger.warn("No checksum set yet.")
                 return ("No checksum set yet. "
                         "Create one with ?checksum=foo")
 
