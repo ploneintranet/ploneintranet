@@ -15,4 +15,12 @@
       layer="..interfaces.IPloneintranetAsyncLayer"
       />
 
+  <browser:page
+      name="async-checktask"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".status.CheckTaskView"
+      permission="cmf.ManagePortal"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
 </configure>

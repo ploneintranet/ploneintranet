@@ -1,11 +1,18 @@
 import datetime
+import random
 import socket
 import subprocess
 import time
 import redis.exceptions
 
 from Products.Five.browser import BrowserView
+from plone import api
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.annotation.interfaces import IAnnotations
+from zope.interface import alsoProvides
+
 from ploneintranet.async.celerytasks import add
+from ploneintranet.async.celerytasks import dispatch
 
 
 class StatusView(BrowserView):
@@ -69,3 +76,98 @@ class StatusView(BrowserView):
             return self.fail("task", "no result after %s seconds" % i)
         else:
             return self.ok("task", "completed asynchronously.")
+
+    def dispatch_roundtrip(self):
+        """Verify async task execution via browser dispatch"""
+        verify_checksum = self.request.get('checksum', None)
+        url = '@@async-checktask'
+        if not verify_checksum:
+            return self._dispatch_initialize(url)
+        else:
+            return self._dispatch_verify(verify_checksum)
+
+    def _dispatch_initialize(self, url):
+        # intial dispatch of async task
+        new_checksum = random.random()
+        data = dict(checksum=new_checksum)
+        try:
+            result = dispatch.delay(url, self.request.cookies, data)
+        except redis.exceptions.ConnectionError:
+            return self.fail("dispatch", "redis not available")
+        if result.ready():
+            return self.fail("dispatch", "runs sync but should run async")
+        msg = "<a href='?checksum=%s'>verify checksum</a>" % new_checksum
+        return self.warn("dispatch", msg)
+
+    def _dispatch_verify(self, verify_checksum):
+        # subsequent validation of async result
+        got_checksum = get_checksum()
+        if verify_checksum == got_checksum:
+            return self.ok("dispatch", "async execution verified")
+        else:
+            msg = "expected %s but got %s" % (verify_checksum, got_checksum)
+            return self.fail("dispatch", msg)
+
+
+class CheckTaskView(BrowserView):
+    """
+    Helper view to check async browser call dispatch.
+
+    StatusView delegates a task to this view and then
+    checks that it has been executed asynchronously.
+
+    This view sets a (random) checksum as an annotation on the portal
+    and is able to get that annotation as well.
+
+    Single-process deadlock is avoided as follows:
+    - the annotation setter is delegated to this view via celery (async)
+    - the annotation getter is called directly by StatusView (sync)
+
+    You can also call this view directly, which is one of the main
+    benefits of the ploneintranet async framework based on view delegation.
+    In that case it will set the checksum if the `checksum` is
+    set on the request (e.g. via ?checksum=whatever).
+    If that variable is not set, it will return the existing checksum.
+
+    This view bypasses CSRF, which is safe because the write is limited
+    to a string annotation only.
+
+    DO NOT BYPASS CSRF FOR ACTUAL BUSINESS OBJECT WRITES like file previews.
+    Instead, include a proper authenticator in the POST data.
+    """
+
+    def __call__(self):
+        """
+        set: If `checksum` is set in request, write it to the zodb.
+        get: Else return the existing `checksum`.
+        """
+        checksum = self.request.get('checksum', None)
+        if checksum:
+            alsoProvides(self.request, IDisableCSRFProtection)
+            set_checksum(checksum)
+            return "Set checksum %s" % checksum
+        else:
+            try:
+                return "Got checksum %s" % get_checksum()
+            except KeyError:
+                return ("No checksum set yet. "
+                        "Create one with ?checksum=foo")
+
+
+# checksum get/set used by multiple views
+
+KEY = "ploneintranet.async.status.checksum"
+
+
+def set_checksum(checksum):
+    # no CSRF, be paranoid
+    safe_checksum = str(checksum)[:40]
+    portal = api.portal.get()
+    annotations = IAnnotations(portal)
+    annotations[KEY] = safe_checksum
+
+
+def get_checksum():
+    portal = api.portal.get()
+    annotations = IAnnotations(portal)
+    return annotations[KEY]

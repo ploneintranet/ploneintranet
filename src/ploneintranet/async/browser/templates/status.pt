@@ -21,6 +21,7 @@
         <div tal:content="structure view/redis_running" />
         <div tal:content="structure view/celery_running" />
         <div tal:content="structure view/task_roundtrip" />
+        <div tal:content="structure view/dispatch_roundtrip" />
       </div>
     </body>
 </html>
