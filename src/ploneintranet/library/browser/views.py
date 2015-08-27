@@ -46,6 +46,7 @@ class LibraryBaseView(BrowserView):
 
     groupby = 'section'
     groupby_menu_enabled = False
+    enabled = True
 
     def selected(self, value):
         if value == self.groupby:
