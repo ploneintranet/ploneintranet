@@ -88,9 +88,14 @@ class SearchResult(object):
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
-        if context['has_thumbs']:
-            self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
-                self)
+        if context['has_thumbs']:  # indexer in docconv
+            # can occur in workspaces AND library
+            if self.portal_type in ('Image', 'Document', 'News Item'):
+                self.preview_image_path = \
+                    '{.path}/@@images/image/preview'.format(self)
+            else:
+                self.preview_image_path = \
+                    '{.path}/docconv_image_thumb.jpg'.format(self)
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
