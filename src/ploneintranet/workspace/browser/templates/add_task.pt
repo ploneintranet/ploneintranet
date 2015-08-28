@@ -6,7 +6,7 @@
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" required="required"/>
+        <input type="text" name="title" maxlength="70" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" required="required"/>
         <br/>
         <!--textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea-->
         <input name="portal_type" value="todo" type="hidden" /> 
