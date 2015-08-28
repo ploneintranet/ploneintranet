@@ -21,7 +21,7 @@ class AsyncDispatchError(Exception):
 
 
 @app.task
-def dispatch(url, auth, data={}):
+def dispatch(url, data={}, headers={}, cookies={}):
     """
     Delegate a URL call via celery.
     Preserves the original authentication so that
@@ -43,27 +43,34 @@ def dispatch(url, auth, data={}):
     :param data: additional POST variables to pass through to the url
     :type data: dict
     """
-    _dispatcher(url, auth, data)
+    # return value comes from celery @task not from here
+    _dispatcher(url, data, headers, cookies)
 
 
-def _dispatcher(url, auth, data={}):
+def _dispatcher(url, data={}, headers={}, cookies={}):
     """
     This is not a task but a building block for tasks.
 
     :param url: URL to be called by celery, resolvable behind
                 the webserver (i.e. localhost:8080/Plone/path/to/object)
     :type url: str
-    :param cookie: The original request's user's cookie `{'__ac': 'ABC123'}`
-    :type cookie: dict
-    :param data: additional POST variables to pass through to the url
+
+    :param data: POST variables to pass through to the url
     :type data: dict
+
+    :param headers: request headers.
+    :type headers: dict
+
+    :param cookies: request cookies. Normally contains __ac for Plone.
+    :type cookies: dict
 
     """
     if not url.startswith('http'):
         url = "%s/%s" % ('http://localhost:8081/Plone', url)
     logger.info('Calling %s', url)
     resp = requests.post(url,
-                         headers={"Authorization": auth},
+                         headers=headers,
+                         cookies=cookies,
                          data=data)
     logger.info(resp)
     if resp.status_code != 200:
@@ -72,18 +79,6 @@ def _dispatcher(url, auth, data={}):
         logger.error("Unauthorized (masked as 200 OK)")
     else:
         logger.info("%s: %s", resp.status_code, resp.reason)
-
-
-class BasicAuth(object):
-    """
-    http://docs.python-requests.org/en/latest/user/advanced/#custom-authentication
-    """  # noqa
-    def __init__(self, auth):
-        self.auth = auth
-
-    def __call__(self, r):
-        r.headers['Authorization'] = self.auth
-        return r
 
 
 @app.task

@@ -13,7 +13,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 
 from ploneintranet.async.celerytasks import add
-from ploneintranet.async.celerytasks import dispatch
+from ploneintranet.async.interfaces import IAsyncRequest
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,16 @@ class StatusView(BrowserView):
 
     def warn(self, check, msg='...'):
         return "WARN %s: %s!" % (check, msg)
+
+    def check_user(self):
+        if '__ac' in self.request.cookies:
+            return self.ok("user", "Logged in as Plone user.")
+        elif self.request._auth:
+            return self.warn(
+                "user",
+                "Logged in as Zope user. Better to do this as a Plone user.")
+        else:
+            self.fail("user", "Cannot extract valid credentials.")
 
     def redis_running(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -94,15 +104,14 @@ class StatusView(BrowserView):
         new_checksum = random.random()
         data = dict(checksum=new_checksum)
         try:
-            # avoid error: Can't pickle <type 'instancemethod'>
-            auth = self.request._auth  # @property?
-            result = dispatch.delay(url, auth, data)
+            request = IAsyncRequest(self.request)
+            result = request.post(url, data)
         except redis.exceptions.ConnectionError:
             return self.fail("dispatch", "redis not available")
-        msg = "<a href='?checksum=%s'>verify checksum</a>" % new_checksum
+        msg = "<a href='?checksum=%s'>verify execution</a>" % new_checksum
         if result.ready():
             return self._dispatch_verify(new_checksum, 'SYNC')
-        return self.warn("dispatch", msg)
+        return self.warn("dispatch", "Job queued. %s" % msg)
 
     def _dispatch_verify(self, verify_checksum, mode='async'):
         # subsequent validation of async result

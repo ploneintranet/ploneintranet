@@ -18,6 +18,7 @@
       <h1>async status</h1>
       <p>Last refreshed: <span tal:replace="view/time"/></p>
       <div class="tt">
+        <div tal:content="structure view/check_user" />
         <div tal:content="structure view/redis_running" />
         <div tal:content="structure view/celery_running" />
         <div tal:content="structure view/task_roundtrip" />

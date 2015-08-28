@@ -8,6 +8,7 @@
     i18n_domain="ploneintranet">
 
   <include package=".browser" />
+  <adapter factory=".request.AsyncRequest" />
 
   <genericsetup:registerProfile
       name="default"
@@ -24,6 +25,7 @@
       description="Uninstalls ploneintranet.async"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
 
 
 </configure>
