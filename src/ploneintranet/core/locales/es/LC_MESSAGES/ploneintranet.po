@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-27 13:38+0000\n"
+"POT-Creation-Date: 2015-08-28 08:48+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -154,7 +154,7 @@ msgstr ""
 msgid "All notifications"
 msgstr "Todos las notificaciones"
 
-#: ../library/browser/views.py:99
+#: ../library/browser/views.py:100
 msgid "All topics"
 msgstr ""
 
@@ -677,7 +677,7 @@ msgstr "Invite a los usuarios a este espacio de trabajo (por correo electrónico
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:89
+#: ../workspace/browser/add_content.py:103
 msgid "Item created."
 msgstr ""
 
@@ -1070,7 +1070,7 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:48
+#: ../workspace/browser/add_content.py:62
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1079,7 +1079,7 @@ msgstr ""
 msgid "Post"
 msgstr "Envio"
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:85
@@ -1427,7 +1427,7 @@ msgstr ""
 msgid "There was a problem: %s"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:95
+#: ../workspace/browser/add_content.py:109
 #: ../workspace/browser/edit_content.py:38
 msgid "There was a problem: %s."
 msgstr ""
@@ -1675,6 +1675,11 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/sidebar.pt:42
 msgid "date"
 msgstr "fecha"
+
+#. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
+#: ../workspace/browser/add_content.py:163
+msgid "dates_hijacked"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:21
 #: ../workspace/browser/tiles/templates/sidebar.pt:38

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-27 13:38+0000\n"
+"POT-Creation-Date: 2015-08-28 08:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,7 +153,7 @@ msgstr ""
 msgid "All notifications"
 msgstr ""
 
-#: ../library/browser/views.py:99
+#: ../library/browser/views.py:100
 msgid "All topics"
 msgstr ""
 
@@ -676,7 +676,7 @@ msgstr ""
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:89
+#: ../workspace/browser/add_content.py:103
 msgid "Item created."
 msgstr ""
 
@@ -1069,7 +1069,7 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:48
+#: ../workspace/browser/add_content.py:62
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1078,7 +1078,7 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:85
@@ -1426,7 +1426,7 @@ msgstr ""
 msgid "There was a problem: %s"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:95
+#: ../workspace/browser/add_content.py:109
 #: ../workspace/browser/edit_content.py:38
 msgid "There was a problem: %s."
 msgstr ""
@@ -1673,6 +1673,11 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/navigation.pt:25
 #: ../workspace/browser/tiles/templates/sidebar.pt:42
 msgid "date"
+msgstr ""
+
+#. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
+#: ../workspace/browser/add_content.py:163
+msgid "dates_hijacked"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:21

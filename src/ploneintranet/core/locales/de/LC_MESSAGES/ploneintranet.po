@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-27 13:38+0000\n"
+"POT-Creation-Date: 2015-08-28 08:48+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -157,7 +157,7 @@ msgstr "Ganztägiger Termin"
 msgid "All notifications"
 msgstr "Alle Benachrichtigungen"
 
-#: ../library/browser/views.py:99
+#: ../library/browser/views.py:100
 msgid "All topics"
 msgstr "Alle Themen"
 
@@ -680,7 +680,7 @@ msgstr "Lade Benutzer in diesen Arbeitsbereich ein (per E-Mail)"
 msgid "Invitees"
 msgstr "Eingeladen"
 
-#: ../workspace/browser/add_content.py:89
+#: ../workspace/browser/add_content.py:103
 msgid "Item created."
 msgstr "Element angelegt."
 
@@ -1073,7 +1073,7 @@ msgstr "Wählen Sie die verantwortliche Abteilung"
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:48
+#: ../workspace/browser/add_content.py:62
 msgid "Please specify which Case Template to use"
 msgstr "Bitte geben Sie eine Vorlage an"
 
@@ -1082,7 +1082,7 @@ msgstr "Bitte geben Sie eine Vorlage an"
 msgid "Post"
 msgstr "Post"
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr "PowerPoint"
 
 #: ../userprofile/content/userprofile.py:85
@@ -1430,7 +1430,7 @@ msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 msgid "There was a problem: %s"
 msgstr "Es ist ein Problem aufgetreten: %s."
 
-#: ../workspace/browser/add_content.py:95
+#: ../workspace/browser/add_content.py:109
 #: ../workspace/browser/edit_content.py:38
 msgid "There was a problem: %s."
 msgstr "Es ist ein Problem aufgetreten: %s."
@@ -1678,6 +1678,11 @@ msgstr "Geschäfte"
 #: ../workspace/browser/tiles/templates/sidebar.pt:42
 msgid "date"
 msgstr "Datum"
+
+#. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
+#: ../workspace/browser/add_content.py:163
+msgid "dates_hijacked"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:21
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
