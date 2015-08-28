@@ -34,7 +34,7 @@ msgstr ""
 msgid "Word 2007 document"
 msgstr ""
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr ""
 
 msgid "Zip archive"
