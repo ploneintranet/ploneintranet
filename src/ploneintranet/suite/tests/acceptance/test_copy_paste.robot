@@ -46,7 +46,7 @@ Content Editors can copy and paste content
 I toggle the bulk action controls
     # Yes, adding Sleep is very ugly, but I see no other way to ensure that
     # the sidebar and the element we need has really completely loaded
-    Sleep  0.5
+    Sleep  2
     Wait Until Element is Visible  xpath=//div[@id='selector-functions']//a[text()='Select']
     Click link  xpath=//div[@id='selector-functions']//a[text()='Select']
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[@value='copy']
