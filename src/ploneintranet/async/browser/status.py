@@ -12,7 +12,7 @@ from plone.protect.interfaces import IDisableCSRFProtection
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 
-from ploneintranet.async.celerytasks import add, post
+from ploneintranet.async.tasks import add, post
 from ploneintranet.async.interfaces import IAsyncRequest
 
 logger = logging.getLogger(__name__)
