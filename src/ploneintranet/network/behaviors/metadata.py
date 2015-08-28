@@ -358,6 +358,7 @@ class Categorization(MetadataBase):
         return self.context.subject
 
     def _set_subjects(self, value):
+        value = tuple([safe_unicode(x) for x in value])
         self.context.subject = value
         graph = getUtility(INetworkTool)
         user = api.user.get_current()
