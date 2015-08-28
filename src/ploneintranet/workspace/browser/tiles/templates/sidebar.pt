@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs" action="${here/absolute_url}/@@cart" id="items">
+            <form class="search-result docs pat-inject" action="${here/absolute_url}/@@cart" id="items" data-pat-inject="source: #items; target: #items">
               <fieldset class="checklist pat-checklist docs ">
 
                 <div class="batch-functions">
@@ -187,7 +187,7 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
-                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                       data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                        tal:attributes="href string:${item/url};
                                        class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
                                        data-pat-inject item/dpi | nothing;
@@ -315,7 +315,7 @@ Supported types include (class names):
                              />
                       <a class="pat-inject follow pat-switch"
                          data-pat-inject="source: #document-body; target: #document-body"
-                         data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                         data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                          tal:attributes="title task/title;
                                          href task/url"
                          tal:content="task/title"/>
@@ -345,7 +345,7 @@ Supported types include (class names):
 
                         <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
-                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                           data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
                       </label>
@@ -406,7 +406,7 @@ Supported types include (class names):
                       <h4 class="title">
                         <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
-                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                           data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="href string:${event/getURL}#document-body"
                            tal:content="event/Title"/>
                       </h4>
