@@ -288,6 +288,7 @@ Supported types include (class names):
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
+                 i18n:attributes="title"
                  tal:attributes="href string:${ws/absolute_url}/add_task"
                  tal:condition="view/can_add">Create task</a>
             </div>
@@ -352,18 +353,18 @@ Supported types include (class names):
                     <p class="button-bar">
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
-                         tal:condition="view/can_add">Create new task</a>
+                         tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestones[milestone]['enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets">Close milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestones[milestone]['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets">Reopen milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Reopen milestone</a>
                     </p>
                   </fieldset>
                 </tal:milestone>
                 <fieldset class="task-list pat-checklist" tal:define="uatasks python:tasks['unassigned']" tal:condition="uatasks">
-                  <h3 class="section-label">
+                  <h3 class="section-label" i18n:translate="">
                     Unassigned
                   </h3>
                   <label tal:repeat="task uatasks">

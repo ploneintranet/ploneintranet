@@ -1,6 +1,8 @@
 import urllib
 
 from logging import getLogger
+from plone.dexterity.utils import safe_unicode
+from plone.app.contenttypes.browser import link_redirect_view
 from plone.memoize import view
 from Products.Five import BrowserView
 
@@ -25,9 +27,12 @@ class ContentView(LibraryBaseView):
     @view.memoize
     def subjects(self):
         base_url = self.app().absolute_url()
-        return [dict(title=tag,
-                     absolute_url="%s/tag/%s" % (base_url, urllib.quote(tag)))
-                for tag in ICategorization(self.context).subjects]
+        _tags = [safe_unicode(t)
+                 for t in ICategorization(self.context).subjects]
+        return [dict(title=_tag,
+                     absolute_url="%s/tag/%s" % (
+                         base_url, urllib.quote(_tag.encode('utf8'))))
+                for _tag in _tags]
 
 
 class DownloadView(BrowserView):
@@ -41,3 +46,13 @@ class DownloadView(BrowserView):
 
     def __call__(self):
         self.request.response.redirect(self.context.absolute_url())
+
+
+class LinkRedirectView(link_redirect_view.LinkRedirectView):
+    """
+    Always redirect, even if the user has edit permissions.
+    (Editing is done in Barceloneta)
+    """
+
+    def __call__(self):
+        return self.request.RESPONSE.redirect(self.absolute_target_url())

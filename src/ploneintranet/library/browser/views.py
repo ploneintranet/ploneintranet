@@ -4,6 +4,7 @@ from logging import getLogger
 from Products.Five import BrowserView
 from plone import api
 from plone.app.layout.globals.interfaces import IViewView
+from plone.dexterity.utils import safe_unicode
 from plone.memoize import view
 from zope.component import getUtility
 from zope.interface import implements
@@ -44,6 +45,8 @@ class LibraryHomeView(BrowserView):
 class LibraryBaseView(BrowserView):
 
     groupby = 'section'
+    groupby_menu_enabled = False
+    enabled = True
 
     def selected(self, value):
         if value == self.groupby:
@@ -121,11 +124,15 @@ class LibraryBaseView(BrowserView):
 
 class LibraryAppView(LibraryBaseView):
 
+    groupby_menu_enabled = True
+
     def info(self):
         return {}
 
 
 class LibrarySectionView(LibraryBaseView):
+
+    groupby_menu_enabled = True
 
     def info(self):
         return dict(title=self.context.Title,
@@ -145,15 +152,17 @@ class LibraryTagView(LibraryBaseView):
     implements(IPublishTraverse, IViewView)
 
     groupby = 'tag'
+    groupby_menu_enabled = True
 
     def __init__(self, context, request):
         super(LibraryTagView, self).__init__(context, request)
         self.sitesearch = getUtility(ISiteSearch)
         self.request_tag = None
+        self.enabled = True  # only in solr
 
     def publishTraverse(self, request, name):
         """Extract self.request_tag from URL /tag/foobar"""
-        self.request_tag = urllib.unquote(name)
+        self.request_tag = safe_unicode(urllib.unquote(name))
         return self
 
     def query(self, filters={}, **kwargs):
@@ -188,23 +197,32 @@ class LibraryTagView(LibraryBaseView):
         return menu
 
     def children(self):
+        """Catch error on non-supported ZCatalog"""
+        try:
+            return self._children()
+        except UnicodeDecodeError:
+            # happens on ZCatalog. Not supported here.
+            self.enabled = False
+            return []
+
+    def _children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
         response = self.query(filters=dict(path=path))
         struct = []
-        for tag in response.facets.get('tags', []):
+        for _tag in self._tags_facet(response):
             url = "%s/tag/%s" % (self.context.absolute_url(),
-                                 urllib.quote(tag))
-            section = dict(title=tag,
+                                 urllib.quote(_tag.encode('utf8')))
+            section = dict(title=_tag,
                            absolute_url=url,
                            type='tag',
                            subtags=[],
                            content=[])
             if self.request_tag:
-                section['content'] = self._content_children(path, tag)
+                section['content'] = self._content_children(path, _tag)
                 section['count'] = len(section['content'])
             else:
-                section['subtags'] = self._subtags_children(path, tag)
+                section['subtags'] = self._subtags_children(path, _tag)
                 section['count'] = len(section['subtags'])
             struct.append(section)
         return sorted(struct, key=lambda x: x['count'])
@@ -214,12 +232,12 @@ class LibraryTagView(LibraryBaseView):
         response = self.query(filters=dict(path=path,
                                            tags=tag))
         children = []
-        for _tag in response.facets.get('tags'):
+        for _tag in self._tags_facet(response):
             if _tag == tag:
                 # work around poor zcatalog faceting implementation
                 continue
             url = "%s/tag/%s" % (self.context.absolute_url(),
-                                 urllib.quote(_tag))
+                                 urllib.quote(_tag.encode('utf8')))
             children.append(dict(title=_tag,
                                  absolute_url=url))
         return children
@@ -235,3 +253,11 @@ class LibraryTagView(LibraryBaseView):
             children.append(dict(title=child.title,
                                  absolute_url=child.url))
         return children
+
+    def _tags_facet(self, searchresponse):
+        """
+        ZCatalog returns <str> Solr returns <unicode>.
+        We force everything into unicode.
+        """
+        return [safe_unicode(t)
+                for t in searchresponse.facets.get('tags', [])]

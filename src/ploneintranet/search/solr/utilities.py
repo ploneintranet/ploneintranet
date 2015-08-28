@@ -7,6 +7,7 @@ from plone import api
 from zope.component import getUtility
 from zope.interface import implementer
 from AccessControl.SecurityManagement import getSecurityManager
+from Products.CMFPlone.utils import safe_unicode
 
 from .. import base
 from ..interfaces import ISiteSearch
@@ -174,7 +175,8 @@ class SiteSearch(base.SiteSearch):
                 # create an OR subquery for this filter
                 subquery = interface.Q()
                 for item in value:
-                    subquery |= interface.Q(**{key: item})
+                    # item can be a string, force unicode
+                    subquery |= interface.Q(**{key: safe_unicode(item)})
                 query = query.filter(subquery)
             else:
                 query = query.filter(interface.Q(**{key: value}))
