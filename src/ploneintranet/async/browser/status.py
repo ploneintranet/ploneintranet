@@ -94,7 +94,9 @@ class StatusView(BrowserView):
         new_checksum = random.random()
         data = dict(checksum=new_checksum)
         try:
-            result = dispatch.delay(url, self.request.cookies, data)
+            # avoid error: Can't pickle <type 'instancemethod'>
+            auth = self.request._auth  # @property?
+            result = dispatch.delay(url, auth, data)
         except redis.exceptions.ConnectionError:
             return self.fail("dispatch", "redis not available")
         msg = "<a href='?checksum=%s'>verify checksum</a>" % new_checksum

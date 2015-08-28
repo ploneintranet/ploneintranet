@@ -21,7 +21,7 @@ class AsyncDispatchError(Exception):
 
 
 @app.task
-def dispatch(url, cookies, data={}):
+def dispatch(url, auth, data={}):
     """
     Delegate a URL call via celery.
     Preserves the original authentication so that
@@ -43,10 +43,10 @@ def dispatch(url, cookies, data={}):
     :param data: additional POST variables to pass through to the url
     :type data: dict
     """
-    _dispatcher(url, cookies, data)
+    _dispatcher(url, auth, data)
 
 
-def _dispatcher(url, cookies, data={}):
+def _dispatcher(url, auth, data={}):
     """
     This is not a task but a building block for tasks.
 
@@ -62,14 +62,28 @@ def _dispatcher(url, cookies, data={}):
     if not url.startswith('http'):
         url = "%s/%s" % ('http://localhost:8081/Plone', url)
     logger.info('Calling %s', url)
-    resp = requests.post(url, data=data, cookies=cookies)
+    resp = requests.post(url,
+                         headers={"Authorization": auth},
+                         data=data)
     logger.info(resp)
-    if 'login_form' in resp.text:
-        logger.error("Unauthorized (masked as 200 OK)")
-        raise(AsyncDispatchError, "Unauthorized (masked as 200 OK)")
-    elif resp.status_code != 201:
+    if resp.status_code != 200:
         logger.error("invalid response %s: %s", resp.status_code, resp.reason)
-        raise(AsyncDispatchError, resp)
+    elif 'login_form' in resp.text:
+        logger.error("Unauthorized (masked as 200 OK)")
+    else:
+        logger.info("%s: %s", resp.status_code, resp.reason)
+
+
+class BasicAuth(object):
+    """
+    http://docs.python-requests.org/en/latest/user/advanced/#custom-authentication
+    """  # noqa
+    def __init__(self, auth):
+        self.auth = auth
+
+    def __call__(self, r):
+        r.headers['Authorization'] = self.auth
+        return r
 
 
 @app.task

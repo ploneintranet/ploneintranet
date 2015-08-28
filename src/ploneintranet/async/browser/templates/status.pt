@@ -23,6 +23,9 @@
         <div tal:content="structure view/task_roundtrip" />
         <div tal:content="structure view/dispatch_roundtrip" />
       </div>
-      <p><a href="@@async-status">try again</a></p>
+      <form tal:condition="view/request/checksum|nothing">
+        <h2>Try again</h2>
+        <input type="submit" value="New checksum" />
+      </form>
     </body>
 </html>
