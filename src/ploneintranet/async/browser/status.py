@@ -12,7 +12,7 @@ from plone.protect.interfaces import IDisableCSRFProtection
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 
-from ploneintranet.async.celerytasks import add
+from ploneintranet.async.celerytasks import add, post
 from ploneintranet.async.interfaces import IAsyncRequest
 
 logger = logging.getLogger(__name__)
@@ -105,7 +105,7 @@ class StatusView(BrowserView):
         data = dict(checksum=new_checksum)
         try:
             request = IAsyncRequest(self.request)
-            result = request.post(url, data)
+            result = request.async(post, url, data)
         except redis.exceptions.ConnectionError:
             return self.fail("dispatch", "redis not available")
         msg = "<a href='?checksum=%s'>verify execution</a>" % new_checksum

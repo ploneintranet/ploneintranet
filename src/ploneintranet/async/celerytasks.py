@@ -17,16 +17,16 @@ logger = logging.getLogger(__name__)
 
 
 class AsyncDispatchError(Exception):
-    """Raised if async dispatch fails"""
+    """Raised if async post fails"""
 
 
 @app.task
-def dispatch(url, data={}, headers={}, cookies={}):
+def post(url, data={}, headers={}, cookies={}):
     """
-    Delegate a URL call via celery.
+    Delegate a HTTP POST URL call via celery.
     Preserves the original authentication so that
     async tasks get executed with the same security
-    as the user initiating the dispatch.
+    as the user initiating the post.
 
     There is no result or callback, the assumption is that results
     are committed to the ZODB by the view called on `url`.
@@ -38,16 +38,21 @@ def dispatch(url, data={}, headers={}, cookies={}):
     :param url: URL to be called by celery, resolvable behind
                 the webserver (i.e. localhost:8080/Plone/path/to/object)
     :type url: str
-    :param cookie: The original request's user's cookie `{'__ac': 'ABC123'}`
-    :type cookie: dict
-    :param data: additional POST variables to pass through to the url
+
+    :param data: POST variables to pass through to the url
     :type data: dict
+
+    :param headers: request headers.
+    :type headers: dict
+
+    :param cookies: request cookies. Normally contains __ac for Plone.
+    :type cookies: dict
     """
     # return value comes from celery @task not from here
-    _dispatcher(url, data, headers, cookies)
+    dispatch(url, data, headers, cookies)
 
 
-def _dispatcher(url, data={}, headers={}, cookies={}):
+def dispatch(url, data={}, headers={}, cookies={}):
     """
     This is not a task but a building block for tasks.
 
@@ -97,7 +102,7 @@ def generate_and_add_preview(url, cookies):
         'url': url
     }
     url += '/@@generate-previews'
-    _dispatcher(url, cookies, data)
+    dispatch(url, cookies, data)
 
 
 @app.task

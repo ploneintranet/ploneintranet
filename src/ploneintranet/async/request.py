@@ -1,9 +1,11 @@
+import logging
 from zope.component import adapts
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
 
 from ploneintranet.async.interfaces import IAsyncRequest
-from ploneintranet.async.celerytasks import dispatch
+
+logger = logging.getLogger(__name__)
 
 
 @implementer(IAsyncRequest)
@@ -30,19 +32,31 @@ class AsyncRequest(object):
             auth = self.request._auth  # @property?
             self.headers = dict(Authorization=auth)
 
-    def post(self, url, data={}, headers={}, cookies={}):
+    def async(self, task, url, data={}, headers={}, cookies={}, **kwargs):
         """Start a Celery task that will execute a post request.
 
-        The post will call `url` with `self.headers` as request headers,
+        `task.apply_async` will called with the rest of the arguments and
+        is expected to call `url` with `self.headers` as request headers,
         `self.cookie` as request cookies, and `data` as post data
         via the python request library.
 
         Any `headers={}` and `cookies={}` args will be merged with
         the headers and cookies extracted from the original request.
 
+        `**kwargs` will be passed through as arguments to celery
+        `apply_async` so you can set async execution options like
+        `countdown`, `expires` or `eta`.
+
         All arguments should be immutables that can be serialized.
+
+        Sets a `X-celery-task-name` http header for task request routing
+        in HAProxy etc. YMMV.
         """
+        self.headers['X-celery-task-name'] = task.name
         self.headers.update(headers)
         self.cookies.update(cookies)
+        logger.info("Calling %s(%s, ...)", task.name, url)
         # calling code should handle redis.exceptions.ConnectionError
-        return dispatch.delay(url, data, self.headers, self.cookies)
+        return task.apply_async(
+            (url, data, self.headers, self.cookies),
+            **kwargs)

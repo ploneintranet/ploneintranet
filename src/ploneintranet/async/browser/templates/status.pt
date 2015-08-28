@@ -12,12 +12,18 @@
          font-family: monotype;
       }
     </style>
+
   </head>
 
     <body class="view-secure">
       <h1>async status</h1>
       <p>Last refreshed: <span tal:replace="view/time"/></p>
-      <div class="tt">
+      <p tal:condition="view/request/_authenticator|nothing">
+        Your session has expired. Please
+        <a href="login"
+           tal:attributes="href string:login?came_from=${view/context/absolute_url}/@@async-status">log in</a> again.
+      </p>
+      <div class="tt" tal:condition="not:view/request/_authenticator|nothing">
         <div tal:content="structure view/check_user" />
         <div tal:content="structure view/redis_running" />
         <div tal:content="structure view/celery_running" />

@@ -22,15 +22,20 @@ class IAsyncRequest(Interface):
         """A dictionary with request cookie key: value pairs"""
     )
 
-    def post(url, data={}, headers={}, cookies={}):
+    def async(task, url, data={}, headers={}, cookies={}, **kwargs):
         """Start a Celery task that will execute a post request.
 
-        The post will call `url` with `self.headers` as request headers,
+        `task.apply_async` will called with the rest of the arguments and
+        is expected to call `url` with `self.headers` as request headers,
         `self.cookie` as request cookies, and `data` as post data
         via the python request library.
 
         Any `headers={}` and `cookies={}` args will be merged with
         the headers and cookies extracted from the original request.
+
+        `**kwargs` will be passed through as arguments to celery
+        `apply_async` so you can set async execution options like
+        `countdown`, `expires` or `eta`.
 
         All arguments should be immutables that can be serialized.
         """
