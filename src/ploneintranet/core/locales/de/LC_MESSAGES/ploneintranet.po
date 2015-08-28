@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-27 12:45+0000\n"
+"POT-Creation-Date: 2015-08-28 08:33+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -962,7 +962,7 @@ msgstr ""
 msgid "Post"
 msgstr "Post"
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr "PowerPoint"
 
 #: ../userprofile/content/userprofile.py:85

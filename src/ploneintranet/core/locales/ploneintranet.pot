@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-08-27 12:45+0000\n"
+"POT-Creation-Date: 2015-08-28 08:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -961,7 +961,7 @@ msgstr ""
 msgid "Post"
 msgstr ""
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:85

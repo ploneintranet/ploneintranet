@@ -29,7 +29,7 @@ msgstr ""
 msgid "Word 2007 document"
 msgstr ""
 
-msgid "PowerPoint 2007 slide"
+msgid "PowerPoint 2007 presentation"
 msgstr ""
 
 msgid "Zip archive"
@@ -66,15 +66,6 @@ msgid "Todo"
 msgstr ""
 
 msgid "Case Workspace"
-msgstr ""
-
-msgid "Library App"
-msgstr ""
-
-msgid "Library Section"
-msgstr ""
-
-msgid "Library Folder"
 msgstr ""
 
 msgid "Person"
