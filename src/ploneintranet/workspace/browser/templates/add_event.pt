@@ -14,7 +14,7 @@
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus />
+        <input type="text" name="title" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus />
       </fieldset>
 
       <fieldset class="vertical"

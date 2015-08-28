@@ -16,7 +16,7 @@
         <div class="panel-body" tal:define="templates view/templates">
           <fieldset class="vertical">
             <label>
-              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" />
             </label>
             <label>
               <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
