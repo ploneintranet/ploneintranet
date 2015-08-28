@@ -8,9 +8,8 @@ import logging
 
 from Products.Five.browser import BrowserView
 from plone import api
-from plone.protect.interfaces import IDisableCSRFProtection
 from zope.annotation.interfaces import IAnnotations
-from zope.interface import alsoProvides
+from zope.component import getMultiAdapter
 
 from ploneintranet.async.tasks import add, post
 from ploneintranet.async.interfaces import IAsyncRequest
@@ -90,43 +89,47 @@ class StatusView(BrowserView):
         else:
             return self.ok("task", "completed asynchronously.")
 
-    def dispatch_roundtrip(self):
-        """Verify async task execution via browser dispatch"""
+    def post_roundtrip(self):
+        """Verify async task execution via http post"""
         verify_checksum = self.request.get('checksum', None)
         url = '@@async-checktask'
         if not verify_checksum:
-            return self._dispatch_initialize(url)
+            return self._post_initialize(url)
         else:
-            return self._dispatch_verify(verify_checksum)
+            return self._post_verify(verify_checksum)
 
-    def _dispatch_initialize(self, url):
-        # intial dispatch of async task
+    def _post_initialize(self, url):
+        # intial post of async task
         new_checksum = random.random()
         data = dict(checksum=new_checksum)
         try:
+            authenticator = getMultiAdapter((self.context, self.request),
+                                            name=u"authenticator")
+            data['_authenticator'] = authenticator.token()
             request = IAsyncRequest(self.request)
             result = request.async(post, url, data)
         except redis.exceptions.ConnectionError:
-            return self.fail("dispatch", "redis not available")
-        msg = "<a href='?checksum=%s'>verify execution</a>" % new_checksum
+            return self.fail("post", "redis not available")
+        msg = "<a class='button' href='?checksum=%s'>verify execution</a>" % (
+            new_checksum)
         if result.ready():
-            return self._dispatch_verify(new_checksum, 'SYNC')
-        return self.warn("dispatch", "Job queued. %s" % msg)
+            return self._post_verify(new_checksum, 'SYNC')
+        return self.warn("post", "Job queued. %s" % msg)
 
-    def _dispatch_verify(self, verify_checksum, mode='async'):
+    def _post_verify(self, verify_checksum, mode='async'):
         # subsequent validation of async result
         got_checksum = get_checksum()
         if verify_checksum == got_checksum:
-            return self.ok("dispatch", "%s execution verified" % mode)
+            return self.ok("post", "%s execution verified. :-)" % mode)
         else:
             msg = "expected %s but got %s (%s)" % (
                 verify_checksum, got_checksum, mode)
-            return self.fail("dispatch", msg)
+            return self.fail("post", msg)
 
 
 class CheckTaskView(BrowserView):
     """
-    Helper view to check async browser call dispatch.
+    Helper view to check async http post.
 
     StatusView delegates a task to this view and then
     checks that it has been executed asynchronously.
@@ -158,7 +161,6 @@ class CheckTaskView(BrowserView):
         """
         checksum = self.request.get('checksum', None)
         if checksum:
-            alsoProvides(self.request, IDisableCSRFProtection)
             set_checksum(checksum)
             logger.info("Set checksum %s", checksum)
             return "Set checksum %s" % checksum

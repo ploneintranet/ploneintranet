@@ -87,7 +87,7 @@ def dispatch(url, data={}, headers={}, cookies={}):
 
 
 @app.task
-def generate_and_add_preview(url, cookies):
+def generate_and_add_preview(url, data={}, headers={}, cookies={}):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
     for the given URL and add it to the object
@@ -97,12 +97,12 @@ def generate_and_add_preview(url, cookies):
     :param cookie: The original request's user's cookie `{'__ac': 'ABC123'}`
     :type cookie: dict
     """
-    data = {
+    data.update({
         'action': 'add',
         'url': url
-    }
+    })
     url += '/@@generate-previews'
-    dispatch(url, cookies, data)
+    dispatch(url, data, headers, cookies)
 
 
 @app.task
