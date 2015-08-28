@@ -11,7 +11,7 @@
   <div class="panel-body">
     <fieldset class="vertical">
         <input type="hidden" name="portal_type" value="Folder" />
-        <input type="text" name="title" placeholder="Folder name" i18n:attributes="placeholder" required="required" autofocus />
+        <input type="text" name="title" maxlength="70" placeholder="Folder name" i18n:attributes="placeholder" required="required" autofocus />
         <textarea name="description" rows="6" placeholder="Description for search results (Optional)" i18n:attributes="placeholder"></textarea>
     </fieldset>
   </div>
