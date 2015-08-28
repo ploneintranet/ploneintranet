@@ -933,6 +933,8 @@ class Sidebar(BaseTile):
             object_provides=IEvent.__identifier__,
             path=workspace_path,
             end={'query': now, 'range': 'min'},
+            sort_on='start',
+            sort_order='descending',
         )
 
         # Events which have finished
@@ -940,5 +942,7 @@ class Sidebar(BaseTile):
             object_provides=IEvent.__identifier__,
             path=workspace_path,
             end={'query': now, 'range': 'max'},
+            sort_on='start',
+            sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
