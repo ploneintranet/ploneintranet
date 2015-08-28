@@ -13,6 +13,7 @@ All the tasks here should use the same interface contract as post.
 """
 import logging
 import time
+from BeautifulSoup import BeautifulSoup
 from celery import Celery
 import requests
 
@@ -72,17 +73,25 @@ def dispatch(url, data={}, headers={}, cookies={}):
     See post() for interface contract.
     """
     logger.info('Calling %s', url)
+    logger.info('headers: %s' % str(headers))
+    logger.info('data: %s' % str(data))
     resp = requests.post(url,
                          headers=headers,
                          cookies=cookies,
                          data=data)
     logger.info(resp)
     if resp.status_code != 200:
-        logger.error("invalid response %s: %s", resp.status_code, resp.reason)
+        logger.error("Invalid response %s: %s", resp.status_code, resp.reason)
+        if 'error has been logged' in resp.text:
+            errcode = BeautifulSoup(resp.text).code.string
+            logger.error(
+                "Error logged in {portal_url}/error_log/showEntry?id=%s",
+                errcode)
     elif 'login_form' in resp.text:
         logger.error("Unauthorized (masked as 200 OK)")
     else:
         logger.info("%s: %s", resp.status_code, resp.reason)
+        logger.info(resp.text)
 
 
 @app.task

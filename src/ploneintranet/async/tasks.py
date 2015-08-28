@@ -58,7 +58,7 @@ class Post(object):
         if self.request._auth:
             # avoid error: Can't pickle <type 'instancemethod'>
             auth = self.request._auth  # @property?
-            self.headers = dict(Authorization=auth)
+            self.headers['Authorization'] = auth
 
         # we need context and request for CSRF protection
         authenticator = getMultiAdapter((self.context, self.request),

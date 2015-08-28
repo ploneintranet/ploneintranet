@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
+import base64
 import os
 import unittest
 
@@ -7,7 +8,8 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-# from plone.testing import z2
+
+from plone.testing import z2
 
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
@@ -23,9 +25,11 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
                                                        'true')
         os.environ['ASYNC_ENABLED'] = 'true'
         os.environ['CELERY_ALWAYS_EAGER'] = 'false'
+        super(PloneintranetAsyncLayer, self).setUp()
 
     def tearDown(self):
         """Restore original environment"""
+        super(PloneintranetAsyncLayer, self).tearDown()
         os.environ['ASYNC_ENABLED'] = self.orig_ASYNC_ENABLED
         os.environ['CELERY_ALWAYS_EAGER'] = self.orig_CELERY_ALWAYS_EAGER
 
@@ -49,7 +53,8 @@ FIXTURE = PloneintranetAsyncLayer()
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,), name="PloneintranetAsyncLayer:Integration")
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(FIXTURE,), name="PloneintranetAsyncLayer:Functional")
+    bases=(FIXTURE, z2.ZSERVER_FIXTURE),  # NB ZServer enabled!
+    name="PloneintranetAsyncLayer:Functional")
 
 
 class IntegrationTestCase(unittest.TestCase):
@@ -62,3 +67,11 @@ class FunctionalTestCase(unittest.TestCase):
     """Base class for functional tests."""
 
     layer = FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.request = self.portal.REQUEST
+        # fake needed credentials at Post.__init__
+        cred = base64.encodestring('admin:secret')
+        self.request._auth = 'Basic %s' % cred.strip()

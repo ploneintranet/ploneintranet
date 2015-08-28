@@ -1,10 +1,17 @@
 import os
+import random
 import socket
 import subprocess
 import time
+import transaction
 
 import redis.exceptions
+
+from ploneintranet.async.browser.status import get_checksum
+from ploneintranet.async.tasks import Post
+
 from ploneintranet.async.testing import IntegrationTestCase
+from ploneintranet.async.testing import FunctionalTestCase
 
 
 class TestDispatch(IntegrationTestCase):
@@ -52,3 +59,27 @@ class TestDispatch(IntegrationTestCase):
             time.sleep(1)  # catch unexpected delay
         self.assertTrue(result.ready(), "result should've been ready")
         self.assertEqual(result.get(), 4)
+
+
+class TestPost(FunctionalTestCase):
+
+    def test_post(self):
+        """Verify http post async task execution"""
+        url = '@@async-checktask'
+        checksum = random.random()
+        data = dict(checksum=checksum)
+        result = Post(self.portal, self.request)(url, data)
+        i = 0.0
+        while not result.ready():
+            time.sleep(.1)
+            i += .1
+            if i >= 2.0:
+                self.fail("Did not get a result in %s seconds" % i)
+        # we need to commit in order to see the other transaction
+        transaction.commit()
+        try:
+            got_checksum = get_checksum()
+        except KeyError:
+            self.fail('no checksum annotations available at all!')
+        # the checksum got mangled a bit in transmission
+        self.assertEqual(str(checksum), str(got_checksum))
