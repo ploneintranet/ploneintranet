@@ -108,7 +108,7 @@
           <li tal:condition="python:context.portal_type in ('File', 'Image')">
             <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
           </li>
-          <li><em i18n:translate="more_sharing_soon">More sharing options coming soon</em></li>
+          <li><em><tal:more_options i18n:translate="more_sharing_soon">More sharing options coming soon</tal:more_options>…</em></li>
         </ul>
       </div>
 
