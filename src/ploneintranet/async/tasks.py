@@ -1,112 +1,132 @@
 """
-Celery tasks providing asynchronous jobs for Plone Intranet
+Convenience wrappers for Celery tasks providing async jobs for Plone Intranet.
+
+These wrappers provide authentication and serialization for easy calling.
+
+If you want to add a task, add the business logic here, create a celery
+task hook in ploneintranet.async.celerytasks and point to that task in your
+own task class.
 """
 import logging
-import time
-from celery import Celery
-import requests
+from zope.component import getMultiAdapter
+from zope.interface import implementer
 
-# from plone import api
-from ploneintranet.async import celeryconfig
+from ploneintranet.async.interfaces import IAsyncTask
+from ploneintranet.async import celerytasks
 
-app = Celery('ploneintranet.tasks',
-             broker='redis://localhost:6379/0',
-             backend='redis://localhost:6379/1')
-app.config_from_object(celeryconfig)
 logger = logging.getLogger(__name__)
 
 
-class AsyncDispatchError(Exception):
-    """Raised if async post fails"""
-
-
-@app.task
-def post(url, data={}, headers={}, cookies={}):
+@implementer(IAsyncTask)
+class Post(object):
     """
-    Delegate a HTTP POST URL call via celery.
-    Preserves the original authentication so that
-    async tasks get executed with the same security
-    as the user initiating the post.
+    Execute a HTTP POST request asynchronously via Celery.
 
-    There is no result or callback, the assumption is that results
-    are committed to the ZODB by the view called on `url`.
+    Extracts authentication credentials from a original request
+    and submits a new post request, taking special care
+    that all calls are properly serialized.
 
-    DO NOT BYPASS CSRF FOR ACTUAL BUSINESS OBJECT WRITES like file previews.
-    Instead, include a proper authenticator in the POST `data`.
-    See https://pypi.python.org/pypi/plone.protect
+    Sets a `X-celery-task-name` http header for task request routing
+    in HAProxy etc. YMMV.
 
-    :param url: URL to be called by celery, resolvable behind
-                the webserver (i.e. localhost:8080/Plone/path/to/object)
-    :type url: str
+    This task is suitable as a base class for more specialized
+    subclasses. It is structured as if it were an adapter but
+    it is not registered or used as an adapter.
 
-    :param data: POST variables to pass through to the url
-    :type data: dict
+    Example usage::
 
-    :param headers: request headers.
-    :type headers: dict
-
-    :param cookies: request cookies. Normally contains __ac for Plone.
-    :type cookies: dict
+      url = '@@async-checktask'
+      data = dict(checksum=random.random())
+      try:
+          post = Post(self.context, self.request)  # __init__
+          post(url, data)                          # __call__
+      except redis.exceptions.ConnectionError:
+          return self.fail("post", "redis not available")
     """
-    # return value comes from celery @task not from here
-    dispatch(url, data, headers, cookies)
+
+    task = celerytasks.post
+
+    def __init__(self, context, request):
+        """Extract credentials."""
+        self.context = context
+        self.request = request
+        self.headers = {'X-celery-task-name': self.task.name}
+
+        # Plone auth will be set as '__ac' cookie
+        self.cookies = request.cookies
+        # Zope basic auth
+        if self.request._auth:
+            # avoid error: Can't pickle <type 'instancemethod'>
+            auth = self.request._auth  # @property?
+            self.headers = dict(Authorization=auth)
+
+        # we need context and request for CSRF protection
+        authenticator = getMultiAdapter((self.context, self.request),
+                                        name=u"authenticator")
+        self.data = {'_authenticator': authenticator.token()}
+        self.url = self.context.absolute_url()
+
+    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
+        """Start a Celery task that will execute a post request.
+
+        The optional `url` argument may be used to override `self.url`.
+        The optional `data`, `headers` and `cookies` args will update
+        the corresponding self.* attributes.
+
+        `self.task.apply_async` will called with the self.* attributes
+        as arguments and is expected to call `url` with
+        `self.headers` as request headers,
+        `self.cookie` as request cookies, and `self.data` as post data
+        via the python request library.
+
+        `**kwargs` will be passed through as arguments to celery
+        `apply_async` so you can set async execution options like
+        `countdown`, `expires` or `eta`.
+
+        Returns a <class 'celery.result.AsyncResult'> when running async,
+        or a <class 'celery.result.EagerResult'> when running in sync mode.
+        """
+        if url:
+            self.url = url
+        if not self.url.startswith('http'):
+            self.url = "%s/%s" % (self.context.absolute_url(), url)
+        self.data.update(data)
+        self.headers.update(headers)
+        self.cookies.update(cookies)
+        logger.info("Calling %s(%s, ...)", self.task.name, url)
+        # calling code should handle redis.exceptions.ConnectionError
+        return self.task.apply_async(
+            (self.url, self.data, self.headers, self.cookies),
+            **kwargs)
 
 
-def dispatch(url, data={}, headers={}, cookies={}):
-    """
-    This is not a task but a building block for tasks.
-
-    :param url: URL to be called by celery, resolvable behind
-                the webserver (i.e. localhost:8080/Plone/path/to/object)
-    :type url: str
-
-    :param data: POST variables to pass through to the url
-    :type data: dict
-
-    :param headers: request headers.
-    :type headers: dict
-
-    :param cookies: request cookies. Normally contains __ac for Plone.
-    :type cookies: dict
-
-    """
-    if not url.startswith('http'):
-        url = "%s/%s" % ('http://localhost:8081/Plone', url)
-    logger.info('Calling %s', url)
-    resp = requests.post(url,
-                         headers=headers,
-                         cookies=cookies,
-                         data=data)
-    logger.info(resp)
-    if resp.status_code != 200:
-        logger.error("invalid response %s: %s", resp.status_code, resp.reason)
-    elif 'login_form' in resp.text:
-        logger.error("Unauthorized (masked as 200 OK)")
-    else:
-        logger.info("%s: %s", resp.status_code, resp.reason)
-
-
-@app.task
-def generate_and_add_preview(url, data={}, headers={}, cookies={}):
+@implementer(IAsyncTask)
+class GeneratePreview(Post):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
-    for the given URL and add it to the object
-    :param url: URL to the object to generate preview for, resolvable behind
-                the webserver (i.e. localhost:8080/Plone/path/to/object)
-    :type url: str
-    :param cookie: The original request's user's cookie `{'__ac': 'ABC123'}`
-    :type cookie: dict
+    for the given object URL and add it to the object.
+
+    Usage::
+
+      from ploneintranet.async.tasks import GeneratePreview
+      GeneratePreview(self.context, self.request)()
+
+    Mind the final call parentheses.
+
+    Of course this depends on the @@generate-previews view being available
+    to do the actual heavy lifting. This task only delegates to that
+    view via Celery.
     """
-    data.update({
-        'action': 'add',
-        'url': url
-    })
-    url += '/@@generate-previews'
-    dispatch(url, data, headers, cookies)
 
+    task = celerytasks.generate_and_add_preview
 
-@app.task
-def add(x, y, delay=1):
-    """Demo task used to test celery roundtrip"""
-    time.sleep(delay)
-    return x + y
+    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
+        if not url:
+            url = self.context.absolute_url()
+        data.update({
+            'action': 'add',
+            'url': url
+        })
+        url += '/@@generate-previews'
+        super(GeneratePreview, self).__call__(
+            url, data, headers, cookies, **kwargs)

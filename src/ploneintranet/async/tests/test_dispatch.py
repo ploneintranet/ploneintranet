@@ -41,7 +41,7 @@ class TestDispatch(IntegrationTestCase):
     def test_task(self):
         """Verify delayed task execution"""
         # delay import with side effects until after setup
-        from ploneintranet.async.tasks import add
+        from ploneintranet.async.celerytasks import add
         try:
             result = add.delay(2, 2, 1)
         except redis.exceptions.ConnectionError:

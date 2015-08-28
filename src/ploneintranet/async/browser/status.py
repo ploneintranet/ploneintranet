@@ -9,10 +9,9 @@ import logging
 from Products.Five.browser import BrowserView
 from plone import api
 from zope.annotation.interfaces import IAnnotations
-from zope.component import getMultiAdapter
 
-from ploneintranet.async.tasks import add, post
-from ploneintranet.async.interfaces import IAsyncRequest
+from ploneintranet.async.celerytasks import add
+from ploneintranet.async.tasks import Post
 
 logger = logging.getLogger(__name__)
 
@@ -103,27 +102,24 @@ class StatusView(BrowserView):
         new_checksum = random.random()
         data = dict(checksum=new_checksum)
         try:
-            authenticator = getMultiAdapter((self.context, self.request),
-                                            name=u"authenticator")
-            data['_authenticator'] = authenticator.token()
-            request = IAsyncRequest(self.request)
-            result = request.async(post, url, data)
+            post = Post(self.context, self.request)
+            result = post(url, data)
         except redis.exceptions.ConnectionError:
             return self.fail("post", "redis not available")
         msg = "<a class='button' href='?checksum=%s'>verify execution</a>" % (
             new_checksum)
         if result.ready():
-            return self._post_verify(new_checksum, 'SYNC')
+            return self.warn("post", 'SYNC mode! %s' % msg)
         return self.warn("post", "Job queued. %s" % msg)
 
-    def _post_verify(self, verify_checksum, mode='async'):
+    def _post_verify(self, verify_checksum):
         # subsequent validation of async result
         got_checksum = get_checksum()
         if verify_checksum == got_checksum:
-            return self.ok("post", "%s execution verified. :-)" % mode)
+            return self.ok("post", "execution verified. :-)")
         else:
-            msg = "expected %s but got %s (%s)" % (
-                verify_checksum, got_checksum, mode)
+            msg = "expected %s but got %s" % (
+                verify_checksum, got_checksum)
             return self.fail("post", msg)
 
 

@@ -8,7 +8,6 @@
     i18n_domain="ploneintranet">
 
   <include package=".browser" />
-  <adapter factory=".request.AsyncRequest" />
 
   <genericsetup:registerProfile
       name="default"
