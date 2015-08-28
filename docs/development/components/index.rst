@@ -14,5 +14,4 @@ Component Packages
     filepreviews
     network
     pagerank
-    themeswitcher
     case-management

@@ -34,6 +34,11 @@ Library document shows navigation
     Page should contain  All topics
     Page should contain  Library
 
+#Library tag view is enabled
+#    Given I browse to the library
+#    When I switch to the by-tags listing
+#    Wait until page contains  I ♥ UTF-8
+
 *** Keywords ***
 
 I browse to the library
@@ -52,3 +57,7 @@ I browse to a folder
 I browse to a document
     I browse to a section
     Click Link  Holidays
+
+I switch to the by-tags listing
+    Click element  css=select[name=groupby]
+    Click element  css=option[value=tag]

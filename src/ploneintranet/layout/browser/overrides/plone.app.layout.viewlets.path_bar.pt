@@ -1,6 +1,6 @@
 <nav id="breadcrumbs" class="breadcrumbs" role="navigation"
          i18n:domain="plone"
-         tal:define="breadcrumbs view/breadcrumbs">
+         tal:define="breadcrumbs view/breadcrumbs; ploneview here/@@plone">
 
         <!--a i18n:translate="tabs_home"
             tal:attributes="href view/navigation_root_url">Home</a-->
@@ -21,7 +21,7 @@
              tal:condition="is_last"
              tal:attributes="href url;
                              id string:breadcrumbs-${repeat/crumb/number};"
-             tal:content="title">crumb</a>
+             tal:content="python:ploneview.cropText(title, 80)">crumb</a>
         </tal:item>
       </tal:block>
 </nav>
