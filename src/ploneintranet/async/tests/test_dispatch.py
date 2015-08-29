@@ -73,3 +73,6 @@ class TestPost(FunctionalTestCase):
             self.fail('no checksum annotations available at all!')
         # the checksum got mangled a bit in transmission
         self.assertEqual(str(checksum), str(got_checksum))
+
+
+# actual "business logic" task tests are in test_tasks

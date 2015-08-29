@@ -45,6 +45,7 @@ class Post(object):
     """
 
     task = celerytasks.post
+    # url cannot be a class static here or subclasses will error
 
     def __init__(self, context, request):
         """Extract credentials."""
@@ -64,7 +65,9 @@ class Post(object):
         authenticator = getMultiAdapter((self.context, self.request),
                                         name=u"authenticator")
         self.data = {'_authenticator': authenticator.token()}
-        self.url = self.context.absolute_url()
+        # avoid class static to please subclasses
+        if not hasattr(self, 'url'):
+            self.url = self.context.absolute_url()
 
     def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
         """Start a Celery task that will execute a post request.
@@ -88,12 +91,14 @@ class Post(object):
         """
         if url:
             self.url = url
-        if not self.url.startswith('http'):
-            self.url = "%s/%s" % (self.context.absolute_url(), url)
+        if self.url.startswith('/'):
+            self.url = "%s%s" % (self.context.absolute_url(), self.url)
+        elif not self.url.startswith('http'):
+            self.url = "%s/%s" % (self.context.absolute_url(), self.url)
         self.data.update(data)
         self.headers.update(headers)
         self.cookies.update(cookies)
-        logger.info("Calling %s(%s, ...)", self.task.name, url)
+        logger.info("Calling %s(%s, ...)", self.task.name, self.url)
         # calling code should handle redis.exceptions.ConnectionError
         return self.task.apply_async(
             (self.url, self.data, self.headers, self.cookies),
@@ -113,19 +118,11 @@ class GeneratePreview(Post):
 
     Mind the final call parentheses.
 
-    Of course this depends on the @@generate-previews view being available
-    to do the actual heavy lifting. This task only delegates to that
-    view via Celery.
+    INCOMPLETE:  @@generate-previews view needs to be implemented.
     """
 
     task = celerytasks.generate_and_add_preview
-
-    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
-        if not url:
-            url = self.context.absolute_url()
-        url += '/@@generate-previews'
-        return super(GeneratePreview, self).__call__(
-            url, data, headers, cookies, **kwargs)
+    url = '/@@generate-previews'
 
 
 @implementer(IAsyncTask)
@@ -141,10 +138,4 @@ class ReindexObject(Post):
     """
 
     task = celerytasks.reindex_object
-
-    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
-        if not url:
-            url = self.context.absolute_url()
-        url += '/@@reindex_object'
-        return super(ReindexObject, self).__call__(
-            url, data, headers, cookies, **kwargs)
+    url = '/@@reindex_object'
