@@ -64,12 +64,7 @@ class TestPost(FunctionalTestCase):
         checksum = random.random()
         data = dict(checksum=checksum)
         result = Post(self.portal, self.request)(url, data)
-        i = 0.0
-        while not result.ready():
-            time.sleep(.1)
-            i += .1
-            if i >= 2.0:
-                self.fail("Did not get a result in %s seconds" % i)
+        self.waitfor(result)
         # we need to commit in order to see the other transaction
         transaction.commit()
         try:

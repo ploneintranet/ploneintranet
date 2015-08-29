@@ -5,6 +5,7 @@ import os
 import pkg_resources
 import socket
 import subprocess
+import time
 import unittest
 
 from plone.app.testing import applyProfile
@@ -126,6 +127,15 @@ class BaseTestCase(unittest.TestCase):
         res = sock.connect_ex(('127.0.0.1', 6379))
         sock.close()
         return res == 0
+
+    def waitfor(self, result, timeout=3.0):
+        """Wait until result succeeds"""
+        i = 0.0
+        while not result.ready():
+            time.sleep(.1)
+            i += .1
+            if i >= timeout:
+                self.fail("Did not get a result in %s seconds" % i)
 
 
 class IntegrationTestCase(BaseTestCase):
