@@ -7,8 +7,8 @@
             i18n:domain="ploneintranet">
 
     <body class="view-secure">
-        <metal:statusmessage fill-slot="statusmessage">
-          <metal:macro tal:condition="not:request/suppress_message|nothing" use-macro="context/main_template/macros/statusmessage" />
+        <metal:statusmessage fill-slot="statusmessage" tal:define="suppress_message python:request.get('suppress_message', False)">
+          <metal:macro tal:condition="not:suppress_message" use-macro="context/main_template/macros/statusmessage" />
         </metal:statusmessage>
 
         <metal:content fill-slot="content"
