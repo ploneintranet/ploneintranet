@@ -1,4 +1,3 @@
-import os
 import random
 import socket
 import subprocess
@@ -15,11 +14,6 @@ from ploneintranet.async.testing import FunctionalTestCase
 
 
 class TestDispatch(IntegrationTestCase):
-
-    def test_environ(self):
-        """Make sure async is switched on"""
-        async_enabled = os.environ.get('ASYNC_ENABLED')
-        self.assertEqual(async_enabled, 'true')
 
     def test_redis(self):
         """

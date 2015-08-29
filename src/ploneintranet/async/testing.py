@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 import base64
-import os
 import unittest
 
 from plone.app.testing import applyProfile
@@ -13,6 +12,8 @@ from plone.testing import z2
 
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
+from ploneintranet.async.celerytasks import app
+
 
 class PloneintranetAsyncLayer(PloneSandboxLayer):
 
@@ -21,16 +22,11 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
     def setUp(self):
         """Activate the async stack"""
         super(PloneintranetAsyncLayer, self).setUp()
-        self.orig_ASYNC_ENABLED = os.environ.get('ASYNC_ENABLED', 'false')
-        self.orig_CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER',
-                                                       'true')
-        os.environ['ASYNC_ENABLED'] = 'true'
-        os.environ['CELERY_ALWAYS_EAGER'] = 'false'
+        # force async regardless of buildout config
+        app.conf.CELERY_ALWAYS_EAGER = False
 
     def tearDown(self):
         """Restore original environment"""
-        os.environ['ASYNC_ENABLED'] = self.orig_ASYNC_ENABLED
-        os.environ['CELERY_ALWAYS_EAGER'] = self.orig_CELERY_ALWAYS_EAGER
         super(PloneintranetAsyncLayer, self).tearDown()
 
     def setUpZope(self, app, configurationContext):
