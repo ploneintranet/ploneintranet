@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-19 14:20+0000\n"
+"POT-Creation-Date: 2015-08-28 08:33+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Coen van der Kamp <cvanderkamp@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -93,7 +93,7 @@ msgstr "Beheerd door beheerder"
 
 #: ../workspace/browser/templates/roster-edit.pt:167
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
-#: ../workspace/browser/tiles/templates/sidebar.pt:480
+#: ../workspace/browser/tiles/templates/sidebar.pt:481
 msgid "Advanced"
 msgstr "Geavanceerd"
 
@@ -132,6 +132,10 @@ msgstr "Alle Tijden"
 msgid "All Types"
 msgstr "Alle Type"
 
+#: ../workspace/browser/tiles/events.py:49
+msgid "All day"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:95
 msgid "All day event"
 msgstr ""
@@ -140,7 +144,7 @@ msgstr ""
 msgid "All notifications"
 msgstr "Alle notificaties"
 
-#: ../library/browser/views.py:97
+#: ../library/browser/views.py:100
 msgid "All topics"
 msgstr ""
 
@@ -219,6 +223,9 @@ msgstr ""
 msgid "Bulk import users"
 msgstr ""
 
+msgid "CSV document"
+msgstr ""
+
 #: ../messaging/browser/send-message.pt:63
 #: ../workspace/basecontent/document.py:77
 #: ../workspace/browser/templates/add_content.pt:36
@@ -227,6 +234,9 @@ msgstr "Annuleren "
 
 #: ../workspace/browser/templates/workspace-add.pt:27
 msgid "Case"
+msgstr ""
+
+msgid "Case Workspace"
 msgstr ""
 
 #: ../workspace/browser/templates/edit_folder.pt:7
@@ -251,6 +261,10 @@ msgstr ""
 msgid "Changes applied"
 msgstr "Wijzigingen toegepast"
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:357
+msgid "Close milestone"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:157
 msgid "Confirmed"
 msgstr ""
@@ -266,6 +280,10 @@ msgstr "Consumeren"
 
 #: ../userprofile/browser/templates/userprofile.pt:35
 msgid "Contact"
+msgstr ""
+
+#: ../userprofile/browser/tiles/templates/contacts_search.pt:9
+msgid "Contacts"
 msgstr ""
 
 #: ../search/browser/templates/all_results.pt:27
@@ -300,10 +318,15 @@ msgstr ""
 msgid "Create folder"
 msgstr "Folder aanmaken"
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:289
+msgid "Create new task"
+msgstr ""
+
 #: ../workspace/browser/templates/add_task.pt:2
 msgid "Create task"
 msgstr ""
 
+#: ../theme/browser/templates/workspaces.pt:25
 #: ../workspace/browser/templates/workspace-add.pt:11
 #: ../workspace/browser/templates/workspaces.pt:24
 msgid "Create workspace"
@@ -375,7 +398,7 @@ msgstr "Documenten"
 msgid "Done"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:108
+#: ../workspace/basecontent/templates/document_view.pt:109
 msgid "Download as"
 msgstr ""
 
@@ -404,7 +427,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:421
+#: ../workspace/browser/tiles/templates/sidebar.pt:422
 msgid "Ended"
 msgstr ""
 
@@ -420,6 +443,9 @@ msgstr ""
 msgid "Error while pasting items"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
 #: ../workspace/browser/templates/add_event.pt:17
 msgid "Event title"
 msgstr ""
@@ -427,6 +453,9 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:20
 msgid "Events"
 msgstr "Evenementen"
+
+msgid "Excel 2007 spreadsheet"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
 #: ../workspace/browser/tiles/templates/sidebar.pt:50
@@ -436,6 +465,9 @@ msgstr ""
 #: ../core/browser/stream.py:56
 msgid "Explore"
 msgstr "Ontdekken"
+
+msgid "File"
+msgstr ""
 
 #: ../userprofile/browser/user_import.py:97
 msgid "File incorrectly formatted."
@@ -447,6 +479,9 @@ msgstr ""
 
 #: ../userprofile/content/userprofile.py:35
 msgid "First name"
+msgstr ""
+
+msgid "Folder"
 msgstr ""
 
 #: ../workspace/browser/templates/add_folder.pt:14
@@ -495,11 +530,11 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:468
+#: ../workspace/browser/tiles/templates/sidebar.pt:469
 msgid "General"
 msgstr "Algemeen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:295
+#: ../workspace/browser/tiles/templates/sidebar.pt:296
 msgid "General tasks"
 msgstr ""
 
@@ -602,6 +637,9 @@ msgstr "Vandaag bewerkte items "
 msgid "Items since ever"
 msgstr "Alle items ooit"
 
+msgid "JPEG image"
+msgstr ""
+
 #: ../userprofile/content/userprofile.py:60
 msgid "Job title"
 msgstr ""
@@ -646,6 +684,7 @@ msgstr "Laatste nieuws"
 msgid "Leave a comment"
 msgstr "Plaats een reactie"
 
+#: ../core/browser/tiles/templates/my_documents.pt:8
 #: ../library/profiles/default/actions.xml
 msgid "Library"
 msgstr ""
@@ -665,6 +704,9 @@ msgstr ""
 #: ../network/browser/likes.py:56
 msgid "Like"
 msgstr "Vind ik leuk"
+
+msgid "Link"
+msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:79
 msgid "Location"
@@ -699,7 +741,7 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:472
+#: ../workspace/browser/tiles/templates/sidebar.pt:473
 msgid "Members"
 msgstr "Leden"
 
@@ -775,6 +817,9 @@ msgstr "Nieuw bericht"
 msgid "News"
 msgstr ""
 
+msgid "News Item"
+msgstr ""
+
 #: ../messaging/browser/send-message.pt:42
 #: ../messaging/browser/your-inbox.pt:130
 msgid "No attachments selected."
@@ -797,7 +842,7 @@ msgstr "Geen openstaande notificaties"
 msgid "No such user ${userid}."
 msgstr "Gebruiker ${userid} onbekend."
 
-#: ../layout/browser/templates/tasks-tile.pt:10
+#: ../layout/browser/templates/tasks-tile.pt:9
 msgid "No tasks available"
 msgstr ""
 
@@ -838,7 +883,7 @@ msgstr "Hela, hola! Je bent al lid"
 msgid "Ok"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:450
+#: ../workspace/browser/tiles/templates/sidebar.pt:451
 msgid "Older events"
 msgstr "Oudere evenementen"
 
@@ -863,9 +908,15 @@ msgstr ""
 msgid "Outsiders can self-join becoming a workspace member."
 msgstr "Buitenstaanders kunnen zichzelf werkruimte-deelnemer maken."
 
+msgid "PDF document"
+msgstr ""
+
 #: ../docconv/client/templates/pdf_not_available.pt:5
 msgid "PDF not generated yet"
 msgstr "PDF is nog niet gegenereerd"
+
+msgid "Page"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:102
 msgid "Paste"
@@ -877,6 +928,9 @@ msgstr ""
 
 #: ../search/browser/templates/search_template.pt:28
 msgid "People"
+msgstr ""
+
+msgid "Person"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:30
@@ -907,6 +961,9 @@ msgstr ""
 #: ../messaging/browser/your-inbox.pt:140
 msgid "Post"
 msgstr "Verzenden"
+
+msgid "PowerPoint 2007 presentation"
+msgstr ""
 
 #: ../userprofile/content/userprofile.py:85
 msgid "Primary location"
@@ -952,6 +1009,10 @@ msgstr ""
 msgid "Remove role"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:360
+msgid "Reopen milestone"
+msgstr ""
+
 #: ../workspace/browser/templates/add_content.pt:15
 msgid "Rich text"
 msgstr "Text met opmaak"
@@ -964,9 +1025,9 @@ msgstr ""
 msgid "Roster updated."
 msgstr "Rooster geüpdatet"
 
+#: ../todo/browser/templates/todo_view.pt:56
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 #: ../workspace/basecontent/document.py:73
-#: ../workspace/basecontent/templates/event_view.pt:86
 msgid "Save"
 msgstr "Opslaan"
 
@@ -996,7 +1057,7 @@ msgstr ""
 msgid "Secret"
 msgstr "Geheim"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:476
+#: ../workspace/browser/tiles/templates/sidebar.pt:477
 msgid "Security"
 msgstr "Beveiliging"
 
@@ -1069,7 +1130,7 @@ msgstr ""
 msgid "Start date should be lower than end date"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:416
+#: ../workspace/browser/tiles/templates/sidebar.pt:417
 msgid "Starts"
 msgstr "Begint"
 
@@ -1085,7 +1146,6 @@ msgstr ""
 msgid "Task title"
 msgstr ""
 
-#: ../layout/browser/templates/tasks-tile.pt:9
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
 msgid "Tasks"
 msgstr "Taken"
@@ -1222,7 +1282,7 @@ msgstr ""
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:75
+#: ../workspace/basecontent/baseviews.py:76
 msgid "There was a problem: %s"
 msgstr ""
 
@@ -1268,6 +1328,9 @@ msgstr ""
 msgid "Today"
 msgstr "Vandaag"
 
+msgid "Todo"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:43
 #: ../workspace/basecontent/templates/document_view.pt:38
 #: ../workspace/basecontent/templates/event_view.pt:63
@@ -1282,6 +1345,10 @@ msgstr "Token is niet langer geldig"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:124
 msgid "Transfer members to another workspace."
 msgstr "Verplaats deelnemer naar een andere werkruimte."
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:367
+msgid "Unassigned"
+msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:156
 msgid "Undecided"
@@ -1299,7 +1366,8 @@ msgstr ""
 msgid "Unlike"
 msgstr "Vind ik niet meer leuk"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:399
+#: ../workspace/browser/tiles/templates/events.pt:9
+#: ../workspace/browser/tiles/templates/sidebar.pt:400
 msgid "Upcoming events"
 msgstr "Aanstaande evenementen"
 
@@ -1330,6 +1398,9 @@ msgstr "Van harte welkom"
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:21
 msgid "When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?"
+msgstr ""
+
+msgid "Word 2007 document"
 msgstr ""
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
@@ -1381,7 +1452,6 @@ msgid "Workspace security policy changes saved"
 msgstr "Wijzigingen aan het werkplaatsbeleid zijn opgeslagen"
 
 #: ../layout/profiles/default/actions.xml
-#: ../workspace/browser/tiles/templates/workspaces.pt:9
 msgid "Workspaces"
 msgstr "Werkplaatsen"
 
@@ -1426,6 +1496,9 @@ msgstr "Je wijzigingen zijn opgeslagen."
 msgid "Your message here!"
 msgstr "Jou bericht hier!"
 
+msgid "Zip archive"
+msgstr ""
+
 #. Default: "What are you doing?"
 #: ../microblog/browser/tiles/newpostbox.py:234
 #: ../microblog/interfaces.py:14
@@ -1436,6 +1509,9 @@ msgstr "Plaatsen"
 #: ../workspace/browser/tiles/templates/sidebar.pt:39
 msgid "author"
 msgstr "auteur"
+
+msgid "cases"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:25
 #: ../workspace/browser/tiles/templates/sidebar.pt:41
@@ -1448,7 +1524,7 @@ msgid "document type"
 msgstr "docmenttype"
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:150
+#: ../library/browser/templates/library.html:151
 msgid "download"
 msgstr ""
 
@@ -1548,7 +1624,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:459
+#: ../workspace/browser/tiles/templates/sidebar.pt:460
 msgid "label_no_events_available"
 msgstr ""
 
@@ -1597,13 +1673,13 @@ msgstr ""
 msgid "leave_a_comment"
 msgstr "Plaats een reactie"
 
-#. Default: "More sharing options coming soon…"
-#: ../workspace/basecontent/templates/document_view.pt:110
+#. Default: "More sharing options coming soon"
+#: ../workspace/basecontent/templates/document_view.pt:111
 msgid "more_sharing_soon"
 msgstr ""
 
 #. Default: "No tasks created yet"
-#: ../workspace/browser/tiles/templates/sidebar.pt:297
+#: ../workspace/browser/tiles/templates/sidebar.pt:298
 msgid "no-task-found"
 msgstr "Geen taak gevonden"
 
@@ -1618,17 +1694,17 @@ msgid "participant_policy_label"
 msgstr "Deelnemersbeleid"
 
 #. Default: "Description"
-#: ../workspace/basecontent/templates/event_view.pt:100
+#: ../workspace/basecontent/templates/event_view.pt:101
 msgid "placeholder"
 msgstr ""
 
-#: ../workspace/browser/tiles/workspaces.py:97
+#: ../workspace/browser/tiles/workspaces.py:109
 msgid "posted"
 msgstr "Verzonden"
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:19
-#: ../library/browser/templates/library.html:147
+#: ../library/browser/templates/library.html:148
 msgid "read-more"
 msgstr ""
 
@@ -1693,6 +1769,9 @@ msgstr "Werkruimte-instellingen"
 #, fuzzy
 msgid "workspace_title"
 msgstr "Werkruimte-titel"
+
+msgid "workspacefolders"
+msgstr ""
 
 #: ../layout/browser/apps.py:43
 msgid "{0} Application"
