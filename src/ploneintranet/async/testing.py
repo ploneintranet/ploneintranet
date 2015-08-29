@@ -20,18 +20,18 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
 
     def setUp(self):
         """Activate the async stack"""
+        super(PloneintranetAsyncLayer, self).setUp()
         self.orig_ASYNC_ENABLED = os.environ.get('ASYNC_ENABLED', 'false')
         self.orig_CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER',
                                                        'true')
         os.environ['ASYNC_ENABLED'] = 'true'
         os.environ['CELERY_ALWAYS_EAGER'] = 'false'
-        super(PloneintranetAsyncLayer, self).setUp()
 
     def tearDown(self):
         """Restore original environment"""
-        super(PloneintranetAsyncLayer, self).tearDown()
         os.environ['ASYNC_ENABLED'] = self.orig_ASYNC_ENABLED
         os.environ['CELERY_ALWAYS_EAGER'] = self.orig_CELERY_ALWAYS_EAGER
+        super(PloneintranetAsyncLayer, self).tearDown()
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
@@ -57,21 +57,27 @@ FUNCTIONAL_TESTING = FunctionalTesting(
     name="PloneintranetAsyncLayer:Functional")
 
 
-class IntegrationTestCase(unittest.TestCase):
-    """Base class for integration tests."""
-
-    layer = INTEGRATION_TESTING
-
-
-class FunctionalTestCase(unittest.TestCase):
-    """Base class for functional tests."""
-
-    layer = FUNCTIONAL_TESTING
+class BaseTestCase(unittest.TestCase):
+    """Shared utils for integration and functional tests"""
 
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.portal.REQUEST
+
+    def basic_auth(self, username='admin', password='secret'):
         # fake needed credentials at Post.__init__
-        cred = base64.encodestring('admin:secret')
+        cred = base64.encodestring('%s:%s' % (username, password))
         self.request._auth = 'Basic %s' % cred.strip()
+
+
+class IntegrationTestCase(BaseTestCase):
+    """Base class for integration tests."""
+
+    layer = INTEGRATION_TESTING
+
+
+class FunctionalTestCase(BaseTestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL_TESTING

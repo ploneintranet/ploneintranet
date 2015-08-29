@@ -65,6 +65,7 @@ class TestPost(FunctionalTestCase):
 
     def test_post(self):
         """Verify http post async task execution"""
+        self.basic_auth()  # set up basic authentication
         url = '@@async-checktask'
         checksum = random.random()
         data = dict(checksum=checksum)
