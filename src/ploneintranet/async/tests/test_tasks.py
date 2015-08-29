@@ -17,9 +17,6 @@ class TestTasks(FunctionalTestCase):
             self.fail("requires redis")
             return
 
-        # FIXME: use a 'normal' user
-        self.basic_auth()  # set up basic authentication on self.request
-
         # FIXME: set up a test file
         context = self.portal.whatever.testfile
         generator = tasks.GeneratePreview(context, self.request)
@@ -36,9 +33,6 @@ class TestTasks(FunctionalTestCase):
         if not self.redis_running():
             self.fail("requires redis")
             return
-
-        # FIXME: use a 'normal' user
-        self.basic_auth()  # set up basic authentication on self.request
 
         # set up a test page
         context = api.content.create(

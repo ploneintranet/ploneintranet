@@ -12,6 +12,8 @@ from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 
 from plone.testing import z2
 from plone.testing import Layer
@@ -118,8 +120,11 @@ class BaseTestCase(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.request = self.portal.REQUEST
+        self.basic_auth()
 
-    def basic_auth(self, username='admin', password='secret'):
+    def basic_auth(self,
+                   username=TEST_USER_NAME,
+                   password=TEST_USER_PASSWORD):
         # fake needed credentials at Post.__init__
         cred = base64.encodestring('%s:%s' % (username, password))
         self.request._auth = 'Basic %s' % cred.strip()
