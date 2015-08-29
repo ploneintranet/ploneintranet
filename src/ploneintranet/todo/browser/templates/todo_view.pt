@@ -44,7 +44,7 @@
                       Toggle extra metadata
                     </a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
-                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
+                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
                       <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
                         <select name="task_action" id="workflow_action"
                                 tal:define="wf_state view/get_workflow_state">

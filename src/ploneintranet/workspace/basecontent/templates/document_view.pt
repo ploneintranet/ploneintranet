@@ -23,7 +23,7 @@
         <div class="${workspace_id} dark-theme" id="application-body" tal:define="read_only python:not view.can_edit">
           <div id="document-body">
             <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
-                  data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor && source: #application-body; target: #application-body">
+                  data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
                   <h1 class="doc-title" id="document-title">${context/title}</h1>
@@ -37,7 +37,7 @@
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
-                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #application-body;; target: #application-body">
+                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
                       <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
                         <select name="workflow_action" id="workflow_action">
                           <option tal:repeat="state view/get_workflow_transitions"
