@@ -304,7 +304,7 @@ Supported types include (class names):
           <tal:tasks condition="python:ws.is_case or tasks">
             <form method="post" class="pat-autosubmit pat-inject"
                   tal:define="ws view/workspace"
-                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets && source: .timeline; target: .timeline"
+                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets${python:ws.is_case and ' && source: .timeline; target: .timeline' or ''}"
                   tal:attributes="action string:${ws/absolute_url}">
 
               <tal:workspace_tasks tal:condition="not: ws/is_case">
