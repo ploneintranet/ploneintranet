@@ -1,5 +1,4 @@
 import random
-import socket
 import subprocess
 import time
 import transaction
@@ -21,10 +20,7 @@ class TestDispatch(IntegrationTestCase):
 
         Required for other tests.
         """
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        res = sock.connect_ex(('127.0.0.1', 6379))
-        sock.close()
-        self.assertEqual(0, res, "redis server not reachable")
+        self.assertTrue(self.redis_running(), "redis server not reachable")
 
     def test_celery(self):
         """Verify that celery worker is running.
@@ -59,6 +55,10 @@ class TestPost(FunctionalTestCase):
 
     def test_post(self):
         """Verify http post async task execution"""
+        if not self.redis_running():
+            self.fail("requires redis")
+            return
+
         self.basic_auth()  # set up basic authentication
         url = '@@async-checktask'
         checksum = random.random()

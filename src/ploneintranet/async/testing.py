@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 import base64
+import os
+import pkg_resources
+import socket
+import subprocess
 import unittest
 
 from plone.app.testing import applyProfile
@@ -9,15 +13,65 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 
 from plone.testing import z2
+from plone.testing import Layer
 
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 from ploneintranet.async.celerytasks import app
 
+_DIST = pkg_resources.get_distribution('ploneintranet')
+_BUILDOUT_BIN_DIR = os.path.join(_DIST.location, os.pardir, 'bin')
+
+
+class CeleryLayer(Layer):
+    """A Celery test layer that fires up and shuts down a Celery worker,
+    but only if there's not already a Celery worker running.
+    """
+
+    tasks = 'ploneintranet.async.celerytasks'
+
+    def setUp(self):
+        """Check whether celery is already running, else start a worker"""
+        super(CeleryLayer, self).setUp()
+        self.worker = None
+        if not self._celery_running():
+            self._celery_worker()
+
+    def tearDown(self):
+        """Stop celery but only if we started it"""
+        if self.worker:
+            self.worker.terminate()
+        super(CeleryLayer, self).tearDown()
+
+    def _celery_worker(self):
+        command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'worker']
+        self.worker = subprocess.Popen(
+            command,
+            close_fds=True,
+            cwd=_BUILDOUT_BIN_DIR,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        print('Celery worker (PID:{0.pid})'.format(self.worker))
+
+    def _celery_running(self):
+        command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'status']
+        try:
+            res = subprocess.check_output(
+                command,
+                stderr=subprocess.PIPE
+            )
+            return "online" in res
+        except subprocess.CalledProcessError:
+            return False
+
+
+CELERY_FIXTURE = CeleryLayer()
+
 
 class PloneintranetAsyncLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONEINTRANET_FIXTURE,)
+    defaultBases = (PLONEINTRANET_FIXTURE, CELERY_FIXTURE)
 
     def setUp(self):
         """Activate the async stack"""
@@ -65,6 +119,13 @@ class BaseTestCase(unittest.TestCase):
         # fake needed credentials at Post.__init__
         cred = base64.encodestring('%s:%s' % (username, password))
         self.request._auth = 'Basic %s' % cred.strip()
+
+    def redis_running(self):
+        """All tests require redis."""
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        res = sock.connect_ex(('127.0.0.1', 6379))
+        sock.close()
+        return res == 0
 
 
 class IntegrationTestCase(BaseTestCase):
