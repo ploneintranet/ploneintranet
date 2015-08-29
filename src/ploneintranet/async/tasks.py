@@ -45,7 +45,7 @@ class Post(object):
     """
 
     task = celerytasks.post
-    # url cannot be a class static here or subclasses will error
+    url = None
 
     def __init__(self, context, request):
         """Extract credentials."""
@@ -65,14 +65,11 @@ class Post(object):
         authenticator = getMultiAdapter((self.context, self.request),
                                         name=u"authenticator")
         self.data = {'_authenticator': authenticator.token()}
-        # avoid class static to please subclasses
-        if not hasattr(self, 'url'):
-            self.url = self.context.absolute_url()
 
     def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
         """Start a Celery task that will execute a post request.
 
-        The optional `url` argument may be used to override `self.url`.
+        The optional `url` argument may be used to override `url`.
         The optional `data`, `headers` and `cookies` args will update
         the corresponding self.* attributes.
 
@@ -89,19 +86,21 @@ class Post(object):
         Returns a <class 'celery.result.AsyncResult'> when running async,
         or a <class 'celery.result.EagerResult'> when running in sync mode.
         """
-        if url:
-            self.url = url
-        if self.url.startswith('/'):
-            self.url = "%s%s" % (self.context.absolute_url(), self.url)
-        elif not self.url.startswith('http'):
-            self.url = "%s/%s" % (self.context.absolute_url(), self.url)
+        if not url:
+            url = self.url
+        if not url:
+            url = self.context.absolute_url()
+        elif url.startswith('/'):
+            url = "%s%s" % (self.context.absolute_url(), url)
+        elif not url.startswith('http'):
+            url = "%s/%s" % (self.context.absolute_url(), url)
         self.data.update(data)
         self.headers.update(headers)
         self.cookies.update(cookies)
-        logger.info("Calling %s(%s, ...)", self.task.name, self.url)
+        logger.info("Calling %s(%s, ...)", self.task.name, url)
         # calling code should handle redis.exceptions.ConnectionError
         return self.task.apply_async(
-            (self.url, self.data, self.headers, self.cookies),
+            (url, self.data, self.headers, self.cookies),
             **kwargs)
 
 
