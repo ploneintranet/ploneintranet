@@ -27,8 +27,11 @@ app.config_from_object(celeryconfig)
 logger = logging.getLogger(__name__)
 
 
-class AsyncDispatchError(Exception):
-    """Raised if async post fails"""
+@app.task
+def add(x, y, delay=1):
+    """Non-http lowlevel task used to test celery roundtrip"""
+    time.sleep(delay)
+    return x + y
 
 
 @app.task
@@ -106,7 +109,6 @@ def generate_and_add_preview(url, data={}, headers={}, cookies={}):
 
 
 @app.task
-def add(x, y, delay=1):
-    """Non-http lowlevel task used to test celery roundtrip"""
-    time.sleep(delay)
-    return x + y
+def reindex_object(url, data={}, headers={}, cookies={}):
+    """Reindex a content object"""
+    dispatch(url, data, headers, cookies)

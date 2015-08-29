@@ -16,6 +16,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.testing import z2
 from plone.testing import Layer
 
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 from ploneintranet.async.celerytasks import app
@@ -72,7 +73,9 @@ CELERY_FIXTURE = CeleryLayer()
 
 class PloneintranetAsyncLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONEINTRANET_FIXTURE, CELERY_FIXTURE)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,
+                    PLONEINTRANET_FIXTURE,
+                    CELERY_FIXTURE)
 
     def setUp(self):
         """Activate the async stack"""

@@ -123,10 +123,28 @@ class GeneratePreview(Post):
     def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
         if not url:
             url = self.context.absolute_url()
-        data.update({
-            'action': 'add',
-            'url': url
-        })
         url += '/@@generate-previews'
-        super(GeneratePreview, self).__call__(
+        return super(GeneratePreview, self).__call__(
+            url, data, headers, cookies, **kwargs)
+
+
+@implementer(IAsyncTask)
+class ReindexObject(Post):
+    """Reindex an object asynchronously.
+
+    Usage:
+
+      from ploneintranet.async.tasks import ReindexObject
+      ReindexObject(self.context, self.request)()
+
+    Mind the final call parentheses.
+    """
+
+    task = celerytasks.reindex_object
+
+    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
+        if not url:
+            url = self.context.absolute_url()
+        url += '/@@reindex_object'
+        return super(ReindexObject, self).__call__(
             url, data, headers, cookies, **kwargs)

@@ -25,4 +25,12 @@
       layer="..interfaces.IPloneintranetAsyncLayer"
       />
 
+  <browser:page
+      name="reindex_object"
+      for="*"
+      class=".views.ReindexObjectView"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
 </configure>
