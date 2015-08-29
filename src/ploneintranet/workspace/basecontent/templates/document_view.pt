@@ -7,6 +7,9 @@
       i18n:domain="ploneintranet">
 
   <body>
+        <metal:statusmessage fill-slot="statusmessage">
+          <metal:macro tal:condition="not:request/suppress_message|nothing" use-macro="context/main_template/macros/statusmessage" />
+        </metal:statusmessage>
     <metal:content fill-slot="content"
                    tal:define="workspace python:view.workspace;
                                here_url context/absolute_url;
