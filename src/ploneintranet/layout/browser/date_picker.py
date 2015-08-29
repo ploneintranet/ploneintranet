@@ -32,24 +32,24 @@ class I18nJSONView(BrowserView):
             ],
             "weekdays": [
                 translate(pl_message(weekday)) for weekday in [
+                    "weekday_sun",
                     "weekday_mon",
                     "weekday_tue",
                     "weekday_wed",
                     "weekday_thu",
                     "weekday_fri",
                     "weekday_sat",
-                    "weekday_sun",
                 ]
             ],
             "weekdaysShort": [
                 translate(pl_message(weekday_abbr)) for weekday_abbr in [
+                    "weekday_sun_abbr",
                     "weekday_mon_abbr",
                     "weekday_tue_abbr",
                     "weekday_wed_abbr",
                     "weekday_thu_abbr",
                     "weekday_fri_abbr",
                     "weekday_sat_abbr",
-                    "weekday_sun_abbr",
                 ]
             ],
         })
