@@ -41,8 +41,8 @@ class IAsyncTask(Interface):
         The optional `data`, `headers` and `cookies` args will update
         the corresponding self.* attributes.
 
-        `self.task.apply_async` will called with the self.* attributes
-        as arguments and is expected to call `url` with
+        `self.task.apply_async` will be called
+        and is expected to call `url` with
         `self.headers` as request headers,
         `self.cookie` as request cookies, and `self.data` as post data
         via the python request library.
