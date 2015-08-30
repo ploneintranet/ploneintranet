@@ -782,7 +782,7 @@ I can add a new task
 I can close the first milestone
     Click Element  xpath=//h4[text()='New']
     Click Link  Close milestone
-    Page Should Contain  Reopen milestone
+    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Reopen milestone']
 
 I can toggle a milestone
     [arguments]  ${milestone}

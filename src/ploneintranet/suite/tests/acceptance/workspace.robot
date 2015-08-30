@@ -135,8 +135,8 @@ Member can create an event with invalid dates
     Given I am in a workspace as a workspace member
      When I can create a new event  Invalid dates  2014-12-25  2010-12-22
           Click Element  xpath=//h3[text()='Older events']
-          Wait Until Page Contains Element  jquery=#older-events time:nth-child(1):contains(2014)
-          Element should contain  css=#older-events time:nth-child(1)  2014
+          Wait Until Page Contains Element  jquery=#older-events .cal-event:contains(Invalid dates)
+          Page Should Contain Element  jquery=#older-events .cal-event:nth-child(2) time:nth-child(1):contains(2014)
 
 Member cannot edit an event with invalid data
     Given I am in a workspace as a workspace member

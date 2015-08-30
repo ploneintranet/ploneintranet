@@ -70,7 +70,6 @@ class TestCSVImportView(BaseTestCase):
             'ploneintranet.userprofile.tests.test_import.IDummySchema', )
         fti.behaviors = behaviors
         invalidate_cache(fti)
-        fti.__dict__.pop('_v_schema_behavior_schema_interfaces')
 
         extra_fields_file_loc = self._get_fixture_location(
             'extra_column.csv')
