@@ -2,7 +2,7 @@
 <fieldset>
     <fieldset class="horizontal">
         <label><span tal:omit-tag="" i18n:translate="">Title</span> <sup class="required">*</sup> <a href="tooltip-help.html#subject-2" class="iconified icon-info-circle help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax" i18n:translate="">More info</a>
-            <input type="text" name="form.widgets.IDublinCore.title" tal:attributes="value view/title|nothing"/>
+            <input type="text" name="form.widgets.IDublinCore.title" maxlength="70" tal:attributes="value view/title|nothing"/>
         </label>
     </fieldset>
     <fieldset class="horizontal">

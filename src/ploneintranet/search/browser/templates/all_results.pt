@@ -31,7 +31,7 @@
                         <input checked type="checkbox"
                                name="friendly_type_name:list"
                                tal:attributes="value ctype">
-                        <tal:type i18n:translate="" i18n:domain="plone" tal:replace="ctype"></tal:type>
+                        <tal:type i18n:translate="" i18n:domain="ploneintranet" tal:replace="ctype"></tal:type>
                     </label>
                 </fieldset>
                 <label>

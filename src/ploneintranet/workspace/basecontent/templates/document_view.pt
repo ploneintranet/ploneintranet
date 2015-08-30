@@ -27,7 +27,7 @@
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
                   <h1 class="doc-title" id="document-title">${context/title}</h1>
-                  <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                  <input name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
                     <a href="${context/absolute_url}/external_edit"
                        tal:condition="context/externalEditorEnabled/available"
@@ -108,7 +108,7 @@
           <li tal:condition="python:context.portal_type in ('File', 'Image')">
             <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
           </li>
-          <li><em i18n:translate="more_sharing_soon">More sharing options coming soon…</em></li>
+          <li><em><tal:more_options i18n:translate="more_sharing_soon">More sharing options coming soon</tal:more_options>…</em></li>
         </ul>
       </div>
 
