@@ -54,19 +54,17 @@ I toggle the bulk action controls
 I can copy the Minutes word document
     Click Element  xpath=(//input[@id='cart-minutes'])
     Click Element  xpath=//div[@class='batch-functions']//button[@value='copy']
-    Wait Until Page Contains  1 item(s) copied
 
 I can paste the Minutes word document
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[@value='paste']
     Click Element  xpath=//div[@class='batch-functions']//button[@value='paste']
-    Wait Until Page Contains  Item(s) pasted
+    Wait Until Page Contains Element   xpath=//label[contains(@class,'type-word')]/a/strong[text()='Minutes']
 
 I can delete the Minutes word document
     Click Element  xpath=//input[@id='cart-minutes']
     Click Element  xpath=//div[@class='batch-functions']//button[@value='delete']
-    Wait Until Page Contains  The following items have been deleted
+    Page should not contain  Minutes
 
 I can cut the Minutes word document
     Click Element  xpath=(//input[@id='cart-minutes'])
     Click Element  xpath=//div[@class='batch-functions']//button[@value='cut']
-    Wait Until Page Contains  1 item(s) cut
