@@ -8,30 +8,20 @@ task hook in ploneintranet.async.celerytasks and point to that task in your
 own task class.
 """
 import logging
-from zope.component import getMultiAdapter
 from zope.interface import implementer
 
 from ploneintranet.async.interfaces import IAsyncTask
 from ploneintranet.async import celerytasks
+from ploneintranet.async.core import AbstractPost
 
 logger = logging.getLogger(__name__)
 
 
 @implementer(IAsyncTask)
-class Post(object):
+class Post(AbstractPost):
     """
     Execute a HTTP POST request asynchronously via Celery.
-
-    Extracts authentication credentials from a original request
-    and submits a new post request, taking special care
-    that all calls are properly serialized.
-
-    Sets a `X-celery-task-name` http header for task request routing
-    in HAProxy etc. YMMV.
-
-    This task is suitable as a base class for more specialized
-    subclasses. It is structured as if it were an adapter but
-    it is not registered or used as an adapter.
+    See core.AbstractPost for implementation specifics.
 
     Example usage::
 
@@ -46,62 +36,6 @@ class Post(object):
 
     task = celerytasks.post
     url = None
-
-    def __init__(self, context, request):
-        """Extract credentials."""
-        self.context = context
-        self.request = request
-        self.headers = {'X-celery-task-name': self.task.name}
-
-        # Plone auth will be set as '__ac' cookie
-        self.cookies = request.cookies
-        # Zope basic auth
-        if self.request._auth:
-            # avoid error: Can't pickle <type 'instancemethod'>
-            auth = self.request._auth  # @property?
-            self.headers['Authorization'] = auth
-
-        # we need context and request for CSRF protection
-        authenticator = getMultiAdapter((self.context, self.request),
-                                        name=u"authenticator")
-        self.data = {'_authenticator': authenticator.token()}
-
-    def __call__(self, url=None, data={}, headers={}, cookies={}, **kwargs):
-        """Start a Celery task that will execute a post request.
-
-        The optional `url` argument may be used to override `self.url`.
-        The optional `data`, `headers` and `cookies` args will update
-        the corresponding self.* attributes.
-
-        `self.task.apply_async` will be called
-        and is expected to call `url` with
-        `self.headers` as request headers,
-        `self.cookie` as request cookies, and `self.data` as post data
-        via the python request library.
-
-        `**kwargs` will be passed through as arguments to celery
-        `apply_async` so you can set async execution options like
-        `countdown`, `expires` or `eta`.
-
-        Returns a <class 'celery.result.AsyncResult'> when running async,
-        or a <class 'celery.result.EagerResult'> when running in sync mode.
-        """
-        if not url:
-            url = self.url
-        if not url:
-            url = self.context.absolute_url()
-        elif url.startswith('/'):
-            url = "%s%s" % (self.context.absolute_url(), url)
-        elif not url.startswith('http'):
-            url = "%s/%s" % (self.context.absolute_url(), url)
-        self.data.update(data)
-        self.headers.update(headers)
-        self.cookies.update(cookies)
-        logger.info("Calling %s(%s, ...)", self.task.name, url)
-        # calling code should handle redis.exceptions.ConnectionError
-        return self.task.apply_async(
-            (url, self.data, self.headers, self.cookies),
-            **kwargs)
 
 
 @implementer(IAsyncTask)
