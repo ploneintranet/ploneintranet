@@ -19,7 +19,7 @@ class IAsyncTask(Interface):
     )
 
     url = Attribute(
-        """A url to be called"""
+        """A url to be called, relative to self.context.absolute_url()"""
     )
 
     data = Attribute(
@@ -33,6 +33,19 @@ class IAsyncTask(Interface):
     cookies = Attribute(
         """A dictionary with request cookie key: value pairs"""
     )
+
+    def __init__(context, request):
+        """
+        Initialize the task preprocessor.
+
+        Extracts target url and authentication from the current
+        context and url.
+
+        :param context: Current context for the calling view.
+        :type context: A Plone object
+
+        :param request: Current request for the calling view.
+        """
 
     def __call__(url=None, data={}, headers={}, cookies={}, **kwargs):
         """Start a Celery task that will execute a post request.

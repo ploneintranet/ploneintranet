@@ -39,7 +39,7 @@ class Post(AbstractPost):
 
 
 @implementer(IAsyncTask)
-class GeneratePreview(Post):
+class GeneratePreview(AbstractPost):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
     for the given object URL and add it to the object.
@@ -59,7 +59,7 @@ class GeneratePreview(Post):
 
 
 @implementer(IAsyncTask)
-class ReindexObject(Post):
+class ReindexObject(AbstractPost):
     """Reindex an object asynchronously.
 
     Usage:
