@@ -218,17 +218,6 @@ I can see upcoming events
 Older events are hidden
     Element should not be visible  jquery=div#older-events a
 
-I can delete an old event
-    Click Element  css=div#older-events h3
-    Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Click Element  css=div#older-events button[type='submit']
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
-    Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
-    Element should not be visible  css=#workspace-documents
-    Element should be visible  css=#workspace-events
-
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Tasks
