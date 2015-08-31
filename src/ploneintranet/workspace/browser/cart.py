@@ -199,4 +199,5 @@ class Cart(BrowserView):
                     type="success")
 
         self.request.response.redirect(
-            self.context.absolute_url() + '/?{0}=1'.format(self.action))
+            '{0}/?{1}=1&suppress_message=1'.format(
+                self.context.absolute_url(), self.action))

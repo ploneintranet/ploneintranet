@@ -72,7 +72,11 @@
               </label>
             </form>
 
-            <form class="search-result docs" action="${here/absolute_url}/@@cart" id="items">
+            <form class="search-result docs pat-inject" action="${here/absolute_url}/@@cart#items" id="items">
+              <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
+                <tal:message tal:content="structure provider:plone.globalstatusmessage" />
+              </aside>
+
               <fieldset class="checklist pat-checklist docs ">
 
                 <div class="batch-functions">
@@ -187,7 +191,7 @@ Supported types include (class names):
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
-                       data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                       data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                        tal:attributes="href string:${item/url};
                                        class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
                                        data-pat-inject item/dpi | nothing;
@@ -300,8 +304,8 @@ Supported types include (class names):
           <tal:tasks condition="python:ws.is_case or tasks">
             <form method="post" class="pat-autosubmit pat-inject"
                   tal:define="ws view/workspace"
-                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
-                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default">
+                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets${python:ws.is_case and ' && source: .timeline; target: .timeline' or ''}"
+                  tal:attributes="action string:${ws/absolute_url}">
 
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="object-list tasks pat-checklist">
@@ -315,7 +319,7 @@ Supported types include (class names):
                              />
                       <a class="pat-inject follow pat-switch"
                          data-pat-inject="source: #document-body; target: #document-body"
-                         data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                         data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                          tal:attributes="title task/title;
                                          href task/url"
                          tal:content="task/title"/>
@@ -345,7 +349,7 @@ Supported types include (class names):
 
                         <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
-                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
+                           data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
                       </label>
@@ -405,8 +409,8 @@ Supported types include (class names):
                     <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
                       <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
-                           data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"
-                           tal:attributes="href string:${event/getURL}#document-body">
+                           data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                           tal:attributes="href string:${event/getURL}#document-body"
                         <h4 class="title">
                           <time
                                 class="start pat-moment"

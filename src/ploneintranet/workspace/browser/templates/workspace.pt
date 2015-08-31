@@ -7,9 +7,14 @@
             i18n:domain="ploneintranet">
 
     <body class="view-secure">
+        <metal:statusmessage fill-slot="statusmessage" tal:define="suppress_message python:request.get('suppress_message', False)">
+          <metal:macro tal:condition="not:suppress_message" use-macro="context/main_template/macros/statusmessage" />
+        </metal:statusmessage>
+
         <metal:content fill-slot="content"
                         tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url()">
         <div  id="content" class="application page-type-workspace workspace-type-workspace">
+
 
             <h1 id="workspace-name">
                 <!-- Next link is to lead to landing state of current workspace! -->

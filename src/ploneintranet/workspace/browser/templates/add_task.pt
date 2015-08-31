@@ -2,7 +2,7 @@
   <h1 i18n:translate="">
     Create task
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box pat-validate" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets" data-pat-validate="disable-selector:#form-buttons-create">
+  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box pat-validate" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets${python:context.is_case and ' && source: .timeline; target: .timeline' or ''}" data-pat-validate="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical">
