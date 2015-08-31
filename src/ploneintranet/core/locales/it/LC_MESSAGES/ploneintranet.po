@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-08-31 13:10+0000\n"
+"POT-Creation-Date: 2015-08-31 14:05+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -1937,7 +1937,6 @@ msgstr "Impostazioni dell'area di lavoro"
 
 #. Default: "Workspace title"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:18
-#, fuzzy
 msgid "workspace_title"
 msgstr "Titolo dell'area di lavoro"
 
