@@ -457,8 +457,8 @@ I can create a new event
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Click Element  xpath=//h3[text()='Older events']
-    Wait until page contains element  jquery=.cal-events a:contains("${title}")  2
-    Click Element  jquery=.cal-events a:contains("${title}")
+    Wait until page contains element  jquery=.event-list a:contains("${title}")  2
+    Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
@@ -487,7 +487,7 @@ I cannot edit an event because of validation
 
 Then I can delete an event
     [arguments]  ${title}
-    Click link  ${title}
+    Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Click Element  css=.meta-bar .icon-trash
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
@@ -495,6 +495,7 @@ Then I can delete an event
     Wait Until Page Contains  has been deleted
     Element should not be visible  css=#workspace-documents
     Element should be visible  css=#workspace-events
+    Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
