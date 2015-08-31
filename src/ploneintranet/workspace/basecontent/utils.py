@@ -53,6 +53,10 @@ def dexterity_update(obj, request=None):
     errors = []
     for schema in get_dexterity_schemas(context=obj):
         for name in getFieldNames(schema):
+            if name not in request.form:
+                # Skipping fields not in the form keeps the last set value.
+                # It it was never set it'll be the default-value.
+                continue
             field = schema[name]
             widget = component.getMultiAdapter(
                 (field, request), IFieldWidget)
@@ -70,9 +74,9 @@ def dexterity_update(obj, request=None):
                 continue
 
             if raw is NO_VALUE:
-                continue
-
-            value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
+                value = field.default
+            else:
+                value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
             try:
                 field.validate(value)
