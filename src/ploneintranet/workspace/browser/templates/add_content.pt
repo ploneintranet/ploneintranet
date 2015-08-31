@@ -8,7 +8,7 @@
 <h1 i18n:translate="">
     Create document
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #document-body; target: #document-body && source: #workspace-documents; target: #workspace-documents" data-pat-validate="disable-selector:#form-buttons-create">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #document-body; target: #document-body &amp;&amp; source: #workspace-documents; target: #workspace-documents" data-pat-validate="disable-selector:#form-buttons-create">
   <div class="panel-body">
     <fieldset class="icon-tabs">
         <label class="icon-doc-text">
