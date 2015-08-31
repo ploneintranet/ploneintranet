@@ -59,7 +59,7 @@ I can copy the Minutes word document
 I can paste the Minutes word document
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[@value='paste']
     Click Element  xpath=//div[@class='batch-functions']//button[@value='paste']
-    Wait Until Page Contains   Item(s) pasted
+    Wait Until Page Contains  Item(s) pasted
 
 I can delete the Minutes word document
     Click Element  xpath=//input[@id='cart-minutes']
@@ -69,3 +69,4 @@ I can delete the Minutes word document
 I can cut the Minutes word document
     Click Element  xpath=(//input[@id='cart-minutes'])
     Click Element  xpath=//div[@class='batch-functions']//button[@value='cut']
+    Wait Until Page Contains  1 item(s) cut
