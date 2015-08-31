@@ -104,6 +104,14 @@ If you're running multiple servers (virtuals) with Plone, each of those needs to
 and Celery running.
 
 
+@@async-status audit view
+-------------------------
+
+A special helper view `{portal_url}/@@async-status` implements a self-test on the async functionality.
+
+If the unit tests pass but this one doesn't, it's a deployment issue.
+
+
 Adding a new async task
 =======================
 
