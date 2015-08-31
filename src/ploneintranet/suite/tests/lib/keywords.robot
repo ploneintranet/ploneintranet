@@ -213,7 +213,7 @@ I can follow Esmeralda
     Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
-    Page Should Contain Element  xpath=//a[.='Plone Conf']
+    Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
 
 Older events are hidden
     Element should not be visible  jquery=div#older-events a
