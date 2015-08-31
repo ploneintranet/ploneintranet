@@ -4,6 +4,7 @@ from plone.app.event.base import localized_now
 from plone.tiles import Tile
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from zope.i18nmessageid import MessageFactory
+from ploneintranet.workspace.utils import month_name
 
 
 pl_message = MessageFactory('plonelocales')
@@ -59,6 +60,4 @@ class EventsTile(Tile):
         """
         Return the full month name in the appropriate language
         """
-        translate = self.context.translate
-        short_month_name = date.strftime('%b').lower()  # jan
-        return translate(pl_message('month_{}'.format(short_month_name)))
+        return month_name(self, date)

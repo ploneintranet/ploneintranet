@@ -46,12 +46,6 @@ Member can view sidebar events
       And I can see upcoming events
     Older events are hidden
 
-Owner can delete sidebar events
-    Comment  In the test setup, we made the workspace member allen_neece owner of an old event
-    Given I am in a workspace as a workspace member
-    I can go to the sidebar events tile
-    I can delete an old event
-
 # The following tests are commented out, since we currently have no concept
 # for adding tasks in a workspace. Relying on globally available tasks (the
 # reason why these tests used to be passing) is not valid.
@@ -135,8 +129,8 @@ Member can create an event with invalid dates
     Given I am in a workspace as a workspace member
      When I can create a new event  Invalid dates  2014-12-25  2010-12-22
           Click Element  xpath=//h3[text()='Older events']
-          Wait Until Page Contains Element  jquery=#older-events .cal-event:contains(Invalid dates)
-          Page Should Contain Element  jquery=#older-events .cal-event:nth-child(2) time:nth-child(1):contains(2014)
+          Wait Until Page Contains Element  jquery=#older-events .event-list:contains(Invalid dates)
+          Page Should Contain Element  jquery=#older-events .event-list .event:nth-child(2) time:nth-child(1):contains(2014)
 
 Member cannot edit an event with invalid data
     Given I am in a workspace as a workspace member
