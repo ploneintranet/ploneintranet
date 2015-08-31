@@ -475,7 +475,7 @@ I cannot edit an event because of validation
     Reload Page
     Click link  Events
     Click Element  xpath=//h3[text()='Older events']
-    Click link  ${title}
+    Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
@@ -483,7 +483,8 @@ I cannot edit an event because of validation
     Select From List  timezone  ${timezone}
     Click Button  Save
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
-    Element Text Should Be  css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+    Element Should Contain   css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+    Element should not be visible  jquery=#workspace-events a:contains(${title} (updated))
 
 Then I can delete an event
     [arguments]  ${title}
