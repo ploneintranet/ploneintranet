@@ -30,7 +30,7 @@
         <form id="postbox-users"
               class="search-result users pat-inject pat-autosubmit"
               tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
-                              data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users && source: #selected-users-data;; target: #selected-users-data">
+                              data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users &amp;&amp; source: #selected-users-data;; target: #selected-users-data">
           <fieldset class="checklist pat-checklist users" tal:define="users view/users" id="user-entries"
               tal:attributes="class string:${attrs/class} ${request/search_active|nothing}">
             <label tal:define="status python:user.getProperty('status', '');
