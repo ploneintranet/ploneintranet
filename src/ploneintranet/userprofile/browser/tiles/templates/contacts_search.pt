@@ -10,7 +10,7 @@
       <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_results#contact-search-items">
 		<fieldset class="vertical">
 	      <label>
-	        <input name="SearchableText" type="search" placeholder="Search"/>
+	        <input name="SearchableText" type="search" placeholder="Search" i18n:attributes="placeholder" />
 	        <button hidden type="submit">Find users</button>
 	      </label>
 		</fieldset>
