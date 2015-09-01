@@ -352,6 +352,25 @@ Supported types include (class names):
                            data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
+                        <div class="additional-meta-data"
+                             tal:define="assignee task/assignee; initiator task/initiator">
+                          <a tal:condition="assignee"
+                             href="${context/portal_url}/profiles/${assignee/id}" class="assignee meta-column icon-user" title="Assignee"
+                             >
+                            ${python:assignee.getProperty("fullname")}
+                          </a>
+                          <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
+
+                        <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
+                        <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
+                          <a tal:condition="initiator"
+                             href="${context/portal_url}/profiles/${initiator/id}" class="initiator meta-column icon-user" title="Initiator"
+                             >
+                            ${python:initiator.getProperty("fullname")}
+                          </a>
+                          <a class="initiator meta-column icon-user" title="Initiator" tal:condition="not:initiator"/>
+                      </div>
+
                       </label>
                     </tal:task>
                     <p class="button-bar">
