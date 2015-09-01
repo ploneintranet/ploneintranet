@@ -39,7 +39,7 @@ User profiles are expected to be highly customised for each Plone Intranet deplo
 Vocabularies
 ------------
 
-The following vocabularies can be customised 
+The following vocabularies can be customised
 using their corresponding plone.app.registry_ entries
 (e.g. using GenericSetup).
 
@@ -95,7 +95,7 @@ This is useful for field data that comes from a separate source (e.g. LDAP)
     <field type="plone.registry.field.Tuple">
       <title>Read only fields</title>
       <description>
-        User profile fields that are read-only 
+        User profile fields that are read-only
         (shown on profile editing page but not editable)
       </description>
       <value_type type="plone.registry.field.TextLine" />
@@ -106,6 +106,11 @@ This is useful for field data that comes from a separate source (e.g. LDAP)
 
     </value>
   </record>
+
+Property sheet mapping
+----------------------
+
+There might be a requirement to update a user profile from various other PAS plugins. To facilitate the sync process, there is a `property_sheet_mapping` registry entry. This is a mapping of profile attribute to PAS proptery plugin names.
 
 
 
