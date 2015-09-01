@@ -76,4 +76,6 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
+  <adapter factory=".sync.UserPropertyManager" />
+
 </configure>
