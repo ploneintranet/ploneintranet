@@ -30,37 +30,26 @@
              tal:condition="python: dashboard == 'activity'">
 	      <div class="grid-sizer four columns"></div>
 
+          <div data-tile="./@@contacts_search.tile"/>
           <div data-tile="./@@news.tile"/>
-
+          <div data-tile="./@@my_documents.tile"/>
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form data-tile="./@@newpostbox.tile"/>
             <div data-tile="./@@activitystream.tile?network=1"/>
           </div>
-
-          <div data-tile="./@@my_documents.tile"/>
-          <div data-tile="./@@contacts_search.tile"/>
-          <div data-tile="./@@events.tile"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
-          <div data-tile="./@@tasks.tile"/>
-
         </div>
 
         <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
              tal:condition="python: dashboard == 'task'">
 	      <div class="grid-sizer four columns"></div>
 
+          <div data-tile="./@@contacts_search.tile"/>
           <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@tasks.tile"/>
-          <div data-tile="./@@events.tile"/>
+          <div data-tile="./@@my_documents.tile"/>
           <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
           <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
-
-	      <div class="portlet" id="portlet-activity-stream">
-            <form data-tile="./@@newpostbox.tile"/>
-            <div data-tile="./@@activitystream.tile?network=1"/>
-          </div>
-
+          <div data-tile="./@@events.tile"/>
+          <div data-tile="./@@tasks.tile"/>
         </div>
       </tal:dashboard>
     </metal:content>
