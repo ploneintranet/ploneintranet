@@ -30,24 +30,19 @@
              tal:condition="python: dashboard == 'activity'">
 	      <div class="grid-sizer four columns"></div>
 
-          <div id="portlet-news" data-tile="./@@news.tile"></div>
+          <div data-tile="./@@news.tile"/>
 
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
-            <form class="functions pat-autosubmit pat-inject" data-tile="./@@newpostbox.tile"></form>
-            <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
+            <form data-tile="./@@newpostbox.tile"/>
+            <div data-tile="./@@activitystream.tile?network=1"/>
           </div>
 
-          <div id="portlet-tasks" data-tile="./@@my_documents.tile"></div>
-
-          <div id="portlet-contacts" data-tile="./@@contacts_search.tile"></div>
-
-          <div id="portlet-events" data-tile="./@@events.tile"></div>
-
-          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
-
-          <div id="portlet-cases" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
-
-          <div id="portlet-tasks" data-tile="./@@tasks.tile"></div>
+          <div data-tile="./@@my_documents.tile"/>
+          <div data-tile="./@@contacts_search.tile"/>
+          <div data-tile="./@@events.tile"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
+          <div data-tile="./@@tasks.tile"/>
 
         </div>
 
@@ -55,19 +50,15 @@
              tal:condition="python: dashboard == 'task'">
 	      <div class="grid-sizer four columns"></div>
 
-          <div id="portlet-news" data-tile="./@@news.tile"></div>
-
-          <div id="portlet-tasks" class="workspaces portlet"  data-tile="./@@tasks.tile"></div>
-
-          <div id="portlet-events" class="workspaces portlet" data-tile="./@@events.tile"></div>
-
-          <div id="portlet-workspaces" data-tile="./@@workspaces.tile?workspace_type=workspacefolders"></div>
-
-          <div id="portlet-cases" data-tile="./@@workspaces.tile?workspace_type=cases"></div>
+          <div data-tile="./@@news.tile"/>
+          <div data-tile="./@@tasks.tile"/>
+          <div data-tile="./@@events.tile"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
 
 	      <div class="portlet" id="portlet-activity-stream">
-            <form class="functions pat-autosubmit pat-inject" data-tile="./@@newpostbox.tile"></form>
-            <div id="activity-stream" data-tile="./@@activitystream.tile?network=1"></div>
+            <form data-tile="./@@newpostbox.tile"/>
+            <div data-tile="./@@activitystream.tile?network=1"/>
           </div>
 
         </div>
