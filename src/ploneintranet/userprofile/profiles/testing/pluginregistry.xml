@@ -58,8 +58,8 @@
  <plugin-type id="IPropertiesPlugin" title="properties" description="Properties plugins generate property sheets for users." interface="Products.PluggableAuthService.interfaces.plugins.IPropertiesPlugin" >
   <plugin id="workspace_groups" />
   <plugin id="mutable_properties" />
-  <plugin id="membrane_properties" />
   <plugin id="auto_group" />
+  <plugin id="membrane_properties" />
  </plugin-type>
  <plugin-type id="IRequestTypeSniffer" title="request_type_sniffer" description="Request Type Sniffer plugins detect the type of an incoming request." interface="Products.PluggableAuthService.interfaces.plugins.IRequestTypeSniffer" >
   <plugin id="sniffer" />
