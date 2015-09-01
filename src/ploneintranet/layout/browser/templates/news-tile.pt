@@ -6,7 +6,7 @@
   <body>
     <div class="news portlet span-1" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
       <div class="content">
-        <h2 class="portlet-title" i18n:translate="label_news">News</h2>
+        <h2 class="portlet-title" i18n:translate="label_news"><a href="${context/portal_url}/library/news">News</a></h2>
 
         <div class="news-block" id="unread-news">
           <article class="item item-1" tal:repeat="news news_items" tal:attributes="class string:item item-${repeat/news/number}">
