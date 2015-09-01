@@ -71,7 +71,7 @@ msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
 
 #: ../layout/browser/templates/dashboard.pt:18
 msgid "Activity centric view"
-msgstr "Aktivitätsbezogene Ansicht"
+msgstr "Startseiten-AAnsicht"
 
 #: ../messaging/browser/messaging.py:26
 msgid "Add a comment"
@@ -1284,7 +1284,7 @@ msgstr "Statusänderung von ${fullname}:"
 
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
-msgstr "Aufgabenbezogene Ansicht"
+msgstr "Cockpit-Ansicht"
 
 #: ../todo/utils.py:31
 msgid "Task state changed"
