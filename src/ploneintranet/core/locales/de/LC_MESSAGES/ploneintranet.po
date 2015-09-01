@@ -71,7 +71,7 @@ msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
 
 #: ../layout/browser/templates/dashboard.pt:18
 msgid "Activity centric view"
-msgstr ""
+msgstr "Aktivitätsbezogene Ansicht"
 
 #: ../messaging/browser/messaging.py:26
 msgid "Add a comment"
@@ -151,7 +151,7 @@ msgstr "Alle Typen"
 
 #: ../workspace/browser/tiles/events.py:50
 msgid "All day"
-msgstr ""
+msgstr "Alle Tage"
 
 #: ../workspace/browser/templates/content_macros.pt:96
 msgid "All day event"
@@ -318,7 +318,7 @@ msgstr "Kontakt"
 
 #: ../userprofile/browser/tiles/templates/contacts_search.pt:9
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakte"
 
 #: ../search/browser/templates/all_results.pt:27
 msgid "Content types"
@@ -447,7 +447,7 @@ msgstr "Erledigt"
 
 #: ../workspace/basecontent/templates/document_view.pt:109
 msgid "Download as"
-msgstr ""
+msgstr "Herunterladen als"
 
 #: ../todo/behaviors.py:63
 #: ../workspace/browser/templates/content_macros.pt:39
@@ -504,7 +504,7 @@ msgstr "Geben Sie den Namen des Gesuchstellers an"
 
 #: ../workspace/browser/cart.py:192
 msgid "Error while pasting items"
-msgstr ""
+msgstr "Fehler beim Einfügen aufgetreten"
 
 msgid "Event"
 msgstr "Termin"
@@ -530,7 +530,7 @@ msgid "Explore"
 msgstr "Durchsuchen"
 
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: ../userprofile/browser/user_import.py:97
 msgid "File incorrectly formatted."
@@ -1027,7 +1027,7 @@ msgid "People"
 msgstr "Personen"
 
 msgid "Person"
-msgstr ""
+msgstr "Person"
 
 #: ../userprofile/content/userprofile.py:30
 msgid "Person title"
@@ -1075,7 +1075,7 @@ msgstr "Wählen Sie die verantwortliche Abteilung"
 
 #: ../todo/browser/templates/todo_view.pt:64
 msgid "Planned"
-msgstr ""
+msgstr "Geplant"
 
 #: ../workspace/browser/add_content.py:62
 msgid "Please specify which Case Template to use"
@@ -1087,7 +1087,7 @@ msgid "Post"
 msgstr "Post"
 
 msgid "PowerPoint 2007 presentation"
-msgstr ""
+msgstr "PowerPoint 2007 Präsentation"
 
 #: ../userprofile/content/userprofile.py:85
 msgid "Primary location"
@@ -1139,7 +1139,7 @@ msgstr "Sonder-Rolle entfernen"
 
 #: ../todo/browser/templates/todo_view.pt:71
 msgid "Reopen"
-msgstr ""
+msgstr "Wiedereröffnen"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:363
 msgid "Reopen milestone"
@@ -1272,7 +1272,7 @@ msgstr "Sachbearbeiter"
 
 #: ../workspace/basecontent/event.py:21
 msgid "Start date should be lower than end date"
-msgstr ""
+msgstr "Anfangsdatum sollte fräüher sein als Enddatum."
 
 #: ../workspace/browser/templates/case_manager.pt:64
 msgid "Status"
@@ -1284,7 +1284,7 @@ msgstr "Statusänderung von ${fullname}:"
 
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
-msgstr ""
+msgstr "Aufgabenbezogene Ansicht"
 
 #: ../todo/utils.py:31
 msgid "Task state changed"
@@ -1481,7 +1481,7 @@ msgid "Today"
 msgstr "Heute"
 
 msgid "Todo"
-msgstr ""
+msgstr "Aufgabe"
 
 #: ../todo/browser/templates/todo_view.pt:43
 #: ../workspace/basecontent/templates/document_view.pt:38
@@ -1621,7 +1621,7 @@ msgstr "Falscher Typ für {} in Zeile {}."
 
 #: ../workspace/browser/templates/case_manager.pt:82
 msgid "YYYY-MM-DD"
-msgstr ""
+msgstr "JJJJ-MM-TT"
 
 #: ../workspace/browser/views.py:32
 msgid "You are a member of this workspace now"
@@ -1690,7 +1690,7 @@ msgstr "Datum"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
 #: ../workspace/browser/add_content.py:163
 msgid "dates_hijacked"
-msgstr ""
+msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
 #: ../workspace/browser/tiles/templates/navigation.pt:21
 #: ../workspace/browser/tiles/templates/sidebar.pt:38
@@ -1850,7 +1850,7 @@ msgstr "Kommentar verfassen"
 #. Default: "More sharing options coming soon"
 #: ../workspace/basecontent/templates/document_view.pt:111
 msgid "more_sharing_soon"
-msgstr ""
+msgstr "Bald wird es weitere Optionen zum Teilen geben"
 
 #. Default: "No tasks created yet"
 #: ../workspace/browser/tiles/templates/sidebar.pt:301
