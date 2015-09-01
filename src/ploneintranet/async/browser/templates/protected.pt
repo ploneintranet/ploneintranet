@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            i18n:domain="ploneintranet">
+
+    <body>
+        <h1>Protected async handler</h1>
+        <div tal:condition="not:view/authenticated">
+          <p>Manual execution of async tasks requires confirmation
+            in order to exclude CSRF attacks.</p>
+
+          <form>
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <input type="submit" value="confirm action"/>
+            </form>
+
+        </div>
+        <div tal:condition="view/authenticated">
+          <p>Action confirmed and executed.</p>
+        </div>
+    </body>
+</html>
