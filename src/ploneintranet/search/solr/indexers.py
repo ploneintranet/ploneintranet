@@ -114,7 +114,7 @@ class ContentIndexer(object):
     def _get_schema(self):
         url = '{.url}/schema'.format(self._solr_conf)
         headers = {'Content-type': 'application/json'}
-        response = requests.get(url, headers)
+        response = requests.get(url, headers=headers)
         return response.json()['schema']
 
     def _add_mandatory_data(self, data):
