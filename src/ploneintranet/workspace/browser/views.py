@@ -9,6 +9,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from zope import component
 import mimetypes
 import json
 
@@ -154,3 +155,78 @@ class FileUploadView(BaseFileUploadView):
             'filename': filename
         })
         return result
+
+
+class RaptorImagePickerView(BrowserView):
+    """ This is the backend view for the Raptor editor's File Manager plugin,
+        which is used to pick and insert images.
+
+        https://www.raptor-editor.com/documentation/tutorials/file-manager
+    """
+
+    def __call__(self):
+        form = self.request.form
+        catalog = api.portal.get_tool('portal_catalog')
+        if form['action'] == 'view':
+            path, id = form['path'].rsplit('/', 1)
+            images = catalog(
+                        portal_type="Image",
+                        path=path,
+                        id=id)
+            if not len(images):
+                return '{}'
+            obj = images[0].getObject()
+            self.request.response.setHeader("Content-type", obj.image.contentType)
+            return obj.image.data
+        elif form['action'] == 'list':
+            query = {
+                'portal_type': "Image",
+                'path': "/".join(self.context.getPhysicalPath())
+            }
+            all_images = catalog(query)
+            start = int(form.get('start', 0))
+            limit = int(form.get('limit', 0))
+            if form.get('search'):
+                query['Title'] = "*%s*" % form['search']
+                if limit:
+                    filtered_images = catalog(**query)[start:start+limit]
+                else:
+                    filtered_images = catalog(**query)[start:]
+            else:
+                if limit:
+                    filtered_images = all_images[start:start+limit]
+                else:
+                    filtered_images = all_images[start:]
+
+            results = {
+                    "start": form.get('start', '0'),
+                    "limit": form.get('limit'),
+                    "total": len(all_images),
+                    "filteredTotal": len(filtered_images),
+                    'directories': [],
+                    'tags': [],
+                    'files': []
+                }
+            try:
+                limit = int(form.get('limit'))
+            except ValueError:
+                limit = 0
+            i = 0
+            for image in filtered_images:
+                i += 1
+                obj = image.getObject()
+                results['files'].append( {
+                    "name": image.id,
+                    "attributes": {
+                        "alt": image.Description
+                    },
+                    "type": obj.image.contentType.lstrip('image/'),
+                    "size": obj.image.size,
+                    "mtime": obj.modified().millis(),
+                    "iconSrc": '%s/@@images/image/thumb' % image.getPath()
+                })
+                if 1 == limit:
+                    break
+            return json.dumps(results)
+        else:  
+            return '{}'

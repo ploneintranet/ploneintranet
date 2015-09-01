@@ -184,6 +184,14 @@
      />
 
     <browser:page
+      name="workspaceImagePicker"
+      for="Products.CMFCore.interfaces._content.IFolderish"
+      class=".views.RaptorImagePickerView"
+      permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
       name="workspaceFileUpload"
       for="Products.CMFCore.interfaces._content.IFolderish"
       class=".views.FileUploadView"
