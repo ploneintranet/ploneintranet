@@ -2,6 +2,7 @@ import datetime
 import random
 import socket
 import subprocess
+import sys
 import time
 import redis.exceptions
 import logging
@@ -57,11 +58,12 @@ class StatusView(BrowserView):
             return self.fail('redis', 'not available')
 
     def celery_running(self):
-        cmd = 'bin/celery -A ploneintranet.async.celerytasks status'
+        cmd = '{0}/bin/celery -A ploneintranet.async.celerytasks status'.format(  # noqa
+            sys.prefix)
         try:
             res = subprocess.check_output(cmd.split(' '))
             # drop terminal prompt from output
-            res = res.strip().split('\n')[-1]
+            res = [line for line in res.strip().split('\n') if line][-1]
             return self.ok('celery', res)
 
         except subprocess.CalledProcessError:
