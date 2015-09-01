@@ -34,7 +34,7 @@
     <description>Gathering of basic data is complete. The case is handled by the responsible department.</description>
     <exit-transition transition_id="finalise"/>
     <exit-transition transition_id="reject"/>
-    <exit-transition transition_id="reset"/>
+    <exit-transition transition_id="back_to_new"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -45,7 +45,7 @@
   <state state_id="complete" title="Content Complete">
     <description>The case has been fully handled by the responsible department and is ready for verification.</description>
     <exit-transition transition_id="submit"/>
-    <exit-transition transition_id="transfer_to_department"/>
+    <exit-transition transition_id="back_to_in_progress"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Central Services</permission-role>
@@ -57,7 +57,7 @@
     <exit-transition transition_id="reject"/>
     <exit-transition transition_id="rework"/>
     <exit-transition transition_id="decide"/>
-    <exit-transition transition_id="finalise"/>
+    <exit-transition transition_id="back_to_complete"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Council</permission-role>
@@ -67,7 +67,7 @@
   <state state_id="decided" title="Decided">
     <description>The decision has been made by the council.</description>
     <exit-transition transition_id="close"/>
-    <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="back_to_request"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -78,7 +78,7 @@
   <state state_id="closed" title="Closed">
     <description>All handling of the case is complete, including payment, thank you letter, etc.</description>
     <exit-transition transition_id="archive"/>
-    <exit-transition transition_id="decide"/>
+    <exit-transition transition_id="back_to_decided" />
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -87,7 +87,7 @@
   </state>
 
   <state state_id="archived" title="Archived">
-    <exit-transition transition_id="close"/>
+    <exit-transition transition_id="back_to_closed" />
     <description>The case is done and filed away.</description>
     <permission-map name="Modify portal content" acquired="False">
     </permission-map>
@@ -100,9 +100,9 @@
     <guard />
   </transition>
 
-  <transition transition_id="reset" title="Reset" new_state="new" trigger="USER" before_script="" after_script="">
+  <transition transition_id="back_to_new" title="Back to new" new_state="new" trigger="USER" before_script="" after_script="">
     <description>Reset to the initial state.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_new" category="workflow" icon="">Reset</action>
     <guard />
   </transition>
 
@@ -113,6 +113,11 @@
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
+  <transition transition_id="back_to_in_progress" title="Back To In Progress" new_state="in_progress" trigger="USER" before_script="" after_script="" >
+    <description>Back To In Progress</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_in_progress" category="workflow" icon="">Back To In Progress</action>
+    <guard />
+  </transition>
 
   <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
     <description>Finish handling by the department and mark as ready for verification.</description>
@@ -120,6 +125,11 @@
     <guard >
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
+  </transition>
+  <transition transition_id="back_to_complete" title="Back_To_Complete" new_state="complete" trigger="USER" before_script="" after_script="" >
+    <description>Finish handling by the department and mark as ready for verification.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_complete" category="workflow" icon="">Back_To_Complete</action>
+    <guard />
   </transition>
 
   <transition transition_id="submit" title="Submit" new_state="request" trigger="USER" before_script="" after_script="">
@@ -129,6 +139,11 @@
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
+  <transition transition_id="back_to_request" title="Back_To_Request" new_state="request" trigger="USER" before_script="" after_script="" >
+    <description>Back_To_Request the case for decision by the council.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_request" category="workflow" icon="">Back_To_Request</action>
+    <guard />
+  </transition>
 
   <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
     <description>Accept or deny the case.</description>
@@ -137,6 +152,11 @@
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
+  <transition transition_id="back_to_decided" title="Back_To_Decided" new_state="decided" trigger="USER" before_script="" after_script="" >
+    <description>Accept or deny the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_decided" category="workflow" icon="">Back_To_Decided</action>
+    <guard />
+  </transition>
 
   <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
@@ -144,6 +164,11 @@
     <guard >
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
+  </transition>
+  <transition transition_id="back_to_closed" title="Back_To_Closed" new_state="closed" trigger="USER" before_script="" after_script="" >
+    <description>Back_To_Closed the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=back_to_closed" category="workflow" icon="">Back_To_Closed</action>
+    <guard />
   </transition>
 
   <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
@@ -212,12 +237,12 @@
     <description>A list of dicts which order the workflow states along with the next transition in the sequence, used for the metromap</description>
     <default>
       <expression>python:[
-      {'state': 'new', 'next_transition': 'transfer_to_department', 'reopen_transition': 'reset'},
-      {'state': 'in_progress', 'next_transition':'finalise', 'reopen_transition': 'transfer_to_department'},
-      {'state': 'complete', 'next_transition': 'submit', 'reopen_transition': 'finalise'},
-      {'state': 'request', 'next_transition': 'decide', 'reopen_transition': 'submit'},
-      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 'decide'},
-      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 'close'},
+      {'state': 'new', 'next_transition': 'transfer_to_department', 'reopen_transition': 'back_to_new'},
+      {'state': 'in_progress', 'next_transition':'finalise', 'reopen_transition': 'back_to_in_progress'},
+      {'state': 'complete', 'next_transition': 'submit', 'reopen_transition': 'back_to_complete'},
+      {'state': 'request', 'next_transition': 'decide', 'reopen_transition': 'back_to_request'},
+      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 'back_to_decided'},
+      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 'back_to_closed'},
       {'state': 'archived'}
       ]</expression>
     </default>
