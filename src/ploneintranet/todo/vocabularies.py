@@ -1,6 +1,6 @@
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
-from ploneintranet.todo import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 todo_priority = SimpleVocabulary(

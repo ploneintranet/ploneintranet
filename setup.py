@@ -68,16 +68,23 @@ setup(name='ploneintranet',
           'collective.celery',
           'collective.workspace',
           'fake-factory',
+          'Celery[redis]',
+          'redis',
+          'pathlib',
           'collective.externaleditor >= 1.0.2',
           'tablib',
           'collective.dexteritytextindexer',
+          'twitter-text-python',
+          'Unidecode',
       ],
       extras_require={
           'test': [
               'plone.app.testing',
               'plone.app.robotframework[debug]',
               'fake-factory',
+              'mock',
               'plonesocial.suite',
+              'responses',
           ],
           'socialsuite': [
               'loremipsum',
@@ -123,7 +130,7 @@ setup(name='ploneintranet',
           'attachments': [
               'Products.UserAndGroupSelectionWidget'
           ],
-          'develop': ['plone.reload', 'iw.debug'],
+          'develop': ['plone.reload', 'iw.debug', 'i18ndude'],
           'release': [
               'zest.releaser',
               'check-manifest',

@@ -10,8 +10,13 @@ class TestAddContent(FunctionalBaseTestCase):
     def setUp(self):
         super(TestAddContent, self).setUp()
         self.login_as_portal_owner()
-        workspace_folder = api.content.create(
+        self.workspace_container = api.content.create(
             self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'example-workspace-container'
+        )
+        workspace_folder = api.content.create(
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )

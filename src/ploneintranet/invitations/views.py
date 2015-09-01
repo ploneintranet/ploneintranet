@@ -5,7 +5,7 @@ from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces import IPublishTraverse
 from ploneintranet.invitations.events import TokenAccepted
 from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.invitations import MessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from plone import api
 
 

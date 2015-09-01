@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api as plone_api
 from plone.protect import PostOnly
 
-from ploneintranet.network import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.network.interfaces import INetworkTool
 
 import uuid
@@ -31,7 +31,7 @@ class ToggleFollowUser(BrowserView):
         self.is_followed = self.util.is_followed(
             self.follow_type, self.followed_id, self.follower)
 
-        if 'follow_button' in self.request:
+        if 'do_toggle_follow' in self.request:
             self.toggle_follow()
 
         if self.is_followed:

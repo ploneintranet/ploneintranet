@@ -38,7 +38,7 @@ class TestToggleFollowView(IntegrationTestCase):
         view()
         self.assertEqual(view.verb, u"Follow")
 
-        self.request.form['follow_button'] = 'follow'
+        self.request.form['do_toggle_follow'] = ''
         view()
         self.assertIn('johndoe', self.util.get_followers('user', 'janedoe'))
         self.assertIn('janedoe', self.util.get_following('user', 'johndoe'))

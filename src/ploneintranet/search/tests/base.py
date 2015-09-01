@@ -3,8 +3,11 @@ import collections
 import datetime
 from functools import partial
 
+import transaction
+from pkg_resources import resource_filename
 from plone import api
 from plone.app import testing
+from plone.namedfile import NamedBlobFile
 from zope.interface.verify import verifyObject
 
 from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
@@ -36,6 +39,15 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
         container = self.layer['portal']
+
+        # Some other layer leaves behind a 'robot-test-folder'
+        # that screws up our isolation
+        if 'robot-test-folder' in container.objectIds():
+            api.content.delete(container['robot-test-folder'])
+
+        self._setup_content(container)
+
+    def _setup_content(self, container):
         self.create_doc = partial(self._create_content,
                                   type='Document',
                                   container=container,
@@ -46,7 +58,6 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
             subject=(u'test', u'my-tag'),
-            safe_id=False
         )
         self.doc1.modification_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
@@ -88,6 +99,9 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc6.modification_date = datetime.datetime(1994, 04, 05, 2, 3, 4)
 
+        # Trigger collective.indexing
+        transaction.commit()
+
 
 class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
     """Defines the base test case for the search utility.
@@ -119,9 +133,6 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         verifyObject(ISiteSearch, util)
         search_response = util.query(
             'Test',
-            # Use a filter to avoid zcatalog MissingValue serialization issues
-            # due to the 'robot-test-folder' persisting in tests.
-            filters=dict(friendly_type_name='Page')
         )
         verifyObject(ISearchResponse, search_response)
         for search_result in search_response:
@@ -152,16 +163,62 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertSetEqual(response.facets['tags'], expected_facets)
         self.assertSetEqual(response.facets['friendly_type_name'], {'Page'})
 
-    def test_query_filter_by_friendly_type(self):
-        self.image1 = self.create_doc(
-            title=u'A Test image',
-            type='Image',
-            description=u'Info about this image',
+    def test_query_with_empty_phrase(self):
+        util = self._make_utility()
+        # Need either phrase or filter
+        with self.assertRaises(api.exc.MissingParameterError):
+            util.query()
+
+        response = util.query(filters={
+            'portal_type': 'Document',
+        })
+        self.assertEqual(len(response.facets['tags']), 11)
+        self.assertEqual(response.total_results, 6)
+
+    def test_path_query_with_empty_phrase(self):
+        portal = self.layer['portal']
+        folder1 = self._create_content(
+            type='Folder',
+            container=portal,
+            title=u'Test Folder 1',
+            description=(u'This is a test folder. '),
+            safe_id=False
         )
+        self._setup_content(folder1)
+
+        util = self._make_utility()
+        response = util.query(
+            filters=dict(path='/plone/test-folder-1',
+                         portal_type='Document'))
+        self.assertEqual(response.total_results, 6)
+
+        response = util.query(
+            filters=dict(path='/plone',
+                         portal_type='Document'))
+        self.assertEqual(response.total_results, 12)
+
+    def test_query_filter_by_friendly_type(self):
+        img_path = resource_filename(
+            'ploneintranet', 'userprofile/tests/test_avatar.jpg')
+        with open(img_path, 'rb') as fp:
+            img_data = fp.read()
+        self.image1 = self._create_content(
+            type='Image',
+            container=self.layer['portal'],
+            title=u'A Test image',
+            description=u'Info about this image',
+            file=NamedBlobFile(
+                data=img_data,
+                contentType='image/jpeg',
+                filename=fp.name.decode('utf-8'),
+            )
+        )
+        transaction.commit()
+
         util = self._make_utility()
         response = util.query(
             u'Test',
-            filters={'friendly_type_name': ['Image', ]}
+            filters={'friendly_type_name': ['Image']}
         )
         self.assertEqual(response.total_results, 1)
         result = next(iter(response))
@@ -239,6 +296,8 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         with api.env.adopt_roles(roles=['Manager']):
             self._delete_content(self.doc2)
             self._delete_content(self.doc6)
+            transaction.commit()
+
         assert self.doc2.getId() not in self.layer['portal'].keys()
         query_check_total_results(0)
 
@@ -316,6 +375,30 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         expected_order = [self.doc5.Title(), self.doc6.Title()]
         actual_order = [result.title for result in response]
 
+    def test_file_content_matches(self):
+        path = resource_filename('ploneintranet.search.tests',
+                                 'fixtures/lorum-ipsum.pdf')
+        with open(path, 'rb') as fp:
+            data = fp.read()
+        self._create_content(
+            type='File',
+            container=self.layer['portal'],
+            title=u'Test File 1',
+            description=(u'This is a test file. '),
+            safe_id=False,
+            file=NamedBlobFile(
+                data=data,
+                contentType='application/pdf',
+                filename=fp.name.decode('utf-8'))
+        )
+        transaction.commit()
+        util = self._make_utility()
+        query = util.query
+        response = query(u'Maecenas urna elit')
+        results = list(response)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].title, u'Test File 1')
+
 
 class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
     """Permissions tests.
@@ -338,6 +421,7 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
         """Does the search respect view permissions?"""
         api.content.transition(obj=self.doc2, transition='publish')
         self.doc2.reindexObject()
+        transaction.commit()
 
         testing.logout()
         util = self._make_utility()
@@ -356,6 +440,37 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
 
             with api.env.adopt_roles(['Manager']):
                 api.content.transition(obj=self.doc1, transition='publish')
+                self.doc1.reindexObject()
+                transaction.commit()
 
+            response = self._query(util, 'hopefully')
+            self.assertEqual(response.total_results, 1)
+
+    def test_group_changes(self):
+        """Does the search respect group permissions?"""
+        api.group.create(groupname='TestUsers')
+        api.group.grant_roles(
+            groupname='TestUsers',
+            obj=self.doc1,
+            roles=['Owner', ],
+        )
+        self.doc1.reindexObject()
+        transaction.commit()
+
+        testing.logout()
+
+        util = self._make_utility()
+
+        with login_session(TEST_USER_1_NAME):
+            response = self._query(util, 'hopefully')
+            self.assertEqual(response.total_results, 0)
+
+        # Add user to the group - they should now doc1
+        # the item in search results
+        api.group.add_user(
+            groupname='TestUsers',
+            username=TEST_USER_1_NAME)
+
+        with login_session(TEST_USER_1_NAME):
             response = self._query(util, 'hopefully')
             self.assertEqual(response.total_results, 1)

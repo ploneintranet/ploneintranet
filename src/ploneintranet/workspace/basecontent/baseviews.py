@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
+from .utils import dexterity_update
 from Acquisition import aq_inner
-from Products.Five import BrowserView
+from DateTime import DateTime
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.rfc822.interfaces import IPrimaryFieldInfo
+from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
+from ploneintranet.workspace.utils import parent_workspace
+from Products.Five import BrowserView
 from zope import component
+from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
 from zope.lifecycleevent import ObjectModifiedEvent
-from ploneintranet.theme import _
-from .utils import dexterity_update
+from zope.schema.interfaces import IVocabularyFactory
 
 
 @implementer(IBlocksTransformEnabled)
@@ -34,13 +38,17 @@ class ContentView(BrowserView):
 
         return super(ContentView, self).__call__()
 
+    def validate(self):
+        ''' Return truish if valid
+        '''
+        return True
+
     def update(self):
         """ """
         context = aq_inner(self.context)
         modified = False
         errors = None
         messages = []
-
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -57,9 +65,11 @@ class ContentView(BrowserView):
             messages.append("The workflow state has been changed.")
 
         if self.can_edit:
-            mod, errors = dexterity_update(context)
-            if mod:
-                messages.append("Your changes have been saved.")
+            mod = False
+            if self.validate():
+                mod, errors = dexterity_update(context)
+                if mod:
+                    messages.append("Your changes have been saved.")
             modified = modified or mod
 
         if errors:
@@ -68,8 +78,8 @@ class ContentView(BrowserView):
                 type="error")
 
         elif modified:
-            api.portal.show_message(_(
-                ' '.join(messages)), request=self.request,
+            api.portal.show_message(
+                ' '.join(messages), request=self.request,
                 type="success")
             context.reindexObject()
             notify(ObjectModifiedEvent(context))
@@ -129,8 +139,7 @@ class ContentView(BrowserView):
                     new_state_id=new_state_id,
                     selected=None,
                 ))
-        # Todo: enforce a given order?
-        return states
+        return sorted(states, key=lambda x: x['title'])
 
     def number_of_file_previews(self):
         """The number of previews generated for a file."""
@@ -159,3 +168,65 @@ class ContentView(BrowserView):
             if icon_name:
                 return 'icon-file-{0}'.format(icon_name)
         return 'icon-file-code'
+
+    def content_type_name(self):
+        """Gets a name for the type of the primary field of this content"""
+        # Need this to be able to describe what is going to be downloaded
+        # in the sharing tooltip. Cornelis seems to want to name the content
+        # type in cleartext (Download as Microsoft Word) so we might will need
+        # to extend this with a clear name mapper that then again might need
+        # translation support. For now, return the name only.
+        primary_field_info = IPrimaryFieldInfo(self.context)
+        name = ''
+        if hasattr(primary_field_info.value, "contentType"):
+            contenttype = primary_field_info.value.contentType
+            name = map_content_type(contenttype)
+        if name:
+            return name.capitalize()
+        return "unknown"
+
+    def preview_hash(self):
+        """ We want to be able to create a simple hash-string that we can
+        pass as URL parameter when fetching document previews. This string
+        will change every time the file, and thereby potentially the
+        preview image, changes. """
+        # For a start, we take the modification date, since the hash is cheap
+        # to compute. For more aggressive caching we would need to compute the
+        # hash based on the file contents.
+        md = getattr(self.context, 'modification_date', None)
+        if not isinstance(md, DateTime):
+            md = DateTime()
+        return hash(md.strftime('%Y%m%d%H%M%S'))
+
+
+class HelperView(BrowserView):
+    ''' Use this to provide helper methods
+    '''
+
+    def get_selected_tz(self):
+        ''' Let's try to get this from the start attribute (if found).
+        Otherwise default to the default timezone.
+        '''
+        try:
+            return str(self.context.start.tzinfo)
+        except:
+            return default_timezone()
+
+    def get_tz_options(self):
+        '''Returns the timezone options to be used in a select
+        '''
+        selected_tz = self.get_selected_tz()
+        plone_tzs = getUtility(
+            IVocabularyFactory,
+            'plone.app.vocabularies.CommonTimezones'
+        )(self.context)
+        # The offset and daylight depends on the date/time,
+        # so it is not easy to set it up coherently
+        return [{
+            'id': x.token,
+            'gmt_adjustment': '',  # "GMT+12:00",
+            'use_daylight': '',  # 0
+            'selected': x.token == selected_tz and x.token or None,
+            'value': x.token,
+            'label': x.title,  # '(GMT+12:00) Fiji, Kamchatka, Marshall Is.'
+        } for x in plone_tzs]

@@ -72,9 +72,14 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         wft.case_workflow.transitions.transfer_to_department.guard = old_guard
 
     def test_workspace_has_no_metromap(self):
+        workspaces = api.content.create(
+            type="ploneintranet.workspace.workspacecontainer",
+            title="workspace1-container",
+            container=self.portal,
+        )
         workspace = api.content.create(
             type="ploneintranet.workspace.workspacefolder",
             title="workspace1",
-            container=self.portal,
+            container=workspaces,
         )
         self.assertTrue(queryAdapter(workspace, IMetroMap) is None)

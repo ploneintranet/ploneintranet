@@ -5,7 +5,7 @@ import collections
 import logging
 
 from plone import api
-from plone.api.validation import required_parameters
+from plone.api.validation import at_least_one_of
 from zope import globalrequest
 
 from .interfaces import ISearchResult
@@ -88,9 +88,14 @@ class SearchResult(object):
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
-        if context['has_thumbs']:
-            self.preview_image_path = '{.path}/docconv_image_thumb.jpg'.format(
-                self)
+        if context['has_thumbs']:  # indexer in docconv
+            # can occur in workspaces AND library
+            if self.portal_type in ('Image', 'Document', 'News Item'):
+                self.preview_image_path = \
+                    '{.path}/@@images/image/preview'.format(self)
+            else:
+                self.preview_image_path = \
+                    '{.path}/docconv_image_thumb.jpg'.format(self)
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
@@ -258,7 +263,7 @@ class SiteSearchProtocol:
 
     @abc.abstractmethod
     def query(self,
-              phrase,
+              phrase=None,
               filters=None,
               start_date=None,
               end_date=None,
@@ -293,9 +298,9 @@ class SiteSearch(object):
                 raise LookupError(msg)
         return self._apply_filters(query, filters)
 
-    @required_parameters('phrase', )
+    @at_least_one_of('phrase', 'filters')
     def query(self,
-              phrase,
+              phrase=None,
               filters=None,
               start_date=None,
               end_date=None,

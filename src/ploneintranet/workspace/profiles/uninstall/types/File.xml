@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="File" meta_type="Dexterity FTI" i18n:domain="plone"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property name="model_file">plone.app.contenttypes.schema:file.xml</property>
+  <property name="behaviors"
+            purge="false">
+    <element value="ploneintranet.workspace.behaviors.file.IFileFields"
+             remove="True" />
+  </property>
+</object>

@@ -44,12 +44,30 @@
      permission="zope2.View"
      />
 
-  <browser:viewlet
-     name="plone.path_bar"
-     manager="plone.app.layout.viewlets.interfaces.IAboveContent"
-     class="plone.app.layout.viewlets.common.PathBarViewlet"
-     template="templates/path_bar.pt"
-     layer="ploneintranet.library.interfaces.ILibraryContentLayer"
+  <browser:page
+      for="*"
+      name="breadcrumbs_view"
+      class="ploneintranet.layout.viewlets.navigation.OneLevelBreadcrumbs"
+      permission="zope.Public"
+      allowed_attributes="breadcrumbs"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      />
+
+  <browser:page
+     name="tag"
+     for="ploneintranet.library.content.ILibraryApp"
+     class=".views.LibraryTagView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     name="tag"
+     for="ploneintranet.library.content.ILibrarySection"
+     class=".views.LibraryTagView"
+     template="templates/library.html"
+     layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
      permission="zope2.View"
      />
 

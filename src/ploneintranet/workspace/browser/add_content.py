@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.i18n.normalizer import idnormalizer
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -17,6 +18,7 @@ class AddContent(BrowserView):
     """
 
     template = ViewPageTemplateFile('templates/add_content.pt')
+    can_edit = True
 
     def __call__(self, portal_type='', title=None):
         """Evaluate form and redirect"""
@@ -28,30 +30,33 @@ class AddContent(BrowserView):
                 return self.redirect(url)
         return self.template()
 
+    def validate(self):
+        ''' Validate input and return a truish
+        '''
+        return True
+
     def create(self):
         """
         Create content and return url. Uses dexterity_update to set the
         appropriate fields after creation.
         """
+        if not self.validate():
+            # BBB: do something clever that works with pat-inject
+            # at the moment the @@add_something form is not a complete page
+            # but just some markup,
+            # so we cannot show that one here
+            pass
+
         form = self.request.form
         new = None
+
+        # BBB: this should be moved to a proper validate function!
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
-                portal = api.portal.get()
-                template_folder = portal.restrictedTraverse(TEMPLATES_FOLDER)
-                if template_folder:
-                    src = template_folder.restrictedTraverse(template_id)
-                    if src:
-                        title = form.get('title')
-                        target_id = idnormalizer.normalize(title)
-                        target_folder = portal.restrictedTraverse('workspaces')
-                        new = api.content.copy(
-                            source=src,
-                            target=target_folder,
-                            id=target_id,
-                            safe_id=True,
-                        )
+                title = form.get('title')
+                case_id = idnormalizer.normalize(title)
+                new = create_case_from_template(template_id, case_id)
             else:
                 api.portal.show_message(
                     _('Please specify which Case Template to use'),
@@ -134,7 +139,78 @@ class AddEvent(AddContent):
 
     template = ViewPageTemplateFile('templates/add_event.pt')
 
+    def fix_start_end(self):
+        ''' If the start date is lower than the end one,
+        modify the request setting end = start + 1 hour
+        '''
+        localized_start = DateTime(
+            '%s %s' % (
+                ' '.join(self.request.get('start')),
+                self.request.get('timezone')
+            )
+        )
+        localized_end = localized_start + 1. / 24
+        # If you know a smarter way to hijack the request,
+        # please modify the following lines:)
+        self.request.end = [
+            localized_end.strftime('%Y-%m-%d'),
+            localized_end.strftime('%H:%M'),
+        ]
+        self.request.form['end'] = self.request.end
+        self.request.other['end'] = self.request.end
+
+        ts = api.portal.get_tool('translation_service')
+        msg = _(
+            'dates_hijacked',
+            default=(
+                u'Start time should be lower than end time. '
+                u'The system set the end time to: ${date}'
+            ),
+            mapping={
+                u'date': ts.toLocalizedTime(localized_end)
+            }
+        )
+        api.portal.show_message(
+            msg,
+            request=self.request,
+            type="warning"
+        )
+
+    def validate(self):
+        ''' Override base content validation
+
+        Return truish if valid
+        '''
+        if self.request.get('start') > self.request.get('end'):
+            self.fix_start_end()
+
+        return True
+
     def redirect(self, url):
         workspace = parent_workspace(self.context)
         return self.request.response.redirect(workspace.absolute_url() +
                                               '#workspace-events')
+
+    def default_start(self):
+        now = DateTime()
+        date = now.Date()
+        time = self.round_minutes(now.TimeMinutes())
+        result = DateTime(date + " " + time)
+        return result
+
+    def default_end(self):
+        now = DateTime()
+        date = now.Date()
+        time = self.round_minutes(now.TimeMinutes())
+        parts = time.split(":")
+        parts[0] = str((int(parts[0]) + 1) % 24)
+        result = DateTime(date + " " + parts[0] + ":" + parts[1])
+        return result
+
+    def round_minutes(self, time):
+        hours, minutes = time.split(":")
+        quarters = int(minutes) / 15 + 1
+        minutes = str(quarters * 15)
+        if minutes == "60":
+            minutes = "00"
+        return hours + ":" + minutes

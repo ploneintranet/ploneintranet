@@ -16,6 +16,7 @@
 	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  home application-home ">
 		<div id="content">
 	<nav class="tabs navigation pat-bumper portal-tabs" id="home-tabs">
+	<h2 class="title">Menu</h2>
 	<a href="/dashboard.html" >Dashboard</a>
 	<a href="/news.html" >News</a>
 	<a href="/library.html" class="current">Library</a>
@@ -195,12 +196,12 @@
 
 <header id="global-header">
 
-    <a id="hamburger" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu" title="Menu">Menu</a>
 
     <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
 
     <nav class="breadcrumbs">
-
         
             <a class="current" href="#"></a>
         
@@ -216,7 +217,7 @@
 	</a>    
 
 
-        <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button>
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
         <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
             Notifications <sup id="online-count" class="counter digit-2">4</sup>
@@ -230,7 +231,8 @@
         <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
     </form>
 
-    <nav class="tabs navigation pat-bumper portal-tabs" id="">
+    <nav class="tabs navigation pat-bumper portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
 	<a href="/dashboard.html" >Dashboard</a>
 	<a href="/news.html" >News</a>
 	<a href="/library.html" class="current">Library</a>

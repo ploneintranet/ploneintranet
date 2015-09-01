@@ -55,6 +55,7 @@ Esmeralda can reply to a reply
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+     And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
 Member can reply to a reply in a workspace
@@ -65,7 +66,23 @@ Member can reply to a reply in a workspace
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
     then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
+
+Global stream replies to workspace posts are only visible for members of that workspace
+    Given I am in a workspace as a workspace member
+    and I post a status update    ${MESSAGE1}
+    and The message is visible as new status update    ${MESSAGE1}
+    and I open the Dashboard
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    and The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    and I post a status update    ${MESSAGE3}
+    and The message is visible as new status update    ${MESSAGE3}    
+    When I am logged in as the user alice_lindstrom
+    and I open the Dashboard
+    Then the message is not visible    ${MESSAGE1}
+    and the message is not visible    ${MESSAGE2}
+    and The message is visible as new status update    ${MESSAGE3}    
 
 Member can mention a user
     Given I am in a workspace as a workspace member
@@ -101,26 +118,13 @@ Neil can tag a post by searching for a tag
 
 *** Keywords ***
 
-I write a status update
-    [arguments]  ${message}
-    Wait Until Element Is visible  css=textarea.pat-content-mirror
-    Element should not be visible  css=button[name='form.buttons.statusupdate']
-    Click element  css=textarea.pat-content-mirror
-    Wait Until Element Is visible  css=button[name='form.buttons.statusupdate']
-    Input Text  css=textarea.pat-content-mirror  ${message}
-
-I post a status update
-    [arguments]  ${message}
-    I write a status update    ${message}
-    I submit the status update
-
-I submit the status update
-    Click button  css=button[name='form.buttons.statusupdate']
-
-
 The message is visible as new status update
     [arguments]  ${message}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
+
+The message is not visible
+    [arguments]  ${message}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
 
 The message is visible as new status update that mentions the user
     [arguments]  ${message}  ${username}
@@ -160,6 +164,11 @@ The reply is visible after a reload
     Go to    ${location}
     The reply is visibile as a comment  ${message}  ${reply_message}
 
+Both replies are visible
+    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
+    The reply is visibile as a comment  ${message}  ${reply_message1}
+    The reply is visibile as a comment  ${message}  ${reply_message2}
+
 Both replies are visible after a reload
     [arguments]  ${message}  ${reply_message1}  ${reply_message2}
     ${location} =  Get Location
@@ -191,14 +200,6 @@ I can add a tag and search for a tag
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
-    Click element    css=textarea.pat-content-mirror
-
-I can mention the user
-    [arguments]  ${username}
-    Click link    link=Mention people
-    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
 I can mention a user and search for a user

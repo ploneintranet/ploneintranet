@@ -6,6 +6,7 @@ from ploneintranet.workspace.browser.add_content import AddContent
 from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
 from zope.annotation.interfaces import IAnnotations
+from collective.workspace.interfaces import IWorkspace
 
 
 class TestPolicy(BaseTestCase):
@@ -20,7 +21,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace'
         )
@@ -58,7 +59,7 @@ class TestPolicy(BaseTestCase):
         # Login as the creator and create the workspace
         login(self.portal, 'workspacecreator')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='A workspace'
@@ -82,7 +83,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='A workspace'
@@ -110,34 +111,34 @@ class TestPolicy(BaseTestCase):
         add_form = AddContent(self.portal, request)
 
         request.form['scenario'] = '1'
-        add_form = AddContent(self.portal, request)
+        add_form = AddContent(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-1')
-        workspace = getattr(self.portal, 'scenario-1')
+        workspace = getattr(self.workspace_container, 'scenario-1')
         self.assertEqual(workspace.external_visibility, 'secret')
         self.assertEqual(workspace.join_policy, 'admin')
         self.assertEqual(workspace.participant_policy, 'producers')
 
         request.form['scenario'] = '2'
-        add_form = AddContent(self.portal, request)
+        add_form = AddContent(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-2')
-        workspace = getattr(self.portal, 'scenario-2')
+        workspace = getattr(self.workspace_container, 'scenario-2')
         self.assertEqual(workspace.external_visibility, 'private')
         self.assertEqual(workspace.join_policy, 'team')
         self.assertEqual(workspace.participant_policy, 'moderators')
 
         request.form['scenario'] = '3'
-        add_form = AddContent(self.portal, request)
+        add_form = AddContent(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-3')
-        workspace = getattr(self.portal, 'scenario-3')
+        workspace = getattr(self.workspace_container, 'scenario-3')
         self.assertEqual(workspace.external_visibility, 'open')
         self.assertEqual(workspace.join_policy, 'self')
         self.assertEqual(workspace.participant_policy, 'publishers')
 
         request.form['scenario'] = 'X'
-        add_form = AddContent(self.portal, request)
+        add_form = AddContent(self.workspace_container, request)
         self.assertRaises(AttributeError, add_form,
                           portal_type='ploneintranet.workspace.workspacefolder',  # noqa
                           title='scenario-X')
@@ -151,7 +152,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace',
             title='A workspace'
@@ -187,7 +188,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace'
         )
@@ -213,7 +214,7 @@ class TestPolicy(BaseTestCase):
 
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'other-workspace'
         )
@@ -242,6 +243,62 @@ class TestPolicy(BaseTestCase):
             api.user.get_roles(username=username, obj=workspace)
         )
 
+    def test_policy_exceptions(self):
+        self.login_as_portal_owner()
+        workspace = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace'
+        )
+        # set default policy to producers
+        workspace.participant_policy = 'producers'
+
+        # create some members and add to workspace
+        username = 'member_username'
+        username2 = 'member_username2'
+        api.user.create(username=username, email='test@test.com')
+        self.add_user_to_workspace(username, workspace)
+        api.user.create(username=username2, email='test@test.com')
+        self.add_user_to_workspace(username2, workspace)
+
+        # Make an exception of username2
+        # by moving them to a non-default group
+        IWorkspace(workspace).add_to_team(username2, groups={'Consume'})
+
+        group = api.group.get('Producers:' + api.content.get_uuid(workspace))
+        # username should be in the default group
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
+        # username two should *not* be in the default group
+        self.assertNotIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
+        )
+
+        # update default policy
+        workspace.participant_policy = 'moderators'
+
+        group = api.group.get('Moderators:' + api.content.get_uuid(workspace))
+        # username should have been moved to the new group
+        self.assertIn(
+            api.user.get(username=username),
+            group.getAllGroupMembers()
+        )
+        # username2 two should *not* be in the new default group
+        self.assertNotIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
+        )
+
+        # remove username2 as an exception by re-setting their groups
+        IWorkspace(workspace).add_to_team(username2)
+        self.assertIn(
+            api.user.get(username=username2),
+            group.getAllGroupMembers()
+        )
+
     def test_role_adapter(self):
         """
         test that the self publishers are also given the reviewer role if they
@@ -268,7 +325,7 @@ class TestPolicy(BaseTestCase):
 
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace'
         )
@@ -299,7 +356,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace'
         )
@@ -342,7 +399,7 @@ class TestPolicy(BaseTestCase):
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace'
         )

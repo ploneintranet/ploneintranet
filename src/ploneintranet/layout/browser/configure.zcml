@@ -9,6 +9,8 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
+  <include package=".prototype" />
+  <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
@@ -31,6 +33,22 @@
       />
 
   <browser:page
+      name="apps.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/apps.pt"
+  />
+
+  <browser:page
+      name="app-not-available.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.AppNotAvailable"
+      permission="zope.Public"
+      template="templates/app-not-available.pt"
+  />
+
+  <browser:page
       name="dashboard.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".dashboard.Dashboard"
@@ -38,6 +56,19 @@
       template="templates/dashboard.pt"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
+
+  <!--
+      Override broken behaviour of plone.app.content delete_confirmation
+      See https://github.com/plone/plone.app.content/issues/38
+  -->
+  <browser:page
+      for="*"
+      name="delete_confirmation"
+      class=".actions.PIDeleteConfirmationForm"
+      permission="zope2.DeleteObjects"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
 
   <plone:tile
       name="tasks.tile"
@@ -60,23 +91,5 @@
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
-
-    <!-- @@switch_theme view used as site action -->
-    <browser:page
-        name="switch_theme"
-        for="*"
-        permission="zope.Public"
-        class=".action.SwitchThemeView"
-        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-        />
-
-    <!-- Show site actions with theme switcher also in header -->
-    <browser:viewlet
-        name="ploneintranet.site_actions"
-        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-        class="plone.app.layout.viewlets.common.SiteActionsViewlet"
-        permission="zope2.View"
-        layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-        />
 
 </configure>

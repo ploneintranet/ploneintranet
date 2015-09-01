@@ -6,7 +6,7 @@
   <body>
     <div class="news portlet" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
       <h2 class="portlet-title" i18n:translate="label_news">News</h2>
-      
+
       <div class="news-block" id="unread-news">
         <article class="item item-1" tal:repeat="news news_items" tal:attributes="class string:item item-${repeat/news/number}">
           <a href="/news-press-2" tal:attributes="href news/url">
@@ -15,14 +15,14 @@
                 Air India Joins Star Alliance
               </h3>
               <p class="description"><span tal:replace="news/description">
-              First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</span> 
-              <em>Read more…</em>
+              First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</span>
+              <em i18n:translate="read-more">Read more...</em>
               </p>
           </a>
           <!--form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
             <button type="submit" class="icon-ok">Mark read</button>
           </form-->
-        </article>         
+        </article>
       </div>
     </div>
   </body>

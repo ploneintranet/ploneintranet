@@ -5,8 +5,9 @@
       lang="en"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="ploneintranet">
-<body>
-  <div id="social-messages" metal:fill-slot="main">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content">
 
       <h1 i18n:translate="">
         Notifications
@@ -15,28 +16,34 @@
       <div id="notifications" tal:define="notifications view/your_notifications">
         <ul class="notifications">
           <li tal:repeat="notification notifications"  class="notification">
-            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image" tal:attributes="href python:notification.actors[0]['userid']">
-              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid']).absolute_url()" />
+            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image"
+              tal:define="actorid python:notification.actors[0]['userid']"
+              tal:attributes="href string:${portal_url}/@@author/${actorid}">
+              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid'])" />
             </a>
             <span class="subjects">
-              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href="" tal:attributes="href string:${portal_url}/author/${actor/userid}" class="subject">Jon Doe</a>
+              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href=""
+                 tal:attributes="href string:${portal_url}/@@author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
-            <span class="verb" tal:content="notification/predicate">
-              asked
+            <span class="verb">
+              posted
             </span>
-            <a href="" class="object" tal:content="notification/obj/title">
+            <a class="object"
+	       tal:omit-tag="not: notification/obj/url"
+               href="${notification/obj/url}"
+               tal:content="structure notification/obj/title">
               Who's up for a beer at Watershed at 8pm?
             </a>
-            <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/obj/message_last_modification_date">Just now</time>
+            <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/date">Just now</time>
           </li>
         </ul>
         <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
 
         <p class="all-notifications">
-          <a tal:attributes="href string:${portal_url}/notifications" i18n:translate="">All notifications</a>
+          <a tal:attributes="href string:${portal_url}/notifications?showall=1" i18n:translate="">All notifications</a>
         </p>
       </div>
 
-    </div>
+      </metal:content>
   </body>
 </html>

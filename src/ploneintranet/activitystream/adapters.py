@@ -1,13 +1,11 @@
 # coding=utf-8
 from plone import api
 from ploneintranet.activitystream.interfaces import IStatusActivity
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IStatusActivity)
 class StatusActivity(object):
-    # conditionally configured in zcml
-    # adapts(IStatusUpdate)
-    implements(IStatusActivity)
 
     def __init__(self, context):
         self.context = context
@@ -20,7 +18,7 @@ class StatusActivity(object):
         self.Creator = context.creator
         self.userid = context.userid
         self.raw_date = context.date
-        m_context = context.context  # IStatusUpdate.IMicroblogContext
+        m_context = context.microblog_context
         if m_context:
             self.title = m_context.Title()
             self.url = m_context.absolute_url()

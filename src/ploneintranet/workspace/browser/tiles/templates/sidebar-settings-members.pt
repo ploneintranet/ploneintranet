@@ -10,6 +10,9 @@
       <div id="workspace-settings">
 
         <div class="tabs-content">
+          <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
+            <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+          </aside>
 
           <div class="item-selector mode-follow" id="member-list">
 
@@ -18,16 +21,16 @@
                 Members
               </h3>
               <div class="quick-functions">
-                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:translate="">Functions</a>                
-                <a class="toggle-select-mode pat-toggle member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow" i18n:translate="">Select</a>
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:attributes="title" i18n:translate="" tal:condition="view/can_manage_roster">Functions</a>
+                <a class="pat-toggle toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow" i18n:translate="" tal:condition="view/can_manage_roster">Select</a>
               </div>
             </div>
 
-            <form class="search-result users pat-autosubmit pat-inject" data-pat-inject="target: #selected-users; source: #selected-users" action="/feedback/update-social-mentions-feedback.html" id="member-list-items">
+            <form class="search-result users pat-inject" data-pat-inject="target: body::after" action="/panel-change-role#content" id="member-list-items" method="POST">
               <fieldset class="checklist pat-checklist users ">
 
-                <div class="batch-functions">
+                <div class="batch-functions" tal:condition="view/can_manage_roster">
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
@@ -38,8 +41,9 @@
                         i18n:translate="">Cancel</button>
                   </div>
 
-                  <div class="button-bar">
+                  <div class="button-bar" tal:condition="view/can_manage_roster">
                     <button type="submit"
+                            formaction="${ws/absolute_url}/panel-change-role#content"
                             name="batch-function"
                             value="role"
                             class="float-before icon-role"
@@ -47,6 +51,7 @@
                             title="Change role of member"
                             i18n:attributes="title">Change role</button>
                     <button type="submit"
+                            formaction="${ws/absolute_url}/panel-remove-user#content"
                             name="batch-function"
                             value="remove"
                             class="float-before icon-role"
@@ -60,24 +65,31 @@
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
-                  <input name="" type="checkbox" tal:attributes="name user/id" />
-                  <a class="follow pat-inject" href="/adrian-white" data-pat-inject="source: #document-body; target: #document-body">
-                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" />
+                  <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
+                  <a class="follow pat-inject" href="${here/portal_url}/profiles/${user/id}" data-pat-inject="source: #document-body; target: #document-body">
+                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
                     <strong class="title" tal:content="user/title">Adrian White</strong>
                     <tal:block condition="user/description"><br />
                     <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
                   </a>
+                  <tal:manager condition="view/can_manage_roster">
+                      <a tal:condition="user/role" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                  </tal:manager>
+                  <tal:non_manager condition="not:view/can_manage_roster">
+                      <a tal:condition="user/role" href="/adrian-white" class="label inactive follow pat-inject">${user/role}</a>
+                  </tal:non_manager>
                 </label>
 
               </fieldset>
             </form>
 
             <div class="button-bar create-buttons"
-                 tal:condition="view/can_manage_workspace">
+                 tal:condition="view/can_manage_roster">
               <a class="button icon-user-add pat-modal" data-pat-modal="class: large"
-                tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
+                href="${ws/absolute_url}/panel-add-user#document-content"
                 i18n:translate="">Add user</a>
-              <a href="/panel-add-group.html#document-content" class="button icon-group pat-modal" data-pat-modal="class: large"
+              <a class="button icon-group pat-modal" data-pat-modal="class: large"
+                href="${ws/absolute_url}/panel-add-group#document-content"
                 i18n:translate="">Add group</a>
             </div>
 

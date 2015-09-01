@@ -7,7 +7,7 @@
     <div class="workspaces portlet" id="portlet-workspaces" tal:condition="workspaces">
         <h2 class="portlet-title">
             <a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html"
-                i18n:translate="">Workspaces</a></h2>
+               i18n:translate="" tal:content="view/workspace_type"></a></h2>
         <ul class="links">
             <tal:workspace repeat="workspace workspaces">
                 <li class="workspace" tal:attributes="title workspace/description">
@@ -15,11 +15,11 @@
                         <h4 class="title">${workspace/title}</h4>
                         <tal:activities repeat="activity workspace/activities">
                             <p class="byline">
-                                <strong class="subjects"> <!-- This is still a mock -->
+                                <strong class="subjects">
                                     <span class="subject">${activity/subject}</span>
                                 </strong>
                                 <span class="verb">${activity/verb}</span>
-                                <strong class="object" tal:content="structure activity/object">Object</strong>
+                                <strong class="object" tal:content="structure python:view.shorten(activity['object'])">Object</strong>
                                 <time class="datestamp" tal:content="activity/time/title">2 Hours ago</time>
                             </p>
                         </tal:activities>

@@ -10,7 +10,8 @@ class AbstractAppContainer(object):
 
     class ImplicitMockFolder(AbstractAppContainer, Folder):
         implements(IMockFolder)
-        layer = IMockLayer
+        app_name = 'foo'
+        app_layers = (IMockLayer, )
 
     --
     This will inherit from AbstractAppContainer first
@@ -22,7 +23,8 @@ class AbstractAppContainer(object):
 
     class ExplicitMockFolder(Folder, AbstractAppContainer):
         implements(IMockFolder)
-        layer = IMockLayer
+        app_name = 'foo'
+        app_layers = (IMockLayer, )
 
         def __init__(self, *args, **kwargs):
             super(ExplicitMockFolder, self).__init__(*args, **kwargs)

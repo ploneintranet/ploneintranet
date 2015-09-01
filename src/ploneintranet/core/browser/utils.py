@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ttp import ttp
 from Products.CMFPlone.utils import safe_unicode
 
 
@@ -23,3 +24,12 @@ def link_users(url='', mentions=None):
             text += tmpl.format(url, user_id, fullname)
         return text
     return u''
+
+
+def link_urls(text):
+    """
+    Enriches urls in the comment text with an anchor.
+    """
+    parser = ttp.Parser(max_url_length=40)
+    parser._urls = []
+    return ttp.URL_REGEX.sub(parser._parse_urls, text)

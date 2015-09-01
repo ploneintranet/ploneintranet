@@ -109,37 +109,49 @@
   <transition transition_id="transfer_to_department" title="Transfer To Department" new_state="in_progress" trigger="USER" before_script="" after_script="">
     <description>Transfer the case to the responsible department.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=transfer_to_department" category="workflow" icon="">Transfer To Department</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
     <description>Finish handling by the department and mark as ready for verification.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="submit" title="Submit" new_state="request" trigger="USER" before_script="" after_script="">
     <description>Submit the case for decision by the council.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
     <description>Accept or deny the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
     <description>Mark the case as done and file away.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=archive" category="workflow" icon="">Archive</action>
-    <guard />
+    <guard >
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
   <transition transition_id="rework" title="Rework" new_state="in_progress" trigger="USER" before_script="" after_script="">

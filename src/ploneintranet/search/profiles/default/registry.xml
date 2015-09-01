@@ -11,6 +11,7 @@
       <element>tags</element>
       <element>friendly_type_name</element>
       <element>portal_type</element>
+      <element>path</element>
     </value>
   </record>
 
@@ -35,6 +36,7 @@
     <value>
       <element>Title</element>
       <element>Description</element>
+      <element>tags</element>
       <element>SearchableText</element>
     </value>
   </record>
@@ -51,7 +53,8 @@
     <value>
       <element key="Title">5</element>
       <element key="Description">3</element>
-      <element key="SearchableText">2</element>
+      <element key="tags">4</element>
+      <element key="SearchableText">1</element>
     </value>
   </record>
 

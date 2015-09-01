@@ -6,6 +6,8 @@ from Acquisition import aq_base
 from plone import api
 from zope.component import getUtility
 from zope.interface import implementer
+from AccessControl.SecurityManagement import getSecurityManager
+from Products.CMFPlone.utils import safe_unicode
 
 from .. import base
 from ..interfaces import ISiteSearch
@@ -153,23 +155,28 @@ class SiteSearch(base.SiteSearch):
 
         Q = self.connection.Q
         phrase_query = Q()
-        boosts = self.phrase_field_boosts
-        for phrase_field in self.phrase_fields:
-            phrase_q = Q(**{phrase_field: phrase})
-            boost = boosts.get(phrase_field)
-            if boost is not None:
-                phrase_q **= boost
-            phrase_query |= phrase_q
+        if phrase:
+            # boosting incompatible with wildcard phrase
+            boosts = self.phrase_field_boosts
+            for phrase_field in self.phrase_fields:
+                phrase_q = Q(**{phrase_field: phrase})
+                boost = boosts.get(phrase_field)
+                if boost is not None:
+                    phrase_q **= boost
+                phrase_query |= phrase_q
         return IQuery(self.connection).query(Q(phrase_query))
 
     def _apply_filters(self, query, filters):
         interface = query.interface
         for key, value in filters.items():
+            if key == 'path':
+                key = 'path_parents'
             if isinstance(value, list):
                 # create an OR subquery for this filter
                 subquery = interface.Q()
                 for item in value:
-                    subquery |= interface.Q(**{key: item})
+                    # item can be a string, force unicode
+                    subquery |= interface.Q(**{key: safe_unicode(item)})
                 query = query.filter(subquery)
             else:
                 query = query.filter(interface.Q(**{key: value}))
@@ -177,7 +184,9 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_security(self, query):
         Q = query.interface.Q
-        user = api.user.get_current()
+        # _listAllowedRolesAndUsers method requires
+        # the actual user object so we can't use plone.api here
+        user = getSecurityManager().getUser()
         catalog = api.portal.get_tool(name='portal_catalog')
         arau = catalog._listAllowedRolesAndUsers(user)
         data = dict(allowedRolesAndUsers=arau)

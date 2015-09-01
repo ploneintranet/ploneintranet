@@ -1,28 +1,29 @@
-from datetime import datetime
-
+# coding=utf-8
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ...basecontent.utils import dexterity_update
+from ...interfaces import IGroupingStorage
+from ...policies import EXTERNAL_VISIBILITY
+from ...policies import JOIN_POLICY
+from ...policies import PARTICIPANT_POLICY
+from ...utils import map_content_type
+from ...utils import parent_workspace
+from ...utils import set_cookie
 from AccessControl import Unauthorized
-from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
+from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
+from plone.app.event.base import localized_now
 from plone.i18n.normalizer import idnormalizer
-from plone.memoize.instance import memoize
+from ploneintranet.todo.utils import update_task_status
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
-
-from ... import MessageFactory as _  # noqa
-from ...interfaces import IGroupingStorage
-from ...policies import EXTERNAL_VISIBILITY
-from ...policies import JOIN_POLICY
-from ...policies import PARTICIPANT_POLICY
-from ...utils import parent_workspace
-from ...utils import map_content_type
-from ...utils import set_cookie
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -67,17 +68,55 @@ class BaseTile(BrowserView):
             obj=self.context,
         )
 
+    def can_manage_roster(self):
+        """
+        does this user have permission to manage the workspace's roster
+        """
+        return api.user.has_permission(
+            "collective.workspace: Manage roster",
+            obj=self.context,
+        )
+
     def can_add(self):
         """
         Is this user allowed to add content?
+        Cave. We don't use the plone.app.contenttypes per-type permissions.
+        Our workflows don't map those, only cmf.AddPortalContent.
         """
         return api.user.has_permission(
             "Add portal content",
             obj=self.context,
         )
 
+    def can_edit(self):
+        """
+        Is this user allowed to add content?
+        """
+        return api.user.has_permission(
+            "Modify portal content",
+            obj=self.context,
+        )
+
+    def can_delete(self, obj=None):
+        ''' Is this user allowed to delete an object?
+        '''
+        if obj is None:
+            obj = self.context
+        elif hasattr(obj, 'getObject'):
+            obj = obj.getObject()
+        return api.user.has_permission(
+            "Delete objects",
+            obj=obj,
+        )
+
+
+class SidebarSettingsGeneral(BaseTile):
+
+    index = ViewPageTemplateFile('templates/sidebar-settings-general.pt')
+
 
 class SidebarSettingsMembers(BaseTile):
+
     """
     A view to serve as the member roster in the sidebar
     """
@@ -106,30 +145,66 @@ class SidebarSettingsMembers(BaseTile):
         users.sort(key=lambda x: safe_unicode(x['title']))
         return users
 
-    @memoize
     def existing_users(self):
         return self.workspace().existing_users()
 
-    def __call__(self):
+    def execute_batch_function(self):
         form = self.request.form
         ws = self.workspace()
-        user_id = form.get('user_id')
-        if user_id:
-            if not self.can_manage_workspace():
+        user_ids = form.get('user_id')
+        if isinstance(user_ids, basestring):
+            user_ids = user_ids.split(',')
+        batch_function = form.get('batch-function')
+        if user_ids:
+            if not self.can_manage_roster():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
                 raise Unauthorized(msg)
             else:
-                IWorkspace(ws).add_to_team(user=user_id)
-                api.portal.show_message(
-                    _(u'Member added'),
-                    self.request,
-                    'success',
-                )
+                if batch_function == 'add':
+                    for user_id in user_ids:
+                        IWorkspace(ws).add_to_team(user=user_id)
+                    api.portal.show_message(
+                        _(u'Member(s) added'),
+                        self.request,
+                        'success',
+                    )
+                elif batch_function == 'remove':
+                    for user_id in user_ids:
+                        IWorkspace(ws).remove_from_team(user=user_id)
+                    api.portal.show_message(
+                        _(u'Member(s) removed'),
+                        self.request,
+                        'success',
+                    )
+                elif batch_function == 'role':
+                    role = self.request.get('role')
+                    if role:
+                        groups = {role}
+                    else:
+                        groups = None
+                    for user_id in user_ids:
+                        IWorkspace(ws).add_to_team(user=user_id, groups=groups)
+                    api.portal.show_message(
+                        _(u'Role updated'),
+                        self.request,
+                        'success',
+                    )
+                else:
+                    api.portal.show_message(
+                        _(u'Unknown function'),
+                        self.request,
+                        'error',
+                    )
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.execute_batch_function()
         return self.render()
 
 
 class SidebarSettingsSecurity(BaseTile):
+
     """
     A view to serve as the security settings in the sidebar
     """
@@ -175,6 +250,7 @@ class SidebarSettingsSecurity(BaseTile):
                 )
 
         if self.request.method == 'POST':
+            self.form_submitted = True
             if not self.can_manage_workspace():
                 msg = _(u'You do not have permission to change the workspace '
                         u'policy')
@@ -189,6 +265,7 @@ class SidebarSettingsSecurity(BaseTile):
 
 
 class SidebarSettingsAdvanced(BaseTile):
+
     """
     A view to serve as the advanced config in the sidebar
     """
@@ -200,18 +277,25 @@ class SidebarSettingsAdvanced(BaseTile):
         """
         form = self.request.form
         ws = self.workspace()
+        if self.request.method == 'POST' and form:
+            if self.can_manage_workspace():
+                modified, errors = dexterity_update(self.context)
 
-        if self.request.method == 'POST':
-            if not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'policy')
-                raise Unauthorized(msg)
-            if form.get('email') and form.get('email') != ws.email:
-                ws.email = form.get('email').strip()
-                api.portal.show_message(_(u'Email changed'),
-                                        self.request,
-                                        'success')
-                self.form_submitted = True
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    ws.reindexObject()
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
 
         return self.render()
 
@@ -232,69 +316,49 @@ class Sidebar(BaseTile):
         Write attributes, if any, set state, render
         """
         form = self.request.form
-
         if self.request.method == 'POST' and form:
             ws = self.workspace()
             self.set_grouping_cookie()
-            wft = api.portal.get_tool("portal_workflow")
+            # wft = api.portal.get_tool("portal_workflow")
             section = self.request.form.get('section', None)
             do_reindex = False
-            if section != 'task' and not self.can_manage_workspace():
-                msg = _(u'You do not have permission to change the workspace '
-                        u'title or description')
-                raise Unauthorized(msg)
-            elif section == 'task':
-                current_tasks = self.request.form.get('current-tasks', [])
-                active_tasks = self.request.form.get('active-tasks', [])
 
-                catalog = api.portal.get_tool('portal_catalog')
-                brains = catalog(UID={'query': current_tasks,
-                                      'operator': 'or'})
-                for brain in brains:
-                    obj = brain.getObject()
-                    state = wft.getInfoFor(obj, 'review_state')
-                    if brain.UID in active_tasks:
-                        if state in ["open", "planned"]:
-                            api.content.transition(obj, "finish")
-                    else:
-                        if state == "done":
-                            obj.reopen()
-                api.portal.show_message(
-                    _(u'Changes applied'), self.request, 'success')
-                msg = ViewPageTemplateFile(
-                    '../templates/globalstatusmessage.pt')
-                return msg(self)
-            else:
-                if form.get('title'):
-                    title = safe_unicode(form.get('title')).strip()
-                    if title != ws.title:
-                        ws.title = title.strip()
-                        do_reindex = True
-                        api.portal.show_message(_(u'Title changed'),
-                                                self.request,
-                                                'success')
-                if form.get('description'):
-                    description = safe_unicode(form.get('description')).strip()
-                    if ws.description != description:
-                        ws.description = description
-                        do_reindex = True
-                        api.portal.show_message(_(u'Description changed'),
-                                                self.request,
-                                                'success')
+            # Do the workflow transitions based on what tasks the user checked
+            # or unchecked
+            if section == 'task':
+                update_task_status(self)
 
-                calendar_visible = not not form.get('calendar_visible')
-                if calendar_visible != ws.calendar_visible:
-                    ws.calendar_visible = calendar_visible
-                    api.portal.show_message(_(u'Calendar visibility changed'),
-                                            self.request,
-                                            'success')
+            # Do the property editing. Edits only if there is something to edit
+            # in form
+            if self.can_manage_workspace() and form:
+                modified, errors = dexterity_update(self.context)
+
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    do_reindex = True
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
+
             if do_reindex:
                 ws.reindexObject()
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
-        open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
-        return open_item_url in [task['url'] for task in milestone_tasks]
+        if 'PARENT_REQUEST' in self.request:
+            # Only check if this is a tile subrequest
+            open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
+            return open_item_url in [task['url'] for task in milestone_tasks]
+        return False
 
     def logical_parent(self):
         """
@@ -357,10 +421,9 @@ class Sidebar(BaseTile):
                 dpi = (
                     "source: #workspace-documents; "
                     "target: #workspace-documents "
-                    "&& "
-                    "source: nav.breadcrumbs; "
-                    "target: nav.breadcrumbs; "
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = None
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
@@ -374,6 +437,9 @@ class Sidebar(BaseTile):
                     "source: #document-body; "
                     "history: record"
                 )
+                # Do we switch the view (unexpand the sidebar)?
+                dps = ("body focus-* focus-document && "
+                       "body sidebar-large sidebar-normal")
 
             results.append(dict(
                 title=r['Title'],
@@ -382,12 +448,32 @@ class Sidebar(BaseTile):
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
+                dps=dps,
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
-                subject=r['Subject']
+                subject=r['Subject'],
+                UID=r['UID'],
+                path=r.getPath()
             ))
         return results
+
+    def item2ctype(self, item):
+        ''' We have an item coming from of one of those two methods:
+         - self._extract_attrs
+         - self.get_headers_for_group
+
+        We try to return its ctype (content type)
+        '''
+        ctype = item.get('content_type', 'code')
+        if ctype:
+            return "type-{0}".format(ctype)
+        # we have two fallbacks:
+        #  - one for folderish objects
+        #  - one for everything else
+        if item.get('structural_type') == 'group':
+            return 'type-folder'
+        return 'document'
 
     def items(self):
         """
@@ -457,11 +543,8 @@ class Sidebar(BaseTile):
                 else 'has-no-description'
             )
 
-            ctype = item.get('content_type', 'code')
-            if ctype == '':
-                ctype = 'document'
-            else:
-                ctype = "type-{0}".format(ctype)
+            ctype = self.item2ctype(item)
+
             cls = 'item %s %s %s' % (
                 item.get('structural_type', 'group'), ctype, cls_desc)
 
@@ -597,6 +680,9 @@ class Sidebar(BaseTile):
             #                     url=group_url_tmpl % username,
             #                     id=username)]
             for header in headers:
+                username = header['id']
+                header['title'] = api.user.get(username=username)\
+                    .getProperty('fullname') or username  # admin :-(
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 
@@ -782,7 +868,6 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
-    @memoize
     def grouping(self):
         """
         Return the user selected grouping
@@ -792,7 +877,6 @@ class Sidebar(BaseTile):
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
-    @memoize
     def sorting(self):
         """
         Return the user selected sorting
@@ -842,22 +926,23 @@ class Sidebar(BaseTile):
         catalog = api.portal.get_tool('portal_catalog')
         workspace = parent_workspace(self.context)
         workspace_path = '/'.join(workspace.getPhysicalPath())
-        now = datetime.now()
+        now = localized_now()
 
         # Current and future events
         upcoming_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            start={'query': (now), 'range': 'min'},
+            end={'query': now, 'range': 'min'},
+            sort_on='start',
+            sort_order='descending',
         )
 
         # Events which have finished
         older_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             path=workspace_path,
-            end={'query': (now), 'range': 'max'},
+            end={'query': now, 'range': 'max'},
+            sort_on='start',
+            sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
-
-    def can_add(self):
-        return api.user.has_permission('Add portal content', obj=self.context)

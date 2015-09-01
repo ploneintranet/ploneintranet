@@ -2,6 +2,7 @@ from Products.CMFCore.interfaces import IIndexableObject
 from plone import api
 from plone.namedfile import NamedBlobFile
 from zope.component import queryMultiAdapter
+import transaction
 
 from .. import testing
 
@@ -28,6 +29,7 @@ class TestFriendlyName(testing.IntegrationTestCase):
                 contentType='application/pdf',
             )
         )
+        transaction.commit()
 
     def test_default_type(self):
         iobj = queryMultiAdapter((self.doc1, self.catalog), IIndexableObject)

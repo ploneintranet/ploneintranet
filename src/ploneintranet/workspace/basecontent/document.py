@@ -5,7 +5,7 @@ from plone.dexterity.browser import add, edit
 from z3c.form import button
 from z3c.form.interfaces import IAddForm
 
-from ploneintranet.theme import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class DexterityFormMixin(object):

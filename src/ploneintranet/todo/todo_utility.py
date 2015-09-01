@@ -179,7 +179,7 @@ class TodoUtility(object):
         storage = self._get_storage()
 
         for userid in userids:
-            if userid in storage:
+            if userid in storage and storage[userid]:
                 users_actions = storage[userid]
                 action, users_actions = self._get_action_for_user(
                     content_uid,

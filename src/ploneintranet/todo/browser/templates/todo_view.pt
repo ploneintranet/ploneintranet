@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet.theme">
+      i18n:domain="ploneintranet">
 
   <body>
     <metal:content fill-slot="content"
@@ -31,33 +31,56 @@
                   </h1>
                   <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
-                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified" i18n:translate="">
+                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified"  title="Delete this document" i18n:attributes="title" i18n:translate="">
                       Delete
                     </a>
-                    <a href="" class="icon-copy iconified" i18n:translate="">
+                    <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">
                       Copy
                     </a>
-                    <a href="#share-panel" class="icon-export iconified pat-modal" i18n:translate="">
+                    <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">
                       Share
+                    </a-->
+                    <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">
+                      Toggle extra metadata
                     </a>
-                    <a class="icon-info-circle meta-data-toggle iconified" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
-                      <label class="pat-select bare">
-                        <select name="task_action" id="workflow_action">
-                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Open</option>
-                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Done</option>
+                      <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
+                        <select name="task_action" id="workflow_action"
+                                tal:define="wf_state view/get_workflow_state">
+
+                          <tal:comment replace="nothing">
+                            There are three possible workflow states for a task: open, planned and done.
+
+                            Whether it is "open" or "planned" depends on the workflow state of the Case
+                            and the Milestone of the task. It is updated by an event handler, so it
+                            doesn't make sense to allow a user to manually switch between "open" and
+                            "planned". A user can only "close" or "reopen" a task.
+
+
+                            Show the currently selected state:
+                          </tal:comment>
+                          <option title="Open" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'open'">Open</option>
+                          <option title="Planned" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'planned'">Planned</option>
+                          <option title="Done" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Done</option>
+
+                          <tal:comment replace="nothing">
+                            Show the available transition:
+                          </tal:comment>
+                          <option title="Done" value="close" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state in ['open', 'planned']">Done</option>
+                          <option title="Reopen" value="reopen" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Reopen</option>
+
                         </select>
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
-                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
 
                   </div>
                 </div>
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
-                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: results; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords"/>
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" i18n:domain="plone" i18n:attributes="placeholder" value="${python:','.join(context.subject)}" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                   </fieldset>
 
                 </fieldset>

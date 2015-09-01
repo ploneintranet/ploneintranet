@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
+from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing.interfaces import SITE_OWNER_NAME
@@ -21,6 +22,12 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.workspace_container = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspace-container',
+            title='Workspace container'
+        )
         self.request = self.portal.REQUEST
 
     def login(self, username):
@@ -59,9 +66,6 @@ class BaseTestCase(unittest.TestCase):
         :rtype: None
 
         """
-        if groups is None:
-            groups = set([])
-
         IWorkspace(workspace).add_to_team(
             user=username,
             groups=groups,

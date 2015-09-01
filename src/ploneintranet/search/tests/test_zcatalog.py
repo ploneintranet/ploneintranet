@@ -1,4 +1,5 @@
 """Tests for the example search API"""
+import unittest
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 
 from . import base as base_tests
@@ -35,12 +36,19 @@ class IntegrationTestsMixin(object):
 class TestSiteSearch(IntegrationTestsMixin,
                      base_tests.SiteSearchTestsMixin,
                      testing.IntegrationTestCase):
-    """Test the example zcatalog search API implementation"""
+    """Test the example zcatalog search API implementation
+
+    The actual tests are in ploneintranet.search.tests.base.
+    """
 
     def test_spell_corrected_search(self):
         util = self._make_utility()
         response = util.query('spelling beans')
         self.assertIs(response.spell_corrected_search, FEATURE_NOT_IMPLEMENTED)
+
+    @unittest.skip('File content searching not implemented in zcatalog')
+    def test_file_content_matches(self):
+        self.fail()
 
 
 class TestSiteSearchPermissions(IntegrationTestsMixin,

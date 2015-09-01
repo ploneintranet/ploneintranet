@@ -1,14 +1,12 @@
 # coding=utf-8
-from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet import api as piapi
 from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
-from ploneintranet.core.integration import PLONEINTRANET
 from ploneintranet.userprofile.content.userprofile import IUserProfile
-from zExceptions import NotFound
 import logging
 
 logger = logging.getLogger(__name__)
@@ -23,8 +21,21 @@ class StreamTile(Tile):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.tag = self.data.get('tag')
+        # BBB: the or None should be moved to the microblog methods
+        self.tag = self.data.get('tag') or None
         self.explore = 'network' not in self.data
+        if 'last_seen' in request:
+            self.last_seen = request.get('last_seen')
+        else:
+            self.last_seen = None
+        self.stop_asking = False
+
+    @property
+    def next_max(self):
+        if self.last_seen:
+            return long(self.last_seen) - 1
+        else:
+            return None
 
     @property
     @memoize
@@ -38,7 +49,7 @@ class StreamTile(Tile):
     def microblog_context(self):
         ''' Returns the microblog context
         '''
-        return PLONEINTRANET.context(self.context)
+        return piapi.microblog.get_microblog_context(self.context)
 
     def filter_statusupdates(self, statusupdates):
         ''' This method filters the microblog StatusUpdates
@@ -49,7 +60,7 @@ class StreamTile(Tile):
         '''
         seen_thread_ids = set()
         good_statusupdates = []
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
 
         for su in statusupdates:
             if su.thread_id and su.thread_id in seen_thread_ids:
@@ -70,12 +81,13 @@ class StreamTile(Tile):
 
         The activity are sorted by reverse chronological order
         '''
-        container = PLONEINTRANET.microblog
+        container = piapi.microblog.get_microblog()
 
         if self.microblog_context:
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
                 self.microblog_context,
+                max=self.next_max,
                 limit=self.count,
                 tag=self.tag
             )
@@ -83,12 +95,14 @@ class StreamTile(Tile):
             # Get the updates for this user
             statusupdates = container.user_values(
                 self.context.username,
+                max=self.next_max,
                 limit=self.count,
                 tag=self.tag
             )
         else:
             # default implementation
             statusupdates = container.values(
+                max=self.next_max,
                 limit=self.count,
                 tag=self.tag
             )
@@ -100,25 +114,16 @@ class StreamTile(Tile):
     def activities(self):
         ''' The list of our activities
         '''
-        # FIXME this try/except loop and the counting it necessitates
-        # is a workaround because the filtering on View is currently inadequate
-
         statusupdates = self.get_statusupdates()
-        i = 0
         for su in statusupdates:
-            if i >= self.count:
-                break
-            try:
-                activity = IActivity(su)
-            except Unauthorized:
-                logger.error("Unauthorized. FIXME. This should not happen.")
-                continue
-            except NotFound:
-                logger.exception("NotFound: %s" % activity.getURL())
-                continue
+            yield IActivity(su)
 
-            yield activity
-            i += 1
+        # stop autoexpand when last batch is empty
+        if len(statusupdates) == 0:
+            self.stop_asking = True
+        else:
+            # last su when exiting loop
+            self.last_seen = su.id
 
     @property
     @memoize

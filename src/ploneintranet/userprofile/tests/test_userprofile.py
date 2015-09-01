@@ -13,7 +13,7 @@ from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import MyProfileView
 from ploneintranet.userprofile.browser.userprofile import AvatarsView
 from ploneintranet.userprofile.browser.userprofile import MyAvatar
-
+from ploneintranet.userprofile.browser.userprofile import default_avatar
 
 TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
@@ -49,6 +49,18 @@ class TestUserProfileBase(BaseTestCase):
 
 
 class TestUserProfileView(TestUserProfileBase):
+
+    def test_profile_container(self):
+        ''' We want self.profiles, the profiles container to be public
+        '''
+        self.assertEqual(
+            self.profiles.portal_type,
+            'ploneintranet.userprofile.userprofilecontainer'
+        )
+        self.assertEqual(
+            api.content.get_state(self.profiles),
+            'published'
+        )
 
     def test_is_me(self):
         profile_view = UserProfileView(self.profile1, self.request)
@@ -125,6 +137,7 @@ class TestAvatarViews(TestUserProfileBase):
         self.profile1.portrait = NamedBlobImage(
             data=avatar_file.read(),
             filename=TEST_AVATAR_FILENAME)
+        self.default_avatar = default_avatar(self.request.response)
 
     def test_avatars_view(self):
         self.login(self.profile1.username)
@@ -137,13 +150,11 @@ class TestAvatarViews(TestUserProfileBase):
 
         avatars_view.publishTraverse(self.request,
                                      self.profile2.username)
-        data = avatars_view()
-        self.assertIsNone(data)
+        self.assertEqual(avatars_view(), self.default_avatar)
 
         avatars_view.publishTraverse(self.request,
                                      'not-a-username')
-        with self.assertRaises(NotFound):
-            avatars_view()
+        self.assertEqual(avatars_view(), self.default_avatar)
 
     def test_my_avatar(self):
         self.login(self.profile1.username)
@@ -154,6 +165,6 @@ class TestAvatarViews(TestUserProfileBase):
         profile_data = my_avatar.avatar_profile()
         self.assertTrue(IStreamIterator.providedBy(profile_data))
 
-        no_avatar = MyAvatar(self.profile2, self.request)
-        data = no_avatar()
-        self.assertIsNone(data)
+        avatar = MyAvatar(self.profile2, self.request)
+
+        self.assertEqual(avatar(), self.default_avatar)

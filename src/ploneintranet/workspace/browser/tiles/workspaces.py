@@ -4,8 +4,9 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from zope.component import queryUtility
+from ploneintranet.layout.utils import shorten
 
 
 class WorkspacesTile(Tile):
@@ -18,26 +19,57 @@ class WorkspacesTile(Tile):
     def __call__(self):
         return self.render()
 
+    @property
+    def workspace_type(self):
+        """
+        A tile should show either Workspacefolders or Cases, not both.
+        """
+        return self.request.form.get('workspace_type', 'workspacefolders')
+
+    def shorten(self, text):
+        return shorten(text, length=60)
+
     @memoize
     def workspaces(self):
         """ The list of my workspaces
         """
-        return my_workspaces(self.context)
+        return my_workspaces(self.context, workspace_types=self.workspace_type)
 
 
-def my_workspaces(context):
+def my_workspaces(
+        context, request=None, workspace_types=['workspacefolders', 'cases']):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
+
+    # determine sorting order (default: alphabetical)
+    sort_by = "sortable_title"
+    order = "ascending"
+    if request:
+        if hasattr(request, "sort"):
+            if request.sort == "activity":
+                raise NotImplementedError(
+                    "Sorting by activity"
+                    "is not yet possible")
+            elif request.sort == "newest":
+                sort_by = "modified"
+                order = "reverse"
+
     pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
+    portal_types = []
+    if 'cases' in workspace_types:
+        portal_types.append("ploneintranet.workspace.case")
+    if 'workspacefolders' in workspace_types:
+        portal_types.append("ploneintranet.workspace.workspacefolder")
     brains = pc(
         object_provides=(
             'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        sort_on="modified",
-        sort_order="reversed",
+        portal_type=portal_types,
+        sort_on=sort_by,
+        sort_order=order,
         path=ws_path,
     )
     workspaces = []
@@ -53,7 +85,6 @@ def my_workspaces(context):
             'activities': get_workspace_activities(brain),
             'class': css_class,
         })
-
     return workspaces
 
 

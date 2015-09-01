@@ -13,13 +13,19 @@
                         id string:functions-${unique_id};
                         data-pat-inject datapatinject;">
     <fieldset class="button-bar centred">
-      <button type="submit"
-              name="follow_button"
-              class="icon-eye"
-              i18n:attributes="title"
-              tal:attributes="title string:Click to ${verb/lower} ${context/fullname};
-                              class python:'icon-eye active' if is_followed else 'icon-eye'">
-                <strong tal:content="verb">Follow</strong> <span tal:replace="context/fullname" /></button>
+        <button tal:condition="python:view.verb == 'Follow'"
+            class="icon-eye ${python:is_followed and 'active' or ''}"
+            i18n:attributes="title"
+            title="Click to follow ${context/fullname}"
+            ><strong>Follow</strong> ${context/fullname}
+        </button>
+        <button tal:condition="python:view.verb == 'Unfollow'"
+            class="icon-eye ${python:is_followed and 'active' or ''}"
+            i18n:attributes="title"
+            title="You are now following ${context/fullname}. Click to unfollow."
+            ><strong>Following</strong></button>
+
+      <input type="hidden" name="do_toggle_follow" value="" />
     </fieldset>
   </form>
 

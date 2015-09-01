@@ -61,8 +61,8 @@ class TestUUIDIntegration(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = self.portal['f1']
         directlyProvides(f1, IMicroblogContext)
-        update = StatusUpdate('test', context=f1)
-        self.assertEquals(update.context, f1)
+        update = StatusUpdate('test', microblog_context=f1)
+        self.assertEquals(update.microblog_context, f1)
 
     def test_context_api(self):
         """Unittests fake uuids. Integration test with real uuids."""
@@ -74,16 +74,16 @@ class TestUUIDIntegration(unittest.TestCase):
         mockcontext2 = self.portal['f2']
         directlyProvides(mockcontext2, IMicroblogContext)
         su1 = StatusUpdate('test', tags=['foo'],
-                           context=mockcontext1)
+                           microblog_context=mockcontext1)
         su1.userid = 'arnold'
         su2 = StatusUpdate('test', tags=['foo'],
-                           context=mockcontext2)
+                           microblog_context=mockcontext2)
         su2.userid = 'arnold'
         su3 = StatusUpdate('test', tags=['foo', 'bar', ],
-                           context=mockcontext2)
+                           microblog_context=mockcontext2)
         su3.userid = 'arnold'
         su4 = StatusUpdate('test',
-                           context=mockcontext2)
+                           microblog_context=mockcontext2)
         su4.userid = 'bernard'
         container.add(su1)
         container.add(su2)

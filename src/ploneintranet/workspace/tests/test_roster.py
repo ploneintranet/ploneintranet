@@ -23,7 +23,7 @@ class TestRoster(BaseTestCase):
         api.user.create(username='wsmember', email='member@test.com')
         api.user.create(username='wsmember2', email='member2@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -56,7 +56,7 @@ class TestEditRoster(BaseTestCase):
         api.user.create(username='wsmember', email='member@test.com')
         api.user.create(username='wsmember2', email='member@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
@@ -102,10 +102,10 @@ class TestEditRoster(BaseTestCase):
             'member': True,
             'admin': True,
             'title': 'wsadmin',
-            'description': u'Here we could have a nice status of this person',
+            'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsadmin',
-            'cls': 'has-description',
+            'cls': 'has-no-description',
         }
         self.assertIn(
             wsadmin,
@@ -117,10 +117,10 @@ class TestEditRoster(BaseTestCase):
             'member': True,
             'admin': False,
             'title': 'wsmember',
-            'description': u'Here we could have a nice status of this person',
+            'description': '',
             'portrait':
                 'http://nohost/plone/@@avatars/wsmember',
-            'cls': 'has-description',
+            'cls': 'has-no-description',
         }
         self.assertIn(
             wsmember,
@@ -253,7 +253,7 @@ class TestEditRosterForm(FunctionalBaseTestCase):
         self.login_as_portal_owner()
         api.user.create(username='wsmember', email='member@test.com')
         workspace_folder = api.content.create(
-            self.portal,
+            self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
