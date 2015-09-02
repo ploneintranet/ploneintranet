@@ -43,6 +43,8 @@ class UserPropertyManager(object):
         membrane_properties = property_sheet_mapping.pop('membrane_properties')
         changed = False
         for (property_name, pas_plugin_id) in self.property_mapping.items():
+            if pas_plugin_id not in property_sheet_mapping:
+                continue
             sheet = property_sheet_mapping[pas_plugin_id]
             value = sheet.getProperty(property_name, default=_no_value)
             if value is not _no_value:
