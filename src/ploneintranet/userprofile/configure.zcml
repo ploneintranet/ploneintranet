@@ -23,6 +23,9 @@
      factory=".permissions.UserProfileLocalRoleAdapter"
      />
 
+  <!-- Enable sync of user properties via PAS -->
+  <adapter factory=".sync.UserPropertyManager" />
+
   <utility
       name="ploneintranet.userprofile.locations_vocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
