@@ -7,6 +7,8 @@ from plone import api
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
+from zope.interface import alsoProvides
+from plone.protect.interfaces import IDisableCSRFProtection
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from .content.userprofile import IUserProfile
@@ -61,6 +63,7 @@ class UserPropertySync(BrowserView):
 
     def __call__(self):
         """Sync a single user profile with external property providers"""
+        alsoProvides(IDisableCSRFProtection)
         userprofile = self.context
         IUserProfileManager(userprofile).sync()
         api.portal.show_message(message=_('External property sync complete.'),
@@ -82,6 +85,7 @@ class AllUsersPropertySync(BrowserView):
         """Sync properties from PAS into the membrane object for
         all users across the application.
         """
+        alsoProvides(IDisableCSRFProtection)
         start = time.time()
         for (count, user) in enumerate(self._get_users_to_sync(), start=1):
             IUserProfileManager(user).sync()
