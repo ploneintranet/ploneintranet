@@ -1,5 +1,6 @@
 import logging
 import time
+from datetime import datetime
 
 from Products.Five import BrowserView
 from plone import api
@@ -7,7 +8,7 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
-from ..content.userprofile import IUserProfile
+from .content.userprofile import IUserProfile
 
 
 class IUserProfileManager(Interface):
@@ -16,6 +17,10 @@ class IUserProfileManager(Interface):
 
 _no_value = object()
 logger = logging.getLogger(__name__)
+
+
+def record_last_sync(context):
+    context.last_sync = datetime.utcnow()
 
 
 @adapter(IUserProfile)
@@ -44,6 +49,7 @@ class UserPropertyManager(object):
                 changed = True
 
         if changed:
+            record_last_sync(self.context)
             self.context.reindexObject()
 
 
@@ -64,6 +70,10 @@ class AllUsersPropertySync(BrowserView):
         start = time.time()
         for (count, user) in enumerate(self._get_users_to_sync(), start=1):
             IUserProfileManager(user).sync()
+
+        # set the last sync date on the userprofile container
+        record_last_sync(self.context)
+
         duration = time.time() - start
         logger.info('Updated {} in {:0.2f} seconds'.format(
             count, duration))
