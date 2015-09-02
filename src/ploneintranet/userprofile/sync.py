@@ -8,6 +8,7 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from .content.userprofile import IUserProfile
 
 
@@ -51,6 +52,17 @@ class UserPropertyManager(object):
         if changed:
             record_last_sync(self.context)
             self.context.reindexObject()
+
+
+class UserPropertySync(BrowserView):
+
+    def __call__(self):
+        """Sync a single user profile with external property providers"""
+        userprofile = self.context
+        IUserProfileManager(userprofile).sync()
+        api.portal.show_message(message=_('External property sync complete.'),
+                                request=self.request)
+        return self.request.response.redirect(userprofile.absolute_url())
 
 
 class AllUsersPropertySync(BrowserView):
