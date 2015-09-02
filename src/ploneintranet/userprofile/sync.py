@@ -40,7 +40,6 @@ class UserPropertyManager(object):
             sheet.getId(): sheet
             for sheet in member.getOrderedPropertySheets()
         }
-        membrane_properties = property_sheet_mapping.pop('membrane_properties')
         changed = False
         for (property_name, pas_plugin_id) in self.property_mapping.items():
             if pas_plugin_id not in property_sheet_mapping:
@@ -48,12 +47,14 @@ class UserPropertyManager(object):
             sheet = property_sheet_mapping[pas_plugin_id]
             value = sheet.getProperty(property_name, default=_no_value)
             if value is not _no_value:
-                membrane_properties.setProperty(member, property_name, value)
+                setattr(self.context, property_name, value)
                 changed = True
 
         if changed:
             record_last_sync(self.context)
             self.context.reindexObject()
+            logger.info('Properties updated for {0.username}'.format(
+                self.context))
 
 
 class UserPropertySync(BrowserView):
