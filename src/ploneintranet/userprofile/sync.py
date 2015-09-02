@@ -91,12 +91,14 @@ class AllUsersPropertySync(BrowserView):
         all users across the application.
         """
         alsoProvides(self.request, IDisableCSRFProtection)
-        # set the last sync date on the userprofile container
-        record_last_sync(self.context)
+
+        users = self._get_users_to_sync()
 
         start = time.time()
         count = 0
-        for (count, user) in enumerate(self._get_users_to_sync(), start=1):
+        # set the last sync date on the userprofile container
+        record_last_sync(self.context)
+        for (count, user) in enumerate(users, start=1):
             IUserProfileManager(user).sync()
 
         duration = time.time() - start
