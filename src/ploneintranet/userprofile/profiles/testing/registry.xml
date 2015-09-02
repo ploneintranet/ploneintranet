@@ -12,8 +12,8 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element key="username">mutable_properties</element>
-      <element key="email">mutable_properties</element>
+      <element key="username">mock_ldap_properties</element>
+      <element key="email">mock_ldap_properties</element>
     </value>
   </record>
 
