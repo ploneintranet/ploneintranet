@@ -5,6 +5,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.plone.org/zcml"
     i18n_domain="ploneintranet">
 
   <include package="Products.CMFCore" file="permissions.zcml" />
@@ -55,6 +56,15 @@
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="sync-users"
       class="..sync.AllUsersPropertySync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      zcml:condition="installed plone.app.ldap"
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="sync-users-ldap"
+      class="..ldap.LDAPChangedUsersPropertySync"
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />

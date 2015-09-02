@@ -26,6 +26,10 @@ def record_last_sync(context):
     context.last_sync = datetime.utcnow()
 
 
+def get_last_sync(context):
+    return getattr(context, 'last_sync', None)
+
+
 @adapter(IUserProfile)
 @implementer(IUserProfileManager)
 class UserPropertyManager(object):
@@ -87,12 +91,13 @@ class AllUsersPropertySync(BrowserView):
         all users across the application.
         """
         alsoProvides(self.request, IDisableCSRFProtection)
-        start = time.time()
-        for (count, user) in enumerate(self._get_users_to_sync(), start=1):
-            IUserProfileManager(user).sync()
-
         # set the last sync date on the userprofile container
         record_last_sync(self.context)
+
+        start = time.time()
+        count = 0
+        for (count, user) in enumerate(self._get_users_to_sync(), start=1):
+            IUserProfileManager(user).sync()
 
         duration = time.time() - start
         logger.info('Updated {} in {:0.2f} seconds'.format(
