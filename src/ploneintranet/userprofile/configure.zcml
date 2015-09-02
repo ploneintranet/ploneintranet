@@ -74,4 +74,9 @@
       i18n:attributes="title; description"
       />
 
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+    handler=".subscribers.on_user_login"
+    />
+
 </configure>
