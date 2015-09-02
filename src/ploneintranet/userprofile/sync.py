@@ -18,7 +18,7 @@ class IUserProfileManager(Interface):
     """Sync properties for a user profile
     """
 
-_no_value = object()
+NO_VALUE = object()
 logger = logging.getLogger(__name__)
 
 
@@ -47,8 +47,9 @@ class UserPropertyManager(object):
             if pas_plugin_id not in property_sheet_mapping:
                 continue
             sheet = property_sheet_mapping[pas_plugin_id]
-            value = sheet.getProperty(property_name, default=_no_value)
-            if value is not _no_value:
+            value = sheet.getProperty(property_name, default=NO_VALUE)
+            current_value = getattr(self.context, property_name)
+            if value is not NO_VALUE and value != current_value:
                 setattr(self.context, property_name, value)
                 changed = True
 
