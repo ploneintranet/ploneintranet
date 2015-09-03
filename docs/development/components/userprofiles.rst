@@ -110,19 +110,28 @@ This is useful for field data that comes from a separate source (e.g. AD/LDAP)
   </record>
 
 
-External data sources (e.g. AD/LDAP)
-======================================
+External authentication and/or data sources (e.g. AD/LDAP)
+==========================================================
 
 The Plone Intranet UI always uses the membrane profile data as the source of
 user data, to ensure a consistent experience when assigning roles, searching
 or browsing users.
 
-However, it is possible to configure specific membrane properties to be
-regularly synchronised with an external data source (such as AD/LDAP) using
-Plone's PAS properties infrastructure.
+However there are various features in place to support external
+authentication and user data sources.
+
+Automatic profile creation
+--------------------------
+
+If a user authenticates to the site using an alternative authentication system,
+the login event triggers the automatic creation of a matching membrane profile.
 
 Property sheet mapping
 ----------------------
+
+It is also possible to configure specific membrane properties to be
+regularly synchronised with an external data source (such as AD/LDAP) using
+Plone's PAS properties infrastructure.
 
 The registry entry `ploneintranet.userprofile.property_sheet_mapping` allows each user profile field to be mapped to a specific PAS plugin (using the id of the PAS plugin inside acl_users):
 
