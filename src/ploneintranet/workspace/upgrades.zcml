@@ -11,4 +11,12 @@
         handler=".upgrades.import_portal_types"
         profile="ploneintranet.workspace:default" />
 
+    <genericsetup:upgradeStep
+        title="Reset empty tags"
+        description="Empty tags were saved as (u'',) rather than ()"
+        source="*"
+        destination="0004"
+        handler=".upgrades.reset_empty_tags"
+        profile="ploneintranet.workspace:default" />
+
 </configure>
