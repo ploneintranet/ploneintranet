@@ -164,6 +164,9 @@ It supports *any* PAS plugin that provides PAS properties for a user,
 and will update *all* existing membrane profiles every sync,
 so could be expensive depending on the number of users in your site.
 
+This view is designed to be run periodically using a clock server
+or cron task.
+
 The view requires Manager privileges.
 
 .. code::
