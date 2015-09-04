@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-09-02 07:53+0000\n"
+"POT-Creation-Date: 2015-09-04 10:01+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -964,6 +964,9 @@ msgstr "Notificaciones"
 #: ../todo/portlets/latest.py:22
 msgid "Number of items to display"
 msgstr "Número de elementos a mostrar"
+
+msgid "ODT document"
+msgstr ""
 
 #: ../workspace/subscribers.py:119
 msgid "Oh boy, oh boy, you are already a member"
