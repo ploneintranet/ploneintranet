@@ -179,7 +179,6 @@ Non-Member can view published content in an open workspace
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
      Add workspace  Example Workspace
-     Maneuver to  Example Workspace
      Click Link  Workspace settings and about
      Click Link  Members
      Wait Until Page Contains  Add user

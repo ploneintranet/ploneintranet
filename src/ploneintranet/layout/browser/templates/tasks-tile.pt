@@ -4,35 +4,38 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div class="workspaces portlet" id="portlet-tasks"
+    <div class="workspaces portlet span-1" id="portlet-tasks"
          tal:define="grouped_tasks view/grouped_tasks">
-      <em tal:condition="not:grouped_tasks" i18n:translate="">
-        No tasks available
-      </em>
-      <tal:workspaces repeat="workspace_id grouped_tasks">
-        <tal:workspace define="workspace python:grouped_tasks[workspace_id]">
-          <form method="post" class="pat-autosubmit pat-inject" data-pat-inject="source:#global-statusmessage; target:#global-statusmessage"
-                tal:attributes="action string:${workspace/url}/@@tasks.tile#global-statusmessage">
-            <h3 tal:content="workspace/title"/>
+      <div class="content">
+        <h2 class="portlet-title" i18n:translate="">Tasks</h2>
+        <em tal:condition="not:grouped_tasks" i18n:translate="">
+          No tasks available
+        </em>
+        <tal:workspaces repeat="workspace_id grouped_tasks">
+          <tal:workspace define="workspace python:grouped_tasks[workspace_id]">
+            <form method="post" class="pat-autosubmit pat-inject" data-pat-inject="source:#global-statusmessage; target:#global-statusmessage"
+                  tal:attributes="action string:${workspace/url}/@@tasks.tile#global-statusmessage">
+              <h3 tal:content="workspace/title"/>
 
-            <fieldset class="task-list pat-checklist">
-              <tal:tasks repeat="task workspace/tasks">
-                <label>
-                  <input type="hidden" name="current-tasks:list" tal:attributes="value task/UID"/>
-                  <input type="checkbox" name="active-tasks:list"
-                         tal:attributes="value task/UID;
-                                         checked python: 'checked' if task['review_state'] == 'done' else ''"
-                         />
-                  <a tal:attributes="title task/Title; href string:${task/getURL}#workspace-tickets"
-                     tal:content="task/Title"/>
-                </label>
-                <br/>
-              </tal:tasks>
-            </fieldset>
-            <input type="hidden" name="section" value="task"/>
-          </form>
-        </tal:workspace>
-      </tal:workspaces>
+              <fieldset class="task-list pat-checklist">
+                <tal:tasks repeat="task workspace/tasks">
+                  <label>
+                    <input type="hidden" name="current-tasks:list" tal:attributes="value task/UID"/>
+                    <input type="checkbox" name="active-tasks:list"
+                           tal:attributes="value task/UID;
+                                           checked python: 'checked' if task['review_state'] == 'done' else ''"
+                           />
+                    <a tal:attributes="title task/Title; href string:${task/getURL}#workspace-tickets"
+                       tal:content="task/Title"/>
+                  </label>
+                  <br/>
+                </tal:tasks>
+              </fieldset>
+              <input type="hidden" name="section" value="task"/>
+            </form>
+          </tal:workspace>
+        </tal:workspaces>
+      </div>
     </div>
   </body>
 </html>
