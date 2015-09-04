@@ -70,3 +70,11 @@ msgstr ""
 
 msgid "Person"
 msgstr ""
+
+#. Default: "My Documents"
+msgid "my_docs_heading_workspaces"
+msgstr ""
+
+#. Default: "Library"
+msgid "my_docs_heading_library"
+msgstr ""
