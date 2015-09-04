@@ -1534,7 +1534,7 @@ msgstr "Aktualisierungen"
 
 #: ../activitystream/browser/tiles/templates/stream_tile.pt:8
 msgid "Updates tagged #${tag}"
-msgstr ""
+msgstr "Aktualisierungen für #${}"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:251
 msgid "Upload file(s)"
@@ -1755,7 +1755,7 @@ msgstr "Mitgliederliste für ${folder}"
 #. Default: "Loading more posts…"
 #: ../activitystream/browser/tiles/templates/stream_tile.pt:16
 msgid "info_loading_more_posts"
-msgstr ""
+msgstr "Weitere Posts werden geladen…"
 
 #. A unique token URL will be sent to the address."
 #. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
