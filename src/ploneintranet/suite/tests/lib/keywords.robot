@@ -734,6 +734,10 @@ I can delete a template case
 I go to the dashboard
     Go To  ${PLONE_URL}
 
+I select the task centric view
+    Select From List  dashboard  Task centric view
+    Wait Until Page Contains  Tasks
+
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
     Wait until Page Contains  Task state changed
