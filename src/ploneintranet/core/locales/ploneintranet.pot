@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-09-02 07:53+0000\n"
+"POT-Creation-Date: 2015-09-04 10:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -962,6 +962,9 @@ msgstr ""
 
 #: ../todo/portlets/latest.py:22
 msgid "Number of items to display"
+msgstr ""
+
+msgid "ODT document"
 msgstr ""
 
 #: ../workspace/subscribers.py:119
