@@ -3,6 +3,7 @@ from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
@@ -146,7 +147,7 @@ class AddEvent(AddContent):
         localized_start = DateTime(
             '%s %s' % (
                 ' '.join(self.request.get('start')),
-                self.request.get('timezone')
+                self.request.get('timezone', default_timezone())
             )
         )
         localized_end = localized_start + 1. / 24
