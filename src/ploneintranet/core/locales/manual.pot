@@ -37,6 +37,9 @@ msgstr ""
 msgid "PowerPoint 2007 presentation"
 msgstr ""
 
+msgid "ODT document"
+msgstr ""
+
 msgid "Zip archive"
 msgstr ""
 
