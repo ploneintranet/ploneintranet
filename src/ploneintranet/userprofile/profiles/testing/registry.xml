@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<registry>
+
+  <record name="ploneintranet.userprofile.property_sheet_mapping">
+    <field type="plone.registry.field.Dict">
+      <title>Property sheet mapping</title>
+      <description>
+        A mapping of a user property to a specific property sheet which
+	should be used to obtain the data for this attribute.
+      </description>
+      <key_type type="plone.registry.field.ASCII" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element key="username">mock_ldap_properties</element>
+      <element key="email">mock_ldap_properties</element>
+    </value>
+  </record>
+
+</registry>
