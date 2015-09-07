@@ -969,7 +969,7 @@ msgid "Number of items to display"
 msgstr "Anzahl der Artikel"
 
 msgid "ODT document"
-msgstr ""
+msgstr "ODT Dokument"
 
 #: ../workspace/subscribers.py:119
 msgid "Oh boy, oh boy, you are already a member"
