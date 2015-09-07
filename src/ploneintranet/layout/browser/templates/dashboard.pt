@@ -32,7 +32,7 @@
 
           <div data-tile="./@@contacts_search.tile"/>
           <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@my_documents.tile"/>
+          <div data-tile="./@@my_documents.tile?path=library"/>
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form data-tile="./@@newpostbox.tile"/>
             <div data-tile="./@@activitystream.tile?network=1"/>
@@ -44,12 +44,13 @@
 	      <div class="grid-sizer four columns"></div>
 
           <div data-tile="./@@contacts_search.tile"/>
-          <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@my_documents.tile"/>
           <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
           <div data-tile="./@@events.tile"/>
+          <div data-tile="./@@news.tile"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
           <div data-tile="./@@tasks.tile"/>
+          <div data-tile="./@@my_documents.tile?path=workspaces"/>
+
         </div>
       </tal:dashboard>
     </metal:content>
