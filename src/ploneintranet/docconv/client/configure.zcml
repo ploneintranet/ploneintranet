@@ -30,6 +30,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:importStep
+        name="ploneintranet.docconv.setuphandlers"
+        title="Post-install setup for ploneintranet.docconv"
+        description="This configures collective.documentviewer"
+        handler=".setuphandlers.configure"
+        i18n:translate="title description"
+        />
+    
     <genericsetup:registerProfile
         name="uninstall"
         title="Plone Intranet: -- [Docconv Client uninstall]"

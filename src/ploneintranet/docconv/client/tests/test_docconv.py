@@ -79,6 +79,7 @@ class TestDocconvLocal(IntegrationTestCase):
         testfile_at.initializeArchetype()
         testfile_at.setFile(self.filedata,
                             filename=TEST_FILENAME)
+
         fetcher = BasePreviewFetcher(testfile_at)
         mimetype, data = fetcher.getPayload()
         self.assertEqual(mimetype, TEST_MIME_TYPE)
