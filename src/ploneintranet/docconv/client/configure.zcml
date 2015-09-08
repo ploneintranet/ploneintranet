@@ -12,11 +12,8 @@
     <include package="collective.documentviewer"/>
     <include package="plone.app.contenttypes"/>
     <include package="ploneintranet.attachments"/>
-    <include package="slc.docconv"/>
 
     <include file="adapters.zcml" />
-    <include file="async.zcml" />
-    <include file="fetcher.zcml" />
     <include file="handlers.zcml" />
     <include file="view.zcml" />
 

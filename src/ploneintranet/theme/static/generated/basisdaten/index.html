@@ -1165,6 +1165,7 @@
         
             <!-- <h3>Case Tasks</h3> -->
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Neu" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-finished">
                         Neu 
@@ -1232,8 +1233,25 @@
                     
                         
                             <label>
-                                <input type="checkbox" checked /> <a title="
+                                <input type="checkbox" checked /> 
+                                <a title="
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/basisdaten#workspace-tickets">Basisdatenerfassung</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Adrian White
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -1437,6 +1455,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-InBearbeitung" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-finished">
                         In Bearbeitung 
@@ -1460,9 +1479,26 @@
                     
                         
                             <label>
-                                <input type="checkbox" checked /> <a title="
+                                <input type="checkbox" checked /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/workshop#workspace-tickets">Workshop</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -1504,25 +1540,76 @@
                     
                         
                             <label>
-                                <input type="checkbox" checked /> <a title="
+                                <input type="checkbox" checked /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/hintergrundcheck#workspace-tickets">Hintergrundcheck machen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Alexander Pilz
+                                    </a>
+                                </div>
                             </label>
                         
                     
                         
                             <label>
-                                <input type="checkbox" checked /> <a title="
+                                <input type="checkbox" checked /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/finanzcheck#workspace-tickets">Finanzcheck bzgl. früherer Zuwendungen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-02 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-02 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Alexander Pilz
+                                    </a>
+                                </div>
                             </label>
                         
                     
                         
                             <label>
-                                <input type="checkbox" checked /> <a title="
+                                <input type="checkbox" checked /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/expertenmeinung#workspace-tickets">Meinung Generalvikar einholen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-02 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-02 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Alexander Pilz
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -1728,6 +1815,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Vollständig" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-unfinished">
                         Vollständig 
@@ -1787,9 +1875,26 @@
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/qa#workspace-tickets">Qualitätscheck</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Cornelis Kolbach
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -2001,6 +2106,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Antrag" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-">
                         Antrag 
@@ -2268,6 +2374,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Beschlossen" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-">
                         Beschlossen 
@@ -2321,25 +2428,76 @@
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/publizieren#workspace-tickets">Protokoll publizieren</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/einbuchen#workspace-tickets">Einbuchen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/benachrichtigung#workspace-tickets">Benachrichtigungen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -2553,6 +2711,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Abgeschlossen" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-">
                         Abgeschlossen 
@@ -2604,9 +2763,26 @@
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/dankesbrief#workspace-tickets">Dankesbrief ablegen</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -2826,6 +3002,7 @@
                     </p>
                 </fieldset>
             
+                <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
                 <fieldset id="milestone-Archiviert" class="object-list tasks pat-checklist pat-collapsible closed" data-pat-collapsible="store: local">
                     <h4 class="section-label state-">
                         Archiviert 
@@ -2875,9 +3052,26 @@
                     
                         
                             <label>
-                                <input type="checkbox"  /> <a title="
+                                <input type="checkbox"  /> 
+                                <a title="
 
 " class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record" href="/staatsarchiv#workspace-tickets">Übermittlung an Staatsarchiv</a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                        John Doe
+                                    </a>
+                                    <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                        <!--  -->
+                                        2015-06-01 14:00
+                                    </time>
+                                    <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                    <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                        
+                                    </a> -->
+                                    <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                        Guido Stevens
+                                    </a>
+                                </div>
                             </label>
                         
                     
@@ -3099,7 +3293,8 @@
                     </p>
                 </fieldset>
             
-            <fieldset class="task-list pat-checklist">
+            <!-- ID of each fieldset.object-list must be unique. An ID is required to store the open/closed state in the local storage. The number in it may be generated. -->
+            <fieldset id="group-1" class="tasks pat-checklist pat-collapsible open" data-pat-collapsible="store: local">
                 
                 <h4 class="section-label">
                     Unassigned
@@ -3147,10 +3342,27 @@
                 
                     
                         <label>
-                            <input type="checkbox" /> <a class="pat-inject follow pat-switch" title="Case task - unassigned
+                            <input type="checkbox" /> 
+                            <a class="pat-inject follow pat-switch" title="Case task - unassigned
 
 
 " href="/unassigned" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="source: #document-body; target: #document-body; history: record">Presentation</a>
+                            <div class="additional-meta-data">
+                                <a href="/guido-stevens/" class="assignee meta-column icon-user" title="Assignee">
+                                    John Doe
+                                </a>
+                                <time class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">
+                                    <!--  -->
+                                    2015-06-02 14:00
+                                </time>
+                                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+                                    
+                                </a> -->
+                                <a href="/guido-stevens/" class="initiator meta-column icon-manager" title="Initiator of this task">
+                                    Guido Stevens
+                                </a>
+                            </div>
                         </label>
                     
                 
@@ -4667,15 +4879,15 @@
         
     
     <a href="/minifest#document-body" title="Workspace landing page" class="pat-inject  landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document">Minifest</a>
-    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings"
+    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-settings"
     title="Workspace settings">Workspace settings and about</a>
 
     <hr />
 
     
-    <a class="documents pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title="Documents">Documents</a>
-    <a class="events pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-events" title="Events">Events</a>
-    <a class="todos pat-switch current" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-tickets" title="Tasks">Tasks</a>
+    <a class="documents pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-documents" title="Documents">Documents</a>
+    <a class="events pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-events" title="Events">Events</a>
+    <a class="todos pat-switch current" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-tickets" title="Tasks">Tasks</a>
 </nav>
 
 </div>

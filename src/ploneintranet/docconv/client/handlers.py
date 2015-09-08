@@ -1,37 +1,33 @@
 import logging
-from zope.annotation import IAnnotations
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.docconv.client.async import queueDelayedConversionJob
-from ploneintranet.docconv.client.config import PDF_VERSION_KEY
-from ploneintranet.docconv.client.config import PREVIEW_IMAGES_KEY
-from ploneintranet.docconv.client.config import PREVIEW_MESSAGE_KEY
-from ploneintranet.docconv.client.config import THUMBNAIL_KEY
-from ploneintranet.docconv.client.exceptions import ConfigError
-from ploneintranet.docconv.client.fetcher import fetchPreviews
 from ploneintranet.docconv.client.interfaces import IDocconv
+
+from collective.documentviewer.settings import GlobalSettings
+from collective.documentviewer.utils import allowedDocumentType
+from collective.documentviewer.utils import getPortal
+from .convert import Converter
 
 log = logging.getLogger(__name__)
 
 
-def _update_preview_images(obj, event):
-    annotations = IAnnotations(obj)
-    if PREVIEW_IMAGES_KEY in annotations:
-        del annotations[PREVIEW_IMAGES_KEY]
-    if THUMBNAIL_KEY in annotations:
-        del annotations[THUMBNAIL_KEY]
-    if PDF_VERSION_KEY in annotations:
-        del annotations[PDF_VERSION_KEY]
-    if PREVIEW_MESSAGE_KEY in annotations:
-        del annotations[PREVIEW_MESSAGE_KEY]
-    success = queueDelayedConversionJob(obj, obj.REQUEST)
-    if not success:
-        try:
-            fetchPreviews(obj)
-        except ConfigError as e:
-            log.error('ConfigError: %s' % e)
-    generate_attachment_preview_images(obj)
+def handle_file_creation(obj, event=None):
+    """ Need own subscriber as cdv insists on checking for its
+        custom layout. Also we want our own async mechanism.
+    """
+    site = getPortal(obj)
+    gsettings = GlobalSettings(site)
+
+    if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
+        return
+
+    if gsettings.auto_convert:
+        # ASYNC HERE
+        converter = Converter(obj)
+        if not converter.can_convert:
+            return
+        converter()
 
 
 def generate_attachment_preview_images(obj):
@@ -44,13 +40,13 @@ def generate_attachment_preview_images(obj):
             docconv.generate_all()
 
 
-def archetype_added_in_workspace(obj, event):
-    _update_preview_images(obj, event)
+def content_added_in_workspace(obj, event):
+    handle_file_creation(obj, event)
 
 
-def archetype_edited_in_workspace(obj, event):
+def content_edited_in_workspace(obj, event):
     if obj.REQUEST.form.get('file') or obj.REQUEST.get('method') == 'PUT':
-        _update_preview_images(obj, event)
+        handle_file_creation(obj, event)
 
 
 def attachmentstoragable_added(obj, event):

@@ -3,12 +3,6 @@
     i18n_domain="ploneintranet.docconv.client">
 
     <adapter
-        name="plone.app.async"
-        for="*"
-        provides=".interfaces.IDocconv"
-        factory=".adapters.DocconvAdapter"
-        />
-    <adapter
         for="*"
         provides=".interfaces.IDocconv"
         factory=".adapters.DocconvAdapter"

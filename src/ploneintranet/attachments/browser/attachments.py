@@ -9,7 +9,16 @@ from ploneintranet.docconv.client.interfaces import IDocconv
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
-
+from plone.app.blob.download import handleRequestRange
+from collective.documentviewer.settings import Settings
+# from collective.documentviewer.settings import GlobalSettings
+from webdav.common import rfc1123_date
+from plone.app.blob.iterators import BlobStreamIterator
+from AccessControl import getSecurityManager
+from Products.CMFCore import permissions
+from AccessControl import Unauthorized
+from plone.app.blob.utils import openBlob
+import os
 log = logging.getLogger(__name__)
 
 
@@ -19,66 +28,39 @@ class Attachments(BrowserView):
     """
     attachment_id = None
     preview_type = None
+    page = None
 
-    def publishTraverse(self, request, name):
+    def publishTraverse(self, request, name):  # noqa
         # @@attachments/{attachment_id}[/{preview_type}]
         self.attachment_id = name
 
         stack = request['TraversalRequestNameStack']
         if stack:
             self.preview_type = stack.pop()
+        if stack:
+            self.page = int(stack.pop())
 
         request['TraversalRequestNameStack'] = []
         return self
 
-    def _prepare_imagedata(self, attachment, imgdata):
-        R = self.request.RESPONSE
-        R.setHeader('content-type', 'image/jpeg')
-        R.setHeader(
-            'content-disposition', 'inline; '
-            'filename="{0}_preview.jpg"'.format(
-                safe_unicode(self.attachment_id).encode('utf8')))
-        if isinstance(imgdata, basestring):
-            length = len(imgdata)
-            R.setHeader('content-length', length)
-            return imgdata
-        else:
-            length = imgdata.get_size(attachment)
-            R.setHeader('content-length', length)
-            blob = imgdata.get(attachment, raw=True)
-            charset = 'utf-8'
-            return blob.index_html(
-                REQUEST=self.request, RESPONSE=R,
-                charset=charset
-            )
-
-    def _get_page_imgdata(self, previews):
-        page = int(self.request.get('page', 1))
-        if page - 1 >= len(previews):
-            page = 0
-        elif page < 1:
-            page = 1
-        imgdata = previews[page - 1]
-        return imgdata
-
     def _prepare_pdfdata(self, pdfdata):
-        R = self.request.RESPONSE
-        R.setHeader('content-type', 'application/pdf')
-        R.setHeader(
+        r = self.request.RESPONSE
+        r.setHeader('content-type', 'application/pdf')
+        r.setHeader(
             'content-disposition',
             'attachment; filename="%s"' % '.'.join(
                 (self.context.getId(), u'pdf')).encode('utf8'))
         if isinstance(pdfdata, basestring):
             length = len(pdfdata)
-            R.setHeader('content-length', length)
+            r.setHeader('content-length', length)
             return pdfdata
         else:
             length = pdfdata.get_size(self.context)
-            R.setHeader('content-length', length)
+            r.setHeader('content-length', length)
             blob = pdfdata.get(self.context, raw=True)
             charset = 'utf-8'
             return blob.index_html(
-                REQUEST=self.request, RESPONSE=R,
+                REQUEST=self.request, RESPONSE=r,
                 charset=charset
             )
 
@@ -100,6 +82,42 @@ class Attachments(BrowserView):
         # separate rendering out for subclass use
         return self.render_attachments(attachments)
 
+    def render_attachment_preview(self, attachment):
+        sm = getSecurityManager()
+        if not sm.checkPermission(permissions.View, self.context):
+            raise Unauthorized
+
+        r = self.request.response
+        settings = Settings(attachment)
+
+        if self.preview_type not in ('large', 'normal', 'small'):
+            self.preview_type = 'small'
+        if self.page is None:
+            self.page = 1
+        filepath = u'%s/dump_%s.%s' % (self.preview_type,
+                                       self.page,
+                                       settings.pdf_image_format)
+        blob = settings.blob_files[filepath]
+        blobfi = openBlob(blob)
+        length = os.fstat(blobfi.fileno()).st_size
+        blobfi.close()
+        ext = os.path.splitext(os.path.normcase(filepath))[1][1:]
+        if ext == 'txt':
+            ct = 'text/plain'
+        else:
+            ct = 'image/%s' % ext
+
+        r.setHeader('Content-Type', ct)
+        r.setHeader('Last-Modified',
+                    rfc1123_date(self.context._p_mtime))
+        r.setHeader('Accept-Ranges', 'bytes')
+        r.setHeader("Content-Length", length)
+        request_range = handleRequestRange(self.context,
+                                           length,
+                                           self.request,
+                                           self.request.response)
+        return BlobStreamIterator(blob, **request_range)
+
     def render_attachments(self, attachments):
         """replaces ploneintranet/docconv/client/view.py helpers"""
 
@@ -110,31 +128,13 @@ class Attachments(BrowserView):
 
         docconv = IDocconv(attachment)
 
+        # old way of doing things
         # upload stage
-        if self.preview_type == 'docconv_image_thumb.jpg':
-            if docconv.has_thumbs():
-                previews = docconv.get_thumbs()
-                imgdata = self._get_page_imgdata(previews)
-                return self._prepare_imagedata(attachment, imgdata)
-        elif self.preview_type == 'docconv_image_preview.jpg':
-            if docconv.has_previews():
-                previews = docconv.get_previews()
-                imgdata = self._get_page_imgdata(previews)
-                return self._prepare_imagedata(attachment, imgdata)
-        elif self.preview_type == 'pdf':
+        if self.preview_type == 'pdf':
             if docconv.has_pdf():
                 pdfdata = docconv.get_pdf()
                 return self._prepare_pdfdata(pdfdata)
-
         # normal view stage
-        elif self.preview_type == 'thumb':
-            if docconv.has_thumbs():
-                return self._prepare_imagedata(
-                    attachment, docconv.get_thumbs()[0])
-        elif self.preview_type == 'preview':
-            if docconv.has_previews():
-                return self._prepare_imagedata(
-                    attachment, docconv.get_previews()[0])
         elif self.preview_type == '@@images':
             images = api.content.get_view(
                 'images',
@@ -145,6 +145,8 @@ class Attachments(BrowserView):
                 attachment,
                 str(images.scale(scale='preview').data.data)
             )
+        else:
+            return self.render_attachment_preview(attachment)
 
         raise NotFound
 
@@ -156,7 +158,7 @@ class StatusAttachments(Attachments):
 
     status_id = None
 
-    def publishTraverse(self, request, name):
+    def publishTraverse(self, request, name):  # noqa
         # @@status-attachment/{status_id}/{attachment_id}[/{preview_type}]
         self.status_id = int(name)
 

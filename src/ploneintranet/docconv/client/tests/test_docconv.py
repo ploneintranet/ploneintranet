@@ -71,7 +71,7 @@ class TestDocconvLocal(IntegrationTestCase):
         api.content.delete(self.workspace)
         shutil.rmtree(self.storage_dir)
 
-    def test_getPayload(self):
+    def test_get_payload(self):
         # We don't actually allow archetypes in a workspace
         # but we need to check that this method supports them
         # so we manually set one up here
@@ -230,29 +230,3 @@ class TestDocconvLocal(IntegrationTestCase):
             container=self.workspace)
         docconv = IDocconv(fileob)
         self.assertTrue(docconv.has_previews())
-
-
-class TestDocconvRemote(TestDocconvLocal):
-    """Test the docconv integration with the remote call"""
-
-    def setUp(self):
-        """ """
-        def mock_convert_on_server(self, payload, datatype):
-            test_zip = os.path.join(os.path.split(__file__)[0],
-                                    'Test_Document.zip')
-            zipfile = open(test_zip, 'r')
-            data = zipfile.read()
-            data = self.unpack_zipdata(data)
-            zipfile.close()
-            return data
-        self._convert_on_server = BasePreviewFetcher.convert_on_server
-        BasePreviewFetcher.convert_on_server = mock_convert_on_server
-
-        super(TestDocconvRemote, self).setUp()
-
-    def tearDown(self):
-        super(TestDocconvRemote, self).tearDown()
-        BasePreviewFetcher.convert_on_server = self._convert_on_server
-
-    def test_image_skipped(self):
-        self._test_image_skipped('convert_on_server')

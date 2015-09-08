@@ -1,15 +1,17 @@
 import logging
 from Acquisition import aq_base
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.dexterity.interfaces import IDexterityFTI
-from zope.component import createObject
-from zope.component import queryUtility
-from plone.namedfile import NamedBlobFile
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from plone.namedfile import NamedBlobFile
+from plone.uuid.interfaces import ATTRIBUTE_NAME
+from plone.uuid.interfaces import IUUIDGenerator
 from ploneintranet.attachments.attachments import IAttachmentStorage
-from zope.container.interfaces import DuplicateIDError
+from Products.CMFPlone.utils import safe_unicode
+from zope.component import createObject
 from zope.component import getUtility
+from zope.component import queryUtility
+from zope.container.interfaces import DuplicateIDError
 
 log = logging.getLogger(__name__)
 
@@ -71,6 +73,11 @@ def create_attachment(filename, data):
         thefile = createObject(fti.factory,
                                id=filename,
                                file=namedfile)
+
+    # assign a uuid, needed for c.documentviewer
+    generator = queryUtility(IUUIDGenerator)
+    setattr(thefile, ATTRIBUTE_NAME, generator())
+
     return thefile
 
 
