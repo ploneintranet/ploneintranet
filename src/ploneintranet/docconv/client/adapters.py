@@ -1,5 +1,4 @@
 from plone import api
-# from zope.component import getMultiAdapter
 from zope.site.hooks import getSite
 
 from collective.documentviewer.settings import Settings
@@ -7,7 +6,7 @@ from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer import storage
 from collective.documentviewer.convert import DUMP_FILENAME
 from collective.documentviewer.convert import TEXT_REL_PATHNAME
-from collective.documentviewer.views import DocumentViewerView
+from collective.documentviewer.browser.views import DocumentViewerView
 from DateTime import DateTime
 
 from Products.CMFCore.utils import getToolByName
@@ -141,11 +140,17 @@ class DocconvAdapter(object):
         """
         if data_type == 'pdf':
             return 'pdf' in self.data['resources']
-        if self.get_number_of_pages(img_type=data_type) > 0:
+
+        if data_type not in ('large', 'normal', 'small'):
+            data_type = 'normal'
+        file_type = '%s/dump_1.%s' % (data_type,
+                                      self.settings.pdf_image_format)
+
+        if file_type in self.settings.blob_files:
             return True
-        else:
-            if self.global_settings.auto_convert and \
-               hasattr(self.context, 'REQUEST'):
+
+        if self.global_settings.auto_convert and \
+           self.settings.successfully_converted is not True:
                 # MAKE THIS ASYNC
                 handle_file_creation(self.context)
         return False
@@ -154,11 +159,12 @@ class DocconvAdapter(object):
         return 'pdf' in self.data['resources']
 
     def has_previews(self):
-        return 'page' in self.data['resources'] and \
-            'image' in self.data['resources']['page']
+        if not self.settings.blob_files:
+            return False
+        return len(self.settings.blob_files) > 0
 
     def has_thumbs(self):
-        return 'thumbnail' in self.data['resources']
+        return self.has_previews()
 
     def conversion_message(self):
         if self.settings.successfully_converted is False:
@@ -181,12 +187,12 @@ class DocconvAdapter(object):
                 previews.append(tpl.replace('{size}', size)
                                    .replace('{page}', str(i + 1)))
             return previews
-        return []
+        return None
 
     def get_thumbs(self):
-        if self.has_thumbs:
+        if self.has_thumbs():
             return (self.data['resources']['thumbnail'],)
-        return ()
+        return None
 
     def generate_all(self):
         # Make this ASYNC

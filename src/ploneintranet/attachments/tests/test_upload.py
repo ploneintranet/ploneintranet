@@ -79,7 +79,7 @@ class TestUpload(IntegrationTestCase):
         # Test objects that have a docconv generated preview
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.pdf),
-            ['http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1']
+            ['http://nohost/plone/test-file/small']
         )
 
         # Test image previews

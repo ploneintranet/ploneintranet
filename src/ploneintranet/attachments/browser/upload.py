@@ -7,6 +7,7 @@ from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.handlers import handle_file_creation
+from collective.documentviewer.settings import Settings
 from zope.component import getUtility
 import logging
 
@@ -34,7 +35,10 @@ class UploadAttachments(BrowserView):
         '''
         thumbs provided by c.dv. Only returning the front page.
         '''
-        return (attachment.absolute_url() + '/small',)
+        settings = Settings(attachment)
+        if settings.successfully_converted is not True:
+            return None
+        return [attachment.absolute_url() + '/small']
 
     def get_image_thumbs_urls(self, image):
         '''

@@ -11,7 +11,6 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
 from plone.app.blob.download import handleRequestRange
 from collective.documentviewer.settings import Settings
-# from collective.documentviewer.settings import GlobalSettings
 from webdav.common import rfc1123_date
 from plone.app.blob.iterators import BlobStreamIterator
 from AccessControl import getSecurityManager

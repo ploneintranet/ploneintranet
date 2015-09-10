@@ -1,9 +1,17 @@
+import os
 from Products.Five import BrowserView
 from ploneintranet.docconv.client.interfaces import IDocconv
+from collective.documentviewer.settings import Settings
+from webdav.common import rfc1123_date
+from plone.app.blob.iterators import BlobStreamIterator
+from plone.app.blob.utils import openBlob
+from plone.app.blob.download import handleRequestRange
 
 
 class ImageView(BrowserView):
     """ Base class for views that render docconv related images """
+
+    preview_type = None
 
     def pages_count(self):
         return len(self._get_data() or [])
@@ -20,39 +28,42 @@ class ImageView(BrowserView):
         raise NotImplementedError
 
     def __call__(self):
-        page = int(self.request.get('page', 1))
+        self.page = int(self.request.get('page', 1))
+        self.settings = Settings(self.context)
+        r = self.request.response
 
-        previews = self._get_data()
-        if previews:
-            if page - 1 >= len(previews):
-                page = 0
-            elif page < 1:
-                page = 1
-            imgdata = previews[page - 1]
-            R = self.request.RESPONSE
-            R.setHeader('content-type', 'image/jpeg')
-            R.setHeader('content-disposition', 'inline; '
-                        'filename="{0}_preview.jpg"'.format(
-                            self.context.getId().encode('utf8')))
-            if isinstance(imgdata, basestring):
-                length = len(imgdata)
-                R.setHeader('content-length', length)
-                return imgdata
-            else:
-                length = imgdata.get_size(self.context)
-                R.setHeader('content-length', length)
-                blob = imgdata.get(self.context, raw=True)
-                charset = 'utf-8'
-                return blob.index_html(
-                    REQUEST=self.request, RESPONSE=R,
-                    charset=charset
-                )
+        if self.preview_type not in ('large', 'normal', 'small'):
+            self.preview_type = 'small'
+        if self.page is None:
+            self.page = 1
+        filepath = u'%s/dump_%s.%s' % (self.preview_type,
+                                       self.page,
+                                       self.settings.pdf_image_format)
+        blob = self.settings.blob_files[filepath]
+        blobfi = openBlob(blob)
+        length = os.fstat(blobfi.fileno()).st_size
+        blobfi.close()
+        ext = os.path.splitext(os.path.normcase(filepath))[1][1:]
+        if ext == 'txt':
+            ct = 'text/plain'
+        else:
+            ct = 'image/%s' % ext
 
-        self.request.RESPONSE.setStatus(404)
-        return None
+        r.setHeader('Content-Type', ct)
+        r.setHeader('Last-Modified',
+                    rfc1123_date(self.context._p_mtime))
+        r.setHeader('Accept-Ranges', 'bytes')
+        r.setHeader("Content-Length", length)
+        request_range = handleRequestRange(self.context,
+                                           length,
+                                           self.request,
+                                           self.request.response)
+        return BlobStreamIterator(blob, **request_range)
 
 
 class PreviewView(ImageView):
+
+    preview_type = 'normal'
 
     def _get_data(self):
         return IDocconv(self.context).get_previews()
@@ -65,6 +76,8 @@ class PreviewView(ImageView):
 
 
 class ThumbnailView(ImageView):
+
+    preview_type = 'small'
 
     def _get_data(self):
         return IDocconv(self.context).get_thumbs()
