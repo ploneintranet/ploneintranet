@@ -1,6 +1,9 @@
 import logging
 from zope.annotation.interfaces import IAnnotations
+from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.User import UnrestrictedUser
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
@@ -216,7 +219,17 @@ def update_todos_state(obj, event):
     pc = api.portal.get_tool('portal_catalog')
     current_path = '/'.join(obj.getPhysicalPath())
     brains = pc(path=current_path, portal_type='todo')
-    for brain in brains:
-        obj = brain.getObject()
-        obj.set_appropriate_state()
-        obj.reindexObject()
+    old_security_manager = getSecurityManager()
+    acl_users = api.portal.get_tool('acl_users')
+    tmp_user = UnrestrictedUser('Task Handler', '', ['Editor'], '')
+    tmp_acl_user = tmp_user.__of__(acl_users)
+    newSecurityManager(None, tmp_acl_user)
+    try:
+        for brain in brains:
+            obj = brain.getObject()
+            obj.set_appropriate_state()
+            obj.reindexObject()
+    except:
+        raise
+    finally:
+        setSecurityManager(old_security_manager)
