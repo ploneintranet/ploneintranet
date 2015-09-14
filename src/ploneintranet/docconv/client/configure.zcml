@@ -13,8 +13,6 @@
     <include package="plone.app.contenttypes"/>
     <include package="ploneintranet.attachments"/>
 
-    <!-- XXX cleanup here! -->
-    <!--include file="adapters.zcml" /-->
     <include file="handlers.zcml" />
 
     <adapter
