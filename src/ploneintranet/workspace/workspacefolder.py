@@ -236,14 +236,15 @@ class WorkspaceFolder(Container):
         Return JSON for pre-filling a pat-autosubmit field with the values for
         that field
         """
-        users = self.existing_users(members_only)
+        users = api.user.get_users()
+        # users = self.existing_users(members_only)
         field_value = getattr(context, field, default)
         prefill = {}
         if field_value:
             assigned_users = field_value.split(',')
             for user in users:
-                if user['id'] in assigned_users:
-                    prefill[user['id']] = user['title']
+                if user.id in assigned_users:
+                    prefill[user.id] = user.getProperty('fullname')
         if prefill:
             return dumps(prefill)
         else:
