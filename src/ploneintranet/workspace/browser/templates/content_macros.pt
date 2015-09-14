@@ -58,8 +58,10 @@
             <tal:milesstones repeat="milestone mm_seq">
               <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
                   tal:attributes="value milestone;
-                                  selected python:'selected' if current_milestone == milestone else ''"
-                      tal:content="python:mm_seq[milestone]['title']"/>
+                                  selected python:'selected' if current_milestone == milestone else '';
+                                  disabled read_only;"
+                  tal:content="python:mm_seq[milestone]['title']"
+                  />
             </tal:milesstones>
           </select>
         </label>
