@@ -291,13 +291,16 @@ class MetroMap(object):
             next_transition = mmap.get('next_transition')
             reopen = False
             if index + 1 < len(metromap_list):
+                reopen_transition = mmap['reopen_transition']
                 next_state = metromap_list[index + 1]["state"]
-                reopen = next_state == current_state
+                if next_state == current_state \
+                   and reopen_transition in available_transition_ids:
+                    reopen = True
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
                 'transition_id': next_transition,
                 'transition_title': '',
-                'reopen_transition': reopen and mmap['reopen_transition'],
+                'reopen_transition': reopen and reopen_transition,
                 'enabled': next_transition in next_available_transition,
                 'finished': finished,
             }
