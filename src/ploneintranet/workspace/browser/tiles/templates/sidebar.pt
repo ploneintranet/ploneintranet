@@ -331,7 +331,8 @@ Supported types include (class names):
 
               <tal:case_tasks condition="ws/is_case"
                               define="milestones ws_view/metromap_sequence | nothing;
-                                      token context/@@authenticator/token;">
+                                      token context/@@authenticator/token;
+                                      read_only read_only|not:view/can_edit;">
                 <tal:milestone repeat="milestone milestones">
 
                   <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: local"
@@ -345,7 +346,8 @@ Supported types include (class names):
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                         <input type="checkbox" name="active-tasks:list"
                                tal:attributes="value task/id;
-                                               checked python:'checked' if task['checked'] else ''"
+                                               checked python:'checked' if task['checked'] else '';
+                                               disabled read_only;"
                                />
 
                         <a class="pat-inject follow pat-switch"
