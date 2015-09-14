@@ -188,7 +188,7 @@ Supported types include (class names):
                 <tal:block repeat="item view/items">
                   <label class="item document type-event has-description"
                          tal:attributes="class item/cls">
-                    <input tal:condition="item.get('UID', None')" name="cart_items" tal:attributes="id string:cart-${item/id}; value item/UID | nothing" type="checkbox" />
+                    <input name="cart_items" tal:condition="python: item.get('UID', None)" tal:attributes="id string:cart-${item/id}; value item/UID | nothing" type="checkbox" />
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
