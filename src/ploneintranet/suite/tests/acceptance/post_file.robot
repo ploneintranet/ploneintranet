@@ -78,7 +78,7 @@ I submit the new post
     Click Element  css=button[name='form.buttons.statusupdate']
 
 I can see the file preview in the stream
-    Wait Until Element Is visible   css=#activity-stream .preview img[src$='/basic.txt/thumb']
+    Wait Until Element Is visible   css=#activity-stream .preview img[src$='/basic.txt/small']
 
 I can open the file from the stream preview
    Wait Until Element Is visible   css=#activity-stream .preview a[href$='/basic.txt']
@@ -93,7 +93,7 @@ I can see the UTF-8 file preview in the post box
     Wait Until Element Is visible   css=#microblog #post-box-attachment-previews img    timeout=60
 
 I can see the UTF-8 file preview in the stream
-    Wait Until Element Is visible   css=#activity-stream .preview img[src$='/bärtige_flößer.odt/thumb']
+    Wait Until Element Is visible   css=#activity-stream .preview img[src$='/bärtige_flößer.odt/small']
 
 I can open the UTF-8 file from the stream preview
    Wait Until Element Is visible   css=#activity-stream .preview a[href$='/bärtige_flößer.odt']
