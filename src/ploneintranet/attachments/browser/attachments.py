@@ -3,9 +3,8 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from ploneintranet import api as piapi
+from ploneintranet import api as pi_api
 from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.docconv.client.interfaces import IDocconv
 from zExceptions import NotFound
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implementer
@@ -125,13 +124,11 @@ class Attachments(BrowserView):
                 'pdf-not-available', 'request-pdf'):
             return self._render_nopreview(attachment)
 
-        docconv = IDocconv(attachment)
-
         # old way of doing things
         # upload stage
         if self.preview_type == 'pdf':
-            if docconv.has_pdf():
-                pdfdata = docconv.get_pdf()
+            if pi_api.previews.has_pdf():
+                pdfdata = pi_api.previews.get_pdf()
                 return self._prepare_pdfdata(pdfdata)
         # normal view stage
         elif self.preview_type == '@@images':
@@ -170,7 +167,7 @@ class StatusAttachments(Attachments):
         return self
 
     def __call__(self):
-        container = piapi.microblog.get_microblog()
+        container = pi_api.microblog.get_microblog()
         # requires ViewStatusUpdate on the statusupdate returned
         statusupdate = container.get(self.status_id)
         attachments = IAttachmentStorage(statusupdate)

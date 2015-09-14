@@ -1,6 +1,6 @@
 from Products.CMFCore.interfaces import IContentish
 from plone.indexer import indexer
-from ploneintranet.docconv.client.interfaces import IDocconv
+from ploneintranet import api as pi_api
 
 
 @indexer(IContentish)
@@ -9,7 +9,7 @@ def has_thumbs(obj):
     Provides a catalog-indexable boolean value
     to mark items that have thumbnail previews
     """
-    if IDocconv(obj).has_thumbs():
+    if pi_api.previews.has_previews(obj):
         return True
     # also check for (lead)image
     if not hasattr(obj, 'image') or not obj.image:

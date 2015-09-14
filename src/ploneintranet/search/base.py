@@ -6,6 +6,7 @@ import logging
 
 from plone import api
 from plone.api.validation import at_least_one_of
+from ploneintranet import api as pi_api
 from zope import globalrequest
 
 from .interfaces import ISearchResult
@@ -94,8 +95,11 @@ class SearchResult(object):
                 self.preview_image_path = \
                     '{.path}/@@images/image/preview'.format(self)
             else:
+                portal = api.portal.get()
                 self.preview_image_path = \
-                    '{.path}/docconv_image_thumb.jpg'.format(self)
+                    pi_api.previews.get_thumbnail_url(
+                        portal.restrictedTraverse(self.path), relative=True)
+
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)

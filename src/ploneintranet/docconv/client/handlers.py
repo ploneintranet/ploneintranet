@@ -2,12 +2,7 @@ import logging
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.docconv.client.interfaces import IDocconv
-
-from collective.documentviewer.settings import GlobalSettings
-from collective.documentviewer.utils import allowedDocumentType
-from collective.documentviewer.utils import getPortal
-from .convert import Converter
+from ploneintranet import api as pi_api
 
 log = logging.getLogger(__name__)
 
@@ -16,18 +11,7 @@ def handle_file_creation(obj, event=None):
     """ Need own subscriber as cdv insists on checking for its
         custom layout. Also we want our own async mechanism.
     """
-    site = getPortal(obj)
-    gsettings = GlobalSettings(site)
-
-    if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
-        return
-
-    if gsettings.auto_convert:
-        # ASYNC HERE
-        converter = Converter(obj)
-        if not converter.can_convert:
-            return
-        converter()
+    pi_api.previews.generate_previews(obj)
 
 
 def generate_attachment_preview_images(obj):
@@ -35,18 +19,18 @@ def generate_attachment_preview_images(obj):
         return
     attachment_storage = IAttachmentStorage(obj)
     for att_id in attachment_storage.keys():
-        docconv = IDocconv(attachment_storage.get(att_id))
-        if not docconv.has_thumbs():
-            docconv.generate_all()
+        attachment = attachment_storage.get(att_id)
+        if not pi_api.previews.has_previews(attachment):
+            pi_api.previews.generate_previews(attachment)
 
 
 def content_added_in_workspace(obj, event):
-    handle_file_creation(obj, event)
+    pi_api.previews.generate_previews(obj)
 
 
 def content_edited_in_workspace(obj, event):
     if obj.REQUEST.form.get('file') or obj.REQUEST.get('method') == 'PUT':
-        handle_file_creation(obj, event)
+        pi_api.previews.generate_previews(obj)
 
 
 def attachmentstoragable_added(obj, event):

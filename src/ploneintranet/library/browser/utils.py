@@ -1,6 +1,5 @@
 import logging
-from ploneintranet.docconv.client.interfaces import IDocconv
-
+from ploneintranet import api as pi_api
 log = logging.getLogger(__name__)
 
 
@@ -28,11 +27,15 @@ def sections_of(context, **kwargs):
             type_ = 'unsupported'
             log.error("Unsupported type %s", item.portal_type)
         child = item.getObject()
+        if pi_api.previews.has_previews(child):
+            preview = pi_api.previews.get_preview_urls(child)[0]
+        else:
+            preview = ''
         section = dict(title=item.title,
                        description=item.description,
                        absolute_url=item.getURL(),
                        type=type_,
-                       preview=IDocconv(child).has_thumbs(),
+                       preview=preview,
                        context=child)
         section['content'] = children_of(child)
         struct.append(section)

@@ -7,8 +7,8 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -142,19 +142,10 @@ class ContentView(BrowserView):
         return sorted(states, key=lambda x: x['title'])
 
     def previews(self):
-        try:
-            docconv = IDocconv(self.context)
-        except TypeError:  # TODO: prevent this form happening in tests
-            return
-        return docconv.get_previews()
+        return pi_api.previews.get(self.context)
 
     def is_available(self):
-        # context = aq_inner(self.context)
-        try:
-            docconv = IDocconv(self.context)
-        except TypeError:  # TODO: prevent this form happening in tests
-            return
-        return docconv.is_available()
+        return pi_api.previews.has_previews(self.context)
 
     def image_url(self):
         """The img-url used to construct the img-tag."""

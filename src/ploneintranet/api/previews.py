@@ -8,9 +8,26 @@ from collective.documentviewer.convert import DUMP_FILENAME
 from collective.documentviewer.convert import TEXT_REL_PATHNAME
 from collective.documentviewer import storage
 
+from collective.documentviewer.utils import allowedDocumentType
+from collective.documentviewer.utils import getPortal
+from collective.documentviewer.convert import Converter as DVConverter
+
 from zope.site.hooks import getSite
 
+from logging import getLogger
+
+log = getLogger(__name__)
+
 PREVIEW_URL = '++theme++ploneintranet.theme/generated/media/logo.svg'
+
+
+class Converter(DVConverter):
+
+    def handle_layout(self):
+        """
+        Deactivate the layout setting part of documentviewer as we want our own
+        """
+        pass
 
 
 def _backward_map(scale):
@@ -35,6 +52,27 @@ def _get_dv_data(obj):
     settings = Settings(obj)
     portal_url = site.portal_url()
 
+    try:
+        canonical_url = obj.absolute_url()
+    except AttributeError:
+        canonical_url = ''  # XXX construct a url to an attachment
+
+    if not hasattr(obj, 'UID') or not settings.successfully_converted:
+        # Can't have previews on objects without a UID. Return a
+        # minimal datastructure
+        return {
+            'canonical_url': canonical_url + '/view',
+            'pages': settings.num_pages,
+            'resources': {
+                'page': {
+                    'image': fallback_image_url(obj),
+                    'text': ''
+                },
+                'pdf': canonical_url,
+                'thumbnail': fallback_image_url(obj),
+            }
+        }
+
     resource_url = global_settings.override_base_resource_url
     rel_url = storage.getResourceRelURL(gsettings=global_settings,
                                         settings=settings)
@@ -45,12 +83,8 @@ def _get_dv_data(obj):
         dvpdffiles = '%s/%s' % (portal_url, rel_url)
     dump_path = DUMP_FILENAME.rsplit('.', 1)[0]
 
-    image_format = settings.pdf_image_format
-
-    try:
-        canonical_url = obj.absolute_url()
-    except AttributeError:
-        canonical_url = ''  # XXX construct a url to an attachment
+    image_format = settings.pdf_image_format or \
+        global_settings.pdf_image_format
 
     return {
         'canonical_url': canonical_url + '/view',
@@ -90,6 +124,12 @@ def get(obj, scale='normal'):
             preview = '%s/dump_%s.%s' % (scale, str(i + 1), ext)
             previews.append(settings.blob_files[preview])
     return previews
+
+
+def has_previews(obj):
+    if get(obj):
+        return True
+    return False
 
 
 def get_preview_urls(obj, scale='normal'):
@@ -139,7 +179,7 @@ def get_thumbnail(obj):
     return previews[0]
 
 
-def get_thumbnail_url(obj):
+def get_thumbnail_url(obj, relative=False):
     """Convenience method to get the absolute URL of thumbnail image
 
     :param obj: The Plone content object to get preview URLs for
@@ -147,34 +187,40 @@ def get_thumbnail_url(obj):
     :return: The absolute URL to the thumbnail image
     :rtype: str
     """
-    return '{}/@@thumbnail'.format(
-        obj.absolute_url(),
-    )
+    dv_data = _get_dv_data(obj)
+    thumbnail_url = dv_data['resources']['thumbnail']
+    if relative:
+        portal = api.portal.get()
+        thumbnail_url = thumbnail_url.replace(portal.absolute_url(),
+                                              portal.absolute_url(1))
+    return thumbnail_url
 
 
-# def create(obj, request):
-#     """Generate the preview images and preview thumbnail for the given
-#     content object
+def has_pdf(obj):
+    """ Once we do pdf generation for text content, this will work
+    """
+    return False
 
-#     :param obj: The Plone object to get previews for
-#     :type obj: A Plone content object
-#     :param request: The Plone request object
-#     :type request: HTTPRequest
-#     """
-#     if app.conf.get('ASYNC_ENABLED', False):
-#         kwargs = dict(
-#             url=obj.absolute_url(),
-#             cookies=request.cookies
-#         )
-#         generate_and_add_preview.apply_async(
-#             countdown=10,
-#             kwargs=kwargs,
-#         )
-#     else:
-#         # We're running synchronously, call the Plone view directly
-#         view = api.content.get_view(
-#             'generate-previews',
-#             obj,
-#             request
-#         )
-#         view()
+
+def get_pdf(obj):
+    """ Once we do pdf generation for text content, this will work
+    """
+    return None
+
+
+def generate_previews(obj, event=None):
+    """ Need own subscriber as cdv insists on checking for its
+        custom layout. Also we want our own async mechanism.
+    """
+    site = getPortal(obj)
+    gsettings = GlobalSettings(site)
+
+    if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
+        return
+
+    if gsettings.auto_convert:
+        # ASYNC HERE
+        converter = Converter(obj)
+        if not converter.can_convert:
+            return
+        converter()
