@@ -98,7 +98,8 @@ class SearchResult(object):
                 portal = api.portal.get()
                 self.preview_image_path = \
                     pi_api.previews.get_thumbnail_url(
-                        portal.restrictedTraverse(self.path), relative=True)
+                        portal.restrictedTraverse(self.path.encode('ascii')),
+                        relative=True)
 
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
