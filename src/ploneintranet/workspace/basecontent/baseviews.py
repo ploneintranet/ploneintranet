@@ -142,7 +142,7 @@ class ContentView(BrowserView):
         return sorted(states, key=lambda x: x['title'])
 
     def previews(self):
-        return pi_api.previews.get(self.context)
+        return pi_api.previews.get_preview_urls(self.context)
 
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
