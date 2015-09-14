@@ -31,7 +31,7 @@
                   </h1>
                   <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
-                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified"  title="Delete this document" i18n:attributes="title" i18n:translate="">
+                    <a href="delete_confirmation#content" tal:attributes="href string:${context/absolute_url}/delete_confirmation#content" class="pat-modal icon-trash iconified"  title="Delete this document" i18n:attributes="title" i18n:translate="" tal:condition="not:read_only">
                       Delete
                     </a>
                     <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">
@@ -47,7 +47,8 @@
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
                       <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
                         <select name="task_action" id="workflow_action"
-                                tal:define="wf_state view/get_workflow_state">
+                                tal:define="wf_state view/get_workflow_state"
+                                tal:attributes="disabled read_only">
 
                           <tal:comment replace="nothing">
                             There are three possible workflow states for a task: open, planned and done.
