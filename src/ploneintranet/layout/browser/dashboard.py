@@ -63,7 +63,7 @@ class TasksTile(Tile):
             return update_task_status(self, return_status_message=True)
 
         tasks = pc(portal_type='todo',
-                   review_state=['open', 'planned'],
+                   review_state='open',
                    assignee=me,
                    sort_on='due')
         self.grouped_tasks = {}

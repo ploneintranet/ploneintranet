@@ -1,32 +1,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="ploneintranet">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ploneintranet">
 
-<body tal:define="workspaces view/workspaces">
-    <div class="workspaces portlet" id="portlet-workspaces" tal:condition="workspaces">
+  <body tal:define="workspaces view/workspaces">
+    <div class="workspaces portlet span-1" id="portlet-workspaces" tal:condition="workspaces">
+      <div class="content">
         <h2 class="portlet-title">
-            <a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html"
-               i18n:translate="" tal:content="view/workspace_type"></a></h2>
-        <ul class="links">
+          <a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html"
+             i18n:translate="" tal:content="view/workspace_type"></a></h2>
+          <ul class="links">
             <tal:workspace repeat="workspace workspaces">
-                <li class="workspace" tal:attributes="title workspace/description">
-                    <a class="link" tal:attributes="href workspace/url">
-                        <h4 class="title">${workspace/title}</h4>
-                        <tal:activities repeat="activity workspace/activities">
-                            <p class="byline">
-                                <strong class="subjects">
-                                    <span class="subject">${activity/subject}</span>
-                                </strong>
-                                <span class="verb">${activity/verb}</span>
-                                <strong class="object" tal:content="structure python:view.shorten(activity['object'])">Object</strong>
-                                <time class="datestamp" tal:content="activity/time/title">2 Hours ago</time>
-                            </p>
-                        </tal:activities>
-                    </a>
-                </li>
+              <li class="workspace" tal:attributes="title workspace/description">
+                <a class="link" tal:attributes="href workspace/url">
+                  <h4 class="title">${workspace/title}</h4>
+                  <tal:activities repeat="activity workspace/activities">
+                    <p class="byline">
+                      <strong class="subjects">
+                        <span class="subject">${activity/subject}</span>
+                      </strong>
+                      <span class="verb">${activity/verb}</span>
+                      <strong class="object" tal:content="structure python:view.shorten(activity['object'])">Object</strong>
+                      <time class="datestamp" tal:content="activity/time/title">2 Hours ago</time>
+                    </p>
+                  </tal:activities>
+                </a>
+              </li>
             </tal:workspace>
-        </ul>
+          </ul>
+      </div>
     </div>
-</body>
+  </body>
 </html>

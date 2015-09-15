@@ -86,8 +86,10 @@ Manager can mark a new task complete on dashboard
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Todo soon  new
      Then I go to the dashboard
+     Then I select the task centric view
      Then I mark a new task complete
      Then I go to the dashboard
+     Then I select the task centric view
      Then I do not see the completed task is not listed
 
 ## These tagging tests are intractable because the save confirmation

@@ -13,11 +13,25 @@
     </value>
   </record>
 
+  <record name="ploneintranet.userprofile.property_sheet_mapping">
+    <field type="plone.registry.field.Dict">
+      <title>Property sheet mapping</title>
+      <description>
+        A mapping of a user property to a specific property sheet which
+	should be used to obtain the data for this attribute.
+      </description>
+      <key_type type="plone.registry.field.ASCII" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
   <record name="ploneintranet.userprofile.read_only_fields">
     <field type="plone.registry.field.Tuple">
       <title>Read only fields</title>
       <description>
-        User profile fields that are read-only 
+        User profile fields that are read-only
         (shown on profile editing page but not editable)
       </description>
       <value_type type="plone.registry.field.TextLine" />
@@ -52,7 +66,7 @@
   </record>
 
   <!-- By default we use username as userid for compatibility with external
-  auth systems e.g. LDAP/AD -->
+       auth systems e.g. LDAP/AD -->
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_uuid_as_userid">
     <field type="plone.registry.field.Bool">
     </field>
