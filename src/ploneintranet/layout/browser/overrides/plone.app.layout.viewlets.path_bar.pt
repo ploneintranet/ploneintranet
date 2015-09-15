@@ -4,9 +4,11 @@
 
         <!--a i18n:translate="tabs_home"
             tal:attributes="href view/navigation_root_url">Home</a-->
+            <!-- URL condition below: Remove that again once we have a proper Profiles overview page -->
       <tal:block repeat="crumb breadcrumbs">
         <tal:item define="is_last repeat/crumb/end;
                           url crumb/absolute_url;
+                          url python: not url.endswith('/profiles') and url or '';
                           title crumb/Title">
           <a href="#"
               tal:omit-tag="not: url"
