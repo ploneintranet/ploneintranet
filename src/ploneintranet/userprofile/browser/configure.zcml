@@ -59,12 +59,20 @@
 
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
-      name="sync-users"
+      name="sync-user-properties"
       class="..sync.AllUsersPropertySync"
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
-     />
+      />
 
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="sync-users"
+      class="..sync.AllUsersSync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+  
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="sync"
