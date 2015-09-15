@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.plone.org/zcml"
+    i18n_domain="ploneintranet">
+
+  <!-- LDAP-specific property syncing -->
+  
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="sync-users-ldap"
+      class="..ldap.LDAPChangedUsersPropertySync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+</configure>

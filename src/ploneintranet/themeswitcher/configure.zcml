@@ -55,5 +55,7 @@
         directory="static/themeA"
         />
 
-
+    <subscriber for="zope.processlifetime.IProcessStarting"
+                handler=".dbconfig.dbconfig"
+                />
 </configure>
