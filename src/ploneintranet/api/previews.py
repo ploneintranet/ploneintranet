@@ -22,6 +22,10 @@ PREVIEW_URL = '++theme++ploneintranet.theme/generated/media/logo.svg'
 
 
 class Converter(DVConverter):
+    """ This class overrides the Converter class of collective.documentviewer
+        which forces its own layout on converted content objects. We need to
+        use our own layout, so this is deactivated.
+    """
 
     def handle_layout(self):
         """
@@ -32,7 +36,13 @@ class Converter(DVConverter):
 
 def _backward_map(scale):
     """ Provide a mapping from plone scale names to collective.documentviewer
-        scale names for convenience
+    scale names for convenience. This assures that code can use both naming
+    conventions.
+
+    :param scale: The name of a scale
+    :type scale: A string
+    :return: The corresponding name of the scale as understood by c.dv
+    :rtype: string
     """
     if scale == 'thumb':
         return 'small'
@@ -47,6 +57,16 @@ def _backward_map(scale):
 
 
 def _get_dv_data(obj):
+    """ Access the collective.documentviewer settings of an object and
+    return metadata that can be used to retrieve or access a preview
+    image.
+
+    :param obj: The Plone content object that has a preview
+    :type obj: A Plone content object
+    :return: Metadata consisting of canonical_url, number of pages and
+    resource urls to preview images and thumbnails.
+    :rtype: mapping
+    """
     site = getSite()
     global_settings = GlobalSettings(site)
     settings = Settings(obj)
@@ -127,6 +147,13 @@ def get(obj, scale='normal'):
 
 
 def has_previews(obj):
+    """Test if the object has generated previews.
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if there are previews. False otherwise.
+    :rtype: boolean
+    """
     if get(obj):
         return True
     return False
@@ -157,11 +184,24 @@ def get_preview_urls(obj, scale='normal'):
 
 
 def fallback_image(obj):
+    """Return a fallback image for use if there are no previews.
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: An image object
+    :rtype: ZODB.blob.Blob
+    """
     return api.portal.get().restrictedTraverse(PREVIEW_URL)
 
 
 def fallback_image_url(obj):
-    # We need a better fallback image. See #122
+    """Return a fallback image URL for use if there are no previews.
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: An image object url
+    :rtype: string
+    """
     return '{0}/{1}'.format(api.portal.get().absolute_url(), PREVIEW_URL)
 
 
@@ -197,20 +237,36 @@ def get_thumbnail_url(obj, relative=False):
 
 
 def has_pdf(obj):
-    """ Once we do pdf generation for text content, this will work
+    """ NOT IMPLEMENTED. Once we do pdf generation for text content, this will work
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: True if there is a pdf available
+    :rtype: boolean
     """
     return False
 
 
 def get_pdf(obj):
-    """ Once we do pdf generation for text content, this will work
+    """ NOT IMPLEMENTED. Once we do pdf generation for text content, this will work
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: The generated pdf preview of the content item
+    :rtype: Blob
     """
     return None
 
 
 def generate_previews(obj, event=None):
-    """ Need own subscriber as cdv insists on checking for its
-        custom layout. Also we want our own async mechanism.
+    """ Generate the previews for a content type. We need our own subscriber as
+    c.dv insists on checking for its custom layout. Also we want our own async
+    mechanism, it is using this method.
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: Does not return anything.
+    :rtype: None
     """
     site = getPortal(obj)
     gsettings = GlobalSettings(site)

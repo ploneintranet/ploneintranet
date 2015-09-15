@@ -12,6 +12,14 @@ Microblogging API
     :undoc-members:
     :show-inheritance:
 
+Previews API
+------------
+
+.. automodule:: ploneintranet.api.previews
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 User Profile API
 ----------------
 

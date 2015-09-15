@@ -12,6 +12,14 @@ Subpackages
 Submodules
 ----------
 
+ploneintranet.api.previews module
+---------------------------------
+
+.. automodule:: ploneintranet.api.previews
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 ploneintranet.api.testing module
 --------------------------------
 
@@ -20,6 +28,13 @@ ploneintranet.api.testing module
     :undoc-members:
     :show-inheritance:
 
+ploneintranet.api.userprofile module
+------------------------------------
+
+.. automodule:: ploneintranet.api.userprofile
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Module contents
 ---------------
