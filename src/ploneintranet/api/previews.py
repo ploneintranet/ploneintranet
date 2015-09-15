@@ -162,7 +162,7 @@ def fallback_image(obj):
 
 def fallback_image_url(obj):
     # We need a better fallback image. See #122
-    return '{0}/{1}'.format(PREVIEW_URL, api.portal.get().absolute_url())
+    return '{0}/{1}'.format(api.portal.get().absolute_url(), PREVIEW_URL)
 
 
 def get_thumbnail(obj):

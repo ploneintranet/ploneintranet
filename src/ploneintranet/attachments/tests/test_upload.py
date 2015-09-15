@@ -75,20 +75,18 @@ class TestUpload(IntegrationTestCase):
 
         # Test objects that have a generated preview
         self.assertTrue(
-            self.pdf.UID() in upload_view.get_thumbs_urls(self.pdf)[0]
+            '/test-file/small' in upload_view.get_thumbs_urls(self.pdf)[0]
         )
 
         # Test image previews
         urls = upload_view.get_thumbs_urls(self.image)
         self.assertTrue(len(urls) == 1)
-        self.assertTrue('@@dvpdffiles' in urls[0])
-        self.assertTrue(self.image.UID() in urls[0])
+        self.assertTrue('test-image/small' in urls[0])
 
         # Test a File instance that contains an image
         urls = upload_view.get_thumbs_urls(self.fileimage)
         self.assertTrue(len(urls) == 1)
-        self.assertTrue('@@dvpdffiles' in urls[0])
-        self.assertTrue(self.fileimage.UID() in urls[0])
+        self.assertTrue('test-image-file/small' in urls[0])
 
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.empty),
