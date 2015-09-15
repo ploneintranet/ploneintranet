@@ -150,4 +150,5 @@ class AllUsersSync(BrowserView):
     def _delete_user_profiles(self, local_userids, external_userids):
         to_remove = local_userids - external_userids
         for userid in to_remove:
-            api.content.delete(self.context[userid])
+            api.content.transition(obj=self.context[userid],
+                                   to_state='disabled')

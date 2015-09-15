@@ -1,8 +1,10 @@
-"""
-The following tests use a mock PAS properties plugin.
+"""Tests for synchronisation of user profiles with external sources.
 
 Re-uses the ZODBMutablePropertyProvider as a example foreign property
 provider.
+
+Re-uses the 'source_users' plugin in order to simulate a primary
+external user source.
 
 """
 import io
@@ -138,8 +140,9 @@ class TestAllUsersSync(SyncBaseTestCase):
     def _check_sync_dates(self):
         profiles = self._get_userprofiles()
         sync_start = self.profiles.last_sync
+        not_disabled = lambda obj: api.content.get_state(obj=obj) != 'disabled'
         self.assertTrue(all(sync_start < profile.last_sync
-                            for profile in profiles))
+                            for profile in filter(not_disabled, profiles)))
 
     def _call_view_under_test(self):
         view = AllUsersSync(self.profiles, self.request)
@@ -190,9 +193,11 @@ class TestAllUsersSync(SyncBaseTestCase):
         self._check_sync_dates()
 
     def test_external_profile_deleted(self):
-        userid = self._create_external_user(0)
+        username = self._create_external_user(0)
         self._call_view_under_test()
-        api.user.delete(username=userid)
+        api.user.delete(username=username)
         self._call_view_under_test()
-        self.assertNotIn(userid, self.profiles)
+        profile = pi_api.userprofile.get(username=username)
+        self.assertIsNotNone(profile)
+        self.assertEqual(api.content.get_state(obj=profile), 'disabled')
         self._check_sync_dates()
