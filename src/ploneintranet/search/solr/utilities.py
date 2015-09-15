@@ -148,6 +148,7 @@ class SiteSearch(base.SiteSearch):
         :returns: A query object.
         :rtype query: ploneintranet.search.solr.search.Search
         """
+        phrase = safe_unicode(phrase)
         # Re-use existing connection if setup
         # (scorched/requests do pooling for us)
         if self.connection is None:
