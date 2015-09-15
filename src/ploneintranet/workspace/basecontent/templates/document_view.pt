@@ -87,11 +87,16 @@
                   <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
                 </article>
 
+                <tal:c condition="python: context.portal_type == 'File'">
                 <article class="document preview" tal:condition="view/is_available">
                   <tal:previews tal:repeat="preview view/previews">
                     <img src="${preview}" />
                   </tal:previews>
                 </article>
+                <article class="document preview" tal:condition="not:view/is_available">
+                  <p class="message notice" i18n:translate="">The preview hasn't been generated yet. Please try reloading again a little later.</p>
+                </article>
+                </tal:c>
 
                 <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                   <figure>

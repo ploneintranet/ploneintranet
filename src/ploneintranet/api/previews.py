@@ -275,7 +275,6 @@ def generate_previews(obj, event=None):
         return
 
     if gsettings.auto_convert:
-        # ASYNC HERE
         converter = Converter(obj)
         if not converter.can_convert:
             return
