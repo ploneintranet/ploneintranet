@@ -94,7 +94,11 @@
                   </tal:previews>
                 </article>
                 <article class="document preview" tal:condition="not:view/is_available">
-                  <p class="message notice" i18n:translate="">The preview hasn't been generated yet. Please try reloading again a little later.</p>
+                  <p class="message no-preview">
+                        <strong class="title" tal:content="context/Title">projection-material.doc</strong>
+                        <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
+                        <em class="byline" i18n:translate="">Preview being generated</em>
+                  </p>
                 </article>
                 </tal:c>
 
