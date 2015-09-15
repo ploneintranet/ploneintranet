@@ -33,5 +33,5 @@ def content_edited_in_workspace(obj, event):
         pi_api.previews.generate_previews(obj)
 
 
-def attachmentstoragable_added(obj, event):
-    generate_attachment_preview_images(obj)
+# def attachmentstoragable_added(obj, event):
+#     generate_attachment_preview_images(obj)

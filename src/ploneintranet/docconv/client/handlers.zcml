@@ -13,10 +13,10 @@
         handler=".handlers.content_edited_in_workspace" />
 
     <!-- ploneintranet.attachments.attachments.IAttachmentStoragable -->
-    <subscriber
+    <!--subscriber
         for="ploneintranet.attachments.attachments.IAttachmentStoragable
              zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".handlers.attachmentstoragable_added"
-        />
+        /-->
 
 </configure>
