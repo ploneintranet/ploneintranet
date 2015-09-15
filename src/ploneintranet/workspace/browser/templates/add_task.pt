@@ -24,7 +24,7 @@
       <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="">
         Create
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel" i18n:translate="">
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel validate-ignore" i18n:translate="">
         Cancel
       </button>
     </div>
