@@ -36,10 +36,33 @@ class Attachments(BrowserView):
         if stack:
             self.preview_type = stack.pop()
         if stack:
-            self.page = int(stack.pop())
-
+            try:
+                self.page = int(stack.pop())
+            except ValueError:
+                self.page = 1
         request['TraversalRequestNameStack'] = []
         return self
+
+    def _prepare_imagedata(self, attachment, imgdata):
+        r = self.request.RESPONSE
+        r.setHeader('content-type', 'image/jpeg')
+        r.setHeader(
+            'content-disposition', 'inline; '
+            'filename="{0}_preview.jpg"'.format(
+                safe_unicode(self.attachment_id).encode('utf8')))
+        if isinstance(imgdata, basestring):
+            length = len(imgdata)
+            r.setHeader('content-length', length)
+            return imgdata
+        else:
+            length = imgdata.get_size(attachment)
+            r.setHeader('content-length', length)
+            blob = imgdata.get(attachment, raw=True)
+            charset = 'utf-8'
+            return blob.index_html(
+                REQUEST=self.request, RESPONSE=r,
+                charset=charset
+            )
 
     def _prepare_pdfdata(self, pdfdata):
         r = self.request.RESPONSE

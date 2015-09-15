@@ -1,13 +1,14 @@
 from Products.Five.browser import BrowserView
 from plone import api
 from plone.memoize.view import memoize
-# from plone.app.contenttypes.content import File
-# from plone.app.contenttypes.content import Image
+from plone.app.contenttypes.content import File
+from plone.app.contenttypes.content import Image
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from ploneintranet import api as pi_api
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.handlers import handle_file_creation
+from collective.documentviewer.settings import Settings
 from zope.component import getUtility
 import logging
 
@@ -31,24 +32,27 @@ class UploadAttachments(BrowserView):
         '''
         thumbs provided by c.dv. Only returning the front page.
         '''
-        return [pi_api.previews.get_thumbnail_url(attachment)]
+        settings = Settings(attachment)
+        if settings.successfully_converted is not True:
+            return None
+        return [attachment.absolute_url() + '/small']
 
-    # def get_image_thumbs_urls(self, image):
-    #     '''
-    #     If we have an Image or a File object,
-    #     we ask the Plone scale machinery for a URL
-    #     '''
-    #     images = api.content.get_view(
-    #         'images',
-    #         image,
-    #         self.request,
-    #     )
-    #     try:
-    #         urls = [images.scale(scale='preview').absolute_url()]
-    #     except:
-    #         log.error('Preview url generation failed')
-    #         urls = []
-    #     return urls
+    def get_image_thumbs_urls(self, image):
+        '''
+        If we have an Image or a File object,
+        we ask the Plone scale machinery for a URL
+        '''
+        images = api.content.get_view(
+            'images',
+            image,
+            self.request,
+        )
+        try:
+            urls = [images.scale(scale='preview').absolute_url()]
+        except:
+            log.error('Preview url generation failed')
+            urls = []
+        return urls
 
     def get_thumbs_urls(self, attachment):
         ''' This will return the URL for the thumbs of the attachment
@@ -60,11 +64,11 @@ class UploadAttachments(BrowserView):
         if urls:
             return urls
 
-        # # If we have an image we return the usual preview url
-        # if isinstance(attachment, (Image, File)):
-        #     urls = self.get_image_thumbs_urls(attachment)
-        # if urls:
-        #     return urls
+        # If we have an image we return the usual preview url
+        if isinstance(attachment, (Image, File)):
+            urls = self.get_image_thumbs_urls(attachment)
+        if urls:
+            return urls
 
         # If every other method fails return a fallback
         return self.fallback_thumbs_urls
