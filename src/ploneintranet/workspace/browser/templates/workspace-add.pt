@@ -74,7 +74,7 @@
           <button id="form-buttons-create" name="save" type="submit" class="icon-ok-circle" i18n:translate="">
               Create workspace
           </button>
-          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+          <button type="button" class="close-panel icon-cancel-circle validate-ignore" i18n:translate="" i18n:domain="plone">
               Cancel
           </button>
         </div>
