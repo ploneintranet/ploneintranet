@@ -9,7 +9,7 @@
   
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
-      name="sync-users-ldap"
+      name="sync-user-properties-ldap"
       class="..ldap.LDAPChangedUsersPropertySync"
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
