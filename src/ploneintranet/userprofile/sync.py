@@ -149,6 +149,16 @@ class AllUsersSync(BrowserView):
 
     def _delete_user_profiles(self, local_userids, external_userids):
         to_remove = local_userids - external_userids
+        plugin_id = self.canonical_plugin_id
         for userid in to_remove:
-            api.content.transition(obj=self.context[userid],
-                                   to_state='disabled')
+            logger.info(
+                'Disabling profile for user '
+                'no longer in plugin {0}: {1}'.format(
+                    plugin_id,
+                    userid,
+                )
+            )
+            profile = self.context[userid]
+            if api.content.get_state(obj=profile) == 'enabled':
+                api.content.transition(obj=self.context[userid],
+                                       transition='disable')
