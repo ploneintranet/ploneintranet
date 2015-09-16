@@ -56,13 +56,13 @@
         <label class="stage milestone"
                tal:define="workspace_view nocall:workspace/view">
           <span tal:omit-tag="" i18n:translate="">Milestone this task belongs to</span>
-          <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
+          <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence"
+                  tal:attributes="disabled read_only">
             <option></option>
             <tal:milesstones repeat="milestone mm_seq">
               <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
                   tal:attributes="value milestone;
-                                  selected python:'selected' if current_milestone == milestone else '';
-                                  disabled read_only;"
+                                  selected python:'selected' if current_milestone == milestone else '';"
                   tal:content="python:mm_seq[milestone]['title']"
                   />
             </tal:milesstones>
