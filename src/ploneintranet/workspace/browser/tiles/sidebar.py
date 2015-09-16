@@ -351,6 +351,7 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
+        """When viewing a task, open corresponding milestone in sidebar"""
         if 'PARENT_REQUEST' in self.request:
             # Only check if this is a tile subrequest
             open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
