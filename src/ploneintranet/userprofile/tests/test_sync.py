@@ -55,11 +55,11 @@ class SyncBaseTestCase(BaseTestCase):
     def _create_userprofile(self):
         user = pi_api.userprofile.create(
             username='johndoe',
-            first_name=u'John',
-            last_name=u'Doe',
             email='johndoe@example.com',
-            password='secret',
-            confirm_password='secret',
+            properties={
+                'first_name': u'John',
+                'last_name': u'Doe',
+            },
             approve=True,
         )
         return user
@@ -165,7 +165,8 @@ class TestAllUsersSync(SyncBaseTestCase):
 
         # Simulate 1 profile already synced
         username = '{}-9'.format(TEST_USER_PREFIX)
-        profile = pi_api.userprofile.create(username=username)
+        profile = pi_api.userprofile.create(username=username,
+                                            approve=True)
         record_last_sync(profile)
         self._check_profiles_synced({profile.getId()})
 
@@ -176,7 +177,8 @@ class TestAllUsersSync(SyncBaseTestCase):
     def test_all_profiles_synced(self):
         for n in range(3):
             username = '{}-{}'.format(TEST_USER_PREFIX, n)
-            profile = pi_api.userprofile.create(username=username)
+            profile = pi_api.userprofile.create(username=username,
+                                                approve=True)
             record_last_sync(profile)
 
         sync_dt = datetime.utcnow()
