@@ -131,6 +131,7 @@ class AllUsersSync(BrowserView):
     """Sync all users from the "canonical" source of external users."""
 
     def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
         self._sync()
 
     def _sync(self):
