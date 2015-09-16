@@ -104,6 +104,7 @@ class AllUsersPropertySync(BrowserView):
 
         users = self._get_users_to_sync()
         sync_many(self.context, users)
+        return 'Property sync complete.'
 
     def _get_users_to_sync(self):
         """Override this to specify a subset of users to
@@ -128,24 +129,49 @@ def create_membrane_profile(member):
 
 
 class AllUsersSync(BrowserView):
-    """Sync all users from the "canonical" source of external users."""
+    """Sync all users from the "canonical" source of external users.
+
+    Compares local membrane profiles to the list of users found
+    in the canonical pas source.
+    Removes any profiles for users no longer in the canonical source,
+    and creates profiles for any new users found in the canonical source.
+    """
 
     def __call__(self):
         alsoProvides(self.request, IDisableCSRFProtection)
         self._sync()
+        return 'User sync complete.'
+
+    def _plugin_userids(self, plugin_id):
+        acl_users = api.portal.get_tool(name='acl_users')
+        return [x['id'] for x in
+                acl_users[plugin_id].enumerateUsers()]
+
+    @property
+    def canonical_plugin_id(self):
+        return api.portal.get_registry_record(PRI_EXT_USERS_KEY)
 
     def _sync(self):
-        pas_plugin_id = api.portal.get_registry_record(PRI_EXT_USERS_KEY)
-        acl_users = api.portal.get_tool(name='acl_users')
-        external_userids = set(acl_users[pas_plugin_id].getUserIds())
-        local_userids = set(acl_users['membrane_users'].getUserIds())
+        external_userids = set(self._plugin_userids(self.canonical_plugin_id))
+        local_userids = set(self._plugin_userids('membrane_users'))
         self._delete_user_profiles(local_userids, external_userids)
         to_sync = self._create_user_profiles(local_userids, external_userids)
         sync_many(self.context, list(to_sync))
 
     def _create_user_profiles(self, local_userids, external_userids):
         to_sync = external_userids - local_userids
+        plugin_id = self.canonical_plugin_id
+        logger.info('Found {0} users in {1} with no membrane profile'.format(
+            len(to_sync), plugin_id,
+        ))
         for userid in to_sync:
+            logger.info(
+                'Creating profile for new user '
+                'found in plugin {0}: {1}'.format(
+                    plugin_id,
+                    userid,
+                )
+            )
             yield pi_api.userprofile.create(username=userid)
 
     def _delete_user_profiles(self, local_userids, external_userids):
