@@ -74,7 +74,7 @@ class BaseTile(BrowserView):
         does this user have permission to manage the workspace's roster
         """
         return api.user.has_permission(
-            "collective.workspace: Manage roster",
+            "ploneintranet.workspace: Manage workspace",
             obj=self.context,
         )
 
