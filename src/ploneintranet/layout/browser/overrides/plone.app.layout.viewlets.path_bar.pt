@@ -6,18 +6,17 @@
             tal:attributes="href view/navigation_root_url">Home</a-->
       <tal:block repeat="crumb breadcrumbs">
         <tal:item define="is_last repeat/crumb/end;
-                          id string:breadcrumbs-${repeat/crumb/number};
                           url crumb/absolute_url;
                           nolink python: url.endswith('/profiles');
                           title crumb/Title">
           <a tal:condition="not:nolink"
              tal:attributes="href url;
                              class python:is_last and 'current' or '';
-                             id python:is_last and 'breadcrumbs-current' or id;"
+                             id string:breadcrumbs-${repeat/crumb/number};"
              tal:content="python:ploneview.cropText(title, 80)">crumb</a>
           <a tal:condition="nolink"
              tal:attributes="class python:is_last and 'current' or '';
-                             id python:is_last and 'breadcrumbs-current' or id;"
+                             id string:breadcrumbs-${repeat/crumb/number};"
              tal:content="python:ploneview.cropText(title, 80)">crumb</a>
         </tal:item>
       </tal:block>
