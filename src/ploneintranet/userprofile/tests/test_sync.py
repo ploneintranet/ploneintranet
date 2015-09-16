@@ -53,16 +53,14 @@ class SyncBaseTestCase(BaseTestCase):
         return map(pi_api.userprofile.get, self._get_member_ids())
 
     def _create_userprofile(self):
-        user = api.content.create(
-            container=self.profiles,
-            type='ploneintranet.userprofile.userprofile',
-            id='johndoe',
+        user = pi_api.userprofile.create(
             username='johndoe',
             first_name=u'John',
             last_name=u'Doe',
             email='johndoe@example.com',
             password='secret',
             confirm_password='secret',
+            approve=True,
         )
         return user
 
