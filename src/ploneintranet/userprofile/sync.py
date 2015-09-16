@@ -172,7 +172,7 @@ class AllUsersSync(BrowserView):
                     userid,
                 )
             )
-            yield pi_api.userprofile.create(username=userid)
+            yield pi_api.userprofile.create(username=userid, approve=True)
 
     def _delete_user_profiles(self, local_userids, external_userids):
         to_remove = local_userids - external_userids
