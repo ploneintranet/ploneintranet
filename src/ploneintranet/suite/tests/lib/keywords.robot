@@ -778,11 +778,7 @@ I can close the first milestone
     I can open a milestone  new
     Click Link  Close milestone
     # closes current, opens next milestone
-    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Close milestone']
-    # reopen first milestone
-    I can open a milestone  new
-    # verify hard on first milestone id
-    Wait until element is visible  xpath=//fieldset[@id='milestone-new']//a[text()='Reopen milestone']
+    Wait until element is visible  xpath=//fieldset[@id='milestone-prepare']//a[text()='Close milestone']
 
 I can open a milestone
     [arguments]  ${milestone}
