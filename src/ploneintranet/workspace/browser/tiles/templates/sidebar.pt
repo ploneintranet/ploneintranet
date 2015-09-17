@@ -365,12 +365,14 @@ Supported types include (class names):
 
                         <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
                         <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
+                        <!-- hide initiator to unclutter sidebar
                           <a tal:condition="initiator"
                              href="${context/portal_url}/profiles/${initiator/id}" class="initiator meta-column icon-user" title="Initiator"
                              >
                             ${python:initiator.getProperty("fullname")}
                           </a>
                           <a class="initiator meta-column icon-user" title="Initiator" tal:condition="not:initiator"/>
+                          -->
                       </div>
 
                       </label>
