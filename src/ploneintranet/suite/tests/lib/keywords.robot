@@ -444,8 +444,8 @@ I can create a new event
     Click Link  Create event
     Wait Until Page Contains Element  css=.panel-content form .panel-body
     Input Text  css=.panel-content input[name=title]  text=${title}
-    Input Text  css=.panel-content input[name=start]  text=${start}
     Input Text  css=.panel-content input[name=end]  text=${end}
+    Input Text  css=.panel-content input[name=start]  text=${start}
     Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
