@@ -522,7 +522,7 @@ def caseworkspaces_spec(context):
         base_contents[i]['assignee'] = random.choice(['dollie_nocera',
                                                       'allan_neece'])
     for i in range(6):
-        base_contents[i]['due'] = now + timedelta(days=i*2)
+        base_contents[i]['due'] = now + timedelta(days=i * 2)
 
     caseworkspaces = [{
         'title': 'Example Case',
