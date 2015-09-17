@@ -19,6 +19,7 @@ from ploneintranet.userprofile.sync import AllUsersPropertySync
 from ploneintranet.userprofile.sync import AllUsersSync
 from ploneintranet.userprofile.sync import IUserProfileManager
 from ploneintranet.userprofile.sync import NO_VALUE
+from ploneintranet.userprofile.sync import get_last_sync
 from ploneintranet.userprofile.sync import record_last_sync
 from ploneintranet.userprofile.tests.base import BaseTestCase
 
@@ -139,8 +140,10 @@ class TestAllUsersSync(SyncBaseTestCase):
         profiles = self._get_userprofiles()
         sync_start = self.profiles.last_sync
         not_disabled = lambda obj: api.content.get_state(obj=obj) != 'disabled'
+        synced_profiles = filter(get_last_sync, profiles)
+        synced_profiles = filter(not_disabled, synced_profiles)
         self.assertTrue(all(sync_start < profile.last_sync
-                            for profile in filter(not_disabled, profiles)))
+                            for profile in synced_profiles))
 
     def _call_view_under_test(self):
         view = AllUsersSync(self.profiles, self.request)
@@ -192,7 +195,11 @@ class TestAllUsersSync(SyncBaseTestCase):
         self._check_profiles_synced({userid}, since=sync_dt)
         self._check_sync_dates()
 
-    def test_external_profile_deleted(self):
+    def test_external_user_removed_disables_profile(self):
+        """Test the case where a remote user been deleted.
+
+        The local membrane profile should be disabled.
+        """
         username = self._create_external_user(0)
         self._call_view_under_test()
         api.user.delete(username=username)
@@ -201,3 +208,16 @@ class TestAllUsersSync(SyncBaseTestCase):
         self.assertIsNotNone(profile)
         self.assertEqual(api.content.get_state(obj=profile), 'disabled')
         self._check_sync_dates()
+
+    def test_local_profile_is_not_disabled(self):
+        """Test a "local" profile that has never been sync'd is not disabled.
+        """
+        username = TEST_USER_PREFIX + '-0'
+        profile = pi_api.userprofile.create(username=username,
+                                            approve=True)
+        api.user.delete(username=username)
+        self._call_view_under_test()
+        profile = pi_api.userprofile.get(username=username)
+        self.assertIsNotNone(profile)
+        self.assertEqual(api.content.get_state(obj=profile), 'enabled')
+        self.assertIsNone(get_last_sync(profile))

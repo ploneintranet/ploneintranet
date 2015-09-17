@@ -2,6 +2,7 @@ import logging
 import time
 from datetime import datetime
 
+from Acquisition import aq_base
 from Products.Five import BrowserView
 from plone import api
 from zope.component import adapter
@@ -27,7 +28,7 @@ def record_last_sync(context):
 
 
 def get_last_sync(context):
-    return getattr(context, 'last_sync', None)
+    return getattr(aq_base(context), 'last_sync', None)
 
 
 class IUserProfileManager(Interface):
@@ -167,10 +168,7 @@ class AllUsersSync(BrowserView):
         for userid in to_sync:
             logger.info(
                 'Creating profile for new user '
-                'found in plugin {0}: {1}'.format(
-                    plugin_id,
-                    userid,
-                )
+                'found in plugin {0}: {1}'.format(plugin_id, userid)
             )
             yield pi_api.userprofile.create(username=userid, approve=True)
 
@@ -179,7 +177,8 @@ class AllUsersSync(BrowserView):
         plugin_id = self.canonical_plugin_id
         for userid in to_remove:
             profile = self.context[userid]
-            if api.content.get_state(obj=profile) == 'enabled':
+            state = api.content.get_state(obj=profile)
+            if state == 'enabled' and get_last_sync(profile) is not None:
                 logger.info(
                     'Disabling profile for user '
                     'no longer in plugin {0}: {1}'.format(
