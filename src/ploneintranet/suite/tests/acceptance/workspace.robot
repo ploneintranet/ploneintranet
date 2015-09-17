@@ -125,12 +125,10 @@ Member can create an event
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
      Then I can delete an event  Christmas (updated)
 
-Member can create an event with invalid dates
+Member cannot create an event with invalid dates
     Given I am in a workspace as a workspace member
      When I can create a new event  Invalid dates  2014-12-25  2010-12-22
-          Click Element  xpath=//h3[text()='Older events']
-          Wait Until Page Contains Element  jquery=#older-events .event-list:contains(Invalid dates)
-          Page Should Contain Element  jquery=#older-events .event-list .event:nth-child(2) time:nth-child(1):contains(2014)
+     Then I cannot edit an event because of validation  Invalid dates  2121-12-25  2120-12-26  Europe/Rome
 
 Member cannot edit an event with invalid data
     Given I am in a workspace as a workspace member
