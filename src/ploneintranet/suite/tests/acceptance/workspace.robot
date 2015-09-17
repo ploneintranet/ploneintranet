@@ -127,8 +127,7 @@ Member can create an event
 
 Member cannot create an event with invalid dates
     Given I am in a workspace as a workspace member
-     When I can create a new event  Invalid dates  2014-12-25  2010-12-22
-     Then I cannot edit an event because of validation  Invalid dates  2121-12-25  2120-12-26  Europe/Rome
+     When I cannot create a new event  Invalid dates  2014-12-25  2010-12-22
 
 Member cannot edit an event with invalid data
     Given I am in a workspace as a workspace member
