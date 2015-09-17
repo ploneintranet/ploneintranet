@@ -81,7 +81,7 @@ Manager can close an unassigned task from the sidebar
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Unassigned task
      Then I select the task check box  Unassigned task
-     Then the task is done  Unassigned task
+     Then I see a task is complete  Unassigned task
 
 Manager can mark a new task complete on dashboard
     Given I am in a case workspace as a workspace admin

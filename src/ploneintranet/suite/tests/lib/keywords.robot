@@ -789,11 +789,6 @@ I can open a milestone
     # panel 'open' state is session dependent, force open
     Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
 
-The task is done
-    [arguments]  ${title}
-    Click Link  ${title}
-    Wait Until Page Contains Element  xpath=//select[@id='workflow_action']/option[@selected='selected'][@title='Done']
-
 I write a status update
     [arguments]  ${message}
     Wait Until Element Is visible  css=textarea.pat-content-mirror
