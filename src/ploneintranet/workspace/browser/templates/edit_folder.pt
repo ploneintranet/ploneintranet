@@ -19,7 +19,7 @@
       <button id="form-buttons-edit" name="form.buttons.edit" type="submit" value="Edit" i18n:translate="" class="icon-ok-circle focus close-panel">
           Edit
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel">
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" i18n:translate="" class="icon-cancel-circle close-panel validate-ignore">
           Cancel
       </button>
   </div>
