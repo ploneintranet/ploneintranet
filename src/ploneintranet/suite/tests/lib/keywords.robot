@@ -681,7 +681,7 @@ I can create a new case
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
@@ -700,7 +700,7 @@ I can create a new case from a template
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=title  text=${title}
     Input Text  name=description  text=Something completely different
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  New template
