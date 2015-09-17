@@ -155,11 +155,13 @@ class AllUsersSync(BrowserView):
     def _sync(self):
         external_userids = set(self._plugin_userids(self.canonical_plugin_id))
         local_userids = set(self._plugin_userids('membrane_users'))
-        self._delete_user_profiles(local_userids, external_userids)
+        self._disable_user_profiles(local_userids, external_userids)
         to_sync = self._create_user_profiles(local_userids, external_userids)
         sync_many(self.context, list(to_sync))
 
     def _create_user_profiles(self, local_userids, external_userids):
+        """Create user profiles for any external user
+        without a local membrane profile"""
         to_sync = external_userids - local_userids
         plugin_id = self.canonical_plugin_id
         logger.info('Found {0} users in {1} with no membrane profile'.format(
@@ -172,12 +174,16 @@ class AllUsersSync(BrowserView):
             )
             yield pi_api.userprofile.create(username=userid, approve=True)
 
-    def _delete_user_profiles(self, local_userids, external_userids):
+    def _disable_user_profiles(self, local_userids, external_userids):
+        """Disable user profiles for any that are missing
+        a corresponding external user."""
         to_remove = local_userids - external_userids
         plugin_id = self.canonical_plugin_id
         for userid in to_remove:
             profile = self.context[userid]
             state = api.content.get_state(obj=profile)
+            # Skip users that have never been synced with an external source
+            # as they were probably created manually
             if state == 'enabled' and get_last_sync(profile) is not None:
                 logger.info(
                     'Disabling profile for user '
