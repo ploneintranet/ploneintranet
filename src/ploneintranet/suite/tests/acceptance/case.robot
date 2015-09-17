@@ -37,16 +37,18 @@ Manager can toggle the state of a task
     Given I'm logged in as a 'Manager'
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can toggle a milestone  New
+     Then I can open a milestone  new
      Then I select the task check box  Populate Metadata
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
+     # auto-closed, reopen
+     Then I can open a milestone  new
      Then I see a task is complete  Populate Metadata
      Then I unselect the task check box  Populate Metadata
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
+     Then I can open a milestone  new
      Then I see a task is open  Populate Metadata
-     Then I can toggle a milestone  New
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom

@@ -775,13 +775,19 @@ I can add a new task
     Wait Until Page Contains  ${title}
 
 I can close the first milestone
-    Click Element  xpath=//h4[text()='New']
+    I can open a milestone  new
     Click Link  Close milestone
-    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Reopen milestone']
+    # closes current, opens next milestone
+    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Close milestone']
+    # reopen first milestone
+    I can open a milestone  new
+    # verify hard on first milestone id
+    Wait until element is visible  xpath=//fieldset[@id='milestone-new']//a[text()='Reopen milestone']
 
-I can toggle a milestone
+I can open a milestone
     [arguments]  ${milestone}
-    Click Element  xpath=//h4[text()='${milestone}']
+    # panel 'open' state is session dependent, force open
+    Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
 
 The task is done
     [arguments]  ${title}
