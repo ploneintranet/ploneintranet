@@ -24,6 +24,12 @@ class enable_app_layer(object):
     """
     Manipulate the request on traversal of an IAppContainer
     to enable the IAppLayer for this IAppContainer.
+
+    The code here is complicated by the fact that it also
+    supports theme switching: it has to take care that
+    any IAppLayer switched off by the themeswitcher is not
+    switched on again. This is needed to ensure that app specific
+    overrides do not show up in the Barceloneta fallback.
     """
 
     def __call__(self, context, request):
@@ -37,11 +43,12 @@ class enable_app_layer(object):
         # do not undo themeswitching
         policy = theming_policy(request)
         if ISwitchableThemingPolicy.providedBy(policy) \
-           and policy.isFallbackActive():
+           and policy.isFallbackActive():  # only applies to Barceloneta
             switcher = policy.getSwitcherSettings()
+            # respect themeswitching blacklist
             remove_layers = [resolveDottedName(x)
                              for x in switcher.browserlayer_filterlist]
-            # keep blacklisted IAppLayers inactive
+            # enable only non-blacklisted IAppLayers
             app_layers = [x for x in app_layers
                           if x not in remove_layers]
 

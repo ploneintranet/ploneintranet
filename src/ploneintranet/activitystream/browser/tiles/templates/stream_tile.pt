@@ -11,6 +11,8 @@
               context_url here/absolute_url|here/context/absolute_url;
             ">
             <metal:block use-macro="stream_macros/main" />
+
+            <a tal:condition="not:view/stop_asking" href="@@activitystream.tile?network=1" tal:attributes="href string:${context_url}/@@activitystream.tile?network=1&last_seen=${view/last_seen}" class="pat-inject infinite-scrolling-trigger" data-pat-inject="trigger: autoload-visible; source: .activities; target: self::element">Loading more posts…</a>
           </div>
         </div>
     </body>

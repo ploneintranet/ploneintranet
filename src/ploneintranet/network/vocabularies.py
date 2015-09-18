@@ -132,7 +132,11 @@ class PersonalizedKeywordsVocabulary(object):
         # 'AP'  # Wrong!
         # >>> unidecode(u'\xc3\xb6')  # corresponds to u'Ã¶' (!)
         # 'AP'  # Also wrong, obviously
-        q_unidecode = unidecode(safe_unicode(query)).lower()
+        # and then query can also be None, which should not be decoded
+        if query:
+            q_unidecode = unidecode(safe_unicode(query)).lower()
+        else:
+            q_unidecode = None
         # Pass the `fuzzy` switch to safe_encode. If set, the term will be
         # converted to lower-case
         query = safe_encode(query, fuzzy)

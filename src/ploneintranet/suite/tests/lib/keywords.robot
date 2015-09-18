@@ -213,21 +213,10 @@ I can follow Esmeralda
     Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
-    Page Should Contain Element  xpath=//a[.='Plone Conf']
+    Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
 
 Older events are hidden
     Element should not be visible  jquery=div#older-events a
-
-I can delete an old event
-    Click Element  css=div#older-events h3
-    Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
-    Click Element  css=div#older-events button[type='submit']
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
-    Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
-    Element should not be visible  css=#workspace-documents
-    Element should be visible  css=#workspace-events
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -468,8 +457,8 @@ I can create a new event
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
     Click Element  xpath=//h3[text()='Older events']
-    Wait until page contains element  jquery=.cal-events a:contains("${title}")  2
-    Click Element  jquery=.cal-events a:contains("${title}")
+    Wait until page contains element  jquery=.event-list a:contains("${title}")  2
+    Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
@@ -486,7 +475,7 @@ I cannot edit an event because of validation
     Reload Page
     Click link  Events
     Click Element  xpath=//h3[text()='Older events']
-    Click link  ${title}
+    Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
@@ -494,11 +483,12 @@ I cannot edit an event because of validation
     Select From List  timezone  ${timezone}
     Click Button  Save
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
-    Element Text Should Be  css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+    Element Should Contain   css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
+    Element should not be visible  jquery=#workspace-events a:contains(${title} (updated))
 
 Then I can delete an event
     [arguments]  ${title}
-    Click link  ${title}
+    Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Click Element  css=.meta-bar .icon-trash
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
@@ -506,6 +496,7 @@ Then I can delete an event
     Wait Until Page Contains  has been deleted
     Element should not be visible  css=#workspace-documents
     Element should be visible  css=#workspace-events
+    Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
@@ -734,6 +725,10 @@ I can delete a template case
 I go to the dashboard
     Go To  ${PLONE_URL}
 
+I select the task centric view
+    Select From List  dashboard  Task centric view
+    Wait Until Page Contains  Tasks
+
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
     Wait until Page Contains  Task state changed
@@ -782,7 +777,7 @@ I can add a new task
 I can close the first milestone
     Click Element  xpath=//h4[text()='New']
     Click Link  Close milestone
-    Page Should Contain  Reopen milestone
+    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Reopen milestone']
 
 I can toggle a milestone
     [arguments]  ${milestone}

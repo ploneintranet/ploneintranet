@@ -7,6 +7,9 @@
       i18n:domain="ploneintranet">
 
   <body>
+        <metal:statusmessage fill-slot="statusmessage" tal:define="suppress_message python:request.get('suppress_message', False)">
+          <metal:macro tal:condition="not:suppress_message" use-macro="context/main_template/macros/statusmessage" />
+        </metal:statusmessage>
     <metal:content fill-slot="content"
                    tal:define="workspace python:view.workspace;
                                here_url context/absolute_url;
@@ -23,11 +26,11 @@
         <div class="${workspace_id} dark-theme" id="application-body" tal:define="read_only python:not view.can_edit">
           <div id="document-body">
             <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
-                  data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor && source: #application-body; target: #application-body">
+                  data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
                   <h1 class="doc-title" id="document-title">${context/title}</h1>
-                  <input name="title" tal:attributes="disabled read_only" type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                  <input name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
                   <div class="quick-functions">
                     <a href="${context/absolute_url}/external_edit"
                        tal:condition="context/externalEditorEnabled/available"
@@ -37,7 +40,7 @@
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
-                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage && url: ${here_url}/view;; source: #application-body;; target: #application-body">
+                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
                       <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
                         <select name="workflow_action" id="workflow_action">
                           <option tal:repeat="state view/get_workflow_transitions"
@@ -47,7 +50,7 @@
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
-                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
                   </div><!-- quick-functions -->
                 </div> <!-- #meta-bar -->
                 <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
@@ -56,6 +59,7 @@
                   <fieldset class="bar">
                     <input type="text"
                            name="subjects" placeholder="Tags"
+                           i18n:domain="plone" i18n:attributes="placeholder"
                            value="${python:','.join(context.subject)}"
                            tal:attributes="disabled read_only"
                            class="pat-autosuggest"
@@ -107,7 +111,7 @@
           <li tal:condition="python:context.portal_type in ('File', 'Image')">
             <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
           </li>
-          <li><em i18n:translate="more_sharing_soon">More sharing options coming soon…</em></li>
+          <li><em><tal:more_options i18n:translate="more_sharing_soon">More sharing options coming soon</tal:more_options>…</em></li>
         </ul>
       </div>
 

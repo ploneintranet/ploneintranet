@@ -5,32 +5,34 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div id="portlet-events" class="portlet events">
-	  <h2 class="portlet-title" i18n:translate="">Upcoming events</h2>
-      <ul class="event-list">
-        <tal:events repeat="event view/upcoming_events">
+    <div id="portlet-events" class="portlet events span-1">
+      <div class="content">
+	    <h2 class="portlet-title" i18n:translate="">Upcoming events</h2>
+        <ul class="event-list">
+          <tal:events repeat="event view/upcoming_events">
 
-          <li class="event" title="${event/Title}"
-              tal:define="location event/location">
-            <a href="${event/getURL}" class="link">
-              <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
-              <p class="byline" tal:condition="location">${location}</p>
+            <li class="event" title="${event/Title}"
+                tal:define="location event/location">
+              <a href="${event/getURL}" class="link">
+                <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
+                <p class="byline" tal:condition="location">${location}</p>
 
-              <p class="date">
-                <time class="calendar-medium pat-auto-scale"
-                      tal:define="month_name python:view.month_name(event.start)">
-				  <strong class="day">${python:event.start.day}</strong>
-				  <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
-				  <strong class="year">${python:event.start.year}</strong>
-				</time>
-			  </p>
-			  <p class="description">${event/Description}</p>
-			</a>
+                <p class="date">
+                  <time class="calendar-medium pat-auto-scale"
+                        tal:define="month_name python:view.month_name(event.start)">
+				    <strong class="day">${python:event.start.day}</strong>
+				    <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
+				    <strong class="year">${python:event.start.year}</strong>
+				  </time>
+			    </p>
+			    <p class="description">${event/Description}</p>
+			  </a>
 
-          </li>
+            </li>
 
-        </tal:events>
-      </ul>
+          </tal:events>
+        </ul>
+      </div>
     </div>
   </body>
 </html>

@@ -41,8 +41,8 @@ class CommaSeparatedWidget(Widget):
 
         :rtype tuple of strings: """
         value = self.request.get(self.name, default)
-        if value == default:
-            return default
+        if value == u'':
+            return ()
         if isinstance(value, basestring):
             values = value.split(',')
             return tuple(values)

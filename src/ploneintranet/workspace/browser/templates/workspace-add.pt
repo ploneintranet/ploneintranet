@@ -16,7 +16,7 @@
         <div class="panel-body" tal:define="templates view/templates">
           <fieldset class="vertical">
             <label>
-              <input placeholder="Workspace title" type="text" required="required" class="required" name="title" />
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" />
             </label>
             <label>
               <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
@@ -74,7 +74,7 @@
           <button id="form-buttons-create" name="save" type="submit" class="icon-ok-circle" i18n:translate="">
               Create workspace
           </button>
-          <button type="button" class="close-panel icon-cancel-circle" i18n:translate="" i18n:domain="plone">
+          <button type="button" class="close-panel icon-cancel-circle validate-ignore" i18n:translate="" i18n:domain="plone">
               Cancel
           </button>
         </div>

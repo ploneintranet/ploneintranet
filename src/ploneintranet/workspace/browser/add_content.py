@@ -3,6 +3,7 @@ from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
@@ -30,13 +31,27 @@ class AddContent(BrowserView):
                 return self.redirect(url)
         return self.template()
 
+    def validate(self):
+        ''' Validate input and return a truish
+        '''
+        return True
+
     def create(self):
         """
         Create content and return url. Uses dexterity_update to set the
         appropriate fields after creation.
         """
+        if not self.validate():
+            # BBB: do something clever that works with pat-inject
+            # at the moment the @@add_something form is not a complete page
+            # but just some markup,
+            # so we cannot show that one here
+            pass
+
         form = self.request.form
         new = None
+
+        # BBB: this should be moved to a proper validate function!
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
@@ -124,6 +139,53 @@ class AddTask(AddContent):
 class AddEvent(AddContent):
 
     template = ViewPageTemplateFile('templates/add_event.pt')
+
+    def fix_start_end(self):
+        ''' If the start date is lower than the end one,
+        modify the request setting end = start + 1 hour
+        '''
+        localized_start = DateTime(
+            '%s %s' % (
+                ' '.join(self.request.get('start')),
+                self.request.get('timezone', default_timezone())
+            )
+        )
+        localized_end = localized_start + 1. / 24
+        # If you know a smarter way to hijack the request,
+        # please modify the following lines:)
+        self.request.end = [
+            localized_end.strftime('%Y-%m-%d'),
+            localized_end.strftime('%H:%M'),
+        ]
+        self.request.form['end'] = self.request.end
+        self.request.other['end'] = self.request.end
+
+        ts = api.portal.get_tool('translation_service')
+        msg = _(
+            'dates_hijacked',
+            default=(
+                u'Start time should be lower than end time. '
+                u'The system set the end time to: ${date}'
+            ),
+            mapping={
+                u'date': ts.toLocalizedTime(localized_end)
+            }
+        )
+        api.portal.show_message(
+            msg,
+            request=self.request,
+            type="warning"
+        )
+
+    def validate(self):
+        ''' Override base content validation
+
+        Return truish if valid
+        '''
+        if self.request.get('start') > self.request.get('end'):
+            self.fix_start_end()
+
+        return True
 
     def redirect(self, url):
         workspace = parent_workspace(self.context)

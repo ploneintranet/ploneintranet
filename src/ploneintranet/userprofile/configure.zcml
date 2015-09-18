@@ -23,6 +23,9 @@
      factory=".permissions.UserProfileLocalRoleAdapter"
      />
 
+  <!-- Enable sync of user properties via PAS -->
+  <adapter factory=".sync.UserPropertyManager" />
+
   <utility
       name="ploneintranet.userprofile.locations_vocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
@@ -61,5 +64,19 @@
       title="Plone Intranet User Profiles: uninstall steps"
       description="Various uninstall steps that are not handled by GS import/export handlers."
       handler="ploneintranet.userprofile.uninstall.uninstall" />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="Plone Intranet: -- [User Profiles Testing]"
+      directory="profiles/testing"
+      description="Testing of the ploneintranet.userprofile package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <subscriber
+    for="Products.PluggableAuthService.interfaces.events.IUserLoggedInEvent"
+    handler=".subscribers.on_user_login"
+    />
 
 </configure>

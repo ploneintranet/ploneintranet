@@ -57,9 +57,13 @@
       The main navigation
     </div>
 
-    <aside id="global-statusmessage">
-      <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
-    </aside>
+    <metal:statusmessage define-slot="statusmessage">
+      <metal:block define-macro="statusmessage">
+        <aside id="global-statusmessage">
+         <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+       </aside>
+      </metal:block>
+   </metal:statusmessage>
 
     <section id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" />
 

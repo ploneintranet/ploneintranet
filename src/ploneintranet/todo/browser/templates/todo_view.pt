@@ -44,22 +44,43 @@
                       Toggle extra metadata
                     </a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
-                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage && url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
+                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
                       <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
-                        <select name="task_action" id="workflow_action">
-                            <option title="Open" value="reopen" selected="${python:not view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Open</option>
-                            <option title="Done" value="close" selected="${python:view.get_workflow_state() == 'done' and 'selected' or None}" i18n:translate="">Done</option>
+                        <select name="task_action" id="workflow_action"
+                                tal:define="wf_state view/get_workflow_state">
+
+                          <tal:comment replace="nothing">
+                            There are three possible workflow states for a task: open, planned and done.
+
+                            Whether it is "open" or "planned" depends on the workflow state of the Case
+                            and the Milestone of the task. It is updated by an event handler, so it
+                            doesn't make sense to allow a user to manually switch between "open" and
+                            "planned". A user can only "close" or "reopen" a task.
+
+
+                            Show the currently selected state:
+                          </tal:comment>
+                          <option title="Open" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'open'">Open</option>
+                          <option title="Planned" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'planned'">Planned</option>
+                          <option title="Done" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Done</option>
+
+                          <tal:comment replace="nothing">
+                            Show the available transition:
+                          </tal:comment>
+                          <option title="Done" value="close" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state in ['open', 'planned']">Done</option>
+                          <option title="Reopen" value="reopen" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Reopen</option>
+
                         </select>
                       </label>
                       <span tal:replace="structure context/@@authenticator/authenticator"/>
                     </fieldset>
-                    <button type="submit" tal:condition="not:read_only" class="icon-floppy">Save</button>
+                    <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
 
                   </div>
                 </div>
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
-                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" value="${python:','.join(context.subject)}" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
+                    <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" i18n:domain="plone" i18n:attributes="placeholder" value="${python:','.join(context.subject)}" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                   </fieldset>
 
                 </fieldset>

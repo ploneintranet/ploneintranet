@@ -7,6 +7,7 @@ from plone import api
 
 from zope.annotation import IAnnotations
 from zope.component import getUtility
+from zope.i18nmessageid import MessageFactory
 
 from collective.workspace.interfaces import IWorkspace
 from urllib2 import urlparse
@@ -14,6 +15,7 @@ import config
 import mimetypes
 import logging
 
+pl_message = MessageFactory('plonelocales')
 log = logging.getLogger(__name__)
 
 ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
@@ -184,3 +186,12 @@ def archives_shown(context, request, section="main"):
     username = mtool.getAuthenticatedMember().getId()
     cookie_name = '%s-show-extra-%s' % (section, username)
     return 'documents' in request.get(cookie_name, '')
+
+
+def month_name(self, date):
+    """
+    Return the full month name in the appropriate language
+    """
+    translate = self.context.translate
+    short_month_name = date.strftime('%b').lower()  # jan
+    return translate(pl_message('month_{}'.format(short_month_name)))

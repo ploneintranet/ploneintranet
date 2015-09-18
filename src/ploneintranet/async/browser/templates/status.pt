@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+            xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:metal="http://xml.zope.org/namespaces/metal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            lang="en"
+            i18n:domain="ploneintranet">
+
+  <head>
+    <title>async status</title>
+    <style type="text/css">
+      .tt {
+         font-family: monotype;
+      }
+      a.button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+
+        text-decoration: none;
+        color: initial;
+        padding: 2px 5px;
+      }
+
+
+    </style>
+
+  </head>
+
+    <body class="view-secure">
+      <h1>async status</h1>
+      <p>Last refreshed: <span tal:replace="view/time"/></p>
+      <div class="tt">
+        <div tal:content="structure view/check_user" />
+        <div tal:content="structure view/redis_running" />
+        <div tal:content="structure view/celery_running" />
+        <div tal:content="structure view/task_roundtrip" />
+        <div tal:content="structure view/post_roundtrip" />
+      </div>
+      <h2>Try again</h2>
+      <a href="@@async-status" class="button">New checksum</a>
+    </body>
+</html>
