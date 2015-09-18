@@ -10,7 +10,7 @@ Developer documentation
     forms
     api
     components/index
-    testing
+    testing_of_pi
     debugging
 
 
