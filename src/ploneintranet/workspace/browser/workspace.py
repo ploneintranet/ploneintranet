@@ -96,12 +96,25 @@ class WorkspaceMembersJSONView(BrowserView):
 
 class AllUsersJSONView(BrowserView):
     """
-    Return all users in JSON for use with pat-autosuggest.
+    Return a filtered list of users for pat-autosuggest
     """
     def __call__(self):
-        users = api.user.get_users()
+        pc = api.portal.get_tool('portal_catalog')
         q = self.request.get('q', '')
-        return filter_users_json(q, users)
+        users = pc.searchResults(
+            portal_type='ploneintranet.userprofile.userprofile',
+            SearchableText=q,
+        )
+        user_details = []
+        for brain in users:
+            user = brain.getObject()
+            fullname = user.Title()
+            email = user.email
+            user_details.append({
+                'id': user.getId(),
+                'text': u'{} <{}>'.format(fullname, email),
+            })
+        return dumps(user_details)
 
 
 class AllGroupsJSONView(BrowserView):
