@@ -62,7 +62,7 @@ class TestPreviews(FunctionalTestCase):
     def test_fallback_image_url(self):
         fallback = pi_api.previews.fallback_image_url(self.testfile)
         self.assertTrue(
-            '++theme++ploneintranet.theme/generated/media/logo.svg'
+            '++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square.svg'  # noqa
             in fallback)
 
     def test_get_thumbnail(self):
