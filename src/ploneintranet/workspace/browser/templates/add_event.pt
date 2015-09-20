@@ -4,13 +4,13 @@
   </h1>
   <form method="POST" action="#"
         tal:attributes="action request/URL"
-        class="wizard-box pat-inject pat-validate"
+        class="wizard-box pat-inject pat-validation"
         data-pat-inject="
             source: #workspace-events; target: #workspace-events;
             &amp;&amp;
             source: #global-statusmessage; target: #global-statusmessage;
         "
-        data-pat-validate="disable-selector:#form-buttons-create">
+        data-pat-validation="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical">
