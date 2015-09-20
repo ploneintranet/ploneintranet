@@ -4,13 +4,13 @@
   </h1>
   <form method="POST" action="#"
         tal:attributes="action request/URL"
-        class="wizard-box pat-inject pat-validate"
+        class="wizard-box pat-inject pat-validation"
         data-pat-inject="
             source: #workspace-events; target: #workspace-events;
             &amp;&amp;
             source: #global-statusmessage; target: #global-statusmessage;
         "
-        data-pat-validate="disable-selector:#form-buttons-create">
+        data-pat-validation="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical">
@@ -35,7 +35,7 @@
       <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="" i18n:domain="plone">
         Create
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel" i18n:translate="" i18n:domain="plone">
+      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel validate-ignore" i18n:translate="" i18n:domain="plone">
         Cancel
       </button>
     </div>

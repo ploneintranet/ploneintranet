@@ -25,11 +25,10 @@
 
         <div class="${workspace_id} dark-theme" id="application-body">
 
-            <div id="document-body" tal:define="
-                    formid here/UID;
-                ">
-                <form class="document pat-inject"
+            <div id="document-body" tal:define="formid here/UID;">
+                <form class="document pat-inject pat-validation"
                       id="${formid}"
+                      data-pat-validation="disable-selector: #save-event"
                       data-pat-inject="
                           source: #${formid}; target: #${formid};
                           &amp;&amp;
@@ -83,7 +82,7 @@
                                 </fieldset -->
                                 <!--
                  -->
-                                <button type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
+                                <button id="save-event" type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
 
                             </div>
                         </div>
