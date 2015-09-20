@@ -14,6 +14,8 @@ from ploneintranet.testing import PLONEINTRANET_FIXTURE
 import ploneintranet.userprofile
 import ploneintranet.microblog
 import ploneintranet.microblog.statuscontainer
+import ploneintranet.docconv.client
+import ploneintranet.theme
 
 
 class PloneintranetApiLayer(PloneSandboxLayer):
@@ -26,11 +28,15 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.microblog)
         # Force status updates to be immediately written
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+        self.loadZCML(package=ploneintranet.docconv.client)
+        self.loadZCML(package=ploneintranet.theme)
         z2.installProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.userprofile:default')
         applyProfile(portal, 'ploneintranet.microblog:default')
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
+        applyProfile(portal, 'ploneintranet.theme:default')
 
     def tearDownZope(self, app):
         # Reset status update queue age

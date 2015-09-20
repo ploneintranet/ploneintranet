@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from .utils import dexterity_update
 from Acquisition import aq_inner
-from DateTime import DateTime
+# from DateTime import DateTime
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.content.browser.actions import DeleteConfirmationForm
 from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -143,17 +143,11 @@ class ContentView(BrowserView):
                 ))
         return sorted(states, key=lambda x: x['title'])
 
-    def number_of_file_previews(self):
-        """The number of previews generated for a file."""
-        context = aq_inner(self.context)
-        if context.portal_type != 'File':
-            return
-        try:
-            docconv = IDocconv(self.context)
-        except TypeError:  # TODO: prevent this form happening in tests
-            return
-        if docconv.has_previews():
-            return docconv.get_number_of_pages()
+    def previews(self):
+        return pi_api.previews.get_preview_urls(self.context)
+
+    def is_available(self):
+        return pi_api.previews.has_previews(self.context)
 
     def image_url(self):
         """The img-url used to construct the img-tag."""
@@ -186,19 +180,6 @@ class ContentView(BrowserView):
         if name:
             return name.capitalize()
         return "unknown"
-
-    def preview_hash(self):
-        """ We want to be able to create a simple hash-string that we can
-        pass as URL parameter when fetching document previews. This string
-        will change every time the file, and thereby potentially the
-        preview image, changes. """
-        # For a start, we take the modification date, since the hash is cheap
-        # to compute. For more aggressive caching we would need to compute the
-        # hash based on the file contents.
-        md = getattr(self.context, 'modification_date', None)
-        if not isinstance(md, DateTime):
-            md = DateTime()
-        return hash(md.strftime('%Y%m%d%H%M%S'))
 
 
 class PIDeleteConfirmationForm(DeleteConfirmationForm):

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import resource_string
 from plone import api
-from plone.app.blob.iterators import BlobStreamIterator
 from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.namedfile.file import NamedBlobFile
 from ploneintranet.attachments.testing import IntegrationTestCase
 from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
-from ploneintranet.docconv.client.interfaces import (
-    IPloneintranetDocconvClientLayer
-)
+from ploneintranet import api as pi_api
 from zope.interface import alsoProvides
+from ZODB.blob import Blob
 
 
 class TestUpload(IntegrationTestCase):
@@ -21,7 +19,6 @@ class TestUpload(IntegrationTestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request'].clone()
         alsoProvides(self.request, IPloneintranetAttachmentsLayer)
-        alsoProvides(self.request, IPloneintranetDocconvClientLayer)
 
         # Docconv: will generate previews for this
         self.pdf = api.content.create(
@@ -76,45 +73,35 @@ class TestUpload(IntegrationTestCase):
             upload_view.fallback_thumbs_urls,
         )
 
-        # Test objects that have a docconv generated preview
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.pdf),
-            ['http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1']
+        # Test objects that have a generated preview
+        self.assertTrue(
+            '/test-file/small' in upload_view.get_thumbs_urls(self.pdf)[0]
         )
 
         # Test image previews
         urls = upload_view.get_thumbs_urls(self.image)
         self.assertTrue(len(urls) == 1)
-        self.assertRegexpMatches(
-            urls[0],
-            'http://nohost/plone/test-image/@@images/(.*).jpeg'
-        )
+        self.assertTrue('test-image/small' in urls[0])
 
         # Test a File instance that contains an image
         urls = upload_view.get_thumbs_urls(self.fileimage)
         self.assertTrue(len(urls) == 1)
-        self.assertRegexpMatches(
-            urls[0],
-            'http://nohost/plone/test-image-file/@@images/(.*).jpeg'
-        )
+        self.assertTrue('test-image-file/small' in urls[0])
+
         self.assertListEqual(
             upload_view.get_thumbs_urls(self.empty),
             upload_view.fallback_thumbs_urls
         )
 
-    def test_docconv_url_traversable(self):
+    def test_previews_url_traversable(self):
         ''' In the previous test we returned a URL similar to this:
-         - http://nohost/plone/test-file/docconv_image_thumb.jpg?page=1
-        in the case of a docconv generated URL
+         - http://nohost/plone/@@dvpdfview/1/f/1fe3402718445/normal/dump_1.gif
+        in the case of a c.dv generated URL
 
         This test will protect the method that generates the urls
-        from changes in the docconv module
+        from changes in the ploneintranet api module
         '''
         request = self.request.clone()
         request['page'] = 1
-        view = api.content.get_view(
-            'docconv_image_thumb.jpg',
-            self.pdf,
-            request,
-        )
-        self.assertIsInstance(view(), BlobStreamIterator)
+        previews = pi_api.previews.get(self.pdf)
+        self.assertIsInstance(previews[0], Blob)

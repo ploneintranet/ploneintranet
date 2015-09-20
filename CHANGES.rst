@@ -5,7 +5,8 @@ Changelog
 unreleased
 ----------
 
-convince Jenkins to retest. 
+* Refactor previews api to keep it simple, move implementation back to docconv.client [pilz]
+
 
 0.10 (unreleased)
 -----------------

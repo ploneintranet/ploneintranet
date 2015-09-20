@@ -284,11 +284,14 @@
         	<form class="document pat-inject pat-autosubmit" data-pat-inject="source: #selector-items; target: #selector-items && source: saving-badge; target: #saving-badge" data-pat-autosubmit="delay: 1000ms" action="/minutes-of-2014-06-09#saving-badge" id="document-form">
     <div class="metadata pat-bumper">
         <div class="meta-bar">
+
+            <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
+            <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
+
             <h1 class="doc-title" id="document-title">
                 Minutes of 2014-06-09
             </h1>
-            <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
-            <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
+            
             <input type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="Minutes of 2014-06-09" />
             <div class="quick-functions">
                 <a href="/feedback/panel-delete.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
@@ -3049,15 +3052,15 @@
         
     
     <a href="#document-body" title="Workspace landing page" class="pat-inject  landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document"></a>
-    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-settings"
+    <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-settings"
     title="Workspace settings">Workspace settings and about</a>
 
     <hr />
 
     
-    <a class="documents pat-switch current" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-documents" title="Documents">Documents</a>
-    <a class="events pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-events" title="Events">Events</a>
-    <a class="todos pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open" href="#workspace-tickets" title="Tasks">Tasks</a>
+    <a class="documents pat-switch current" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-documents" title="Documents">Documents</a>
+    <a class="events pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-events" title="Events">Events</a>
+    <a class="todos pat-switch " data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-tickets" title="Tasks">Tasks</a>
 </nav>
 
 </div>

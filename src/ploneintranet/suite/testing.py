@@ -32,9 +32,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         import collective.z3cform.chosen
         self.loadZCML(package=collective.z3cform.chosen)
 
-        import slc.docconv
-        self.loadZCML(package=slc.docconv)
-
         import collective.documentviewer
         self.loadZCML(package=collective.documentviewer)
 
