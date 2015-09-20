@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
+  <browser:page
+      name="async-status"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".status.StatusView"
+      template="templates/status.pt"
+      permission="ploneintranet.viewsite"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
+  <browser:page
+      name="async-checktask"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".status.CheckTaskView"
+      permission="ploneintranet.viewsite"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
+  <browser:page
+      name="reindex_object"
+      for="*"
+      class=".views.ReindexObjectView"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
+</configure>
