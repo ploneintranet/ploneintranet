@@ -7,19 +7,15 @@
       <tal:block repeat="crumb breadcrumbs">
         <tal:item define="is_last repeat/crumb/end;
                           url crumb/absolute_url;
+                          nolink python: url.endswith('/profiles');
                           title crumb/Title">
-          <a href="#"
-              tal:omit-tag="not: url"
-              tal:condition="python:not is_last"
-              tal:attributes="href url;
-                              id string:breadcrumbs-${repeat/crumb/number};"
-              tal:content="title">
-                  crumb
-          </a>
-          <a id="breadcrumbs-current"
-             class="current"
-             tal:condition="is_last"
+          <a tal:condition="not:nolink"
              tal:attributes="href url;
+                             class python:is_last and 'current' or '';
+                             id string:breadcrumbs-${repeat/crumb/number};"
+             tal:content="python:ploneview.cropText(title, 80)">crumb</a>
+          <a tal:condition="nolink"
+             tal:attributes="class python:is_last and 'current' or '';
                              id string:breadcrumbs-${repeat/crumb/number};"
              tal:content="python:ploneview.cropText(title, 80)">crumb</a>
         </tal:item>

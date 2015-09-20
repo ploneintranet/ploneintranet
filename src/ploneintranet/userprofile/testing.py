@@ -30,7 +30,7 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
             z2.installProduct(app, p)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'ploneintranet.userprofile:default')
+        applyProfile(portal, 'ploneintranet.userprofile:testing')
 
     def tearDownZope(self, app):
         """Tear down Zope."""

@@ -5,17 +5,19 @@
 
   <body>
 
-    <div class="contacts portlet" id="portlet-contacts">
-	  <h2 class="portlet-title" i18n:translate="">Contacts</h2>
-      <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_results#contact-search-items">
-		<fieldset class="vertical">
-	      <label>
-	        <input name="SearchableText" type="search" placeholder="Search"/>
-	        <button hidden type="submit">Find users</button>
-	      </label>
-		</fieldset>
-      </form>
-	  <div id="contact-search-items"/>
-	</div>
+    <div class="contacts portlet span-1" id="portlet-contacts">
+      <div class="content">
+	    <h2 class="portlet-title" i18n:translate="">Contacts</h2>
+        <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_results#contact-search-items">
+		  <fieldset class="vertical">
+	        <label>
+	          <input name="SearchableText" type="search" placeholder="Search"/>
+	          <button hidden type="submit">Find users</button>
+	        </label>
+		  </fieldset>
+        </form>
+	    <div id="contact-search-items"/>
+	  </div>
+    </div>
   </body>
 </html>

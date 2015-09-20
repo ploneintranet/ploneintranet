@@ -444,8 +444,8 @@ I can create a new event
     Click Link  Create event
     Wait Until Page Contains Element  css=.panel-content form .panel-body
     Input Text  css=.panel-content input[name=title]  text=${title}
-    Input Text  css=.panel-content input[name=start]  text=${start}
     Input Text  css=.panel-content input[name=end]  text=${end}
+    Input Text  css=.panel-content input[name=start]  text=${start}
     Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
@@ -454,10 +454,27 @@ I can create a new event
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
 
+I cannot create a new event
+    [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
+    Click link  Events
+    Click Link  Create event
+    Wait Until Page Contains Element  css=.panel-content form .panel-body
+    Input Text  css=.panel-content input[name=title]  text=${title}
+    Input Text  css=.panel-content input[name=end]  text=${end}
+    Input Text  css=.panel-content input[name=start]  text=${start}
+    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
+    Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
+    Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
+    Element Should Be Visible  jquery=#form-buttons-create:disabled
+
 I can edit an event
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
+    Wait Until Page Contains Element  xpath=//h3[text()='Older events']
     Click Element  xpath=//h3[text()='Older events']
-    Wait until page contains element  jquery=.event-list a:contains("${title}")  2
+    Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
@@ -465,6 +482,8 @@ I can edit an event
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
     Click Button  Save
+    Wait Until Page Contains  Your changes have been saved.
+    Click Button  Close
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
@@ -475,21 +494,20 @@ I cannot edit an event because of validation
     Reload Page
     Click link  Events
     Click Element  xpath=//h3[text()='Older events']
+    Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
     Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
-    Click Button  Save
-    Wait Until Page Contains Element  jquery=#workspace-events a:contains(${title})
-    Element Should Contain   css=#workspace-events [href$="open-market-committee/easter#document-body"]  ${title}
-    Element should not be visible  jquery=#workspace-events a:contains(${title} (updated))
+    Element Should Be Visible  jquery=#save-event:disabled
 
 Then I can delete an event
     [arguments]  ${title}
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
+    Wait until element is visible  css=.meta-bar .icon-trash
     Click Element  css=.meta-bar .icon-trash
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button  I am sure, delete now
@@ -681,7 +699,7 @@ I can create a new case
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  Case Template
@@ -700,7 +718,7 @@ I can create a new case from a template
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal  timeout=5
-    Input Text  css=input.required.parsley-validated  text=${title}
+    Input Text  name=title  text=${title}
     Input Text  name=description  text=Something completely different
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  New template
@@ -724,6 +742,10 @@ I can delete a template case
 
 I go to the dashboard
     Go To  ${PLONE_URL}
+
+I select the task centric view
+    Select From List  dashboard  Task centric view
+    Wait Until Page Contains  Tasks
 
 I mark a new task complete
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
