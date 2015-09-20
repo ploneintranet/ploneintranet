@@ -126,6 +126,45 @@ Automatic profile creation
 If a user authenticates to the site using an alternative authentication system,
 the login event triggers the automatic creation of a matching membrane profile.
 
+Manual profile creation
+-----------------------
+
+The `sync-users` browser view is available on the `profiles` directory,
+and can be used to synchronise the profiles on the site with a list of
+users provided by an external data source such as AD/LDAP.
+
+To use this view, first register the ID of a PAS plugin as your main user
+source using the `ploneintranet.userprofile.primary_external_user_source`
+registry entry:
+
+.. code-block:: xml
+
+  <record name="ploneintranet.userprofile.primary_external_user_source">
+    <field type="plone.registry.field.ASCIILine">
+      <title>Primary External User Source</title>
+      <description>
+        The ID of the PAS plugin that will be treated as the primary source of external users.
+      </description>
+    </field>
+    <value>ldap-plugin</value>
+  </record>
+
+This PAS plugin will be used as the canonical set of user accounts that
+are supported on the site. Running the `sync-users` view will:
+
+* Add missing membrane profiles for any users found in the primary PAS plugin
+* Disable existing membrane profiles for any users missing
+  from the primary PAS plugin.
+
+This view is designed to be run periodically using a clock server
+or cron task.
+
+The view requires Manager privileges.
+
+.. code::
+
+   /plonesite/profiles/@@sync-users
+
 Property sheet mapping
 ----------------------
 
@@ -156,7 +195,7 @@ The registry entry `ploneintranet.userprofile.property_sheet_mapping` allows eac
 External property synchronisation
 ---------------------------------
 
-The `sync-users` browser view is available on the `profiles` directory,
+The `sync-user-properties` browser view is available on the `profiles` directory,
 and will use the above mapping to copy the relevant properties from the
 relevant PAS plugin property sheet, and store it on the membrane profile.
 
@@ -171,7 +210,7 @@ The view requires Manager privileges.
 
 .. code::
 
-   /plonesite/profiles/@@sync-users
+   /plonesite/profiles/@@sync-user-properties
 
 You can also sync an individual user profile using the `sync` view.
 This view also requires Manager privileges.
@@ -191,7 +230,7 @@ This significantly improves the performance of the sync:
    
 .. code::
 
-   /plonesite/profiles/@@sync-users-ldap
+   /plonesite/profiles/@@sync-user-properties-ldap
    
 .. _docs.plone.org: http://docs.plone.org/external/plone.app.dexterity/docs/advanced/behaviours.html
 
