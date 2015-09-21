@@ -220,8 +220,8 @@ class MetroMap(object):
         metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
-        mmap = metromap_workflow.variables["metromap_transitions"]
-        tal_expr = mmap.default_expr
+        wfstep = metromap_workflow.variables["metromap_transitions"]
+        tal_expr = wfstep.default_expr
         expr_context = getExprContext(self.context)
         metromap_transitions = tal_expr(expr_context)
         return metromap_transitions
@@ -234,7 +234,7 @@ class MetroMap(object):
 
         An OrderedDict is used to provide details such as whether a milestone
         has already been finished, the transition required to close the current
-        milestone, and the transition required to reopen the previous
+        milestone, and the transition required to is_previous the previous
         milestone.
 
         In the 'complete' workflow state / milestone it returns the following:
@@ -272,33 +272,58 @@ class MetroMap(object):
         if not metromap_list:
             return {}
 
+        can_manage = api.user.has_permission(
+            'ploneintranet.workspace: Manage workspace',
+            user=api.user.get_current(),
+            obj=self.context)
         current_state = wft.getInfoFor(self.context, "review_state")
-        next_available_transition = [
-            i.get('next_transition') for i in metromap_list
-            if i['state'] == current_state and 'next_transition' in i
-        ]
         finished = True
         sequence = OrderedDict()
-        for index, mmap in enumerate(metromap_list):
-            state = mmap['state']
+        tasks = self.context.tasks()
+        for index, wfstep in enumerate(metromap_list):
+            state = wfstep['state']
             if state == current_state:
-                finished = False
-            next_transition = mmap.get('next_transition')
-            reopen = False
-            if index + 1 < len(metromap_list):
+                finished = False  # keep this for the rest of the loop
+                open_tasks = [x for x in tasks[state] if not x['checked']]
+            else:
+                open_tasks = []  # we don't care so performance optimize
+
+            # last workflow step: consider done if no open tasks left
+            if (state == current_state
+               and index > len(metromap_list)
+               and not open_tasks):
+                finished = True
+
+            # only current state can be closed
+            if (state == current_state and can_manage and not open_tasks):
+                next_transition = wfstep.get('next_transition', None)
+            else:
+                next_transition = None
+            if next_transition:
+                transition_title = _(
+                    cwf.transitions.get(next_transition).title)
+            else:
+                transition_title = ''
+
+            # reopen only the before-current step, only for admins
+            reopen_transition = None
+            try:
                 next_state = metromap_list[index + 1]["state"]
-                reopen = next_state == current_state
+                # if this step precedes the current state, it can be reopened
+                if next_state == current_state and can_manage:
+                    reopen_transition = wfstep.get('reopen_transition', None)
+            except IndexError:
+                # last step, no next
+                pass
+
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
                 'transition_id': next_transition,
-                'transition_title': '',
-                'reopen_transition': reopen and mmap['reopen_transition'],
-                'enabled': next_transition in next_available_transition,
+                'transition_title': transition_title,
+                'reopen_transition': reopen_transition,
+                'enabled': bool(next_transition),
                 'finished': finished,
             }
-            if next_transition:
-                sequence[state]['transition_title'] = _(
-                    cwf.transitions.get(next_transition).title)
         return sequence
 
 

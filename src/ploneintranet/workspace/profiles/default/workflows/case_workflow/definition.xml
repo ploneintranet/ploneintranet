@@ -33,7 +33,7 @@
        The example workflow below is configured as follows:
        - TeamMember is not allowed to change workflow state, except
          from 'prepare' to 'complete'
-       - TeamMember cannot add content during the 'complete', 'audit',
+       - TeamMember cannot add or modify content during the 'complete', 'audit',
          'propose' sequence (to protect quality control before decision)
        - The 'archive' and 'rejected' states are readonly
 
@@ -492,7 +492,8 @@
   <transition transition_id="reset" title="Reset" new_state="new" trigger="USER" before_script="" after_script="">
     <description>Reset the case to 'new'.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -500,7 +501,8 @@
   <transition transition_id="assign" title="Assign" new_state="prepare" trigger="USER" before_script="" after_script="">
     <description>Assign the case to the responsible department.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=assign" category="workflow" icon="">Assign</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -508,7 +510,8 @@
   <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
     <description>Verify that the case is complete.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -516,7 +519,8 @@
   <transition transition_id="request" title="Request" new_state="audit" trigger="USER" before_script="" after_script="">
     <description>Finish handling by the department, mark as ready for audit.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=request" category="workflow" icon="">Request</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -524,7 +528,8 @@
   <transition transition_id="submit" title="Submit" new_state="propose" trigger="USER" before_script="" after_script="">
     <description>Submit the case for decision by the council.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -532,7 +537,8 @@
   <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
     <description>Accept or deny the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -540,7 +546,8 @@
   <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -548,7 +555,8 @@
   <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
     <description>Mark the case as done and file away.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=archive" category="workflow" icon="">Archive</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
@@ -556,7 +564,9 @@
   <transition transition_id="reject" title="Reject" new_state="rejected" trigger="USER" before_script="" after_script="">
     <description>Reject the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Reject</action>
-    <guard />
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
   </transition>
 
 

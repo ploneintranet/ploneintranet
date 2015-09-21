@@ -135,22 +135,3 @@ class AllGroupsJSONView(BrowserView):
                     'id': groupid,
                 })
         return dumps(group_details)
-
-
-class CaseWorkflowGuardView(BrowserView):
-    """Enable transition to the next workflow state when there are no open
-    tasks
-    """
-
-    @memoize
-    def __call__(self):
-        context = self.context
-        catalog = api.portal.get_tool('portal_catalog')
-        current_path = '/'.join(context.getPhysicalPath())
-        brains = catalog(
-            path=current_path,
-            portal_type='todo',
-            review_state='open',
-        )
-        has_no_open_tasks = len(brains) == 0
-        return has_no_open_tasks
