@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.User import UnrestrictedUser
 from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -92,10 +96,25 @@ class AddContent(BrowserView):
                     participant_policy = 'publishers'
                 else:
                     raise AttributeError
-
+            old_security_manager = getSecurityManager()
+            acl_users = api.portal.get_tool('acl_users')
+            tmp_user = UnrestrictedUser(
+                'Workspace Init', '', ['TeamManager'], '')
+            tmp_acl_user = tmp_user.__of__(acl_users)
+            newSecurityManager(None, tmp_acl_user)
+            try:
                 new.set_external_visibility(external_visibility)
-                new.join_policy = join_policy
-                new.participant_policy = participant_policy
+            except:
+                raise
+            finally:
+                setSecurityManager(old_security_manager)
+
+            acl_users = api.portal.get_tool('acl_users')
+            if acl_users.ZCacheable_enabled():
+                acl_users.ZCacheable_invalidate()
+
+            new.join_policy = join_policy
+            new.participant_policy = participant_policy
 
         modified, errors = dexterity_update(new)
 
