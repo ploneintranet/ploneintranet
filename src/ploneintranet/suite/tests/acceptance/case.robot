@@ -14,27 +14,30 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Manager can create a case workspace
-    Given I'm logged in as a 'Manager'
+User can create a case workspace
+    Given I am logged in as the user allan_neece
      Then I can create a new case    A case for outer space
-     Then I can delete a case  a-case-for-outer-space
+      And I can delete a case  a-case-for-outer-space
 
 Manager can change the workflow of a case workspace
-    Given I'm logged in as a 'Manager'
-     Then I can create a new case  Workflow case
-     Then I can go to the sidebar tasks tile of my case
+    Given I am logged in as the user allan_neece
+      And I can create a new case  Workflow case
+     When I can go to the sidebar tasks tile of my case
+      And I can open a milestone  new
+      # can only close milestone after finishing tasks
+      And I select the task check box  Populate Metadata
      Then I can close the first milestone
      Then I can delete a case  workflow-case
 
-Manager can create a template case workspace
-    Given I'm logged in as a 'Manager'
+User can create a template case workspace
+    Given I am logged in as the user allan_neece
      Then I can create a new template case    New template
      Then I can create a new case from a template  New template  A new type of case
      Then I can delete a template case  new-template
      Then I can delete a case  a-new-type-of-case
 
-Manager can toggle the state of a task
-    Given I'm logged in as a 'Manager'
+Member can toggle the state of a task
+    Given I am in a case workspace as a workspace member
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
      Then I can open a milestone  new

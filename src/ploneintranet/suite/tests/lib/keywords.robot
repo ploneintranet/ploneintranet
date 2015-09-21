@@ -777,8 +777,9 @@ I can add a new task
 I can close the first milestone
     I can open a milestone  new
     Click Link  Close milestone
-    # closes current, opens next milestone
-    Wait until element is visible  xpath=//fieldset[@id='milestone-prepare']//a[text()='Close milestone']
+    # auto-closes current, reopen
+    I can open a milestone  new
+    Wait until element is visible  xpath=//fieldset[@id='milestone-new']//a[text()='Reopen milestone']
 
 I can open a milestone
     [arguments]  ${milestone}

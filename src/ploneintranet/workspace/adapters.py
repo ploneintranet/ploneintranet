@@ -271,11 +271,14 @@ class MetroMap(object):
         metromap_list = self._metromap_transitions
         if not metromap_list:
             return {}
-
-        can_manage = api.user.has_permission(
-            'ploneintranet.workspace: Manage workspace',
-            user=api.user.get_current(),
-            obj=self.context)
+        try:
+            can_manage = api.user.has_permission(
+                'ploneintranet.workspace: Manage workspace',
+                user=api.user.get_current(),
+                obj=self.context)
+        except api.exc.UserNotFoundError:
+            raise api.exc.UserNotFoundError(
+                "Unknown user. Do not use Zope rescue user.")
         current_state = wft.getInfoFor(self.context, "review_state")
         finished = True
         sequence = OrderedDict()

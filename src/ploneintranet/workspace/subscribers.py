@@ -57,9 +57,12 @@ def workspace_added(ob, event):
 
     """
     # Whoever creates the workspace should be added as an Admin
-    creator = ob.Creator()
+    # When copying a case template, that is the current user
+    # (not the one who created the original case template)
+    userid = api.user.get_current().id
+    ob.setCreators([userid])
     IWorkspace(ob).add_to_team(
-        user=creator,
+        user=userid,
         groups=set(['Admins']),
     )
     # During workspace creation, various functions
@@ -69,12 +72,13 @@ def workspace_added(ob, event):
     # or groups during a request, so we have to manually re-initialise
     # the security context for the current user.
     # ref: https://github.com/ploneintranet/ploneintranet/pull/438
-    if api.user.get_current().getId() == creator:
-        IAnnotations(ob.REQUEST)[('workspaces', creator)] = None
-        acl_users = api.portal.get_tool('acl_users')
-        user = acl_users.getUserById(creator)
-        if user is not None:
-            newSecurityManager(None, user)
+    IAnnotations(ob.REQUEST)[('workspaces', userid)] = None
+    acl_users = api.portal.get_tool('acl_users')
+    user = acl_users.getUserById(userid)
+    if user is not None:
+        # NB when copying a case template with execute_as_manager
+        # this is 'finally' replaced again
+        newSecurityManager(None, user)
 
     if not ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
