@@ -1,3 +1,5 @@
+from Products.DCWorkflow.Guard import Guard
+from copy import copy
 from plone import api
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
@@ -52,6 +54,22 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         second_state_id = mm_seq.keys()[1]
         self.assertTrue(mm_seq[second_state_id]["enabled"])
         self.assertFalse(mm_seq[second_state_id]["finished"])
+
+    def test_metromap_transition_guard(self):
+        """Ensure that if a transition guard prevents the next transition, then
+        the next transition is disabled.
+        """
+        wft = api.portal.get_tool('portal_workflow')
+        guard = Guard()
+        guard.changeFromProperties({'guard_expr': 'python:False'})
+        old_guard = copy(
+            wft.case_workflow.transitions.transfer_to_department.guard)
+
+        wft.case_workflow.transitions.transfer_to_department.guard = guard
+        mm_seq = IMetroMap(self.case).metromap_sequence
+        self.assertFalse(mm_seq['new']['enabled'])
+
+        wft.case_workflow.transitions.transfer_to_department.guard = old_guard
 
     def test_workspace_has_no_metromap(self):
         workspaces = api.content.create(

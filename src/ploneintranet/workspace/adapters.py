@@ -273,9 +273,14 @@ class MetroMap(object):
             return {}
 
         current_state = wft.getInfoFor(self.context, "review_state")
+        available_transition_ids = [
+            i['id'] for i in wft.getTransitionsFor(self.context)]
         next_available_transition = [
-            i.get('next_transition') for i in metromap_list
-            if i['state'] == current_state and 'next_transition' in i
+            i.get('next_transition')
+            for i in metromap_list
+            if i['state'] == current_state
+            and 'next_transition' in i
+            and i.get('next_transition') in available_transition_ids
         ]
         finished = True
         sequence = OrderedDict()
