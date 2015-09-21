@@ -4,6 +4,7 @@ from plone import api
 from plone.memoize.view import memoize
 from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+import ploneintranet.api as pi_api
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from json import dumps
@@ -99,15 +100,9 @@ class AllUsersJSONView(BrowserView):
     Return a filtered list of users for pat-autosuggest
     """
     def __call__(self):
-        pc = api.portal.get_tool('portal_catalog')
         q = self.request.get('q', '')
-        users = pc.searchResults(
-            portal_type='ploneintranet.userprofile.userprofile',
-            SearchableText=q,
-        )
         user_details = []
-        for brain in users:
-            user = brain.getObject()
+        for user in pi_api.userprofile.get_users(SearchableText=q):
             fullname = user.Title()
             email = user.email
             user_details.append({
