@@ -12,7 +12,6 @@ from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 from ploneintranet.core.browser.utils import link_urls
-from ploneintranet.docconv.client.interfaces import IDocconv
 from ploneintranet import api as pi_api
 
 logger = logging.getLogger('ploneintranet.activitystream')
@@ -93,7 +92,7 @@ class StatusUpdateView(BrowserView):
 
     @property
     @memoize
-    def toLocalizedTime(self):
+    def toLocalizedTime(self):  # noqa
         ''' Facade for the toLocalizedTime method
         '''
         return api.portal.get_tool('translation_service').toLocalizedTime
@@ -187,16 +186,15 @@ class StatusUpdateView(BrowserView):
         return base_url
 
     def item2attachments(self, item):
-        ''' Take the attachment sotrage item
+        ''' Take the attachment storage item
         and transform it into an attachment
         '''
-        docconv = IDocconv(item)
         item_url = '/'.join((
             self.attachment_base_url,
             item.getId(),
         ))
-        if docconv.has_thumbs():
-            url = '/'.join((item_url, 'thumb'))
+        if pi_api.previews.get(item):
+            url = '/'.join((item_url, 'small'))
         elif isinstance(item, Image):
             images = api.content.get_view(
                 'images',
@@ -213,7 +211,11 @@ class StatusUpdateView(BrowserView):
                 api.portal.get().absolute_url(),
                 '++theme++ploneintranet.theme/generated/media/logo.svg'
             ))
-        return {'img_src': url, 'link': item_url}
+
+        return {'img_src': url,
+                'link': item_url,
+                'alt': item.id,
+                'title': item.id}
 
     def attachments(self):
         """ Get preview images for status update attachments

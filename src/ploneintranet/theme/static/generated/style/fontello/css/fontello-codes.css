@@ -157,6 +157,8 @@
 .icon-updown-circle:before { content: '\e876'; } /* '' */
 .icon-menu-outline:before { content: '\e877'; } /* '' */
 .icon-menu:before { content: '\e878'; } /* '' */
+.icon-manager:before { content: '\e879'; } /* '' */
+.icon-docs:before { content: '\e87a'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
