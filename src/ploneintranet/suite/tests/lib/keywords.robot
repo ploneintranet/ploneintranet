@@ -770,9 +770,10 @@ I see a task is open
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
     Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
 
-I see the task quality check has state open
+I see the task quality check has state
+    [arguments]  ${state}
     Go To  ${PLONE_URL}/workspaces/example-case/quality-check
-    Element should be visible  xpath=//fieldset[@id='workflow-menu']/label[@data-option='Open']
+    Element should be visible  xpath=//fieldset[@id='workflow-menu']/label[@data-option='${state}']
 
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon

@@ -62,11 +62,15 @@ Member cannot edit content in a complete case milestone
       And I am in a case workspace as a workspace member
      Then I cannot create a new document
 
-Member closing prepare milestone sets complete task to open
+Member closing milestone sets planned task to open
    Given I am in a case workspace as a workspace member
      And I move the example workspace to state prepare
-    When I can close a milestone  prepare
-    Then I see the task Quality check has state open
+    Then I see the task Quality check has state  Planned
+    When I can go to the sidebar tasks tile of my case
+     And I can open a milestone task panel  prepare
+     And I can close a milestone  prepare
+    # switches to a protected state, veryify todo transition has worked
+    Then I see the task Quality check has state  Open
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
