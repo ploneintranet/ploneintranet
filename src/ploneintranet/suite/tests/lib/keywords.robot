@@ -675,24 +675,23 @@ I am in a case workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Example Case
 
-Admin moves the example workspace to state complete
-      I am in a case workspace as a workspace admin
+I move the example workspace to state prepare
       I can go to the Example Case
       I can go to the sidebar tasks tile of my case
       I can open a milestone task panel  prepare
       I select the task check box  Draft proposal
       I select the task check box  Budget
       I select the task check box  Stakeholder feedback
+
+I move the example workspace to state complete
+      I move the example workspace to state prepare
       I can close a milestone  prepare
       I can open a milestone task panel  complete
       I select the task check box  Quality check
-      I can close a milestone  complete
 
-Admin moves the example workspace to state audit
-      Admin moves the example workspace to state complete
-      I can open a milestone task panel  audit
-      I select the task check box  Financial audit
-      I select the task check box  Legal audit
+Admin moves the example workspace to state complete
+      I am in a case workspace as a workspace admin
+      I move the example workspace to state complete
 
 I can create a new case
     [arguments]  ${title}
@@ -770,6 +769,10 @@ I see a task is open
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
     Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
+
+I see the task quality check has state open
+    Go To  ${PLONE_URL}/workspaces/example-case/quality-check
+    Element should be visible  xpath=//fieldset[@id='workflow-menu']/label[@data-option='Open']
 
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon

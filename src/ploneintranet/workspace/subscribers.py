@@ -9,6 +9,7 @@ from zope.globalrequest import getRequest
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.interfaces import IGroupingStoragable
@@ -221,6 +222,10 @@ def update_todos_state(obj, event):
     current_path = '/'.join(obj.getPhysicalPath())
     brains = pc(path=current_path, portal_type='todo')
     for brain in brains:
-        obj = brain.getObject()
-        obj.set_appropriate_state()
-        obj.reindexObject()
+        todo = brain.getObject()
+        execute_as_manager(_update_todo_state, todo)
+
+
+def _update_todo_state(todo):
+    todo.set_appropriate_state()
+    todo.reindexObject()

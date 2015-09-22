@@ -52,15 +52,21 @@ Manager can close a case milestone but only after closing open task
      Then I can close a milestone  new
       And I can delete a case  workflow-case
 
-Member cannot close a audit case milestone
-    Given Admin moves the example workspace to state audit
+Member cannot close a complete case milestone
+    Given Admin moves the example workspace to state complete
       And I am in a case workspace as a workspace member
-     Then I cannot close a milestone  audit
+     Then I cannot close a milestone  complete
 
-Member cannot edit content in a audit case milestone
-    Given Admin moves the example workspace to state audit
+Member cannot edit content in a complete case milestone
+    Given Admin moves the example workspace to state complete
       And I am in a case workspace as a workspace member
      Then I cannot create a new document
+
+Member closing prepare milestone sets complete task to open
+   Given I am in a case workspace as a workspace member
+     And I move the example workspace to state prepare
+    When I can close a milestone  prepare
+    Then I see the task Quality check has state open
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
