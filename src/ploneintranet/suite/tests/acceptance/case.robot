@@ -30,18 +30,18 @@ Member can toggle the state of a task
     Given I am in a case workspace as a workspace member
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can open a milestone task panel  new
-     Then I select the task check box  Populate Metadata
+     Then I can open a milestone task panel  prepare
+     Then I select the task check box  Draft proposal
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
      # auto-closed, reopen
-     Then I can open a milestone task panel  new
-     Then I see a task is complete  Populate Metadata
-     Then I unselect the task check box  Populate Metadata
+     Then I can open a milestone task panel  prepare
+     Then I see a task is complete  Draft proposal
+     Then I unselect the task check box  Draft proposal
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can open a milestone task panel  new
-     Then I see a task is open  Populate Metadata
+     Then I can open a milestone task panel  prepare
+     Then I see a task is open  Draft proposal
 
 Manager can close a case milestone but only after closing open task
     Given I am logged in as the user allan_neece
@@ -102,22 +102,22 @@ Member can view sidebar tasks
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
 
-Manager can add a new task
-    Given I am in a case workspace as a workspace admin
+Member can add a new task
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Make a plan  new
 
-Manager can close an unassigned task from the sidebar
-    Given I am in a case workspace as a workspace admin
+Member can close an unassigned task from the sidebar
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Unassigned task
      Then I select the task check box  Unassigned task
      Then I see a task is complete  Unassigned task
 
-Manager can mark a new task complete on dashboard
-    Given I am in a case workspace as a workspace admin
+Member can mark a new task complete on dashboard
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Todo soon  new
+     Then I can add a new task  Todo soon  prepare
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete

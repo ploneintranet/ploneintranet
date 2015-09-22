@@ -62,12 +62,12 @@ class IMetroMap(Interface):
         which transitions are currently available.
         OrderedDict([(
             "new", {
-                "enabled": False,
+                "is_current": False,
                 "transition_id": "transfer_to_department",
                 "finished": True,
             }), (
             "in_progress", {
-                "enabled": False,
+                "is_current": False,
                 "transition_id": "transfer_to_department",
                 "finished": True,
             }),

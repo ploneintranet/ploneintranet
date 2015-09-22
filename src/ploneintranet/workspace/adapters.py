@@ -243,7 +243,7 @@ class MetroMap(object):
             'transition_title': u'Transfer To Department',
             'title': u'New',
             'finished': True,  # This milestone has been finished
-            'enabled': False,  # Don't show the [Close milestone] button
+            'is_current': False,  # Not the current milestone
             'reopen_transition': 'reset',  # For [Reopen milestone]
             'transition_id': 'transfer_to_department'
           }), (
@@ -251,14 +251,14 @@ class MetroMap(object):
             'transition_title': u'Submit',
             'title': u'Content Complete',
             'finished': False,  # This milestone isn't finished yet
-            'enabled': True,    # Show [Close milestone]
+            'is_current': True,    # Current milestone: Show [Close milestone]
             'reopen_transition': False,
             'transition_id': 'submit'
           }), (
           'archived', {
             'transition_title': '',
             'title': u'Archived',
-            'enabled': False,
+            'is_current': False,
             'finished': False,
             'reopen_transition': False,
             'transition_id': None
@@ -286,9 +286,11 @@ class MetroMap(object):
         for index, wfstep in enumerate(metromap_list):
             state = wfstep['state']
             if state == current_state:
+                is_current = True
                 finished = False  # keep this for the rest of the loop
                 open_tasks = [x for x in tasks[state] if not x['checked']]
             else:
+                is_current = False
                 open_tasks = []  # we don't care so performance optimize
 
             # last workflow step: consider done if no open tasks left
@@ -324,7 +326,7 @@ class MetroMap(object):
                 'transition_id': next_transition,
                 'transition_title': transition_title,
                 'reopen_transition': reopen_transition,
-                'enabled': bool(next_transition),
+                'is_current': is_current,
                 'finished': finished,
             }
         return sequence
