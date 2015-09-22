@@ -52,18 +52,15 @@ Manager can close a case milestone but only after closing open task
      Then I can close a milestone  new
       And I can delete a case  workflow-case
 
-Member cannot close a protected case milestone
-    Given I am in a case workspace as a workspace member
-      And I can go to the Example Case
-      And I can go to the sidebar tasks tile of my case
-      And I can open a milestone task panel  prepare
-      And I select the task check box  Draft proposal
-      And I select the task check box  Budget
-      And I select the task check box  Stakeholder feedback
-     Then I can close a milestone  prepare
-      And I can open a milestone task panel  complete
-      And I select the task check box  Quality check
-     Then I cannot close a milestone  complete
+Member cannot close a audit case milestone
+    Given Admin moves the example workspace to state audit
+      And I am in a case workspace as a workspace member
+     Then I cannot close a milestone  audit
+
+Member cannot edit content in a audit case milestone
+    Given Admin moves the example workspace to state audit
+      And I am in a case workspace as a workspace member
+     Then I cannot create a new document
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
