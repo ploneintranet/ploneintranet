@@ -88,6 +88,8 @@ class BinaryAdder(ContentAdder):
 class ContentIndexer(object):
     """Content indexing for Plone > SOLR."""
 
+    _connection = None
+
     _solr_to_plone_field_mapping = {
         'tags': 'Subject'
     }
@@ -248,7 +250,9 @@ class ContentIndexer(object):
 
     @property
     def _solr(self):
-        return IConnection(self._solr_conf)
+        if self._connection is None:
+            self._connection = IConnection(self._solr_conf)
+        return self._connection
 
     def abort(self):
         self._solr.rollback()
