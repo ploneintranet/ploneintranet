@@ -19,16 +19,6 @@ User can create a case workspace
      Then I can create a new case    A case for outer space
       And I can delete a case  a-case-for-outer-space
 
-Manager can change the workflow of a case workspace
-    Given I am logged in as the user allan_neece
-      And I can create a new case  Workflow case
-     When I can go to the sidebar tasks tile of my case
-      And I can open a milestone  new
-      # can only close milestone after finishing tasks
-      And I select the task check box  Populate Metadata
-     Then I can close the first milestone
-     Then I can delete a case  workflow-case
-
 User can create a template case workspace
     Given I am logged in as the user allan_neece
      Then I can create a new template case    New template
@@ -40,18 +30,40 @@ Member can toggle the state of a task
     Given I am in a case workspace as a workspace member
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can open a milestone  new
+     Then I can open a milestone task panel  new
      Then I select the task check box  Populate Metadata
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
      # auto-closed, reopen
-     Then I can open a milestone  new
+     Then I can open a milestone task panel  new
      Then I see a task is complete  Populate Metadata
      Then I unselect the task check box  Populate Metadata
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can open a milestone  new
+     Then I can open a milestone task panel  new
      Then I see a task is open  Populate Metadata
+
+Manager can close a case milestone but only after closing open task
+    Given I am logged in as the user allan_neece
+      And I can create a new case  Workflow case
+      And I can go to the sidebar tasks tile of my case
+     Then I cannot close a milestone  new
+     When I select the task check box  Populate Metadata
+     Then I can close a milestone  new
+      And I can delete a case  workflow-case
+
+Member cannot close a protected case milestone
+    Given I am in a case workspace as a workspace member
+      And I can go to the Example Case
+      And I can go to the sidebar tasks tile of my case
+      And I can open a milestone task panel  prepare
+      And I select the task check box  Draft proposal
+      And I select the task check box  Budget
+      And I select the task check box  Stakeholder feedback
+     Then I can close a milestone  prepare
+      And I can open a milestone task panel  complete
+      And I select the task check box  Quality check
+     Then I cannot close a milestone  complete
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom

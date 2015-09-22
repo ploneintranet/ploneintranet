@@ -774,14 +774,20 @@ I can add a new task
     Click Button  Create
     Wait Until Page Contains  ${title}
 
-I can close the first milestone
-    I can open a milestone  new
-    Click Link  Close milestone
+I can close a milestone
+    [arguments]  ${milestone}
+    I can open a milestone task panel  ${milestone}
+    Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     # auto-closes current, reopen
-    I can open a milestone  new
-    Wait until element is visible  xpath=//fieldset[@id='milestone-new']//a[text()='Reopen milestone']
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
-I can open a milestone
+I cannot close a milestone
+    [arguments]  ${milestone}
+    I can open a milestone task panel  ${milestone}
+    Element should not be visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+
+I can open a milestone task panel
     [arguments]  ${milestone}
     # panel 'open' state is session dependent, force open
     Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
