@@ -52,6 +52,15 @@ Manager can close a case milestone but only after closing open task
      Then I can close a milestone  new
       And I can delete a case  workflow-case
 
+Manager can reopen a case milestone without closing open tasks
+    Given I am logged in as the user allan_neece
+      And I can create a new case  Workflow case
+      And I can go to the sidebar tasks tile of my case
+      And I can open a milestone task panel  new
+      And I select the task check box  Populate Metadata
+     When I can close a milestone  new
+     Then I can reopen a milestone  new
+
 Member cannot close a complete case milestone
     Given Admin moves the example workspace to state complete
       And I am in a case workspace as a workspace member

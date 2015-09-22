@@ -809,6 +809,15 @@ I cannot close a milestone
     I can open a milestone task panel  ${milestone}
     Element should not be visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
 
+I can reopen a milestone
+    [arguments]  ${milestone}
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    # auto-closes current, reopen
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
+
 I can open a milestone task panel
     [arguments]  ${milestone}
     # panel 'open' state is session dependent, force open
