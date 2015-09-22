@@ -107,6 +107,8 @@ class SearchResultsView(BrowserView):
         return options
 
     def search_response(self):
+        """Processes the search form to produce a search response
+        """
         form = self.request.form
         filters = {}
         start_date = None
@@ -124,8 +126,15 @@ class SearchResultsView(BrowserView):
             # we refine an existing search
             keywords = form.get('SearchableText_filtered')
             for filt in supported_filters:
+                # The facet marker tells us that this
+                # filter was also included as a facet in the form
+                facet_marker = 'include_facet__{0}'.format(filt)
                 if form.get(filt):
                     filters[filt] = form.get(filt)
+                elif form.get(facet_marker):
+                    # We got an empty value for an enabled facet
+                    # which always should return no results
+                    return []
             if form.get('created'):
                 start_date, end_date = self._daterange_from_string(
                     form.get('created')

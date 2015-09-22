@@ -20,6 +20,12 @@
                 <fieldset class="pat-checklist"
                       tal:condition="search_response/facets/friendly_type_name|nothing"
                       id="content-types">
+                    <!-- Hidden input that marks the fact that this facet
+                         should be included in the search (regardless of
+                         whether any checkboxes are checked -->
+                    <input name="include_facet__friendly_type_name"
+                           type="hidden"
+                           value="1" />
                     <span class="small button-cluster">
                     <button type="button" class="pat-button select-all" i18n:translate="">All</button>
                     <button type="button" class="pat-button deselect-all" i18n:translate="">None</button>
@@ -62,6 +68,12 @@
 		     tal:define="facet_values
 				 search_response/facets/?option_name|nothing"
                      tal:condition="facet_values">
+                    <!-- Hidden input that marks the fact that this facet
+                         should be included in the search (regardless of
+                         whether any checkboxes are checked -->
+                    <input tal:attributes="name string:include_facet__${option_name}"
+                           type="hidden"
+                           value="1" />
                     <span class="small button-cluster">
                     <button type="button" class="pat-button select-all" 
 			    i18n:translate="">All</button>
@@ -80,6 +92,11 @@
                 </fieldset>
 		</tal:other_options>
                 </fieldset>
+            </div>
+            <div class="nine columns last document-listing"
+                 id="listing"
+                 tal:condition="not: search_response">
+                <p>0 <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
             </div>
             <div class="nine columns last document-listing"
                  id="listing"
