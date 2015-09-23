@@ -3,7 +3,7 @@ import time
 
 from zope.component import queryUtility
 from zope.interface import implements
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
@@ -93,10 +93,10 @@ class TestMicroblogContextBlacklisting(unittest.TestCase):
         workflowTool.setDefaultChain('simple_publication_workflow')
         workflowTool.updateRoleMappings()
         f1 = api.content.create(self.portal, 'Folder', 'f1', title=u'Folder 1')
-        directlyProvides(f1, IMicroblogContext)
+        alsoProvides(f1, IMicroblogContext)
         f1.reindexObject()
         f2 = api.content.create(self.portal, 'Folder', 'f2', title=u'Folder 2')
-        directlyProvides(f2, IMicroblogContext)
+        alsoProvides(f2, IMicroblogContext)
         f2.reindexObject()
 
         api.content.transition(f2, 'publish')

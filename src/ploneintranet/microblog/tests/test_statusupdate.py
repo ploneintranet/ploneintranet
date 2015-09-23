@@ -3,7 +3,7 @@ from Products.ATContentTypes.content.file import ATFile
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.component import queryUtility
 from zope.interface.verify import verifyClass
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 from zope.interface import implements
 
 from plone.app.testing import TEST_USER_ID, setRoles
@@ -144,7 +144,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
     def test_thread_microblog_context(self):
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = self.portal['f1']
-        directlyProvides(f1, IMicroblogContext)
+        alsoProvides(f1, IMicroblogContext)
         su1 = StatusUpdate('foo', microblog_context=f1)
         self.container.add(su1)
         su2 = StatusUpdate('foo', thread_id=su1.id)
