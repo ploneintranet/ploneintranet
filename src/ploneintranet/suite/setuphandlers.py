@@ -47,6 +47,13 @@ def default(context):
 
     cleanup_default_content(context)
     commit()
+
+    log.info("create case templates")
+    casetemplates = case_templates_spec(context)
+    # TEMPLATES_FOLDER is already created by ploneintranet.workspace
+    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
+    commit()
+
     log.info("default setup: done.")
 
 
@@ -73,11 +80,6 @@ def testing(context):
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
-    commit()
-
-    log.info("create case templates")
-    casetemplates = case_templates_spec(context)
-    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
     commit()
 
     portal = api.portal.get()
