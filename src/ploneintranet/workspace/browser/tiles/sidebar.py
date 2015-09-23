@@ -9,6 +9,7 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -193,6 +194,7 @@ class SidebarSettingsMembers(BaseTile):
             msg_type = 'error'
 
         api.portal.show_message(msg, self.request, msg_type)
+        notify(WorkspaceRosterChangedEvent(self.context))
 
     def __call__(self):
         if self.request.method == 'POST':
