@@ -60,12 +60,13 @@
 					          </p>
 					          <p class="step-assignee"
                                  tal:define="due_date task/due;
-                                             user_details python:existing_users_by_id.get(task.get('assignee'))"
-                                 tal:condition="user_details">
+                                             assignee task/assignee;
+                                             assignee_id assignee/getId|nothing"
+                                 tal:condition="assignee">
 	                            <a href="" class="pat-avatar "  id="">
-                                  <img tal:attributes="src user_details/portrait;
-                                                       alt user_details/title;
-                                                       title user_details/description"/>
+                                  <img src="${portal_url}/@@avatars/${assignee_id}/@@avatar_profile.jpg"
+                                       alt="${python:assignee.getProperty('fullname') or assignee_id}"
+                                       title="${assignee/Description}"/>
 	                            </a>
 					            <time class="date" tal:condition="due_date"
                                       tal:attributes="datetime due_date"
