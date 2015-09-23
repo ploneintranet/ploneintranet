@@ -931,7 +931,7 @@ class Sidebar(BaseTile):
             path=workspace_path,
             end={'query': now, 'range': 'min'},
             sort_on='start',
-            sort_order='descending',
+            sort_order='ascending',
         )
 
         # Events which have finished
