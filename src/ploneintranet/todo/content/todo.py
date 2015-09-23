@@ -38,11 +38,11 @@ class Todo(Item):
             if milestone:
                 case_state = wft.getInfoFor(workspace, 'review_state')
                 mm = IMetroMap(workspace).metromap_sequence.keys()
-                is_current = mm.index(milestone) == mm.index(case_state)
-                is_future = mm.index(milestone) > mm.index(case_state)
-                if is_current and todo_state != 'open':
+                future = mm.index(milestone) > mm.index(case_state)
+                current_or_past = not future
+                if current_or_past and todo_state != 'open':
                     api.content.transition(self, 'set_to_open')
-                if is_future and todo_state != 'planned':
+                if future and todo_state != 'planned':
                     api.content.transition(self, 'set_to_planned')
             elif todo_state != 'planned':
                 api.content.transition(self, 'set_to_planned')
