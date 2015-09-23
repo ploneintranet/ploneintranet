@@ -36,7 +36,7 @@
     </field>
     <value />
   </record>
-  
+
   <record name="ploneintranet.userprofile.read_only_fields">
     <field type="plone.registry.field.Tuple">
       <title>Read only fields</title>
@@ -80,6 +80,11 @@
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_uuid_as_userid">
     <field type="plone.registry.field.Bool">
     </field>
+    <value>False</value>
+  </record>
+
+  <record interface="Products.CMFPlone.interfaces.controlpanel.ISecuritySchema"
+          name="plone.use_email_as_login">
     <value>False</value>
   </record>
 
