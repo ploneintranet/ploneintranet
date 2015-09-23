@@ -788,10 +788,10 @@ I can add a new task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
-    Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
-    Input Text  css=label.assignee li.select2-search-field input  stoney
-    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
-    Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
+    Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Allan Neece
+    Input Text  css=label.assignee li.select2-search-field input  neece
+    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Neece']
+    Click Element  xpath=//span[@class='select2-match'][text()='Neece']
     Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
