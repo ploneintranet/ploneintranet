@@ -65,10 +65,6 @@ in the Plone control panel by using the :doc:`../frontend/themeswitcher`
 
 Please do not add users in this control panel, it won't work.
 
-.. note::
-
-   A CSS bug in Plone may interfere with your ability to actually use this control panel.
-
 If you're using AD/LDAP to manage users, you may want to manage roles and groups via LDAP instead. YMMV.
 
 
