@@ -3,14 +3,14 @@ from pkg_resources import resource_string
 from plone import api
 from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.namedfile.file import NamedBlobFile
-from ploneintranet.attachments.testing import IntegrationTestCase
+from ploneintranet.attachments.testing import FunctionalTestCase
 from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
 from ploneintranet import api as pi_api
 from zope.interface import alsoProvides
 from ZODB.blob import Blob
 
 
-class TestUpload(IntegrationTestCase):
+class TestUpload(FunctionalTestCase):
     ''' Test that the upload view is functional
     '''
     def setUp(self):
