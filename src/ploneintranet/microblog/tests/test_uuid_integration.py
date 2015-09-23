@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 from plone.uuid.interfaces import IUUID
 from plone.app.testing import TEST_USER_ID, setRoles
 
@@ -60,7 +60,7 @@ class TestUUIDIntegration(unittest.TestCase):
         """Unittests fake uuids. Integration test with real uuids."""
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = self.portal['f1']
-        directlyProvides(f1, IMicroblogContext)
+        alsoProvides(f1, IMicroblogContext)
         update = StatusUpdate('test', microblog_context=f1)
         self.assertEquals(update.microblog_context, f1)
 
@@ -69,10 +69,10 @@ class TestUUIDIntegration(unittest.TestCase):
         container = StatusContainer()
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         mockcontext1 = self.portal['f1']
-        directlyProvides(mockcontext1, IMicroblogContext)
+        alsoProvides(mockcontext1, IMicroblogContext)
         self.portal.invokeFactory('Folder', 'f2', title=u"Folder 2")
         mockcontext2 = self.portal['f2']
-        directlyProvides(mockcontext2, IMicroblogContext)
+        alsoProvides(mockcontext2, IMicroblogContext)
         su1 = StatusUpdate('test', tags=['foo'],
                            microblog_context=mockcontext1)
         su1.userid = 'arnold'

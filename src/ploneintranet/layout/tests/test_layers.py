@@ -1,7 +1,7 @@
 import transaction
 
 from plone import api
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 from ZPublisher import BeforeTraverse
 
 from plone.testing.z2 import Browser
@@ -42,7 +42,7 @@ class TestLayers(FunctionalTestCase):
                                     type='Folder',
                                     title='testfolder')
         api.content.transition(folder, 'publish')
-        directlyProvides(folder, IMockFolder)
+        alsoProvides(folder, IMockFolder)
         folder.app_layers = (IMockLayer,)
         BeforeTraverse.registerBeforeTraverse(folder,
                                               enable_app_layer(),
