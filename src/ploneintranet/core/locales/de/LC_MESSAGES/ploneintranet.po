@@ -127,7 +127,7 @@ msgstr "Alles"
 
 #: ../workspace/browser/tiles/sidebar.py:392
 msgid "All Authors"
-msgstr "Alle Authoren"
+msgstr "Alle Autoren"
 
 #: ../workspace/browser/tiles/sidebar.py:388
 msgid "All Dates"
