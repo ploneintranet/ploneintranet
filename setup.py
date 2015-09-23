@@ -83,7 +83,6 @@ setup(name='ploneintranet',
               'plone.app.robotframework[debug]',
               'fake-factory',
               'mock',
-              'plonesocial.suite',
               'responses',
           ],
           'socialsuite': [
