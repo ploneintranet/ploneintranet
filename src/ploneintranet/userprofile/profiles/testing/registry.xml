@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 <registry>
 
+  <record name="ploneintranet.userprofile.primary_external_user_source">
+    <field type="plone.registry.field.ASCIILine">
+      <title>Primary External User Source</title>
+      <description>
+        The ID of the PAS plugin that will be treated as the primary source of external users.
+      </description>
+    </field>
+    <value>source_users</value>
+  </record>
+
   <record name="ploneintranet.userprofile.property_sheet_mapping">
     <field type="plone.registry.field.Dict">
       <title>Property sheet mapping</title>
@@ -12,8 +22,8 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element key="username">mock_ldap_properties</element>
-      <element key="email">mock_ldap_properties</element>
+      <element key="username">mock_ldap</element>
+      <element key="email">mock_ldap</element>
     </value>
   </record>
 

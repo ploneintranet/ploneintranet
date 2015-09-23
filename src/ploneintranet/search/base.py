@@ -141,9 +141,8 @@ class SearchResult(object):
         :return: The absolute URL to the document in Plone
         :rtype: str
         """
-        portal_props = api.portal.get_tool('portal_properties')
-        site_props = portal_props.site_properties
-        view_types = site_props.getProperty('typesUseViewActionInListings', ())
+        view_types = api.portal.get_registry_record(
+            'plone.types_use_view_action_in_listings')
         url = self._path_to_url(self.path)
         if self.context['portal_type'] in view_types:
             url = '{}/view'.format(url)
