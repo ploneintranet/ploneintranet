@@ -22,8 +22,22 @@ The following key design decisions were made to fit the use cases of Plone Intra
 
 .. _dexterity.membrane: https://pypi.python.org/pypi/dexterity.membrane/
 
+User Management
+===============
+
+At no time should you use the control panel to manage users and/or groups.
+
+Instead, use an external data source (Active Directory / LDAP) to manage your users, see below.
+Or use the bulk upload facility to create user profiles.
+
+When creating users:
+
+* Create a user with `Manager` permissions (technical management super user)
+* Create a user with `Site Administrator` permissions (content management super user)
+* Make sure that no user is created with name `admin` since that overlays the default Zope rescue user with a Membrane user profile.
+
 Bulk Upload
-===========
+-----------
 
 There is a bulk upload from CSV option. Column names are mapped to field names, and the data is validated before users are created:
 
