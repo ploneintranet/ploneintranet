@@ -6,7 +6,7 @@ import loremipsum
 import transaction
 
 from zope.component import queryUtility
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
 from Products.CMFCore.utils import getToolByName
@@ -84,7 +84,7 @@ def demo(context):
         portal.invokeFactory('Folder', 'workspace',
                              title=u"Secure Workspace")
         # enable local microblog
-        directlyProvides(portal.workspace, IMicroblogContext)
+        alsoProvides(portal.workspace, IMicroblogContext)
         # in testing we don't have the 'normal' default workflow
         workflowTool = getToolByName(portal, 'portal_workflow')
         if workflowTool.getInfoFor(portal.workspace,

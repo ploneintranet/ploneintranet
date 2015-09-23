@@ -1,9 +1,8 @@
 from plone import api
 from ploneintranet.layout.testing import IntegrationTestCase
-from ploneintranet.layout.layers import get_layers
 from ploneintranet.theme.interfaces import IThemeSpecific
 from zope.component import getMultiAdapter
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 
 
 class TestBreadcrumbs(IntegrationTestCase):
@@ -24,9 +23,7 @@ class TestBreadcrumbs(IntegrationTestCase):
         api.content.transition(self.subfolder, 'publish')
 
     def _add_browser_layer(self, layer):
-        layers = [x for x in get_layers(self.request)]
-        layers.append(layer)
-        directlyProvides(self.request, layers)
+        alsoProvides(self.request, layer)
 
     def _get_breadcrumbs(self, context):
         view = getMultiAdapter(

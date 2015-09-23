@@ -2,6 +2,7 @@
 """A Cart Action for deleting all items listed in cart."""
 
 from plone import api
+from Products.CMFPlone.utils import safe_unicode
 
 NAME = 'delete'
 TITLE = u'Delete'
@@ -38,10 +39,10 @@ class DeleteAction(object):
                 # else and dosn't exist anymore, so there's nothing to do.
                 continue
             api.content.delete(obj)
-            handled.append('"%s"' % item['Title'])
+            handled.append(u'"%s"' % safe_unicode(item['Title']))
 
         api.portal.show_message(
-            message="The following items have been deleted: %s" % ', '.join(
+            message=u"The following items have been deleted: %s" % ', '.join(
                 sorted(handled)),
             request=request,
             type="success")

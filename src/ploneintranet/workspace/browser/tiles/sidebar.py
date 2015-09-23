@@ -400,8 +400,10 @@ class Sidebar(BaseTile):
         in the grouping storage to allow unified handling. This extracts the
         attributes from brains and returns dicts
         """
-        ptool = api.portal.get_tool('portal_properties')
+
         results = []
+        view_types = api.portal.get_registry_record(
+            'plone.types_use_view_action_in_listings')
         for r in catalog_results:
             if r['portal_type'] in FOLDERISH_TYPES:
                 structural_type = 'group'
@@ -426,9 +428,7 @@ class Sidebar(BaseTile):
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
-                view_action_types = \
-                    ptool.site_properties.typesUseViewActionInListings
-                if r['portal_type'] in view_action_types:
+                if r['portal_type'] in view_types:
                     url = "%s/view" % url
                 # What exactly do we need to inject, and where?
                 dpi = (
