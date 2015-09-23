@@ -8,9 +8,11 @@ from zope.component import getUtility
 from zope.interface import implementer
 from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFPlone.utils import safe_unicode
+from scorched.strings import DismaxString
 
 from .. import base
 from ..interfaces import ISiteSearch
+from ..interfaces import NO_VALUE_MARKER
 from .interfaces import IConnectionConfig
 from .interfaces import IConnection
 from .interfaces import IMaintenance
@@ -173,15 +175,22 @@ class SiteSearch(base.SiteSearch):
         for key, value in filters.items():
             if key == 'path':
                 key = 'path_parents'
-            if isinstance(value, list):
-                # create an OR subquery for this filter
-                subquery = interface.Q()
-                for item in value:
+            if not isinstance(value, list):
+                value = (value, )
+            # create an OR subquery
+            subquery = interface.Q()
+            for item in value:
+                if item == NO_VALUE_MARKER:
+                    # Solr empty field querying
+                    # Ref: http://stackoverflow.com/questions/4238609/
+                    item = DismaxString('["" TO *]')
+                    key = '-{0}'.format(key)
+                else:
                     # item can be a string, force unicode
-                    subquery |= interface.Q(**{key: safe_unicode(item)})
-                query = query.filter(subquery)
-            else:
-                query = query.filter(interface.Q(**{key: value}))
+                    item = safe_unicode(item)
+                subquery |= interface.Q(**{key: item})
+            query = query.filter(subquery)
+            print query
         return query
 
     def _apply_security(self, query):
@@ -212,7 +221,6 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_spellchecking(self, query, phrase):
-        query = query.highlight('Description')
         return query.spellcheck(q=phrase, collate=True, maxCollations=1)
 
     def _paginate(self, query, start, step):

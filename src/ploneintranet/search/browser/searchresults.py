@@ -6,6 +6,7 @@ from zope.component import getUtility
 from datetime import datetime
 from datetime import timedelta
 from ..interfaces import ISiteSearch
+from ..interfaces import NO_VALUE_MARKER
 
 from plone import api as plone_api
 
@@ -23,6 +24,10 @@ class SearchResultsView(BrowserView):
         u'todo': '#workspace-tickets',
         u'Event': '#workspace-events',
     }
+
+    def _no_value_marker(self):
+        """Get 'no value' marker string for template."""
+        return NO_VALUE_MARKER
 
     def _daterange_from_string(self, range_name, now=None):
         """

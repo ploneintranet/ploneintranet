@@ -5,6 +5,9 @@ from zope import schema
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
+# Marker string to match items with no field value set
+NO_VALUE_MARKER = '__no_value_search_marker'
+
 
 class IPloneintranetSearchLayer(Interface):
     """Marker interface that defines a Zope 3 browser layer."""
