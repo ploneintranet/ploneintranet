@@ -1465,7 +1465,7 @@ msgstr "Zeitzone"
 
 #: ../userprofile/browser/templates/userprofile.pt:93
 msgid "Timeline"
-msgstr "Zeitleise"
+msgstr "Zeitleiste"
 
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Timezone"
