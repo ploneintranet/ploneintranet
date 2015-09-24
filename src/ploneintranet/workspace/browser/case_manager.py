@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from Products.CMFPlone.PloneBatch import Batch
 from plone import api
 from ploneintranet.workspace.config import TRANSITION_ICONS
 from ploneintranet.workspace.interfaces import IMetroMap
@@ -42,6 +43,9 @@ class CaseManagerView(BrowserView):
         portal = api.portal.get()
         ws_folder = portal.get("workspaces")
         ws_path = "/".join(ws_folder.getPhysicalPath())
+
+        b_size = int(form.get('b_size', 5))
+        b_start = int(form.get('b_start', 0))
 
         query = {
             'portal_type': 'ploneintranet.workspace.case',
@@ -89,7 +93,11 @@ class CaseManagerView(BrowserView):
 
         brains = pc(query)
         cases = []
-        for brain in brains:
+        for idx, brain in enumerate(brains):
+            if brain is None or idx < b_start or idx > b_start + b_size:
+                cases.append(None)
+                continue
+
             obj = brain.getObject()
             tasks = obj.tasks()
             days_running = int(DateTime() - brain.created)
@@ -113,7 +121,7 @@ class CaseManagerView(BrowserView):
                 'view': obj.restrictedTraverse('view'),
             })
 
-        return cases
+        return Batch(cases, b_size, b_start)
 
     def get_field_indexes(self, field):
         catalog = api.portal.get_tool('portal_catalog')
@@ -122,3 +130,30 @@ class CaseManagerView(BrowserView):
             if i is not None
         ]
         return indexes
+
+    def staff_prefill(self):
+        staff = self.request.get('staff')
+        if not staff:
+            return ''
+        user = api.user.get(username=staff)
+        if user:
+            return u'{{"{0}": "{1} <{2}>"}}'.format(
+                staff,
+                user.getProperty('fullname') or staff,
+                user.getProperty('email'))
+        return ''
+
+    def scheduled_session_prefill(self):
+        scheduled_session = self.request.get('scheduled_session')
+        if not scheduled_session:
+            return ''
+        catalog = api.portal.get_tool('portal_catalog')
+        brains = catalog(UID=scheduled_session)
+        if len(brains):
+            # If len > 1 then all bets are off anyway. Ignoring.
+            brain = brains[0]
+            return u'{{"{0}": "{1} - {2}"}}'.format(
+                scheduled_session,
+                brain['start'].strftime('%d.%m.%Y'),
+                brain['Title'])
+        return ''

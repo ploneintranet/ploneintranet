@@ -19,7 +19,7 @@
                     <fieldset class="vertical">
                       <label>
                         <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
-                        <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder"/>
+                        <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder" value="${request/SearchableText|nothing}"/>
                       </label>
                       <!-- To be defined -->
                       <!-- <label> -->
@@ -34,7 +34,7 @@
                              tal:condition="departments"><tal:block i18n:translate="">Department</tal:block> <select name="department">
                           <option value="" i18n:translate="">Pick the responsible department</option>
                           <tal:r tal:repeat="department departments">
-                            <option value="${department}">${department}</option>
+                            <option value="${department}" selected="${python: request.get('department') == department and 'selected' or None}">${department}</option>
                           </tal:r>
                         </select>
                       </label>
@@ -42,13 +42,14 @@
                                name="applicant_name"
                                data-pat-autosuggest="ajax-data-type: json; ajax-url: ${context/absolute_url}/applicants.json"
                                class="pat-autosuggest"
+                               value="${request/applicant_name|nothing}"
                                i18n:attributes="placeholder"
                                placeholder="Enter the name of the applicant"/>
                       </label>
                       <label><tal:block i18n:translate="">Staff</tal:block>
                         <input type="text"
                                name="staff"
-                               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/portal_url}/allusers.json"
+                               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${context/portal_url}/allusers.json; prefill-json: ${view/staff_prefill|nothing};"
                                class="pat-autosuggest"
                                i18n:attributes="placeholder"
                                placeholder="Pick staff" />
@@ -57,21 +58,21 @@
                         <select name="case_type" class="focus">
                           <option value="" i18n:translate="">Pick case type</option>
                           <tal:r tal:repeat="case_type python:view.get_field_indexes('case_type')">
-                            <option value="${case_type}">${case_type}</option>
+                            <option value="${case_type}" selected="${python: request.get('case_type') == case_type and 'selected' or None}">${case_type}</option>
                           </tal:r>
                         </select>
                       </label>
                       <label><tal:block i18n:translate="">Status</tal:block> <select name="status" class="focus">
                           <option value="" i18n:translate="">All</option>
-                          <option value="open" i18n:translate="">Open</option>
-                          <option value="closed" i18n:translate="">Closed</option>
+                          <option value="open" selected="${python: request.get('status') == 'open' and 'selected' or None}" i18n:translate="">Open</option>
+                          <option value="closed" selected="${python: request.get('status') == 'closed' and 'selected' or None}" i18n:translate="">Closed</option>
                         </select>
                       </label>
 
                       <label><tal:block i18n:translate="">Scheduled session</tal:block> <input type="text"
                                name="scheduled_session"
                                class="pat-autosuggest"
-                               data-pat-autosuggest="ajax-data-type: json; allow-new-words: false; ajax-url: ${context/absolute_url}/scheduled_sessions.json"
+                               data-pat-autosuggest="ajax-data-type: json; allow-new-words: false; ajax-url: ${context/absolute_url}/scheduled_sessions.json; prefill-json: ${view/scheduled_session_prefill|nothing};"
                                i18n:attributes="placeholder"
                                placeholder="Pick a date"/>
                       </label>
@@ -79,23 +80,23 @@
                       <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
                       <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created" value="${request/earliest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                      </fieldset>
-
-                      <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created" value="${request/latest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
                       </fieldset>
 
                       <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified" value="${request/earliest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified" value="${request/latest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        </label>
+                      </fieldset>
+
+                      <fieldset class="group row date-range">
+                        <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due" value="${request/earliest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                        </label>
+                        <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due" value="${request/latest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
                         </label>
                       </fieldset>
                     </fieldset>
@@ -104,6 +105,7 @@
 
                 <div id="case-mats" class="eight columns"
                      tal:define="cases view/cases">
+
                   <tal:nocases condition="not:cases">
                     <!-- FIXME: needs to be designed -->
                     <p i18n:translate="">No results</p>
@@ -143,6 +145,11 @@
                       </tal:timeline>
                     </div>
                   </tal:cases>
+
+                  <tal:batchnavigation
+                      define="batchnavigation nocall:context/@@batchnavigation"
+                      replace="structure python:batchnavigation(cases)" />
+
                 </div>
 
 
