@@ -1,11 +1,11 @@
 from zope.interface import Invalid
 from plone import api as plone_api
-from ploneintranet.api.testing import IntegrationTestCase
+from ploneintranet.api.testing import FunctionalTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
 
 
-class TestUserProfile(IntegrationTestCase):
+class TestUserProfile(FunctionalTestCase):
 
     def test_create(self):
         self.login_as_portal_owner()
