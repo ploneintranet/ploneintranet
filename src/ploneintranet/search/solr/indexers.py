@@ -155,6 +155,11 @@ class ContentIndexer(object):
         else:
             attr_names &= set(attributes)
 
+        # If no matching attributes found, bail out here
+        # (nothing to update in solr)
+        if not attr_names:
+            return []
+
         # The uniqueKey must be present in the payload sent to SOLR
         # Ensure the unique key is always supplied.
         unique_key = schema.get('uniqueKey')
@@ -223,6 +228,11 @@ class ContentIndexer(object):
         iobj = self._indexable_wrapper(obj)
         schema = self._solr.schema
         attr_names = self._data_attributes(schema, attributes)
+        if not attr_names:
+            # No attributes matched - nothing to do
+            logger.warn('No solr fields to update')
+            return None
+
         for attr_name in attr_names:
             val = self._get_value_for_indexable_object(iobj, attr_name)
             data[attr_name] = val
@@ -265,8 +275,8 @@ class ContentIndexer(object):
 
         """
         data = self._get_data(obj, attributes=attributes)
-        portal_type = data.get('portal_type', 'default')
         if data is not None:
+            portal_type = data.get('portal_type', 'default')
             adder = queryMultiAdapter((obj, self._solr), name=portal_type)
             if adder is None:
                 adder = ContentAdder(obj, self._solr)
