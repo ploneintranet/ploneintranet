@@ -113,12 +113,6 @@ class ContentIndexer(object):
             return decode(val)
         return val
 
-    def _get_schema(self):
-        url = '{.url}/schema'.format(self._solr_conf)
-        headers = {'Content-type': 'application/json'}
-        response = requests.get(url, headers)
-        return response.json()['schema']
-
     def _add_mandatory_data(self, data):
         """Add `mandatory` data to the `data` to indexed by SOLR.
 
@@ -227,7 +221,7 @@ class ContentIndexer(object):
         """
         data = {}
         iobj = self._indexable_wrapper(obj)
-        schema = self._get_schema()
+        schema = self._solr.schema
         attr_names = self._data_attributes(schema, attributes)
         for attr_name in attr_names:
             val = self._get_value_for_indexable_object(iobj, attr_name)
@@ -284,7 +278,7 @@ class ContentIndexer(object):
     def unindex(self, obj):
         if hasattr(obj, 'context'):
             obj = obj.context
-        schema = self._get_schema()
+        schema = self._solr.schema
         unique_key = schema['uniqueKey']
         data = self._get_data(obj, attributes=[unique_key])
         if data is None:
