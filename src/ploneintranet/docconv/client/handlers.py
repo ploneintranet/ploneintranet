@@ -23,12 +23,14 @@ def generate_previews_async(obj, event=None):
         pi_api.previews.generate_previews(obj)
 
 
-def handle_file_creation(obj, event=None):
+def handle_file_creation(obj, event=None, async=True):
     """ Need own subscriber as cdv insists on checking for its
         custom layout. Also we want our own async mechanism.
     """
-    generate_previews_async(obj)
-    # pi_api.previews.generate_previews(obj)
+    if async:
+        generate_previews_async(obj)
+    else:
+        pi_api.previews.generate_previews(obj)
 
 
 def generate_attachment_preview_images(obj):
