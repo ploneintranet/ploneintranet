@@ -44,12 +44,16 @@ class Workspaces(BrowserView):
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}
                    ]
-        # put currently selected sort order at the beginning of the list
-        if hasattr(self.request, "sort"):
-            for o in options:
-                if o['value'] == self.request.sort:
-                    options.remove(o)
-                    options.insert(0, o)
+        return options
+
+    def workspace_types(self):
+        options = [{'value': '',
+                    'content': 'All workspace types'},
+                   {'value': 'ploneintranet.workspace.workspacefolder',
+                    'content': 'Generic workspaces'},
+                   {'value': 'ploneintranet.workspace.case',
+                    'content': 'Cases'}
+                   ]
         return options
 
     @memoize
