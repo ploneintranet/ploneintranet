@@ -102,7 +102,8 @@ class AllUsersJSONView(BrowserView):
     def __call__(self):
         q = self.request.get('q', '')
         user_details = []
-        for user in pi_api.userprofile.get_users(SearchableText=q):
+        for user in pi_api.userprofile.get_users(
+                SearchableText=u'{}*'.format(q)):
             fullname = user.Title()
             email = user.email
             user_details.append({
