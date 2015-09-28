@@ -165,6 +165,7 @@ class WorkspaceFolder(Container):
                 groups = api.group.get_groups(user=user)
 
             if user is not None:
+                typ = 'user'
                 user = user.getUser()
                 title = (user.getProperty('fullname') or user.getId() or
                          user_or_group_id)
@@ -174,6 +175,7 @@ class WorkspaceFolder(Container):
                                      or 'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)
             else:
+                typ = 'group'
                 group = api.group.get(user_or_group_id)
                 if group is None:
                     continue
@@ -215,6 +217,7 @@ class WorkspaceFolder(Container):
                     member=True,
                     admin='Admins' in groups,
                     role=role,
+                    typ=typ
                 )
             )
 

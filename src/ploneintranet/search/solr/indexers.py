@@ -88,6 +88,8 @@ class BinaryAdder(ContentAdder):
 class ContentIndexer(object):
     """Content indexing for Plone > SOLR."""
 
+    _connection = None
+
     _solr_to_plone_field_mapping = {
         'tags': 'Subject'
     }
@@ -110,12 +112,6 @@ class ContentIndexer(object):
         if decode is not None and callable(decode):
             return decode(val)
         return val
-
-    def _get_schema(self):
-        url = '{.url}/schema'.format(self._solr_conf)
-        headers = {'Content-type': 'application/json'}
-        response = requests.get(url, headers)
-        return response.json()['schema']
 
     def _add_mandatory_data(self, data):
         """Add `mandatory` data to the `data` to indexed by SOLR.
@@ -158,6 +154,11 @@ class ContentIndexer(object):
             attributes = attr_names
         else:
             attr_names &= set(attributes)
+
+        # If no matching attributes found, bail out here
+        # (nothing to update in solr)
+        if not attr_names:
+            return []
 
         # The uniqueKey must be present in the payload sent to SOLR
         # Ensure the unique key is always supplied.
@@ -225,8 +226,13 @@ class ContentIndexer(object):
         """
         data = {}
         iobj = self._indexable_wrapper(obj)
-        schema = self._get_schema()
+        schema = self._solr.schema
         attr_names = self._data_attributes(schema, attributes)
+        if not attr_names:
+            # No attributes matched - nothing to do
+            logger.warn('No solr fields to update')
+            return None
+
         for attr_name in attr_names:
             val = self._get_value_for_indexable_object(iobj, attr_name)
             data[attr_name] = val
@@ -248,7 +254,9 @@ class ContentIndexer(object):
 
     @property
     def _solr(self):
-        return IConnection(self._solr_conf)
+        if self._connection is None:
+            self._connection = IConnection(self._solr_conf)
+        return self._connection
 
     def abort(self):
         self._solr.rollback()
@@ -267,8 +275,8 @@ class ContentIndexer(object):
 
         """
         data = self._get_data(obj, attributes=attributes)
-        portal_type = data.get('portal_type', 'default')
         if data is not None:
+            portal_type = data.get('portal_type', 'default')
             adder = queryMultiAdapter((obj, self._solr), name=portal_type)
             if adder is None:
                 adder = ContentAdder(obj, self._solr)
@@ -280,7 +288,7 @@ class ContentIndexer(object):
     def unindex(self, obj):
         if hasattr(obj, 'context'):
             obj = obj.context
-        schema = self._get_schema()
+        schema = self._solr.schema
         unique_key = schema['uniqueKey']
         data = self._get_data(obj, attributes=[unique_key])
         if data is None:
