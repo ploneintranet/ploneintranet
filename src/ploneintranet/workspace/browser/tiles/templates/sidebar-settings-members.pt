@@ -65,19 +65,21 @@
                 <label class="item user has-no-description"
                        tal:repeat="user view/users"
                        tal:attributes="class string:item user ${user/cls}">
-                  <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
-                  <a class="follow pat-inject" href="${here/portal_url}/profiles/${user/id}" data-pat-inject="source: #document-body; target: #document-body">
-                    <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
-                    <strong class="title" tal:content="user/title">Adrian White</strong>
-                    <tal:block condition="user/description"><br />
-                    <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
-                  </a>
-                  <tal:manager condition="view/can_manage_roster">
-                      <a tal:condition="user/role" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
-                  </tal:manager>
-                  <tal:non_manager condition="not:view/can_manage_roster">
-                      <a tal:condition="user/role" href="/adrian-white" class="label inactive follow pat-inject">${user/role}</a>
-                  </tal:non_manager>
+                  <tal:d define="purl here/portal_url; url python:user['typ']=='user' and '%s/profiles/%s' % (purl, user['id']) or '%s/@@workspace-group-view?id=%s' % (purl, user['id'])">
+                    <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
+                    <a class="follow pat-inject" href="${url}" data-pat-inject="source: #document-body; target: #document-body">
+                      <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
+                      <strong class="title" tal:content="user/title">Adrian White</strong>
+                      <tal:block condition="user/description"><br />
+                      <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
+                    </a>
+                    <tal:manager condition="view/can_manage_roster">
+                        <a tal:condition="user/role" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                    </tal:manager>
+                    <tal:non_manager condition="not:view/can_manage_roster">
+                        <a tal:condition="user/role" href="/adrian-white" class="label inactive follow pat-inject">${user/role}</a>
+                    </tal:non_manager>
+                  </tal:d>
                 </label>
 
               </fieldset>
