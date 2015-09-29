@@ -24,7 +24,10 @@ class WorkspacesTile(Tile):
         """
         A tile should show either Workspacefolders or Cases, not both.
         """
-        return self.request.form.get('workspace_type', 'workspacefolders')
+        return self.request.form.get(
+            'workspace_type',
+            ['ploneintranet.workspace.workspacefolder',
+             'ploneintranet.workspace.case'])
 
     def shorten(self, text):
         return shorten(text, length=60)
@@ -36,8 +39,10 @@ class WorkspacesTile(Tile):
         return my_workspaces(self.context, workspace_types=self.workspace_type)
 
 
-def my_workspaces(
-        context, request=None, workspace_types=['workspacefolders', 'cases']):
+def my_workspaces(context,
+                  request=None,
+                  workspace_types=['ploneintranet.workspace.workspacefolder',
+                                   'ploneintranet.workspace.case']):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
@@ -45,8 +50,10 @@ def my_workspaces(
     # determine sorting order (default: alphabetical)
     sort_by = "sortable_title"
     order = "ascending"
+    searchable_text = None
+
     if request:
-        if hasattr(request, "sort"):
+        if 'sort' in request:
             if request.sort == "activity":
                 raise NotImplementedError(
                     "Sorting by activity"
@@ -54,24 +61,28 @@ def my_workspaces(
             elif request.sort == "newest":
                 sort_by = "modified"
                 order = "reverse"
+        if 'SearchableText' in request:
+            searchable_text = request['SearchableText']
+        if 'workspace_type' in request and request.get('workspace_type'):
+            workspace_types = request['workspace_type']
 
     pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
-    portal_types = []
-    if 'cases' in workspace_types:
-        portal_types.append("ploneintranet.workspace.case")
-    if 'workspacefolders' in workspace_types:
-        portal_types.append("ploneintranet.workspace.workspacefolder")
-    brains = pc(
-        object_provides=(
-            'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
-        portal_type=portal_types,
+
+    query = dict(object_provides=(
+        'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
+        portal_type=workspace_types,
         sort_on=sort_by,
         sort_order=order,
-        path=ws_path,
-    )
+        path=ws_path)
+
+    if searchable_text:
+        query['SearchableText'] = searchable_text + '*'
+
+    brains = pc(query)
+
     workspaces = []
     for brain in brains:
         css_class = escape_id_to_class(brain.getId)
