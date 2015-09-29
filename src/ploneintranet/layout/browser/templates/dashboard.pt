@@ -44,10 +44,10 @@
 	      <div class="grid-sizer four columns"></div>
 
           <div data-tile="./@@contacts_search.tile"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder"/>
           <div data-tile="./@@events.tile"/>
           <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
           <div data-tile="./@@tasks.tile"/>
           <div data-tile="./@@my_documents.tile?path=workspaces"/>
 

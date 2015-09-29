@@ -24,7 +24,10 @@ class WorkspacesTile(Tile):
         """
         A tile should show either Workspacefolders or Cases, not both.
         """
-        return self.request.form.get('workspace_type', 'workspacefolders')
+        return self.request.form.get(
+            'workspace_type',
+            ['ploneintranet.workspace.workspacefolder',
+             'ploneintranet.workspace.case'])
 
     def shorten(self, text):
         return shorten(text, length=60)
@@ -60,14 +63,13 @@ def my_workspaces(context,
                 order = "reverse"
         if 'SearchableText' in request:
             searchable_text = request['SearchableText']
+        if 'workspace_type' in request and request.get('workspace_type'):
+            workspace_types = request['workspace_type']
 
     pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
-
-    if 'workspace_type' in request and request.get('workspace_type'):
-        workspace_types = request['workspace_type']
 
     query = dict(object_provides=(
         'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
@@ -75,11 +77,6 @@ def my_workspaces(context,
         sort_on=sort_by,
         sort_order=order,
         path=ws_path)
-
-    if 'cases' in workspace_types:
-        query['portal_types'] = "ploneintranet.workspace.case"
-    if 'workspacefolders' in workspace_types:
-        query['portal_types'] = "ploneintranet.workspace.workspacefolder"
 
     if searchable_text:
         query['SearchableText'] = searchable_text + '*'
