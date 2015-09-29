@@ -55,8 +55,10 @@ mentioned as optional there, but in Plone Intranet we require it.
 
 Solr is a required component. This will be built using buildout, but requires Java to be available.
 
-Redis is a required component. This is *not* built with buildout, but expected to be available
-as a system service.
+Redis is a required component. This is *not* built with buildout, but expected to be available as a system service::
+
+    sudo apt-get install redis-server
+
 
 
 Create and run buildout
@@ -81,6 +83,8 @@ To verify that everything was installed and set up correctly, please run the tes
   make test
 
 We ship with working tests, failures in your test run indicate that something is broken in your own setup.
+
+See :doc:`../development/testing_of_pi`
 
 If all tests pass, you can start all services (Plone, ZEO, Solr, Celery)::
 
@@ -107,14 +111,17 @@ This activates Plone Intranet and sets up some demo users and workspaces so you 
 You can now go to the site at http://localhost:8080/Plone.
 However, don't do this logged in as admin in the ZMI.
 Logout, or open a new browser window.
-It will prompt you to log in. The test content setup created some users you can use:
+It will prompt you to log in. 
 
-- You can log in as ``allan_neece`` (password: ``secret``) to play around as a default user.
+The test content setup created some users. Login with one of the following:
 
-- User ``christian_stoney`` (password: ``secret``) is a workspace admin with more permissions.
-
-- User ``alice_lindstrom`` (password: ``secret``) is not a member of any workspaces, so you can see the difference there.
-  In the Library section, Alice has editor.
+================  ================  =====================================
+Username          Password          Permissions
+================  ================  =====================================
+allan_neece       secret            Default user
+christian_stoney  secret            Workspace admin with more permissions
+alice_lindstrom   secret            Not a member of any workspaces
+================  ================  =====================================
 
 Those passwords are not actually secret, they're just the word "secret" without quotes!
 
