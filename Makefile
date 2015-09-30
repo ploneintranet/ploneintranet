@@ -173,11 +173,10 @@ bin/python2.7:
 ####################################################################
 # Solr
 
-solr: bin/buildout
-	@bin/buildout -c solr.cfg
+solr: devel
 
 solr-clean:
-	rm -rf parts/solr parts/solr-test
+	rm -rf parts/solr parts/solr-test var/solr var/solr-test
 
 ####################################################################
 # Testing
