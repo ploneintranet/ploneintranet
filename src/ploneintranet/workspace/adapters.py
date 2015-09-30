@@ -234,7 +234,7 @@ class MetroMap(object):
 
         An OrderedDict is used to provide details such as whether a milestone
         has already been finished, the transition required to close the current
-        milestone, and the transition required to is_previous the previous
+        milestone, and the transition required to reopen the previous
         milestone.
 
         In the 'complete' workflow state / milestone it returns the following:
