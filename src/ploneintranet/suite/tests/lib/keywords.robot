@@ -849,8 +849,8 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
     Click Link  link=${SEARCH_RESULT_TITLE}
     Page should contain  ${SEARCH_RESULT_TITLE}
 
-I can exclude content of type ${CONTENT_TYPE}
-    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+I can filter content of type ${CONTENT_TYPE}
+    Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
 
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
