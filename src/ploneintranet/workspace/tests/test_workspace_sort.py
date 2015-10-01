@@ -20,7 +20,8 @@ class TestWorkspaceSort(BaseTestCase):
                 context=self.portal.workspaces,
                 request=request)
             self.assertEqual(len(ws_container.sort_options()), 2)
-            self.assertEqual(ws_container.sort_options()[0]['value'], sort_by)
+            self.assertEqual(ws_container.sort_options()[0]['value'],
+                             'alphabet')
 
     def test_my_workspaces(self):
         ws_before = my_workspaces(self.portal.workspaces)

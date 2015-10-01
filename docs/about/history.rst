@@ -31,7 +31,7 @@ repeatedly over and over by a number of similar Plone add-ons.
 Following a number of weekly Hangout sessions with the participants, a number of user stories were collected and organised
 into a `spreadsheet <https://docs.google.com/spreadsheet/ccc?key=0AmooreRUAv9PdGg4eG5VWkxZVS1EaWdCQllWWnh1Snc&usp=sharing>`_.
 
-In early 2014, Netsight received funding to research social software within the enterprise. This grant is being used to develop new process methodologies to improve the success rate of the introduction of social technologies into the organisation environment. In particular, Netsight are focussing on profiling individuals, departments and an entire organisation in order to deliver relevant social content and user interface within an intranet system.
+In early 2014, Netsight received funding to research social software within the enterprise. This grant has been used to research new process methodologies to improve the success rate of the introduction of social technologies into the organisation environment. In particular, Netsight have focussed on profiling individuals, departments and an entire organisation in order to deliver relevant social content and user interface within an intranet system.
 
 In October 2014, the Plone Intranet Consortium met in Munich and decided on a concrete commitment to developing Plone Intranet by investing money and manpower. Development was organised using Scrum and a roadmap for a first version was set.
 
@@ -44,13 +44,8 @@ At time of writing, the Plone Intranet Consortium comprises:
 * FourDigits (Netherlands)
 * Abstract (Italy)
 * Red Turtle (Italy)
-* Trabucchi Mediaservices (Germany)
 * Starzel (Germany)
 * Zest (Netherlands)
-
-.. note::
-
-    This list is about to change soon, so please complete when relevant and excuse any leftouts.
 
 Important Aspects of Plone Intranet
 -----------------------------------
@@ -58,7 +53,7 @@ Important Aspects of Plone Intranet
 * Design First
 * Roadmap-driven Scrum development
 * Consortium board funds roadmap
-* 100% Open Source - code will be donated to the Plone Foundation
+* 100% Open Source - all code is donated to the Plone Foundation
 * NOT a core fork
 * Compatible with mockup
 * NOT a €€€ conspiracy

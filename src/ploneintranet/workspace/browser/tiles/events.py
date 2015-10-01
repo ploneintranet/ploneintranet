@@ -34,6 +34,8 @@ class EventsTile(Tile):
         upcoming_events = catalog.searchResults(
             object_provides=IEvent.__identifier__,
             end={'query': now, 'range': 'min'},
+            sort_on='start',
+            sort_order='ascending',
         )
         return upcoming_events
 

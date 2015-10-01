@@ -46,8 +46,8 @@
           <div data-tile="./@@contacts_search.tile"/>
           <div data-tile="./@@news.tile"/>
           <div data-tile="./@@my_documents.tile"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=workspacefolders"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=cases"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder"/>
+          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
           <div data-tile="./@@events.tile"/>
           <div data-tile="./@@tasks.tile"/>
         </div>

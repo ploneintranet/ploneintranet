@@ -3,7 +3,7 @@ from Products.ATContentTypes.content import image
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.component import createObject
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 from zope.container.interfaces import DuplicateIDError
 
 from ploneintranet.attachments.testing import IntegrationTestCase
@@ -16,7 +16,7 @@ class TestAttachmentStorage(IntegrationTestCase):
     def test_add(self):
         """ """
         doc1 = createObject('Document')
-        directlyProvides(doc1, IAttachmentStoragable)
+        alsoProvides(doc1, IAttachmentStoragable)
         attachments = IAttachmentStorage(doc1)
         self.assertEqual(len(attachments.keys()), 0)
         self.assertEqual(len(attachments.values()), 0)
@@ -39,7 +39,7 @@ class TestAttachmentStorage(IntegrationTestCase):
     def test_remove(self):
         """ """
         question = createObject('Document')
-        directlyProvides(question, IAttachmentStoragable)
+        alsoProvides(question, IAttachmentStoragable)
         attachments = IAttachmentStorage(question)
         self.assertEqual(len(attachments.keys()), 0)
         self.assertEqual(len(attachments.values()), 0)

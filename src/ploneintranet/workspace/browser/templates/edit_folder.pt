@@ -7,7 +7,7 @@
 <h1 i18n:translate="">
     Change folder title and description
 </h1>
-<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validate" data-pat-inject="source: #workspace-documents; target: #workspace-documents &amp;&amp; source: nav.breadcrumbs; target: nav.breadcrumbs" data-pat-validate="disable-selector:#form-buttons-edit">
+<form method="POST" action="#" tal:attributes="action request/URL" class="wizard-box pat-inject pat-validation" data-pat-inject="source: #workspace-documents; target: #workspace-documents &amp;&amp; source: nav.breadcrumbs; target: nav.breadcrumbs" data-pat-validation="disable-selector:#form-buttons-edit">
   <div class="panel-body">
     <fieldset class="vertical">
         <input type="text" name="title" required="required" autofocus tal:attributes="value context/Title|nothing"/>

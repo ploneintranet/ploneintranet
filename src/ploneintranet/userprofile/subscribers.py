@@ -1,8 +1,9 @@
-from plone import api
-from ploneintranet import api as pi_api
-from ploneintranet.userprofile.sync import IUserProfileManager
-from ploneintranet.userprofile.interfaces import IPloneintranetUserprofileLayer
 import logging
+
+from ploneintranet.userprofile.interfaces import IPloneintranetUserprofileLayer
+
+from . import sync
+
 
 logger = logging.getLogger(__name__)
 
@@ -17,14 +18,4 @@ def on_user_login(event):
     request = event.object.REQUEST
     if not IPloneintranetUserprofileLayer.providedBy(request):
         return
-
-    member = event.principal
-    userid = member.getId()
-    membrane_user = pi_api.userprofile.get(userid)
-    if membrane_user is None:
-        logger.info('Auto-creating membrane profile for {0}'.format(
-            userid,
-        ))
-        with api.env.adopt_roles(roles=('Manager', )):
-            profile = pi_api.userprofile.create(userid, approve=True)
-            IUserProfileManager(profile).sync()
+    sync.create_membrane_profile(event.principal)

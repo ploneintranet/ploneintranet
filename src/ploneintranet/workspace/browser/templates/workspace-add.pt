@@ -7,10 +7,10 @@
 <head>
 </head>
 <body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace">
-  <div id="content">
+  <div id="workspaces">
       <h1 i18n:translate="">Create workspace</h1>
 
-      <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validate" data-pat-validate="disable-selector:#form-buttons-create" data-pat-inject="" name="workspace-add" id="workspace-add"
+      <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validation" data-pat-validation="disable-selector:#form-buttons-create" data-pat-inject="" name="workspace-add" id="workspace-add" novalidate
         tal:attributes="action string:${context/absolute_url}/add_content">
 
         <div class="panel-body" tal:define="templates view/templates">

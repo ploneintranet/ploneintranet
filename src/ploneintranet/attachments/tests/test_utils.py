@@ -7,7 +7,7 @@ from plone.app.contenttypes.content import Folder
 from plone.app.testing import setRoles
 from plone.app.testing.interfaces import TEST_USER_ID
 from zope.interface import classImplements
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.attachments import IAttachmentStorage
@@ -35,7 +35,7 @@ class TestAttachments(IntegrationTestCase):
             type='Document',
             title=u"Test document",
             container=self.workspace)
-        directlyProvides(self.document, IAttachmentStoragable)
+        alsoProvides(self.document, IAttachmentStoragable)
 
     def _create_test_file_field(self):
         field_storage = ZopeFieldStorage()

@@ -59,12 +59,20 @@
 
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
-      name="sync-users"
+      name="sync-user-properties"
       class="..sync.AllUsersPropertySync"
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
-     />
+      />
 
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="sync-users"
+      class="..sync.AllUsersSync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+  
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="sync"
@@ -97,5 +105,14 @@
       permission="zope2.View"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
+
+  <browser:page
+      name="workspace-group-view"
+      for="*"
+      class=".groups.WorkspaceGroupView"
+      permission="zope2.View"
+      template="templates/group.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
 
 </configure>

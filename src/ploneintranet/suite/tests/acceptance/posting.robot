@@ -77,12 +77,12 @@ Global stream replies to workspace posts are only visible for members of that wo
     and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     and The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
     and I post a status update    ${MESSAGE3}
-    and The message is visible as new status update    ${MESSAGE3}    
+    and The message is visible as new status update    ${MESSAGE3}
     When I am logged in as the user alice_lindstrom
     and I open the Dashboard
     Then the message is not visible    ${MESSAGE1}
     and the message is not visible    ${MESSAGE2}
-    and The message is visible as new status update    ${MESSAGE3}    
+    and The message is visible as new status update    ${MESSAGE3}
 
 Member can mention a user
     Given I am in a workspace as a workspace member
@@ -134,7 +134,7 @@ The message is visible as new status update that mentions the user
 The message is visible as new status update and includes the tag
     [arguments]  ${message}  ${tag}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]  2
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '#${tag}')][1]  2
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//span[contains(text(), '#${tag}')][1]  2
 
 The status update only appears once
     [arguments]  ${message}

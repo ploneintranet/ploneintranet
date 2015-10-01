@@ -6,6 +6,7 @@ import logging
 
 from plone import api
 from plone.api.validation import at_least_one_of
+from ploneintranet import api as pi_api
 from zope import globalrequest
 
 from .interfaces import ISearchResult
@@ -94,8 +95,12 @@ class SearchResult(object):
                 self.preview_image_path = \
                     '{.path}/@@images/image/preview'.format(self)
             else:
+                portal = api.portal.get()
                 self.preview_image_path = \
-                    '{.path}/docconv_image_thumb.jpg'.format(self)
+                    pi_api.previews.get_thumbnail_url(
+                        portal.restrictedTraverse(self.path.encode('ascii')),
+                        relative=True)
+
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)
@@ -136,9 +141,8 @@ class SearchResult(object):
         :return: The absolute URL to the document in Plone
         :rtype: str
         """
-        portal_props = api.portal.get_tool('portal_properties')
-        site_props = portal_props.site_properties
-        view_types = site_props.getProperty('typesUseViewActionInListings', ())
+        view_types = api.portal.get_registry_record(
+            'plone.types_use_view_action_in_listings')
         url = self._path_to_url(self.path)
         if self.context['portal_type'] in view_types:
             url = '{}/view'.format(url)

@@ -31,8 +31,9 @@ Allan can search and find multiple documents
 Allan can search and filter by content type
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
-    Then I can exclude content of type Page
+    Then I can filter content of type Word 2007 document
     And the search results do not contain /manage-information/minutes-overview
+    And I can see the search result Minutes
 
 Allan can search and filter by date
     Given I am logged in as the user allan_neece

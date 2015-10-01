@@ -4,12 +4,14 @@ from plone.memoize.view import memoize
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from ploneintranet import api as pi_api
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
-from ploneintranet.docconv.client.interfaces import IDocconv
-from ploneintranet.docconv.client.interfaces import IPreviewFetcher
+from ploneintranet.docconv.client.handlers import handle_file_creation
+from collective.documentviewer.settings import Settings
 from zope.component import getUtility
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -24,30 +26,16 @@ class UploadAttachments(BrowserView):
         BBB: Ask for a better image :)
         See #122
         '''
-        url = '/'.join((
-            api.portal.get().absolute_url(),
-            '++theme++ploneintranet.theme/generated/media/logo.svg'
-        ))
-        return [url]
+        return [pi_api.previews.fallback_image_url(api.portal.get())]
 
-    def get_docconv_thumbs_urls(self, attachment):
+    def get_file_thumbs_urls(self, attachment):
         '''
-        If we have a IDocconv adapted object,
-        we ask docconv for thumbs urls
+        thumbs provided by c.dv. Only returning the front page.
         '''
-        docconv = IDocconv(attachment, None)
-        if not docconv:
-            return []
-        base_url = '%s/docconv_image_thumb.jpg?page=' % (
-            docconv.context.absolute_url()
-        )
-        pages = docconv.get_number_of_pages()
-        if pages <= 0:  # we have no previews when pages is 0 or -1
-            return []
-        else:
-            return [
-                (base_url + str(i + 1)) for i in range(pages)
-            ]
+        settings = Settings(attachment)
+        if settings.successfully_converted is not True:
+            return None
+        return [attachment.absolute_url() + '/small']
 
     def get_image_thumbs_urls(self, image):
         '''
@@ -70,8 +58,9 @@ class UploadAttachments(BrowserView):
         ''' This will return the URL for the thumbs of the attachment
 
         '''
-        # We first ask docconv for a URL
-        urls = self.get_docconv_thumbs_urls(attachment)
+        # We first ask pi_api for a URL
+        # This returns previews for images and files
+        urls = self.get_file_thumbs_urls(attachment)
         if urls:
             return urls
 
@@ -100,7 +89,7 @@ class UploadAttachments(BrowserView):
             attachments.add(obj)
             obj = attachments.get(obj.id)
             try:
-                IPreviewFetcher(obj)()
+                handle_file_creation(obj, None)
             except Exception as e:
                 log.warn('Could not get previews for attachment: {0}, '
                          u'{1}: {2}'.format(

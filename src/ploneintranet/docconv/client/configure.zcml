@@ -12,13 +12,8 @@
     <include package="collective.documentviewer"/>
     <include package="plone.app.contenttypes"/>
     <include package="ploneintranet.attachments"/>
-    <include package="slc.docconv"/>
 
-    <include file="adapters.zcml" />
-    <include file="async.zcml" />
-    <include file="fetcher.zcml" />
     <include file="handlers.zcml" />
-    <include file="view.zcml" />
 
     <adapter
         name="has_thumbs"
@@ -33,6 +28,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:importStep
+        name="ploneintranet.docconv.setuphandlers"
+        title="Post-install setup for ploneintranet.docconv"
+        description="This configures collective.documentviewer"
+        handler=".setuphandlers.configure"
+        i18n:translate="title description"
+        />
+    
     <genericsetup:registerProfile
         name="uninstall"
         title="Plone Intranet: -- [Docconv Client uninstall]"
