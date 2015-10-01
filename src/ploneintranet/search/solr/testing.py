@@ -77,7 +77,7 @@ class SolrLayer(Layer):
 
         self._solr_cmd('start')
         # Poll Solr until it is up and running
-        solr_ping_url = '{0}/admin/ping'.format(self.solr_url)
+        solr_ping_url = '{0}/core1/admin/ping'.format(self.solr_url)
         n_attempts = 10
         i = 0
         while i < n_attempts:
@@ -85,7 +85,7 @@ class SolrLayer(Layer):
                 response = requests.get(solr_ping_url, timeout=1)
                 if response.status_code == 200:
                     if '<str name="status">OK</str>' in response.text:
-                        sys.stdout.write('Solr Layer Connected')
+                        sys.stdout.write('[Solr Layer Connected] ')
                         sys.stdout.flush()
                         break
             except requests.ConnectionError:
