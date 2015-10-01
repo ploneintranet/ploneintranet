@@ -27,11 +27,33 @@ We maintain an exact description of these requirements in the form of a Ubuntu
 based Dockerfile_, which you can use either to build a Docker container, or to
 set up your own Ubuntu virtual.
 
-To build a Docker container with Plone Intranet inside::
-
-  docker build -t ploneintranet .
+Docker-based OS setup
+~~~~~~~~~~~~~~~~~~~~~
 
 This requires `docker` to be available, see the `Docker installation docs`_.
+
+We've prepared a quickinstaller for your with some scripts and files.
+Get it from github::
+
+  git clone https://github.com/ploneintranet/venus.git
+  cd venus
+
+Build a Docker container with the supplied Plone Intranet environment::
+
+  docker build -t venus .
+
+Now startup and enter the docker container::
+
+  docker run -i -t \
+          --net=host \
+          -e LC_ALL=en_US.UTF-8 \
+          -e LANG=en_US.UTF-8 \
+          -v $(PWD):/app -w /app -u app $(PROJECT)
+
+The supplied `Makefile` provides a more advanced `docker-run` target
+that mounts various extra directories and files into the container,
+so you can re-use a global eggs cache in `/var/tmp/` etc.
+
 
 Manual OS preparation
 ~~~~~~~~~~~~~~~~~~~~~
@@ -60,22 +82,21 @@ Redis is a required component. This is *not* built with buildout, but expected t
     sudo apt-get install redis-server
 
 
-
 Create and run buildout
 -----------------------
 
 We assume you're familiar with basic Plone buildout.
 If you're not, this preview is not for you.
 
-Create a minimal buildout.cfg somewhere::
+Get the buildout template if you haven't done so above already::
 
-  [buildout]
-  extends = https://raw.githubusercontent.com/ploneintranet/ploneintranet/venus/venus.cfg
+  git clone https://github.com/ploneintranet/venus.git
+  cd venus
 
-Now, run the buildout::
+Now, run the buildout with `make buildout` or manually as follows::
 
   virtualenv .
-  ./bin/pip install zc.buildout
+  ./bin/pip install -r requirements.txt
   ./bin/buildout
 
 To verify that everything was installed and set up correctly, please run the test suite::
@@ -86,10 +107,19 @@ We ship with working tests, failures in your test run indicate that something is
 
 See :doc:`../development/testing_of_pi`
 
-If all tests pass, you can start all services (Plone, ZEO, Solr, Celery)::
+
+Start all services
+------------------
+
+First you need to make sure Redis is running::
+
+  sudo service redis-server start
+
+If you're running the provided docker container, user `app` has password: `app`. Easy.
+
+Start all buildout-managed services (Plone, ZEO, Solr, Celery)::
 
   ./bin/supervisord
-
 
 
 Create a new Plone instance
@@ -131,6 +161,15 @@ Those passwords are not actually secret, they're just the word "secret" without 
 
 If you want an empty site, you can install Plone Intranet Suite via the Quickinstaller. Please read the section on :doc:`../development/components/userprofiles.rst`
 to learn how you can manage users.
+
+
+Stop all services
+-----------------
+
+When you're done, you can stop all services::
+
+  ./bin/supervisorctl shutdown
+
 
 Feedback
 --------
