@@ -5,8 +5,10 @@ prune docs/_static
 prune docs/_templates
 exclude docs/conf.py
 prune src
+graft src/ploneintranet.egg-info
 graft src/ploneintranet
 global-exclude *.pyc
 global-exclude *~
 global-exclude *.gitignore
 include *.rst
+include LATEST
