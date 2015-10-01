@@ -70,3 +70,13 @@ msgstr ""
 
 msgid "Person"
 msgstr ""
+
+#: ../layout/browser/templates/dashboard.pt
+#. Workspaces
+msgid "tile_ploneintranet.workspace.workspacefolder"
+msgstr ""
+
+#: ../layout/browser/templates/dashboard.pt
+#. Cases
+msgid "tile_ploneintranet.workspace.case"
+msgstr ""
