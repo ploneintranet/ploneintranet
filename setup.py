@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1'
+version = '1.0.0a1'
 
 long_description = (
     open('README.rst').read()
@@ -64,7 +64,6 @@ setup(name='ploneintranet',
           'plone.directives.form',
           'plone.directives.dexterity',
           'plone.principalsource',
-          'collective.celery',
           'collective.documentviewer',
           'collective.workspace',
           'fake-factory',
