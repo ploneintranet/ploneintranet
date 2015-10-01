@@ -40,6 +40,21 @@ class TestUserProfile(IntegrationTestCase):
                 email='foobar@doe.com',
             )
 
+    def test_get_users(self):
+        self.login_as_portal_owner()
+        profile1 = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+        )
+        profile2 = pi_api.userprofile.create(
+            username='bobdoe',
+            email='bobdoe@doe.com',
+        )
+        found = [x for x in pi_api.userprofile.get_users()]
+        self.assertEqual(len(found), 2)
+        self.assertIn(profile1, found)
+        self.assertIn(profile2, found)
+
     def test_get(self):
         self.login_as_portal_owner()
         profile = pi_api.userprofile.create(
