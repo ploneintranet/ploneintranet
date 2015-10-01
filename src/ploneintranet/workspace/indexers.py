@@ -15,14 +15,18 @@ def mimetype_document(object, **kw):
 @indexer(IFile)
 def mimetype_file(object, **kw):
     if hasattr(object, 'file') and hasattr(object.file, 'filename'):
-        return guess_mimetype(object.file.filename)
+        mimetype = guess_mimetype(object.file.filename)
+        if mimetype.strip():
+            return mimetype
     return 'application/octet-stream'
 
 
 @indexer(IImage)
 def mimetype_image(object, **kw):
     if hasattr(object, 'image') and hasattr(object.image, 'filename'):
-        return guess_mimetype(object.image.filename)
+        mimetype = guess_mimetype(object.image.filename)
+        if mimetype.strip():
+            return mimetype
     return 'application/octet-stream'
 
 

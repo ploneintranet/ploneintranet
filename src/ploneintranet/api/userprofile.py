@@ -11,6 +11,23 @@ from plone.api.exc import InvalidParameterError
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 
 
+def get_users(**kwargs):
+    """
+    List users from catalog, avoiding expensive LDAP lookups.
+
+    :returns: user objects
+    :rtype: iterator
+    """
+    try:
+        mtool = plone_api.portal.get_tool('membrane_tool')
+    except InvalidParameterError:
+        return None
+    portal_type = 'ploneintranet.userprofile.userprofile',
+    search_results = mtool.searchResults(portal_type=portal_type,
+                                         **kwargs)
+    return (x.getObject() for x in search_results)
+
+
 def get(username):
     """Get a Plone Intranet user profile by username
 
@@ -20,14 +37,9 @@ def get(username):
     :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
     try:
-        mtool = plone_api.portal.get_tool('membrane_tool')
-    except InvalidParameterError:
-        return None
-
-    try:
-        profile = mtool.searchResults(
+        profile = list(get_users(
             exact_getUserName=username,
-        )[0].getObject()
+        ))[0]
     except IndexError:
         profile = None
     return profile

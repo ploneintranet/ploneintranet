@@ -106,4 +106,13 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
+  <browser:page
+      name="workspace-group-view"
+      for="*"
+      class=".groups.WorkspaceGroupView"
+      permission="zope2.View"
+      template="templates/group.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
 </configure>

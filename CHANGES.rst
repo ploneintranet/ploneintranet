@@ -1,11 +1,10 @@
 Changelog
 =========
 
-unreleased
-----------
+1.0 (unreleased)
+----------------
 
-* Refactor previews api to keep it simple, move implementation back to docconv.client [pilz]
-
+Venus is our first real release: 49 contributors, 6715 commits, 835 tests, 87% test coverage.
 
 0.1 (2015-06-01)
 ----------------
