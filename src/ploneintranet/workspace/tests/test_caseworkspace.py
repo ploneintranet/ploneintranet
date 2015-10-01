@@ -31,17 +31,17 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
     def test_metromap_initial_state(self):
         """A newly created Case is in the first workflow state. It can't be
         finished and it must be possible to change workflow state to the next
-        state, so the first transition is enabled.
+        state, so the first transition is is_current.
         """
         mm_seq = IMetroMap(self.case).metromap_sequence
         initial_state_id = mm_seq.keys()[0]
-        self.assertTrue(mm_seq[initial_state_id]["enabled"])
+        self.assertTrue(mm_seq[initial_state_id]["is_current"])
         self.assertFalse(mm_seq[initial_state_id]["finished"])
 
     def test_metromap_second_state(self):
         """After carrying out the first workflow transition, the first state is
         finished. If the workflow allows for it, the first transition could
-        still be enabled. The second transition should be enabled.
+        still be is_current. The second transition should be is_current.
         """
         mm_seq = IMetroMap(self.case).metromap_sequence
         first_state_id = mm_seq.keys()[0]
@@ -52,7 +52,7 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         self.assertTrue(mm_seq[first_state_id]["finished"])
 
         second_state_id = mm_seq.keys()[1]
-        self.assertTrue(mm_seq[second_state_id]["enabled"])
+        self.assertTrue(mm_seq[second_state_id]["is_current"])
         self.assertFalse(mm_seq[second_state_id]["finished"])
 
     def test_metromap_transition_guard(self):

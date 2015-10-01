@@ -14,39 +14,72 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Manager can create a case workspace
-    Given I'm logged in as a 'Manager'
+User can create a case workspace
+    Given I am logged in as the user allan_neece
      Then I can create a new case    A case for outer space
-     Then I can delete a case  a-case-for-outer-space
+      And I can delete a case  a-case-for-outer-space
 
-Manager can change the workflow of a case workspace
-    Given I'm logged in as a 'Manager'
-     Then I can create a new case  Workflow case
-     Then I can go to the sidebar tasks tile of my case
-     Then I can close the first milestone
-     Then I can delete a case  workflow-case
-
-Manager can create a template case workspace
-    Given I'm logged in as a 'Manager'
+User can create a template case workspace
+    Given I am logged in as the user allan_neece
      Then I can create a new template case    New template
      Then I can create a new case from a template  New template  A new type of case
      Then I can delete a template case  new-template
      Then I can delete a case  a-new-type-of-case
 
-Manager can toggle the state of a task
-    Given I'm logged in as a 'Manager'
+Member can toggle the state of a task
+    Given I am in a case workspace as a workspace member
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I can toggle a milestone  New
-     Then I select the task check box  Populate Metadata
+     Then I can open a milestone task panel  prepare
+     Then I select the task check box  Draft proposal
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is complete  Populate Metadata
-     Then I unselect the task check box  Populate Metadata
+     # auto-closed, reopen
+     Then I can open a milestone task panel  prepare
+     Then I see a task is complete  Draft proposal
+     Then I unselect the task check box  Draft proposal
      Then I can go to the Example Case
      Then I can go to the sidebar tasks tile of my case
-     Then I see a task is open  Populate Metadata
-     Then I can toggle a milestone  New
+     Then I can open a milestone task panel  prepare
+     Then I see a task is open  Draft proposal
+
+Manager can close a case milestone but only after closing open task
+    Given I am logged in as the user allan_neece
+      And I can create a new case  Workflow case
+      And I can go to the sidebar tasks tile of my case
+     Then I cannot close a milestone  new
+     When I select the task check box  Populate Metadata
+     Then I can close a milestone  new
+      And I can delete a case  workflow-case
+
+Manager can reopen a case milestone without closing open tasks
+    Given I am logged in as the user allan_neece
+      And I can create a new case  Workflow case
+      And I can go to the sidebar tasks tile of my case
+      And I can open a milestone task panel  new
+      And I select the task check box  Populate Metadata
+     When I can close a milestone  new
+     Then I can reopen a milestone  new
+
+Member cannot close a complete case milestone
+    Given Admin moves the example workspace to state complete
+      And I am in a case workspace as a workspace member
+     Then I cannot close a milestone  complete
+
+Member cannot edit content in a complete case milestone
+    Given Admin moves the example workspace to state complete
+      And I am in a case workspace as a workspace member
+     Then I cannot create a new document
+
+Member closing milestone sets planned task to open
+   Given I am in a case workspace as a workspace member
+     And I move the example workspace to state prepare
+    Then I see the task Quality check has state  Planned
+    When I can go to the sidebar tasks tile of my case
+     And I can open a milestone task panel  prepare
+     And I can close a milestone  prepare
+    # switches to a protected state, veryify todo transition has worked
+    Then I see the task Quality check has state  Open
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -69,22 +102,22 @@ Member can view sidebar tasks
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
 
-Manager can add a new task
-    Given I am in a case workspace as a workspace admin
+Member can add a new task
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Make a plan  new
 
-Manager can close an unassigned task from the sidebar
-    Given I am in a case workspace as a workspace admin
+Member can close an unassigned task from the sidebar
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Unassigned task
      Then I select the task check box  Unassigned task
-     Then the task is done  Unassigned task
+     Then I see a task is complete  Unassigned task
 
-Manager can mark a new task complete on dashboard
-    Given I am in a case workspace as a workspace admin
+Member can mark a new task complete on dashboard
+    Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Todo soon  new
+     Then I can add a new task  Todo soon  prepare
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete

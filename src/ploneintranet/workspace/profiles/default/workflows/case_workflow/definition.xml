@@ -1,20 +1,73 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="case_workflow"
 	     title="Case Workflow"
-	     description="Workflow for Business Cases (Geschäfte)"
-	     state_variable="review_state" initial_state="new" manager_bypass="False">
+	     description="Workflow for Adaptive Case Management"
+	     state_variable="review_state"
+             initial_state="new"
+             manager_bypass="True">
 
-  <permission>Modify portal content</permission>
+  <!-- NOTE TO INTEGRATORS AND DEVELOPERS
+
+       To provide a custom case workflow in your own project, you can
+       either override this case_workflow in your own policy product,
+       and/or add additional workflows for ploneintranet.workspace.case,
+       see workflows.xml.
+
+       Cases bypass most of the normal ploneintranet.workspace security machinery.
+       Instead they're completely configured via the workflow.
+       Any permissions NOT managed here with 'acquired="False"' will be
+       acquired, which is NOT what you want since it opens up the case
+       for non-members.
+
+       Basic rule of thumb for creating a secure case workflow:
+       - for every workflow state the case can have:
+       - explicitly manage ALL 7 permissions listed below
+       - always set acquired="False"
+       - use the special local roles TeamMember and TeamManager
+         provided automatically by our collective.workspace backend
+
+       For clarity's sake roles that are not granted a specific permission
+       in a specific state are commented out, to make the policy most
+       explicit and readable, and a sane base for customization.
+
+       The example workflow below is configured as follows:
+       - TeamMember is not allowed to change workflow state, except
+         from 'prepare' to 'complete'
+       - TeamMember cannot add or modify content during the 'complete', 'audit',
+         'propose' sequence (to protect quality control before decision)
+       - The 'archive' and 'rejected' states are readonly
+
+       The 'reject' transition is not supported in the frontend yet,
+       but already included here for future compatibility.
+
+       Please keep the variables at the end, they're used by the GUI.
+       Make sure to update the metromap_transitions structure if you
+       change any states or transitions below.
+  -->
+
+  <permission>ploneintranet.workspace: Manage workspace</permission>
+  <permission>Access contents information</permission>
   <permission>View</permission>
+  <permission>Modify portal content</permission>
+  <permission>Add portal content</permission>
+  <permission>Plone Social: Add Microblog Status Update</permission>
+  <permission>Plone Social: View Microblog Status Update</permission>
 
   <state state_id="new" title="New">
     <description>Basic data is being gathered and added to the case.</description>
-    <exit-transition transition_id="transfer_to_department"/>
+    <exit-transition transition_id="assign"/>
     <exit-transition transition_id="reject"/>
-    <permission-map name="Modify portal content" acquired="False">
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
@@ -22,142 +75,546 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
-  </state>
-
-  <state state_id="rejected" title="Rejected Before Decision">
-    <description>The case has been rejected before an official decision was made and is not treated any further.</description>
-    <permission-map name="Modify portal content" acquired="False">
-    </permission-map>
-  </state>
-
-  <state state_id="in_progress" title="In Progress">
-    <description>Gathering of basic data is complete. The case is handled by the responsible department.</description>
-    <exit-transition transition_id="finalise"/>
-    <exit-transition transition_id="reject"/>
-    <exit-transition transition_id="reset"/>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
-  </state>
-
-  <state state_id="complete" title="Content Complete">
-    <description>The case has been fully handled by the responsible department and is ready for verification.</description>
-    <exit-transition transition_id="submit"/>
-    <exit-transition transition_id="transfer_to_department"/>
-    <permission-map name="Modify portal content" acquired="False">
+    <permission-map name="Add portal content" acquired="False">
       <permission-role>Manager</permission-role>
-      <permission-role>Central Services</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
-  <state state_id="request" title="Request">
-    <description>The case is ready for a decision by the council.</description>
-    <exit-transition transition_id="reject"/>
-    <exit-transition transition_id="rework"/>
-    <exit-transition transition_id="decide"/>
+  <state state_id="prepare" title="Prepare">
+    <description>Supporting documentation is being added to the case.</description>
+    <exit-transition transition_id="reset"/>
     <exit-transition transition_id="finalise"/>
+    <exit-transition transition_id="reject"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
-      <permission-role>Council</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="complete" title="Complete">
+    <description>All data is complete, the case is ready for consideration.</description>
+    <exit-transition transition_id="re_assign"/>
+    <exit-transition transition_id="request"/>
+    <exit-transition transition_id="reject"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="audit" title="Audit">
+    <description>Impact analysis and completeness checks.</description>
+    <exit-transition transition_id="re_finalise"/>
+    <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="reject"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="propose" title="Propose">
+    <description>The case can be scheduled for a decision.</description>
+    <exit-transition transition_id="re_request"/>
+    <exit-transition transition_id="decide"/>
+    <exit-transition transition_id="reject"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
   <state state_id="decided" title="Decided">
-    <description>The decision has been made by the council.</description>
+    <description>A decision has been reached, and needs to be implemented.</description>
+    <exit-transition transition_id="re_submit"/>
     <exit-transition transition_id="close"/>
-    <exit-transition transition_id="submit"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
   <state state_id="closed" title="Closed">
-    <description>All handling of the case is complete, including payment, thank you letter, etc.</description>
+    <description>The case is no longer active, and being prepared for archival.</description>
+    <exit-transition transition_id="re_decide"/>
     <exit-transition transition_id="archive"/>
-    <exit-transition transition_id="decide"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Modify portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
   <state state_id="archived" title="Archived">
-    <exit-transition transition_id="close"/>
-    <description>The case is done and filed away.</description>
+    <description>The case has been archived in read-only mode.</description>
+    <exit-transition transition_id="re_close"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
+  <state state_id="rejected" title="Rejected">
+    <description>The case has been rejected before a decision was reached.</description>
+    <exit-transition transition_id="reset"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
   </state>
 
 
-  <transition transition_id="reject" title="Reject" new_state="rejected" trigger="USER" before_script="" after_script="">
-    <description>Reject the case before any official decision is made.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Reject</action>
-    <guard />
-  </transition>
 
   <transition transition_id="reset" title="Reset" new_state="new" trigger="USER" before_script="" after_script="">
-    <description>Reset to the initial state.</description>
+    <description>Reset the case to 'new'.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
-    <guard />
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
   </transition>
 
-  <transition transition_id="transfer_to_department" title="Transfer To Department" new_state="in_progress" trigger="USER" before_script="" after_script="">
-    <description>Transfer the case to the responsible department.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=transfer_to_department" category="workflow" icon="">Transfer To Department</action>
-    <guard >
+  <transition transition_id="assign" title="Assign" new_state="prepare" trigger="USER" before_script="" after_script="">
+    <description>Assign the case to the responsible department.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=assign" category="workflow" icon="">Assign</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="re_assign" title="Assign" new_state="prepare" trigger="USER" before_script="" after_script="">
+    <description>Re-Assign the case to the responsible department.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=assign" category="workflow" icon="">Assign</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
   </transition>
 
   <transition transition_id="finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
-    <description>Finish handling by the department and mark as ready for verification.</description>
+    <description>Verify that the case is complete.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
 
-  <transition transition_id="submit" title="Submit" new_state="request" trigger="USER" before_script="" after_script="">
+  <transition transition_id="re_finalise" title="Finalise" new_state="complete" trigger="USER" before_script="" after_script="">
+    <description>Re-Verify that the case is complete.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=finalise" category="workflow" icon="">Finalise</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="request" title="Request" new_state="audit" trigger="USER" before_script="" after_script="">
+    <description>Finish handling by the department, mark as ready for audit.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=request" category="workflow" icon="">Request</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+      <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="re_request" title="Request" new_state="audit" trigger="USER" before_script="" after_script="">
+    <description>Re-Finish handling by the department, mark as ready for audit.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=request" category="workflow" icon="">Request</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+
+  <transition transition_id="submit" title="Submit" new_state="propose" trigger="USER" before_script="" after_script="">
     <description>Submit the case for decision by the council.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="re_submit" title="Submit" new_state="propose" trigger="USER" before_script="" after_script="">
+    <description>Re-Submit the case for decision by the council.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
   </transition>
 
   <transition transition_id="decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
     <description>Accept or deny the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="re_decide" title="Decide" new_state="decided" trigger="USER" before_script="" after_script="">
+    <description>Re-Accept or deny the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=decide" category="workflow" icon="">Decide</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
   </transition>
 
   <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
+    </guard>
+  </transition>
+
+  <transition transition_id="re_close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
+    <description>Re-Close the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
   </transition>
 
   <transition transition_id="archive" title="Archive" new_state="archived" trigger="USER" before_script="" after_script="">
     <description>Mark the case as done and file away.</description>
     <action url="%(content_url)s/content_status_modify?workflow_action=archive" category="workflow" icon="">Archive</action>
-    <guard >
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
 
-  <transition transition_id="rework" title="Rework" new_state="in_progress" trigger="USER" before_script="" after_script="">
-    <description>Rework the case and then re-submit.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=rework" category="workflow" icon="">Rework</action>
-    <guard />
+  <transition transition_id="reject" title="Reject" new_state="rejected" trigger="USER" before_script="" after_script="">
+    <description>Reject the case.</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Reject</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
   </transition>
 
 
@@ -212,12 +669,13 @@
     <description>A list of dicts which order the workflow states along with the next transition in the sequence, used for the metromap</description>
     <default>
       <expression>python:[
-      {'state': 'new', 'next_transition': 'transfer_to_department', 'reopen_transition': 'reset'},
-      {'state': 'in_progress', 'next_transition':'finalise', 'reopen_transition': 'transfer_to_department'},
-      {'state': 'complete', 'next_transition': 'submit', 'reopen_transition': 'finalise'},
-      {'state': 'request', 'next_transition': 'decide', 'reopen_transition': 'submit'},
-      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 'decide'},
-      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 'close'},
+      {'state': 'new', 'next_transition': 'assign', 'reopen_transition': 'reset'},
+      {'state': 'prepare', 'next_transition':'finalise', 'reopen_transition': 're_assign'},
+      {'state': 'complete', 'next_transition': 'request', 'reopen_transition': 're_finalise'},
+      {'state': 'audit', 'next_transition': 'submit', 'reopen_transition': 're_request'},
+      {'state': 'propose', 'next_transition': 'decide', 'reopen_transition': 're_submit'},
+      {'state': 'decided', 'next_transition': 'close', 'reopen_transition': 're_decide'},
+      {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 're_close'},
       {'state': 'archived'}
       ]</expression>
     </default>

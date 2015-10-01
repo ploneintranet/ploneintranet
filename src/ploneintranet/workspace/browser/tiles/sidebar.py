@@ -75,7 +75,7 @@ class BaseTile(BrowserView):
         does this user have permission to manage the workspace's roster
         """
         return api.user.has_permission(
-            "collective.workspace: Manage roster",
+            "ploneintranet.workspace: Manage workspace",
             obj=self.context,
         )
 
@@ -353,6 +353,7 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
+        """When viewing a task, open corresponding milestone in sidebar"""
         if 'PARENT_REQUEST' in self.request:
             # Only check if this is a tile subrequest
             open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']

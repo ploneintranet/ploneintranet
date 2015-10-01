@@ -86,6 +86,10 @@ A case is assigned a specific workflow through Plone's Placeful Workflow facilit
 
     A workflow used in a case must provide the ``metromap_transitions`` variable which defines the transitions to show in the happy flow. You can find an example in the provided ``case_workflow`` definition.
 
+.. warning::
+
+   When creating a custom case workflow, take special care to ensure proper security. See notes and example in ``case_workflow/definition.xml`` and test coverage in ``case.robot``.
+
 Because a custom workflow is used, the security settings of the workspace, which are a core feature to simplify security management, are no longer valid and therefore no longer available.
 
 The current implementation of the Metro Map assumes that all tasks must be completed before a milestone can be closed. Therefore the demo workflow has a guard for these transitions that assures all tasks are closed and the user interface disables the "Close Milestone" button otherwise.
@@ -113,6 +117,10 @@ The selected case is then copied over into the main workspaces container and use
 .. note::
 
     Cases in the templates folder are not shown on the main workspace listing. Currently you need to type the path to your case template into the browser manually to access it.
+
+.. note::
+
+   Creating a new case template is not directly supported in the user interface. You can create a new template by opening the following URL in your browser manually: `${PLONE_URL}/templates/++add++ploneintranet.workspace.case`
 
 
 

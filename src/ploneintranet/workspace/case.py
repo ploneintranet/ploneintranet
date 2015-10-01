@@ -5,6 +5,7 @@ from zope.interface import implementer
 from .config import TEMPLATES_FOLDER
 from .workspacefolder import IWorkspaceFolder
 from .workspacefolder import WorkspaceFolder
+from .unrestricted import execute_as_manager
 
 
 class ICase(IWorkspaceFolder):
@@ -36,12 +37,17 @@ class Case(WorkspaceFolder):
 
 def create_case_from_template(template_id, target_id=None):
     portal = api.portal.get()
-    template_folder = portal.restrictedTraverse(TEMPLATES_FOLDER)
+    template_folder = portal.get(TEMPLATES_FOLDER)
     if template_folder:
-        src = template_folder.restrictedTraverse(template_id)
+        src = template_folder.get(template_id)
         if src:
             target_folder = portal.restrictedTraverse('workspaces')
-            new = api.content.copy(
+            # need privilege escalation since normal users do not
+            # have View permission on case templates
+            # - that only comes after the template has been turned
+            # into an actual case with member users
+            new = execute_as_manager(
+                api.content.copy,
                 source=src,
                 target=target_folder,
                 id=target_id,

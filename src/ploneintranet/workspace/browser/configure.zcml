@@ -280,8 +280,8 @@
 
     <browser:page
       name="case_workflow_guard"
-      for="*"
-      class=".workspace.CaseWorkflowGuardView"
+      for="ploneintranet.workspace.case.ICase"
+      class=".case.CaseWorkflowGuardView"
       permission="zope.Public"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />

@@ -12,6 +12,7 @@ from zope.globalrequest import getRequest
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.interfaces import IGroupingStoragable
@@ -60,9 +61,12 @@ def workspace_added(ob, event):
 
     """
     # Whoever creates the workspace should be added as an Admin
-    creator = ob.Creator()
+    # When copying a case template, that is the current user
+    # (not the one who created the original case template)
+    userid = api.user.get_current().id
+    ob.setCreators([userid])
     IWorkspace(ob).add_to_team(
-        user=creator,
+        user=userid,
         groups=set(['Admins']),
     )
     # During workspace creation, various functions
@@ -72,12 +76,13 @@ def workspace_added(ob, event):
     # or groups during a request, so we have to manually re-initialise
     # the security context for the current user.
     # ref: https://github.com/ploneintranet/ploneintranet/pull/438
-    if api.user.get_current().getId() == creator:
-        IAnnotations(ob.REQUEST)[('workspaces', creator)] = None
-        acl_users = api.portal.get_tool('acl_users')
-        user = acl_users.getUserById(creator)
-        if user is not None:
-            newSecurityManager(None, user)
+    IAnnotations(ob.REQUEST)[('workspaces', userid)] = None
+    acl_users = api.portal.get_tool('acl_users')
+    user = acl_users.getUserById(userid)
+    if user is not None:
+        # NB when copying a case template with execute_as_manager
+        # this is 'finally' replaced again
+        newSecurityManager(None, user)
 
     if not ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
@@ -219,17 +224,11 @@ def update_todos_state(obj, event):
     pc = api.portal.get_tool('portal_catalog')
     current_path = '/'.join(obj.getPhysicalPath())
     brains = pc(path=current_path, portal_type='todo')
-    old_security_manager = getSecurityManager()
-    acl_users = api.portal.get_tool('acl_users')
-    tmp_user = UnrestrictedUser('Task Handler', '', ['Editor'], '')
-    tmp_acl_user = tmp_user.__of__(acl_users)
-    newSecurityManager(None, tmp_acl_user)
-    try:
-        for brain in brains:
-            obj = brain.getObject()
-            obj.set_appropriate_state()
-            obj.reindexObject()
-    except:
-        raise
-    finally:
-        setSecurityManager(old_security_manager)
+    for brain in brains:
+        todo = brain.getObject()
+        execute_as_manager(_update_todo_state, todo)
+
+
+def _update_todo_state(todo):
+    todo.set_appropriate_state()
+    todo.reindexObject()

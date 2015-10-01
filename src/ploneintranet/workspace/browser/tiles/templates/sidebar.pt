@@ -333,15 +333,21 @@ Supported types include (class names):
                               define="milestones ws_view/metromap_sequence | nothing;
                                       token context/@@authenticator/token;
                                       read_only read_only|not:view/can_edit;">
-                <tal:milestone repeat="milestone milestones">
+                <tal:milestone_id repeat="milestone_id milestones">
+                <tal:milestone define="milestone python:milestones[milestone_id];">
 
-                  <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: local"
-                            tal:define="keep_open python:view.is_open_task_in_milestone(tasks[milestone])"
-                            tal:attributes="id string:milestone-${milestone};
-                                            class python:attrs['class'] + (keep_open and ' open' or ' closed');
-                                            data-pat-collapsible python:keep_open and 'store: none' or 'store: local'">
-                    <h4 class="section-label state-finished" tal:content="python:milestones[milestone]['title']" i18n:translate=""/>
-                    <tal:task repeat="task python:tasks[milestone]">
+                  <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: session"
+                            tal:define="task_milestone python:view.is_open_task_in_milestone(tasks[milestone_id]);
+                                        is_current python:milestone['is_current'];
+                                        finished python:milestone['finished'];
+                                        state python: is_current and 'current' or finished and 'finished' or 'planned';
+                                        collapsible_status python:(task_milestone or is_current) and 'open' or 'closed'"
+                            tal:attributes="id string:milestone-${milestone_id};
+                                            class python:attrs['class'] + ' ' + collapsible_status;
+                                            data-pat-collapsible python:task_milestone and 'store: none' or 'store: session'">
+                    <h4 class="section-label state-finished" tal:content="python:milestone['title']" i18n:translate=""
+                        tal:attributes="class string:section-label state-${state}"/>
+                    <tal:task repeat="task python:tasks[milestone_id]">
                       <label>
                         <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                         <input type="checkbox" name="active-tasks:list"
@@ -365,30 +371,32 @@ Supported types include (class names):
                           <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
 
                         <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
-                        <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
-                          <a tal:condition="initiator"
-                             href="${context/portal_url}/profiles/${initiator/id}" class="initiator meta-column icon-user" title="Initiator"
-                             >
-                            ${python:initiator.getProperty("fullname")}
-                          </a>
-                          <a class="initiator meta-column icon-user" title="Initiator" tal:condition="not:initiator"/>
                       </div>
 
                       </label>
                     </tal:task>
                     <p class="button-bar">
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                         tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone}"
+                         tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
                          tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
-                         tal:condition="python:milestones[milestone]['enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
+                         tal:condition="python:milestone['transition_id']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
-                         tal:condition="python:milestones[milestone]['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestones[milestone]['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Reopen milestone</a>
+                         tal:condition="python:milestone['reopen_transition']"
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Reopen milestone</a>
+                      <!-- should be there according to proto, but has offset error when displayed
+                      <button class="small icon-stage success" disabled
+                              tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and finished"
+                              i18n:translate="">Reopen milestone</button>
+                      <button class="small icon-stage success" disabled
+                              tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and not finished"
+                              i18n:translate="">Close milestone</button>
+                      -->
                     </p>
                   </fieldset>
                 </tal:milestone>
+                </tal:milestone_id>
                 <fieldset class="task-list pat-checklist" tal:define="uatasks python:tasks['unassigned']" tal:condition="uatasks">
                   <h3 class="section-label" i18n:translate="">
                     Unassigned

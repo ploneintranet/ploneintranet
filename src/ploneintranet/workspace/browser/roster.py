@@ -50,7 +50,7 @@ class EditRoster(BaseWorkspaceView):
         join_policy = self.context.join_policy
         if (join_policy == "admin"
             and not checkPermission(
-                "collective.workspace: Manage roster",
+                "ploneintranet.workspace: Manage workspace",
                 self.context)):
             raise Unauthorized("You are not allowed to add users here")
 
