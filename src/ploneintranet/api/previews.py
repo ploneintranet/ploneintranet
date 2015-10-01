@@ -17,6 +17,39 @@ def get(obj, scale='normal'):
     return previews.get(obj, scale)
 
 
+def is_allowed_document_type(obj):
+    """ Check if object can actually be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if object can be converted
+    :rtype: boolean
+    """
+    return previews.is_allowed_document_type(obj)
+
+
+def converting(obj):
+    """ Check if object is currently being converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if converting, False if no longer converting
+    :rtype: boolean
+    """
+    return previews.converting(obj)
+
+
+def successfully_converted(obj):
+    """ Check if object could be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if successfully converted, False if conversion failed
+    :rtype: boolean
+    """
+    return previews.successfully_converted(obj)
+
+
 def has_previews(obj):
     """Test if the object has generated previews.
 
