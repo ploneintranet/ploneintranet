@@ -5,8 +5,12 @@ from Products.CMFPlone.utils import safe_unicode
 
 def link_tags(url='', tags=None):
     if tags:
-        tmpl = (u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">'
-                u'#{tag}</a>')
+        # This is outcommented only temporarily to get Venus out. Refs
+        # https://github.com/ploneintranet/ploneintranet/issues/426
+        # tmpl = (u' <a href="{url}/@@stream/tag/{tag}" class="tag tag-{tag}">'
+        #         u'#{tag}</a>')
+        tmpl = (u' <span class="tag tag-{tag}">'
+                u'#{tag}</span>')
         text = u' &mdash;'
         for tag in tags:
             text += tmpl.format(url=url, tag=safe_unicode(tag))
