@@ -1,6 +1,7 @@
 import logging
 import transaction
 
+from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet import api as pi_api
@@ -14,12 +15,19 @@ log = logging.getLogger(__name__)
 def generate_previews_async(obj, event=None):
     """ Generates the previews by dispatching them to the async service
     """
+    if hasattr(obj, 'portal_type') and \
+       obj.portal_type not in SUPPORTED_CONTENTTYPES:
+        log.info('Skipping documentconversion for %s (unsupported type)'
+                 % obj.absolute_url(1))
+        return
     # Need a commit to make sure the content is there
     transaction.commit()
     if ASYNC_ENABLED:
+        log.debug('generate_previews_async - async mode')
         generator = GeneratePreview(obj, obj.REQUEST)
         generator()
     else:
+        log.debug('generate_previews_async - sync mode')
         pi_api.previews.generate_previews(obj)
 
 
@@ -28,8 +36,10 @@ def handle_file_creation(obj, event=None, async=True):
         custom layout. Also we want our own async mechanism.
     """
     if async:
+        log.debug('handle_file_creation - async mode')
         generate_previews_async(obj)
     else:
+        log.debug('handle_file_creation - sync mode')
         pi_api.previews.generate_previews(obj)
 
 
@@ -40,17 +50,21 @@ def generate_attachment_preview_images(obj):
     for att_id in attachment_storage.keys():
         attachment = attachment_storage.get(att_id)
         if not pi_api.previews.has_previews(attachment):
+            log.debug('generate_attachment_preview_images'
+                      ' - generating attachment preview')
             generate_previews_async(attachment)
-            # pi_api.previews.generate_previews(attachment)
 
 
 def content_added_in_workspace(obj, event):
+    log.debug('content_added_in_workspace - calling generate_previews_async')
     generate_previews_async(obj)
     # pi_api.previews.generate_previews(obj)
 
 
 def content_edited_in_workspace(obj, event):
     if obj.REQUEST.form.get('file') or obj.REQUEST.get('method') == 'PUT':
+        log.debug('content_edited_in_workspace'
+                  ' - calling generate_previews_async')
         generate_previews_async(obj)
         # pi_api.previews.generate_previews(obj)
 
