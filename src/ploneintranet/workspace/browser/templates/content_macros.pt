@@ -92,16 +92,16 @@
                tal:attributes="disabled read_only"/>
       </label>
       <br/>
-      <fieldset class="pat-checklist options">
+      <!--fieldset class="pat-checklist options">
         <label>
           <input name="whole_day" tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/>
           <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
-<!--        <br/>
+        <br/>
         <label>
           <input type="checkbox" tal:attributes="disabled read_only"/> <span tal:omit-tag="" i18n:translate="">Visible on other calendars</span>
-        </label> -->
-      </fieldset>
+        </label>>
+      </fieldset-->
       <br/>
       <fieldset class="group date-time">
         <fieldset class="row group"
