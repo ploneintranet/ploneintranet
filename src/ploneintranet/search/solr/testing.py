@@ -89,19 +89,15 @@ class SolrLayer(Layer):
                         sys.stdout.flush()
                         break
             except requests.ConnectionError:
-                time.sleep(1)
-                sys.stdout.write('.')
-                sys.stdout.flush()
-            if i == n_attempts:
-                subprocess.call(
-                    './solr-test stop',
-                    shell=True,
-                    close_fds=True,
-                    cwd=_BUILDOUT_BIN_DIR
-                )
-                sys.stdout.write('Solr Instance could not be started !!!\n')
-                sys.stdout.flush()
+                pass
+            time.sleep(1)
+            sys.stdout.write('.')
+            sys.stdout.flush()
             i += 1
+
+        if i == n_attempts:
+            self._solr_cmd('stop')
+            raise EnvironmentError('Solr Test Instance could not be started')
 
     def tearDown(self):
         """Stop Solr.
