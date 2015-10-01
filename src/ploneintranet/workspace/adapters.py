@@ -220,8 +220,8 @@ class MetroMap(object):
         metromap_workflow = self._metromap_workflow
         if metromap_workflow is None:
             return []
-        mmap = metromap_workflow.variables["metromap_transitions"]
-        tal_expr = mmap.default_expr
+        wfstep = metromap_workflow.variables["metromap_transitions"]
+        tal_expr = wfstep.default_expr
         expr_context = getExprContext(self.context)
         metromap_transitions = tal_expr(expr_context)
         return metromap_transitions
@@ -243,7 +243,7 @@ class MetroMap(object):
             'transition_title': u'Transfer To Department',
             'title': u'New',
             'finished': True,  # This milestone has been finished
-            'enabled': False,  # Don't show the [Close milestone] button
+            'is_current': False,  # Not the current milestone
             'reopen_transition': 'reset',  # For [Reopen milestone]
             'transition_id': 'transfer_to_department'
           }), (
@@ -251,14 +251,14 @@ class MetroMap(object):
             'transition_title': u'Submit',
             'title': u'Content Complete',
             'finished': False,  # This milestone isn't finished yet
-            'enabled': True,    # Show [Close milestone]
+            'is_current': True,    # Current milestone: Show [Close milestone]
             'reopen_transition': False,
             'transition_id': 'submit'
           }), (
           'archived', {
             'transition_title': '',
             'title': u'Archived',
-            'enabled': False,
+            'is_current': False,
             'finished': False,
             'reopen_transition': False,
             'transition_id': None
@@ -271,34 +271,64 @@ class MetroMap(object):
         metromap_list = self._metromap_transitions
         if not metromap_list:
             return {}
-
+        try:
+            can_manage = api.user.has_permission(
+                'ploneintranet.workspace: Manage workspace',
+                user=api.user.get_current(),
+                obj=self.context)
+        except api.exc.UserNotFoundError:
+            raise api.exc.UserNotFoundError(
+                "Unknown user. Do not use Zope rescue user.")
         current_state = wft.getInfoFor(self.context, "review_state")
-        next_available_transition = [
-            i.get('next_transition') for i in metromap_list
-            if i['state'] == current_state and 'next_transition' in i
-        ]
         finished = True
         sequence = OrderedDict()
-        for index, mmap in enumerate(metromap_list):
-            state = mmap['state']
+        tasks = self.context.tasks()
+        for index, wfstep in enumerate(metromap_list):
+            state = wfstep['state']
             if state == current_state:
-                finished = False
-            next_transition = mmap.get('next_transition')
-            reopen = False
-            if index + 1 < len(metromap_list):
+                is_current = True
+                finished = False  # keep this for the rest of the loop
+                open_tasks = [x for x in tasks[state] if not x['checked']]
+            else:
+                is_current = False
+                open_tasks = []  # we don't care so performance optimize
+
+            # last workflow step: consider done if no open tasks left
+            if (state == current_state
+               and index > len(metromap_list)
+               and not open_tasks):
+                finished = True
+
+            # only current state can be closed
+            if (state == current_state and can_manage and not open_tasks):
+                next_transition = wfstep.get('next_transition', None)
+            else:
+                next_transition = None
+            if next_transition:
+                transition_title = _(
+                    cwf.transitions.get(next_transition).title)
+            else:
+                transition_title = ''
+
+            # reopen only the before-current step, only for admins
+            reopen_transition = None
+            try:
                 next_state = metromap_list[index + 1]["state"]
-                reopen = next_state == current_state
+                # if this step precedes the current state, it can be reopened
+                if next_state == current_state and can_manage:
+                    reopen_transition = wfstep.get('reopen_transition', None)
+            except IndexError:
+                # last step, no next
+                pass
+
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
                 'transition_id': next_transition,
-                'transition_title': '',
-                'reopen_transition': reopen and mmap['reopen_transition'],
-                'enabled': next_transition in next_available_transition,
+                'transition_title': transition_title,
+                'reopen_transition': reopen_transition,
+                'is_current': is_current,
                 'finished': finished,
             }
-            if next_transition:
-                sequence[state]['transition_title'] = _(
-                    cwf.transitions.get(next_transition).title)
         return sequence
 
 

@@ -54,6 +54,6 @@
   <action title="Roster" action_id="edit-roster"
           category="object" condition_expr=""
     url_expr="string:${object_url}/@@edit-roster" visible="True">
-    <permission value="collective.workspace: Manage roster" />
+    <permission value="ploneintranet.workspace: Manage workspace" />
   </action>
 </object>

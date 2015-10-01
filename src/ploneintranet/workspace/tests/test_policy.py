@@ -352,7 +352,7 @@ class TestPolicy(BaseTestCase):
     def test_join_policy_admin(self):
         """
         in an admin managed workspace, a user needs the
-        manage roster permission to update users
+        manage workspace permission to update users
         """
         self.login_as_portal_owner()
         workspace = api.content.create(
@@ -369,10 +369,18 @@ class TestPolicy(BaseTestCase):
         self.login(username)
         self.assertFalse(
             checkPermission(
+                "ploneintranet.workspace: Manage workspace",
+                workspace
+            ),
+        )
+        # we're not relying on Manage roster anywhere, but verify anyway
+        self.assertFalse(
+            checkPermission(
                 'collective.workspace: Manage roster',
                 workspace
             ),
         )
+
         self.request['REQUEST_METHOD'] = 'POST'
         edit_form = EditRoster(workspace, self.request)
         settings = [

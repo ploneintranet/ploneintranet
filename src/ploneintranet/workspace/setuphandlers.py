@@ -11,6 +11,8 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 def post_install(context):
     """
     - adds the global "workspaces" container
+    - adds the global "templates" case templates container
+      (actual case template is provided by ploneintranet.suite)
     - sets an acl user group to hold all intranet users
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy

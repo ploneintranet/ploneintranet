@@ -26,7 +26,7 @@ class TestTodos(BaseTestCase):
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(self.case)
         wfconfig.setPolicyIn('case_workflow')
-        api.content.transition(self.case, 'transfer_to_department')
+        api.content.transition(self.case, 'assign')
 
     def test_todo_reopen_earlier_milestone(self):
         case_todo = api.content.create(
@@ -47,7 +47,7 @@ class TestTodos(BaseTestCase):
             type='todo',
             title='case_todo',
             container=self.case,
-            milestone='in_progress',
+            milestone='prepare',
         )
         api.content.transition(case_todo, 'finish')
         case_todo.reopen()
@@ -140,9 +140,9 @@ class TestTodos(BaseTestCase):
             type='todo',
             title='case_todo',
             container=case2,
-            milestone='in_progress',
+            milestone='prepare',
         )
 
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'planned')
-        api.content.transition(case2, 'transfer_to_department')
+        api.content.transition(case2, 'assign')
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')
