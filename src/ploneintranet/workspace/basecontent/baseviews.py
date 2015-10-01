@@ -147,6 +147,15 @@ class ContentView(BrowserView):
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
 
+    def is_allowed_document_type(self):
+        return pi_api.previews.is_allowed_document_type(self.context)
+
+    def converting(self):
+        return pi_api.previews.converting(self.context)
+
+    def successfully_converted(self):
+        return pi_api.previews.successfully_converted(self.context)
+
     def image_url(self):
         """The img-url used to construct the img-tag."""
         context = aq_inner(self.context)
