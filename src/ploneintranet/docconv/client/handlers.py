@@ -3,6 +3,7 @@ import transaction
 
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
+from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
 from ploneintranet import api as pi_api
 
 from ploneintranet.async.celeryconfig import ASYNC_ENABLED
@@ -14,6 +15,11 @@ log = logging.getLogger(__name__)
 def generate_previews_async(obj, event=None):
     """ Generates the previews by dispatching them to the async service
     """
+    if hasattr(obj, 'portal_type') and \
+       obj.portal_type not in SUPPORTED_CONTENTTYPES:
+        log.info('Skipping documentconversion for %s (unsupported type)'
+                 % obj.absolute_url(1))
+        return
     # Need a commit to make sure the content is there
     transaction.commit()
     if ASYNC_ENABLED:

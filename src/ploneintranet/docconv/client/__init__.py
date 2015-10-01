@@ -6,6 +6,11 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
+# Once we turn to providing pdfs also for Documents, events etc,
+# this can be extended. For now we only do file previews.
+SUPPORTED_CONTENTTYPES = ['File',
+                          ]
+
 
 # documentviewer does set the layout in two places. One can be turned off
 # the following one can't. So we have to patch.
