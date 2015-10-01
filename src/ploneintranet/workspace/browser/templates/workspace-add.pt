@@ -39,7 +39,7 @@
 
                 <fieldset class="group pat-checklist radio" tal:condition="python: len(templates) <=6">
                     <label tal:repeat="template templates">
-                      <input type="radio" name="template_id" checked="checked" tal:attributes="value template/id">
+                      <input type="radio" name="template_id" tal:attributes="value template/id">
                       ${template/Title}
                     </label>
                 </fieldset>
