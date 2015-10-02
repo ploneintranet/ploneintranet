@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-from AccessControl.SecurityManagement import getSecurityManager
-from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
-from AccessControl.User import UnrestrictedUser
 from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
