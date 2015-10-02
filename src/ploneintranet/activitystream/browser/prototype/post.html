@@ -59,37 +59,66 @@
     <p tal:content="structure view/statusupdate_view/decorated_text">Comment text</p>
   </section>
 
-  <section class="document preview">
+  <tal:comment condition="nothing">
+  prototype distinguishes:
+  - content shares (link, download, view) versus status attachments (download)
+  - files (with title, description) versus images (fullwidth)
+  - has preview  versus no preview versus preview in progress
+  
+  Please study prototype/./_includes/post.html when making changes here.
 
-    <figure tal:repeat="attachment view/statusupdate_view/attachments">
-      <a href="/incredibly-boring-document" tal:attributes="href attachment/link">
-        <img src="/media/preview_thumb_1.jpg" alt=""
-             tal:attributes="src string:${attachment/img_src}">
-      </a>
-          <figcaption>
-            <strong class="title">
-              <a tal:attributes="href attachment/link; alt attachment/alt" href="/projection-material" alt="Projection Material">
-                <tal:r replace="attachment/title">Projection Material</tal:r> <!--span class="page-counter icon-docs">3x</span-->
-              </a>
-              <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
-              <!--span class="functions">
-                <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
-                <nav class="pat-gallery">
-                  <a class="icon iconified icon-eye" href="http://lorempixel.com/1280/720/business/" title="Preview this file">Preview</a>
-                  <a hidden="" href="http://lorempixel.com/1280/720/sports/" class="icon iconified icon-eye" title="Preview this file">Page 2</a>
-                  <a hidden="" href="http://lorempixel.com/1280/720/food/" title="Preview this file">Page 3</a>
-                  <a hidden="" href="http://lorempixel.com/1280/720/cats/" title="Preview this file">Page 4</a>
-                </nav>
-              </span-->
-            </strong>
-            <a href="/projection-material" alt="Projection Material">
-              <em class="byline">Description goes here</em>
-            </a>
-          </figcaption>
+  NB the prototype assumes that multiple attachments are either all images
+  or else are all files. Implementation will need to split that into
+  a multi-file + multi-image renderer.
+  </tal:comment>
 
-    </figure>
+  <tal:attachments repeat="attachment view/statusupdate_view/attachments">
+    <tal:def define="is_content python:False;
+                     is_image attachment/is_image;
+                     has_preview attachment/img_src|nothing">
 
-  </section>
+      <tal:streamonly condition="not:is_content">
+
+        <tal:stream_document condition="not:is_image">
+          <section class="document preview"
+                   tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
+            <figure>
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                   tal:condition="has_preview"
+                   tal:attributes="src attachment/img_src" />
+              <figcaption>
+                <strong class="title">
+                  <tal:r replace="attachment/title">Projection Material</tal:r>
+                  <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
+                  <!--span class="page-counter icon-docs">3x</span-->
+                  <span class="functions">
+                      <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
+                      <!-- XXX gallery not implemented yet -- >
+                </strong>
+                <!-- no description byline for status attachments -->
+              </figcaption>
+            </figure>
+          </section>
+        </tal:stream_document>
+
+        <tal:stream_image condition="is_image">
+	  <section class="image preview">
+	    <figure>
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                   tal:condition="has_preview"
+                   tal:attributes="src attachment/img_src" />
+	    </figure>
+	    <p class="overlay" tal:condition="nothing">
+              <!-- XXX images gallery view not implemented yet -->
+              <!-- XXX images zip download not implemented yet -->
+	    </p>
+	  </section>
+        </tal:stream_image>
+
+      </tal:streamonly>
+
+    </tal:def>
+  </tal:attachments>
 
   <div class="functions">
     <!-- XXX: This is not yet implemented -->
