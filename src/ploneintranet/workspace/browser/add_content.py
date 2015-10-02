@@ -12,6 +12,7 @@ from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
+from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -96,18 +97,10 @@ class AddContent(BrowserView):
                     participant_policy = 'publishers'
                 else:
                     raise AttributeError
-            old_security_manager = getSecurityManager()
-            acl_users = api.portal.get_tool('acl_users')
-            tmp_user = UnrestrictedUser(
-                'Workspace Init', '', ['TeamManager'], '')
-            tmp_acl_user = tmp_user.__of__(acl_users)
-            newSecurityManager(None, tmp_acl_user)
-            try:
-                new.set_external_visibility(external_visibility)
-            except:
-                raise
-            finally:
-                setSecurityManager(old_security_manager)
+
+                if external_visibility:
+                    execute_as_manager(
+                        new.set_external_visibility, external_visibility)
 
             acl_users = api.portal.get_tool('acl_users')
             if acl_users.ZCacheable_enabled():
