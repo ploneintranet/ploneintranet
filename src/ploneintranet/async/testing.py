@@ -2,7 +2,6 @@
 """Base module for unittesting."""
 import base64
 import os
-import pkg_resources
 import socket
 import subprocess
 import time
@@ -23,8 +22,9 @@ from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 from ploneintranet.async.celerytasks import app
 
-_DIST = pkg_resources.get_distribution('ploneintranet')
-_BUILDOUT_BIN_DIR = os.path.join(_DIST.location, os.pardir, 'bin')
+# /app/parts/test/../../bin => /app/bin
+_BUILDOUT_BIN_DIR = os.path.abspath(
+    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin'))
 
 
 class CeleryLayer(Layer):
