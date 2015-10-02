@@ -62,13 +62,18 @@ def dbconfig(event):
 
     registry = getUtility(IRegistry, context=plone)
     settings = registry.forInterface(IThemeSwitcherSettings, check=False)
-    if conf.get('hostname_switchlist'):
+    if conf.get('hostname_switchlist') or conf.get('hostname_default'):
         try:
-            settings.hostname_switchlist = [
-                unicode(conf.get('hostname_switchlist')), ]
-            log.info('hostname_switchlist configured')
+            if conf.get('hostname_switchlist'):
+                settings.hostname_switchlist = [
+                    unicode(conf.get('hostname_switchlist')), ]
+                log.info('hostname_switchlist configured')
+            if conf.get('hostname_default'):
+                settings.hostname_default = unicode(
+                    conf.get('hostname_default'))
+                log.info('hostname_default configured')
         except AttributeError as e:
             log.exception(e)
-            log.error('Could not configure hostname_switchlist. Is '
+            log.error('Could not configure the ThemeSwitcher. Is '
                       'PloneIntranet installed?')
     transaction.commit()
