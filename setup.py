@@ -1,12 +1,9 @@
 from setuptools import setup, find_packages
 
-version = '1.0.0a4'
+version = '1.0.0a5'
 
 long_description = (
     open('README.rst').read()
-    + '\n' +
-    'Contributors\n'
-    '============\n'
     + '\n' +
     open('CHANGES.rst').read()
     + '\n')
