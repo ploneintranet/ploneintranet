@@ -193,9 +193,11 @@ class StatusUpdateView(BrowserView):
             self.attachment_base_url,
             item.getId(),
         ))
+        is_image = False
         if pi_api.previews.get(item):
             url = '/'.join((item_url, 'small'))
         elif isinstance(item, Image):
+            is_image = True
             images = api.content.get_view(
                 'images',
                 item.aq_base,
@@ -206,13 +208,10 @@ class StatusUpdateView(BrowserView):
                 images.scale(scale='preview').url.lstrip('/'),
             ))
         else:
-            # We need a better fallback image. See #122
-            url = '/'.join((
-                api.portal.get().absolute_url(),
-                '++theme++ploneintranet.theme/generated/media/logo.svg'
-            ))
+            url = None
 
-        return {'img_src': url,
+        return {'is_image': is_image,
+                'img_src': url,
                 'link': item_url,
                 'alt': item.id,
                 'title': item.id}
