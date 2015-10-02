@@ -54,7 +54,7 @@ diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme
 	@sleep 10
 	git commit -a -m "protoype release $(shell cat LATEST)"
 
-diazo: jekyll fetchrelease _diazo ## Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
+diazo: jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
 _diazo:
 	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
@@ -84,7 +84,7 @@ _diazo:
 	cp -R $(RELEASE_DIR)/apps/* $(DIAZO_DIR)/apps/
 
 
-jsdev: clean-proto dev-bundle diazo _jsdev ## full js development refresh
+jsdev: clean-proto dev-bundle diazo _jsdev ## 	 Full js development refresh
 
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
@@ -108,37 +108,12 @@ jsrelease: prototype
 
 PROJECT=ploneintranet
 
-docker-build: .ssh/known_hosts
-	docker.io build -t $(PROJECT) .
-
-# for use with boot2docker on MacOSX, 
-# start without sudo: 'make boot2docker-run'
-boot2docker-build: .ssh/known_hosts
+docker-build: .ssh/known_hosts  ## Create docker container
 	docker build -t $(PROJECT) .
 
 # re-uses ssh agent
 # also loads your standard .bashrc
-docker-run:
-	docker.io run -i -t \
-                --net=host \
-                -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
-                -v $(HOME)/.buildout:/.buildout \
-                -v /var/tmp:/var/tmp \
-                -v $(HOME)/.bashrc:/.bashrc \
-                -v $(HOME)/.pypirc:/.pypirc \
-                -v $(HOME)/.gitconfig:/.gitconfig \
-                -v $(HOME)/.gitignore:/.gitignore \
-                -e SSH_AUTH_SOCK=/tmp/auth.sock \
-		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
-		-e LC_ALL=en_US.UTF-8 \
-		-e LANG=en_US.UTF-8 \
-                -v $(PWD):/app -w /app -u app $(PROJECT)
-
-# for use with boot2docker on MacOSX, 
-# start without sudo: 'make boot2docker-run'
-# re-uses ssh agent
-# also loads your standard .bashrc
-boot2docker-run:
+docker-run:  ## Start docker container
 	docker run -i -t \
                 --net=host \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
@@ -161,7 +136,7 @@ boot2docker-run:
 ####################################################################
 # Guido's lazy targets
 
-devel: bin/buildout
+devel: bin/buildout  ## 	 Run development buildout
 	bin/buildout
 
 bin/buildout: bin/python2.7
@@ -173,11 +148,10 @@ bin/python2.7:
 ####################################################################
 # Solr
 
-solr: bin/buildout
-	@bin/buildout -c solr.cfg
+solr: devel
 
 solr-clean:
-	rm -rf parts/solr parts/solr-test
+	rm -rf parts/solr parts/solr-test var/solr var/solr-test bin/solr-instance bin/solr-test
 
 ####################################################################
 # Testing
@@ -193,7 +167,7 @@ test-robot: ## Run robot tests with a virtual X server
 test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot' -x
 
-test:: ## Run all tests, including robot tests with a virtual X server
+test:: ## 	 Run all tests, including robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -x
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 

@@ -11,14 +11,7 @@ from ploneintranet.workspace.interfaces import IMetroMap
 
 
 class Workspaces(BrowserView):
-
-    """ A view to serve as overview over workspaces
-    """
-
-    """ The tiles below are dummy tiles.
-         Please do NOT implement real tiles here, put them in another package.
-         We want to keep the theme simple and devoid of business logic
-    """
+    """ A view to serve as overview over workspaces """
 
     def __call__(self):
         """Render the default template"""
@@ -43,12 +36,16 @@ class Workspaces(BrowserView):
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}
                    ]
-        # put currently selected sort order at the beginning of the list
-        if hasattr(self.request, "sort"):
-            for o in options:
-                if o['value'] == self.request.sort:
-                    options.remove(o)
-                    options.insert(0, o)
+        return options
+
+    def workspace_types(self):
+        options = [{'value': '',
+                    'content': 'All workspace types'},
+                   {'value': 'ploneintranet.workspace.workspacefolder',
+                    'content': 'Generic workspaces'},
+                   {'value': 'ploneintranet.workspace.case',
+                    'content': 'Cases'}
+                   ]
         return options
 
     @memoize
@@ -60,17 +57,13 @@ class Workspaces(BrowserView):
 
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
+
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
 
     def templates(self):
         portal = api.portal.get()
-        pc = api.portal.get_tool('portal_catalog')
-        brains = pc.searchResults(
-            portal_type='ploneintranet.workspace.case',
-            path='/'.join(portal.getPhysicalPath()) + '/' + TEMPLATES_FOLDER,
-        )
-        return brains
+        return portal.get(TEMPLATES_FOLDER).objectValues()
 
 
 class WorkspaceTabsTile(Tile):

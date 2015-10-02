@@ -22,11 +22,21 @@ Features
 Goals
 -----
 
-* Provide out-of-the-box site search using standard Plone catalog (with limited feature set)
-
-* Optional Solr backend implementation providing better relevancy, spell checking and highlighting
+* Solr backend implementation providing better relevancy, spell checking and highlighting than ZCatalog can offer
 
 * Possible Elasticsearch or other backend support in the future
+
+Restrictions
+------------
+
+.. warning:: Solr is required
+
+Initially, we had a goal of also shipping with ZCatalog support without hard requiring Solr.
+This is still reflected in the code, which also offers a level of ZCatalog-only support.
+However we've since discovered that maintaining ZCatalog-only support will not be possible.
+
+Please always develop and deploy with the Solr backend enabled.
+Our default buildout.cfg ships with Solr enabled.
 
 Why not collective.solr?
 ------------------------

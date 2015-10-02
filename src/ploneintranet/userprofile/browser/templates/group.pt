@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-contacts patterns-loaded">
+        <metal:content fill-slot="content">
+        <div class="application page-type- workspace-type-" id="content">
+            <h1 id="workspace-name">
+                <!-- Next link is to lead to landing state of current workspace -->
+                <a href="/open-market-committee"></a>
+            </h1>
+
+            <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+
+                <div id="document-body" class="" tal:define="group view/group">
+                    <div id="document-content">
+                        <article class="document rich person">
+                            <h1 tal:content="group/title | group/id">The board</h1>
+                            <p tal:content="group/description">The board is concerned with lorem ipsum dolor sit amet.</p>
+
+                            <div class="row user-table pat-equaliser">
+                                    
+                                <!-- The last anchor tag in this list should always get a class 'last' to avoid that the item will float to the right. -->
+                                <tal:repeat repeat="member group/members">
+                                    <a href="/liz-baker" class="two columns equalised"  tal:attributes="href string:${here/portal_url}/profiles/${member/id}; class string:two columns equalised ${lastcls}" tal:define="fullname python:member.getProperty('fullname'); last repeat/member/end; lastcls python:last == 1 and 'last' or ''">
+                                        <figure>
+                                            <img src="/media/avatar-liz-baker.jpg" class="pat-avatar" alt="Image of Liz Baker" tal:attributes="src string:${here/portal_url}/@@avatars/${member/id}; alt string:Image of ${fullname}">
+
+                                            <figcaption tal:content="fullname">
+                                            Liz Baker
+                                            </figcaption>
+                                        </figure>
+                                    </a>
+                                </tal:repeat>
+
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </metal:content>
+    </body>
+</html>

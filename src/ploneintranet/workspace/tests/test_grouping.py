@@ -1,7 +1,7 @@
 # coding=utf-8
 from plone import api
-from plone.app.linkintegrity.info import IUUID
 from plone.app.testing.interfaces import SITE_OWNER_NAME
+from plone.uuid.interfaces import IUUID
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.testing import \

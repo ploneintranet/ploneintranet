@@ -13,28 +13,53 @@ Development Install
 We assume you want to do some work on ploneintranet. Here is what you need
 to do to get yourself set up.
 
-Setting up Your Development Environment
----------------------------------------
+Prepare the Operating System Environment
+----------------------------------------
+
+Plone Intranet has quite a number of OS-level dependencies:
+
+- ruby (for docsplit) and docsplit
+- java (for Solr)
+- redis-server
+
+We maintain an exact description of these requirements in the form of a Ubuntu
+based Dockerfile_, which you can use either to build a Docker container, or to
+set up your own Ubuntu virtual.
+
+To build a Docker container with Plone Intranet inside::
+
+  docker build -t ploneintranet .
+
+This requires `docker` to be available, see the `Docker installation docs`_.
+
+Manual OS preparation
+~~~~~~~~~~~~~~~~~~~~~
+
+You can skip this section if you use the provided Dockerfile.
+
+If you want to prepare your system environment manually, please use the Dockerfile_ as a reference. YMMV.
 
 Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
 
 In addition, for the Plone Intranet file preview functionality, you need docsplit.
-
-You will need some other tools installed for docsplit.  See the
-`docsplit installation instructions`_.  Note that Libre Office is
-mentioned as optional there, but in Plone Intranet we require it.
-
-.. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
-
 On Ubuntu::
 
     sudo apt-get install ruby
     gem install docsplit
 
-You also need redis for async document conversion::
+You will need some other tools installed for docsplit.  See the
+`docsplit installation instructions`_.  Note that Libre Office is
+mentioned as optional there, but in Plone Intranet we require it.
+
+Solr is a required component. This will be built using buildout, but requires Java to be available.
+
+Redis is a required component. This is *not* built with buildout, but expected to be available as a system service::
 
     sudo apt-get install redis-server
+
+Setting up Your Development Environment
+---------------------------------------
 
 Set-up a development environment::
 
@@ -68,11 +93,18 @@ alice_lindstrom   secret            Not a member of any workspaces
 
 Those passwords are not actually secret, they're just the word "secret" without quotes!
 
+.. note::
+
+   If you end up with an empty site, you probably installed Plone Intranet Suite via the Plone Add-ons configuration screen.
+
+If you want an empty site, you can install Plone Intranet Suite via the Quickinstaller. Please read the section on :doc:`../development/components/userprofiles.rst`
+to learn how you can manage users.
+
 
 Running tests
 -------------
 
-See :doc:`../development/testing`
+See :doc:`../development/testing_of_pi`
 
 
 

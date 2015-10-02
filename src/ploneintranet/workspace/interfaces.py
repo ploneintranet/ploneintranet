@@ -26,6 +26,12 @@ class IParticipationPolicyChangedEvent(Interface):
     new_policy = Attribute(u"Policy we are moving to")
 
 
+class IWorkspaceRosterChangedEvent(Interface):
+    """
+    Event, which is fired once the roster of a workspace had changed
+    """
+
+
 class IWorkspaceState(Interface):
     """A view that gives access to the containing workspace
     """
@@ -62,12 +68,12 @@ class IMetroMap(Interface):
         which transitions are currently available.
         OrderedDict([(
             "new", {
-                "enabled": False,
+                "is_current": False,
                 "transition_id": "transfer_to_department",
                 "finished": True,
             }), (
             "in_progress", {
-                "enabled": False,
+                "is_current": False,
                 "transition_id": "transfer_to_department",
                 "finished": True,
             }),

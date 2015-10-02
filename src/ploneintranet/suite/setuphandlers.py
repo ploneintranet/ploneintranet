@@ -47,6 +47,13 @@ def default(context):
 
     cleanup_default_content(context)
     commit()
+
+    log.info("create case templates")
+    casetemplates = case_templates_spec(context)
+    # TEMPLATES_FOLDER is already created by ploneintranet.workspace
+    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
+    commit()
+
     log.info("default setup: done.")
 
 
@@ -73,11 +80,6 @@ def testing(context):
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
-    commit()
-
-    log.info("create case templates")
-    casetemplates = case_templates_spec(context)
-    create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
     commit()
 
     portal = api.portal.get()
@@ -435,25 +437,104 @@ def create_workspaces(workspaces, force=False):
             IWorkspace(workspace).add_to_team(user=m, groups=set(groups))
 
 
-def caseworkspaces_spec(context):
-    now = localized_now()
-    caseworkspaces = [{
-        'title': 'Example Case',
-        'description': 'A case management workspace demonstrating the '
-                       'adaptive case management functionality.',
-        'members': {'allan_neece': [u'Members'],
-                    'christian_stoney': [u'Admins', u'Members']},
+def case_templates_spec(context):
+    case_templates = [{
+        'title': 'Case Template',
+        'description': 'A Template Case Workspace, pre-populated with tasks',
+        'members': {},
         'contents': [{
             'title': 'Populate Metadata',
             'type': 'todo',
-            'description': 'Retrieve and assign metadata',
+            'description': 'Identify and fill in the Metadata',
             'milestone': 'new',
         }, {
             'title': 'Identify the requirements',
             'type': 'todo',
-            'description': 'Investigate the request and identify requirements',
-            'milestone': 'in_progress',
+            'description': 'Analyse the request and identify the requirements',
+            'milestone': 'prepare',
         }, {
+            'title': 'Draft proposal',
+            'type': 'todo',
+            'description': 'Create a draft proposal',
+            'milestone': 'prepare',
+        }, {
+            'title': 'Budget',
+            'type': 'todo',
+            'description': 'Propose funding',
+            'milestone': 'prepare',
+        }, {
+            'title': 'Stakeholder feedback',
+            'type': 'todo',
+            'description': 'Collect initial stakeholder feedback',
+            'milestone': 'prepare',
+        }, {
+            'title': 'Quality check',
+            'type': 'todo',
+            'description': 'Verify completeness of case proposal',
+            'milestone': 'complete',
+        }, {
+            'title': 'Financial audit',
+            'type': 'todo',
+            'description': 'Verify financial consequences',
+            'milestone': 'audit',
+        }, {
+            'title': 'Legal audit',
+            'type': 'todo',
+            'description': 'Verify legal requirements',
+            'milestone': 'audit',
+        }, {
+            'title': 'Schedule',
+            'type': 'todo',
+            'description': 'Schedule decision',
+            'milestone': 'propose',
+        }, {
+            'title': 'Confirm',
+            'type': 'todo',
+            'description': 'Communicate decision to all stakeholders',
+            'milestone': 'decided',
+        }, {
+            'title': 'Execute',
+            'type': 'todo',
+            'description': 'Implement decision taken',
+            'milestone': 'decided',
+        }, {
+            'title': 'Evaluate',
+            'type': 'todo',
+            'description': 'Document post-implementation evaluation',
+            'milestone': 'closed',
+        }, {
+            'title': 'File report',
+            'type': 'todo',
+            'description': 'Prepare case for archival',
+            'milestone': 'closed',
+        }],
+    }]
+    return case_templates
+
+
+def caseworkspaces_spec(context):
+    now = localized_now()
+    # use template todos as a base
+    base_contents = case_templates_spec(context)[0]['contents']
+    for todo in base_contents:
+        todo['initiator'] = 'christian_stoney'
+    for i in range(2):
+        base_contents[i]['state'] = 'done'
+    for i in range(4):
+        base_contents[i]['assignee'] = random.choice(['dollie_nocera',
+                                                      'allan_neece'])
+    for i in range(6):
+        base_contents[i]['due'] = now + timedelta(days=i * 2)
+
+    caseworkspaces = [{
+        'title': 'Example Case',
+        'description': 'A case management workspace demonstrating the '
+                       'adaptive case management functionality.',
+        'state': 'prepare',
+        'members': {'allan_neece': [u'Members'],
+                    'dollie_nocera': [u'Members'],
+                    'christian_stoney': [u'Admins', u'Members']},
+        'contents': base_contents + [{
             'title': 'Future Meeting',
             'type': 'Event',
             'start': now + timedelta(days=7),
@@ -490,6 +571,7 @@ def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
     for w in caseworkspaces:
         contents = w.pop('contents', None)
         members = w.pop('members', [])
+        state = w.pop('state', None)
         caseworkspace = api.content.create(
             container=ws_folder,
             type='ploneintranet.workspace.case',
@@ -505,6 +587,8 @@ def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
         for (m, groups) in members.items():
             IWorkspace(
                 caseworkspace).add_to_team(user=m, groups=set(groups))
+        if state is not None:
+            api.content.transition(caseworkspace, to_state=state)
 
 
 def create_ws_content(parent, contents):
@@ -697,26 +781,6 @@ def create_stream(context, stream, files_dir):
                     item_id=str(status_obj.id),
 
                 )
-
-
-def case_templates_spec(context):
-    case_templates = [{
-        'title': 'Case Template',
-        'description': 'A Template Case Workspace, pre-populated with tasks',
-        'members': {},
-        'contents': [{
-            'title': 'Populate Metadata',
-            'type': 'todo',
-            'description': 'Identify and fill in the Metadata',
-            'milestone': 'new',
-        }, {
-            'title': 'Identify the requirements',
-            'type': 'todo',
-            'description': 'Analyse the request and identify the requirements',
-            'milestone': 'in_progress',
-        }],
-    }]
-    return case_templates
 
 
 def decode(value):

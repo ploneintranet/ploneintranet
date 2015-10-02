@@ -1,12 +1,9 @@
 from setuptools import setup, find_packages
 
-version = '0.1'
+version = '1.0b1'
 
 long_description = (
     open('README.rst').read()
-    + '\n' +
-    'Contributors\n'
-    '============\n'
     + '\n' +
     open('CHANGES.rst').read()
     + '\n')
@@ -64,7 +61,6 @@ setup(name='ploneintranet',
           'plone.directives.form',
           'plone.directives.dexterity',
           'plone.principalsource',
-          'collective.celery',
           'collective.documentviewer',
           'collective.workspace',
           'fake-factory',
@@ -83,7 +79,6 @@ setup(name='ploneintranet',
               'plone.app.robotframework[debug]',
               'fake-factory',
               'mock',
-              'plonesocial.suite',
               'responses',
           ],
           'socialsuite': [

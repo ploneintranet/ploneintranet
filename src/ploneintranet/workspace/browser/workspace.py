@@ -4,6 +4,7 @@ from plone import api
 from plone.memoize.view import memoize
 from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+import ploneintranet.api as pi_api
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from json import dumps
@@ -96,12 +97,20 @@ class WorkspaceMembersJSONView(BrowserView):
 
 class AllUsersJSONView(BrowserView):
     """
-    Return all users in JSON for use with pat-autosuggest.
+    Return a filtered list of users for pat-autosuggest
     """
     def __call__(self):
-        users = api.user.get_users()
         q = self.request.get('q', '')
-        return filter_users_json(q, users)
+        user_details = []
+        for user in pi_api.userprofile.get_users(
+                SearchableText=u'{}*'.format(q)):
+            fullname = user.Title()
+            email = user.email
+            user_details.append({
+                'id': user.getId(),
+                'text': u'{} <{}>'.format(fullname, email),
+            })
+        return dumps(user_details)
 
 
 class AllGroupsJSONView(BrowserView):
@@ -135,22 +144,3 @@ class AllGroupsJSONView(BrowserView):
                     'id': groupid,
                 })
         return dumps(group_details)
-
-
-class CaseWorkflowGuardView(BrowserView):
-    """Enable transition to the next workflow state when there are no open
-    tasks
-    """
-
-    @memoize
-    def __call__(self):
-        context = self.context
-        catalog = api.portal.get_tool('portal_catalog')
-        current_path = '/'.join(context.getPhysicalPath())
-        brains = catalog(
-            path=current_path,
-            portal_type='todo',
-            review_state='open',
-        )
-        has_no_open_tasks = len(brains) == 0
-        return has_no_open_tasks

@@ -25,9 +25,9 @@ try:
 except pkg_resources.DistributionNotFound:
     SOLR_ENABLED = False
 
-_DIST = pkg_resources.get_distribution('ploneintranet')
-
-_BUILDOUT_BIN_DIR = os.path.join(_DIST.location, os.pardir, 'bin')
+# /app/parts/test/../../bin => /app/bin
+_BUILDOUT_BIN_DIR = os.path.abspath(
+    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin'))
 
 
 class SolrLayer(Layer):
@@ -77,7 +77,7 @@ class SolrLayer(Layer):
 
         self._solr_cmd('start')
         # Poll Solr until it is up and running
-        solr_ping_url = '{0}/admin/ping'.format(self.solr_url)
+        solr_ping_url = '{0}/core1/admin/ping'.format(self.solr_url)
         n_attempts = 10
         i = 0
         while i < n_attempts:
@@ -85,23 +85,19 @@ class SolrLayer(Layer):
                 response = requests.get(solr_ping_url, timeout=1)
                 if response.status_code == 200:
                     if '<str name="status">OK</str>' in response.text:
-                        sys.stdout.write('Solr Layer Connected')
+                        sys.stdout.write('[Solr Layer Connected] ')
                         sys.stdout.flush()
                         break
             except requests.ConnectionError:
-                time.sleep(1)
-                sys.stdout.write('.')
-                sys.stdout.flush()
-            if i == n_attempts:
-                subprocess.call(
-                    './solr-test stop',
-                    shell=True,
-                    close_fds=True,
-                    cwd=_BUILDOUT_BIN_DIR
-                )
-                sys.stdout.write('Solr Instance could not be started !!!\n')
-                sys.stdout.flush()
+                pass
+            time.sleep(1)
+            sys.stdout.write('.')
+            sys.stdout.flush()
             i += 1
+
+        if i == n_attempts:
+            self._solr_cmd('stop')
+            raise EnvironmentError('Solr Test Instance could not be started')
 
     def tearDown(self):
         """Stop Solr.

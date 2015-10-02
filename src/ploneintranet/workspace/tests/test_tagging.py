@@ -5,7 +5,7 @@ from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
 from ploneintranet.workspace.tests.base import BaseTestCase
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 
 
 class TestTagging(BaseTestCase):
@@ -16,7 +16,7 @@ class TestTagging(BaseTestCase):
 
     def setUp(self):
         super(TestTagging, self).setUp()
-        directlyProvides(self.request, IWorkspaceAppFormLayer)
+        alsoProvides(self.request, IWorkspaceAppFormLayer)
         workspaces = self.portal["workspaces"]
         self.ws = api.content.create(
             workspaces,

@@ -9,6 +9,7 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -74,7 +75,7 @@ class BaseTile(BrowserView):
         does this user have permission to manage the workspace's roster
         """
         return api.user.has_permission(
-            "collective.workspace: Manage roster",
+            "ploneintranet.workspace: Manage workspace",
             obj=self.context,
         )
 
@@ -193,6 +194,7 @@ class SidebarSettingsMembers(BaseTile):
             msg_type = 'error'
 
         api.portal.show_message(msg, self.request, msg_type)
+        notify(WorkspaceRosterChangedEvent(self.context))
 
     def __call__(self):
         if self.request.method == 'POST':
@@ -351,6 +353,7 @@ class Sidebar(BaseTile):
         return self.render()
 
     def is_open_task_in_milestone(self, milestone_tasks):
+        """When viewing a task, open corresponding milestone in sidebar"""
         if 'PARENT_REQUEST' in self.request:
             # Only check if this is a tile subrequest
             open_item_url = self.request.get('PARENT_REQUEST')['ACTUAL_URL']
@@ -398,8 +401,10 @@ class Sidebar(BaseTile):
         in the grouping storage to allow unified handling. This extracts the
         attributes from brains and returns dicts
         """
-        ptool = api.portal.get_tool('portal_properties')
+
         results = []
+        view_types = api.portal.get_registry_record(
+            'plone.types_use_view_action_in_listings')
         for r in catalog_results:
             if r['portal_type'] in FOLDERISH_TYPES:
                 structural_type = 'group'
@@ -424,9 +429,7 @@ class Sidebar(BaseTile):
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
-                view_action_types = \
-                    ptool.site_properties.typesUseViewActionInListings
-                if r['portal_type'] in view_action_types:
+                if r['portal_type'] in view_types:
                     url = "%s/view" % url
                 # What exactly do we need to inject, and where?
                 dpi = (
@@ -931,7 +934,7 @@ class Sidebar(BaseTile):
             path=workspace_path,
             end={'query': now, 'range': 'min'},
             sort_on='start',
-            sort_order='descending',
+            sort_order='ascending',
         )
 
         # Events which have finished

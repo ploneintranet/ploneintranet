@@ -9,42 +9,74 @@
   <metal:content fill-slot="content">
 
     <div id="content">
+      <div style="max-width: 600px; margin: 2em 0;">
+      <style type="text/css">
+        #root-zope-user-warning {display: none;}
+        p, h3 {margin: 1em 0;}
+      </style>
 
-      <h1 i18n:translate="Bulk import users" />
+      <h1 i18n:translate="">User profile management</h1>
+
+      <p>
+        Plone Intranet does not (yet) support though-the-web user management.
+      </p>
+      <p>
+        Normally, you will want to 
+        <a href="http://docs.ploneintranet.org/development/components/userprofiles.html#external-authentication-and-or-data-sources-e-g-ad-ldap">manage users in an Active Directory or LDAP system</a>.
+      </p>
+      <p>
+        In no case should you use the normal Plone user management control panel with Plone Intranet.
+        For more information, see the <a href="http://docs.ploneintranet.org/development/components/userprofiles.html">user management documentation</a>.
+      </p>
+
+      <h2>CSV upload</h2>
+      <p>If you're deploying (or trying out) Plone Intranet without an external user database,
+        you can use the form below to upload a comma-separated-values file with the user data
+        you want to load. This will then create the user profiles.
+      </p>
 
       <form method="POST"
-	    enctype="multipart/form-data">
-	<p>
-	  <input type="file" name="csvfile" />
-	</p>
-	<p>
+	    enctype="multipart/form-data"
+            style="padding: 1em; background-color: white;">
+
+        <fieldset class="vertical fancy">
+
+          <label class="attachments">
+            Upload CSV file
+	    <input type="file" name="csvfile" />
+	  </label>
+
+	<fieldset class="pat-checklist options checked">
+          <label class="checked">
+
 	  <input type="checkbox"
 		 id="update-existing"
 		 name="update-existing" 
 		 value="1" />
-	  <label for="update-existing"
-		 i18n:translate="">
+	  <span i18n:translate="">
 	    Update details for existing users (matching on username)
+          </span>
 	  </label>
-	</p>
-	<p>
+	</fieldset>
+
 	  <input type="submit"
+                 class="icon-flopy pat-button focus"
 		 i18n:attributes="value"
 		 value="Import users from file" />
-	</p>
 
+        </fieldset>
       </form>
 
-      <p>
-	<strong i18n:translate="">
+      <h3 i18n:translate="">
 	  Available fields/columns
-	</strong>
-      </p>
+      </h3>
       <ul tal:define="fields view/available_field_names">
 	<li tal:repeat="field fields"
+            style="list-style: inside disc"
 	    tal:content="field" />
       </ul>
 
+      </div>
     </div>
 
   </metal:content>

@@ -43,7 +43,9 @@ def get_preview_urls(obj, scale='normal'):
 
 
 def fallback_image(obj):
-    """Return a fallback image for use if there are no previews.
+    """DEPRECATED: Return a fallback image for use if there are no previews.
+
+    Prototype does not use fallback image anymore, instead offers css solution.
 
     :param obj: The Plone object to get previews for
     :type obj: A Plone content object
@@ -54,7 +56,9 @@ def fallback_image(obj):
 
 
 def fallback_image_url(obj):
-    """Return a fallback image URL for use if there are no previews.
+    """DEPRECATED: Return a fallback image URL for use if there are no previews.
+
+    Prototype does not use fallback image anymore, instead offers css solution.
 
     :param obj: The Plone object to get previews for
     :type obj: A Plone content object

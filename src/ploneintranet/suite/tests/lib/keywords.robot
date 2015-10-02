@@ -54,10 +54,6 @@ I am in a workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Market Committee Workspace
 
-I am in a case workspace as a workspace member
-    I am logged in as the user allan_neece
-    I go to the Example Case
-
 I am in a Producers workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Parliamentary Papers Guidance Workspace
@@ -77,10 +73,6 @@ I am in a Consumers workspace as a workspace admin
 I am in a workspace as a workspace admin
     I am logged in as the user christian_stoney
     I go to the Open Market Committee Workspace
-
-I am in a case workspace as a workspace admin
-    I am logged in as the user christian_stoney
-    I go to the Example Case
 
 I am in an open workspace as a workspace member
     I am logged in as the user allan_neece
@@ -693,6 +685,31 @@ The metadata has the new tag
 
 # *** case related keywords ***
 
+I am in a case workspace as a workspace member
+    I am logged in as the user allan_neece
+    I go to the Example Case
+
+I am in a case workspace as a workspace admin
+    I am logged in as the user christian_stoney
+    I go to the Example Case
+
+I move the example workspace to state prepare
+      I can go to the Example Case
+      I can go to the sidebar tasks tile of my case
+      I can open a milestone task panel  prepare
+      I select the task check box  Draft proposal
+      I select the task check box  Budget
+      I select the task check box  Stakeholder feedback
+
+I move the example workspace to state complete
+      I move the example workspace to state prepare
+      I can close a milestone  prepare
+      I can open a milestone task panel  complete
+      I select the task check box  Quality check
+
+Admin moves the example workspace to state complete
+      I am in a case workspace as a workspace admin
+      I move the example workspace to state complete
 
 I can create a new case
     [arguments]  ${title}
@@ -771,6 +788,11 @@ I see a task is open
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
     Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
 
+I see the task quality check has state
+    [arguments]  ${state}
+    Go To  ${PLONE_URL}/workspaces/example-case/quality-check
+    Element should be visible  xpath=//fieldset[@id='workflow-menu']/label[@data-option='${state}']
+
 I do not see the completed task is not listed
     Page Should Not Contain  Todo soon
 
@@ -784,27 +806,40 @@ I can add a new task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
-    Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Christian Stoney
-    Input Text  css=label.assignee li.select2-search-field input  stoney
-    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Stoney']
-    Click Element  xpath=//span[@class='select2-match'][text()='Stoney']
+    Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Allan Neece
+    Input Text  css=label.assignee li.select2-search-field input  neece
+    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Neece']
+    Click Element  xpath=//span[@class='select2-match'][text()='Neece']
     Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
 
-I can close the first milestone
-    Click Element  xpath=//h4[text()='New']
-    Click Link  Close milestone
-    Wait until element is visible  xpath=//aside[@id='sidebar']//a[text()='Reopen milestone']
-
-I can toggle a milestone
+I can close a milestone
     [arguments]  ${milestone}
-    Click Element  xpath=//h4[text()='${milestone}']
+    I can open a milestone task panel  ${milestone}
+    Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+    # auto-closes current, reopen
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
-The task is done
-    [arguments]  ${title}
-    Click Link  ${title}
-    Wait Until Page Contains Element  xpath=//select[@id='workflow_action']/option[@selected='selected'][@title='Done']
+I cannot close a milestone
+    [arguments]  ${milestone}
+    I can open a milestone task panel  ${milestone}
+    Element should not be visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+
+I can reopen a milestone
+    [arguments]  ${milestone}
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    # auto-closes current, reopen
+    I can open a milestone task panel  ${milestone}
+    Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
+
+I can open a milestone task panel
+    [arguments]  ${milestone}
+    # panel 'open' state is session dependent, force open
+    Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
 
 I write a status update
     [arguments]  ${message}
@@ -849,8 +884,8 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
     Click Link  link=${SEARCH_RESULT_TITLE}
     Page should contain  ${SEARCH_RESULT_TITLE}
 
-I can exclude content of type ${CONTENT_TYPE}
-    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+I can filter content of type ${CONTENT_TYPE}
+    Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
 
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}

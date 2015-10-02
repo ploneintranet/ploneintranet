@@ -11,22 +11,29 @@
 
     <div class="container" tal:define="ploneview here/@@plone">
         <!--form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces" -->
-        <form class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #content; target: #content" method="POST">
+        <form  class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #workspaces; target: #workspaces" method="POST">
             <label class="bare pat-select">
-
                 <select name="sort">
                     <tal:r repeat="o view/sort_options">
-                        <option tal:attributes="value o/value" tal:content="o/content" i18n:translate="">Option</option>
+                        <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
                     </tal:r>
                  </select>
-             </label>
-             <div class="icons">
+            </label>
+            <label class="bare pat-select">
+                <select name="workspace_type">
+                  <tal:r repeat="o view/workspace_types">
+                    <option tal:attributes="value o/value; selected python:request.get('workspace_type')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                  </tal:r>
+                </select>
+            </label>
+            <div class="icons">
                <a href="${view/target/absolute_url}/@@workspace-add#content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
                <span tal:replace="structure context/@@authenticator/authenticator"/>
-             </div>
+            </div>
+             <input type="search" placeholder="Search workspaces" focus name="SearchableText" tal:attributes="value request/SearchableText | nothing">
          </form>
 
-        <div class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+        <div id="workspaces" class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
           <div class="grid-sizer four columns"></div>
           <tal:r repeat="w view/workspaces">
 
