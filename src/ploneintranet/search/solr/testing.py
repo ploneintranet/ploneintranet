@@ -25,9 +25,9 @@ try:
 except pkg_resources.DistributionNotFound:
     SOLR_ENABLED = False
 
-_DIST = pkg_resources.get_distribution('ploneintranet')
-
-_BUILDOUT_BIN_DIR = os.path.join(_DIST.location, os.pardir, 'bin')
+# /app/parts/test/../../bin => /app/bin
+_BUILDOUT_BIN_DIR = os.path.abspath(
+    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin'))
 
 
 class SolrLayer(Layer):

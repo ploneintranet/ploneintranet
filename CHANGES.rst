@@ -1,12 +1,14 @@
 Changelog
 =========
 
-1.0 (unreleased)
-----------------
+1.0b1 (2015-10-02)
+------------------
 
-Venus is our first real release: 49 contributors, 6715 commits, 835 tests, 87% test coverage.
+Public beta testing release of *Venus*, our first production release cycle.
+49 contributors, ~6800 commits, 835 tests, 87% test coverage.
 
 0.1 (2015-06-01)
 ----------------
 
-Initial Mercury Technology Preview release: 49 contributors, 4581 commits, 520 tests, 89% test coverage.
+*Mercury* Technology Preview release.
+49 contributors, 4581 commits, 520 tests, 89% test coverage.
