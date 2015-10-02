@@ -23,12 +23,14 @@ Plone Intranet has quite a number of OS-level dependencies:
 - java (for Solr)
 - redis-server
 
-We maintain an exact description of these requirements in the form of a Ubuntu
-based Dockerfile_, which you can use either to build a Docker container, or to
-set up your own Ubuntu virtual.
+We maintain an exact description of these requirements in the form of a Ubuntu 14.04
+based Dockerfile_, which you can use either to 
+(a) build a Docker container, or 
+(b) as a guide set up your system manually
 
-Docker-based OS setup
-~~~~~~~~~~~~~~~~~~~~~
+
+(a) Docker-based OS setup
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This requires `docker` to be available, see the `Docker installation docs`_.
 
@@ -52,11 +54,11 @@ Now startup and enter the docker container::
 
 The supplied `Makefile` provides a more advanced `docker-run` target
 that mounts various extra directories and files into the container,
-so you can re-use a global eggs cache in `/var/tmp/` etc.
+so you can re-use a global eggs cache in `/var/tmp/` etc. YMMV.
 
 
-Manual OS preparation
-~~~~~~~~~~~~~~~~~~~~~
+(b) Manual OS preparation
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can skip this section if you use the provided Dockerfile.
 
@@ -76,8 +78,10 @@ You will need some other tools installed for docsplit.  See the
 mentioned as optional there, but in Plone Intranet we require it.
 
 Solr is a required component. This will be built using buildout, but requires Java to be available.
+On Ubuntu this normally comes pre-installed with the base OS.
 
-Redis is a required component. This is *not* built with buildout, but expected to be available as a system service::
+Redis is a required component. This is *not* built with buildout, but expected to be available as a system service.
+To install it on Ubuntu::
 
     sudo apt-get install redis-server
 
@@ -111,7 +115,7 @@ See :doc:`../development/testing_of_pi`
 Start all services
 ------------------
 
-First you need to make sure Redis is running::
+First you need to make sure Redis is running. On Ubuntu::
 
   sudo service redis-server start
 
