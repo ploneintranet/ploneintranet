@@ -66,6 +66,10 @@
   - has preview  versus no preview versus preview in progress
   
   Please study prototype/./_includes/post.html when making changes here.
+
+  NB the prototype assumes that multiple attachments are either all images
+  or else are all files. Implementation will need to split that into
+  a multi-file + multi-image renderer.
   </tal:comment>
 
   <tal:attachments repeat="attachment view/statusupdate_view/attachments">
@@ -74,13 +78,14 @@
                      has_preview attachment/img_src|nothing">
 
       <tal:streamonly condition="not:is_content">
+
         <tal:stream_document condition="not:is_image">
           <section class="document preview"
                    tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
             <figure>
               <img src="/media/preview_thumb_1.jpg" alt=""
                    tal:condition="has_preview"
-                   tal:attributes="src string:${attachment/img_src}" />
+                   tal:attributes="src attachment/img_src" />
               <figcaption>
                 <strong class="title">
                   <tal:r replace="attachment/title">Projection Material</tal:r>
@@ -88,21 +93,28 @@
                   <!--span class="page-counter icon-docs">3x</span-->
                   <span class="functions">
                       <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
-                      <!--nav class="pat-gallery">
-                        <a class="icon iconified icon-eye" href="http://lorempixel.com/1280/720/business/" title="Preview this file">Preview</a>
-                        <a hidden="" href="http://lorempixel.com/1280/720/sports/" class="icon iconified icon-eye" title="Preview this file">Page 2</a>
-                        <a hidden="" href="http://lorempixel.com/1280/720/food/" title="Preview this file">Page 3</a>
-                        <a hidden="" href="http://lorempixel.com/1280/720/cats/" title="Preview this file">Page 4</a>
-                      </nav-->
-</span>
+                      <!-- XXX gallery not implemented yet -- >
                 </strong>
-                <em class="byline">&nbsp;
-                  <!-- Need description for vertical space-->
-                </em>
+                <!-- no description byline for status attachments -->
               </figcaption>
             </figure>
           </section>
         </tal:stream_document>
+
+        <tal:stream_image condition="is_image">
+	  <section class="image preview">
+	    <figure>
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                   tal:condition="has_preview"
+                   tal:attributes="src attachment/img_src" />
+	    </figure>
+	    <p class="overlay" tal:condition="nothing">
+              <!-- XXX images gallery view not implemented yet -->
+              <!-- XXX images zip download not implemented yet -->
+	    </p>
+	  </section>
+        </tal:stream_image>
+
       </tal:streamonly>
 
     </tal:def>
