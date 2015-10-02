@@ -4,7 +4,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
+<<<<<<< variant A
+"POT-Creation-Date: 2015-09-04 10:01+0000\n"
+>>>>>>> variant B
 "POT-Creation-Date: 2015-10-01 12:49+0000\n"
+####### Ancestor
+"POT-Creation-Date: 2015-08-28 08:33+0000\n"
+======= end
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +25,18 @@ msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:46
+msgid "(This will delete a total of ${number_of_items_to_delete} items.)"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:127
+msgid ">Days running"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:131
+msgid ">Modifications past 7 days"
 msgstr ""
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
@@ -95,50 +113,104 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:509
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:119
 #: ../workspace/browser/tiles/templates/sidebar.pt:506
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
+#: ../workspace/browser/tiles/templates/sidebar.pt:481
+======= end
 msgid "Advanced"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:183
+<<<<<<< variant A
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:133
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:130
+======= end
 msgid "Advanced permissions"
 msgstr ""
 
 #: ../search/browser/templates/search_template.pt:24
-#: ../workspace/browser/tiles/templates/navigation.pt:35
+#: ../workspace/browser/templates/case_manager.pt:65
 msgid "All"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:392
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:384
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:385
+======= end
 msgid "All Authors"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:388
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:380
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:381
+======= end
 msgid "All Dates"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:396
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:388
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:389
+======= end
 msgid "All Letters"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:390
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:382
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:383
+======= end
 msgid "All Tags"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:642
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:634
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:635
+======= end
 msgid "All Time"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:394
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:386
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:387
+======= end
 msgid "All Types"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/events.py:50
+>>>>>>> variant B
 #: ../workspace/browser/tiles/events.py:52
+####### Ancestor
+#: ../workspace/browser/tiles/events.py:49
+======= end
 msgid "All day"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:95
+#: ../workspace/browser/templates/content_macros.pt:96
 msgid "All day event"
 msgstr ""
 
@@ -148,6 +220,10 @@ msgstr ""
 
 #: ../library/browser/views.py:100
 msgid "All topics"
+msgstr ""
+
+#: ../workspace/browser/workspacecontainer.py:40
+msgid "Alphabetical"
 msgstr ""
 
 #: ../layout/browser/templates/app-not-available.pt:25
@@ -164,6 +240,10 @@ msgstr ""
 
 #: ../layout/browser/templates/app-not-available.pt:12
 msgid "App not available"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:41
+msgid "Applicant"
 msgstr ""
 
 #: ../layout/profiles/default/actions.xml
@@ -193,7 +273,13 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:293
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:285
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:286
+======= end
 msgid "Attributes changed."
 msgstr ""
 
@@ -201,7 +287,13 @@ msgstr ""
 msgid "Author name (for display)"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:207
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:204
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:200
+======= end
 msgid "Author of this document"
 msgstr ""
 
@@ -209,7 +301,13 @@ msgstr ""
 msgid "Available fields/columns"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:398
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:390
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:391
+======= end
 msgid "Back"
 msgstr ""
 
@@ -237,11 +335,16 @@ msgstr ""
 msgid "Case Workspace"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:56
+msgid "Case type"
+msgstr ""
+
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr ""
 
 #: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
 msgstr ""
@@ -255,15 +358,31 @@ msgstr ""
 msgid "Change the workflow state"
 msgstr ""
 
-#: ../todo/browser/todo_view.py:70
+#: ../todo/browser/todo_view.py:45
 msgid "Changes applied"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:383
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:380
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:357
+======= end
 msgid "Close milestone"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/case_manager.pt:67
+msgid "Closed"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:158
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:163
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:157
+======= end
 msgid "Confirmed"
 msgstr ""
 
@@ -288,7 +407,13 @@ msgstr ""
 msgid "Content types"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:100
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:99
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:95
+======= end
 msgid "Copy"
 msgstr ""
 
@@ -298,12 +423,22 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+<<<<<<< variant A
+#: ../library/browser/templates/library.html:60
+msgid "Create a new page or section"
+msgstr ""
+
+#: ../workspace/browser/templates/workspaces.pt:24
+>>>>>>> variant B
 #: ../workspace/browser/templates/workspaces.pt:30
+####### Ancestor
+#: ../workspace/browser/templates/workspaces.pt:24
+======= end
 msgid "Create a new workspace"
 msgstr ""
 
 #: ../workspace/browser/templates/add_content.pt:8
-#: ../workspace/browser/tiles/templates/sidebar.pt:53
+#: ../workspace/browser/tiles/templates/sidebar.pt:54
 msgid "Create document"
 msgstr ""
 
@@ -312,11 +447,23 @@ msgid "Create event"
 msgstr ""
 
 #: ../workspace/browser/templates/add_folder.pt:7
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:228
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:225
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:221
+======= end
 msgid "Create folder"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:296
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:293
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:289
+======= end
 msgid "Create new task"
 msgstr ""
 
@@ -334,22 +481,56 @@ msgstr ""
 msgid "Creation date"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:93
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:92
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:88
+======= end
 msgid "Cut"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:210
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:207
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:203
+======= end
 msgid "Date and time of the latest modification"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:160
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:165
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:159
+======= end
 msgid "Declined"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:34
+<<<<<<< variant A
+#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/event_view.pt:50
+>>>>>>> variant B
 #: ../workspace/basecontent/templates/document_view.pt:38
 #: ../workspace/basecontent/templates/event_view.pt:49
+####### Ancestor
+#: ../workspace/basecontent/templates/document_view.pt:35
+#: ../workspace/basecontent/templates/event_view.pt:50
+======= end
 msgid "Delete"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:34
+msgid "Delete ${contenttype}"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:25
+msgid "Delete folder"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:34
@@ -362,6 +543,7 @@ msgid "Delete this event"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:64
+#: ../workspace/browser/templates/case_manager.pt:34
 msgid "Department"
 msgstr ""
 
@@ -376,7 +558,13 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:37
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:87
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:86
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:82
+======= end
 msgid "Deslect all"
 msgstr ""
 
@@ -396,13 +584,31 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/basecontent/templates/document_view.pt:112
+>>>>>>> variant B
 #: ../workspace/basecontent/templates/document_view.pt:113
+####### Ancestor
+#: ../workspace/basecontent/templates/document_view.pt:109
+======= end
 msgid "Download as"
 msgstr ""
 
 #: ../todo/behaviors.py:63
-#: ../workspace/browser/templates/content_macros.pt:42
+#: ../workspace/browser/templates/content_macros.pt:39
 msgid "Due date"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:82
+msgid "Earliest creation date"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:96
+msgid "Earliest deadline"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:89
+msgid "Earliest modification date"
 msgstr ""
 
 #: ../workspace/browser/templates/edit_folder.pt:19
@@ -413,7 +619,13 @@ msgstr ""
 msgid "Edit latest news portlet"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:153
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:150
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:146
+======= end
 msgid "Edit name/description"
 msgstr ""
 
@@ -431,6 +643,14 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:76
+msgid "Enter a location"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:41
+msgid "Enter the name of the applicant"
 msgstr ""
 
 #: ../workspace/browser/cart.py:192
@@ -452,7 +672,7 @@ msgid "Excel 2007 spreadsheet"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
-#: ../workspace/browser/tiles/templates/sidebar.pt:50
+#: ../workspace/browser/tiles/templates/sidebar.pt:51
 msgid "Expand sidebar"
 msgstr ""
 
@@ -512,7 +732,13 @@ msgstr ""
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:107
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:109
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:106
+======= end
 msgid "From"
 msgstr ""
 
@@ -528,17 +754,37 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:497
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:494
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:469
+======= end
 msgid "General"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:303
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:300
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:296
+======= end
 msgid "General tasks"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
-#: ../workspace/browser/tiles/templates/sidebar.pt:32
+#: ../workspace/browser/tiles/templates/sidebar.pt:33
 msgid "Group by"
+msgstr ""
+
+#: ../library/browser/templates/library.html:47
+msgid "Group by section"
+msgstr ""
+
+#: ../library/browser/templates/library.html:51
+msgid "Group by tag"
 msgstr ""
 
 #: ../todo/vocabularies.py:9
@@ -550,6 +796,7 @@ msgid "How many items to list."
 msgstr ""
 
 #: ../layout/browser/actions.py:50
+#: ../workspace/basecontent/templates/delete_confirmation.pt:58
 msgid "I am sure, delete now"
 msgstr ""
 
@@ -603,15 +850,32 @@ msgid "Invitations"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:169
+<<<<<<< variant A
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:121
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:118
+======= end
 msgid "Invite users to this workspace (via email)"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:151
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:156
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:150
+======= end
 msgid "Invitees"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/add_content.py:103
+>>>>>>> variant B
 #: ../workspace/browser/add_content.py:104
+####### Ancestor
+#: ../workspace/browser/add_content.py:89
+======= end
 msgid "Item created."
 msgstr ""
 
@@ -619,19 +883,43 @@ msgstr ""
 msgid "Item edited."
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:637
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:629
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:630
+======= end
 msgid "Items modified last month"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:631
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:623
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:624
+======= end
 msgid "Items modified last week"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:625
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:617
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:618
+======= end
 msgid "Items modified today"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:643
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:635
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:636
+======= end
 msgid "Items since ever"
 msgstr ""
 
@@ -654,11 +942,23 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:636
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:628
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:629
+======= end
 msgid "Last Month"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:630
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:622
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:623
+======= end
 msgid "Last Week"
 msgstr ""
 
@@ -672,6 +972,18 @@ msgstr ""
 
 #: ../search/browser/templates/all_results.pt:42
 msgid "Last week"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:84
+msgid "Latest creation date"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:98
+msgid "Latest deadline"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:91
+msgid "Latest modification date"
 msgstr ""
 
 #: ../todo/portlets/latest.py:39
@@ -706,7 +1018,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:79
+#: ../workspace/browser/templates/content_macros.pt:76
 msgid "Location"
 msgstr ""
 
@@ -730,7 +1042,13 @@ msgstr ""
 msgid "Member"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:175
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:178
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:168
+======= end
 msgid "Member(s) added"
 msgstr ""
 
@@ -739,7 +1057,13 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:501
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:498
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:473
+======= end
 msgid "Members"
 msgstr ""
 
@@ -760,7 +1084,7 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:58
+#: ../workspace/browser/templates/content_macros.pt:55
 msgid "Milestone this task belongs to"
 msgstr ""
 
@@ -803,12 +1127,20 @@ msgstr ""
 msgid "My network"
 msgstr ""
 
+#. Default: "My profile"
+msgid "My profile"
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile.pt:119
 msgid "Name"
 msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:18
 msgid "New Message"
+msgstr ""
+
+#: ../workspace/browser/workspacecontainer.py:42
+msgid "Newest workspaces on top"
 msgstr ""
 
 #: ../todo/portlets/latest.pt:12
@@ -833,6 +1165,10 @@ msgstr ""
 
 #: ../notifications/browser/notifications.pt:40
 msgid "No pending notifications"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:109
+msgid "No results"
 msgstr ""
 
 #: ../network/browser/templates/author.pt:20
@@ -870,17 +1206,26 @@ msgstr ""
 msgid "Number of items to display"
 msgstr ""
 
+msgid "ODT document"
+msgstr ""
+
 #: ../workspace/subscribers.py:119
 msgid "Oh boy, oh boy, you are already a member"
 msgstr ""
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
-#: ../workspace/browser/templates/panel-add-user.pt:27
+#: ../workspace/browser/templates/panel-add-user.pt:26
 #: ../workspace/browser/templates/panel-remove-user.pt:36
 msgid "Ok"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:479
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:476
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:451
+======= end
 msgid "Older events"
 msgstr ""
 
@@ -888,7 +1233,14 @@ msgstr ""
 msgid "Only administrators can add workspace members."
 msgstr ""
 
+<<<<<<< variant A
 #: ../todo/browser/templates/todo_view.pt:63
+#: ../workspace/browser/templates/case_manager.pt:66
+>>>>>>> variant B
+#: ../todo/browser/templates/todo_view.pt:63
+####### Ancestor
+#: ../todo/browser/templates/todo_view.pt:50
+======= end
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr ""
@@ -915,7 +1267,13 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:107
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:106
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:102
+======= end
 msgid "Paste"
 msgstr ""
 
@@ -942,6 +1300,10 @@ msgstr ""
 msgid "Pick a Case Template"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:71
+msgid "Pick a date"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:30
 msgid "Pick an assignee"
 msgstr ""
@@ -950,11 +1312,41 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:84
+msgid "Pick an organiser"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:58
+msgid "Pick case type"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:152
+msgid "Pick invitees"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:49
+msgid "Pick staff"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:35
+msgid "Pick the responsible department"
+msgstr ""
+
+#: ../todo/browser/templates/todo_view.pt:64
+msgid "Planned"
+msgstr ""
+
+#: ../workspace/browser/add_content.py:62
+>>>>>>> variant B
 #: ../todo/browser/templates/todo_view.pt:64
 msgid "Planned"
 msgstr ""
 
 #: ../workspace/browser/add_content.py:63
+####### Ancestor
+#: ../workspace/browser/add_content.py:48
+======= end
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1010,11 +1402,25 @@ msgstr ""
 msgid "Remove role"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/panel-member-role-actions.pt:14
+msgid "Remove special role"
+msgstr ""
+
+#: ../todo/browser/templates/todo_view.pt:71
+msgid "Reopen"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:386
+>>>>>>> variant B
 #: ../todo/browser/templates/todo_view.pt:71
 msgid "Reopen"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:383
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:360
+======= end
 msgid "Reopen milestone"
 msgstr ""
 
@@ -1022,7 +1428,13 @@ msgstr ""
 msgid "Rich text"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:196
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:190
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:189
+======= end
 msgid "Role updated"
 msgstr ""
 
@@ -1038,6 +1450,10 @@ msgstr ""
 
 #: ../workspace/basecontent/templates/event_view.pt:85
 msgid "Save this document"
+msgstr ""
+
+#: ../workspace/browser/templates/case_manager.pt:71
+msgid "Scheduled session"
 msgstr ""
 
 #: ../core/browser/panel_tags.pt:21
@@ -1058,11 +1474,21 @@ msgstr ""
 msgid "Search for a user"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:22
+msgid "Search in title and description"
+msgstr ""
+
 #: ../workspace/policies.py:9
 msgid "Secret"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:505
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:502
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:477
+======= end
 msgid "Security"
 msgstr ""
 
@@ -1073,7 +1499,13 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:36
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:86
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:85
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:81
+======= end
 msgid "Select all"
 msgstr ""
 
@@ -1097,7 +1529,7 @@ msgstr ""
 msgid "Send email invite to:"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:43
+#: ../workspace/browser/templates/content_macros.pt:40
 msgid "Set a deadline"
 msgstr ""
 
@@ -1114,8 +1546,16 @@ msgid "Share this document"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:43
+<<<<<<< variant A
+#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/event_view.pt:63
+>>>>>>> variant B
 #: ../workspace/basecontent/templates/document_view.pt:41
 #: ../workspace/basecontent/templates/event_view.pt:62
+####### Ancestor
+#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/event_view.pt:63
+======= end
 msgid "Show extra metadata fields"
 msgstr ""
 
@@ -1131,12 +1571,28 @@ msgstr ""
 msgid "Spell corrected search string"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:48
+msgid "Staff"
+msgstr ""
+
 #: ../workspace/basecontent/event.py:21
 msgid "Start date should be lower than end date"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/case_manager.pt:64
+msgid "Status"
+>>>>>>> variant B
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:417
+msgid "Starts"
+======= end
+msgstr ""
+
+#: ../layout/browser/templates/dashboard.pt:21
+msgid "Task centric view"
 msgstr ""
 
 #: ../layout/browser/templates/dashboard.pt:21
@@ -1156,6 +1612,10 @@ msgstr ""
 msgid "Tasks"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:123
+msgid "Tasks finished"
+msgstr ""
+
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
 msgstr ""
@@ -1164,7 +1624,13 @@ msgstr ""
 msgid "Telephone Number"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:159
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:164
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:158
+======= end
 msgid "Tentative"
 msgstr ""
 
@@ -1284,21 +1750,33 @@ msgstr ""
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:301
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:293
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:294
+======= end
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:76
+#: ../workspace/basecontent/baseviews.py:78
 msgid "There was a problem: %s"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/add_content.py:109
+>>>>>>> variant B
 #: ../workspace/browser/add_content.py:110
+####### Ancestor
+#: ../workspace/browser/add_content.py:95
+======= end
 #: ../workspace/browser/edit_content.py:38
 msgid "There was a problem: %s."
 msgstr ""
 
-#: ../todo/browser/todo_view.py:54
-msgid "There was an error."
+#: ../workspace/basecontent/templates/delete_confirmation.pt:18
+msgid "This item can not be deleted because it is currently locked by another user."
 msgstr ""
 
 #: ../todo/portlets/latest.py:76
@@ -1317,11 +1795,23 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:139
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:144
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:138
+======= end
 msgid "Timezone"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:124
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:127
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:123
+======= end
 msgid "To"
 msgstr ""
 
@@ -1329,8 +1819,16 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
+<<<<<<< variant A
+#: ../search/browser/templates/all_results.pt:43
+#: ../workspace/browser/tiles/sidebar.py:624
+>>>>>>> variant B
 #: ../search/browser/templates/all_results.pt:39
 #: ../workspace/browser/tiles/sidebar.py:616
+####### Ancestor
+#: ../search/browser/templates/all_results.pt:43
+#: ../workspace/browser/tiles/sidebar.py:617
+======= end
 msgid "Today"
 msgstr ""
 
@@ -1338,8 +1836,16 @@ msgid "Todo"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:43
+<<<<<<< variant A
+#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/event_view.pt:63
+>>>>>>> variant B
 #: ../workspace/basecontent/templates/document_view.pt:41
 #: ../workspace/basecontent/templates/event_view.pt:62
+####### Ancestor
+#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/event_view.pt:63
+======= end
 msgid "Toggle extra metadata"
 msgstr ""
 
@@ -1348,15 +1854,32 @@ msgid "Token no longer valid"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:176
+<<<<<<< variant A
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:127
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:124
+======= end
 msgid "Transfer members to another workspace."
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:393
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:390
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:367
+======= end
 msgid "Unassigned"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/templates/content_macros.pt:157
+>>>>>>> variant B
 #: ../workspace/browser/templates/content_macros.pt:162
+####### Ancestor
+#: ../workspace/browser/templates/content_macros.pt:156
+======= end
 msgid "Undecided"
 msgstr ""
 
@@ -1364,7 +1887,13 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:202
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:193
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:195
+======= end
 msgid "Unknown function"
 msgstr ""
 
@@ -1372,8 +1901,16 @@ msgstr ""
 msgid "Unlike"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/events.pt:10
+#: ../workspace/browser/tiles/templates/sidebar.pt:426
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/events.pt:10
 #: ../workspace/browser/tiles/templates/sidebar.pt:423
+####### Ancestor
+#: ../workspace/browser/tiles/templates/events.pt:9
+#: ../workspace/browser/tiles/templates/sidebar.pt:400
+======= end
 msgid "Upcoming events"
 msgstr ""
 
@@ -1386,7 +1923,17 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
+<<<<<<< variant A
+#: ../activitystream/browser/tiles/templates/stream_tile.pt:8
+msgid "Updates tagged #${tag}"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:251
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:248
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:244
+======= end
 msgid "Upload file(s)"
 msgstr ""
 
@@ -1429,6 +1976,10 @@ msgstr ""
 msgid "Workspace Folder"
 msgstr ""
 
+#: ../workspace/browser/templates/workspace-add.pt:22
+msgid "Workspace description"
+msgstr ""
+
 #: ../workspace/browser/views.py:23
 msgid "Workspace join policy doesn't allow self join"
 msgstr ""
@@ -1457,8 +2008,18 @@ msgstr ""
 msgid "Workspace policy"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:254
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:246
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:247
+======= end
 msgid "Workspace security policy changes saved"
+msgstr ""
+
+#: ../workspace/browser/templates/workspace-add.pt:19
+msgid "Workspace title"
 msgstr ""
 
 #: ../layout/profiles/default/actions.xml
@@ -1470,12 +2031,20 @@ msgstr ""
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
+#: ../workspace/browser/templates/case_manager.pt:82
+msgid "YYYY-MM-DD"
+msgstr ""
+
 #: ../workspace/browser/views.py:32
 msgid "You are a member of this workspace now"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-change-role.pt:31
-msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
+#: ../workspace/basecontent/templates/delete_confirmation.pt:40
+msgid "You are about to delete this ${contenttype}. Are you sure?"
+msgstr ""
+
+#: ../workspace/basecontent/templates/delete_confirmation.pt:44
+msgid "You are about to delete this folder. Are you sure?"
 msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:64
@@ -1486,20 +2055,18 @@ msgstr ""
 msgid "You can become a member of this workspace"
 msgstr ""
 
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:167
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:161
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:160
+======= end
 msgid "You do not have permission to change the workspace policy"
-msgstr ""
-
-#: ../workspace/browser/templates/panel-remove-user.pt:23
-msgid "You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
 msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
-msgstr ""
-
-#: ../todo/browser/todo_view.py:45
-msgid "Your changes have been saved."
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:31
@@ -1515,8 +2082,18 @@ msgstr ""
 msgid "add_statusupdate_button"
 msgstr ""
 
+#. Default: "You are about to change the role of the following ${num_users} members of this workspace. Are you sure? (un-tick to exclude from this role change)"
+#: ../workspace/browser/templates/panel-change-role.pt:32
+msgid "alert_change_user_roles"
+msgstr ""
+
+#. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
+#: ../workspace/browser/templates/panel-remove-user.pt:24
+msgid "alert_remove_users_from_workspace"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/navigation.pt:23
-#: ../workspace/browser/tiles/templates/sidebar.pt:39
+#: ../workspace/browser/tiles/templates/sidebar.pt:40
 msgid "author"
 msgstr ""
 
@@ -1524,27 +2101,42 @@ msgid "cases"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:25
-#: ../workspace/browser/tiles/templates/sidebar.pt:41
+#: ../workspace/browser/tiles/templates/sidebar.pt:42
 msgid "date"
 msgstr ""
 
+<<<<<<< variant A
+#. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
+#: ../workspace/browser/add_content.py:163
+msgid "dates_hijacked"
+msgstr ""
+
+>>>>>>> variant B
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
 #: ../workspace/browser/add_content.py:164
 msgid "dates_hijacked"
 msgstr ""
 
+####### Ancestor
+======= end
 #: ../workspace/browser/tiles/templates/navigation.pt:21
-#: ../workspace/browser/tiles/templates/sidebar.pt:37
+#: ../workspace/browser/tiles/templates/sidebar.pt:38
 msgid "document type"
 msgstr ""
 
 #. Default: "Download"
-#: ../library/browser/templates/library.html:151
+#: ../library/browser/templates/library.html:153
 msgid "download"
 msgstr ""
 
 #. Default: "Drop files here or click to browse..."
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:317
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:309
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:310
+======= end
 msgid "drop_files_here"
 msgstr ""
 
@@ -1559,22 +2151,28 @@ msgid "error_invalid_publication"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
-#: ../workspace/browser/tiles/templates/sidebar.pt:50
+#: ../workspace/browser/tiles/templates/sidebar.pt:51
 msgid "expand/reduce sidebar"
 msgstr ""
 
 #. Default: "External visibility"
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:222
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:214
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:215
+======= end
 msgid "external_visibility_label"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:27
-#: ../workspace/browser/tiles/templates/sidebar.pt:43
+#: ../workspace/browser/tiles/templates/sidebar.pt:44
 msgid "first letter"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:18
-#: ../workspace/browser/tiles/templates/sidebar.pt:34
+#: ../workspace/browser/tiles/templates/sidebar.pt:35
 msgid "folder"
 msgstr ""
 
@@ -1586,6 +2184,11 @@ msgstr ""
 #. Default: "Roster for ${folder}"
 #: ../workspace/browser/templates/roster-edit.pt:24
 msgid "heading_edit_roster"
+msgstr ""
+
+#. Default: "Loading more posts…"
+#: ../activitystream/browser/tiles/templates/stream_tile.pt:16
+msgid "info_loading_more_posts"
 msgstr ""
 
 #. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
@@ -1610,7 +2213,13 @@ msgid "items matched your search."
 msgstr ""
 
 #. Default: "Join policy"
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:221
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:213
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:214
+======= end
 msgid "join_policy_label"
 msgstr ""
 
@@ -1634,7 +2243,13 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:488
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:485
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:460
+======= end
 msgid "label_no_events_available"
 msgstr ""
 
@@ -1684,22 +2299,46 @@ msgid "leave_a_comment"
 msgstr ""
 
 #. Default: "More sharing options coming soon"
+<<<<<<< variant A
+#: ../workspace/basecontent/templates/document_view.pt:114
+>>>>>>> variant B
 #: ../workspace/basecontent/templates/document_view.pt:115
+####### Ancestor
+#: ../workspace/basecontent/templates/document_view.pt:111
+======= end
 msgid "more_sharing_soon"
 msgstr ""
 
 #. Default: "No tasks created yet"
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:305
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:302
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:298
+======= end
 msgid "no-task-found"
 msgstr ""
 
 #. Default: "${no_members} Members"
+<<<<<<< variant A
+#: ../workspace/workspacefolder.py:182
+>>>>>>> variant B
 #: ../workspace/workspacefolder.py:172
+####### Ancestor
+#: ../workspace/workspacefolder.py:167
+======= end
 msgid "number_of_members"
 msgstr ""
 
 #. Default: "Participant policy"
+<<<<<<< variant A
+#: ../workspace/browser/tiles/sidebar.py:224
+>>>>>>> variant B
 #: ../workspace/browser/tiles/sidebar.py:216
+####### Ancestor
+#: ../workspace/browser/tiles/sidebar.py:217
+======= end
 msgid "participant_policy_label"
 msgstr ""
 
@@ -1713,8 +2352,16 @@ msgid "posted"
 msgstr ""
 
 #. Default: "Read more..."
+<<<<<<< variant A
+#: ../layout/browser/templates/news-tile.pt:20
+#: ../library/browser/templates/library.html:150
+>>>>>>> variant B
 #: ../layout/browser/templates/news-tile.pt:20
 #: ../library/browser/templates/library.html:148
+####### Ancestor
+#: ../layout/browser/templates/news-tile.pt:19
+#: ../library/browser/templates/library.html:148
+======= end
 msgid "read-more"
 msgstr ""
 
@@ -1725,13 +2372,25 @@ msgstr ""
 
 #. Default: "All"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:36
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:86
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:85
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:81
+======= end
 msgid "select_all"
 msgstr ""
 
 #. Default: "None"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:37
+<<<<<<< variant A
+#: ../workspace/browser/tiles/templates/sidebar.pt:87
+>>>>>>> variant B
 #: ../workspace/browser/tiles/templates/sidebar.pt:86
+####### Ancestor
+#: ../workspace/browser/tiles/templates/sidebar.pt:82
+======= end
 msgid "select_none"
 msgstr ""
 
@@ -1740,7 +2399,7 @@ msgstr ""
 msgid "sharing_policy_description"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:35
+#: ../workspace/browser/tiles/templates/sidebar.pt:36
 msgid "tag"
 msgstr ""
 
