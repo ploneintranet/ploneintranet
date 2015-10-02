@@ -4,36 +4,34 @@
   </h1>
   <form method="POST" action="#"
         tal:attributes="action request/URL"
-        class="wizard-box pat-inject pat-validation"
+        class="wizard-box pat-inject pat-validate"
         data-pat-inject="
             source: #workspace-events; target: #workspace-events;
             &amp;&amp;
             source: #global-statusmessage; target: #global-statusmessage;
         "
-        data-pat-validation="disable-selector:#form-buttons-create">
+        data-pat-validate="disable-selector:#form-buttons-create">
     <div class="panel-body">
-
-      <fieldset class="vertical">
-        <input type="text" name="title" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus />
-      </fieldset>
 
       <fieldset class="vertical"
                 tal:define="workspace context/acquire_workspace;
                             workspace_url context/absolute_url">
-        <label class="description">
-          <tal:desc i18n:domain="plone" i18n:translate="">Description</tal:desc>
-          <textarea name="description" i18n:attributes="placeholder" placeholder="Enter a description of the event" rows="6"/>
-        </label>
-        <fieldset class="vertical">
-          <metal:task_fields use-macro="context/content_macros/event_fields"/>
-        </fieldset>
+	    <label>
+		  <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>
+	    </label>
+	    <br/>
+	    <label>
+          <textarea name="description" i18n:attributes="placeholder" placeholder="Event description" rows="6"></textarea>
+	    </label>
+	    <br/>
+        <metal:task_fields use-macro="context/content_macros/event_fields"/>
       </fieldset>
 
     </div>
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="" i18n:domain="plone">
-        Create
+      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="" i18n:domain="plone" disabled="disabled">
+        Create event
       </button>
       <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel validate-ignore" i18n:translate="" i18n:domain="plone">
         Cancel

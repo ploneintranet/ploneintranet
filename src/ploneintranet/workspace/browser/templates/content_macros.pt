@@ -84,8 +84,9 @@
         <input type="text"
                name="organizer"
                data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"
-               class="pat-autosuggest"
-               placeholder="Organiser"
+               class="pat-autosuggest users"
+               placeholder="Name of organiser"
+               i18n:attributes="placeholder"
                tal:attributes="disabled read_only"/>
       </label>
       <br/>
@@ -111,12 +112,14 @@
             <div class="row"
                  tal:define="start context/start | view/default_start">
               <label class="six columns">
-                  <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="start" id="${start_id}" placeholder="Date" value="${start}"
-                    data-pat-validation="type: date; not-after: #${end_id}; message-date: This date must be on or before the end date."
+                  <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="start" id="${start_id}" placeholder="Date" value="${start}"
+                         data-pat-validation="type: date; not-after: #${end_id}; message-date: This date must be on or before the end date."
+                         i18n:attributes="placeholder"
                     data-pat-date-picker="behaviour: polyfill; show: date" />
               </label>
               <label class="six columns">
-                <input type="time" size="10" class="date" name="start" placeholder="Time"
+                <input type="time" size="10" class="time" name="start" placeholder="Time"
+                       i18n:attributes="placeholder"
                        tal:attributes="disabled read_only;
                                        value python:start and start.strftime('%H:%M')"/>
               </label>
@@ -124,16 +127,18 @@
           </fieldset>
 
           <fieldset class="group six columns">
-            <legend i18n:translate="">To</legend>
+            <legend i18n:translate="">Until</legend>
             <div class="row"
                  tal:define="end context/end | view/default_end">
               <label class="six columns">
-                  <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="pat-date-picker" name="end" id="${end_id}" placeholder="Date" value="${end}"
+                  <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="end" id="${end_id}" placeholder="Date" value="${end}"
                     data-pat-validation="type: date; not-before: #${start_id}; message-date: this date must be on or after the start date."
-                    data-pat-date-picker="behaviour: polyfill; show: date" />
+                    data-pat-date-picker="behaviour: polyfill; show: date"
+                    i18n:attributes="placeholder"/>
               </label>
               <label class="six columns">
-                <input type="time" size="10" class="date" name="end" placeholder="Time" value=""
+                <input type="time" size="10" class="time" name="end" placeholder="Time" value=""
+                       i18n:attributes="placeholder"
                        tal:attributes="disabled read_only;
                                        value python:end and end.strftime('%H:%M')"/>
               </label>
@@ -153,8 +158,10 @@
         </label>
 
       </fieldset>
+      <br/>
+
       <label class="invitees"><span tal:omit-tag="" i18n:translate="">Invitees</span>
-      <input name="invitees" placeholder="Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
+      <input name="invitees" type="text" placeholder="Invitees" i18n:attributes="placeholder" class="pat-autosuggest users" tal:attributes="disabled read_only"
              data-pat-autosuggest-classes=''
              data-pat-autosuggest="ajax-data-type: json; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python:workspace.member_prefill(context, attrs['name'])}"/>
 
