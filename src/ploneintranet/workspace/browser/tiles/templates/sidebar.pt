@@ -380,7 +380,7 @@ Supported types include (class names):
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
                          tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
-                         tal:condition="python:milestone['transition_id']"
+                         tal:condition="python:milestone['transition_enabled']"
                          tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['reopen_transition']"
