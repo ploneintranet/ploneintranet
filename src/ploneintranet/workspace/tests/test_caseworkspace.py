@@ -65,3 +65,15 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
             container=workspaces,
         )
         self.assertTrue(queryAdapter(workspace, IMetroMap) is None)
+
+    def test_metromap_transition_titles(self):
+        """
+        All Case workflow transitions except for the very last one should have
+        titles. These are displayed in the metromap.
+        """
+        mm_seq = IMetroMap(self.case).metromap_sequence
+        titles = [mm_seq[i]['transition_title'] for i in mm_seq]
+        titles_but_last = titles[:-1]
+        self.assertTrue(
+            set([i is not '' for i in titles_but_last]), set([True]))
+
