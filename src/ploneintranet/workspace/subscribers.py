@@ -225,10 +225,10 @@ def update_todos_state(obj, event):
     current_path = '/'.join(obj.getPhysicalPath())
     brains = pc(path=current_path, portal_type='todo')
     for brain in brains:
-        todo = brain.getObject()
-        execute_as_manager(_update_todo_state, todo)
+        execute_as_manager(_update_todo_state, brain)
 
 
-def _update_todo_state(todo):
+def _update_todo_state(brain):
+    todo = brain.getObject()
     todo.set_appropriate_state()
     todo.reindexObject()
