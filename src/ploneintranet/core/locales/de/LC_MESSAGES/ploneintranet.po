@@ -557,21 +557,21 @@ msgstr "Folgen"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
-msgstr "Follower"
+msgstr "Mir folgen"
 
 #: ../userprofile/browser/templates/userprofile.pt:73
 msgid "Followers ${num_followers}"
-msgstr "Es folgen ${num_followers}"
+msgstr "Mir folgen ${num_followers}"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:35
 #: ../network/browser/templates/miniauthor_provider.pt:34
 #: ../userprofile/browser/templates/userprofile.pt:53
 msgid "Following"
-msgstr "Folgen"
+msgstr "Folge ich"
 
 #: ../userprofile/browser/templates/userprofile.pt:96
 msgid "Following ${num_following}"
-msgstr "Folgt ${num_following}"
+msgstr "Folge ich ${num_following}"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:23
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
@@ -583,11 +583,11 @@ msgstr "Von"
 
 #: ../userprofile/browser/templates/userprofile.pt:87
 msgid "Full list of followers"
-msgstr "Liste aller Follower"
+msgstr "Liste aller Personen, die mir folgen"
 
 #: ../userprofile/browser/templates/userprofile.pt:67
 msgid "Full list of people ${name_of_followee} follows."
-msgstr "Liste aller Personen, denen ${name_of_followee} folgt."
+msgstr "Liste aller Personen, denen ${name_of_followee} folgt"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:25
 msgid "Functions"
@@ -1956,7 +1956,7 @@ msgstr "Arbeitsbereiche"
 #: ../network/browser/templates/maxiauthor_provider.pt:72
 #: ../network/browser/templates/miniauthor_provider.pt:38
 msgid "unfollow"
-msgstr "Nicht weiter folgen."
+msgstr "Nicht weiter folgen"
 
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
