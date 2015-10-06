@@ -30,7 +30,7 @@
                <a href="${view/target/absolute_url}/@@workspace-add#content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
                <span tal:replace="structure context/@@authenticator/authenticator"/>
             </div>
-             <input type="search" placeholder="Search workspaces" focus name="SearchableText" tal:attributes="value request/SearchableText | nothing">
+             <input type="search" placeholder="Search workspaces" focus name="SearchableText" i18n:attributes="title" tal:attributes="value request/SearchableText | nothing">
          </form>
 
         <div id="workspaces" class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
