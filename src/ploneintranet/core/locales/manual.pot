@@ -85,6 +85,7 @@ msgstr ""
 
 #. Default: "Library"
 msgid "my_docs_heading_library"
+msgstr ""
 
 #: ../layout/browser/templates/dashboard.pt
 #. Workspaces

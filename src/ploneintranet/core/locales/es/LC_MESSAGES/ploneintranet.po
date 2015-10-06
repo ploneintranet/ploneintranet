@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-02 09:03+0000\n"
+"POT-Creation-Date: 2015-10-06 09:26+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -288,7 +288,7 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:166
+#: ../workspace/browser/templates/content_macros.pt:172
 msgid "Confirmed"
 msgstr ""
 
@@ -367,11 +367,15 @@ msgstr "Fecha de creación"
 msgid "Cut"
 msgstr "Cortar"
 
+#: ../workspace/browser/templates/content_macros.pt:116
+msgid "Date"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:208
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:168
+#: ../workspace/browser/templates/content_macros.pt:174
 msgid "Declined"
 msgstr ""
 
@@ -475,10 +479,6 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: ../workspace/browser/templates/add_event.pt:25
-msgid "Enter a description of the event"
-msgstr ""
-
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
 msgstr ""
@@ -498,7 +498,11 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../workspace/browser/templates/add_event.pt:17
+#: ../workspace/browser/templates/add_event.pt:24
+msgid "Event description"
+msgstr ""
+
+#: ../workspace/browser/templates/add_event.pt:20
 msgid "Event title"
 msgstr ""
 
@@ -673,7 +677,7 @@ msgstr "Invitaciones"
 msgid "Invite users to this workspace (via email)"
 msgstr "Invite a los usuarios a este espacio de trabajo (por correo electrónico)"
 
-#: ../workspace/browser/templates/content_macros.pt:159
+#: ../workspace/browser/templates/content_macros.pt:165
 msgid "Invitees"
 msgstr ""
 
@@ -888,6 +892,10 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:86
+msgid "Name of organiser"
+msgstr ""
+
 #: ../messaging/browser/your-inbox.pt:18
 msgid "New Message"
 msgstr "Nuevo mensaje"
@@ -1052,16 +1060,8 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:86
-msgid "Pick an organiser"
-msgstr ""
-
 #: ../workspace/browser/templates/case_manager.pt:59
 msgid "Pick case type"
-msgstr ""
-
-#: ../workspace/browser/templates/content_macros.pt:160
-msgid "Pick invitees"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:50
@@ -1314,7 +1314,7 @@ msgstr "Gestionado por el equipo"
 msgid "Telephone Number"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:167
+#: ../workspace/browser/templates/content_macros.pt:173
 msgid "Tentative"
 msgstr ""
 
@@ -1459,6 +1459,10 @@ msgstr "Este portlet muestra las últimas noticias que debe ser leída."
 msgid "This user doesn't have an email associated with their account."
 msgstr "Este usuario no tiene un correo electrónico con su cuenta."
 
+#: ../workspace/browser/templates/content_macros.pt:122
+msgid "Time"
+msgstr ""
+
 #: ../userprofile/content/userprofile.py:80
 msgid "Time Zone"
 msgstr ""
@@ -1467,12 +1471,8 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:147
+#: ../workspace/browser/templates/content_macros.pt:151
 msgid "Timezone"
-msgstr ""
-
-#: ../workspace/browser/templates/content_macros.pt:130
-msgid "To"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:24
@@ -1505,7 +1505,7 @@ msgstr "Transferir miembros a otro espacio de trabajo."
 msgid "Unassigned"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:165
+#: ../workspace/browser/templates/content_macros.pt:171
 msgid "Undecided"
 msgstr ""
 
@@ -1520,6 +1520,10 @@ msgstr ""
 #: ../network/browser/likes.py:54
 msgid "Unlike"
 msgstr "No gustar"
+
+#: ../workspace/browser/templates/content_macros.pt:132
+msgid "Until"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
 #: ../workspace/browser/tiles/templates/sidebar.pt:434
@@ -1870,9 +1874,7 @@ msgid "more_sharing_soon"
 msgstr ""
 
 #. Default: "Library"
-#. Workspaces
-#: ../layout/browser/templates/dashboard.pt
-msgid "my_docs_heading_librarytile_ploneintranet.workspace.workspacefolder"
+msgid "my_docs_heading_library"
 msgstr ""
 
 #. Default: "My Documents"
@@ -1938,6 +1940,11 @@ msgstr "etiqueta"
 #. Cases
 #: ../layout/browser/templates/dashboard.pt
 msgid "tile_ploneintranet.workspace.case"
+msgstr ""
+
+#. Workspaces
+#: ../layout/browser/templates/dashboard.pt
+msgid "tile_ploneintranet.workspace.workspacefolder"
 msgstr ""
 
 #: ../network/browser/templates/maxiauthor_provider.pt:72
