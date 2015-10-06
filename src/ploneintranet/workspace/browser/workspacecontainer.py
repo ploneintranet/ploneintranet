@@ -41,11 +41,11 @@ class Workspaces(BrowserView):
 
     def workspace_types(self):
         options = [{'value': '',
-                    'content': 'All workspace types'},
+                    'content': _(u'All workspace types')},
                    {'value': 'ploneintranet.workspace.workspacefolder',
-                    'content': 'Generic workspaces'},
+                    'content': _(u'Generic workspaces')},
                    {'value': 'ploneintranet.workspace.case',
-                    'content': 'Cases'}
+                    'content': _(u'Cases')}
                    ]
         return options
 
