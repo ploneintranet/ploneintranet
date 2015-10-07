@@ -9,6 +9,7 @@ from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
 
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+from dexterity.membrane.behavior.password import IProvidePasswordsSchema
 
 
 def get_users(**kwargs):
@@ -124,8 +125,10 @@ def create(
         id=username,
         username=username,
         email=email,
-        password=password,
         **properties)
+
+    # We need to manually set the password via the behaviour
+    IProvidePasswordsSchema(profile).password = password
 
     if approve:
         plone_api.content.transition(profile, 'approve')
