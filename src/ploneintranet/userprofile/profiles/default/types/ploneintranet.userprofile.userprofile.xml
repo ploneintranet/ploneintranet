@@ -19,10 +19,10 @@
  <property name="schema">ploneintranet.userprofile.content.userprofile.IUserProfile</property>
  <property name="klass">ploneintranet.userprofile.content.userprofile.UserProfile</property>
  <property name="behaviors">
-  <element value="dexterity.membrane.behavior.membraneuser.INameFromFullName" />
+  <element value="dexterity.membrane.behavior.user.INameFromFullName" />
   <element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />
-  <element value="dexterity.membrane.behavior.membraneuser.IMembraneUser" />
-  <element value="dexterity.membrane.behavior.membranepassword.IProvidePasswords"/>
+  <element value="dexterity.membrane.behavior.user.IMembraneUser" />
+  <element value="dexterity.membrane.behavior.password.IProvidePasswords"/>
   <element value="ploneintranet.userprofile.content.userprofile.IUserProfileAdditional"/>
   <element value="collective.dexteritytextindexer.behavior.IDexterityTextIndexer" />
  </property>
