@@ -438,7 +438,7 @@ I can create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
@@ -454,7 +454,7 @@ I cannot create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
