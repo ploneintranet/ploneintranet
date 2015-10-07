@@ -4,17 +4,21 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Basisdatenerfassung | Folio Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="//style/screen.css" type="text/css">
-		<link rel="stylesheet" href="//style/colours.css" type="text/css">
-		<script src="++theme++ploneintranet.theme/generated/bundles/ploneintranet.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/screen.css" type="text/css">
+		<link rel="stylesheet" href="++theme++ploneintranet.theme/generated/style/colours.css" type="text/css">
+		<script data-main="/bundles/main" src="++theme++ploneintranet.theme/generated/bundles/ploneintranet.js" type="text/javascript"></script>
 
-		<link rel="icon" type="image/png" href="//media/favicon.png" />
+		<link rel="icon" type="image/png" href="++theme++ploneintranet.theme/generated/media/favicon.png" />
 		<!--[if IE]>
-				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
 	<body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace ws-">
 		
+    
+
+    
+
     
 
     
@@ -269,10 +273,6 @@
 
     
 
-    
-
-    
-
 <div class="application page-type- workspace-type-case" id="content">
     <h1 id="workspace-name">
         <!-- Next link is to lead to landing state of current workspace -->
@@ -286,12 +286,14 @@
         	<form class="document pat-inject pat-autosubmit" action="/basisdaten#saving-badge">
     <div class="metadata pat-bumper" id="meta">
         <div class="meta-bar">
-            <h1 class="doc-title" id="document-title">
-                Basisdatenerfassung
-            </h1>
             <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
-            <input type="text" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="Basisdatenerfassung" />
+            <span class="title-group">
+                <h1 class="doc-title" id="document-title">
+                    Basisdatenerfassung
+                </h1>
+                <textarea placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" >Basisdatenerfassung</textarea>
+            </span>
             <div class="quick-functions">
                 <a href="#confirm-delete" class="icon-trash iconified" title="Delete this event">
                     Delete
@@ -311,8 +313,10 @@
                         </select>
                     </label>
                 </fieldset>
-                <p class="saving-badge" id="saving-badge">
-                    <button type="submit" class="saved-tag">Last saved <time class="modification-date pat-display-time" datetime="2015-01-20T08:00Z">9:23</time></button>
+                <p class="saving-badge " id="saving-badge">
+                    
+                        <button type="submit" class="saved-tag">Last saved <time class="modification-date pat-display-time" data-pat-display-time="from-now: true" datetime="2015-01-20T08:00Z">9:23</time></button>
+                    
                 </p>
                 <!-- <button type="submit" class="icon-floppy" title="Save this document">Save</button> -->
                 
@@ -329,7 +333,7 @@
                 <label class="initiator">
                     Initiator <input class="pat-autosuggest users" data-pat-autosuggest="words: Bi Angli &lt;bi.angli@shenzenair.com&gt;, Edmund Hall &lt;edmund.hall@aircanada.com&gt;, Hanns-Martin Schulte &lt;hanns.martin.schulte@lufthansa.de&gt;, Helge Nørdal &lt;hnoerdal@sas.dk&gt;, John Doe &lt;john.doe@aircanada.com&gt;, Liz Baker &lt;liz.baker@united.com&gt;, Peter Meier &lt;peter.meier@swiss.com&gt;, Ratana Preecha &lt;ratana.preecha@thaiair.com&gt;" type="text" value="Liz Baker &lt;liz.baker@foo.com&gt;"> 
 	<a href="/liz-baker/" class="pat-avatar "  id="">
-		<img src="/media/avatar-liz-baker.jpg" alt="" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz-baker.jpg" alt="" />
 	</a>    
 
                 </label>
@@ -993,11 +997,11 @@
             
         
             
+        
+            
+        
+            
                 
-            
-        
-            
-        
             
         
             
@@ -1170,6 +1174,8 @@
                     <h4 class="section-label state-finished">
                         Neu 
                     </h4>
+                    
+                        
                     
                         
                     
@@ -1447,8 +1453,6 @@
                     
                         
                     
-                        
-                    
                     <p class="button-bar">
                         <a href="" class="icon-plus-circle small button">Create new task</a>
                         <button class="small icon-stage success" disabled>Close milestone</button>
@@ -1460,6 +1464,8 @@
                     <h4 class="section-label state-finished">
                         In Bearbeitung 
                     </h4>
+                    
+                        
                     
                         
                     
@@ -1807,8 +1813,6 @@
                     
                         
                     
-                        
-                    
                     <p class="button-bar">
                         <a href="" class="icon-plus-circle small button">Create new task</a>
                         <button class="small icon-stage success" disabled>Close milestone</button>
@@ -1820,6 +1824,8 @@
                     <h4 class="section-label state-unfinished">
                         Vollständig 
                     </h4>
+                    
+                        
                     
                         
                     
@@ -1896,8 +1902,6 @@
                                     </a>
                                 </div>
                             </label>
-                        
-                    
                         
                     
                         
@@ -2427,6 +2431,8 @@
                         
                     
                         
+                    
+                        
                             <label>
                                 <input type="checkbox"  /> 
                                 <a title="
@@ -2703,8 +2709,6 @@
                     
                         
                     
-                        
-                    
                     <p class="button-bar">
                         <a href="" class="icon-plus-circle small button">Create new task</a>
                         <button class="small icon-stage success" disabled>Close milestone</button>
@@ -2716,6 +2720,8 @@
                     <h4 class="section-label state-">
                         Abgeschlossen 
                     </h4>
+                    
+                        
                     
                         
                     
@@ -2994,8 +3000,6 @@
                     
                         
                     
-                        
-                    
                     <p class="button-bar">
                         <a href="" class="icon-plus-circle small button">Create new task</a>
                         <button class="small icon-stage success" disabled>Close milestone</button>
@@ -3007,6 +3011,8 @@
                     <h4 class="section-label state-">
                         Archiviert 
                     </h4>
+                    
+                        
                     
                         
                     
@@ -3285,8 +3291,6 @@
                     
                         
                     
-                        
-                    
                     <p class="button-bar">
                         <a href="" class="icon-plus-circle small button">Create new task</a>
                         <button class="small icon-stage success" disabled>Close milestone</button>
@@ -3299,6 +3303,8 @@
                 <h4 class="section-label">
                     Unassigned
                 </h4>
+                
+                    
                 
                     
                 
@@ -3578,8 +3584,6 @@
                 
                     
                 
-                    
-                
             </fieldset>
         
         <!-- <div class="button-bar create-buttons">
@@ -3591,13 +3595,15 @@
         <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
-                <a title="Create new document" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
+                <a title="Create new document" href="/feedback/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
             </div>
         </div>
 
         <div class="content">
             <h3>Upcoming events</h3>
             <ul class="event-list">
+            
+                
             
                 
             
@@ -3683,6 +3689,8 @@
                         </a>
                     </li>
                     
+                
+            
                 
             
                 
@@ -3803,10 +3811,6 @@
                         </a>
                     </li>
                     
-                
-            
-                
-            
                 
             
                 
@@ -4282,6 +4286,8 @@
                 
             
                 
+            
+                
                     <li class="event" title="The Gerald Aylmer seminar 2015: Secret histories: How do archivists and historians deal with secrets? How do secrets impact family and personal narratives? How do we deal with sensitivities in archiving material, and with sensitivities around difficult periods in national and global history? ">
                         <a href="/event-gerald-aylmer-seminar" class="link">
                             <h4 class="title"><time><!-- I would like to have only the starting time, or in case of an all day event 'All day' in the time tag. Not the date. -->2015-01-31 10:00 GMT+2</time> — The Gerald Aylmer seminar 2015: Secret histories</h4>
@@ -4303,6 +4309,8 @@
                         </a>
                     </li>
                     
+                
+            
                 
             
                 
@@ -4569,17 +4577,13 @@
             
                 
             
-                
-            
-                
-            
             </ul>
      
         </div>
     </div>
 
     <div id="workspace-settings">
-        <nav class="navigation tabs">
+        <nav class="navigation tabs pat-tabs">
             <a href="/open-market-committee/" class="pat-inject current" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">General</a>
             <a href="/feedback/workspace-settings-members.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Members</a>
             <a href="/feedback/workspace-settings-security.html" class="pat-inject" data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content">Security</a>
@@ -4709,11 +4713,11 @@
         
     
         
+    
+        
+    
+        
             
-        
-    
-        
-    
         
     
         
@@ -4994,11 +4998,11 @@
                 
             
                 
+            
+                
+            
+                
                     
-                
-            
-                
-            
                 
             
                 
@@ -5172,7 +5176,7 @@
 
         
 	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
-		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+		<img src="++theme++ploneintranet.theme/generated/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
 
