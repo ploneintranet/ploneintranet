@@ -85,10 +85,6 @@ class ImagePickerPanel(BrowserView):
     Renders HTML for the image picker panel/modal of pat-raptor.
     """
 
-    def __call__(self):
-        import pdb; pdb.set_trace()
-        return super(ImagePickerPanel, self).__call__()
-
     def get_images(self):
         catalog = api.portal.get_tool('portal_catalog')
         ps = catalog(

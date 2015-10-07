@@ -10,11 +10,12 @@
         <button type="button" class="close-panel">Close</button>
         <h1>Upload or Select Image</h1>
     </div>
-    <div>
+    <div class="panel-content">
+    <div id="raptor-image-picker">
     <form action="/" class="wizard-box" tal:define="images view/get_images">
         <div class="panel-body">
-            <fieldset class="filter-bar" class="pat-autosubmit">
-                <select name="source">
+            <fieldset class="filter-bar">
+                <select name="source" disabled>
                     <option>This workspace</option>
                     <optgroup label="Image bank">
                         <option>Folder so and so</option>
@@ -22,13 +23,13 @@
                         <option>Folder so and so</option>
                     </optgroup>
                 </select>
-                <input type="search" placeholder="Search in 'This Workspace' by keyword" />
+                <!-- <input type="search" placeholder="Search in 'This Workspace' by keyword" /> -->
             </fieldset>
 
             <fieldset class="pat-checklist radio image-selector" tal:condition="images">
                 <tal:loop repeat="image images">
                     <label class="item">
-                        <input type="radio" name="${image/Title}" />
+                        <input type="radio" name="picked-image" value="${image/getPath}" />
                         <img src="${image/getPath}/@@images/image/thumb" alt="${image/Description|image/Title}" title="${image/Title}" />
                     </label>
                 </tal:loop>
@@ -47,6 +48,7 @@
             </button>
         </div>
     </form>
+    </div>
     </div>
 </div>
 </html>
