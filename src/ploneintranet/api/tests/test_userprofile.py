@@ -12,6 +12,7 @@ class TestUserProfile(IntegrationTestCase):
         profile = pi_api.userprofile.create(
             username='johndoe',
             email='johndoe@doe.com',
+            approve=True,
         )
         self.assertIsInstance(
             profile,

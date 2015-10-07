@@ -1,6 +1,7 @@
 import logging
 
 from ploneintranet.userprofile.interfaces import IPloneintranetUserprofileLayer
+from plone import api as plone_api
 
 from . import sync
 
@@ -19,3 +20,19 @@ def on_user_login(event):
     if not IPloneintranetUserprofileLayer.providedBy(request):
         return
     sync.create_membrane_profile(event.principal)
+
+
+def on_user_transition(ob, event):
+    """Make sure all enabled users are added to a members group"""
+    username = event.object.username
+    if event.new_state.id == 'enabled':
+        # Add all users to a root members group
+        members = plone_api.group.get(groupname='Members')
+        if members is None:
+            plone_api.group.create(
+                groupname='Members',
+                title='Members',
+                roles=['Member', ],
+            )
+        plone_api.group.add_user(groupname='Members',
+                                 username=username)

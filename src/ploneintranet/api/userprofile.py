@@ -134,17 +134,6 @@ def create(
         plone_api.content.transition(profile, 'approve')
         profile.reindexObject()
 
-    # Add all users to a root members group
-    members = plone_api.group.get(groupname='Members')
-    if members is None:
-        plone_api.group.create(
-            groupname='Members',
-            title='Members',
-            roles=['Member', ],
-        )
-    plone_api.group.add_user(groupname='Members',
-                             username=username)
-
     return profile
 
 
