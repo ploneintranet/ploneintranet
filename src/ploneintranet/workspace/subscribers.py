@@ -1,9 +1,6 @@
 import logging
 from zope.annotation.interfaces import IAnnotations
-from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
-from AccessControl.User import UnrestrictedUser
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
