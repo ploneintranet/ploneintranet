@@ -88,9 +88,9 @@ class ImagePickerPanel(BrowserView):
     def get_images(self):
         catalog = api.portal.get_tool('portal_catalog')
         ps = catalog(
-                portal_type='Image',
-                path={'query': '/'.join(self.context.getPhysicalPath())}
-            )
+            portal_type='Image',
+            path={'query': '/'.join(self.context.getPhysicalPath())}
+        )
         return ps
 
 
