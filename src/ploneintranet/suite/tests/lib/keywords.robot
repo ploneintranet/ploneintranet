@@ -449,7 +449,7 @@ I can create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
@@ -465,7 +465,7 @@ I cannot create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
@@ -894,8 +894,8 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
     Click Link  link=${SEARCH_RESULT_TITLE}
     Page should contain  ${SEARCH_RESULT_TITLE}
 
-I can exclude content of type ${CONTENT_TYPE}
-    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+I can filter content of type ${CONTENT_TYPE}
+    Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
 
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}

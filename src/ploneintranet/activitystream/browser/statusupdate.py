@@ -193,26 +193,29 @@ class StatusUpdateView(BrowserView):
             self.attachment_base_url,
             item.getId(),
         ))
-        if pi_api.previews.get(item):
+        is_image = False
+        if isinstance(item, Image):
+            is_image = True
+            # # this suffers from a bug
+            # # 'large' should return 768x768 but instead returns 400x400
+            # images = api.content.get_view(
+            #     'images',
+            #     item.aq_base,
+            #     self.request,
+            # )
+            # url = '/'.join((
+            #     item_url,
+            #     images.scale(scale='large').url.lstrip('/'),
+            # ))
+            # # use unscaled instead
+            url = item_url
+        elif pi_api.previews.get(item):
             url = '/'.join((item_url, 'small'))
-        elif isinstance(item, Image):
-            images = api.content.get_view(
-                'images',
-                item.aq_base,
-                self.request,
-            )
-            url = '/'.join((
-                item_url,
-                images.scale(scale='preview').url.lstrip('/'),
-            ))
         else:
-            # We need a better fallback image. See #122
-            url = '/'.join((
-                api.portal.get().absolute_url(),
-                '++theme++ploneintranet.theme/generated/media/logo.svg'
-            ))
+            url = None
 
-        return {'img_src': url,
+        return {'is_image': is_image,
+                'img_src': url,
                 'link': item_url,
                 'alt': item.id,
                 'title': item.id}

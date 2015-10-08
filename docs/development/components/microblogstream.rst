@@ -88,6 +88,9 @@ Architecture
    The refactoring is not yet completed.
    After completion the documentation here will be updated.
 
+.. image:: socialcallflow-new.png
+   :alt: Stream page composition with tiles and injection.
+
 All templates that are copied over directly from the prototype are located inside a directory named ``prototype``. All of them are macros.
 
 The main elements that provide social functionality are wrapped in **tiles**.

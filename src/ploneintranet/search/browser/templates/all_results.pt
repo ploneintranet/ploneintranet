@@ -20,15 +20,11 @@
                 <fieldset class="pat-checklist"
                       tal:condition="search_response/facets/friendly_type_name|nothing"
                       id="content-types">
-                    <span class="small button-cluster">
-                    <button type="button" class="pat-button select-all" i18n:translate="">All</button>
-                    <button type="button" class="pat-button deselect-all" i18n:translate="">None</button>
-                    </span>
                     <legend i18n:translate="">Content types</legend>
                     <!-- Only list content types in this list that are relevant for this search result. -->
                     <label
                      tal:repeat="ctype search_response/facets/friendly_type_name">
-                        <input checked type="checkbox"
+                        <input type="checkbox"
                                name="friendly_type_name:list"
                                tal:attributes="value ctype">
                         <tal:type i18n:translate="" i18n:domain="ploneintranet" tal:replace="ctype"></tal:type>
@@ -62,12 +58,6 @@
 		     tal:define="facet_values
 				 search_response/facets/?option_name|nothing"
                      tal:condition="facet_values">
-                    <span class="small button-cluster">
-                    <button type="button" class="pat-button select-all" 
-			    i18n:translate="">All</button>
-                    <button type="button" class="pat-button deselect-all" 
-			    i18n:translate="">None</button>
-                    </span>
                     <legend i18n:translate="" tal:content="option_name/title"></legend>
                     <!-- Only list tags in this list that are relevant for this search result. -->
                     <label

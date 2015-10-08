@@ -29,10 +29,9 @@
 			  <p class="description" tal:content="context/description"/>
 		    </article>
 
-
 		      <ul class="timeline pat-equaliser"
                   metal:define-macro="timeline"
-                  tal:define="task_number python:0; milestones python:mm_seq.keys();
+                  tal:define="tasks context/tasks;task_number python:0; milestones python:mm_seq.keys();
                               view python: 'view' in workspace and workspace['view'] or view">
                 <tal:milestone repeat="milestone_id milestones">
 			      <li class="section actioned state-${python:view.milestone_state(milestone_id)}"
@@ -64,7 +63,7 @@
                                              assignee_id assignee/getId|nothing"
                                  tal:condition="assignee">
 	                            <a href="" class="pat-avatar "  id="">
-                                  <img src="${portal_url}/@@avatars/${assignee_id}"
+                                  <img src="${portal_url}/@@avatars/${assignee_id}/@@avatar_profile.jpg"
                                        alt="${python:assignee.getProperty('fullname') or assignee_id}"
                                        title="${assignee/Description}"/>
 	                            </a>
