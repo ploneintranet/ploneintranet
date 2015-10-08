@@ -374,7 +374,7 @@ I can create a new document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input[value="${title}"]
+    Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
 I cannot create a new document
     Click link  Documents
