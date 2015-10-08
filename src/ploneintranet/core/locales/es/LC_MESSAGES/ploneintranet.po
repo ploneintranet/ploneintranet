@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-06 09:26+0000\n"
+"POT-Creation-Date: 2015-10-08 16:02+0000\n"
 "PO-Revision-Date: 2015-05-23 00:20+0000\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/plone-intranet/language/es/)\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Add a comment"
 msgstr "Agregar un comentario"
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:93
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:94
 msgid "Add group"
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr "Agregar portlet de últimas noticias"
 msgid "Add tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:90
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:91
 msgid "Add user"
 msgstr ""
 
@@ -116,9 +116,9 @@ msgstr "Avanzado"
 msgid "Advanced permissions"
 msgstr "Permisos avanzados"
 
-#: ../search/browser/templates/all_results.pt:24
 #: ../search/browser/templates/search_template.pt:24
 #: ../workspace/browser/templates/case_manager.pt:66
+#: ../workspace/browser/tiles/templates/navigation.pt:35
 msgid "All"
 msgstr ""
 
@@ -158,6 +158,10 @@ msgstr "Todos las notificaciones"
 msgid "All topics"
 msgstr ""
 
+#: ../workspace/browser/workspacecontainer.py:44
+msgid "All workspace types"
+msgstr ""
+
 #: ../workspace/browser/workspacecontainer.py:33
 msgid "Alphabetical"
 msgstr ""
@@ -170,7 +174,7 @@ msgstr ""
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:40
+#: ../search/browser/templates/all_results.pt:36
 msgid "Any modification date"
 msgstr ""
 
@@ -229,7 +233,7 @@ msgstr ""
 msgid "Back"
 msgstr "Volver"
 
-#: ../search/browser/templates/all_results.pt:52
+#: ../search/browser/templates/all_results.pt:48
 msgid "Before last month"
 msgstr ""
 
@@ -257,6 +261,10 @@ msgstr ""
 msgid "Case type"
 msgstr ""
 
+#: ../workspace/browser/workspacecontainer.py:48
+msgid "Cases"
+msgstr ""
+
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr ""
@@ -279,6 +287,10 @@ msgstr ""
 #: ../todo/browser/todo_view.py:45
 msgid "Changes applied"
 msgstr "Cambios aplicados."
+
+#: ../network/browser/templates/toggle_follow.pt:17
+msgid "Click to follow ${context/fullname}"
+msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:382
 msgid "Close milestone"
@@ -309,7 +321,7 @@ msgstr ""
 msgid "Contacts"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:27
+#: ../search/browser/templates/all_results.pt:23
 msgid "Content types"
 msgstr ""
 
@@ -422,7 +434,7 @@ msgstr "Descripción de resultados de búsqueda (opcional)"
 msgid "Deslect all"
 msgstr "Deseleccione todos"
 
-#: ../search/browser/templates/all_results.pt:91
+#: ../search/browser/templates/all_results.pt:81
 msgid "Did you mean"
 msgstr ""
 
@@ -562,7 +574,7 @@ msgstr ""
 
 #: ../network/browser/templates/maxiauthor_provider.pt:35
 #: ../network/browser/templates/miniauthor_provider.pt:34
-#: ../userprofile/browser/templates/userprofile.pt:53
+#: ../network/browser/templates/toggle_follow.pt:27
 msgid "Following"
 msgstr "Siguiendo"
 
@@ -596,6 +608,10 @@ msgstr "General"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:301
 msgid "General tasks"
+msgstr ""
+
+#: ../workspace/browser/workspacecontainer.py:46
+msgid "Generic workspaces"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
@@ -720,7 +736,7 @@ msgstr ""
 msgid "Join now"
 msgstr "Únase ahora"
 
-#: ../search/browser/templates/all_results.pt:38
+#: ../search/browser/templates/all_results.pt:34
 msgid "Last Modified"
 msgstr ""
 
@@ -732,7 +748,7 @@ msgstr "Último mes"
 msgid "Last Week"
 msgstr "Último semana"
 
-#: ../search/browser/templates/all_results.pt:49
+#: ../search/browser/templates/all_results.pt:45
 msgid "Last month"
 msgstr ""
 
@@ -740,7 +756,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:46
+#: ../search/browser/templates/all_results.pt:42
 msgid "Last week"
 msgstr ""
 
@@ -866,7 +882,7 @@ msgstr "Moderado"
 msgid "More information about"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:185
+#: ../search/browser/templates/all_results.pt:175
 #: ../search/browser/templates/file_results.pt:32
 #: ../search/browser/templates/image_results.pt:32
 msgid "More results"
@@ -949,7 +965,6 @@ msgstr ""
 msgid "No token id given in sub-path.Use .../@@accept-token/tokenid"
 msgstr "No hay id del token dado en el sub-ruta. Utilice .../@@accept-token/tokenid"
 
-#: ../search/browser/templates/all_results.pt:25
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 msgid "None"
 msgstr ""
@@ -975,7 +990,7 @@ msgstr "Número de elementos a mostrar"
 msgid "ODT document"
 msgstr ""
 
-#: ../workspace/subscribers.py:127
+#: ../workspace/subscribers.py:124
 msgid "Oh boy, oh boy, you are already a member"
 msgstr "Oh, muchacho, madre mía, que ya es un miembro"
 
@@ -1414,6 +1429,10 @@ msgstr ""
 msgid "The userid this action is for"
 msgstr "El id del usuario de esta acción es para"
 
+#: ../workspace/basecontent/baseviews.py:68
+msgid "The workflow state has been changed."
+msgstr ""
+
 #: ../workspace/policies.py:24
 msgid "The workspace can be explored by outsiders. Outsiders can browse but not actively participate."
 msgstr "El espacio de trabajo puede ser explorado por los foráneos. Los usuarios foráneos pueden navegar pero no activamente participar."
@@ -1438,8 +1457,8 @@ msgstr ""
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:78
-msgid "There was a problem: %s"
+#: ../workspace/basecontent/baseviews.py:80
+msgid "There was a problem:"
 msgstr ""
 
 #: ../workspace/browser/add_content.py:129
@@ -1479,7 +1498,7 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:43
+#: ../search/browser/templates/all_results.pt:39
 #: ../workspace/browser/tiles/sidebar.py:617
 msgid "Today"
 msgstr "Hoy"
@@ -1559,7 +1578,7 @@ msgstr "Id de usuario"
 msgid "Username"
 msgstr ""
 
-#: ../workspace/subscribers.py:134
+#: ../workspace/subscribers.py:131
 msgid "Welcome to our family, Stranger"
 msgstr "Bienvenido a nuestra familia, Extraño"
 
@@ -1651,6 +1670,10 @@ msgstr ""
 msgid "You are about to delete this folder. Are you sure?"
 msgstr ""
 
+#: ../network/browser/templates/toggle_follow.pt:23
+msgid "You are now following ${context/fullname}. Click to unfollow."
+msgstr ""
+
 #: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr ""
@@ -1666,6 +1689,10 @@ msgstr "Usted no tiene permiso para agregar la cambiar la política de espacio d
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
 msgstr "Su casilla de correo"
+
+#: ../workspace/basecontent/baseviews.py:76
+msgid "Your changes have been saved."
+msgstr ""
 
 #: ../messaging/browser/send-message.pt:31
 msgid "Your message here!"
@@ -1788,7 +1815,7 @@ msgstr "Cuando la dirección URL del token único es accedido, una cuenta de usu
 msgid "invititations"
 msgstr "Invitaciones"
 
-#: ../search/browser/templates/all_results.pt:87
+#: ../search/browser/templates/all_results.pt:77
 #: ../search/browser/templates/image_results.pt:14
 #: ../search/browser/templates/people_results.pt:14
 msgid "items matched your search."
@@ -1801,6 +1828,11 @@ msgstr "Unir política"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:19
 msgid "label"
+msgstr ""
+
+#. Default: "<strong>Follow</strong> ${context/fullname}"
+#: ../network/browser/templates/toggle_follow.pt:21
+msgid "label_btn_follow_user"
 msgstr ""
 
 #. Default: "Cancel"

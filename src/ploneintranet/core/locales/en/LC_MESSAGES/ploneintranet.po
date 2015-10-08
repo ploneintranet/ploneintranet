@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-10-06 09:26+0000\n"
+"POT-Creation-Date: 2015-10-08 16:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Add a comment"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:93
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:94
 msgid "Add group"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Add tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:90
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:91
 msgid "Add user"
 msgstr ""
 
@@ -112,9 +112,9 @@ msgstr ""
 msgid "Advanced permissions"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:24
 #: ../search/browser/templates/search_template.pt:24
 #: ../workspace/browser/templates/case_manager.pt:66
+#: ../workspace/browser/tiles/templates/navigation.pt:35
 msgid "All"
 msgstr ""
 
@@ -154,6 +154,10 @@ msgstr ""
 msgid "All topics"
 msgstr ""
 
+#: ../workspace/browser/workspacecontainer.py:44
+msgid "All workspace types"
+msgstr ""
+
 #: ../workspace/browser/workspacecontainer.py:33
 msgid "Alphabetical"
 msgstr ""
@@ -166,7 +170,7 @@ msgstr ""
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:40
+#: ../search/browser/templates/all_results.pt:36
 msgid "Any modification date"
 msgstr ""
 
@@ -225,7 +229,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:52
+#: ../search/browser/templates/all_results.pt:48
 msgid "Before last month"
 msgstr ""
 
@@ -253,6 +257,10 @@ msgstr ""
 msgid "Case type"
 msgstr ""
 
+#: ../workspace/browser/workspacecontainer.py:48
+msgid "Cases"
+msgstr ""
+
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
 msgstr ""
@@ -274,6 +282,10 @@ msgstr ""
 
 #: ../todo/browser/todo_view.py:45
 msgid "Changes applied"
+msgstr ""
+
+#: ../network/browser/templates/toggle_follow.pt:17
+msgid "Click to follow ${context/fullname}"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:382
@@ -305,7 +317,7 @@ msgstr ""
 msgid "Contacts"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:27
+#: ../search/browser/templates/all_results.pt:23
 msgid "Content types"
 msgstr ""
 
@@ -418,7 +430,7 @@ msgstr ""
 msgid "Deslect all"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:91
+#: ../search/browser/templates/all_results.pt:81
 msgid "Did you mean"
 msgstr ""
 
@@ -558,7 +570,7 @@ msgstr ""
 
 #: ../network/browser/templates/maxiauthor_provider.pt:35
 #: ../network/browser/templates/miniauthor_provider.pt:34
-#: ../userprofile/browser/templates/userprofile.pt:53
+#: ../network/browser/templates/toggle_follow.pt:27
 msgid "Following"
 msgstr ""
 
@@ -592,6 +604,10 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:301
 msgid "General tasks"
+msgstr ""
+
+#: ../workspace/browser/workspacecontainer.py:46
+msgid "Generic workspaces"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
@@ -716,7 +732,7 @@ msgstr ""
 msgid "Join now"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:38
+#: ../search/browser/templates/all_results.pt:34
 msgid "Last Modified"
 msgstr ""
 
@@ -728,7 +744,7 @@ msgstr ""
 msgid "Last Week"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:49
+#: ../search/browser/templates/all_results.pt:45
 msgid "Last month"
 msgstr ""
 
@@ -736,7 +752,7 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:46
+#: ../search/browser/templates/all_results.pt:42
 msgid "Last week"
 msgstr ""
 
@@ -862,7 +878,7 @@ msgstr ""
 msgid "More information about"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:185
+#: ../search/browser/templates/all_results.pt:175
 #: ../search/browser/templates/file_results.pt:32
 #: ../search/browser/templates/image_results.pt:32
 msgid "More results"
@@ -945,7 +961,6 @@ msgstr ""
 msgid "No token id given in sub-path.Use .../@@accept-token/tokenid"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:25
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 msgid "None"
 msgstr ""
@@ -971,7 +986,7 @@ msgstr ""
 msgid "ODT document"
 msgstr ""
 
-#: ../workspace/subscribers.py:127
+#: ../workspace/subscribers.py:124
 msgid "Oh boy, oh boy, you are already a member"
 msgstr ""
 
@@ -1410,6 +1425,10 @@ msgstr ""
 msgid "The userid this action is for"
 msgstr ""
 
+#: ../workspace/basecontent/baseviews.py:68
+msgid "The workflow state has been changed."
+msgstr ""
+
 #: ../workspace/policies.py:24
 msgid "The workspace can be explored by outsiders. Outsiders can browse but not actively participate."
 msgstr ""
@@ -1434,8 +1453,8 @@ msgstr ""
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:78
-msgid "There was a problem: %s"
+#: ../workspace/basecontent/baseviews.py:80
+msgid "There was a problem:"
 msgstr ""
 
 #: ../workspace/browser/add_content.py:129
@@ -1475,7 +1494,7 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:43
+#: ../search/browser/templates/all_results.pt:39
 #: ../workspace/browser/tiles/sidebar.py:617
 msgid "Today"
 msgstr ""
@@ -1555,7 +1574,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: ../workspace/subscribers.py:134
+#: ../workspace/subscribers.py:131
 msgid "Welcome to our family, Stranger"
 msgstr ""
 
@@ -1647,6 +1666,10 @@ msgstr ""
 msgid "You are about to delete this folder. Are you sure?"
 msgstr ""
 
+#: ../network/browser/templates/toggle_follow.pt:23
+msgid "You are now following ${context/fullname}. Click to unfollow."
+msgstr ""
+
 #: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr ""
@@ -1661,6 +1684,10 @@ msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
+msgstr ""
+
+#: ../workspace/basecontent/baseviews.py:76
+msgid "Your changes have been saved."
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:31
@@ -1779,7 +1806,7 @@ msgstr ""
 msgid "invititations"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:87
+#: ../search/browser/templates/all_results.pt:77
 #: ../search/browser/templates/image_results.pt:14
 #: ../search/browser/templates/people_results.pt:14
 msgid "items matched your search."
@@ -1792,6 +1819,11 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:19
 msgid "label"
+msgstr ""
+
+#. Default: "<strong>Follow</strong> ${context/fullname}"
+#: ../network/browser/templates/toggle_follow.pt:21
+msgid "label_btn_follow_user"
 msgstr ""
 
 #. Default: "Cancel"
