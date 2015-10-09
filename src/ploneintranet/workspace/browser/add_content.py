@@ -98,12 +98,13 @@ class AddContent(BrowserView):
                     execute_as_manager(
                         new.set_external_visibility, external_visibility)
 
+                new.join_policy = join_policy
+                new.participant_policy = participant_policy
+
             acl_users = api.portal.get_tool('acl_users')
             if acl_users.ZCacheable_enabled():
                 acl_users.ZCacheable_invalidate()
 
-            new.join_policy = join_policy
-            new.participant_policy = participant_policy
 
         modified, errors = dexterity_update(new)
 
