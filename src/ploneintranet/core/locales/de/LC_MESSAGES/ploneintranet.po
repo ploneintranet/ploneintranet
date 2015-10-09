@@ -1212,7 +1212,7 @@ msgstr "Titel und Beschreibung durchsuchen"
 
 #: ../workspace/browser/templates/workspaces.pt:33
 msgid "Search workspaces"
-msgstr ""
+msgstr "Arbeitsbereiche durchsuchen"
 
 #: ../workspace/policies.py:9
 msgid "Secret"
