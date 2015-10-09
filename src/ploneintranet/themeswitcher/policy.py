@@ -137,10 +137,18 @@ class SwitchableThemingPolicy(DefaultPolicy):
 
     def getHostname(self):
         """Extract hostname from request."""
-        host = self.request.get('HTTP_HOST')
-        if not host:  # fallback is ''
-            host = self.request.get('SERVER_NAME')
-        return host.split(':')[0]  # ignore port
+        host = None
+        for key in [
+            'HTTP_X_FORWARDED_HOST',
+            'HTTP_HOST',
+            'SERVER_NAME',
+        ]:
+            if self.request.get(key):
+                host = self.request.get(key)
+                break
+        if host and ':' in host:
+            host = host.split(':')[0]
+        return host
 
     # special helper that is called many times on traversal
     # and manages it's own request cache
