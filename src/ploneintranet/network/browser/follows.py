@@ -41,6 +41,17 @@ class ToggleFollowUser(BrowserView):
 
         self.unique_id = uuid.uuid4().hex
 
+        fullname = self.context.fullname
+        self.msg_title_follow = self.context.translate(_(
+            u'title_follow',
+            default=u'Click to follow ${fullname}',
+            mapping={'fullname': fullname},
+        ))
+        self.msg_title_unfollow = self.context.translate(_(
+            u'title_unfollow',
+            default=u'You are now following ${fullname}. Click to unfollow.',
+            mapping={'fullname': fullname},
+        ))
         return self.index()
 
     def toggle_follow(self):

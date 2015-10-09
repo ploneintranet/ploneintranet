@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-08 16:02+0000\n"
+"POT-Creation-Date: 2015-10-09 10:17+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -288,10 +288,6 @@ msgstr ""
 msgid "Changes applied"
 msgstr "Modifiche applicate"
 
-#: ../network/browser/templates/toggle_follow.pt:17
-msgid "Click to follow ${context/fullname}"
-msgstr ""
-
 #: ../workspace/browser/tiles/templates/sidebar.pt:382
 msgid "Close milestone"
 msgstr ""
@@ -574,7 +570,7 @@ msgstr ""
 
 #: ../network/browser/templates/maxiauthor_provider.pt:35
 #: ../network/browser/templates/miniauthor_provider.pt:34
-#: ../network/browser/templates/toggle_follow.pt:27
+#: ../network/browser/templates/toggle_follow.pt:25
 msgid "Following"
 msgstr "Stanno seguendo"
 
@@ -1670,10 +1666,6 @@ msgstr ""
 msgid "You are about to delete this folder. Are you sure?"
 msgstr ""
 
-#: ../network/browser/templates/toggle_follow.pt:23
-msgid "You are now following ${context/fullname}. Click to unfollow."
-msgstr ""
-
 #: ../workspace/browser/templates/workspace-add.pt:64
 msgid "You can always change these settings later via the security control panel in the workspace."
 msgstr ""
@@ -1831,7 +1823,7 @@ msgid "label"
 msgstr ""
 
 #. Default: "<strong>Follow</strong> ${context/fullname}"
-#: ../network/browser/templates/toggle_follow.pt:21
+#: ../network/browser/templates/toggle_follow.pt:20
 msgid "label_btn_follow_user"
 msgstr ""
 
@@ -1977,6 +1969,16 @@ msgstr ""
 #. Workspaces
 #: ../layout/browser/templates/dashboard.pt
 msgid "tile_ploneintranet.workspace.workspacefolder"
+msgstr ""
+
+#. Default: "Click to follow ${fullname}"
+#: ../network/browser/follows.py:45
+msgid "title_follow"
+msgstr ""
+
+#. Default: "You are now following ${fullname}. Click to unfollow."
+#: ../network/browser/follows.py:50
+msgid "title_unfollow"
 msgstr ""
 
 #: ../network/browser/templates/maxiauthor_provider.pt:72

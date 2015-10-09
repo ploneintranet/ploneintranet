@@ -16,14 +16,12 @@
     <fieldset class="button-bar centred">
         <button tal:condition="python:view.verb == 'Follow'"
             class="icon-eye ${python:is_followed and 'active' or ''}"
-            i18n:attributes="title"
-            title="Click to follow ${context/fullname}"
+            title="${view/msg_title_follow}"
             ><tal:block i18n:translate="label_btn_follow_user"><strong>Follow</strong> ${context/fullname}</tal:block>
         </button>
         <button tal:condition="python:view.verb == 'Unfollow'"
             class="icon-eye ${python:is_followed and 'active' or ''}"
-            i18n:attributes="title"
-            title="You are now following ${context/fullname}. Click to unfollow."
+            title="${view/msg_title_unfollow}"
             ><strong i18n:translate="">Following</strong></button>
 
       <input type="hidden" name="do_toggle_follow" value="" />
