@@ -1,4 +1,5 @@
 from plone import api
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from ZTUtils import make_query
 from zope.component import getUtility
@@ -125,7 +126,7 @@ class SearchResultsView(BrowserView):
             keywords = form.get('SearchableText_filtered')
             for filt in supported_filters:
                 if form.get(filt):
-                    filters[filt] = form.get(filt)
+                    filters[filt] = safe_unicode(form.get(filt))
             if form.get('created'):
                 start_date, end_date = self._daterange_from_string(
                     form.get('created')

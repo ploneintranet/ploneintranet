@@ -287,4 +287,13 @@
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
+    <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      name="panel-image-picker"
+      class=".workspace.ImagePickerPanel"
+      template="templates/panel-image-picker.pt"
+      permission="zope.Public"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
 </configure>

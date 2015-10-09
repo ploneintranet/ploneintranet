@@ -374,7 +374,7 @@ I can create a new document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input[value="${title}"]
+    Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
 I cannot create a new document
     Click link  Documents
@@ -404,7 +404,7 @@ I can create a new image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
     Click Button  css=#form-buttons-create
-    Wait Until Page Contains Element  css=#content input.doc-title[value='My Image']
+    Wait Until Page Contains Element  xpath=//*[@id="meta"]/div/span/textarea[text()='My Image']
 
 I can create a structure
     Click link  Documents
@@ -422,7 +422,7 @@ I can create a structure
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
     # This must actually test for the document content of the rendered view
-    Wait Until Page Contains Element  css=#content input[value="Document in subfolder"]
+    Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='Document in subfolder']
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -438,7 +438,7 @@ I can create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
@@ -454,7 +454,7 @@ I cannot create a new event
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=end]  text=${end}
     Input Text  css=.panel-content input[name=start]  text=${start}
-    Input text  xpath=//input[@placeholder='Organiser']/../div//input  ${organizer}
+    Input text  xpath=//input[@placeholder='Name of organiser']/../div//input  ${organizer}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${organizer}']
     Click Element  xpath=//span[@class='select2-match'][text()='${organizer}']
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
@@ -636,7 +636,7 @@ I change the title
     Wait Until Page Contains  Your changes have been saved
 
 The document has the new title
-    Textfield Should Contain  title  New title ♥
+    Wait Until Page Contains Element  xpath=//div[@id='document-body']//textarea[@name='title'][text()='New title ♥']
 
 I change the description
     Wait Until Page Contains  Toggle extra metadata
