@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+<div id="content">
+    <div class="header">
+        <button type="button" class="close-panel">Close</button>
+        <h1>Upload or Select Image</h1>
+    </div>
+    <div class="panel-content">
+    <div id="raptor-image-picker">
+    <form action="/" class="wizard-box" tal:define="images view/get_images">
+        <div class="panel-body">
+            <fieldset class="filter-bar">
+                <select name="source" disabled>
+                    <option>This workspace</option>
+                    <optgroup label="Image bank">
+                        <option>Folder so and so</option>
+                        <option>Folder so and so</option>
+                        <option>Folder so and so</option>
+                    </optgroup>
+                </select>
+                <!-- <input type="search" placeholder="Search in 'This Workspace' by keyword" /> -->
+            </fieldset>
+
+            <fieldset class="pat-checklist radio image-selector" tal:condition="images">
+                <tal:loop repeat="image images">
+                    <label class="item">
+                        <input type="radio" name="picked-image" value="${image/getPath}" />
+                        <img src="${image/getPath}/@@images/image/thumb" alt="${image/Description|image/Title}" title="${image/Title}" />
+                    </label>
+                </tal:loop>
+            </fieldset>
+            <tal:if condition="not:images">
+                No images found.
+            </tal:if>
+        </div>
+
+        <div class="buttons panel-footer">
+            <button type="submit" class="close-panel icon-ok-circle" tal:condition="images">
+                Insert selected image
+            </button>
+            <button type="button" class="close-panel icon-cancel-circle">
+                Cancel
+            </button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>
+</html>
