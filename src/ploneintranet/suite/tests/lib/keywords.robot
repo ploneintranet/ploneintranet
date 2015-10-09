@@ -636,7 +636,7 @@ I change the title
     Wait Until Page Contains  Your changes have been saved
 
 The document has the new title
-    Textfield Should Contain  title  New title ♥
+    Wait Until Page Contains Element  xpath=//div[@id='document-body']//textarea[@name='title'][text()='New title ♥']
 
 I change the description
     Wait Until Page Contains  Toggle extra metadata
