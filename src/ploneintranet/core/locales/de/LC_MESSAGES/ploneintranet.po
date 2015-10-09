@@ -163,7 +163,7 @@ msgstr "Alle Themen"
 
 #: ../workspace/browser/workspacecontainer.py:44
 msgid "All workspace types"
-msgstr ""
+msgstr "Alle Arten von Arbeitsbereichen"
 
 #: ../workspace/browser/workspacecontainer.py:33
 msgid "Alphabetical"
@@ -266,7 +266,7 @@ msgstr "Geschäftstyp"
 
 #: ../workspace/browser/workspacecontainer.py:48
 msgid "Cases"
-msgstr ""
+msgstr "Geschäfte"
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
@@ -380,7 +380,7 @@ msgstr "Ausschneiden"
 
 #: ../workspace/browser/templates/content_macros.pt:116
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:208
 msgid "Date and time of the latest modification"
@@ -535,7 +535,7 @@ msgstr "Durchsuchen"
 
 #: ../userprofile/sync.py:80
 msgid "External property sync complete."
-msgstr ""
+msgstr "Synchronisation der externen Eigenschaften beendet."
 
 msgid "File"
 msgstr "Datei"
@@ -611,7 +611,7 @@ msgstr "Allgemeine Aufgaben"
 
 #: ../workspace/browser/workspacecontainer.py:46
 msgid "Generic workspaces"
-msgstr ""
+msgstr "Allgemeiner Arbeitsbereich"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
 #: ../workspace/browser/tiles/templates/sidebar.pt:33
@@ -945,7 +945,7 @@ msgstr "Keine ungelesenen Benachrichtigungen"
 
 #: ../workspace/basecontent/templates/document_view.pt:101
 msgid "No preview available"
-msgstr ""
+msgstr "Keine Vorschau verfügbar"
 
 #: ../workspace/browser/templates/case_manager.pt:111
 msgid "No results"
@@ -1104,7 +1104,7 @@ msgstr "PowerPoint 2007 Präsentation"
 
 #: ../workspace/basecontent/templates/document_view.pt:100
 msgid "Preview being generated"
-msgstr ""
+msgstr "Vorschau wird erzeugt"
 
 #: ../userprofile/content/userprofile.py:85
 msgid "Primary location"
@@ -1430,7 +1430,7 @@ msgstr "Die Benutzer ID für diese Aktion"
 
 #: ../workspace/basecontent/baseviews.py:68
 msgid "The workflow state has been changed."
-msgstr ""
+msgstr "Der Workflow-Status wurde geändert"
 
 #: ../workspace/policies.py:24
 msgid "The workspace can be explored by outsiders. Outsiders can browse but not actively participate."
@@ -1479,7 +1479,7 @@ msgstr "Dieser Benutzer hat keine E-Mail Adresse gespeichert."
 
 #: ../workspace/browser/templates/content_macros.pt:122
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
 #: ../userprofile/content/userprofile.py:80
 msgid "Time Zone"
@@ -1567,7 +1567,7 @@ msgstr "Dateien hochladen"
 
 #: ../userprofile/browser/templates/user_import_form.pt:18
 msgid "User profile management"
-msgstr ""
+msgstr "Verwaltung der Benutzerprofile"
 
 #: ../microblog/interfaces.py:17
 msgid "Userid"
@@ -1687,7 +1687,7 @@ msgstr "Inbox"
 
 #: ../workspace/basecontent/baseviews.py:76
 msgid "Your changes have been saved."
-msgstr ""
+msgstr "Die Änderungen wurden gespeichert."
 
 #: ../messaging/browser/send-message.pt:31
 msgid "Your message here!"
@@ -1787,14 +1787,12 @@ msgstr "Mitgliederliste für ${folder}"
 
 #. Default: "Loading more posts"
 #: ../activitystream/browser/tiles/templates/stream_tile.pt:16
-#, fuzzy
 msgid "info_loading_more_posts"
 msgstr "Weitere Posts werden geladen…"
 
 #. A unique token URL will be sent to the address."
 #. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
 #: ../invitations/invite_user.pt:22
-#, fuzzy
 msgid "invitation_admin_para_1"
 msgstr "Geben Sie eine E-Mail Adresse ein um jemanden einzuladen. Es wird dann eine E-Mail mit URL zur Bestätigung an diese Adresse gesendet."
 
@@ -1802,7 +1800,6 @@ msgstr "Geben Sie eine E-Mail Adresse ein um jemanden einzuladen. Es wird dann e
 #. will be invalidated."
 #. Default: "When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Finally the token URL will be invalidated."
 #: ../invitations/invite_user.pt:28
-#, fuzzy
 msgid "invitation_admin_para_2"
 msgstr "Wenn diese URL geklickt wird, wird automatisch ein Benutzerkonto angelegt und der Benutzer wird eingeloggt. Danach ist die URL nicht mehr gültig."
 
@@ -1829,7 +1826,7 @@ msgstr "Markierung"
 #. Default: "<strong>Follow</strong> ${context/fullname}"
 #: ../network/browser/templates/toggle_follow.pt:20
 msgid "label_btn_follow_user"
-msgstr ""
+msgstr "${username} folgen"
 
 #. Default: "Cancel"
 #: ../layout/browser/actions.py:56
@@ -1843,7 +1840,6 @@ msgstr "Name"
 
 #. Default: "<a href=\"${context/portal_url}/library/news\">News</a>"
 #: ../layout/browser/templates/news-tile.pt:9
-#, fuzzy
 msgid "label_news"
 msgstr "Neuigkeiten"
 
@@ -1904,11 +1900,11 @@ msgstr "Bald wird es weitere Optionen zum Teilen geben"
 
 #. Default: "Library"
 msgid "my_docs_heading_library"
-msgstr ""
+msgstr "Neu in der Bibliothek"
 
 #. Default: "My Documents"
 msgid "my_docs_heading_workspaces"
-msgstr ""
+msgstr "Zuletzt geänderte Dateien"
 
 #. Default: "No tasks created yet"
 #: ../workspace/browser/tiles/templates/sidebar.pt:303
@@ -1979,12 +1975,12 @@ msgstr "Arbeitsbereiche"
 #. Default: "Click to follow ${fullname}"
 #: ../network/browser/follows.py:45
 msgid "title_follow"
-msgstr ""
+msgstr "Klicken Sie hier, um ${fullname} zu folgen."
 
 #. Default: "You are now following ${fullname}. Click to unfollow."
 #: ../network/browser/follows.py:50
 msgid "title_unfollow"
-msgstr ""
+msgstr "Sie folgen jetzt ${fullname}. Klicken Sie hier, um ${fullname} nicht weiter zu folgen."
 
 #: ../network/browser/templates/maxiauthor_provider.pt:72
 #: ../network/browser/templates/miniauthor_provider.pt:38
