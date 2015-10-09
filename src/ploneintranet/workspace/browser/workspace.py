@@ -88,6 +88,20 @@ def filter_users_json(query, users):
     return dumps(filtered_users)
 
 
+class ImagePickerPanel(BrowserView):
+    """
+    Renders HTML for the image picker panel/modal of pat-raptor.
+    """
+
+    def get_images(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        ps = catalog(
+            portal_type='Image',
+            path={'query': '/'.join(self.context.getPhysicalPath())}
+        )
+        return ps
+
+
 class WorkspaceMembersJSONView(BrowserView):
     """
     Return workspace members in JSON for use with pat-autosuggest.
