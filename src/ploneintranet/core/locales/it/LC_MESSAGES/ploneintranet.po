@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-09 10:17+0000\n"
+"POT-Creation-Date: 2015-10-09 11:09+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -1822,7 +1822,7 @@ msgstr "Policy di ingresso"
 msgid "label"
 msgstr ""
 
-#. Default: "<strong>Follow</strong> ${context/fullname}"
+#. Default: "Follow ${username}"
 #: ../network/browser/templates/toggle_follow.pt:20
 msgid "label_btn_follow_user"
 msgstr ""
