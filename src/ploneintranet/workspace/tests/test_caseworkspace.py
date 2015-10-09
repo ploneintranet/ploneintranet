@@ -76,4 +76,3 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         titles_but_last = titles[:-1]
         self.assertTrue(
             set([i is not '' for i in titles_but_last]), set([True]))
-
