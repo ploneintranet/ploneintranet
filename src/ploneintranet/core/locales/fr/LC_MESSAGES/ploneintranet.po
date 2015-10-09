@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-09 11:09+0000\n"
+"POT-Creation-Date: 2015-10-09 12:04+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -1206,6 +1206,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:22
 msgid "Search in title and description"
+msgstr ""
+
+#: ../workspace/browser/templates/workspaces.pt:33
+msgid "Search workspaces"
 msgstr ""
 
 #: ../workspace/policies.py:9

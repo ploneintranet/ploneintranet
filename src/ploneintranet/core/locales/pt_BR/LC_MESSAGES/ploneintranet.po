@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-10-09 11:09+0000\n"
+"POT-Creation-Date: 2015-10-09 12:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1201,6 +1201,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:22
 msgid "Search in title and description"
+msgstr ""
+
+#: ../workspace/browser/templates/workspaces.pt:33
+msgid "Search workspaces"
 msgstr ""
 
 #: ../workspace/policies.py:9
