@@ -58,6 +58,15 @@ Redis is a required component. This is *not* built with buildout, but expected t
 
     sudo apt-get install redis-server
 
+MAC OSX and FreeBSD users:
+sed is a command line too that is we use to re-write strings in auto generated templates.
+The differences in default versions on these platforms can occur in sed not opperating as expected.
+To mitigate this something like gnu-sed should be installed probably using a tool like homebrew.
+e.g.:
+    brew install gnu-sed --with-default-names
+and add :/usr/local/opt/gnu-sed/libexec/gnubin to your $PATH
+
+
 Setting up Your Development Environment
 ---------------------------------------
 
@@ -247,4 +256,3 @@ Use the "boot2docker ip" command to figure out what NAT ip your boot2docker vm i
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 .. _Install boot2docker: https://github.com/boot2docker/boot2docker
 .. _initialize your docker environment: http://stackoverflow.com/questions/25372781/docker-error-var-run-docker-sock-no-such-file-or-directory
-

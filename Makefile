@@ -65,6 +65,9 @@ _diazo:
 	# --- (2) --- refresh diazo static/generated
 	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
+	# if sed rewrites do not work correctly check your version of sed
+	# OSX users may need to install gnu-sed --with-default-names and add :/usr/local/opt/gnu-sed/libexec/gnubin
+	# to their $PATH
 	for file in `grep 'href="generated' $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
 		echo "Rewriting resource URLs in $$file"; \
 		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
