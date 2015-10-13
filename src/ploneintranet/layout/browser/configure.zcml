@@ -41,6 +41,35 @@
   />
 
   <browser:page
+      name="news.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/news.pt"
+  />
+  <browser:page
+      name="news-hot-topics.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/news.pt"
+  />
+  <browser:page
+      name="news-company-news.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/news.pt"
+  />
+  <browser:page
+      name="news-press-releases.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope.Public"
+      template="templates/news.pt"
+  />
+
+  <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
