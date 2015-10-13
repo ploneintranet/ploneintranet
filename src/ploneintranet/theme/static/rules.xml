@@ -107,6 +107,28 @@
     <append css:content-children="#portal-column-content" css:theme="div.container" />
   </rules>
 
+  <!-- all news sectios -->
+  <rules css:if-content="body.template-news-html">
+    <theme href="generated/news.html" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
+    <drop css:content="#content" />
+  </rules>
+  <rules css:if-content="body.template-news-hot-topics-html">
+    <theme href="generated/news-hot-topics.html" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
+    <drop css:content="#content" />
+  </rules>
+  <rules css:if-content="body.template-news-company-news-html">
+    <theme href="generated/news-company-news.html" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
+    <drop css:content="#content" />
+  </rules>
+  <rules css:if-content="body.template-news-press-releases-html">
+    <theme href="generated/news-press-releases.html" />
+    <append css:content-children="#portal-column-content" css:theme="div.container" />
+    <drop css:content="#content" />
+  </rules>
+
   <!-- this catches typical plone info pages -->
   <rules css:if-content="body.template-login_success,
                          body.template-insufficient_privileges">
