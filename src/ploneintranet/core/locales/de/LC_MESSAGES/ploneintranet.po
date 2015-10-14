@@ -1829,7 +1829,6 @@ msgstr "Markierung"
 
 #. Default: "Follow ${username}"
 #: ../network/browser/templates/toggle_follow.pt:20
-#, fuzzy
 msgid "label_btn_follow_user"
 msgstr "${username} folgen"
 
