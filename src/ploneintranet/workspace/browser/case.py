@@ -4,6 +4,7 @@ from plone.memoize.view import memoize
 
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.browser.workspace import WorkspaceView
+from ploneintranet.workspace.utils import parent_workspace
 
 
 class CaseView(WorkspaceView):
@@ -46,13 +47,22 @@ class CaseWorkflowGuardView(BrowserView):
 
     @memoize
     def __call__(self):
-        context = self.context
+        workspace = parent_workspace(self.context)
+        wft = api.portal.get_tool('portal_workflow')
+        case_milestone = wft.getInfoFor(workspace, 'review_state')
+
         catalog = api.portal.get_tool('portal_catalog')
-        current_path = '/'.join(context.getPhysicalPath())
-        brains = catalog(
-            path=current_path,
+        workspace_path = '/'.join(workspace.getPhysicalPath())
+        open_tasks = catalog(
+            path=workspace_path,
             portal_type='todo',
             review_state='open',
         )
-        has_no_open_tasks = len(brains) == 0
-        return has_no_open_tasks
+        # Only prevent the current milestone from being closed if there are
+        # open tasks assigned to the current milestone.
+        # This ignores open tasks assigned to earlier milestones since they
+        # aren't represented in the metromap.
+        for task in open_tasks:
+            if task.getObject().milestone == case_milestone:
+                return False
+        return True
