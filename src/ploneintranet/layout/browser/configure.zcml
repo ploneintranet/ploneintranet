@@ -121,4 +121,15 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <plone:tile
+      name="recentdocs.tile"
+      title="Docs"
+      description="Recent Google Docs Tile"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.DriveRecentTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
 </configure>

@@ -79,3 +79,14 @@ class TasksTile(Tile):
             else:
                 self.grouped_tasks[workspace.id]['tasks'].append(task)
         return self.render()
+
+
+class DriveRecentTile(Tile):
+
+    index = ViewPageTemplateFile("templates/recent-docs.pt")
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        return self.render()

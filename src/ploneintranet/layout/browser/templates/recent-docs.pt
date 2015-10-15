@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+    i18n:domain="ploneintranet">
+<body>
+<div class="workspaces portlet span-1" id="portlet-recentdocs"
+    tal:define="docs view/docs">
+  <div class="content">
+    <h2 class="portlet-title" i18n:translate="">Recent Docs</h2>
+    <em tal:condition="not:grouped_tasks" i18n:translate="">
+      No docs available
+    </em>
+    Rabble rabble
+  </div>
+</div>
+</body>
+</html>
