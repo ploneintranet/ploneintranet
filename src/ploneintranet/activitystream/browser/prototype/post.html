@@ -64,7 +64,7 @@
   - content shares (link, download, view) versus status attachments (download)
   - files (with title, description) versus images (fullwidth)
   - has preview  versus no preview versus preview in progress
-  
+
   Please study prototype/./_includes/post.html when making changes here.
 
   NB the prototype assumes that multiple attachments are either all images
@@ -122,7 +122,10 @@
 
   <div class="functions">
     <!-- XXX: This is not yet implemented -->
-    <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
+    <a href="#"
+       class="share pat-modal"
+       tal:attributes="href python: thread_id and ('#share-%s' % thread_id) or None">
+       Share <sup class="counter">(8)</sup></a>
     <form tal:replace="structure view/toggle_like" />
   </div>
   <div class="comments"
@@ -150,7 +153,67 @@
   </div>
 
 </div>
-</metal:macro>
+<div class="share-post-modal" tal:define="thread_id here/getId;" tal:attributes="id python: thread_id and ('share-%s' % thread_id) or None">
+    <h3>Share</h3>
+    <form tal:attributes="id string:foo-share-${thread_id}"
+          class="pat-inject update-social status-attach status-active"
+          action="#" data-pat-inject="target: #activity-stream::before">
+        <p class="content-mirror"
+        ><span class="text"
+                  tal:attributes="id string:mirror-foo-share-${thread_id}"
+            ><em class="placeholder">Add a comment to your share…</em>
+        </span
+            ><em class="selected-users"
+                tal:attributes="id string:selected-users-share-${thread_id}"></em
+                ><em class="selected-tags"
+                tal:attributes="id string:selected-tags-share-${thread_id}"></em>
+        </p>
+        <textarea placeholder="Add a comment to your share…" class="pat-content-mirror pat-switch focus"
+        tal:attributes="data-pat-content-mirror string:target: #mirror-foo-share-${thread_id};
+                        data-pat-switch string: #foo-share-${thread_id} status-inactive status-active"
+        ></textarea>
+        <!-- <a class="iconified icon-attach" href="panel-attachment.html">Attach file or reference</a> -->
+
+        <div tal:define="attachments view/statusupdate_view/attachments;
+                     attachment python: attachments and attachments[0] or None;
+                     is_content python:False;
+                     is_image attachment/is_image | nothing;
+                     has_preview attachment/img_src|nothing"
+             tal:attributes="class python:has_preview and 'shared-item has-preview' or 'shared-item no-preview not-possible'">
+
+            <div class="preview"
+                 tal:condition="has_preview">
+                <img src="/media/preview_thumb_1.jpg" alt=""
+                     tal:attributes="src attachment/img_src" />
+            </div>
+
+            <div class="summary">
+
+                <div class="byline">
+                    Posted by <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
+                </div>
+
+                <blockquote class="share-quote"
+                tal:content="structure context/text" />
+
+            </div>
+
+        </div>
+
+        <div class="button-bar">
+            <a class="iconified icon-user-add pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: mentions;" href="/feedback/panel-mentions.html#content">Mention people</a>
+
+            <a class="iconified icon-tags pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content">Add tags</a>
+
+            <button class="pat-switch close-panel" data-pat-switch="#foo status-* status-inactive" type="submit">Post</button>
+            <button class="pat-switch close-panel" data-pat-switch="#foo status-* status-inactive" type="reset">Cancel</button>
+            <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
+
+        </div>
+
+    </form>
+
+</div></metal:macro>
 
 </body>
 </html>
