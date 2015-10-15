@@ -8,7 +8,7 @@
     tal:define="docs view/docs">
   <div class="content">
     <h2 class="portlet-title" i18n:translate="">Recent Docs</h2>
-    <em tal:condition="not:grouped_tasks" i18n:translate="">
+    <em tal:condition="not:docs" i18n:translate="">
       No docs available
     </em>
     Rabble rabble

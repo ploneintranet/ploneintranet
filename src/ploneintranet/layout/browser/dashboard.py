@@ -88,5 +88,5 @@ class DriveRecentTile(Tile):
     def render(self):
         return self.index()
 
-    def __call__(self):
-        return self.render()
+    def docs(self):
+        return []
