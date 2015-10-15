@@ -19,6 +19,7 @@
 
   <!-- Add the globalstatusmessage viewlet. -->
   <append css:theme="body" css:content="#global-statusmessage" />
+  <append css:theme="body" css:content-children="#webstats_js" />
 
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
@@ -74,7 +75,7 @@
   		<p class="colofon">
   			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
   		</p>
-      
+
     </replace>
   </rules>
 
