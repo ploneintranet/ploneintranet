@@ -1,25 +1,18 @@
 language: python
 python: "2.7"
-before_install:
-  - sudo apt-get -qq -y install libenchant-dev
+sudo: false
 install:
   - mkdir -p buildout-cache/downloads
   - pip install -r requirements.txt
   - pip install -U pip
   - pip install pyenchant
-  - bin/buildout -c travis.cfg buildout:develop= install download install
   - bin/buildout -N -t 3 -c travis.cfg
-  - cd src/ploneintranet.theme && make diazo
 script:
-  - bin/test
-  - bin/flake8 src/ploneintranet.suite
-after_success:
+  - bin/code-analysis
   - bin/createcoverage run bin/test
+after_success:
   - pip install -q coveralls
   - coveralls
-notifications:
-  email: plone.intranet@netsight.co.uk
-  irc: "chat.freenode.net#plone.intranet.travis"
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
