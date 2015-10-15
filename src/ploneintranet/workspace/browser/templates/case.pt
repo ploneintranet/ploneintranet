@@ -29,7 +29,7 @@
 			  <p class="description" tal:content="context/description"/>
 		    </article>
 
-		      <ul class="timeline pat-equaliser"
+		      <ul id="timeline" class="timeline pat-equaliser"
                   metal:define-macro="timeline"
                   tal:define="task_number python:0; milestones python:mm_seq.keys();
                               view python: 'view' in workspace and workspace['view'] or view">
