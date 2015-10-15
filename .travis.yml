@@ -6,10 +6,11 @@ install:
   - pip install -U pip
   - pip install -r requirements.txt
   - pip install pyenchant
+  - buildout -c travis.cfg buildout:develop= install download install
   - buildout -N -t 3 -c travis.cfg
 script:
   - bin/code-analysis
-  - bin/createcoverage run bin/test
+  - bin/coverage run -p --source=src bin/test
 after_success:
   - pip install -q coveralls
   - coveralls
