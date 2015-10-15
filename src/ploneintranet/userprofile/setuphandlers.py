@@ -48,6 +48,22 @@ def get_or_create_userprofile_container(context=None):
             )
 
 
+def update_dx_membrane_behaviors(context):
+    '''dexterity.membrane 1.1.0 changed the names of its behaviours'''
+    from zope.component import getUtility
+    from plone.dexterity.interfaces import IDexterityFTI
+    fti = getUtility(IDexterityFTI,
+                     name='ploneintranet.userprofile.userprofile')
+    old_behaviors = list(fti.behaviors)
+    new_behaviors = []
+    for behavior in old_behaviors:
+        behavior = behavior.replace(
+            'dexterity.membrane.behavior.membrane',
+            'dexterity.membrane.behavior.')
+        new_behaviors.append(behavior)
+    fti.behaviors = tuple(new_behaviors)
+
+
 def on_install(context):
     """
     Important!
