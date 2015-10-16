@@ -8,7 +8,7 @@
       <div class="content">
         <h2 class="portlet-title">
           <a tal:attributes="href string:${here/@@plone_portal_state/navigation_root_url}/workspaces.html">
-              My <span i18n:translate="" tal:content="string:tile_${view/workspace_type}"></span></a></h2>
+              My Workspaces</a></h2>
           <ul class="links">
             <tal:workspace repeat="workspace workspaces">
               <li class="workspace" tal:attributes="title workspace/description">
