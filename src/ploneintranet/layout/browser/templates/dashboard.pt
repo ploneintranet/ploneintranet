@@ -138,7 +138,7 @@
           <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
           <div data-tile="./@@events.tile"/>
           <div data-tile="./@@tasks.tile"/>
-          <!-- <div data-tile="./@@recentdocs.tile"/> -->
+          <div data-tile="./@@recentdocs.tile"/>
         </div>
       </tal:dashboard>
     </metal:content>
