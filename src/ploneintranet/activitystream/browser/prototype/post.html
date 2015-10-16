@@ -159,15 +159,15 @@
           class="pat-inject update-social status-attach status-active"
           action="#" data-pat-inject="target: #activity-stream::before">
         <p class="content-mirror"
-        ><span class="text"
-                  tal:attributes="id string:mirror-foo-share-${thread_id}"
-            ><em class="placeholder">Add a comment to your share…</em>
-        </span
+            ><span class="text"
+                      tal:attributes="id string:mirror-foo-share-${thread_id}"
+                ><em class="placeholder">Add a comment to your share…</em
+            ></span
             ><em class="selected-users"
-                tal:attributes="id string:selected-users-share-${thread_id}"></em
-                ><em class="selected-tags"
-                tal:attributes="id string:selected-tags-share-${thread_id}"></em>
-        </p>
+                    tal:attributes="id string:selected-users-share-${thread_id}"></em
+            ><em class="selected-tags"
+                tal:attributes="id string:selected-tags-share-${thread_id}"></em
+        ></p>
         <textarea placeholder="Add a comment to your share…" class="pat-content-mirror pat-switch focus"
         tal:attributes="data-pat-content-mirror string:target: #mirror-foo-share-${thread_id};
                         data-pat-switch string: #foo-share-${thread_id} status-inactive status-active"

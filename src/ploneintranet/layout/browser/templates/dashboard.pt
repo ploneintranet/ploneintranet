@@ -8,6 +8,92 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content">
+
+    <section class="carousel-wrapper">
+        <div class="pat-carousel"
+        data-pat-carousel="expand: true;">
+            <a id="news-press-2"
+               href="/news-press-2"
+               style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/new-delhi-skyline.jpg)">
+                <div class="text-screen faux-table">
+                    <div class="faux-tr">
+                        <div class="faux-td">
+                            <h3 class="title">Air India Joins Star Alliance</h3>
+                            <p class="text">First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a id="news-press-1"
+               href="/news-press-1"
+               style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/corporate.png)">
+                <div class="text-screen faux-table">
+                    <div class="faux-tr">
+                        <div class="faux-td">
+                            <h3 class="title">Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3</h3>
+                            <p class="text">Star Alliance officially opened its new Lounge at São Paulo –Guarulhos Airport, Terminal 3 today. About 1,350 square metres in size, the lounge can accommoda...</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a id="star-news-3"
+               href="/star-news-3"
+               style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/ethiopian-ana-thumb.jpg)">
+                <div class="text-screen faux-table">
+                    <div class="faux-tr">
+                        <div class="faux-td">
+                            <h3 class="title">ANA and Ethiopian to codeshare</h3>
+                            <p class="text">In December, 2011 both airlines began reciprocal frequent flyer program awards.</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a id="star-news-2"
+               href="/star-news-2"
+               style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/lufthansa-winter.jpg)">
+                <div class="text-screen faux-table">
+                    <div class="faux-tr">
+                        <div class="faux-td">
+                            <h3 class="title">Lufthansa Group expands capacity in winter schedule</h3>
+                            <p class="text">This winter, the Lufthansa Group airlines will link 260 destinations in 100 countries on four continents via its hubs in Frankfurt, Munich, Zurich, Vienna an...</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+    </div>
+    </section>
+
+    <ul class="carousel-nav group">
+        <li>
+            <a href="#news-press-2">
+                <div class="" style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/new-delhi-skyline.jpg)">
+                    <p><span>Air India Joins Star Alliance</span></p>
+               </div>
+            </a>
+        </li>
+        <li>
+            <a href="#news-press-1">
+                <div class="" style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/corporate.png)">
+                    <p><span>Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3</span></p>
+               </div>
+            </a>
+        </li>
+        <li>
+            <a href="#star-news-3">
+                <div class="" style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/ethiopian-ana-thumb.jpg)">
+                    <p><span>ANA and Ethiopian to codeshare</span></p>
+               </div>
+            </a>
+        </li>
+        <li>
+            <a href="#star-news-2">
+                <div class="" style="background-image:url(/++theme++ploneintranet.theme/generated/++theme++ploneintranet.theme/generated/media/news/lufthansa-winter.jpg)">
+                    <p><span>Lufthansa Group expands capacity in winter schedule</span></p>
+               </div>
+            </a>
+        </li>
+    </ul>
+
       <tal:dashboard define="dashboard python:request.form.get('dashboard','activity');
                              current_user context/portal_membership/getAuthenticatedMember;
                              user_name current_user/getUserName">
