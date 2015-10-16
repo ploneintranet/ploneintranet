@@ -398,7 +398,7 @@ I can create a new folder
 I can create a new image
     Click link  Documents
     Click link  Functions
-    Click link  Create document
+    Click Element  css=.more-menu .panel-content a.create-document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
