@@ -107,6 +107,8 @@ class DriveRecentTile(Tile):
 
     def docs(self):
         credentials = self.have_credentials()
+        if not credentials:
+            return []
         try:
             service = google_auth.build_service(credentials)
             resp = service.files().list().execute()
