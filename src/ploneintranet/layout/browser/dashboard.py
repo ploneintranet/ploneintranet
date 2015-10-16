@@ -8,6 +8,9 @@ from ploneintranet.todo.utils import update_task_status
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class Dashboard(BrowserView):
 
@@ -108,6 +111,7 @@ class DriveRecentTile(Tile):
             service = google_auth.build_service(credentials)
             resp = service.files().list().execute()
         except:
+            logger.exception('Error getting docs from drive')
             google_auth.remove_pi_users_credentials()
             return []
         return resp['items']
