@@ -12,6 +12,7 @@
             <li class="my_document" tal:attributes="title my_document/Title">
               <a class="icon-doc-text" href="${my_document/getURL}/view">
                 <h4 class="title">${my_document/Title}</h4>
+                <time class="byline pat-moment" data-pat-moment="format:relative">${my_document/modified}</time>
               </a>
             </li>
           </tal:my_document>
