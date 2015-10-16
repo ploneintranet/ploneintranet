@@ -6,12 +6,12 @@
  <property name="icon_expr">string:${portal_url}/userprofile_icon.png</property>
  <property name="factory">ploneintranet.userprofile.userprofile</property>
  <property name="link_target"></property>
- <property name="immediate_view">userprofile-view</property>
+ <property name="immediate_view">view</property>
  <property name="global_allow">False</property>
  <property name="allow_discussion">False</property>
- <property name="default_view">userprofile-view</property>
+ <property name="default_view">view</property>
  <property name="view_methods">
-  <element value="userprofile-view"/>
+  <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalMember</property>
@@ -19,7 +19,7 @@
  <property name="schema">ploneintranet.userprofile.content.userprofile.IUserProfile</property>
  <property name="klass">ploneintranet.userprofile.content.userprofile.UserProfile</property>
  <property name="behaviors">
-  <element value="dexterity.membrane.behavior.user.INameFromFullName" />
+  <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />
   <element value="dexterity.membrane.behavior.user.IMembraneUser" />
   <element value="dexterity.membrane.behavior.password.IProvidePasswords"/>

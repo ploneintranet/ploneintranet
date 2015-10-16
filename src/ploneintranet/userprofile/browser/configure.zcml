@@ -17,12 +17,12 @@
       />
 
   <browser:page
-      name="userprofile-view"
+      name="view"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".userprofile.UserProfileView"
       permission="zope2.View"
       template="templates/userprofile.pt"
-      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
   <!-- This edit page is linked to the ploneintranet.theme layer,
