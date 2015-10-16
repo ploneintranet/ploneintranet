@@ -72,6 +72,7 @@ setup(name='ploneintranet',
           'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
+          'google-api-python-client',
       ],
       extras_require={
           'test': [

@@ -4,14 +4,27 @@
       lang="en"
     i18n:domain="ploneintranet">
 <body>
-<div class="workspaces portlet span-1" id="portlet-recentdocs"
-    tal:define="docs view/docs">
+<div class="workspaces portlet span-1"
+     id="portlet-recentdocs">
   <div class="content">
     <h2 class="portlet-title" i18n:translate="">Recent Docs</h2>
-    <em tal:condition="not:docs" i18n:translate="">
-      No docs available
+    <a tal:condition="not:view/have_credentials"
+        tal:attributes="href view/auth_url">Login with Google</a>
+    <ul tal:condition="view/docs">
+      <li
+          tal:define="files view/docs"
+          tal:repeat="file files">
+        <img tal:attributes="src file/iconLink" src="">
+        <a  href=""
+            target="_blank"
+            tal:attributes="href file/alternateLink"
+            tal:content="file/title">
+        </a>
+      </li>
+    </ul>
+    <em tal:condition="not:view/docs">
+      No files found
     </em>
-    Rabble rabble
   </div>
 </div>
 </body>

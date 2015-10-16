@@ -2,6 +2,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.tiles import Tile
+from ploneintranet.layout.browser import google_auth
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
 from zope.interface import implements
@@ -88,5 +89,25 @@ class DriveRecentTile(Tile):
     def render(self):
         return self.index()
 
+    def have_credentials(self):
+        try:
+            return google_auth.get_pi_users_credentials()
+        except KeyError:
+            return False
+
+    def auth_url(self):
+        user = api.user.get_current()
+        return self.request.response.redirect(
+            google_auth.get_authorization_url(
+                user.id,
+                1))
+
     def docs(self):
-        return []
+        credentials = self.have_credentials()
+        try:
+            service = google_auth.build_service(credentials)
+            resp = service.files().list().execute()
+        except:
+            google_auth.remove_pi_users_credentials()
+            return []
+        return resp['items']

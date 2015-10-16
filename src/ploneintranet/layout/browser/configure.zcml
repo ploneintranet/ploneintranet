@@ -86,6 +86,13 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="google-callback"
+        class=".google_auth.CallbackView"
+        permission="zope2.View"
+        />
+
   <!--
       Override broken behaviour of plone.app.content delete_confirmation
       See https://github.com/plone/plone.app.content/issues/38
