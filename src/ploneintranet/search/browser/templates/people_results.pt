@@ -69,12 +69,12 @@
                         </div>
                     </div>
                 </tal:result>
-		<p tal:define="next_url python: 
-			       view.next_page_url(search_response.total_results)"
-		   tal:condition="next_url">
-		    <a href="${next_url}" i18n:translate="">More results</a>
-		</p>
             </div>
+            <p tal:define="next_url python:
+                       view.next_page_url(search_response.total_results)"
+               tal:condition="next_url">
+                <a href="${next_url}" i18n:translate="">More results</a>
+            </p>
         </div>
     </metal:results>
 </html>
