@@ -87,6 +87,7 @@ class SearchResult(object):
         self.description = context.get('Description')
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
+        self.job_title = context.get('job_title')
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         if context['has_thumbs']:  # indexer in docconv
