@@ -370,7 +370,7 @@ I can create a new document
     [arguments]  ${title}
     Click link  Documents
     Click link  Functions
-    Click link  Create document
+    Click Element  css=.more-menu .panel-content a.create-document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
