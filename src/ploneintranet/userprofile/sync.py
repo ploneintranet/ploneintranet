@@ -10,6 +10,7 @@ from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from plone.protect.interfaces import IDisableCSRFProtection
+from plone.namedfile.file import NamedBlobImage
 
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
@@ -56,10 +57,16 @@ class UserPropertyManager(object):
         for (property_name, pas_plugin_id) in self.property_mapping.items():
             if pas_plugin_id not in property_sheet_mapping:
                 continue
+
             sheet = property_sheet_mapping[pas_plugin_id]
             value = sheet.getProperty(property_name, default=NO_VALUE)
             current_value = getattr(self.context, property_name)
             if value is not NO_VALUE and value != current_value:
+                if value and property_name == 'portrait':
+                    # Assume image data
+                    value = NamedBlobImage(
+                        data=value.encode('latin-1'),
+                        filename=u'portrait.jpg')
                 setattr(self.context, property_name, value)
                 changed = True
 
