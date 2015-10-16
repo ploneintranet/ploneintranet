@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq rubygems graphicsmagick poppler-utils openoffice.org openoffice.org-java-common
   - sudo gem install docsplit -q
- install:
+install:
   - mkdir -p buildout-cache/downloads
   - pip install -U pip
   - pip install -r requirements.txt
