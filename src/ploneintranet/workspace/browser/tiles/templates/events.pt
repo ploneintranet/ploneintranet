@@ -29,8 +29,122 @@
 			  </a>
 
             </li>
+        </tal:events>
 
-          </tal:events>
+            <li class="event" title="The Gerald Aylmer seminar 2015: Secret histories: How do archivists and historians deal with secrets? How do secrets impact family and personal narratives? How do we deal with sensitivities in archiving material, and with sensitivities around difficult periods in national and global history? ">
+							<a href="/event-gerald-aylmer-seminar" class="link">
+								<h4 class="title"><time><!-- I would like to have only the starting time, or in case of an all day event 'All day' in the time tag. Not the date. -->2015-01-31 10:00 GMT+2</time> — The Gerald Aylmer seminar 2015: Secret histories</h4>
+
+									<p class="byline">
+										The Institute of Historical Research, Senate House, London.
+									</p>
+
+								<p class="date">
+									<time class="calendar-medium pat-auto-scale">
+										<strong class="day">20</strong>
+										<strong class="month char-count-7">October</strong>
+										<strong class="year">2015</strong>
+									</time>
+								</p>
+								<p class="description">
+									How do archivists and historians deal with secrets? How do secrets impact family and personal narratives? How do we deal with sensitivities in archiving material, and with sensitivities around difficult periods in national and global history?
+								</p>
+							</a>
+						</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<li class="event" title="Traces through Time data workshop: An interactive workshop to test new and innovative tools to trace people through time.">
+							<a href="/event-traces-through-time" class="link">
+								<h4 class="title"><time><!-- I would like to have only the starting time, or in case of an all day event 'All day' in the time tag. Not the date. -->2014-12-15 14:00 GMT+2</time> — Traces through Time data workshop</h4>
+
+								<p class="date">
+									<time class="calendar-medium pat-auto-scale">
+										<strong class="day">24</strong>
+										<strong class="month char-count-7">October</strong>
+										<strong class="year">2015</strong>
+									</time>
+								</p>
+								<p class="description">
+									An interactive workshop to test new and innovative tools to trace people through time.
+								</p>
+							</a>
+						</li>
+
+
+
+
+
+
+						<li class="event" title="A Game for Christmas: Football on the Western Front, December 1914?: Any mention of football and World War I will bring forth discussions of the Christmas Truce of 1914 and the mythical football match played between British and German troops in No Man's Land. ">
+							<a href="/event-game-for-xmas" class="link">
+								<h4 class="title"><time><!-- I would like to have only the starting time, or in case of an all day event 'All day' in the time tag. Not the date. -->2014-12-02 10:00 GMT+2</time> — A Game for Christmas: Football on the Western Front, December 1914?</h4>
+
+								<p class="date">
+									<time class="calendar-medium pat-auto-scale">
+										<strong class="day">29</strong>
+										<strong class="month char-count-7">October</strong>
+										<strong class="year">2015</strong>
+									</time>
+								</p>
+								<p class="description">
+									Any mention of football and World War I will bring forth discussions of the Christmas Truce of 1914 and the mythical football match played between British and German troops in No Man's Land.
+								</p>
+							</a>
+						</li>
+						<li class="event" title="Catalogue Day: We will be hosting our annual Catalogue Day on Friday 28 November. This free event is open to all, and showcases a number of current projects and initiatives from across the office, covering early and modern records. ">
+							<a href="/event-catalogue-day" class="link">
+								<h4 class="title"><time><!-- I would like to have only the starting time, or in case of an all day event 'All day' in the time tag. Not the date. -->2014-11-25 10:00 GMT+2</time> — Catalogue Day</h4>
+
+									<p class="byline">
+										Large meeting room
+									</p>
+
+								<p class="date">
+									<time class="calendar-medium pat-auto-scale">
+										<strong class="day">02</strong>
+										<strong class="month char-count-8">November</strong>
+										<strong class="year">2015</strong>
+									</time>
+								</p>
+								<p class="description">
+									We will be hosting our annual Catalogue Day on Friday 28 November. This free event is open to all, and showcases a number of current projects and initiatives from across the office, covering early and modern records.
+								</p>
+							</a>
+						</li>
+
+
         </ul>
       </div>
     </div>
