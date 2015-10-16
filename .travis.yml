@@ -1,25 +1,18 @@
 language: python
 python: "2.7"
-sudo: false
 services:
   - redis-server
-addons:
-  apt:
-    packages:
-    - rubygems
-    - graphicsmagick
-    - poppler-utils
-    - openoffice.org
-    - openoffice.org-java-common
 before_install:
   - export DISPLAY=:99.0
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq rubygems graphicsmagick poppler-utils openoffice.org openoffice.org-java-common
 install:
-  - gem install docsplit -q
+  - bundle install
   - mkdir -p buildout-cache/downloads
   - pip install -U pip
   - pip install -r requirements.txt
-  - pip install pyenchant
   - buildout -c travis.cfg buildout:develop= install download install
   - buildout -N -t 3 -c travis.cfg
 script:
