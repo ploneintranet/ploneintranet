@@ -124,6 +124,8 @@ def exchange_code(authorization_code):
       CodeExchangeException: an error occurred.
     """
     flow = flow_from_clientsecrets(CLIENTSECRET_LOCATION, ' '.join(SCOPES))
+    portal = api.portal.get()
+    REDIRECT_URI = '%s/%s' % (portal.absolute_url(), '@@google-callback')
     flow.redirect_uri = REDIRECT_URI
     try:
         credentials = flow.step2_exchange(authorization_code)
@@ -170,6 +172,8 @@ def get_authorization_url(email_address, state):
     flow.params['approval_prompt'] = 'force'
     flow.params['user_id'] = email_address
     flow.params['state'] = state
+    portal = api.portal.get()
+    REDIRECT_URI = '%s/%s' % (portal.absolute_url(), '@@google-callback')
     return flow.step1_get_authorize_url(REDIRECT_URI)
 
 
