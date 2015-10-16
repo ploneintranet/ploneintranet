@@ -120,7 +120,7 @@
           <div data-tile="./@@news.tile"/>
           <div data-tile="./@@my_documents.tile"/>
           <div data-tile="./@@events.tile"/>
-
+          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder"/>
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form data-tile="./@@newpostbox.tile"/>
             <div data-tile="./@@activitystream.tile?network=1"/>
@@ -138,7 +138,7 @@
           <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
           <div data-tile="./@@events.tile"/>
           <div data-tile="./@@tasks.tile"/>
-          <div data-tile="./@@recentdocs.tile"/>
+          <!-- <div data-tile="./@@recentdocs.tile"/> -->
         </div>
       </tal:dashboard>
     </metal:content>
