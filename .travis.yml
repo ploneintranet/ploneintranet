@@ -16,7 +16,7 @@ install:
   - buildout -N -t 3 -c travis.cfg
 script:
   - bin/code-analysis
-  - bin/coverage run -p --source=src bin/test
+  - bin/coverage run -p --source=src bin/test -t robot
 after_success:
   - pip install -q coveralls
   - coveralls
