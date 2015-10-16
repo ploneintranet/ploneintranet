@@ -3,13 +3,19 @@ python: "2.7"
 sudo: false
 services:
   - redis-server
+addons:
+  apt:
+    packages:
+    - rubygems
+    - graphicsmagick
+    - poppler-utils
+    - openoffice.org
+    - openoffice.org-java-common
 before_install:
   - export DISPLAY=:99.0
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq rubygems graphicsmagick poppler-utils openoffice.org openoffice.org-java-common
-  - sudo gem install docsplit -q
 install:
+  - gem install docsplit -q
   - mkdir -p buildout-cache/downloads
   - pip install -U pip
   - pip install -r requirements.txt
