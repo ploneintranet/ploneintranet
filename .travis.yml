@@ -1,6 +1,8 @@
 language: python
 python: "2.7"
 sudo: false
+services:
+  - redis-server
 install:
   - mkdir -p buildout-cache/downloads
   - pip install -U pip
