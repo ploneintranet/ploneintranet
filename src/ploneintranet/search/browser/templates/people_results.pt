@@ -55,8 +55,8 @@
                             </ul>
                             <ul class="data">
                                 <li class="job icon-right-open"
-                                tal:condition="result/job_title"
-                                tal:content="result/job_title">
+                                    tal:condition="result/description"
+                                    tal:content="result/description">
                                 </li>
                                 <li class="mail icon-mail"
                                 tal:condition="result/contact_email"
