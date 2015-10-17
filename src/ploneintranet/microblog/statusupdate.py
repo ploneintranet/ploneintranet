@@ -107,15 +107,23 @@ class StatusUpdate(Persistent):
     @property
     def microblog_context(self):
         uuid = self._microblog_context_uuid
+        return self._uuid2context(uuid)
+
+    @property
+    def content_context(self):
+        uuid = self._content_context_uuid
+        return self._uuid2context(uuid)
+
+    def _uuid2context(self, uuid=None):
         if not uuid:
             return None
-        microblog_context = self._uuid2object(uuid)
-        if microblog_context is None:
+        context = self._uuid2object(uuid)
+        if context is None:
             raise AttributeError(
-                "Microblog context with uuid {0} could not be "
+                "Context with uuid {0} could not be "
                 "retrieved".format(uuid)
             )
-        return microblog_context
+        return context
 
     # unittest override point
     def _context2uuid(self, context):
