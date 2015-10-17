@@ -132,12 +132,18 @@ class TestMicroblogContextBlacklisting(unittest.TestCase):
 
         # and now finally the actual test
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertNotIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
     def test_allowed_status_manager(self):
         """The default test user owns both IMicroblogContexts
         thus has access to both."""
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2, self.su1])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
 # more security testing in ploneintranet/suite/tests/test_microblog_security.py
