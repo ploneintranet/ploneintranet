@@ -54,6 +54,10 @@
                                 </tal:skill>
                             </ul>
                             <ul class="data">
+                                <li class="job icon-right-open"
+                                    tal:condition="result/description"
+                                    tal:content="result/description">
+                                </li>
                                 <li class="mail icon-mail"
                                 tal:condition="result/contact_email"
                                 tal:attributes="title string:Mail ${result/title} at ${result/contact_email};">
