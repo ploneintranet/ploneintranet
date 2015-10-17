@@ -5,10 +5,13 @@
 
 from plone import api
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
+from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.textfield.value import RichTextValue
 from ploneintranet.theme.interfaces import IThemeSpecific
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.interfaces import IPloneintranetContentLayer
+from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.interface import alsoProvides
@@ -92,3 +95,46 @@ class TestContentViews(BaseTestCase):
         self.assertIn('document_view.pt', view.index.filename)
         html = view()
         self.assertIn(u'My Fîle', html)
+
+
+class TestUpdate(BaseTestCase):
+
+    def setUp(self):
+        super(TestUpdate, self).setUp()
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace'
+        )
+        self.workspace = workspace_folder
+        self.todo1 = api.content.create(
+            container=self.workspace,
+            type='todo',
+            title=u'Todo1',
+        )
+        self.request = self.layer['request']
+
+    def test_not_modified(self):
+        modified, errors = dexterity_update(self.todo1)
+        self.assertEqual(errors, [])
+        self.assertFalse(modified)
+
+    def test_description_modified(self):
+        self.todo1.REQUEST.form = {'description': 'test'}
+        modified, errors = dexterity_update(self.todo1)
+        self.assertEqual(errors, [])
+        self.assertEqual(modified, {IBasic: ['description']})
+
+    def test_multiple_fields_modified(self):
+        self.todo1.REQUEST.form = {
+            'title': 'Todo 2000',
+            'description': 'test',
+            'due': '2015-10-24',
+        }
+        modified, errors = dexterity_update(self.todo1)
+        self.assertEqual(errors, [])
+        self.assertEqual(modified, {
+            IBasic: ['description', 'title', ],
+            ITodo: ['due', ],
+        })
