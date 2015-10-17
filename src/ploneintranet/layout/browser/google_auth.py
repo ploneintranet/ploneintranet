@@ -79,8 +79,8 @@ def get_stored_credentials(user_id):
 def store_credentials(user_id, credentials):
     """Store OAuth 2.0 credentials in the application's database.
 
-    This function stores the provided OAuth 2.0 credentials using the user ID as
-    key.
+    This function stores the provided OAuth 2.0 credentials using the user ID
+    as key.
 
     Args:
       user_id: User's ID.
@@ -189,7 +189,8 @@ def get_credentials(authorization_code, state):
     NoRefreshTokenException with the authorization URL to redirect the user to.
 
     Args:
-      authorization_code: Authorization code to use to retrieve an access token.
+      authorization_code: Authorization code to use to retrieve an access
+                          token.
       state: State to set to the authorization URL in case of error.
     Returns:
       oauth2client.client.OAuth2Credentials instance containing an access and
