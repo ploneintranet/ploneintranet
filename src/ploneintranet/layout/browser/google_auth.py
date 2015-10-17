@@ -139,8 +139,8 @@ def get_user_info(credentials):
     """Send a request to the UserInfo API to retrieve the user's information.
 
     Args:
-      credentials: oauth2client.client.OAuth2Credentials instance to authorize the
-                   request.
+      credentials: oauth2client.client.OAuth2Credentials instance to authorize
+                   the request.
     Returns:
       User information as a dict.
     """
@@ -180,13 +180,13 @@ def get_authorization_url(email_address, state):
 def get_credentials(authorization_code, state):
     """Retrieve credentials using the provided authorization code.
 
-    This function exchanges the authorization code for an access token and queries
-    the UserInfo API to retrieve the user's e-mail address.
-    If a refresh token has been retrieved along with an access token, it is stored
-    in the application database using the user's e-mail address as key.
-    If no refresh token has been retrieved, the function checks in the application
-    database for one and returns it if found or raises a NoRefreshTokenException
-    with the authorization URL to redirect the user to.
+    This function exchanges the authorization code for an access token and
+    queries the UserInfo API to retrieve the user's e-mail address.
+    If a refresh token has been retrieved along with an access token, it is
+    stored in the application database using the user's e-mail address as key.
+    If no refresh token has been retrieved, the function checks in the
+    application database for one and returns it if found or raises a
+    NoRefreshTokenException with the authorization URL to redirect the user to.
 
     Args:
       authorization_code: Authorization code to use to retrieve an access token.
@@ -214,8 +214,8 @@ def get_credentials(authorization_code, state):
                 return credentials
     except CodeExchangeException, error:
         logging.error('An error occurred during code exchange.')
-        # Drive apps should try to retrieve the user and credentials for the current
-        # session.
+        # Drive apps should try to retrieve the user and credentials for the
+        # current session.
         # If none is available, redirect the user to the authorization URL.
         error.authorization_url = get_authorization_url(email_address, state)
         raise error
