@@ -65,9 +65,9 @@
                                        tal:content="result/contact_email">minoush.farmer@organisation.com</a>
                                 </li>
                                 <li class="phone icon-phone"
-                                tal:condition="result/phone|nothing"
-                                    tal:attributes="title string:Call ${result/title} on ${result/phone}">
-                                    <a tal:attributes="href string:tel:${result/phone}">+34 506 948 294</a>
+                                tal:condition="result/contact_telephone|nothing"
+                                    tal:attributes="title string:Call ${result/title} on ${result/contact_telephone}">
+                                    <a tal:attributes="href string:tel:${result/contact_telephone}">${result/contact_telephone}</a>
                                 </li>
                             </ul>
                         </div>
