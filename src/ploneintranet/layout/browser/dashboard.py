@@ -46,6 +46,32 @@ class NewsTile(Tile):
             })
         return self.render()
 
+class CarouselTile(Tile):
+
+    index = ViewPageTemplateFile("templates/carousel-tile.pt")
+
+    def render(self):
+        return self.index()
+
+    def __call__(self):
+        """
+        Display a list of News items ordered by date.
+        """
+        pc = api.portal.get_tool('portal_catalog')
+        news = pc(portal_type='News Item',
+                  review_state='published',
+                  sort_on='effective',
+                  sort_order='reverse')
+        self.news_items = []
+        for item in news[:4]:
+            self.news_items.append({
+                'title': item.Title,
+                'description': item.Description,
+                'url': item.getURL(),
+                'has_thumbs': item.has_thumbs,
+                'uid':  item.UID
+            })
+        return self.render()
 
 class TasksTile(Tile):
 

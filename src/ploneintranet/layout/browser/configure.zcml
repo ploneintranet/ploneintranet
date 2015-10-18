@@ -129,6 +129,17 @@
       />
 
   <plone:tile
+      name="carousel.tile"
+      title="A title for the news carousel"
+      description="Carousel showing push news on the dashboard"
+      add_permission="cmf.ManagePortal"
+      class=".dashboard.CarouselTile"
+      permission="zope.Public"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <plone:tile
       name="recentdocs.tile"
       title="Docs"
       description="Recent Google Docs Tile"

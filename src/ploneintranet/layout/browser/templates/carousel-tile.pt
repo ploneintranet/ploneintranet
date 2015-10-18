@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body tal:define="news python:view.news_items;">
+    <div class="carousel-wrapper"
+         tal:condition="news">
+        <div class="pat-carousel"
+             data-pat-carousel="expand: true;">
+            <tal:slides tal:repeat="item news">
+                <a id="slide-${item/uid}"
+                   href="${item/url}"
+                   style="background-image:url(${item/url}/@@images/image)">
+                    <div class="text-screen faux-table">
+                        <div class="faux-tr">
+                            <div class="faux-td">
+                                <h3 class="title">${item/title}</h3>
+                                <p class="text">${item/description}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </tal:slides>
+        </div>
+    </div>
+    <ul class="carousel-nav group"
+        tal:condition="news">
+        <li tal:repeat="item news">
+            <a href="#slide-${item/uid}" alt="${item/title}">
+                <div class="" style="background-image:url(${item/url}/@@images/image)">
+                    <p><span>${item/title}</span></p>
+               </div>
+            </a>
+        </li>
+    </ul>
+
+  </body>
+</html>
