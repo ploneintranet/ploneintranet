@@ -92,7 +92,7 @@
                 <!-- One hard coded example of a post as a search result: -->
                 <tal:social condition="python: 'newsletter' in request.get('SearchableText', '')">
                 <dt class="title user-post">
-                    <a href="workspaces/sales-and-marketing"><span class="author">Mike Isaacs</span> <em class="action">posted</em> <time>yesterday</time> in Sales and Marketing</a>
+                    <a href="workspaces/sales-marketing"><span class="author">Mike Isaacs</span> <em class="action">posted</em> <time>yesterday</time> in Sales and Marketing</a>
                 </dt>
                 <dd class="description">
                     <a href="/profiles/mikei" class="preview post-preview">
