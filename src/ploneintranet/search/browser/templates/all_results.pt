@@ -88,21 +88,25 @@
                   -->
                 <dl class="search-results"
                 data-search-string="${request/QUERY_STRING|nothing}">
-                <!-- One hard coded example of a post as a search result:
+
+                <!-- One hard coded example of a post as a search result: -->
+                <tal:social condition="python: 'newsletter' in request.get('SearchableText', '')">
                 <dt class="title user-post">
-                    <a href=""><span class="author">Joan Baker</span> <em class="action">posted</em> <time>9 minutes ago</time></a>
+                    <a href="workspaces/sales-and-marketing"><span class="author">Mike Isaacs</span> <em class="action">posted</em> <time>yesterday</time> in Sales and Marketing</a>
                 </dt>
                 <dd class="description">
-                    <a href="/joan-baker" class="preview post-preview">
+                    <a href="/profiles/mikei" class="preview post-preview">
                     <h4>Post contents</h4>
                     </a>
                     <p class="fragment">
-                    To publication deference road. Various forward the set english over and tower, country, or up even time in could is present for to so of touched folks he a knows, different sure tell which remember agreeable. Step, have and gradually make his outlines and way volume a he bed is.
+                        Just published our October 2015 newsletter (attached).
+                        - #newsletter
                     </p>
-                    <a href="" class="link">
-                    /posts/2307540960981987527368
+                    <a href="workspaces/sales-marketing" class="link">
+                        /workspaces/sales-marketing
                     </a>
-                </dd> -->
+                </dd>
+                </tal:social>
 
                 <tal:result repeat="result search_response">
 
