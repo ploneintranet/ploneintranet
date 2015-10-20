@@ -29,6 +29,8 @@
                   data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
+                  <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
+                  <a class="button pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar" tal:attributes="href context/aq_parent/absolute_url" tal:content="context/aq_parent/Title">Name of parent goes here</a>
 
                   <span class="title-group">
                     <h1 class="doc-title" id="document-title">${context/title}</h1>
