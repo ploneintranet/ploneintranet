@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 import logging
 from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
+from plone.app.textfield.value import RichTextValue
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
@@ -229,3 +231,8 @@ def _update_todo_state(brain):
     todo = brain.getObject()
     todo.set_appropriate_state()
     todo.reindexObject()
+
+
+def set_default_body_text(obj, event):
+    default_text = obj.translate(_(u'Add text here'))
+    obj.text = RichTextValue(raw=u'<p>{} …</p>'.format(default_text))
