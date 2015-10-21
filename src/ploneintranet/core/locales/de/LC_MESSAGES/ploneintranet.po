@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-09 12:04+0000\n"
+"POT-Creation-Date: 2015-10-21 11:36+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -93,6 +93,10 @@ msgstr "Füge ein 'aktuelle Nachrichten' Portlet hinzu."
 #: ../messaging/browser/your-inbox.pt:138
 msgid "Add tags"
 msgstr "Tags hinzufügen"
+
+#: ../workspace/subscribers.py:237
+msgid "Add text here"
+msgstr "Text eingeben"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:91
 msgid "Add user"
@@ -283,7 +287,7 @@ msgid "Change role of member"
 msgstr "Rolle des Mitglieds ändern"
 
 #: ../todo/browser/templates/todo_view.pt:50
-#: ../workspace/basecontent/templates/document_view.pt:44
+#: ../workspace/basecontent/templates/document_view.pt:50
 msgid "Change the workflow state"
 msgstr "Den Zustand im Arbeitsablauf ändern"
 
@@ -391,7 +395,7 @@ msgid "Declined"
 msgstr "Abgelehnt"
 
 #: ../todo/browser/templates/todo_view.pt:36
-#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/document_view.pt:44
 #: ../workspace/basecontent/templates/event_view.pt:49
 msgid "Delete"
 msgstr "Löschen"
@@ -405,7 +409,7 @@ msgid "Delete folder"
 msgstr "Ordner löschen"
 
 #: ../todo/browser/templates/todo_view.pt:36
-#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/document_view.pt:44
 msgid "Delete this document"
 msgstr "Dieses Dokument löschen"
 
@@ -449,7 +453,7 @@ msgstr "Dokumente"
 msgid "Done"
 msgstr "Erledigt"
 
-#: ../workspace/basecontent/templates/document_view.pt:123
+#: ../workspace/basecontent/templates/document_view.pt:133
 msgid "Download as"
 msgstr "Herunterladen als"
 
@@ -943,7 +947,7 @@ msgstr "Keine Nachrichten"
 msgid "No pending notifications"
 msgstr "Keine ungelesenen Benachrichtigungen"
 
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:111
 msgid "No preview available"
 msgstr "Keine Vorschau verfügbar"
 
@@ -989,7 +993,7 @@ msgstr "Anzahl der Artikel"
 msgid "ODT document"
 msgstr "ODT Dokument"
 
-#: ../workspace/subscribers.py:124
+#: ../workspace/subscribers.py:126
 msgid "Oh boy, oh boy, you are already a member"
 msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 
@@ -1102,7 +1106,7 @@ msgstr "Post"
 msgid "PowerPoint 2007 presentation"
 msgstr "PowerPoint 2007 Präsentation"
 
-#: ../workspace/basecontent/templates/document_view.pt:100
+#: ../workspace/basecontent/templates/document_view.pt:110
 msgid "Preview being generated"
 msgstr "Vorschau wird erzeugt"
 
@@ -1261,16 +1265,16 @@ msgstr "Setzen Sie eine Frist"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../workspace/basecontent/templates/document_view.pt:40
+#: ../workspace/basecontent/templates/document_view.pt:46
 msgid "Share"
 msgstr "Teilen"
 
-#: ../workspace/basecontent/templates/document_view.pt:40
+#: ../workspace/basecontent/templates/document_view.pt:46
 msgid "Share this document"
 msgstr "Dieses Dokument teilen"
 
 #: ../todo/browser/templates/todo_view.pt:45
-#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/document_view.pt:47
 #: ../workspace/basecontent/templates/event_view.pt:62
 msgid "Show extra metadata fields"
 msgstr "Zusätzliche Metadaten anzeigen"
@@ -1510,7 +1514,7 @@ msgid "Todo"
 msgstr "Aufgabe"
 
 #: ../todo/browser/templates/todo_view.pt:45
-#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/document_view.pt:47
 #: ../workspace/basecontent/templates/event_view.pt:62
 msgid "Toggle extra metadata"
 msgstr "Zusätzliche Metadaten ein-/ausblenden"
@@ -1581,7 +1585,7 @@ msgstr "Benutzerkennung"
 msgid "Username"
 msgstr "Benutzername"
 
-#: ../workspace/subscribers.py:131
+#: ../workspace/subscribers.py:133
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
 
@@ -1898,7 +1902,7 @@ msgid "leave_a_comment"
 msgstr "Kommentar verfassen"
 
 #. Default: "More sharing options coming soon"
-#: ../workspace/basecontent/templates/document_view.pt:125
+#: ../workspace/basecontent/templates/document_view.pt:135
 msgid "more_sharing_soon"
 msgstr "Bald wird es weitere Optionen zum Teilen geben"
 

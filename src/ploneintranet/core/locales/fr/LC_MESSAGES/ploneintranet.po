@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-09 12:04+0000\n"
+"POT-Creation-Date: 2015-10-21 11:36+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -90,6 +90,10 @@ msgstr "Ajouter la portlet des actualités récentes"
 #: ../messaging/browser/send-message.pt:53
 #: ../messaging/browser/your-inbox.pt:138
 msgid "Add tags"
+msgstr ""
+
+#: ../workspace/subscribers.py:237
+msgid "Add text here"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:91
@@ -281,7 +285,7 @@ msgid "Change role of member"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:50
-#: ../workspace/basecontent/templates/document_view.pt:44
+#: ../workspace/basecontent/templates/document_view.pt:50
 msgid "Change the workflow state"
 msgstr ""
 
@@ -389,7 +393,7 @@ msgid "Declined"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:36
-#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/document_view.pt:44
 #: ../workspace/basecontent/templates/event_view.pt:49
 msgid "Delete"
 msgstr "Supprimer le permis"
@@ -403,7 +407,7 @@ msgid "Delete folder"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:36
-#: ../workspace/basecontent/templates/document_view.pt:38
+#: ../workspace/basecontent/templates/document_view.pt:44
 msgid "Delete this document"
 msgstr ""
 
@@ -447,7 +451,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:123
+#: ../workspace/basecontent/templates/document_view.pt:133
 msgid "Download as"
 msgstr ""
 
@@ -941,7 +945,7 @@ msgstr ""
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:111
 msgid "No preview available"
 msgstr ""
 
@@ -987,7 +991,7 @@ msgstr "Nombre d'éléments à afficher"
 msgid "ODT document"
 msgstr ""
 
-#: ../workspace/subscribers.py:124
+#: ../workspace/subscribers.py:126
 msgid "Oh boy, oh boy, you are already a member"
 msgstr ""
 
@@ -1100,7 +1104,7 @@ msgstr ""
 msgid "PowerPoint 2007 presentation"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:100
+#: ../workspace/basecontent/templates/document_view.pt:110
 msgid "Preview being generated"
 msgstr ""
 
@@ -1259,16 +1263,16 @@ msgstr ""
 msgid "Settings"
 msgstr "Paramètres"
 
-#: ../workspace/basecontent/templates/document_view.pt:40
+#: ../workspace/basecontent/templates/document_view.pt:46
 msgid "Share"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:40
+#: ../workspace/basecontent/templates/document_view.pt:46
 msgid "Share this document"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:45
-#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/document_view.pt:47
 #: ../workspace/basecontent/templates/event_view.pt:62
 msgid "Show extra metadata fields"
 msgstr ""
@@ -1508,7 +1512,7 @@ msgid "Todo"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:45
-#: ../workspace/basecontent/templates/document_view.pt:41
+#: ../workspace/basecontent/templates/document_view.pt:47
 #: ../workspace/basecontent/templates/event_view.pt:62
 msgid "Toggle extra metadata"
 msgstr ""
@@ -1579,7 +1583,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: ../workspace/subscribers.py:131
+#: ../workspace/subscribers.py:133
 msgid "Welcome to our family, Stranger"
 msgstr ""
 
@@ -1896,7 +1900,7 @@ msgid "leave_a_comment"
 msgstr ""
 
 #. Default: "More sharing options coming soon"
-#: ../workspace/basecontent/templates/document_view.pt:125
+#: ../workspace/basecontent/templates/document_view.pt:135
 msgid "more_sharing_soon"
 msgstr ""
 
