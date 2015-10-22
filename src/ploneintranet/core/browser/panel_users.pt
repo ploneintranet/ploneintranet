@@ -45,7 +45,7 @@
               <a class="follow"
                 tal:define="userid user/id;
                             avatar_img string:${portal_url}/@@avatars/${userid};
-                            fullname python:user.getProperty('fullname')">
+                            fullname python:user.fullname">
                 <img src="${avatar_img}" alt="${fullname}" class="avatar" />
                 <strong class="title"
                     tal:content="fullname">Full name</strong>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
+from ploneintranet import api as pi_api
 
 
 class Users(BrowserView):
@@ -21,19 +21,21 @@ class Users(BrowserView):
 
         Applies very basic user name searching
         '''
-        users = api.user.get_users()
-        self.selected_users = [
-            api.user.get(uid) for uid in self.request.form.get('mentions', [])]
-        self.selected_user_ids = [user.id for user in self.selected_users]
         search_string = self.request.form.get('usersearch')
+        users = [x for x in pi_api.userprofile.get_users()]
+        self.selected_users = [
+            pi_api.userprofile.get(uid)
+            for uid in self.request.form.get('mentions', [])]
+        self.selected_user_ids = [user.id for user in self.selected_users]
         if search_string:
             search_string = search_string.lower()
             users = filter(
-                lambda x: search_string in x.getProperty('fullname').lower(),
+                lambda x: search_string in x.fullname.lower(),
                 users
             )
-        self.user_ids = [user.id for user in users]
-        return users
+        self.user_ids = sorted([user.id for user in users])
+        return sorted(users, cmp=lambda x, y:
+                      cmp(x.fullname.lower(), y.fullname.lower()))
 
 
 class User(Users):
