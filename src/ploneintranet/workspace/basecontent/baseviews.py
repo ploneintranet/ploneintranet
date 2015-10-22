@@ -18,6 +18,7 @@ from zope import component
 from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
+from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -48,7 +49,8 @@ class ContentView(BrowserView):
     def update(self):
         """ """
         context = aq_inner(self.context)
-        modified = False
+        workflow_modified = False
+        fields_modified = {}
         errors = None
         messages = []
         if (
@@ -63,18 +65,17 @@ class ContentView(BrowserView):
                 'Modify portal content',
                 obj=context
             )
-            modified = True
+            workflow_modified = True
             messages.append(
                 context.translate(_("The workflow state has been changed.")))
 
         if self.can_edit:
-            mod = False
+            fields_modified = {}
             if self.validate():
-                mod, errors = dexterity_update(context)
-                if mod:
+                fields_modified, errors = dexterity_update(context)
+                if fields_modified:
                     messages.append(
                         context.translate(_("Your changes have been saved.")))
-            modified = modified or mod
 
         if errors:
             error_msg = context.translate(_("There was a problem:"))
@@ -84,12 +85,15 @@ class ContentView(BrowserView):
                 type="error",
             )
 
-        elif modified:
+        elif workflow_modified or fields_modified:
             api.portal.show_message(
                 ' '.join(messages), request=self.request,
                 type="success")
             context.reindexObject()
-            notify(ObjectModifiedEvent(context))
+            descriptions = [
+                Attributes(interface, *fields)
+                for interface, fields in fields_modified.items()]
+            notify(ObjectModifiedEvent(context, *descriptions))
 
     @property
     @memoize
