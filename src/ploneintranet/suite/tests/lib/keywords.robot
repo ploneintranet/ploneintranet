@@ -257,6 +257,7 @@ I can invite Alice to the workspace
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
+    Wait Until Element Is visible  css=button.icon-ok-circle
     Click Button  Ok
 
 I give the Consumer role to Allan
@@ -370,7 +371,7 @@ I can create a new document
     [arguments]  ${title}
     Click link  Documents
     Click link  Functions
-    Click link  Create document
+    Click Element  css=.more-menu .panel-content a.create-document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
@@ -398,7 +399,7 @@ I can create a new folder
 I can create a new image
     Click link  Documents
     Click link  Functions
-    Click link  Create document
+    Click Element  css=.more-menu .panel-content a.create-document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
@@ -445,6 +446,8 @@ I can create a new event
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
+    Wait Until Page contains  Item created
+    Click Button  Close
 
 I cannot create a new event
     [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
@@ -469,12 +472,12 @@ I can edit an event
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved.
+    Click Button  css=#save-event
+    Wait Until Page Contains  Your changes have been saved
     Click Button  Close
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
@@ -489,7 +492,7 @@ I cannot edit an event because of validation
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}

@@ -39,12 +39,14 @@
                       method="POST" action="${context/absolute_url}/view#document-body">
                     <div class="metadata pat-bumper" id="meta">
                         <div class="meta-bar">
+                          <span class="title-group">
                             <h1 class="doc-title" id="document-title" tal:content="context/title">
                                 Traces through Time data workshop
                             </h1>
                             <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibility -->
                             <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${python:context.__parent__.title}</button>
-                            <input type="text" name="title" maxlength="70" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="${context/title}" />
+                            <textarea name="title" maxlength="70" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" tal:content="context/title" />
+                          </span>
                             <div class="quick-functions">
                                 <a tal:condition="view/can_edit"
                                    href="${view/delete_url}"
