@@ -56,11 +56,8 @@ class UserProfileBaseForm(object):
 
     def _hidden_fields(self):
         """Look up hidden fields from registry"""
-        hidden = plone_api.portal.get_registry_record(
+        return plone_api.portal.get_registry_record(
             'ploneintranet.userprofile.hidden_fields')
-        # Portrait is edited elsewhere
-        hidden = hidden + ('portrait', )
-        return hidden
 
     def _read_only_fields(self):
         """Look up read-only fields from registry"""
