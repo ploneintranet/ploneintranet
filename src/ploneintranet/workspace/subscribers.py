@@ -229,3 +229,11 @@ def update_todos_state(obj, event):
 def _update_todo_state(todo):
     todo.set_appropriate_state()
     todo.reindexObject()
+
+
+def mark_image_excluded(obj, event):
+    """If an image is added via the Plone backend, inside a document,
+    then the image should be marked as `exclude_from_nav`.
+    """
+    if obj.REQUEST['HTTP_REFERER'].endswith('++add++Document'):
+        obj.exclude_from_nav = True

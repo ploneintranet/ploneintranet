@@ -131,6 +131,12 @@
      handler=".subscribers.content_object_moved"
      />
 
+  <subscriber
+     for=" plone.app.contenttypes.interfaces.IImage
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.mark_image_excluded"
+     />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Workspace]"

@@ -6,7 +6,6 @@ log = logging.getLogger(__name__)
 folderish = ['ploneintranet.library.section',
              'ploneintranet.library.folder']
 pageish = ['Document', 'News Item', 'Link', 'File']
-hidden = ['Image']
 types_to_show = folderish + pageish
 
 
@@ -16,7 +15,7 @@ def sections_of(context, **kwargs):
     results = context.restrictedTraverse('@@folderListing')(**kwargs)
     struct = []
     for item in results:
-        if item.portal_type in hidden:
+        if item.exclude_from_nav:
             continue
         elif item.portal_type in folderish:
             type_ = 'container'
@@ -50,7 +49,7 @@ def children_of(context, **kwargs):
     results = context.restrictedTraverse('@@folderListing')(**kwargs)
     content = []
     for item in results:
-        if item.portal_type in hidden:
+        if item.exclude_from_nav:
             continue
         elif item.portal_type in folderish:
             (follow, icon) = ("follow-section", "icon-squares")
