@@ -25,7 +25,7 @@ def generate_previews_async(obj, event=None):
     if ASYNC_ENABLED:
         log.debug('generate_previews_async - async mode')
         generator = GeneratePreview(obj, obj.REQUEST)
-        generator()
+        generator(countdown=5)
     else:
         log.debug('generate_previews_async - sync mode')
         pi_api.previews.generate_previews(obj)

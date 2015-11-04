@@ -91,7 +91,6 @@ class AbstractPost(object):
         # calling code should handle redis.exceptions.ConnectionError
         return self.task.apply_async(
             (url, self.data, self.headers, self.cookies),
-            countdown=5,
             **kwargs)
 
 
