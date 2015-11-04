@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import transaction
 from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
@@ -130,7 +131,8 @@ class AddContent(BrowserView):
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
             if ASYNC_ENABLED:
-                ReindexObject(new, self.request)(countdown=2)
+                transaction.commit()
+                ReindexObject(new, self.request)(countdown=5)
             else:
                 new.reindexObject()
 
