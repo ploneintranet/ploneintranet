@@ -9,6 +9,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet.async.tasks import ReindexObject
+from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
@@ -127,7 +129,11 @@ class AddContent(BrowserView):
         if modified and not errors:
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
-            new.reindexObject()
+            if ASYNC_ENABLED:
+                ReindexObject(new, self.request)(countdown=2)
+            else:
+                new.reindexObject()
+
             notify(ObjectModifiedEvent(new))
 
         if errors:
