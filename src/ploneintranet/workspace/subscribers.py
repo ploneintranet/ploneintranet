@@ -168,6 +168,9 @@ def _update_workspace_groupings(obj, event):
 
 def content_object_added_to_workspace(obj, event):
     _update_workspace_groupings(obj, event)
+    parent = parent_workspace(obj)
+    if obj.portal_type == 'Folder' and parent is not None:
+        api.content.transition(obj=obj, to_state='published')
 
 
 def content_object_edited_in_workspace(obj, event):

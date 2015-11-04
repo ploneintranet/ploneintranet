@@ -73,11 +73,8 @@ def post_install(context):
             default_types.append(type_info.getId())
 
     if default_types:
-        # Folders should be state-less!
-        # Todo items use todo_workflow
-        default_types = [
-            x for x in default_types if x not in ('Folder', 'todo')]
+        # Filter out todo items as they use the todo_workflow
+        default_types = [x for x in default_types if x != 'todo']
         pwftool = api.portal.get_tool('portal_placeful_workflow')
         policy = pwftool['ploneintranet_policy']
-
         policy.setChainForPortalTypes(default_types, ('(Default)',))
