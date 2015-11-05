@@ -79,7 +79,9 @@ def my_workspaces(context,
     sitesearch = getUtility(ISiteSearch)
 
     if searchable_text:
-        response = sitesearch.query(phrase=searchable_text, filters=query, step=99999)
+        response = sitesearch.query(phrase=searchable_text,
+                                    filters=query,
+                                    step=99999)
     else:
         response = sitesearch.query(filters=query, step=99999)
 
