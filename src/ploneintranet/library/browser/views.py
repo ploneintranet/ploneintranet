@@ -165,36 +165,30 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = safe_unicode(urllib.unquote(name))
         return self
 
-    def query(self, filters={}):
+    def query(self, path=None, tag=None, portal_types=None):
         """Helper method for Solr power search:
         - adds self.request_tag to search phrase
         - sorts on title
         """
-        if self.request_tag:
-            if 'tags' in filters:
-                filters['tags'].append(self.request_tag)
-            else:
-                filters['tags'] = self.request_tag
         Q = self.sitesearch.Q
         _query = self.sitesearch.connection.query()
-        for key, value in filters.items():
-            if key == 'path':
-                key = 'path_parents'
-            if isinstance(value, list):
-                # create an AND subquery for all filters
-                subquery = Q()
-                for item in value:
-                    # item can be a string, force unicode
-                    subquery &= Q(**{key: safe_unicode(item)})
-                _query = _query.filter(subquery)
-            else:
-                _query = _query.filter(Q(**{key: value}))
+        lucene_query = Q()
+        if path:
+            lucene_query &= Q(path_parents=path)
+        if tag:
+            lucene_query &= Q(tags=safe_unicode(tag))
+        if self.request_tag:
+            lucene_query &= Q(tags=self.request_tag)
+        if portal_types:
+            subquery = Q()
+            for pt in portal_types:
+                subquery |= Q(portal_type=pt)
+            lucene_query &= subquery
+
+        _query = _query.filter(lucene_query)
         _query = _query.facet_by('tags')
         _query = _query.sort_by('Title')
-        # print _query.query_obj
-        # print _query.options()
-        response = self.sitesearch.execute(_query, debug=4)
-        # import pdb; pdb.set_trace()
+        response = self.sitesearch.execute(_query)
         return ISearchResponse(response)
 
     def info(self):
@@ -222,7 +216,7 @@ class LibraryTagView(LibraryBaseView):
     def _children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
-        response = self.query(filters=dict(path=path))
+        response = self.query(path=path)
         struct = []
         for _tag in self._tags_facet(response):
             url = "%s/tag/%s" % (self.context.absolute_url(),
@@ -243,8 +237,8 @@ class LibraryTagView(LibraryBaseView):
 
     def _subtags_children(self, path, tag):
         """List tags co-occurring with <tag>"""
-        response = self.query(filters=dict(path=path,
-                                           tags=tag))
+        response = self.query(path=path,
+                              tag=tag)
         children = []
         for _tag in self._tags_facet(response):
             if _tag == tag:
@@ -258,9 +252,9 @@ class LibraryTagView(LibraryBaseView):
 
     def _content_children(self, path, tag):
         """List content tagged as <tag>"""
-        response = self.query(filters=dict(path=path,
-                                           tags=tag,
-                                           portal_type=utils.pageish))
+        response = self.query(path=path,
+                              tag=tag,
+                              portal_types=utils.pageish)
         children = []
         for child in response:
             children.append(dict(title=child.title,
