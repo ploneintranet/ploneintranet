@@ -12,7 +12,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.library.browser import utils
-from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.search.interfaces import ISiteSearch, ISearchResponse
 
 log = getLogger(__name__)
 
@@ -165,23 +165,37 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = safe_unicode(urllib.unquote(name))
         return self
 
-    def query(self, filters={}, **kwargs):
-        """Helper method that adds self.request_tag to
-        search phrase.
-
-        Because the search API treats multiple tags as an OR query,
-        whereas we need an AND query, we use phrase AND tags
-        as a workaround to ensure that for each subtag, only
-        results are shown matching both the request_tag and the subtag.
-
-        Note that this is not a 100% workaround - it will match
-        documents that match the request_tag in any field, even if the
-        document is not actually tagged with the request_tag.
+    def query(self, filters={}):
+        """Helper method for Solr power search:
+        - adds self.request_tag to search phrase
+        - sorts on title
         """
         if self.request_tag:
-            return self.sitesearch.query(self.request_tag, filters, **kwargs)
-        else:
-            return self.sitesearch.query(filters=filters, **kwargs)
+            if 'tags' in filters:
+                filters['tags'].append(self.request_tag)
+            else:
+                filters['tags'] = self.request_tag
+        Q = self.sitesearch.Q
+        _query = self.sitesearch.connection.query()
+        for key, value in filters.items():
+            if key == 'path':
+                key = 'path_parents'
+            if isinstance(value, list):
+                # create an AND subquery for all filters
+                subquery = Q()
+                for item in value:
+                    # item can be a string, force unicode
+                    subquery &= Q(**{key: safe_unicode(item)})
+                _query = _query.filter(subquery)
+            else:
+                _query = _query.filter(Q(**{key: value}))
+        _query.facet_by(fields=(u'tags'))
+        _query = _query.sort_by('Title')
+        # print _query.query_obj
+        # print _query.options()
+        response = self.sitesearch.execute(_query, debug=4)
+        # import pdb; pdb.set_trace()
+        return ISearchResponse(response)
 
     def info(self):
         if self.request_tag:
@@ -246,8 +260,7 @@ class LibraryTagView(LibraryBaseView):
         """List content tagged as <tag>"""
         response = self.query(filters=dict(path=path,
                                            tags=tag,
-                                           portal_type=utils.pageish),
-                              step=100)
+                                           portal_type=utils.pageish))
         children = []
         for child in response:
             children.append(dict(title=child.title,
