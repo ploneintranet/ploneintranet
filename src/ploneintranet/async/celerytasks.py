@@ -12,15 +12,19 @@ Any celery task here should reference ONLY immutables.
 All the tasks here should use the same interface contract as post.
 """
 import logging
+import os
 import time
 from celery import Celery
 
 from ploneintranet.async import celeryconfig
 from ploneintranet.async.core import dispatch
 
+broker = os.environ.get('BROKER_URL', 'redis://localhost:6379/0')
+backend = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
+
 app = Celery('ploneintranet.tasks',
-             broker='redis://localhost:6379/0',
-             backend='redis://localhost:6379/1')
+             broker=broker,
+             backend=backend)
 app.config_from_object(celeryconfig)
 logger = logging.getLogger(__name__)
 
