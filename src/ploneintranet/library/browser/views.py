@@ -228,12 +228,10 @@ class LibraryTagView(LibraryBaseView):
                            content=[])
             if self.request_tag:
                 section['content'] = self._content_children(path, _tag)
-                section['count'] = len(section['content'])
             else:
                 section['subtags'] = self._subtags_children(path, _tag)
-                section['count'] = len(section['subtags'])
             struct.append(section)
-        return sorted(struct, key=lambda x: x['count'])
+        return struct
 
     def _subtags_children(self, path, tag):
         """List tags co-occurring with <tag>"""
@@ -264,7 +262,7 @@ class LibraryTagView(LibraryBaseView):
     def _tags_facet(self, searchresponse):
         """
         ZCatalog returns <str> Solr returns <unicode>.
-        We force everything into unicode.
+        We force everything into unicode and sort abc.
         """
-        return [safe_unicode(t)
-                for t in searchresponse.facets.get('tags', [])]
+        return sorted([safe_unicode(t)
+                       for t in searchresponse.facets.get('tags', [])])
