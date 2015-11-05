@@ -189,7 +189,7 @@ class LibraryTagView(LibraryBaseView):
                 _query = _query.filter(subquery)
             else:
                 _query = _query.filter(Q(**{key: value}))
-        _query.facet_by(fields=(u'tags'))
+        _query = _query.facet_by('tags')
         _query = _query.sort_by('Title')
         # print _query.query_obj
         # print _query.options()
