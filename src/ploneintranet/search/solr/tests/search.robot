@@ -9,7 +9,7 @@ Resource  ploneintranet/suite/tests/lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  DebugLibrary
 
-Test Setup  Open test browser
+Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
 *** Test Cases ***
