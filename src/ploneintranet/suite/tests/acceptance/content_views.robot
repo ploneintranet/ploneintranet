@@ -64,10 +64,10 @@ Member can tag an image
     And I view the image
     Then the metadata has the new tag
 
-Member can replace an image
-    Given I am in a workspace as a workspace member
-    And I browse to an image
-    And I upload a new image
+#Member can replace an image
+#    Given I am in a workspace as a workspace member
+#    And I browse to an image
+#    And I upload a new image
 
 Member can tag an image with a tag suggestion
     Given I am in a workspace as a workspace member
@@ -98,10 +98,10 @@ Member can tag a file
     And I view the file
     Then the metadata has the new tag
 
-Member can replace a file
-    Given I am in a workspace as a workspace member
-    And I browse to a file
-    And I upload a new file
+#Member can replace a file
+#    Given I am in a workspace as a workspace member
+#    And I browse to a file
+#    And I upload a new file
 
 
 Member can tag a file with a tag suggestion

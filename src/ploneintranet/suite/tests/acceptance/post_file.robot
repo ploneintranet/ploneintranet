@@ -14,49 +14,49 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Alice can attach a file to a post
-   Given I am logged in as the user alice_lindstrom
-     And I open the Dashboard
-    When I create a new post
-     And I add a file
-    Then I can see the file preview in the post box
+# Alice can attach a file to a post
+#    Given I am logged in as the user alice_lindstrom
+#      And I open the Dashboard
+#     When I create a new post
+#      And I add a file
+#     Then I can see the file preview in the post box
 
-Alice can submit a post with a file attachment
-   Given I am logged in as the user alice_lindstrom
-     And I open the Dashboard
-    When I create a new post
-     And I add a file
-     And I can see the file preview in the post box
-     And I submit the new post
-   # injection
-    Then I can see the file preview in the stream
-     And I can open the file from the stream preview
-   # reload to verify
-    When I open the Dashboard
-    Then I can see the file preview in the stream
-     And I can open the file from the stream preview
+# Alice can submit a post with a file attachment
+#    Given I am logged in as the user alice_lindstrom
+#      And I open the Dashboard
+#     When I create a new post
+#      And I add a file
+#      And I can see the file preview in the post box
+#      And I submit the new post
+#    # injection
+#     Then I can see the file preview in the stream
+#      And I can open the file from the stream preview
+#    # reload to verify
+#     When I open the Dashboard
+#     Then I can see the file preview in the stream
+#      And I can open the file from the stream preview
 
-Alice can submit a post with a UTF-8 file attachment
-   Given I am logged in as the user alice_lindstrom
-     And I open the Dashboard
-    When I create a new post
-     And I add a UTF-8 file
-     And I can see the UTF-8 file preview in the post box
-     And I submit the new post
-   # Injection barfs UTF-8 but only in the testrunner (works fine in real site). Skip.
-   # Actual page load works fine
-    When I open the Dashboard
-    Then I can see the UTF-8 file preview in the stream
-     And I can open the UTF-8 file from the stream preview
+# Alice can submit a post with a UTF-8 file attachment
+#    Given I am logged in as the user alice_lindstrom
+#      And I open the Dashboard
+#     When I create a new post
+#      And I add a UTF-8 file
+#      And I can see the UTF-8 file preview in the post box
+#      And I submit the new post
+#    # Injection barfs UTF-8 but only in the testrunner (works fine in real site). Skip.
+#    # Actual page load works fine
+#     When I open the Dashboard
+#     Then I can see the UTF-8 file preview in the stream
+#      And I can open the UTF-8 file from the stream preview
 
-Alice can submit a post with a file attachment and no text
-   Given I am logged in as the user alice_lindstrom
-     And I open the Dashboard
-    When I add a file
-     And I can see the file preview in the post box
-     And I submit the new post
-   # test injection working
-    Then I can see the file preview in the stream
+# Alice can submit a post with a file attachment and no text
+#    Given I am logged in as the user alice_lindstrom
+#      And I open the Dashboard
+#     When I add a file
+#      And I can see the file preview in the post box
+#      And I submit the new post
+#    # test injection working
+#     Then I can see the file preview in the stream
 
 
 *** Keywords ***

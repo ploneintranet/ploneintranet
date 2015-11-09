@@ -107,10 +107,10 @@ Create structure
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
-Member can upload a file
-    Given I am in a workspace as a workspace member
-      And I select a file to upload
-     Then the file appears in the sidebar
+#Member can upload a file
+#    Given I am in a workspace as a workspace member
+#      And I select a file to upload
+#     Then the file appears in the sidebar
 
 Member can submit a document
     Given I am in a workspace as a workspace member
