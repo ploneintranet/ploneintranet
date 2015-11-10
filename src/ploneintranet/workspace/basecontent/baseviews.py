@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import transaction
+# import transaction
 from .utils import dexterity_update
 from Acquisition import aq_inner
 from plone import api
@@ -9,8 +9,8 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
-from ploneintranet.async.tasks import ReindexObject
-from ploneintranet.async.celeryconfig import ASYNC_ENABLED
+# from ploneintranet.async.tasks import ReindexObject
+# from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
@@ -91,14 +91,10 @@ class ContentView(BrowserView):
             api.portal.show_message(
                 ' '.join(messages), request=self.request,
                 type="success")
-            if ASYNC_ENABLED:
-                transaction.commit()
-                ReindexObject(context, self.request)(countdown=5)
-            else:
-                context.reindexObject()
             descriptions = [
                 Attributes(interface, *fields)
                 for interface, fields in fields_modified.items()]
+            # This calls reindexobject!
             notify(ObjectModifiedEvent(context, *descriptions))
 
     @property

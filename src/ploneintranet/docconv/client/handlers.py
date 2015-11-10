@@ -21,10 +21,11 @@ def generate_previews_async(obj, event=None):
                  % obj.absolute_url(1))
         return
     # Need a commit to make sure the content is there
-    transaction.commit()
     if ASYNC_ENABLED:
+        transaction.commit()
         log.debug('generate_previews_async - async mode')
         generator = GeneratePreview(obj, obj.REQUEST)
+        log.info('starting preview generation with a delay of 5 secs')
         generator(countdown=5)
     else:
         log.debug('generate_previews_async - sync mode')

@@ -31,8 +31,11 @@ class ReindexObjectView(AbstractAsyncView):
         Please do not disable CSRF protection.
         """
         if self.authenticated():
-            logger.info("Reindexing %s", self.context.absolute_url(1))
-            self.context.reindexObject()
+            if 'attributes' in self.request:
+                attributes = self.request['attributes']
+                self.context.reindexObject(idxs=attributes)
+            else:
+                self.context.reindexObject()
         return self.template()
 
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import transaction
+# import transaction
 from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
@@ -10,8 +10,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
-from ploneintranet.async.tasks import ReindexObject
-from ploneintranet.async.celeryconfig import ASYNC_ENABLED
+# from ploneintranet.async.tasks import ReindexObject
+# from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
@@ -130,11 +130,11 @@ class AddContent(BrowserView):
         if not errors:
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
-            if ASYNC_ENABLED:
-                transaction.commit()
-                ReindexObject(new, self.request)(countdown=5)
-            else:
-                new.reindexObject()
+            # if ASYNC_ENABLED:
+            #     transaction.commit()
+            #     ReindexObject(new, self.request)(countdown=5)
+            # else:
+            new.reindexObject()
 
             notify(ObjectModifiedEvent(new))
 
