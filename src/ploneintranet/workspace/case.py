@@ -1,3 +1,4 @@
+from datetime import datetime
 from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
@@ -53,4 +54,5 @@ def create_case_from_template(template_id, target_id=None):
                 id=target_id,
                 safe_id=True,
             )
+            new.creation_date = datetime.now()
             return new

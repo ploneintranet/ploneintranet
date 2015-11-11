@@ -46,6 +46,7 @@ class NewsTile(Tile):
             })
         return self.render()
 
+
 class CarouselTile(Tile):
 
     index = ViewPageTemplateFile("templates/carousel-tile.pt")
@@ -69,9 +70,10 @@ class CarouselTile(Tile):
                 'description': item.Description,
                 'url': item.getURL(),
                 'has_thumbs': item.has_thumbs,
-                'uid':  item.UID
+                'uid': item.UID
             })
         return self.render()
+
 
 class TasksTile(Tile):
 

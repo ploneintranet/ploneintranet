@@ -42,7 +42,9 @@ class MyDocumentsTile(Tile):
             # time_only=False still returns time only
             time_only = None
 
-        toLocalizedTime = api.portal.get_tool('translation_service').toLocalizedTime
+        toLocalizedTime = api.portal.get_tool(
+            'translation_service').toLocalizedTime
+
         return toLocalizedTime(
             time,
             long_format=True,

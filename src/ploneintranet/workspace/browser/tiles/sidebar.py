@@ -633,7 +633,7 @@ class Sidebar(BaseTile):
                          content_type='date',
                          url=group_url_tmpl % 'month'),
                     dict(title=_(u'All Time'),
-                         description=_(u'Items since ever'),
+                         description=_(u'Older'),
                          id='ever',
                          structural_type='group',
                          content_type='date',

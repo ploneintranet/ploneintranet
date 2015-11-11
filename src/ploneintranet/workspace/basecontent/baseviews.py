@@ -62,20 +62,25 @@ class ContentView(BrowserView):
                 obj=context
             )
             modified = True
-            messages.append("The workflow state has been changed.")
+            messages.append(
+                context.translate(_("The workflow state has been changed.")))
 
         if self.can_edit:
             mod = False
             if self.validate():
                 mod, errors = dexterity_update(context)
                 if mod:
-                    messages.append("Your changes have been saved.")
+                    messages.append(
+                        context.translate(_("Your changes have been saved.")))
             modified = modified or mod
 
         if errors:
-            api.portal.show_message(_(
-                "There was a problem: %s" % errors), request=self.request,
-                type="error")
+            error_msg = context.translate(_("There was a problem:"))
+            api.portal.show_message(
+                u"{} {}".format(error_msg, errors),
+                request=self.request,
+                type="error",
+            )
 
         elif modified:
             api.portal.show_message(

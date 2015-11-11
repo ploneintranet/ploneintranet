@@ -4,6 +4,7 @@ import urlparse
 
 from Acquisition import aq_base
 from plone import api
+from scorched.search import LuceneQuery
 from zope.component import getUtility
 from zope.interface import implementer
 from AccessControl.SecurityManagement import getSecurityManager
@@ -61,11 +62,25 @@ class ConnectionConfig(object):
         return self._url
 
 
+class Connection(object):
+    """A descriptor representing a Solr connection object."""
+
+    def __init__(self):
+        self._conn = None
+
+    def __get__(self, obj, objtype):
+        if self._conn is None:
+            self._conn = IConnection(getUtility(IConnectionConfig))
+        return self._conn
+
+    def __del__(self):
+        del self._conn
+
+
 @implementer(IMaintenance)
 class Maintenance(object):
 
-    # AKA 'scorched.connection.SolrInterface'
-    _conn = None
+    connection = Connection()
 
     @classmethod
     def _find_objects_to_index(cls, origin):
@@ -82,21 +97,14 @@ class Maintenance(object):
                 for id_ in obj.objectIds():
                     paths.insert(idx + 1, path + '/' + id_)
 
-    def _get_connection(self):
-        if self._conn is not None:
-            return self._conn
-        if self._conn is None:
-            self._conn = IConnection(getUtility(IConnectionConfig))
-        return self._get_connection()
-
     def warmup_spellchcker(self):
         """Build the Solr spellchecker."""
-        search = IQuery(self._get_connection())
+        search = IQuery(self.connection)
         response = search.query().spellcheck(build=True).execute()
         return response
 
     def purge(self):
-        conn = self._get_connection()
+        conn = self.connection
         response = conn.delete_all()
         conn.commit(waitSearcher=True, expungeDeletes=True)
         conn.optimize(waitSearcher=True)
@@ -119,26 +127,9 @@ class SiteSearch(base.SiteSearch):
         AND (allowedRolesAndUsers=... OR allowedRolesAndUsers=..) ...
 
     """
-    connection = None
+    connection = Connection()
     phrase_field_boosts = base.RegistryProperty('phrase_field_boosts',
                                                 prefix=__package__)
-
-    def __collect_query_params(self, iface, bucket):
-        """Collect original query paramters for debugging purposes.
-
-        :param iface: The Zope interface used for the query.
-        :type iface: zope.interface.Interface
-        :param bucket: The container which field names will be inserted.
-        :type bucket: collections.MutableMapping
-        """
-        params = collections.OrderedDict()
-        query_spec = iface['query']
-        for name in query_spec.required:
-            params[name] = bucket[name]
-        for name in query_spec.optional:
-            if name in bucket:
-                params[name] = bucket[name]
-        return params
 
     def _create_query_object(self, phrase):
         """Create the query object given the search `phrase`.
@@ -149,13 +140,7 @@ class SiteSearch(base.SiteSearch):
         :rtype query: ploneintranet.search.solr.search.Search
         """
         phrase = safe_unicode(phrase)
-
-        # Re-use existing connection if setup
-        # (scorched/requests do pooling for us)
-        if self.connection is None:
-            self.connection = IConnection(getUtility(IConnectionConfig))
-
-        Q = self.connection.Q
+        Q = self.Q
         phrase_query = Q()
         if phrase:
             # boosting incompatible with wildcard phrase
@@ -169,34 +154,22 @@ class SiteSearch(base.SiteSearch):
         return IQuery(self.connection).query(Q(phrase_query))
 
     def _apply_filters(self, query, filters):
-        interface = query.interface
+        if isinstance(filters, LuceneQuery):
+            return query.filter(filters)
+        Q = self.Q
         for key, value in filters.items():
             if key == 'path':
                 key = 'path_parents'
             if isinstance(value, list):
                 # create an OR subquery for this filter
-                subquery = interface.Q()
+                subquery = Q()
                 for item in value:
                     # item can be a string, force unicode
-                    subquery |= interface.Q(**{key: safe_unicode(item)})
+                    subquery |= Q(**{key: safe_unicode(item)})
                 query = query.filter(subquery)
             else:
-                query = query.filter(interface.Q(**{key: value}))
+                query = query.filter(Q(**{key: value}))
         return query
-
-    def _apply_security(self, query):
-        Q = query.interface.Q
-        # _listAllowedRolesAndUsers method requires
-        # the actual user object so we can't use plone.api here
-        user = getSecurityManager().getUser()
-        catalog = api.portal.get_tool(name='portal_catalog')
-        arau = catalog._listAllowedRolesAndUsers(user)
-        data = dict(allowedRolesAndUsers=arau)
-        prepare_data(data)
-        arau_q = Q()
-        for entry in data.pop('allowedRolesAndUsers'):
-            arau_q |= Q(allowedRolesAndUsers=entry)
-        return query.filter(arau_q)
 
     def _apply_facets(self, query):
         return query.facet_by(fields=self.facet_fields)
@@ -221,8 +194,47 @@ class SiteSearch(base.SiteSearch):
     def _apply_debug(self, query):
         return query.debug()
 
-    def _execute(self, query, debug=False, **kw):
+    def _apply_security(self, query):
+        Q = self.Q
+        # _listAllowedRolesAndUsers method requires
+        # the actual user object so we can't use plone.api here
+        user = getSecurityManager().getUser()
+        catalog = api.portal.get_tool(name='portal_catalog')
+        arau = catalog._listAllowedRolesAndUsers(user)
+        data = dict(allowedRolesAndUsers=arau)
+        prepare_data(data)
+        arau_q = Q()
+        for entry in data.pop('allowedRolesAndUsers'):
+            arau_q |= Q(allowedRolesAndUsers=entry)
+        return query.filter(arau_q)
+
+    @classmethod
+    def _collect_query_params(cls, iface, bucket):
+        """Collect original query paramters for debugging purposes.
+
+        :param iface: The Zope interface used for the query.
+        :type iface: zope.interface.Interface
+        :param bucket: The container which field names will be inserted.
+        :type bucket: collections.MutableMapping
+        """
+        params = collections.OrderedDict()
+        query_spec = iface['query']
+        for name in query_spec.required:
+            params[name] = bucket[name]
+        for name in query_spec.optional:
+            if name in bucket:
+                params[name] = bucket[name]
+        return params
+
+    def execute(self, query, secure=True, **kw):
+        if secure:
+            query = self._apply_security(query)
         response = query.execute()
-        query_params = self.__collect_query_params(ISiteSearch, dict(kw))
+        query_params = self._collect_query_params(ISiteSearch, dict(kw))
         response.query_params = query_params
         return response
+
+    @property
+    def Q(self):
+        """Forward reference to the :py:class:`LuceneQuery` factory."""
+        return self.connection.Q

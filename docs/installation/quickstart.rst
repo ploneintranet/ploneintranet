@@ -20,7 +20,7 @@ Prepare the Operating System Environment
 Plone Intranet has quite a number of OS-level dependencies:
 
 - ruby (for docsplit) and docsplit
-- java (for Solr)
+- java (for Solr - requires Java 7 or greater)
 - redis-server
 
 We maintain an exact description of these requirements in the form of a Ubuntu 14.04
