@@ -212,7 +212,6 @@ def update_todo_state(obj, event):
     depending on the state of the Case.
     """
     obj.set_appropriate_state()
-    obj.reindexObject()
 
 
 def update_todos_state(obj, event):
