@@ -40,10 +40,10 @@ class Todo(Item):
                 mm = IMetroMap(workspace).metromap_sequence.keys()
                 # A case could be set to a state which isn't included in the
                 # metromap e.g. on-hold, rejected. If that happens we can treat
-                # the case_state as a future state and set all open tasks to
-                # planned
+                # it as a future state and set all open tasks to planned
+                mm_states = case_state in mm and milestone in mm
                 future = (
-                    case_state not in mm or
+                    not mm_states or
                     mm.index(milestone) > mm.index(case_state)
                 )
                 current_or_past = not future
