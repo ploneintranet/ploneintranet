@@ -60,7 +60,7 @@
   - content shares (link, download, view) versus status attachments (download)
   - files (with title, description) versus images (fullwidth)
   - has preview  versus no preview versus preview in progress
-  
+
   Please study prototype/./_includes/post.html when making changes here.
 
   NB the prototype assumes that multiple attachments are either all images
@@ -79,12 +79,22 @@
           <section class="document preview"
                    tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
             <figure>
-              <img src="/media/preview_thumb_1.jpg" alt=""
-                   tal:condition="has_preview"
-                   tal:attributes="src attachment/img_src" />
+              <a href="#"
+                 i18n:attributes="title"
+                 title="Download this file"
+                 tal:attributes="href attachment/link">
+                <img src="/media/preview_thumb_1.jpg" alt=""
+                     tal:condition="has_preview"
+                     tal:attributes="src attachment/img_src" />
+              </a>
               <figcaption>
                 <strong class="title">
-                  <tal:r replace="attachment/title">Projection Material</tal:r>
+                  <a href="#"
+                     i18n:attributes="title"
+                     title="Download this file"
+                     tal:attributes="href attachment/link">
+                    <tal:r replace="attachment/title">Projection Material</tal:r>
+                  </a>
                   <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
                   <!--span class="page-counter icon-docs">3x</span-->
                   <span class="functions">

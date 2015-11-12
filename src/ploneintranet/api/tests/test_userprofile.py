@@ -1,3 +1,4 @@
+from AccessControl import AuthEncoding
 from zope.interface import Invalid
 from plone import api as plone_api
 from ploneintranet.api.testing import IntegrationTestCase
@@ -12,6 +13,7 @@ class TestUserProfile(IntegrationTestCase):
         profile = pi_api.userprofile.create(
             username='johndoe',
             email='johndoe@doe.com',
+            approve=True,
         )
         self.assertIsInstance(
             profile,
@@ -39,6 +41,27 @@ class TestUserProfile(IntegrationTestCase):
                 username='johndoe',
                 email='foobar@doe.com',
             )
+
+    def test_password_storage(self):
+        password_plain = 'secret'
+        profile = pi_api.userprofile.create(
+            username='johndoe',
+            email='johndoe@doe.com',
+            password=password_plain,
+            approve=True,
+        )
+
+        self.assertNotEqual(profile.password,
+                            password_plain,
+                            'Password not encrypted correctly')
+
+        self.assertTrue(profile.password.startswith('{BCRYPT}'))
+        self.assertTrue(
+            AuthEncoding.pw_validate(
+                profile.password,
+                password_plain,
+            )
+        )
 
     def test_get_users(self):
         self.login_as_portal_owner()

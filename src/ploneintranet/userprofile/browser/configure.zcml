@@ -25,12 +25,14 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
+  <!-- This edit page is linked to the ploneintranet.theme layer,
+       so that CMS editors get the default edit page -->
   <browser:page
       name="edit"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".forms.UserProfileEditView"
       permission="cmf.ModifyPortalContent"
-      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
   <browser:page

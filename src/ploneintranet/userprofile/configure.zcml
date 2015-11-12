@@ -79,4 +79,11 @@
     handler=".subscribers.on_user_login"
     />
 
+  <subscriber
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+      handler=".subscribers.on_user_transition"
+      />
+
+
 </configure>

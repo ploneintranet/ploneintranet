@@ -4,6 +4,7 @@ from zope.component import getUtility
 from zope.interface.verify import verifyObject
 
 from ploneintranet.search.tests import base as base_tests
+from ploneintranet.search.interfaces import ISearchResponse
 from .. import testing
 
 
@@ -48,6 +49,23 @@ class TestSiteSearch(IntegrationTestMixin,
         super(TestSiteSearch, self).setUp()
         from ..interfaces import IMaintenance
         getUtility(IMaintenance).warmup_spellchcker()
+
+    def test_query_with_complex_filters(self):
+        util = self._make_utility()
+        Q = util.Q
+        filters = Q(Title=u'Test Doc 1') | Q(Title=u'Test Doc 2')
+        filters &= Q(portal_type='Document')
+        response = util.query('Test Doc', filters=filters, debug=True)
+        self.assertEqual(response.total_results, 2)
+
+    def test_raw_query_with_complex_filters(self):
+        util = self._make_utility()
+        query = util.connection.query('Test Doc')
+        query = query.filter(query.Q(Title=u'Test Doc 1') |
+                             query.Q(Title=u'Test Doc 2') &
+                             query.Q(portal_type='Document'))
+        response = ISearchResponse(util.execute(query))
+        self.assertEqual(response.total_results, 2)
 
 
 class TestSiteSearchPermssions(IntegrationTestMixin,

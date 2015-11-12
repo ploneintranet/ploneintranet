@@ -23,6 +23,7 @@
                      i18n:attributes="alt" />
                     <figcaption class="status-message">
 			<h1 tal:content="context/fullname" />
+                        <span tal:content="context/job_title|nothing" />
                     </figcaption>
         	</figure>
 
@@ -131,7 +132,7 @@
 				</tal:field>
                             </dl>
 			    <article class="pat-rich"
-				     tal:condition="context/biography">
+				     tal:condition="context/biography|nothing">
 				<p tal:content="context/biography">
 				    Some content goes here on Jeff
 				</p>

@@ -13,4 +13,14 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:upgradeStep
+    title="Update to new dexterity.membrane behaviors"
+    description="dexterity.membrane behavior names changed in 1.1.0"
+    source="*"
+    destination="3"
+    handler="..setuphandlers.update_dx_membrane_behaviors"
+    sortkey="1"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>
