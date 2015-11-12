@@ -162,6 +162,12 @@ class ContentIndexer(object):
 
         # SOLR now supports partial updates.
         # If we are asked to index only a single attribute, that's fine.
+
+        # XXX Intercept here to avoid that we kill records when only
+        # reindexing workflow state
+        attributes = None
+        # /XXX
+
         attr_names = set(fielddef_map)
         if attributes is None:
             attributes = attr_names
