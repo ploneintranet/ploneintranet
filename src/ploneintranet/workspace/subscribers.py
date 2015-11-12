@@ -230,7 +230,6 @@ def update_todos_state(obj, event):
 def _update_todo_state(brain):
     todo = brain.getObject()
     todo.set_appropriate_state()
-    todo.reindexObject()
 
 
 def set_default_body_text(obj, event):
