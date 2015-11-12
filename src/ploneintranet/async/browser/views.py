@@ -57,5 +57,4 @@ class GeneratePreviewsView(AbstractAsyncView):
             logger.info("Generating previews for %s",
                         self.context.absolute_url(1))
             pi_api.previews.generate_previews(self.context)
-            self.context.reindexObject()
         return self.template()
