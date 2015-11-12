@@ -91,6 +91,7 @@ class SearchResult(object):
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
+        self.mimetype = context.get('mimetype', None)
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):
@@ -136,6 +137,12 @@ class SearchResult(object):
     def path(self):
         """Return the path URI to the object represented."""
 
+    def getPath(self):
+        return self.path
+
+    def getId(self):
+        return self.context['getId']
+
     @property
     def url(self):
         """Generate the absolute URL for the indexed document.
@@ -150,6 +157,9 @@ class SearchResult(object):
             url = '{}/view'.format(url)
         return url
 
+    def getURL(self):
+        return self.url
+
     @property
     def preview_image_url(self):
         """
@@ -159,6 +169,15 @@ class SearchResult(object):
         :rtype: str
         """
         return self._path_to_url(self.preview_image_path)
+
+    def __getitem__(self, key):
+        return self.context[key]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
 
 class SearchResponse(collections.Iterable):
