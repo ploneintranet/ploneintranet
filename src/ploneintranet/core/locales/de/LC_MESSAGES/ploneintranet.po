@@ -167,7 +167,7 @@ msgstr "Alle Themen"
 
 #: ../workspace/browser/workspacecontainer.py:44
 msgid "All workspace types"
-msgstr "Alle Arten von Arbeitsbereichen"
+msgstr "Alle Arten von Arbeitsräumen"
 
 #: ../workspace/browser/workspacecontainer.py:33
 msgid "Alphabetical"
@@ -615,7 +615,7 @@ msgstr "Allgemeine Aufgaben"
 
 #: ../workspace/browser/workspacecontainer.py:46
 msgid "Generic workspaces"
-msgstr "Allgemeiner Arbeitsbereich"
+msgstr "Allgemeiner Arbeitsraum"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
 #: ../workspace/browser/tiles/templates/sidebar.pt:33
@@ -1978,7 +1978,7 @@ msgstr "Geschäfte"
 #. Workspaces
 #: ../layout/browser/templates/dashboard.pt
 msgid "tile_ploneintranet.workspace.workspacefolder"
-msgstr "Arbeitsbereiche"
+msgstr "Arbeitsräume"
 
 #. Default: "Click to follow ${fullname}"
 #: ../network/browser/follows.py:45
