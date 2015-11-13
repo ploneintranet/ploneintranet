@@ -53,6 +53,9 @@ def dexterity_update(obj, request=None):
     errors = []
     for schema in get_dexterity_schemas(context=obj):
         for name in getFieldNames(schema):
+            # Only update fields which are included in the form
+            if name not in request.form:
+                continue
             field = schema[name]
             widget = component.getMultiAdapter(
                 (field, request), IFieldWidget)
