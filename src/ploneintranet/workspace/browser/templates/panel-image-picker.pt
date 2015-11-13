@@ -14,18 +14,6 @@
     <div id="raptor-image-picker">
     <form action="/" class="wizard-box" tal:define="images view/get_images">
         <div class="panel-body">
-            <fieldset class="filter-bar">
-                <select name="source" disabled>
-                    <option>This workspace</option>
-                    <optgroup label="Image bank">
-                        <option>Folder so and so</option>
-                        <option>Folder so and so</option>
-                        <option>Folder so and so</option>
-                    </optgroup>
-                </select>
-                <!-- <input type="search" placeholder="Search in 'This Workspace' by keyword" /> -->
-            </fieldset>
-
             <fieldset class="pat-checklist radio image-selector" tal:condition="images">
                 <tal:loop repeat="image images">
                     <label class="item">
